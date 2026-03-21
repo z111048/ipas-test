@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Repo Is
 
-A content-generation workspace for iPAS AI exam study materials (初級 AI 應用規劃師). Source PDFs live at the repository root. The pipeline extracts them into structured JSON, then assembles a single-file static web app deployed via GitHub Pages.
+A content-generation workspace for iPAS AI exam study materials (初級 AI 應用規劃師). Source PDFs live under `data/初級/pdfs/`. The pipeline extracts them into structured JSON, then assembles a single-file static web app deployed via GitHub Pages.
 
 ## Build Pipeline
 
@@ -31,12 +31,14 @@ Dependencies: `pdfplumber`, `PyMuPDF` (`fitz`), `anthropic` (for `generate_quest
 - **`scripts/parse_guides.py`**: Splits guide1/guide2 extracted JSON into chapter-structured data using in-document page number anchors. Writes `data/初級/guide/subject{1,2}_guide.json`. Chapter content is used as LLM context for question generation.
 - **`scripts/generate_questions.py`**: Calls Claude API to generate new questions per chapter (`--subject N`) or add `card` fields to existing questions (`--enrich`). Use `--dry-run` to preview prompts without API calls. Questions follow the extended schema with `card`, `difficulty`, `type`, and `tags` fields.
 - **`scripts/build_web.py`**: Inlines all question and guide JSON as JS constants into a self-contained single HTML file. Writes only to `docs/index.html`. The site is deployed from `docs/` on the `main` branch via GitHub Pages.
+- The study-question pages are reached from sidebar `✏️` items. On mobile widths the sidebar is hidden behind the `☰` drawer button, so navigation regressions should be checked there too.
 
 **Note:** All scripts use hardcoded absolute paths to `/home/james/projects/ipas-test`. Update `BASE`/`ROOT`/`OUT` variables if moving the repo.
 
 ## Output Files (Extended)
 
 Treat `data/初級/questions/*.json`, `data/初級/guide/*.json`, and `docs/index.html` as build artifacts. Only edit them manually when intentionally curating content, and document the change.
+If `scripts/build_web.py` or any inlined data changes, rerun `python3 scripts/build_web.py` and commit the regenerated `docs/index.html` together with the source change.
 
 Question schema (extended with card fields):
 ```json
@@ -55,7 +57,10 @@ After running the pipeline:
 - `parse_guides.py`: each chapter should have > 1000 chars of content
 - `parse_exams_v2.py`: exam1 and exam2 should each produce ~50 questions (check for WARN lines)
 - Spot-check JSON structure and rendered questions in `docs/index.html`; verify card panel appears after answering a question with `card` data
+- On mobile-width layouts, confirm the `☰` drawer still exposes the `✏️` study-question entries
 - Review `logs/` for extraction or parsing errors
+
+If the card panel is missing, verify the underlying question JSON actually contains `card` fields before treating it as a frontend regression.
 
 Future tests should go in `tests/test_*.py`.
 

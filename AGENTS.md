@@ -22,6 +22,7 @@ Use Python 3 from the repository root.
 - `python3 scripts/build_web.py`: rebuild the static web app in `docs/index.html`.
 
 Run the first three in sequence after updating PDFs. Run `build_web.py` alone when only the UI changes.
+If `scripts/build_web.py` or any inlined JSON changes, rerun `python3 scripts/build_web.py` and commit the regenerated `docs/index.html` in the same change.
 
 ## Coding Style & Naming Conventions
 Follow the existing Python style: 4-space indentation, `snake_case` for functions and variables, short module docstrings, and `Path`-based filesystem access. Keep scripts self-contained and readable; prefer small helper functions over deeply nested logic. Name generated JSON files by content, for example `mock_exam1.json` or `subject2_questions.json`.
@@ -34,6 +35,9 @@ There is no formal automated test suite in this workspace yet. Validate changes 
 - `parse_guides.py`: each chapter should have > 1000 chars of content
 - spot-check JSON structure and a few rendered questions in `docs/index.html`; verify the card panel appears after answering a question that has `card` data
 - review `logs/` for extraction or parsing errors
+- on narrow/mobile layouts, verify the study-question entry points are still reachable from the sidebar drawer (`☰`)
+
+Remember that the study-question pages are navigated from sidebar `✏️` entries. If question JSON lacks `card` fields, the card panel button will not render even though the feature still exists in the HTML/JS.
 
 If you add tests, place them in a top-level `tests/` directory and name files `test_*.py`.
 

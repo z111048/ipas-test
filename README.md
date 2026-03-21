@@ -55,6 +55,8 @@ python3 scripts/build_web.py
 
 僅更新網頁 UI（題庫不變）時只需執行最後一步。
 
+> `docs/index.html` 是網站實際部署檔。只要 `scripts/build_web.py` 或任何被內嵌的 JSON 有變動，就必須重新執行 `python3 scripts/build_web.py`，並將更新後的 `docs/index.html` 一起納入 commit。
+
 依賴套件：
 
 ```bash
@@ -211,6 +213,11 @@ data/初級/guide/
 ```
 
 **注意事項：** 整個 HTML/CSS/JS 以 Python f-string 組合，大括號需雙寫（`{{`、`}}`）才能輸出字面量 `{`、`}`。JavaScript template literal 的插值語法在 Python 原始碼中須寫成 `${{variable}}`，才能在輸出的 JS 中產生 `${variable}`。
+
+**網站導覽：**
+- 題庫練習入口在左側 sidebar 的 `✏️` 項目；手機版會收進左上角 `☰` 漢堡選單。
+- 學習指引入口在 sidebar 的 `📖` 項目。
+- 題目若沒有 `card` 欄位，前端不會顯示「📌 查看解說圖卡」按鈕；這不是 UI 遺失，而是資料尚未執行 `generate_questions.py --enrich`。
 
 ---
 

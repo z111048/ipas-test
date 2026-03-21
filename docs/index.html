@@ -553,11 +553,9 @@ function escHtml(s) {
 
 function guideContentToHtml(text) {
   return text
-    .split(/
-{2,}/)
+    .split(/\n{2,}/)
     .filter(p => p.trim())
-    .map(p => '<p>' + escHtml(p).replace(/
-/g,'<br>') + '</p>')
+    .map(p => '<p>' + escHtml(p).replace(/\n/g,'<br>') + '</p>')
     .join('');
 }
 
@@ -590,8 +588,7 @@ function showGuide(subjectNum, chapterId) {
 
   // Meta badges
   const charCount = ch.content.length;
-  const paraCount = ch.content.split(/
-{2,}/).filter(p=>p.trim()).length;
+  const paraCount = ch.content.split(/\n{2,}/).filter(p=>p.trim()).length;
   document.getElementById('guide-meta').innerHTML =
     `<span class="guide-badge">📄 ${paraCount} 段落</span>` +
     `<span class="guide-badge">📝 ${charCount.toLocaleString()} 字元</span>`;
