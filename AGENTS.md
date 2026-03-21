@@ -5,19 +5,23 @@ This repository is a content-generation workspace for the iPAS AI exam study mat
 
 - `scripts/extract_pdfs.py`: extracts text and tables from the PDFs into `data/初級/extracted/`.
 - `scripts/parse_exams_v2.py`: turns extracted content into mock-exam JSON under `data/初級/questions/`.
-- `scripts/build_web.py`: builds the static study site at `docs/index.html`.
-- `data/初級/extracted/`, `data/初級/questions/`, `data/初級/analysis/`, and `logs/`: generated data, exam payloads, analysis output, and run logs.
+- `scripts/parse_guides.py`: splits guide extracted JSON into chapter-structured JSON under `data/初級/guide/`.
+- `scripts/generate_questions.py`: calls the Claude API to generate new questions or add `card` fields to existing ones. Requires `ANTHROPIC_API_KEY`.
+- `scripts/build_web.py`: builds the static study site at `docs/index.html`, inlining all question and guide JSON.
+- `data/初級/extracted/`, `data/初級/questions/`, `data/初級/guide/`, `data/初級/analysis/`, and `logs/`: generated data, exam payloads, guide content, analysis output, and run logs.
 
-Treat `data/初級/questions/*.json` and `docs/index.html` as build outputs unless you are intentionally curating content.
+Treat `data/初級/questions/*.json`, `data/初級/guide/*.json`, and `docs/index.html` as build outputs unless you are intentionally curating content.
 
 ## Build, Test, and Development Commands
 Use Python 3 from the repository root.
 
 - `python3 scripts/extract_pdfs.py`: extract text and tables from the PDF set into `data/初級/extracted/`.
 - `python3 scripts/parse_exams_v2.py`: generate `mock_exam1.json`, `mock_exam2.json`, and `sample_exam.json` from extracted JSON tables.
+- `python3 scripts/parse_guides.py`: generate `subject1_guide.json` and `subject2_guide.json` under `data/初級/guide/`.
+- `python3 scripts/generate_questions.py --subject 1` (or `--subject 2`, `--enrich`): generate/enrich questions via Claude API (optional).
 - `python3 scripts/build_web.py`: rebuild the static web app in `docs/index.html`.
 
-Run these in sequence after updating PDFs or question data.
+Run the first three in sequence after updating PDFs. Run `build_web.py` alone when only the UI changes.
 
 ## Coding Style & Naming Conventions
 Follow the existing Python style: 4-space indentation, `snake_case` for functions and variables, short module docstrings, and `Path`-based filesystem access. Keep scripts self-contained and readable; prefer small helper functions over deeply nested logic. Name generated JSON files by content, for example `mock_exam1.json` or `subject2_questions.json`.
@@ -25,8 +29,10 @@ Follow the existing Python style: 4-space indentation, `snake_case` for function
 ## Testing Guidelines
 There is no formal automated test suite in this workspace yet. Validate changes by rerunning the pipeline and checking outputs:
 
-- confirm expected files are regenerated in `data/初級/extracted/`, `data/初級/questions/`
-- spot-check JSON structure and a few rendered questions in `docs/index.html`
+- confirm expected files are regenerated in `data/初級/extracted/`, `data/初級/questions/`, `data/初級/guide/`
+- `parse_exams_v2.py`: exam1 and exam2 should each produce ~50 questions; check for WARN lines
+- `parse_guides.py`: each chapter should have > 1000 chars of content
+- spot-check JSON structure and a few rendered questions in `docs/index.html`; verify the card panel appears after answering a question that has `card` data
 - review `logs/` for extraction or parsing errors
 
 If you add tests, place them in a top-level `tests/` directory and name files `test_*.py`.

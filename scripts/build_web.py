@@ -25,12 +25,18 @@ def build_html():
     m2 = load_json(OUT / 'questions' / 'mock_exam2.json')
     sample = load_json(OUT / 'questions' / 'sample_exam.json')
 
+    guide_dir = OUT / 'guide'
+    s1g = load_json(guide_dir / 'subject1_guide.json') if (guide_dir / 'subject1_guide.json').exists() else {}
+    s2g = load_json(guide_dir / 'subject2_guide.json') if (guide_dir / 'subject2_guide.json').exists() else {}
+
     data_js = f"""
 const SUBJECT1_QUESTIONS = {json.dumps(s1q, ensure_ascii=False)};
 const SUBJECT2_QUESTIONS = {json.dumps(s2q, ensure_ascii=False)};
 const MOCK_EXAM1 = {json.dumps(m1, ensure_ascii=False)};
 const MOCK_EXAM2 = {json.dumps(m2, ensure_ascii=False)};
 const SAMPLE_EXAM = {json.dumps(sample, ensure_ascii=False)};
+const SUBJECT1_GUIDE = {json.dumps(s1g, ensure_ascii=False)};
+const SUBJECT2_GUIDE = {json.dumps(s2g, ensure_ascii=False)};
 """
 
     html = f"""<!DOCTYPE html>
@@ -95,6 +101,30 @@ main{{flex:1;overflow-y:auto;padding:1.5rem 2rem}}
 .explanation.show{{display:block}}
 .reveal-btn{{margin-top:.7rem;padding:.45rem 1rem;background:var(--primary);color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:.82rem;transition:background .15s}}
 .reveal-btn:hover{{background:var(--primary-light)}}
+/* Explanation card */
+.card-toggle{{margin-top:.6rem;padding:.35rem .85rem;background:transparent;color:var(--accent);border:1.5px solid var(--accent);border-radius:5px;cursor:pointer;font-size:.78rem;transition:all .15s;display:none}}
+.card-toggle.show{{display:inline-block}}
+.card-toggle:hover{{background:var(--accent);color:#fff}}
+.q-card-panel{{margin-top:.75rem;border:1.5px solid #c8e4f8;border-radius:8px;overflow:hidden;display:none}}
+.q-card-panel.show{{display:block}}
+.q-card-panel .card-header{{background:#1e3a5f;color:#fff;padding:.45rem .85rem;font-size:.78rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase}}
+.q-card-panel .card-body{{background:#f7fbff;padding:.75rem .9rem;display:flex;flex-direction:column;gap:.55rem}}
+.card-row{{display:flex;gap:.5rem;align-items:flex-start;font-size:.83rem;line-height:1.5}}
+.card-row .cr-icon{{flex-shrink:0;width:1.3rem;font-size:.9rem}}
+.card-row .cr-label{{color:var(--text-light);font-weight:600;white-space:nowrap;min-width:4.5rem}}
+.card-row .cr-val{{color:var(--text)}}
+.freq-bar{{display:inline-flex;align-items:center;gap:.3rem}}
+.freq-bar .fb-dot{{width:10px;height:10px;border-radius:50%;background:var(--border)}}
+.freq-bar .fb-dot.filled{{background:var(--accent)}}
+.freq-label{{font-size:.78rem;font-weight:700;color:var(--accent)}}
+/* Guide content */
+.guide-content{{font-size:.875rem;line-height:1.85;color:var(--text)}}
+.guide-content p{{margin-bottom:.8rem}}
+.guide-content p:last-child{{margin-bottom:0}}
+.guide-notice{{background:#fff9ec;border:1px solid #f6c64a;border-radius:8px;padding:.75rem 1rem;margin-bottom:1rem;font-size:.84rem;line-height:1.6}}
+.guide-subtopics{{margin-bottom:1rem}}
+.guide-meta{{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem}}
+.guide-badge{{background:#e8f4fd;color:var(--primary);border-radius:12px;padding:.2rem .65rem;font-size:.75rem;font-weight:600}}
 /* Chapter overview */
 .chapter-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}}
 .chapter-card{{background:var(--card);border-radius:10px;padding:1.25rem;border:1px solid var(--border);border-top:3px solid var(--accent);box-shadow:0 1px 4px rgba(0,0,0,.06)}}
@@ -221,6 +251,21 @@ main{{flex:1;overflow-y:auto;padding:1.5rem 2rem}}
   <div class="sidebar-section">
     <div class="sidebar-label">樣題練習</div>
     <a class="sidebar-item" onclick="showMock('sample')">📝 考試樣題（114年9月版）</a>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">學習指引 科目一</div>
+    <a class="sidebar-item" onclick="showGuide(1,'s1c1')">📖 人工智慧概念</a>
+    <a class="sidebar-item" onclick="showGuide(1,'s1c2')">📖 資料處理分析統計</a>
+    <a class="sidebar-item" onclick="showGuide(1,'s1c3')">📖 機器學習概念</a>
+    <a class="sidebar-item" onclick="showGuide(1,'s1c4')">📖 鑑別式╱生成式AI</a>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">學習指引 科目二</div>
+    <a class="sidebar-item" onclick="showGuide(2,'s2c1')">📖 No Code / Low Code</a>
+    <a class="sidebar-item" onclick="showGuide(2,'s2c2')">📖 生成式AI應用與工具</a>
+    <a class="sidebar-item" onclick="showGuide(2,'s2c3')">📖 導入評估規劃</a>
   </div>
 </aside>
 
@@ -380,6 +425,20 @@ main{{flex:1;overflow-y:auto;padding:1.5rem 2rem}}
   </div>
 </div>
 
+<!-- GUIDE CONTENT -->
+<div id="page-guide" class="page">
+  <div class="page-title" id="guide-title"></div>
+  <div class="page-sub" id="guide-sub"></div>
+  <div id="guide-notice" class="guide-notice" style="display:none"></div>
+  <div class="card" style="margin-bottom:1rem">
+    <div class="guide-meta" id="guide-meta"></div>
+    <div class="guide-subtopics" id="guide-subtopics"></div>
+  </div>
+  <div class="card">
+    <div class="guide-content" id="guide-content"></div>
+  </div>
+</div>
+
 </main>
 </div>
 
@@ -471,6 +530,16 @@ function showPractice(subjectKey, chapterId) {{
       <div class="explanation" id="exp-${{q.id}}">
         <strong>✅ 正確答案：(${{q.answer}}) ${{q.options[q.answer]}}</strong><br><br>${{q.explanation}}
       </div>
+      ${{q.card ? `<button class="card-toggle" id="ctoggle-${{q.id}}" onclick="toggleCard('${{q.id}}')">📌 查看解說圖卡</button>
+      <div class="q-card-panel" id="cpanel-${{q.id}}">
+        <div class="card-header">解說圖卡</div>
+        <div class="card-body">
+          <div class="card-row"><span class="cr-icon">📌</span><span class="cr-label">核心概念</span><span class="cr-val">${{q.card.concept}}</span></div>
+          <div class="card-row"><span class="cr-icon">🔑</span><span class="cr-label">記憶口訣</span><span class="cr-val">${{q.card.mnemonic}}</span></div>
+          <div class="card-row"><span class="cr-icon">⚠️</span><span class="cr-label">常見混淆</span><span class="cr-val">${{q.card.confusion}}</span></div>
+          <div class="card-row"><span class="cr-icon">📊</span><span class="cr-label">出題頻率</span><span class="cr-val">${{renderFreq(q.card.frequency)}}</span></div>
+        </div>
+      </div>` : ''}}
     </div>`;
   }});
   document.getElementById('practice-container').innerHTML = html;
@@ -489,6 +558,94 @@ function revealAnswer(qid, correct) {{
   document.getElementById('exp-'+qid).classList.add('show');
   const btn = document.getElementById('reveal-'+qid);
   if(btn) btn.style.display='none';
+  const ctoggle = document.getElementById('ctoggle-'+qid);
+  if(ctoggle) ctoggle.classList.add('show');
+}}
+
+function toggleCard(qid) {{
+  const panel = document.getElementById('cpanel-'+qid);
+  const toggle = document.getElementById('ctoggle-'+qid);
+  if(!panel) return;
+  const isOpen = panel.classList.toggle('show');
+  toggle.textContent = isOpen ? '📌 收起解說圖卡' : '📌 查看解說圖卡';
+}}
+
+function renderFreq(freq) {{
+  const levels = {{'高':3,'中':2,'低':1}};
+  const filled = levels[freq] || 1;
+  const dots = [1,2,3].map(n =>
+    `<span class="fb-dot${{n<=filled?' filled':''}}">&nbsp;</span>`
+  ).join('');
+  return `<span class="freq-bar">${{dots}}<span class="freq-label">${{freq}}</span></span>`;
+}}
+
+// ── Guide Content ──────────────────────────────────────────────────
+function escHtml(s) {{
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}}
+
+function guideContentToHtml(text) {{
+  return text
+    .split(/\n{{2,}}/)
+    .filter(p => p.trim())
+    .map(p => '<p>' + escHtml(p).replace(/\n/g,'<br>') + '</p>')
+    .join('');
+}}
+
+// Chapters whose content in the guide spans multiple exam-chapter topics
+const GUIDE_NOTICES = {{
+  's1c1': '⚠️ 官方學習指引將「<strong>資料處理與分析概念</strong>」（ETL、資料類型、資料清洗、GDPR 等）的說明內容併入本章（3.1 人工智慧概念）。練習題雖分成 s1c1／s1c2 兩章節，但指引原文集中在此。',
+}};
+
+function showGuide(subjectNum, chapterId) {{
+  const guide = subjectNum === 1 ? SUBJECT1_GUIDE : SUBJECT2_GUIDE;
+  if (!guide || !guide.chapters) {{
+    alert('學習指引資料尚未載入，請先執行 parse_guides.py 後重新建置。');
+    return;
+  }}
+  const ch = guide.chapters.find(c => c.id === chapterId);
+  if (!ch) return;
+
+  document.getElementById('guide-title').textContent = ch.title;
+  document.getElementById('guide-sub').textContent =
+    guide.subject + '  ›  學習指引原文（共 ' + ch.content.length + ' 字元）';
+
+  // Notice
+  const noticeEl = document.getElementById('guide-notice');
+  if (GUIDE_NOTICES[chapterId]) {{
+    noticeEl.innerHTML = GUIDE_NOTICES[chapterId];
+    noticeEl.style.display = 'block';
+  }} else {{
+    noticeEl.style.display = 'none';
+  }}
+
+  // Meta badges
+  const charCount = ch.content.length;
+  const paraCount = ch.content.split(/\n{{2,}}/).filter(p=>p.trim()).length;
+  document.getElementById('guide-meta').innerHTML =
+    `<span class="guide-badge">📄 ${{paraCount}} 段落</span>` +
+    `<span class="guide-badge">📝 ${{charCount.toLocaleString()}} 字元</span>`;
+
+  // Subtopics
+  const pillsHtml = ch.subtopics
+    .map(s => `<span class="pill pill-blue">${{escHtml(s)}}</span>`)
+    .join('');
+  document.getElementById('guide-subtopics').innerHTML =
+    '<strong style="font-size:.82rem;color:var(--text-light)">章節重點子主題</strong><br><br>' + pillsHtml;
+
+  // Content
+  document.getElementById('guide-content').innerHTML = guideContentToHtml(ch.content);
+
+  // Sidebar active
+  document.querySelectorAll('.sidebar-item').forEach(a => a.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(a => {{
+    if (a.getAttribute('onclick') && a.getAttribute('onclick').includes(chapterId)) {{
+      a.classList.add('active');
+    }}
+  }});
+
+  showPage('guide');
+  window.scrollTo(0,0);
 }}
 
 // ── Mock Exam ──────────────────────────────────────────────────────

@@ -8,7 +8,7 @@ from pathlib import Path
 BASE = Path('/home/james/projects/ipas-test')
 OUT = BASE / 'data' / '初級'
 
-FW_MAP = {'Ａ': 'A', 'Ｂ': 'B', 'Ｃ': 'C', 'Ｄ': 'D'}
+FW_MAP = {'Ａ': 'A', 'Ｂ': 'B', 'Ｃ': 'C', 'Ｄ': 'D', '（': '(', '）': ')'}
 
 
 def normalize(s: str) -> str:
@@ -60,7 +60,8 @@ def parse_question_cell(answer: str, cell_text: str, qnum: int, source_key: str)
 
 def parse_exam_json(key: str) -> list[dict]:
     """Parse questions from exam JSON using table data."""
-    data = json.load(open(OUT / 'extracted' / f'{key}.json', encoding='utf-8'))
+    with open(OUT / 'extracted' / f'{key}.json', encoding='utf-8') as f:
+        data = json.load(f)
     questions = []
     qnum = 0
 
@@ -82,6 +83,8 @@ def parse_exam_json(key: str) -> list[dict]:
                 q = parse_question_cell(answer, cell, qnum, key)
                 if q:
                     questions.append(q)
+                else:
+                    print(f"  WARN: {key} row {qnum} skipped (answer={answer!r}, cell={cell[:40]!r})")
 
     print(f"  {key}: {len(questions)} questions parsed")
     return questions
@@ -89,7 +92,8 @@ def parse_exam_json(key: str) -> list[dict]:
 
 def parse_sample_json() -> list[dict]:
     """Parse sample exam from JSON — has different table format."""
-    data = json.load(open(OUT / 'extracted' / 'sample.json', encoding='utf-8'))
+    with open(OUT / 'extracted' / 'sample.json', encoding='utf-8') as f:
+        data = json.load(f)
     questions = []
 
     for page in data['pages']:
