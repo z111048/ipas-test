@@ -14,17 +14,17 @@ This repository is a content-generation workspace for the iPAS AI exam study mat
 Treat `data/初級/questions/*.json`, `data/初級/guide/*.json`, and `docs/index.html` as build outputs unless you are intentionally curating content.
 
 ## Build, Test, and Development Commands
-Use Python 3 from the repository root.
+This project uses `uv` for dependency management. Run `uv sync` after cloning to set up the virtual environment. Use `uv run` to execute scripts within the environment.
 
-- `python3 scripts/extract_pdfs.py`: extract text and tables from the PDF set into `data/初級/extracted/`.
-- `python3 scripts/parse_exams_v2.py`: generate `mock_exam1.json`, `mock_exam2.json`, and `sample_exam.json` from extracted JSON tables.
-- `python3 scripts/parse_guides.py`: generate `subject1_guide.json` and `subject2_guide.json` under `data/初級/guide/`.
-- `python3 scripts/generate_questions.py --subject 1` (or `--subject 2`, `--enrich`): generate/enrich questions via Claude API (optional).
-- `python3 scripts/multi_ai_pipeline.py --subject 1 [--chapter s1c1] [--count 3] [--dry-run]`: run multi-AI pipeline for question generation, review, finalization, and answer validation (optional; requires gemini/codex/claude CLIs).
-- `python3 scripts/build_web.py`: rebuild the static web app in `docs/index.html`.
+- `uv run python3 scripts/extract_pdfs.py`: extract text and tables from the PDF set into `data/初級/extracted/`.
+- `uv run python3 scripts/parse_exams_v2.py`: generate `mock_exam1.json`, `mock_exam2.json`, and `sample_exam.json` from extracted JSON tables.
+- `uv run python3 scripts/parse_guides.py`: generate `subject1_guide.json` and `subject2_guide.json` under `data/初級/guide/`.
+- `uv run python3 scripts/generate_questions.py --subject 1` (or `--subject 2`, `--enrich`): generate/enrich questions via Claude API (optional).
+- `python3 scripts/multi_ai_pipeline.py --subject 1 [--chapter s1c1] [--count 3] [--dry-run]`: run multi-AI pipeline for question generation, review, finalization, and answer validation (optional; requires gemini/codex/claude CLIs; uses subprocess only, no venv needed).
+- `uv run python3 scripts/build_web.py`: rebuild the static web app in `docs/index.html`.
 
 Run the first three in sequence after updating PDFs. Run `build_web.py` alone when only the UI changes.
-If `scripts/build_web.py` or any inlined JSON changes, rerun `python3 scripts/build_web.py` and commit the regenerated `docs/index.html` in the same change.
+If `scripts/build_web.py` or any inlined JSON changes, rerun `uv run python3 scripts/build_web.py` and commit the regenerated `docs/index.html` in the same change.
 
 ## Coding Style & Naming Conventions
 Follow the existing Python style: 4-space indentation, `snake_case` for functions and variables, short module docstrings, and `Path`-based filesystem access. Keep scripts self-contained and readable; prefer small helper functions over deeply nested logic. Name generated JSON files by content, for example `mock_exam1.json` or `subject2_questions.json`.

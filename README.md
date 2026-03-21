@@ -37,37 +37,37 @@ ipas-test/
 
 ```bash
 # 1. PDF 萃取（更換 PDF 後才需重新執行）
-python3 scripts/extract_pdfs.py
+uv run python3 scripts/extract_pdfs.py
 
 # 2. 解析模擬考試題目（公告試題 / 樣題）
-python3 scripts/parse_exams_v2.py
+uv run python3 scripts/parse_exams_v2.py
 
 # 3. 解析學習指引章節內容
-python3 scripts/parse_guides.py
+uv run python3 scripts/parse_guides.py
 
 # 4a. （選用）透過 Claude API 生成／補充題目（單一模型）
 export ANTHROPIC_API_KEY=sk-ant-...
-python3 scripts/generate_questions.py --subject 1   # 生成科目一各章新題
-python3 scripts/generate_questions.py --subject 2   # 生成科目二各章新題
-python3 scripts/generate_questions.py --enrich      # 補充既有題目的解說圖卡欄位
+uv run python3 scripts/generate_questions.py --subject 1   # 生成科目一各章新題
+uv run python3 scripts/generate_questions.py --subject 2   # 生成科目二各章新題
+uv run python3 scripts/generate_questions.py --enrich      # 補充既有題目的解說圖卡欄位
 
 # 4b. （選用）多 AI 出題流水線（需 gemini / codex / claude CLI 已安裝並完成認證）
+# 注意：multi_ai_pipeline.py 使用 subprocess 呼叫外部 CLI，不需要 uv run
 python3 scripts/multi_ai_pipeline.py --subject 1 --chapter s1c1 --dry-run  # 預覽 prompt
 python3 scripts/multi_ai_pipeline.py --subject 1 --count 3                  # 執行科目一
 
 # 5. 建置網站
-python3 scripts/build_web.py
+uv run python3 scripts/build_web.py
 ```
 
 僅更新網頁 UI（題庫不變）時只需執行最後一步。
 
-> `docs/index.html` 是網站實際部署檔。只要 `scripts/build_web.py` 或任何被內嵌的 JSON 有變動，就必須重新執行 `python3 scripts/build_web.py`，並將更新後的 `docs/index.html` 一起納入 commit。
+> `docs/index.html` 是網站實際部署檔。只要 `scripts/build_web.py` 或任何被內嵌的 JSON 有變動，就必須重新執行 `uv run python3 scripts/build_web.py`，並將更新後的 `docs/index.html` 一起納入 commit。
 
-依賴套件：
+依賴套件（由 `uv` 管理，clone 後執行 `uv sync` 即可）：
 
 ```bash
-pip install pdfplumber pymupdf            # 核心依賴
-pip install anthropic                      # 僅 generate_questions.py 需要
+uv sync                                    # 安裝所有 Python 依賴（pdfplumber、pymupdf、anthropic）
 # multi_ai_pipeline.py 不需額外 Python 套件，但需以下 CLI 工具：
 #   gemini  → https://github.com/google-gemini/gemini-cli
 #   codex   → https://github.com/openai/codex
@@ -175,9 +175,9 @@ pip install anthropic                      # 僅 generate_questions.py 需要
 **執行模式：**
 
 ```bash
-python3 scripts/generate_questions.py --subject 1 [--count 5] [--dry-run]
-python3 scripts/generate_questions.py --subject 2
-python3 scripts/generate_questions.py --enrich
+uv run python3 scripts/generate_questions.py --subject 1 [--count 5] [--dry-run]
+uv run python3 scripts/generate_questions.py --subject 2
+uv run python3 scripts/generate_questions.py --enrich
 ```
 
 **擴充後的題目 JSON schema：**
@@ -252,6 +252,8 @@ python3 scripts/multi_ai_pipeline.py --subject 2 --count 5 \
 
 # 跳過審核與驗證（速度最快）
 python3 scripts/multi_ai_pipeline.py --subject 1 --skip-review --skip-validation
+
+# 注意：multi_ai_pipeline.py 透過 subprocess 呼叫外部 CLI，不需要 uv run
 ```
 
 ---

@@ -11,22 +11,23 @@ A content-generation workspace for iPAS AI exam study materials (初級 AI 應�
 Run from the repository root in sequence after updating PDFs or question data:
 
 ```bash
-python3 scripts/extract_pdfs.py      # PDFs → data/初級/extracted/*.{txt,json}
-python3 scripts/parse_exams_v2.py    # extracted JSON → data/初級/questions/*.json
-python3 scripts/parse_guides.py      # guide JSON → data/初級/guide/subject{1,2}_guide.json
+uv run python3 scripts/extract_pdfs.py      # PDFs → data/初級/extracted/*.{txt,json}
+uv run python3 scripts/parse_exams_v2.py    # extracted JSON → data/初級/questions/*.json
+uv run python3 scripts/parse_guides.py      # guide JSON → data/初級/guide/subject{1,2}_guide.json
 # Optional: generate/enrich questions via Claude API (single-model)
-python3 scripts/generate_questions.py --subject 1   # generate new questions for subject 1
-python3 scripts/generate_questions.py --subject 2   # generate new questions for subject 2
-python3 scripts/generate_questions.py --enrich      # add card fields to existing questions
+uv run python3 scripts/generate_questions.py --subject 1   # generate new questions for subject 1
+uv run python3 scripts/generate_questions.py --subject 2   # generate new questions for subject 2
+uv run python3 scripts/generate_questions.py --enrich      # add card fields to existing questions
 # Optional: multi-AI pipeline (Gemini 出題 → Codex 審核 → Claude 完稿 + 答題驗證)
-python3 scripts/multi_ai_pipeline.py --subject 1 --chapter s1c1 --dry-run   # preview prompts
+python3 scripts/multi_ai_pipeline.py --subject 1 --chapter s1c1 --dry-run   # preview prompts (uses CLI tools, not venv)
 python3 scripts/multi_ai_pipeline.py --subject 1 --count 3                  # run full subject
-python3 scripts/build_web.py         # all JSON → docs/index.html
+uv run python3 scripts/build_web.py         # all JSON → docs/index.html
 ```
 
-Dependencies: `pdfplumber`, `PyMuPDF` (`fitz`), `anthropic` (for `generate_questions.py` only).
+Dependencies are managed via `uv` (see `pyproject.toml`). Run `uv sync` to install after cloning.
+Python packages: `pdfplumber`, `PyMuPDF` (`fitz`), `anthropic`.
 `generate_questions.py` requires `ANTHROPIC_API_KEY` environment variable.
-`multi_ai_pipeline.py` requires the `gemini`, `codex`, and `claude` CLI tools to be installed and authenticated. Uses subprocess only — no extra Python packages needed.
+`multi_ai_pipeline.py` requires the `gemini`, `codex`, and `claude` CLI tools to be installed and authenticated. Uses subprocess only — no Python packages needed, so `uv run` is not required.
 
 ## Architecture
 
