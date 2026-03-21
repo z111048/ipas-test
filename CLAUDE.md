@@ -14,15 +14,19 @@ Run from the repository root in sequence after updating PDFs or question data:
 python3 scripts/extract_pdfs.py      # PDFs → data/初級/extracted/*.{txt,json}
 python3 scripts/parse_exams_v2.py    # extracted JSON → data/初級/questions/*.json
 python3 scripts/parse_guides.py      # guide JSON → data/初級/guide/subject{1,2}_guide.json
-# Optional: generate/enrich questions via Claude API
+# Optional: generate/enrich questions via Claude API (single-model)
 python3 scripts/generate_questions.py --subject 1   # generate new questions for subject 1
 python3 scripts/generate_questions.py --subject 2   # generate new questions for subject 2
 python3 scripts/generate_questions.py --enrich      # add card fields to existing questions
+# Optional: multi-AI pipeline (Gemini 出題 → Codex 審核 → Claude 完稿 + 答題驗證)
+python3 scripts/multi_ai_pipeline.py --subject 1 --chapter s1c1 --dry-run   # preview prompts
+python3 scripts/multi_ai_pipeline.py --subject 1 --count 3                  # run full subject
 python3 scripts/build_web.py         # all JSON → docs/index.html
 ```
 
 Dependencies: `pdfplumber`, `PyMuPDF` (`fitz`), `anthropic` (for `generate_questions.py` only).
 `generate_questions.py` requires `ANTHROPIC_API_KEY` environment variable.
+`multi_ai_pipeline.py` requires the `gemini`, `codex`, and `claude` CLI tools to be installed and authenticated. Uses subprocess only — no extra Python packages needed.
 
 ## Architecture
 
@@ -30,6 +34,7 @@ Dependencies: `pdfplumber`, `PyMuPDF` (`fitz`), `anthropic` (for `generate_quest
 - **`scripts/parse_exams_v2.py`**: Parses question/answer tables from the extracted JSON (handles full-width characters A-D and parentheses). Outputs `mock_exam1.json`, `mock_exam2.json`, `sample_exam.json` to `data/初級/questions/`. Note: `subject1/2_questions.json` are manually curated and not overwritten by this script.
 - **`scripts/parse_guides.py`**: Splits guide1/guide2 extracted JSON into chapter-structured data using in-document page number anchors. Writes `data/初級/guide/subject{1,2}_guide.json`. Chapter content is used as LLM context for question generation.
 - **`scripts/generate_questions.py`**: Calls Claude API to generate new questions per chapter (`--subject N`) or add `card` fields to existing questions (`--enrich`). Use `--dry-run` to preview prompts without API calls. Questions follow the extended schema with `card`, `difficulty`, `type`, and `tags` fields.
+- **`scripts/multi_ai_pipeline.py`**: Multi-AI question generation pipeline using three CLI tools via subprocess. Roles: Gemini (出題者) → Codex (審核者) → Claude (完稿者). After finalization all three AIs independently answer each question; if 2+ answer incorrectly the question is written to `flagged.json` for human review. Intermediate artifacts go to `data/初級/pipeline/<run_id>/`. Final questions are merged into `subject{N}_questions.json`. Supports `--subject`, `--chapter`, `--count`, `--dry-run`, `--skip-review`, `--skip-validation`, `--creator/reviewer/finalizer` overrides.
 - **`scripts/build_web.py`**: Inlines all question and guide JSON as JS constants into a self-contained single HTML file. Writes only to `docs/index.html`. The site is deployed from `docs/` on the `main` branch via GitHub Pages.
 - The study-question pages are reached from sidebar `✏️` items. On mobile widths the sidebar is hidden behind the `☰` drawer button, so navigation regressions should be checked there too.
 
@@ -39,6 +44,8 @@ Dependencies: `pdfplumber`, `PyMuPDF` (`fitz`), `anthropic` (for `generate_quest
 
 Treat `data/初級/questions/*.json`, `data/初級/guide/*.json`, and `docs/index.html` as build artifacts. Only edit them manually when intentionally curating content, and document the change.
 If `scripts/build_web.py` or any inlined data changes, rerun `python3 scripts/build_web.py` and commit the regenerated `docs/index.html` together with the source change.
+
+`data/初級/pipeline/` holds intermediate artifacts from `multi_ai_pipeline.py` runs (draft, review, final, validation, flagged JSON per chapter). These are gitignored and do not need to be committed unless curating a specific run.
 
 Question schema (extended with card fields):
 ```json

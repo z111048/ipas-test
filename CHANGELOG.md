@@ -6,8 +6,23 @@
 
 ## [Unreleased]
 
+### 新增
+- `scripts/multi_ai_pipeline.py`：多 AI 出題流水線，以 subprocess 非互動模式串接三套 CLI 工具
+  - 角色分工：Gemini（出題者）→ Codex（審核者）→ Claude（完稿者），可透過 `--creator/reviewer/finalizer` 覆蓋
+  - 5 種題型模板：概念定義型、應用情境型、比較辨析型、錯誤識別型、流程步驟型；`select_templates()` 依章節自動選 2–3 種
+  - 答題驗證：完稿後三工具並行作答（`ThreadPoolExecutor`），2+ 答錯則寫入 `flagged.json` 供人工審閱
+  - 中間產物存至 `data/初級/pipeline/<run_id>/`，最終題目 merge 進 `subject{N}_questions.json`（id 格式 `{chapter_id}q{n}_multi`）
+  - 支援 `--subject`、`--chapter`、`--count`、`--dry-run`、`--skip-review`、`--skip-validation`、`--timeout`
+- `data/初級/pipeline/` 目錄說明納入文件
+
+### 修復（測試過程）
+- `check_available_tools()`：補捉 `subprocess.TimeoutExpired`（`gemini --version` 會 hang，改視為工具存在）
+- `call_claude()`：移除不存在的 `--no-permission-prompts` flag，改用 `--dangerously-skip-permissions --tools ""`
+- `call_codex()`：改用正確的 `codex exec -c 'sandbox_permissions=[...]' -` 語法（原 `--approval-mode full-auto` 為無效 flag）
+
 ### 文件
 - `README.md`、`AGENTS.md`、`CLAUDE.md`：補充 `docs/index.html` 必須和 `scripts/build_web.py` 同步重建與提交的規則，並說明題庫入口位於 sidebar／手機版漢堡選單
+- 所有 `.md` 更新以反映 `multi_ai_pipeline.py` 的新腳本、CLI 依賴、輸出目錄
 
 ### 修復
 - 文件澄清：若題目 JSON 沒有 `card` 欄位，前端不會顯示解說圖卡按鈕；這屬於資料狀態，不是 `docs/index.html` 漏 build

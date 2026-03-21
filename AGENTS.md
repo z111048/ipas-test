@@ -7,8 +7,9 @@ This repository is a content-generation workspace for the iPAS AI exam study mat
 - `scripts/parse_exams_v2.py`: turns extracted content into mock-exam JSON under `data/初級/questions/`.
 - `scripts/parse_guides.py`: splits guide extracted JSON into chapter-structured JSON under `data/初級/guide/`.
 - `scripts/generate_questions.py`: calls the Claude API to generate new questions or add `card` fields to existing ones. Requires `ANTHROPIC_API_KEY`.
+- `scripts/multi_ai_pipeline.py`: multi-AI pipeline using Gemini (出題) → Codex (審核) → Claude (完稿) CLI tools via subprocess. Includes answer-validation stage where all three AIs answer each question; questions with 2+ wrong answers are flagged to `flagged.json`. Intermediate output goes to `data/初級/pipeline/<run_id>/`; final questions are merged into `subject{N}_questions.json`.
 - `scripts/build_web.py`: builds the static study site at `docs/index.html`, inlining all question and guide JSON.
-- `data/初級/extracted/`, `data/初級/questions/`, `data/初級/guide/`, `data/初級/analysis/`, and `logs/`: generated data, exam payloads, guide content, analysis output, and run logs.
+- `data/初級/extracted/`, `data/初級/questions/`, `data/初級/guide/`, `data/初級/analysis/`, `data/初級/pipeline/`, and `logs/`: generated data, exam payloads, guide content, analysis output, pipeline run artifacts, and run logs.
 
 Treat `data/初級/questions/*.json`, `data/初級/guide/*.json`, and `docs/index.html` as build outputs unless you are intentionally curating content.
 
@@ -19,6 +20,7 @@ Use Python 3 from the repository root.
 - `python3 scripts/parse_exams_v2.py`: generate `mock_exam1.json`, `mock_exam2.json`, and `sample_exam.json` from extracted JSON tables.
 - `python3 scripts/parse_guides.py`: generate `subject1_guide.json` and `subject2_guide.json` under `data/初級/guide/`.
 - `python3 scripts/generate_questions.py --subject 1` (or `--subject 2`, `--enrich`): generate/enrich questions via Claude API (optional).
+- `python3 scripts/multi_ai_pipeline.py --subject 1 [--chapter s1c1] [--count 3] [--dry-run]`: run multi-AI pipeline for question generation, review, finalization, and answer validation (optional; requires gemini/codex/claude CLIs).
 - `python3 scripts/build_web.py`: rebuild the static web app in `docs/index.html`.
 
 Run the first three in sequence after updating PDFs. Run `build_web.py` alone when only the UI changes.

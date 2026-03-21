@@ -13,6 +13,7 @@ ipas-test/
 │   ├── parse_exams_v2.py         # JSON 表格 → 模擬考試題庫 JSON
 │   ├── parse_guides.py           # 學習指引 JSON → 章節結構化 JSON
 │   ├── generate_questions.py     # Claude API → 章節題目 + 解說圖卡
+│   ├── multi_ai_pipeline.py      # 多 AI 出題流水線（Gemini/Codex/Claude CLI）
 │   └── build_web.py              # 所有 JSON → docs/index.html
 ├── data/
 │   └── 初級/                     # 初級資料（gitignore）
@@ -20,7 +21,8 @@ ipas-test/
 │       ├── extracted/            # 從 PDF 萃取的文字與結構（.txt / .json）
 │       ├── questions/            # 題庫 JSON（mock_exam*.json、subject*_questions.json）
 │       ├── guide/                # 學習指引章節結構化 JSON（subject{1,2}_guide.json）
-│       └── analysis/             # 章節／題型分析（exam_analysis.json）
+│       ├── analysis/             # 章節／題型分析（exam_analysis.json）
+│       └── pipeline/             # multi_ai_pipeline.py 各次執行的中間產物（gitignore）
 ├── logs/                         # 執行 log（gitignore）
 └── docs/                         # GitHub Pages 網站（index.html 為唯一輸出）
 ```
@@ -43,11 +45,15 @@ python3 scripts/parse_exams_v2.py
 # 3. 解析學習指引章節內容
 python3 scripts/parse_guides.py
 
-# 4. （選用）透過 Claude API 生成／補充題目
+# 4a. （選用）透過 Claude API 生成／補充題目（單一模型）
 export ANTHROPIC_API_KEY=sk-ant-...
 python3 scripts/generate_questions.py --subject 1   # 生成科目一各章新題
 python3 scripts/generate_questions.py --subject 2   # 生成科目二各章新題
 python3 scripts/generate_questions.py --enrich      # 補充既有題目的解說圖卡欄位
+
+# 4b. （選用）多 AI 出題流水線（需 gemini / codex / claude CLI 已安裝並完成認證）
+python3 scripts/multi_ai_pipeline.py --subject 1 --chapter s1c1 --dry-run  # 預覽 prompt
+python3 scripts/multi_ai_pipeline.py --subject 1 --count 3                  # 執行科目一
 
 # 5. 建置網站
 python3 scripts/build_web.py
@@ -62,6 +68,10 @@ python3 scripts/build_web.py
 ```bash
 pip install pdfplumber pymupdf            # 核心依賴
 pip install anthropic                      # 僅 generate_questions.py 需要
+# multi_ai_pipeline.py 不需額外 Python 套件，但需以下 CLI 工具：
+#   gemini  → https://github.com/google-gemini/gemini-cli
+#   codex   → https://github.com/openai/codex
+#   claude  → npm install -g @anthropic-ai/claude-code
 ```
 
 ---
@@ -189,6 +199,59 @@ python3 scripts/generate_questions.py --enrich
   "type": "概念定義型",
   "tags": ["Human-in-the-loop", "AI治理"]
 }
+```
+
+---
+
+### `scripts/multi_ai_pipeline.py`
+
+以三套 CLI 工具分擔角色，透過 subprocess 非互動模式串接成出題流水線。
+
+**角色分工（預設，可透過 CLI 覆蓋）：**
+
+| 角色 | 預設工具 | 說明 |
+|------|---------|------|
+| 出題者 (Creator) | `gemini` | 依章節內容與題型模板產生草稿題目 |
+| 審核者 (Reviewer) | `codex` | 逐題評分（答案正確性、干擾項品質、清晰度等） |
+| 完稿者 (Finalizer) | `claude` | 依審核意見修正並輸出最終 JSON |
+
+**5 種題型模板：** 概念定義型 / 應用情境型 / 比較辨析型 / 錯誤識別型 / 流程步驟型
+`select_templates()` 依章節 subtopics 數量與關鍵字自動選 2–3 種。
+
+**答題驗證：** 完稿後，三工具以 `ThreadPoolExecutor` 並行各自作答，
+若 2 個以上答錯同一題，該題寫入 `flagged.json` 供人工審閱，不自動刪除。
+
+**每次執行的輸出目錄結構：**
+
+```
+data/初級/pipeline/<run_id>/subject1/
+  s1c1/
+    draft.json        ← 出題草稿
+    review.json       ← 審核意見
+    final.json        ← 最終題目
+    validation.json   ← 各 AI 作答記錄
+    flagged.json      ← 有問題的題目（僅在有 flag 時產生）
+  pipeline_summary.json
+```
+
+通過驗證的題目自動 merge 進 `data/初級/questions/subject{N}_questions.json`，
+id 格式為 `{chapter_id}q{n}_multi`，以區別手工策展題目（`q{n}` 無後綴）。
+
+**常用指令：**
+
+```bash
+# 乾跑確認 prompt 內容
+python3 scripts/multi_ai_pipeline.py --subject 1 --chapter s1c1 --dry-run
+
+# 單章節執行（預設 3 題）
+python3 scripts/multi_ai_pipeline.py --subject 1 --chapter s1c1
+
+# 全科目執行，自訂題數與角色
+python3 scripts/multi_ai_pipeline.py --subject 2 --count 5 \
+  --creator gemini --reviewer codex --finalizer claude
+
+# 跳過審核與驗證（速度最快）
+python3 scripts/multi_ai_pipeline.py --subject 1 --skip-review --skip-validation
 ```
 
 ---
