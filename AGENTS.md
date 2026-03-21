@@ -8,10 +8,11 @@ This repository is a content-generation workspace for the iPAS AI exam study mat
 - `scripts/parse_guides.py`: splits guide extracted JSON into chapter-structured JSON under `data/初級/guide/`.
 - `scripts/generate_questions.py`: calls the Claude API to generate new questions or add `card` fields to existing ones. Requires `ANTHROPIC_API_KEY`.
 - `scripts/multi_ai_pipeline.py`: multi-AI pipeline using Gemini (出題) → Codex (審核) → Claude (完稿) CLI tools via subprocess. Includes answer-validation stage where all three AIs answer each question; questions with 2+ wrong answers are flagged to `flagged.json`. Intermediate output goes to `data/初級/pipeline/<run_id>/`; final questions are merged into `subject{N}_questions.json`.
-- `scripts/build_web.py`: builds the static study site at `docs/index.html`, inlining all question and guide JSON.
+- `scripts/build_web.py`: thin wrapper that runs `npm run build` inside `frontend/`, outputting the React app to `docs/`.
+- `frontend/`: Vite project (React 19 + TypeScript + Tailwind CSS v4 + React Router v6 + Zustand). Source in `frontend/src/`; build config in `frontend/vite.config.ts`. All JSON data imported statically via `@data` alias at build time.
 - `data/初級/extracted/`, `data/初級/questions/`, `data/初級/guide/`, `data/初級/analysis/`, `data/初級/pipeline/`, and `logs/`: generated data, exam payloads, guide content, analysis output, pipeline run artifacts, and run logs.
 
-Treat `data/初級/questions/*.json`, `data/初級/guide/*.json`, and `docs/index.html` as build outputs unless you are intentionally curating content.
+Treat `data/初級/questions/*.json`, `data/初級/guide/*.json`, and `docs/` as build outputs unless you are intentionally curating content.
 
 ## Build, Test, and Development Commands
 This project uses `uv` for dependency management. Run `uv sync` after cloning to set up the virtual environment. Use `uv run` to execute scripts within the environment.
@@ -21,10 +22,11 @@ This project uses `uv` for dependency management. Run `uv sync` after cloning to
 - `uv run python3 scripts/parse_guides.py`: generate `subject1_guide.json` and `subject2_guide.json` under `data/初級/guide/`.
 - `uv run python3 scripts/generate_questions.py --subject 1` (or `--subject 2`, `--enrich`): generate/enrich questions via Claude API (optional).
 - `python3 scripts/multi_ai_pipeline.py --subject 1 [--chapter s1c1] [--count 3] [--dry-run]`: run multi-AI pipeline for question generation, review, finalization, and answer validation (optional; requires gemini/codex/claude CLIs; uses subprocess only, no venv needed).
-- `uv run python3 scripts/build_web.py`: rebuild the static web app in `docs/index.html`.
+- `uv run python3 scripts/build_web.py`: rebuild the frontend via Vite (`npm run build` in `frontend/`), outputting to `docs/`.
+- `cd frontend && npm run dev`: start the Vite dev server at `http://localhost:5173/` (use `--host` to expose to Windows from WSL).
 
-Run the first three in sequence after updating PDFs. Run `build_web.py` alone when only the UI changes.
-If `scripts/build_web.py` or any inlined JSON changes, rerun `uv run python3 scripts/build_web.py` and commit the regenerated `docs/index.html` in the same change.
+Run the first three pipeline steps in sequence after updating PDFs. Run `build_web.py` alone when only frontend source or data JSON changes.
+If `frontend/src/` or any data JSON changes, rerun `uv run python3 scripts/build_web.py` and commit the regenerated `docs/` in the same change.
 
 ## Coding Style & Naming Conventions
 Follow the existing Python style: 4-space indentation, `snake_case` for functions and variables, short module docstrings, and `Path`-based filesystem access. Keep scripts self-contained and readable; prefer small helper functions over deeply nested logic. Name generated JSON files by content, for example `mock_exam1.json` or `subject2_questions.json`.
@@ -35,11 +37,12 @@ There is no formal automated test suite in this workspace yet. Validate changes 
 - confirm expected files are regenerated in `data/初級/extracted/`, `data/初級/questions/`, `data/初級/guide/`
 - `parse_exams_v2.py`: exam1 and exam2 should each produce ~50 questions; check for WARN lines
 - `parse_guides.py`: each chapter should have > 1000 chars of content
-- spot-check JSON structure and a few rendered questions in `docs/index.html`; verify the card panel appears after answering a question that has `card` data
+- spot-check JSON structure and a few rendered questions at `http://localhost:5173/` or in `docs/`; verify the card panel appears after answering a question that has `card` data
 - review `logs/` for extraction or parsing errors
 - on narrow/mobile layouts, verify the study-question entry points are still reachable from the sidebar drawer (`☰`)
+- frontend: run `cd frontend && npm run build` — zero TypeScript errors and a successful Vite build expected
 
-Remember that the study-question pages are navigated from sidebar `✏️` entries. If question JSON lacks `card` fields, the card panel button will not render even though the feature still exists in the HTML/JS.
+Remember that the study-question pages are navigated from sidebar `✏️` entries (React Router route `/practice/:subjectId/:chapterId`). If question JSON lacks `card` fields, the card panel button will not render — this is a data state, not a frontend bug.
 
 If you add tests, place them in a top-level `tests/` directory and name files `test_*.py`.
 

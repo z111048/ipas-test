@@ -6,6 +6,34 @@
 
 ## [Unreleased]
 
+### 前端遷移：React + TypeScript + Tailwind CSS v4 + Vite
+
+#### 新增
+- `frontend/`：Vite 前端專案，React 19 + TypeScript + Tailwind CSS v4 + React Router v6 (HashRouter) + Zustand v5
+  - `frontend/src/pages/`：HomePage、SubjectOverviewPage、PracticePage、ExamPage、GuidePage
+  - `frontend/src/components/`：layout（Header、Sidebar、Overlay）、practice（QuestionCard、OptionButton、CardPanel、FreqBar）、exam（ExamIntro、ExamTimer、ExamQuestion、ExamResults）、shared（StatBox、ProgressBar）
+  - `frontend/src/store/examStore.ts`：Zustand 考試狀態（phase、userAnswers、secondsRemaining）；timer tick 僅觸發 ExamTimer 重繪，不影響整個題目列表
+  - `frontend/src/hooks/useExamTimer.ts`：每秒 tick，時間到自動繳卷
+  - `frontend/src/types/index.ts`：Question、Chapter、SubjectQuestions、ExamData、GuideData 等 TypeScript 型別
+  - `frontend/vite.config.ts`：build outDir → `../docs`，`@data` alias → `../data/初級`，所有 JSON 靜態 import，不需 runtime fetch
+  - `frontend/public/favicon.ico`、`frontend/public/.nojekyll`
+
+#### 變更
+- `scripts/build_web.py`：改為呼叫 `cd frontend && npm run build` 的 thin wrapper；不再生成 HTML 字串
+- `docs/`：由單一 `index.html`（355 KB）改為 Vite 打包的 `index.html`（~430 B）+ `assets/`（JS ~570 KB、CSS ~21 KB）
+- `CLAUDE.md`、`AGENTS.md`、`README.md`：全面更新以反映前端架構、路由結構、dev server 指令
+
+#### 路由（HashRouter）
+| Route | 頁面 |
+|---|---|
+| `#/` | 首頁 |
+| `#/subject/:subjectId` | 科目章節總覽 |
+| `#/practice/:subjectId/:chapterId` | 章節練習 |
+| `#/exam/:examKey` | 模擬考試（mock1/mock2/sample） |
+| `#/guide/:subjectId/:chapterId` | 學習指引 |
+
+---
+
 ### 變更
 - 改用 `uv` 管理虛擬環境與 Python 依賴：新增 `pyproject.toml`、`uv.lock`，`.gitignore` 加入 `.venv/`
 - 所有 `python3 scripts/...` 指令改為 `uv run python3 scripts/...`（`multi_ai_pipeline.py` 例外，因其使用 subprocess 呼叫外部 CLI，不依賴虛擬環境）
