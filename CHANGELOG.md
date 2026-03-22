@@ -6,6 +6,31 @@
 
 ## [Unreleased]
 
+### 解析品質強化：toc_manifest SSOT + LLM 審核 + 前端目錄資料驅動化
+
+#### 核心目標
+確立平台終極目標：**根據解析的 MD 教材與官方樣張/歷屆題目，針對特定章節綜合出高品質模擬試題**。PDF→MD 解析品質直接決定出題品質，前處理必須保證每頁正確入庫到對應章節。
+
+#### 新增
+- `scripts/build_manifest.py`：唯一包含 `GUIDES` 硬編碼的腳本（章節定義 SSOT），以 PyMuPDF 計算各章 PDF 頁碼範圍，輸出 `data/初級/toc_manifest.json`
+- `data/初級/toc_manifest.json`：章節定義靜態 JSON，需提交 repo，所有腳本與前端統一從此讀取
+- `scripts/audit_chapters.py`：解析後 LLM 審核腳本（Claude Haiku），確認每章節涵蓋 subtopics、無內容錯置；輸出 `data/初級/guide/subject{N}_audit_report.json`（`overall_status: PASS/WARN/FAIL`）；支援 `--all/--subject/--chapter/--dry-run`
+
+#### 變更
+- `scripts/guide_to_md.py`：移除 `GUIDES` dict，改從 `toc_manifest.json` 讀取（`_load_manifest()` + `manifest_to_guides()`）
+- `scripts/parse_guides.py`：同上，移除約 113 行重複的 `GUIDES` dict
+- `scripts/pdf_vision_extract.py`：同上，移除精簡版 `GUIDES`
+- `frontend/src/pages/SubjectOverviewPage.tsx`：移除硬編碼的 `S1_CHAPTERS`/`S2_CHAPTERS`；改從 `toc_manifest.json` 靜態 import，展示 subtopics pills + PDF 頁碼範圍 + 快速連結（📖 學習指引 / ✏️ 練習題）
+- `frontend/src/types/index.ts`：新增 `TocChapter`、`TocSubject`、`TocManifest` TypeScript 型別
+- `CLAUDE.md`、`AGENTS.md`、`README.md`：全面更新，反映核心目標、toc_manifest SSOT、新腳本說明、audit 驗證步驟
+
+#### 文件
+- `CLAUDE.md`：新增「核心目標」段落，Build Pipeline 加入 Step 0（build_manifest）與 Step 3（audit），Architecture 加入 `build_manifest.py` 和 `audit_chapters.py` 說明
+- `README.md`：目錄結構、Pipeline 步驟、腳本說明全面更新
+- `AGENTS.md`：Project Structure、Build Commands、Testing Guidelines 全面更新
+
+---
+
 ### 前端遷移：React + TypeScript + Tailwind CSS v4 + Vite
 
 #### 新增
@@ -60,6 +85,20 @@
 ### 修復
 - 文件澄清：若題目 JSON 沒有 `card` 欄位，前端不會顯示解說圖卡按鈕；這屬於資料狀態，不是 `docs/index.html` 漏 build
 - `scripts/build_web.py` / `docs/index.html`：修正學習指引頁段落切分與換行處理的 regex escaping，避免輸出的內嵌 JavaScript 產生不正確的跨行 regex
+
+### Guide 解析路線 A：Span 提取（無 LLM）
+
+#### 新增
+- `scripts/guide_to_md.py`：以 PyMuPDF span 字型元數據（尺寸/粗體）進行完全確定性的 6 層結構提取，無需 LLM，不耗 API token；包含行合併、巢狀樹建構、Markdown 序列化、關鍵詞保留率驗證（預設閾值 95%）；支援 `--all/--subject/--chapter/--threshold`
+- `scripts/pdf_vision_extract.py`：Claude Vision 逐頁提取，結果快取於 `pages_cache/{key}/page_NNN.json`；支援 `--all/--subject/--dry-run/--force/--page`
+
+#### 輸出（`data/初級/guide/`）
+- `subject{N}_guide.json`：前端用（`content_format: 'markdown'`）
+- `subject{N}_guide.md`：純 Markdown 全文
+- `subject{N}_guide_nested.json`：完整巢狀樹（未來用途）
+- `subject{N}_validation_report.json`：關鍵詞保留率報告
+
+---
 
 ## [0.3.0] - 2026-03-21
 

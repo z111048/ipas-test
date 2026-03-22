@@ -9,9 +9,13 @@
 ```
 ipas-test/
 ├── scripts/                      # 資料處理腳本
-│   ├── extract_pdfs.py           # PDF → 文字/JSON
+│   ├── build_manifest.py         # ★ 章節定義 SSOT → data/初級/toc_manifest.json
+│   ├── guide_to_md.py            # PDF → span 解析 → 章節 Markdown（無 LLM）
+│   ├── pdf_vision_extract.py     # PDF → Claude Vision → pages_cache（有 LLM）
+│   ├── parse_guides.py           # pages_cache/extracted → 章節 JSON（vision/regex）
+│   ├── audit_chapters.py         # 解析後 LLM 審核 → subject{N}_audit_report.json
+│   ├── extract_pdfs.py           # PDF → 文字/JSON（供考題 pipeline 使用）
 │   ├── parse_exams_v2.py         # JSON 表格 → 模擬考試題庫 JSON
-│   ├── parse_guides.py           # 學習指引 JSON → 章節結構化 JSON
 │   ├── generate_questions.py     # Claude API → 章節題目 + 解說圖卡
 │   ├── multi_ai_pipeline.py      # 多 AI 出題流水線（Gemini/Codex/Claude CLI）
 │   └── build_web.py              # 呼叫 npm run build → docs/
@@ -31,7 +35,8 @@ ipas-test/
 │       ├── pdfs/                 # 原始 PDF 來源
 │       ├── extracted/            # 從 PDF 萃取的文字與結構（.txt / .json）
 │       ├── questions/            # 題庫 JSON（mock_exam*.json、subject*_questions.json）
-│       ├── guide/                # 學習指引章節結構化 JSON（subject{1,2}_guide.json）
+│       ├── toc_manifest.json     # ★ 章節定義 SSOT（由 build_manifest.py 生成，需提交）
+│       ├── guide/                # 學習指引輸出（subject{N}_guide.json、_audit_report.json 等）
 │       ├── analysis/             # 章節／題型分析（exam_analysis.json）
 │       └── pipeline/             # multi_ai_pipeline.py 各次執行的中間產物（gitignore）
 ├── logs/                         # 執行 log（gitignore）
@@ -46,16 +51,43 @@ ipas-test/
 
 ## 執行 Pipeline
 
+### 核心目標
+
+**依據解析的 MD 教材與官方樣張／歷屆題目，針對特定章節自動生成高品質模擬試題。**
+解析品質直接決定出題品質——每頁必須正確歸入對應章節。
+
+### 指令
+
 從專案根目錄依序執行：
 
 ```bash
+# 0. 生成章節目錄索引（僅在章節定義或 PDF 異動時需要）
+uv run python3 scripts/build_manifest.py   # → data/初級/toc_manifest.json
+
+# ── 學習指引 Guide pipeline（擇一）──────────────────────────────────────
+
+# 路線 A：Span 提取（無 LLM，推薦先跑）
+uv run python3 scripts/guide_to_md.py --all              # 兩科全跑
+uv run python3 scripts/guide_to_md.py --subject 1 --chapter s1c1  # 單章
+
+# 路線 B：Vision 提取（有 LLM，需 ANTHROPIC_API_KEY）
+uv run python3 scripts/pdf_vision_extract.py --all       # 兩科全跑（~$1.6）
+uv run python3 scripts/parse_guides.py                   # 組合章節 JSON
+
+# 解析後 LLM 審核（確認頁面→章節對應正確）
+uv run python3 scripts/audit_chapters.py --all           # 兩科全審
+uv run python3 scripts/audit_chapters.py --all --dry-run # 預覽 prompt
+# → data/初級/guide/subject{1,2}_audit_report.json
+
+# ── 考題 Exam pipeline ───────────────────────────────────────────────────
+
 # 1. PDF 萃取（更換 PDF 後才需重新執行）
 uv run python3 scripts/extract_pdfs.py
 
 # 2. 解析模擬考試題目（公告試題 / 樣題）
 uv run python3 scripts/parse_exams_v2.py
 
-# 3. 解析學習指引章節內容
+# 3. 解析學習指引章節內容（vision/regex fallback，可替代路線 A/B）
 uv run python3 scripts/parse_guides.py
 
 # 4a. （選用）透過 Claude API 生成／補充題目（單一模型）
@@ -159,9 +191,52 @@ cd frontend && npm install                 # 前端依賴（React、Vite、Tailw
 
 ---
 
+### `scripts/build_manifest.py`
+
+**章節定義 SSOT**。內嵌所有科目/章節的 metadata（唯一需要硬編碼 `GUIDES` dict 的腳本），以 PyMuPDF 計算每章的 PDF 頁碼範圍（0-based），輸出 `data/初級/toc_manifest.json`。
+
+所有其他腳本（`guide_to_md.py`、`parse_guides.py`、`pdf_vision_extract.py`）和前端（`SubjectOverviewPage.tsx`）均從此 manifest 讀取，不得在他處重複定義章節。
+
+```bash
+uv run python3 scripts/build_manifest.py          # 生成 toc_manifest.json
+uv run python3 scripts/build_manifest.py --dry-run # 印出 JSON，不寫檔
+```
+
+---
+
+### `scripts/guide_to_md.py`
+
+**路線 A：Span 提取（無 LLM）**。以 PyMuPDF 字型尺寸/粗體 flags 分類 6 層結構（L2 ≥18pt bold → `##`、L3 ≥13pt bold → `###`、L4 `（N）` → `####`、L5 `A.` → `#####`、L6 bullet → `-`），產生 Markdown 並驗證關鍵詞保留率（預設 95%）。
+
+**輸出（`data/初級/guide/`）：**
+- `subject{N}_guide.json`（前端使用）
+- `subject{N}_guide.md`（全文 Markdown）
+- `subject{N}_guide_nested.json`（完整巢狀樹）
+- `subject{N}_validation_report.json`（關鍵詞保留率報告）
+
+```bash
+uv run python3 scripts/guide_to_md.py --all
+uv run python3 scripts/guide_to_md.py --subject 1 --chapter s1c1
+uv run python3 scripts/guide_to_md.py --subject 1 --threshold 0.90
+```
+
+---
+
+### `scripts/audit_chapters.py`
+
+**LLM 章節內容審核**。讀取 `subject{N}_guide.json`，對每章節呼叫 Claude Haiku 審核：subtopics 是否全部覆蓋、是否有內容錯置。輸出 `subject{N}_audit_report.json`（`overall_status: PASS/WARN/FAIL`）。審核 FAIL 的章節需人工確認後才進行出題。
+
+```bash
+uv run python3 scripts/audit_chapters.py --all
+uv run python3 scripts/audit_chapters.py --subject 1 --chapter s1c1
+uv run python3 scripts/audit_chapters.py --all --dry-run  # 預覽 prompt
+```
+
+---
+
 ### `scripts/parse_guides.py`
 
-將 `guide1.json` / `guide2.json` 依官方目錄的章節頁碼分割，輸出章節結構化 JSON 供前端顯示與 LLM 生題使用。
+**路線 B：Vision 組合**。將 `guide1.json` / `guide2.json` 依官方目錄的章節頁碼分割，輸出章節結構化 JSON 供前端顯示與 LLM 生題使用。
 
 **切割策略：** 官方學習指引每章末頁印有「3-N」頁碼。程式掃描這些頁碼（如 `3-23`、`3-32`、`3-47`）作為章節邊界，比對下一章起始頁碼 - 1。
 
@@ -317,6 +392,7 @@ docs/
 
 1. 在 `data/中級/pdfs/` 放入中級 PDF。
 2. 複製並修改 `scripts/extract_pdfs.py`，將 `LEVEL = '初級'` 改為 `LEVEL = '中級'`，更新 `PDFS` 對應新檔名。
-3. 同步修改 `parse_exams_v2.py`、`parse_guides.py` 的 `OUT` 路徑，並依中級指引目錄調整 `GUIDES` dict 的章節頁碼。
-4. `generate_questions.py` 的 `DATA` 路徑亦需對應更新。
+3. 在 `scripts/build_manifest.py` 的 `GUIDES` dict 加入中級章節定義，重新執行生成 manifest。
+4. 同步修改 `parse_exams_v2.py` 的 `OUT` 路徑；`parse_guides.py`、`guide_to_md.py` 會自動從 manifest 讀取新定義。
+5. `generate_questions.py` 的 `DATA` 路徑亦需對應更新。
 5. 在 `scripts/build_web.py` 載入中級題庫與學習指引，並加入網頁 UI。

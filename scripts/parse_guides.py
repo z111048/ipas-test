@@ -1,130 +1,63 @@
 #!/usr/bin/env python3
-"""Parse study guide PDFs into chapter-structured JSON."""
+"""Parse study guide PDFs into chapter-structured JSON.
+
+Two modes (auto-selected):
+  1. Vision mode  — if pages_cache/{key}/ exists from pdf_vision_extract.py,
+                    chapter content is assembled from LLM-extracted per-page markdown.
+  2. Regex mode   — fallback: text extraction + structural regex conversion.
+"""
 
 import json
 import re
 from pathlib import Path
 
+try:
+    import fitz  # PyMuPDF — only needed for vision mode page-label mapping
+    _FITZ_AVAILABLE = True
+except ImportError:
+    _FITZ_AVAILABLE = False
+
 BASE = Path('/home/james/projects/ipas-test')
 OUT = BASE / 'data' / '初級'
+PDF_DIR = OUT / 'pdfs'
+CACHE_DIR = OUT / 'pages_cache'
 
-# Chapter definitions with known in-document start page numbers from TOC.
-# Split boundary = last page of previous chapter = next chapter's start_page - 1.
-GUIDES = {
-    1: {
-        'key': 'guide1',
-        'subject': '科目一：人工智慧基礎概論',
-        'chapters': [
-            {
-                'id': 's1c1',
-                'title': '人工智慧概念',
-                'start_page': '3-1',
-                'subtopics': [
-                    'AI定義與分類(分析型/預測型/生成型)',
-                    'AI應用領域',
-                    'AI治理概念',
-                    'EU AI Act風險層級',
-                    'Human-in/over/out-of-the-loop',
-                ],
-            },
-            {
-                'id': 's1c2',
-                'title': '資料處理與分析概念',
-                'start_page': '3-24',
-                'subtopics': [
-                    '資料類型(結構化/半結構化/非結構化)',
-                    'Big Data 5V',
-                    'ETL流程',
-                    '資料清洗(遺缺值/離群值/重複值)',
-                    '資料正規化',
-                    '統計分析方法',
-                    '資料隱私(GDPR/PDPA)',
-                ],
-            },
-            {
-                'id': 's1c3',
-                'title': '機器學習概念',
-                'start_page': '3-33',
-                'subtopics': [
-                    '監督/非監督/半監督/強化學習',
-                    'Overfitting/Underfitting',
-                    'Bias-Variance Tradeoff',
-                    'Regularization L1/L2',
-                    '決策樹/KNN/SVM/K-means/PCA',
-                    '特徵工程(One-hot/正規化/特徵交叉)',
-                    '神經網路與深度學習',
-                    '損失函數',
-                ],
-            },
-            {
-                'id': 's1c4',
-                'title': '鑑別式AI與生成式AI概念',
-                'start_page': '3-48',
-                'subtopics': [
-                    '鑑別式AI基本原理',
-                    '生成式AI基本原理',
-                    'LLM與Transformer',
-                    '擴散模型',
-                    'RAG檢索增強生成',
-                    '幻覺問題(Hallucination)',
-                    '可解釋AI(XAI)',
-                    '模型優化(剪枝/量化/蒸餾)',
-                ],
-            },
-        ],
-    },
-    2: {
-        'key': 'guide2',
-        'subject': '科目二：生成式AI應用與規劃',
-        'chapters': [
-            {
-                'id': 's2c1',
-                'title': 'No Code / Low Code概念',
-                'start_page': '3-1',
-                'subtopics': [
-                    'No Code平台特性與應用',
-                    'Low Code平台特性',
-                    'AI民主化',
-                    '優勢與限制',
-                    '平台範例(Bubble/Power Apps/Zapier)',
-                ],
-            },
-            {
-                'id': 's2c2',
-                'title': '生成式AI應用領域與工具使用',
-                'start_page': '3-17',
-                'subtopics': [
-                    '文字/圖像/語音生成工具',
-                    '提示工程(Zero-shot/Few-shot/CoT/Role Prompting)',
-                    'RAG架構',
-                    'AI Agent設計',
-                    'APE自動提示工程',
-                    'MCP協議',
-                    'A2A架構',
-                ],
-            },
-            {
-                'id': 's2c3',
-                'title': '生成式AI導入評估規劃',
-                'start_page': '3-31',
-                'subtopics': [
-                    '業務需求評估',
-                    'ROI評估方法',
-                    '導入規劃步驟',
-                    '聯邦學習與隱私保護',
-                    'AI風險管理(幻覺/偏見/安全)',
-                    'AI治理框架',
-                    'Guardrails防護機制',
-                    'Fine-tuning vs RAG策略',
-                ],
-            },
-        ],
-    },
-}
+
+def _load_manifest() -> dict[int, dict]:
+    """Load chapter definitions from toc_manifest.json (single source of truth)."""
+    manifest_path = OUT / 'toc_manifest.json'
+    with open(manifest_path, encoding='utf-8') as f:
+        manifest = json.load(f)
+    result = {}
+    for i, subj in enumerate(manifest['subjects'], 1):
+        result[i] = {
+            'key': subj['key'],
+            'pdf': subj['pdf'],
+            'subject': subj['subject'],
+            'chapters': subj['chapters'],
+        }
+    return result
+
+
+GUIDES = _load_manifest()
+
+
+PAGE_SEP = '\x01'  # sentinel between pages in joined text (won't appear in PDF content)
+
+
+def is_practice_page(text: str) -> bool:
+    """Return True if the page contains practice questions or answer explanations."""
+    # Answer pages: contain "N. Ans（X）" pattern
+    if re.search(r'\d+[\.\．]\s*Ans（[A-D]）', text):
+        return True
+    # Question pages: 4+ multiple-choice option lines "(A)/(B)/(C)/(D)"
+    if len(re.findall(r'（[ABCD]）', text)) >= 4:
+        return True
+    return False
 
 
 def load_guide_text(key: str) -> str:
-    """Concatenate all page texts from guide JSON (skip blank pages)."""
+    """Concatenate all page texts using PAGE_SEP as page boundary marker."""
     with open(OUT / 'extracted' / f'{key}.json', encoding='utf-8') as f:
         data = json.load(f)
     parts = []
@@ -132,7 +65,19 @@ def load_guide_text(key: str) -> str:
         text = p.get('text', '').strip()
         if text:
             parts.append(text)
-    return '\n'.join(parts)
+    return PAGE_SEP.join(parts)
+
+
+def strip_practice_pages(text: str) -> tuple[str, int]:
+    """Remove practice question/answer pages from a chapter segment."""
+    pages = text.split(PAGE_SEP)
+    clean, skipped = [], 0
+    for page in pages:
+        if is_practice_page(page):
+            skipped += 1
+        else:
+            clean.append(page)
+    return '\n'.join(clean), skipped
 
 
 def prev_page_label(start_page: str) -> str:
@@ -173,11 +118,46 @@ def split_into_chapters(raw_text: str, chapters: list[dict]) -> list[str]:
     return segments
 
 
+_CJK = '\u4e00-\u9fff'
+_SENT_END = re.compile(r'[。！？」』）】]$')
+_STRUCT_START = re.compile(
+    r'^(?:[\uf097\u2022\u25aa•]|（[一二三四五六七八九十\d]）|[A-Z]\.\s|[a-z]\.\s|\d+\.\s)'
+)
+
+
+def _merge_pdf_lines(lines: list[str]) -> list[str]:
+    """Join lines broken mid-sentence by PDF layout."""
+    result: list[str] = []
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        if not line:
+            result.append(line)
+            i += 1
+            continue
+        # Merge while current line ends mid-sentence (CJK char or mid-sentence
+        # punctuation like ，、）) and next line continues the sentence
+        while (
+            i + 1 < len(lines)
+            and lines[i + 1]
+            and re.search(f'[{_CJK}，、）】]$', line)
+            and not _SENT_END.search(line)
+            and not _STRUCT_START.match(lines[i + 1])
+        ):
+            line = line + lines[i + 1]
+            i += 1
+        result.append(line)
+        i += 1
+    return result
+
+
 def clean_segment(text: str) -> str:
     """Remove structural noise from a chapter text segment."""
     lines = []
     for line in text.split('\n'):
-        # Strip Unicode Private Use Area chars (e.g. \uf07d from PDF font artifacts)
+        # Preserve \uf097 (PDF bullet glyph) as '• ' before stripping other PUA chars
+        line = line.replace('\uf097', '• ')
+        # Strip remaining Unicode Private Use Area chars (e.g. \uf07d from font artifacts)
         stripped = re.sub(r'[\ue000-\uf8ff]', '', line).strip()
         s = stripped
         # Drop TOC dot-leader lines
@@ -195,22 +175,244 @@ def clean_segment(text: str) -> str:
         # Drop short separator-like lines (|, =====, -----)
         if re.match(r'^[|\-=]{3,}$', s):
             continue
-        # Use the PUA-stripped version as the clean line content
         # Drop standalone section-number/heading lines like "3.1", "3.2 No code / Low code"
         if re.match(r'^3\.\d', s) and len(s) < 40:
             continue
         # Drop isolated short PUA-stripped lines that are clearly garbled headers
-        # (e.g. standalone "AI" or "1. AI" left after stripping chapter titles)
         if re.match(r'^(?:AI|MCP|LLM|RAG)\s*$', s):
             continue
         if re.match(r'^\d+\.\s+AI\s*$', s):
             continue
         lines.append(stripped)
 
+    lines = _merge_pdf_lines(lines)
     cleaned = '\n'.join(lines)
     # Collapse runs of 3+ blank lines to 2
     cleaned = re.sub(r'\n{3,}', '\n\n', cleaned)
     return cleaned.strip()
+
+
+def _split_heading_content(rest: str) -> tuple[str, str]:
+    """Split a potentially merged 'TITLE：content' or 'TITLETITLE content' string.
+
+    Returns (heading, content_or_empty).
+    """
+    # Case 1: ends with ： and short enough → pure heading
+    if rest.endswith('：') and len(rest) <= 35:
+        return rest[:-1].strip(), ''
+
+    # Case 2: "TITLE：content" — find first ：within 50 chars
+    m = re.match(r'^(.{1,50}?)：(.+)', rest)
+    if m:
+        return m.group(1).strip(), m.group(2).strip()
+
+    # Case 3: title repeated at start — "技術底層技術底層是..."
+    m = re.match(r'^(.{2,8})\1(.+)', rest)
+    if m:
+        return m.group(1).strip(), (m.group(1) + m.group(2)).strip()
+
+    # Case 4: long merged text — split at first full-width comma within 20 chars
+    m = re.match(r'^(.{4,20})[，、](.+)', rest)
+    if m:
+        return m.group(1).strip(), m.group(2).strip()
+
+    # Case 5a: "TERM（English）是..." — split at ）followed by 是/為/指
+    m = re.match(r'^(.{4,50}?[）)])(\s*(?:是指|是一種|是一個|是一|是|為一種|係指|指的是))(.{10,})', rest)
+    if m:
+        return m.group(1).strip(), (m.group(2) + m.group(3)).strip()
+
+    # Case 5b: CJK content-start verb "是指/是一種/主要用" after a CJK char
+    m = re.match(r'^(.{4,40}?[\u4e00-\u9fff])(是指|是一種|是一個|係指|指的是|主要用於|主要是)(.{8,})', rest)
+    if m:
+        return m.group(1).strip(), (m.group(2) + m.group(3)).strip()
+
+    # Case 6: heading ends with common topic-summary suffixes (效應/差異/優勢/方向 etc.)
+    # e.g. "數據增強與分析的協同效應生成式 AI..." → title="數據增強與分析的協同效應"
+    _HEADING_SUFFIX = r'(?:效應|差異|優勢|挑戰|方向|趨勢|穩定性|公平性|適應性|靈活性|準確性|可靠性|一致性|完整性|可用性|防範|應用|架構|整合|融合|協同|特性|特徵|概念|原理|方法|機制|流程|分析|管理|設計|開發|部署|評估|優化|調整|處理|操作|執行|實現|實施|建立|構建|生成|識別|檢測|監控|控制|保護|加密|驗證)'
+    m = re.match(rf'^(.{{4,25}}{_HEADING_SUFFIX})([\u4e00-\u9fff].{{10,}})', rest)
+    if m:
+        return m.group(1).strip(), m.group(2).strip()
+
+    # No split found — use full text as heading
+    return rest, ''
+
+
+def text_to_markdown(text: str, chapter_title: str) -> str:
+    """Convert cleaned plain text chapter content to Markdown.
+
+    Heading hierarchy detected by regex:
+      H2 : ^\d+\.          top-level numbered sections
+      H3 : ^（N）           sub-sections (full-width parens)
+      H4 : ^[A-Z]\.        lettered items
+      -  : ^[a-z]\. | ^• | short_term：long_content  (definition bullets)
+    """
+    lines = text.split('\n')
+    out: list[str] = [f'# {chapter_title}', '']
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        i += 1
+        if not line:
+            if out and out[-1] != '':
+                out.append('')
+            continue
+
+        # H2 — standalone "1." or "1. Title"
+        m = re.match(r'^(\d+)\.\s*(.*)', line)
+        if m:
+            num, rest = m.group(1), m.group(2).strip()
+            if not rest:
+                # Consume the next non-empty line as section description
+                while i < len(lines) and not lines[i].strip():
+                    i += 1
+                if i < len(lines):
+                    rest = lines[i].strip()
+                    i += 1
+            out.extend([f'## {num}. {rest}' if rest else f'## {num}.', ''])
+            continue
+
+        # H3 — （N）[title]  or  （N）[title]：[content merged]
+        m = re.match(r'^（([一二三四五六七八九十\d]+)）\s*(.*)', line)
+        if m:
+            rest = m.group(2).strip()
+            heading, content = _split_heading_content(rest)
+            if content:
+                out.extend([f'### {heading}', '', content, ''])
+            else:
+                out.extend([f'### {heading}', ''])
+            continue
+
+        # H4 — "A. Title"
+        m = re.match(r'^([A-Z])\.\s+(.*)', line)
+        if m:
+            heading, content = _split_heading_content(m.group(2).strip())
+            if content:
+                out.extend([f'#### {m.group(1)}. {heading}', '', content, ''])
+            else:
+                out.extend([f'#### {m.group(1)}. {heading}', ''])
+            continue
+
+        # Bullet — "a. text" or "• text"
+        m = re.match(r'^[a-z]\.\s+(.*)', line)
+        if m:
+            out.append(f'- {m.group(1).strip()}')
+            continue
+        if line.startswith('• '):
+            out.append(f'- {line[2:].strip()}')
+            continue
+
+        # Definition bullet — "短詞彙：長內容" (term ≤ 12 CJK chars, content ≥ 15 chars)
+        m = re.match(r'^([\u4e00-\u9fff\w（）()]{1,15})：([\u4e00-\u9fff].{14,})', line)
+        if m:
+            term, content = m.group(1).strip(), m.group(2).strip()
+            out.append(f'- **{term}**：{content}')
+            continue
+
+        out.append(line)
+
+    result = '\n'.join(out)
+    result = re.sub(r'\n{3,}', '\n\n', result)
+    return result.strip()
+
+
+# ── Vision-cache chapter loading ──────────────────────────────────────────────
+
+def _build_page_label_map(pdf_path: Path) -> dict[str, int]:
+    """Map in-document page labels (e.g. '3-24') → 0-based page index.
+
+    Scans every page for numeric labels like '3-24'.  Uses the LAST occurrence
+    so that actual content pages win over TOC forward-references.
+    """
+    doc = fitz.open(str(pdf_path))
+    mapping: dict[str, int] = {}
+    for i, page in enumerate(doc):
+        for m in re.finditer(r'\b(\d+-\d+)\b', page.get_text()):
+            mapping[m.group(1)] = i
+    doc.close()
+    return mapping
+
+
+def _get_chapter_page_ranges(
+    chapters: list[dict], label_map: dict[str, int], total_pages: int
+) -> list[list[int]]:
+    """Return a list of page-index lists, one per chapter."""
+    def _find(label: str) -> int:
+        if label in label_map:
+            return label_map[label]
+        # Fallback: label-1 not found → try label+1 and subtract 1
+        prefix, num = label.rsplit('-', 1)
+        nxt = f'{prefix}-{int(num) + 1}'
+        if nxt in label_map:
+            return label_map[nxt] - 1
+        raise ValueError(f"Cannot find page index for '{label}'")
+
+    starts = [_find(ch['start_page']) for ch in chapters]
+    result = []
+    for i, start in enumerate(starts):
+        end = starts[i + 1] - 1 if i + 1 < len(starts) else total_pages - 1
+        result.append(list(range(start, end + 1)))
+    return result
+
+
+def load_chapter_pages_vision(
+    key: str, chapters: list[dict], pdf_path: Path
+) -> list[str] | None:
+    """Load chapter markdown from vision cache.
+
+    Returns a list of chapter-level markdown strings (one per chapter),
+    or None if the cache is incomplete or unavailable.
+    """
+    cache_dir = CACHE_DIR / key
+    if not cache_dir.exists():
+        return None
+
+    if not _FITZ_AVAILABLE:
+        print('  [vision] PyMuPDF not available; falling back to regex mode')
+        return None
+
+    # Count available content pages
+    cached = {}
+    for p in cache_dir.glob('page_*.json'):
+        with open(p, encoding='utf-8') as f:
+            d = json.load(f)
+        cached[d['idx']] = d
+
+    doc = fitz.open(str(pdf_path))
+    total_pages = len(doc)
+    doc.close()
+
+    # Require at least 80% of pages cached
+    coverage = len(cached) / total_pages if total_pages else 0
+    if coverage < 0.8:
+        print(f'  [vision] cache only {coverage:.0%} complete; falling back to regex mode')
+        return None
+
+    label_map = _build_page_label_map(pdf_path)
+    try:
+        page_ranges = _get_chapter_page_ranges(chapters, label_map, total_pages)
+    except ValueError as e:
+        print(f'  [vision] page mapping failed ({e}); falling back to regex mode')
+        return None
+
+    chapter_contents = []
+    for ch, page_indices in zip(chapters, page_ranges):
+        parts = []
+        for idx in page_indices:
+            entry = cached.get(idx)
+            if entry is None or entry.get('type') != 'content':
+                continue
+            md = entry.get('markdown', '').strip()
+            if md:
+                parts.append(md)
+        chapter_contents.append('\n\n'.join(parts))
+
+    # Sanity: all chapters should have some content
+    empty = [ch['id'] for ch, c in zip(chapters, chapter_contents) if not c.strip()]
+    if empty:
+        print(f'  [vision] chapters with no content: {empty}; falling back to regex mode')
+        return None
+
+    return chapter_contents
 
 
 def parse_guide(subject_num: int) -> dict:
@@ -218,12 +420,41 @@ def parse_guide(subject_num: int) -> dict:
     key = cfg['key']
     print(f'Processing {key}...')
 
-    raw_text = load_guide_text(key)
     chapters = cfg['chapters']
+
+    # ── Vision mode (preferred) ────────────────────────────────────────────────
+    pdf_path = PDF_DIR / cfg['pdf']
+    vision_contents = None
+    if _FITZ_AVAILABLE and pdf_path.exists():
+        vision_contents = load_chapter_pages_vision(key, chapters, pdf_path)
+
+    if vision_contents is not None:
+        print('  [vision mode]')
+        result_chapters = []
+        for ch, content in zip(chapters, vision_contents):
+            # Prepend chapter title as H1 for consistency
+            full_content = f'# {ch["title"]}\n\n{content}'.strip()
+            result_chapters.append({
+                'id': ch['id'],
+                'title': ch['title'],
+                'subtopics': ch['subtopics'],
+                'content': full_content,
+                'content_format': 'markdown',
+            })
+            print(f"  {ch['id']} ({ch['title']}): {len(full_content)} chars")
+        return {'subject': cfg['subject'], 'chapters': result_chapters}
+
+    # ── Regex mode (fallback) ──────────────────────────────────────────────────
+    print('  [regex mode]')
+    raw_text = load_guide_text(key)
     segments = split_into_chapters(raw_text, chapters)
 
     result_chapters = []
+    total_skipped = 0
     for i, (ch, seg) in enumerate(zip(chapters, segments)):
+        # strip_practice_pages converts \x01 page sentinels → \n, must run first
+        seg, skipped = strip_practice_pages(seg)
+        total_skipped += skipped
         # For the first chapter, skip the preface/TOC intro pages that
         # appear before the actual chapter content (intro ends at page '2-1').
         if i == 0:
@@ -232,14 +463,17 @@ def parse_guide(subject_num: int) -> dict:
             m = re.search(r'(?:^|\n)(2-1)\n', seg)
             if m:
                 seg = seg[m.end():]
-        content = clean_segment(seg)
+        plain = clean_segment(seg)
+        content = text_to_markdown(plain, ch['title'])
         result_chapters.append({
             'id': ch['id'],
             'title': ch['title'],
             'subtopics': ch['subtopics'],
             'content': content,
+            'content_format': 'markdown',
         })
         print(f"  {ch['id']} ({ch['title']}): {len(content)} chars")
+    print(f"  (skipped {total_skipped} practice/answer pages)")
 
     return {
         'subject': cfg['subject'],

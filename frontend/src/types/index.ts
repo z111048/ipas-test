@@ -37,11 +37,19 @@ export interface ExamData {
   questions: Question[]
 }
 
+export interface GuideSection {
+  heading: string
+  level: 2 | 3
+  content: string
+}
+
 export interface GuideChapter {
   id: string
   title: string
   subtopics: string[]
   content: string
+  sections?: GuideSection[]
+  content_format?: 'plain' | 'markdown'
 }
 
 export interface GuideData {
@@ -51,3 +59,25 @@ export interface GuideData {
 
 export type UserAnswers = Record<number, 'A' | 'B' | 'C' | 'D'>
 export type ExamPhase = 'intro' | 'active' | 'results'
+
+// TOC manifest — single source of truth for chapter definitions
+export interface TocChapter {
+  id: string
+  title: string
+  start_page: string
+  page_range: [number, number] | null
+  subtopics: string[]
+}
+
+export interface TocSubject {
+  id: string
+  key: string
+  pdf: string
+  subject: string
+  chapters: TocChapter[]
+}
+
+export interface TocManifest {
+  generated_at: string
+  subjects: TocSubject[]
+}
