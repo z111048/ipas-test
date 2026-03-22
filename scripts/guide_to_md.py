@@ -185,6 +185,35 @@ def extract_chapter_lines(pdf_path: Path, page_indices: list[int]) -> list[dict]
     return lines
 
 
+_MCQ_OPTION_RE = re.compile(r'^[（(][A-D][）)]\s*\S')
+_MCQ_QUESTION_RE = re.compile(r'^\d+[\.、]\s*.+[？?]')
+
+
+def filter_practice_lines(lines: list[dict]) -> list[dict]:
+    """Strip in-guide practice question section from the extracted lines.
+
+    Practice sections look like:
+        "1. 某某問題？"
+        "（A）option text"
+        "（B）..."
+        ...
+    Once the first MCQ option is found, walk back to remove preceding numbered
+    questions and return only the content lines before the practice block.
+    """
+    for i, line in enumerate(lines):
+        if _MCQ_OPTION_RE.match(line['text']):
+            # Walk back to include preceding numbered questions in the cut
+            j = i
+            while j > 0:
+                prev = lines[j - 1]['text']
+                if _MCQ_OPTION_RE.match(prev) or _MCQ_QUESTION_RE.match(prev):
+                    j -= 1
+                else:
+                    break
+            return lines[:j]
+    return lines
+
+
 def merge_body_lines(lines: list[dict]) -> list[dict]:
     """Merge continuation lines into their predecessor body/bullet lines.
 
@@ -439,6 +468,7 @@ def process_chapter(
     print(f"  {chapter['id']} ({chapter['title']}): pages {page_indices[0]}–{page_indices[-1]}")
 
     raw_lines = extract_chapter_lines(pdf_path, page_indices)
+    raw_lines = filter_practice_lines(raw_lines)
     merged_lines = merge_body_lines(raw_lines)
     tree = build_chapter_tree(merged_lines, chapter)
     markdown = tree_to_markdown(tree)

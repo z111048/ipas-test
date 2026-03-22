@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Extract structured Markdown from PDF pages using Claude Vision API.
+"""Extract structured Markdown + page index from PDF pages using Claude Vision API.
 
 Each page is rendered to PNG and sent to Claude for structured extraction.
 Results are cached per page — re-runs only process missing/failed pages.
@@ -9,9 +9,12 @@ Cache layout:
     {
       "idx": 0,
       "type": "content" | "practice" | "skip",
-      "markdown": "...",          # only when type == "content"
+      "headings": [{"level": 2|3|4, "title": "語義標題"}],
+      "markdown": "...",
       "usage": {"input": N, "output": N}
     }
+  data/初級/pages_cache/{key}/page_index.json
+    {key, pages: [{idx, type, headings}], toc: [{page, level, title}]}
   data/初級/pages_cache/{key}/summary.json
     {total, content, practice, skip, failed, cost_usd}
 
@@ -24,9 +27,9 @@ Usage:
 """
 
 import argparse
-import base64
 import json
 import os
+import re
 import sys
 import time
 from pathlib import Path
@@ -37,19 +40,20 @@ except ImportError:
     sys.exit('PyMuPDF not found. Run: uv sync')
 
 try:
-    import anthropic
+    from google import genai
+    from google.genai import types as genai_types
 except ImportError:
-    sys.exit('anthropic not found. Run: uv sync')
+    sys.exit('google-genai not found. Run: uv add google-genai')
 
 BASE = Path('/home/james/projects/ipas-test')
 DATA = BASE / 'data' / '初級'
 PDF_DIR = DATA / 'pdfs'
 CACHE_DIR = DATA / 'pages_cache'
 
-MODEL = 'claude-sonnet-4-6'
-# Pricing (USD per 1M tokens) — update if model changes
-INPUT_PRICE_PER_M = 3.0
-OUTPUT_PRICE_PER_M = 15.0
+MODEL = os.environ.get('GOOGLE_MODEL', 'gemini-2.5-flash')
+# Pricing (USD per 1M tokens) for gemini-2.5-flash — update if model changes
+INPUT_PRICE_PER_M = 0.075
+OUTPUT_PRICE_PER_M = 0.30
 
 def _load_manifest() -> dict[int, dict]:
     """Load chapter definitions from toc_manifest.json (single source of truth)."""
@@ -70,67 +74,75 @@ def _load_manifest() -> dict[int, dict]:
 GUIDES = _load_manifest()
 
 PAGE_PROMPT = """\
-你正在處理一頁來自台灣 iPAS 初級 AI 應用規劃師學習指引的 PDF 頁面。
+你正在處理一頁來自台灣 iPAS AI 應用規劃師學習指引的 PDF 頁面。
 
-請依照以下規則回傳內容：
+請只輸出以下 JSON（不加任何其他文字或 markdown code fence）：
 
-【輸出格式】
-只能輸出以下三種之一：
-1. Markdown 格式的頁面內容
-2. [PRACTICE] — 若此頁為練習題或解析答案頁
-3. [SKIP] — 若此頁為目錄、序言、版權頁、附件、空白頁或參考書目
+{
+  "type": "content" | "practice" | "skip",
+  "headings": [{"level": 2, "title": "..."}, ...],
+  "markdown": "..."
+}
 
-【Markdown 格式規則】
-- 使用 ## 表示主要章節標題（如 1. 2. 3. 等編號）
-- 使用 ### 表示子節標題（如（1）（2）等）
-- 使用 #### 表示字母小節（如 A. B. C.）
-- 使用 - 表示清單項目（保留原有的條列符號）
-- 表格轉為 Markdown 表格格式
-- 省略頁碼（如 3-24）和章節頁首（如「第三章 人工智慧基礎概論」）
+【type 判斷規則】
+- "practice"：此頁主要為編號選擇題（如「1. 下列何者...（A）...（B）...」）或解析答案頁（含「Ans（X）解析：」）
+- "skip"：目錄、序言、版權頁、空白頁、參考書目
+- "content"：教材正文內容頁
+
+【headings 規則】（type 非 content 時填空陣列）
+只列出此頁實際出現的標題，並給予語義化名稱：
+- level 2：大節編號（如「1.」「2.」「3.」），根據後續內容推斷語義名稱，如「AI 應用領域」、「AI 架構組成」
+- level 3：子節標題（如「（1）醫療保健」「（2）金融」）
+- level 4：字母小節（如「A. 資料處理與分析」「B. 演算法」）
+
+【markdown 規則】（type 非 content 時填空字串）
+- 省略頁碼（如「3-24」）和章節頁首（如「第三章 人工智慧基礎概論」）
 - 保留所有中英文專業術語，完整呈現技術內容
-- 不要加入任何評語或說明，直接輸出內容
-
-【判斷練習題的標準】
-頁面以編號選擇題為主（如「1. 下列何者...（A）...（B）...」），或為解析頁（含「Ans（X）解析：」）"""
+- 清單項目使用 -，表格轉為 Markdown 表格格式
+- 不加任何評語或說明"""
 
 
-def page_to_png_b64(page: fitz.Page, scale: float = 2.0) -> str:
-    """Render a PDF page to PNG at given scale, return base64 string."""
+def page_to_png_bytes(page: fitz.Page, scale: float = 2.0) -> bytes:
+    """Render a PDF page to PNG at given scale, return raw bytes."""
     mat = fitz.Matrix(scale, scale)
     pix = page.get_pixmap(matrix=mat)
-    return base64.standard_b64encode(pix.tobytes('png')).decode()
+    return pix.tobytes('png')
 
 
-def call_vision_api(client: anthropic.Anthropic, img_b64: str) -> dict:
-    """Send one page image to Claude Vision. Returns {type, markdown?, usage}."""
-    response = client.messages.create(
+def call_vision_api(client: genai.Client, img_bytes: bytes) -> dict:
+    """Send one page image to Gemini Vision. Returns {type, headings, markdown, usage}."""
+    response = client.models.generate_content(
         model=MODEL,
-        max_tokens=4096,
-        messages=[{
-            'role': 'user',
-            'content': [
-                {
-                    'type': 'image',
-                    'source': {
-                        'type': 'base64',
-                        'media_type': 'image/png',
-                        'data': img_b64,
-                    },
-                },
-                {'type': 'text', 'text': PAGE_PROMPT},
-            ],
-        }],
+        contents=[
+            genai_types.Part.from_bytes(data=img_bytes, mime_type='image/png'),
+            genai_types.Part.from_text(text=PAGE_PROMPT),
+        ],
     )
-    text = response.content[0].text.strip()
+    text = response.text.strip()
     usage = {
-        'input': response.usage.input_tokens,
-        'output': response.usage.output_tokens,
+        'input': response.usage_metadata.prompt_token_count or 0,
+        'output': response.usage_metadata.candidates_token_count or 0,
     }
-    if text == '[PRACTICE]':
-        return {'type': 'practice', 'usage': usage}
-    if text == '[SKIP]':
-        return {'type': 'skip', 'usage': usage}
-    return {'type': 'content', 'markdown': text, 'usage': usage}
+    # Strip markdown code fences if model wraps in ```json ... ```
+    text = re.sub(r'^```(?:json)?\s*', '', text)
+    text = re.sub(r'\s*```$', '', text).strip()
+    try:
+        data = json.loads(text)
+        page_type = data.get('type', 'content')
+        return {
+            'type': page_type,
+            'headings': data.get('headings', []),
+            'markdown': data.get('markdown', ''),
+            'usage': usage,
+        }
+    except json.JSONDecodeError:
+        # Fallback: treat entire response as raw markdown content
+        return {
+            'type': 'content',
+            'headings': [],
+            'markdown': text,
+            'usage': usage,
+        }
 
 
 def process_guide(subject_num: int, force: bool = False, dry_run: bool = False,
@@ -185,7 +197,7 @@ def process_guide(subject_num: int, force: bool = False, dry_run: bool = False,
         _write_summary(cache_dir, total_pages)
         return
 
-    client = anthropic.Anthropic(api_key=os.environ.get('ANTHROPIC_API_KEY'))
+    client = genai.Client(api_key=os.environ.get('GEMINI_API_KEY'))
     total_input = 0
     total_output = 0
     errors = 0
@@ -194,8 +206,8 @@ def process_guide(subject_num: int, force: bool = False, dry_run: bool = False,
         cache_path = cache_dir / f'page_{idx:03d}.json'
         print(f'  [{i+1}/{len(to_process)}] page {idx:3d} ...', end=' ', flush=True)
         try:
-            img_b64 = page_to_png_b64(doc[idx])
-            result = call_vision_api(client, img_b64)
+            img_bytes = page_to_png_bytes(doc[idx])
+            result = call_vision_api(client, img_bytes)
             result['idx'] = idx
             cache_path.write_text(json.dumps(result, ensure_ascii=False, indent=2),
                                   encoding='utf-8')
@@ -218,6 +230,39 @@ def process_guide(subject_num: int, force: bool = False, dry_run: bool = False,
     cost = (total_input * INPUT_PRICE_PER_M + total_output * OUTPUT_PRICE_PER_M) / 1_000_000
     print(f'  Done. tokens: {total_input}in/{total_output}out  cost: ${cost:.4f} USD  errors: {errors}')
     _write_summary(cache_dir, total_pages)
+    build_page_index(cache_dir, key)
+
+
+def build_page_index(cache_dir: Path, key: str) -> None:
+    """Aggregate cached pages into page_index.json (TOC + chapter boundaries).
+
+    page_index.json layout:
+      {
+        "key": "guide1",
+        "pages": [{"idx": N, "type": "...", "headings": [...]}],
+        "toc":   [{"page": N, "level": 2|3|4, "title": "..."}]
+      }
+    All level-2 headings mark chapter/section boundaries; higher levels form the TOC tree.
+    """
+    pages = []
+    toc = []
+    for p in sorted(cache_dir.glob('page_*.json')):
+        if p.name == 'page_index.json':
+            continue
+        with open(p, encoding='utf-8') as f:
+            d = json.load(f)
+        page_type = d.get('type', 'error')
+        headings = d.get('headings', [])
+        pages.append({'idx': d['idx'], 'type': page_type, 'headings': headings})
+        if page_type == 'content':
+            for h in headings:
+                toc.append({'page': d['idx'], 'level': h['level'], 'title': h['title']})
+
+    index = {'key': key, 'pages': pages, 'toc': toc}
+    index_path = cache_dir / 'page_index.json'
+    index_path.write_text(json.dumps(index, ensure_ascii=False, indent=2), encoding='utf-8')
+    content_pages = sum(1 for p in pages if p['type'] == 'content')
+    print(f'  Page index: {content_pages} content pages, {len(toc)} TOC entries → {index_path.name}')
 
 
 def _write_summary(cache_dir: Path, total_pages: int) -> None:

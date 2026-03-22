@@ -11,7 +11,7 @@ ipas-test/
 ├── scripts/                      # 資料處理腳本
 │   ├── build_manifest.py         # ★ 章節定義 SSOT → data/初級/toc_manifest.json
 │   ├── guide_to_md.py            # PDF → span 解析 → 章節 Markdown（無 LLM）
-│   ├── pdf_vision_extract.py     # PDF → Claude Vision → pages_cache（有 LLM）
+│   ├── pdf_vision_extract.py     # PDF → Gemini Vision → pages_cache + page_index.json（有 LLM）
 │   ├── parse_guides.py           # pages_cache/extracted → 章節 JSON（vision/regex）
 │   ├── audit_chapters.py         # 解析後 LLM 審核 → subject{N}_audit_report.json
 │   ├── extract_pdfs.py           # PDF → 文字/JSON（供考題 pipeline 使用）
@@ -70,8 +70,8 @@ uv run python3 scripts/build_manifest.py   # → data/初級/toc_manifest.json
 uv run python3 scripts/guide_to_md.py --all              # 兩科全跑
 uv run python3 scripts/guide_to_md.py --subject 1 --chapter s1c1  # 單章
 
-# 路線 B：Vision 提取（有 LLM，需 ANTHROPIC_API_KEY）
-uv run python3 scripts/pdf_vision_extract.py --all       # 兩科全跑（~$1.6）
+# 路線 B：Vision 提取（有 LLM，需 GEMINI_API_KEY）
+uv run python3 scripts/pdf_vision_extract.py --all       # 兩科全跑（~$2）
 uv run python3 scripts/parse_guides.py                   # 組合章節 JSON
 
 # 解析後 LLM 審核（確認頁面→章節對應正確）
@@ -117,7 +117,7 @@ cd frontend && npm run dev -- --host    # http://localhost:5173/（--host 供 WS
 依賴套件：
 
 ```bash
-uv sync                                    # Python 依賴（pdfplumber、pymupdf、anthropic）
+uv sync                                    # Python 依賴（pdfplumber、pymupdf、anthropic、google-genai）
 cd frontend && npm install                 # 前端依賴（React、Vite、Tailwind CSS v4 等）
 # multi_ai_pipeline.py 不需額外 Python 套件，但需以下 CLI 工具：
 #   gemini  → https://github.com/google-gemini/gemini-cli
@@ -206,7 +206,7 @@ uv run python3 scripts/build_manifest.py --dry-run # 印出 JSON，不寫檔
 
 ### `scripts/guide_to_md.py`
 
-**路線 A：Span 提取（無 LLM）**。以 PyMuPDF 字型尺寸/粗體 flags 分類 6 層結構（L2 ≥18pt bold → `##`、L3 ≥13pt bold → `###`、L4 `（N）` → `####`、L5 `A.` → `#####`、L6 bullet → `-`），產生 Markdown 並驗證關鍵詞保留率（預設 95%）。
+**路線 A：Span 提取（無 LLM）**。以 PyMuPDF 字型尺寸/粗體 flags 分類 6 層結構（L2 ≥18pt bold → `##`、L3 ≥13pt bold → `###`、L4 `（N）` → `####`、L5 `A.` → `#####`、L6 bullet → `-`），先以 `filter_practice_lines()` 剔除指引內嵌的練習題頁，再產生 Markdown 並驗證關鍵詞保留率（預設 95%）。
 
 **輸出（`data/初級/guide/`）：**
 - `subject{N}_guide.json`（前端使用）

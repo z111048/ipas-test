@@ -6,6 +6,30 @@
 
 ## [Unreleased]
 
+### pdf_vision_extract 遷移至 Gemini + guide_to_md 練習題過濾 + 章節 subtopics 修訂
+
+#### 新增
+- `scripts/pdf_vision_extract.py`：每頁輸出新增 `headings` 欄位（`[{level, title}]`，語義化章節標題），供後續 TOC 建構使用
+- `scripts/pdf_vision_extract.py`：提取完成後自動生成 `data/初級/pages_cache/{key}/page_index.json`（彙整各頁 `type`、`headings`，並輸出扁平化 `toc` 結構）
+- `scripts/guide_to_md.py`：新增 `filter_practice_lines()` 函式，在 span 提取前自動剔除指引中內嵌的練習題頁（以題號 regex `^\d+[\.、]` 和選項 regex `^[（(][A-D][）)]` 偵測）
+
+#### 變更
+- **`scripts/pdf_vision_extract.py`：Vision API 由 Anthropic Claude 遷移至 Google Gemini**
+  - API client 改用 `google.genai`（`google-genai>=1.68.0`），需要 `GEMINI_API_KEY` 環境變數
+  - 預設模型：`gemini-2.5-flash`，可透過 `GOOGLE_MODEL` 環境變數覆蓋
+  - PNG 傳遞方式由 base64 字串改為原始 bytes（`page_to_png_bytes()`）
+  - Prompt 結構調整以符合 Gemini API 格式
+  - 預估費用：~$2（約 133 頁，較舊版 ~$1.6 略高）
+- `scripts/build_manifest.py`：修訂科目一、二各章 subtopics（s1c1 移除 AI 治理/EU AI Act，改為 AI 架構/演算法；s1c2 調整資料處理主題；s2c1 No/Low Code 展開為 6 個子主題；s2c2 生成式 AI 工具增補更多細目）
+- `data/初級/toc_manifest.json`：依據上述 subtopics 修訂重新生成，並更新各章 `page_range`
+- `pyproject.toml`：新增依賴 `google-genai>=1.68.0`
+
+#### 文件
+- `CLAUDE.md`：更新 Vision 路線 B 說明（API key、模型、費用）、依賴清單、`pdf_vision_extract.py` / `guide_to_md.py` 架構說明
+- `README.md`：更新目錄結構注釋、路線 B 指令說明、`guide_to_md.py` / `pdf_vision_extract.py` 腳本說明、依賴清單
+
+---
+
 ### 解析品質強化：toc_manifest SSOT + LLM 審核 + 前端目錄資料驅動化
 
 #### 核心目標
