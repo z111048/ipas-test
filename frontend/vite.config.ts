@@ -5,7 +5,7 @@ import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/',
+  base: process.env.VITE_BASE_URL ?? '/',
   build: {
     outDir: resolve(__dirname, '../docs'),
     emptyOutDir: true,
