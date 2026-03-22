@@ -27,10 +27,6 @@ from datetime import datetime
 from pathlib import Path
 
 BASE = Path('/home/james/projects/ipas-test')
-DATA = BASE / 'data' / '初級'
-GUIDE_DIR = DATA / 'guide'
-QUESTIONS_DIR = DATA / 'questions'
-PIPELINE_OUT_DIR = DATA / 'pipeline'
 LOG_DIR = BASE / 'logs'
 
 MAX_CONTENT_CHARS = 4000
@@ -705,8 +701,13 @@ def run_chapter_pipeline(
 
 def run_subject_pipeline(args: argparse.Namespace, available: dict):
     subject_num = args.subject
-    guide_path = GUIDE_DIR / f'subject{subject_num}_guide.json'
-    questions_path = QUESTIONS_DIR / f'subject{subject_num}_questions.json'
+    data_dir = BASE / 'data' / args.level
+    guide_dir = data_dir / 'guide'
+    questions_dir = data_dir / 'questions'
+    pipeline_out_dir = data_dir / 'pipeline'
+
+    guide_path = guide_dir / f'subject{subject_num}_guide.json'
+    questions_path = questions_dir / f'subject{subject_num}_questions.json'
 
     if not guide_path.exists():
         sys.exit(f"Guide not found: {guide_path}\nRun parse_guides.py first.")
@@ -717,7 +718,7 @@ def run_subject_pipeline(args: argparse.Namespace, available: dict):
     subject_data = json.loads(questions_path.read_text(encoding='utf-8'))
 
     run_id = datetime.now().strftime('%Y%m%d_%H%M%S')
-    run_dir = PIPELINE_OUT_DIR / run_id / f'subject{subject_num}'
+    run_dir = pipeline_out_dir / run_id / f'subject{subject_num}'
     if not args.dry_run:
         run_dir.mkdir(parents=True, exist_ok=True)
 
@@ -764,6 +765,7 @@ def run_subject_pipeline(args: argparse.Namespace, available: dict):
 
         summary = {
             'run_id': run_id,
+            'level': args.level,
             'subject': subject_num,
             'roles': roles,
             'chapters_processed': len(chapter_results),
@@ -854,8 +856,10 @@ def _patched_main():
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    parser.add_argument('--subject', type=int, choices=[1, 2], required=True,
-                        help='Subject to process (1 or 2)')
+    parser.add_argument('--level', default='初級',
+                        help='資料等級資料夾（預設: 初級）')
+    parser.add_argument('--subject', type=int, required=True,
+                        help='Subject to process')
     parser.add_argument('--count', type=int, default=3, help='Questions per chapter (default: 3)')
     parser.add_argument('--creator', default=DEFAULT_ROLES['creator'],
                         choices=['gemini', 'codex', 'claude'])

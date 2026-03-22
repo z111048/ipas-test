@@ -9,8 +9,7 @@
 ```
 ipas-test/
 ├── scripts/                      # 資料處理腳本
-│   ├── build_manifest.py         # ★ 章節定義 SSOT → data/初級/toc_manifest.json
-│   ├── guide_to_md.py            # PDF → span 解析 → 章節 Markdown（無 LLM）
+│   ├── build_manifest.py         # ★ 章節定義 SSOT → data/{level}/toc_manifest.json
 │   ├── pdf_vision_extract.py     # PDF → Gemini Vision → pages_cache + page_index.json（有 LLM）
 │   ├── parse_guides.py           # pages_cache/extracted → 章節 JSON（vision/regex）
 │   ├── audit_chapters.py         # 解析後 LLM 審核 → subject{N}_audit_report.json
@@ -62,44 +61,41 @@ ipas-test/
 
 ```bash
 # 0. 生成章節目錄索引（僅在章節定義或 PDF 異動時需要）
-uv run python3 scripts/build_manifest.py   # → data/初級/toc_manifest.json
+uv run python3 scripts/build_manifest.py                    # 預設 初級
+uv run python3 scripts/build_manifest.py --level 初級       # → data/初級/toc_manifest.json
 
-# ── 學習指引 Guide pipeline（擇一）──────────────────────────────────────
+# ── 學習指引 Guide pipeline（Vision 提取，需 GEMINI_API_KEY）────────────
 
-# 路線 A：Span 提取（無 LLM，推薦先跑）
-uv run python3 scripts/guide_to_md.py --all              # 兩科全跑
-uv run python3 scripts/guide_to_md.py --subject 1 --chapter s1c1  # 單章
+# Step 1: PDF 逐頁送 Gemini Vision（結果快取於 pages_cache/）
+uv run python3 scripts/pdf_vision_extract.py --level 初級 --all       # 兩科全跑（~$2）
+uv run python3 scripts/pdf_vision_extract.py --level 初級 --subject 1 # 只跑科目一
 
-# 路線 B：Vision 提取（有 LLM，需 GEMINI_API_KEY）
-uv run python3 scripts/pdf_vision_extract.py --all       # 兩科全跑（~$2）
-uv run python3 scripts/parse_guides.py                   # 組合章節 JSON
+# Step 2: 組合章節 JSON
+uv run python3 scripts/parse_guides.py --level 初級                   # 組合章節 JSON
 
-# 解析後 LLM 審核（確認頁面→章節對應正確）
-uv run python3 scripts/audit_chapters.py --all           # 兩科全審
-uv run python3 scripts/audit_chapters.py --all --dry-run # 預覽 prompt
+# Step 3: 解析後 LLM 審核（確認頁面→章節對應正確）
+uv run python3 scripts/audit_chapters.py --level 初級 --all           # 兩科全審
+uv run python3 scripts/audit_chapters.py --level 初級 --all --dry-run # 預覽 prompt
 # → data/初級/guide/subject{1,2}_audit_report.json
 
 # ── 考題 Exam pipeline ───────────────────────────────────────────────────
 
 # 1. PDF 萃取（更換 PDF 後才需重新執行）
-uv run python3 scripts/extract_pdfs.py
+uv run python3 scripts/extract_pdfs.py --level 初級
 
 # 2. 解析模擬考試題目（公告試題 / 樣題）
-uv run python3 scripts/parse_exams_v2.py
-
-# 3. 解析學習指引章節內容（vision/regex fallback，可替代路線 A/B）
-uv run python3 scripts/parse_guides.py
+uv run python3 scripts/parse_exams_v2.py --level 初級
 
 # 4a. （選用）透過 Claude API 生成／補充題目（單一模型）
 export ANTHROPIC_API_KEY=sk-ant-...
-uv run python3 scripts/generate_questions.py --subject 1   # 生成科目一各章新題
-uv run python3 scripts/generate_questions.py --subject 2   # 生成科目二各章新題
-uv run python3 scripts/generate_questions.py --enrich      # 補充既有題目的解說圖卡欄位
+uv run python3 scripts/generate_questions.py --level 初級 --subject 1   # 生成科目一各章新題
+uv run python3 scripts/generate_questions.py --level 初級 --subject 2   # 生成科目二各章新題
+uv run python3 scripts/generate_questions.py --level 初級 --enrich      # 補充既有題目的解說圖卡欄位
 
 # 4b. （選用）多 AI 出題流水線（需 gemini / codex / claude CLI 已安裝並完成認證）
 # 注意：multi_ai_pipeline.py 使用 subprocess 呼叫外部 CLI，不需要 uv run
-python3 scripts/multi_ai_pipeline.py --subject 1 --chapter s1c1 --dry-run  # 預覽 prompt
-python3 scripts/multi_ai_pipeline.py --subject 1 --count 3                  # 執行科目一
+python3 scripts/multi_ai_pipeline.py --level 初級 --subject 1 --chapter s1c1 --dry-run  # 預覽 prompt
+python3 scripts/multi_ai_pipeline.py --level 初級 --subject 1 --count 3                  # 執行科目一
 
 # 5. 建置網站（Vite 打包 React 前端）
 uv run python3 scripts/build_web.py
@@ -193,58 +189,35 @@ cd frontend && npm install                 # 前端依賴（React、Vite、Tailw
 
 ### `scripts/build_manifest.py`
 
-**章節定義 SSOT**。內嵌所有科目/章節的 metadata（唯一需要硬編碼 `GUIDES` dict 的腳本），以 PyMuPDF 計算每章的 PDF 頁碼範圍（0-based），輸出 `data/初級/toc_manifest.json`。
+**章節定義 SSOT**。內嵌所有科目/章節的 metadata（唯一需要硬編碼 `GUIDES_BY_LEVEL` dict 的腳本），以 PyMuPDF 計算每章的 PDF 頁碼範圍（0-based），輸出 `data/{level}/toc_manifest.json`。支援 `--level`。
 
-所有其他腳本（`guide_to_md.py`、`parse_guides.py`、`pdf_vision_extract.py`）和前端（`SubjectOverviewPage.tsx`）均從此 manifest 讀取，不得在他處重複定義章節。
-
-```bash
-uv run python3 scripts/build_manifest.py          # 生成 toc_manifest.json
-uv run python3 scripts/build_manifest.py --dry-run # 印出 JSON，不寫檔
-```
-
----
-
-### `scripts/guide_to_md.py`
-
-**路線 A：Span 提取（無 LLM）**。以 PyMuPDF 字型尺寸/粗體 flags 分類 6 層結構（L2 ≥18pt bold → `##`、L3 ≥13pt bold → `###`、L4 `（N）` → `####`、L5 `A.` → `#####`、L6 bullet → `-`），先以 `filter_practice_lines()` 剔除指引內嵌的練習題頁，再產生 Markdown 並驗證關鍵詞保留率（預設 95%）。
-
-**輸出（`data/初級/guide/`）：**
-- `subject{N}_guide.json`（前端使用）
-- `subject{N}_guide.md`（全文 Markdown）
-- `subject{N}_guide_nested.json`（完整巢狀樹）
-- `subject{N}_validation_report.json`（關鍵詞保留率報告）
+所有其他腳本（`parse_guides.py`、`pdf_vision_extract.py`）和前端（`SubjectOverviewPage.tsx`）均從此 manifest 讀取，不得在他處重複定義章節。
 
 ```bash
-uv run python3 scripts/guide_to_md.py --all
-uv run python3 scripts/guide_to_md.py --subject 1 --chapter s1c1
-uv run python3 scripts/guide_to_md.py --subject 1 --threshold 0.90
+uv run python3 scripts/build_manifest.py                    # 預設 初級
+uv run python3 scripts/build_manifest.py --level 初級       # → data/初級/toc_manifest.json
+uv run python3 scripts/build_manifest.py --dry-run          # 印出 JSON，不寫檔
 ```
 
 ---
 
 ### `scripts/audit_chapters.py`
 
-**LLM 章節內容審核**。讀取 `subject{N}_guide.json`，對每章節呼叫 Claude Haiku 審核：subtopics 是否全部覆蓋、是否有內容錯置。輸出 `subject{N}_audit_report.json`（`overall_status: PASS/WARN/FAIL`）。審核 FAIL 的章節需人工確認後才進行出題。
+**LLM 章節內容審核**。讀取 `subject{N}_guide.json`，對每章節呼叫 Claude Haiku 審核：subtopics 是否全部覆蓋、是否有內容錯置。輸出 `subject{N}_audit_report.json`（`overall_status: PASS/WARN/FAIL`）。審核 FAIL 的章節需人工確認後才進行出題。支援 `--level`。
 
 ```bash
-uv run python3 scripts/audit_chapters.py --all
-uv run python3 scripts/audit_chapters.py --subject 1 --chapter s1c1
-uv run python3 scripts/audit_chapters.py --all --dry-run  # 預覽 prompt
+uv run python3 scripts/audit_chapters.py --level 初級 --all
+uv run python3 scripts/audit_chapters.py --level 初級 --subject 1 --chapter s1c1
+uv run python3 scripts/audit_chapters.py --level 初級 --all --dry-run  # 預覽 prompt
 ```
 
 ---
 
 ### `scripts/parse_guides.py`
 
-**路線 B：Vision 組合**。將 `guide1.json` / `guide2.json` 依官方目錄的章節頁碼分割，輸出章節結構化 JSON 供前端顯示與 LLM 生題使用。
+**Vision 組合**。從 `pages_cache/` 讀取 Gemini Vision 快取（preferred），或 fallback 到 regex 模式解析 `extracted/guide{N}.json`。依 `toc_manifest.json` 章節頁碼範圍輸出章節結構化 JSON。支援 `--level`、`--subject`。
 
-**切割策略：** 官方學習指引每章末頁印有「3-N」頁碼。程式掃描這些頁碼（如 `3-23`、`3-32`、`3-47`）作為章節邊界，比對下一章起始頁碼 - 1。
-
-**清理步驟：** 去除點線目錄行、重複章節頁首（`第三章...`）、PUA Unicode 雜字（`\uf07d`）、獨立頁碼行、獨立章節編號行。
-
-**重要限制：** 官方指引的章節分法與考試章節不完全一致。科目一指引 3.1 將 ETL、資料類型、資料清洗、GDPR 等「考試 s1c2」的主題包含在 3.1 內，指引 3.2 僅涵蓋統計方法。
-
-**輸出（`data/初級/guide/`）：**
+**輸出（`data/{level}/guide/`）：**
 
 ```json
 {
@@ -269,9 +242,9 @@ uv run python3 scripts/audit_chapters.py --all --dry-run  # 預覽 prompt
 **執行模式：**
 
 ```bash
-uv run python3 scripts/generate_questions.py --subject 1 [--count 5] [--dry-run]
-uv run python3 scripts/generate_questions.py --subject 2
-uv run python3 scripts/generate_questions.py --enrich
+uv run python3 scripts/generate_questions.py --level 初級 --subject 1 [--count 5] [--dry-run]
+uv run python3 scripts/generate_questions.py --level 初級 --subject 2
+uv run python3 scripts/generate_questions.py --level 初級 --enrich
 ```
 
 **擴充後的題目 JSON schema：**
@@ -335,17 +308,17 @@ id 格式為 `{chapter_id}q{n}_multi`，以區別手工策展題目（`q{n}` 無
 
 ```bash
 # 乾跑確認 prompt 內容
-python3 scripts/multi_ai_pipeline.py --subject 1 --chapter s1c1 --dry-run
+python3 scripts/multi_ai_pipeline.py --level 初級 --subject 1 --chapter s1c1 --dry-run
 
 # 單章節執行（預設 3 題）
-python3 scripts/multi_ai_pipeline.py --subject 1 --chapter s1c1
+python3 scripts/multi_ai_pipeline.py --level 初級 --subject 1 --chapter s1c1
 
 # 全科目執行，自訂題數與角色
-python3 scripts/multi_ai_pipeline.py --subject 2 --count 5 \
+python3 scripts/multi_ai_pipeline.py --level 初級 --subject 2 --count 5 \
   --creator gemini --reviewer codex --finalizer claude
 
 # 跳過審核與驗證（速度最快）
-python3 scripts/multi_ai_pipeline.py --subject 1 --skip-review --skip-validation
+python3 scripts/multi_ai_pipeline.py --level 初級 --subject 1 --skip-review --skip-validation
 
 # 注意：multi_ai_pipeline.py 透過 subprocess 呼叫外部 CLI，不需要 uv run
 ```
@@ -391,8 +364,6 @@ docs/
 ## 擴充為中級
 
 1. 在 `data/中級/pdfs/` 放入中級 PDF。
-2. 複製並修改 `scripts/extract_pdfs.py`，將 `LEVEL = '初級'` 改為 `LEVEL = '中級'`，更新 `PDFS` 對應新檔名。
-3. 在 `scripts/build_manifest.py` 的 `GUIDES` dict 加入中級章節定義，重新執行生成 manifest。
-4. 同步修改 `parse_exams_v2.py` 的 `OUT` 路徑；`parse_guides.py`、`guide_to_md.py` 會自動從 manifest 讀取新定義。
-5. `generate_questions.py` 的 `DATA` 路徑亦需對應更新。
-5. 在 `scripts/build_web.py` 載入中級題庫與學習指引，並加入網頁 UI。
+2. 在 `scripts/build_manifest.py` 的 `GUIDES_BY_LEVEL` dict 加入中級章節定義，執行 `uv run python3 scripts/build_manifest.py --level 中級` 生成 manifest。
+3. 所有腳本已支援 `--level 中級`，直接以 `--level 中級` 執行各 pipeline 步驟即可（不需修改程式碼）。
+4. 在 `scripts/build_web.py` 載入中級題庫與學習指引，並加入網頁 UI。

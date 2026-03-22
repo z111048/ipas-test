@@ -6,23 +6,24 @@ This repository is a content-generation workspace for the iPAS AI exam study mat
 
 **Core goal**: Synthesize high-quality mock exam questions from parsed study guide Markdown + official exam samples, per chapter. Parse quality directly determines question quality.
 
-**Single source of truth**: `data/初級/toc_manifest.json` defines all subject/chapter metadata. All scripts and the frontend read from it. Never duplicate chapter definitions elsewhere.
+**Single source of truth**: `data/{level}/toc_manifest.json` defines all subject/chapter metadata. All scripts and the frontend read from it. Never duplicate chapter definitions elsewhere.
 
-- `scripts/build_manifest.py`: **SSOT generator** — the only script that hardcodes chapter definitions (`GUIDES` dict). Computes PDF page ranges via PyMuPDF and writes `data/初級/toc_manifest.json`. Run whenever chapters or PDFs change.
-- `scripts/guide_to_md.py`: **Route A guide extractor** — deterministic span-based extraction using PyMuPDF font/bold metadata. No LLM. Outputs `subject{N}_guide.json`, `_guide.md`, `_guide_nested.json`, `_validation_report.json` under `data/初級/guide/`.
-- `scripts/pdf_vision_extract.py`: **Route B, Step 1** — renders each PDF page to PNG and calls Claude Vision API. Results cached at `data/初級/pages_cache/{key}/page_NNN.json`. Requires `ANTHROPIC_API_KEY`.
-- `scripts/parse_guides.py`: **Route B, Step 2** — assembles chapter JSON from vision cache (preferred) or falls back to regex extraction. Reads chapter definitions from `toc_manifest.json`.
-- `scripts/audit_chapters.py`: **LLM chapter audit** — reads `subject{N}_guide.json` and calls Claude Haiku to verify each chapter covers its expected subtopics. Outputs `subject{N}_audit_report.json`. Run after any guide extraction. Requires `ANTHROPIC_API_KEY`.
-- `scripts/extract_pdfs.py`: extracts text and tables from the PDFs into `data/初級/extracted/`.
-- `scripts/parse_exams_v2.py`: turns extracted content into mock-exam JSON under `data/初級/questions/`.
-- `scripts/generate_questions.py`: calls the Claude API to generate new questions or add `card` fields to existing ones. Requires `ANTHROPIC_API_KEY`.
-- `scripts/multi_ai_pipeline.py`: multi-AI pipeline using Gemini (出題) → Codex (審核) → Claude (完稿) CLI tools via subprocess. Includes answer-validation stage where all three AIs answer each question; questions with 2+ wrong answers are flagged to `flagged.json`. Intermediate output goes to `data/初級/pipeline/<run_id>/`; final questions are merged into `subject{N}_questions.json`.
+All scripts support `--level` (default `初級`); paths resolve to `data/{level}/`.
+
+- `scripts/build_manifest.py`: **SSOT generator** — the only script with hardcoded chapter definitions (`GUIDES_BY_LEVEL` dict, keyed by level). Computes PDF page ranges via PyMuPDF and writes `data/{level}/toc_manifest.json`. Run whenever chapters or PDFs change. Supports `--level`, `--dry-run`.
+- `scripts/pdf_vision_extract.py`: **Guide extraction** — renders each PDF page to PNG and calls Gemini Vision API (`gemini-2.5-flash`). Results cached at `data/{level}/pages_cache/{key}/page_NNN.json`; auto-generates `page_index.json` (TOC) on completion. Requires `GEMINI_API_KEY`. Supports `--level`, `--subject`, `--all`, `--dry-run`, `--force`, `--page`.
+- `scripts/parse_guides.py`: **Guide assembly** — assembles chapter JSON from vision cache (preferred) or falls back to regex extraction. Reads chapter definitions from `toc_manifest.json`. Supports `--level`, `--subject`.
+- `scripts/audit_chapters.py`: **LLM chapter audit** — reads `subject{N}_guide.json` and calls Claude Haiku to verify each chapter covers its expected subtopics. Outputs `subject{N}_audit_report.json`. Run after guide extraction. Requires `ANTHROPIC_API_KEY`. Supports `--level`, `--subject`, `--all`, `--chapter`, `--dry-run`.
+- `scripts/extract_pdfs.py`: extracts text and tables from PDFs into `data/{level}/extracted/`. Guide PDFs from `toc_manifest.json`; exam PDFs from `EXAM_PDFS_BY_LEVEL`. Supports `--level`.
+- `scripts/parse_exams_v2.py`: turns extracted content into mock-exam JSON under `data/{level}/questions/`. Supports `--level`.
+- `scripts/generate_questions.py`: calls the Claude API to generate new questions or add `card` fields to existing ones. Requires `ANTHROPIC_API_KEY`. Supports `--level`, `--subject`, `--enrich`.
+- `scripts/multi_ai_pipeline.py`: multi-AI pipeline using Gemini (出題) → Codex (審核) → Claude (完稿) CLI tools via subprocess. Includes answer-validation stage where all three AIs answer each question; questions with 2+ wrong answers are flagged to `flagged.json`. Intermediate output goes to `data/{level}/pipeline/<run_id>/`; final questions merged into `subject{N}_questions.json`. Supports `--level`.
 - `scripts/build_web.py`: thin wrapper that runs `npm run build` inside `frontend/`, outputting the React app to `docs/`.
-- `frontend/`: Vite project (React 19 + TypeScript + Tailwind CSS v4 + React Router v6 + Zustand). Source in `frontend/src/`; build config in `frontend/vite.config.ts`. All JSON data imported statically via `@data` alias at build time. `SubjectOverviewPage.tsx` reads chapter metadata from `toc_manifest.json`.
-- `data/初級/toc_manifest.json`: committed static file — chapter definitions SSOT. Regenerate with `build_manifest.py` when chapters change.
-- `data/初級/extracted/`, `data/初級/questions/`, `data/初級/guide/`, `data/初級/analysis/`, `data/初級/pipeline/`, and `logs/`: generated data, exam payloads, guide content, analysis output, pipeline run artifacts, and run logs.
+- `frontend/`: Vite project (React 19 + TypeScript + Tailwind CSS v4 + React Router v6 + Zustand). Source in `frontend/src/`; build config in `frontend/vite.config.ts`. All JSON data imported statically via `@data` alias (points to `data/初級/`) at build time. `SubjectOverviewPage.tsx` reads chapter metadata from `toc_manifest.json`.
+- `data/{level}/toc_manifest.json`: committed static file — chapter definitions SSOT. Regenerate with `build_manifest.py --level {level}` when chapters change.
+- `data/{level}/extracted/`, `data/{level}/questions/`, `data/{level}/guide/`, `data/{level}/analysis/`, `data/{level}/pipeline/`, and `logs/`: generated data, exam payloads, guide content, analysis output, pipeline run artifacts, and run logs.
 
-Treat `data/初級/questions/*.json`, `data/初級/guide/*.json`, and `docs/` as build outputs unless you are intentionally curating content.
+Treat `data/{level}/questions/*.json`, `data/{level}/guide/*.json`, and `docs/` as build outputs unless you are intentionally curating content.
 
 ## Build, Test, and Development Commands
 

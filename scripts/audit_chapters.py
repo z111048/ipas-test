@@ -5,12 +5,12 @@ Reads subject{N}_guide.json and sends each chapter to Claude for review:
   - Are all expected subtopics covered?
   - Is any content clearly misplaced (belongs to a different chapter)?
 
-Output: data/初級/guide/subject{N}_audit_report.json
+Output: data/{level}/guide/subject{N}_audit_report.json
 
 Usage:
   uv run python3 scripts/audit_chapters.py --all
   uv run python3 scripts/audit_chapters.py --subject 1
-  uv run python3 scripts/audit_chapters.py --subject 1 --chapter s1c1
+  uv run python3 scripts/audit_chapters.py --level 初級 --subject 1 --chapter s1c1
   uv run python3 scripts/audit_chapters.py --all --dry-run   # print prompts only
 
 Requires: ANTHROPIC_API_KEY environment variable.
@@ -29,17 +29,15 @@ except ImportError:
     sys.exit('anthropic not found. Run: uv sync')
 
 BASE = Path('/home/james/projects/ipas-test')
-DATA = BASE / 'data' / '初級'
-GUIDE_DIR = DATA / 'guide'
 
 MODEL = 'claude-haiku-4-5-20251001'
 # Truncate chapter content to avoid excessive token usage
 CONTENT_MAX_CHARS = 6000
 
 
-def _load_manifest() -> dict[int, dict]:
+def _load_manifest(data_dir: Path) -> dict[int, dict]:
     """Load chapter definitions from toc_manifest.json."""
-    with open(DATA / 'toc_manifest.json', encoding='utf-8') as f:
+    with open(data_dir / 'toc_manifest.json', encoding='utf-8') as f:
         manifest = json.load(f)
     result = {}
     for i, subj in enumerate(manifest['subjects'], 1):
@@ -148,16 +146,17 @@ def audit_subject(
     chapter_filter: str | None,
     dry_run: bool,
     client: anthropic.Anthropic | None,
+    guide_dir: Path,
+    manifest: dict[int, dict],
 ) -> None:
-    guide_path = GUIDE_DIR / f'subject{subject_num}_guide.json'
+    guide_path = guide_dir / f'subject{subject_num}_guide.json'
     if not guide_path.exists():
-        print(f'[SKIP] {guide_path} not found — run guide_to_md.py or parse_guides.py first')
+        print(f'[SKIP] {guide_path} not found — run: uv run python3 scripts/parse_guides.py')
         return
 
     with open(guide_path, encoding='utf-8') as f:
         guide = json.load(f)
 
-    manifest = _load_manifest()
     manifest_chapters = {ch['id']: ch for ch in manifest[subject_num]['chapters']}
 
     print(f'\nAuditing subject {subject_num} ({guide["subject"]})...')
@@ -207,7 +206,7 @@ def audit_subject(
         'chapters': chapter_results,
     }
 
-    report_path = GUIDE_DIR / f'subject{subject_num}_audit_report.json'
+    report_path = guide_dir / f'subject{subject_num}_audit_report.json'
     report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
     print(f'  Saved {report_path} [{overall}] '
           f'(PASS:{pass_count} WARN:{warn_count} FAIL:{fail_count})')
@@ -217,15 +216,22 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description='LLM audit of parsed chapter content against expected subtopics'
     )
-    parser.add_argument('--subject', type=int, choices=[1, 2])
-    parser.add_argument('--all', action='store_true', help='Audit both subjects')
+    parser.add_argument('--level', default='初級',
+                        help='資料等級資料夾（預設: 初級）')
+    parser.add_argument('--subject', type=int,
+                        help='只審核指定科目')
+    parser.add_argument('--all', action='store_true', help='審核所有科目')
     parser.add_argument('--chapter', help='Only this chapter ID (e.g. s1c1)')
     parser.add_argument('--dry-run', action='store_true',
                         help='Print prompts without calling the API')
     args = parser.parse_args()
 
     if not args.subject and not args.all:
-        parser.error('Specify --subject 1|2 or --all')
+        parser.error('Specify --subject N or --all')
+
+    data_dir = BASE / 'data' / args.level
+    guide_dir = data_dir / 'guide'
+    manifest = _load_manifest(data_dir)
 
     client = None
     if not args.dry_run:
@@ -234,9 +240,13 @@ def main() -> None:
             sys.exit('ANTHROPIC_API_KEY not set')
         client = anthropic.Anthropic(api_key=api_key)
 
-    subjects = [1, 2] if args.all else [args.subject]
+    available_subjects = sorted(manifest.keys())
+    subjects = available_subjects if args.all else [args.subject]
     for n in subjects:
-        audit_subject(n, args.chapter, args.dry_run, client)
+        if n not in manifest:
+            print(f'[WARN] Subject {n} not found in manifest for level "{args.level}"')
+            continue
+        audit_subject(n, args.chapter, args.dry_run, client, guide_dir, manifest)
 
     print('\nDone.')
 

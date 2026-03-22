@@ -6,6 +6,24 @@
 
 ## [Unreleased]
 
+### 全腳本 `--level` 參數支援 + 移除 `guide_to_md.py`
+
+#### 新增
+- 所有腳本（`build_manifest.py`、`pdf_vision_extract.py`、`parse_guides.py`、`audit_chapters.py`、`extract_pdfs.py`、`parse_exams_v2.py`、`generate_questions.py`、`multi_ai_pipeline.py`）統一加入 `--level` 參數（預設：`初級`），路徑動態解析為 `data/{level}/`；新增等級時不需修改腳本程式碼
+
+#### 變更
+- `scripts/build_manifest.py`：`GUIDES` dict 更名為 `GUIDES_BY_LEVEL`（以等級為 key），支援 `--level` 動態選擇；路徑由硬編碼改為 `BASE / 'data' / level`
+- `scripts/extract_pdfs.py`：移除硬編碼 `LEVEL = '初級'`，改由 `--level` 控制；exam PDF 定義改存於 `EXAM_PDFS_BY_LEVEL` dict
+- 所有腳本：移除模組頂層的 `DATA = BASE / 'data' / '初級'` 等硬編碼路徑，改在 `main()` 中依 `--level` 動態建構
+
+#### 移除
+- `scripts/guide_to_md.py`：Span 提取路線（Route A）已由 Gemini Vision 路線（Route B）全面取代，腳本已刪除
+
+#### 文件
+- `CLAUDE.md`、`AGENTS.md`、`README.md`：移除 `guide_to_md.py` 相關說明；所有指令範例加入 `--level` 參數；「擴充為中級」說明更新為無需修改程式碼
+
+---
+
 ### pdf_vision_extract 遷移至 Gemini + guide_to_md 練習題過濾 + 章節 subtopics 修訂
 
 #### 新增

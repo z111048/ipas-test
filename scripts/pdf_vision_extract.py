@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Extract structured Markdown + page index from PDF pages using Claude Vision API.
+"""Extract structured Markdown + page index from PDF pages via Gemini Vision API.
 
-Each page is rendered to PNG and sent to Claude for structured extraction.
+Each page is rendered to PNG and sent to Gemini for structured extraction.
 Results are cached per page — re-runs only process missing/failed pages.
 
 Cache layout:
-  data/初級/pages_cache/{key}/page_{idx:03d}.json
+  data/{level}/pages_cache/{key}/page_{idx:03d}.json
     {
       "idx": 0,
       "type": "content" | "practice" | "skip",
@@ -13,17 +13,20 @@ Cache layout:
       "markdown": "...",
       "usage": {"input": N, "output": N}
     }
-  data/初級/pages_cache/{key}/page_index.json
+  data/{level}/pages_cache/{key}/page_index.json
     {key, pages: [{idx, type, headings}], toc: [{page, level, title}]}
-  data/初級/pages_cache/{key}/summary.json
+  data/{level}/pages_cache/{key}/summary.json
     {total, content, practice, skip, failed, cost_usd}
 
 Usage:
   uv run python3 scripts/pdf_vision_extract.py --subject 1
   uv run python3 scripts/pdf_vision_extract.py --all
-  uv run python3 scripts/pdf_vision_extract.py --subject 1 --dry-run
-  uv run python3 scripts/pdf_vision_extract.py --subject 1 --force   # reprocess all
-  uv run python3 scripts/pdf_vision_extract.py --subject 1 --page 29 # single page
+  uv run python3 scripts/pdf_vision_extract.py --level 初級 --subject 1 --dry-run
+  uv run python3 scripts/pdf_vision_extract.py --level 初級 --subject 1 --force
+  uv run python3 scripts/pdf_vision_extract.py --level 初級 --subject 1 --page 29
+
+Requires: GEMINI_API_KEY environment variable.
+Override model with GOOGLE_MODEL env var (default: gemini-2.5-flash).
 """
 
 import argparse
@@ -46,18 +49,16 @@ except ImportError:
     sys.exit('google-genai not found. Run: uv add google-genai')
 
 BASE = Path('/home/james/projects/ipas-test')
-DATA = BASE / 'data' / '初級'
-PDF_DIR = DATA / 'pdfs'
-CACHE_DIR = DATA / 'pages_cache'
 
 MODEL = os.environ.get('GOOGLE_MODEL', 'gemini-2.5-flash')
 # Pricing (USD per 1M tokens) for gemini-2.5-flash — update if model changes
 INPUT_PRICE_PER_M = 0.075
 OUTPUT_PRICE_PER_M = 0.30
 
-def _load_manifest() -> dict[int, dict]:
+
+def _load_manifest(level: str) -> dict[int, dict]:
     """Load chapter definitions from toc_manifest.json (single source of truth)."""
-    manifest_path = DATA / 'toc_manifest.json'
+    manifest_path = BASE / 'data' / level / 'toc_manifest.json'
     with open(manifest_path, encoding='utf-8') as f:
         manifest = json.load(f)
     result = {}
@@ -70,8 +71,6 @@ def _load_manifest() -> dict[int, dict]:
         }
     return result
 
-
-GUIDES = _load_manifest()
 
 PAGE_PROMPT = """\
 你正在處理一頁來自台灣 iPAS AI 應用規劃師學習指引的 PDF 頁面。
@@ -145,13 +144,19 @@ def call_vision_api(client: genai.Client, img_bytes: bytes) -> dict:
         }
 
 
-def process_guide(subject_num: int, force: bool = False, dry_run: bool = False,
-                  single_page: int | None = None) -> None:
-    cfg = GUIDES[subject_num]
+def process_guide(
+    subject_num: int,
+    cfg: dict,
+    pdf_dir: Path,
+    cache_dir: Path,
+    force: bool = False,
+    dry_run: bool = False,
+    single_page: int | None = None,
+) -> None:
     key = cfg['key']
-    pdf_path = PDF_DIR / cfg['pdf']
-    cache_dir = CACHE_DIR / key
-    cache_dir.mkdir(parents=True, exist_ok=True)
+    pdf_path = pdf_dir / cfg['pdf']
+    guide_cache_dir = cache_dir / key
+    guide_cache_dir.mkdir(parents=True, exist_ok=True)
 
     if not pdf_path.exists():
         print(f'  ERROR: PDF not found: {pdf_path}')
@@ -159,7 +164,7 @@ def process_guide(subject_num: int, force: bool = False, dry_run: bool = False,
 
     doc = fitz.open(str(pdf_path))
     total_pages = len(doc)
-    print(f'{key}: {total_pages} pages  →  {cache_dir}')
+    print(f'{key}: {total_pages} pages  →  {guide_cache_dir}')
 
     # Determine which pages to process
     if single_page is not None:
@@ -169,7 +174,7 @@ def process_guide(subject_num: int, force: bool = False, dry_run: bool = False,
 
     to_process = []
     for idx in page_indices:
-        cache_path = cache_dir / f'page_{idx:03d}.json'
+        cache_path = guide_cache_dir / f'page_{idx:03d}.json'
         if force or not cache_path.exists():
             to_process.append(idx)
         else:
@@ -194,7 +199,7 @@ def process_guide(subject_num: int, force: bool = False, dry_run: bool = False,
     if not to_process:
         print('  Nothing to process.')
         doc.close()
-        _write_summary(cache_dir, total_pages)
+        _write_summary(guide_cache_dir, total_pages)
         return
 
     client = genai.Client(api_key=os.environ.get('GEMINI_API_KEY'))
@@ -203,7 +208,7 @@ def process_guide(subject_num: int, force: bool = False, dry_run: bool = False,
     errors = 0
 
     for i, idx in enumerate(to_process):
-        cache_path = cache_dir / f'page_{idx:03d}.json'
+        cache_path = guide_cache_dir / f'page_{idx:03d}.json'
         print(f'  [{i+1}/{len(to_process)}] page {idx:3d} ...', end=' ', flush=True)
         try:
             img_bytes = page_to_png_bytes(doc[idx])
@@ -229,8 +234,8 @@ def process_guide(subject_num: int, force: bool = False, dry_run: bool = False,
 
     cost = (total_input * INPUT_PRICE_PER_M + total_output * OUTPUT_PRICE_PER_M) / 1_000_000
     print(f'  Done. tokens: {total_input}in/{total_output}out  cost: ${cost:.4f} USD  errors: {errors}')
-    _write_summary(cache_dir, total_pages)
-    build_page_index(cache_dir, key)
+    _write_summary(guide_cache_dir, total_pages)
+    build_page_index(guide_cache_dir, key)
 
 
 def build_page_index(cache_dir: Path, key: str) -> None:
@@ -290,20 +295,37 @@ def _write_summary(cache_dir: Path, total_pages: int) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description='Extract PDF pages via Claude Vision')
-    parser.add_argument('--subject', type=int, choices=[1, 2])
-    parser.add_argument('--all', action='store_true')
+    parser = argparse.ArgumentParser(description='Extract PDF pages via Gemini Vision')
+    parser.add_argument('--level', default='初級',
+                        help='資料等級資料夾（預設: 初級）')
+    parser.add_argument('--subject', type=int,
+                        help='科目編號（需與 --all 二擇一）')
+    parser.add_argument('--all', action='store_true',
+                        help='處理所有科目')
     parser.add_argument('--force', action='store_true', help='Reprocess all pages')
     parser.add_argument('--dry-run', action='store_true', help='Estimate cost only')
     parser.add_argument('--page', type=int, help='Process a single page index')
     args = parser.parse_args()
 
     if not args.subject and not args.all:
-        parser.error('Specify --subject 1|2 or --all')
+        parser.error('Specify --subject N or --all')
 
-    subjects = [1, 2] if args.all else [args.subject]
+    data_dir = BASE / 'data' / args.level
+    pdf_dir = data_dir / 'pdfs'
+    cache_dir = data_dir / 'pages_cache'
+
+    guides = _load_manifest(args.level)
+    if not guides:
+        sys.exit(f'No subjects defined for level "{args.level}". '
+                 f'Run build_manifest.py --level {args.level} first.')
+
+    subjects = sorted(guides.keys()) if args.all else [args.subject]
     for s in subjects:
-        process_guide(s, force=args.force, dry_run=args.dry_run, single_page=args.page)
+        if s not in guides:
+            print(f'[WARN] Subject {s} not found in manifest for level "{args.level}"')
+            continue
+        process_guide(s, guides[s], pdf_dir, cache_dir,
+                      force=args.force, dry_run=args.dry_run, single_page=args.page)
 
 
 if __name__ == '__main__':

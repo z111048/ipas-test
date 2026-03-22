@@ -5,8 +5,14 @@ Two modes (auto-selected):
   1. Vision mode  — if pages_cache/{key}/ exists from pdf_vision_extract.py,
                     chapter content is assembled from LLM-extracted per-page markdown.
   2. Regex mode   — fallback: text extraction + structural regex conversion.
+
+Usage:
+  uv run python3 scripts/parse_guides.py                   # default: 初級, all subjects
+  uv run python3 scripts/parse_guides.py --level 初級
+  uv run python3 scripts/parse_guides.py --level 初級 --subject 1
 """
 
+import argparse
 import json
 import re
 from pathlib import Path
@@ -18,14 +24,11 @@ except ImportError:
     _FITZ_AVAILABLE = False
 
 BASE = Path('/home/james/projects/ipas-test')
-OUT = BASE / 'data' / '初級'
-PDF_DIR = OUT / 'pdfs'
-CACHE_DIR = OUT / 'pages_cache'
 
 
-def _load_manifest() -> dict[int, dict]:
+def _load_manifest(data_dir: Path) -> dict[int, dict]:
     """Load chapter definitions from toc_manifest.json (single source of truth)."""
-    manifest_path = OUT / 'toc_manifest.json'
+    manifest_path = data_dir / 'toc_manifest.json'
     with open(manifest_path, encoding='utf-8') as f:
         manifest = json.load(f)
     result = {}
@@ -37,9 +40,6 @@ def _load_manifest() -> dict[int, dict]:
             'chapters': subj['chapters'],
         }
     return result
-
-
-GUIDES = _load_manifest()
 
 
 PAGE_SEP = '\x01'  # sentinel between pages in joined text (won't appear in PDF content)
@@ -56,9 +56,9 @@ def is_practice_page(text: str) -> bool:
     return False
 
 
-def load_guide_text(key: str) -> str:
+def load_guide_text(key: str, data_dir: Path) -> str:
     """Concatenate all page texts using PAGE_SEP as page boundary marker."""
-    with open(OUT / 'extracted' / f'{key}.json', encoding='utf-8') as f:
+    with open(data_dir / 'extracted' / f'{key}.json', encoding='utf-8') as f:
         data = json.load(f)
     parts = []
     for p in data['pages']:
@@ -227,7 +227,6 @@ def _split_heading_content(rest: str) -> tuple[str, str]:
         return m.group(1).strip(), (m.group(2) + m.group(3)).strip()
 
     # Case 6: heading ends with common topic-summary suffixes (效應/差異/優勢/方向 etc.)
-    # e.g. "數據增強與分析的協同效應生成式 AI..." → title="數據增強與分析的協同效應"
     _HEADING_SUFFIX = r'(?:效應|差異|優勢|挑戰|方向|趨勢|穩定性|公平性|適應性|靈活性|準確性|可靠性|一致性|完整性|可用性|防範|應用|架構|整合|融合|協同|特性|特徵|概念|原理|方法|機制|流程|分析|管理|設計|開發|部署|評估|優化|調整|處理|操作|執行|實現|實施|建立|構建|生成|識別|檢測|監控|控制|保護|加密|驗證)'
     m = re.match(rf'^(.{{4,25}}{_HEADING_SUFFIX})([\u4e00-\u9fff].{{10,}})', rest)
     if m:
@@ -355,24 +354,26 @@ def _get_chapter_page_ranges(
 
 
 def load_chapter_pages_vision(
-    key: str, chapters: list[dict], pdf_path: Path
+    key: str, chapters: list[dict], pdf_path: Path, cache_dir: Path
 ) -> list[str] | None:
     """Load chapter markdown from vision cache.
 
     Returns a list of chapter-level markdown strings (one per chapter),
     or None if the cache is incomplete or unavailable.
     """
-    cache_dir = CACHE_DIR / key
-    if not cache_dir.exists():
+    guide_cache_dir = cache_dir / key
+    if not guide_cache_dir.exists():
         return None
 
     if not _FITZ_AVAILABLE:
         print('  [vision] PyMuPDF not available; falling back to regex mode')
         return None
 
-    # Count available content pages
+    # Count available content pages (skip page_index.json)
     cached = {}
-    for p in cache_dir.glob('page_*.json'):
+    for p in guide_cache_dir.glob('page_*.json'):
+        if p.name == 'page_index.json':
+            continue
         with open(p, encoding='utf-8') as f:
             d = json.load(f)
         cached[d['idx']] = d
@@ -415,18 +416,24 @@ def load_chapter_pages_vision(
     return chapter_contents
 
 
-def parse_guide(subject_num: int) -> dict:
-    cfg = GUIDES[subject_num]
+def parse_guide(
+    subject_num: int,
+    guides: dict[int, dict],
+    pdf_dir: Path,
+    cache_dir: Path,
+    data_dir: Path,
+) -> dict:
+    cfg = guides[subject_num]
     key = cfg['key']
     print(f'Processing {key}...')
 
     chapters = cfg['chapters']
 
     # ── Vision mode (preferred) ────────────────────────────────────────────────
-    pdf_path = PDF_DIR / cfg['pdf']
+    pdf_path = pdf_dir / cfg['pdf']
     vision_contents = None
     if _FITZ_AVAILABLE and pdf_path.exists():
-        vision_contents = load_chapter_pages_vision(key, chapters, pdf_path)
+        vision_contents = load_chapter_pages_vision(key, chapters, pdf_path, cache_dir)
 
     if vision_contents is not None:
         print('  [vision mode]')
@@ -446,7 +453,7 @@ def parse_guide(subject_num: int) -> dict:
 
     # ── Regex mode (fallback) ──────────────────────────────────────────────────
     print('  [regex mode]')
-    raw_text = load_guide_text(key)
+    raw_text = load_guide_text(key, data_dir)
     segments = split_into_chapters(raw_text, chapters)
 
     result_chapters = []
@@ -482,11 +489,32 @@ def parse_guide(subject_num: int) -> dict:
 
 
 def main():
-    guide_dir = OUT / 'guide'
+    parser = argparse.ArgumentParser(description=__doc__,
+                                     formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('--level', default='初級',
+                        help='資料等級資料夾（預設: 初級）')
+    parser.add_argument('--subject', type=int,
+                        help='只處理指定科目（不指定則處理所有科目）')
+    args = parser.parse_args()
+
+    data_dir = BASE / 'data' / args.level
+    pdf_dir = data_dir / 'pdfs'
+    cache_dir = data_dir / 'pages_cache'
+    guide_dir = data_dir / 'guide'
     guide_dir.mkdir(exist_ok=True)
 
-    for n in [1, 2]:
-        data = parse_guide(n)
+    guides = _load_manifest(data_dir)
+    if not guides:
+        import sys
+        sys.exit(f'No subjects in manifest for level "{args.level}". '
+                 f'Run build_manifest.py --level {args.level} first.')
+
+    subjects = [args.subject] if args.subject else sorted(guides.keys())
+    for n in subjects:
+        if n not in guides:
+            print(f'[WARN] Subject {n} not found in manifest')
+            continue
+        data = parse_guide(n, guides, pdf_dir, cache_dir, data_dir)
         out_path = guide_dir / f'subject{n}_guide.json'
         out_path.write_text(
             json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8'

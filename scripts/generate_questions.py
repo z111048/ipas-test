@@ -25,9 +25,6 @@ except ImportError:
     sys.exit("anthropic package not found. Run: pip install anthropic")
 
 BASE = Path('/home/james/projects/ipas-test')
-DATA = BASE / 'data' / '初級'
-GUIDE_DIR = DATA / 'guide'
-QUESTIONS_DIR = DATA / 'questions'
 
 MODEL = 'claude-sonnet-4-6'
 MAX_CONTENT_CHARS = 4000  # guide content chars fed to LLM per chapter
@@ -64,13 +61,13 @@ FREQ_GUIDE = (
 )
 
 
-def build_generate_prompt(chapter: dict, analysis: dict, count: int) -> str:
+def build_generate_prompt(chapter: dict, analysis: dict, count: int, level: str = '初級') -> str:
     content = chapter['content'][:MAX_CONTENT_CHARS]
     subtopics = '、'.join(chapter['subtopics'])
     q_types = '\n'.join(f'  - {t}' for t in QUESTION_TYPES)
     common_topics = '、'.join(analysis.get('common_topics', [])[:8])
 
-    return f"""你是一位 iPAS 初級 AI 應用規劃師認證考試的命題專家。
+    return f"""你是一位 iPAS {level} AI 應用規劃師認證考試的命題專家。
 
 請根據以下學習指引內容，為「{chapter['title']}」章節出 {count} 道四選一選擇題。
 
@@ -141,8 +138,8 @@ def parse_json_response(text: str) -> object:
     return json.loads(text)
 
 
-def load_analysis(subject_num: int) -> dict:
-    path = DATA / 'analysis' / 'exam_analysis.json'
+def load_analysis(subject_num: int, data_dir: Path) -> dict:
+    path = data_dir / 'analysis' / 'exam_analysis.json'
     if path.exists():
         data = json.loads(path.read_text(encoding='utf-8'))
         key = f'subject{subject_num}'
@@ -155,18 +152,22 @@ def generate_for_subject(
     subject_num: int,
     count: int,
     dry_run: bool,
+    guide_dir: Path,
+    questions_dir: Path,
+    data_dir: Path,
+    level: str = '初級',
 ):
-    guide_path = GUIDE_DIR / f'subject{subject_num}_guide.json'
+    guide_path = guide_dir / f'subject{subject_num}_guide.json'
     if not guide_path.exists():
         sys.exit(f"Guide not found: {guide_path}\nRun parse_guides.py first.")
 
-    questions_path = QUESTIONS_DIR / f'subject{subject_num}_questions.json'
+    questions_path = questions_dir / f'subject{subject_num}_questions.json'
     if not questions_path.exists():
         sys.exit(f"Questions file not found: {questions_path}")
 
     guide = json.loads(guide_path.read_text(encoding='utf-8'))
     subject_data = json.loads(questions_path.read_text(encoding='utf-8'))
-    analysis = load_analysis(subject_num)
+    analysis = load_analysis(subject_num, data_dir)
 
     # Build a set of existing chapter ids for easy lookup
     chapter_map = {ch['id']: ch for ch in subject_data.get('chapters', [])}
@@ -175,7 +176,7 @@ def generate_for_subject(
         ch_id = chapter['id']
         print(f"\nGenerating {count} questions for {ch_id} ({chapter['title']})...")
 
-        prompt = build_generate_prompt(chapter, analysis, count)
+        prompt = build_generate_prompt(chapter, analysis, count, level)
 
         if dry_run:
             print("--- PROMPT (dry-run) ---")
@@ -231,10 +232,15 @@ def generate_for_subject(
     print(f"\nSaved {questions_path}")
 
 
-def enrich_cards(client: anthropic.Anthropic, dry_run: bool):
+def enrich_cards(client: anthropic.Anthropic, dry_run: bool, questions_dir: Path):
     """Add 'card' field to questions that are missing it."""
-    for subject_num in [1, 2]:
-        questions_path = QUESTIONS_DIR / f'subject{subject_num}_questions.json'
+    import re as _re
+    subject_files = sorted(questions_dir.glob('subject*_questions.json'))
+    for subject_num in [
+        int(m.group(1)) for p in subject_files
+        if (m := _re.match(r'subject(\d+)_questions', p.stem))
+    ]:
+        questions_path = questions_dir / f'subject{subject_num}_questions.json'
         if not questions_path.exists():
             continue
 
@@ -275,19 +281,26 @@ def enrich_cards(client: anthropic.Anthropic, dry_run: bool):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--level', default='初級',
+                        help='資料等級資料夾（預設: 初級）')
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('--subject', type=int, choices=[1, 2], help='Generate new questions for subject 1 or 2')
+    group.add_argument('--subject', type=int, help='Generate new questions for subject N')
     group.add_argument('--enrich', action='store_true', help='Add card fields to existing questions')
     parser.add_argument('--count', type=int, default=5, help='Questions per chapter (default: 5)')
     parser.add_argument('--dry-run', action='store_true', help='Print prompts without calling API')
     args = parser.parse_args()
 
+    data_dir = BASE / 'data' / args.level
+    guide_dir = data_dir / 'guide'
+    questions_dir = data_dir / 'questions'
+
     client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from env
 
     if args.subject:
-        generate_for_subject(client, args.subject, args.count, args.dry_run)
+        generate_for_subject(client, args.subject, args.count, args.dry_run,
+                             guide_dir, questions_dir, data_dir, args.level)
     elif args.enrich:
-        enrich_cards(client, args.dry_run)
+        enrich_cards(client, args.dry_run, questions_dir)
 
 
 if __name__ == '__main__':

@@ -20,16 +20,17 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 BASE = Path('/home/james/projects/ipas-test')
-LEVEL = '初級'
-OUT = BASE / 'data' / LEVEL / 'extracted'
-PDF_DIR = BASE / 'data' / LEVEL / 'pdfs'
 
-PDFS = {
-    'guide1': PDF_DIR / 'AI應用規劃師(初級)-學習指引-科目1_人工智慧基礎概論1141203_20251222172144.pdf',
-    'guide2': PDF_DIR / 'AI應用規劃師(初級)-學習指引-科目2_生成式AI應用與規劃114123_20251222172159.pdf',
-    'exam1': PDF_DIR / '114年第四梯次初級AI應用規劃師第一科人工智慧基礎概論(當次試題公告114_20251226000442.pdf',
-    'exam2': PDF_DIR / '114年第四梯次初級AI應用規劃師第二科生成式AI應用與規劃(當次試題公告114_20251226000507.pdf',
-    'sample': PDF_DIR / 'iPAS AI應用規劃師初級能力鑑定-考試樣題(114年9月版)_20251226162246.pdf',
+# Exam PDFs by level (guide PDFs are read from toc_manifest at runtime)
+EXAM_PDFS_BY_LEVEL: dict[str, dict[str, str]] = {
+    '初級': {
+        'exam1': '114年第四梯次初級AI應用規劃師第一科人工智慧基礎概論(當次試題公告114_20251226000442.pdf',
+        'exam2': '114年第四梯次初級AI應用規劃師第二科生成式AI應用與規劃(當次試題公告114_20251226000507.pdf',
+        'sample': 'iPAS AI應用規劃師初級能力鑑定-考試樣題(114年9月版)_20251226162246.pdf',
+    },
+    '中級': {
+        # 等 PDF 到位後填入
+    },
 }
 
 
@@ -82,9 +83,9 @@ def extract_with_pymupdf(pdf_path: Path) -> list[dict]:
     return pages
 
 
-def save_text_file(key: str, pages: list[dict]):
+def save_text_file(key: str, pages: list[dict], out_dir: Path):
     """Save extracted pages to a plain text file."""
-    out_path = OUT / f'{key}.txt'
+    out_path = out_dir / f'{key}.txt'
     with open(out_path, 'w', encoding='utf-8') as f:
         f.write(f"=== {key} ===\n\n")
         for p in pages:
@@ -104,19 +105,39 @@ def save_text_file(key: str, pages: list[dict]):
     return out_path
 
 
-def save_json(key: str, pages: list[dict]):
+def save_json(key: str, pages: list[dict], out_dir: Path):
     """Save structured data as JSON."""
-    out_path = OUT / f'{key}.json'
+    out_path = out_dir / f'{key}.json'
     with open(out_path, 'w', encoding='utf-8') as f:
         json.dump({'key': key, 'pages': pages}, f, ensure_ascii=False, indent=2)
     log.info(f"Saved {out_path}")
 
 
 def main():
-    OUT.mkdir(parents=True, exist_ok=True)
-    log.info("Starting PDF extraction")
+    import argparse
+    parser = argparse.ArgumentParser(description='Extract text from iPAS PDF files')
+    parser.add_argument('--level', default='初級',
+                        help='資料等級資料夾（預設: 初級）')
+    args = parser.parse_args()
+
+    pdf_dir = BASE / 'data' / args.level / 'pdfs'
+    out_dir = BASE / 'data' / args.level / 'extracted'
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    # Build PDFs dict: guide PDFs from toc_manifest + exam PDFs from EXAM_PDFS_BY_LEVEL
+    pdfs: dict[str, Path] = {}
+    manifest_path = BASE / 'data' / args.level / 'toc_manifest.json'
+    if manifest_path.exists():
+        with open(manifest_path, encoding='utf-8') as f:
+            manifest = json.load(f)
+        for subj in manifest['subjects']:
+            pdfs[subj['key']] = pdf_dir / subj['pdf']
+    for key, name in EXAM_PDFS_BY_LEVEL.get(args.level, {}).items():
+        pdfs[key] = pdf_dir / name
+
+    log.info(f"Starting PDF extraction for level '{args.level}'")
     results = {}
-    for key, pdf_path in PDFS.items():
+    for key, pdf_path in pdfs.items():
         if not pdf_path.exists():
             log.warning(f"File not found: {pdf_path}")
             continue
@@ -127,11 +148,11 @@ def main():
             pages = extract_with_pymupdf(pdf_path)
         total_chars = sum(len(p['text']) for p in pages)
         log.info(f"  {key}: {len(pages)} pages, {total_chars} chars")
-        save_text_file(key, pages)
-        save_json(key, pages)
+        save_text_file(key, pages, out_dir)
+        save_json(key, pages, out_dir)
         results[key] = {'pages': len(pages), 'chars': total_chars}
-    
-    summary_path = OUT / 'extraction_summary.json'
+
+    summary_path = out_dir / 'extraction_summary.json'
     with open(summary_path, 'w', encoding='utf-8') as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
     log.info(f"Extraction complete. Summary: {results}")

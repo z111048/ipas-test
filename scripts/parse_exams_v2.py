@@ -6,7 +6,6 @@ import re
 from pathlib import Path
 
 BASE = Path('/home/james/projects/ipas-test')
-OUT = BASE / 'data' / '初級'
 
 FW_MAP = {'Ａ': 'A', 'Ｂ': 'B', 'Ｃ': 'C', 'Ｄ': 'D', '（': '(', '）': ')'}
 
@@ -58,9 +57,9 @@ def parse_question_cell(answer: str, cell_text: str, qnum: int, source_key: str)
     }
 
 
-def parse_exam_json(key: str) -> list[dict]:
+def parse_exam_json(key: str, data_dir: Path) -> list[dict]:
     """Parse questions from exam JSON using table data."""
-    with open(OUT / 'extracted' / f'{key}.json', encoding='utf-8') as f:
+    with open(data_dir / 'extracted' / f'{key}.json', encoding='utf-8') as f:
         data = json.load(f)
     questions = []
     qnum = 0
@@ -90,9 +89,9 @@ def parse_exam_json(key: str) -> list[dict]:
     return questions
 
 
-def parse_sample_json() -> list[dict]:
+def parse_sample_json(data_dir: Path) -> list[dict]:
     """Parse sample exam from JSON — has different table format."""
-    with open(OUT / 'extracted' / 'sample.json', encoding='utf-8') as f:
+    with open(data_dir / 'extracted' / 'sample.json', encoding='utf-8') as f:
         data = json.load(f)
     questions = []
 
@@ -123,7 +122,7 @@ def parse_sample_json() -> list[dict]:
     return questions
 
 
-def save_mock(filename: str, title: str, questions: list[dict]):
+def save_mock(filename: str, title: str, questions: list[dict], questions_dir: Path):
     mock = {
         'exam': title,
         'total': len(questions),
@@ -131,19 +130,33 @@ def save_mock(filename: str, title: str, questions: list[dict]):
         'passing_score': 60,
         'questions': questions,
     }
-    path = OUT / 'questions' / filename
+    path = questions_dir / filename
     path.write_text(json.dumps(mock, ensure_ascii=False, indent=2), encoding='utf-8')
     print(f"Saved {path} ({len(questions)} questions)")
 
 
-if __name__ == '__main__':
-    q1 = parse_exam_json('exam1')
-    save_mock('mock_exam1.json', '科目一 模擬考試：人工智慧基礎概論（114年第四梯次公告試題）', q1)
+def main():
+    import argparse
+    parser = argparse.ArgumentParser(description='Parse exam questions from extracted JSON')
+    parser.add_argument('--level', default='初級',
+                        help='資料等級資料夾（預設: 初級）')
+    args = parser.parse_args()
 
-    q2 = parse_exam_json('exam2')
-    save_mock('mock_exam2.json', '科目二 模擬考試：生成式AI應用與規劃（114年第四梯次公告試題）', q2)
+    data_dir = BASE / 'data' / args.level
+    questions_dir = data_dir / 'questions'
+    questions_dir.mkdir(exist_ok=True)
 
-    qs = parse_sample_json()
-    save_mock('sample_exam.json', '考試樣題（114年9月版）', qs)
+    q1 = parse_exam_json('exam1', data_dir)
+    save_mock('mock_exam1.json', '科目一 模擬考試：人工智慧基礎概論（114年第四梯次公告試題）', q1, questions_dir)
+
+    q2 = parse_exam_json('exam2', data_dir)
+    save_mock('mock_exam2.json', '科目二 模擬考試：生成式AI應用與規劃（114年第四梯次公告試題）', q2, questions_dir)
+
+    qs = parse_sample_json(data_dir)
+    save_mock('sample_exam.json', '考試樣題（114年9月版）', qs, questions_dir)
 
     print("\nAll mock exams saved.")
+
+
+if __name__ == '__main__':
+    main()
