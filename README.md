@@ -339,7 +339,7 @@ docs/
     └── index-*.css     # 所有 CSS（Tailwind，~21 KB）
 ```
 
-**資料存取方式：** 前端以 Vite 的 `@data` alias（指向 `data/初級/`）靜態 import 所有 7 個 JSON 檔案，在 build time 打包進 JS bundle，不需 runtime fetch。
+**資料存取方式：** 前端以 Vite 的 `@data` alias（指向 `data/初級/`）靜態 import 所有 JSON 檔案（toc_manifest、questions × 5、guide × 2），在 build time 打包進 JS bundle，不需 runtime fetch。
 
 **網站導覽（React Router HashRouter）：**
 - `#/` 首頁 → 各科目總覽、考試說明

@@ -30,12 +30,12 @@ Treat `data/{level}/questions/*.json`, `data/{level}/guide/*.json`, and `docs/` 
 This project uses `uv` for dependency management. Run `uv sync` after cloning to set up the virtual environment. Use `uv run` to execute scripts within the environment.
 
 **Step 0 (run when chapters/PDFs change):**
-- `uv run python3 scripts/build_manifest.py`: regenerate `data/初級/toc_manifest.json` from embedded GUIDES definition + PDF page calculations.
+- `uv run python3 scripts/build_manifest.py`: regenerate `data/初級/toc_manifest.json` from embedded GUIDES_BY_LEVEL definition + PDF page calculations.
 
-**Guide pipeline (choose Route A or B):**
-- Route A: `uv run python3 scripts/guide_to_md.py --all` — deterministic span extraction, no LLM.
-- Route B: `uv run python3 scripts/pdf_vision_extract.py --all` then `uv run python3 scripts/parse_guides.py` — LLM vision extraction + assembly.
-- Audit (required after either route): `uv run python3 scripts/audit_chapters.py --all` — LLM chapter content audit. Use `--dry-run` to preview prompts.
+**Guide pipeline (Vision extraction via Gemini):**
+- Step 1: `uv run python3 scripts/pdf_vision_extract.py --level 初級 --all` — render pages to PNG, call Gemini Vision API, cache results.
+- Step 2: `uv run python3 scripts/parse_guides.py --level 初級` — assemble chapter JSON from vision cache.
+- Step 3 (required): `uv run python3 scripts/audit_chapters.py --level 初級 --all` — LLM chapter content audit. Use `--dry-run` to preview prompts.
 
 **Exam pipeline:**
 - `uv run python3 scripts/extract_pdfs.py`: extract text and tables from the PDF set into `data/初級/extracted/`.
@@ -57,7 +57,6 @@ Follow the existing Python style: 4-space indentation, `snake_case` for function
 There is no formal automated test suite in this workspace yet. Validate changes by rerunning the pipeline and checking outputs:
 
 - confirm `data/初級/toc_manifest.json` exists and has `page_range` filled for all 7 chapters (not null)
-- `guide_to_md.py`: check `subject{N}_validation_report.json` — `overall_passed` should be `true`; each chapter > 1000 chars
 - `audit_chapters.py`: check `subject{N}_audit_report.json` — `overall_status` should be `PASS`; any `WARN`/`FAIL` needs review before generating questions
 - confirm expected files are regenerated in `data/初級/extracted/`, `data/初級/questions/`, `data/初級/guide/`
 - `parse_exams_v2.py`: exam1 and exam2 should each produce ~50 questions; check for WARN lines

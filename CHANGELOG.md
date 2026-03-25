@@ -6,6 +6,28 @@
 
 ## [Unreleased]
 
+### 題庫擴充：multi_ai_pipeline 全章節出題（每章 10 題）
+
+#### 變更
+- 使用 `multi_ai_pipeline.py`（Gemini 出題 → Codex 審核 → Claude 完稿）對所有 7 個章節各生成 10 題，0 flagged
+- `data/初級/questions/subject1_questions.json`：4 章共 91 題（原 52 題）
+- `data/初級/questions/subject2_questions.json`：3 章共 66 題（原 36 題）
+- 新增題目 ID 後綴為 `_multi`，帶有 `card` 欄位（concept / mnemonic / confusion / frequency）
+
+| 章節 | 總題數 | 有 card |
+|---|---|---|
+| s1c1 人工智慧概念 | 26 | 19 |
+| s1c2 資料處理與分析概念 | 21 | 14 |
+| s1c3 機器學習概念 | 22 | 15 |
+| s1c4 鑑別式AI與生成式AI概念 | 22 | 15 |
+| s2c1 No Code / Low Code概念 | 22 | 15 |
+| s2c2 生成式AI應用領域與工具使用 | 22 | 15 |
+| s2c3 生成式AI導入評估規劃 | 22 | 15 |
+
+> 備註：claude 完稿步驟因 timeout 未執行，最終題目為 codex 審核後版本直接驗證入庫。
+
+---
+
 ### 全腳本 `--level` 參數支援 + 移除 `guide_to_md.py`
 
 #### 新增
