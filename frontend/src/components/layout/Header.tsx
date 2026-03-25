@@ -13,7 +13,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
         ☰
       </button>
       <h1 className="text-[1.1rem] font-bold tracking-[0.5px] flex-1">
-        📚 iPAS AI應用規劃師（初級）備考平台
+        📚 iPAS AI應用規劃師（初級）
       </h1>
       <span className="text-[0.8rem] opacity-70 hidden sm:block">科目一 × 科目二 完整備考系統</span>
     </header>
