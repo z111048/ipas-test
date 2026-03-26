@@ -264,7 +264,8 @@ uv run python3 scripts/generate_questions.py --level 初級 --enrich
   },
   "difficulty": "易/中/難",
   "type": "概念定義型",
-  "tags": ["Human-in-the-loop", "AI治理"]
+  "tags": ["Human-in-the-loop", "AI治理"],
+  "generated_by": "multi_ai_pipeline | generate_questions | manual"
 }
 ```
 
@@ -354,10 +355,16 @@ docs/
 
 ## GitHub Pages 部署
 
-1. 建立 GitHub repo，將本目錄推上 `main` branch。
-2. `Settings → Pages → Deploy from branch`，選 `main`，Folder 選 `/docs`。
-3. 每次執行 `uv run python3 scripts/build_web.py` 並 push `docs/` 後即自動更新。
-   - Vite 使用 HashRouter，GitHub Pages 不需額外設定 404 重導向。
+部署由 `.github/workflows/deploy.yml` 自動處理，push 到 `main` 即觸發。
+
+**首次設定：**
+1. 建立 GitHub repo，推上 `main` branch。
+2. `Settings → Pages → Source` 選 **GitHub Actions**（不是 branch/docs）。
+
+**後續流程：**
+- push `main` → Actions 自動 build（`npm ci && npm run build`）→ deploy 到 Pages。
+- `docs/` 已 gitignored，不需手動 build 或 commit build artifacts。
+- 本機開發仍可用 `uv run python3 scripts/build_web.py` 預覽 production build。
 
 ---
 

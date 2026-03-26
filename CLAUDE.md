@@ -92,7 +92,7 @@ Frontend dependencies: run `cd frontend && npm install` after cloning (requires 
 - **`scripts/parse_guides.py`**: Assembles chapter JSON from vision cache (preferred) or falls back to regex-based text extraction. **Vision mode**: uses `pages_cache/{key}/` + PyMuPDF page-label map to determine per-chapter page ranges; concatenates LLM markdown. **Regex mode** (emergency fallback when cache <80% complete): splits `extracted/guide{N}.json` on in-document page-number anchors, cleans noise, converts structure via `text_to_markdown()`. Writes `data/{level}/guide/subject{N}_guide.json` with `content_format: 'markdown'`. Supports `--level`, `--subject`.
 - **`scripts/generate_questions.py`**: Calls Claude API to generate new questions per chapter (`--subject N`) or add `card` fields to existing questions (`--enrich`). Use `--dry-run` to preview prompts without API calls. Questions follow the extended schema with `card`, `difficulty`, `type`, and `tags` fields. Supports `--level`.
 - **`scripts/multi_ai_pipeline.py`**: Multi-AI question generation pipeline using three CLI tools via subprocess. Roles: Gemini (出題者) → Codex (審核者) → Claude (完稿者). After finalization all three AIs independently answer each question; if 2+ answer incorrectly the question is written to `flagged.json` for human review. Intermediate artifacts go to `data/{level}/pipeline/<run_id>/`. Final questions are merged into `subject{N}_questions.json`. Supports `--level`, `--subject`, `--chapter`, `--count`, `--dry-run`, `--skip-review`, `--skip-validation`, `--creator/reviewer/finalizer` overrides.
-- **`scripts/build_web.py`**: Thin wrapper that runs `npm run build` inside `frontend/`. Vite bundles the React app and outputs to `docs/` (HTML + `assets/` JS/CSS). The site is deployed from `docs/` on the `main` branch via GitHub Pages.
+- **`scripts/build_web.py`**: Thin wrapper that runs `npm run build` inside `frontend/`. Vite bundles the React app and outputs to `docs/` (local only). Production deployment is handled by `.github/workflows/deploy.yml` — push to `main` triggers GitHub Actions to build and deploy to GitHub Pages automatically (`docs/` is gitignored).
 - **`frontend/`**: Vite project (React 19 + TypeScript + Tailwind CSS v4 + React Router v6 + Zustand). Source in `frontend/src/`. Build config in `frontend/vite.config.ts` — output dir is `../docs`, `@data` alias points to `../data/初級`. All JSON data is imported statically at build time (no runtime fetch). Routes use HashRouter to avoid GitHub Pages 404 issues. `SubjectOverviewPage.tsx` imports `toc_manifest.json` to render chapter subtopics, PDF page ranges, and quick-links — do not add hardcoded chapter arrays back.
 - The study-question pages are reached from sidebar `✏️` items (route `/practice/:subjectId/:chapterId`). On mobile widths the sidebar is hidden behind the `☰` drawer button, so navigation regressions should be checked there too.
 
@@ -119,7 +119,8 @@ Question schema (extended with card fields):
   "id": "s1c1q1", "question": "...", "options": {"A":"...","B":"...","C":"...","D":"..."},
   "answer": "C", "explanation": "...",
   "card": {"concept":"...","mnemonic":"...","confusion":"...","frequency":"高/中/低"},
-  "difficulty": "易/中/難", "type": "概念定義型", "tags": ["..."]
+  "difficulty": "易/中/難", "type": "概念定義型", "tags": ["..."],
+  "generated_by": "multi_ai_pipeline | generate_questions | manual"
 }
 ```
 

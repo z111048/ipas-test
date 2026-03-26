@@ -26,6 +26,16 @@
 
 > 備註：claude 完稿步驟因 timeout 未執行，最終題目為 codex 審核後版本直接驗證入庫。
 
+### 題目 `generated_by` 欄位標記
+
+#### 新增
+- 所有現有題目補上 `generated_by` 欄位，標記出題來源：
+  - `"multi_ai_pipeline"` — Gemini→Codex→Claude 三 AI 流水線（subject1: 43 題, subject2: 30 題）
+  - `"generate_questions"` — `generate_questions.py` Claude API 單輪生成（subject1: 28 題, subject2: 21 題）
+  - `"manual"` — 手工策展（subject1: 20 題, subject2: 15 題）
+- Question schema 新增 `generated_by` 欄位說明（CLAUDE.md、README.md）
+- 後續統一以 `multi_ai_pipeline` 為標準出題方式
+
 ---
 
 ### 全腳本 `--level` 參數支援 + 移除 `guide_to_md.py`
