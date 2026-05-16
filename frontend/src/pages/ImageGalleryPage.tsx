@@ -11,13 +11,14 @@ function publicAsset(path: string) {
 const keyLabels: Record<string, string> = {
   guide1: '科目一學習指引',
   guide2: '科目二學習指引',
+  guide3: '科目三學習指引',
   exam1: '科目一公告試題',
   exam2: '科目二公告試題',
   exam3: '科目三公告試題',
   sample: '考試樣題',
 }
 
-const keyOrder = ['guide1', 'guide2', 'sample', 'exam1', 'exam2', 'exam3']
+const keyOrder = ['guide1', 'guide2', 'guide3', 'sample', 'exam1', 'exam2', 'exam3']
 
 function keyRank(key: string) {
   const index = keyOrder.indexOf(key)

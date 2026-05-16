@@ -54,6 +54,7 @@ const NAV_SECTIONS: NavSection[] = [
     heading: '中級公告試題',
     items: [
       { label: '🎯 中級科目一公告試題', to: '/exam/mid1' },
+      { label: '🎯 中級科目二公告試題', to: '/exam/mid2' },
       { label: '🎯 中級科目三公告試題', to: '/exam/mid3' },
     ],
   },

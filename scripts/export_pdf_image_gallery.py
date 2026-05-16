@@ -7,7 +7,7 @@ import shutil
 from pathlib import Path
 
 BASE = Path('/home/james/projects/ipas-test')
-KEY_ORDER = {'guide1': 0, 'guide2': 1, 'sample': 2, 'exam1': 3, 'exam2': 4, 'exam3': 5}
+KEY_ORDER = {'guide1': 0, 'guide2': 1, 'guide3': 2, 'sample': 3, 'exam1': 4, 'exam2': 5, 'exam3': 6}
 TYPE_ORDER = {'page': 0, 'image': 1, 'table': 2}
 
 
