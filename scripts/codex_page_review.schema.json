@@ -1,0 +1,65 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "page_index",
+    "page_number",
+    "status",
+    "cleaning",
+    "continuation",
+    "outline",
+    "issues",
+    "confidence"
+  ],
+  "properties": {
+    "page_index": { "type": "integer" },
+    "page_number": { "type": "integer" },
+    "status": { "type": "string", "enum": ["pass", "warn", "fail"] },
+    "cleaning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prefix_suffix_ok", "removed_too_much", "remaining_noise", "notes"],
+      "properties": {
+        "prefix_suffix_ok": { "type": "boolean" },
+        "removed_too_much": { "type": "boolean" },
+        "remaining_noise": { "type": "array", "items": { "type": "string" } },
+        "notes": { "type": "string" }
+      }
+    },
+    "continuation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from_previous", "to_next", "notes"],
+      "properties": {
+        "from_previous": { "type": "string", "enum": ["yes", "no", "uncertain"] },
+        "to_next": { "type": "string", "enum": ["yes", "no", "uncertain"] },
+        "notes": { "type": "string" }
+      }
+    },
+    "outline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["headings_ok", "missing_headings", "false_headings", "suggested_headings"],
+      "properties": {
+        "headings_ok": { "type": "boolean" },
+        "missing_headings": { "type": "array", "items": { "type": "string" } },
+        "false_headings": { "type": "array", "items": { "type": "string" } },
+        "suggested_headings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["level", "number", "title"],
+            "properties": {
+              "level": { "type": "integer" },
+              "number": { "type": ["string", "null"] },
+              "title": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "issues": { "type": "array", "items": { "type": "string" } },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+  }
+}

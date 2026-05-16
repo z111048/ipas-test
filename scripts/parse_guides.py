@@ -237,7 +237,7 @@ def _split_heading_content(rest: str) -> tuple[str, str]:
 
 
 def text_to_markdown(text: str, chapter_title: str) -> str:
-    """Convert cleaned plain text chapter content to Markdown.
+    r"""Convert cleaned plain text chapter content to Markdown.
 
     Heading hierarchy detected by regex:
       H2 : ^\d+\.          top-level numbered sections
@@ -353,12 +353,28 @@ def _get_chapter_page_ranges(
     return result
 
 
+def _page_label(pdf_path: Path, idx: int) -> str:
+    if not _FITZ_AVAILABLE or not pdf_path.exists():
+        return ''
+    doc = fitz.open(str(pdf_path))
+    try:
+        text = doc[idx].get_text()
+    finally:
+        doc.close()
+    match = re.search(r'\b(\d+-\d+)\b', text)
+    return match.group(1) if match else ''
+
+
+def _page_asset_path(level: str, key: str, idx: int) -> str:
+    return f'/guide-pages/{level}/{key}/page_{idx:03d}.png'
+
+
 def load_chapter_pages_vision(
-    key: str, chapters: list[dict], pdf_path: Path, cache_dir: Path
-) -> list[str] | None:
+    key: str, chapters: list[dict], pdf_path: Path, cache_dir: Path, level: str
+) -> list[dict] | None:
     """Load chapter markdown from vision cache.
 
-    Returns a list of chapter-level markdown strings (one per chapter),
+    Returns chapter-level markdown and source page refs,
     or None if the cache is incomplete or unavailable.
     """
     guide_cache_dir = cache_dir / key
@@ -398,17 +414,36 @@ def load_chapter_pages_vision(
     chapter_contents = []
     for ch, page_indices in zip(chapters, page_ranges):
         parts = []
+        source_pages = []
+        in_practice_block = False
         for idx in page_indices:
             entry = cached.get(idx)
-            if entry is None or entry.get('type') != 'content':
+            if entry is None:
+                continue
+            if entry.get('type') == 'practice':
+                in_practice_block = True
+                continue
+            if in_practice_block or entry.get('type') != 'content':
                 continue
             md = entry.get('markdown', '').strip()
             if md:
                 parts.append(md)
-        chapter_contents.append('\n\n'.join(parts))
+                source_pages.append({
+                    'index': idx,
+                    'page': idx + 1,
+                    'label': _page_label(pdf_path, idx),
+                    'image': _page_asset_path(level, key, idx),
+                })
+        chapter_contents.append({
+            'content': '\n\n'.join(parts),
+            'source_pages': source_pages,
+        })
 
     # Sanity: all chapters should have some content
-    empty = [ch['id'] for ch, c in zip(chapters, chapter_contents) if not c.strip()]
+    empty = [
+        ch['id'] for ch, c in zip(chapters, chapter_contents)
+        if not c['content'].strip()
+    ]
     if empty:
         print(f'  [vision] chapters with no content: {empty}; falling back to regex mode')
         return None
@@ -422,6 +457,7 @@ def parse_guide(
     pdf_dir: Path,
     cache_dir: Path,
     data_dir: Path,
+    level: str,
 ) -> dict:
     cfg = guides[subject_num]
     key = cfg['key']
@@ -433,13 +469,14 @@ def parse_guide(
     pdf_path = pdf_dir / cfg['pdf']
     vision_contents = None
     if _FITZ_AVAILABLE and pdf_path.exists():
-        vision_contents = load_chapter_pages_vision(key, chapters, pdf_path, cache_dir)
+        vision_contents = load_chapter_pages_vision(key, chapters, pdf_path, cache_dir, level)
 
     if vision_contents is not None:
         print('  [vision mode]')
         result_chapters = []
-        for ch, content in zip(chapters, vision_contents):
+        for ch, content_data in zip(chapters, vision_contents):
             # Prepend chapter title as H1 for consistency
+            content = content_data['content']
             full_content = f'# {ch["title"]}\n\n{content}'.strip()
             result_chapters.append({
                 'id': ch['id'],
@@ -447,6 +484,8 @@ def parse_guide(
                 'subtopics': ch['subtopics'],
                 'content': full_content,
                 'content_format': 'markdown',
+                'page_range': ch.get('page_range'),
+                'source_pages': content_data['source_pages'],
             })
             print(f"  {ch['id']} ({ch['title']}): {len(full_content)} chars")
         return {'subject': cfg['subject'], 'chapters': result_chapters}
@@ -478,6 +517,16 @@ def parse_guide(
             'subtopics': ch['subtopics'],
             'content': content,
             'content_format': 'markdown',
+            'page_range': ch.get('page_range'),
+            'source_pages': [
+                {
+                    'index': idx,
+                    'page': idx + 1,
+                    'label': _page_label(pdf_dir / cfg['pdf'], idx),
+                    'image': _page_asset_path(level, key, idx),
+                }
+                for idx in range(ch.get('page_range', [0, -1])[0], ch.get('page_range', [0, -1])[1] + 1)
+            ] if ch.get('page_range') else [],
         })
         print(f"  {ch['id']} ({ch['title']}): {len(content)} chars")
     print(f"  (skipped {total_skipped} practice/answer pages)")
@@ -514,7 +563,7 @@ def main():
         if n not in guides:
             print(f'[WARN] Subject {n} not found in manifest')
             continue
-        data = parse_guide(n, guides, pdf_dir, cache_dir, data_dir)
+        data = parse_guide(n, guides, pdf_dir, cache_dir, data_dir, args.level)
         out_path = guide_dir / f'subject{n}_guide.json'
         out_path.write_text(
             json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8'

@@ -2,18 +2,21 @@ import { Link, useParams } from 'react-router-dom'
 import s1q from '@data/questions/subject1_questions.json'
 import s2q from '@data/questions/subject2_questions.json'
 import tocRaw from '@data/toc_manifest.json'
-import type { SubjectQuestions, TocManifest } from '../types'
+import guideOutlinesRaw from '../generated/guideOutlines.json'
+import type { GuideOutlinesData, SubjectQuestions, TocManifest } from '../types'
 import ProgressBar from '../components/shared/ProgressBar'
+import GuideOutlineTree from '../components/guide/GuideOutlineTree'
 
 const subject1 = s1q as SubjectQuestions
 const subject2 = s2q as SubjectQuestions
 const toc = tocRaw as TocManifest
+const guideOutlines = guideOutlinesRaw as GuideOutlinesData
 
 export default function SubjectOverviewPage() {
   const { subjectId } = useParams<{ subjectId: string }>()
-  const isS1 = subjectId === 's1'
-  const subjectData = isS1 ? toc.subjects[0] : toc.subjects[1]
-  const data = isS1 ? subject1 : subject2
+  const subjectData = toc.subjects.find((s) => s.id === subjectId) ?? toc.subjects[0]
+  const data = subjectData.id === 's1' ? subject1 : subject2
+  const guideOutline = guideOutlines.guides[subjectData.id]
   const maxQ = Math.max(...data.chapters.map((c) => c.questions.length), 1)
 
   const questionsByChapter = Object.fromEntries(
@@ -25,6 +28,17 @@ export default function SubjectOverviewPage() {
       <div className="text-2xl font-bold text-primary mb-1">{subjectData.subject}</div>
       <div className="text-text-light mb-5">
         評鑑主題：{subjectData.chapters.map((c) => c.title).join(' / ')}
+      </div>
+
+      <div className="bg-card rounded-xl shadow-sm border border-border p-5 mb-6">
+        <h2 className="text-lg font-semibold text-primary mb-4">學習指引完整 PDF 目錄</h2>
+        {guideOutline && (
+          <GuideOutlineTree
+            subjectId={subjectData.id}
+            rootIds={guideOutline.root}
+            nodesById={guideOutline.nodesById}
+          />
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">

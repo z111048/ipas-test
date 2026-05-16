@@ -8,6 +8,7 @@ import SubjectOverviewPage from './pages/SubjectOverviewPage'
 import PracticePage from './pages/PracticePage'
 import ExamPage from './pages/ExamPage'
 import GuidePage from './pages/GuidePage'
+import ImageGalleryPage from './pages/ImageGalleryPage'
 
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -26,6 +27,7 @@ export default function App() {
               <Route path="/practice/:subjectId/:chapterId" element={<PracticePage />} />
               <Route path="/exam/:examKey" element={<ExamPage />} />
               <Route path="/guide/:subjectId/:chapterId" element={<GuidePage />} />
+              <Route path="/images" element={<ImageGalleryPage />} />
             </Routes>
           </main>
         </div>

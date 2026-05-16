@@ -1,4 +1,8 @@
 import { NavLink } from 'react-router-dom'
+import tocRaw from '@data/toc_manifest.json'
+import guideOutlinesRaw from '../../generated/guideOutlines.json'
+import type { GuideOutlinesData, TocManifest } from '../../types'
+import GuideOutlineTree from '../guide/GuideOutlineTree'
 
 interface NavItem {
   label: string
@@ -10,54 +14,52 @@ interface NavSection {
   items: NavItem[]
 }
 
+interface GuideNavSection {
+  heading: string
+  subjectId: string
+}
+
+const toc = tocRaw as TocManifest
+const guideOutlines = guideOutlinesRaw as GuideOutlinesData
+
+function examKeyForSubject(subjectId: string) {
+  const match = subjectId.match(/^s(\d+)$/)
+  return match ? `mock${match[1]}` : undefined
+}
+
 const NAV_SECTIONS: NavSection[] = [
   {
     heading: '總覽',
     items: [{ label: '🏠 首頁', to: '/' }],
   },
-  {
-    heading: '科目一：人工智慧基礎概論',
-    items: [
-      { label: '📖 章節總覽', to: '/subject/s1' },
-      { label: '✏️ 人工智慧概念', to: '/practice/s1/s1c1' },
-      { label: '✏️ 資料處理與分析', to: '/practice/s1/s1c2' },
-      { label: '✏️ 機器學習概念', to: '/practice/s1/s1c3' },
-      { label: '✏️ 鑑別式AI與生成式AI', to: '/practice/s1/s1c4' },
-      { label: '🎯 模擬考試（科目一）', to: '/exam/mock1' },
-    ],
-  },
-  {
-    heading: '科目二：生成式AI應用與規劃',
-    items: [
-      { label: '📖 章節總覽', to: '/subject/s2' },
-      { label: '✏️ No Code / Low Code', to: '/practice/s2/s2c1' },
-      { label: '✏️ 生成式AI應用與工具', to: '/practice/s2/s2c2' },
-      { label: '✏️ 生成式AI導入評估規劃', to: '/practice/s2/s2c3' },
-      { label: '🎯 模擬考試（科目二）', to: '/exam/mock2' },
-    ],
-  },
+  ...toc.subjects.map((subject) => {
+    const examKey = examKeyForSubject(subject.id)
+    return {
+      heading: subject.subject,
+      items: [
+        { label: '📖 章節總覽', to: `/subject/${subject.id}` },
+        ...subject.chapters.map((chapter) => ({
+          label: `✏️ ${chapter.title}`,
+          to: `/practice/${subject.id}/${chapter.id}`,
+        })),
+        ...(examKey ? [{ label: `🎯 模擬考試（${subject.subject.split('：')[0]}）`, to: `/exam/${examKey}` }] : []),
+      ],
+    }
+  }),
   {
     heading: '樣題練習',
     items: [{ label: '📝 考試樣題（114年9月版）', to: '/exam/sample' }],
   },
   {
-    heading: '學習指引 科目一',
-    items: [
-      { label: '📖 人工智慧概念', to: '/guide/s1/s1c1' },
-      { label: '📖 資料處理分析統計', to: '/guide/s1/s1c2' },
-      { label: '📖 機器學習概念', to: '/guide/s1/s1c3' },
-      { label: '📖 鑑別式╱生成式AI', to: '/guide/s1/s1c4' },
-    ],
-  },
-  {
-    heading: '學習指引 科目二',
-    items: [
-      { label: '📖 No Code / Low Code', to: '/guide/s2/s2c1' },
-      { label: '📖 生成式AI應用與工具', to: '/guide/s2/s2c2' },
-      { label: '📖 導入評估規劃', to: '/guide/s2/s2c3' },
-    ],
+    heading: 'PDF 資源',
+    items: [{ label: '🖼️ 圖片與表格', to: '/images' }],
   },
 ]
+
+const GUIDE_NAV_SECTIONS: GuideNavSection[] = toc.subjects.map((subject) => ({
+    heading: `學習指引 ${subject.subject.split('：')[0]}`,
+    subjectId: subject.id,
+  }))
 
 interface SidebarProps {
   isOpen: boolean
@@ -102,6 +104,27 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           </div>
         </div>
       ))}
+      {GUIDE_NAV_SECTIONS.map((section) => {
+        const guide = guideOutlines.guides[section.subjectId]
+        if (!guide) return null
+        return (
+          <div key={section.subjectId}>
+            <div className="h-px bg-white/10 mx-4 my-2" />
+            <div className="py-2">
+              <div className="text-[0.7rem] uppercase tracking-widest text-white/50 px-4 pt-2 pb-1 font-semibold">
+                {section.heading}
+              </div>
+              <GuideOutlineTree
+                subjectId={section.subjectId}
+                rootIds={guide.root}
+                nodesById={guide.nodesById}
+                variant="sidebar"
+                onNavigate={onClose}
+              />
+            </div>
+          </div>
+        )
+      })}
     </aside>
   )
 }

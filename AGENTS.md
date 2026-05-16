@@ -6,11 +6,17 @@ This repository is a content-generation workspace for the iPAS AI exam study mat
 
 **Core goal**: Synthesize high-quality mock exam questions from parsed study guide Markdown + official exam samples, per chapter. Parse quality directly determines question quality.
 
-**Single source of truth**: `data/{level}/toc_manifest.json` defines all subject/chapter metadata. All scripts and the frontend read from it. Never duplicate chapter definitions elsewhere.
+**Single source of truth**: `data/{level}/toc_manifest.json` defines all subject/chapter metadata. Data scripts and the frontend read from it. Never duplicate chapter definitions elsewhere; derive chapter navigation, guide links, and practice links from the manifest.
 
-All scripts support `--level` (default `初級`); paths resolve to `data/{level}/`.
+Data pipeline scripts support `--level` (default `初級`); paths resolve to `data/{level}/`. `scripts/build_web.py` has no `--level` flag because the frontend currently imports `@data` from `data/初級/` at build time.
 
 - `scripts/build_manifest.py`: **SSOT generator** — the only script with hardcoded chapter definitions (`GUIDES_BY_LEVEL` dict, keyed by level). Computes PDF page ranges via PyMuPDF and writes `data/{level}/toc_manifest.json`. Run whenever chapters or PDFs change. Supports `--level`, `--dry-run`.
+- `scripts/extract_pdf_pages_structured.py`: **Page-faithful PDF extraction** — converts every PDF page to text, records text/image/table bounding boxes, and crops each detected image/table to PNG under `data/{level}/page_extract/{key}/assets/`. Supports `--level`, `--key`, `--all`, `--force`.
+- `scripts/clean_pdf_page_text.py`: **Page text cleanup + hierarchy rebuild** — reads `page_extract/`, applies per-PDF cleanup strategies, removes page headers/footers/page labels/table headers, marks `continues_from_previous` / `continues_to_next`, and writes cleaned page JSON plus complete outlines under `data/{level}/page_clean/{key}/`. Supports `--level`, `--key`, `--all`.
+- `scripts/codex_review_pdf_pages.py`: **Codex page review** — uses `codex exec --sandbox read-only` to review cleaned pages and writes per-page review JSON under `data/{level}/codex_page_review/{key}/`. Requires authenticated Codex CLI and network access. Supports `--level`, `--key`, `--all`, `--page`, `--limit`, `--force`, `--with-image`.
+- `scripts/export_guide_outline_data.py`: exports cleaned guide PDF hierarchy metadata to `frontend/src/generated/guideOutlines.json` and split per-node content files to `frontend/src/generated/guideContent/{key}/`. The frontend uses the metadata tree for navigation and dynamic imports content per route.
+- `scripts/build_pdf_outline.py`: **PDF outline builder** — analyzes structured page extraction and Vision headings to build reviewable hierarchical outlines under `data/{level}/outline/`. Supports `--level`, `--key`, `--all`.
+- `scripts/export_pdf_image_gallery.py`: exports cropped image/table assets from `page_extract/` to `frontend/public/pdf-assets/{level}/` with `gallery.json` for the frontend image viewer. Supports `--level`, `--force`.
 - `scripts/pdf_vision_extract.py`: **Guide extraction** — renders each PDF page to PNG and calls Gemini Vision API (`gemini-2.5-flash`). Results cached at `data/{level}/pages_cache/{key}/page_NNN.json`; auto-generates `page_index.json` (TOC) on completion. Requires `GEMINI_API_KEY`. Supports `--level`, `--subject`, `--all`, `--dry-run`, `--force`, `--page`.
 - `scripts/parse_guides.py`: **Guide assembly** — assembles chapter JSON from vision cache (preferred) or falls back to regex extraction. Reads chapter definitions from `toc_manifest.json`. Supports `--level`, `--subject`.
 - `scripts/audit_chapters.py`: **LLM chapter audit** — reads `subject{N}_guide.json` and calls Claude Haiku to verify each chapter covers its expected subtopics. Outputs `subject{N}_audit_report.json`. Run after guide extraction. Requires `ANTHROPIC_API_KEY`. Supports `--level`, `--subject`, `--all`, `--chapter`, `--dry-run`.
@@ -18,12 +24,14 @@ All scripts support `--level` (default `初級`); paths resolve to `data/{level}
 - `scripts/parse_exams_v2.py`: turns extracted content into mock-exam JSON under `data/{level}/questions/`. Supports `--level`.
 - `scripts/generate_questions.py`: calls the Claude API to generate new questions or add `card` fields to existing ones. Requires `ANTHROPIC_API_KEY`. Supports `--level`, `--subject`, `--enrich`.
 - `scripts/multi_ai_pipeline.py`: multi-AI pipeline using Gemini (出題) → Codex (審核) → Claude (完稿) CLI tools via subprocess. Includes answer-validation stage where all three AIs answer each question; questions with 2+ wrong answers are flagged to `flagged.json`. Intermediate output goes to `data/{level}/pipeline/<run_id>/`; final questions merged into `subject{N}_questions.json`. Supports `--level`.
+- `scripts/render_guide_page_images.py`: renders source PDF pages referenced by guide JSON into `frontend/public/guide-pages/{level}/{key}/` so the site can show original page screenshots for figures, tables, and layout context. Supports `--level`, `--subject`, `--all`, `--force`.
+- `scripts/verify_data_alignment.py`: local consistency check for PDF references and app data. Compares the current `toc_manifest.json` against `build_manifest.py` + actual PDF page labels, checks guide/exam PDF references, and verifies guide/question chapter IDs and titles match the manifest. Supports `--level`.
 - `scripts/build_web.py`: thin wrapper that runs `npm run build` inside `frontend/`, outputting the React app to `docs/`.
-- `frontend/`: Vite project (React 19 + TypeScript + Tailwind CSS v4 + React Router v6 + Zustand). Source in `frontend/src/`; build config in `frontend/vite.config.ts`. All JSON data imported statically via `@data` alias (points to `data/初級/`) at build time. `SubjectOverviewPage.tsx` reads chapter metadata from `toc_manifest.json`.
+- `frontend/`: Vite project (React 19 + TypeScript + Tailwind CSS v4 + React Router v6 + Zustand). Source in `frontend/src/`; build config in `frontend/vite.config.ts`. All JSON data imported statically via `@data` alias (points to `data/初級/`) at build time. Chapter navigation and overview pages read chapter metadata from `toc_manifest.json`. `frontend/src/generated/` and `frontend/public/` PDF assets are versioned static inputs for the site; regenerate them with the export/render scripts when PDF extraction changes.
 - `data/{level}/toc_manifest.json`: committed static file — chapter definitions SSOT. Regenerate with `build_manifest.py --level {level}` when chapters change.
-- `data/{level}/extracted/`, `data/{level}/questions/`, `data/{level}/guide/`, `data/{level}/analysis/`, `data/{level}/pipeline/`, and `logs/`: generated data, exam payloads, guide content, analysis output, pipeline run artifacts, and run logs.
+- `data/{level}/extracted/`, `data/{level}/page_extract/`, `data/{level}/page_clean/`, `data/{level}/codex_page_review/`, `data/{level}/outline/`, `data/{level}/questions/`, `data/{level}/guide/`, `data/{level}/analysis/`, `data/{level}/pipeline/`, and `logs/`: generated data, page-faithful extraction, cleaned page text, Codex page audit output, outline analysis, exam payloads, guide content, analysis output, pipeline run artifacts, and run logs.
 
-Treat `data/{level}/questions/*.json`, `data/{level}/guide/*.json`, and `docs/` as build outputs unless you are intentionally curating content.
+Treat `data/{level}/questions/*.json` and `data/{level}/guide/*.json` as build outputs unless you are intentionally curating content. `docs/` is a local Vite build output and is gitignored; GitHub Pages is built by `.github/workflows/deploy.yml`.
 
 ## Build, Test, and Development Commands
 
@@ -31,10 +39,17 @@ This project uses `uv` for dependency management. Run `uv sync` after cloning to
 
 **Step 0 (run when chapters/PDFs change):**
 - `uv run python3 scripts/build_manifest.py`: regenerate `data/初級/toc_manifest.json` from embedded GUIDES_BY_LEVEL definition + PDF page calculations.
+- `python3 scripts/extract_pdf_pages_structured.py --level 初級 --all --force`: regenerate page-level text, bbox markers, and image/table crops for all PDFs.
+- `python3 scripts/clean_pdf_page_text.py --level 初級 --all`: clean page starts/ends, mark page continuation, and rebuild per-PDF hierarchy outlines.
+- `python3 scripts/codex_review_pdf_pages.py --level 初級 --key guide1 --page 7 --force`: review one cleaned page with Codex CLI in read-only sandbox; use `--all --limit N` to run in batches across PDFs.
+- `python3 scripts/export_guide_outline_data.py`: refresh frontend guide outline metadata and split guide content imports.
+- `python3 scripts/build_pdf_outline.py --level 初級 --all`: rebuild reviewable PDF hierarchy outlines from the page extraction.
+- `python3 scripts/export_pdf_image_gallery.py --level 初級 --force`: refresh frontend image/table gallery assets.
 
 **Guide pipeline (Vision extraction via Gemini):**
 - Step 1: `uv run python3 scripts/pdf_vision_extract.py --level 初級 --all` — render pages to PNG, call Gemini Vision API, cache results.
 - Step 2: `uv run python3 scripts/parse_guides.py --level 初級` — assemble chapter JSON from vision cache.
+- Step 2b: `python3 scripts/render_guide_page_images.py --level 初級 --all` — render original PDF page screenshots referenced by guide JSON.
 - Step 3 (required): `uv run python3 scripts/audit_chapters.py --level 初級 --all` — LLM chapter content audit. Use `--dry-run` to preview prompts.
 
 **Exam pipeline:**
@@ -42,12 +57,13 @@ This project uses `uv` for dependency management. Run `uv sync` after cloning to
 - `uv run python3 scripts/parse_exams_v2.py`: generate `mock_exam1.json`, `mock_exam2.json`, and `sample_exam.json` from extracted JSON tables.
 - `uv run python3 scripts/generate_questions.py --subject 1` (or `--subject 2`, `--enrich`): generate/enrich questions via Claude API (optional).
 - `python3 scripts/multi_ai_pipeline.py --subject 1 [--chapter s1c1] [--count 3] [--dry-run]`: run multi-AI pipeline for question generation, review, finalization, and answer validation (optional; requires gemini/codex/claude CLIs; uses subprocess only, no venv needed).
+- `python3 scripts/verify_data_alignment.py --level 初級`: verify PDF references, manifest page ranges, guide JSON, question JSON, and guide page screenshots are aligned.
 
 **Frontend:**
 - `uv run python3 scripts/build_web.py`: rebuild the frontend via Vite (`npm run build` in `frontend/`), outputting to `docs/`.
 - `cd frontend && npm run dev -- --host`: start the Vite dev server (use `--host` to expose to Windows from WSL).
 
-If `frontend/src/` or any data JSON changes, rerun `uv run python3 scripts/build_web.py` and commit the regenerated `docs/` in the same change.
+If `frontend/src/` or any data JSON changes, rerun `uv run python3 scripts/build_web.py` or `cd frontend && npm run build` to validate the production build. Do not commit `docs/` unless deployment strategy changes; it is currently gitignored and generated by GitHub Actions.
 
 ## Coding Style & Naming Conventions
 Follow the existing Python style: 4-space indentation, `snake_case` for functions and variables, short module docstrings, and `Path`-based filesystem access. Keep scripts self-contained and readable; prefer small helper functions over deeply nested logic. Name generated JSON files by content, for example `mock_exam1.json` or `subject2_questions.json`.
@@ -57,11 +73,12 @@ Follow the existing Python style: 4-space indentation, `snake_case` for function
 There is no formal automated test suite in this workspace yet. Validate changes by rerunning the pipeline and checking outputs:
 
 - confirm `data/初級/toc_manifest.json` exists and has `page_range` filled for all 7 chapters (not null)
-- `audit_chapters.py`: check `subject{N}_audit_report.json` — `overall_status` should be `PASS`; any `WARN`/`FAIL` needs review before generating questions
+- `python3 scripts/verify_data_alignment.py --level 初級`: should pass before relying on the PDF/manifest/app-data alignment
+- `audit_chapters.py`: check `subject{N}_audit_report.json` — `PASS` is ideal; any `WARN`/`FAIL` needs review before generating new questions
 - confirm expected files are regenerated in `data/初級/extracted/`, `data/初級/questions/`, `data/初級/guide/`
-- `parse_exams_v2.py`: exam1 and exam2 should each produce ~50 questions; check for WARN lines
+- `parse_exams_v2.py`: exam1 and exam2 currently produce fewer than 50 parsed questions because some PDF rows are not machine-parsed; check WARN lines and the actual JSON totals
 - `parse_guides.py`: each chapter should have > 1000 chars of content
-- spot-check JSON structure and a few rendered questions at `http://localhost:5173/` or in `docs/`; verify the card panel appears after answering a question that has `card` data; verify `SubjectOverviewPage` shows subtopics and page ranges from `toc_manifest.json`
+- spot-check JSON structure and a few rendered questions at `http://localhost:5173/` or in a local production build; verify the card panel appears after answering a question that has `card` data; verify subject overview and sidebar links reflect `toc_manifest.json`
 - review `logs/` for extraction or parsing errors
 - on narrow/mobile layouts, verify the study-question entry points are still reachable from the sidebar drawer (`☰`)
 - frontend: run `cd frontend && npm run build` — zero TypeScript errors and a successful Vite build expected
@@ -75,7 +92,7 @@ Git history is not available in this workspace, so use a simple, consistent conv
 
 - a short summary of the content or pipeline change
 - affected inputs and regenerated outputs
-- screenshots only when `docs/index.html` changes visually
+- screenshots only when frontend rendering changes visually
 
 ## Data & Output Handling
 Do not edit `.pdf:Zone.Identifier` files. Avoid manual edits to generated logs and derived JSON unless the change is intentionally curated and documented in the PR.

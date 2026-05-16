@@ -17,7 +17,7 @@ PDF→MD 解析品質直接決定出題品質，因此前處理必須正確：
 
 ## Build Pipeline
 
-所有腳本均支援 `--level` 參數（預設：`初級`），路徑解析為 `data/{level}/`。
+資料 pipeline scripts 支援 `--level` 參數（預設：`初級`），路徑解析為 `data/{level}/`。`build_web.py` 沒有 `--level` 參數，因為前端目前固定以 `@data` 匯入 `data/初級/`。
 新增等級時：① 在 `build_manifest.py` 的 `GUIDES_BY_LEVEL` 填入章節定義 ② 執行 `build_manifest.py --level 中級`。
 
 ### Step 0：生成章節目錄索引（僅在章節定義或 PDF 異動時執行）
@@ -25,6 +25,12 @@ PDF→MD 解析品質直接決定出題品質，因此前處理必須正確：
 ```bash
 uv run python3 scripts/build_manifest.py                    # 預設 初級
 uv run python3 scripts/build_manifest.py --level 初級       # → data/初級/toc_manifest.json
+python3 scripts/extract_pdf_pages_structured.py --level 初級 --all --force
+python3 scripts/clean_pdf_page_text.py --level 初級 --all
+python3 scripts/export_guide_outline_data.py
+python3 scripts/codex_review_pdf_pages.py --level 初級 --key guide1 --page 7 --force
+python3 scripts/build_pdf_outline.py --level 初級 --all
+python3 scripts/export_pdf_image_gallery.py --level 初級 --force
 ```
 
 ### Guide content pipeline（Vision 提取，主路線）
@@ -41,6 +47,7 @@ uv run python3 scripts/pdf_vision_extract.py --level 初級 --subject 1 --force 
 # Step 2: 組裝章節 JSON（自動偵測 pages_cache → vision mode；否則 fallback regex mode）
 uv run python3 scripts/parse_guides.py --level 初級      # → data/初級/guide/subject{1,2}_guide.json
 uv run python3 scripts/parse_guides.py --level 初級 --subject 1  # 只跑科目一
+python3 scripts/render_guide_page_images.py --level 初級 --all  # PDF 原頁截圖 → frontend/public/guide-pages/
 ```
 
 ### Step 3：解析後 LLM 審核（確認章節內容正確入庫）
@@ -59,6 +66,7 @@ uv run python3 scripts/audit_chapters.py --level 初級 --all --dry-run  # 預�
 ```bash
 uv run python3 scripts/extract_pdfs.py --level 初級      # PDFs → data/初級/extracted/*.{txt,json}
 uv run python3 scripts/parse_exams_v2.py --level 初級    # extracted JSON → data/初級/questions/*.json
+python3 scripts/verify_data_alignment.py --level 初級    # PDF / manifest / guide / questions alignment check
 # Optional: generate/enrich questions via Claude API
 uv run python3 scripts/generate_questions.py --level 初級 --subject 1
 uv run python3 scripts/generate_questions.py --level 初級 --subject 2
@@ -85,6 +93,12 @@ Frontend dependencies: run `cd frontend && npm install` after cloning (requires 
 ## Architecture
 
 - **`scripts/extract_pdfs.py`**: Uses `pdfplumber` for layout-aware text/table extraction and `PyMuPDF` as fallback. Writes per-PDF `.txt` and `.json` to `data/{level}/extracted/`. Guide PDFs are read from `toc_manifest.json`; exam PDFs are defined in `EXAM_PDFS_BY_LEVEL`. Supports `--level`.
+- **`scripts/extract_pdf_pages_structured.py`**: Page-faithful extraction. Converts every PDF page to text, records text/image/table bbox positions, and crops detected images/tables to PNG under `data/{level}/page_extract/{key}/assets/`. Use this when PDF → txt may lose figures, tables, or layout context.
+- **`scripts/clean_pdf_page_text.py`**: Cleans page starts/ends from `page_extract/` with per-PDF strategies, removes headers/footers/page labels/table labels, marks cross-page continuation, and rebuilds per-PDF outlines under `data/{level}/page_clean/{key}/`.
+- **`scripts/codex_review_pdf_pages.py`**: Runs Codex CLI (`codex exec --sandbox read-only`) to review cleaned pages and write per-page audit JSON under `data/{level}/codex_page_review/{key}/`. Requires authenticated Codex CLI and network access; supports batching with `--limit`.
+- **`scripts/export_guide_outline_data.py`**: Exports cleaned guide outlines to lightweight frontend metadata (`guideOutlines.json`) and split per-node content JSON under `frontend/src/generated/guideContent/{key}/`. GuidePage dynamically imports node content to keep the main bundle smaller.
+- **`scripts/build_pdf_outline.py`**: Builds reviewable PDF hierarchy outlines from `page_extract/`, using Vision headings when available and regex fallback otherwise. Outputs `data/{level}/outline/{key}_outline.{json,md}`.
+- **`scripts/export_pdf_image_gallery.py`**: Copies cropped image/table assets from `page_extract/` into `frontend/public/pdf-assets/{level}/` and writes `gallery.json` for the `#/images` frontend viewer.
 - **`scripts/parse_exams_v2.py`**: Parses question/answer tables from the extracted JSON (handles full-width characters A-D and parentheses). Outputs `mock_exam1.json`, `mock_exam2.json`, `sample_exam.json` to `data/{level}/questions/`. Note: `subject1/2_questions.json` are manually curated and not overwritten by this script. Supports `--level`.
 - **`scripts/build_manifest.py`**: Single source of truth for chapter definitions. Contains the only hardcoded `GUIDES_BY_LEVEL` dict in the codebase. Opens PDFs to compute `page_range` (0-based) for each chapter and writes `data/{level}/toc_manifest.json`. Run whenever chapters or PDFs change; all other scripts load from this manifest at runtime. Supports `--level`.
 - **`scripts/audit_chapters.py`**: LLM-based chapter content audit. Reads `subject{N}_guide.json`, sends each chapter's content + subtopics to Claude Haiku API, and checks whether all subtopics are covered and no content is misplaced. Outputs `subject{N}_audit_report.json` with `overall_status: PASS/WARN/FAIL`. Supports `--level`, `--subject`, `--all`, `--chapter`, `--dry-run`.
@@ -92,8 +106,10 @@ Frontend dependencies: run `cd frontend && npm install` after cloning (requires 
 - **`scripts/parse_guides.py`**: Assembles chapter JSON from vision cache (preferred) or falls back to regex-based text extraction. **Vision mode**: uses `pages_cache/{key}/` + PyMuPDF page-label map to determine per-chapter page ranges; concatenates LLM markdown. **Regex mode** (emergency fallback when cache <80% complete): splits `extracted/guide{N}.json` on in-document page-number anchors, cleans noise, converts structure via `text_to_markdown()`. Writes `data/{level}/guide/subject{N}_guide.json` with `content_format: 'markdown'`. Supports `--level`, `--subject`.
 - **`scripts/generate_questions.py`**: Calls Claude API to generate new questions per chapter (`--subject N`) or add `card` fields to existing questions (`--enrich`). Use `--dry-run` to preview prompts without API calls. Questions follow the extended schema with `card`, `difficulty`, `type`, and `tags` fields. Supports `--level`.
 - **`scripts/multi_ai_pipeline.py`**: Multi-AI question generation pipeline using three CLI tools via subprocess. Roles: Gemini (出題者) → Codex (審核者) → Claude (完稿者). After finalization all three AIs independently answer each question; if 2+ answer incorrectly the question is written to `flagged.json` for human review. Intermediate artifacts go to `data/{level}/pipeline/<run_id>/`. Final questions are merged into `subject{N}_questions.json`. Supports `--level`, `--subject`, `--chapter`, `--count`, `--dry-run`, `--skip-review`, `--skip-validation`, `--creator/reviewer/finalizer` overrides.
+- **`scripts/render_guide_page_images.py`**: Renders guide JSON `source_pages` from PDF into `frontend/public/guide-pages/{level}/{key}/`. The guide page shows these screenshots in a collapsible section to preserve figures, tables, layout, and cross-page context that plain text extraction can lose.
+- **`scripts/verify_data_alignment.py`**: Local consistency check for PDF references and app data. Compares current `toc_manifest.json` against `build_manifest.py` + actual PDF page labels, checks guide/exam PDF references, and verifies guide/question chapter IDs and titles match the manifest. Supports `--level`.
 - **`scripts/build_web.py`**: Thin wrapper that runs `npm run build` inside `frontend/`. Vite bundles the React app and outputs to `docs/` (local only). Production deployment is handled by `.github/workflows/deploy.yml` — push to `main` triggers GitHub Actions to build and deploy to GitHub Pages automatically (`docs/` is gitignored).
-- **`frontend/`**: Vite project (React 19 + TypeScript + Tailwind CSS v4 + React Router v6 + Zustand). Source in `frontend/src/`. Build config in `frontend/vite.config.ts` — output dir is `../docs`, `@data` alias points to `../data/初級`. All JSON data is imported statically at build time (no runtime fetch). Routes use HashRouter to avoid GitHub Pages 404 issues. `SubjectOverviewPage.tsx` imports `toc_manifest.json` to render chapter subtopics, PDF page ranges, and quick-links — do not add hardcoded chapter arrays back.
+- **`frontend/`**: Vite project (React 19 + TypeScript + Tailwind CSS v4 + React Router v6 + Zustand). Source in `frontend/src/`. Build config in `frontend/vite.config.ts` — output dir is `../docs`, `@data` alias points to `../data/初級`. All JSON data is imported statically at build time (no runtime fetch). Routes use HashRouter to avoid GitHub Pages 404 issues. Chapter navigation and overview pages import `toc_manifest.json` to render titles, subtopics, PDF page ranges, and quick-links — do not add hardcoded chapter arrays back.
 - The study-question pages are reached from sidebar `✏️` items (route `/practice/:subjectId/:chapterId`). On mobile widths the sidebar is hidden behind the `☰` drawer button, so navigation regressions should be checked there too.
 
 **Note:** All scripts use hardcoded absolute `BASE = Path('/home/james/projects/ipas-test')`. Update `BASE` if moving the repo. All other paths are derived from `BASE / 'data' / level`.
@@ -109,7 +125,7 @@ Treat `data/{level}/questions/*.json`, `data/{level}/guide/*.json`, and `docs/` 
 - `subject{N}_audit_report.json` — LLM 章節審核報告；`overall_status: PASS/WARN/FAIL`；由 `audit_chapters.py` 生成
 
 `data/{level}/pages_cache/` — Vision API 每頁快取（gitignored）。`content_format: 'markdown'` JSON 欄位控制前端渲染模式（GuidePage.tsx 用 ReactMarkdown 渲染）。
-If `frontend/src/` or any data JSON changes, rerun `uv run python3 scripts/build_web.py` (or `cd frontend && npm run build`) and commit the regenerated `docs/` together with the source change.
+If `frontend/src/` or any data JSON changes, rerun `uv run python3 scripts/build_web.py` (or `cd frontend && npm run build`) to validate the production build. `docs/` is gitignored and normally should not be committed; GitHub Actions rebuilds it for Pages.
 
 `data/{level}/pipeline/` holds intermediate artifacts from `multi_ai_pipeline.py` runs (draft, review, final, validation, flagged JSON per chapter). These are gitignored and do not need to be committed unless curating a specific run.
 
@@ -128,12 +144,13 @@ Question schema (extended with card fields):
 
 After running the pipeline:
 - Check that `data/初級/toc_manifest.json` exists with `page_range` filled (not null) for all 7 chapters
+- Run `python3 scripts/verify_data_alignment.py --level 初級`; it should pass before relying on PDF/manifest/app-data/screenshot alignment
 - Check that expected files are regenerated under `data/初級/extracted/`, `data/初級/questions/`, `data/初級/guide/`
-- `audit_chapters.py`: check `subject{N}_audit_report.json` — `overall_status` should be `PASS`; any `WARN` or `FAIL` chapters need review before question generation
+- `audit_chapters.py`: check `subject{N}_audit_report.json` — `PASS` is ideal; any `WARN` or `FAIL` chapters need review before question generation
 - `pdf_vision_extract.py`: check `pages_cache/{key}/summary.json` — `missing` and `error` should be 0; check `page_index.json` exists
 - `parse_guides.py`: confirm `[vision mode]` printed (not `[regex mode]`); each chapter should have > 1000 chars
-- `parse_exams_v2.py`: exam1 and exam2 should each produce ~50 questions (check for WARN lines)
-- Spot-check JSON structure and rendered questions at `http://localhost:5173/` (dev) or `docs/index.html` (build); verify card panel appears after answering a question with `card` data
+- `parse_exams_v2.py`: exam1 and exam2 currently produce fewer than 50 parsed questions because some PDF rows are not machine-parsed; check WARN lines and actual JSON totals
+- Spot-check JSON structure and rendered questions at `http://localhost:5173/` (dev) or a local production build; verify card panel appears after answering a question with `card` data
 - On mobile-width layouts, confirm the `☰` drawer still exposes the `✏️` study-question entries
 - Review `logs/` for extraction or parsing errors
 - Frontend: run `cd frontend && npm run build` (tsc + vite) — zero TypeScript errors expected

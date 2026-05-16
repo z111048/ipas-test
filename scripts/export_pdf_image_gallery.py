@@ -1,0 +1,115 @@
+#!/usr/bin/env python3
+"""Export cropped PDF image/table assets to frontend/public with a gallery manifest."""
+
+import argparse
+import json
+import shutil
+from pathlib import Path
+
+BASE = Path('/home/james/projects/ipas-test')
+KEY_ORDER = {'guide1': 0, 'guide2': 1, 'sample': 2, 'exam1': 3, 'exam2': 4}
+TYPE_ORDER = {'page': 0, 'image': 1, 'table': 2}
+
+
+def load_json(path: Path) -> dict:
+    with path.open(encoding='utf-8') as f:
+        return json.load(f)
+
+
+def export_gallery(level: str, force: bool) -> dict:
+    source_root = BASE / 'data' / level / 'page_extract'
+    public_root = BASE / 'frontend' / 'public' / 'pdf-assets' / level
+    if force and public_root.exists():
+        shutil.rmtree(public_root)
+    public_root.mkdir(parents=True, exist_ok=True)
+
+    items = []
+    for key_dir in sorted(path for path in source_root.iterdir() if path.is_dir()):
+        key = key_dir.name
+        pages_dir = key_dir / 'pages'
+        if not pages_dir.exists():
+            continue
+        for page_path in sorted(pages_dir.glob('page_*.json')):
+            page = load_json(page_path)
+            page_image = page.get('page_image')
+            if page_image and page_image.get('path'):
+                source_path = (page_path.parent / page_image['path']).resolve()
+                if source_path.exists():
+                    dest_rel = Path(key) / f'page_{page["page_index"]:03d}' / source_path.name
+                    dest_path = public_root / dest_rel
+                    if force or not dest_path.exists():
+                        dest_path.parent.mkdir(parents=True, exist_ok=True)
+                        shutil.copy2(source_path, dest_path)
+                    items.append({
+                        'id': f'{key}-p{page["page_index"]:03d}-page',
+                        'key': key,
+                        'pdf': page['pdf'],
+                        'type': 'page',
+                        'asset_id': 'page',
+                        'page_index': page['page_index'],
+                        'page_number': page['page_number'],
+                        'page_label': page.get('page_label') or '',
+                        'bbox': page_image.get('bbox', []),
+                        'path': f'/pdf-assets/{level}/{dest_rel.as_posix()}',
+                    })
+            for kind in ('images', 'tables'):
+                for asset in page.get(kind, []):
+                    rel_source = asset.get('path')
+                    if not rel_source:
+                        continue
+                    source_path = (page_path.parent / rel_source).resolve()
+                    if not source_path.exists():
+                        continue
+                    item_type = 'image' if kind == 'images' else 'table'
+                    dest_rel = Path(key) / f'page_{page["page_index"]:03d}' / source_path.name
+                    dest_path = public_root / dest_rel
+                    if force or not dest_path.exists():
+                        dest_path.parent.mkdir(parents=True, exist_ok=True)
+                        shutil.copy2(source_path, dest_path)
+                    items.append({
+                        'id': f'{key}-p{page["page_index"]:03d}-{asset["id"]}',
+                        'key': key,
+                        'pdf': page['pdf'],
+                        'type': item_type,
+                        'asset_id': asset['id'],
+                        'page_index': page['page_index'],
+                        'page_number': page['page_number'],
+                        'page_label': page.get('page_label') or '',
+                        'bbox': asset.get('bbox', []),
+                        'path': f'/pdf-assets/{level}/{dest_rel.as_posix()}',
+                    })
+
+    items.sort(key=lambda item: (
+        KEY_ORDER.get(item['key'], len(KEY_ORDER)),
+        TYPE_ORDER.get(item['type'], len(TYPE_ORDER)),
+        item['page_number'],
+        item['asset_id'],
+    ))
+
+    manifest = {
+        'level': level,
+        'total': len(items),
+        'items': items,
+    }
+    manifest_text = json.dumps(manifest, ensure_ascii=False, indent=2)
+    manifest_path = public_root / 'gallery.json'
+    manifest_path.write_text(manifest_text, encoding='utf-8')
+
+    src_manifest_path = BASE / 'frontend' / 'src' / 'generated' / 'pdfGallery.json'
+    src_manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    src_manifest_path.write_text(manifest_text, encoding='utf-8')
+    return manifest
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--level', default='初級', help='資料等級資料夾（預設: 初級）')
+    parser.add_argument('--force', action='store_true', help='overwrite copied public assets')
+    args = parser.parse_args()
+
+    manifest = export_gallery(args.level, args.force)
+    print(f'Exported {manifest["total"]} image/table assets to frontend/public/pdf-assets/{args.level}')
+
+
+if __name__ == '__main__':
+    main()

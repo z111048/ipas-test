@@ -10,6 +10,11 @@
 ipas-test/
 ├── scripts/                      # 資料處理腳本
 │   ├── build_manifest.py         # ★ 章節定義 SSOT → data/{level}/toc_manifest.json
+│   ├── extract_pdf_pages_structured.py # PDF 逐頁文字 + 圖表 bbox + 裁切圖檔
+│   ├── build_pdf_outline.py      # 從逐頁抽取結果建立 PDF 階層目錄
+│   ├── clean_pdf_page_text.py    # 清理逐頁文字 + 重建 page_clean 目錄
+│   ├── export_guide_outline_data.py # 匯出前端 PDF 目錄 metadata + 拆分內容
+│   ├── export_pdf_image_gallery.py # 匯出圖表檢視頁所需 public assets + manifest
 │   ├── pdf_vision_extract.py     # PDF → Gemini Vision → pages_cache + page_index.json（有 LLM）
 │   ├── parse_guides.py           # pages_cache/extracted → 章節 JSON（vision/regex）
 │   ├── audit_chapters.py         # 解析後 LLM 審核 → subject{N}_audit_report.json
@@ -17,10 +22,14 @@ ipas-test/
 │   ├── parse_exams_v2.py         # JSON 表格 → 模擬考試題庫 JSON
 │   ├── generate_questions.py     # Claude API → 章節題目 + 解說圖卡
 │   ├── multi_ai_pipeline.py      # 多 AI 出題流水線（Gemini/Codex/Claude CLI）
+│   ├── render_guide_page_images.py # 學習指引 PDF 原頁截圖 → frontend/public/guide-pages/
+│   ├── verify_data_alignment.py  # 檢查 PDF / manifest / guide / questions 是否一致
 │   └── build_web.py              # 呼叫 npm run build → docs/
 ├── frontend/                     # Vite 前端專案
 │   ├── src/                      # React + TypeScript 原始碼
 │   │   ├── pages/                # 頁面元件（Home、SubjectOverview、Practice、Exam、Guide）
+│   │   ├── generated/            # 版控的前端靜態資料（guide outline/content、gallery manifest）
+│   ├── public/                   # 版控的靜態 PDF 圖片/表格/原頁截圖資源
 │   │   ├── components/           # UI 元件（layout、practice、exam、shared）
 │   │   ├── store/                # Zustand 狀態管理（examStore）
 │   │   ├── hooks/                # useExamTimer
@@ -30,21 +39,23 @@ ipas-test/
 │   ├── vite.config.ts            # 輸出至 ../docs，@data alias → ../data/初級
 │   └── package.json              # React 19、TW v4、React Router v6、Zustand v5
 ├── data/
-│   └── 初級/                     # 初級資料（gitignore）
+│   └── 初級/                     # 初級資料（manifest 與 curated JSON 可提交；bulk 產物 gitignored）
 │       ├── pdfs/                 # 原始 PDF 來源
 │       ├── extracted/            # 從 PDF 萃取的文字與結構（.txt / .json）
 │       ├── questions/            # 題庫 JSON（mock_exam*.json、subject*_questions.json）
 │       ├── toc_manifest.json     # ★ 章節定義 SSOT（由 build_manifest.py 生成，需提交）
 │       ├── guide/                # 學習指引輸出（subject{N}_guide.json、_audit_report.json 等）
+│       ├── page_extract/         # 逐頁 PDF 結構抽取與圖表裁切（gitignore）
+│       ├── outline/              # PDF 階層目錄分析結果（gitignore）
 │       ├── analysis/             # 章節／題型分析（exam_analysis.json）
 │       └── pipeline/             # multi_ai_pipeline.py 各次執行的中間產物（gitignore）
 ├── logs/                         # 執行 log（gitignore）
-└── docs/                         # GitHub Pages 網站（Vite 建置輸出）
+└── docs/                         # 本機 Vite 建置輸出（gitignored；GitHub Actions 會重新 build）
     ├── index.html                # 入口 HTML（434 B）
     └── assets/                   # 打包後的 JS + CSS
 ```
 
-> 後續擴充中級時，在 `data/` 下新增 `中級/` 資料夾，依相同結構組織 PDF 與題庫，並於 `scripts/` 中以 `LEVEL = '中級'` 切換或建立獨立腳本。
+> 後續擴充中級時，在 `data/` 下新增 `中級/` 資料夾，依相同結構組織 PDF 與題庫，並於 `scripts/build_manifest.py` 的 `GUIDES_BY_LEVEL` 與 `scripts/extract_pdfs.py` 的 `EXAM_PDFS_BY_LEVEL` 補上對應資料。資料 pipeline scripts 已支援 `--level 中級`。
 
 ---
 
@@ -64,6 +75,13 @@ ipas-test/
 uv run python3 scripts/build_manifest.py                    # 預設 初級
 uv run python3 scripts/build_manifest.py --level 初級       # → data/初級/toc_manifest.json
 
+# 0b. 逐頁保真抽取：文字 + 圖片/表格位置 + 圖表裁切
+python3 scripts/extract_pdf_pages_structured.py --level 初級 --all --force
+python3 scripts/clean_pdf_page_text.py --level 初級 --all
+python3 scripts/export_guide_outline_data.py
+python3 scripts/build_pdf_outline.py --level 初級 --all
+python3 scripts/export_pdf_image_gallery.py --level 初級 --force
+
 # ── 學習指引 Guide pipeline（Vision 提取，需 GEMINI_API_KEY）────────────
 
 # Step 1: PDF 逐頁送 Gemini Vision（結果快取於 pages_cache/）
@@ -72,6 +90,7 @@ uv run python3 scripts/pdf_vision_extract.py --level 初級 --subject 1 # 只跑
 
 # Step 2: 組合章節 JSON
 uv run python3 scripts/parse_guides.py --level 初級                   # 組合章節 JSON
+python3 scripts/render_guide_page_images.py --level 初級 --all       # 產生網站用 PDF 原頁截圖
 
 # Step 3: 解析後 LLM 審核（確認頁面→章節對應正確）
 uv run python3 scripts/audit_chapters.py --level 初級 --all           # 兩科全審
@@ -85,6 +104,9 @@ uv run python3 scripts/extract_pdfs.py --level 初級
 
 # 2. 解析模擬考試題目（公告試題 / 樣題）
 uv run python3 scripts/parse_exams_v2.py --level 初級
+
+# 3. 檢查 PDF 參考、manifest、學習指引與題庫章節是否對齊
+python3 scripts/verify_data_alignment.py --level 初級
 
 # 4a. （選用）透過 Claude API 生成／補充題目（單一模型）
 export ANTHROPIC_API_KEY=sk-ant-...
@@ -108,7 +130,7 @@ uv run python3 scripts/build_web.py
 cd frontend && npm run dev -- --host    # http://localhost:5173/（--host 供 WSL 存取）
 ```
 
-> `docs/` 是 Vite 的建置輸出目錄。只要 `frontend/src/` 或任何資料 JSON 有變動，就必須重新執行 `uv run python3 scripts/build_web.py`，並將更新後的 `docs/` 一起納入 commit。
+> `docs/` 是 Vite 的本機建置輸出目錄，已 gitignored。只要 `frontend/src/` 或任何資料 JSON 有變動，就重新執行 `uv run python3 scripts/build_web.py` 或 `cd frontend && npm run build` 驗證 production build；push 到 `main` 後 GitHub Actions 會重新 build 並部署。
 
 依賴套件：
 
@@ -125,6 +147,110 @@ cd frontend && npm install                 # 前端依賴（React、Vite、Tailw
 
 ## 腳本實作說明
 
+### `scripts/extract_pdf_pages_structured.py`
+
+逐頁抽取所有 PDF，保留純文字以外的版面資訊：
+
+- 每頁輸出 `data/{level}/page_extract/{key}/pages/page_NNN.json` 與 `.md`
+- `text`：該頁文字層內容
+- `blocks`：文字 block 與 bbox
+- `images`：圖片 bbox 與裁切 PNG 路徑
+- `tables`：表格 bbox、裁切 PNG 路徑與抽出的 rows
+- `markers`：依頁面座標排序的 image/table 位置標記
+
+```bash
+python3 scripts/extract_pdf_pages_structured.py --level 初級 --all --force
+python3 scripts/extract_pdf_pages_structured.py --level 初級 --key guide1
+```
+
+這個輸出用來彌補 PDF → txt 的資訊遺失：圖、表、版面位置、跨頁脈絡都可透過 bbox 與裁切圖回查。
+
+---
+
+### `scripts/build_pdf_outline.py`
+
+讀取 `page_extract/` 的逐頁 JSON，建立可審核的 PDF 階層目錄：
+
+- guide PDF 若已有 `pages_cache/{key}/page_*.json`，優先使用 Vision headings 建立 L2/L3/L4 階層
+- 否則 fallback 到文字規則：章名、`3.1`、`（1）`、`A.` 等模式
+- 輸出 `data/{level}/outline/{key}_outline.json` 與 `.md`
+
+```bash
+python3 scripts/build_pdf_outline.py --level 初級 --all
+python3 scripts/build_pdf_outline.py --level 初級 --key guide1
+```
+
+---
+
+### `scripts/clean_pdf_page_text.py`
+
+讀取 `page_extract/`，針對不同 PDF key 套用清理策略，產出可審核的逐頁文字與階層目錄：
+
+- 移除頁首、頁尾、頁碼、PDF 頁籤、表格欄名等非正文內容
+- 判斷 `continues_from_previous` 與 `continues_to_next`
+- guide PDF 會用目錄頁回填 `3.1` / `3.2` 等標題文字
+- 輸出 `data/{level}/page_clean/{key}/pages/page_NNN.json`
+- 輸出 `data/{level}/page_clean/{key}/outline.json` 與 `.md`
+
+```bash
+python3 scripts/clean_pdf_page_text.py --level 初級 --all
+python3 scripts/clean_pdf_page_text.py --level 初級 --key guide1
+```
+
+---
+
+### `scripts/codex_review_pdf_pages.py`
+
+使用 Codex CLI 在 read-only sandbox 中逐頁審核 `page_clean/` 結果，並輸出結構化 JSON：
+
+- 檢查開頭/結尾是否清乾淨
+- 判斷跨頁延續
+- 確認章節階層是否漏判或誤判
+- 輸出 `data/{level}/codex_page_review/{key}/page_NNN.json`
+- schema 在 `scripts/codex_page_review.schema.json`
+
+```bash
+python3 scripts/codex_review_pdf_pages.py --level 初級 --key guide1 --page 7 --force
+python3 scripts/codex_review_pdf_pages.py --level 初級 --all --limit 5
+python3 scripts/codex_review_pdf_pages.py --level 初級 --key guide1 --with-image
+```
+
+執行此腳本需要已登入的 `codex` CLI 與網路權限。腳本會使用臨時 `CODEX_HOME=/tmp/ipas-codex-page-review-home`，但 Codex 代理本身仍以 `--sandbox read-only` 執行。
+
+---
+
+### `scripts/export_guide_outline_data.py`
+
+將 `page_clean/{key}/outline.json` 匯出成前端使用的完整 PDF 目錄資料：
+
+- `frontend/src/generated/guideOutlines.json`：只放目錄 metadata、parent/children、route、page range、content ref
+- `frontend/src/generated/guideContent/{key}/{nodeId}.json`：單一節點正文與 PDF 原頁截圖索引
+- 匯出時會驗證 node id 唯一、parent/child 關係、depth、page range、content file 是否存在
+
+```bash
+python3 scripts/export_guide_outline_data.py
+```
+
+前端 Sidebar、SubjectOverviewPage、GuidePage 共用這份 metadata tree；GuidePage 會依 route 動態載入單一 content JSON，避免把整份學習指引正文打包進主 bundle。
+
+---
+
+### `scripts/export_pdf_image_gallery.py`
+
+將 `page_extract/` 裡裁切出的圖片與表格複製到 `frontend/public/pdf-assets/{level}/`，並產生 `gallery.json`。前端 route `#/images` 會讀取這份 manifest，提供 PDF key、類型、頁碼篩選與大圖檢視。
+
+```bash
+python3 scripts/export_pdf_image_gallery.py --level 初級 --force
+```
+
+---
+
+## 考試及格標準
+
+初級同時報考兩科時，兩科平均達 70 分視為及格，但任一單科不得低於 60 分。單科成績達 70 分以上者，保留及格單科成績自應考日起三年度有效。首頁「考試說明」採用此規則顯示；模擬考 JSON 的 `passing_score` 目前仍用於單份模擬卷結果門檻。
+
+---
+
 ### `scripts/extract_pdfs.py`
 
 以 `pdfplumber` 為主要 PDF 解析器，`PyMuPDF`（`fitz`）為備援。
@@ -134,7 +260,7 @@ cd frontend && npm install                 # 前端依賴（React、Vite、Tailw
 2. 每頁輸出一個 dict：`{page, text, tables, width, height}`。
 3. 每份 PDF 同時存成 `.txt`（供人工閱覽）與 `.json`（供後續程式解析）。
 
-**鍵名對應（`PDFS` dict）：**
+**鍵名對應（學習指引來自 `toc_manifest.json`，考試 PDF 來自 `EXAM_PDFS_BY_LEVEL`）：**
 
 | 鍵 | 說明 |
 |---|---|
@@ -144,7 +270,7 @@ cd frontend && npm install                 # 前端依賴（React、Vite、Tailw
 | `exam2` | 科目二公告試題 |
 | `sample` | 考試樣題（114 年 9 月版） |
 
-擴充其他年度或等級時，在 `PDFS` dict 新增鍵值，並更新 `LEVEL` 變數（目前為 `'初級'`）。
+擴充其他年度或等級時，在 `EXAM_PDFS_BY_LEVEL` dict 新增對應 PDF 檔名；學習指引 PDF 則從 `toc_manifest.json` 讀取。
 
 ---
 
@@ -191,7 +317,7 @@ cd frontend && npm install                 # 前端依賴（React、Vite、Tailw
 
 **章節定義 SSOT**。內嵌所有科目/章節的 metadata（唯一需要硬編碼 `GUIDES_BY_LEVEL` dict 的腳本），以 PyMuPDF 計算每章的 PDF 頁碼範圍（0-based），輸出 `data/{level}/toc_manifest.json`。支援 `--level`。
 
-所有其他腳本（`parse_guides.py`、`pdf_vision_extract.py`）和前端（`SubjectOverviewPage.tsx`）均從此 manifest 讀取，不得在他處重複定義章節。
+資料腳本（例如 `parse_guides.py`、`pdf_vision_extract.py`）和前端章節導覽／總覽均從此 manifest 讀取，不得在他處重複定義章節。
 
 ```bash
 uv run python3 scripts/build_manifest.py                    # 預設 初級
@@ -326,6 +452,32 @@ python3 scripts/multi_ai_pipeline.py --level 初級 --subject 1 --skip-review --
 
 ---
 
+### `scripts/verify_data_alignment.py`
+
+本地一致性檢查，用來確認 PDF 參考資料與系統使用的章節資料沒有分岔：
+
+- 重新依 `build_manifest.py` 與目前 PDF 頁碼標籤計算 manifest，並與 `data/{level}/toc_manifest.json` 比對（忽略 `generated_at`）。
+- 檢查 manifest 內的學習指引 PDF 與 `extract_pdfs.py` 的考試 PDF 檔名是否存在。
+- 檢查 `subject{N}_guide.json` 與 `subject{N}_questions.json` 的章節 ID / title 是否符合 manifest，且章節題庫不是空的。
+- 檢查 guide JSON 內的 PDF 原頁截圖路徑是否存在於 `frontend/public/guide-pages/`。
+
+```bash
+python3 scripts/verify_data_alignment.py --level 初級
+```
+
+---
+
+### `scripts/render_guide_page_images.py`
+
+將 `subject{N}_guide.json` 內的 `source_pages` 渲染成 PNG，輸出至 `frontend/public/guide-pages/{level}/{key}/`。網站學習指引頁會以可展開區塊顯示這些原頁截圖，用來保留純文字抽取會遺失的圖、表、版面與跨頁脈絡。
+
+```bash
+python3 scripts/render_guide_page_images.py --level 初級 --all
+python3 scripts/render_guide_page_images.py --level 初級 --subject 1 --force
+```
+
+---
+
 ### `scripts/build_web.py`
 
 Thin wrapper，呼叫 `frontend/` 下的 `npm run build`，讓 Vite 將 React 前端打包輸出至 `docs/`。
@@ -372,5 +524,5 @@ docs/
 
 1. 在 `data/中級/pdfs/` 放入中級 PDF。
 2. 在 `scripts/build_manifest.py` 的 `GUIDES_BY_LEVEL` dict 加入中級章節定義，執行 `uv run python3 scripts/build_manifest.py --level 中級` 生成 manifest。
-3. 所有腳本已支援 `--level 中級`，直接以 `--level 中級` 執行各 pipeline 步驟即可（不需修改程式碼）。
+3. 資料 pipeline scripts 已支援 `--level 中級`，直接以 `--level 中級` 執行各 pipeline 步驟即可（不需修改程式碼）。
 4. 在 `scripts/build_web.py` 載入中級題庫與學習指引，並加入網頁 UI。
