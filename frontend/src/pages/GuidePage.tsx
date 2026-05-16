@@ -74,6 +74,7 @@ export default function GuidePage() {
   const notice = chapterId ? GUIDE_NOTICES[chapterId] : undefined
   const sourcePages = content?.sourcePages ?? []
   const childChapters = chapter.children.map((childId) => outlineGuide.nodesById[childId]).filter(Boolean)
+  const hasChildChapters = childChapters.length > 0
   const pageRange = `PDF 第 ${chapter.pageRange[0]}–${chapter.pageRange[1]} 頁`
 
   return (
@@ -124,17 +125,22 @@ export default function GuidePage() {
             </span>
           )}
         </div>
-        {childChapters.length > 0 && (
+        {hasChildChapters && (
           <>
             <div className="text-[0.82rem] text-text-light font-semibold mb-2 mt-4">下層章節</div>
-            <div className="flex flex-wrap gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {childChapters.map((child) => (
                 <Link
                   key={child.id}
                   to={`/guide/${subjectId}/${child.id}`}
-                  className="text-[0.82rem] bg-[#e8f4fd] text-accent-hover px-3 py-1 rounded-full border border-accent/20 no-underline"
+                  className="block bg-[#f7fbff] text-primary px-4 py-3 rounded-lg border border-accent/20 no-underline hover:border-accent hover:bg-[#eef7ff]"
                 >
-                  {child.number ? `${child.number} ` : ''}{child.title}
+                  <span className="block text-[0.9rem] font-semibold">
+                    {child.number ? `${child.number} ` : ''}{child.title}
+                  </span>
+                  <span className="block text-[0.74rem] text-text-light mt-1">
+                    PDF 第 {child.pageRange[0]}–{child.pageRange[1]} 頁
+                  </span>
                 </Link>
               ))}
             </div>
@@ -189,6 +195,30 @@ export default function GuidePage() {
             </details>
           )}
 
+          {hasChildChapters ? (
+            <div className="bg-card rounded-xl shadow-sm border border-border p-5">
+              <div className="text-primary font-semibold mb-2">請選擇下層章節</div>
+              <p className="text-[0.9rem] leading-7 text-text-light mb-4">
+                這一層是 PDF 的章節容器，內容已依下層章節拆開，避免把多個章節連在同一頁閱讀。
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {childChapters.map((child) => (
+                  <Link
+                    key={child.id}
+                    to={`/guide/${subjectId}/${child.id}`}
+                    className="block border border-border rounded-lg px-4 py-3 no-underline hover:border-accent hover:bg-[#f7fbff]"
+                  >
+                    <span className="block text-primary font-semibold">
+                      {child.number ? `${child.number} ` : ''}{child.title}
+                    </span>
+                    <span className="block text-[0.78rem] text-text-light mt-1">
+                      PDF 第 {child.pageRange[0]}–{child.pageRange[1]} 頁
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ) : (
           <div className="bg-card rounded-xl shadow-sm border border-border p-5">
             {isMarkdown ? (
               <div className="prose prose-sm max-w-none text-[0.9rem] leading-8 text-app-text">
@@ -201,8 +231,17 @@ export default function GuidePage() {
                   h3: ({ children }) => (
                     <h3 className="text-base font-semibold text-accent mt-4 mb-1">{children}</h3>
                   ),
+                  h4: ({ children }) => (
+                    <h4 className="text-[0.96rem] font-semibold text-primary mt-4 mb-1">{children}</h4>
+                  ),
+                  h5: ({ children }) => (
+                    <h5 className="text-[0.9rem] font-semibold text-app-text mt-3 mb-1">{children}</h5>
+                  ),
+                  h6: ({ children }) => (
+                    <h6 className="text-[0.86rem] font-semibold text-text-light mt-3 mb-1">{children}</h6>
+                  ),
                   p: ({ children }) => (
-                    <p className="mb-3 leading-8">{children}</p>
+                    <p className="mb-3 leading-8 whitespace-pre-line">{children}</p>
                   ),
                   ul: ({ children }) => (
                     <ul className="list-disc list-outside pl-5 mb-3 space-y-1">{children}</ul>
@@ -247,6 +286,7 @@ export default function GuidePage() {
               </div>
             )}
           </div>
+          )}
         </div>
       </div>
     </div>

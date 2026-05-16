@@ -36,6 +36,60 @@ def page_content(key: str, start_page: int, end_page: int) -> str:
     return '\n\n'.join(chunks).strip()
 
 
+def markdown_heading_for_line(line: str, root_title: str) -> str | None:
+    """Map common PDF outline markers to Markdown headings."""
+    text = line.strip()
+    if not text:
+        return None
+    if re.match(r'^第[一二三四五六七八九十]+章\s+', text):
+        return f'## {text}'
+    if re.match(r'^\d+\.\d+\s+', text):
+        return f'## {text}'
+    if re.match(r'^\d+\.$', text):
+        return f'### {text}'
+    if re.match(r'^（\d+）', text):
+        return f'#### {text}'
+    if re.match(r'^[A-Z]\.\s+', text):
+        return f'##### {text}'
+    if re.match(r'^[a-z]\.\s+', text):
+        return f'###### {text}'
+    if text == root_title:
+        return f'## {text}'
+    return None
+
+
+def format_markdown(title: str, raw_content: str) -> str:
+    lines = [line.rstrip() for line in raw_content.splitlines()]
+    result = [f'# {title}', '']
+    seen_page_headers: set[str] = set()
+    previous_blank = True
+
+    for line in lines:
+        text = line.strip()
+        if not text:
+            if not previous_blank:
+                result.append('')
+                previous_blank = True
+            continue
+
+        heading = markdown_heading_for_line(text, title)
+        if heading:
+            if text in seen_page_headers and re.match(r'^第[一二三四五六七八九十]+章\s+', text):
+                continue
+            seen_page_headers.add(text)
+            if not previous_blank:
+                result.append('')
+            result.append(heading)
+            result.append('')
+            previous_blank = True
+            continue
+
+        result.append(text)
+        previous_blank = False
+
+    return '\n'.join(result).strip()
+
+
 def source_pages(key: str, start_page: int, end_page: int) -> list[dict]:
     pages_dir = BASE / 'data' / LEVEL / 'page_clean' / key / 'pages'
     result = []
@@ -115,7 +169,7 @@ def build_nodes(
         write_json(content_dir / key / content_ref, {
             'id': current_id,
             'title': raw_node.get('title') or '',
-            'content': f'# {raw_node.get("title") or ""}\n\n{content}'.strip(),
+            'content': format_markdown(raw_node.get('title') or '', content),
             'contentFormat': 'markdown',
             'sourcePages': source_pages(key, start_page, end_page),
         })
