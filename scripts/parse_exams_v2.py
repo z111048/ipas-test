@@ -5,7 +5,21 @@ import json
 import re
 from pathlib import Path
 
+from extract_pdfs import EXAM_PDFS_BY_LEVEL
+
 BASE = Path('/home/james/projects/ipas-test')
+
+EXAM_TITLES_BY_LEVEL: dict[str, dict[str, str]] = {
+    '初級': {
+        'exam1': '科目一 模擬考試：人工智慧基礎概論（114年第四梯次公告試題）',
+        'exam2': '科目二 模擬考試：生成式AI應用與規劃（114年第四梯次公告試題）',
+        'sample': '考試樣題（114年9月版）',
+    },
+    '中級': {
+        'exam1': '中級科目一 模擬考試：人工智慧技術應用與規劃（114年第二梯次公告試題）',
+        'exam3': '中級科目三 模擬考試：機器學習技術與應用（114年第二梯次公告試題）',
+    },
+}
 
 FW_MAP = {'Ａ': 'A', 'Ｂ': 'B', 'Ｃ': 'C', 'Ｄ': 'D', '（': '(', '）': ')'}
 
@@ -62,28 +76,62 @@ def parse_exam_json(key: str, data_dir: Path) -> list[dict]:
     with open(data_dir / 'extracted' / f'{key}.json', encoding='utf-8') as f:
         data = json.load(f)
     questions = []
-    qnum = 0
+    pending_answer: str | None = None
+    pending_cell = ''
+
+    def flush_pending() -> None:
+        nonlocal pending_answer, pending_cell
+        if not pending_answer or not pending_cell.strip():
+            pending_answer = None
+            pending_cell = ''
+            return
+        qnum = len(questions) + 1
+        q = parse_question_cell(pending_answer, pending_cell, qnum, key)
+        if q:
+            questions.append(q)
+        else:
+            print(
+                f"  WARN: {key} row {qnum} skipped "
+                f"(answer={pending_answer!r}, cell={pending_cell[:40]!r})"
+            )
+        pending_answer = None
+        pending_cell = ''
 
     for page in data['pages']:
         for table in page.get('tables', []):
             for row in table:
                 if not row or len(row) < 2:
                     continue
-                answer = str(row[0] or '').strip()
-                cell = str(row[1] or '').strip()
-                if not cell or not answer:
-                    continue
+                cells = [str(cell or '').strip() for cell in row]
                 # Skip header rows
-                if answer in ('答案', '題號', '題 目', ''):
+                if any(cell in ('答案', '題號', '題目', '題 目') for cell in cells):
                     continue
-                if not re.match(r'^[A-DＡＢＣＤ]$', normalize(answer)):
-                    continue
-                qnum += 1
-                q = parse_question_cell(answer, cell, qnum, key)
-                if q:
-                    questions.append(q)
+
+                answer = None
+                answer_index = -1
+                for index, cell in enumerate(cells):
+                    normalized = normalize(cell)
+                    if re.match(r'^[A-D]$', normalized):
+                        answer = normalized
+                        answer_index = index
+                        break
+
+                text_cells = [
+                    cell for index, cell in enumerate(cells)
+                    if index != answer_index and cell and cell not in ('新',)
+                ]
+                cell = max(text_cells, key=len, default='').strip()
+
+                if answer:
+                    flush_pending()
+                    pending_answer = answer
+                    pending_cell = cell
+                elif pending_answer and cell:
+                    pending_cell = f'{pending_cell}\n{cell}'.strip()
                 else:
-                    print(f"  WARN: {key} row {qnum} skipped (answer={answer!r}, cell={cell[:40]!r})")
+                    continue
+
+    flush_pending()
 
     print(f"  {key}: {len(questions)} questions parsed")
     return questions
@@ -146,14 +194,16 @@ def main():
     questions_dir = data_dir / 'questions'
     questions_dir.mkdir(exist_ok=True)
 
-    q1 = parse_exam_json('exam1', data_dir)
-    save_mock('mock_exam1.json', '科目一 模擬考試：人工智慧基礎概論（114年第四梯次公告試題）', q1, questions_dir)
-
-    q2 = parse_exam_json('exam2', data_dir)
-    save_mock('mock_exam2.json', '科目二 模擬考試：生成式AI應用與規劃（114年第四梯次公告試題）', q2, questions_dir)
-
-    qs = parse_sample_json(data_dir)
-    save_mock('sample_exam.json', '考試樣題（114年9月版）', qs, questions_dir)
+    exam_map = EXAM_PDFS_BY_LEVEL.get(args.level, {})
+    titles = EXAM_TITLES_BY_LEVEL.get(args.level, {})
+    for key in sorted(exam_map):
+        if key == 'sample':
+            qs = parse_sample_json(data_dir)
+            save_mock('sample_exam.json', titles.get(key, '考試樣題'), qs, questions_dir)
+            continue
+        questions = parse_exam_json(key, data_dir)
+        filename = f'mock_{key}.json'
+        save_mock(filename, titles.get(key, f'{args.level} {key} 模擬考試'), questions, questions_dir)
 
     print("\nAll mock exams saved.")
 

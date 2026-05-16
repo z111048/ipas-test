@@ -8,7 +8,6 @@ from pathlib import Path
 from typing import Any
 
 BASE = Path('/home/james/projects/ipas-test')
-LEVEL = '初級'
 
 
 def load_json(path: Path) -> dict:
@@ -25,8 +24,8 @@ def normalize(value: str) -> str:
     return re.sub(r'\s+', '', value).lower()
 
 
-def page_content(key: str, start_page: int, end_page: int) -> str:
-    pages_dir = BASE / 'data' / LEVEL / 'page_clean' / key / 'pages'
+def page_content(level: str, key: str, start_page: int, end_page: int) -> str:
+    pages_dir = BASE / 'data' / level / 'page_clean' / key / 'pages'
     chunks = []
     for page_number in range(start_page, end_page + 1):
         page = load_json(pages_dir / f'page_{page_number - 1:03d}.json')
@@ -90,8 +89,8 @@ def format_markdown(title: str, raw_content: str) -> str:
     return '\n'.join(result).strip()
 
 
-def source_pages(key: str, start_page: int, end_page: int) -> list[dict]:
-    pages_dir = BASE / 'data' / LEVEL / 'page_clean' / key / 'pages'
+def source_pages(level: str, key: str, start_page: int, end_page: int) -> list[dict]:
+    pages_dir = BASE / 'data' / level / 'page_clean' / key / 'pages'
     result = []
     for page_number in range(start_page, end_page + 1):
         page_index = page_number - 1
@@ -103,7 +102,7 @@ def source_pages(key: str, start_page: int, end_page: int) -> list[dict]:
             'index': page_index,
             'page': page_number,
             'label': page.get('page_label') or '',
-            'image': f'/pdf-assets/{LEVEL}/{key}/page_{page_index:03d}/page.png',
+            'image': f'/pdf-assets/{level}/{key}/page_{page_index:03d}/page.png',
         })
     return result
 
@@ -115,14 +114,18 @@ def node_id(subject_id: str, node: dict, manifest_subject: dict, index_path: lis
         for chapter in manifest_subject.get('chapters', []):
             if chapter.get('start_page') == node.get('page_label'):
                 return chapter['id']
-            if normalize(chapter.get('title') or '') == title:
-                return chapter['id']
+        if not node.get('page_label'):
+            for chapter in manifest_subject.get('chapters', []):
+                if normalize(chapter.get('title') or '') == title:
+                    return chapter['id']
     return f'{subject_id}pdf-c{"-".join(str(part) for part in index_path)}'
 
 
 def build_nodes(
+    level: str,
     subject_id: str,
     key: str,
+    content_key: str,
     raw_nodes: list[dict],
     manifest_subject: dict,
     content_dir: Path,
@@ -149,8 +152,10 @@ def build_nodes(
             raise ValueError(f'Invalid page range for {current_id}: {page_range}')
 
         child_node_ids = build_nodes(
+            level=level,
             subject_id=subject_id,
             key=key,
+            content_key=content_key,
             raw_nodes=raw_node.get('children', []),
             manifest_subject=manifest_subject,
             content_dir=content_dir,
@@ -165,13 +170,13 @@ def build_nodes(
                 raise ValueError(f'Invalid depth for child {child_id}: {child_depth}')
 
         content_ref = f'{current_id}.json'
-        content = page_content(key, start_page, end_page)
-        write_json(content_dir / key / content_ref, {
+        content = page_content(level, key, start_page, end_page)
+        write_json(content_dir / content_key / content_ref, {
             'id': current_id,
             'title': raw_node.get('title') or '',
             'content': format_markdown(raw_node.get('title') or '', content),
             'contentFormat': 'markdown',
-            'sourcePages': source_pages(key, start_page, end_page),
+            'sourcePages': source_pages(level, key, start_page, end_page),
         })
 
         nodes_by_id[current_id] = {
@@ -220,29 +225,29 @@ def validate_guide(guide: dict, content_dir: Path) -> None:
             raise ValueError(f'{node_id_value} missing content file: {content_path}')
 
 
-def export() -> dict[str, Any]:
-    manifest = load_json(BASE / 'data' / LEVEL / 'toc_manifest.json')
-    generated_dir = BASE / 'frontend' / 'src' / 'generated'
-    content_dir = generated_dir / 'guideContent'
-    if content_dir.exists():
-        shutil.rmtree(content_dir)
-
+def export_level(level: str, content_dir: Path) -> dict[str, Any]:
+    manifest = load_json(BASE / 'data' / level / 'toc_manifest.json')
     guides = {}
     for subject in manifest['subjects']:
         key = subject['key']
-        outline = load_json(BASE / 'data' / LEVEL / 'page_clean' / key / 'outline.json')
+        content_key = f'{level}-{key}'
+        outline = load_json(BASE / 'data' / level / 'page_clean' / key / 'outline.json')
         nodes_by_id: dict[str, dict] = {}
         root_ids = build_nodes(
+            level=level,
             subject_id=subject['id'],
             key=key,
+            content_key=content_key,
             raw_nodes=outline['outline'],
             manifest_subject=subject,
             content_dir=content_dir,
             nodes_by_id=nodes_by_id,
         )
         guide = {
+            'level': level,
             'subjectId': subject['id'],
-            'key': key,
+            'key': content_key,
+            'sourceKey': key,
             'subject': subject['subject'],
             'pdf': subject['pdf'],
             'root': root_ids,
@@ -252,18 +257,37 @@ def export() -> dict[str, Any]:
         }
         validate_guide(guide, content_dir)
         guides[subject['id']] = guide
+    return guides
+
+
+def export(levels: list[str]) -> dict[str, Any]:
+    generated_dir = BASE / 'frontend' / 'src' / 'generated'
+    content_dir = generated_dir / 'guideContent'
+    if content_dir.exists():
+        shutil.rmtree(content_dir)
+
+    guides = {}
+    for level in levels:
+        guides.update(export_level(level, content_dir))
     return {
-        'level': LEVEL,
+        'levels': levels,
         'guides': guides,
     }
 
 
 def main() -> None:
-    data = export()
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--level', default='初級', help='資料等級資料夾（預設: 初級）')
+    parser.add_argument('--all-levels', action='store_true', help='匯出所有已支援等級')
+    args = parser.parse_args()
+
+    levels = ['初級', '中級'] if args.all_levels else [args.level]
+    data = export(levels)
     out_path = BASE / 'frontend' / 'src' / 'generated' / 'guideOutlines.json'
     write_json(out_path, data)
     for guide in data['guides'].values():
-        print(f'{guide["key"]}: {len(guide["flat"])} guide outline nodes')
+        print(f'{guide["level"]}/{guide["sourceKey"]}: {len(guide["flat"])} guide outline nodes')
 
 
 if __name__ == '__main__':

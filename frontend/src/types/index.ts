@@ -89,8 +89,10 @@ export interface GuideContent {
 }
 
 export interface GuideOutlineSubject {
+  level?: string
   subjectId: string
   key: string
+  sourceKey?: string
   subject: string
   pdf: string
   root: string[]
@@ -100,7 +102,8 @@ export interface GuideOutlineSubject {
 }
 
 export interface GuideOutlinesData {
-  level: string
+  level?: string
+  levels?: string[]
   guides: Record<string, GuideOutlineSubject>
 }
 
@@ -131,6 +134,7 @@ export interface TocManifest {
 
 export interface PdfImageAsset {
   id: string
+  level?: string
   key: string
   pdf: string
   type: 'page' | 'image' | 'table'
@@ -143,7 +147,8 @@ export interface PdfImageAsset {
 }
 
 export interface PdfImageGallery {
-  level: string
+  level?: string
+  levels?: string[]
   total: number
   items: PdfImageAsset[]
 }

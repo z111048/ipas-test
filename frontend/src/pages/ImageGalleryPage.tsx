@@ -13,10 +13,11 @@ const keyLabels: Record<string, string> = {
   guide2: '科目二學習指引',
   exam1: '科目一公告試題',
   exam2: '科目二公告試題',
+  exam3: '科目三公告試題',
   sample: '考試樣題',
 }
 
-const keyOrder = ['guide1', 'guide2', 'sample', 'exam1', 'exam2']
+const keyOrder = ['guide1', 'guide2', 'sample', 'exam1', 'exam2', 'exam3']
 
 function keyRank(key: string) {
   const index = keyOrder.indexOf(key)
@@ -24,6 +25,8 @@ function keyRank(key: string) {
 }
 
 function compareAssets(a: PdfImageAsset, b: PdfImageAsset) {
+  const levelDiff = (a.level ?? '').localeCompare(b.level ?? '', 'zh-Hant')
+  if (levelDiff !== 0) return levelDiff
   const keyDiff = keyRank(a.key) - keyRank(b.key)
   if (keyDiff !== 0) return keyDiff
   const typeOrder = { page: 0, image: 1, table: 2 }
@@ -56,25 +59,36 @@ function AssetPreview({ item }: { item: PdfImageAsset }) {
 
 export default function ImageGalleryPage() {
   const gallery = pdfGallery as PdfImageGallery
+  const [selectedLevel, setSelectedLevel] = useState('all')
   const [selectedKey, setSelectedKey] = useState('all')
   const [selectedType, setSelectedType] = useState('all')
   const [pageQuery, setPageQuery] = useState('')
   const [active, setActive] = useState<PdfImageAsset | null>(null)
 
-  const keys = useMemo(() => {
-    const unique = Array.from(new Set(gallery.items.map((item) => item.key)))
-    return unique.sort((a, b) => keyRank(a) - keyRank(b))
+  const levels = useMemo(() => {
+    const unique = Array.from(new Set(gallery.items.map((item) => item.level).filter(Boolean))) as string[]
+    return unique.sort((a, b) => a.localeCompare(b, 'zh-Hant'))
   }, [gallery])
+
+  const keys = useMemo(() => {
+    const unique = Array.from(new Set(
+      gallery.items
+        .filter((item) => selectedLevel === 'all' || item.level === selectedLevel)
+        .map((item) => item.key)
+    ))
+    return unique.sort((a, b) => keyRank(a) - keyRank(b))
+  }, [gallery, selectedLevel])
 
   const filtered = useMemo(() => {
     const page = pageQuery.trim()
     return gallery.items.filter((item) => {
       if (selectedKey !== 'all' && item.key !== selectedKey) return false
+      if (selectedLevel !== 'all' && item.level !== selectedLevel) return false
       if (selectedType !== 'all' && item.type !== selectedType) return false
       if (page && item.page_number !== Number(page) && item.page_label !== page) return false
       return true
     }).sort(compareAssets)
-  }, [gallery, pageQuery, selectedKey, selectedType])
+  }, [gallery, pageQuery, selectedKey, selectedLevel, selectedType])
 
   const counts = useMemo(() => {
     const items = gallery.items
@@ -87,13 +101,16 @@ export default function ImageGalleryPage() {
   }, [gallery])
 
   const filteredCounts = useMemo(() => {
-    const items = gallery.items.filter((item) => selectedKey === 'all' || item.key === selectedKey)
+    const items = gallery.items.filter((item) =>
+      (selectedLevel === 'all' || item.level === selectedLevel) &&
+      (selectedKey === 'all' || item.key === selectedKey)
+    )
     return {
       page: items.filter((item) => item.type === 'page').length,
       image: items.filter((item) => item.type === 'image').length,
       table: items.filter((item) => item.type === 'table').length,
     }
-  }, [gallery, selectedKey])
+  }, [gallery, selectedKey, selectedLevel])
 
   return (
     <div>
@@ -103,7 +120,23 @@ export default function ImageGalleryPage() {
       </div>
 
       <div className="bg-card rounded-xl shadow-sm border border-border p-4 mb-5">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+          <label className="text-[0.82rem] text-text-light">
+            等級
+            <select
+              value={selectedLevel}
+              onChange={(event) => {
+                setSelectedLevel(event.target.value)
+                setSelectedKey('all')
+              }}
+              className="mt-1 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
+            >
+              <option value="all">全部等級</option>
+              {levels.map((level) => (
+                <option key={level} value={level}>{level}</option>
+              ))}
+            </select>
+          </label>
           <label className="text-[0.82rem] text-text-light">
             PDF
             <select
@@ -144,6 +177,7 @@ export default function ImageGalleryPage() {
               type="button"
               onClick={() => {
                 setSelectedKey('all')
+                setSelectedLevel('all')
                 setSelectedType('all')
                 setPageQuery('')
               }}
@@ -178,7 +212,7 @@ export default function ImageGalleryPage() {
             </div>
             <div className="p-3">
               <div className="flex items-center justify-between gap-2 mb-1">
-                <span className="font-semibold text-primary">{keyLabels[item.key] ?? item.key}</span>
+                <span className="font-semibold text-primary">{item.level ? `${item.level} ` : ''}{keyLabels[item.key] ?? item.key}</span>
                 <span className="text-[0.74rem] rounded-full bg-[#eef5ff] text-accent px-2 py-0.5">
                   {item.type === 'page' ? '頁面' : item.type === 'table' ? '表格' : '圖片'}
                 </span>
@@ -202,7 +236,7 @@ export default function ImageGalleryPage() {
           >
             <div className="p-4 border-b border-border flex items-start justify-between gap-3">
               <div>
-                <div className="font-semibold text-primary">{keyLabels[active.key] ?? active.key}</div>
+                <div className="font-semibold text-primary">{active.level ? `${active.level} ` : ''}{keyLabels[active.key] ?? active.key}</div>
                 <div className="text-[0.82rem] text-text-light">
                   {active.type === 'page' ? '頁面' : active.type === 'table' ? '表格' : '圖片'} · Page {active.page_number}
                   {active.page_label ? ` / ${active.page_label}` : ''} · bbox [{active.bbox.join(', ')}]

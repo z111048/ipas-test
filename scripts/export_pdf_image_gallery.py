@@ -7,7 +7,7 @@ import shutil
 from pathlib import Path
 
 BASE = Path('/home/james/projects/ipas-test')
-KEY_ORDER = {'guide1': 0, 'guide2': 1, 'sample': 2, 'exam1': 3, 'exam2': 4}
+KEY_ORDER = {'guide1': 0, 'guide2': 1, 'sample': 2, 'exam1': 3, 'exam2': 4, 'exam3': 5}
 TYPE_ORDER = {'page': 0, 'image': 1, 'table': 2}
 
 
@@ -16,7 +16,7 @@ def load_json(path: Path) -> dict:
         return json.load(f)
 
 
-def export_gallery(level: str, force: bool) -> dict:
+def export_gallery(level: str, force: bool, write_src_manifest: bool = True) -> dict:
     source_root = BASE / 'data' / level / 'page_extract'
     public_root = BASE / 'frontend' / 'public' / 'pdf-assets' / level
     if force and public_root.exists():
@@ -41,7 +41,8 @@ def export_gallery(level: str, force: bool) -> dict:
                         dest_path.parent.mkdir(parents=True, exist_ok=True)
                         shutil.copy2(source_path, dest_path)
                     items.append({
-                        'id': f'{key}-p{page["page_index"]:03d}-page',
+                        'id': f'{level}-{key}-p{page["page_index"]:03d}-page',
+                        'level': level,
                         'key': key,
                         'pdf': page['pdf'],
                         'type': 'page',
@@ -67,7 +68,8 @@ def export_gallery(level: str, force: bool) -> dict:
                         dest_path.parent.mkdir(parents=True, exist_ok=True)
                         shutil.copy2(source_path, dest_path)
                     items.append({
-                        'id': f'{key}-p{page["page_index"]:03d}-{asset["id"]}',
+                        'id': f'{level}-{key}-p{page["page_index"]:03d}-{asset["id"]}',
+                        'level': level,
                         'key': key,
                         'pdf': page['pdf'],
                         'type': item_type,
@@ -95,20 +97,50 @@ def export_gallery(level: str, force: bool) -> dict:
     manifest_path = public_root / 'gallery.json'
     manifest_path.write_text(manifest_text, encoding='utf-8')
 
+    if write_src_manifest:
+        src_manifest_path = BASE / 'frontend' / 'src' / 'generated' / 'pdfGallery.json'
+        src_manifest_path.parent.mkdir(parents=True, exist_ok=True)
+        src_manifest_path.write_text(manifest_text, encoding='utf-8')
+    return manifest
+
+
+def export_galleries(levels: list[str], force: bool) -> dict:
+    all_items = []
+    for level in levels:
+        manifest = export_gallery(level, force, write_src_manifest=False)
+        all_items.extend(manifest['items'])
+
+    all_items.sort(key=lambda item: (
+        levels.index(item['path'].split('/')[2]) if item['path'].split('/')[2] in levels else len(levels),
+        KEY_ORDER.get(item['key'], len(KEY_ORDER)),
+        TYPE_ORDER.get(item['type'], len(TYPE_ORDER)),
+        item['page_number'],
+        item['asset_id'],
+    ))
+    manifest = {
+        'levels': levels,
+        'total': len(all_items),
+        'items': all_items,
+    }
     src_manifest_path = BASE / 'frontend' / 'src' / 'generated' / 'pdfGallery.json'
     src_manifest_path.parent.mkdir(parents=True, exist_ok=True)
-    src_manifest_path.write_text(manifest_text, encoding='utf-8')
+    src_manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding='utf-8')
     return manifest
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--level', default='初級', help='資料等級資料夾（預設: 初級）')
+    parser.add_argument('--all-levels', action='store_true', help='匯出所有已支援等級')
     parser.add_argument('--force', action='store_true', help='overwrite copied public assets')
     args = parser.parse_args()
 
-    manifest = export_gallery(args.level, args.force)
-    print(f'Exported {manifest["total"]} image/table assets to frontend/public/pdf-assets/{args.level}')
+    if args.all_levels:
+        manifest = export_galleries(['初級', '中級'], args.force)
+        print(f'Exported {manifest["total"]} image/table assets across {", ".join(manifest["levels"])}')
+    else:
+        manifest = export_gallery(args.level, args.force)
+        print(f'Exported {manifest["total"]} image/table assets to frontend/public/pdf-assets/{args.level}')
 
 
 if __name__ == '__main__':

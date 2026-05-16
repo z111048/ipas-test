@@ -51,14 +51,23 @@ const NAV_SECTIONS: NavSection[] = [
     items: [{ label: '📝 考試樣題（114年9月版）', to: '/exam/sample' }],
   },
   {
+    heading: '中級公告試題',
+    items: [
+      { label: '🎯 中級科目一公告試題', to: '/exam/mid1' },
+      { label: '🎯 中級科目三公告試題', to: '/exam/mid3' },
+    ],
+  },
+  {
     heading: 'PDF 資源',
     items: [{ label: '🖼️ 圖片與表格', to: '/images' }],
   },
 ]
 
-const GUIDE_NAV_SECTIONS: GuideNavSection[] = toc.subjects.map((subject) => ({
-    heading: `學習指引 ${subject.subject.split('：')[0]}`,
-    subjectId: subject.id,
+const GUIDE_NAV_SECTIONS: GuideNavSection[] = Object.values(guideOutlines.guides)
+  .sort((a, b) => `${a.level ?? ''}-${a.subjectId}`.localeCompare(`${b.level ?? ''}-${b.subjectId}`, 'zh-Hant'))
+  .map((guide) => ({
+    heading: `${guide.level ?? '初級'}學習指引 ${guide.subject.split('：')[0]}`,
+    subjectId: guide.subjectId,
   }))
 
 interface SidebarProps {

@@ -4,6 +4,8 @@ import s2q from '@data/questions/subject2_questions.json'
 import mock1 from '@data/questions/mock_exam1.json'
 import mock2 from '@data/questions/mock_exam2.json'
 import sample from '@data/questions/sample_exam.json'
+import midMock1 from '@data-mid/questions/mock_exam1.json'
+import midMock3 from '@data-mid/questions/mock_exam3.json'
 import type { SubjectQuestions, ExamData } from '../types'
 import StatBox from '../components/shared/StatBox'
 
@@ -12,12 +14,14 @@ const subject2 = s2q as SubjectQuestions
 const exam1 = mock1 as ExamData
 const exam2 = mock2 as ExamData
 const sampleExam = sample as ExamData
+const midExam1 = midMock1 as ExamData
+const midExam3 = midMock3 as ExamData
 
 const totalPractice =
   subject1.chapters.reduce((a, c) => a + c.questions.length, 0) +
   subject2.chapters.reduce((a, c) => a + c.questions.length, 0)
 
-const totalMock = exam1.total + exam2.total + sampleExam.total
+const totalMock = exam1.total + exam2.total + sampleExam.total + midExam1.total + midExam3.total
 
 export default function HomePage() {
   return (
@@ -55,6 +59,28 @@ export default function HomePage() {
             </div>
           </div>
         </Link>
+      </div>
+
+      <div className="bg-card rounded-xl shadow-sm border border-border p-5 mb-6">
+        <h2 className="text-lg font-semibold text-primary mb-3">中級學習指引與公告試題</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <Link to="/guide/mid-s1/mid-s1pdf-c3" className="block border border-border rounded-lg px-4 py-3 no-underline hover:border-accent hover:bg-[#f7fbff]">
+            <span className="block text-primary font-semibold">中級科目一：人工智慧技術應用與規劃</span>
+            <span className="block text-[0.8rem] text-text-light mt-1">學習指引 18 個 PDF 章節節點</span>
+          </Link>
+          <Link to="/guide/mid-s2/mid-s2pdf-c3" className="block border border-border rounded-lg px-4 py-3 no-underline hover:border-accent hover:bg-[#f7fbff]">
+            <span className="block text-primary font-semibold">中級科目二：大數據處理分析與應用</span>
+            <span className="block text-[0.8rem] text-text-light mt-1">學習指引 19 個 PDF 章節節點</span>
+          </Link>
+          <Link to="/exam/mid1" className="block border border-border rounded-lg px-4 py-3 no-underline hover:border-accent hover:bg-[#f7fbff]">
+            <span className="block text-primary font-semibold">中級科目一公告試題</span>
+            <span className="block text-[0.8rem] text-text-light mt-1">{midExam1.total} 題</span>
+          </Link>
+          <Link to="/exam/mid3" className="block border border-border rounded-lg px-4 py-3 no-underline hover:border-accent hover:bg-[#f7fbff]">
+            <span className="block text-primary font-semibold">中級科目三公告試題</span>
+            <span className="block text-[0.8rem] text-text-light mt-1">{midExam3.total} 題</span>
+          </Link>
+        </div>
       </div>
 
       <div className="bg-card rounded-xl shadow-sm border border-border p-5 mb-4">

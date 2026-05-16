@@ -3,6 +3,8 @@ import { useEffect } from 'react'
 import mock1 from '@data/questions/mock_exam1.json'
 import mock2 from '@data/questions/mock_exam2.json'
 import sample from '@data/questions/sample_exam.json'
+import midMock1 from '@data-mid/questions/mock_exam1.json'
+import midMock3 from '@data-mid/questions/mock_exam3.json'
 import type { ExamData } from '../types'
 import { useExamStore } from '../store/examStore'
 import { useExamTimer } from '../hooks/useExamTimer'
@@ -15,6 +17,8 @@ const EXAM_DATA: Record<string, ExamData> = {
   mock1: mock1 as ExamData,
   mock2: mock2 as ExamData,
   sample: sample as ExamData,
+  mid1: midMock1 as ExamData,
+  mid3: midMock3 as ExamData,
 }
 
 export default function ExamPage() {

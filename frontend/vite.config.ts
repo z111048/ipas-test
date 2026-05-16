@@ -13,6 +13,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@data': resolve(__dirname, '../data/初級'),
+      '@data-mid': resolve(__dirname, '../data/中級'),
     },
   },
 })
