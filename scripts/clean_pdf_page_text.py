@@ -30,7 +30,10 @@ STRATEGIES = {
     'guide2': Strategy('guide', 'guide'),
     'exam1': Strategy('exam', 'exam'),
     'exam2': Strategy('exam', 'exam'),
+    'exam3': Strategy('exam', 'exam'),
     'sample': Strategy('sample_exam', 'exam'),
+    'errata': Strategy('errata', 'guide'),
+    'briefing': Strategy('briefing', 'guide'),
 }
 
 

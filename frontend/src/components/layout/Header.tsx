@@ -13,9 +13,9 @@ export default function Header({ onMenuClick }: HeaderProps) {
         ☰
       </button>
       <h1 className="text-[1.1rem] font-bold tracking-[0.5px] flex-1">
-        📚 iPAS AI應用規劃師（初級）
+        iPAS AI應用規劃師備考平台
       </h1>
-      <span className="text-[0.8rem] opacity-70 hidden sm:block">科目一 × 科目二 完整備考系統</span>
+      <span className="text-[0.8rem] opacity-70 hidden sm:block">初級 × 中級 官方資料整理</span>
     </header>
   )
 }

@@ -21,7 +21,9 @@ log = logging.getLogger(__name__)
 
 BASE = Path('/home/james/projects/ipas-test')
 
-# Exam PDFs by level (guide PDFs are read from toc_manifest at runtime)
+# Exam PDFs by level (guide PDFs are read from toc_manifest at runtime).
+# Keep official references separate so they can be extracted/viewed without being
+# parsed as question banks.
 EXAM_PDFS_BY_LEVEL: dict[str, dict[str, str]] = {
     '初級': {
         'exam1': '114年第四梯次初級AI應用規劃師第一科人工智慧基礎概論(當次試題公告114_20251226000442.pdf',
@@ -34,6 +36,21 @@ EXAM_PDFS_BY_LEVEL: dict[str, dict[str, str]] = {
         'exam3': '114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf',
     },
 }
+
+REFERENCE_PDFS_BY_LEVEL: dict[str, dict[str, str]] = {
+    '共用': {
+        'briefing': '115年度AI應用規劃師能力鑑定簡章(初、中級)_0410_20260410115646.pdf',
+    },
+    '中級': {
+        'errata': 'AI應用規劃師(中級)_學習指引勘誤表_1150410_20260410150331.pdf',
+    },
+}
+
+
+def all_pdf_names_for_level(level: str) -> dict[str, str]:
+    result = dict(EXAM_PDFS_BY_LEVEL.get(level, {}))
+    result.update(REFERENCE_PDFS_BY_LEVEL.get(level, {}))
+    return result
 
 
 def extract_with_pdfplumber(pdf_path: Path) -> list[dict]:
@@ -126,7 +143,7 @@ def main():
     out_dir = BASE / 'data' / args.level / 'extracted'
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    # Build PDFs dict: guide PDFs from toc_manifest + exam PDFs from EXAM_PDFS_BY_LEVEL
+    # Build PDFs dict: guide PDFs from toc_manifest + exam/reference PDFs.
     pdfs: dict[str, Path] = {}
     manifest_path = BASE / 'data' / args.level / 'toc_manifest.json'
     if manifest_path.exists():
@@ -134,7 +151,7 @@ def main():
             manifest = json.load(f)
         for subj in manifest['subjects']:
             pdfs[subj['key']] = pdf_dir / subj['pdf']
-    for key, name in EXAM_PDFS_BY_LEVEL.get(args.level, {}).items():
+    for key, name in all_pdf_names_for_level(args.level).items():
         pdfs[key] = pdf_dir / name
 
     log.info(f"Starting PDF extraction for level '{args.level}'")

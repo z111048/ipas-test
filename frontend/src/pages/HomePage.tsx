@@ -1,121 +1,128 @@
 import { Link } from 'react-router-dom'
-import s1q from '@data/questions/subject1_questions.json'
-import s2q from '@data/questions/subject2_questions.json'
-import mock1 from '@data/questions/mock_exam1.json'
-import mock2 from '@data/questions/mock_exam2.json'
-import sample from '@data/questions/sample_exam.json'
-import midMock1 from '@data-mid/questions/mock_exam1.json'
-import midMock2 from '@data-mid/questions/mock_exam2.json'
-import midMock3 from '@data-mid/questions/mock_exam3.json'
-import type { SubjectQuestions, ExamData } from '../types'
+import { resourceLevels, resourceStats, type ResourceNavItem } from '../data/resourceRegistry'
 import StatBox from '../components/shared/StatBox'
 
-const subject1 = s1q as SubjectQuestions
-const subject2 = s2q as SubjectQuestions
-const exam1 = mock1 as ExamData
-const exam2 = mock2 as ExamData
-const sampleExam = sample as ExamData
-const midExam1 = midMock1 as ExamData
-const midExam2 = midMock2 as ExamData
-const midExam3 = midMock3 as ExamData
+function statusLabel(status?: ResourceNavItem['status']) {
+  if (status === 'pending') return '待建立'
+  if (status === 'external') return '官方連結'
+  return '已入庫'
+}
 
-const totalPractice =
-  subject1.chapters.reduce((a, c) => a + c.questions.length, 0) +
-  subject2.chapters.reduce((a, c) => a + c.questions.length, 0)
+function ResourceLink({ item }: { item: ResourceNavItem }) {
+  const content = (
+    <>
+      <span className="flex items-center justify-between gap-2">
+        <span className="font-semibold text-primary">{item.label}</span>
+        <span className="shrink-0 rounded-full bg-[#eef5ff] px-2 py-0.5 text-[0.72rem] text-accent">
+          {statusLabel(item.status)}
+        </span>
+      </span>
+      {item.detail && <span className="block text-[0.8rem] text-text-light mt-1">{item.detail}</span>}
+    </>
+  )
 
-const totalMock = exam1.total + exam2.total + sampleExam.total + midExam1.total + midExam2.total + midExam3.total
+  const className = 'block border border-border rounded-lg px-4 py-3 no-underline hover:border-accent hover:bg-[#f7fbff]'
+  if (item.externalUrl) {
+    return (
+      <a href={item.externalUrl} target="_blank" rel="noreferrer" className={className}>
+        {content}
+      </a>
+    )
+  }
+  if (!item.to || item.status === 'pending') {
+    return (
+      <div className="block border border-border rounded-lg px-4 py-3 bg-[#f8fafc]">
+        {content}
+      </div>
+    )
+  }
+  return (
+    <Link to={item.to} className={className}>
+      {content}
+    </Link>
+  )
+}
 
 export default function HomePage() {
+  const totalPractice = resourceStats.junior.practiceQuestions + resourceStats.middle.practiceQuestions
+  const totalOfficial = resourceStats.junior.officialQuestions + resourceStats.middle.officialQuestions
+
   return (
     <div>
-      <div className="text-2xl font-bold text-primary mb-1">歡迎使用 iPAS 備考平台</div>
-      <div className="text-text-light mb-5">iPAS AI應用規劃師初級能力鑑定 — 完整備考資源</div>
+      <div className="text-2xl font-bold text-primary mb-1">iPAS AI應用規劃師備考平台</div>
+      <div className="text-text-light mb-5">依初級與中級分流，清楚區分官方資料、公告試題與章節練習狀態</div>
 
       <div className="flex gap-3 flex-wrap mb-6">
-        <StatBox value={2} label="考試科目" />
-        <StatBox value={7} label="章節單元" />
+        <StatBox value={resourceStats.junior.subjects + resourceStats.middle.subjects} label="考試科目" />
+        <StatBox value={resourceStats.junior.chapters + resourceStats.middle.chapters} label="章節單元" />
         <StatBox value={totalPractice} label="章節練習題" />
-        <StatBox value={totalMock} label="模擬考試題" />
+        <StatBox value={totalOfficial} label="官方試題/樣題" />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <Link to="/subject/s1" className="no-underline">
-          <div className="bg-card rounded-xl shadow-sm border border-border p-5 cursor-pointer hover:border-accent hover:shadow-md transition-all">
-            <h3 className="text-primary font-semibold mb-2">科目一：人工智慧基礎概論</h3>
-            <p className="text-[0.88rem] text-text-light mb-3">涵蓋AI基礎概念、資料處理、機器學習及生成式AI等四大主題</p>
-            <div className="flex flex-wrap gap-1">
-              {['AI概念', '資料分析', '機器學習', '生成式AI'].map((t) => (
-                <span key={t} className="text-[0.75rem] bg-[#eef5ff] text-accent px-2 py-0.5 rounded-full">{t}</span>
-              ))}
-            </div>
-          </div>
-        </Link>
-        <Link to="/subject/s2" className="no-underline">
-          <div className="bg-card rounded-xl shadow-sm border border-border p-5 cursor-pointer hover:border-accent hover:shadow-md transition-all">
-            <h3 className="text-primary font-semibold mb-2">科目二：生成式AI應用與規劃</h3>
-            <p className="text-[0.88rem] text-text-light mb-3">涵蓋No Code/Low Code平台、生成式AI工具及企業導入規劃等三大主題</p>
-            <div className="flex flex-wrap gap-1">
-              {['No/Low Code', 'AI工具', '導入規劃'].map((t) => (
-                <span key={t} className="text-[0.75rem] bg-[#eef5ff] text-accent px-2 py-0.5 rounded-full">{t}</span>
-              ))}
-            </div>
-          </div>
-        </Link>
-      </div>
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 mb-6">
+        {resourceLevels.map((level) => {
+          const stats = resourceStats[level.id]
+          return (
+            <section key={level.id} className="bg-card rounded-xl shadow-sm border border-border p-5">
+              <div className="flex items-start justify-between gap-3 mb-4">
+                <div>
+                  <h2 className="text-xl font-semibold text-primary mb-1">{level.label}</h2>
+                  <p className="text-[0.88rem] text-text-light">{level.subtitle}</p>
+                </div>
+                <span className="rounded-full bg-[#eef5ff] px-3 py-1 text-[0.78rem] font-semibold text-accent">
+                  {stats.subjects} 科 / {stats.chapters} 章
+                </span>
+              </div>
 
-      <div className="bg-card rounded-xl shadow-sm border border-border p-5 mb-6">
-        <h2 className="text-lg font-semibold text-primary mb-3">中級學習指引與公告試題</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <Link to="/guide/mid-s1/mid-s1pdf-c3" className="block border border-border rounded-lg px-4 py-3 no-underline hover:border-accent hover:bg-[#f7fbff]">
-            <span className="block text-primary font-semibold">中級科目一：人工智慧技術應用與規劃</span>
-            <span className="block text-[0.8rem] text-text-light mt-1">學習指引 18 個 PDF 章節節點</span>
-          </Link>
-          <Link to="/guide/mid-s2/mid-s2pdf-c3" className="block border border-border rounded-lg px-4 py-3 no-underline hover:border-accent hover:bg-[#f7fbff]">
-            <span className="block text-primary font-semibold">中級科目二：大數據處理分析與應用</span>
-            <span className="block text-[0.8rem] text-text-light mt-1">學習指引 19 個 PDF 章節節點</span>
-          </Link>
-          <Link to="/guide/mid-s3/mid-s3pdf-c3" className="block border border-border rounded-lg px-4 py-3 no-underline hover:border-accent hover:bg-[#f7fbff]">
-            <span className="block text-primary font-semibold">中級科目三：機器學習技術與應用</span>
-            <span className="block text-[0.8rem] text-text-light mt-1">學習指引 18 個 PDF 章節節點</span>
-          </Link>
-          <Link to="/exam/mid1" className="block border border-border rounded-lg px-4 py-3 no-underline hover:border-accent hover:bg-[#f7fbff]">
-            <span className="block text-primary font-semibold">中級科目一公告試題</span>
-            <span className="block text-[0.8rem] text-text-light mt-1">{midExam1.total} 題</span>
-          </Link>
-          <Link to="/exam/mid2" className="block border border-border rounded-lg px-4 py-3 no-underline hover:border-accent hover:bg-[#f7fbff]">
-            <span className="block text-primary font-semibold">中級科目二公告試題</span>
-            <span className="block text-[0.8rem] text-text-light mt-1">{midExam2.total} 題</span>
-          </Link>
-          <Link to="/exam/mid3" className="block border border-border rounded-lg px-4 py-3 no-underline hover:border-accent hover:bg-[#f7fbff]">
-            <span className="block text-primary font-semibold">中級科目三公告試題</span>
-            <span className="block text-[0.8rem] text-text-light mt-1">{midExam3.total} 題</span>
-          </Link>
-        </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                {level.subjects.map((subject) => (
+                  <ResourceLink
+                    key={subject.id}
+                    item={{
+                      label: subject.label,
+                      detail: `${subject.chapters} 個章節，${subject.practiceLabel}`,
+                      to: subject.overviewTo,
+                      status: 'available',
+                    }}
+                  />
+                ))}
+              </div>
+
+              <div className="text-[0.78rem] font-semibold text-text-light mb-2">公告試題與樣題</div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                {[...level.exams, ...level.samples].map((item) => (
+                  <ResourceLink key={item.label} item={item} />
+                ))}
+              </div>
+
+              <div className="text-[0.78rem] font-semibold text-text-light mb-2">官方參考資料</div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {level.references.map((item) => (
+                  <ResourceLink key={item.label} item={item} />
+                ))}
+              </div>
+            </section>
+          )
+        })}
       </div>
 
       <div className="bg-card rounded-xl shadow-sm border border-border p-5 mb-4">
-        <h2 className="text-lg font-semibold text-primary mb-3">📋 考試說明</h2>
+        <h2 className="text-lg font-semibold text-primary mb-3">考試說明</h2>
         <div className="overflow-x-auto -webkit-overflow-scrolling-touch">
-          <table className="w-full border-collapse text-[0.88rem] min-w-[360px]">
+          <table className="w-full border-collapse text-[0.88rem] min-w-[520px]">
             <thead>
               <tr className="bg-[#f5f7fa]">
-                <th className="p-2 text-left border-b border-border">項目</th>
-                <th className="p-2 text-left border-b border-border">科目一</th>
-                <th className="p-2 text-left border-b border-border">科目二</th>
+                <th className="p-2 text-left border-b border-border">級別</th>
+                <th className="p-2 text-left border-b border-border">科目</th>
+                <th className="p-2 text-left border-b border-border">目前網站狀態</th>
               </tr>
             </thead>
             <tbody>
-              {[
-                ['科目名稱', '人工智慧基礎概論', '生成式AI應用與規劃'],
-                ['題型', '四選一單選題', '四選一單選題'],
-                ['及格標準', '同時報考：兩科平均達70分，且單科不得低於60分', '同時報考：兩科平均達70分，且單科不得低於60分'],
-                ['單科成績保留', '單科70分以上，保留及格單科成績三年度有效', '單科70分以上，保留及格單科成績三年度有效'],
-                ['考試時間', '90分鐘', '90分鐘'],
-              ].map(([item, s1, s2], i, arr) => (
-                <tr key={item}>
-                  <td className={`p-2 ${i < arr.length - 1 ? 'border-b border-border' : ''}`}>{item}</td>
-                  <td className={`p-2 ${i < arr.length - 1 ? 'border-b border-border' : ''}`}>{s1}</td>
-                  <td className={`p-2 ${i < arr.length - 1 ? 'border-b border-border' : ''}`}>{s2}</td>
+              {resourceLevels.map((level) => (
+                <tr key={level.id}>
+                  <td className="p-2 border-b border-border font-semibold text-primary">{level.label}</td>
+                  <td className="p-2 border-b border-border">{level.subjects.map((subject) => subject.shortLabel).join('、')}</td>
+                  <td className="p-2 border-b border-border">{level.subtitle}</td>
                 </tr>
               ))}
             </tbody>
@@ -124,13 +131,12 @@ export default function HomePage() {
       </div>
 
       <div className="bg-card rounded-xl shadow-sm border border-border p-5">
-        <h2 className="text-lg font-semibold text-primary mb-3">🎯 備考建議</h2>
+        <h2 className="text-lg font-semibold text-primary mb-3">備考建議</h2>
         <ol className="ml-5 space-y-1 text-[0.9rem] leading-7">
-          <li>先閱讀各章節<strong>學習重點</strong>，理解核心概念</li>
-          <li>完成各章<strong>章節練習題</strong>，找出薄弱環節</li>
-          <li>透過<strong>模擬考試</strong>，熟悉答題節奏與時間管理</li>
-          <li>針對錯誤題目，重新複習對應章節</li>
-          <li>參考試題解析，理解命題方向與思路</li>
+          <li>先依級別確認要準備的科目，再閱讀對應學習指引。</li>
+          <li>初級可使用章節練習題建立概念熟悉度，中級目前先以公告試題與學習指引為主。</li>
+          <li>遇到圖片或表格題，使用 PDF 圖片與表格檢視頁回看原始版面。</li>
+          <li>中級章節練習題完成後，導覽列中的待建立入口會改為可練習。</li>
         </ol>
       </div>
     </div>

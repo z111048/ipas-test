@@ -7,7 +7,17 @@ import shutil
 from pathlib import Path
 
 BASE = Path('/home/james/projects/ipas-test')
-KEY_ORDER = {'guide1': 0, 'guide2': 1, 'guide3': 2, 'sample': 3, 'exam1': 4, 'exam2': 5, 'exam3': 6}
+KEY_ORDER = {
+    'guide1': 0,
+    'guide2': 1,
+    'guide3': 2,
+    'errata': 3,
+    'briefing': 4,
+    'sample': 5,
+    'exam1': 6,
+    'exam2': 7,
+    'exam3': 8,
+}
 TYPE_ORDER = {'page': 0, 'image': 1, 'table': 2}
 
 
@@ -136,7 +146,7 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.all_levels:
-        manifest = export_galleries(['初級', '中級'], args.force)
+        manifest = export_galleries(['初級', '中級', '共用'], args.force)
         print(f'Exported {manifest["total"]} image/table assets across {", ".join(manifest["levels"])}')
     else:
         manifest = export_gallery(args.level, args.force)

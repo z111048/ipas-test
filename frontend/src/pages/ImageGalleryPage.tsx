@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import pdfGallery from '../generated/pdfGallery.json'
 import type { PdfImageAsset, PdfImageGallery } from '../types'
 
@@ -12,13 +13,15 @@ const keyLabels: Record<string, string> = {
   guide1: '科目一學習指引',
   guide2: '科目二學習指引',
   guide3: '科目三學習指引',
+  errata: '學習指引勘誤表',
+  briefing: '能力鑑定簡章',
   exam1: '科目一公告試題',
   exam2: '科目二公告試題',
   exam3: '科目三公告試題',
   sample: '考試樣題',
 }
 
-const keyOrder = ['guide1', 'guide2', 'guide3', 'sample', 'exam1', 'exam2', 'exam3']
+const keyOrder = ['guide1', 'guide2', 'guide3', 'errata', 'briefing', 'sample', 'exam1', 'exam2', 'exam3']
 
 function keyRank(key: string) {
   const index = keyOrder.indexOf(key)
@@ -60,8 +63,9 @@ function AssetPreview({ item }: { item: PdfImageAsset }) {
 
 export default function ImageGalleryPage() {
   const gallery = pdfGallery as PdfImageGallery
-  const [selectedLevel, setSelectedLevel] = useState('all')
-  const [selectedKey, setSelectedKey] = useState('all')
+  const [searchParams] = useSearchParams()
+  const [selectedLevel, setSelectedLevel] = useState(searchParams.get('level') ?? 'all')
+  const [selectedKey, setSelectedKey] = useState(searchParams.get('key') ?? 'all')
   const [selectedType, setSelectedType] = useState('all')
   const [pageQuery, setPageQuery] = useState('')
   const [active, setActive] = useState<PdfImageAsset | null>(null)
@@ -196,7 +200,7 @@ export default function ImageGalleryPage() {
 
       {filtered.length === 0 && (
         <div className="rounded-lg border border-border bg-card p-6 text-center text-text-light">
-          目前篩選沒有圖片或表格。請清除篩選，或改選「科目一學習指引 / 科目二學習指引」查看教材圖片。
+          目前篩選沒有圖片或表格。請清除篩選，或改選其他學習指引、公告試題或官方參考資料。
         </div>
       )}
 

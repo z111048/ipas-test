@@ -1,34 +1,56 @@
 import { Link, useParams } from 'react-router-dom'
-import s1q from '@data/questions/subject1_questions.json'
-import s2q from '@data/questions/subject2_questions.json'
-import tocRaw from '@data/toc_manifest.json'
+import juniorSubject1Raw from '@data/questions/subject1_questions.json'
+import juniorSubject2Raw from '@data/questions/subject2_questions.json'
 import guideOutlinesRaw from '../generated/guideOutlines.json'
-import type { GuideOutlinesData, SubjectQuestions, TocManifest } from '../types'
+import { resourceLevels } from '../data/resourceRegistry'
+import type { GuideOutlinesData, SubjectQuestions } from '../types'
 import ProgressBar from '../components/shared/ProgressBar'
 import GuideOutlineTree from '../components/guide/GuideOutlineTree'
 
-const subject1 = s1q as SubjectQuestions
-const subject2 = s2q as SubjectQuestions
-const toc = tocRaw as TocManifest
 const guideOutlines = guideOutlinesRaw as GuideOutlinesData
+const juniorQuestionMap: Record<string, SubjectQuestions> = {
+  s1: juniorSubject1Raw as SubjectQuestions,
+  s2: juniorSubject2Raw as SubjectQuestions,
+}
+
+function resourceForSubject(subjectId?: string) {
+  for (const level of resourceLevels) {
+    const subject = level.subjects.find((item) => item.id === subjectId)
+    const subjectData = level.toc.subjects.find((item) => item.id === subjectId)
+    if (subject && subjectData) return { level, subject, subjectData }
+  }
+  const level = resourceLevels[0]
+  return {
+    level,
+    subject: level.subjects[0],
+    subjectData: level.toc.subjects[0],
+  }
+}
 
 export default function SubjectOverviewPage() {
   const { subjectId } = useParams<{ subjectId: string }>()
-  const subjectData = toc.subjects.find((s) => s.id === subjectId) ?? toc.subjects[0]
-  const data = subjectData.id === 's1' ? subject1 : subject2
+  const { level, subject, subjectData } = resourceForSubject(subjectId)
   const guideOutline = guideOutlines.guides[subjectData.id]
-  const maxQ = Math.max(...data.chapters.map((c) => c.questions.length), 1)
-
-  const questionsByChapter = Object.fromEntries(
-    data.chapters.map((c) => [c.id, c.questions.length])
+  const hasPractice = subject.practiceStatus === 'available'
+  const questionData = juniorQuestionMap[subjectData.id]
+  const practiceCounts = subjectData.chapters.map((chapter) =>
+    questionData?.chapters.find((item) => item.id === chapter.id)?.questions.length ?? 0
   )
+  const maxQ = Math.max(...practiceCounts, 1)
 
   return (
     <div>
+      <div className="text-[0.78rem] font-semibold text-accent mb-1">{level.label}</div>
       <div className="text-2xl font-bold text-primary mb-1">{subjectData.subject}</div>
       <div className="text-text-light mb-5">
         評鑑主題：{subjectData.chapters.map((c) => c.title).join(' / ')}
       </div>
+
+      {!hasPractice && (
+        <div className="rounded-lg border border-[#f2d28b] bg-[#fff8e6] text-[#7a5700] px-4 py-3 mb-5 text-[0.9rem]">
+          中級章節練習題尚未建立；目前可先閱讀學習指引與練習公告試題。
+        </div>
+      )}
 
       <div className="bg-card rounded-xl shadow-sm border border-border p-5 mb-6">
         <h2 className="text-lg font-semibold text-primary mb-4">學習指引完整 PDF 目錄</h2>
@@ -59,17 +81,23 @@ export default function SubjectOverviewPage() {
               </div>
               <div className="flex gap-2">
                 <Link
-                  to={`/guide/${subjectId}/${ch.id}`}
+                  to={`/guide/${subjectData.id}/${ch.id}`}
                   className="text-[0.8rem] px-3 py-1 rounded-lg border border-accent text-accent hover:bg-accent hover:text-white transition-colors no-underline"
                 >
-                  📖 學習指引
+                  學習指引
                 </Link>
-                <Link
-                  to={`/practice/${subjectId}/${ch.id}`}
-                  className="text-[0.8rem] px-3 py-1 rounded-lg border border-accent text-accent hover:bg-accent hover:text-white transition-colors no-underline"
-                >
-                  ✏️ 練習題
-                </Link>
+                {hasPractice ? (
+                  <Link
+                    to={`/practice/${subjectData.id}/${ch.id}`}
+                    className="text-[0.8rem] px-3 py-1 rounded-lg border border-accent text-accent hover:bg-accent hover:text-white transition-colors no-underline"
+                  >
+                    練習題
+                  </Link>
+                ) : (
+                  <span className="text-[0.8rem] px-3 py-1 rounded-lg border border-border text-text-light bg-[#f5f7fa]">
+                    練習題待建立
+                  </span>
+                )}
               </div>
             </div>
           )
@@ -77,17 +105,17 @@ export default function SubjectOverviewPage() {
       </div>
 
       <div className="bg-card rounded-xl shadow-sm border border-border p-5">
-        <h2 className="text-lg font-semibold text-primary mb-4">章節練習題數量</h2>
+        <h2 className="text-lg font-semibold text-primary mb-4">章節練習題狀態</h2>
         <div className="space-y-3">
-          {data.chapters.map((ch) => {
-            const n = ch.questions.length
+          {subjectData.chapters.map((ch, index) => {
+            const n = practiceCounts[index]
             return (
               <div key={ch.id}>
                 <div className="flex justify-between text-[0.85rem] mb-1">
                   <span>{ch.title}</span>
-                  <span className="text-accent font-semibold">{n} 題</span>
+                  <span className="text-accent font-semibold">{hasPractice ? `${n} 題` : '待建立'}</span>
                 </div>
-                <ProgressBar percent={(n / maxQ) * 100} />
+                <ProgressBar percent={hasPractice ? (n / maxQ) * 100 : 0} />
               </div>
             )
           })}

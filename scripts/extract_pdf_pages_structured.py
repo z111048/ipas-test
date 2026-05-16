@@ -18,20 +18,28 @@ BASE = Path('/home/james/projects/ipas-test')
 
 
 def load_manifest(level: str) -> dict:
-    with (BASE / 'data' / level / 'toc_manifest.json').open(encoding='utf-8') as f:
+    path = BASE / 'data' / level / 'toc_manifest.json'
+    if not path.exists():
+        return {'subjects': []}
+    with path.open(encoding='utf-8') as f:
         return json.load(f)
 
 
-def load_exam_pdf_map() -> dict[str, dict[str, str]]:
+def load_extra_pdf_maps() -> dict[str, dict[str, str]]:
     source = (BASE / 'scripts' / 'extract_pdfs.py').read_text(encoding='utf-8')
     module = ast.parse(source)
+    result: dict[str, dict[str, str]] = {}
     for node in module.body:
         if (
             isinstance(node, ast.AnnAssign)
-            and getattr(node.target, 'id', None) == 'EXAM_PDFS_BY_LEVEL'
+            and getattr(node.target, 'id', None) in {'EXAM_PDFS_BY_LEVEL', 'REFERENCE_PDFS_BY_LEVEL'}
         ):
-            return ast.literal_eval(node.value)
-    raise RuntimeError('EXAM_PDFS_BY_LEVEL not found in scripts/extract_pdfs.py')
+            current = ast.literal_eval(node.value)
+            for level, pdfs in current.items():
+                result.setdefault(level, {}).update(pdfs)
+    if not result:
+        raise RuntimeError('PDF maps not found in scripts/extract_pdfs.py')
+    return result
 
 
 def pdf_map(level: str) -> dict[str, str]:
@@ -39,7 +47,7 @@ def pdf_map(level: str) -> dict[str, str]:
     manifest = load_manifest(level)
     for subject in manifest.get('subjects', []):
         result[subject['key']] = subject['pdf']
-    result.update(load_exam_pdf_map().get(level, {}))
+    result.update(load_extra_pdf_maps().get(level, {}))
     return result
 
 
