@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import pdfGallery from '../generated/pdfGallery.json'
 import type { PdfImageAsset, PdfImageGallery } from '../types'
@@ -64,11 +64,20 @@ function AssetPreview({ item }: { item: PdfImageAsset }) {
 export default function ImageGalleryPage() {
   const gallery = pdfGallery as PdfImageGallery
   const [searchParams] = useSearchParams()
+  const queryString = searchParams.toString()
   const [selectedLevel, setSelectedLevel] = useState(searchParams.get('level') ?? 'all')
   const [selectedKey, setSelectedKey] = useState(searchParams.get('key') ?? 'all')
   const [selectedType, setSelectedType] = useState('all')
   const [pageQuery, setPageQuery] = useState('')
   const [active, setActive] = useState<PdfImageAsset | null>(null)
+
+  useEffect(() => {
+    setSelectedLevel(searchParams.get('level') ?? 'all')
+    setSelectedKey(searchParams.get('key') ?? 'all')
+    setSelectedType(searchParams.get('type') ?? 'all')
+    setPageQuery(searchParams.get('page') ?? '')
+    setActive(null)
+  }, [queryString])
 
   const levels = useMemo(() => {
     const unique = Array.from(new Set(gallery.items.map((item) => item.level).filter(Boolean))) as string[]

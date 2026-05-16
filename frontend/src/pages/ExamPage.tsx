@@ -39,14 +39,14 @@ export default function ExamPage() {
   useExamTimer(phase === 'active')
 
   useEffect(() => {
-    if (examData && examKey !== storeExamKey) {
+    if (examData && examKey && (examKey !== storeExamKey || currentExamData !== examData)) {
       setExam(examData, examKey!)
     }
-  }, [examKey, examData, storeExamKey, setExam])
+  }, [examKey, examData, storeExamKey, currentExamData, setExam])
 
   useEffect(() => {
     window.scrollTo(0, 0)
-  }, [phase])
+  }, [examKey, phase])
 
   if (!examData) {
     return <div className="text-error p-4">找不到考試：{examKey}</div>

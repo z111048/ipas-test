@@ -31,7 +31,7 @@ export default function SubjectOverviewPage() {
   const { subjectId } = useParams<{ subjectId: string }>()
   const { level, subject, subjectData } = resourceForSubject(subjectId)
   const guideOutline = guideOutlines.guides[subjectData.id]
-  const hasPractice = subject.practiceStatus === 'available'
+  const hasPractice = level.id === 'junior' && subject.practiceStatus === 'available'
   const questionData = juniorQuestionMap[subjectData.id]
   const practiceCounts = subjectData.chapters.map((chapter) =>
     questionData?.chapters.find((item) => item.id === chapter.id)?.questions.length ?? 0
@@ -48,7 +48,7 @@ export default function SubjectOverviewPage() {
 
       {!hasPractice && (
         <div className="rounded-lg border border-[#f2d28b] bg-[#fff8e6] text-[#7a5700] px-4 py-3 mb-5 text-[0.9rem]">
-          中級章節練習題尚未建立；目前可先閱讀學習指引與練習公告試題。
+          中級章節練習題尚未建立；目前章節內容集中在學習指引內，可依 PDF 目錄逐層閱讀。
         </div>
       )}
 

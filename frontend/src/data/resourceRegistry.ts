@@ -30,6 +30,7 @@ export interface SubjectResource {
   practiceTo?: string
   practiceStatus: ResourceStatus
   practiceLabel: string
+  practiceDetail: string
   examTo?: string
   chapters: number
 }
@@ -87,9 +88,10 @@ function subjectResources(toc: TocManifest, level: 'junior' | 'middle'): Subject
       shortLabel: subject.subject.split('：')[0],
       guideTo: firstGuideRoute(subject.id),
       overviewTo: `/subject/${subject.id}`,
-      practiceTo: isJunior ? `/practice/${subject.id}/${subject.chapters[0]?.id}` : undefined,
-      practiceStatus: isJunior ? 'available' : 'pending',
-      practiceLabel: isJunior ? '章節練習' : '章節練習待建立',
+      practiceTo: isJunior ? `/practice/${subject.id}/${subject.chapters[0]?.id}` : firstGuideRoute(subject.id),
+      practiceStatus: 'available',
+      practiceLabel: isJunior ? '章節練習' : '章節內容在學習指引內',
+      practiceDetail: isJunior ? 'AI 模擬章節練習題' : '中級 AI 模擬題尚未建立，先閱讀對應學習指引章節',
       examTo: isJunior ? `/exam/mock${index + 1}` : `/exam/mid${index + 1}`,
       chapters: subject.chapters.length,
     }
@@ -140,7 +142,7 @@ export const resourceLevels: LevelResource[] = [
   {
     id: 'middle',
     label: '中級',
-    subtitle: '已有學習指引與公告試題；章節練習題後續建立',
+    subtitle: '已有學習指引與公告試題；章節練習內容先集中在學習指引內',
     toc: middleToc,
     subjects: subjectResources(middleToc, 'middle'),
     exams: middleToc.subjects.map((subject, index) => ({

@@ -82,11 +82,24 @@ function SidebarItem({ item, onClose }: { item: ResourceNavItem; onClose: () => 
 
 function Section({
   heading,
+  tone = 'normal',
   children,
 }: {
   heading: string
+  tone?: 'level' | 'normal'
   children: ReactNode
 }) {
+  if (tone === 'level') {
+    return (
+      <div className="mt-3 mb-1">
+        <div className="mx-3 rounded-md bg-white/12 px-3 py-2 text-[0.86rem] font-semibold text-white">
+          {heading}
+        </div>
+        {children}
+      </div>
+    )
+  }
+
   return (
     <div>
       <div className="h-px bg-white/10 mx-4 my-2" />
@@ -119,7 +132,13 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
       {resourceLevels.map((level) => (
         <div key={level.id}>
-          <Section heading={`${level.label}：科目與學習`}>
+          <Section heading={`${level.label}資源`} tone="level">
+            <div className="px-4 pt-2 pb-1 text-[0.74rem] leading-5 text-white/60">
+              {level.subtitle}
+            </div>
+          </Section>
+
+          <Section heading="科目總覽">
             {level.subjects.map((subject) => (
               <SidebarItem
                 key={subject.id}
@@ -134,13 +153,13 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             ))}
           </Section>
 
-          <Section heading={`${level.label}：章節練習`}>
+          <Section heading={level.id === 'junior' ? '章節練習題' : '章節內容（學習指引）'}>
             {level.subjects.map((subject) => (
               <SidebarItem
                 key={subject.id}
                 item={{
-                  label: subject.label,
-                  detail: subject.practiceLabel,
+                  label: subject.shortLabel,
+                  detail: subject.practiceDetail,
                   to: subject.practiceTo,
                   status: subject.practiceStatus,
                 }}
@@ -165,13 +184,13 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             )
           })}
 
-          <Section heading={`${level.label}：公告試題與樣題`}>
+          <Section heading="公告試題與樣題">
             {[...level.exams, ...level.samples].map((item) => (
               <SidebarItem key={item.label} item={item} onClose={onClose} />
             ))}
           </Section>
 
-          <Section heading={`${level.label}：官方參考`}>
+          <Section heading="官方參考">
             {level.references.map((item) => (
               <SidebarItem key={item.label} item={item} onClose={onClose} />
             ))}
