@@ -22,3 +22,12 @@ body {
   color: var(--color-app-text);
   min-height: 100vh;
 }
+
+.scrollbar-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}

@@ -1,4 +1,5 @@
-import { NavLink } from 'react-router-dom'
+import { memo, useEffect, useMemo, useState } from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
 import type { ReactNode } from 'react'
 import guideOutlinesRaw from '../../generated/guideOutlines.json'
 import { galleryRoute, resourceLevels, type ResourceNavItem } from '../../data/resourceRegistry'
@@ -6,6 +7,7 @@ import type { GuideOutlinesData } from '../../types'
 import GuideOutlineTree from '../guide/GuideOutlineTree'
 
 const guideOutlines = guideOutlinesRaw as GuideOutlinesData
+const STORAGE_KEY = 'ipas-sidebar-expanded'
 
 interface SidebarProps {
   isOpen: boolean
@@ -80,22 +82,51 @@ function SidebarItem({ item, onClose }: { item: ResourceNavItem; onClose: () => 
   )
 }
 
+function itemMatchesPath(item: ResourceNavItem, pathname: string) {
+  if (!item.to) return false
+  return item.to === pathname || (item.to !== '/' && pathname.startsWith(item.to))
+}
+
+function loadExpandedState() {
+  try {
+    const value = window.localStorage.getItem(STORAGE_KEY)
+    return value ? JSON.parse(value) as Record<string, boolean> : {}
+  } catch {
+    return {}
+  }
+}
+
 function Section({
+  id,
   heading,
   tone = 'normal',
+  open,
+  forceOpen = false,
+  onToggle,
   children,
 }: {
+  id: string
   heading: string
   tone?: 'level' | 'normal'
+  open: boolean
+  forceOpen?: boolean
+  onToggle: (id: string) => void
   children: ReactNode
 }) {
+  const isOpen = open || forceOpen
+  const buttonClass = tone === 'level'
+    ? 'mx-3 mt-3 w-[calc(100%-1.5rem)] rounded-md bg-white/12 px-3 py-2 text-left text-[0.86rem] font-semibold text-white hover:bg-white/16'
+    : 'w-full px-4 pt-2 pb-1 text-left text-[0.7rem] uppercase tracking-widest text-white/55 font-semibold hover:text-white/80'
+
+  const content = isOpen ? children : null
   if (tone === 'level') {
     return (
-      <div className="mt-3 mb-1">
-        <div className="mx-3 rounded-md bg-white/12 px-3 py-2 text-[0.86rem] font-semibold text-white">
+      <div className="mb-1">
+        <button type="button" className={buttonClass} onClick={() => onToggle(id)} aria-expanded={isOpen}>
+          <span className="inline-block w-4 text-white/70">{isOpen ? '▾' : '▸'}</span>
           {heading}
-        </div>
-        {children}
+        </button>
+        {content}
       </div>
     )
   }
@@ -104,75 +135,145 @@ function Section({
     <div>
       <div className="h-px bg-white/10 mx-4 my-2" />
       <div className="py-2">
-        <div className="text-[0.7rem] uppercase tracking-widest text-white/50 px-4 pt-2 pb-1 font-semibold">
+        <button type="button" className={buttonClass} onClick={() => onToggle(id)} aria-expanded={isOpen}>
+          <span className="inline-block w-4 text-white/45">{isOpen ? '▾' : '▸'}</span>
           {heading}
-        </div>
-        {children}
+        </button>
+        {content}
       </div>
     </div>
   )
 }
 
-export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+function Sidebar({ isOpen, onClose }: SidebarProps) {
+  const location = useLocation()
+  const [expanded, setExpanded] = useState<Record<string, boolean>>(() => loadExpandedState())
+
+  useEffect(() => {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(expanded))
+  }, [expanded])
+
+  const defaults = useMemo(() => ({
+    overview: true,
+    'level-junior': true,
+    'level-middle': true,
+    'junior-subjects': true,
+    'middle-subjects': true,
+    'junior-practice': true,
+    'middle-practice': true,
+    'junior-exams': true,
+    'middle-exams': true,
+  }), [])
+
+  const toggle = (id: string) => {
+    setExpanded((current) => ({
+      ...current,
+      [id]: !(current[id] ?? Boolean(defaults[id as keyof typeof defaults])),
+    }))
+  }
+
+  const isSectionOpen = (id: string) => expanded[id] ?? Boolean(defaults[id as keyof typeof defaults])
+
   return (
     <aside
       className={`
         fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-[286px] bg-primary text-white
-        overflow-y-auto flex-shrink-0 pb-8 z-50 transition-transform duration-300
+        flex-shrink-0 z-50 transition-transform duration-300
         md:relative md:top-auto md:left-auto md:h-full md:translate-x-0 md:z-auto
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
       `}
     >
-      <div className="py-2">
-        <div className="text-[0.7rem] uppercase tracking-widest text-white/50 px-4 pt-2 pb-1 font-semibold">
-          總覽
-        </div>
+      <div className="h-full overflow-y-auto overflow-x-hidden pb-8 scrollbar-hidden">
+      <Section
+        id="overview"
+        heading="總覽"
+        open={isSectionOpen('overview')}
+        forceOpen={location.pathname === '/'}
+        onToggle={toggle}
+      >
         <SidebarItem item={{ label: '首頁', to: '/', status: 'available' }} onClose={onClose} />
-      </div>
+      </Section>
 
-      {resourceLevels.map((level) => (
+      {resourceLevels.map((level) => {
+        const levelId = `level-${level.id}`
+        const subjectItems = level.subjects.map((subject) => ({
+          label: `${subject.shortLabel}總覽`,
+          detail: `${subject.chapters} 個章節`,
+          to: subject.overviewTo,
+          status: 'available' as const,
+        }))
+        const practiceItems = level.subjects.map((subject) => ({
+          label: subject.shortLabel,
+          detail: subject.practiceDetail,
+          to: subject.practiceTo,
+          status: subject.practiceStatus,
+        }))
+        const examItems = [...level.exams, ...level.samples]
+        const referenceItems = [
+          ...level.references,
+          {
+            label: `${level.label}圖片與表格`,
+            to: galleryRoute(level.label, 'guide1'),
+            status: 'available' as const,
+          },
+        ]
+        const forceLevelOpen = [...subjectItems, ...practiceItems, ...examItems, ...referenceItems]
+          .some((item) => itemMatchesPath(item, location.pathname))
+
+        return (
         <div key={level.id}>
-          <Section heading={`${level.label}資源`} tone="level">
+          <Section
+            id={levelId}
+            heading={`${level.label}資源`}
+            tone="level"
+            open={isSectionOpen(levelId)}
+            forceOpen={forceLevelOpen || level.subjects.some((subject) => location.pathname.includes(subject.id))}
+            onToggle={toggle}
+          >
             <div className="px-4 pt-2 pb-1 text-[0.74rem] leading-5 text-white/60">
               {level.subtitle}
             </div>
           </Section>
 
-          <Section heading="科目總覽">
-            {level.subjects.map((subject) => (
-              <SidebarItem
-                key={subject.id}
-                item={{
-                  label: `${subject.shortLabel}總覽`,
-                  detail: `${subject.chapters} 個章節`,
-                  to: subject.overviewTo,
-                  status: 'available',
-                }}
-                onClose={onClose}
-              />
+          {(isSectionOpen(levelId) || forceLevelOpen || level.subjects.some((subject) => location.pathname.includes(subject.id))) && (
+          <>
+          <Section
+            id={`${level.id}-subjects`}
+            heading="科目總覽"
+            open={isSectionOpen(`${level.id}-subjects`)}
+            forceOpen={subjectItems.some((item) => itemMatchesPath(item, location.pathname))}
+            onToggle={toggle}
+          >
+            {subjectItems.map((item) => (
+              <SidebarItem key={item.label} item={item} onClose={onClose} />
             ))}
           </Section>
 
-          <Section heading={level.id === 'junior' ? '章節練習題' : '章節內容（學習指引）'}>
-            {level.subjects.map((subject) => (
-              <SidebarItem
-                key={subject.id}
-                item={{
-                  label: subject.shortLabel,
-                  detail: subject.practiceDetail,
-                  to: subject.practiceTo,
-                  status: subject.practiceStatus,
-                }}
-                onClose={onClose}
-              />
+          <Section
+            id={`${level.id}-practice`}
+            heading={level.id === 'junior' ? '章節練習題' : '章節內容（學習指引）'}
+            open={isSectionOpen(`${level.id}-practice`)}
+            forceOpen={practiceItems.some((item) => itemMatchesPath(item, location.pathname))}
+            onToggle={toggle}
+          >
+            {practiceItems.map((item) => (
+              <SidebarItem key={item.label} item={item} onClose={onClose} />
             ))}
           </Section>
 
           {level.subjects.map((subject) => {
             const guide = guideOutlines.guides[subject.id]
             if (!guide) return null
+            const sectionId = `${level.id}-guide-${subject.id}`
             return (
-              <Section key={subject.id} heading={`${level.label}學習指引 ${subject.shortLabel}`}>
+              <Section
+                key={subject.id}
+                id={sectionId}
+                heading={`學習指引 ${subject.shortLabel}`}
+                open={isSectionOpen(sectionId)}
+                forceOpen={location.pathname.startsWith(`/guide/${subject.id}/`)}
+                onToggle={toggle}
+              >
                 <GuideOutlineTree
                   subjectId={subject.id}
                   rootIds={guide.root}
@@ -184,27 +285,37 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             )
           })}
 
-          <Section heading="公告試題與樣題">
-            {[...level.exams, ...level.samples].map((item) => (
+          <Section
+            id={`${level.id}-exams`}
+            heading="公告試題與樣題"
+            open={isSectionOpen(`${level.id}-exams`)}
+            forceOpen={examItems.some((item) => itemMatchesPath(item, location.pathname))}
+            onToggle={toggle}
+          >
+            {examItems.map((item) => (
               <SidebarItem key={item.label} item={item} onClose={onClose} />
             ))}
           </Section>
 
-          <Section heading="官方參考">
-            {level.references.map((item) => (
+          <Section
+            id={`${level.id}-references`}
+            heading="官方參考"
+            open={isSectionOpen(`${level.id}-references`)}
+            forceOpen={referenceItems.some((item) => itemMatchesPath(item, location.pathname))}
+            onToggle={toggle}
+          >
+            {referenceItems.map((item) => (
               <SidebarItem key={item.label} item={item} onClose={onClose} />
             ))}
-            <SidebarItem
-              item={{
-                label: `${level.label}圖片與表格`,
-                to: galleryRoute(level.label, 'guide1'),
-                status: 'available',
-              }}
-              onClose={onClose}
-            />
           </Section>
+          </>
+          )}
         </div>
-      ))}
+        )
+      })}
+      </div>
     </aside>
   )
 }
+
+export default memo(Sidebar)
