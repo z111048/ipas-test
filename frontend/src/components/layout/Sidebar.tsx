@@ -1,5 +1,5 @@
 import { memo, useEffect, useMemo, useState } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import type { ReactNode } from 'react'
 import guideOutlinesRaw from '../../generated/guideOutlines.json'
 import { galleryRoute, resourceLevels, type ResourceNavItem } from '../../data/resourceRegistry'
@@ -7,7 +7,7 @@ import type { GuideOutlinesData } from '../../types'
 import GuideOutlineTree from '../guide/GuideOutlineTree'
 
 const guideOutlines = guideOutlinesRaw as GuideOutlinesData
-const STORAGE_KEY = 'ipas-sidebar-expanded'
+const STORAGE_KEY = 'ipas-sidebar-expanded-v2'
 
 interface SidebarProps {
   isOpen: boolean
@@ -82,11 +82,6 @@ function SidebarItem({ item, onClose }: { item: ResourceNavItem; onClose: () => 
   )
 }
 
-function itemMatchesPath(item: ResourceNavItem, pathname: string) {
-  if (!item.to) return false
-  return item.to === pathname || (item.to !== '/' && pathname.startsWith(item.to))
-}
-
 function loadExpandedState() {
   try {
     const value = window.localStorage.getItem(STORAGE_KEY)
@@ -101,7 +96,6 @@ function Section({
   heading,
   tone = 'normal',
   open,
-  forceOpen = false,
   onToggle,
   children,
 }: {
@@ -109,11 +103,10 @@ function Section({
   heading: string
   tone?: 'level' | 'normal'
   open: boolean
-  forceOpen?: boolean
   onToggle: (id: string) => void
   children: ReactNode
 }) {
-  const isOpen = open || forceOpen
+  const isOpen = open
   const buttonClass = tone === 'level'
     ? 'mx-3 mt-3 w-[calc(100%-1.5rem)] rounded-md bg-white/12 px-3 py-2 text-left text-[0.86rem] font-semibold text-white hover:bg-white/16'
     : 'w-full px-4 pt-2 pb-1 text-left text-[0.7rem] uppercase tracking-widest text-white/55 font-semibold hover:text-white/80'
@@ -146,7 +139,6 @@ function Section({
 }
 
 function Sidebar({ isOpen, onClose }: SidebarProps) {
-  const location = useLocation()
   const [expanded, setExpanded] = useState<Record<string, boolean>>(() => loadExpandedState())
 
   useEffect(() => {
@@ -157,12 +149,6 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
     overview: true,
     'level-junior': true,
     'level-middle': true,
-    'junior-subjects': true,
-    'middle-subjects': true,
-    'junior-practice': true,
-    'middle-practice': true,
-    'junior-exams': true,
-    'middle-exams': true,
   }), [])
 
   const toggle = (id: string) => {
@@ -188,7 +174,6 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
         id="overview"
         heading="總覽"
         open={isSectionOpen('overview')}
-        forceOpen={location.pathname === '/'}
         onToggle={toggle}
       >
         <SidebarItem item={{ label: '首頁', to: '/', status: 'available' }} onClose={onClose} />
@@ -217,9 +202,6 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
             status: 'available' as const,
           },
         ]
-        const forceLevelOpen = [...subjectItems, ...practiceItems, ...examItems, ...referenceItems]
-          .some((item) => itemMatchesPath(item, location.pathname))
-
         return (
         <div key={level.id}>
           <Section
@@ -227,7 +209,6 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
             heading={`${level.label}資源`}
             tone="level"
             open={isSectionOpen(levelId)}
-            forceOpen={forceLevelOpen || level.subjects.some((subject) => location.pathname.includes(subject.id))}
             onToggle={toggle}
           >
             <div className="px-4 pt-2 pb-1 text-[0.74rem] leading-5 text-white/60">
@@ -235,13 +216,12 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
             </div>
           </Section>
 
-          {(isSectionOpen(levelId) || forceLevelOpen || level.subjects.some((subject) => location.pathname.includes(subject.id))) && (
+          {isSectionOpen(levelId) && (
           <>
           <Section
             id={`${level.id}-subjects`}
             heading="科目總覽"
             open={isSectionOpen(`${level.id}-subjects`)}
-            forceOpen={subjectItems.some((item) => itemMatchesPath(item, location.pathname))}
             onToggle={toggle}
           >
             {subjectItems.map((item) => (
@@ -253,7 +233,6 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
             id={`${level.id}-practice`}
             heading={level.id === 'junior' ? '章節練習題' : '章節內容（學習指引）'}
             open={isSectionOpen(`${level.id}-practice`)}
-            forceOpen={practiceItems.some((item) => itemMatchesPath(item, location.pathname))}
             onToggle={toggle}
           >
             {practiceItems.map((item) => (
@@ -271,7 +250,6 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
                 id={sectionId}
                 heading={`學習指引 ${subject.shortLabel}`}
                 open={isSectionOpen(sectionId)}
-                forceOpen={location.pathname.startsWith(`/guide/${subject.id}/`)}
                 onToggle={toggle}
               >
                 <GuideOutlineTree
@@ -289,7 +267,6 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
             id={`${level.id}-exams`}
             heading="公告試題與樣題"
             open={isSectionOpen(`${level.id}-exams`)}
-            forceOpen={examItems.some((item) => itemMatchesPath(item, location.pathname))}
             onToggle={toggle}
           >
             {examItems.map((item) => (
@@ -301,7 +278,6 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
             id={`${level.id}-references`}
             heading="官方參考"
             open={isSectionOpen(`${level.id}-references`)}
-            forceOpen={referenceItems.some((item) => itemMatchesPath(item, location.pathname))}
             onToggle={toggle}
           >
             {referenceItems.map((item) => (
