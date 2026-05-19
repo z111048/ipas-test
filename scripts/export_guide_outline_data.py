@@ -24,6 +24,37 @@ def normalize(value: str) -> str:
     return re.sub(r'\s+', '', value).lower()
 
 
+def page_count(node: dict) -> int:
+    page_range = node.get('page_range') or [node.get('page_number'), node.get('page_number')]
+    start_page, end_page = page_range
+    if not start_page or not end_page:
+        return 0
+    return max(0, end_page - start_page + 1)
+
+
+def filter_duplicate_sibling_nodes(raw_nodes: list[dict]) -> list[dict]:
+    """Drop short TOC placeholder nodes when a real sibling section has the same label."""
+    groups: dict[tuple[str, str], list[dict]] = {}
+    for node in raw_nodes:
+        key = (node.get('number') or '', normalize(node.get('title') or ''))
+        groups.setdefault(key, []).append(node)
+
+    result = []
+    for node in raw_nodes:
+        key = (node.get('number') or '', normalize(node.get('title') or ''))
+        siblings = groups[key]
+        keep = True
+        if key[0] and len(siblings) > 1:
+            largest = max(page_count(sibling) for sibling in siblings)
+            keep = page_count(node) == largest
+
+        if keep:
+            cleaned = dict(node)
+            cleaned['children'] = filter_duplicate_sibling_nodes(node.get('children', []))
+            result.append(cleaned)
+    return result
+
+
 def page_content(level: str, key: str, start_page: int, end_page: int) -> str:
     pages_dir = BASE / 'data' / level / 'page_clean' / key / 'pages'
     chunks = []
@@ -274,7 +305,7 @@ def export_level(level: str, content_dir: Path) -> dict[str, Any]:
             subject_id=subject['id'],
             key=key,
             content_key=content_key,
-            raw_nodes=outline['outline'],
+            raw_nodes=filter_duplicate_sibling_nodes(outline['outline']),
             manifest_subject=subject,
             content_dir=content_dir,
             nodes_by_id=nodes_by_id,
