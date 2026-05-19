@@ -11,6 +11,41 @@ const guideOutlines = guideOutlinesRaw as GuideOutlinesData
 const guideContentModules = import.meta.glob<{ default: GuideContent }>('../generated/guideContent/*/*.json')
 const assetBase = import.meta.env.BASE_URL.replace(/\/$/, '')
 
+function normalizeOcrSoftBreaks(text: string) {
+  const structuralLine = /^(#{1,6}\s|[-*+]\s|\d+\.\s|[A-Z]\.\s|[a-z]\.\s|[|>`~])/
+  const result: string[] = []
+  let block: string[] = []
+
+  const flushBlock = () => {
+    if (block.length === 0) return
+    if (block.some((line) => structuralLine.test(line.trim()))) {
+      result.push(...block)
+    } else {
+      result.push(
+        block
+          .map((line) => line.trim())
+          .join(' ')
+          .replace(/([，、；：])\s+/g, '$1')
+          .replace(/\s+([，。！？；：、）】])/g, '$1')
+          .replace(/([（【])\s+/g, '$1'),
+      )
+    }
+    block = []
+  }
+
+  text.split('\n').forEach((line) => {
+    const trimmedRight = line.trimEnd()
+    if (!trimmedRight.trim()) {
+      flushBlock()
+      if (result.length > 0 && result[result.length - 1] !== '') result.push('')
+      return
+    }
+    block.push(trimmedRight)
+  })
+  flushBlock()
+  return result.join('\n').trim()
+}
+
 function publicAsset(path: string) {
   return `${assetBase}${path.startsWith('/') ? path : `/${path}`}`
 }
@@ -69,8 +104,9 @@ export default function GuidePage() {
   }
 
   const body = content?.content ?? ''
+  const normalizedBody = normalizeOcrSoftBreaks(body)
   const isMarkdown = content?.contentFormat === 'markdown' || body.trimStart().startsWith('#') || body.trimStart().startsWith('##')
-  const paragraphs = isMarkdown ? [] : body.split(/\n{2,}/).filter((p) => p.trim())
+  const paragraphs = isMarkdown ? [] : normalizedBody.split(/\n{2,}/).filter((p) => p.trim())
   const notice = chapterId ? GUIDE_NOTICES[chapterId] : undefined
   const sourcePages = content?.sourcePages ?? []
   const childChapters = chapter.children.map((childId) => outlineGuide.nodesById[childId]).filter(Boolean)
@@ -241,7 +277,7 @@ export default function GuidePage() {
                     <h6 className="text-[0.86rem] font-semibold text-text-light mt-3 mb-1">{children}</h6>
                   ),
                   p: ({ children }) => (
-                    <p className="mb-3 leading-8 whitespace-pre-line">{children}</p>
+                    <p className="mb-3 leading-8">{children}</p>
                   ),
                   ul: ({ children }) => (
                     <ul className="list-disc list-outside pl-5 mb-3 space-y-1">{children}</ul>
@@ -268,20 +304,13 @@ export default function GuidePage() {
                   ),
                 }}
               >
-                {body}
+                {normalizedBody}
               </ReactMarkdown>
               </div>
             ) : (
               <div className="prose prose-sm max-w-none text-[0.9rem] leading-8 text-app-text space-y-4">
                 {paragraphs.map((para, i) => (
-                  <p key={i}>
-                    {para.split('\n').map((line, j, arr) => (
-                      <span key={j}>
-                        {line}
-                        {j < arr.length - 1 && <br />}
-                      </span>
-                    ))}
-                  </p>
+                  <p key={i}>{para}</p>
                 ))}
               </div>
             )}

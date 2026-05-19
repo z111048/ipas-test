@@ -57,6 +57,41 @@ def markdown_heading_for_line(line: str, root_title: str) -> str | None:
     return None
 
 
+def is_markdown_structural_line(text: str) -> bool:
+    return bool(re.match(r'^(#{1,6}\s|[-*+]\s|\d+\.\s|[A-Z]\.\s|[a-z]\.\s|[|>`~])', text))
+
+
+def normalize_ocr_soft_breaks(markdown: str) -> str:
+    """Remove OCR line wraps that came from PDF column width, not paragraph intent."""
+    result: list[str] = []
+    block: list[str] = []
+
+    def flush_block() -> None:
+        if not block:
+            return
+        if any(is_markdown_structural_line(line) for line in block):
+            result.extend(block)
+        else:
+            text = ' '.join(line.strip() for line in block)
+            text = re.sub(r'([，、；：])\s+', r'\1', text)
+            text = re.sub(r'\s+([，。！？；：、）】])', r'\1', text)
+            text = re.sub(r'([（【])\s+', r'\1', text)
+            result.append(text)
+        block.clear()
+
+    for raw_line in markdown.splitlines():
+        line = raw_line.rstrip()
+        if not line.strip():
+            flush_block()
+            if result and result[-1] != '':
+                result.append('')
+            continue
+        block.append(line)
+
+    flush_block()
+    return '\n'.join(result).strip()
+
+
 def format_markdown(title: str, raw_content: str) -> str:
     lines = [line.rstrip() for line in raw_content.splitlines()]
     result = [f'# {title}', '']
@@ -86,7 +121,8 @@ def format_markdown(title: str, raw_content: str) -> str:
         result.append(text)
         previous_blank = False
 
-    return '\n'.join(result).strip()
+    return normalize_ocr_soft_breaks('\n'.join(result).strip())
+
 
 
 def source_pages(level: str, key: str, start_page: int, end_page: int) -> list[dict]:
