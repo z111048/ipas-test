@@ -135,7 +135,7 @@ def check_app_data(level: str, manifest: dict, errors: list[str]) -> None:
             data_dir / 'questions' / f'subject{index}_questions.json',
             subject,
             errors,
-            require_questions=True,
+            require_questions=level == '初級',
         )
 
 

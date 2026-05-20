@@ -2,6 +2,9 @@ import { Link, useParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import s1q from '@data/questions/subject1_questions.json'
 import s2q from '@data/questions/subject2_questions.json'
+import midS1q from '@data-mid/questions/subject1_questions.json'
+import midS2q from '@data-mid/questions/subject2_questions.json'
+import midS3q from '@data-mid/questions/subject3_questions.json'
 import { resourceLevels } from '../data/resourceRegistry'
 import type { SubjectQuestions } from '../types'
 import QuestionCard from '../components/practice/QuestionCard'
@@ -9,6 +12,9 @@ import QuestionCard from '../components/practice/QuestionCard'
 const questionData: Record<string, SubjectQuestions> = {
   s1: s1q as SubjectQuestions,
   s2: s2q as SubjectQuestions,
+  'mid-s1': midS1q as SubjectQuestions,
+  'mid-s2': midS2q as SubjectQuestions,
+  'mid-s3': midS3q as SubjectQuestions,
 }
 
 export default function PracticePage() {
@@ -22,7 +28,7 @@ export default function PracticePage() {
     window.scrollTo(0, 0)
   }, [chapterId])
 
-  if (!data || subject?.practiceStatus === 'pending') {
+  if (!data || subject?.practiceStatus === 'pending' || chapter?.questions.length === 0) {
     return (
       <div>
         <div className="text-2xl font-bold text-primary mb-1">章節練習題待建立</div>

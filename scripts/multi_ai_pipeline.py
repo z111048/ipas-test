@@ -265,14 +265,14 @@ QUESTION_SCHEMA = """{
 }"""
 
 
-def build_creator_prompt(chapter: dict, templates: list[str], count: int) -> str:
+def build_creator_prompt(chapter: dict, templates: list[str], count: int, level: str) -> str:
     content = chapter['content'][:MAX_CONTENT_CHARS]
     subtopics = '、'.join(chapter.get('subtopics', []))
     template_list = '\n'.join(
         f"  - {t}：{QUESTION_TEMPLATES[t]['stem_hint']}（{QUESTION_TEMPLATES[t]['notes']}）"
         for t in templates
     )
-    return f"""你是一位 iPAS 初級 AI 應用規劃師認證考試的命題專家（出題者）。
+    return f"""你是一位 iPAS {level} AI 應用規劃師認證考試的命題專家（出題者）。
 
 ## 任務
 根據以下章節內容，出 {count} 道四選一選擇題，涵蓋下列題型（每種至少出一題）：
@@ -360,7 +360,9 @@ def build_finalizer_prompt(chapter: dict, draft_questions: list, review: dict) -
 
 def build_validation_prompt(question: dict) -> str:
     opts = question['options']
-    return f"""以下是一道 iPAS 初級 AI 應用規劃師認證考試的選擇題。
+    level = question.get('level') or ''
+    level_text = f'{level} ' if level else ''
+    return f"""以下是一道 iPAS {level_text}AI 應用規劃師認證考試的選擇題。
 請只輸出你認為正確的選項字母（A、B、C 或 D），不要加任何解釋或說明。
 
 題目：{question['question']}
@@ -379,12 +381,13 @@ def run_creation_stage(
     chapter: dict,
     templates: list[str],
     count: int,
+    level: str,
     roles: dict,
     timeout: int,
     dry_run: bool,
 ) -> list | None:
     tool = roles.get('creator')
-    prompt = build_creator_prompt(chapter, templates, count)
+    prompt = build_creator_prompt(chapter, templates, count, level)
     log.info(f"[{chapter['id']}] 出題 ({tool}) — templates: {templates}")
 
     if dry_run:
@@ -594,6 +597,7 @@ def merge_into_subject_questions(
     for i, q in enumerate(new_questions, existing_count + 1):
         q['id'] = f'{chapter_id}q{i}_multi'
         q.setdefault('source', 'multi_ai_pipeline')
+        q.setdefault('level', subject_data.get('level', ''))
 
     if chapter_id in chapter_map:
         chapter_map[chapter_id].setdefault('questions', []).extend(new_questions)
@@ -633,7 +637,7 @@ def run_chapter_pipeline(
 
     # 2. Creation
     draft_questions = run_creation_stage(
-        chapter, templates, args.count, roles, args.timeout, args.dry_run
+        chapter, templates, args.count, args.level, roles, args.timeout, args.dry_run
     )
     if draft_questions is None:
         return {'chapter_id': ch_id, 'status': 'failed_creation', 'stages_completed': []}
@@ -787,12 +791,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('--subject', type=int, choices=[1, 2], help='Subject to process')
+    group.add_argument('--subject', type=int, help='Subject to process')
     group.add_argument('--chapter', dest='chapter_only', metavar='CHAPTER_ID',
                        help='Process a single chapter (requires --subject too — use with --subject)')
 
     # Allow --chapter alongside --subject
-    parser.add_argument('--subject-for-chapter', type=int, choices=[1, 2], dest='subject_fc',
+    parser.add_argument('--subject-for-chapter', type=int, dest='subject_fc',
                         help=argparse.SUPPRESS)
 
     parser.add_argument('--count', type=int, default=3, help='Questions per chapter (default: 3)')

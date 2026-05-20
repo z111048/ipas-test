@@ -5,6 +5,9 @@ import juniorMock1Raw from '@data/questions/mock_exam1.json'
 import juniorMock2Raw from '@data/questions/mock_exam2.json'
 import juniorSampleRaw from '@data/questions/sample_exam.json'
 import middleTocRaw from '@data-mid/toc_manifest.json'
+import middleSubject1Raw from '@data-mid/questions/subject1_questions.json'
+import middleSubject2Raw from '@data-mid/questions/subject2_questions.json'
+import middleSubject3Raw from '@data-mid/questions/subject3_questions.json'
 import middleMock1Raw from '@data-mid/questions/mock_exam1.json'
 import middleMock2Raw from '@data-mid/questions/mock_exam2.json'
 import middleMock3Raw from '@data-mid/questions/mock_exam3.json'
@@ -64,6 +67,13 @@ const middleExams = [
   middleMock3Raw as ExamData,
 ]
 const juniorSample = juniorSampleRaw as ExamData
+const subjectQuestionsById: Record<string, SubjectQuestions> = {
+  s1: juniorSubject1Raw as SubjectQuestions,
+  s2: juniorSubject2Raw as SubjectQuestions,
+  'mid-s1': middleSubject1Raw as SubjectQuestions,
+  'mid-s2': middleSubject2Raw as SubjectQuestions,
+  'mid-s3': middleSubject3Raw as SubjectQuestions,
+}
 
 export function galleryRoute(level: string, key: string) {
   return `/images?level=${encodeURIComponent(level)}&key=${encodeURIComponent(key)}`
@@ -79,19 +89,25 @@ function practiceCount(subject: SubjectQuestions) {
   return subject.chapters.reduce((total, chapter) => total + chapter.questions.length, 0)
 }
 
+function subjectQuestionCount(subjectId: string) {
+  const subject = subjectQuestionsById[subjectId]
+  return subject?.chapters.reduce((total, chapter) => total + chapter.questions.length, 0) ?? 0
+}
+
 function subjectResources(toc: TocManifest, level: 'junior' | 'middle'): SubjectResource[] {
   return toc.subjects.map((subject, index) => {
     const isJunior = level === 'junior'
+    const hasPracticeQuestions = subjectQuestionCount(subject.id) > 0
     return {
       id: subject.id,
       label: subject.subject,
       shortLabel: subject.subject.split('：')[0],
       guideTo: firstGuideRoute(subject.id),
       overviewTo: `/subject/${subject.id}`,
-      practiceTo: isJunior ? `/practice/${subject.id}/${subject.chapters[0]?.id}` : firstGuideRoute(subject.id),
-      practiceStatus: 'available',
-      practiceLabel: isJunior ? '章節練習' : '章節內容在學習指引內',
-      practiceDetail: isJunior ? 'AI 模擬章節練習題' : '中級 AI 模擬題尚未建立，先閱讀對應學習指引章節',
+      practiceTo: hasPracticeQuestions ? `/practice/${subject.id}/${subject.chapters[0]?.id}` : firstGuideRoute(subject.id),
+      practiceStatus: hasPracticeQuestions ? 'available' : 'pending',
+      practiceLabel: hasPracticeQuestions ? '章節練習' : '章節練習待建立',
+      practiceDetail: isJunior ? 'AI 模擬章節練習題' : '中級 AI 模擬題資料結構已建立，待產生章節題',
       examTo: isJunior ? `/exam/mock${index + 1}` : `/exam/mid${index + 1}`,
       chapters: subject.chapters.length,
     }
@@ -108,7 +124,7 @@ export const resourceStats = {
   middle: {
     subjects: middleToc.subjects.length,
     chapters: middleToc.subjects.reduce((total, subject) => total + subject.chapters.length, 0),
-    practiceQuestions: 0,
+    practiceQuestions: ['mid-s1', 'mid-s2', 'mid-s3'].reduce((total, subjectId) => total + subjectQuestionCount(subjectId), 0),
     officialQuestions: middleExams.reduce((total, exam) => total + exam.total, 0),
   },
 }

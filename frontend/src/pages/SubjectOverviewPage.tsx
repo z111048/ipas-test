@@ -1,6 +1,9 @@
 import { Link, useParams } from 'react-router-dom'
 import juniorSubject1Raw from '@data/questions/subject1_questions.json'
 import juniorSubject2Raw from '@data/questions/subject2_questions.json'
+import middleSubject1Raw from '@data-mid/questions/subject1_questions.json'
+import middleSubject2Raw from '@data-mid/questions/subject2_questions.json'
+import middleSubject3Raw from '@data-mid/questions/subject3_questions.json'
 import guideOutlinesRaw from '../generated/guideOutlines.json'
 import { resourceLevels } from '../data/resourceRegistry'
 import type { GuideOutlinesData, SubjectQuestions } from '../types'
@@ -8,9 +11,12 @@ import ProgressBar from '../components/shared/ProgressBar'
 import GuideOutlineTree from '../components/guide/GuideOutlineTree'
 
 const guideOutlines = guideOutlinesRaw as GuideOutlinesData
-const juniorQuestionMap: Record<string, SubjectQuestions> = {
+const questionMap: Record<string, SubjectQuestions> = {
   s1: juniorSubject1Raw as SubjectQuestions,
   s2: juniorSubject2Raw as SubjectQuestions,
+  'mid-s1': middleSubject1Raw as SubjectQuestions,
+  'mid-s2': middleSubject2Raw as SubjectQuestions,
+  'mid-s3': middleSubject3Raw as SubjectQuestions,
 }
 
 function resourceForSubject(subjectId?: string) {
@@ -31,8 +37,8 @@ export default function SubjectOverviewPage() {
   const { subjectId } = useParams<{ subjectId: string }>()
   const { level, subject, subjectData } = resourceForSubject(subjectId)
   const guideOutline = guideOutlines.guides[subjectData.id]
-  const hasPractice = level.id === 'junior' && subject.practiceStatus === 'available'
-  const questionData = juniorQuestionMap[subjectData.id]
+  const hasPractice = subject.practiceStatus === 'available'
+  const questionData = questionMap[subjectData.id]
   const practiceCounts = subjectData.chapters.map((chapter) =>
     questionData?.chapters.find((item) => item.id === chapter.id)?.questions.length ?? 0
   )
@@ -48,7 +54,7 @@ export default function SubjectOverviewPage() {
 
       {!hasPractice && (
         <div className="rounded-lg border border-[#f2d28b] bg-[#fff8e6] text-[#7a5700] px-4 py-3 mb-5 text-[0.9rem]">
-          中級章節練習題尚未建立；目前章節內容集中在學習指引內，可依 PDF 目錄逐層閱讀。
+          章節練習題尚未建立；目前可先使用學習指引與公告試題，完成 AI 模擬題後此區會自動顯示題數。
         </div>
       )}
 
