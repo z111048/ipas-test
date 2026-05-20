@@ -185,6 +185,12 @@ export const resourceLevels: LevelResource[] = [
         to: galleryRoute('共用', 'briefing'),
         status: 'available',
       },
+      {
+        label: '中級關鍵字整理',
+        detail: '科目一、科目三中英文定義與案例',
+        to: '/glossary',
+        status: 'available',
+      },
     ],
   },
 ]

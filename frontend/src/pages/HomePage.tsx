@@ -134,9 +134,9 @@ export default function HomePage() {
         <h2 className="text-lg font-semibold text-primary mb-3">備考建議</h2>
         <ol className="ml-5 space-y-1 text-[0.9rem] leading-7">
           <li>先依級別確認要準備的科目，再閱讀對應學習指引。</li>
-          <li>初級可使用章節練習題建立概念熟悉度，中級目前先以公告試題與學習指引為主。</li>
+          <li>初級與中級都可使用章節練習題建立概念熟悉度，中級可搭配關鍵字整理快速複習術語。</li>
           <li>遇到圖片或表格題，使用 PDF 圖片與表格檢視頁回看原始版面。</li>
-          <li>中級章節練習題完成後，導覽列中的待建立入口會改為可練習。</li>
+          <li>中級科目一與科目三可先用關鍵字表建立中英文術語對照，再回到章節題檢查理解。</li>
         </ol>
       </div>
     </div>

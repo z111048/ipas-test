@@ -33,7 +33,7 @@ export default function QuestionCard({ question, index }: QuestionCardProps) {
       <div className="text-[0.78rem] text-text-light font-semibold mb-2 uppercase tracking-wide">
         第 {index + 1} 題
       </div>
-      <div className="text-[0.95rem] leading-relaxed mb-4 text-app-text">{question.question}</div>
+      <div className="text-[0.95rem] leading-relaxed mb-4 text-app-text content-justify">{question.question}</div>
 
       <div className="flex flex-col gap-2">
         {(['A', 'B', 'C', 'D'] as const).map((key) => (
@@ -58,7 +58,7 @@ export default function QuestionCard({ question, index }: QuestionCardProps) {
       )}
 
       {revealed && (
-        <div className="mt-4 bg-[#f0f9ff] border-l-4 border-accent rounded-lg p-4 text-[0.88rem] leading-relaxed">
+        <div className="mt-4 bg-[#f0f9ff] border-l-4 border-accent rounded-lg p-4 text-[0.88rem] leading-relaxed content-justify">
           <strong>✅ 正確答案：({question.answer}) {question.options[question.answer]}</strong>
           <br /><br />
           {question.explanation}

@@ -1,0 +1,243 @@
+{
+  "level": "中級",
+  "subjects": {
+    "mid-s1": {
+      "subject": "中級科目一：人工智慧技術應用與規劃",
+      "terms": [
+        {
+          "zh": "自然語言處理",
+          "en": "Natural Language Processing, NLP",
+          "definition": "讓電腦理解、分析、生成與回應人類語言的技術領域，常涵蓋斷詞、詞向量、語意理解、文本分類、問答與摘要等任務。",
+          "example": "企業用 NLP 分析客服對話與商品評論，判斷顧客抱怨主題並自動分流給對應客服團隊。"
+        },
+        {
+          "zh": "詞嵌入",
+          "en": "Word Embedding",
+          "definition": "將文字或詞彙轉換成連續向量，使語意相近的詞在向量空間中距離較近，方便模型計算語意關係。",
+          "example": "推薦系統可用詞嵌入判斷「筆電」與「Notebook」語意相近，改善搜尋與商品推薦結果。"
+        },
+        {
+          "zh": "自注意力機制",
+          "en": "Self-Attention Mechanism",
+          "definition": "模型在處理序列資料時，動態計算不同詞或 token 之間的重要性，捕捉長距離上下文關係。",
+          "example": "Transformer 翻譯長篇金融文件時，可同時參考前後文來判斷代名詞或專有名詞的正確翻譯。"
+        },
+        {
+          "zh": "BERT",
+          "en": "Bidirectional Encoder Representations from Transformers",
+          "definition": "以 Transformer Encoder 為基礎的雙向語言模型，透過遮罩語言模型等任務學習上下文語意。",
+          "example": "客服系統使用 BERT 判斷使用者留言是退款、維修或帳號問題，再轉交對應流程。"
+        },
+        {
+          "zh": "電腦視覺",
+          "en": "Computer Vision, CV",
+          "definition": "讓機器從影像或影片中擷取、辨識、分類與理解視覺資訊的人工智慧技術領域。",
+          "example": "智慧工廠使用電腦視覺檢測產品表面刮痕，降低人工抽檢成本。"
+        },
+        {
+          "zh": "物件偵測",
+          "en": "Object Detection",
+          "definition": "在影像中辨識特定物件類別並標示其位置，通常以邊界框呈現。",
+          "example": "智慧監控系統偵測畫面中的車輛與行人，並在禁區入侵時發出警示。"
+        },
+        {
+          "zh": "平均精確率",
+          "en": "Mean Average Precision, mAP",
+          "definition": "常用於物件偵測的評估指標，綜合衡量不同類別在不同信心門檻下的偵測精準度。",
+          "example": "比較兩個瑕疵檢測模型時，mAP 較高者通常代表整體偵測表現較穩定。"
+        },
+        {
+          "zh": "交集聯集比",
+          "en": "Intersection over Union, IoU",
+          "definition": "用來衡量預測框與真實框重疊程度的比例，值越接近 1 表示定位越準確。",
+          "example": "車牌辨識模型若預測框與真實車牌框高度重疊，IoU 會較高。"
+        },
+        {
+          "zh": "生成對抗網路",
+          "en": "Generative Adversarial Network, GAN",
+          "definition": "由生成器與鑑別器互相對抗訓練的生成模型，可用於影像生成、風格轉換與資料增強。",
+          "example": "設計團隊用 GAN 產生多種產品外觀草圖，作為早期創意發想素材。"
+        },
+        {
+          "zh": "擴散模型",
+          "en": "Diffusion Model",
+          "definition": "透過逐步加噪與去噪學習資料分布的生成模型，常用於高品質影像生成。",
+          "example": "行銷團隊輸入產品情境描述，由擴散模型生成不同廣告視覺草案。"
+        },
+        {
+          "zh": "多模態人工智慧",
+          "en": "Multimodal AI",
+          "definition": "同時處理並整合文字、影像、語音、感測資料等多種資料型態的 AI 技術。",
+          "example": "醫療系統結合 X 光影像、病歷文字與檢驗數值，協助醫師判斷病患風險。"
+        },
+        {
+          "zh": "CLIP",
+          "en": "Contrastive Language-Image Pre-training",
+          "definition": "透過大量圖文配對資料進行對比學習，將圖片與文字對齊到相同語意空間的多模態模型。",
+          "example": "使用者輸入「紅色運動鞋」，系統可用 CLIP 從圖片庫中找出語意相符的商品圖片。"
+        },
+        {
+          "zh": "AI 導入評估",
+          "en": "AI Adoption Assessment",
+          "definition": "在導入 AI 前評估商業目標、資料可得性、技術成熟度、組織能力、風險與投資報酬。",
+          "example": "企業導入客服機器人前，先盤點 FAQ 資料品質、人工客服流程與預期節省成本。"
+        },
+        {
+          "zh": "概念驗證",
+          "en": "Proof of Concept, PoC",
+          "definition": "以小規模實驗驗證 AI 技術是否能解決特定問題，通常用於正式投資前降低不確定性。",
+          "example": "零售商先以一間門市測試客流分析模型，再決定是否擴大到全台門市。"
+        },
+        {
+          "zh": "AI 風險管理",
+          "en": "AI Risk Management",
+          "definition": "系統性辨識、評估、降低與監控 AI 在資料、模型、部署、倫理與法規上的風險。",
+          "example": "金融機構定期檢查信用評分模型是否對特定族群產生不公平偏差。"
+        },
+        {
+          "zh": "模型漂移",
+          "en": "Model Drift",
+          "definition": "模型上線後因資料分布、使用者行為或環境變化，使預測效果逐漸下降的現象。",
+          "example": "疫情後消費行為改變，原本的銷售預測模型準確度下降，需要重新訓練。"
+        },
+        {
+          "zh": "資料治理",
+          "en": "Data Governance",
+          "definition": "管理資料品質、權限、安全、血緣、標準與責任歸屬的制度與流程，是 AI 導入的基礎。",
+          "example": "企業建立資料字典與權限控管，確保模型訓練資料來源可追溯且合規。"
+        },
+        {
+          "zh": "MLOps",
+          "en": "Machine Learning Operations",
+          "definition": "將模型開發、部署、監控、版本管理與持續更新流程工程化的實務方法。",
+          "example": "資料科學團隊用 MLOps 管理模型版本，當準確率低於門檻時自動通知重新訓練。"
+        }
+      ]
+    },
+    "mid-s3": {
+      "subject": "中級科目三：機器學習技術與應用",
+      "terms": [
+        {
+          "zh": "監督式學習",
+          "en": "Supervised Learning",
+          "definition": "使用已標註資料訓練模型，使模型學會輸入與正確輸出之間的對應關係。",
+          "example": "以已標記是否違約的客戶資料訓練模型，預測新客戶的信用風險。"
+        },
+        {
+          "zh": "非監督式學習",
+          "en": "Unsupervised Learning",
+          "definition": "在沒有標籤的資料中尋找結構、分群、關聯或異常模式的學習方式。",
+          "example": "電商依消費行為自動分群顧客，作為行銷活動分眾依據。"
+        },
+        {
+          "zh": "強化學習",
+          "en": "Reinforcement Learning",
+          "definition": "代理人透過與環境互動取得獎勵或懲罰，學習使長期報酬最大化的策略。",
+          "example": "倉儲機器人透過強化學習調整移動路徑，以縮短取貨時間。"
+        },
+        {
+          "zh": "梯度下降",
+          "en": "Gradient Descent",
+          "definition": "透過計算損失函數梯度並沿下降方向更新參數，以逐步降低模型錯誤的最佳化方法。",
+          "example": "訓練神經網路時，模型用梯度下降調整權重，使預測結果更接近標籤。"
+        },
+        {
+          "zh": "損失函數",
+          "en": "Loss Function",
+          "definition": "衡量模型預測結果與真實答案差距的函數，是模型訓練時優化的目標。",
+          "example": "分類模型常使用交叉熵損失，回歸模型常使用均方誤差。"
+        },
+        {
+          "zh": "過度擬合",
+          "en": "Overfitting",
+          "definition": "模型過度記住訓練資料細節，導致訓練表現好但面對新資料泛化能力差。",
+          "example": "模型在訓練集準確率 99%，但測試集只有 70%，可能是過度擬合。"
+        },
+        {
+          "zh": "正則化",
+          "en": "Regularization",
+          "definition": "在訓練中加入限制或懲罰項，降低模型複雜度並減少過度擬合。",
+          "example": "線性模型加入 L1 或 L2 正則化，避免少數特徵權重過大。"
+        },
+        {
+          "zh": "交叉驗證",
+          "en": "Cross-Validation",
+          "definition": "將資料切成多份輪流訓練與驗證，以更穩健估計模型泛化表現的方法。",
+          "example": "資料量不大時，用 k-fold cross-validation 評估模型平均準確率。"
+        },
+        {
+          "zh": "混淆矩陣",
+          "en": "Confusion Matrix",
+          "definition": "用真陽性、假陽性、真陰性、假陰性呈現分類模型預測結果的表格。",
+          "example": "醫療篩檢模型可用混淆矩陣檢查漏診與誤診比例。"
+        },
+        {
+          "zh": "精確率",
+          "en": "Precision",
+          "definition": "在模型預測為正類的樣本中，實際為正類的比例，適合關注誤報成本的場景。",
+          "example": "詐欺警示若精確率低，會讓大量正常交易被誤擋。"
+        },
+        {
+          "zh": "召回率",
+          "en": "Recall",
+          "definition": "在所有實際正類樣本中，被模型正確找出的比例，適合關注漏報成本的場景。",
+          "example": "癌症篩檢通常重視召回率，避免漏掉高風險病患。"
+        },
+        {
+          "zh": "F1 分數",
+          "en": "F1 Score",
+          "definition": "精確率與召回率的調和平均，用於兩者都重要且類別不平衡的分類任務。",
+          "example": "垃圾郵件分類同時需要避免誤擋正常信與漏掉垃圾信，可參考 F1 分數。"
+        },
+        {
+          "zh": "決策樹",
+          "en": "Decision Tree",
+          "definition": "以樹狀規則逐步切分資料並做出預測的模型，具有可解釋性但容易過度擬合。",
+          "example": "銀行用決策樹依收入、負債比、信用紀錄判斷貸款風險。"
+        },
+        {
+          "zh": "隨機森林",
+          "en": "Random Forest",
+          "definition": "由多棵決策樹集成而成的模型，透過抽樣與投票降低單棵樹過度擬合風險。",
+          "example": "保險公司用隨機森林預測客戶是否可能申請理賠。"
+        },
+        {
+          "zh": "支援向量機",
+          "en": "Support Vector Machine, SVM",
+          "definition": "尋找可最大化類別間隔的分類邊界，能透過 kernel 處理非線性分類問題。",
+          "example": "文本分類可用 SVM 判斷新聞屬於財經、科技或娛樂類別。"
+        },
+        {
+          "zh": "卷積神經網路",
+          "en": "Convolutional Neural Network, CNN",
+          "definition": "利用卷積層擷取局部空間特徵的深度學習架構，常用於影像辨識與分類。",
+          "example": "製造業用 CNN 判斷產品影像是否有瑕疵。"
+        },
+        {
+          "zh": "遷移學習",
+          "en": "Transfer Learning",
+          "definition": "使用已在大型資料集訓練好的模型或特徵，再針對新任務微調以降低資料與訓練成本。",
+          "example": "醫療影像資料不足時，可用預訓練影像模型微調肺部 X 光分類任務。"
+        },
+        {
+          "zh": "超參數調校",
+          "en": "Hyperparameter Tuning",
+          "definition": "調整學習率、樹深、批次大小、正則化係數等非模型自動學得的設定，以提升模型表現。",
+          "example": "資料科學團隊用 grid search 比較不同 learning rate 與 batch size 的模型效果。"
+        },
+        {
+          "zh": "特徵工程",
+          "en": "Feature Engineering",
+          "definition": "從原始資料建立、轉換、選擇或組合特徵，使模型更容易學到有效模式。",
+          "example": "預測顧客流失時，將最近登入天數、平均消費金額與客服申訴次數做成特徵。"
+        },
+        {
+          "zh": "模型公平性",
+          "en": "Model Fairness",
+          "definition": "檢查模型是否對不同族群產生不合理差別待遇，並透過資料、指標與治理流程降低偏見。",
+          "example": "徵才模型若對特定性別推薦率偏低，需要分析資料偏差並調整模型。"
+        }
+      ]
+    }
+  }
+}

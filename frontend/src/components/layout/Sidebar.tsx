@@ -231,7 +231,7 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
 
           <Section
             id={`${level.id}-practice`}
-            heading={level.id === 'junior' ? '章節練習題' : '章節內容（學習指引）'}
+            heading="章節練習題"
             open={isSectionOpen(`${level.id}-practice`)}
             onToggle={toggle}
           >

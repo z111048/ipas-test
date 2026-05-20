@@ -257,7 +257,7 @@ export default function GuidePage() {
           ) : (
           <div className="bg-card rounded-xl shadow-sm border border-border p-5">
             {isMarkdown ? (
-              <div className="prose prose-sm max-w-none text-[0.9rem] leading-8 text-app-text">
+              <div className="prose prose-sm max-w-none text-[0.9rem] leading-8 text-app-text content-justify">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
@@ -277,7 +277,7 @@ export default function GuidePage() {
                     <h6 className="text-[0.86rem] font-semibold text-text-light mt-3 mb-1">{children}</h6>
                   ),
                   p: ({ children }) => (
-                    <p className="mb-3 leading-8">{children}</p>
+                    <p className="mb-3 leading-8 content-justify">{children}</p>
                   ),
                   ul: ({ children }) => (
                     <ul className="list-disc list-outside pl-5 mb-3 space-y-1">{children}</ul>
@@ -286,7 +286,7 @@ export default function GuidePage() {
                     <ol className="list-decimal list-outside pl-5 mb-3 space-y-1">{children}</ol>
                   ),
                   li: ({ children }) => (
-                    <li className="leading-7">{children}</li>
+                    <li className="leading-7 content-justify">{children}</li>
                   ),
                   table: ({ children }) => (
                     <div className="overflow-x-auto my-4">
@@ -308,7 +308,7 @@ export default function GuidePage() {
               </ReactMarkdown>
               </div>
             ) : (
-              <div className="prose prose-sm max-w-none text-[0.9rem] leading-8 text-app-text space-y-4">
+              <div className="prose prose-sm max-w-none text-[0.9rem] leading-8 text-app-text space-y-4 content-justify">
                 {paragraphs.map((para, i) => (
                   <p key={i}>{para}</p>
                 ))}

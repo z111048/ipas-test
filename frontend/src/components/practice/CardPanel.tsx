@@ -18,7 +18,7 @@ export default function CardPanel({ card }: CardPanelProps) {
           <div key={label} className="flex gap-3 text-[0.88rem]">
             <span className="w-5 shrink-0">{icon}</span>
             <span className="text-text-light w-16 shrink-0">{label}</span>
-            <span className="text-app-text">{value}</span>
+            <span className="text-app-text content-justify">{value}</span>
           </div>
         ))}
         <div className="flex gap-3 text-[0.88rem] items-center">
