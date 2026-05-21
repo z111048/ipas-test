@@ -11,6 +11,7 @@ import middleSubject3Raw from '@data-mid/questions/subject3_questions.json'
 import middleMock1Raw from '@data-mid/questions/mock_exam1.json'
 import middleMock2Raw from '@data-mid/questions/mock_exam2.json'
 import middleMock3Raw from '@data-mid/questions/mock_exam3.json'
+import middleSampleRaw from '@data-mid/questions/sample_exam.json'
 import guideOutlinesRaw from '../generated/guideOutlines.json'
 import type { ExamData, GuideOutlinesData, SubjectQuestions, TocManifest } from '../types'
 
@@ -67,6 +68,7 @@ const middleExams = [
   middleMock3Raw as ExamData,
 ]
 const juniorSample = juniorSampleRaw as ExamData
+const middleSample = middleSampleRaw as ExamData
 const subjectQuestionsById: Record<string, SubjectQuestions> = {
   s1: juniorSubject1Raw as SubjectQuestions,
   s2: juniorSubject2Raw as SubjectQuestions,
@@ -125,7 +127,7 @@ export const resourceStats = {
     subjects: middleToc.subjects.length,
     chapters: middleToc.subjects.reduce((total, subject) => total + subject.chapters.length, 0),
     practiceQuestions: ['mid-s1', 'mid-s2', 'mid-s3'].reduce((total, subjectId) => total + subjectQuestionCount(subjectId), 0),
-    officialQuestions: middleExams.reduce((total, exam) => total + exam.total, 0),
+    officialQuestions: middleExams.reduce((total, exam) => total + exam.total, 0) + middleSample.total,
   },
 }
 
@@ -169,8 +171,9 @@ export const resourceLevels: LevelResource[] = [
     })),
     samples: [{
       label: '中級考試樣題（114年9月版）',
-      detail: '官方下載端目前回 404，待補 PDF 入庫',
-      status: 'pending',
+      detail: `${middleSample.total} 題`,
+      to: '/exam/midSample',
+      status: 'available',
     }],
     references: [
       {

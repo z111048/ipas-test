@@ -6,6 +6,7 @@ import sample from '@data/questions/sample_exam.json'
 import midMock1 from '@data-mid/questions/mock_exam1.json'
 import midMock2 from '@data-mid/questions/mock_exam2.json'
 import midMock3 from '@data-mid/questions/mock_exam3.json'
+import midSample from '@data-mid/questions/sample_exam.json'
 import type { ExamData } from '../types'
 import { useExamStore } from '../store/examStore'
 import { useExamTimer } from '../hooks/useExamTimer'
@@ -21,6 +22,7 @@ const EXAM_DATA: Record<string, ExamData> = {
   mid1: midMock1 as ExamData,
   mid2: midMock2 as ExamData,
   mid3: midMock3 as ExamData,
+  midSample: midSample as ExamData,
 }
 
 export default function ExamPage() {
