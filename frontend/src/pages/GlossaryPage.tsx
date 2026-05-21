@@ -40,7 +40,7 @@ export default function GlossaryPage() {
       <div className="text-[0.78rem] font-semibold text-accent mb-1">{glossary.level}</div>
       <div className="text-2xl font-bold text-primary mb-1">中級關鍵字整理</div>
       <div className="text-text-light mb-5">
-        優先整理科目一與科目三，包含中英文、定義與案例說明。
+        整理中級三個科目的中英文關鍵字、定義與案例說明。
       </div>
 
       <div className="bg-card rounded-xl shadow-sm border border-border p-5 mb-4">
