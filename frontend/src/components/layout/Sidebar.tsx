@@ -188,11 +188,29 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
           status: 'available' as const,
         }))
         const practiceItems = level.subjects.map((subject) => ({
-          label: subject.shortLabel,
+          label: `${subject.shortLabel}AI 舊版練習`,
           detail: subject.practiceDetail,
           to: subject.practiceTo,
           status: subject.practiceStatus,
         }))
+        const guideExerciseItems = level.subjects.flatMap((subject) => {
+          if (!subject.guideExercisePracticeTo) return []
+          return [{
+            label: `${subject.shortLabel}學習指引練習`,
+            detail: subject.guideExercisePracticeDetail,
+            to: subject.guideExercisePracticeTo,
+            status: 'available' as const,
+          }]
+        })
+        const codex100Items = level.subjects.flatMap((subject) => {
+          if (!subject.codex100PracticeTo) return []
+          return [{
+            label: `${subject.shortLabel}Codex 100 題`,
+            detail: subject.codex100PracticeDetail,
+            to: subject.codex100PracticeTo,
+            status: 'available' as const,
+          }]
+        })
         const examItems = [...level.exams, ...level.samples]
         const referenceItems = [
           ...level.references,
@@ -231,7 +249,7 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
 
           <Section
             id={`${level.id}-practice`}
-            heading="章節練習題"
+            heading="AI 章節練習（舊版）"
             open={isSectionOpen(`${level.id}-practice`)}
             onToggle={toggle}
           >
@@ -239,6 +257,32 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
               <SidebarItem key={item.label} item={item} onClose={onClose} />
             ))}
           </Section>
+
+          {guideExerciseItems.length > 0 && (
+            <Section
+              id={`${level.id}-guide-exercise-practice`}
+              heading="學習指引練習"
+              open={isSectionOpen(`${level.id}-guide-exercise-practice`)}
+              onToggle={toggle}
+            >
+              {guideExerciseItems.map((item) => (
+                <SidebarItem key={item.label} item={item} onClose={onClose} />
+              ))}
+            </Section>
+          )}
+
+          {codex100Items.length > 0 && (
+            <Section
+              id={`${level.id}-codex100-practice`}
+              heading="Codex 100 題"
+              open={isSectionOpen(`${level.id}-codex100-practice`)}
+              onToggle={toggle}
+            >
+              {codex100Items.map((item) => (
+                <SidebarItem key={item.label} item={item} onClose={onClose} />
+              ))}
+            </Section>
+          )}
 
           {level.subjects.map((subject) => {
             const guide = guideOutlines.guides[subject.id]

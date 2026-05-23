@@ -26,6 +26,7 @@ export default function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/subject/:subjectId" element={<SubjectOverviewPage />} />
               <Route path="/practice/:subjectId/:chapterId" element={<PracticePage />} />
+              <Route path="/practice/:subjectId/:chapterId/:practiceSet" element={<PracticePage />} />
               <Route path="/exam/:examKey" element={<ExamPage />} />
               <Route path="/guide/:subjectId/:chapterId" element={<GuidePage />} />
               <Route path="/images" element={<ImageGalleryPage />} />

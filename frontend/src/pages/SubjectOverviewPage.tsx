@@ -1,9 +1,17 @@
 import { Link, useParams } from 'react-router-dom'
 import juniorSubject1Raw from '@data/questions/subject1_questions.json'
 import juniorSubject2Raw from '@data/questions/subject2_questions.json'
+import juniorSubject1GuideExerciseRaw from '@data/questions/subject1_guide_exercises.json'
+import juniorSubject2GuideExerciseRaw from '@data/questions/subject2_guide_exercises.json'
 import middleSubject1Raw from '@data-mid/questions/subject1_questions.json'
 import middleSubject2Raw from '@data-mid/questions/subject2_questions.json'
 import middleSubject3Raw from '@data-mid/questions/subject3_questions.json'
+import middleSubject1GuideExerciseRaw from '@data-mid/questions/subject1_guide_exercises.json'
+import middleSubject2GuideExerciseRaw from '@data-mid/questions/subject2_guide_exercises.json'
+import middleSubject3GuideExerciseRaw from '@data-mid/questions/subject3_guide_exercises.json'
+import middleSubject1Codex100Raw from '@data-mid/questions/subject1_codex100_questions.json'
+import middleSubject2Codex100Raw from '@data-mid/questions/subject2_codex100_questions.json'
+import middleSubject3Codex100Raw from '@data-mid/questions/subject3_codex100_questions.json'
 import guideOutlinesRaw from '../generated/guideOutlines.json'
 import { resourceLevels } from '../data/resourceRegistry'
 import type { GuideOutlinesData, SubjectQuestions } from '../types'
@@ -17,6 +25,20 @@ const questionMap: Record<string, SubjectQuestions> = {
   'mid-s1': middleSubject1Raw as SubjectQuestions,
   'mid-s2': middleSubject2Raw as SubjectQuestions,
   'mid-s3': middleSubject3Raw as SubjectQuestions,
+}
+
+const codex100QuestionMap: Record<string, SubjectQuestions> = {
+  'mid-s1': middleSubject1Codex100Raw as SubjectQuestions,
+  'mid-s2': middleSubject2Codex100Raw as SubjectQuestions,
+  'mid-s3': middleSubject3Codex100Raw as SubjectQuestions,
+}
+
+const guideExerciseQuestionMap: Record<string, SubjectQuestions> = {
+  s1: juniorSubject1GuideExerciseRaw as SubjectQuestions,
+  s2: juniorSubject2GuideExerciseRaw as SubjectQuestions,
+  'mid-s1': middleSubject1GuideExerciseRaw as SubjectQuestions,
+  'mid-s2': middleSubject2GuideExerciseRaw as SubjectQuestions,
+  'mid-s3': middleSubject3GuideExerciseRaw as SubjectQuestions,
 }
 
 function resourceForSubject(subjectId?: string) {
@@ -39,10 +61,20 @@ export default function SubjectOverviewPage() {
   const guideOutline = guideOutlines.guides[subjectData.id]
   const hasPractice = subject.practiceStatus === 'available'
   const questionData = questionMap[subjectData.id]
+  const codex100QuestionData = codex100QuestionMap[subjectData.id]
+  const guideExerciseQuestionData = guideExerciseQuestionMap[subjectData.id]
   const practiceCounts = subjectData.chapters.map((chapter) =>
     questionData?.chapters.find((item) => item.id === chapter.id)?.questions.length ?? 0
   )
-  const maxQ = Math.max(...practiceCounts, 1)
+  const guideExerciseCounts = subjectData.chapters.map((chapter) =>
+    guideExerciseQuestionData?.chapters.find((item) => item.id === chapter.id)?.questions.length ?? 0
+  )
+  const codex100Counts = subjectData.chapters.map((chapter) =>
+    codex100QuestionData?.chapters.find((item) => item.id === chapter.id)?.questions.length ?? 0
+  )
+  const maxPracticeQ = Math.max(...practiceCounts, 1)
+  const maxGuideExerciseQ = Math.max(...guideExerciseCounts, 1)
+  const maxCodex100Q = Math.max(...codex100Counts, 1)
 
   return (
     <div>
@@ -85,7 +117,7 @@ export default function SubjectOverviewPage() {
                   <span key={t} className="text-[0.75rem] bg-[#eef5ff] text-accent px-2 py-0.5 rounded-full">{t}</span>
                 ))}
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <Link
                   to={`/guide/${subjectData.id}/${ch.id}`}
                   className="text-[0.8rem] px-3 py-1 rounded-lg border border-accent text-accent hover:bg-accent hover:text-white transition-colors no-underline"
@@ -97,12 +129,28 @@ export default function SubjectOverviewPage() {
                     to={`/practice/${subjectData.id}/${ch.id}`}
                     className="text-[0.8rem] px-3 py-1 rounded-lg border border-accent text-accent hover:bg-accent hover:text-white transition-colors no-underline"
                   >
-                    練習題
+                    AI 舊版練習
                   </Link>
                 ) : (
                   <span className="text-[0.8rem] px-3 py-1 rounded-lg border border-border text-text-light bg-[#f5f7fa]">
                     練習題待建立
                   </span>
+                )}
+                {guideExerciseCounts[subjectData.chapters.findIndex((item) => item.id === ch.id)] > 0 && (
+                  <Link
+                    to={`/practice/${subjectData.id}/${ch.id}/guide`}
+                    className="text-[0.8rem] px-3 py-1 rounded-lg border border-[#9a5c17] text-[#9a5c17] hover:bg-[#9a5c17] hover:text-white transition-colors no-underline"
+                  >
+                    學習指引練習
+                  </Link>
+                )}
+                {codex100Counts[subjectData.chapters.findIndex((item) => item.id === ch.id)] > 0 && (
+                  <Link
+                    to={`/practice/${subjectData.id}/${ch.id}/codex100`}
+                    className="text-[0.8rem] px-3 py-1 rounded-lg border border-[#5b7c2a] text-[#5b7c2a] hover:bg-[#5b7c2a] hover:text-white transition-colors no-underline"
+                  >
+                    Codex 100 題
+                  </Link>
                 )}
               </div>
             </div>
@@ -110,8 +158,8 @@ export default function SubjectOverviewPage() {
         })}
       </div>
 
-      <div className="bg-card rounded-xl shadow-sm border border-border p-5">
-        <h2 className="text-lg font-semibold text-primary mb-4">章節練習題狀態</h2>
+      <div className="bg-card rounded-xl shadow-sm border border-border p-5 mb-6">
+        <h2 className="text-lg font-semibold text-primary mb-4">AI 章節練習（舊版）狀態</h2>
         <div className="space-y-3">
           {subjectData.chapters.map((ch, index) => {
             const n = practiceCounts[index]
@@ -121,12 +169,52 @@ export default function SubjectOverviewPage() {
                   <span>{ch.title}</span>
                   <span className="text-accent font-semibold">{hasPractice ? `${n} 題` : '待建立'}</span>
                 </div>
-                <ProgressBar percent={hasPractice ? (n / maxQ) * 100 : 0} />
+                <ProgressBar percent={hasPractice ? (n / maxPracticeQ) * 100 : 0} />
               </div>
             )
           })}
         </div>
       </div>
+
+      {guideExerciseQuestionData && (
+        <div className="bg-card rounded-xl shadow-sm border border-border p-5 mb-6">
+          <h2 className="text-lg font-semibold text-primary mb-4">學習指引練習狀態</h2>
+          <div className="space-y-3">
+            {subjectData.chapters.map((ch, index) => {
+              const n = guideExerciseCounts[index]
+              return (
+                <div key={ch.id}>
+                  <div className="flex justify-between text-[0.85rem] mb-1">
+                    <span>{ch.title}</span>
+                    <span className="text-[#9a5c17] font-semibold">{n > 0 ? `${n} 題` : '無內嵌題'}</span>
+                  </div>
+                  <ProgressBar percent={n > 0 ? (n / maxGuideExerciseQ) * 100 : 0} />
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
+      {codex100QuestionData && (
+        <div className="bg-card rounded-xl shadow-sm border border-border p-5">
+          <h2 className="text-lg font-semibold text-primary mb-4">Codex 100 題狀態</h2>
+          <div className="space-y-3">
+            {subjectData.chapters.map((ch, index) => {
+              const n = codex100Counts[index]
+              return (
+                <div key={ch.id}>
+                  <div className="flex justify-between text-[0.85rem] mb-1">
+                    <span>{ch.title}</span>
+                    <span className="text-[#5b7c2a] font-semibold">{n > 0 ? `${n} 題` : '待建立'}</span>
+                  </div>
+                  <ProgressBar percent={n > 0 ? (n / maxCodex100Q) * 100 : 0} />
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

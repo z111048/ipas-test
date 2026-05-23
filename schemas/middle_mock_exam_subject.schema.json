@@ -16,6 +16,7 @@
   "additionalProperties": false,
   "properties": {
     "level": {
+      "type": "string",
       "const": "中級"
     },
     "subject_id": {
@@ -32,6 +33,7 @@
       "maximum": 3
     },
     "target_total": {
+      "type": "integer",
       "const": 100
     },
     "source_strategy": {
@@ -140,7 +142,7 @@
       ],
       "additionalProperties": false,
       "properties": {
-        "question_count": {"const": 100},
+        "question_count": {"type": "integer", "const": 100},
         "chapter_distribution_verified": {"type": "boolean"},
         "dedupe_checked_against_official_and_existing": {"type": "boolean"},
         "single_answer_verified": {"type": "boolean"}

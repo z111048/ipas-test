@@ -6,6 +6,25 @@
 
 ## [Unreleased]
 
+### 學習指引內嵌練習獨立入庫
+
+#### 新增
+- `scripts/export_guide_embedded_exercises.py`：從 `page_clean/` 的學習指引頁面抽取 PDF 內嵌章節練習，輸出獨立的 `data/{level}/questions/subject{N}_guide_exercises.json`
+- 初級學習指引練習：科目一 40 題、科目二 29 題
+- 中級學習指引練習：科目一 30 題、科目二 40 題、科目三 40 題
+- 前端練習路由支援 `#/practice/:subjectId/:chapterId/:practiceSet`，可區分 AI 舊版練習、學習指引練習與 Codex 100 題
+
+#### 變更
+- 側邊欄與科目總覽將「AI 章節練習（舊版）」與「學習指引練習」分開呈現，避免將 AI 產題誤認為官方學習指引內題目
+- 學習指引練習的章節切換只列出有內嵌題的章節；直接進入無題章節時顯示可練習章節清單
+- README 與 AGENTS.md 補上學習指引練習抽取腳本與 pipeline 指令
+
+### 中級 Codex 100 題前端入口
+
+#### 新增
+- 中級三科各 100 題 Codex 產生模擬題，以 `subject{N}_codex100_questions.json` 與既有 AI 舊版章節練習分開入庫
+- 科目總覽與練習頁提供 Codex 100 題章節切換入口
+
 ### 題庫擴充：multi_ai_pipeline 全章節出題（每章 10 題）
 
 #### 變更

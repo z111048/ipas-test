@@ -1,6 +1,6 @@
 # iPAS AI 應用規劃師備考平台
 
-針對 iPAS AI 應用規劃師能力鑑定（初級）的靜態備考網站，部署於 GitHub Pages。
+針對 iPAS AI 應用規劃師能力鑑定（初級 / 中級）的靜態備考網站，部署於 GitHub Pages。
 
 ---
 
@@ -14,6 +14,7 @@ ipas-test/
 │   ├── build_pdf_outline.py      # 從逐頁抽取結果建立 PDF 階層目錄
 │   ├── clean_pdf_page_text.py    # 清理逐頁文字 + 重建 page_clean 目錄
 │   ├── export_guide_outline_data.py # 匯出前端 PDF 目錄 metadata + 拆分內容
+│   ├── export_guide_embedded_exercises.py # 從學習指引 PDF 內嵌練習抽取官方章節題
 │   ├── export_pdf_image_gallery.py # 匯出圖表檢視頁所需 public assets + manifest
 │   ├── pdf_vision_extract.py     # PDF → Gemini Vision → pages_cache + page_index.json（有 LLM）
 │   ├── parse_guides.py           # pages_cache/extracted → 章節 JSON（vision/regex）
@@ -39,10 +40,11 @@ ipas-test/
 │   ├── vite.config.ts            # 輸出至 ../docs，@data alias → ../data/初級
 │   └── package.json              # React 19、TW v4、React Router v6、Zustand v5
 ├── data/
-│   └── 初級/                     # 初級資料（manifest 與 curated JSON 可提交；bulk 產物 gitignored）
+│   ├── 初級/                     # 初級資料（manifest 與 curated JSON 可提交；bulk 產物 gitignored）
+│   └── 中級/                     # 中級資料（學習指引、公告試題、樣題、Codex 100 題與學習指引練習）
 │       ├── pdfs/                 # 原始 PDF 來源
 │       ├── extracted/            # 從 PDF 萃取的文字與結構（.txt / .json）
-│       ├── questions/            # 題庫 JSON（mock_exam*.json、subject*_questions.json）
+│       ├── questions/            # 題庫 JSON（mock_exam*.json、subject*_questions.json、*_guide_exercises.json）
 │       ├── toc_manifest.json     # ★ 章節定義 SSOT（由 build_manifest.py 生成，需提交）
 │       ├── guide/                # 學習指引輸出（subject{N}_guide.json、_audit_report.json 等）
 │       ├── page_extract/         # 逐頁 PDF 結構抽取與圖表裁切（gitignore）
@@ -55,7 +57,7 @@ ipas-test/
     └── assets/                   # 打包後的 JS + CSS
 ```
 
-> 後續擴充中級時，在 `data/` 下新增 `中級/` 資料夾，依相同結構組織 PDF 與題庫，並於 `scripts/build_manifest.py` 的 `GUIDES_BY_LEVEL` 與 `scripts/extract_pdfs.py` 的 `EXAM_PDFS_BY_LEVEL` 補上對應資料。資料 pipeline scripts 已支援 `--level 中級`。
+> 初級與中級共用同一套資料 pipeline。章節定義由 `scripts/build_manifest.py` 的 `GUIDES_BY_LEVEL` 產生 `data/{level}/toc_manifest.json`，前端透過 `@data` 與 `@data-mid` 靜態匯入兩個等級資料。
 
 ---
 
@@ -79,6 +81,8 @@ uv run python3 scripts/build_manifest.py --level 初級       # → data/初級/
 python3 scripts/extract_pdf_pages_structured.py --level 初級 --all --force
 python3 scripts/clean_pdf_page_text.py --level 初級 --all
 python3 scripts/export_guide_outline_data.py
+python3 scripts/export_guide_embedded_exercises.py --level 初級
+python3 scripts/export_guide_embedded_exercises.py --level 中級
 python3 scripts/build_pdf_outline.py --level 初級 --all
 python3 scripts/export_pdf_image_gallery.py --level 初級 --force
 
