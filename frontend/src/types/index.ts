@@ -86,6 +86,14 @@ export interface GuideSourcePage {
   page: number
   label?: string
   image: string
+  tables?: GuideSourceTable[]
+}
+
+export interface GuideSourceTable {
+  id: string
+  bbox: number[]
+  image?: string
+  rows: string[][]
 }
 
 export interface GuideData {

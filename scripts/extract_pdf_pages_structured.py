@@ -310,8 +310,14 @@ def extract_tables(
 
         asset_name = f'table_{table_index:02d}.png'
         out_path = page_assets_dir / asset_name
+        padded_bbox = (
+            max(0.0, bbox[0] - 24.0),
+            max(0.0, bbox[1] - 28.0),
+            min(float(fitz_page.rect.width), bbox[2] + 24.0),
+            min(float(fitz_page.rect.height), bbox[3] + 14.0),
+        )
         cropped_bbox = crop_page_region(
-            fitz_page, bbox, out_path, scale, trim_whitespace=True
+            fitz_page, padded_bbox, out_path, scale, trim_whitespace=True
         )
         tables.append({
             'id': f'table_{table_index:02d}',
