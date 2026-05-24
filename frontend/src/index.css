@@ -45,3 +45,81 @@ html {
   text-justify: inter-ideograph;
   overflow-wrap: anywhere;
 }
+
+.guide-content {
+  --guide-indent-step: 1rem;
+}
+
+.guide-content h2 {
+  margin-left: 0;
+}
+
+.guide-content h3 {
+  margin-left: calc(var(--guide-indent-step) * 0.75);
+}
+
+.guide-content h4 {
+  margin-left: calc(var(--guide-indent-step) * 1.5);
+}
+
+.guide-content h5 {
+  margin-left: calc(var(--guide-indent-step) * 2.25);
+}
+
+.guide-content h6 {
+  margin-left: calc(var(--guide-indent-step) * 3);
+}
+
+.guide-content p {
+  text-indent: 2em;
+  margin-left: calc(var(--guide-indent-step) * 1.5);
+}
+
+.guide-content h2 + p,
+.guide-content h3 + p {
+  margin-left: calc(var(--guide-indent-step) * 1.5);
+}
+
+.guide-content h4 + p {
+  margin-left: calc(var(--guide-indent-step) * 2.25);
+}
+
+.guide-content h5 + p {
+  margin-left: calc(var(--guide-indent-step) * 3);
+}
+
+.guide-content h6 + p {
+  margin-left: calc(var(--guide-indent-step) * 3.75);
+}
+
+.guide-content ul,
+.guide-content ol {
+  margin-left: calc(var(--guide-indent-step) * 1.5);
+}
+
+.guide-content li {
+  padding-left: 0.2rem;
+}
+
+.guide-content table,
+.guide-content th,
+.guide-content td {
+  text-indent: 0;
+}
+
+.guide-content td p,
+.guide-content th p,
+.guide-content li p {
+  margin-left: 0;
+  text-indent: 0;
+}
+
+@media (max-width: 640px) {
+  .guide-content {
+    --guide-indent-step: 0.65rem;
+  }
+
+  .guide-content p {
+    margin-left: 0;
+  }
+}

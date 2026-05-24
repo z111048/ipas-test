@@ -120,7 +120,28 @@ export interface GuideContent {
   title: string
   content: string
   contentFormat: 'plain' | 'markdown'
+  headings?: Array<{
+    id: string
+    level: number
+    title: string
+  }>
+  blocks?: GuideBlock[]
   sourcePages: GuideSourcePage[]
+}
+
+export type GuideBlockType = 'heading' | 'paragraph' | 'list_item' | 'table' | 'question' | 'answer' | 'spacer'
+
+export interface GuideBlock {
+  id: string
+  type: GuideBlockType
+  depth: number
+  title?: string
+  text?: string
+  marker?: string
+  anchor?: string
+  rows?: string[][]
+  pageIndex?: number
+  bbox?: number[]
 }
 
 export interface GuideOutlineSubject {

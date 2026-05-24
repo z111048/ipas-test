@@ -13,7 +13,7 @@ ipas-test/
 │   ├── extract_pdf_pages_structured.py # PDF 逐頁文字 + 圖表 bbox + 裁切圖檔
 │   ├── build_pdf_outline.py      # 從逐頁抽取結果建立 PDF 階層目錄
 │   ├── clean_pdf_page_text.py    # 清理逐頁文字 + 重建 page_clean 目錄
-│   ├── export_guide_outline_data.py # 匯出前端 PDF 目錄 metadata + 拆分內容
+│   ├── export_guide_outline_data.py # 匯出前端 PDF 目錄 metadata + blocks 階層內容
 │   ├── export_guide_embedded_exercises.py # 從學習指引 PDF 內嵌練習抽取官方章節題
 │   ├── export_pdf_image_gallery.py # 匯出圖表檢視頁所需 public assets + manifest
 │   ├── pdf_vision_extract.py     # PDF → Gemini Vision → pages_cache + page_index.json（有 LLM）
@@ -80,7 +80,7 @@ uv run python3 scripts/build_manifest.py --level 初級       # → data/初級/
 # 0b. 逐頁保真抽取：文字 + 圖片/表格位置 + 圖表裁切
 python3 scripts/extract_pdf_pages_structured.py --level 初級 --all --force
 python3 scripts/clean_pdf_page_text.py --level 初級 --all
-python3 scripts/export_guide_outline_data.py
+python3 scripts/export_guide_outline_data.py --all-levels
 python3 scripts/export_guide_embedded_exercises.py --level 初級
 python3 scripts/export_guide_embedded_exercises.py --level 中級
 python3 scripts/build_pdf_outline.py --level 初級 --all
@@ -228,14 +228,16 @@ python3 scripts/codex_review_pdf_pages.py --level 初級 --key guide1 --with-ima
 將 `page_clean/{key}/outline.json` 匯出成前端使用的完整 PDF 目錄資料：
 
 - `frontend/src/generated/guideOutlines.json`：只放目錄 metadata、parent/children、route、page range、content ref
-- `frontend/src/generated/guideContent/{key}/{nodeId}.json`：單一節點正文與 PDF 原頁截圖索引
+- `frontend/src/generated/guideContent/{key}/{nodeId}.json`：單一節點正文、結構化 `blocks[]` 與 PDF 原頁截圖索引
+- 每份 content JSON 保留 Markdown fallback，但前端優先使用 `blocks[]`；block type 包含 `heading`、`paragraph`、`list_item`、`table`、`question`、`answer`
+- `blocks[].depth` 表示 PDF 內部真實階層，可超過 Markdown `h1`-`h6`；常見對應為 `1.`→3、`（1）`→4、`A.`→5、`a.`→6、`•`→7、`○`→8
 - 匯出時會驗證 node id 唯一、parent/child 關係、depth、page range、content file 是否存在
 
 ```bash
-python3 scripts/export_guide_outline_data.py
+python3 scripts/export_guide_outline_data.py --all-levels
 ```
 
-前端 Sidebar、SubjectOverviewPage、GuidePage 共用這份 metadata tree；GuidePage 會依 route 動態載入單一 content JSON，避免把整份學習指引正文打包進主 bundle。
+前端 Sidebar、SubjectOverviewPage、GuidePage 共用這份 metadata tree；GuidePage 會依 route 動態載入單一 content JSON，優先用 `blocks[]` 呈現正文縮排與表格。側欄「本節階層」只顯示 depth 3–4（`1.` 與 `（1）`），避免 A/B/C、清單與題目層級讓導覽過細。
 
 ---
 

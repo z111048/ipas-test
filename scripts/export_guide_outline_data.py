@@ -65,6 +65,16 @@ def page_content(level: str, key: str, start_page: int, end_page: int) -> str:
     return render_positioned_items(merge_split_tables(items)).strip()
 
 
+def page_blocks(level: str, key: str, start_page: int, end_page: int) -> list[dict]:
+    pages_dir = BASE / 'data' / level / 'page_clean' / key / 'pages'
+    items = []
+    for page_number in range(start_page, end_page + 1):
+        page_index = page_number - 1
+        page = load_json(pages_dir / f'page_{page_index:03d}.json')
+        items.extend(positioned_page_items(level, key, page_index, page))
+    return build_content_blocks(merge_split_tables(items))
+
+
 def markdown_heading_for_line(line: str, root_title: str) -> str | None:
     """Map common PDF outline markers to Markdown headings."""
     text = line.strip()
@@ -74,7 +84,7 @@ def markdown_heading_for_line(line: str, root_title: str) -> str | None:
         return f'## {text}'
     if re.match(r'^\d+\.\d+\s+', text):
         return f'## {text}'
-    if re.match(r'^\d+\.$', text):
+    if is_numbered_section_heading(text):
         return f'### {text}'
     if re.match(r'^（\d+）', text):
         return f'#### {text}'
@@ -87,8 +97,24 @@ def markdown_heading_for_line(line: str, root_title: str) -> str | None:
     return None
 
 
+def is_numbered_section_heading(text: str) -> bool:
+    match = re.match(r'^\d+\.\s+(?P<title>.+)', text.strip())
+    if not match:
+        return False
+    title = match.group('title')
+    if title.strip() in {'AI', 'NLP'}:
+        return False
+    if len(title) > 30:
+        return False
+    if re.search(r'(Ans|解析|下列|以下|何者|哪一|哪個|哪種|何種|是否|最適合|屬於|正確|錯誤|主要|目的|應$|是什|？|\?)', title):
+        return False
+    if re.match(r'^(在|若|當|為了|以下|下列)', title):
+        return False
+    return True
+
+
 def is_markdown_structural_line(text: str) -> bool:
-    return bool(re.match(r'^(#{1,6}\s|[-*+]\s|\d+\.\s|[A-Z]\.\s|[a-z]\.\s|[|>`~])', text))
+    return bool(re.match(r'^(#{1,6}\s|[|>`~])', text))
 
 
 def normalize_ocr_soft_breaks(markdown: str) -> str:
@@ -106,6 +132,7 @@ def normalize_ocr_soft_breaks(markdown: str) -> str:
             text = re.sub(r'([，、；：])\s+', r'\1', text)
             text = re.sub(r'\s+([，。！？；：、）】])', r'\1', text)
             text = re.sub(r'([（【])\s+', r'\1', text)
+            text = re.sub(r'(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])', '', text)
             result.append(text)
         block.clear()
 
@@ -115,6 +142,10 @@ def normalize_ocr_soft_breaks(markdown: str) -> str:
             flush_block()
             if result and result[-1] != '':
                 result.append('')
+            continue
+        if is_markdown_structural_line(line.strip()):
+            flush_block()
+            result.append(line)
             continue
         block.append(line)
 
@@ -199,7 +230,162 @@ def recover_header_row(table: dict, blocks: list[dict]) -> list[str] | None:
 
 
 def markdown_escape_cell(value: str) -> str:
-    return value.replace('|', '\\|').replace('\n', ' ')
+    text = value.replace('|', '\\|').replace('\n', ' ')
+    return re.sub(r'(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])', '', text)
+
+
+def text_looks_complete(text: str) -> bool:
+    text = text.strip()
+    return text.endswith(('。', '？', '！', '；', ':', '：', ')', '）', '」', '』'))
+
+
+def text_looks_sentence_complete(text: str) -> bool:
+    text = text.strip()
+    return text.endswith(('。', '？', '！', '；', ':', '：', '」', '』'))
+
+
+def text_looks_hard_complete(text: str) -> bool:
+    text = text.strip()
+    return text.endswith(('。', '？', '！', '；', ':', '：'))
+
+
+def text_looks_structural(text: str) -> bool:
+    text = text.strip()
+    return bool(
+        re.match(r'^(第[一二三四五六七八九十]+章\s+|\d+\.\d+\s+|\d+\.$|（\d+）|[A-Z]\.\s+|[a-z]\.\s+)', text)
+        or is_numbered_section_heading(text)
+    )
+
+
+def is_number_marker(text: str) -> bool:
+    return bool(re.match(r'^\d+\.$', text.strip()))
+
+
+def is_short_heading_title(text: str) -> bool:
+    text = text.strip()
+    if not text or len(text) > 28:
+        return False
+    if re.search(r'[，。！？；：、,.!?;:]', text):
+        return False
+    if re.search(r'(Ans|解析|下列|以下|何者|哪一|哪個|哪種|何種|是否|最適合|屬於|正確|錯誤|主要|目的|應$|是什)', text):
+        return False
+    if re.match(r'^(在|若|當|為了|以下|下列)', text):
+        return False
+    return bool(re.search(r'[\u4e00-\u9fffA-Za-z]', text))
+
+
+def items_form_numbered_heading(previous: dict, current: dict) -> bool:
+    if previous.get('type') != 'text' or current.get('type') != 'text':
+        return False
+    if previous.get('page_index') != current.get('page_index'):
+        return False
+    previous_text = previous.get('text') or ''
+    current_text = current.get('text') or ''
+    if not is_number_marker(previous_text) or not is_short_heading_title(current_text):
+        return False
+    previous_bbox = previous.get('bbox') or []
+    current_bbox = current.get('bbox') or []
+    if len(previous_bbox) != 4 or len(current_bbox) != 4:
+        return False
+    return abs(current_bbox[1] - previous_bbox[1]) <= 6 and 0 <= current_bbox[0] - previous_bbox[2] <= 18
+
+
+def items_form_same_line_heading(previous: dict, current: dict) -> bool:
+    if previous.get('type') != 'text' or current.get('type') != 'text':
+        return False
+    if previous.get('page_index') != current.get('page_index'):
+        return False
+    previous_text = previous.get('text') or ''
+    current_text = current.get('text') or ''
+    if not re.match(r'^\d+\.\s+.+', previous_text.strip()):
+        return False
+    if text_looks_complete(previous_text) or not is_short_heading_title(current_text):
+        return False
+    combined = f'{previous_text.strip()}{current_text.strip()}'
+    if len(combined) > 46:
+        return False
+    previous_bbox = previous.get('bbox') or []
+    current_bbox = current.get('bbox') or []
+    if len(previous_bbox) != 4 or len(current_bbox) != 4:
+        return False
+    max_gap = 130 if re.search(r'\b(?:AI|NLP)$', previous_text.strip()) else 22
+    return abs(current_bbox[1] - previous_bbox[1]) <= 6 and 0 <= current_bbox[0] - previous_bbox[2] <= max_gap
+
+
+def join_heading_fragments(previous_text: str, current_text: str) -> str:
+    previous_text = previous_text.rstrip()
+    current_text = current_text.lstrip()
+    if re.search(r'[A-Za-z0-9]$', previous_text) and re.match(r'[A-Za-z0-9]', current_text):
+        return f'{previous_text} {current_text}'
+    return f'{previous_text}{current_text}'
+
+
+def text_items_should_join(previous: dict, current: dict) -> bool:
+    if previous.get('type') != 'text' or current.get('type') != 'text':
+        return False
+    if previous.get('page_index') != current.get('page_index'):
+        return False
+    previous_bbox = previous.get('bbox') or []
+    current_bbox = current.get('bbox') or []
+    if len(previous_bbox) != 4 or len(current_bbox) != 4:
+        return False
+    previous_text = previous.get('text') or ''
+    current_text = current.get('text') or ''
+    if not previous_text or not current_text:
+        return False
+    vertical_gap = current_bbox[1] - previous_bbox[3]
+    same_left_edge = abs(current_bbox[0] - previous_bbox[0]) <= 38
+    continuation_indent = current_bbox[0] >= previous_bbox[0] and current_bbox[0] - previous_bbox[0] <= 45
+    if vertical_gap > 20:
+        return False
+    if text_looks_structural(current_text) or text_looks_structural(previous_text):
+        return False
+    if text_looks_complete(previous_text):
+        return False
+    return same_left_edge or continuation_indent or not text_looks_complete(previous_text)
+
+
+def merge_text_items(items: list[dict]) -> list[dict]:
+    merged: list[dict] = []
+    for item in items:
+        if merged and items_form_numbered_heading(merged[-1], item):
+            merged[-1]['text'] = f'{merged[-1]["text"]} {item["text"]}'
+            previous_bbox = merged[-1].get('bbox') or item.get('bbox')
+            current_bbox = item.get('bbox') or previous_bbox
+            if len(previous_bbox) == 4 and len(current_bbox) == 4:
+                merged[-1]['bbox'] = [
+                    min(previous_bbox[0], current_bbox[0]),
+                    min(previous_bbox[1], current_bbox[1]),
+                    max(previous_bbox[2], current_bbox[2]),
+                    max(previous_bbox[3], current_bbox[3]),
+                ]
+            continue
+        if merged and items_form_same_line_heading(merged[-1], item):
+            merged[-1]['text'] = join_heading_fragments(merged[-1]['text'], item['text'])
+            previous_bbox = merged[-1].get('bbox') or item.get('bbox')
+            current_bbox = item.get('bbox') or previous_bbox
+            if len(previous_bbox) == 4 and len(current_bbox) == 4:
+                merged[-1]['bbox'] = [
+                    min(previous_bbox[0], current_bbox[0]),
+                    min(previous_bbox[1], current_bbox[1]),
+                    max(previous_bbox[2], current_bbox[2]),
+                    max(previous_bbox[3], current_bbox[3]),
+                ]
+            continue
+        if merged and text_items_should_join(merged[-1], item):
+            merged[-1]['text'] = f'{merged[-1]["text"]}\n{item["text"]}'
+            previous_bbox = merged[-1].get('bbox') or item.get('bbox')
+            current_bbox = item.get('bbox') or previous_bbox
+            if len(previous_bbox) == 4 and len(current_bbox) == 4:
+                merged[-1]['bbox'] = [
+                    min(previous_bbox[0], current_bbox[0]),
+                    min(previous_bbox[1], current_bbox[1]),
+                    max(previous_bbox[2], current_bbox[2]),
+                    max(previous_bbox[3], current_bbox[3]),
+                ]
+            continue
+        merged.append(dict(item))
+    return merged
 
 
 def table_rows_for_markdown(table: dict, blocks: list[dict]) -> list[list[str]]:
@@ -230,6 +416,199 @@ def table_rows_to_markdown(rows: list[list[str]]) -> str:
     return '\n'.join(lines)
 
 
+def block_text(value: str) -> str:
+    text = ' '.join(line.strip() for line in value.splitlines() if line.strip())
+    text = re.sub(r'([，、；：])\s+', r'\1', text)
+    text = re.sub(r'\s+([，。！？；：、）】])', r'\1', text)
+    text = re.sub(r'([（【])\s+', r'\1', text)
+    return re.sub(r'(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])', '', text).strip()
+
+
+def numbered_question_like(text: str) -> bool:
+    stripped = text.strip()
+    if re.match(r'^\d+\.\s*Ans', stripped):
+        return False
+    if is_numbered_section_heading(stripped):
+        return False
+    return bool(
+        re.match(r'^\d+\.\s+', stripped)
+        and (
+            re.search(r'(？|\?|下列|以下|何者|哪一|哪個|哪種|何種|是否|最適合|屬於|正確|錯誤|主要|目的|稱為|可以採用|應)', stripped)
+            or len(stripped) > 34
+        )
+    )
+
+
+def lettered_question_like(text: str) -> bool:
+    stripped = text.strip()
+    return bool(
+        re.match(r'^[A-Za-z]\.\s+', stripped)
+        and re.search(r'(？|\?|下列|以下|何者|哪一|哪些|哪個|哪種|何種|是否|最適合|屬於|正確|錯誤|主要|目的|應)', stripped)
+    )
+
+
+def classify_text_block(text: str) -> tuple[str, int, str | None]:
+    stripped = text.strip()
+    if re.match(r'^第[一二三四五六七八九十]+章\s+', stripped):
+        return 'heading', 1, None
+    if re.match(r'^\d+\.\d+\s+', stripped):
+        return 'heading', 2, None
+    if is_numbered_section_heading(stripped):
+        return 'heading', 3, None
+    if re.match(r'^（\d+）', stripped):
+        return 'heading', 4, None
+    if lettered_question_like(stripped):
+        return 'question', 5, None
+    if re.match(r'^[A-Z]\.\s+', stripped):
+        return 'heading', 5, None
+    if re.match(r'^[a-z]\.\s+', stripped):
+        return 'heading', 6, None
+    if stripped.startswith('• '):
+        return 'list_item', 7, '•'
+    if stripped.startswith('○ '):
+        return 'list_item', 8, '○'
+    if re.match(r'^\d+\.\s*Ans', stripped):
+        return 'answer', 3, None
+    if numbered_question_like(stripped):
+        return 'question', 3, None
+    return 'paragraph', 0, None
+
+
+def append_block(blocks: list[dict], block: dict) -> None:
+    if not block.get('text') and not block.get('title') and block.get('type') != 'table':
+        return
+    block['id'] = f'block-{len(blocks) + 1}'
+    blocks.append(block)
+
+
+def can_extend_previous_heading(previous: dict, text: str, item: dict) -> bool:
+    if previous.get('type') != 'heading':
+        return False
+    if len(previous.get('title') or '') < 28:
+        return False
+    if text_looks_sentence_complete(previous.get('title') or ''):
+        return False
+    if classify_text_block(text)[0] != 'paragraph':
+        return False
+    if len(text) > 30:
+        return False
+    prev_bbox = previous.get('bbox') or []
+    current_bbox = item.get('bbox') or []
+    if len(prev_bbox) == 4 and len(current_bbox) == 4:
+        vertical_gap = current_bbox[1] - prev_bbox[3]
+        if vertical_gap > 24:
+            return False
+    return True
+
+
+def can_extend_previous_text_block(previous: dict, text: str, item: dict) -> bool:
+    if previous.get('type') not in {'paragraph', 'list_item'}:
+        return False
+    if classify_text_block(text)[0] != 'paragraph':
+        return False
+    if text_looks_hard_complete(previous.get('text') or ''):
+        return False
+    if len(text) > 60:
+        return False
+    prev_bbox = previous.get('bbox') or []
+    current_bbox = item.get('bbox') or []
+    if len(prev_bbox) == 4 and len(current_bbox) == 4:
+        vertical_gap = current_bbox[1] - prev_bbox[3]
+        if vertical_gap > 24:
+            return False
+    return True
+
+
+def merge_block_bbox(previous: list | None, current: list | None) -> list | None:
+    if not previous or len(previous) != 4:
+        return current if current and len(current) == 4 else previous
+    if not current or len(current) != 4:
+        return previous
+    return [
+        min(previous[0], current[0]),
+        min(previous[1], current[1]),
+        max(previous[2], current[2]),
+        max(previous[3], current[3]),
+    ]
+
+
+def build_content_blocks(items: list[dict]) -> list[dict]:
+    blocks: list[dict] = []
+    current_context_depth = 2
+    for item in merge_text_items(items):
+        item_type = item.get('type')
+        if item_type == 'table':
+            rows = item.get('rows') or []
+            if rows:
+                append_block(blocks, {
+                    'type': 'table',
+                    'depth': min(current_context_depth + 1, 9),
+                    'rows': rows,
+                    'pageIndex': item.get('page_index'),
+                    'bbox': item.get('bbox'),
+                })
+            continue
+
+        text = block_text(item.get('text') or '')
+        if not text:
+            continue
+
+        block_type, depth, marker = classify_text_block(text)
+        if blocks and can_extend_previous_heading(blocks[-1], text, item):
+            blocks[-1]['title'] = block_text(f'{blocks[-1]["title"]} {text}')
+            blocks[-1]['bbox'] = merge_block_bbox(blocks[-1].get('bbox'), item.get('bbox'))
+            continue
+        if blocks and can_extend_previous_text_block(blocks[-1], text, item):
+            blocks[-1]['text'] = block_text(f'{blocks[-1]["text"]} {text}')
+            blocks[-1]['bbox'] = merge_block_bbox(blocks[-1].get('bbox'), item.get('bbox'))
+            continue
+
+        if block_type == 'heading':
+            current_context_depth = depth
+            append_block(blocks, {
+                'type': 'heading',
+                'depth': depth,
+                'title': text,
+                'anchor': slugify_heading(text, len(blocks) + 1),
+                'pageIndex': item.get('page_index'),
+                'bbox': item.get('bbox'),
+            })
+        elif block_type == 'list_item':
+            append_block(blocks, {
+                'type': 'list_item',
+                'depth': depth,
+                'marker': marker,
+                'text': block_text(text.removeprefix(marker or '').strip()),
+                'pageIndex': item.get('page_index'),
+                'bbox': item.get('bbox'),
+            })
+        elif block_type == 'question':
+            append_block(blocks, {
+                'type': 'question',
+                'depth': max(current_context_depth + 1, depth),
+                'text': text,
+                'pageIndex': item.get('page_index'),
+                'bbox': item.get('bbox'),
+            })
+        elif block_type == 'answer':
+            append_block(blocks, {
+                'type': 'answer',
+                'depth': max(current_context_depth + 1, depth),
+                'text': text,
+                'pageIndex': item.get('page_index'),
+                'bbox': item.get('bbox'),
+            })
+        else:
+            append_block(blocks, {
+                'type': 'paragraph',
+                'depth': min(current_context_depth + 1, 9),
+                'text': text,
+                'pageIndex': item.get('page_index'),
+                'bbox': item.get('bbox'),
+            })
+    return blocks
+
+
 def table_to_markdown(table: dict, blocks: list[dict]) -> str:
     rows = table_rows_for_markdown(table, blocks)
     return table_rows_to_markdown(rows)
@@ -242,7 +621,7 @@ def is_running_header_or_footer(block: dict, page_height: float) -> bool:
     text = clean_table_cell(block.get('text') or '')
     if page_height and bbox[1] >= page_height - 70:
         return True
-    if bbox[1] <= 72 and re.match(r'^第[一二三四五六七八九十]+章\s+', text):
+    if bbox[1] <= 95 and re.match(r'^第[一二三四五六七八九十]+章\s+', text):
         return True
     return False
 
@@ -255,9 +634,6 @@ def positioned_page_items(level: str, key: str, page_index: int, cleaned_page: d
 
     extracted = load_json(extract_path)
     tables = extracted.get('tables') or []
-    if not tables:
-        text = cleaned_page.get('cleaned_text') or ''
-        return [{'type': 'text', 'page_index': page_index, 'y': 0, 'x': 0, 'text': text}] if text else []
 
     page_height = float(extracted.get('height') or 0)
     table_bboxes = [table.get('bbox') or [] for table in tables if len(table.get('bbox') or []) == 4]
@@ -341,7 +717,7 @@ def merge_split_tables(items: list[dict]) -> list[dict]:
 
 def render_positioned_items(items: list[dict]) -> str:
     chunks = []
-    for item in items:
+    for item in merge_text_items(items):
         if item.get('type') == 'table':
             markdown = table_rows_to_markdown(item.get('rows') or [])
             if markdown:
@@ -409,7 +785,32 @@ def format_markdown(title: str, raw_content: str) -> str:
         result.append(text)
         previous_blank = False
 
-    return normalize_ocr_soft_breaks('\n'.join(result).strip())
+    normalized = normalize_ocr_soft_breaks('\n'.join(result).strip())
+    return re.sub(r'(?<=[\u4e00-\u9fff])[ \t]+(?=[\u4e00-\u9fff])', '', normalized)
+
+
+def slugify_heading(text: str, index: int) -> str:
+    slug = re.sub(r'\s+', '-', normalize(text).lower())
+    slug = re.sub(r'[^0-9a-z\u4e00-\u9fff\-]+', '', slug)
+    slug = slug.strip('-')
+    return slug or f'section-{index}'
+
+
+def markdown_headings(markdown: str) -> list[dict]:
+    headings = []
+    for line in markdown.splitlines():
+        match = re.match(r'^(#{2,6})\s+(.+?)\s*$', line.strip())
+        if not match:
+            continue
+        title = match.group(2).strip()
+        if re.fullmatch(r'\d+\.', title):
+            continue
+        headings.append({
+            'id': slugify_heading(title, len(headings) + 1),
+            'level': len(match.group(1)),
+            'title': title,
+        })
+    return headings
 
 
 def source_pages(level: str, key: str, start_page: int, end_page: int) -> list[dict]:
@@ -498,11 +899,15 @@ def build_nodes(
 
         content_ref = f'{current_id}.json'
         content = page_content(level, key, start_page, end_page)
+        markdown_content = format_markdown(raw_node.get('title') or '', content)
+        blocks = page_blocks(level, key, start_page, end_page)
         write_json(content_dir / content_key / content_ref, {
             'id': current_id,
             'title': raw_node.get('title') or '',
-            'content': format_markdown(raw_node.get('title') or '', content),
+            'content': markdown_content,
             'contentFormat': 'markdown',
+            'headings': markdown_headings(markdown_content),
+            'blocks': blocks,
             'sourcePages': source_pages(level, key, start_page, end_page),
         })
 

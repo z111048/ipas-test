@@ -6,6 +6,17 @@
 
 ## [Unreleased]
 
+### 學習指引結構化 blocks 與階層縮排
+
+#### 新增
+- `export_guide_outline_data.py` 會在每份 `frontend/src/generated/guideContent/{key}/{node}.json` 輸出 `blocks[]`，以 `heading`、`paragraph`、`list_item`、`table`、`question`、`answer` 表達 PDF 內部內容結構
+- `blocks[].depth` 支援超過 Markdown `h1`-`h6` 的層級，用於呈現 `1.`、`（1）`、`A.`、`a.`、`•`、`○` 等教材實際階層
+
+#### 變更
+- GuidePage 優先使用 `blocks[]` 渲染學習指引正文，Markdown 僅作 fallback
+- 「本節階層」側欄限制顯示 depth 3–4（`1.` 與 `（1）`），主內容仍保留完整深層縮排
+- 文件補充 guide content blocks schema、匯出指令與驗證方式
+
 ### 公告試題圖片題顯示
 
 #### 新增
