@@ -2,12 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import pdfGallery from '../generated/pdfGallery.json'
 import type { PdfImageAsset, PdfImageGallery } from '../types'
-
-const assetBase = import.meta.env.BASE_URL.replace(/\/$/, '')
-
-function publicAsset(path: string) {
-  return `${assetBase}${path.startsWith('/') ? path : `/${path}`}`
-}
+import { publicAsset } from '../utils/assets'
 
 const keyLabels: Record<string, string> = {
   guide1: '科目一學習指引',

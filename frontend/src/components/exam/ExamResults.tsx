@@ -1,15 +1,10 @@
 import { useExamStore } from '../../store/examStore'
 import ProgressBar from '../shared/ProgressBar'
 import StatBox from '../shared/StatBox'
-
-const assetBase = import.meta.env.BASE_URL.replace(/\/$/, '')
+import { publicAsset } from '../../utils/assets'
 
 interface ExamResultsProps {
   onRetry: () => void
-}
-
-function publicAsset(path: string) {
-  return `${assetBase}${path.startsWith('/') ? path : `/${path}`}`
 }
 
 export default function ExamResults({ onRetry }: ExamResultsProps) {

@@ -1,15 +1,10 @@
 import { useExamStore } from '../../store/examStore'
 import type { Question } from '../../types'
-
-const assetBase = import.meta.env.BASE_URL.replace(/\/$/, '')
+import { publicAsset } from '../../utils/assets'
 
 interface ExamQuestionProps {
   question: Question
   index: number
-}
-
-function publicAsset(path: string) {
-  return `${assetBase}${path.startsWith('/') ? path : `/${path}`}`
 }
 
 export default function ExamQuestion({ question, index }: ExamQuestionProps) {

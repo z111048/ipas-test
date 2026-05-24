@@ -6,10 +6,10 @@ import guideOutlinesRaw from '../generated/guideOutlines.json'
 import type { GuideContent, GuideOutlineNode, GuideOutlinesData } from '../types'
 import { GUIDE_NOTICES } from '../constants/guideNotices'
 import GuideOutlineTree from '../components/guide/GuideOutlineTree'
+import { publicAsset } from '../utils/assets'
 
 const guideOutlines = guideOutlinesRaw as GuideOutlinesData
 const guideContentModules = import.meta.glob<{ default: GuideContent }>('../generated/guideContent/*/*.json')
-const assetBase = import.meta.env.BASE_URL.replace(/\/$/, '')
 
 function normalizeOcrSoftBreaks(text: string) {
   const structuralLine = /^(#{1,6}\s|[-*+]\s|\d+\.\s|[A-Z]\.\s|[a-z]\.\s|[|>`~])/
@@ -44,10 +44,6 @@ function normalizeOcrSoftBreaks(text: string) {
   })
   flushBlock()
   return result.join('\n').trim()
-}
-
-function publicAsset(path: string) {
-  return `${assetBase}${path.startsWith('/') ? path : `/${path}`}`
 }
 
 export default function GuidePage() {
