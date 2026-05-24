@@ -24,6 +24,9 @@ EXAM_TITLES_BY_LEVEL: dict[str, dict[str, str]] = {
 }
 
 FW_MAP = {'Ａ': 'A', 'Ｂ': 'B', 'Ｃ': 'C', 'Ｄ': 'D', '（': '(', '）': ')'}
+IMAGE_HINT_RE = re.compile(
+    r'附圖|下圖|圖中|如下圖|圖所示|圖片|圖表|程式碼|虛擬程式碼|欄位概觀|外觀如下|視覺化',
+)
 
 
 def normalize(s: str) -> str:
@@ -32,7 +35,13 @@ def normalize(s: str) -> str:
     return s
 
 
-def parse_question_cell(answer: str, cell_text: str, qnum: int, source_key: str) -> dict | None:
+def parse_question_cell(
+    answer: str,
+    cell_text: str,
+    qnum: int,
+    source_key: str,
+    page_index: int | None = None,
+) -> dict | None:
     """Parse a single question from table cell text."""
     answer = normalize(answer.strip())
     if answer not in ('A', 'B', 'C', 'D'):
@@ -63,7 +72,7 @@ def parse_question_cell(answer: str, cell_text: str, qnum: int, source_key: str)
     if not q_text or not opts:
         return None
 
-    return {
+    question = {
         'id': f'{source_key}_q{qnum}',
         'question': q_text,
         'options': opts,
@@ -71,6 +80,116 @@ def parse_question_cell(answer: str, cell_text: str, qnum: int, source_key: str)
         'explanation': f'正確答案為({answer})。',
         'source': source_key,
     }
+    if page_index is not None:
+        question['source_ref'] = {
+            'page_index': page_index,
+            'page_number': page_index + 1,
+        }
+    return question
+
+
+def public_asset_path(level: str, key: str, page_index: int, filename: str) -> str:
+    return f'/pdf-assets/{level}/{key}/page_{page_index:03d}/{filename}'
+
+
+def load_page_image_assets(level: str, key: str) -> dict[int, dict]:
+    pages_dir = BASE / 'data' / level / 'page_extract' / key / 'pages'
+    if not pages_dir.exists():
+        return {}
+
+    assets_by_page: dict[int, dict] = {}
+    for page_path in sorted(pages_dir.glob('page_*.json')):
+        page = json.loads(page_path.read_text(encoding='utf-8'))
+        page_index = page['page_index']
+        images = []
+        for image in page.get('images', []):
+            rel_path = image.get('path')
+            if not rel_path:
+                continue
+            images.append({
+                'type': 'image',
+                'src': public_asset_path(level, key, page_index, Path(rel_path).name),
+                'alt': f'{key} 第 {page_index + 1} 頁圖片 {image.get("id", "")}'.strip(),
+                'page_index': page_index,
+                'page_number': page_index + 1,
+                'bbox': image.get('bbox', []),
+            })
+
+        page_image = page.get('page_image') or {}
+        page_asset = None
+        if page_image.get('path'):
+            page_asset = {
+                'type': 'page',
+                'src': public_asset_path(level, key, page_index, Path(page_image['path']).name),
+                'alt': f'{key} 第 {page_index + 1} 頁原始截圖',
+                'page_index': page_index,
+                'page_number': page_index + 1,
+                'bbox': page_image.get('bbox', []),
+            }
+
+        if images or page_asset:
+            assets_by_page[page_index] = {
+                'images': images,
+                'page': page_asset,
+            }
+    return assets_by_page
+
+
+def question_needs_image(question: dict) -> bool:
+    combined = question.get('question', '')
+    combined += ' '.join(question.get('options', {}).values())
+    return bool(IMAGE_HINT_RE.search(combined))
+
+
+def attach_exam_images(level: str, key: str, questions: list[dict]) -> None:
+    assets_by_page = load_page_image_assets(level, key)
+    if not assets_by_page:
+        return
+
+    questions_by_page: dict[int, list[dict]] = {}
+    for question in questions:
+        page_index = (question.get('source_ref') or {}).get('page_index')
+        if isinstance(page_index, int):
+            questions_by_page.setdefault(page_index, []).append(question)
+
+    attached = 0
+    attached_ids: set[str] = set()
+    for page_index, page_questions in questions_by_page.items():
+        assets = assets_by_page.get(page_index)
+        if not assets or not assets['images']:
+            continue
+        candidates = [question for question in page_questions if question_needs_image(question)]
+        if not candidates:
+            continue
+
+        if len(candidates) == 1 and len(assets['images']) == 1:
+            image_payload = assets['images']
+        elif assets['page']:
+            # Multiple image-dependent questions can share one PDF page. Use the
+            # original page screenshot to avoid assigning the wrong crop.
+            image_payload = [assets['page']]
+        else:
+            image_payload = assets['images']
+
+        for question in candidates:
+            question['images'] = image_payload
+            attached_ids.add(question['id'])
+            attached += 1
+
+    for question in questions:
+        if question['id'] in attached_ids or not question_needs_image(question):
+            continue
+        page_index = (question.get('source_ref') or {}).get('page_index')
+        if not isinstance(page_index, int):
+            continue
+        next_assets = assets_by_page.get(page_index + 1)
+        if next_assets and next_assets['images'] and next_assets['page']:
+            question['images'] = [next_assets['page']]
+            attached_ids.add(question['id'])
+            attached += 1
+
+    if attached:
+        print(f'  {key}: attached images/page screenshots to {attached} questions')
 
 
 def parse_exam_json(key: str, data_dir: Path) -> list[dict]:
@@ -80,15 +199,18 @@ def parse_exam_json(key: str, data_dir: Path) -> list[dict]:
     questions = []
     pending_answer: str | None = None
     pending_cell = ''
+    pending_page_index: int | None = None
 
     def flush_pending() -> None:
         nonlocal pending_answer, pending_cell
+        nonlocal pending_page_index
         if not pending_answer or not pending_cell.strip():
             pending_answer = None
             pending_cell = ''
+            pending_page_index = None
             return
         qnum = len(questions) + 1
-        q = parse_question_cell(pending_answer, pending_cell, qnum, key)
+        q = parse_question_cell(pending_answer, pending_cell, qnum, key, pending_page_index)
         if q:
             questions.append(q)
         else:
@@ -98,8 +220,10 @@ def parse_exam_json(key: str, data_dir: Path) -> list[dict]:
             )
         pending_answer = None
         pending_cell = ''
+        pending_page_index = None
 
     for page in data['pages']:
+        page_index = int(page.get('page', 1)) - 1
         for table in page.get('tables', []):
             for row in table:
                 if not row or len(row) < 2:
@@ -128,6 +252,7 @@ def parse_exam_json(key: str, data_dir: Path) -> list[dict]:
                     flush_pending()
                     pending_answer = answer
                     pending_cell = cell
+                    pending_page_index = page_index
                 elif pending_answer and cell:
                     pending_cell = f'{pending_cell}\n{cell}'.strip()
                 else:
@@ -146,6 +271,7 @@ def parse_sample_json(data_dir: Path) -> list[dict]:
     questions = []
 
     for page in data['pages']:
+        page_index = int(page.get('page', 1)) - 1
         for table in page.get('tables', []):
             for row in table:
                 if not row or len(row) < 4:
@@ -164,7 +290,7 @@ def parse_sample_json(data_dir: Path) -> list[dict]:
 
                 if answer and q_text_cell:
                     qnum = len(questions) + 1
-                    q = parse_question_cell(answer, q_text_cell, qnum, 'sample')
+                    q = parse_question_cell(answer, q_text_cell, qnum, 'sample', page_index)
                     if q:
                         questions.append(q)
 
@@ -201,9 +327,11 @@ def main():
     for key in sorted(exam_map):
         if key == 'sample':
             qs = parse_sample_json(data_dir)
+            attach_exam_images(args.level, key, qs)
             save_mock('sample_exam.json', titles.get(key, '考試樣題'), qs, questions_dir)
             continue
         questions = parse_exam_json(key, data_dir)
+        attach_exam_images(args.level, key, questions)
         filename = f'mock_{key}.json'
         save_mock(filename, titles.get(key, f'{args.level} {key} 模擬考試'), questions, questions_dir)
 

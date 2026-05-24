@@ -1,9 +1,15 @@
 import { useExamStore } from '../../store/examStore'
 import type { Question } from '../../types'
 
+const assetBase = import.meta.env.BASE_URL.replace(/\/$/, '')
+
 interface ExamQuestionProps {
   question: Question
   index: number
+}
+
+function publicAsset(path: string) {
+  return `${assetBase}${path.startsWith('/') ? path : `/${path}`}`
 }
 
 export default function ExamQuestion({ question, index }: ExamQuestionProps) {
@@ -16,6 +22,26 @@ export default function ExamQuestion({ question, index }: ExamQuestionProps) {
         第 {index + 1} 題
       </div>
       <div className="text-[0.95rem] leading-relaxed mb-4 text-app-text">{question.question}</div>
+      {question.images && question.images.length > 0 && (
+        <div className="grid grid-cols-1 gap-3 mb-4">
+          {question.images.map((image) => (
+            <figure
+              key={`${image.src}-${image.page_index}`}
+              className="rounded-lg border border-border bg-white overflow-hidden"
+            >
+              <img
+                src={publicAsset(image.src)}
+                alt={image.alt}
+                loading="lazy"
+                className="block w-full max-h-[560px] object-contain"
+              />
+              <figcaption className="px-3 py-2 text-[0.75rem] text-text-light border-t border-border">
+                PDF 第 {image.page_number} 頁{image.type === 'page' ? '原頁截圖' : '題目附圖'}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      )}
       <div className="flex flex-col gap-2">
         {(['A', 'B', 'C', 'D'] as const).map((key) => (
           <label

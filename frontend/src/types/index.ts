@@ -5,17 +5,31 @@ export interface QuestionCard {
   frequency: '高' | '中' | '低'
 }
 
+export interface QuestionImage {
+  type: 'page' | 'image'
+  src: string
+  alt: string
+  page_index: number
+  page_number: number
+  bbox?: number[]
+}
+
 export interface Question {
   id: string
   question: string
   options: Record<'A' | 'B' | 'C' | 'D', string>
   answer: 'A' | 'B' | 'C' | 'D'
   explanation: string
+  images?: QuestionImage[]
   card?: QuestionCard
   difficulty?: '易' | '中' | '難'
   type?: string
   tags?: string[]
   source?: string
+  source_ref?: {
+    page_index: number
+    page_number: number
+  }
 }
 
 export interface Chapter {

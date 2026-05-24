@@ -280,7 +280,7 @@ python3 scripts/export_pdf_image_gallery.py --level 初級 --force
 
 ### `scripts/parse_exams_v2.py`
 
-從 `extracted/*.json` 的表格資料解析選擇題。
+從 `extracted/*.json` 的表格資料解析選擇題，並回掛 `page_extract/` 中已裁切的圖片或原頁截圖給圖片題。
 
 **表格格式假設：**
 - 公告試題（exam1/exam2）：每列 `[答案, 題目全文]`，答案欄為 A/B/C/D（含全形 Ａ/Ｂ/Ｃ/Ｄ 與全形括號 `（）`，以 `FW_MAP` 正規化）。
@@ -291,6 +291,7 @@ python3 scripts/export_pdf_image_gallery.py --level 初級 --force
 2. 以 regex `\(([A-D])\)(.*?)(?=\([A-D]\)|\Z)` 提取四個選項。
 3. 第一個 `(A)` 之前的文字為題幹。
 4. 少於 4 個選項的資料列直接丟棄，並印出 WARN 訊息。
+5. 寫入 `source_ref` 的 PDF 頁碼；題幹含「附圖、下圖、圖中、程式碼、欄位概觀」等提示時，從 `frontend/public/pdf-assets/{level}/` 掛上 `images[]`。
 
 **輸出 JSON 格式（模擬考 `mock_exam*.json`）：**
 
@@ -307,13 +308,24 @@ python3 scripts/export_pdf_image_gallery.py --level 初級 --force
       "options": {"A": "...", "B": "...", "C": "...", "D": "..."},
       "answer": "B",
       "explanation": "正確答案為(B)。",
-      "source": "exam1"
+      "source": "exam1",
+      "source_ref": {"page_index": 0, "page_number": 1},
+      "images": [
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam2/page_010/image_01_01.png",
+          "alt": "exam2 第 11 頁圖片 image_01_01",
+          "page_index": 10,
+          "page_number": 11,
+          "bbox": [118.15, 132.85, 423.6, 221.39]
+        }
+      ]
     }
   ]
 }
 ```
 
-> **已知限制**：pdfplumber 有時將選項抽取到不同 row，導致 exam1/exam2 各有約 9–11 題無法解析（WARN 列出）。`subject*_questions.json` 為手工整理，不被此腳本覆寫。
+> 圖片題配對策略：單一圖片題會優先掛裁切圖；同一頁有多個圖片題或多張圖時，會掛 PDF 原頁截圖，避免把小圖錯配到錯題。`subject*_questions.json` 為手工整理，不被此腳本覆寫。
 
 ---
 

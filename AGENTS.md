@@ -23,7 +23,7 @@ Data pipeline scripts support `--level` (default `初級`); paths resolve to `da
 - `scripts/parse_guides.py`: **Guide assembly** — assembles chapter JSON from vision cache (preferred) or falls back to regex extraction. Reads chapter definitions from `toc_manifest.json`. Supports `--level`, `--subject`.
 - `scripts/audit_chapters.py`: **LLM chapter audit** — reads `subject{N}_guide.json` and calls Claude Haiku to verify each chapter covers its expected subtopics. Outputs `subject{N}_audit_report.json`. Run after guide extraction. Requires `ANTHROPIC_API_KEY`. Supports `--level`, `--subject`, `--all`, `--chapter`, `--dry-run`.
 - `scripts/extract_pdfs.py`: extracts text and tables from PDFs into `data/{level}/extracted/`. Guide PDFs from `toc_manifest.json`; exam PDFs from `EXAM_PDFS_BY_LEVEL`. Supports `--level`.
-- `scripts/parse_exams_v2.py`: turns extracted content into mock-exam JSON under `data/{level}/questions/`. Supports `--level`.
+- `scripts/parse_exams_v2.py`: turns extracted content into mock-exam JSON under `data/{level}/questions/`, records original PDF page references, and attaches cropped/page image assets for image-based exam questions from `page_extract/`. Supports `--level`.
 - `scripts/generate_questions.py`: calls the Claude API to generate new questions or add `card` fields to existing ones. Requires `ANTHROPIC_API_KEY`. Supports `--level`, `--subject`, `--enrich`.
 - `scripts/multi_ai_pipeline.py`: multi-AI pipeline using Gemini (出題) → Codex (審核) → Claude (完稿) CLI tools via subprocess. Includes answer-validation stage where all three AIs answer each question; questions with 2+ wrong answers are flagged to `flagged.json`. Intermediate output goes to `data/{level}/pipeline/<run_id>/`; final questions merged into `subject{N}_questions.json`. Supports `--level`.
 - `scripts/render_guide_page_images.py`: renders source PDF pages referenced by guide JSON into `frontend/public/guide-pages/{level}/{key}/` so the site can show original page screenshots for figures, tables, and layout context. Supports `--level`, `--subject`, `--all`, `--force`.
@@ -80,7 +80,7 @@ There is no formal automated test suite in this workspace yet. Validate changes 
 - `python3 scripts/verify_data_alignment.py --level 初級`: should pass before relying on the PDF/manifest/app-data alignment
 - `audit_chapters.py`: check `subject{N}_audit_report.json` — `PASS` is ideal; any `WARN`/`FAIL` needs review before generating new questions
 - confirm expected files are regenerated in `data/初級/extracted/`, `data/初級/questions/`, `data/初級/guide/`
-- `parse_exams_v2.py`: exam1 and exam2 currently produce fewer than 50 parsed questions because some PDF rows are not machine-parsed; check WARN lines and the actual JSON totals
+- `parse_exams_v2.py`: check WARN lines, actual JSON totals, and image-based exam questions with `images[]` attachments; image paths should resolve under `frontend/public/pdf-assets/{level}/`
 - `parse_guides.py`: each chapter should have > 1000 chars of content
 - spot-check JSON structure and a few rendered questions at `http://localhost:5173/` or in a local production build; verify the card panel appears after answering a question that has `card` data; verify subject overview and sidebar links reflect `toc_manifest.json`
 - review `logs/` for extraction or parsing errors

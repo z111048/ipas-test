@@ -2,8 +2,14 @@ import { useExamStore } from '../../store/examStore'
 import ProgressBar from '../shared/ProgressBar'
 import StatBox from '../shared/StatBox'
 
+const assetBase = import.meta.env.BASE_URL.replace(/\/$/, '')
+
 interface ExamResultsProps {
   onRetry: () => void
+}
+
+function publicAsset(path: string) {
+  return `${assetBase}${path.startsWith('/') ? path : `/${path}`}`
 }
 
 export default function ExamResults({ onRetry }: ExamResultsProps) {
@@ -78,6 +84,26 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
               </span>
             </div>
             <div className="text-[0.92rem] mb-3 text-app-text">{q.question}</div>
+            {q.images && q.images.length > 0 && (
+              <div className="grid grid-cols-1 gap-3 mb-3">
+                {q.images.map((image) => (
+                  <figure
+                    key={`${q.id}-${image.src}`}
+                    className="rounded-lg border border-border bg-white overflow-hidden"
+                  >
+                    <img
+                      src={publicAsset(image.src)}
+                      alt={image.alt}
+                      loading="lazy"
+                      className="block w-full max-h-[520px] object-contain"
+                    />
+                    <figcaption className="px-3 py-2 text-[0.75rem] text-text-light border-t border-border">
+                      PDF 第 {image.page_number} 頁{image.type === 'page' ? '原頁截圖' : '題目附圖'}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            )}
             <div className="text-[0.85rem] space-y-1">
               {!isCorrect && !isSkipped && (
                 <div className="text-error">
