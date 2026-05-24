@@ -2,6 +2,8 @@ const viteBase = import.meta.env.BASE_URL || '/'
 
 function inferredPathBase() {
   if (typeof window === 'undefined') return ''
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') return ''
+  if (!window.location.hostname.endsWith('github.io')) return ''
   const firstSegment = window.location.pathname.split('/').filter(Boolean)[0]
   return firstSegment ? `/${firstSegment}` : ''
 }
