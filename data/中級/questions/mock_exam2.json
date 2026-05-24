@@ -66,7 +66,8 @@
             414.53,
             446.7,
             630.42
-          ]
+          ],
+          "placement": "question"
         }
       ]
     },
@@ -75,7 +76,7 @@
       "question": "累積分佈函數（Cumulative Distribution Function, CDF）可用於描述 隨機變數的機率分佈特性，其數學定義為下列何者？",
       "options": {
         "A": "機率密度函數（Probability Density Function, PDF）的平均值",
-        "B": "機率密度函數（Probability Density Function, PDF）的積分； 案",
+        "B": "機率密度函數（Probability Density Function, PDF）的積分；",
         "C": "機率密度函數（Probability Density Function, PDF）的離散總和",
         "D": "機率密度函數（Probability Density Function, PDF）的標準差"
       },
@@ -143,7 +144,7 @@
       "question": "資料科學家為分析顧客行為，利用現有欄位「銷售金額」與「瀏覽次 數」，計算出新變數「銷售金額/瀏覽次數」。此動作屬於下列哪一類特徵 工程方法？",
       "options": {
         "A": "特徵選擇（Feature Selection）",
-        "B": "特徵衍生（Feature Derivation）； 案",
+        "B": "特徵衍生（Feature Derivation）；",
         "C": "特徵轉換（Feature Transformation）",
         "D": "分箱處理（Binning）"
       },
@@ -230,7 +231,7 @@
         "A": "將資料轉換為匿名識別碼以隱藏身分",
         "B": "對資料進行標準化處理以提升模型精度",
         "C": "自動偵測與排除異常值",
-        "D": "可直接在加密狀態下進行數據運算 案"
+        "D": "可直接在加密狀態下進行數據運算"
       },
       "answer": "D",
       "explanation": "正確答案為(D)。",
@@ -297,7 +298,7 @@
       "options": {
         "A": "應優先採用獨熱編碼（One-Hot Encoding），以減少類別之間的相依性 與記憶體使用量",
         "B": "直接使用標籤編碼（Label Encoding）可能使模型誤判類別間存在順 序關係，導致特徵重要性偏誤",
-        "C": "使用目標編碼（Target Encoding）會自動消除過擬合 案 （Overfitting）風險",
+        "C": "使用目標編碼（Target Encoding）會自動消除過擬合 （Overfitting）風險",
         "D": "若類別數量較少，建議先使用主成分分析（Principal Component Analysis, PCA）進行降維"
       },
       "answer": "B",
@@ -346,7 +347,7 @@
       "id": "exam2_q20",
       "question": "某銀行計畫將信用風險評估模型部署至雲端平台，以便即時分析客戶交易 行為。由於涉及大量敏感金融資料，銀行要求雲端服務商在不解密原始資 料的情況下仍能執行模型運算。為達成此目標，最適合採用下列哪一項技 術？",
       "options": {
-        "A": "在上傳資料前進行匿名化（Anonymization），僅保留可識別代碼供比 對使用； 案",
+        "A": "在上傳資料前進行匿名化（Anonymization），僅保留可識別代碼供比 對使用；",
         "B": "利用雜湊（Hash）函數轉換資料，以確保模型可追蹤但無法還原個 資",
         "C": "採用資料本地化（Data Localization）策略，將所有模型訓練限制於 內部伺服器中",
         "D": "透過同態加密（Homomorphic Encryption），讓雲端系統能直接在加密 資料上執行運算，解密後結果與原始資料一致"
@@ -412,7 +413,7 @@
     },
     {
       "id": "exam2_q24",
-      "question": "某企業建置生成式 AI 系統，利用大量客服紀錄與產品評論資料訓練語言 模型，以自動生成客服回覆與知識摘要。由於資料來源多樣，且包含非結 案 構化文字、影像與表格資訊，團隊希望在不降低模型效能的前提下，提升 資料處理效率與一致性，下列哪一種資料處理策略最適合？",
+      "question": "某企業建置生成式 AI 系統，利用大量客服紀錄與產品評論資料訓練語言 模型，以自動生成客服回覆與知識摘要。由於資料來源多樣，且包含非結 構化文字、影像與表格資訊，團隊希望在不降低模型效能的前提下，提升 資料處理效率與一致性，下列哪一種資料處理策略最適合？",
       "options": {
         "A": "建立資料湖（Data Lake）結構，並以 Apache Spark或Ray進行分散 式資料預處理與特徵抽取，再串接至模型訓練管線（Pipeline）",
         "B": "採用單節點高效能伺服器搭配批次處理模式，集中執行資料清理與格 式轉換",
@@ -463,7 +464,7 @@
     },
     {
       "id": "exam2_q27",
-      "question": "某金融科技公司分析每日上億筆交易資料，以監控客戶轉帳金額分佈與異 常波動。由於資料量極大，為兼顧效率與準確度，團隊決定採用「近似分 位數（Approximate Quantile）」方法進行資料摘要統計。下列何者最能 正確反映該技術的核心目的？ 案",
+      "question": "某金融科技公司分析每日上億筆交易資料，以監控客戶轉帳金額分佈與異 常波動。由於資料量極大，為兼顧效率與準確度，團隊決定採用「近似分 位數（Approximate Quantile）」方法進行資料摘要統計。下列何者最能 正確反映該技術的核心目的？",
       "options": {
         "A": "確保每個分位值的結果完全精確，即使計算時間較長",
         "B": "利用機器學習模型預測分位數位置，以減少統計計算量",
@@ -531,7 +532,7 @@
     },
     {
       "id": "exam2_q31",
-      "question": "某電商團隊觀察到，每位顧客對廣告推播的點擊行為可視為一次伯努利試 驗（Bernoulli Trial），單次點擊成功機率為 p=0.4。當推播對象擴增至 5,000位顧客時，團隊想快速預估「成功點擊總數」的分佈情形，以進行 案 模型效能模擬與預測。若希望以常態分佈（Normal Distribution）近似 原始分佈，下列哪一項判斷最為合理？",
+      "question": "某電商團隊觀察到，每位顧客對廣告推播的點擊行為可視為一次伯努利試 驗（Bernoulli Trial），單次點擊成功機率為 p=0.4。當推播對象擴增至 5,000位顧客時，團隊想快速預估「成功點擊總數」的分佈情形，以進行 模型效能模擬與預測。若希望以常態分佈（Normal Distribution）近似 原始分佈，下列哪一項判斷最為合理？",
       "options": {
         "A": "因樣本數極大，可直接以常態分佈近似二項分佈（Binomial Distribution）",
         "B": "只有當 np 與 n(1-p) 皆大於 5 時，才能以常態分佈作近似",
@@ -582,7 +583,7 @@
     },
     {
       "id": "exam2_q34",
-      "question": "在圖形資料庫（Graph Database）中建模社群平台資料時，若每筆「按 讚」行為都包含時間戳記（Timestamp）與裝置類型（Device Type）等資 訊。若希望同時保留使用者與貼文之間的互動關係，並能有效查詢「按 案 讚」的行為屬性，下列哪一種設計方式最為合適？",
+      "question": "在圖形資料庫（Graph Database）中建模社群平台資料時，若每筆「按 讚」行為都包含時間戳記（Timestamp）與裝置類型（Device Type）等資 訊。若希望同時保留使用者與貼文之間的互動關係，並能有效查詢「按 讚」的行為屬性，下列哪一種設計方式最為合適？",
       "options": {
         "A": "將「按讚」視為節點（Node），與使用者建立邊（Edge）",
         "B": "將「按讚」資訊作為邊的屬性（Property）儲存，連結使用者與被按 讚的貼文節點",
@@ -650,7 +651,7 @@
     },
     {
       "id": "exam2_q38",
-      "question": "一家製造廠評估新生產線推出後，產品良率是否較原生產線提升。工程師 案 分別從兩條生產線各抽樣 100 件產品，原生產線良率為 95%，新生產線 為97%。若欲檢定兩條生產線良率的差異是否具有統計意義，下列哪一種 方法最為合適？",
+      "question": "一家製造廠評估新生產線推出後，產品良率是否較原生產線提升。工程師 分別從兩條生產線各抽樣 100 件產品，原生產線良率為 95%，新生產線 為97%。若欲檢定兩條生產線良率的差異是否具有統計意義，下列哪一種 方法最為合適？",
       "options": {
         "A": "雙樣本平均數 t 檢定（Two-sample t-test）",
         "B": "雙比例 Z 檢定（Two-proportion Z-test）",
@@ -686,7 +687,7 @@
       "id": "exam2_q40",
       "question": "請參考附圖，下列虛擬程式碼（pseudocode）最可能是在描述何種驗證 法？",
       "options": {
-        "A": "Hold-out 驗證（Hold-out Validation）； 案",
+        "A": "Hold-out 驗證（Hold-out Validation）；",
         "B": "留一交叉驗證 LOOCV（ Leave-One-Out Cross Validation）",
         "C": "K-fold 交叉驗證（K-fold Cross Validation）",
         "D": "拔靴法（Bootstrap）驗證"
@@ -710,7 +711,11 @@
             498.13,
             454.2,
             762.12
-          ]
+          ],
+          "placement": "question",
+          "markdown_language": "text",
+          "markdown_title": "虛擬程式碼",
+          "markdown": "Input:\n  - data_set: 包含 N 筆資料的資料集\n  - model_training_function: 用來訓練模型的函式\n  - model_evaluation_function: 用來評估模型的函式（如計算誤差或準確率）\n\nOutput:\n  - 平均評估指標（如平均準確率或平均誤差）\n\nAlgorithm:\n1. 初始化評估指標列表 metrics = []\n2. 對 i = 1 到 N:\n   a. 將第 i 筆資料作為測試集 test_data\n   b. 將其餘 N-1 筆資料作為訓練集 train_data\n   c. 使用 model_training_function 在 train_data 上訓練模型\n   d. 使用訓練好的模型對 test_data 做預測，計算評估指標 metric_i\n   e. 將 metric_i 加入 metrics\n3. 計算 metrics 的平均值 mean_metric\n4. 回傳 mean_metric"
         }
       ]
     },
@@ -732,28 +737,32 @@
       },
       "images": [
         {
-          "type": "page",
-          "src": "/pdf-assets/中級/exam2/page_011/page.png",
-          "alt": "exam2 第 12 頁原始截圖",
+          "type": "image",
+          "src": "/pdf-assets/中級/exam2/page_011/image_01_01.png",
+          "alt": "exam2 第 12 頁圖片 image_01_01",
           "page_index": 11,
           "page_number": 12,
           "bbox": [
-            0.0,
-            0.0,
-            595.32,
-            841.92
-          ]
+            118.15,
+            233.38,
+            452.75,
+            597.73
+          ],
+          "placement": "question",
+          "markdown_language": "text",
+          "markdown_title": "虛擬程式碼",
+          "markdown": "Input:\n  - data_points: N 筆資料，每筆資料有 D 個特徵\n  - X: 要分成的群數\n\nOutput:\n  - clusters: 每筆資料所屬的群組號\n  - centroids: 每個群的中心點\n\nAlgorithm:\n1. 隨機選擇 X 個資料點作為初始中心\n2. 重複以下步驟直到收斂:\n   a. 分群:\n      對每個資料點，計算它到每個中心點的距離\n      將資料點指派給距離最近的中心\n   b. 更新中心:\n      對每個群，計算該群中所有資料點的平均值\n      將群中心更新為這個平均值\n3. 當群中心不再變動時，停止\n\n回傳每筆資料的群組號 clusters，以及最後的群中心 centroids"
         }
       ]
     },
     {
       "id": "exam2_q42",
-      "question": "考慮某生產線每小時出現瑕疵品的個數符合卜瓦松分佈（Poisson Distribution），已知平均每小時產生 5個瑕疵品，附圖程式碼展示資料 處理，請問下列敘述何者正確？ 案",
+      "question": "考慮某生產線每小時出現瑕疵品的個數符合卜瓦松分佈（Poisson Distribution），已知平均每小時產生 5個瑕疵品，附圖程式碼展示資料 處理，請問下列敘述何者正確？",
       "options": {
         "A": "lambda_poisson = 5 表示每小時最多 5個瑕疵品",
         "B": "poisson.pmf(5, lambda_poisson) 表示小於 5個瑕疵品的機率",
         "C": "卜瓦松分佈的適用條件為事件彼此獨立，且平均發生率固定",
-        "D": "poisson.cdf(10, 5) 表示大於或等於 10個瑕疵品的機率 一間遊戲市場研究公司正在分析全球電子遊戲銷售情況，並準備建立一份 「熱銷遊戲銷售報告」。分析師取得了一份名為 vgsales.csv 的資料集， 內容包含了全球銷量超過 10 萬份的電子遊戲清單。研究團隊希望透過這 份資料，了解不同年份、平台與地區的銷售趨勢。資料集的欄位說明如 下，請根據下述資料情境回答以43~47題。 Name：遊戲名稱 Platform：遊戲平台（如 PS4、X360、Wii 等） Year：發售年份 Genre：遊戲類型（如 Action、Sports、Role-Playing 等） Publisher：發行商名稱 NA_Sales / EU_Sales / JP_Sales / Other_Sales：各地區銷售量（單 位：百萬份） Global_Sales：全球總銷售量（單位：百萬份） 資料的欄位概觀如下： 案"
+        "D": "poisson.cdf(10, 5) 表示大於或等於 10個瑕疵品的機率"
       },
       "answer": "C",
       "explanation": "正確答案為(C)。",
@@ -764,17 +773,21 @@
       },
       "images": [
         {
-          "type": "page",
-          "src": "/pdf-assets/中級/exam2/page_011/page.png",
-          "alt": "exam2 第 12 頁原始截圖",
-          "page_index": 11,
-          "page_number": 12,
+          "type": "image",
+          "src": "/pdf-assets/中級/exam2/page_012/image_01_01.png",
+          "alt": "exam2 第 13 頁圖片 image_01_01",
+          "page_index": 12,
+          "page_number": 13,
           "bbox": [
-            0.0,
-            0.0,
-            595.32,
-            841.92
-          ]
+            118.15,
+            132.85,
+            423.6,
+            221.39
+          ],
+          "placement": "question",
+          "markdown_language": "python",
+          "markdown_title": "Python 程式碼",
+          "markdown": "import numpy as np\nfrom scipy.stats import poisson\n\nlambda_poisson = 5\nprint(poisson.pmf(5, lambda_poisson))"
         }
       ]
     },
@@ -793,7 +806,44 @@
       "source_ref": {
         "page_index": 13,
         "page_number": 14
-      }
+      },
+      "context": "一間遊戲市場研究公司正在分析全球電子遊戲銷售情況，並準備建立一份 「熱銷遊戲銷售報告」。分析師取得了一份名為 vgsales.csv 的資料集， 內容包含了全球銷量超過 10 萬份的電子遊戲清單。研究團隊希望透過這 份資料，了解不同年份、平台與地區的銷售趨勢。資料集的欄位說明如 下，請根據下述資料情境回答以43~47 題。 Name：遊戲名稱 Platform：遊戲平台（如 PS4、X360、Wii 等） Year：發售年份 Genre：遊戲類型（如 Action、Sports、Role-Playing 等） Publisher：發行商名稱 NA_Sales / EU_Sales / JP_Sales / Other_Sales：各地區銷售量（單 位：百萬份） Global_Sales：全球總銷售量（單位：百萬份） 資料的欄位概觀如下：",
+      "images": [
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam2/page_013/image_01_01.png",
+          "alt": "exam2 第 14 頁 data['Year'] 欄位輸出",
+          "page_index": 13,
+          "page_number": 14,
+          "bbox": [
+            118.15,
+            132.15,
+            439.93,
+            295.7
+          ],
+          "placement": "question",
+          "markdown_language": "text",
+          "markdown_title": "data['Year'] 輸出",
+          "markdown": "data['Year']\n\n0        2006.0\n1        1985.0\n2        2008.0\n3        2009.0\n4        1996.0\n          ...\n16593    2002.0\n16594    2003.0\n16595    2008.0\n16596    2010.0\n16597    2003.0\nName: Year, Length: 16598, dtype: float64"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam2/page_012/image_02_01.png",
+          "alt": "exam2 第 13 頁 vgsales 資料預覽",
+          "page_index": 12,
+          "page_number": 13,
+          "bbox": [
+            118.15,
+            584.0,
+            480.4,
+            712.05
+          ],
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "vgsales 資料預覽",
+          "markdown": "import pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n\n# 載入資料\ndata = pd.read_csv(\"vgsales.csv\")\ndata.head()\n\n   Rank                       Name Platform    Year         Genre Publisher  NA_Sales  EU_Sales  JP_Sales  Other_Sales  Global_Sales\n0     1                 Wii Sports      Wii  2006.0        Sports  Nintendo     41.49     29.02      3.77         8.46         82.74\n1     2          Super Mario Bros.      NES  1985.0      Platform  Nintendo     29.08      3.58      6.81         0.77         40.24\n2     3             Mario Kart Wii      Wii  2008.0        Racing  Nintendo     15.85     12.88      3.79         3.31         35.82\n3     4          Wii Sports Resort      Wii  2009.0        Sports  Nintendo     15.75     11.01      3.28         2.96         33.00\n4     5  Pokemon Red/Pokemon Blue       GB  1996.0  Role-Playing  Nintendo     11.27      8.89     10.22         1.00         31.37"
+        }
+      ]
     },
     {
       "id": "exam2_q44",
@@ -810,14 +860,34 @@
       "source_ref": {
         "page_index": 13,
         "page_number": 14
-      }
+      },
+      "context": "一間遊戲市場研究公司正在分析全球電子遊戲銷售情況，並準備建立一份 「熱銷遊戲銷售報告」。分析師取得了一份名為 vgsales.csv 的資料集， 內容包含了全球銷量超過 10 萬份的電子遊戲清單。研究團隊希望透過這 份資料，了解不同年份、平台與地區的銷售趨勢。資料集的欄位說明如 下，請根據下述資料情境回答以43~47 題。 Name：遊戲名稱 Platform：遊戲平台（如 PS4、X360、Wii 等） Year：發售年份 Genre：遊戲類型（如 Action、Sports、Role-Playing 等） Publisher：發行商名稱 NA_Sales / EU_Sales / JP_Sales / Other_Sales：各地區銷售量（單 位：百萬份） Global_Sales：全球總銷售量（單位：百萬份） 資料的欄位概觀如下：",
+      "images": [
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam2/page_012/image_02_01.png",
+          "alt": "exam2 第 13 頁 vgsales 資料預覽",
+          "page_index": 12,
+          "page_number": 13,
+          "bbox": [
+            118.15,
+            584.0,
+            480.4,
+            712.05
+          ],
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "vgsales 資料預覽",
+          "markdown": "import pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n\n# 載入資料\ndata = pd.read_csv(\"vgsales.csv\")\ndata.head()\n\n   Rank                       Name Platform    Year         Genre Publisher  NA_Sales  EU_Sales  JP_Sales  Other_Sales  Global_Sales\n0     1                 Wii Sports      Wii  2006.0        Sports  Nintendo     41.49     29.02      3.77         8.46         82.74\n1     2          Super Mario Bros.      NES  1985.0      Platform  Nintendo     29.08      3.58      6.81         0.77         40.24\n2     3             Mario Kart Wii      Wii  2008.0        Racing  Nintendo     15.85     12.88      3.79         3.31         35.82\n3     4          Wii Sports Resort      Wii  2009.0        Sports  Nintendo     15.75     11.01      3.28         2.96         33.00\n4     5  Pokemon Red/Pokemon Blue       GB  1996.0  Role-Playing  Nintendo     11.27      8.89     10.22         1.00         31.37"
+        }
+      ]
     },
     {
       "id": "exam2_q45",
       "question": "為了觀察各遊戲平台的市場表現，分析師想要統計每個平台的全球銷售總 額，並以長條圖呈現。請選出最能正確實現此分析的程式碼。",
       "options": {
         "A": "data.groupby(\"Platform\")[\"Global_Sales\"].sum().plot(kind=\"bar\")",
-        "B": "data.groupby(\"Platform\")[\"Global_Sales\"].count().plot(kind=\"bar\")； 案",
+        "B": "data.groupby(\"Platform\")[\"Global_Sales\"].count().plot(kind=\"bar\")；",
         "C": "data[\"Platform\"].value_counts().plot(kind=\"bar\")",
         "D": "data.groupby(\"Platform\")[\"Global_Sales\"].mean().plot(kind=\"bar\")"
       },
@@ -828,19 +898,24 @@
         "page_index": 13,
         "page_number": 14
       },
+      "context": "一間遊戲市場研究公司正在分析全球電子遊戲銷售情況，並準備建立一份 「熱銷遊戲銷售報告」。分析師取得了一份名為 vgsales.csv 的資料集， 內容包含了全球銷量超過 10 萬份的電子遊戲清單。研究團隊希望透過這 份資料，了解不同年份、平台與地區的銷售趨勢。資料集的欄位說明如 下，請根據下述資料情境回答以43~47 題。 Name：遊戲名稱 Platform：遊戲平台（如 PS4、X360、Wii 等） Year：發售年份 Genre：遊戲類型（如 Action、Sports、Role-Playing 等） Publisher：發行商名稱 NA_Sales / EU_Sales / JP_Sales / Other_Sales：各地區銷售量（單 位：百萬份） Global_Sales：全球總銷售量（單位：百萬份） 資料的欄位概觀如下：",
       "images": [
         {
           "type": "image",
-          "src": "/pdf-assets/中級/exam2/page_013/image_01_01.png",
-          "alt": "exam2 第 14 頁圖片 image_01_01",
-          "page_index": 13,
-          "page_number": 14,
+          "src": "/pdf-assets/中級/exam2/page_012/image_02_01.png",
+          "alt": "exam2 第 13 頁 vgsales 資料預覽",
+          "page_index": 12,
+          "page_number": 13,
           "bbox": [
             118.15,
-            132.15,
-            439.93,
-            295.7
-          ]
+            584.0,
+            480.4,
+            712.05
+          ],
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "vgsales 資料預覽",
+          "markdown": "import pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n\n# 載入資料\ndata = pd.read_csv(\"vgsales.csv\")\ndata.head()\n\n   Rank                       Name Platform    Year         Genre Publisher  NA_Sales  EU_Sales  JP_Sales  Other_Sales  Global_Sales\n0     1                 Wii Sports      Wii  2006.0        Sports  Nintendo     41.49     29.02      3.77         8.46         82.74\n1     2          Super Mario Bros.      NES  1985.0      Platform  Nintendo     29.08      3.58      6.81         0.77         40.24\n2     3             Mario Kart Wii      Wii  2008.0        Racing  Nintendo     15.85     12.88      3.79         3.31         35.82\n3     4          Wii Sports Resort      Wii  2009.0        Sports  Nintendo     15.75     11.01      3.28         2.96         33.00\n4     5  Pokemon Red/Pokemon Blue       GB  1996.0  Role-Playing  Nintendo     11.27      8.89     10.22         1.00         31.37"
         }
       ]
     },
@@ -860,19 +935,24 @@
         "page_index": 14,
         "page_number": 15
       },
+      "context": "一間遊戲市場研究公司正在分析全球電子遊戲銷售情況，並準備建立一份 「熱銷遊戲銷售報告」。分析師取得了一份名為 vgsales.csv 的資料集， 內容包含了全球銷量超過 10 萬份的電子遊戲清單。研究團隊希望透過這 份資料，了解不同年份、平台與地區的銷售趨勢。資料集的欄位說明如 下，請根據下述資料情境回答以43~47 題。 Name：遊戲名稱 Platform：遊戲平台（如 PS4、X360、Wii 等） Year：發售年份 Genre：遊戲類型（如 Action、Sports、Role-Playing 等） Publisher：發行商名稱 NA_Sales / EU_Sales / JP_Sales / Other_Sales：各地區銷售量（單 位：百萬份） Global_Sales：全球總銷售量（單位：百萬份） 資料的欄位概觀如下：",
       "images": [
         {
-          "type": "page",
-          "src": "/pdf-assets/中級/exam2/page_014/page.png",
-          "alt": "exam2 第 15 頁原始截圖",
-          "page_index": 14,
-          "page_number": 15,
+          "type": "image",
+          "src": "/pdf-assets/中級/exam2/page_012/image_02_01.png",
+          "alt": "exam2 第 13 頁 vgsales 資料預覽",
+          "page_index": 12,
+          "page_number": 13,
           "bbox": [
-            0.0,
-            0.0,
-            595.32,
-            841.92
-          ]
+            118.15,
+            584.0,
+            480.4,
+            712.05
+          ],
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "vgsales 資料預覽",
+          "markdown": "import pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n\n# 載入資料\ndata = pd.read_csv(\"vgsales.csv\")\ndata.head()\n\n   Rank                       Name Platform    Year         Genre Publisher  NA_Sales  EU_Sales  JP_Sales  Other_Sales  Global_Sales\n0     1                 Wii Sports      Wii  2006.0        Sports  Nintendo     41.49     29.02      3.77         8.46         82.74\n1     2          Super Mario Bros.      NES  1985.0      Platform  Nintendo     29.08      3.58      6.81         0.77         40.24\n2     3             Mario Kart Wii      Wii  2008.0        Racing  Nintendo     15.85     12.88      3.79         3.31         35.82\n3     4          Wii Sports Resort      Wii  2009.0        Sports  Nintendo     15.75     11.01      3.28         2.96         33.00\n4     5  Pokemon Red/Pokemon Blue       GB  1996.0  Role-Playing  Nintendo     11.27      8.89     10.22         1.00         31.37"
         }
       ]
     },
@@ -883,7 +963,7 @@
         "A": "sns.barplot(x=\"NA_Sales\", y=\"Name\", data=data.head(5))",
         "B": "sns.barplot(x=\"Name\", y=\"NA_Sales\", data=data.nlargest(5, \"NA_Sales\"))",
         "C": "sns.lineplot(x=\"Name\", y=\"NA_Sales\", data=data.nlargest(5, \"NA_Sales\"))",
-        "D": "sns.countplot(x=\"Name\", y=\"NA_Sales\", data=data) 使用銷售資料集(marketing.csv)進行迴歸分析，附圖程式碼展示資料載 入與處理，請回答後續 48~50題。 下圖顯示資料集的前 5筆資料與相關資訊。 案"
+        "D": "sns.countplot(x=\"Name\", y=\"NA_Sales\", data=data)"
       },
       "answer": "B",
       "explanation": "正確答案為(B)。",
@@ -892,19 +972,24 @@
         "page_index": 14,
         "page_number": 15
       },
+      "context": "一間遊戲市場研究公司正在分析全球電子遊戲銷售情況，並準備建立一份 「熱銷遊戲銷售報告」。分析師取得了一份名為 vgsales.csv 的資料集， 內容包含了全球銷量超過 10 萬份的電子遊戲清單。研究團隊希望透過這 份資料，了解不同年份、平台與地區的銷售趨勢。資料集的欄位說明如 下，請根據下述資料情境回答以43~47 題。 Name：遊戲名稱 Platform：遊戲平台（如 PS4、X360、Wii 等） Year：發售年份 Genre：遊戲類型（如 Action、Sports、Role-Playing 等） Publisher：發行商名稱 NA_Sales / EU_Sales / JP_Sales / Other_Sales：各地區銷售量（單 位：百萬份） Global_Sales：全球總銷售量（單位：百萬份） 資料的欄位概觀如下：",
       "images": [
         {
-          "type": "page",
-          "src": "/pdf-assets/中級/exam2/page_014/page.png",
-          "alt": "exam2 第 15 頁原始截圖",
-          "page_index": 14,
-          "page_number": 15,
+          "type": "image",
+          "src": "/pdf-assets/中級/exam2/page_012/image_02_01.png",
+          "alt": "exam2 第 13 頁 vgsales 資料預覽",
+          "page_index": 12,
+          "page_number": 13,
           "bbox": [
-            0.0,
-            0.0,
-            595.32,
-            841.92
-          ]
+            118.15,
+            584.0,
+            480.4,
+            712.05
+          ],
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "vgsales 資料預覽",
+          "markdown": "import pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n\n# 載入資料\ndata = pd.read_csv(\"vgsales.csv\")\ndata.head()\n\n   Rank                       Name Platform    Year         Genre Publisher  NA_Sales  EU_Sales  JP_Sales  Other_Sales  Global_Sales\n0     1                 Wii Sports      Wii  2006.0        Sports  Nintendo     41.49     29.02      3.77         8.46         82.74\n1     2          Super Mario Bros.      NES  1985.0      Platform  Nintendo     29.08      3.58      6.81         0.77         40.24\n2     3             Mario Kart Wii      Wii  2008.0        Racing  Nintendo     15.85     12.88      3.79         3.31         35.82\n3     4          Wii Sports Resort      Wii  2009.0        Sports  Nintendo     15.75     11.01      3.28         2.96         33.00\n4     5  Pokemon Red/Pokemon Blue       GB  1996.0  Role-Playing  Nintendo     11.27      8.89     10.22         1.00         31.37"
         }
       ]
     },
@@ -923,7 +1008,44 @@
       "source_ref": {
         "page_index": 15,
         "page_number": 16
-      }
+      },
+      "context": "使用銷售資料集(marketing.csv)進行迴歸分析，附圖程式碼展示資料載 入與處理，請回答後續48~50 題。 下圖顯示資料集的前5 筆資料與相關資訊。",
+      "images": [
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam2/page_014/image_01_01.png",
+          "alt": "exam2 第 15 頁 marketing.csv 載入程式碼",
+          "page_index": 14,
+          "page_number": 15,
+          "bbox": [
+            118.15,
+            639.43,
+            452.57,
+            699.03
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "Python 程式碼",
+          "markdown": "import pandas as pd\ndf = pd.read_csv(\"marketing.csv\")"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam2/page_015/image_01_01.png",
+          "alt": "exam2 第 16 頁 marketing.csv 資料預覽與描述統計",
+          "page_index": 15,
+          "page_number": 16,
+          "bbox": [
+            118.15,
+            139.18,
+            487.07,
+            399.08
+          ],
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "資料預覽與描述統計",
+          "markdown": ">>> df.head()\n   youtube  facebook  newspaper  sales\n0   276.12     45.36      83.04  26.52\n1    53.40       NaN      54.12  12.48\n2    20.64     55.08      83.16  11.16\n3   181.80     49.56      70.20  22.20\n4   216.96     12.96      70.08  15.48\n\n>>> df.describe()\n          youtube    facebook   newspaper       sales\ncount  200.000000  199.000000  200.000000  200.000000\nmean   176.451000   27.820101   36.664800   16.827000\nstd    103.025084   17.808410   26.134345    6.260948\nmin      0.840000    0.000000    0.360000    1.920000\n25%     89.250000   11.940000   15.300000   12.450000\n50%    179.700000   27.000000   30.900000   15.480000\n75%    262.590000   43.680000   54.120000   20.880000\nmax    355.680000   59.520000  136.800000   32.400000"
+        }
+      ]
     },
     {
       "id": "exam2_q49",
@@ -931,7 +1053,7 @@
       "options": {
         "A": "選項D",
         "B": "選項B、選項 C、選項D",
-        "C": "選項A、選項 C； 案",
+        "C": "選項A、選項 C；",
         "D": "選項A、選項 B、選項C"
       },
       "answer": "C",
@@ -941,19 +1063,58 @@
         "page_index": 15,
         "page_number": 16
       },
+      "context": "使用銷售資料集(marketing.csv)進行迴歸分析，附圖程式碼展示資料載 入與處理，請回答後續48~50 題。 下圖顯示資料集的前5 筆資料與相關資訊。",
       "images": [
         {
-          "type": "page",
-          "src": "/pdf-assets/中級/exam2/page_015/page.png",
-          "alt": "exam2 第 16 頁原始截圖",
+          "type": "image",
+          "src": "/pdf-assets/中級/exam2/page_015/image_02_01.png",
+          "alt": "exam2 第 16 頁圖片 image_02_01",
           "page_index": 15,
           "page_number": 16,
           "bbox": [
-            0.0,
-            0.0,
-            595.32,
-            841.92
-          ]
+            118.15,
+            528.78,
+            297.4,
+            656.28
+          ],
+          "placement": "question",
+          "markdown_language": "text",
+          "markdown_title": "執行結果",
+          "markdown": "youtube      0\nfacebook     1\nnewspaper    0\nsales        0\ndtype: int64"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam2/page_014/image_01_01.png",
+          "alt": "exam2 第 15 頁第 48~50 題共用附圖",
+          "page_index": 14,
+          "page_number": 15,
+          "bbox": [
+            118.15,
+            639.43,
+            452.57,
+            699.03
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "Python 程式碼",
+          "markdown": "import pandas as pd\ndf = pd.read_csv(\"marketing.csv\")"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam2/page_015/image_01_01.png",
+          "alt": "exam2 第 15 頁第 48~50 題共用附圖",
+          "page_index": 15,
+          "page_number": 16,
+          "bbox": [
+            118.15,
+            139.18,
+            487.07,
+            399.08
+          ],
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "資料預覽與描述統計",
+          "markdown": ">>> df.head()\n   youtube  facebook  newspaper  sales\n0   276.12     45.36      83.04  26.52\n1    53.40       NaN      54.12  12.48\n2    20.64     55.08      83.16  11.16\n3   181.80     49.56      70.20  22.20\n4   216.96     12.96      70.08  15.48\n\n>>> df.describe()\n          youtube    facebook   newspaper       sales\ncount  200.000000  199.000000  200.000000  200.000000\nmean   176.451000   27.820101   36.664800   16.827000\nstd    103.025084   17.808410   26.134345    6.260948\nmin      0.840000    0.000000    0.360000    1.920000\n25%     89.250000   11.940000   15.300000   12.450000\n50%    179.700000   27.000000   30.900000   15.480000\n75%    262.590000   43.680000   54.120000   20.880000\nmax    355.680000   59.520000  136.800000   32.400000"
         }
       ]
     },
@@ -973,6 +1134,7 @@
         "page_index": 16,
         "page_number": 17
       },
+      "context": "使用銷售資料集(marketing.csv)進行迴歸分析，附圖程式碼展示資料載 入與處理，請回答後續48~50 題。 下圖顯示資料集的前5 筆資料與相關資訊。",
       "images": [
         {
           "type": "image",
@@ -985,7 +1147,45 @@
             172.02,
             474.6,
             483.7
-          ]
+          ],
+          "placement": "question",
+          "markdown_language": "text",
+          "markdown_title": "程式碼與執行結果",
+          "markdown": "from sklearn.linear_model import LinearRegression\nimport statsmodels.api as sm\n\nX = df[[\"youtube\", \"facebook\", \"newspaper\"]]\ny = df[\"sales\"]\nreg = 空格1\nprint(reg.coef_)\nX2 = sm.add_constant(X)\nmodel_sm = 空格2\nprint(model_sm.summary())\n\nOLS Regression Results\nDep. Variable: sales\nModel: OLS\nR-squared: 0.898\nAdj. R-squared: 0.896\nF-statistic: 573.0\nProb (F-statistic): 1.03e-96\n\ncoef      std err      t      P>|t|\nconst      3.5561     0.373    9.537   0.000\nyoutube    0.0455     0.001   32.702   0.000\nfacebook   0.1891     0.009   21.960   0.000\nnewspaper -0.0006     0.006   -0.108   0.914"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam2/page_014/image_01_01.png",
+          "alt": "exam2 第 15 頁第 48~50 題共用附圖",
+          "page_index": 14,
+          "page_number": 15,
+          "bbox": [
+            118.15,
+            639.43,
+            452.57,
+            699.03
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "Python 程式碼",
+          "markdown": "import pandas as pd\ndf = pd.read_csv(\"marketing.csv\")"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam2/page_015/image_01_01.png",
+          "alt": "exam2 第 15 頁第 48~50 題共用附圖",
+          "page_index": 15,
+          "page_number": 16,
+          "bbox": [
+            118.15,
+            139.18,
+            487.07,
+            399.08
+          ],
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "資料預覽與描述統計",
+          "markdown": ">>> df.head()\n   youtube  facebook  newspaper  sales\n0   276.12     45.36      83.04  26.52\n1    53.40       NaN      54.12  12.48\n2    20.64     55.08      83.16  11.16\n3   181.80     49.56      70.20  22.20\n4   216.96     12.96      70.08  15.48\n\n>>> df.describe()\n          youtube    facebook   newspaper       sales\ncount  200.000000  199.000000  200.000000  200.000000\nmean   176.451000   27.820101   36.664800   16.827000\nstd    103.025084   17.808410   26.134345    6.260948\nmin      0.840000    0.000000    0.360000    1.920000\n25%     89.250000   11.940000   15.300000   12.450000\n50%    179.700000   27.000000   30.900000   15.480000\n75%    262.590000   43.680000   54.120000   20.880000\nmax    355.680000   59.520000  136.800000   32.400000"
         }
       ]
     }

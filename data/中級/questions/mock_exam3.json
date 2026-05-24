@@ -651,17 +651,21 @@
       },
       "images": [
         {
-          "type": "page",
-          "src": "/pdf-assets/中級/exam3/page_009/page.png",
-          "alt": "exam3 第 10 頁原始截圖",
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_009/exam3_q38_visual_p009.png",
+          "alt": "exam3 第 10 頁 exam3_q38 題目附圖",
           "page_index": 9,
           "page_number": 10,
           "bbox": [
-            0.0,
-            0.0,
-            595.32,
-            841.92
-          ]
+            110,
+            276.13,
+            515.32,
+            331.28
+          ],
+          "placement": "question",
+          "markdown_language": "python",
+          "markdown_title": "Python 程式碼",
+          "markdown": "def metric(y_true, y_pred):\n    return sum((y_true - y_pred) ** 2) / len(y_true)"
         }
       ]
     },
@@ -683,17 +687,21 @@
       },
       "images": [
         {
-          "type": "page",
-          "src": "/pdf-assets/中級/exam3/page_009/page.png",
-          "alt": "exam3 第 10 頁原始截圖",
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_009/image_02_01.png",
+          "alt": "exam3 第 10 頁圖片 image_02_01",
           "page_index": 9,
           "page_number": 10,
           "bbox": [
-            0.0,
-            0.0,
-            595.32,
-            841.92
-          ]
+            120.38,
+            376.53,
+            464.85,
+            468.53
+          ],
+          "placement": "question",
+          "markdown_language": "python",
+          "markdown_title": "Python 程式碼",
+          "markdown": "def forward(x, p, training=True):\n    if training:\n        mask = np.random.binomial(1, p, size=x.shape)\n        return x * mask / p\n    else:\n        return x"
         }
       ]
     },
@@ -715,17 +723,21 @@
       },
       "images": [
         {
-          "type": "page",
-          "src": "/pdf-assets/中級/exam3/page_009/page.png",
-          "alt": "exam3 第 10 頁原始截圖",
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_009/image_03_01.png",
+          "alt": "exam3 第 10 頁圖片 image_03_01",
           "page_index": 9,
           "page_number": 10,
           "bbox": [
-            0.0,
-            0.0,
-            595.32,
-            841.92
-          ]
+            120.38,
+            519.08,
+            452.35,
+            664.28
+          ],
+          "placement": "question",
+          "markdown_language": "python",
+          "markdown_title": "Python 程式碼",
+          "markdown": "import numpy as np\n\nv1 = np.array([1, 2, 3])\nv2 = np.array([4, 5, 6])\nA = np.array([[1, 2], [3, 4]])"
         }
       ]
     },
@@ -736,7 +748,7 @@
         "A": "A_and_B.sum() / (A.sum() * B.sum())",
         "B": "A_and_B.sum() / (A.sum() + B.sum())",
         "C": "A_and_B.sum() / A.sum()",
-        "D": "A_and_B.sum() / B.sum() VGG16是由牛津大學 Visual Geometry Group(VGG)在2014年提出的經典 卷積神經網路（Convolutional Neural Network, CNN）架構。該模型以簡 潔且規則的層堆疊設計聞名，廣泛應用於影像分類、特徵提取及遷移學習 等任務。附圖程式碼載入了預訓練的 VGG16 模型，並輸出其完整層級結構 及參數統計摘要（如附表）。請根據此資訊回答 42~45題。 ---------------------------------------------------------------- Layer (type) Output Shape Param # ================================================================ Conv2d-1 [-1, 64, 150, 150] 1,792 ReLU-2 [-1, 64, 150, 150] 0 Conv2d-3 [-1, 64, 150, 150] 36,928 ReLU-4 [-1, 64, 150, 150] 0 MaxPool2d-5 [-1, 64, 75, 75] 0 Conv2d-6 [-1, 128, 75, 75] 73,856 ReLU-7 [-1, 128, 75, 75] 0 Conv2d-8 [-1, 128, 75, 75] 147,584 ReLU-9 [-1, 128, 75, 75] 0 MaxPool2d-10 [-1, 128, 37, 37] 0 Conv2d-11 [-1, 256, 37, 37] 295,168 ReLU-12 [-1, 256, 37, 37] 0 Conv2d-13 [-1, 256, 37, 37] 590,080 ReLU-14 [-1, 256, 37, 37] 0 Conv2d-15 [-1, 256, 37, 37] 590,080 ReLU-16 [-1, 256, 37, 37] 0 MaxPool2d-17 [-1, 256, 18, 18] 0 Conv2d-18 [-1, 512, 18, 18] 1,180,160 ReLU-19 [-1, 512, 18, 18] 0 Conv2d-20 [-1, 512, 18, 18] 2,359,808 ReLU-21 [-1, 512, 18, 18] 0 Conv2d-22 [-1, 512, 18, 18] 2,359,808 ReLU-23 [-1, 512, 18, 18] 0 MaxPool2d-24 [-1, 512, 9, 9] 0 Conv2d-25 [-1, 512, 9, 9] 2,359,808 ReLU-26 [-1, 512, 9, 9] 0 Conv2d-27 [-1, 512, 9, 9] 2,359,808 ReLU-28 [-1, 512, 9, 9] 0 Conv2d-29 [-1, 512, 9, 9] 2,359,808 ReLU-30 [-1, 512, 9, 9] 0 MaxPool2d-31 [-1, 512, 4, 4] 0 AdaptiveAvgPool2d-32 [-1, 512, 7, 7] 0 Linear-33 [-1, 4096] 102,764,544 ReLU-34 [-1, 4096] 0 Dropout-35 [-1, 4096] 0 Linear-36 [-1, 4096] 16,781,312 ReLU-37 [-1, 4096] 0 Dropout-38 [-1, 4096] 0 Linear-39 [-1, 1000] 4,097,000 ================================================================ Total params: 138,357,544 Trainable params: 138,357,544 Non-trainable params: 0 ---------------------------------------------------------------- Input size (MB): 0.26 Forward/backward pass size (MB): 96.93 Params size (MB): 527.79 Estimated Total Size (MB): 624.98 ----------------------------------------------------------------"
+        "D": "A_and_B.sum() / B.sum()"
       },
       "answer": "D",
       "explanation": "正確答案為(D)。",
@@ -747,17 +759,21 @@
       },
       "images": [
         {
-          "type": "page",
-          "src": "/pdf-assets/中級/exam3/page_009/page.png",
-          "alt": "exam3 第 10 頁原始截圖",
-          "page_index": 9,
-          "page_number": 10,
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_010/image_01_01.png",
+          "alt": "exam3 第 11 頁圖片 image_01_01",
+          "page_index": 10,
+          "page_number": 11,
           "bbox": [
-            0.0,
-            0.0,
-            595.32,
-            841.92
-          ]
+            120.38,
+            113.05,
+            471.98,
+            293.2
+          ],
+          "placement": "question",
+          "markdown_language": "python",
+          "markdown_title": "Python 程式碼",
+          "markdown": "import numpy as np\n\nnp.random.seed(123)\nn = 100000\ndice_rolls = np.random.randint(1, 7, size=n)\n\nA = (dice_rolls % 2 == 0)\nB = (dice_rolls > 3)\nA_and_B = A & B"
         }
       ]
     },
@@ -776,7 +792,34 @@
       "source_ref": {
         "page_index": 12,
         "page_number": 13
-      }
+      },
+      "context": "VGG16 是由牛津大學 Visual Geometry Group(VGG)在2014 年提出的經典 卷積神經網路（Convolutional Neural Network, CNN）架構。該模型以簡 潔且規則的層堆疊設計聞名，廣泛應用於影像分類、特徵提取及遷移學習 等任務。附圖程式碼載入了預訓練的VGG16 模型，並輸出其完整層級結構 及參數統計摘要（如附表）。請根據此資訊回答42~45 題。",
+      "context_blocks": [
+        {
+          "title": "VGG16 模型摘要",
+          "language": "text",
+          "markdown": "----------------------------------------------------------------\nLayer (type) Output Shape Param #\n================================================================\nConv2d-1 [-1, 64, 150, 150] 1,792\nReLU-2 [-1, 64, 150, 150] 0\nConv2d-3 [-1, 64, 150, 150] 36,928\nReLU-4 [-1, 64, 150, 150] 0\nMaxPool2d-5 [-1, 64, 75, 75] 0\nConv2d-6 [-1, 128, 75, 75] 73,856\nReLU-7 [-1, 128, 75, 75] 0\nConv2d-8 [-1, 128, 75, 75] 147,584\nReLU-9 [-1, 128, 75, 75] 0\nMaxPool2d-10 [-1, 128, 37, 37] 0\nConv2d-11 [-1, 256, 37, 37] 295,168\nReLU-12 [-1, 256, 37, 37] 0\nConv2d-13 [-1, 256, 37, 37] 590,080\nReLU-14 [-1, 256, 37, 37] 0\nConv2d-15 [-1, 256, 37, 37] 590,080\nReLU-16 [-1, 256, 37, 37] 0\nMaxPool2d-17 [-1, 256, 18, 18] 0\nConv2d-18 [-1, 512, 18, 18] 1,180,160\nReLU-19 [-1, 512, 18, 18] 0\nConv2d-20 [-1, 512, 18, 18] 2,359,808\nReLU-21 [-1, 512, 18, 18] 0\nConv2d-22 [-1, 512, 18, 18] 2,359,808\nReLU-23 [-1, 512, 18, 18] 0\nMaxPool2d-24 [-1, 512, 9, 9] 0\nConv2d-25 [-1, 512, 9, 9] 2,359,808\nReLU-26 [-1, 512, 9, 9] 0\nConv2d-27 [-1, 512, 9, 9] 2,359,808\nReLU-28 [-1, 512, 9, 9] 0\nConv2d-29 [-1, 512, 9, 9] 2,359,808\nReLU-30 [-1, 512, 9, 9] 0\nMaxPool2d-31 [-1, 512, 4, 4] 0\nAdaptiveAvgPool2d-32 [-1, 512, 7, 7] 0\nLinear-33 [-1, 4096] 102,764,544\nReLU-34 [-1, 4096] 0\nDropout-35 [-1, 4096] 0\nLinear-36 [-1, 4096] 16,781,312\nReLU-37 [-1, 4096] 0\nDropout-38 [-1, 4096] 0\nLinear-39 [-1, 1000] 4,097,000\n================================================================\nTotal params: 138,357,544\nTrainable params: 138,357,544\nNon-trainable params: 0\n----------------------------------------------------------------\nInput size (MB): 0.26\nForward/backward pass size (MB): 96.93\nParams size (MB): 527.79\nEstimated Total Size (MB): 624.98\n----------------------------------------------------------------"
+        }
+      ],
+      "images": [
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_010/vgg16_code_p010.png",
+          "alt": "exam3 第 11 頁 VGG16 載入程式碼",
+          "page_index": 10,
+          "page_number": 11,
+          "bbox": [
+            120,
+            541.33,
+            413.33,
+            581.33
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "VGG16 載入程式碼",
+          "markdown": "from torchsummary import summary\nfrom torchvision import models\nmodel = models.vgg16(weights='IMAGENET1K_V1')\nsummary(model, (3, 150, 150))"
+        }
+      ]
     },
     {
       "id": "exam3_q43",
@@ -793,7 +836,34 @@
       "source_ref": {
         "page_index": 12,
         "page_number": 13
-      }
+      },
+      "context": "VGG16 是由牛津大學 Visual Geometry Group(VGG)在2014 年提出的經典 卷積神經網路（Convolutional Neural Network, CNN）架構。該模型以簡 潔且規則的層堆疊設計聞名，廣泛應用於影像分類、特徵提取及遷移學習 等任務。附圖程式碼載入了預訓練的VGG16 模型，並輸出其完整層級結構 及參數統計摘要（如附表）。請根據此資訊回答42~45 題。",
+      "context_blocks": [
+        {
+          "title": "VGG16 模型摘要",
+          "language": "text",
+          "markdown": "----------------------------------------------------------------\nLayer (type) Output Shape Param #\n================================================================\nConv2d-1 [-1, 64, 150, 150] 1,792\nReLU-2 [-1, 64, 150, 150] 0\nConv2d-3 [-1, 64, 150, 150] 36,928\nReLU-4 [-1, 64, 150, 150] 0\nMaxPool2d-5 [-1, 64, 75, 75] 0\nConv2d-6 [-1, 128, 75, 75] 73,856\nReLU-7 [-1, 128, 75, 75] 0\nConv2d-8 [-1, 128, 75, 75] 147,584\nReLU-9 [-1, 128, 75, 75] 0\nMaxPool2d-10 [-1, 128, 37, 37] 0\nConv2d-11 [-1, 256, 37, 37] 295,168\nReLU-12 [-1, 256, 37, 37] 0\nConv2d-13 [-1, 256, 37, 37] 590,080\nReLU-14 [-1, 256, 37, 37] 0\nConv2d-15 [-1, 256, 37, 37] 590,080\nReLU-16 [-1, 256, 37, 37] 0\nMaxPool2d-17 [-1, 256, 18, 18] 0\nConv2d-18 [-1, 512, 18, 18] 1,180,160\nReLU-19 [-1, 512, 18, 18] 0\nConv2d-20 [-1, 512, 18, 18] 2,359,808\nReLU-21 [-1, 512, 18, 18] 0\nConv2d-22 [-1, 512, 18, 18] 2,359,808\nReLU-23 [-1, 512, 18, 18] 0\nMaxPool2d-24 [-1, 512, 9, 9] 0\nConv2d-25 [-1, 512, 9, 9] 2,359,808\nReLU-26 [-1, 512, 9, 9] 0\nConv2d-27 [-1, 512, 9, 9] 2,359,808\nReLU-28 [-1, 512, 9, 9] 0\nConv2d-29 [-1, 512, 9, 9] 2,359,808\nReLU-30 [-1, 512, 9, 9] 0\nMaxPool2d-31 [-1, 512, 4, 4] 0\nAdaptiveAvgPool2d-32 [-1, 512, 7, 7] 0\nLinear-33 [-1, 4096] 102,764,544\nReLU-34 [-1, 4096] 0\nDropout-35 [-1, 4096] 0\nLinear-36 [-1, 4096] 16,781,312\nReLU-37 [-1, 4096] 0\nDropout-38 [-1, 4096] 0\nLinear-39 [-1, 1000] 4,097,000\n================================================================\nTotal params: 138,357,544\nTrainable params: 138,357,544\nNon-trainable params: 0\n----------------------------------------------------------------\nInput size (MB): 0.26\nForward/backward pass size (MB): 96.93\nParams size (MB): 527.79\nEstimated Total Size (MB): 624.98\n----------------------------------------------------------------"
+        }
+      ],
+      "images": [
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_010/vgg16_code_p010.png",
+          "alt": "exam3 第 11 頁 VGG16 載入程式碼",
+          "page_index": 10,
+          "page_number": 11,
+          "bbox": [
+            120,
+            541.33,
+            413.33,
+            581.33
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "VGG16 載入程式碼",
+          "markdown": "from torchsummary import summary\nfrom torchvision import models\nmodel = models.vgg16(weights='IMAGENET1K_V1')\nsummary(model, (3, 150, 150))"
+        }
+      ]
     },
     {
       "id": "exam3_q44",
@@ -810,16 +880,43 @@
       "source_ref": {
         "page_index": 12,
         "page_number": 13
-      }
+      },
+      "context": "VGG16 是由牛津大學 Visual Geometry Group(VGG)在2014 年提出的經典 卷積神經網路（Convolutional Neural Network, CNN）架構。該模型以簡 潔且規則的層堆疊設計聞名，廣泛應用於影像分類、特徵提取及遷移學習 等任務。附圖程式碼載入了預訓練的VGG16 模型，並輸出其完整層級結構 及參數統計摘要（如附表）。請根據此資訊回答42~45 題。",
+      "context_blocks": [
+        {
+          "title": "VGG16 模型摘要",
+          "language": "text",
+          "markdown": "----------------------------------------------------------------\nLayer (type) Output Shape Param #\n================================================================\nConv2d-1 [-1, 64, 150, 150] 1,792\nReLU-2 [-1, 64, 150, 150] 0\nConv2d-3 [-1, 64, 150, 150] 36,928\nReLU-4 [-1, 64, 150, 150] 0\nMaxPool2d-5 [-1, 64, 75, 75] 0\nConv2d-6 [-1, 128, 75, 75] 73,856\nReLU-7 [-1, 128, 75, 75] 0\nConv2d-8 [-1, 128, 75, 75] 147,584\nReLU-9 [-1, 128, 75, 75] 0\nMaxPool2d-10 [-1, 128, 37, 37] 0\nConv2d-11 [-1, 256, 37, 37] 295,168\nReLU-12 [-1, 256, 37, 37] 0\nConv2d-13 [-1, 256, 37, 37] 590,080\nReLU-14 [-1, 256, 37, 37] 0\nConv2d-15 [-1, 256, 37, 37] 590,080\nReLU-16 [-1, 256, 37, 37] 0\nMaxPool2d-17 [-1, 256, 18, 18] 0\nConv2d-18 [-1, 512, 18, 18] 1,180,160\nReLU-19 [-1, 512, 18, 18] 0\nConv2d-20 [-1, 512, 18, 18] 2,359,808\nReLU-21 [-1, 512, 18, 18] 0\nConv2d-22 [-1, 512, 18, 18] 2,359,808\nReLU-23 [-1, 512, 18, 18] 0\nMaxPool2d-24 [-1, 512, 9, 9] 0\nConv2d-25 [-1, 512, 9, 9] 2,359,808\nReLU-26 [-1, 512, 9, 9] 0\nConv2d-27 [-1, 512, 9, 9] 2,359,808\nReLU-28 [-1, 512, 9, 9] 0\nConv2d-29 [-1, 512, 9, 9] 2,359,808\nReLU-30 [-1, 512, 9, 9] 0\nMaxPool2d-31 [-1, 512, 4, 4] 0\nAdaptiveAvgPool2d-32 [-1, 512, 7, 7] 0\nLinear-33 [-1, 4096] 102,764,544\nReLU-34 [-1, 4096] 0\nDropout-35 [-1, 4096] 0\nLinear-36 [-1, 4096] 16,781,312\nReLU-37 [-1, 4096] 0\nDropout-38 [-1, 4096] 0\nLinear-39 [-1, 1000] 4,097,000\n================================================================\nTotal params: 138,357,544\nTrainable params: 138,357,544\nNon-trainable params: 0\n----------------------------------------------------------------\nInput size (MB): 0.26\nForward/backward pass size (MB): 96.93\nParams size (MB): 527.79\nEstimated Total Size (MB): 624.98\n----------------------------------------------------------------"
+        }
+      ],
+      "images": [
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_010/vgg16_code_p010.png",
+          "alt": "exam3 第 11 頁 VGG16 載入程式碼",
+          "page_index": 10,
+          "page_number": 11,
+          "bbox": [
+            120,
+            541.33,
+            413.33,
+            581.33
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "VGG16 載入程式碼",
+          "markdown": "from torchsummary import summary\nfrom torchvision import models\nmodel = models.vgg16(weights='IMAGENET1K_V1')\nsummary(model, (3, 150, 150))"
+        }
+      ]
     },
     {
       "id": "exam3_q45",
       "question": "在實務應用中，我們常使用遷移學習(transfer learning)技巧，即載入預 訓練模型（如VGG16），凍結部分層的參數，只針對特定任務重新訓練最後 幾層，這種做法可節省訓練時間並提升模型效能。假設你要對 VGG16 進行 遷移學習(transfer learning)，希望凍結卷積層的參數，只訓練最後全連 接層(classifier)。下列哪段程式碼寫法正確？",
       "options": {
-        "A": "",
-        "B": "",
-        "C": "",
-        "D": "在郵遞區號自動辨識的研究中，研究人員收集了一份手寫數字影像資料 集，每一張影像為 8×8的灰階圖片，共包含多個手寫數字樣本。這份資料 集來自UCI Machine Learning Repository，常被用於數字辨識與機器學 習方法的教學與實驗。 在過程中，研究人員發現資料中可能存在雜訊，例如筆跡模糊或影像中附 加的干擾點，這會影響後續分類模型的效能。因此，他們希望透過資料降 噪的方法，提升後續分類的準確度。同時，他們也想透過 KNN (K-Nearest Neighbors) 搭配交叉驗證來評估模型表現，確保模型在不同資料切割下都 能有穩定的預測能力。 部分樣本經繪製後的外觀如下圖所示： 根據這份資料來回答 46~47 題。"
+        "A": "見下方選項 A 程式碼",
+        "B": "見下方選項 B 程式碼",
+        "C": "見下方選項 C 程式碼",
+        "D": "見下方選項 D 程式碼"
       },
       "answer": "B",
       "explanation": "正確答案為(B)。",
@@ -828,19 +925,103 @@
         "page_index": 12,
         "page_number": 13
       },
+      "context": "VGG16 是由牛津大學 Visual Geometry Group(VGG)在2014 年提出的經典 卷積神經網路（Convolutional Neural Network, CNN）架構。該模型以簡 潔且規則的層堆疊設計聞名，廣泛應用於影像分類、特徵提取及遷移學習 等任務。附圖程式碼載入了預訓練的VGG16 模型，並輸出其完整層級結構 及參數統計摘要（如附表）。請根據此資訊回答42~45 題。",
       "images": [
         {
-          "type": "page",
-          "src": "/pdf-assets/中級/exam3/page_013/page.png",
-          "alt": "exam3 第 14 頁原始截圖",
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_010/vgg16_code_p010.png",
+          "alt": "exam3 第 11 頁 VGG16 載入程式碼",
+          "page_index": 10,
+          "page_number": 11,
+          "bbox": [
+            120,
+            541.33,
+            413.33,
+            581.33
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "VGG16 載入程式碼",
+          "markdown": "from torchsummary import summary\nfrom torchvision import models\nmodel = models.vgg16(weights='IMAGENET1K_V1')\nsummary(model, (3, 150, 150))"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_013/image_01_01.png",
+          "alt": "exam3 第 14 頁圖片 image_01_01",
           "page_index": 13,
           "page_number": 14,
           "bbox": [
-            0.0,
-            0.0,
-            595.32,
-            841.92
-          ]
+            126.38,
+            150.31,
+            451.01,
+            218.16
+          ],
+          "placement": "option",
+          "option": "A",
+          "markdown_language": "python",
+          "markdown_title": "選項 A 程式碼",
+          "markdown": "import torch\nimport torchvision.models as models\n\nmodel = models.vgg16(pretrained=True)\nfor param in model.parameters():\n    param.requires_grad = False\nmodel.classifier[6] = torch.nn.Linear(4096, 10)"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_013/image_02_01.png",
+          "alt": "exam3 第 14 頁圖片 image_02_01",
+          "page_index": 13,
+          "page_number": 14,
+          "bbox": [
+            120.38,
+            241.73,
+            447.03,
+            310.08
+          ],
+          "placement": "option",
+          "option": "B",
+          "markdown_language": "python",
+          "markdown_title": "選項 B 程式碼",
+          "markdown": "import torch\nimport torchvision.models as models\n\nmodel = models.vgg16(pretrained=True)\nfor param in model.features.parameters():\n    param.requires_grad = False\nmodel.classifier[6] = torch.nn.Linear(4096, 10)"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_013/image_03_01.png",
+          "alt": "exam3 第 14 頁圖片 image_03_01",
+          "page_index": 13,
+          "page_number": 14,
+          "bbox": [
+            120.38,
+            334.21,
+            446.91,
+            402.26
+          ],
+          "placement": "option",
+          "option": "C",
+          "markdown_language": "python",
+          "markdown_title": "選項 C 程式碼",
+          "markdown": "import torch\nimport torchvision.models as models\n\nmodel = models.vgg16(pretrained=True)\nfor param in model.classifier.parameters():\n    param.requires_grad = False\nmodel.classifier[6] = torch.nn.Linear(4096, 10)"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_013/image_04_01.png",
+          "alt": "exam3 第 14 頁圖片 image_04_01",
+          "page_index": 13,
+          "page_number": 14,
+          "bbox": [
+            120.38,
+            432.26,
+            447.53,
+            492.4
+          ],
+          "placement": "option",
+          "option": "D",
+          "markdown_language": "python",
+          "markdown_title": "選項 D 程式碼",
+          "markdown": "import torch\nimport torchvision.models as models\n\nmodel = models.vgg16(pretrained=True)\nmodel.requires_grad = False\nmodel.classifier[6] = torch.nn.Linear(4096, 10)"
+        }
+      ],
+      "context_blocks": [
+        {
+          "title": "VGG16 模型摘要",
+          "language": "text",
+          "markdown": "----------------------------------------------------------------\nLayer (type) Output Shape Param #\n================================================================\nConv2d-1 [-1, 64, 150, 150] 1,792\nReLU-2 [-1, 64, 150, 150] 0\nConv2d-3 [-1, 64, 150, 150] 36,928\nReLU-4 [-1, 64, 150, 150] 0\nMaxPool2d-5 [-1, 64, 75, 75] 0\nConv2d-6 [-1, 128, 75, 75] 73,856\nReLU-7 [-1, 128, 75, 75] 0\nConv2d-8 [-1, 128, 75, 75] 147,584\nReLU-9 [-1, 128, 75, 75] 0\nMaxPool2d-10 [-1, 128, 37, 37] 0\nConv2d-11 [-1, 256, 37, 37] 295,168\nReLU-12 [-1, 256, 37, 37] 0\nConv2d-13 [-1, 256, 37, 37] 590,080\nReLU-14 [-1, 256, 37, 37] 0\nConv2d-15 [-1, 256, 37, 37] 590,080\nReLU-16 [-1, 256, 37, 37] 0\nMaxPool2d-17 [-1, 256, 18, 18] 0\nConv2d-18 [-1, 512, 18, 18] 1,180,160\nReLU-19 [-1, 512, 18, 18] 0\nConv2d-20 [-1, 512, 18, 18] 2,359,808\nReLU-21 [-1, 512, 18, 18] 0\nConv2d-22 [-1, 512, 18, 18] 2,359,808\nReLU-23 [-1, 512, 18, 18] 0\nMaxPool2d-24 [-1, 512, 9, 9] 0\nConv2d-25 [-1, 512, 9, 9] 2,359,808\nReLU-26 [-1, 512, 9, 9] 0\nConv2d-27 [-1, 512, 9, 9] 2,359,808\nReLU-28 [-1, 512, 9, 9] 0\nConv2d-29 [-1, 512, 9, 9] 2,359,808\nReLU-30 [-1, 512, 9, 9] 0\nMaxPool2d-31 [-1, 512, 4, 4] 0\nAdaptiveAvgPool2d-32 [-1, 512, 7, 7] 0\nLinear-33 [-1, 4096] 102,764,544\nReLU-34 [-1, 4096] 0\nDropout-35 [-1, 4096] 0\nLinear-36 [-1, 4096] 16,781,312\nReLU-37 [-1, 4096] 0\nDropout-38 [-1, 4096] 0\nLinear-39 [-1, 1000] 4,097,000\n================================================================\nTotal params: 138,357,544\nTrainable params: 138,357,544\nNon-trainable params: 0\n----------------------------------------------------------------\nInput size (MB): 0.26\nForward/backward pass size (MB): 96.93\nParams size (MB): 527.79\nEstimated Total Size (MB): 624.98\n----------------------------------------------------------------"
         }
       ]
     },
@@ -860,19 +1041,35 @@
         "page_index": 14,
         "page_number": 15
       },
+      "context": "在郵遞區號自動辨識的研究中，研究人員收集了一份手寫數字影像資料 集，每一張影像為8×8 的灰階圖片，共包含多個手寫數字樣本。這份資料 集來自UCI Machine Learning Repository，常被用於數字辨識與機器學 習方法的教學與實驗。 在過程中，研究人員發現資料中可能存在雜訊，例如筆跡模糊或影像中附 加的干擾點，這會影響後續分類模型的效能。因此，他們希望透過資料降 噪的方法，提升後續分類的準確度。同時，他們也想透過 KNN (K-Nearest Neighbors) 搭配交叉驗證來評估模型表現，確保模型在不同資料切割下都 能有穩定的預測能力。 部分樣本經繪製後的外觀如下圖所示： 根據這份資料來回答46~47 題。",
       "images": [
         {
-          "type": "page",
-          "src": "/pdf-assets/中級/exam3/page_014/page.png",
-          "alt": "exam3 第 15 頁原始截圖",
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_014/image_03_01.png",
+          "alt": "exam3 第 15 頁圖片 image_03_01",
           "page_index": 14,
           "page_number": 15,
           "bbox": [
-            0.0,
-            0.0,
-            595.32,
-            841.92
-          ]
+            120.38,
+            281.03,
+            445.28,
+            346.82
+          ],
+          "placement": "question"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_014/image_01_01.png",
+          "alt": "exam3 第 15 頁第 46~47 題共用附圖",
+          "page_index": 14,
+          "page_number": 15,
+          "bbox": [
+            120.38,
+            116.43,
+            424.67,
+            178.93
+          ],
+          "placement": "context"
         }
       ]
     },
@@ -883,7 +1080,7 @@
         "A": "程式碼A、程式碼 B、程式碼 C、程式碼 D",
         "B": "程式碼A、程式碼 C",
         "C": "程式碼A、程式碼 B",
-        "D": "程式碼C、程式碼 D 使用鐵達尼號(Titanic)資料集進行多層感知機(Multilayer Perceptron, MLP)分類預測分析，其中 survived 為反應變數(1表示存活，0表示死 亡)。附圖程式碼展示資料載入與處理，請根據此資料回答第48~50 題。 下圖顯示資料集的前 5筆資料。"
+        "D": "程式碼C、程式碼 D"
       },
       "answer": "B",
       "explanation": "正確答案為(B)。",
@@ -892,19 +1089,89 @@
         "page_index": 14,
         "page_number": 15
       },
+      "context": "在郵遞區號自動辨識的研究中，研究人員收集了一份手寫數字影像資料 集，每一張影像為8×8 的灰階圖片，共包含多個手寫數字樣本。這份資料 集來自UCI Machine Learning Repository，常被用於數字辨識與機器學 習方法的教學與實驗。 在過程中，研究人員發現資料中可能存在雜訊，例如筆跡模糊或影像中附 加的干擾點，這會影響後續分類模型的效能。因此，他們希望透過資料降 噪的方法，提升後續分類的準確度。同時，他們也想透過 KNN (K-Nearest Neighbors) 搭配交叉驗證來評估模型表現，確保模型在不同資料切割下都 能有穩定的預測能力。 部分樣本經繪製後的外觀如下圖所示： 根據這份資料來回答46~47 題。",
       "images": [
         {
-          "type": "page",
-          "src": "/pdf-assets/中級/exam3/page_014/page.png",
-          "alt": "exam3 第 15 頁原始截圖",
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_014/image_05_01.png",
+          "alt": "exam3 第 15 頁圖片 image_05_01",
           "page_index": 14,
           "page_number": 15,
           "bbox": [
-            0.0,
-            0.0,
-            595.32,
-            841.92
-          ]
+            120.38,
+            683.47,
+            501.28,
+            783.72
+          ],
+          "placement": "question",
+          "markdown_language": "python",
+          "markdown_title": "程式碼 A",
+          "markdown": "# 程式碼 A:\nfrom sklearn.model_selection import StratifiedKFold, cross_val_score\nfrom sklearn.neighbors import KNeighborsClassifier\n\nX, y = digits.data, digits.target\nmodel = KNeighborsClassifier(n_neighbors=3)\ncv = StratifiedKFold(n_splits=5, shuffle=True)\nscores = cross_val_score(model, X, y, cv=cv, scoring=\"accuracy\")\nprint(scores.mean())"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_015/image_01_01.png",
+          "alt": "exam3 第 16 頁圖片 image_01_01",
+          "page_index": 15,
+          "page_number": 16,
+          "bbox": [
+            120.38,
+            118.73,
+            483.93,
+            213.93
+          ],
+          "placement": "question",
+          "markdown_language": "python",
+          "markdown_title": "程式碼 B",
+          "markdown": "# 程式碼 B:\nfrom sklearn.model_selection import StratifiedKFold, cross_val_score\nfrom sklearn.neighbors import KNeighborsClassifier\n\nX, y = digits.data, digits.target\nmodel = KNeighborsClassifier(n_neighbors=3)\ncv = StratifiedKFold(n_splits=5, shuffle=True)\nscores = cross_val_score(model, X, y, cv=cv, scoring=\"f1\")\nprint(scores.mean())"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_015/image_02_01.png",
+          "alt": "exam3 第 16 頁圖片 image_02_01",
+          "page_index": 15,
+          "page_number": 16,
+          "bbox": [
+            120.38,
+            224.7,
+            487.65,
+            310.35
+          ],
+          "placement": "question",
+          "markdown_language": "python",
+          "markdown_title": "程式碼 C",
+          "markdown": "# 程式碼 C:\nfrom sklearn.model_selection import StratifiedKFold, cross_val_score\nfrom sklearn.neighbors import KNeighborsClassifier\n\nX, y = digits.data, digits.target\nmodel = KNeighborsClassifier(n_neighbors=3)\nscores = cross_val_score(model, X, y, cv=5, scoring=\"accuracy\")\nprint(scores.mean())"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_015/image_03_01.png",
+          "alt": "exam3 第 16 頁圖片 image_03_01",
+          "page_index": 15,
+          "page_number": 16,
+          "bbox": [
+            120.38,
+            316.7,
+            484.27,
+            402.35
+          ],
+          "placement": "question",
+          "markdown_language": "python",
+          "markdown_title": "程式碼 D",
+          "markdown": "# 程式碼 D:\nfrom sklearn.model_selection import StratifiedKFold, cross_val_score\nfrom sklearn.neighbors import KNeighborsClassifier\n\nX, y = digits.data, digits.target\nmodel = KNeighborsClassifier(n_neighbors=3)\nscores = cross_val_score(model, X, y, cv=5, scoring=\"f1\")\nprint(scores.mean())"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_014/image_01_01.png",
+          "alt": "exam3 第 15 頁第 46~47 題共用附圖",
+          "page_index": 14,
+          "page_number": 15,
+          "bbox": [
+            120.38,
+            116.43,
+            424.67,
+            178.93
+          ],
+          "placement": "context"
         }
       ]
     },
@@ -924,19 +1191,92 @@
         "page_index": 16,
         "page_number": 17
       },
+      "context": "使用鐵達尼號(Titanic)資料集進行多層感知機(Multilayer Perceptron, MLP)分類預測分析，其中survived 為反應變數(1 表示存活，0 表示死 亡)。附圖程式碼展示資料載入與處理，請根據此資料回答第48~50 題。 下圖顯示資料集的前5 筆資料。",
       "images": [
         {
-          "type": "page",
-          "src": "/pdf-assets/中級/exam3/page_016/page.png",
-          "alt": "exam3 第 17 頁原始截圖",
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_016/image_04_01.png",
+          "alt": "exam3 第 17 頁圖片 image_04_01",
           "page_index": 16,
           "page_number": 17,
           "bbox": [
-            0.0,
-            0.0,
-            595.32,
-            841.92
-          ]
+            120.38,
+            506.8,
+            398.06,
+            602.85
+          ],
+          "placement": "question",
+          "markdown_language": "python",
+          "markdown_title": "Python 程式碼",
+          "markdown": "X_train -= X_train.mean(axis=0)\nX_train /= X_train.std(axis=0)\nX_test -= X_test.mean(axis=0)\nX_test /= X_test.std(axis=0)"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_015/image_04_01.png",
+          "alt": "exam3 第 16 頁第 48~50 題共用附圖",
+          "page_index": 15,
+          "page_number": 16,
+          "bbox": [
+            120.38,
+            593.83,
+            429.59,
+            743.48
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "Python 程式碼",
+          "markdown": "import numpy as np\nimport pandas as pd\nfrom keras import Sequential\nfrom keras.layers import Input, Dense\n\nnp.random.seed(123)\ndf_train = pd.read_csv(\"titanic_train.csv\")\ndf_test = pd.read_csv(\"titanic_test.csv\")"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_016/image_01_01.png",
+          "alt": "exam3 第 16 頁第 48~50 題共用附圖",
+          "page_index": 16,
+          "page_number": 17,
+          "bbox": [
+            120.38,
+            111.58,
+            479.98,
+            220.62
+          ],
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "df_train.head()",
+          "markdown": "df_train.head()\n\n   pclass  sex   age  sibsp  parch      fare  embarked_C  embarked_Q  embarked_S  survived\n0       1    1  29.0      0      0  211.3375       False       False        True         1\n1       1    0  0.9167    1      2  151.5500       False       False        True         1\n2       1    1  2.0       1      2  151.5500       False       False        True         0\n3       1    0  30.0      1      0  151.5500        True       False       False         0\n4       1    0  48.0      0      0   26.5500       False       False        True         1"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_016/image_02_01.png",
+          "alt": "exam3 第 16 頁第 48~50 題共用附圖",
+          "page_index": 16,
+          "page_number": 17,
+          "bbox": [
+            120.38,
+            224.23,
+            473.53,
+            328.88
+          ],
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "df_test.head()",
+          "markdown": "df_test.head()\n\n   pclass  sex      age  sibsp  parch      fare  embarked_C  embarked_Q  embarked_S  survived\n0       1    1  25.0000      1      2  151.5500       False       False        True         0\n1       1    1  18.0000      1      0  227.5250        True       False       False         1\n2       1    0  29.881135    0      0   25.9250       False       False        True         0\n3       1    1  32.0000      0      0   76.2917        True       False       False         1\n4       1    1  47.0000      1      1   52.5542       False       False        True         1"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_016/image_03_01.png",
+          "alt": "exam3 第 16 頁第 48~50 題共用附圖",
+          "page_index": 16,
+          "page_number": 17,
+          "bbox": [
+            120.38,
+            340.28,
+            470.03,
+            470.62
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "Python 程式碼",
+          "markdown": "dataset_train = df_train.values.astype(\"float32\")\ndataset_test = df_test.values.astype(\"float32\")\n\nX_train = dataset_train[:, 0:9]\ny_train = dataset_train[:, 9]\nX_test = dataset_test[:, 0:9]\ny_test = dataset_test[:, 9]"
         }
       ]
     },
@@ -956,19 +1296,92 @@
         "page_index": 17,
         "page_number": 18
       },
+      "context": "使用鐵達尼號(Titanic)資料集進行多層感知機(Multilayer Perceptron, MLP)分類預測分析，其中survived 為反應變數(1 表示存活，0 表示死 亡)。附圖程式碼展示資料載入與處理，請根據此資料回答第48~50 題。 下圖顯示資料集的前5 筆資料。",
       "images": [
         {
-          "type": "page",
-          "src": "/pdf-assets/中級/exam3/page_017/page.png",
-          "alt": "exam3 第 18 頁原始截圖",
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_017/image_01_01.png",
+          "alt": "exam3 第 18 頁圖片 image_01_01",
           "page_index": 17,
           "page_number": 18,
           "bbox": [
-            0.0,
-            0.0,
-            595.32,
-            841.92
-          ]
+            120.38,
+            199.07,
+            481.93,
+            385.86
+          ],
+          "placement": "question",
+          "markdown_language": "text",
+          "markdown_title": "模型程式碼與摘要",
+          "markdown": "model = Sequential()\nmodel.add(Input(shape=(X_train.shape[1],)))\nmodel.add(Dense(10, activation=\"relu\"))\nmodel.add(Dense(10, activation=\"relu\"))\nmodel.add(Dense(1, activation=\"sigmoid\"))\nmodel.summary()\nmodel.compile(loss=\"binary_crossentropy\", optimizer=\"adam\", metrics=[\"accuracy\"])\n\nModel: \"sequential\"\n\nLayer (type)        Output Shape    Param #\ndense (Dense)       (None, 10)      空格1\ndense_1 (Dense)     (None, 10)      空格2\ndense_2 (Dense)     (None, 1)       11"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_015/image_04_01.png",
+          "alt": "exam3 第 16 頁第 48~50 題共用附圖",
+          "page_index": 15,
+          "page_number": 16,
+          "bbox": [
+            120.38,
+            593.83,
+            429.59,
+            743.48
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "Python 程式碼",
+          "markdown": "import numpy as np\nimport pandas as pd\nfrom keras import Sequential\nfrom keras.layers import Input, Dense\n\nnp.random.seed(123)\ndf_train = pd.read_csv(\"titanic_train.csv\")\ndf_test = pd.read_csv(\"titanic_test.csv\")"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_016/image_01_01.png",
+          "alt": "exam3 第 16 頁第 48~50 題共用附圖",
+          "page_index": 16,
+          "page_number": 17,
+          "bbox": [
+            120.38,
+            111.58,
+            479.98,
+            220.62
+          ],
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "df_train.head()",
+          "markdown": "df_train.head()\n\n   pclass  sex   age  sibsp  parch      fare  embarked_C  embarked_Q  embarked_S  survived\n0       1    1  29.0      0      0  211.3375       False       False        True         1\n1       1    0  0.9167    1      2  151.5500       False       False        True         1\n2       1    1  2.0       1      2  151.5500       False       False        True         0\n3       1    0  30.0      1      0  151.5500        True       False       False         0\n4       1    0  48.0      0      0   26.5500       False       False        True         1"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_016/image_02_01.png",
+          "alt": "exam3 第 16 頁第 48~50 題共用附圖",
+          "page_index": 16,
+          "page_number": 17,
+          "bbox": [
+            120.38,
+            224.23,
+            473.53,
+            328.88
+          ],
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "df_test.head()",
+          "markdown": "df_test.head()\n\n   pclass  sex      age  sibsp  parch      fare  embarked_C  embarked_Q  embarked_S  survived\n0       1    1  25.0000      1      2  151.5500       False       False        True         0\n1       1    1  18.0000      1      0  227.5250        True       False       False         1\n2       1    0  29.881135    0      0   25.9250       False       False        True         0\n3       1    1  32.0000      0      0   76.2917        True       False       False         1\n4       1    1  47.0000      1      1   52.5542       False       False        True         1"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_016/image_03_01.png",
+          "alt": "exam3 第 16 頁第 48~50 題共用附圖",
+          "page_index": 16,
+          "page_number": 17,
+          "bbox": [
+            120.38,
+            340.28,
+            470.03,
+            470.62
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "Python 程式碼",
+          "markdown": "dataset_train = df_train.values.astype(\"float32\")\ndataset_test = df_test.values.astype(\"float32\")\n\nX_train = dataset_train[:, 0:9]\ny_train = dataset_train[:, 9]\nX_test = dataset_test[:, 0:9]\ny_test = dataset_test[:, 9]"
         }
       ]
     },
@@ -988,19 +1401,106 @@
         "page_index": 17,
         "page_number": 18
       },
+      "context": "使用鐵達尼號(Titanic)資料集進行多層感知機(Multilayer Perceptron, MLP)分類預測分析，其中survived 為反應變數(1 表示存活，0 表示死 亡)。附圖程式碼展示資料載入與處理，請根據此資料回答第48~50 題。 下圖顯示資料集的前5 筆資料。",
       "images": [
         {
-          "type": "page",
-          "src": "/pdf-assets/中級/exam3/page_017/page.png",
-          "alt": "exam3 第 18 頁原始截圖",
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_017/image_04_01.png",
+          "alt": "exam3 第 18 頁圖片 image_04_01",
           "page_index": 17,
           "page_number": 18,
           "bbox": [
-            0.0,
-            0.0,
-            595.32,
-            841.92
-          ]
+            120.38,
+            551.43,
+            485.83,
+            721.78
+          ],
+          "placement": "question",
+          "markdown_language": "python",
+          "markdown_title": "Python 程式碼",
+          "markdown": "import matplotlib.pyplot as plt\n\nloss = history.history[\"loss\"]\nepochs = range(1, len(loss) + 1)\nval_loss = history.history[\"val_loss\"]\nplt.plot(epochs, loss, 空格1, label=\"Training Loss\")\nplt.plot(epochs, val_loss, 空格2, label=\"Validation Loss\")\nplt.title(\"Training and Validation Loss\")\nplt.xlabel(\"Epochs\")\nplt.ylabel(\"Loss\")\nplt.legend()\nplt.show()"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_018/image_01_01.png",
+          "alt": "exam3 第 19 頁圖片 image_01_01",
+          "page_index": 18,
+          "page_number": 19,
+          "bbox": [
+            120.38,
+            112.58,
+            378.78,
+            311.88
+          ],
+          "placement": "question"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_015/image_04_01.png",
+          "alt": "exam3 第 16 頁第 48~50 題共用附圖",
+          "page_index": 15,
+          "page_number": 16,
+          "bbox": [
+            120.38,
+            593.83,
+            429.59,
+            743.48
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "Python 程式碼",
+          "markdown": "import numpy as np\nimport pandas as pd\nfrom keras import Sequential\nfrom keras.layers import Input, Dense\n\nnp.random.seed(123)\ndf_train = pd.read_csv(\"titanic_train.csv\")\ndf_test = pd.read_csv(\"titanic_test.csv\")"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_016/image_01_01.png",
+          "alt": "exam3 第 16 頁第 48~50 題共用附圖",
+          "page_index": 16,
+          "page_number": 17,
+          "bbox": [
+            120.38,
+            111.58,
+            479.98,
+            220.62
+          ],
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "df_train.head()",
+          "markdown": "df_train.head()\n\n   pclass  sex   age  sibsp  parch      fare  embarked_C  embarked_Q  embarked_S  survived\n0       1    1  29.0      0      0  211.3375       False       False        True         1\n1       1    0  0.9167    1      2  151.5500       False       False        True         1\n2       1    1  2.0       1      2  151.5500       False       False        True         0\n3       1    0  30.0      1      0  151.5500        True       False       False         0\n4       1    0  48.0      0      0   26.5500       False       False        True         1"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_016/image_02_01.png",
+          "alt": "exam3 第 16 頁第 48~50 題共用附圖",
+          "page_index": 16,
+          "page_number": 17,
+          "bbox": [
+            120.38,
+            224.23,
+            473.53,
+            328.88
+          ],
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "df_test.head()",
+          "markdown": "df_test.head()\n\n   pclass  sex      age  sibsp  parch      fare  embarked_C  embarked_Q  embarked_S  survived\n0       1    1  25.0000      1      2  151.5500       False       False        True         0\n1       1    1  18.0000      1      0  227.5250        True       False       False         1\n2       1    0  29.881135    0      0   25.9250       False       False        True         0\n3       1    1  32.0000      0      0   76.2917        True       False       False         1\n4       1    1  47.0000      1      1   52.5542       False       False        True         1"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/exam3/page_016/image_03_01.png",
+          "alt": "exam3 第 16 頁第 48~50 題共用附圖",
+          "page_index": 16,
+          "page_number": 17,
+          "bbox": [
+            120.38,
+            340.28,
+            470.03,
+            470.62
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "Python 程式碼",
+          "markdown": "dataset_train = df_train.values.astype(\"float32\")\ndataset_test = df_test.values.astype(\"float32\")\n\nX_train = dataset_train[:, 0:9]\ny_train = dataset_train[:, 9]\nX_test = dataset_test[:, 0:9]\ny_test = dataset_test[:, 9]"
         }
       ]
     }

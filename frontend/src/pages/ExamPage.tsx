@@ -66,7 +66,7 @@ export default function ExamPage() {
 
   return (
     <div>
-      <div className="sticky top-0 z-10 bg-primary text-white rounded-xl mb-4 p-4 flex items-center justify-between gap-4 shadow-md">
+      <div className="bg-primary text-white rounded-xl mb-4 p-4 flex items-center justify-between gap-4 shadow-md">
         <div>
           <div className="text-[0.78rem] opacity-70">模擬考試</div>
           <div className="text-[0.88rem] font-semibold">{currentExamData.exam}</div>

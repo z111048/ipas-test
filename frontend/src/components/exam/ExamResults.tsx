@@ -1,10 +1,22 @@
 import { useExamStore } from '../../store/examStore'
+import type { QuestionImage } from '../../types'
 import ProgressBar from '../shared/ProgressBar'
 import StatBox from '../shared/StatBox'
 import { publicAsset } from '../../utils/assets'
+import CodeSnippet from './CodeSnippet'
 
 interface ExamResultsProps {
   onRetry: () => void
+}
+
+function imageAspectRatio(image: QuestionImage) {
+  const [x0, y0, x1, y1] = image.bbox ?? []
+  if (typeof x0 !== 'number' || typeof y0 !== 'number' || typeof x1 !== 'number' || typeof y1 !== 'number') {
+    return undefined
+  }
+  const width = Math.max(x1 - x0, 1)
+  const height = Math.max(y1 - y0, 1)
+  return `${width} / ${height}`
 }
 
 export default function ExamResults({ onRetry }: ExamResultsProps) {
@@ -21,6 +33,37 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
   const total = examData.questions.length
   const score = Math.round((correct / total) * 100)
   const pass = score >= examData.passing_score
+  const renderImage = (image: QuestionImage) => (
+    <div className="w-full overflow-hidden bg-white" style={{ aspectRatio: imageAspectRatio(image) }}>
+      <img
+        src={publicAsset(image.src)}
+        alt={image.alt}
+        loading="eager"
+        decoding="async"
+        className="block h-full w-full object-contain"
+      />
+    </div>
+  )
+  const renderImageAsset = (image: QuestionImage) => {
+    if (!image.markdown) return renderImage(image)
+
+    return (
+      <div>
+        <div className="border-b border-border bg-[#f8fafc]">
+          <div className="px-3 py-2 text-[0.75rem] font-semibold text-text-light">
+            {image.markdown_title ?? '程式碼'}
+          </div>
+          <CodeSnippet code={image.markdown} language={image.markdown_language} />
+        </div>
+        <details className="bg-white">
+          <summary className="cursor-pointer px-3 py-2 text-[0.75rem] text-text-light hover:text-primary">
+            查看原始截圖
+          </summary>
+          {renderImage(image)}
+        </details>
+      </div>
+    )
+  }
 
   return (
     <div>
@@ -55,6 +98,9 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
         const ua = userAnswers[i]
         const isCorrect = ua === q.answer
         const isSkipped = !ua
+        const contextImages = q.images?.filter((image) => image.placement === 'context') ?? []
+        const questionImages = q.images?.filter((image) => image.placement !== 'option' && image.placement !== 'context') ?? []
+        const optionImages = q.images?.filter((image) => image.placement === 'option') ?? []
         return (
           <div
             key={q.id}
@@ -78,20 +124,48 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
                 {isCorrect ? '✓ 正確' : isSkipped ? '— 未作答' : '✗ 錯誤'}
               </span>
             </div>
-            <div className="text-[0.92rem] mb-3 text-app-text">{q.question}</div>
-            {q.images && q.images.length > 0 && (
+            {q.context && (
+              <div className="mb-3 rounded-lg border border-[#d7e7f5] bg-[#f4f9fd] px-4 py-3 text-[0.88rem] leading-relaxed text-app-text">
+                {q.context}
+              </div>
+            )}
+            {contextImages.length > 0 && (
               <div className="grid grid-cols-1 gap-3 mb-3">
-                {q.images.map((image) => (
+                {contextImages.map((image) => (
                   <figure
                     key={`${q.id}-${image.src}`}
                     className="rounded-lg border border-border bg-white overflow-hidden"
                   >
-                    <img
-                      src={publicAsset(image.src)}
-                      alt={image.alt}
-                      loading="lazy"
-                      className="block w-full max-h-[520px] object-contain"
-                    />
+                    {renderImageAsset(image)}
+                    <figcaption className="px-3 py-2 text-[0.75rem] text-text-light border-t border-border">
+                      PDF 第 {image.page_number} 頁題組附圖
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            )}
+            {q.context_blocks?.map((block, blockIndex) => (
+              <div
+                key={`${q.id}-context-block-${blockIndex}`}
+                className="mb-3 overflow-hidden rounded-lg border border-border bg-white"
+              >
+                {block.title && (
+                  <div className="border-b border-border bg-[#f8fafc] px-3 py-2 text-[0.75rem] font-semibold text-text-light">
+                    {block.title}
+                  </div>
+                )}
+                <CodeSnippet code={block.markdown} language={block.language} />
+              </div>
+            ))}
+            <div className="text-[0.92rem] mb-3 text-app-text">{q.question}</div>
+            {questionImages.length > 0 && (
+              <div className="grid grid-cols-1 gap-3 mb-3">
+                {questionImages.map((image) => (
+                  <figure
+                    key={`${q.id}-${image.src}`}
+                    className="rounded-lg border border-border bg-white overflow-hidden"
+                  >
+                    {renderImageAsset(image)}
                     <figcaption className="px-3 py-2 text-[0.75rem] text-text-light border-t border-border">
                       PDF 第 {image.page_number} 頁{image.type === 'page' ? '原頁截圖' : '題目附圖'}
                     </figcaption>
@@ -103,10 +177,30 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
               {!isCorrect && !isSkipped && (
                 <div className="text-error">
                   您的答案：({ua}) {q.options[ua!]}
+                  {optionImages
+                    .filter((image) => image.option === ua)
+                    .map((image) => (
+                      <div
+                        key={`${q.id}-${ua}-${image.src}`}
+                        className="mt-2 rounded-md border border-border bg-white"
+                      >
+                        {renderImageAsset(image)}
+                      </div>
+                    ))}
                 </div>
               )}
               <div className="text-success">
                 正確答案：({q.answer}) {q.options[q.answer]}
+                {optionImages
+                  .filter((image) => image.option === q.answer)
+                  .map((image) => (
+                    <div
+                      key={`${q.id}-${q.answer}-${image.src}`}
+                      className="mt-2 rounded-md border border-border bg-white"
+                    >
+                      {renderImageAsset(image)}
+                    </div>
+                  ))}
               </div>
             </div>
             {q.explanation && (

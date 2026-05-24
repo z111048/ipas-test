@@ -134,7 +134,8 @@
             224.81,
             504.7,
             409.71
-          ]
+          ],
+          "placement": "question"
         }
       ]
     },
@@ -489,7 +490,11 @@
             296.01,
             495.47,
             519.41
-          ]
+          ],
+          "placement": "question",
+          "markdown_language": "python",
+          "markdown_title": "Notebook 程式碼與輸出",
+          "markdown": "from tensorflow.keras import datasets, utils\nimport pandas as pd\n\n(x_train, y_train), (x_test, y_test) = datasets.cifar10.load_data()\n\ntype(x_train)\n# numpy.ndarray\n\nprint(x_train.shape, y_train.shape, x_test.shape, y_test.shape)\n# (50000, 32, 32, 3) (50000, 1) (10000, 32, 32, 3) (10000, 1)\n\nprint(x_train.min())\n# 0\n\nprint(x_train.max())\n# 255"
         }
       ]
     },
@@ -742,7 +747,11 @@
             353.01,
             515.34,
             534.16
-          ]
+          ],
+          "placement": "question",
+          "markdown_language": "python",
+          "markdown_title": "程式碼片段",
+          "markdown": "# a.\nfrom sklearn.model_selection import train_test_split\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\n# b.\nfrom sklearn.linear_model import LogisticRegression\nmodel = LogisticRegression()\nmodel.fit(X_train, y_train)\n\n# c.\nimport pandas as pd\ndata = pd.read_csv(\"data.csv\")\nX = data[[\"Age\", \"Spending\"]]\ny = data[\"HighValue\"]\n\n# d.\ny_pred = model.predict(X_test)\nprint(\"Predictions:\", y_pred[:5])"
         }
       ]
     }

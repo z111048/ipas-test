@@ -21,7 +21,7 @@ export default function App() {
         <Overlay isOpen={sidebarOpen} onClick={() => setSidebarOpen(false)} />
         <div className="flex flex-1 overflow-hidden h-[calc(100vh-3.5rem)]">
           <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-          <main className="flex-1 overflow-y-auto p-4 md:p-6 min-w-0">
+          <main className="app-scroll-stable flex-1 overflow-y-scroll p-4 md:p-6 min-w-0">
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/subject/:subjectId" element={<SubjectOverviewPage />} />

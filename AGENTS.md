@@ -20,6 +20,7 @@ Data pipeline scripts support `--level` (default `初級`); paths resolve to `da
 - `scripts/build_pdf_outline.py`: **PDF outline builder** — analyzes structured page extraction and Vision headings to build reviewable hierarchical outlines under `data/{level}/outline/`. Supports `--level`, `--key`, `--all`.
 - `scripts/export_pdf_image_gallery.py`: exports cropped image/table assets from `page_extract/` to `frontend/public/pdf-assets/{level}/` with `gallery.json` for the frontend image viewer. Supports `--level`, `--force`.
 - `scripts/pdf_vision_extract.py`: **Guide extraction** — renders each PDF page to PNG and calls Gemini Vision API (`gemini-2.5-flash`). Results cached at `data/{level}/pages_cache/{key}/page_NNN.json`; auto-generates `page_index.json` (TOC) on completion. Requires `GEMINI_API_KEY`. Supports `--level`, `--subject`, `--all`, `--dry-run`, `--force`, `--page`.
+- `scripts/gemini_exam_vision_extract.py`: **Exam Vision OCR** — renders official exam/sample PDF pages from `EXAM_PDFS_BY_LEVEL` to PNG and calls Gemini Vision API with an exam-specific schema for questions, answers, shared contexts, and visual references. Results cached at `data/{level}/exam_pages_cache/{key}/page_NNN.json`. Requires `GEMINI_API_KEY`. Supports `--level`, `--key`, `--all`, `--page`, `--force`, `--dry-run`.
 - `scripts/parse_guides.py`: **Guide assembly** — assembles chapter JSON from vision cache (preferred) or falls back to regex extraction. Reads chapter definitions from `toc_manifest.json`. Supports `--level`, `--subject`.
 - `scripts/audit_chapters.py`: **LLM chapter audit** — reads `subject{N}_guide.json` and calls Claude Haiku to verify each chapter covers its expected subtopics. Outputs `subject{N}_audit_report.json`. Run after guide extraction. Requires `ANTHROPIC_API_KEY`. Supports `--level`, `--subject`, `--all`, `--chapter`, `--dry-run`.
 - `scripts/extract_pdfs.py`: extracts text and tables from PDFs into `data/{level}/extracted/`. Guide PDFs from `toc_manifest.json`; exam PDFs from `EXAM_PDFS_BY_LEVEL`. Supports `--level`.
@@ -58,6 +59,7 @@ This project uses `uv` for dependency management. Run `uv sync` after cloning to
 
 **Exam pipeline:**
 - `uv run python3 scripts/extract_pdfs.py`: extract text and tables from the PDF set into `data/初級/extracted/`.
+- `uv run python3 scripts/gemini_exam_vision_extract.py --level 中級 --key exam2 --dry-run`: preview Gemini Vision OCR work for an official exam PDF; remove `--dry-run` to cache per-page structured question OCR.
 - `uv run python3 scripts/parse_exams_v2.py`: generate `mock_exam1.json`, `mock_exam2.json`, and `sample_exam.json` from extracted JSON tables.
 - `uv run python3 scripts/generate_questions.py --subject 1` (or `--subject 2`, `--enrich`): generate/enrich questions via Claude API (optional).
 - `python3 scripts/multi_ai_pipeline.py --level 中級 --subject 1 [--chapter mid-s1c1] [--count 3] [--dry-run]`: run multi-AI pipeline for question generation, review, finalization, and answer validation (optional; requires gemini/codex/claude CLIs; uses subprocess only, no venv needed).

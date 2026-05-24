@@ -12,10 +12,23 @@ export interface QuestionImage {
   page_index: number
   page_number: number
   bbox?: number[]
+  placement?: 'question' | 'option' | 'context'
+  option?: 'A' | 'B' | 'C' | 'D'
+  markdown?: string
+  markdown_language?: string
+  markdown_title?: string
+}
+
+export interface QuestionContextBlock {
+  title?: string
+  language?: string
+  markdown: string
 }
 
 export interface Question {
   id: string
+  context?: string
+  context_blocks?: QuestionContextBlock[]
   question: string
   options: Record<'A' | 'B' | 'C' | 'D', string>
   answer: 'A' | 'B' | 'C' | 'D'
