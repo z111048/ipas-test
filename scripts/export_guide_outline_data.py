@@ -935,6 +935,69 @@ def merge_heading_continuation_paragraphs(blocks: list[dict]) -> list[dict]:
     return merged
 
 
+def normalize_empty_marker_list_items(blocks: list[dict]) -> list[dict]:
+    normalized = []
+    for block in blocks:
+        if block.get('type') == 'list_item' and not (block.get('marker') or '').strip():
+            normalized.append({
+                'type': 'paragraph',
+                'depth': int(block.get('depth') or 3),
+                'text': block_text(block.get('text') or ''),
+                'pageIndex': block.get('pageIndex'),
+                'bbox': block.get('bbox'),
+            })
+            continue
+        normalized.append(block)
+    return normalized
+
+
+def looks_like_short_continuation_fragment(text: str) -> bool:
+    text = text.strip()
+    if not text or len(text) > 24:
+        return False
+    if re.fullmatch(r'\d+(?:\.\d+)?\.?', text):
+        return False
+    if text.endswith(('：', ':')):
+        return False
+    return bool(re.search(r'[\u4e00-\u9fffA-Za-z0-9）)]', text))
+
+
+def should_merge_list_item_continuation(previous: dict, current: dict) -> bool:
+    if previous.get('type') != 'list_item' or current.get('type') != 'paragraph':
+        return False
+    text = block_text(current.get('text') or '')
+    previous_text = block_text(previous.get('text') or '')
+    marker = previous.get('marker') or ''
+    if not text or text_looks_structural(text):
+        return False
+    if looks_like_short_continuation_fragment(text) and not text_looks_hard_complete(previous_text):
+        return True
+    if marker in {'•', '◦', '○'} and not text_looks_hard_complete(previous_text) and len(text) <= 80:
+        return True
+    return False
+
+
+def merge_list_item_continuation_paragraphs(blocks: list[dict]) -> list[dict]:
+    merged: list[dict] = []
+    for block in blocks:
+        if merged and should_merge_list_item_continuation(merged[-1], block):
+            merged[-1]['text'] = block_text(f'{merged[-1].get("text") or ""} {block.get("text") or ""}')
+            merged[-1]['bbox'] = merge_block_bbox(merged[-1].get('bbox'), block.get('bbox'))
+            continue
+        merged.append(block)
+    return merged
+
+
+def remove_standalone_numeric_artifact_paragraphs(blocks: list[dict]) -> list[dict]:
+    result = []
+    for block in blocks:
+        text = (block.get('text') or '').strip()
+        if block.get('type') == 'paragraph' and re.fullmatch(r'\d+(?:\.\d+)?\.?', text):
+            continue
+        result.append(block)
+    return result
+
+
 def split_numbered_exercise_segments(text: str, answer_mode: bool = False) -> list[str]:
     text = block_text(text)
     if not text:
@@ -1180,7 +1243,10 @@ def post_process_guide_blocks(current_id: str, raw_title: str, blocks: list[dict
     demote_gapped_alpha_heading_groups(processed)
     demote_specific_alpha_sequences(current_id, processed)
     demote_leading_toc_headings(current_id, processed)
+    processed = normalize_empty_marker_list_items(processed)
     processed = merge_heading_continuation_paragraphs(processed)
+    processed = merge_list_item_continuation_paragraphs(processed)
+    processed = remove_standalone_numeric_artifact_paragraphs(processed)
     processed = normalize_chapter_exercise_blocks(processed)
     for index, block in enumerate(processed, start=1):
         if block.get('type') == 'heading':

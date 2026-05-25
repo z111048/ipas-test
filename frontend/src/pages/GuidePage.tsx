@@ -88,6 +88,20 @@ function blockTextClass(block: GuideBlock) {
   return 'text-[0.9rem] leading-8 text-app-text mb-3 content-justify'
 }
 
+function listMarkerClass(marker?: string) {
+  if (!marker) return ''
+  if (/^[A-Za-z]\.$/.test(marker)) return 'min-w-[1.8rem] text-primary font-semibold'
+  if (marker === '•') return 'min-w-[1.05rem] text-accent font-semibold'
+  if (marker === '◦') return 'min-w-[1.05rem] text-primary/80 font-semibold'
+  if (marker === '○') return 'min-w-[1.05rem] text-text-light font-semibold'
+  return 'min-w-[1.05rem] text-accent font-semibold'
+}
+
+function listTextClass(marker?: string) {
+  if (/^[A-Za-z]\.$/.test(marker || '')) return 'font-medium text-app-text'
+  return 'text-app-text'
+}
+
 function guideHeadingDomId(blockId: string) {
   return `guide-heading-${blockId}`
 }
@@ -140,14 +154,25 @@ function GuideBlocksRenderer({ blocks }: { blocks: GuideBlock[] }) {
         }
 
         if (block.type === 'list_item') {
+          if (!block.marker) {
+            return (
+              <p
+                key={block.id}
+                className="guide-depth-block text-[0.9rem] leading-7 text-app-text mb-2 content-justify"
+                style={blockIndentStyle(block.depth)}
+              >
+                {block.text}
+              </p>
+            )
+          }
           return (
             <div
               key={block.id}
               className="guide-depth-block grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1 text-[0.9rem] leading-7 text-app-text mb-2 content-justify"
               style={blockIndentStyle(block.depth)}
             >
-              <span className="min-w-[1.05rem] text-accent font-semibold">{block.marker}</span>
-              <span>{block.text}</span>
+              <span className={listMarkerClass(block.marker)}>{block.marker}</span>
+              <span className={listTextClass(block.marker)}>{block.text}</span>
             </div>
           )
         }
