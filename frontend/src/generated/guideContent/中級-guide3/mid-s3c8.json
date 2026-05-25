@@ -1,7 +1,7 @@
 {
   "id": "mid-s3c8",
   "title": "模型選擇與架構設計",
-  "content": "# 模型選擇與架構設計\n\n5.2\n\n## 模型選擇與架構設計\n\n### 1. 前言與章節導覽\n\n在機器學習專案的實務推動過程中，選擇適合任務的模型與設定適當的模型架構，是模型表現與產出符合關鍵因素。模型選擇與架構設計不僅需考量資料規模、特徵性質與任務類型，還必須平衡模型複雜度、運算資源限制，以及實務應用場景中對模型解釋性的需求。\n\n隨著機器學習演算法的發展日益成熟，從簡單的線性模型、樹模型，到深度學習的複雜神經網路，模型架構的選擇範圍變得更廣、更靈活，但也更具挑戰性。\n\n### 2. 模型選擇的原則與考量因素\n\n模型選擇（Model Selection）在機器學習建模流程中，直接決定了後續訓練成效、泛化能力，以及模型部署後的可用性與效益。正確且適當的模型選擇，需兼顧多個考量因素，包括資料的特性、任務需求、模型的解釋性，以及運算資源與部署限制。\n\n以下分別介紹模型選擇過程中，幾項常見考量因素與相關原則。\n\n#### （1）任務類型與模型特性配對\n\n模型選擇應根據任務的輸出型態、資料特徵與業務目標進行判斷。以下說明不同任務類型下的模型配適原則：\n\n• 分類任務（Classification）：\n\n目標：\n\n預測資料所屬的離散類別。\n\n常見情境：\n\n垃圾郵件偵測、疾病診斷、客戶流失預測。\n\n常用模型：\n\n決策樹、隨機森林：具解釋性，適用於特徵混合且分佈複雜的資料。\n\n支援向量機（SVM）：適合邊界清晰、高維小樣本的分類問題。\n\n神經網路（Neural Network）：當特徵具高度非線性或為影像、語音等資料類型，模型預測結果佳。\n\n• 迴歸任務（Regression）：\n\n目標：\n\n預測一個連續數值輸出。\n\n常見情境：\n\n房價預測、能源消耗預測、業績估算。\n\n常用模型：\n\n線性迴歸（Linear Regression）：簡單且高解釋性，適合線性趨勢明顯的資料。\n\n決策樹迴歸、隨機森林迴歸：對於非線性與特徵交互效果有良好處理能力。\n\n神經網路：適合處理大規模、高維度或非線性強烈的資料情境。\n\n• 非監督學習任務（Unsupervised Learning）：\n\n目標：\n\n從未標註資料中發掘潛在結構或壓縮表示。\n\n任務類型與建議模型：\n\n聚類（Clustering）\n\n○ 目標：將資料自動分組，使群內相似、群間差異大。\n\n○ 常用模型：\n\nK-means：資料呈球狀且群數已知時效果良好。\n\nDBSCAN：適合有噪聲或群大小不均的資料。\n\n降維（Dimensionality Reduction）\n\n○ 目標：\n\n將高維資料轉換為低維表示，保留主要資訊結構。\n\n○ 常用模型：\n\nPCA（主成分分析）：保留最大變異方向，具解釋性。\n\n自編碼器（Autoencoder）：適合非線性降維與結構重建需求。\n\n• 序列與時間序列任務（Sequential / Time-series）\n\n目標：\n\n根據資料序列預測未來或決策行為。\n\n常見情境：\n\n股價預測、感測器數據監控、語音辨識。\n\n常用模型：\n\nRNN / LSTM / GRU：\n\n○ 適合處理長序列記憶與依賴關係。\n\n時序卷積網路（Temporal Convolutional Network, TCN）：\n\n○ 對長期依賴具有穩定性。\n\nARIMA 等統計模型：\n\n○ 適合短期、週期性明顯且資料量不大之應用。\n\n#### （2）資料規模與模型選擇\n\n資料量不僅影響模型訓練的可行性，更牽動模型選擇的策略方向。不同資料規模下，模型在表現力、穩定性與訓練效率之間需做出平衡。\n\n• 小型資料集（數百至數千筆樣本）\n\n當樣本有限時，選擇結構簡單、參數數量少的模型能有效降低過擬合風險。例如線性迴歸、邏輯迴歸、決策樹或正則化模型（如 Lasso、Ridge）\n\n為常見選項。\n\n此時資料前處理與特徵工程的重要性提高，需以較強的先驗假設支撐模型效果。\n\n• 中型資料集（數千至數十萬筆樣本）\n\n此區間提供模型一定的學習能力與泛化基礎，能夠支持較高表現力的模型如隨機森林、梯度提升機（XGBoost、LightGBM）等。\n\n可進一步嘗試模型集成與超參數優化，提升預測效能。同時，計算資源與訓練時間，會成為實務上必須考量的限制因素。\n\n• 大型資料集（百萬級以上樣本）\n\n大規模資料能發揮深度模型的表現潛力，特別是在非結構化資料（如影像、語音、文字）處理上，深度神經網路成為主要選擇。\n\n大型資料訓練也對運算能力、分散式架構支援、模型調校效率有更高要求。此時應選擇具擴展性且可配合GPU/多機訓練的架構設計。\n\n#### （3）模型解釋性需求\n\n模型的可解釋性決定了其在特定領域的適用性，特別是在醫療、金融、法遵等需追溯模型決策邏輯的情境下，更是不可或缺。\n\n• 高解釋性模型線性迴歸（Linear Regression）、邏輯迴歸（Logistic Regression）與淺層決策樹（Shallow Decision Tree）等模型具備結構簡單、邏輯可視化的特性。其決策過程明確，變數對預測結果的影響可透過係數、分割規則等方式直接解釋，便於使用者進行結果溝通與審查。\n\n此類模型常被應用於對可解釋性有明確要求的場域，如醫療診斷、信貸評分與法規監管等情境。\n\n• 低解釋性模型隨機森林（Random Forest）、梯度提升樹（Gradient Boosting Trees）與深度神經網路（Deep Neural Networks）等模型雖具備高度預測能力，但其結構高度非線性且包含大量參數，使得模型的決策過程不易直觀理解。\n\n在醫療、金融或法規敏感等高風險應用場景中，建議搭配模型可解釋性技術使用，例如SHAP（SHapley Additive exPlanations）、LIME（Local Interpretable Model-Agnostic Explanations）或偏依圖（Partial Dependence Plot），以輔助理解模型對特徵的依賴關係與輸出邏輯，進而提升模型透明度與可信度。\n\n#### （4）運算資源與實務部署限制\n\n實務應用中，模型部署往往受限於資源環境與即時反應需求。選擇模型時，除理論效能外，也應考量部署現實與維運成本。\n\n• 資源受限場景（如IoT、手機App、邊緣裝置）\n\n適合選用模型結構簡單、參數少、推論快速的演算法，例如簡單決策樹、邏輯迴歸或經壓縮後的小型神經網路。亦可採用模型剪枝或量化等技術進行模型瘦身。\n\n• 資源充足場景（如雲端部署、資料中心）\n\n可使用高效能深度模型、模型集成策略，充分發揮硬體計算能力。同時能支援較複雜的資料前處理與後處理流程。\n\n• 即時推論需求在必須秒級或毫秒級回應的任務中（如金融交易、推薦系統），須優先考量模型的推論延遲與效能表現。可搭配caching、模型蒸餾（knowledge distillation）等技術提升即時表現。\n\n模型選擇與部署應同步規劃，避免訓練完成後才發現模型無法實際上線執行。\n\n#### （5）偏差-變異的權衡（Bias-Variance Tradeoff）\n\n模型選擇的核心原則之一是權衡偏差（bias）與變異（variance），兩者之間存在固有的取捨關係：\n\n• 偏差（Bias）：\n\n指模型對資料結構的擬合能力不足，無法有效捕捉資料中的主要趨勢，導致系統性誤差偏高（欠擬合）。\n\n• 變異（Variance）：\n\n指模型對訓練資料的細微差異或雜訊過於敏感，導致模型在不同資料集上的表現差異大、泛化能力差（過擬合）。\n\n模型複雜度的提升通常伴隨偏差的降低與變異的提高，因此模型選擇應在二者之間取得適當平衡：\n\n• 低複雜度模型（如線性迴歸）：\n\n偏差較高、變異較低，穩定且具解釋性，但無法處理複雜關係。\n\n• 高複雜度模型（如深度神經網路）：\n\n偏差低、變異高，可擬合複雜模式，但需更多資料或額外的正則化方法以控制變異。",
+  "content": "# 模型選擇與架構設計\n\n5.2\n\n## 模型選擇與架構設計\n\n### 1. 前言與章節導覽\n\n在機器學習專案的實務推動過程中，選擇適合任務的模型與設定適當的模型架構，是模型表現與產出符合關鍵因素。模型選擇與架構設計不僅需考量資料規模、特徵性質與任務類型，還必須平衡模型複雜度、運算資源限制，以及實務應用場景中對模型解釋性的需求。\n\n隨著機器學習演算法的發展日益成熟，從簡單的線性模型、樹模型，到深度學習的複雜神經網路，模型架構的選擇範圍變得更廣、更靈活，但也更具挑戰性。\n\n### 2. 模型選擇的原則與考量因素\n\n模型選擇（Model Selection）在機器學習建模流程中，直接決定了後續訓練成效、泛化能力，以及模型部署後的可用性與效益。正確且適當的模型選擇，需兼顧多個考量因素，包括資料的特性、任務需求、模型的解釋性，以及運算資源與部署限制。\n\n以下分別介紹模型選擇過程中，幾項常見考量因素與相關原則。\n\n#### （1）任務類型與模型特性配對\n\n模型選擇應根據任務的輸出型態、資料特徵與業務目標進行判斷。以下說明不同任務類型下的模型配適原則：\n\n• 分類任務（Classification）：\n\n◦ 目標：\n\n○ 預測資料所屬的離散類別。\n\n◦ 常見情境：\n\n○ 垃圾郵件偵測、疾病診斷、客戶流失預測。\n\n◦ 常用模型：\n\n○ 決策樹、隨機森林：具解釋性，適用於特徵混合且分佈複雜的資料。\n\n○ 支援向量機（SVM）：適合邊界清晰、高維小樣本的分類問題。\n\n○ 神經網路（Neural Network）：當特徵具高度非線性或為影像、語音等\n\n資料類型，模型預測結果佳。\n\n• 迴歸任務（Regression）：\n\n◦ 目標：\n\n○ 預測一個連續數值輸出。\n\n◦ 常見情境：\n\n○ 房價預測、能源消耗預測、業績估算。\n\n◦ 常用模型：\n\n○ 線性迴歸（Linear Regression）：簡單且高解釋性，適合線性趨勢明顯\n\n的資料。\n\n○ 決策樹迴歸、隨機森林迴歸：對於非線性與特徵交互效果有良好處\n\n理能力。\n\n○ 神經網路：適合處理大規模、高維度或非線性強烈的資料情境。\n\n• 非監督學習任務（Unsupervised Learning）：\n\n◦ 目標：\n\n○ 從未標註資料中發掘潛在結構或壓縮表示。\n\n◦ 任務類型與建議模型：\n\n○ 聚類（Clustering）\n\n○ 目標：將資料自動分組，使群內相似、群間差異大。\n\n○ 常用模型：\n\nK-means：資料呈球狀且群數已知時效果良好。\n\nDBSCAN：適合有噪聲或群大小不均的資料。\n\n○ 降維（Dimensionality Reduction）\n\n○ 目標：\n\n將高維資料轉換為低維表示，保留主要資訊結構。\n\n○ 常用模型：\n\nPCA（主成分分析）：保留最大變異方向，具解釋性。\n\n自編碼器（Autoencoder）：適合非線性降維與結構重建需求。\n\n• 序列與時間序列任務（Sequential / Time-series）\n\n◦ 目標：\n\n○ 根據資料序列預測未來或決策行為。\n\n◦ 常見情境：\n\n○ 股價預測、感測器數據監控、語音辨識。\n\n◦ 常用模型：\n\n○ RNN / LSTM / GRU：\n\n○ 適合處理長序列記憶與依賴關係。\n\n○ 時序卷積網路（Temporal Convolutional Network, TCN）：\n\n○ 對長期依賴具有穩定性。\n\n○ ARIMA 等統計模型：\n\n○ 適合短期、週期性明顯且資料量不大之應用。\n\n#### （2）資料規模與模型選擇\n\n資料量不僅影響模型訓練的可行性，更牽動模型選擇的策略方向。不同資料規模下，模型在表現力、穩定性與訓練效率之間需做出平衡。\n\n• 小型資料集（數百至數千筆樣本）\n\n◦ 當樣本有限時，選擇結構簡單、參數數量少的模型能有效降低過擬合風\n\n險。例如線性迴歸、邏輯迴歸、決策樹或正則化模型（如 Lasso、Ridge）\n\n為常見選項。\n\n◦ 此時資料前處理與特徵工程的重要性提高，需以較強的先驗假設支撐\n\n模型效果。\n\n• 中型資料集（數千至數十萬筆樣本）\n\n◦ 此區間提供模型一定的學習能力與泛化基礎，能夠支持較高表現力的\n\n模型如隨機森林、梯度提升機（XGBoost、LightGBM）等。\n\n◦ 可進一步嘗試模型集成與超參數優化，提升預測效能。同時，計算資源\n\n與訓練時間，會成為實務上必須考量的限制因素。\n\n• 大型資料集（百萬級以上樣本）\n\n◦ 大規模資料能發揮深度模型的表現潛力，特別是在非結構化資料（如影\n\n像、語音、文字）處理上，深度神經網路成為主要選擇。\n\n◦ 大型資料訓練也對運算能力、分散式架構支援、模型調校效率有更高要\n\n求。此時應選擇具擴展性且可配合GPU/多機訓練的架構設計。\n\n#### （3）模型解釋性需求\n\n模型的可解釋性決定了其在特定領域的適用性，特別是在醫療、金融、法遵等需追溯模型決策邏輯的情境下，更是不可或缺。\n\n• 高解釋性模型\n\n◦ 線性迴歸（Linear Regression）、邏輯迴歸（Logistic Regression）與淺層\n\n決策樹（Shallow Decision Tree）等模型具備結構簡單、邏輯可視化的特性。其決策過程明確，變數對預測結果的影響可透過係數、分割規則等方式直接解釋，便於使用者進行結果溝通與審查。\n\n◦ 此類模型常被應用於對可解釋性有明確要求的場域，如醫療診斷、信貸\n\n評分與法規監管等情境。\n\n• 低解釋性模型\n\n◦ 隨機森林（Random Forest）、梯度提升樹（Gradient Boosting Trees）與\n\n深度神經網路（Deep Neural Networks）等模型雖具備高度預測能力，但其結構高度非線性且包含大量參數，使得模型的決策過程不易直觀理解。\n\n◦ 在醫療、金融或法規敏感等高風險應用場景中，建議搭配模型可解釋性\n\n技術使用，例如SHAP（SHapley Additive exPlanations）、LIME（Local Interpretable Model-Agnostic Explanations）或偏依圖（Partial Dependence Plot），以輔助理解模型對特徵的依賴關係與輸出邏輯，進而提升模型透明度與可信度。\n\n#### （4）運算資源與實務部署限制\n\n實務應用中，模型部署往往受限於資源環境與即時反應需求。選擇模型時，除理論效能外，也應考量部署現實與維運成本。\n\n• 資源受限場景（如IoT、手機App、邊緣裝置）\n\n◦ 適合選用模型結構簡單、參數少、推論快速的演算法，例如簡單決策樹、\n\n邏輯迴歸或經壓縮後的小型神經網路。亦可採用模型剪枝或量化等技術進行模型瘦身。\n\n• 資源充足場景（如雲端部署、資料中心）\n\n◦ 可使用高效能深度模型、模型集成策略，充分發揮硬體計算能力。同時\n\n能支援較複雜的資料前處理與後處理流程。\n\n• 即時推論需求\n\n◦ 在必須秒級或毫秒級回應的任務中（如金融交易、推薦系統），須優先\n\n考量模型的推論延遲與效能表現。可搭配caching、模型蒸餾（knowledge distillation）等技術提升即時表現。\n\n模型選擇與部署應同步規劃，避免訓練完成後才發現模型無法實際上線執行。\n\n#### （5）偏差-變異的權衡（Bias-Variance Tradeoff）\n\n模型選擇的核心原則之一是權衡偏差（bias）與變異（variance），兩者之間存在固有的取捨關係：\n\n• 偏差（Bias）：\n\n◦ 指模型對資料結構的擬合能力不足，無法有效捕捉資料中的主要趨勢，\n\n導致系統性誤差偏高（欠擬合）。\n\n• 變異（Variance）：\n\n◦ 指模型對訓練資料的細微差異或雜訊過於敏感，導致模型在不同資料\n\n集上的表現差異大、泛化能力差（過擬合）。\n\n模型複雜度的提升通常伴隨偏差的降低與變異的提高，因此模型選擇應在二者之間取得適當平衡：\n\n• 低複雜度模型（如線性迴歸）：\n\n◦ 偏差較高、變異較低，穩定且具解釋性，但無法處理複雜關係。\n\n• 高複雜度模型（如深度神經網路）：\n\n◦ 偏差低、變異高，可擬合複雜模式，但需更多資料或額外的正則化方法\n\n以控制變異。",
   "contentFormat": "markdown",
   "headings": [
     {
@@ -58,7 +58,10 @@
         284.62,
         174.28
       ],
-      "id": "block-1"
+      "id": "block-1",
+      "nodeId": "mid-s3c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -72,7 +75,10 @@
         203.57,
         218.12
       ],
-      "id": "block-2"
+      "id": "block-2",
+      "nodeId": "mid-s3c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -85,7 +91,10 @@
         518.26,
         317.54
       ],
-      "id": "block-3"
+      "id": "block-3",
+      "nodeId": "mid-s3c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -98,7 +107,10 @@
         521.88,
         367.58
       ],
-      "id": "block-4"
+      "id": "block-4",
+      "nodeId": "mid-s3c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -112,7 +124,10 @@
         274.0,
         418.07
       ],
-      "id": "block-5"
+      "id": "block-5",
+      "nodeId": "mid-s3c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -125,7 +140,10 @@
         518.01,
         517.6
       ],
-      "id": "block-6"
+      "id": "block-6",
+      "nodeId": "mid-s3c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -138,7 +156,10 @@
         457.68,
         542.56
       ],
-      "id": "block-7"
+      "id": "block-7",
+      "nodeId": "mid-s3c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -152,7 +173,10 @@
         243.43,
         592.6
       ],
-      "id": "block-8"
+      "id": "block-8",
+      "nodeId": "mid-s3c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -165,11 +189,14 @@
         517.93,
         642.55
       ],
-      "id": "block-9"
+      "id": "block-9",
+      "nodeId": "mid-s3c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "分類任務（Classification）：",
       "pageIndex": 144,
@@ -179,11 +206,15 @@
         274.39,
         667.63
       ],
-      "id": "block-10"
+      "id": "block-10",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "目標：",
       "pageIndex": 144,
       "bbox": [
@@ -192,11 +223,15 @@
         176.92,
         692.59
       ],
-      "id": "block-11"
+      "id": "block-11",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "預測資料所屬的離散類別。",
       "pageIndex": 144,
       "bbox": [
@@ -205,11 +240,15 @@
         304.51,
         717.55
       ],
-      "id": "block-12"
+      "id": "block-12",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "常見情境：",
       "pageIndex": 144,
       "bbox": [
@@ -218,11 +257,15 @@
         202.15,
         742.63
       ],
-      "id": "block-13"
+      "id": "block-13",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "垃圾郵件偵測、疾病診斷、客戶流失預測。",
       "pageIndex": 144,
       "bbox": [
@@ -231,11 +274,15 @@
         392.73,
         767.58
       ],
-      "id": "block-14"
+      "id": "block-14",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "常用模型：",
       "pageIndex": 145,
       "bbox": [
@@ -244,11 +291,15 @@
         202.15,
         114.11
       ],
-      "id": "block-15"
+      "id": "block-15",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "決策樹、隨機森林：具解釋性，適用於特徵混合且分佈複雜的資料。",
       "pageIndex": 145,
       "bbox": [
@@ -257,11 +308,15 @@
         521.88,
         139.07
       ],
-      "id": "block-16"
+      "id": "block-16",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "支援向量機（SVM）：適合邊界清晰、高維小樣本的分類問題。",
       "pageIndex": 145,
       "bbox": [
@@ -270,11 +325,15 @@
         501.6,
         164.15
       ],
-      "id": "block-17"
+      "id": "block-17",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "神經網路（Neural Network）：當特徵具高度非線性或為影像、語音等資料類型，模型預測結果佳。",
       "pageIndex": 145,
       "bbox": [
@@ -283,11 +342,14 @@
         518.06,
         214.07
       ],
-      "id": "block-18"
+      "id": "block-18",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "迴歸任務（Regression）：",
       "pageIndex": 145,
@@ -297,11 +359,15 @@
         260.47,
         239.15
       ],
-      "id": "block-19"
+      "id": "block-19",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "目標：",
       "pageIndex": 145,
       "bbox": [
@@ -310,11 +376,15 @@
         176.92,
         264.14
       ],
-      "id": "block-20"
+      "id": "block-20",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "預測一個連續數值輸出。",
       "pageIndex": 145,
       "bbox": [
@@ -323,11 +393,15 @@
         291.91,
         289.1
       ],
-      "id": "block-21"
+      "id": "block-21",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "常見情境：",
       "pageIndex": 145,
       "bbox": [
@@ -336,11 +410,15 @@
         202.15,
         314.18
       ],
-      "id": "block-22"
+      "id": "block-22",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "房價預測、能源消耗預測、業績估算。",
       "pageIndex": 145,
       "bbox": [
@@ -349,11 +427,15 @@
         367.53,
         339.14
       ],
-      "id": "block-23"
+      "id": "block-23",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "常用模型：",
       "pageIndex": 145,
       "bbox": [
@@ -362,11 +444,15 @@
         202.15,
         364.1
       ],
-      "id": "block-24"
+      "id": "block-24",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "線性迴歸（Linear Regression）：簡單且高解釋性，適合線性趨勢明顯的資料。",
       "pageIndex": 145,
       "bbox": [
@@ -375,11 +461,15 @@
         518.19,
         414.14
       ],
-      "id": "block-25"
+      "id": "block-25",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "決策樹迴歸、隨機森林迴歸：對於非線性與特徵交互效果有良好處理能力。",
       "pageIndex": 145,
       "bbox": [
@@ -388,11 +478,15 @@
         518.32,
         464.2
       ],
-      "id": "block-26"
+      "id": "block-26",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "神經網路：適合處理大規模、高維度或非線性強烈的資料情境。",
       "pageIndex": 145,
       "bbox": [
@@ -401,11 +495,14 @@
         506.16,
         489.16
       ],
-      "id": "block-27"
+      "id": "block-27",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "非監督學習任務（Unsupervised Learning）：",
       "pageIndex": 145,
@@ -415,11 +512,15 @@
         360.57,
         514.12
       ],
-      "id": "block-28"
+      "id": "block-28",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "目標：",
       "pageIndex": 145,
       "bbox": [
@@ -428,11 +529,15 @@
         176.92,
         539.2
       ],
-      "id": "block-29"
+      "id": "block-29",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "從未標註資料中發掘潛在結構或壓縮表示。",
       "pageIndex": 145,
       "bbox": [
@@ -441,11 +546,15 @@
         392.73,
         564.16
       ],
-      "id": "block-30"
+      "id": "block-30",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "任務類型與建議模型：",
       "pageIndex": 145,
       "bbox": [
@@ -454,11 +563,15 @@
         265.15,
         589.12
       ],
-      "id": "block-31"
+      "id": "block-31",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "聚類（Clustering）",
       "pageIndex": 145,
       "bbox": [
@@ -467,11 +580,14 @@
         256.75,
         614.2
       ],
-      "id": "block-32"
+      "id": "block-32",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "目標：將資料自動分組，使群內相似、群間差異大。",
       "pageIndex": 145,
@@ -481,11 +597,14 @@
         460.2,
         639.19
       ],
-      "id": "block-33"
+      "id": "block-33",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "常用模型：",
       "pageIndex": 145,
@@ -495,7 +614,10 @@
         233.35,
         664.15
       ],
-      "id": "block-34"
+      "id": "block-34",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -508,7 +630,10 @@
         441.33,
         689.23
       ],
-      "id": "block-35"
+      "id": "block-35",
+      "nodeId": "mid-s3c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -521,11 +646,15 @@
         433.77,
         714.19
       ],
-      "id": "block-36"
+      "id": "block-36",
+      "nodeId": "mid-s3c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "降維（Dimensionality Reduction）",
       "pageIndex": 145,
       "bbox": [
@@ -534,11 +663,14 @@
         337.29,
         739.15
       ],
-      "id": "block-37"
+      "id": "block-37",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "目標：",
       "pageIndex": 145,
@@ -548,7 +680,10 @@
         208.15,
         764.22
       ],
-      "id": "block-38"
+      "id": "block-38",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -561,11 +696,14 @@
         458.88,
         114.11
       ],
-      "id": "block-39"
+      "id": "block-39",
+      "nodeId": "mid-s3c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "常用模型：",
       "pageIndex": 146,
@@ -575,7 +713,10 @@
         233.35,
         139.07
       ],
-      "id": "block-40"
+      "id": "block-40",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -588,7 +729,10 @@
         476.88,
         164.15
       ],
-      "id": "block-41"
+      "id": "block-41",
+      "nodeId": "mid-s3c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -601,25 +745,49 @@
         517.8,
         189.11
       ],
-      "id": "block-42"
+      "id": "block-42",
+      "nodeId": "mid-s3c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "序列與時間序列任務（Sequential / Time-series） 目標：",
+      "text": "序列與時間序列任務（Sequential / Time-series）",
       "pageIndex": 146,
       "bbox": [
         102.16,
         200.62,
         384.09,
-        239.15
+        214.07
       ],
-      "id": "block-43"
+      "id": "block-43",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "目標：",
+      "pageIndex": 146,
+      "bbox": [
+        120.52,
+        225.7,
+        176.92,
+        239.15
+      ],
+      "id": "block-44",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "根據資料序列預測未來或決策行為。",
       "pageIndex": 146,
       "bbox": [
@@ -628,11 +796,15 @@
         354.93,
         264.14
       ],
-      "id": "block-44"
+      "id": "block-45",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "常見情境：",
       "pageIndex": 146,
       "bbox": [
@@ -641,11 +813,15 @@
         202.15,
         289.1
       ],
-      "id": "block-45"
+      "id": "block-46",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "股價預測、感測器數據監控、語音辨識。",
       "pageIndex": 146,
       "bbox": [
@@ -654,11 +830,15 @@
         380.13,
         314.18
       ],
-      "id": "block-46"
+      "id": "block-47",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "常用模型：",
       "pageIndex": 146,
       "bbox": [
@@ -667,11 +847,15 @@
         202.15,
         339.14
       ],
-      "id": "block-47"
+      "id": "block-48",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "RNN / LSTM / GRU：",
       "pageIndex": 146,
       "bbox": [
@@ -680,11 +864,14 @@
         272.11,
         364.1
       ],
-      "id": "block-48"
+      "id": "block-49",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "適合處理長序列記憶與依賴關係。",
       "pageIndex": 146,
@@ -694,11 +881,15 @@
         359.37,
         389.18
       ],
-      "id": "block-49"
+      "id": "block-50",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "時序卷積網路（Temporal Convolutional Network, TCN）：",
       "pageIndex": 146,
       "bbox": [
@@ -707,11 +898,14 @@
         463.2,
         414.14
       ],
-      "id": "block-50"
+      "id": "block-51",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "對長期依賴具有穩定性。",
       "pageIndex": 146,
@@ -721,11 +915,15 @@
         308.95,
         439.1
       ],
-      "id": "block-51"
+      "id": "block-52",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "ARIMA 等統計模型：",
       "pageIndex": 146,
       "bbox": [
@@ -734,11 +932,14 @@
         273.55,
         464.2
       ],
-      "id": "block-52"
+      "id": "block-53",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "適合短期、週期性明顯且資料量不大之應用。",
       "pageIndex": 146,
@@ -748,7 +949,10 @@
         422.37,
         489.16
       ],
-      "id": "block-53"
+      "id": "block-54",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -762,7 +966,10 @@
         218.23,
         539.2
       ],
-      "id": "block-54"
+      "id": "block-55",
+      "nodeId": "mid-s3c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -775,11 +982,14 @@
         517.93,
         589.12
       ],
-      "id": "block-55"
+      "id": "block-56",
+      "nodeId": "mid-s3c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "小型資料集（數百至數千筆樣本）",
       "pageIndex": 146,
@@ -789,11 +999,15 @@
         311.23,
         614.2
       ],
-      "id": "block-56"
+      "id": "block-57",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "當樣本有限時，選擇結構簡單、參數數量少的模型能有效降低過擬合風險。例如線性迴歸、邏輯迴歸、決策樹或正則化模型（如 Lasso、Ridge） 為常見選項。",
       "pageIndex": 146,
       "bbox": [
@@ -802,24 +1016,47 @@
         524.64,
         689.23
       ],
-      "id": "block-57"
+      "id": "block-58",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "此時資料前處理與特徵工程的重要性提高，需以較強的先驗假設支撐",
+      "pageIndex": 146,
+      "bbox": [
+        120.52,
+        700.74,
+        517.85,
+        714.12
+      ],
+      "id": "block-59",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "此時資料前處理與特徵工程的重要性提高，需以較強的先驗假設支撐模型效果。",
+      "text": "模型效果。",
       "pageIndex": 146,
       "bbox": [
         76.6,
-        700.74,
-        517.85,
+        725.86,
+        223.63,
         755.82
       ],
-      "id": "block-58"
+      "id": "block-60",
+      "nodeId": "mid-s3c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "中型資料集（數千至數十萬筆樣本）",
       "pageIndex": 147,
@@ -829,11 +1066,15 @@
         323.85,
         114.11
       ],
-      "id": "block-59"
+      "id": "block-61",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "此區間提供模型一定的學習能力與泛化基礎，能夠支持較高表現力的模型如隨機森林、梯度提升機（XGBoost、LightGBM）等。",
       "pageIndex": 147,
       "bbox": [
@@ -842,11 +1083,15 @@
         517.85,
         164.15
       ],
-      "id": "block-60"
+      "id": "block-62",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "可進一步嘗試模型集成與超參數優化，提升預測效能。同時，計算資源與訓練時間，會成為實務上必須考量的限制因素。",
       "pageIndex": 147,
       "bbox": [
@@ -855,25 +1100,49 @@
         518.2,
         214.07
       ],
-      "id": "block-61"
+      "id": "block-63",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "大型資料集（百萬級以上樣本） 大規模資料能發揮深度模型的表現潛力，特別是在非結構化資料（如影像、語音、文字）處理上，深度神經網路成為主要選擇。",
+      "text": "大型資料集（百萬級以上樣本）",
       "pageIndex": 147,
       "bbox": [
         102.16,
         225.7,
+        298.63,
+        239.15
+      ],
+      "id": "block-64",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "大規模資料能發揮深度模型的表現潛力，特別是在非結構化資料（如影像、語音、文字）處理上，深度神經網路成為主要選擇。",
+      "pageIndex": 147,
+      "bbox": [
+        120.52,
+        250.69,
         518.23,
         289.1
       ],
-      "id": "block-62"
+      "id": "block-65",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "大型資料訓練也對運算能力、分散式架構支援、模型調校效率有更高要求。此時應選擇具擴展性且可配合GPU/多機訓練的架構設計。",
       "pageIndex": 147,
       "bbox": [
@@ -882,7 +1151,10 @@
         518.2,
         339.14
       ],
-      "id": "block-63"
+      "id": "block-66",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -896,7 +1168,10 @@
         193.03,
         389.18
       ],
-      "id": "block-64"
+      "id": "block-67",
+      "nodeId": "mid-s3c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -909,25 +1184,49 @@
         517.93,
         439.1
       ],
-      "id": "block-65"
+      "id": "block-68",
+      "nodeId": "mid-s3c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "高解釋性模型線性迴歸（Linear Regression）、邏輯迴歸（Logistic Regression）與淺層決策樹（Shallow Decision Tree）等模型具備結構簡單、邏輯可視化的特性。其決策過程明確，變數對預測結果的影響可透過係數、分割規則等方式直接解釋，便於使用者進行結果溝通與審查。",
+      "text": "高解釋性模型",
       "pageIndex": 147,
       "bbox": [
         102.16,
         450.75,
+        197.83,
+        464.2
+      ],
+      "id": "block-69",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "線性迴歸（Linear Regression）、邏輯迴歸（Logistic Regression）與淺層決策樹（Shallow Decision Tree）等模型具備結構簡單、邏輯可視化的特性。其決策過程明確，變數對預測結果的影響可透過係數、分割規則等方式直接解釋，便於使用者進行結果溝通與審查。",
+      "pageIndex": 147,
+      "bbox": [
+        120.52,
+        475.71,
         518.37,
         564.16
       ],
-      "id": "block-66"
+      "id": "block-70",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "此類模型常被應用於對可解釋性有明確要求的場域，如醫療診斷、信貸評分與法規監管等情境。",
       "pageIndex": 147,
       "bbox": [
@@ -936,25 +1235,49 @@
         518.32,
         614.2
       ],
-      "id": "block-67"
+      "id": "block-71",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "低解釋性模型隨機森林（Random Forest）、梯度提升樹（Gradient Boosting Trees）與深度神經網路（Deep Neural Networks）等模型雖具備高度預測能力，但其結構高度非線性且包含大量參數，使得模型的決策過程不易直觀理解。",
+      "text": "低解釋性模型",
       "pageIndex": 147,
       "bbox": [
         102.16,
         625.74,
+        197.83,
+        639.19
+      ],
+      "id": "block-72",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "隨機森林（Random Forest）、梯度提升樹（Gradient Boosting Trees）與深度神經網路（Deep Neural Networks）等模型雖具備高度預測能力，但其結構高度非線性且包含大量參數，使得模型的決策過程不易直觀理解。",
+      "pageIndex": 147,
+      "bbox": [
+        120.52,
+        650.7,
         518.4,
         739.15
       ],
-      "id": "block-68"
+      "id": "block-73",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "在醫療、金融或法規敏感等高風險應用場景中，建議搭配模型可解釋性技術使用，例如SHAP（SHapley Additive exPlanations）、LIME（Local Interpretable Model-Agnostic Explanations）或偏依圖（Partial Dependence Plot），以輔助理解模型對特徵的依賴關係與輸出邏輯，進而提升模型透明度與可信度。",
       "pageIndex": 148,
       "bbox": [
@@ -963,7 +1286,10 @@
         521.82,
         214.07
       ],
-      "id": "block-69"
+      "id": "block-74",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -977,7 +1303,10 @@
         243.43,
         264.14
       ],
-      "id": "block-70"
+      "id": "block-75",
+      "nodeId": "mid-s3c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -990,11 +1319,14 @@
         518.23,
         314.18
       ],
-      "id": "block-71"
+      "id": "block-76",
+      "nodeId": "mid-s3c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資源受限場景（如IoT、手機App、邊緣裝置）",
       "pageIndex": 148,
@@ -1004,11 +1336,15 @@
         382.53,
         339.14
       ],
-      "id": "block-72"
+      "id": "block-77",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "適合選用模型結構簡單、參數少、推論快速的演算法，例如簡單決策樹、邏輯迴歸或經壓縮後的小型神經網路。亦可採用模型剪枝或量化等技術進行模型瘦身。",
       "pageIndex": 148,
       "bbox": [
@@ -1017,35 +1353,78 @@
         521.32,
         414.14
       ],
-      "id": "block-73"
+      "id": "block-78",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "資源充足場景（如雲端部署、資料中心） 可使用高效能深度模型、模型集成策略，充分發揮硬體計算能力。同時能支援較複雜的資料前處理與後處理流程。",
+      "text": "資源充足場景（如雲端部署、資料中心）",
       "pageIndex": 148,
       "bbox": [
         102.16,
         425.65,
-        518.2,
-        489.16
+        349.05,
+        439.1
       ],
-      "id": "block-74"
+      "id": "block-79",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 6,
+      "marker": "◦",
+      "text": "可使用高效能深度模型、模型集成策略，充分發揮硬體計算能力。同時能支援較複雜的資料前處理與後處理流程。",
+      "pageIndex": 148,
+      "bbox": [
+        120.52,
+        450.75,
+        518.2,
+        489.16
+      ],
+      "id": "block-80",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
       "marker": "•",
-      "text": "即時推論需求在必須秒級或毫秒級回應的任務中（如金融交易、推薦系統），須優先考量模型的推論延遲與效能表現。可搭配caching、模型蒸餾（knowledge distillation）等技術提升即時表現。",
+      "text": "即時推論需求",
       "pageIndex": 148,
       "bbox": [
         102.16,
         500.67,
+        197.83,
+        514.12
+      ],
+      "id": "block-81",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "在必須秒級或毫秒級回應的任務中（如金融交易、推薦系統），須優先考量模型的推論延遲與效能表現。可搭配caching、模型蒸餾（knowledge distillation）等技術提升即時表現。",
+      "pageIndex": 148,
+      "bbox": [
+        120.52,
+        525.75,
         521.77,
         589.12
       ],
-      "id": "block-75"
+      "id": "block-82",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1058,7 +1437,10 @@
         521.88,
         638.95
       ],
-      "id": "block-76"
+      "id": "block-83",
+      "nodeId": "mid-s3c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1072,7 +1454,10 @@
         347.97,
         114.11
       ],
-      "id": "block-77"
+      "id": "block-84",
+      "nodeId": "mid-s3c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1085,11 +1470,14 @@
         518.2,
         440.9
       ],
-      "id": "block-78"
+      "id": "block-85",
+      "nodeId": "mid-s3c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "偏差（Bias）：",
       "pageIndex": 149,
@@ -1099,11 +1487,15 @@
         201.43,
         465.88
       ],
-      "id": "block-79"
+      "id": "block-86",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "指模型對資料結構的擬合能力不足，無法有效捕捉資料中的主要趨勢，導致系統性誤差偏高（欠擬合）。",
       "pageIndex": 149,
       "bbox": [
@@ -1112,11 +1504,14 @@
         521.44,
         515.92
       ],
-      "id": "block-80"
+      "id": "block-87",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "變異（Variance）：",
       "pageIndex": 149,
@@ -1126,11 +1521,15 @@
         223.27,
         540.88
       ],
-      "id": "block-81"
+      "id": "block-88",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "指模型對訓練資料的細微差異或雜訊過於敏感，導致模型在不同資料集上的表現差異大、泛化能力差（過擬合）。",
       "pageIndex": 149,
       "bbox": [
@@ -1139,7 +1538,10 @@
         517.85,
         590.92
       ],
-      "id": "block-82"
+      "id": "block-89",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1152,11 +1554,14 @@
         517.93,
         649.15
       ],
-      "id": "block-83"
+      "id": "block-90",
+      "nodeId": "mid-s3c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "低複雜度模型（如線性迴歸）：",
       "pageIndex": 149,
@@ -1166,11 +1571,15 @@
         292.39,
         674.11
       ],
-      "id": "block-84"
+      "id": "block-91",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "偏差較高、變異較低，穩定且具解釋性，但無法處理複雜關係。",
       "pageIndex": 149,
       "bbox": [
@@ -1179,11 +1588,14 @@
         492.0,
         699.07
       ],
-      "id": "block-85"
+      "id": "block-92",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "高複雜度模型（如深度神經網路）：",
       "pageIndex": 149,
@@ -1193,11 +1605,15 @@
         317.59,
         724.15
       ],
-      "id": "block-86"
+      "id": "block-93",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "偏差低、變異高，可擬合複雜模式，但需更多資料或額外的正則化方法以控制變異。",
       "pageIndex": 149,
       "bbox": [
@@ -1206,7 +1622,10 @@
         517.91,
         774.06
       ],
-      "id": "block-87"
+      "id": "block-94",
+      "nodeId": "mid-s3c8",
+      "kind": "list_item",
+      "source": "page_extract"
     }
   ],
   "sourcePages": [

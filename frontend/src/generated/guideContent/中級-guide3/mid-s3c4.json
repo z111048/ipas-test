@@ -1,7 +1,7 @@
 {
   "id": "mid-s3c4",
   "title": "機器學習原理與技術",
-  "content": "# 機器學習原理與技術\n\n4.1\n\n## 機器學習原理與技術\n\n### 1. 前言與章節導覽\n\n機器學習（Machine Learning, ML）作為人工智慧發展的核心技術之一，強調透過資料經驗自動學習模型，使系統能根據觀察到的數據進行預測、分類或決策。\n\n與傳統規則式系統相比，機器學習不依賴人為定義的規則，而是依據資料中的統計規律，從中萃取模式與關聯，用以指導未來的判斷與行為。\n\n隨著資料規模的快速成長與計算資源的進步，機器學習已廣泛應用於語音辨識、圖像辨識、語意理解、醫療診斷、金融預測、推薦系統等多元領域，並成為驅動智慧應用與決策系統的技術基礎。\n\n機器學習本質上是一個涵蓋「任務類型」、「學習目標」、「資料假設」、「模型訓練」與「評估過程」的複合流程。本節將聚焦於其中最根本的知識結構與任務分類邏輯，釐清何謂監督式學習（Supervised Learning）、非監督式學習 （Unsupervised Learning）與強化式學習（Reinforcement Learning），並說明在不同資料條件與應用情境下所扮演的角色。\n\n本節亦將說明機器學習任務的核心構成，包括資料輸入與特徵空間的概念、預測目標的形式、模型學習過程的基本結構，以及學習目標如何透過損失函數進行形式化定義。\n\n### 2. 機器學習的基本結構\n\n機器學習系統的運作架構，建構於一系列彼此關聯的核心要素之上。從資料輸入到模型預測，整個流程涵蓋了特徵表示、任務目標定義、學習架構設計、學習目標的形式化，以及模型效能的評估。\n\n#### （1）輸入資料與特徵空間\n\n機器學習的輸入資料來源多樣，可能來自結構化表格、文字紀錄、影像、語音訊號或感測器資料等。這些資料必須經過適當的轉換與前處理，才能表示為模型可接受的數學結構，通常為向量或矩陣。\n\n特徵空間（Feature Space）是指每筆資料在數學上由各個特徵構成的多維空間。每一個樣本可視為此空間中的一個點，而整體資料的幾何分佈特性（如密集程度、邊界形狀）會直接影響模型能否有效進行分類、預測或分群。因此，理解與設計適切的特徵表示，是建構機器學習模型的重要基礎。\n\n#### （2）任務目標與標籤型態\n\n不同的應用情境對模型的學習目標有所差異，常見的任務類型包括：\n\n• 分類（Classification）：\n\n預測樣本所屬的類別，標籤為離散型（如0、1 或多類別）。\n\n• 迴歸（Regression）：\n\n預測一個連續的數值，標籤為實數。\n\n• 聚類（Clustering）：\n\n在無標籤的情況下，根據樣本間的相似度進行分群。\n\n• 降維（Dimensionality Reduction）：\n\n將高維資料映射至較低維度，以保留資料結構的同時簡化模型計算。\n\n• 序列決策（Sequential Decision）：\n\n針對連續互動情境中採取的行動進行學習，以最大化長期報酬。\n\n這些任務對應著不同的輸出形式與學習策略，並影響模型設計與評估指標的選擇。\n\n#### （3）模型與假設空間\n\n機器學習中的模型可視為一種將輸入資料映射為預測結果的數學函數。不同的模型類型，對資料背後的分佈與結構隱含不同的假設，也稱為假設空間 （Hypothesis Space）。舉例：\n\n• 線性模型假設樣本可用線性邊界區分；\n\n• 決策樹假設可透過一系列條件規則進行分類；\n\n• 神經網路則傾向透過非線性結構學習抽象表示。\n\n學習的核心任務，在於從整個假設空間中找出一個泛化能力最佳的函數，即能在未知資料上維持良好預測效果的模型。\n\n#### （4）學習目標與損失函數\n\n為了讓模型能根據資料進行「學習」，必須透過損失函數（Loss Function）將預測與實際結果之間的誤差量化。損失函數是整個學習流程中的關鍵評價機制，其設計反映了任務的偏好與風險取捨。\n\n常見損失函數如下：\n\n• 均方誤差（Mean Squared Error, MSE）：\n\n用於迴歸任務，對大誤差懲罰較重；\n\n• 平均絕對誤差（Mean Absolute Error, MAE）：\n\n用於迴歸任務，對異常值較具魯棒性；\n\n• 交叉熵損失（Cross-Entropy Loss）：\n\n用於分類任務，衡量預測機率分佈與實際標籤的差距。\n\n損失函數的形式不僅影響模型的數值表現，更會決定學習方向與收斂路徑。\n\n#### （5）資料分割與評估準則\n\n為確保模型具備良好的泛化能力，訓練過程中需將資料劃分為：\n\n• 訓練集（Training Set）：用於模型參數的學習；\n\n• 驗證集（Validation Set）：用來調整超參數與監控過擬合；\n\n• 測試集（Test Set）：最終評估模型表現的依據。\n\n評估指標應依任務類型選擇，例如：\n\n• 分類任務：\n\n準確率（Accuracy）、精確率與召回率（Precision/Recall）、F1 分數；\n\n• 迴歸任務：\n\n平均絕對誤差（MAE）、均方誤差（MSE）、決定係數（R²）。\n\n合理的資料分割與多元評估，有助於全面觀察模型的學習品質與應用潛力。\n\n### 3. 監督式學習\n\n監督式學習（Supervised Learning）是機器學習中最常見且應用最成熟的學習形式，其核心目標是透過「標註資料（Labeled Data）」學習一個映射函數，讓模型能根據輸入特徵預測對應的輸出結果。\n\n學習的目標是最小化模型輸出與實際標籤之間的誤差，同時具備良好的泛化能力。\n\n#### （1）基本架構\n\n在監督式學習中，每筆訓練資料由一組輸入特徵（Features）與其對應的目標標籤（Label）組成。模型的任務是在學習過程中找出一個能夠近似真實對應關係的函數，使未來面對新資料時也能產生準確預測。\n\n#### （2）主要任務類型\n\n根據預測標籤的類型，監督式學習可分為以下兩大任務：\n\n• 分類（Classification）\n\n當標籤為離散型類別時，任務即為分類。模型需判斷輸入樣本應屬於哪一類別。常見應用包括：\n\n郵件分類：垃圾信 vs 一般信件客戶流失預測：流失 vs 留存圖像辨識：辨識影像中是貓、狗或其他物件分類模型通常輸出各類別的預測機率，再根據最高機率選擇預測結果。\n\n• 迴歸（Regression）\n\n當標籤為連續數值時，屬於迴歸任務。模型需預測一個實數值，例如：\n\n房價預測銷售量預測使用者滿意度評分（如1 至5 顆星）\n\n常見的損失函數包括均方誤差（Mean Squared Error, MSE）與平均絕對誤差（Mean Absolute Error, MAE）。\n\n#### （3）訓練流程與評估方法\n\n一個典型的監督式學習流程包含以下步驟：\n\n• 資料準備與標記：\n\n蒐集具標籤資料，並進行清理與前處理。\n\n• 模型訓練：\n\n根據訓練集進行參數調整，最小化損失函數。\n\n• 驗證與調整：\n\n使用驗證集觀察模型表現，調整模型結構與超參數。\n\n• 測試與部署：\n\n於測試集上評估最終效能，進行應用部署。\n\n#### （4）應用場景\n\n監督式學習在實務中有廣泛應用，涵蓋多種產業與任務需求，典型例子包括：\n\n• 圖像分類（影像 → 物件類別）\n\n• 客戶信用風險評估（資料 → 信用等級）\n\n• 醫療診斷（病患資訊 → 疾病類型）\n\n在這些情境中，模型效能高度仰賴資料的標註品質與特徵設計的精準性，因此資料前處理、特徵選擇與轉換仍是監督式學習成敗的關鍵。\n\n### 4. 非監督式學習\n\n非監督式學習（Unsupervised Learning）是一種在無標註資料情況下進行學習的機器學習方法。其核心目的是從原始資料中發現潛在的結構、模式或分佈特性，而無需依賴人工標記的目標輸出。這類方法尤其適用於探索性分析、資料壓縮與隱含關係挖掘等任務。\n\n#### （1）基本架構\n\n與監督式學習不同，非監督學習模型的輸出通常不是具體的預測值，而是：\n\n• 對資料樣本的分組、歸類 • 對高維資料的降維、投影 • 對潛藏變數或生成機制的估計\n\n這種學習方式強調對資料本質的理解與內部表示的建構，常作為數據前處理、特徵抽取或結構探索的關鍵步驟。\n\n#### （2）主要任務類型\n\n非監督式學習依據學習目標與應用需求，劃分為幾個主要任務類型：\n\n• 聚類（Clustering）\n\n將資料依據其相似性自動劃分為若干群組，群內樣本彼此相似，群間差異明顯。\n\n• 降維（Dimensionality Reduction）\n\n將高維資料轉換為低維表示，以保留重要結構並便於視覺化或後續建模。\n\n• 關聯規則學習（Association Rule Learning）\n\n從大量資料中找出項目間的關聯性或共現規律 • 潛在表示學習（Representation Learning）\n\n透過非監督方式學習可解釋或有用的資料內部結構，特別常見於語言模型、影像編碼等深度學習應用。\n\n#### （3）訓練流程與評估方法\n\n非監督式學習缺乏明確的標籤，因此其訓練與評估方式與監督式學習有所不同：\n\n• 訓練流程：\n\n資料準備與標準化（常需進行特徵縮放、中心化等）\n\n模型選擇與超參數設定（如聚類數k）\n\n模型擬合與重複迭代（許多方法依賴初始條件）\n\n• 評估方式：\n\n內部評估指標：根據資料本身的結構特徵來評估學習效果，如：\n\nSilhouette score（輪廓係數）\n\nDavies-Bouldin（指數）\n\nReconstruction Error（重建誤差）\n\n外部評估指標：若有部分標籤可參考，則可使用：\n\nRand Index Adjusted Mutual Information（AMI）\n\n視覺化輔助分析：\n\n將高維結果降維至2D/3D 空間進行圖形檢視，是非監督式學習中常見的理解方式。\n\n#### （4）應用場景\n\n非監督式學習雖不依賴標註資料，但其應用廣泛，常見領域包括：\n\n• 客戶分群與行為分析（電商、行銷）\n\n• 社群偵測與異常發現（社群網路、資安）\n\n• 影像壓縮與重建（自編碼器、壓縮技術）\n\n• 主題模型與語意分析（自然語言處理）\n\n• 特徵工程與前處理（資料探索與建模前步驟）\n\n非監督式學習不僅在探索未知資料結構中具有關鍵價值，也常用於模型初始化、資料標註支援與半監督學習的先備處理階段。\n\n### 5. 強化式學習簡介\n\n強化式學習（Reinforcement Learning,RL）是一種與監督式與非監督式學習並列的核心機器學習範式，其特徵在於模型透過與環境互動學習決策策略，目標是最大化長期累積報酬（Reward）。\n\n強化式學習不僅廣泛應用於自走車、遊戲AI、機器人控制等任務，也在資源分配、推薦系統與金融決策等動態環境中展現出高效潛力。\n\n#### （1）基本架構\n\n強化式學習問題可形式化為馬可夫決策過程（Markov Decision Process, MDP），基本組成包括：\n\n• 代理人（Agent）：執行動作並從經驗中學習的人工智慧。\n\n• 環境（Environment）：代理人互動的外部系統。\n\n• 狀態（State）：代理人於某一時刻觀察到的環境資訊。\n\n• 動作（Action）：代理人在特定狀態下可採取的行為。\n\n• 報酬（Reward）：環境對代理人某一行為的回饋，用來指引學習方向。\n\n• 策略（Policy）：代理人根據當前狀態選擇動作的規則。\n\n• 價值函數（Value Function）：衡量某一狀態或狀態 - 動作對的長期獎勵期望值。\n\n代理人的學習目標是根據歷史互動經驗，調整其策略，使在不同狀態下選擇的行動能獲得最大的長期累積報酬。\n\n#### （2）主要任務類型\n\n強化式學習的任務類型依據任務設計與學習方式的不同，可分為：\n\n• 策略學習（Policy Learning）：\n\n直接學習最佳策略，例如策略梯度法（Policy Gradient）。\n\n• 價值學習（Value-Based）：\n\n學習狀態或狀態 - 動作對的價值函數，如Q-learning。\n\n• 模型式學習（Model-Based RL）：\n\n嘗試學習環境轉移與回饋機制，提升策略更新效率。\n\n• 模型無關學習（Model-Free RL）：\n\n無需環境模型，依賴試誤與經驗回放。\n\n另可依決策空間區分，例如：\n\n• 離散動作空間：適用於分類型選擇，如遊戲動作、導航決策。\n\n• 連續動作空間：適用於控制類任務，如機械臂運動、車輛轉向控制。\n\n#### （3）訓練流程與評估方法\n\n強化式學習的訓練流程具高度互動與回饋循環性，包含以下步驟：\n\n##### A. 初始化策略或價值函數\n\n##### B. 與環境互動並收集經驗\n\n##### C. 根據報酬更新策略或價值估計\n\n##### D. 重複試誤學習，逐步提升決策表現\n\n評估方式則不同於分類或迴歸任務的靜態指標，需透過模擬或實際環境測試長期績效，指標包括：\n\n• 平均累積報酬（Average Reward per Episode）\n\n• 成功率或任務達成率 • 策略穩定性與收斂速度因訓練過程涉及動態回饋、延遲效應與探索策略，強化式學習對收斂控制與樣本效率的要求特別高。\n\n#### （4）應用場景\n\n強化式學習具備適應動態環境與策略自我調整能力，特別適合下列情境：\n\n• 遊戲AI 與對弈系統：AlphaGo、OpenAI Five、DeepMind Atari 等。\n\n• 自駕車與機器人控制：動作序列學習、導航決策、連續控制。\n\n• 推薦系統與廣告分發：即時反饋優化、長期使用者價值最大化。\n\n• 金融投資與資源配置：連續決策、風險控制、強化投資策略。\n\n• 運輸與物流排程：多階段決策與最短路徑規劃。\n\n強化式學習技術在策略最適化與動態決策領域展現高度潛力，但同時也面臨如樣本效率低、訓練不穩定、實務部署門檻高等挑戰。",
+  "content": "# 機器學習原理與技術\n\n4.1\n\n## 機器學習原理與技術\n\n### 1. 前言與章節導覽\n\n機器學習（Machine Learning, ML）作為人工智慧發展的核心技術之一，強調透過資料經驗自動學習模型，使系統能根據觀察到的數據進行預測、分類或決策。\n\n與傳統規則式系統相比，機器學習不依賴人為定義的規則，而是依據資料中的統計規律，從中萃取模式與關聯，用以指導未來的判斷與行為。\n\n隨著資料規模的快速成長與計算資源的進步，機器學習已廣泛應用於語音辨識、圖像辨識、語意理解、醫療診斷、金融預測、推薦系統等多元領域，並成為驅動智慧應用與決策系統的技術基礎。\n\n機器學習本質上是一個涵蓋「任務類型」、「學習目標」、「資料假設」、「模型訓練」與「評估過程」的複合流程。本節將聚焦於其中最根本的知識結構與任務分類邏輯，釐清何謂監督式學習（Supervised Learning）、非監督式學習 （Unsupervised Learning）與強化式學習（Reinforcement Learning），並說明在不同資料條件與應用情境下所扮演的角色。\n\n本節亦將說明機器學習任務的核心構成，包括資料輸入與特徵空間的概念、預測目標的形式、模型學習過程的基本結構，以及學習目標如何透過損失函數進行形式化定義。\n\n### 2. 機器學習的基本結構\n\n機器學習系統的運作架構，建構於一系列彼此關聯的核心要素之上。從資料輸入到模型預測，整個流程涵蓋了特徵表示、任務目標定義、學習架構設計、學習目標的形式化，以及模型效能的評估。\n\n#### （1）輸入資料與特徵空間\n\n機器學習的輸入資料來源多樣，可能來自結構化表格、文字紀錄、影像、語音訊號或感測器資料等。這些資料必須經過適當的轉換與前處理，才能表示為模型可接受的數學結構，通常為向量或矩陣。\n\n特徵空間（Feature Space）是指每筆資料在數學上由各個特徵構成的多維空間。每一個樣本可視為此空間中的一個點，而整體資料的幾何分佈特性（如密集程度、邊界形狀）會直接影響模型能否有效進行分類、預測或分群。因此，理解與設計適切的特徵表示，是建構機器學習模型的重要基礎。\n\n#### （2）任務目標與標籤型態\n\n不同的應用情境對模型的學習目標有所差異，常見的任務類型包括：\n\n• 分類（Classification）：\n\n◦ 預測樣本所屬的類別，標籤為離散型（如0、1 或多類別）。\n\n• 迴歸（Regression）：\n\n◦ 預測一個連續的數值，標籤為實數。\n\n• 聚類（Clustering）：\n\n◦ 在無標籤的情況下，根據樣本間的相似度進行分群。\n\n• 降維（Dimensionality Reduction）：\n\n◦ 將高維資料映射至較低維度，以保留資料結構的同時簡化模型計算。\n\n• 序列決策（Sequential Decision）：\n\n◦ 針對連續互動情境中採取的行動進行學習，以最大化長期報酬。\n\n這些任務對應著不同的輸出形式與學習策略，並影響模型設計與評估指標的選擇。\n\n#### （3）模型與假設空間\n\n機器學習中的模型可視為一種將輸入資料映射為預測結果的數學函數。不同的模型類型，對資料背後的分佈與結構隱含不同的假設，也稱為假設空間 （Hypothesis Space）。舉例：\n\n• 線性模型假設樣本可用線性邊界區分；\n\n• 決策樹假設可透過一系列條件規則進行分類；\n\n• 神經網路則傾向透過非線性結構學習抽象表示。\n\n學習的核心任務，在於從整個假設空間中找出一個泛化能力最佳的函數，即能在未知資料上維持良好預測效果的模型。\n\n#### （4）學習目標與損失函數\n\n為了讓模型能根據資料進行「學習」，必須透過損失函數（Loss Function）將預測與實際結果之間的誤差量化。損失函數是整個學習流程中的關鍵評價機制，其設計反映了任務的偏好與風險取捨。\n\n常見損失函數如下：\n\n• 均方誤差（Mean Squared Error, MSE）：\n\n◦ 用於迴歸任務，對大誤差懲罰較重；\n\n• 平均絕對誤差（Mean Absolute Error, MAE）：\n\n◦ 用於迴歸任務，對異常值較具魯棒性；\n\n• 交叉熵損失（Cross-Entropy Loss）：\n\n◦ 用於分類任務，衡量預測機率分佈與實際標籤的差距。\n\n損失函數的形式不僅影響模型的數值表現，更會決定學習方向與收斂路徑。\n\n#### （5）資料分割與評估準則\n\n為確保模型具備良好的泛化能力，訓練過程中需將資料劃分為：\n\n• 訓練集（Training Set）：用於模型參數的學習；\n\n• 驗證集（Validation Set）：用來調整超參數與監控過擬合；\n\n• 測試集（Test Set）：最終評估模型表現的依據。\n\n評估指標應依任務類型選擇，例如：\n\n• 分類任務：\n\n◦ 準確率（Accuracy）、精確率與召回率（Precision/Recall）、F1 分數；\n\n• 迴歸任務：\n\n◦ 平均絕對誤差（MAE）、均方誤差（MSE）、決定係數（R²）。\n\n合理的資料分割與多元評估，有助於全面觀察模型的學習品質與應用潛力。\n\n### 3. 監督式學習\n\n監督式學習（Supervised Learning）是機器學習中最常見且應用最成熟的學習形式，其核心目標是透過「標註資料（Labeled Data）」學習一個映射函數，讓模型能根據輸入特徵預測對應的輸出結果。\n\n學習的目標是最小化模型輸出與實際標籤之間的誤差，同時具備良好的泛化能力。\n\n#### （1）基本架構\n\n在監督式學習中，每筆訓練資料由一組輸入特徵（Features）與其對應的目標標籤（Label）組成。模型的任務是在學習過程中找出一個能夠近似真實對應關係的函數，使未來面對新資料時也能產生準確預測。\n\n#### （2）主要任務類型\n\n根據預測標籤的類型，監督式學習可分為以下兩大任務：\n\n• 分類（Classification）\n\n◦ 當標籤為離散型類別時，任務即為分類。模型需判斷輸入樣本應屬於哪\n\n一類別。常見應用包括：\n\n○ 郵件分類：垃圾信 vs 一般信件\n\n○ 客戶流失預測：流失 vs 留存\n\n○ 圖像辨識：辨識影像中是貓、狗或其他物件\n\n◦ 分類模型通常輸出各類別的預測機率，再根據最高機率選擇預測結果。\n\n• 迴歸（Regression）\n\n◦ 當標籤為連續數值時，屬於迴歸任務。模型需預測一個實數值，例如：\n\n○ 房價預測\n\n○ 銷售量預測\n\n○ 使用者滿意度評分（如1 至5 顆星）\n\n◦ 常見的損失函數包括均方誤差（Mean Squared Error, MSE）與平均絕對\n\n誤差（Mean Absolute Error, MAE）。\n\n#### （3）訓練流程與評估方法\n\n一個典型的監督式學習流程包含以下步驟：\n\n• 資料準備與標記：\n\n◦ 蒐集具標籤資料，並進行清理與前處理。\n\n• 模型訓練：\n\n◦ 根據訓練集進行參數調整，最小化損失函數。\n\n• 驗證與調整：\n\n◦ 使用驗證集觀察模型表現，調整模型結構與超參數。\n\n• 測試與部署：\n\n◦ 於測試集上評估最終效能，進行應用部署。\n\n#### （4）應用場景\n\n監督式學習在實務中有廣泛應用，涵蓋多種產業與任務需求，典型例子包括：\n\n• 圖像分類（影像 → 物件類別）\n\n• 客戶信用風險評估（資料 → 信用等級）\n\n• 醫療診斷（病患資訊 → 疾病類型）\n\n在這些情境中，模型效能高度仰賴資料的標註品質與特徵設計的精準性，因此資料前處理、特徵選擇與轉換仍是監督式學習成敗的關鍵。\n\n### 4. 非監督式學習\n\n非監督式學習（Unsupervised Learning）是一種在無標註資料情況下進行學習的機器學習方法。其核心目的是從原始資料中發現潛在的結構、模式或分佈特性，而無需依賴人工標記的目標輸出。這類方法尤其適用於探索性分析、資料壓縮與隱含關係挖掘等任務。\n\n#### （1）基本架構\n\n與監督式學習不同，非監督學習模型的輸出通常不是具體的預測值，而是：\n\n• 對資料樣本的分組、歸類\n\n• 對高維資料的降維、投影\n\n• 對潛藏變數或生成機制的估計\n\n這種學習方式強調對資料本質的理解與內部表示的建構，常作為數據前處理、特徵抽取或結構探索的關鍵步驟。\n\n#### （2）主要任務類型\n\n非監督式學習依據學習目標與應用需求，劃分為幾個主要任務類型：\n\n• 聚類（Clustering）\n\n◦ 將資料依據其相似性自動劃分為若干群組，群內樣本彼此相似，群間差\n\n異明顯。\n\n• 降維（Dimensionality Reduction）\n\n◦ 將高維資料轉換為低維表示，以保留重要結構並便於視覺化或後續建\n\n模。\n\n• 關聯規則學習（Association Rule Learning）\n\n◦ 從大量資料中找出項目間的關聯性或共現規律\n\n• 潛在表示學習（Representation Learning）\n\n◦ 透過非監督方式學習可解釋或有用的資料內部結構，特別常見於語言\n\n模型、影像編碼等深度學習應用。\n\n#### （3）訓練流程與評估方法\n\n非監督式學習缺乏明確的標籤，因此其訓練與評估方式與監督式學習有所不同：\n\n• 訓練流程：\n\n◦ 資料準備與標準化（常需進行特徵縮放、中心化等）\n\n◦ 模型選擇與超參數設定（如聚類數k）\n\n◦ 模型擬合與重複迭代（許多方法依賴初始條件）\n\n• 評估方式：\n\n◦ 內部評估指標：根據資料本身的結構特徵來評估學習效果，如：\n\n○ Silhouette score（輪廓係數）\n\n○ Davies-Bouldin（指數）\n\n○ Reconstruction Error（重建誤差）\n\n◦ 外部評估指標：若有部分標籤可參考，則可使用：\n\n○ Rand Index\n\n○ Adjusted Mutual Information（AMI）\n\n◦ 視覺化輔助分析：\n\n○ 將高維結果降維至2D/3D 空間進行圖形檢視，是非監督式學習中常\n\n見的理解方式。\n\n#### （4）應用場景\n\n非監督式學習雖不依賴標註資料，但其應用廣泛，常見領域包括：\n\n• 客戶分群與行為分析（電商、行銷）\n\n• 社群偵測與異常發現（社群網路、資安）\n\n• 影像壓縮與重建（自編碼器、壓縮技術）\n\n• 主題模型與語意分析（自然語言處理）\n\n• 特徵工程與前處理（資料探索與建模前步驟）\n\n非監督式學習不僅在探索未知資料結構中具有關鍵價值，也常用於模型初始化、資料標註支援與半監督學習的先備處理階段。\n\n### 5. 強化式學習簡介\n\n強化式學習（Reinforcement Learning,RL）是一種與監督式與非監督式學習並列的核心機器學習範式，其特徵在於模型透過與環境互動學習決策策略，目標是最大化長期累積報酬（Reward）。\n\n強化式學習不僅廣泛應用於自走車、遊戲AI、機器人控制等任務，也在資源分配、推薦系統與金融決策等動態環境中展現出高效潛力。\n\n#### （1）基本架構\n\n強化式學習問題可形式化為馬可夫決策過程（Markov Decision Process, MDP），基本組成包括：\n\n• 代理人（Agent）：執行動作並從經驗中學習的人工智慧。\n\n• 環境（Environment）：代理人互動的外部系統。\n\n• 狀態（State）：代理人於某一時刻觀察到的環境資訊。\n\n• 動作（Action）：代理人在特定狀態下可採取的行為。\n\n• 報酬（Reward）：環境對代理人某一行為的回饋，用來指引學習方向。\n\n• 策略（Policy）：代理人根據當前狀態選擇動作的規則。\n\n• 價值函數（Value Function）：衡量某一狀態或狀態 - 動作對的長期獎勵期\n\n望值。\n\n代理人的學習目標是根據歷史互動經驗，調整其策略，使在不同狀態下選擇的行動能獲得最大的長期累積報酬。\n\n#### （2）主要任務類型\n\n強化式學習的任務類型依據任務設計與學習方式的不同，可分為：\n\n• 策略學習（Policy Learning）：\n\n◦ 直接學習最佳策略，例如策略梯度法（Policy Gradient）。\n\n• 價值學習（Value-Based）：\n\n◦ 學習狀態或狀態 - 動作對的價值函數，如Q-learning。\n\n• 模型式學習（Model-Based RL）：\n\n◦ 嘗試學習環境轉移與回饋機制，提升策略更新效率。\n\n• 模型無關學習（Model-Free RL）：\n\n◦ 無需環境模型，依賴試誤與經驗回放。\n\n另可依決策空間區分，例如：\n\n• 離散動作空間：適用於分類型選擇，如遊戲動作、導航決策。\n\n• 連續動作空間：適用於控制類任務，如機械臂運動、車輛轉向控制。\n\n#### （3）訓練流程與評估方法\n\n強化式學習的訓練流程具高度互動與回饋循環性，包含以下步驟：\n\n##### A. 初始化策略或價值函數\n\n##### B. 與環境互動並收集經驗\n\n##### C. 根據報酬更新策略或價值估計\n\n##### D. 重複試誤學習，逐步提升決策表現\n\n評估方式則不同於分類或迴歸任務的靜態指標，需透過模擬或實際環境測試長期績效，指標包括：\n\n• 平均累積報酬（Average Reward per Episode）\n\n• 成功率或任務達成率\n\n• 策略穩定性與收斂速度\n\n因訓練過程涉及動態回饋、延遲效應與探索策略，強化式學習對收斂控制與樣本效率的要求特別高。\n\n#### （4）應用場景\n\n強化式學習具備適應動態環境與策略自我調整能力，特別適合下列情境：\n\n• 遊戲AI 與對弈系統：AlphaGo、OpenAI Five、DeepMind Atari 等。\n\n• 自駕車與機器人控制：動作序列學習、導航決策、連續控制。\n\n• 推薦系統與廣告分發：即時反饋優化、長期使用者價值最大化。\n\n• 金融投資與資源配置：連續決策、風險控制、強化投資策略。\n\n• 運輸與物流排程：多階段決策與最短路徑規劃。\n\n強化式學習技術在策略最適化與動態決策領域展現高度潛力，但同時也面臨如樣本效率低、訓練不穩定、實務部署門檻高等挑戰。",
   "contentFormat": "markdown",
   "headings": [
     {
@@ -153,7 +153,10 @@
         284.62,
         174.28
       ],
-      "id": "block-1"
+      "id": "block-1",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -167,7 +170,10 @@
         203.57,
         218.12
       ],
-      "id": "block-2"
+      "id": "block-2",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -180,7 +186,10 @@
         521.44,
         267.29
       ],
-      "id": "block-3"
+      "id": "block-3",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -193,7 +202,10 @@
         518.14,
         317.54
       ],
-      "id": "block-4"
+      "id": "block-4",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -206,7 +218,10 @@
         517.93,
         392.54
       ],
-      "id": "block-5"
+      "id": "block-5",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -219,7 +234,10 @@
         518.43,
         517.6
       ],
-      "id": "block-6"
+      "id": "block-6",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -232,7 +250,10 @@
         517.93,
         592.6
       ],
-      "id": "block-7"
+      "id": "block-7",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -246,7 +267,10 @@
         231.76,
         643.12
       ],
-      "id": "block-8"
+      "id": "block-8",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -259,7 +283,10 @@
         517.93,
         717.55
       ],
-      "id": "block-9"
+      "id": "block-9",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -273,7 +300,10 @@
         218.23,
         114.11
       ],
-      "id": "block-10"
+      "id": "block-10",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -286,7 +316,10 @@
         517.93,
         189.11
       ],
-      "id": "block-11"
+      "id": "block-11",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -299,7 +332,10 @@
         518.09,
         289.1
       ],
-      "id": "block-12"
+      "id": "block-12",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -313,7 +349,10 @@
         218.23,
         339.14
       ],
-      "id": "block-13"
+      "id": "block-13",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -326,11 +365,14 @@
         482.88,
         364.1
       ],
-      "id": "block-14"
+      "id": "block-14",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "分類（Classification）：",
       "pageIndex": 40,
@@ -340,11 +382,15 @@
         249.07,
         389.18
       ],
-      "id": "block-15"
+      "id": "block-15",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "預測樣本所屬的類別，標籤為離散型（如0、1 或多類別）。",
       "pageIndex": 40,
       "bbox": [
@@ -353,11 +399,14 @@
         466.8,
         414.14
       ],
-      "id": "block-16"
+      "id": "block-16",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "迴歸（Regression）：",
       "pageIndex": 40,
@@ -367,11 +416,15 @@
         235.27,
         439.1
       ],
-      "id": "block-17"
+      "id": "block-17",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "預測一個連續的數值，標籤為實數。",
       "pageIndex": 40,
       "bbox": [
@@ -380,11 +433,14 @@
         340.77,
         464.2
       ],
-      "id": "block-18"
+      "id": "block-18",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "聚類（Clustering）：",
       "pageIndex": 40,
@@ -394,11 +450,15 @@
         231.91,
         489.16
       ],
-      "id": "block-19"
+      "id": "block-19",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "在無標籤的情況下，根據樣本間的相似度進行分群。",
       "pageIndex": 40,
       "bbox": [
@@ -407,11 +467,14 @@
         428.97,
         514.12
       ],
-      "id": "block-20"
+      "id": "block-20",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "降維（Dimensionality Reduction）：",
       "pageIndex": 40,
@@ -421,11 +484,15 @@
         312.43,
         539.2
       ],
-      "id": "block-21"
+      "id": "block-21",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "將高維資料映射至較低維度，以保留資料結構的同時簡化模型計算。",
       "pageIndex": 40,
       "bbox": [
@@ -434,11 +501,14 @@
         517.2,
         564.16
       ],
-      "id": "block-22"
+      "id": "block-22",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "序列決策（Sequential Decision）：",
       "pageIndex": 40,
@@ -448,11 +518,15 @@
         306.19,
         589.12
       ],
-      "id": "block-23"
+      "id": "block-23",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "針對連續互動情境中採取的行動進行學習，以最大化長期報酬。",
       "pageIndex": 40,
       "bbox": [
@@ -461,7 +535,10 @@
         492.0,
         614.2
       ],
-      "id": "block-24"
+      "id": "block-24",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -474,7 +551,10 @@
         517.93,
         689.23
       ],
-      "id": "block-25"
+      "id": "block-25",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -488,7 +568,10 @@
         193.03,
         114.11
       ],
-      "id": "block-26"
+      "id": "block-26",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -501,11 +584,14 @@
         517.95,
         187.67
       ],
-      "id": "block-27"
+      "id": "block-27",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "線性模型假設樣本可用線性邊界區分；",
       "pageIndex": 41,
@@ -515,11 +601,14 @@
         336.45,
         212.15
       ],
-      "id": "block-28"
+      "id": "block-28",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "決策樹假設可透過一系列條件規則進行分類；",
       "pageIndex": 41,
@@ -529,11 +618,14 @@
         374.25,
         236.63
       ],
-      "id": "block-29"
+      "id": "block-29",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "神經網路則傾向透過非線性結構學習抽象表示。",
       "pageIndex": 41,
@@ -543,7 +635,10 @@
         386.85,
         261.11
       ],
-      "id": "block-30"
+      "id": "block-30",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -556,7 +651,10 @@
         517.93,
         334.7
       ],
-      "id": "block-31"
+      "id": "block-31",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -570,7 +668,10 @@
         218.23,
         383.66
       ],
-      "id": "block-32"
+      "id": "block-32",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -583,7 +684,10 @@
         518.4,
         457.24
       ],
-      "id": "block-33"
+      "id": "block-33",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -596,11 +700,14 @@
         218.23,
         481.72
       ],
-      "id": "block-34"
+      "id": "block-34",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "均方誤差（Mean Squared Error, MSE）：",
       "pageIndex": 41,
@@ -610,11 +717,15 @@
         339.21,
         506.2
       ],
-      "id": "block-35"
+      "id": "block-35",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "用於迴歸任務，對大誤差懲罰較重；",
       "pageIndex": 41,
       "bbox": [
@@ -623,11 +734,14 @@
         340.77,
         530.68
       ],
-      "id": "block-36"
+      "id": "block-36",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "平均絕對誤差（Mean Absolute Error, MAE）：",
       "pageIndex": 41,
@@ -637,11 +751,15 @@
         370.05,
         555.16
       ],
-      "id": "block-37"
+      "id": "block-37",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "用於迴歸任務，對異常值較具魯棒性；",
       "pageIndex": 41,
       "bbox": [
@@ -650,11 +768,14 @@
         353.37,
         579.64
       ],
-      "id": "block-38"
+      "id": "block-38",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "交叉熵損失（Cross-Entropy Loss）：",
       "pageIndex": 41,
@@ -664,11 +785,15 @@
         317.83,
         604.24
       ],
-      "id": "block-39"
+      "id": "block-39",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "用於分類任務，衡量預測機率分佈與實際標籤的差距。",
       "pageIndex": 41,
       "bbox": [
@@ -677,7 +802,10 @@
         441.57,
         628.75
       ],
-      "id": "block-40"
+      "id": "block-40",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -690,7 +818,10 @@
         520.68,
         677.71
       ],
-      "id": "block-41"
+      "id": "block-41",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -704,7 +835,10 @@
         218.23,
         113.63
       ],
-      "id": "block-42"
+      "id": "block-42",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -717,11 +851,14 @@
         457.68,
         138.11
       ],
-      "id": "block-43"
+      "id": "block-43",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "訓練集（Training Set）：用於模型參數的學習；",
       "pageIndex": 42,
@@ -731,11 +868,14 @@
         380.37,
         162.59
       ],
-      "id": "block-44"
+      "id": "block-44",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "驗證集（Validation Set）：用來調整超參數與監控過擬合；",
       "pageIndex": 42,
@@ -745,11 +885,14 @@
         439.89,
         187.19
       ],
-      "id": "block-45"
+      "id": "block-45",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "測試集（Test Set）：最終評估模型表現的依據。",
       "pageIndex": 42,
@@ -759,7 +902,10 @@
         383.37,
         211.67
       ],
-      "id": "block-46"
+      "id": "block-46",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -772,11 +918,14 @@
         306.43,
         236.63
       ],
-      "id": "block-47"
+      "id": "block-47",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "分類任務：",
       "pageIndex": 42,
@@ -786,11 +935,15 @@
         185.2,
         261.62
       ],
-      "id": "block-48"
+      "id": "block-48",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "準確率（Accuracy）、精確率與召回率（Precision/Recall）、F1 分數；",
       "pageIndex": 42,
       "bbox": [
@@ -799,11 +952,14 @@
         514.32,
         286.7
       ],
-      "id": "block-49"
+      "id": "block-49",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "迴歸任務：",
       "pageIndex": 42,
@@ -813,11 +969,15 @@
         185.2,
         311.66
       ],
-      "id": "block-50"
+      "id": "block-50",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "平均絕對誤差（MAE）、均方誤差（MSE）、決定係數（R²）。",
       "pageIndex": 42,
       "bbox": [
@@ -826,7 +986,10 @@
         475.44,
         336.62
       ],
-      "id": "block-51"
+      "id": "block-51",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -839,7 +1002,10 @@
         520.68,
         386.66
       ],
-      "id": "block-52"
+      "id": "block-52",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -853,7 +1019,10 @@
         175.37,
         437.27
       ],
-      "id": "block-53"
+      "id": "block-53",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -866,7 +1035,10 @@
         518.26,
         511.72
       ],
-      "id": "block-54"
+      "id": "block-54",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -879,7 +1051,10 @@
         517.93,
         561.64
       ],
-      "id": "block-55"
+      "id": "block-55",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -893,7 +1068,10 @@
         155.2,
         611.68
       ],
-      "id": "block-56"
+      "id": "block-56",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -906,7 +1084,10 @@
         518.29,
         686.71
       ],
-      "id": "block-57"
+      "id": "block-57",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -920,7 +1101,10 @@
         180.4,
         736.75
       ],
-      "id": "block-58"
+      "id": "block-58",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -933,65 +1117,202 @@
         419.85,
         761.7
       ],
-      "id": "block-59"
+      "id": "block-59",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "分類（Classification） 當標籤為離散型類別時，任務即為分類。模型需判斷輸入樣本應屬於哪一類別。常見應用包括：",
+      "text": "分類（Classification）",
       "pageIndex": 43,
       "bbox": [
         102.16,
         100.66,
-        518.2,
-        164.15
+        242.83,
+        114.11
       ],
-      "id": "block-60"
+      "id": "block-60",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "郵件分類：垃圾信 vs 一般信件客戶流失預測：流失 vs 留存圖像辨識：辨識影像中是貓、狗或其他物件分類模型通常輸出各類別的預測機率，再根據最高機率選擇預測結果。",
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "當標籤為離散型類別時，任務即為分類。模型需判斷輸入樣本應屬於哪一類別。常見應用包括：",
       "pageIndex": 43,
       "bbox": [
         120.52,
-        175.66,
-        521.88,
-        264.14
+        125.62,
+        518.2,
+        164.15
       ],
-      "id": "block-61"
+      "id": "block-61",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
       "depth": 7,
+      "marker": "○",
+      "text": "郵件分類：垃圾信 vs 一般信件",
+      "pageIndex": 43,
+      "bbox": [
+        136.12,
+        175.66,
+        329.01,
+        189.11
+      ],
+      "id": "block-62",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "客戶流失預測：流失 vs 留存",
+      "pageIndex": 43,
+      "bbox": [
+        136.12,
+        200.62,
+        316.39,
+        214.07
+      ],
+      "id": "block-63",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "圖像辨識：辨識影像中是貓、狗或其他物件",
+      "pageIndex": 43,
+      "bbox": [
+        136.12,
+        225.7,
+        392.73,
+        239.15
+      ],
+      "id": "block-64",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "分類模型通常輸出各類別的預測機率，再根據最高機率選擇預測結果。",
+      "pageIndex": 43,
+      "bbox": [
+        120.52,
+        250.69,
+        521.88,
+        264.14
+      ],
+      "id": "block-65",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
       "marker": "•",
-      "text": "迴歸（Regression） 當標籤為連續數值時，屬於迴歸任務。模型需預測一個實數值，例如：",
+      "text": "迴歸（Regression）",
       "pageIndex": 43,
       "bbox": [
         102.16,
         275.65,
+        228.91,
+        289.1
+      ],
+      "id": "block-66",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "當標籤為連續數值時，屬於迴歸任務。模型需預測一個實數值，例如：",
+      "pageIndex": 43,
+      "bbox": [
+        120.52,
+        300.73,
         521.88,
         314.18
       ],
-      "id": "block-62"
+      "id": "block-67",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "房價預測銷售量預測使用者滿意度評分（如1 至5 顆星）",
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "房價預測",
       "pageIndex": 43,
       "bbox": [
         136.12,
         325.69,
+        203.71,
+        339.14
+      ],
+      "id": "block-68",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "銷售量預測",
+      "pageIndex": 43,
+      "bbox": [
+        136.12,
+        350.65,
+        216.31,
+        364.1
+      ],
+      "id": "block-69",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "使用者滿意度評分（如1 至5 顆星）",
+      "pageIndex": 43,
+      "bbox": [
+        136.12,
+        375.73,
         354.93,
         389.18
       ],
-      "id": "block-63"
+      "id": "block-70",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "常見的損失函數包括均方誤差（Mean Squared Error, MSE）與平均絕對誤差（Mean Absolute Error, MAE）。",
       "pageIndex": 43,
       "bbox": [
@@ -1000,7 +1321,10 @@
         518.2,
         439.1
       ],
-      "id": "block-64"
+      "id": "block-71",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1014,7 +1338,10 @@
         218.23,
         489.16
       ],
-      "id": "block-65"
+      "id": "block-72",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1027,11 +1354,14 @@
         344.25,
         514.12
       ],
-      "id": "block-66"
+      "id": "block-73",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資料準備與標記：",
       "pageIndex": 43,
@@ -1041,11 +1371,15 @@
         223.03,
         539.2
       ],
-      "id": "block-67"
+      "id": "block-74",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "蒐集具標籤資料，並進行清理與前處理。",
       "pageIndex": 43,
       "bbox": [
@@ -1054,11 +1388,14 @@
         365.97,
         564.16
       ],
-      "id": "block-68"
+      "id": "block-75",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "模型訓練：",
       "pageIndex": 43,
@@ -1068,11 +1405,15 @@
         185.2,
         589.12
       ],
-      "id": "block-69"
+      "id": "block-76",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "根據訓練集進行參數調整，最小化損失函數。",
       "pageIndex": 43,
       "bbox": [
@@ -1081,11 +1422,14 @@
         391.17,
         614.2
       ],
-      "id": "block-70"
+      "id": "block-77",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "驗證與調整：",
       "pageIndex": 43,
@@ -1095,11 +1439,15 @@
         197.83,
         639.19
       ],
-      "id": "block-71"
+      "id": "block-78",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "使用驗證集觀察模型表現，調整模型結構與超參數。",
       "pageIndex": 43,
       "bbox": [
@@ -1108,11 +1456,14 @@
         428.97,
         664.15
       ],
-      "id": "block-72"
+      "id": "block-79",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "測試與部署：",
       "pageIndex": 43,
@@ -1122,11 +1473,15 @@
         197.83,
         689.23
       ],
-      "id": "block-73"
+      "id": "block-80",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "於測試集上評估最終效能，進行應用部署。",
       "pageIndex": 43,
       "bbox": [
@@ -1135,7 +1490,10 @@
         378.57,
         714.19
       ],
-      "id": "block-74"
+      "id": "block-81",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1149,7 +1507,10 @@
         155.2,
         114.11
       ],
-      "id": "block-75"
+      "id": "block-82",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1162,11 +1523,14 @@
         521.88,
         139.07
       ],
-      "id": "block-76"
+      "id": "block-83",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "圖像分類（影像 → 物件類別）",
       "pageIndex": 44,
@@ -1176,11 +1540,14 @@
         298.99,
         164.15
       ],
-      "id": "block-77"
+      "id": "block-84",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "客戶信用風險評估（資料 → 信用等級）",
       "pageIndex": 44,
@@ -1190,11 +1557,14 @@
         349.41,
         189.11
       ],
-      "id": "block-78"
+      "id": "block-85",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "醫療診斷（病患資訊 → 疾病類型）",
       "pageIndex": 44,
@@ -1204,7 +1574,10 @@
         324.21,
         214.07
       ],
-      "id": "block-79"
+      "id": "block-86",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1217,7 +1590,10 @@
         518.22,
         289.1
       ],
-      "id": "block-80"
+      "id": "block-87",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1231,7 +1607,10 @@
         189.4,
         339.71
       ],
-      "id": "block-81"
+      "id": "block-88",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1244,7 +1623,10 @@
         521.08,
         439.1
       ],
-      "id": "block-82"
+      "id": "block-89",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1258,21 +1640,61 @@
         155.2,
         489.16
       ],
-      "id": "block-83"
+      "id": "block-90",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "對資料樣本的分組、歸類 • 對高維資料的降維、投影 • 對潛藏變數或生成機制的估計",
+      "text": "對資料樣本的分組、歸類",
       "pageIndex": 44,
       "bbox": [
         102.16,
         525.75,
+        260.83,
+        539.2
+      ],
+      "id": "block-91",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "對高維資料的降維、投影",
+      "pageIndex": 44,
+      "bbox": [
+        102.16,
+        550.71,
+        260.83,
+        564.16
+      ],
+      "id": "block-92",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "對潛藏變數或生成機制的估計",
+      "pageIndex": 44,
+      "bbox": [
+        102.16,
+        575.67,
         286.03,
         589.12
       ],
-      "id": "block-84"
+      "id": "block-93",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1285,7 +1707,10 @@
         521.42,
         664.15
       ],
-      "id": "block-85"
+      "id": "block-94",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1299,7 +1724,10 @@
         180.4,
         714.19
       ],
-      "id": "block-86"
+      "id": "block-95",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1312,49 +1740,146 @@
         482.88,
         755.82
       ],
-      "id": "block-87"
+      "id": "block-96",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "聚類（Clustering） 將資料依據其相似性自動劃分為若干群組，群內樣本彼此相似，群間差異明顯。",
+      "text": "聚類（Clustering）",
       "pageIndex": 45,
       "bbox": [
         102.16,
         100.66,
-        518.2,
-        164.15
+        225.67,
+        114.11
       ],
-      "id": "block-88"
+      "id": "block-97",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 6,
+      "marker": "◦",
+      "text": "將資料依據其相似性自動劃分為若干群組，群內樣本彼此相似，群間差異明顯。",
+      "pageIndex": 45,
+      "bbox": [
+        120.52,
+        125.62,
+        518.2,
+        164.15
+      ],
+      "id": "block-98",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
       "marker": "•",
-      "text": "降維（Dimensionality Reduction） 將高維資料轉換為低維表示，以保留重要結構並便於視覺化或後續建模。",
+      "text": "降維（Dimensionality Reduction）",
       "pageIndex": 45,
       "bbox": [
         102.16,
         175.66,
-        517.85,
-        239.15
+        306.19,
+        189.11
       ],
-      "id": "block-89"
+      "id": "block-99",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 6,
+      "marker": "◦",
+      "text": "將高維資料轉換為低維表示，以保留重要結構並便於視覺化或後續建模。",
+      "pageIndex": 45,
+      "bbox": [
+        120.52,
+        200.62,
+        517.85,
+        239.15
+      ],
+      "id": "block-100",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
       "marker": "•",
-      "text": "關聯規則學習（Association Rule Learning） 從大量資料中找出項目間的關聯性或共現規律 • 潛在表示學習（Representation Learning） 透過非監督方式學習可解釋或有用的資料內部結構，特別常見於語言模型、影像編碼等深度學習應用。",
+      "text": "關聯規則學習（Association Rule Learning）",
       "pageIndex": 45,
       "bbox": [
         102.16,
         250.69,
+        359.13,
+        264.14
+      ],
+      "id": "block-101",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "從大量資料中找出項目間的關聯性或共現規律",
+      "pageIndex": 45,
+      "bbox": [
+        120.52,
+        275.65,
+        391.17,
+        289.1
+      ],
+      "id": "block-102",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "潛在表示學習（Representation Learning）",
+      "pageIndex": 45,
+      "bbox": [
+        102.16,
+        300.73,
+        348.21,
+        314.18
+      ],
+      "id": "block-103",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "透過非監督方式學習可解釋或有用的資料內部結構，特別常見於語言模型、影像編碼等深度學習應用。",
+      "pageIndex": 45,
+      "bbox": [
+        120.52,
+        325.69,
         517.88,
         364.1
       ],
-      "id": "block-90"
+      "id": "block-104",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1368,7 +1893,10 @@
         218.23,
         414.14
       ],
-      "id": "block-91"
+      "id": "block-105",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1381,11 +1909,14 @@
         518.35,
         464.2
       ],
-      "id": "block-92"
+      "id": "block-106",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "訓練流程：",
       "pageIndex": 45,
@@ -1395,24 +1926,65 @@
         185.2,
         489.16
       ],
-      "id": "block-93"
+      "id": "block-107",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "資料準備與標準化（常需進行特徵縮放、中心化等） 模型選擇與超參數設定（如聚類數k） 模型擬合與重複迭代（許多方法依賴初始條件）",
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "資料準備與標準化（常需進行特徵縮放、中心化等）",
       "pageIndex": 45,
       "bbox": [
         120.52,
         500.67,
         428.97,
-        564.16
+        514.12
       ],
-      "id": "block-94"
+      "id": "block-108",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 6,
+      "marker": "◦",
+      "text": "模型選擇與超參數設定（如聚類數k）",
+      "pageIndex": 45,
+      "bbox": [
+        120.52,
+        525.75,
+        350.25,
+        539.2
+      ],
+      "id": "block-109",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "模型擬合與重複迭代（許多方法依賴初始條件）",
+      "pageIndex": 45,
+      "bbox": [
+        120.52,
+        550.71,
+        403.77,
+        564.16
+      ],
+      "id": "block-110",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
       "marker": "•",
       "text": "評估方式：",
       "pageIndex": 45,
@@ -1422,11 +1994,15 @@
         185.2,
         589.12
       ],
-      "id": "block-95"
+      "id": "block-111",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "內部評估指標：根據資料本身的結構特徵來評估學習效果，如：",
       "pageIndex": 45,
       "bbox": [
@@ -1435,37 +2011,134 @@
         492.0,
         614.2
       ],
-      "id": "block-96"
+      "id": "block-112",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "Silhouette score（輪廓係數） Davies-Bouldin（指數） Reconstruction Error（重建誤差） 外部評估指標：若有部分標籤可參考，則可使用：",
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "Silhouette score（輪廓係數）",
+      "pageIndex": 45,
+      "bbox": [
+        136.12,
+        625.74,
+        310.75,
+        639.19
+      ],
+      "id": "block-113",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "Davies-Bouldin（指數）",
+      "pageIndex": 45,
+      "bbox": [
+        136.12,
+        650.7,
+        283.87,
+        664.15
+      ],
+      "id": "block-114",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "Reconstruction Error（重建誤差）",
+      "pageIndex": 45,
+      "bbox": [
+        136.12,
+        675.78,
+        335.85,
+        689.23
+      ],
+      "id": "block-115",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "外部評估指標：若有部分標籤可參考，則可使用：",
       "pageIndex": 45,
       "bbox": [
         120.52,
-        625.74,
+        700.74,
         416.37,
         714.19
       ],
-      "id": "block-97"
+      "id": "block-116",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "Rand Index Adjusted Mutual Information（AMI） 視覺化輔助分析：",
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "Rand Index",
       "pageIndex": 45,
       "bbox": [
-        120.52,
-        100.66,
+        136.12,
+        727.02,
+        211.99,
+        740.47
+      ],
+      "id": "block-117",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "Adjusted Mutual Information（AMI）",
+      "pageIndex": 45,
+      "bbox": [
+        136.12,
+        750.77,
         352.17,
         764.22
       ],
-      "id": "block-98"
+      "id": "block-118",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "視覺化輔助分析：",
+      "pageIndex": 46,
+      "bbox": [
+        120.52,
+        100.66,
+        239.95,
+        114.11
+      ],
+      "id": "block-119",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "將高維結果降維至2D/3D 空間進行圖形檢視，是非監督式學習中常見的理解方式。",
       "pageIndex": 46,
       "bbox": [
@@ -1474,7 +2147,10 @@
         518.4,
         164.15
       ],
-      "id": "block-99"
+      "id": "block-120",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1488,7 +2164,10 @@
         155.2,
         214.07
       ],
-      "id": "block-100"
+      "id": "block-121",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1501,11 +2180,14 @@
         470.28,
         239.15
       ],
-      "id": "block-101"
+      "id": "block-122",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "客戶分群與行為分析（電商、行銷）",
       "pageIndex": 46,
@@ -1515,11 +2197,14 @@
         323.85,
         264.14
       ],
-      "id": "block-102"
+      "id": "block-123",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "社群偵測與異常發現（社群網路、資安）",
       "pageIndex": 46,
@@ -1529,11 +2214,14 @@
         349.05,
         289.1
       ],
-      "id": "block-103"
+      "id": "block-124",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "影像壓縮與重建（自編碼器、壓縮技術）",
       "pageIndex": 46,
@@ -1543,11 +2231,14 @@
         349.05,
         314.18
       ],
-      "id": "block-104"
+      "id": "block-125",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "主題模型與語意分析（自然語言處理）",
       "pageIndex": 46,
@@ -1557,11 +2248,14 @@
         336.45,
         339.14
       ],
-      "id": "block-105"
+      "id": "block-126",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "特徵工程與前處理（資料探索與建模前步驟）",
       "pageIndex": 46,
@@ -1571,7 +2265,10 @@
         374.25,
         364.1
       ],
-      "id": "block-106"
+      "id": "block-127",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1584,7 +2281,10 @@
         517.93,
         439.1
       ],
-      "id": "block-107"
+      "id": "block-128",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1598,7 +2298,10 @@
         231.73,
         489.73
       ],
-      "id": "block-108"
+      "id": "block-129",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1611,7 +2314,10 @@
         518.08,
         564.16
       ],
-      "id": "block-109"
+      "id": "block-130",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1624,7 +2330,10 @@
         518.09,
         614.2
       ],
-      "id": "block-110"
+      "id": "block-131",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1638,7 +2347,10 @@
         155.2,
         664.15
       ],
-      "id": "block-111"
+      "id": "block-132",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1651,11 +2363,14 @@
         521.56,
         714.19
       ],
-      "id": "block-112"
+      "id": "block-133",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "代理人（Agent）：執行動作並從經驗中學習的人工智慧。",
       "pageIndex": 46,
@@ -1665,11 +2380,14 @@
         436.53,
         739.15
       ],
-      "id": "block-113"
+      "id": "block-134",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "環境（Environment）：代理人互動的外部系統。",
       "pageIndex": 46,
@@ -1679,11 +2397,14 @@
         383.49,
         764.22
       ],
-      "id": "block-114"
+      "id": "block-135",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "狀態（State）：代理人於某一時刻觀察到的環境資訊。",
       "pageIndex": 47,
@@ -1693,11 +2414,14 @@
         418.65,
         114.11
       ],
-      "id": "block-115"
+      "id": "block-136",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "動作（Action）：代理人在特定狀態下可採取的行為。",
       "pageIndex": 47,
@@ -1707,11 +2431,14 @@
         415.05,
         139.07
       ],
-      "id": "block-116"
+      "id": "block-137",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "報酬（Reward）：環境對代理人某一行為的回饋，用來指引學習方向。",
       "pageIndex": 47,
@@ -1721,11 +2448,14 @@
         507.96,
         164.15
       ],
-      "id": "block-117"
+      "id": "block-138",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "策略（Policy）：代理人根據當前狀態選擇動作的規則。",
       "pageIndex": 47,
@@ -1735,11 +2465,14 @@
         425.61,
         189.11
       ],
-      "id": "block-118"
+      "id": "block-139",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "價值函數（Value Function）：衡量某一狀態或狀態 - 動作對的長期獎勵期望值。",
       "pageIndex": 47,
@@ -1749,7 +2482,10 @@
         518.37,
         239.15
       ],
-      "id": "block-119"
+      "id": "block-140",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1762,7 +2498,10 @@
         517.93,
         314.18
       ],
-      "id": "block-120"
+      "id": "block-141",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1776,7 +2515,10 @@
         180.4,
         364.1
       ],
-      "id": "block-121"
+      "id": "block-142",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1789,11 +2531,14 @@
         470.28,
         389.18
       ],
-      "id": "block-122"
+      "id": "block-143",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "策略學習（Policy Learning）：",
       "pageIndex": 47,
@@ -1803,11 +2548,15 @@
         285.55,
         414.14
       ],
-      "id": "block-123"
+      "id": "block-144",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "直接學習最佳策略，例如策略梯度法（Policy Gradient）。",
       "pageIndex": 47,
       "bbox": [
@@ -1816,11 +2565,14 @@
         452.37,
         439.1
       ],
-      "id": "block-124"
+      "id": "block-145",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "價值學習（Value-Based）：",
       "pageIndex": 47,
@@ -1830,11 +2582,15 @@
         268.03,
         464.2
       ],
-      "id": "block-125"
+      "id": "block-146",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "學習狀態或狀態 - 動作對的價值函數，如Q-learning。",
       "pageIndex": 47,
       "bbox": [
@@ -1843,11 +2599,14 @@
         441.57,
         489.57
       ],
-      "id": "block-126"
+      "id": "block-147",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "模型式學習（Model-Based RL）：",
       "pageIndex": 47,
@@ -1857,11 +2616,15 @@
         304.03,
         514.12
       ],
-      "id": "block-127"
+      "id": "block-148",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "嘗試學習環境轉移與回饋機制，提升策略更新效率。",
       "pageIndex": 47,
       "bbox": [
@@ -1870,11 +2633,14 @@
         428.97,
         539.2
       ],
-      "id": "block-128"
+      "id": "block-149",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "模型無關學習（Model-Free RL）：",
       "pageIndex": 47,
@@ -1884,11 +2650,15 @@
         308.23,
         564.16
       ],
-      "id": "block-129"
+      "id": "block-150",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "無需環境模型，依賴試誤與經驗回放。",
       "pageIndex": 47,
       "bbox": [
@@ -1897,7 +2667,10 @@
         353.37,
         589.12
       ],
-      "id": "block-130"
+      "id": "block-151",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1910,11 +2683,14 @@
         268.63,
         622.36
       ],
-      "id": "block-131"
+      "id": "block-152",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "離散動作空間：適用於分類型選擇，如遊戲動作、導航決策。",
       "pageIndex": 47,
@@ -1924,11 +2700,14 @@
         462.48,
         647.35
       ],
-      "id": "block-132"
+      "id": "block-153",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "連續動作空間：適用於控制類任務，如機械臂運動、車輛轉向控制。",
       "pageIndex": 47,
@@ -1938,7 +2717,10 @@
         500.28,
         672.31
       ],
-      "id": "block-133"
+      "id": "block-154",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1952,7 +2734,10 @@
         218.23,
         114.11
       ],
-      "id": "block-134"
+      "id": "block-155",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1965,7 +2750,10 @@
         470.28,
         139.07
       ],
-      "id": "block-135"
+      "id": "block-156",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1979,7 +2767,10 @@
         224.47,
         164.15
       ],
-      "id": "block-136"
+      "id": "block-157",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1993,7 +2784,10 @@
         224.47,
         189.11
       ],
-      "id": "block-137"
+      "id": "block-158",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2007,7 +2801,10 @@
         262.27,
         214.07
       ],
-      "id": "block-138"
+      "id": "block-159",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2021,7 +2818,10 @@
         287.47,
         239.15
       ],
-      "id": "block-139"
+      "id": "block-160",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2034,11 +2834,14 @@
         517.93,
         314.18
       ],
-      "id": "block-140"
+      "id": "block-161",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "平均累積報酬（Average Reward per Episode）",
       "pageIndex": 48,
@@ -2048,21 +2851,60 @@
         370.89,
         339.14
       ],
-      "id": "block-141"
+      "id": "block-162",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "成功率或任務達成率 • 策略穩定性與收斂速度因訓練過程涉及動態回饋、延遲效應與探索策略，強化式學習對收斂控制與樣本效率的要求特別高。",
+      "text": "成功率或任務達成率",
+      "pageIndex": 48,
+      "bbox": [
+        102.16,
+        350.65,
+        235.63,
+        364.1
+      ],
+      "id": "block-163",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "策略穩定性與收斂速度",
+      "pageIndex": 48,
+      "bbox": [
+        102.16,
+        375.73,
+        248.23,
+        389.18
+      ],
+      "id": "block-164",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "paragraph",
+      "depth": 6,
+      "text": "因訓練過程涉及動態回饋、延遲效應與探索策略，強化式學習對收斂控制與樣本效率的要求特別高。",
       "pageIndex": 48,
       "bbox": [
         76.6,
-        350.65,
+        401.93,
         517.93,
         439.1
       ],
-      "id": "block-142"
+      "id": "block-165",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2076,7 +2918,10 @@
         155.2,
         489.16
       ],
-      "id": "block-143"
+      "id": "block-166",
+      "nodeId": "mid-s3c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2089,11 +2934,14 @@
         508.08,
         514.12
       ],
-      "id": "block-144"
+      "id": "block-167",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "遊戲AI 與對弈系統：AlphaGo、OpenAI Five、DeepMind Atari 等。",
       "pageIndex": 48,
@@ -2103,11 +2951,14 @@
         491.16,
         539.2
       ],
-      "id": "block-145"
+      "id": "block-168",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "自駕車與機器人控制：動作序列學習、導航決策、連續控制。",
       "pageIndex": 48,
@@ -2117,11 +2968,14 @@
         462.48,
         564.16
       ],
-      "id": "block-146"
+      "id": "block-169",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "推薦系統與廣告分發：即時反饋優化、長期使用者價值最大化。",
       "pageIndex": 48,
@@ -2131,11 +2985,14 @@
         475.08,
         589.12
       ],
-      "id": "block-147"
+      "id": "block-170",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "金融投資與資源配置：連續決策、風險控制、強化投資策略。",
       "pageIndex": 48,
@@ -2145,11 +3002,14 @@
         462.48,
         614.2
       ],
-      "id": "block-148"
+      "id": "block-171",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "運輸與物流排程：多階段決策與最短路徑規劃。",
       "pageIndex": 48,
@@ -2159,7 +3019,10 @@
         386.85,
         639.19
       ],
-      "id": "block-149"
+      "id": "block-172",
+      "nodeId": "mid-s3c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2172,7 +3035,10 @@
         517.93,
         714.19
       ],
-      "id": "block-150"
+      "id": "block-173",
+      "nodeId": "mid-s3c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     }
   ],
   "sourcePages": [

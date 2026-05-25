@@ -1,7 +1,7 @@
 {
   "id": "mid-s3c9",
   "title": "模型訓練、評估與驗證",
-  "content": "# 模型訓練、評估與驗證\n\n5.3\n\n## 模型訓練、評估與驗證\n\n### 1. 前言與章節導覽\n\n在機器學習開發流程中，即便選擇了合適的模型架構與演算法，若訓練過程未能有效執行、評估方法不嚴謹，仍可能導致模型在實際應用中表現不佳，甚至產生錯誤決策。\n\n本節聚焦於模型訓練過程中的核心技術與方法，包括訓練資料的使用方式、模型學習策略的選擇、效能評估指標的設計，以及模型穩定性與泛化能力的檢驗流程。同時也強調透過視覺化輔助進行結果理解與分析，協助使用者掌握模型學習行為與預測邏輯。\n\n### 2. 模型訓練流程與策略\n\n模型訓練是構建機器學習系統中關鍵的運作環節，負責依據資料調整模型參數，使其能有效對應輸入與預測目標之間的關係。適當的訓練策略不僅有助於加速收斂過程，也能提升模型在未見資料上的泛化能力，降低過擬合風險。本節將說明模型訓練的主要流程與實務常用策略，並解析其對整體模型效能的影響。\n\n#### （1）資料分割與準備\n\n為評估模型在未見資料上的表現，常需將原始資料集依功能目的劃分為以下部分：\n\n• 訓練集（Training Set）：\n\n用於模型參數的學習與內部結構調整，是整個學習流程的基礎。\n\n• 驗證集（Validation Set）：\n\n作為調整超參數（如學習率、正則化係數）與監控訓練過程的依據，用以觀察模型的泛化能力。\n\n• 測試集（Test Set）：\n\n僅在模型訓練完成後使用，用來進行最終效能評估，模擬模型實際部署時對未知資料的表現。\n\n• 當資料量充足時，亦可進行K-fold 交叉驗證，藉由輪流使用不同子集作為驗證資料，提升評估的穩定性與可信度。\n\nK-fold 交叉驗證 K-fold 交叉驗證（K-fold Cross-Validation）是一種常用的模型評估技術，主要用於更穩健地評估模型的泛化能力，尤其當資料量有限時特別有用。\n\nK-fold 交叉驗證會將原始資料集平均劃分為K 個不重疊的子集 （folds），然後進行K 次訓練與驗證迭代。每一次：\n\n○ 使用其中K−1 個子集做為訓練資料。\n\n○ 剩下的1 個子集作為驗證資料。\n\n○ 這個過程重複K 次，每一個子集都會被當作一次驗證集。最終將 K 次驗證結果進行平均，作為模型的整體表現評估。\n\n#### （2）批次訓練設計與更新策略\n\n資料如何輸入模型，將直接影響學習速度、梯度估計的穩定性與資源使用效率：\n\n• 全量訓練（Batch Gradient Descent）：\n\n每輪迭代使用全部資料進行梯度計算，優點是方向穩定、收斂路徑平滑，但對記憶體要求高，且不易應用於大規模資料。\n\n• 隨機梯度下降（Stochastic Gradient Descent, SGD）：\n\n每次僅使用一筆樣本進行參數更新，適合線上學習與資料流架構，惟更新震盪較大，收斂速率不穩。\n\n• 小批次訓練（Mini-batch SGD）：\n\n每次使用固定筆數樣本進行更新，兼具全量與隨機策略優點，是目前深度學習最常用的方法。\n\nMini-batch 的大小會影響梯度估計的準確性與訓練速度，選擇上需視 GPU 記憶體與任務特性進行調整。\n\n#### （3）學習率調整\n\n學習率（Learning Rate）控制模型每次更新的步伐，是訓練過程中重要的超參數之一。常見策略如下：\n\n• 固定學習率（Constant Rate）：\n\n設定單一值，適用於簡單任務，但在收斂後期可能難以進一步提升效能。\n\n• 遞減學習率（Step Decay / Exponential Decay）：\n\n根據訓練次數或驗證集表現，定期降低學習率，有助於穩定收斂。\n\n• 動態調整：\n\n當驗證效能停滯時自動調降學習率，可精細控制學習節奏。\n\n如Pytorch 內的ReduceLROnPlateau。\n\n• 預熱策略：訓練初期使用較低學習率，逐漸升高，有助於避免初期梯度爆炸，常見於Transformer 類模型。\n\n#### （4）早停策略與訓練終止準則\n\n若訓練過久，模型可能過擬合訓練資料。Early Stopping 是透過監控驗證集效能，判斷訓練何時應中止：\n\n• 設定容忍次數（Patience）：\n\n驗證指標若在連續N 次迭代內無明顯改善，則終止訓練。\n\n• 設定最小改善幅度（Minimum Delta）：\n\n效能提升若小於閾值，亦可視為無效進步。\n\n• 配合學習率調整共同使用，能取得穩定且泛化良好的模型。\n\n#### （5）訓練過程的記錄與監控\n\n有效的訓練流程需要全程監控與可追蹤性（Reproducibility），建議結合以下工具與紀錄項目：\n\n• 訓練指標視覺化：\n\n使用TensorBoard、WandB 或MLflow 觀察損失曲線與指標趨勢。\n\n• 超參數與模型版本管理：\n\n記錄每次訓練的超參數設定、模型結構與權重版本，便於複製與回溯。\n\n• 資源使用狀況：\n\n追蹤GPU、CPU 與記憶體使用率，評估效能瓶頸與部署可行性。\n\n### 3. 評估指標與模型效果衡量\n\n模型訓練完成後，必須透過驗證集與測試集進行效果評估，以衡量其泛化能力與實務表現。不同的任務類型（如分類、迴歸）對應不同的評估指標，每種指標各自反映模型在準確性、穩定性或風險控制上的特定面向。\n\n#### （1）分類任務的評估指標\n\n以下是二元分類問題中的混淆矩陣（Confusion Matrix）」標準格式，以「正類\n\n|  | Positive | Negative |\n| --- | --- | --- |\n| 預測為正類 | 真正（TP） （True Positive） | 假正（FP） （False Positive） |\n| 預測為負類 | 假負（FN） （False Negative） | 真負（TN） （True Negative） |\n\n• N：實際為負類的樣本數\n\n• TP：真正（True Positive）\n\n• TN：真負（True Negative）\n\n• FP：假正（False Positive）\n\n• FN：假負（False Negative）\n\n以下是常見分類任務評估指標的公式彙整，搭配說明與應用情境：\n\n• 準確率（Accuracy）\n\n𝑇𝑃+𝑇𝑁 公式：Accuracy = 𝑇𝑃+𝑇𝑁+𝐹𝑃+𝐹𝑁 定義：正確預測樣本數佔總樣本數的比例。\n\n適用：類別分佈相對均衡時效果良好。\n\n限制：在嚴重類別不平衡的資料中容易誤導，例如95%樣本為負類時，即使模型全預測為負，準確率仍高達95%。\n\n• 精確率（Precision）\n\n𝑇𝑃 公式：Precision = 𝑇𝑃+𝐹𝑃 定義：被預測為正類的樣本中，實際為正類的比例。\n\n適用場景：當「誤報正類」的代價高時（例如垃圾郵件分類、醫療誤診）。\n\n目的：衡量「預測為正的可信度」。\n\n• 召回率（Recall）\n\n𝑇𝑃 公式：Recall = 𝑇𝑃+𝐹𝑃 定義：實際正類樣本中，被正確預測為正類的比例。\n\n適用場景：當「漏報正類」的代價高時（例如癌症偵測、詐騙偵測）。\n\n目的：衡量「模型能抓住多少實際正類」。\n\n• F1 分數（F1-Score）\n\nPrecision∙Recall 公式：F1 = 2 ∙ Precision+Recall 定義：精確率與召回率的調和平均。\n\n適用場景：需在精確率與召回率間取得平衡，且類別不平衡嚴重時。\n\n• ROC 曲線與AUC\n\nROC 曲線（Receiver Operating Characteristic）：\n\n橫軸：假正率。\n\n縱軸：真正率畫出的曲線。\n\nAUC（Area Under Curve）：表示曲線下的面積。\n\n意義：\n\n代表模型在所有可能閾值下的整體區分能力。\n\nAUC 值越接近1，模型越好。\n\n適用：需綜觀整體預測能力時，特別是需調整分類閾值的應用。\n\n#### （2）迴歸任務的評估指標\n\n迴歸任務的目標為預測連續變數，模型評估需著重於預測值與實際值之間誤差的大小、穩定性與擬合程度。以下為常見指標及其特性說明：\n\n• 均方誤差（Mean Squared Error, MSE）\n\n1 𝑛∑ (𝑦𝑖−𝑦̂𝑖)2 𝑛 𝑖=1 公式：MSE = 𝑦𝑖：為實際值\n\n𝑦𝑖̂：為預測值定義：所有預測誤差平方的平均值。\n\n特點：對大誤差高度敏感，會放大極端偏差的影響。\n\n適用：需強調大誤差懲罰的任務，如金融風險預測或製程品質監控。\n\n• 平均絕對誤差（Mean Absolute Error, MAE）\n\n1 𝑛∑\n|𝑦𝑖−𝑦̂𝑖|\n𝑛 𝑖=1 公式：MAE = 𝑦𝑖：為實際值 𝑦𝑖̂：為預測值定義：所有預測誤差絕對值的平均。\n\n特點：對異常值較不敏感，提供穩定的誤差估計。\n\n適用：資料具偏態分佈或含少量極端值時。\n\n• 均方根誤差（Root Mean Squared Error, RMSE）\n\n1 𝑛∑ (𝑦𝑖−𝑦̂𝑖)2 𝑛 𝑖=1 公式：RMSE = √ 𝑦𝑖：為實際值 𝑦𝑖̂：為預測值定義：MSE 的平方根。\n\n特點：保有MSE 的懲罰特性，同時回到與預測變數相同的單位。\n\n適用情境：作為模型精度的整體衡量，廣泛用於報告與模型比較。\n\n• 決定係數（R² Score）\n\n意義：迴歸任務中用以衡量模型對目標變數變異解釋能力的重要指標。\n\n公式：\n\n∑ (𝑦𝑖−𝑦̂𝑖)2 𝑛 𝑖=1 ∑ (𝑦𝑖−𝑦̅)2 𝑛 𝑖=1 = 1 −𝑅𝑆𝑆 𝑅2 = 1 − 𝑇𝑆𝑆 𝑦𝑖：為實際值 𝑦𝑖̂：為預測值 𝑦̄：為實際值的平均數\n\n分子：\n\n𝑛 𝑅𝑆𝑆= ∑(𝑦𝑖−𝑦̂𝑖)2 𝑖=1 ○ 模型殘差平方和（Residual Sum of Squares, RSS）\n\n○ 為資料點與模型預測值之間的差距所產生的平方總和。\n\n○ RSS 越小，表示模型預測越接近實際資料。\n\n分母：\n\n𝑛 𝑇𝑆𝑆= ∑(𝑦𝑖−𝑦̅)2 𝑖=1 ○ 總變異平方和（Total Sum of Squares, TSS）\n\n○ 資料點與平均值之間的差距所產生的平方總和，代表資料的總變異量。\n\n○ TSS 用於當作模型比較的基準。\n\n適用情境：\n\n適用於線性迴歸模型，可快速評估預測能力。\n\n不適用於非線性或未標準化資料下的模型比較，易失真。\n\n對於不同任務或資料集間的R²無法直接比較。\n\n判別：\n\nR² = 1：表示模型能完全解釋資料變異，預測完美。\n\nR² = 0：表示模型僅與常數模型（如直接預測平均值）同等表現。\n\nR² < 0：表示模型比常數模型還差，可能發生在模型嚴重偏離資料趨勢或過度擬合下。\n\n#### （3）模型比較與綜合評估策略\n\n在實務應用中，評估一個模型的優劣不應僅依賴單一指標，而需從多面向整合考量，以兼顧準確性、穩定性與應用風險。以下列出常見的模型評估策略：\n\n• 指標組合與多角度觀察：單一評估指標往往無法全面呈現模型效能與偏誤風險。建議依據任務特性組合使用多項指標：\n\n分類任務：結合準確率（Accuracy）、F1 分數、ROC-AUC、混淆矩陣等指標，可避免單一指標掩蓋類別偏誤。\n\n迴歸任務：可綜合MAE、RMSE 與R²，觀察誤差分佈與模型擬合能力。\n\n• 類別不平衡處理與評估策略：面對高度不平衡資料（如欺詐偵測、醫療診斷），傳統準確率常導致誤判。可搭配資料處理技術如：\n\n類別重加權（Class Weights）\n\n模型訓練時對少數類別賦予更高權重，強化模型對其的學習能力。\n\n常用於邏輯迴歸、樹模型與神經網路中，透過損失函數加權自動調整學習焦點。\n\n過採樣（如SMOTE）\n\nSMOTE（Synthetic Minority Over-sampling Technique）透過合成新樣本方式平衡資料分佈，能保留原始樣本空間結構，降低過度複製產生的過擬合風險。適用於資料量不足的少數類別。\n\n異常值建模（如Isolation Forest、One-Class SVM）\n\n將類別不平衡問題視為異常偵測任務，建構僅學習正常類別行為的模型，再以此辨識「異常」樣本。特別適用於極端不平衡場景（如欺詐偵測、設備故障預測等）。\n\n• 業務導向與自定義效能衡量 • 在特定業務場景中，應設計實際風險與成本結構的客製指標：\n\n風險導向任務（如醫療）：可自定義誤判成本矩陣，強化高代價錯誤（如漏診）的懲罰。\n\n商業任務（如推薦系統、行銷）：可使用領域專屬指標，如排序任務中的NDCG、收益導向的Profit Score。\n\n• 多輪驗證與效能穩定性觀察：模型效能的評估不應僅依賴單一實驗結果或平均數值，更應關注其在多次訓練下的穩定性與變異範圍，以反映模型在不同資料切分條件下的可靠性。常見方法如下：\n\nK-fold 交叉驗證（K-fold Cross-Validation）：\n\n將資料集平均分為K 份，輪流以其中一份作為驗證集，其餘作為訓練集，重複K 次以取得平均效能。能有效減少資料分割偶然性對模型評估造成的偏誤。\n\n重複交叉驗證（Repeated K-fold CV）：\n\n在進行K-fold 的基礎上多次隨機重複切分流程，可進一步衡量模型在隨機條件下的穩定性與泛化能力，適合評估小樣本或高變異任務。\n\n穩定性視覺化分析：\n\n搭配箱型圖（Boxplot）或平均排名圖（Mean Rank Plot）等視覺化工具，觀察不同模型在多輪驗證下的表現分佈與變異程度。這有助於篩選出在不同資料條件下都具一致性與穩定性的候選模型。\n\n### 4. 交叉驗證\n\n交叉驗證（Cross-Validation）是一種重要的模型評估技術，目的在於更真實地衡量模型的泛化能力，避免因為單次資料切分所產生的偏誤。透過將資料多次切分並反覆進行訓練與測試，可以有效觀察模型在不同樣本組合下的穩定性，作為模型選擇與調參的依據。以下介紹常見的交叉驗證方法：\n\n#### （1）K-fold\n\nK-fold 交叉驗證（K-fold Cross-Validation）是最常見的通用型交叉驗證方法。\n\n其目的是減少評估受特定資料分割影響的偶然性，提供穩健且具有代表性的模型效能估計。\n\n• 過程：\n\n將資料集平均劃分為K 個不重疊的子集（folds），每次選定其中1 折 （fold）作為驗證集，其餘K-1 折作為訓練集。\n\n重複K 次後計算指標平均作為整體表現。\n\n• 特點：\n\n減少資料切分偏差，適用性廣。\n\n能有效評估模型在不同樣本上的表現穩定性。\n\n每次需重新訓練模型，計算成本為K 倍。\n\n常見設定為K=5 或10，可在精確度與運算效率間取得平衡。\n\n• 適用場景：\n\n適用於中大型資料集（數千筆以上）。\n\n模型選擇與效能比較常以此為標準方法。\n\n適用於迴歸與分類任務的泛化能力驗證。\n\n#### （2）Stratified K-fold\n\nStratified K-fold（分層K 折交叉驗證）是針對分類問題的改良版本，於劃分時確保每一折中各類別的比例與整體資料集相符，特別適用於類別分佈不均的資料（如欺詐偵測、疾病分類等）。\n\n• 過程：\n\n依照類別比例進行分層抽樣，使每一折的類別比例與整體資料集相近。\n\n• 特點：\n\n可有效解決類別不均所導致的模型評估失真。\n\n提升對小樣本類別的穩定性與預測準確度。\n\n與傳統K-fold 相比，分佈一致性更高。\n\n• 適用場景：\n\n分類資料中存在不均衡現象（如正負樣本比例懸殊）。\n\n用於詐騙偵測、醫療診斷、異常事件預測等高風險分類問題。\n\n可作為分類任務交叉驗證的預設方式。\n\n#### （3）LOOCV\n\nLOOCV（Leave-One-Out Cross-Validation）是K-fold 的極端形式。K 等於樣本數n，每次僅留下一筆樣本作為驗證、其餘n-1 筆資料訓練模型，總共進行n 次評估。\n\n• 過程：\n\n資料集中每次僅留下1 筆資料作為驗證集，其餘所有資料用於訓練，重複進行n 次（n 為樣本數）。\n\n• 特點：\n\n評估偏差最小，適合樣本珍貴或不可浪費的情境。\n\n因需訓練n 次模型，計算成本極高，對模型複雜度與硬體要求較高。\n\n敏感於訓練集的微小變動，模型表現波動較大。\n\n• 適用場景：\n\n樣本數極小但資料珍貴（如臨床研究、稀有病資料）。\n\n為提高模型評估的穩定性與可信度，重複K-fold 在每次驗證前隨機劃分資料，以捕捉樣本劃分隨機性的影響。\n\n學術研究中需最大化資料利用與精準驗證。\n\n適用於須個別樣本可信度高的模型精度檢查。\n\n#### （4）Repeated K-fold\n\n重複K-fold（Repeated K-fold Cross-Validation）是在標準K-fold 基礎上進行多次隨機重劃，反覆交叉驗證以取得多組評估結果，再計算平均與變異數，提升模型穩定性觀察。\n\n• 過程：\n\n執行多輪K-fold 驗證（如10-fold × 5 次），每輪隨機重分fold，計算所有輪的平均與變異。\n\n• 特點：\n\n評估結果更加穩定與具代表性。\n\n可觀察模型在不同劃分下的表現波動與可信區間。\n\n相較標準K-fold，計算成本更高。\n\n• 適用場景：\n\n調參流程中模型比較與效能穩定性評估。\n\n學術研究或論文發表需報告標準差與置信範圍。\n\n需重現性高的產業建模流程，如金融風控或醫療AI。",
+  "content": "# 模型訓練、評估與驗證\n\n5.3\n\n## 模型訓練、評估與驗證\n\n### 1. 前言與章節導覽\n\n在機器學習開發流程中，即便選擇了合適的模型架構與演算法，若訓練過程未能有效執行、評估方法不嚴謹，仍可能導致模型在實際應用中表現不佳，甚至產生錯誤決策。\n\n本節聚焦於模型訓練過程中的核心技術與方法，包括訓練資料的使用方式、模型學習策略的選擇、效能評估指標的設計，以及模型穩定性與泛化能力的檢驗流程。同時也強調透過視覺化輔助進行結果理解與分析，協助使用者掌握模型學習行為與預測邏輯。\n\n### 2. 模型訓練流程與策略\n\n模型訓練是構建機器學習系統中關鍵的運作環節，負責依據資料調整模型參數，使其能有效對應輸入與預測目標之間的關係。適當的訓練策略不僅有助於加速收斂過程，也能提升模型在未見資料上的泛化能力，降低過擬合風險。本節將說明模型訓練的主要流程與實務常用策略，並解析其對整體模型效能的影響。\n\n#### （1）資料分割與準備\n\n為評估模型在未見資料上的表現，常需將原始資料集依功能目的劃分為以下部分：\n\n• 訓練集（Training Set）：\n\n◦ 用於模型參數的學習與內部結構調整，是整個學習流程的基礎。\n\n• 驗證集（Validation Set）：\n\n◦ 作為調整超參數（如學習率、正則化係數）與監控訓練過程的依據，用\n\n以觀察模型的泛化能力。\n\n• 測試集（Test Set）：\n\n◦ 僅在模型訓練完成後使用，用來進行最終效能評估，模擬模型實際部署\n\n時對未知資料的表現。\n\n• 當資料量充足時，亦可進行K-fold 交叉驗證，藉由輪流使用不同子集作為\n\n驗證資料，提升評估的穩定性與可信度。\n\n◦ K-fold 交叉驗證\n\n○ K-fold 交叉驗證（K-fold Cross-Validation）是一種常用的模型評估技\n\n術，主要用於更穩健地評估模型的泛化能力，尤其當資料量有限時特別有用。\n\n○ K-fold 交叉驗證會將原始資料集平均劃分為K 個不重疊的子集\n\n（folds），然後進行K 次訓練與驗證迭代。每一次：\n\n○ 使用其中K−1 個子集做為訓練資料。\n\n○ 剩下的1 個子集作為驗證資料。\n\n○ 這個過程重複K 次，每一個子集都會被當作一次驗證集。最終將\n\nK 次驗證結果進行平均，作為模型的整體表現評估。\n\n#### （2）批次訓練設計與更新策略\n\n資料如何輸入模型，將直接影響學習速度、梯度估計的穩定性與資源使用效率：\n\n• 全量訓練（Batch Gradient Descent）：\n\n◦ 每輪迭代使用全部資料進行梯度計算，優點是方向穩定、收斂路徑平\n\n滑，但對記憶體要求高，且不易應用於大規模資料。\n\n• 隨機梯度下降（Stochastic Gradient Descent, SGD）：\n\n◦ 每次僅使用一筆樣本進行參數更新，適合線上學習與資料流架構，惟更\n\n新震盪較大，收斂速率不穩。\n\n• 小批次訓練（Mini-batch SGD）：\n\n◦ 每次使用固定筆數樣本進行更新，兼具全量與隨機策略優點，是目前深\n\n度學習最常用的方法。\n\n◦ Mini-batch 的大小會影響梯度估計的準確性與訓練速度，選擇上需視\n\nGPU 記憶體與任務特性進行調整。\n\n#### （3）學習率調整\n\n學習率（Learning Rate）控制模型每次更新的步伐，是訓練過程中重要的超參數之一。常見策略如下：\n\n• 固定學習率（Constant Rate）：\n\n◦ 設定單一值，適用於簡單任務，但在收斂後期可能難以進一步提升效\n\n能。\n\n• 遞減學習率（Step Decay / Exponential Decay）：\n\n◦ 根據訓練次數或驗證集表現，定期降低學習率，有助於穩定收斂。\n\n• 動態調整：\n\n◦ 當驗證效能停滯時自動調降學習率，可精細控制學習節奏。\n\n◦ 如Pytorch 內的ReduceLROnPlateau。\n\n• 預熱策略：訓練初期使用較低學習率，逐漸升高，有助於避免初期梯度爆\n\n炸，常見於Transformer 類模型。\n\n#### （4）早停策略與訓練終止準則\n\n若訓練過久，模型可能過擬合訓練資料。Early Stopping 是透過監控驗證集效能，判斷訓練何時應中止：\n\n• 設定容忍次數（Patience）：\n\n◦ 驗證指標若在連續N 次迭代內無明顯改善，則終止訓練。\n\n• 設定最小改善幅度（Minimum Delta）：\n\n◦ 效能提升若小於閾值，亦可視為無效進步。\n\n• 配合學習率調整共同使用，能取得穩定且泛化良好的模型。\n\n#### （5）訓練過程的記錄與監控\n\n有效的訓練流程需要全程監控與可追蹤性（Reproducibility），建議結合以下工具與紀錄項目：\n\n• 訓練指標視覺化：\n\n◦ 使用TensorBoard、WandB 或MLflow 觀察損失曲線與指標趨勢。\n\n• 超參數與模型版本管理：\n\n◦ 記錄每次訓練的超參數設定、模型結構與權重版本，便於複製與回溯。\n\n• 資源使用狀況：\n\n◦ 追蹤GPU、CPU 與記憶體使用率，評估效能瓶頸與部署可行性。\n\n### 3. 評估指標與模型效果衡量\n\n模型訓練完成後，必須透過驗證集與測試集進行效果評估，以衡量其泛化能力與實務表現。不同的任務類型（如分類、迴歸）對應不同的評估指標，每種指標各自反映模型在準確性、穩定性或風險控制上的特定面向。\n\n#### （1）分類任務的評估指標\n\n以下是二元分類問題中的混淆矩陣（Confusion Matrix）」標準格式，以「正類\n\n<table>\n<thead>\n<tr>\n<th></th>\n<th>Positive</th>\n<th>Negative</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>預測為正類</td>\n<td>真正（TP）<br />（True Positive）</td>\n<td>假正（FP）<br />（False Positive）</td>\n</tr>\n<tr>\n<td>預測為負類</td>\n<td>假負（FN）<br />（False Negative）</td>\n<td>真負（TN）<br />（True Negative）</td>\n</tr>\n</tbody>\n</table>\n\n• N：實際為負類的樣本數\n\n• TP：真正（True Positive）\n\n• TN：真負（True Negative）\n\n• FP：假正（False Positive）\n\n• FN：假負（False Negative）\n\n以下是常見分類任務評估指標的公式彙整，搭配說明與應用情境：\n\n• 準確率（Accuracy）\n\n𝑇𝑃+𝑇𝑁\n\n◦ 公式：Accuracy =\n\n𝑇𝑃+𝑇𝑁+𝐹𝑃+𝐹𝑁\n\n◦ 定義：正確預測樣本數佔總樣本數的比例。\n\n◦ 適用：類別分佈相對均衡時效果良好。\n\n◦ 限制：在嚴重類別不平衡的資料中容易誤導，例如95%樣本為負類時，\n\n即使模型全預測為負，準確率仍高達95%。\n\n• 精確率（Precision）\n\n𝑇𝑃\n\n◦ 公式：Precision =\n\n𝑇𝑃+𝐹𝑃\n\n◦ 定義：被預測為正類的樣本中，實際為正類的比例。\n\n◦ 適用場景：當「誤報正類」的代價高時（例如垃圾郵件分類、醫療誤診）。\n\n◦ 目的：衡量「預測為正的可信度」。\n\n• 召回率（Recall）\n\n𝑇𝑃\n\n◦ 公式：Recall =\n\n𝑇𝑃+𝐹𝑃\n\n◦ 定義：實際正類樣本中，被正確預測為正類的比例。\n\n◦ 適用場景：當「漏報正類」的代價高時（例如癌症偵測、詐騙偵測）。\n\n◦ 目的：衡量「模型能抓住多少實際正類」。\n\n• F1 分數（F1-Score）\n\nPrecision∙Recall\n\n◦ 公式：F1 = 2 ∙\n\nPrecision+Recall\n\n◦ 定義：精確率與召回率的調和平均。\n\n◦ 適用場景：需在精確率與召回率間取得平衡，且類別不平衡嚴重時。\n\n• ROC 曲線與AUC\n\n◦ ROC 曲線（Receiver Operating Characteristic）：\n\n○ 橫軸：假正率。\n\n○ 縱軸：真正率畫出的曲線。\n\n○ AUC（Area Under Curve）：表示曲線下的面積。\n\n◦ 意義：\n\n○ 代表模型在所有可能閾值下的整體區分能力。\n\n○ AUC 值越接近1，模型越好。\n\n◦ 適用：需綜觀整體預測能力時，特別是需調整分類閾值的應用。\n\n#### （2）迴歸任務的評估指標\n\n迴歸任務的目標為預測連續變數，模型評估需著重於預測值與實際值之間誤差的大小、穩定性與擬合程度。以下為常見指標及其特性說明：\n\n• 均方誤差（Mean Squared Error, MSE）\n\n1 𝑛∑ (𝑦𝑖−𝑦̂𝑖)2 𝑛 𝑖=1\n\n◦ 公式：MSE =\n\n○ 𝑦𝑖：為實際值\n\n○ 𝑦𝑖̂：為預測值\n\n◦ 定義：所有預測誤差平方的平均值。\n\n◦ 特點：對大誤差高度敏感，會放大極端偏差的影響。\n\n◦ 適用：需強調大誤差懲罰的任務，如金融風險預測或製程品質監控。\n\n• 平均絕對誤差（Mean Absolute Error, MAE）\n\n1 𝑛∑\n|𝑦𝑖−𝑦̂𝑖|\n𝑛 𝑖=1\n\n◦ 公式：MAE =\n\n○ 𝑦𝑖：為實際值\n\n○ 𝑦𝑖̂：為預測值\n\n◦ 定義：所有預測誤差絕對值的平均。\n\n◦ 特點：對異常值較不敏感，提供穩定的誤差估計。\n\n◦ 適用：資料具偏態分佈或含少量極端值時。\n\n• 均方根誤差（Root Mean Squared Error, RMSE）\n\n1 𝑛∑ (𝑦𝑖−𝑦̂𝑖)2 𝑛 𝑖=1\n\n◦ 公式：RMSE = √\n\n○ 𝑦𝑖：為實際值\n\n○ 𝑦𝑖̂：為預測值\n\n◦ 定義：MSE 的平方根。\n\n◦ 特點：保有MSE 的懲罰特性，同時回到與預測變數相同的單位。\n\n◦ 適用情境：作為模型精度的整體衡量，廣泛用於報告與模型比較。\n\n• 決定係數（R² Score）\n\n◦ 意義：迴歸任務中用以衡量模型對目標變數變異解釋能力的重要指標。\n\n◦ 公式：\n\n∑ (𝑦𝑖−𝑦̂𝑖)2 𝑛 𝑖=1 ∑ (𝑦𝑖−𝑦̅)2 𝑛 𝑖=1 = 1 −𝑅𝑆𝑆 𝑅2 = 1 − 𝑇𝑆𝑆\n\n○ 𝑦𝑖：為實際值\n\n○ 𝑦𝑖̂：為預測值\n\n○ 𝑦̄：為實際值的平均數\n\n○ 分子：\n\n𝑛 𝑅𝑆𝑆= ∑(𝑦𝑖−𝑦̂𝑖)2 𝑖=1\n\n○ 模型殘差平方和（Residual Sum of Squares, RSS）\n\n○ 為資料點與模型預測值之間的差距所產生的平方總和。\n\n○ RSS 越小，表示模型預測越接近實際資料。\n\n○ 分母：\n\n𝑛 𝑇𝑆𝑆= ∑(𝑦𝑖−𝑦̅)2 𝑖=1\n\n○ 總變異平方和（Total Sum of Squares, TSS）\n\n○ 資料點與平均值之間的差距所產生的平方總和，代表資料的總變\n\n異量。\n\n○ TSS 用於當作模型比較的基準。\n\n◦ 適用情境：\n\n○ 適用於線性迴歸模型，可快速評估預測能力。\n\n○ 不適用於非線性或未標準化資料下的模型比較，易失真。\n\n○ 對於不同任務或資料集間的R²無法直接比較。\n\n◦ 判別：\n\n○ R² = 1：表示模型能完全解釋資料變異，預測完美。\n\n○ R² = 0：表示模型僅與常數模型（如直接預測平均值）同等表現。\n\n○ R² < 0：表示模型比常數模型還差，可能發生在模型嚴重偏離資料趨\n\n勢或過度擬合下。\n\n#### （3）模型比較與綜合評估策略\n\n在實務應用中，評估一個模型的優劣不應僅依賴單一指標，而需從多面向整合考量，以兼顧準確性、穩定性與應用風險。以下列出常見的模型評估策略：\n\n• 指標組合與多角度觀察：單一評估指標往往無法全面呈現模型效能與偏誤\n\n風險。建議依據任務特性組合使用多項指標：\n\n◦ 分類任務：結合準確率（Accuracy）、F1 分數、ROC-AUC、混淆矩陣等\n\n指標，可避免單一指標掩蓋類別偏誤。\n\n◦ 迴歸任務：可綜合MAE、RMSE 與R²，觀察誤差分佈與模型擬合能力。\n\n• 類別不平衡處理與評估策略：面對高度不平衡資料（如欺詐偵測、醫療診\n\n斷），傳統準確率常導致誤判。可搭配資料處理技術如：\n\n◦ 類別重加權（Class Weights）\n\n○ 模型訓練時對少數類別賦予更高權重，強化模型對其的學習能力。\n\n常用於邏輯迴歸、樹模型與神經網路中，透過損失函數加權自動調整學習焦點。\n\n◦ 過採樣（如SMOTE）\n\n○ SMOTE（Synthetic Minority Over-sampling Technique）透過合成新樣\n\n本方式平衡資料分佈，能保留原始樣本空間結構，降低過度複製產生的過擬合風險。適用於資料量不足的少數類別。\n\n◦ 異常值建模（如Isolation Forest、One-Class SVM）\n\n○ 將類別不平衡問題視為異常偵測任務，建構僅學習正常類別行為的\n\n模型，再以此辨識「異常」樣本。特別適用於極端不平衡場景（如欺詐偵測、設備故障預測等）。\n\n• 業務導向與自定義效能衡量\n\n• 在特定業務場景中，應設計實際風險與成本結構的客製指標：\n\n◦ 風險導向任務（如醫療）：可自定義誤判成本矩陣，強化高代價錯誤（如\n\n漏診）的懲罰。\n\n◦ 商業任務（如推薦系統、行銷）：可使用領域專屬指標，如排序任務中\n\n的NDCG、收益導向的Profit Score。\n\n• 多輪驗證與效能穩定性觀察：模型效能的評估不應僅依賴單一實驗結果或\n\n平均數值，更應關注其在多次訓練下的穩定性與變異範圍，以反映模型在不同資料切分條件下的可靠性。常見方法如下：\n\n◦ K-fold 交叉驗證（K-fold Cross-Validation）：\n\n○ 將資料集平均分為K 份，輪流以其中一份作為驗證集，其餘作為訓\n\n練集，重複K 次以取得平均效能。能有效減少資料分割偶然性對模型評估造成的偏誤。\n\n◦ 重複交叉驗證（Repeated K-fold CV）：\n\n○ 在進行K-fold 的基礎上多次隨機重複切分流程，可進一步衡量模型\n\n在隨機條件下的穩定性與泛化能力，適合評估小樣本或高變異任務。\n\n◦ 穩定性視覺化分析：\n\n○ 搭配箱型圖（Boxplot）或平均排名圖（Mean Rank Plot）等視覺化工\n\n具，觀察不同模型在多輪驗證下的表現分佈與變異程度。這有助於篩選出在不同資料條件下都具一致性與穩定性的候選模型。\n\n### 4. 交叉驗證\n\n交叉驗證（Cross-Validation）是一種重要的模型評估技術，目的在於更真實地衡量模型的泛化能力，避免因為單次資料切分所產生的偏誤。透過將資料多次切分並反覆進行訓練與測試，可以有效觀察模型在不同樣本組合下的穩定性，作為模型選擇與調參的依據。以下介紹常見的交叉驗證方法：\n\n#### （1）K-fold\n\nK-fold 交叉驗證（K-fold Cross-Validation）是最常見的通用型交叉驗證方法。\n\n其目的是減少評估受特定資料分割影響的偶然性，提供穩健且具有代表性的模型效能估計。\n\n• 過程：\n\n◦ 將資料集平均劃分為K 個不重疊的子集（folds），每次選定其中1 折\n\n（fold）作為驗證集，其餘K-1 折作為訓練集。\n\n◦ 重複K 次後計算指標平均作為整體表現。\n\n• 特點：\n\n◦ 減少資料切分偏差，適用性廣。\n\n◦ 能有效評估模型在不同樣本上的表現穩定性。\n\n◦ 每次需重新訓練模型，計算成本為K 倍。\n\n◦ 常見設定為K=5 或10，可在精確度與運算效率間取得平衡。\n\n• 適用場景：\n\n◦ 適用於中大型資料集（數千筆以上）。\n\n◦ 模型選擇與效能比較常以此為標準方法。\n\n◦ 適用於迴歸與分類任務的泛化能力驗證。\n\n#### （2）Stratified K-fold\n\nStratified K-fold（分層K 折交叉驗證）是針對分類問題的改良版本，於劃分時確保每一折中各類別的比例與整體資料集相符，特別適用於類別分佈不均的資料（如欺詐偵測、疾病分類等）。\n\n• 過程：\n\n◦ 依照類別比例進行分層抽樣，使每一折的類別比例與整體資料集相近。\n\n• 特點：\n\n◦ 可有效解決類別不均所導致的模型評估失真。\n\n◦ 提升對小樣本類別的穩定性與預測準確度。\n\n◦ 與傳統K-fold 相比，分佈一致性更高。\n\n• 適用場景：\n\n◦ 分類資料中存在不均衡現象（如正負樣本比例懸殊）。\n\n◦ 用於詐騙偵測、醫療診斷、異常事件預測等高風險分類問題。\n\n◦ 可作為分類任務交叉驗證的預設方式。\n\n#### （3）LOOCV\n\nLOOCV（Leave-One-Out Cross-Validation）是K-fold 的極端形式。K 等於樣本數n，每次僅留下一筆樣本作為驗證、其餘n-1 筆資料訓練模型，總共進行n 次評估。\n\n• 過程：\n\n◦ 資料集中每次僅留下1 筆資料作為驗證集，其餘所有資料用於訓練，\n\n重複進行n 次（n 為樣本數）。\n\n• 特點：\n\n◦ 評估偏差最小，適合樣本珍貴或不可浪費的情境。\n\n◦ 因需訓練n 次模型，計算成本極高，對模型複雜度與硬體要求較高。\n\n◦ 敏感於訓練集的微小變動，模型表現波動較大。\n\n• 適用場景：\n\n◦ 樣本數極小但資料珍貴（如臨床研究、稀有病資料）。\n\n◦ 為提高模型評估的穩定性與可信度，重複K-fold 在每次驗證前隨機劃\n\n分資料，以捕捉樣本劃分隨機性的影響。\n\n◦ 學術研究中需最大化資料利用與精準驗證。\n\n◦ 適用於須個別樣本可信度高的模型精度檢查。\n\n#### （4）Repeated K-fold\n\n重複K-fold（Repeated K-fold Cross-Validation）是在標準K-fold 基礎上進行多次隨機重劃，反覆交叉驗證以取得多組評估結果，再計算平均與變異數，提升模型穩定性觀察。\n\n• 過程：\n\n◦ 執行多輪K-fold 驗證（如10-fold × 5 次），每輪隨機重分fold，計算所\n\n有輪的平均與變異。\n\n• 特點：\n\n◦ 評估結果更加穩定與具代表性。\n\n◦ 可觀察模型在不同劃分下的表現波動與可信區間。\n\n◦ 相較標準K-fold，計算成本更高。\n\n• 適用場景：\n\n◦ 調參流程中模型比較與效能穩定性評估。\n\n◦ 學術研究或論文發表需報告標準差與置信範圍。\n\n◦ 需重現性高的產業建模流程，如金融風控或醫療AI。",
   "contentFormat": "markdown",
   "headings": [
     {
@@ -103,7 +103,10 @@
         301.18,
         174.28
       ],
-      "id": "block-1"
+      "id": "block-1",
+      "nodeId": "mid-s3c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -117,7 +120,10 @@
         203.57,
         218.12
       ],
-      "id": "block-2"
+      "id": "block-2",
+      "nodeId": "mid-s3c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -130,7 +136,10 @@
         518.29,
         292.58
       ],
-      "id": "block-3"
+      "id": "block-3",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -143,7 +152,10 @@
         517.93,
         392.54
       ],
-      "id": "block-4"
+      "id": "block-4",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -157,7 +169,10 @@
         231.76,
         443.15
       ],
-      "id": "block-5"
+      "id": "block-5",
+      "nodeId": "mid-s3c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -170,7 +185,10 @@
         517.93,
         542.56
       ],
-      "id": "block-6"
+      "id": "block-6",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -184,7 +202,10 @@
         193.03,
         592.6
       ],
-      "id": "block-7"
+      "id": "block-7",
+      "nodeId": "mid-s3c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -197,11 +218,14 @@
         517.93,
         642.55
       ],
-      "id": "block-8"
+      "id": "block-8",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "訓練集（Training Set）：",
       "pageIndex": 150,
@@ -211,11 +235,15 @@
         254.35,
         667.63
       ],
-      "id": "block-9"
+      "id": "block-9",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "用於模型參數的學習與內部結構調整，是整個學習流程的基礎。",
       "pageIndex": 150,
       "bbox": [
@@ -224,11 +252,14 @@
         492.0,
         692.59
       ],
-      "id": "block-10"
+      "id": "block-10",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "驗證集（Validation Set）：",
       "pageIndex": 150,
@@ -238,11 +269,15 @@
         263.47,
         717.55
       ],
-      "id": "block-11"
+      "id": "block-11",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "作為調整超參數（如學習率、正則化係數）與監控訓練過程的依據，用以觀察模型的泛化能力。",
       "pageIndex": 150,
       "bbox": [
@@ -251,11 +286,14 @@
         518.03,
         767.58
       ],
-      "id": "block-12"
+      "id": "block-12",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "測試集（Test Set）：",
       "pageIndex": 151,
@@ -265,11 +303,15 @@
         232.15,
         114.11
       ],
-      "id": "block-13"
+      "id": "block-13",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "僅在模型訓練完成後使用，用來進行最終效能評估，模擬模型實際部署時對未知資料的表現。",
       "pageIndex": 151,
       "bbox": [
@@ -278,11 +320,14 @@
         518.2,
         164.15
       ],
-      "id": "block-14"
+      "id": "block-14",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "當資料量充足時，亦可進行K-fold 交叉驗證，藉由輪流使用不同子集作為驗證資料，提升評估的穩定性與可信度。",
       "pageIndex": 151,
@@ -292,24 +337,49 @@
         518.18,
         214.07
       ],
-      "id": "block-15"
+      "id": "block-15",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "K-fold 交叉驗證 K-fold 交叉驗證（K-fold Cross-Validation）是一種常用的模型評估技術，主要用於更穩健地評估模型的泛化能力，尤其當資料量有限時特別有用。",
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "K-fold 交叉驗證",
       "pageIndex": 151,
       "bbox": [
         120.52,
         225.7,
+        226.51,
+        239.15
+      ],
+      "id": "block-16",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "K-fold 交叉驗證（K-fold Cross-Validation）是一種常用的模型評估技術，主要用於更穩健地評估模型的泛化能力，尤其當資料量有限時特別有用。",
+      "pageIndex": 151,
+      "bbox": [
+        136.12,
+        250.69,
         518.4,
         314.18
       ],
-      "id": "block-16"
+      "id": "block-17",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "K-fold 交叉驗證會將原始資料集平均劃分為K 個不重疊的子集 （folds），然後進行K 次訓練與驗證迭代。每一次：",
       "pageIndex": 151,
       "bbox": [
@@ -318,11 +388,14 @@
         518.29,
         364.1
       ],
-      "id": "block-17"
+      "id": "block-18",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "使用其中K−1 個子集做為訓練資料。",
       "pageIndex": 151,
@@ -332,11 +405,14 @@
         375.45,
         389.18
       ],
-      "id": "block-18"
+      "id": "block-19",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "剩下的1 個子集作為驗證資料。",
       "pageIndex": 151,
@@ -346,11 +422,14 @@
         346.77,
         414.14
       ],
-      "id": "block-19"
+      "id": "block-20",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "這個過程重複K 次，每一個子集都會被當作一次驗證集。最終將 K 次驗證結果進行平均，作為模型的整體表現評估。",
       "pageIndex": 151,
@@ -360,7 +439,10 @@
         518.15,
         464.2
       ],
-      "id": "block-20"
+      "id": "block-21",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -374,7 +456,10 @@
         243.43,
         514.12
       ],
-      "id": "block-21"
+      "id": "block-22",
+      "nodeId": "mid-s3c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -387,11 +472,14 @@
         517.93,
         564.16
       ],
-      "id": "block-22"
+      "id": "block-23",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "全量訓練（Batch Gradient Descent）：",
       "pageIndex": 151,
@@ -401,11 +489,15 @@
         325.41,
         589.12
       ],
-      "id": "block-23"
+      "id": "block-24",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "每輪迭代使用全部資料進行梯度計算，優點是方向穩定、收斂路徑平滑，但對記憶體要求高，且不易應用於大規模資料。",
       "pageIndex": 151,
       "bbox": [
@@ -414,11 +506,14 @@
         517.85,
         639.19
       ],
-      "id": "block-24"
+      "id": "block-25",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "隨機梯度下降（Stochastic Gradient Descent, SGD）：",
       "pageIndex": 151,
@@ -428,24 +523,47 @@
         404.85,
         664.15
       ],
-      "id": "block-25"
+      "id": "block-26",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "每次僅使用一筆樣本進行參數更新，適合線上學習與資料流架構，惟更",
+      "pageIndex": 151,
+      "bbox": [
+        120.52,
+        675.78,
+        518.2,
+        689.16
+      ],
+      "id": "block-27",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "每次僅使用一筆樣本進行參數更新，適合線上學習與資料流架構，惟更新震盪較大，收斂速率不穩。",
+      "text": "新震盪較大，收斂速率不穩。",
       "pageIndex": 151,
       "bbox": [
         76.6,
-        675.78,
-        518.2,
+        700.9,
+        302.95,
         730.75
       ],
-      "id": "block-26"
+      "id": "block-28",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "小批次訓練（Mini-batch SGD）：",
       "pageIndex": 152,
@@ -455,11 +573,15 @@
         301.27,
         114.11
       ],
-      "id": "block-27"
+      "id": "block-29",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "每次使用固定筆數樣本進行更新，兼具全量與隨機策略優點，是目前深度學習最常用的方法。",
       "pageIndex": 152,
       "bbox": [
@@ -468,11 +590,15 @@
         518.2,
         164.15
       ],
-      "id": "block-28"
+      "id": "block-30",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "Mini-batch 的大小會影響梯度估計的準確性與訓練速度，選擇上需視 GPU 記憶體與任務特性進行調整。",
       "pageIndex": 152,
       "bbox": [
@@ -481,7 +607,10 @@
         518.06,
         214.07
       ],
-      "id": "block-29"
+      "id": "block-31",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -495,7 +624,10 @@
         167.8,
         264.14
       ],
-      "id": "block-30"
+      "id": "block-32",
+      "nodeId": "mid-s3c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -508,11 +640,14 @@
         517.99,
         314.18
       ],
-      "id": "block-31"
+      "id": "block-33",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "固定學習率（Constant Rate）：",
       "pageIndex": 152,
@@ -522,11 +657,15 @@
         288.31,
         339.14
       ],
-      "id": "block-32"
+      "id": "block-34",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "設定單一值，適用於簡單任務，但在收斂後期可能難以進一步提升效能。",
       "pageIndex": 152,
       "bbox": [
@@ -535,11 +674,14 @@
         517.85,
         389.18
       ],
-      "id": "block-33"
+      "id": "block-35",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "遞減學習率（Step Decay / Exponential Decay）：",
       "pageIndex": 152,
@@ -549,11 +691,15 @@
         381.81,
         414.14
       ],
-      "id": "block-34"
+      "id": "block-36",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "根據訓練次數或驗證集表現，定期降低學習率，有助於穩定收斂。",
       "pageIndex": 152,
       "bbox": [
@@ -562,11 +708,14 @@
         504.6,
         439.1
       ],
-      "id": "block-35"
+      "id": "block-37",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "動態調整：",
       "pageIndex": 152,
@@ -576,11 +725,15 @@
         185.2,
         464.2
       ],
-      "id": "block-36"
+      "id": "block-38",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "當驗證效能停滯時自動調降學習率，可精細控制學習節奏。",
       "pageIndex": 152,
       "bbox": [
@@ -589,11 +742,15 @@
         466.8,
         489.16
       ],
-      "id": "block-37"
+      "id": "block-39",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "如Pytorch 內的ReduceLROnPlateau。",
       "pageIndex": 152,
       "bbox": [
@@ -602,11 +759,14 @@
         344.85,
         514.12
       ],
-      "id": "block-38"
+      "id": "block-40",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "預熱策略：訓練初期使用較低學習率，逐漸升高，有助於避免初期梯度爆炸，常見於Transformer 類模型。",
       "pageIndex": 152,
@@ -616,7 +776,10 @@
         517.9,
         564.16
       ],
-      "id": "block-39"
+      "id": "block-41",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -630,7 +793,10 @@
         243.43,
         614.2
       ],
-      "id": "block-40"
+      "id": "block-42",
+      "nodeId": "mid-s3c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -643,11 +809,14 @@
         518.37,
         664.15
       ],
-      "id": "block-41"
+      "id": "block-43",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "設定容忍次數（Patience）：",
       "pageIndex": 152,
@@ -657,11 +826,15 @@
         272.35,
         689.23
       ],
-      "id": "block-42"
+      "id": "block-44",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "驗證指標若在連續N 次迭代內無明顯改善，則終止訓練。",
       "pageIndex": 152,
       "bbox": [
@@ -670,11 +843,14 @@
         456.84,
         714.19
       ],
-      "id": "block-43"
+      "id": "block-45",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "設定最小改善幅度（Minimum Delta）：",
       "pageIndex": 152,
@@ -684,11 +860,15 @@
         335.49,
         739.15
       ],
-      "id": "block-44"
+      "id": "block-46",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "效能提升若小於閾值，亦可視為無效進步。",
       "pageIndex": 152,
       "bbox": [
@@ -697,11 +877,14 @@
         378.57,
         764.22
       ],
-      "id": "block-45"
+      "id": "block-47",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "配合學習率調整共同使用，能取得穩定且泛化良好的模型。",
       "pageIndex": 153,
@@ -711,7 +894,10 @@
         449.85,
         114.11
       ],
-      "id": "block-46"
+      "id": "block-48",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -725,7 +911,10 @@
         230.83,
         164.15
       ],
-      "id": "block-47"
+      "id": "block-49",
+      "nodeId": "mid-s3c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -738,11 +927,14 @@
         518.17,
         214.07
       ],
-      "id": "block-48"
+      "id": "block-50",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "訓練指標視覺化：",
       "pageIndex": 153,
@@ -752,11 +944,15 @@
         223.03,
         239.15
       ],
-      "id": "block-49"
+      "id": "block-51",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "使用TensorBoard、WandB 或MLflow 觀察損失曲線與指標趨勢。",
       "pageIndex": 153,
       "bbox": [
@@ -765,11 +961,14 @@
         497.52,
         264.14
       ],
-      "id": "block-50"
+      "id": "block-52",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "超參數與模型版本管理：",
       "pageIndex": 153,
@@ -779,11 +978,15 @@
         260.83,
         289.1
       ],
-      "id": "block-51"
+      "id": "block-53",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "記錄每次訓練的超參數設定、模型結構與權重版本，便於複製與回溯。",
       "pageIndex": 153,
       "bbox": [
@@ -792,11 +995,14 @@
         521.88,
         314.18
       ],
-      "id": "block-52"
+      "id": "block-54",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資源使用狀況：",
       "pageIndex": 153,
@@ -806,11 +1012,15 @@
         210.43,
         339.14
       ],
-      "id": "block-53"
+      "id": "block-55",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "追蹤GPU、CPU 與記憶體使用率，評估效能瓶頸與部署可行性。",
       "pageIndex": 153,
       "bbox": [
@@ -819,7 +1029,10 @@
         497.04,
         364.1
       ],
-      "id": "block-54"
+      "id": "block-56",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -833,7 +1046,10 @@
         259.96,
         414.71
       ],
-      "id": "block-55"
+      "id": "block-57",
+      "nodeId": "mid-s3c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -846,7 +1062,10 @@
         517.93,
         489.16
       ],
-      "id": "block-56"
+      "id": "block-58",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -860,7 +1079,10 @@
         218.23,
         539.2
       ],
-      "id": "block-57"
+      "id": "block-59",
+      "nodeId": "mid-s3c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -873,7 +1095,10 @@
         518.31,
         564.16
       ],
-      "id": "block-58"
+      "id": "block-60",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "table",
@@ -902,11 +1127,14 @@
         523.48,
         734.73
       ],
-      "id": "block-59"
+      "id": "block-61",
+      "nodeId": "mid-s3c9",
+      "kind": "table",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "N：實際為負類的樣本數",
       "pageIndex": 153,
@@ -916,11 +1144,14 @@
         257.23,
         768.78
       ],
-      "id": "block-60"
+      "id": "block-62",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "TP：真正（True Positive）",
       "pageIndex": 154,
@@ -930,11 +1161,14 @@
         267.55,
         114.11
       ],
-      "id": "block-61"
+      "id": "block-63",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "TN：真負（True Negative）",
       "pageIndex": 154,
@@ -944,11 +1178,14 @@
         274.27,
         139.07
       ],
-      "id": "block-62"
+      "id": "block-64",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "FP：假正（False Positive）",
       "pageIndex": 154,
@@ -958,11 +1195,14 @@
         270.43,
         164.15
       ],
-      "id": "block-63"
+      "id": "block-65",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "FN：假負（False Negative） 以下是常見分類任務評估指標的公式彙整，搭配說明與應用情境：",
       "pageIndex": 154,
@@ -972,25 +1212,66 @@
         470.28,
         214.07
       ],
-      "id": "block-64"
+      "id": "block-66",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "準確率（Accuracy） 𝑇𝑃+𝑇𝑁 公式：Accuracy = 𝑇𝑃+𝑇𝑁+𝐹𝑃+𝐹𝑁 定義：正確預測樣本數佔總樣本數的比例。",
+      "text": "準確率（Accuracy） 𝑇𝑃+𝑇𝑁",
       "pageIndex": 154,
       "bbox": [
         102.16,
         225.7,
+        282.75,
+        255.85
+      ],
+      "id": "block-67",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "公式：Accuracy = 𝑇𝑃+𝑇𝑁+𝐹𝑃+𝐹𝑁",
+      "pageIndex": 154,
+      "bbox": [
+        120.52,
+        250.21,
+        303.43,
+        268.96
+      ],
+      "id": "block-68",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "定義：正確預測樣本數佔總樣本數的比例。",
+      "pageIndex": 154,
+      "bbox": [
+        120.52,
+        283.33,
         378.57,
         296.78
       ],
-      "id": "block-65"
+      "id": "block-69",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "適用：類別分佈相對均衡時效果良好。",
       "pageIndex": 154,
       "bbox": [
@@ -999,11 +1280,15 @@
         353.37,
         321.74
       ],
-      "id": "block-66"
+      "id": "block-70",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "限制：在嚴重類別不平衡的資料中容易誤導，例如95%樣本為負類時，即使模型全預測為負，準確率仍高達95%。",
       "pageIndex": 154,
       "bbox": [
@@ -1012,25 +1297,66 @@
         521.31,
         371.78
       ],
-      "id": "block-67"
+      "id": "block-71",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "精確率（Precision） 𝑇𝑃 公式：Precision = 𝑇𝑃+𝐹𝑃 定義：被預測為正類的樣本中，實際為正類的比例。",
+      "text": "精確率（Precision） 𝑇𝑃",
       "pageIndex": 154,
       "bbox": [
         102.16,
         383.29,
+        256.49,
+        413.44
+      ],
+      "id": "block-72",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "公式：Precision = 𝑇𝑃+𝐹𝑃",
+      "pageIndex": 154,
+      "bbox": [
+        120.52,
+        407.77,
+        268.39,
+        426.52
+      ],
+      "id": "block-73",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "定義：被預測為正類的樣本中，實際為正類的比例。",
+      "pageIndex": 154,
+      "bbox": [
+        120.52,
+        440.91,
         428.97,
         454.36
       ],
-      "id": "block-68"
+      "id": "block-74",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "適用場景：當「誤報正類」的代價高時（例如垃圾郵件分類、醫療誤診）。",
       "pageIndex": 154,
       "bbox": [
@@ -1039,11 +1365,15 @@
         521.88,
         479.32
       ],
-      "id": "block-69"
+      "id": "block-75",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "目的：衡量「預測為正的可信度」。",
       "pageIndex": 154,
       "bbox": [
@@ -1052,25 +1382,66 @@
         334.53,
         504.4
       ],
-      "id": "block-70"
+      "id": "block-76",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "召回率（Recall） 𝑇𝑃 公式：Recall = 𝑇𝑃+𝐹𝑃 定義：實際正類樣本中，被正確預測為正類的比例。",
+      "text": "召回率（Recall） 𝑇𝑃",
       "pageIndex": 154,
       "bbox": [
         102.16,
         515.91,
+        239.69,
+        546.06
+      ],
+      "id": "block-77",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "公式：Recall = 𝑇𝑃+𝐹𝑃",
+      "pageIndex": 154,
+      "bbox": [
+        120.52,
+        540.39,
+        251.47,
+        559.14
+      ],
+      "id": "block-78",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "定義：實際正類樣本中，被正確預測為正類的比例。",
+      "pageIndex": 154,
+      "bbox": [
+        120.52,
+        573.51,
         428.97,
         586.96
       ],
-      "id": "block-71"
+      "id": "block-79",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "適用場景：當「漏報正類」的代價高時（例如癌症偵測、詐騙偵測）。",
       "pageIndex": 154,
       "bbox": [
@@ -1079,11 +1450,15 @@
         521.88,
         611.92
       ],
-      "id": "block-72"
+      "id": "block-80",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "目的：衡量「模型能抓住多少實際正類」。",
       "pageIndex": 154,
       "bbox": [
@@ -1092,38 +1467,66 @@
         372.33,
         637.03
       ],
-      "id": "block-73"
+      "id": "block-81",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "F1 分數（F1-Score）",
+      "text": "F1 分數（F1-Score） Precision∙Recall",
       "pageIndex": 154,
       "bbox": [
         102.16,
         648.54,
-        235.51,
-        661.99
+        285.23,
+        679.05
       ],
-      "id": "block-74"
+      "id": "block-82",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "Precision∙Recall 公式：F1 = 2 ∙ Precision+Recall 定義：精確率與召回率的調和平均。",
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "公式：F1 = 2 ∙ Precision+Recall",
       "pageIndex": 154,
       "bbox": [
         120.52,
-        670.52,
+        673.38,
+        290.11,
+        692.13
+      ],
+      "id": "block-83",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "定義：精確率與召回率的調和平均。",
+      "pageIndex": 154,
+      "bbox": [
+        120.52,
+        706.14,
         340.77,
         719.59
       ],
-      "id": "block-75"
+      "id": "block-84",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "適用場景：需在精確率與召回率間取得平衡，且類別不平衡嚴重時。",
       "pageIndex": 154,
       "bbox": [
@@ -1132,11 +1535,14 @@
         517.2,
         761.22
       ],
-      "id": "block-76"
+      "id": "block-85",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "ROC 曲線與AUC",
       "pageIndex": 155,
@@ -1146,11 +1552,15 @@
         218.11,
         114.11
       ],
-      "id": "block-77"
+      "id": "block-86",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "ROC 曲線（Receiver Operating Characteristic）：",
       "pageIndex": 155,
       "bbox": [
@@ -1159,11 +1569,15 @@
         397.65,
         400.22
       ],
-      "id": "block-78"
+      "id": "block-87",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "橫軸：假正率。",
       "pageIndex": 155,
       "bbox": [
@@ -1172,11 +1586,15 @@
         241.51,
         425.3
       ],
-      "id": "block-79"
+      "id": "block-88",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "縱軸：真正率畫出的曲線。",
       "pageIndex": 155,
       "bbox": [
@@ -1185,11 +1603,15 @@
         304.51,
         450.28
       ],
-      "id": "block-80"
+      "id": "block-89",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "AUC（Area Under Curve）：表示曲線下的面積。",
       "pageIndex": 155,
       "bbox": [
@@ -1198,11 +1620,15 @@
         417.93,
         475.24
       ],
-      "id": "block-81"
+      "id": "block-90",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "意義：",
       "pageIndex": 155,
       "bbox": [
@@ -1211,11 +1637,15 @@
         176.92,
         500.32
       ],
-      "id": "block-82"
+      "id": "block-91",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "代表模型在所有可能閾值下的整體區分能力。",
       "pageIndex": 155,
       "bbox": [
@@ -1224,11 +1654,15 @@
         405.33,
         525.28
       ],
-      "id": "block-83"
+      "id": "block-92",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "AUC 值越接近1，模型越好。",
       "pageIndex": 155,
       "bbox": [
@@ -1237,11 +1671,15 @@
         318.19,
         550.24
       ],
-      "id": "block-84"
+      "id": "block-93",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "適用：需綜觀整體預測能力時，特別是需調整分類閾值的應用。",
       "pageIndex": 155,
       "bbox": [
@@ -1250,7 +1688,10 @@
         492.0,
         575.32
       ],
-      "id": "block-85"
+      "id": "block-94",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1264,7 +1705,10 @@
         218.23,
         625.24
       ],
-      "id": "block-86"
+      "id": "block-95",
+      "nodeId": "mid-s3c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1277,25 +1721,100 @@
         517.93,
         675.31
       ],
-      "id": "block-87"
+      "id": "block-96",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "均方誤差（Mean Squared Error, MSE） 1 𝑛∑ (𝑦𝑖−𝑦̂𝑖)2 𝑛 𝑖=1",
+      "pageIndex": 155,
+      "bbox": [
+        102.16,
+        686.82,
+        332.85,
+        730.17
+      ],
+      "id": "block-97",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "公式：MSE =",
+      "pageIndex": 155,
+      "bbox": [
+        120.52,
+        711.42,
+        208.95,
+        724.94
+      ],
+      "id": "block-98",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
       "depth": 7,
-      "marker": "•",
-      "text": "均方誤差（Mean Squared Error, MSE） 1 𝑛∑ (𝑦𝑖−𝑦̂𝑖)2 𝑛 𝑖=1 公式：MSE = 𝑦𝑖：為實際值 𝑦𝑖̂：為預測值定義：所有預測誤差平方的平均值。",
+      "marker": "○",
+      "text": "𝑦𝑖：為實際值",
       "pageIndex": 155,
       "bbox": [
-        102.16,
-        100.66,
-        340.77,
+        136.12,
+        744.41,
+        226.39,
         759.56
       ],
-      "id": "block-88"
+      "id": "block-99",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "𝑦𝑖̂：為預測值",
+      "pageIndex": 156,
+      "bbox": [
+        136.12,
+        100.66,
+        225.43,
+        115.81
+      ],
+      "id": "block-100",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "定義：所有預測誤差平方的平均值。",
+      "pageIndex": 156,
+      "bbox": [
+        120.52,
+        125.62,
+        340.77,
+        139.07
+      ],
+      "id": "block-101",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "特點：對大誤差高度敏感，會放大極端偏差的影響。",
       "pageIndex": 156,
       "bbox": [
@@ -1304,11 +1823,15 @@
         428.97,
         164.15
       ],
-      "id": "block-89"
+      "id": "block-102",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "適用：需強調大誤差懲罰的任務，如金融風險預測或製程品質監控。",
       "pageIndex": 156,
       "bbox": [
@@ -1317,38 +1840,100 @@
         517.2,
         189.11
       ],
-      "id": "block-90"
+      "id": "block-103",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "平均絕對誤差（Mean Absolute Error, MAE）",
+      "text": "平均絕對誤差（Mean Absolute Error, MAE） 1 𝑛∑ |𝑦𝑖−𝑦̂𝑖| 𝑛 𝑖=1",
       "pageIndex": 156,
       "bbox": [
         102.16,
         200.62,
         363.81,
-        214.07
+        243.97
       ],
-      "id": "block-91"
+      "id": "block-104",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "1 𝑛∑ |𝑦𝑖−𝑦̂𝑖| 𝑛 𝑖=1 公式：MAE = 𝑦𝑖：為實際值 𝑦𝑖̂：為預測值定義：所有預測誤差絕對值的平均。",
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "公式：MAE =",
       "pageIndex": 156,
       "bbox": [
         120.52,
-        222.36,
+        225.22,
+        210.39,
+        238.74
+      ],
+      "id": "block-105",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "𝑦𝑖：為實際值",
+      "pageIndex": 156,
+      "bbox": [
+        136.12,
+        258.25,
+        226.39,
+        273.4
+      ],
+      "id": "block-106",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "𝑦𝑖̂：為預測值",
+      "pageIndex": 156,
+      "bbox": [
+        136.12,
+        283.33,
+        225.43,
+        298.48
+      ],
+      "id": "block-107",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "定義：所有預測誤差絕對值的平均。",
+      "pageIndex": 156,
+      "bbox": [
+        120.52,
+        308.29,
         340.77,
         321.74
       ],
-      "id": "block-92"
+      "id": "block-108",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "特點：對異常值較不敏感，提供穩定的誤差估計。",
       "pageIndex": 156,
       "bbox": [
@@ -1357,11 +1942,15 @@
         416.37,
         346.7
       ],
-      "id": "block-93"
+      "id": "block-109",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "適用：資料具偏態分佈或含少量極端值時。",
       "pageIndex": 156,
       "bbox": [
@@ -1370,38 +1959,100 @@
         378.57,
         371.78
       ],
-      "id": "block-94"
+      "id": "block-110",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "均方根誤差（Root Mean Squared Error, RMSE）",
+      "text": "均方根誤差（Root Mean Squared Error, RMSE） 1 𝑛∑ (𝑦𝑖−𝑦̂𝑖)2 𝑛 𝑖=1",
       "pageIndex": 156,
       "bbox": [
         102.16,
         383.29,
         381.69,
-        396.74
+        427.72
       ],
-      "id": "block-95"
+      "id": "block-111",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "1 𝑛∑ (𝑦𝑖−𝑦̂𝑖)2 𝑛 𝑖=1 公式：RMSE = √ 𝑦𝑖：為實際值 𝑦𝑖̂：為預測值定義：MSE 的平方根。",
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "公式：RMSE = √",
       "pageIndex": 156,
       "bbox": [
         120.52,
-        406.11,
-        312.19,
-        504.4
+        408.97,
+        228.67,
+        422.49
       ],
-      "id": "block-96"
+      "id": "block-112",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "𝑦𝑖：為實際值",
+      "pageIndex": 156,
+      "bbox": [
+        136.12,
+        440.91,
+        226.39,
+        456.06
+      ],
+      "id": "block-113",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "𝑦𝑖̂：為預測值",
+      "pageIndex": 156,
+      "bbox": [
+        136.12,
+        465.87,
+        225.43,
+        481.02
+      ],
+      "id": "block-114",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "定義：MSE 的平方根。",
+      "pageIndex": 156,
+      "bbox": [
+        120.52,
+        490.95,
+        268.63,
+        504.4
+      ],
+      "id": "block-115",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "特點：保有MSE 的懲罰特性，同時回到與預測變數相同的單位。",
       "pageIndex": 156,
       "bbox": [
@@ -1410,11 +2061,15 @@
         498.72,
         529.36
       ],
-      "id": "block-97"
+      "id": "block-116",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "適用情境：作為模型精度的整體衡量，廣泛用於報告與模型比較。",
       "pageIndex": 156,
       "bbox": [
@@ -1423,25 +2078,49 @@
         504.6,
         554.32
       ],
-      "id": "block-98"
+      "id": "block-117",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "決定係數（R² Score） 意義：迴歸任務中用以衡量模型對目標變數變異解釋能力的重要指標。",
+      "text": "決定係數（R² Score）",
       "pageIndex": 156,
       "bbox": [
         102.16,
         565.95,
+        242.11,
+        579.4
+      ],
+      "id": "block-118",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "意義：迴歸任務中用以衡量模型對目標變數變異解釋能力的重要指標。",
+      "pageIndex": 156,
+      "bbox": [
+        120.52,
+        590.91,
         521.88,
         604.36
       ],
-      "id": "block-99"
+      "id": "block-119",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "公式：",
       "pageIndex": 156,
       "bbox": [
@@ -1450,37 +2129,131 @@
         176.92,
         629.35
       ],
-      "id": "block-100"
+      "id": "block-120",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "∑ (𝑦𝑖−𝑦̂𝑖)2 𝑛 𝑖=1 ∑ (𝑦𝑖−𝑦̅)2 𝑛 𝑖=1 = 1 −𝑅𝑆𝑆 𝑅2 = 1 − 𝑇𝑆𝑆 𝑦𝑖：為實際值 𝑦𝑖̂：為預測值 𝑦̄：為實際值的平均數分子：",
+      "text": "∑ (𝑦𝑖−𝑦̂𝑖)2 𝑛 𝑖=1 ∑ (𝑦𝑖−𝑦̅)2 𝑛 𝑖=1 = 1 −𝑅𝑆𝑆 𝑅2 = 1 − 𝑇𝑆𝑆",
       "pageIndex": 156,
       "bbox": [
-        76.6,
-        100.66,
+        136.72,
+        631.28,
         319.27,
-        753.54
+        665.25
       ],
-      "id": "block-101"
-    },
-    {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "𝑛 𝑅𝑆𝑆= ∑(𝑦𝑖−𝑦̂𝑖)2 𝑖=1 ○ 模型殘差平方和（Residual Sum of Squares, RSS）",
-      "pageIndex": 157,
-      "bbox": [
-        150.28,
-        119.88,
-        440.49,
-        188.03
-      ],
-      "id": "block-102"
+      "id": "block-121",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
+      "marker": "○",
+      "text": "𝑦𝑖：為實際值",
+      "pageIndex": 156,
+      "bbox": [
+        136.12,
+        673.5,
+        226.39,
+        688.65
+      ],
+      "id": "block-122",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "𝑦𝑖̂：為預測值",
+      "pageIndex": 156,
+      "bbox": [
+        136.12,
+        698.58,
+        225.43,
+        713.73
+      ],
+      "id": "block-123",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "𝑦̄：為實際值的平均數",
+      "pageIndex": 156,
+      "bbox": [
+        76.6,
+        723.54,
+        273.67,
+        753.54
+      ],
+      "id": "block-124",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "分子：",
+      "pageIndex": 157,
+      "bbox": [
+        136.12,
+        100.66,
+        191.11,
+        114.11
+      ],
+      "id": "block-125",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "paragraph",
+      "depth": 5,
+      "text": "𝑛 𝑅𝑆𝑆= ∑(𝑦𝑖−𝑦̂𝑖)2 𝑖=1",
+      "pageIndex": 157,
+      "bbox": [
+        150.76,
+        119.88,
+        252.32,
+        161.65
+      ],
+      "id": "block-126",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "模型殘差平方和（Residual Sum of Squares, RSS）",
+      "pageIndex": 157,
+      "bbox": [
+        150.28,
+        174.58,
+        440.49,
+        188.03
+      ],
+      "id": "block-127",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
       "marker": "○",
       "text": "為資料點與模型預測值之間的差距所產生的平方總和。",
       "pageIndex": 157,
@@ -1490,11 +2263,14 @@
         472.8,
         212.99
       ],
-      "id": "block-103"
+      "id": "block-128",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "RSS 越小，表示模型預測越接近實際資料。",
       "pageIndex": 157,
@@ -1504,11 +2280,15 @@
         410.01,
         238.07
       ],
-      "id": "block-104"
+      "id": "block-129",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "分母：",
       "pageIndex": 157,
       "bbox": [
@@ -1517,24 +2297,47 @@
         191.11,
         263.06
       ],
-      "id": "block-105"
+      "id": "block-130",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "𝑛 𝑇𝑆𝑆= ∑(𝑦𝑖−𝑦̅)2 𝑖=1 ○ 總變異平方和（Total Sum of Squares, TSS）",
+      "text": "𝑛 𝑇𝑆𝑆= ∑(𝑦𝑖−𝑦̅)2 𝑖=1",
       "pageIndex": 157,
       "bbox": [
         150.04,
         268.83,
-        408.57,
-        336.98
+        248.0,
+        310.6
       ],
-      "id": "block-106"
+      "id": "block-131",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
+      "marker": "○",
+      "text": "總變異平方和（Total Sum of Squares, TSS）",
+      "pageIndex": 157,
+      "bbox": [
+        150.28,
+        323.53,
+        408.57,
+        336.98
+      ],
+      "id": "block-132",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
       "marker": "○",
       "text": "資料點與平均值之間的差距所產生的平方總和，代表資料的總變異量。",
       "pageIndex": 157,
@@ -1544,11 +2347,14 @@
         518.32,
         386.9
       ],
-      "id": "block-107"
+      "id": "block-133",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "TSS 用於當作模型比較的基準。",
       "pageIndex": 157,
@@ -1558,11 +2364,15 @@
         349.77,
         411.98
       ],
-      "id": "block-108"
+      "id": "block-134",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "適用情境：",
       "pageIndex": 157,
       "bbox": [
@@ -1571,11 +2381,15 @@
         202.15,
         436.94
       ],
-      "id": "block-109"
+      "id": "block-135",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "適用於線性迴歸模型，可快速評估預測能力。",
       "pageIndex": 157,
       "bbox": [
@@ -1584,11 +2398,15 @@
         405.33,
         461.92
       ],
-      "id": "block-110"
+      "id": "block-136",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "不適用於非線性或未標準化資料下的模型比較，易失真。",
       "pageIndex": 157,
       "bbox": [
@@ -1597,11 +2415,15 @@
         468.36,
         487.0
       ],
-      "id": "block-111"
+      "id": "block-137",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "對於不同任務或資料集間的R²無法直接比較。",
       "pageIndex": 157,
       "bbox": [
@@ -1610,11 +2432,15 @@
         408.09,
         511.96
       ],
-      "id": "block-112"
+      "id": "block-138",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "判別：",
       "pageIndex": 157,
       "bbox": [
@@ -1623,11 +2449,15 @@
         176.92,
         536.92
       ],
-      "id": "block-113"
+      "id": "block-139",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "R² = 1：表示模型能完全解釋資料變異，預測完美。",
       "pageIndex": 157,
       "bbox": [
@@ -1636,11 +2466,15 @@
         437.49,
         562.0
       ],
-      "id": "block-114"
+      "id": "block-140",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "R² = 0：表示模型僅與常數模型（如直接預測平均值）同等表現。",
       "pageIndex": 157,
       "bbox": [
@@ -1649,11 +2483,15 @@
         513.12,
         586.96
       ],
-      "id": "block-115"
+      "id": "block-141",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "R² < 0：表示模型比常數模型還差，可能發生在模型嚴重偏離資料趨勢或過度擬合下。",
       "pageIndex": 157,
       "bbox": [
@@ -1662,7 +2500,10 @@
         517.91,
         637.03
       ],
-      "id": "block-116"
+      "id": "block-142",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1676,7 +2517,10 @@
         243.43,
         686.95
       ],
-      "id": "block-117"
+      "id": "block-143",
+      "nodeId": "mid-s3c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1689,11 +2533,14 @@
         517.93,
         736.99
       ],
-      "id": "block-118"
+      "id": "block-144",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "指標組合與多角度觀察：單一評估指標往往無法全面呈現模型效能與偏誤風險。建議依據任務特性組合使用多項指標：",
       "pageIndex": 158,
@@ -1703,11 +2550,15 @@
         518.37,
         139.07
       ],
-      "id": "block-119"
+      "id": "block-145",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "分類任務：結合準確率（Accuracy）、F1 分數、ROC-AUC、混淆矩陣等指標，可避免單一指標掩蓋類別偏誤。",
       "pageIndex": 158,
       "bbox": [
@@ -1716,11 +2567,15 @@
         518.2,
         189.11
       ],
-      "id": "block-120"
+      "id": "block-146",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "迴歸任務：可綜合MAE、RMSE 與R²，觀察誤差分佈與模型擬合能力。",
       "pageIndex": 158,
       "bbox": [
@@ -1729,11 +2584,14 @@
         521.88,
         214.07
       ],
-      "id": "block-121"
+      "id": "block-147",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "類別不平衡處理與評估策略：面對高度不平衡資料（如欺詐偵測、醫療診斷），傳統準確率常導致誤判。可搭配資料處理技術如：",
       "pageIndex": 158,
@@ -1743,20 +2601,44 @@
         518.23,
         264.14
       ],
-      "id": "block-122"
+      "id": "block-148",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "類別重加權（Class Weights） 模型訓練時對少數類別賦予更高權重，強化模型對其的學習能力。",
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "類別重加權（Class Weights）",
       "pageIndex": 158,
       "bbox": [
         120.52,
         275.65,
+        299.11,
+        289.1
+      ],
+      "id": "block-149",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "模型訓練時對少數類別賦予更高權重，強化模型對其的學習能力。",
+      "pageIndex": 158,
+      "bbox": [
+        136.12,
+        300.73,
         518.32,
         314.11
       ],
-      "id": "block-123"
+      "id": "block-150",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1769,11 +2651,15 @@
         518.32,
         364.1
       ],
-      "id": "block-124"
+      "id": "block-151",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "過採樣（如SMOTE）",
       "pageIndex": 158,
       "bbox": [
@@ -1782,11 +2668,15 @@
         260.11,
         389.18
       ],
-      "id": "block-125"
+      "id": "block-152",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "SMOTE（Synthetic Minority Over-sampling Technique）透過合成新樣本方式平衡資料分佈，能保留原始樣本空間結構，降低過度複製產生的過擬合風險。適用於資料量不足的少數類別。",
       "pageIndex": 158,
       "bbox": [
@@ -1795,11 +2685,15 @@
         518.32,
         464.2
       ],
-      "id": "block-126"
+      "id": "block-153",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "異常值建模（如Isolation Forest、One-Class SVM）",
       "pageIndex": 158,
       "bbox": [
@@ -1808,11 +2702,15 @@
         418.41,
         489.16
       ],
-      "id": "block-127"
+      "id": "block-154",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "將類別不平衡問題視為異常偵測任務，建構僅學習正常類別行為的模型，再以此辨識「異常」樣本。特別適用於極端不平衡場景（如欺詐偵測、設備故障預測等）。",
       "pageIndex": 158,
       "bbox": [
@@ -1821,25 +2719,49 @@
         518.32,
         564.16
       ],
-      "id": "block-128"
+      "id": "block-155",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "業務導向與自定義效能衡量 • 在特定業務場景中，應設計實際風險與成本結構的客製指標：",
+      "text": "業務導向與自定義效能衡量",
       "pageIndex": 158,
       "bbox": [
         102.16,
         575.67,
+        273.43,
+        589.12
+      ],
+      "id": "block-156",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "在特定業務場景中，應設計實際風險與成本結構的客製指標：",
+      "pageIndex": 158,
+      "bbox": [
+        102.16,
+        600.75,
         462.48,
         614.2
       ],
-      "id": "block-129"
+      "id": "block-157",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "風險導向任務（如醫療）：可自定義誤判成本矩陣，強化高代價錯誤（如漏診）的懲罰。",
       "pageIndex": 158,
       "bbox": [
@@ -1848,11 +2770,15 @@
         518.04,
         664.15
       ],
-      "id": "block-130"
+      "id": "block-158",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "商業任務（如推薦系統、行銷）：可使用領域專屬指標，如排序任務中的NDCG、收益導向的Profit Score。",
       "pageIndex": 158,
       "bbox": [
@@ -1861,11 +2787,14 @@
         517.97,
         714.19
       ],
-      "id": "block-131"
+      "id": "block-159",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "多輪驗證與效能穩定性觀察：模型效能的評估不應僅依賴單一實驗結果或平均數值，更應關注其在多次訓練下的穩定性與變異範圍，以反映模型在不同資料切分條件下的可靠性。常見方法如下：",
       "pageIndex": 159,
@@ -1875,11 +2804,15 @@
         518.35,
         164.15
       ],
-      "id": "block-132"
+      "id": "block-160",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "K-fold 交叉驗證（K-fold Cross-Validation）：",
       "pageIndex": 159,
       "bbox": [
@@ -1888,11 +2821,15 @@
         380.61,
         189.11
       ],
-      "id": "block-133"
+      "id": "block-161",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "將資料集平均分為K 份，輪流以其中一份作為驗證集，其餘作為訓練集，重複K 次以取得平均效能。能有效減少資料分割偶然性對模型評估造成的偏誤。",
       "pageIndex": 159,
       "bbox": [
@@ -1901,11 +2838,15 @@
         518.23,
         264.14
       ],
-      "id": "block-134"
+      "id": "block-162",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "重複交叉驗證（Repeated K-fold CV）：",
       "pageIndex": 159,
       "bbox": [
@@ -1914,11 +2855,15 @@
         350.97,
         289.1
       ],
-      "id": "block-135"
+      "id": "block-163",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "在進行K-fold 的基礎上多次隨機重複切分流程，可進一步衡量模型在隨機條件下的穩定性與泛化能力，適合評估小樣本或高變異任務。",
       "pageIndex": 159,
       "bbox": [
@@ -1927,11 +2872,15 @@
         521.88,
         339.14
       ],
-      "id": "block-136"
+      "id": "block-164",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "穩定性視覺化分析：",
       "pageIndex": 159,
       "bbox": [
@@ -1940,11 +2889,15 @@
         252.55,
         364.1
       ],
-      "id": "block-137"
+      "id": "block-165",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "搭配箱型圖（Boxplot）或平均排名圖（Mean Rank Plot）等視覺化工具，觀察不同模型在多輪驗證下的表現分佈與變異程度。這有助於篩選出在不同資料條件下都具一致性與穩定性的候選模型。",
       "pageIndex": 159,
       "bbox": [
@@ -1953,7 +2906,10 @@
         518.32,
         439.1
       ],
-      "id": "block-138"
+      "id": "block-166",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1967,7 +2923,10 @@
         161.17,
         489.73
       ],
-      "id": "block-139"
+      "id": "block-167",
+      "nodeId": "mid-s3c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1980,7 +2939,10 @@
         518.4,
         589.12
       ],
-      "id": "block-140"
+      "id": "block-168",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1994,7 +2956,10 @@
         139.96,
         639.19
       ],
-      "id": "block-141"
+      "id": "block-169",
+      "nodeId": "mid-s3c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2007,7 +2972,10 @@
         521.33,
         664.15
       ],
-      "id": "block-142"
+      "id": "block-170",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2020,11 +2988,14 @@
         517.91,
         730.75
       ],
-      "id": "block-143"
+      "id": "block-171",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "過程：",
       "pageIndex": 160,
@@ -2034,11 +3005,15 @@
         160.0,
         114.11
       ],
-      "id": "block-144"
+      "id": "block-172",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "將資料集平均劃分為K 個不重疊的子集（folds），每次選定其中1 折 （fold）作為驗證集，其餘K-1 折作為訓練集。",
       "pageIndex": 160,
       "bbox": [
@@ -2047,11 +3022,15 @@
         518.28,
         164.15
       ],
-      "id": "block-145"
+      "id": "block-173",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "重複K 次後計算指標平均作為整體表現。",
       "pageIndex": 160,
       "bbox": [
@@ -2060,11 +3039,14 @@
         368.61,
         189.11
       ],
-      "id": "block-146"
+      "id": "block-174",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "特點：",
       "pageIndex": 160,
@@ -2074,11 +3056,15 @@
         160.0,
         214.07
       ],
-      "id": "block-147"
+      "id": "block-175",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "減少資料切分偏差，適用性廣。",
       "pageIndex": 160,
       "bbox": [
@@ -2087,11 +3073,15 @@
         315.55,
         239.15
       ],
-      "id": "block-148"
+      "id": "block-176",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "能有效評估模型在不同樣本上的表現穩定性。",
       "pageIndex": 160,
       "bbox": [
@@ -2100,11 +3090,15 @@
         391.17,
         264.14
       ],
-      "id": "block-149"
+      "id": "block-177",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "每次需重新訓練模型，計算成本為K 倍。",
       "pageIndex": 160,
       "bbox": [
@@ -2113,11 +3107,15 @@
         368.61,
         289.1
       ],
-      "id": "block-150"
+      "id": "block-178",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "常見設定為K=5 或10，可在精確度與運算效率間取得平衡。",
       "pageIndex": 160,
       "bbox": [
@@ -2126,11 +3124,14 @@
         473.4,
         314.18
       ],
-      "id": "block-151"
+      "id": "block-179",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "適用場景：",
       "pageIndex": 160,
@@ -2140,11 +3141,15 @@
         185.2,
         339.14
       ],
-      "id": "block-152"
+      "id": "block-180",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "適用於中大型資料集（數千筆以上）。",
       "pageIndex": 160,
       "bbox": [
@@ -2153,11 +3158,15 @@
         347.13,
         364.1
       ],
-      "id": "block-153"
+      "id": "block-181",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "模型選擇與效能比較常以此為標準方法。",
       "pageIndex": 160,
       "bbox": [
@@ -2166,11 +3175,15 @@
         365.97,
         389.18
       ],
-      "id": "block-154"
+      "id": "block-182",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "適用於迴歸與分類任務的泛化能力驗證。",
       "pageIndex": 160,
       "bbox": [
@@ -2179,7 +3192,10 @@
         365.97,
         414.14
       ],
-      "id": "block-155"
+      "id": "block-183",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2193,7 +3209,10 @@
         194.95,
         464.2
       ],
-      "id": "block-156"
+      "id": "block-184",
+      "nodeId": "mid-s3c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2206,11 +3225,14 @@
         518.09,
         539.2
       ],
-      "id": "block-157"
+      "id": "block-185",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "過程：",
       "pageIndex": 160,
@@ -2220,11 +3242,15 @@
         160.0,
         564.16
       ],
-      "id": "block-158"
+      "id": "block-186",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "依照類別比例進行分層抽樣，使每一折的類別比例與整體資料集相近。",
       "pageIndex": 160,
       "bbox": [
@@ -2233,11 +3259,14 @@
         521.88,
         589.12
       ],
-      "id": "block-159"
+      "id": "block-187",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "特點：",
       "pageIndex": 160,
@@ -2247,11 +3276,15 @@
         160.0,
         614.2
       ],
-      "id": "block-160"
+      "id": "block-188",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "可有效解決類別不均所導致的模型評估失真。",
       "pageIndex": 160,
       "bbox": [
@@ -2260,11 +3293,15 @@
         391.17,
         639.19
       ],
-      "id": "block-161"
+      "id": "block-189",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "提升對小樣本類別的穩定性與預測準確度。",
       "pageIndex": 160,
       "bbox": [
@@ -2273,11 +3310,15 @@
         378.57,
         664.15
       ],
-      "id": "block-162"
+      "id": "block-190",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "與傳統K-fold 相比，分佈一致性更高。",
       "pageIndex": 160,
       "bbox": [
@@ -2286,11 +3327,14 @@
         355.65,
         689.23
       ],
-      "id": "block-163"
+      "id": "block-191",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "適用場景：",
       "pageIndex": 160,
@@ -2300,11 +3344,15 @@
         185.2,
         714.19
       ],
-      "id": "block-164"
+      "id": "block-192",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "分類資料中存在不均衡現象（如正負樣本比例懸殊）。",
       "pageIndex": 160,
       "bbox": [
@@ -2313,11 +3361,15 @@
         435.33,
         739.15
       ],
-      "id": "block-165"
+      "id": "block-193",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "用於詐騙偵測、醫療診斷、異常事件預測等高風險分類問題。",
       "pageIndex": 160,
       "bbox": [
@@ -2326,11 +3378,15 @@
         479.4,
         764.22
       ],
-      "id": "block-166"
+      "id": "block-194",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "可作為分類任務交叉驗證的預設方式。",
       "pageIndex": 161,
       "bbox": [
@@ -2339,7 +3395,10 @@
         353.37,
         114.11
       ],
-      "id": "block-167"
+      "id": "block-195",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2353,7 +3412,10 @@
         150.28,
         164.15
       ],
-      "id": "block-168"
+      "id": "block-196",
+      "nodeId": "mid-s3c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2366,11 +3428,14 @@
         518.4,
         239.15
       ],
-      "id": "block-169"
+      "id": "block-197",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "過程：",
       "pageIndex": 161,
@@ -2380,11 +3445,15 @@
         160.0,
         264.14
       ],
-      "id": "block-170"
+      "id": "block-198",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "資料集中每次僅留下1 筆資料作為驗證集，其餘所有資料用於訓練，重複進行n 次（n 為樣本數）。",
       "pageIndex": 161,
       "bbox": [
@@ -2393,11 +3462,14 @@
         518.23,
         314.18
       ],
-      "id": "block-171"
+      "id": "block-199",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "特點：",
       "pageIndex": 161,
@@ -2407,11 +3479,15 @@
         160.0,
         339.14
       ],
-      "id": "block-172"
+      "id": "block-200",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "評估偏差最小，適合樣本珍貴或不可浪費的情境。",
       "pageIndex": 161,
       "bbox": [
@@ -2420,11 +3496,15 @@
         416.37,
         364.1
       ],
-      "id": "block-173"
+      "id": "block-201",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "因需訓練n 次模型，計算成本極高，對模型複雜度與硬體要求較高。",
       "pageIndex": 161,
       "bbox": [
@@ -2433,11 +3513,15 @@
         517.2,
         389.18
       ],
-      "id": "block-174"
+      "id": "block-202",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "敏感於訓練集的微小變動，模型表現波動較大。",
       "pageIndex": 161,
       "bbox": [
@@ -2446,11 +3530,14 @@
         403.77,
         414.14
       ],
-      "id": "block-175"
+      "id": "block-203",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "適用場景：",
       "pageIndex": 161,
@@ -2460,11 +3547,15 @@
         185.2,
         439.1
       ],
-      "id": "block-176"
+      "id": "block-204",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "樣本數極小但資料珍貴（如臨床研究、稀有病資料）。",
       "pageIndex": 161,
       "bbox": [
@@ -2473,11 +3564,15 @@
         435.33,
         464.2
       ],
-      "id": "block-177"
+      "id": "block-205",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "為提高模型評估的穩定性與可信度，重複K-fold 在每次驗證前隨機劃分資料，以捕捉樣本劃分隨機性的影響。",
       "pageIndex": 161,
       "bbox": [
@@ -2486,11 +3581,15 @@
         518.25,
         514.12
       ],
-      "id": "block-178"
+      "id": "block-206",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "學術研究中需最大化資料利用與精準驗證。",
       "pageIndex": 161,
       "bbox": [
@@ -2499,11 +3598,15 @@
         378.57,
         539.2
       ],
-      "id": "block-179"
+      "id": "block-207",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "適用於須個別樣本可信度高的模型精度檢查。",
       "pageIndex": 161,
       "bbox": [
@@ -2512,7 +3615,10 @@
         391.17,
         564.16
       ],
-      "id": "block-180"
+      "id": "block-208",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2526,7 +3632,10 @@
         193.63,
         614.2
       ],
-      "id": "block-181"
+      "id": "block-209",
+      "nodeId": "mid-s3c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2539,11 +3648,14 @@
         518.28,
         689.23
       ],
-      "id": "block-182"
+      "id": "block-210",
+      "nodeId": "mid-s3c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "過程：",
       "pageIndex": 161,
@@ -2553,11 +3665,15 @@
         160.0,
         714.19
       ],
-      "id": "block-183"
+      "id": "block-211",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "執行多輪K-fold 驗證（如10-fold × 5 次），每輪隨機重分fold，計算所有輪的平均與變異。",
       "pageIndex": 161,
       "bbox": [
@@ -2566,11 +3682,14 @@
         518.24,
         764.22
       ],
-      "id": "block-184"
+      "id": "block-212",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "特點：",
       "pageIndex": 162,
@@ -2580,11 +3699,15 @@
         160.0,
         114.11
       ],
-      "id": "block-185"
+      "id": "block-213",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "評估結果更加穩定與具代表性。",
       "pageIndex": 162,
       "bbox": [
@@ -2593,11 +3716,15 @@
         315.55,
         139.07
       ],
-      "id": "block-186"
+      "id": "block-214",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "可觀察模型在不同劃分下的表現波動與可信區間。",
       "pageIndex": 162,
       "bbox": [
@@ -2606,11 +3733,15 @@
         416.37,
         164.15
       ],
-      "id": "block-187"
+      "id": "block-215",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "相較標準K-fold，計算成本更高。",
       "pageIndex": 162,
       "bbox": [
@@ -2619,11 +3750,14 @@
         327.33,
         189.11
       ],
-      "id": "block-188"
+      "id": "block-216",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "適用場景：",
       "pageIndex": 162,
@@ -2633,11 +3767,15 @@
         185.2,
         214.07
       ],
-      "id": "block-189"
+      "id": "block-217",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "調參流程中模型比較與效能穩定性評估。",
       "pageIndex": 162,
       "bbox": [
@@ -2646,11 +3784,15 @@
         365.97,
         239.15
       ],
-      "id": "block-190"
+      "id": "block-218",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "學術研究或論文發表需報告標準差與置信範圍。",
       "pageIndex": 162,
       "bbox": [
@@ -2659,11 +3801,15 @@
         403.77,
         264.14
       ],
-      "id": "block-191"
+      "id": "block-219",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "需重現性高的產業建模流程，如金融風控或醫療AI。",
       "pageIndex": 162,
       "bbox": [
@@ -2672,7 +3818,10 @@
         432.81,
         289.1
       ],
-      "id": "block-192"
+      "id": "block-220",
+      "nodeId": "mid-s3c9",
+      "kind": "list_item",
+      "source": "page_extract"
     }
   ],
   "sourcePages": [

@@ -1,7 +1,7 @@
 {
   "id": "mid-s2c10",
   "title": "大數據與機器學習",
-  "content": "# 大數據與機器學習\n\n6.1\n\n1.\n\n隨著資料規模增加、新資料產出速率加快，傳統的機器學習流程與模型設計邏輯也面臨根本性挑戰。過去、模型訓練多建立於「完整樣本」「記憶體內計算」\n\n「單機環境」的前提下進行；然而在大數據情境中，這些前提往往不再成立。資料的規模、速度、異質性與即時性，已重新定義了機器學習的實作方式與系統需求。\n\n在這樣的背景下，大數據不僅改變了模型開發的技術層面，更推動了整體AI 系統架構的演進：從模型設計、資料擷取與預處理，到訓練加速、分散式部署與持續監控，機器學習的每一個環節都需重新評估與調整。\n\n2.\n\n在傳統機器學習流程中，往往假設資料量可控、型態一致且更新頻率有限，能於單一機器或小型叢集中完成資料清理、特徵工程、模型訓練與驗證。然而，當資料進入TB 至PB 等級的「大數據環境」後，這些前提不再成立，機器學習流程需因應資料的規模、型態、速度與品質等變化，進行全面性重構。以下針對幾項核心特性（包括五大特性Volume、Variety、Velocity、Veracity、Value），說明其對整體機器學習流程的改變與挑戰。\n\n#### （1）資料規模大（Volume）\n\n在大數據環境下，資料規模從GB 延伸至TB 甚至PB 級別，已遠超過傳統單機環境可承載的記憶體限制。這種規模的變化，對機器學習的資料處理、模型設計與效能評估都帶來重大挑戰，必須採用專門設計的技術與架構進行應對。\n\n首先，在資料處理階段，由於訓練資料無法一次性載入記憶體，需採用分批載入（Mini-Batch Loading）方式分段處理資料，或事先進行資料取樣（Sampling），以提升處理效率與實作靈活性。在儲存架構上，則需配合分散式儲存系統（如 HDFS）與支援列式壓縮的資料格式（如Parquet）進行資料儲存與取用，以減少 I/O 負擔並提升可擴展性。\n\n接著，在模型訓練階段，演算法與運算架構必須具備良好的可擴展性，支援跨節點並行計算。常見方法包括：\n\n• 使用Spark MLlib 在分散式記憶體架構下執行迴歸、分類等模型。\n\n• 採用Horovod 進行多GPU 或多節點同步訓練，提升深度學習效率。\n\n• 應用TensorFlow MultiWorker Strategy 實現模型在多主機間的平行訓練與容錯調整。\n\n此外，資料量大也使得訓練與驗證過程耗時增加，因此在模型評估階段，需調整傳統的靜態指標評估方式，改為支援分批累積計算的機制。例如，透過 Streaming Confusion Matrix、滑動窗口式AUC（Streaming AUC）等方式動態累計模型預測結果，有效支援長時間或多階段訓練流程中的持續性評估需求。\n\n整體而言，面對龐大的資料規模，不僅需強化資料處理與模型訓練的分散式能力，更需重構整體工作流程，使其具備可維運、可監控、可調整的彈性架構。\n\n這也成為大數據時代下，企業導入AI 須特別重視的基礎設計核心。\n\n#### （2）資料型態多樣（Variety）\n\n隨著數位裝置與應用情境的多樣化，現今的大數據資料已不再侷限於結構化表格形式。來自社群平台的文字與貼文、影像監控錄影、穿戴式裝置的感測數據、網站行為紀錄（Log）與JSON、XML 等半結構化格式，使資料型態呈現高度異質化與非結構化特性，對機器學習流程造成顯著影響。\n\n在特徵工程階段，單一資料來源已無法滿足模型建構需求，需導入多模態資料處理技術，將文字、影像、影音等不同型態的資料轉化為可學習的數值特徵。\n\n例如：\n\n• 文字資料可透過詞嵌入（Word Embedding）技術（如Word2Vec、GloVe、BERT）將語意資訊轉換為向量表示。\n\n• 影像資料則常用卷積神經網路（Convolutional Neural Network, CNN）提取影像特徵，形成Encoder 表示。\n\n• 音訊與感測器資料則可經由時序分析（如Spectrogram 或RNN Encoder）\n\n進行時間特徵轉換。\n\n• 若資料屬於多模態組合（如商品描述+商品圖片），則需進一步透過對齊技術（Alignment）與融合策略（Fusion）整合各模態特徵。\n\n這些異質資料在模型前處理階段若無妥善管理，極易造成欄位錯置、資料遺失或語意誤對應等問題，因此在資料架構層級，需建構能夠容納多型態資料的統一整合平台。資料湖（Data Lake）是目前主流方案之一，具備儲存不同結構與來源資料的能力，搭配如Apache Iceberg 或Delta Lake 等技術，可進行版本控制、Schema 管理與即時查詢。\n\n若企業已有數據倉儲系統，也可透過建立混合式架構，在倉儲中管理結構化核心資料，在資料湖中收納半結構與非結構資料，再透過中介層進行轉換與特徵對齊，形成統一的AI 訓練資料集。\n\n因此，資料型態的多樣性不僅提高了模型設計的挑戰，也促使AI 團隊必須同時掌握NLP、CV、IoT 資料處理等跨領域技能，並善用資料整合平台與編碼策略，才能實現在多模態條件下的穩定建模與部署。\n\n#### （3）資料品質與偏態問題\n\n在大數據環境中，資料量雖然大幅提升，但「樣本數多」不代表「資料品質好」。實務中常見的問題包括：類別不平衡（Class Imbalance）、標註錯誤（Label Noise）、資料冗餘與重複樣本、以及高比例的雜訊樣本。這些問題若未妥善處理，不僅影響模型效能，更可能導致偏誤的預測與不公平的決策結果。\n\n特別是鑑別式任務（Discriminative Tasks）中，如分類（Classification）與預測（Prediction），樣本偏態會使模型過度學習主流類別（Majority Class），忽略或\n\n錯誤學習少數類別（Minority Class），導致模型在實務應用中出現系統性誤判，進而影響預測結果的公平性與泛化能力。\n\n為因應上述挑戰，常見的資料處理策略包括：\n\n• 類別加權（Class Weighting）：在模型訓練時，根據各類別樣本數自動或手動調整損失函數中的權重，使模型在訓練時對少數類別更為敏感。\n\n• 欠抽樣與過抽樣（Under-sampling / Over-sampling）：針對資料分佈不均的情況，透過刪除過多樣本或合成少數樣本（如SMOTE）來平衡資料集，提升模型對不同類別的辨識能力。\n\n• 弱標註與主動學習技術（Weak Labeling / Active Learning）：在面對大規模但標註品質參差的資料時，可透過規則式預標註、自動化推理、或以模型協助進行樣本篩選與重標註，減少人工負擔並提升標註一致性。\n\n• 資料清理與品質控制流程：建立標準化的資料清洗管道，例如移除明顯異常值、偵測與合併重複樣本、針對高雜訊欄位進行欄位刪除或替代策略，確保模型訓練基礎具備穩定性與代表性。\n\n在模型評估層面，也應補充使用類別敏感指標（如F1-score、Balanced Accuracy、Macro AUC 等），避免僅依賴整體準確率（Accuracy）這類易被主類別主導的指標。當應用情境與公平性高度相關（如金融核貸、醫療風險評估），更應導入公平性評估機制（如Demographic Parity、Equalized Odds 等），協助觀測模型是否對不同子群體產生不均結果。\n\n綜上所述，大數據雖然帶來前所未有的樣本規模，但其品質與分佈偏態問題亦為模型表現與可信度帶來深遠影響。唯有建構系統性的資料品質管理機制與公平性驗證流程，才能在實務中建立可用、可信且合乎倫理的AI 模型。\n\n#### （4）資料流動快速（Velocity）\n\n在物聯網（IoT）、金融交易、即時推薦與社群互動等應用情境中，資料不再是批次生成，而是持續且高速產生的資料流（Data Stream）。這類環境要求模型能在毫秒至秒級的時間內進行預測與反應，使得傳統的批次處理（Batch Processing）\n\n架構與模型更新機制無法滿足時效性需求，必須改採具備即時處理能力的技術與流程設計。\n\n為實現即時反應能力，整體系統需結合：\n\n• 資料流分析（Stream Processing）架構：進行即時資料接收與前處理。\n\n• 近即時模型更新（Near-Real-Time Model Update）：確保模型能夠持續學習新樣本，維持對當下環境的準確性。\n\n• 快速部署與預測回應機制：確保預測結果能即時傳遞至應用端。\n\n在模型運作層面，需支援以下能力。\n\n• 資料切片更新（Mini-batch or Streaming Ingestion）：將資料流拆分為小區段進行逐步處理。\n\n• 模型微調（Fine-tuning）：針對已訓練模型，在不破壞原有能力下，快速適應新資料分佈（例如時間漂移、行為改變）。\n\n• 增量學習（Incremental Learning）：模型具備持續學習能力，例如使用Online Learning 演算法（如Perceptron、Naïve Bayes、SGDClassifier）或專門設計的框架（如Vowpal Wabbit、River），在資料流到達時即時更新模型權重。\n\n常見的即時資料處理平台包含：\n\n• Apache Kafka：作為高吞吐量的資料訊息中介層，提供可靠的即時資料流佇列服務。\n\n• Apache Flink 與Spark Streaming：分別為低延遲與高容錯的資料流處理引擎，支援窗口計算（Windowing）、狀態管理（Stateful Processing）與複雜事件處理（CEP）。\n\n• Kinesis（AWS）、Pub/Sub（GCP）、Event Hub（Azure）：雲端平台提供的串流架構，便於整合至大規模AI 系統部署。\n\n在實務部署中，為避免過於頻繁的全模型重訓，常採用動態模型選擇（Model Switching）或模型輪換（Model Rolling）策略，搭配A/B 測試或Canary Release，逐步導入新模型版本，以維持服務穩定性與準確性。\n\n總結而言，資料流動速度的提升要求機器學習模型從「被動分析」轉向「即時感知與反應」。唯有打造具備串流處理、增量更新與彈性部署能力的AI 架構，才能讓模型在面對高頻動態資料時持續保持效能與可信度。\n\n#### （5）資料來源異質（Veracity & Integration）\n\n在大數據環境下，資料來源不再單一，而是高度分散且多樣，來自於IoT 裝置、WebLog、企業內部CRM 系統、第三方API、社群平台、用戶端裝置等多元通路。這些來源資料在格式、更新頻率、可信程度與語意標準上高度不一致，對於資料整合、治理與應用帶來極大挑戰，也使資料整合與一致性管理成為機器學習流程中不可忽視的前期核心工作。\n\n首先，異質資料需先經過標準化與對齊處理，才能進入建模流程。不同來源的資料可能採用不同命名規則、資料單位、編碼格式或時間戳記標準，若無統一轉換，將導致資料語意混淆與預測誤差。為此，應建構統一欄位規範與轉換邏輯 （Schema Mapping），並記錄資料轉換過程中的處理歷程與依賴關係。\n\n為提升整體資料的可監管性與信任度，應導入以下機制：\n\n• 資料編目（Data Catalog）：建立全域資料資源清單，統整資料集名稱、來源、格式、擁有者、描述與應用情境，方便團隊共享與查詢。\n\n• 資料來源追蹤（Data Lineage）：記錄資料從產生、傳輸、處理到應用的每一階段轉換流程與技術路徑，確保資料的可追溯性。\n\n• 資料版本控制與元資料管理：透過如Delta Lake、LakeFS 等框架，針對資料集提供版本紀錄與差異比對能力，並搭配元資料系統（如Apache Atlas、Amundsen）進行欄位屬性管理與存取權限設計。\n\n這些機制能幫助企業釐清資料責任邊界（如部門來源、第三方API 許可）、掌握資料流轉與轉換風險，並在模型訓練過程中及早偵測異常變異，預防模型效能下降或產生預測偏誤。\n\n特別值得注意的是，當資料來源異質且動態時，若無即時監測與治理措施，極易發生數據漂移（Data Drift）或概念漂移（Concept Drift）。前者指資料分佈在\n\n時間上的變化（如消費行為改變），後者則為資料與標籤之間的關聯改變（如詐騙行為模式變異）。這些問題若未即時察覺與回應，將造成模型在實務應用中的效能迅速惡化。\n\n因此，應在機器學習流程中嵌入資料漂移偵測模組，如統計檢定（Kolmogorov- Smirnov Test）、KL 散度（KL Divergence）等方法，並與模型效能監測工具（如 Evidently、WhyLabs）搭配，形成可持續維運的數據品質與模型穩定性管理體系。\n\n#### （6）資料價值密度低（Value）\n\n在大數據環境中，大量資料雖隨時產生，但其中真正對決策或模型訓練有意義的訊息比例往往極低，形成所謂的低價值密度（Low Value Density）問題。這代表AI 系統不僅需處理資料規模與速度，更要能從雜訊中有效識別高價值樣本與特徵。具體挑戰包括：\n\n• 資料中混雜大量與任務無關的欄位或樣本，導致模型學習過程冗餘且不穩定。\n\n• 特徵冗餘、資料重複與非代表性樣本增加模型的過擬合風險。\n\n• 有價值的長尾樣本（如異常行為、少數事件）被主流資料掩蓋。\n\n對策上，可透過：\n\n• 特徵選擇（Feature Selection）與維度縮減（Dimensionality Reduction）技術（如 Lasso、PCA）以濃縮有效資訊。\n\n• 高資訊密度抽樣法，如根據資訊增益或貢獻度篩選樣本。\n\n• 導入自動化資料探索（Automated EDA）與資料可視化工具（如Sweetviz、Pandas Profiling）輔助人員快速找出價值區段。\n\n• 在標註階段結合主動學習（Active Learning）策略，有效聚焦人力標註於具代表性的資料點。\n\n當資料價值密度被有效提升，不僅可減少模型訓練與運算資源耗損，也能強化模型的可解釋性與效益導向，使AI 系統更符合實務部署的商業價值需求。\n\n3.\n\n在資料量大與速度快的情境下，機器學習模型的訓練已無法仰賴單機或傳統批次訓練架構完成。大數據環境下的模型訓練，必須同時面對運算資源瓶頸、資料載入限制、模型收斂時間過長等問題，並需根據任務特性選擇最合適的加速技術與訓練框架。\n\n以下將從分散式架構設計、訓練效能最佳化策略與進階技術應用面向說明如何因應這些挑戰。\n\n#### （1）分散式模型訓練架構（Distributed Training）\n\n在大數據環境下，模型規模與資料量動輒超出單機的記憶體與運算限制，傳統訓練架構無法滿足效率與穩定性的需求。為此，分散式訓練架構成為主流解法，透過跨多節點平行分工，提升整體訓練效能與資源使用效率。\n\n分散式訓練主要可分為以下三種模式，依任務特性與硬體資源進行選擇與組合：\n\n• 資料並行（Data Parallelism）\n\n將訓練資料分批分發至多台工作節點（workers），每台使用相同模型副本。\n\n每次訓練後合併梯度（gradient aggregation），更新全域參數。\n\n適合影像分類、NLP 等樣本量大但模型中等的情境。\n\n• 模型並行（Model Parallelism）\n\n將一個大型模型的不同部分分配至不同節點運算（例如超大參數量的語言模型）\n\n用於單機記憶體無法容納整個模型的情況。\n\n適合GPT、BERT 等超大模型訓練。\n\n• 混合式並行（Hybrid Parallelism）\n\n將資料並行與模型並行結合使用，以達成橫向擴展與模型放大雙重目標。\n\n#### （2）訓練效能最佳化策略\n\n• 硬體加速使用GPU/TPU 加速訓練，支援張量運算與大規模矩陣計算。\n\n雲端平台（如AWS SageMaker、Google Vertex AI）可彈性配置計算資源。\n\n• 混合精度訓練（Mixed Precision Training）\n\n結合單精度（FP32）與半精度（FP16）浮點數計算，加速訓練同時節省記憶體。\n\n特別適用於語音、影像與語言模型，且與GPU 架構相容性佳。\n\n• 梯度累積與梯度壓縮當mini-batch 因記憶體限制無法設得太大時，可使用梯度累積（Gradient Accumulation）技術，在多個小batch 中先計算梯度再一次性更新參數，有效提升收斂穩定性。\n\n同時，在分散式訓練中，梯度的頻繁同步會造成傳輸壅塞，可透過梯度壓縮（如Top-k Sparsification、Quantization）或延遲同步（Delayed Gradient），減少傳輸量與頻率，提升整體平行訓練效能。\n\n• Early Stopping 與Checkpointing 為避免模型過度訓練（Overfitting）或資源浪費，早停機制（Early Stopping）可在驗證集表現未持續提升時自動中止訓練，節省計算資源。\n\n同時，導入模型檢查點（Checkpointing）機制，可定期儲存模型權重與訓練狀態，使訓練可中斷後續並接續訓練。\n\n#### （3）進階應用情境與延伸挑戰\n\n• 資料異步輸入與資料前處理瓶頸在高頻率資料流與多來源整合的情境下，傳統同步處理流程易形成效能瓶頸。可透過同步化優化資料管線（Data Pipeline）設計，搭配高效\n\n資料格式（如TFRecord、Parquet）與快取策略（例如TensorFlow 的 tf.data API），提升資料讀取效率並減少I/O 負擔。\n\n• 模型微調與多階段訓練面對任務多樣化與資源有限的挑戰，可採取預訓練（Pre-training）與微調（Fine-tuning）兩階段訓練方式。先於大規模資料上進行通用特徵學習，再針對特定任務進行調校，不僅可提升模型效能，也能有效降低訓練成本。\n\n• 持續學習（Continual / Online Learning）\n\n在資料隨時間變動或環境改變的情境中，靜態模型容易失效。導入持續學習（Continual Learning）或線上學習（Online Learning）技術，有助於模型持續適應新資料分佈，常見應用包括推薦系統、金融交易預測、詐欺偵測等。關鍵挑戰在於避免災難性遺忘（Catastrophic Forgetting）\n\n與平衡新舊知識。\n\n4.\n\n在傳統的機器學習流程中，模型開發與資料處理往往由分析師或資料科學家在本地環境完成，僅針對單次輸出進行實驗與驗證。然而，在大數據與企業級AI 導入的環境中，模型不只是單次訓練的成果，更是需要與資料流、業務邏輯與平台架構緊密整合的服務化元件。\n\n本小節聚焦於從大數據平台開始，如何將資料前處理、模型訓練、評估、部署到線上應用整合成一個可維運、可擴展的系統流程。此流程也稱為端對端機器學習流程（End-to-End ML Pipeline），並成為MLOps（Machine Learning Operations）\n\n實務的核心。\n\n#### （1）資料整合與處理管線（Data Processing）\n\n• 資料來源整合：\n\n整合來自IoT、Web log、CRM、交易系統等異質資料源，導入資料湖 （Data Lake）或資料倉儲（Data Warehouse）作為統一儲存基礎。\n\n• 資料前處理流程自動化：\n\n運用Spark、Airflow、Kubeflow 等工具自動化資料處理流程，涵蓋欄位轉換、缺失值處理、資料清洗與特徵萃取，支援批次或串流模式。\n\n• 資料版本與追蹤：\n\n導入元資料管理與版本控管（如Delta Lake、MLflow Tracking），確保資料處理流程的可追溯性與再現性，強化模型開發基礎。\n\n#### （2）模型訓練與驗證（Model Training & Validation）\n\n• 自動化訓練流程（Pipeline）：\n\n使用機器學習平台（如SageMaker Pipeline、Vertex AI、KubeFlow Pipelines）串接訓練腳本、模型調參、交叉驗證與評估指標計算。\n\n• 模型版本管理與實驗追蹤：\n\n使用MLflow、Weights & Biases 等工具追蹤模型架構、參數與訓練資料版本。\n\n• 多模型與多階段流程管理：\n\n支援多任務串接（如前段進行分類模型判斷，後段再串接推薦模型提供個人化內容）與條件分支處理邏輯（If-Then Routing）。\n\n#### （3）模型部署與上線（Model Deployment）\n\n• 彈性部署模式選擇：\n\nBatch Serving：\n\n定期批次產出預測結果（如每日風險預測報表）供下游使用。\n\nOnline Serving / API Serving：\n\n以RESTful API 或gRPC 提供即時查詢預測服務。\n\nStreaming Inference：\n\n結合Kafka、Flink、Spark Streaming 等技術，支援低延遲事件驅動推論。\n\n• 容器化與可擴展部署：\n\n可使用如Docker 等容器技術、將模型封裝為容器，搭配Kubernetes 管理部署與彈性擴充，並導入A/B 測試、藍綠部署等策略，降低版本更新風險。\n\n#### （4）持續監控與模型維運（Monitoring & Lifecycle Management）\n\n• 模型效能與服務監控：\n\n持續監控預測準確率、延遲、錯誤率與系統可用性，並偵測資料漂移 （Data Drift）與概念漂移（Concept Drift）等模型效能衰退指標。\n\n• 自動重訓與模型版本更新：\n\n設定門檻條件（如精確度低於標準值）自動觸發模型重訓，並結合CI/CD 流程完成模型部署更新，確保系統持續最佳化。\n\n• MLOps 工作流程整合：\n\n建立跨資料工程、模型開發與平台運維的整合架構，實現機器學習系統的標準化、可監管與可持續運行。",
+  "content": "# 大數據與機器學習\n\n6.1\n\n1.\n\n隨著資料規模增加、新資料產出速率加快，傳統的機器學習流程與模型設計邏輯也面臨根本性挑戰。過去、模型訓練多建立於「完整樣本」「記憶體內計算」\n\n「單機環境」的前提下進行；然而在大數據情境中，這些前提往往不再成立。資料的規模、速度、異質性與即時性，已重新定義了機器學習的實作方式與系統需求。\n\n在這樣的背景下，大數據不僅改變了模型開發的技術層面，更推動了整體AI 系統架構的演進：從模型設計、資料擷取與預處理，到訓練加速、分散式部署與持續監控，機器學習的每一個環節都需重新評估與調整。\n\n2.\n\n在傳統機器學習流程中，往往假設資料量可控、型態一致且更新頻率有限，能於單一機器或小型叢集中完成資料清理、特徵工程、模型訓練與驗證。然而，當資料進入TB 至PB 等級的「大數據環境」後，這些前提不再成立，機器學習流程需因應資料的規模、型態、速度與品質等變化，進行全面性重構。以下針對幾項核心特性（包括五大特性Volume、Variety、Velocity、Veracity、Value），說明其對整體機器學習流程的改變與挑戰。\n\n#### （1）資料規模大（Volume）\n\n在大數據環境下，資料規模從GB 延伸至TB 甚至PB 級別，已遠超過傳統單機環境可承載的記憶體限制。這種規模的變化，對機器學習的資料處理、模型設計與效能評估都帶來重大挑戰，必須採用專門設計的技術與架構進行應對。\n\n首先，在資料處理階段，由於訓練資料無法一次性載入記憶體，需採用分批載入（Mini-Batch Loading）方式分段處理資料，或事先進行資料取樣（Sampling），以提升處理效率與實作靈活性。在儲存架構上，則需配合分散式儲存系統（如 HDFS）與支援列式壓縮的資料格式（如Parquet）進行資料儲存與取用，以減少 I/O 負擔並提升可擴展性。\n\n接著，在模型訓練階段，演算法與運算架構必須具備良好的可擴展性，支援跨節點並行計算。常見方法包括：\n\n• 使用Spark MLlib 在分散式記憶體架構下執行迴歸、分類等模型。\n\n• 採用Horovod 進行多GPU 或多節點同步訓練，提升深度學習效率。\n\n• 應用TensorFlow MultiWorker Strategy 實現模型在多主機間的平行訓練與\n\n容錯調整。\n\n此外，資料量大也使得訓練與驗證過程耗時增加，因此在模型評估階段，需調整傳統的靜態指標評估方式，改為支援分批累積計算的機制。例如，透過 Streaming Confusion Matrix、滑動窗口式AUC（Streaming AUC）等方式動態累計模型預測結果，有效支援長時間或多階段訓練流程中的持續性評估需求。\n\n整體而言，面對龐大的資料規模，不僅需強化資料處理與模型訓練的分散式能力，更需重構整體工作流程，使其具備可維運、可監控、可調整的彈性架構。\n\n這也成為大數據時代下，企業導入AI 須特別重視的基礎設計核心。\n\n#### （2）資料型態多樣（Variety）\n\n隨著數位裝置與應用情境的多樣化，現今的大數據資料已不再侷限於結構化表格形式。來自社群平台的文字與貼文、影像監控錄影、穿戴式裝置的感測數據、網站行為紀錄（Log）與JSON、XML 等半結構化格式，使資料型態呈現高度異質化與非結構化特性，對機器學習流程造成顯著影響。\n\n在特徵工程階段，單一資料來源已無法滿足模型建構需求，需導入多模態資料處理技術，將文字、影像、影音等不同型態的資料轉化為可學習的數值特徵。\n\n例如：\n\n• 文字資料可透過詞嵌入（Word Embedding）技術（如Word2Vec、GloVe、\n\nBERT）將語意資訊轉換為向量表示。\n\n• 影像資料則常用卷積神經網路（Convolutional Neural Network, CNN）提取\n\n影像特徵，形成Encoder 表示。\n\n• 音訊與感測器資料則可經由時序分析（如Spectrogram 或RNN Encoder）\n\n進行時間特徵轉換。\n\n• 若資料屬於多模態組合（如商品描述+商品圖片），則需進一步透過對齊技\n\n術（Alignment）與融合策略（Fusion）整合各模態特徵。\n\n這些異質資料在模型前處理階段若無妥善管理，極易造成欄位錯置、資料遺失或語意誤對應等問題，因此在資料架構層級，需建構能夠容納多型態資料的統一整合平台。資料湖（Data Lake）是目前主流方案之一，具備儲存不同結構與來源資料的能力，搭配如Apache Iceberg 或Delta Lake 等技術，可進行版本控制、Schema 管理與即時查詢。\n\n若企業已有數據倉儲系統，也可透過建立混合式架構，在倉儲中管理結構化核心資料，在資料湖中收納半結構與非結構資料，再透過中介層進行轉換與特徵對齊，形成統一的AI 訓練資料集。\n\n因此，資料型態的多樣性不僅提高了模型設計的挑戰，也促使AI 團隊必須同時掌握NLP、CV、IoT 資料處理等跨領域技能，並善用資料整合平台與編碼策略，才能實現在多模態條件下的穩定建模與部署。\n\n#### （3）資料品質與偏態問題\n\n在大數據環境中，資料量雖然大幅提升，但「樣本數多」不代表「資料品質好」。實務中常見的問題包括：類別不平衡（Class Imbalance）、標註錯誤（Label Noise）、資料冗餘與重複樣本、以及高比例的雜訊樣本。這些問題若未妥善處理，不僅影響模型效能，更可能導致偏誤的預測與不公平的決策結果。\n\n特別是鑑別式任務（Discriminative Tasks）中，如分類（Classification）與預測（Prediction），樣本偏態會使模型過度學習主流類別（Majority Class），忽略或\n\n錯誤學習少數類別（Minority Class），導致模型在實務應用中出現系統性誤判，進而影響預測結果的公平性與泛化能力。\n\n為因應上述挑戰，常見的資料處理策略包括：\n\n• 類別加權（Class Weighting）：在模型訓練時，根據各類別樣本數自動或手\n\n動調整損失函數中的權重，使模型在訓練時對少數類別更為敏感。\n\n• 欠抽樣與過抽樣（Under-sampling / Over-sampling）：針對資料分佈不均的\n\n情況，透過刪除過多樣本或合成少數樣本（如SMOTE）來平衡資料集，提升模型對不同類別的辨識能力。\n\n• 弱標註與主動學習技術（Weak Labeling / Active Learning）：在面對大規模\n\n但標註品質參差的資料時，可透過規則式預標註、自動化推理、或以模型協助進行樣本篩選與重標註，減少人工負擔並提升標註一致性。\n\n• 資料清理與品質控制流程：建立標準化的資料清洗管道，例如移除明顯異\n\n常值、偵測與合併重複樣本、針對高雜訊欄位進行欄位刪除或替代策略，確保模型訓練基礎具備穩定性與代表性。\n\n在模型評估層面，也應補充使用類別敏感指標（如F1-score、Balanced Accuracy、Macro AUC 等），避免僅依賴整體準確率（Accuracy）這類易被主類別主導的指標。當應用情境與公平性高度相關（如金融核貸、醫療風險評估），更應導入公平性評估機制（如Demographic Parity、Equalized Odds 等），協助觀測模型是否對不同子群體產生不均結果。\n\n綜上所述，大數據雖然帶來前所未有的樣本規模，但其品質與分佈偏態問題亦為模型表現與可信度帶來深遠影響。唯有建構系統性的資料品質管理機制與公平性驗證流程，才能在實務中建立可用、可信且合乎倫理的AI 模型。\n\n#### （4）資料流動快速（Velocity）\n\n在物聯網（IoT）、金融交易、即時推薦與社群互動等應用情境中，資料不再是批次生成，而是持續且高速產生的資料流（Data Stream）。這類環境要求模型能在毫秒至秒級的時間內進行預測與反應，使得傳統的批次處理（Batch Processing）\n\n架構與模型更新機制無法滿足時效性需求，必須改採具備即時處理能力的技術與流程設計。\n\n為實現即時反應能力，整體系統需結合：\n\n• 資料流分析（Stream Processing）架構：進行即時資料接收與前處理。\n\n• 近即時模型更新（Near-Real-Time Model Update）：確保模型能夠持續學習\n\n新樣本，維持對當下環境的準確性。\n\n• 快速部署與預測回應機制：確保預測結果能即時傳遞至應用端。\n\n在模型運作層面，需支援以下能力。\n\n• 資料切片更新（Mini-batch or Streaming Ingestion）：將資料流拆分為小區\n\n段進行逐步處理。\n\n• 模型微調（Fine-tuning）：針對已訓練模型，在不破壞原有能力下，快速適\n\n應新資料分佈（例如時間漂移、行為改變）。\n\n• 增量學習（Incremental Learning）：模型具備持續學習能力，例如使用Online\n\nLearning 演算法（如Perceptron、Naïve Bayes、SGDClassifier）或專門設計的框架（如Vowpal Wabbit、River），在資料流到達時即時更新模型權重。\n\n常見的即時資料處理平台包含：\n\n• Apache Kafka：作為高吞吐量的資料訊息中介層，提供可靠的即時資料流\n\n佇列服務。\n\n• Apache Flink 與Spark Streaming：分別為低延遲與高容錯的資料流處理引\n\n擎，支援窗口計算（Windowing）、狀態管理（Stateful Processing）與複雜事件處理（CEP）。\n\n• Kinesis（AWS）、Pub/Sub（GCP）、Event Hub（Azure）：雲端平台提供的\n\n串流架構，便於整合至大規模AI 系統部署。\n\n在實務部署中，為避免過於頻繁的全模型重訓，常採用動態模型選擇（Model Switching）或模型輪換（Model Rolling）策略，搭配A/B 測試或Canary Release，逐步導入新模型版本，以維持服務穩定性與準確性。\n\n總結而言，資料流動速度的提升要求機器學習模型從「被動分析」轉向「即時感知與反應」。唯有打造具備串流處理、增量更新與彈性部署能力的AI 架構，才能讓模型在面對高頻動態資料時持續保持效能與可信度。\n\n#### （5）資料來源異質（Veracity & Integration）\n\n在大數據環境下，資料來源不再單一，而是高度分散且多樣，來自於IoT 裝置、WebLog、企業內部CRM 系統、第三方API、社群平台、用戶端裝置等多元通路。這些來源資料在格式、更新頻率、可信程度與語意標準上高度不一致，對於資料整合、治理與應用帶來極大挑戰，也使資料整合與一致性管理成為機器學習流程中不可忽視的前期核心工作。\n\n首先，異質資料需先經過標準化與對齊處理，才能進入建模流程。不同來源的資料可能採用不同命名規則、資料單位、編碼格式或時間戳記標準，若無統一轉換，將導致資料語意混淆與預測誤差。為此，應建構統一欄位規範與轉換邏輯 （Schema Mapping），並記錄資料轉換過程中的處理歷程與依賴關係。\n\n為提升整體資料的可監管性與信任度，應導入以下機制：\n\n• 資料編目（Data Catalog）：建立全域資料資源清單，統整資料集名稱、來\n\n源、格式、擁有者、描述與應用情境，方便團隊共享與查詢。\n\n• 資料來源追蹤（Data Lineage）：記錄資料從產生、傳輸、處理到應用的每\n\n一階段轉換流程與技術路徑，確保資料的可追溯性。\n\n• 資料版本控制與元資料管理：透過如Delta Lake、LakeFS 等框架，針對資\n\n料集提供版本紀錄與差異比對能力，並搭配元資料系統（如Apache Atlas、Amundsen）進行欄位屬性管理與存取權限設計。\n\n這些機制能幫助企業釐清資料責任邊界（如部門來源、第三方API 許可）、掌握資料流轉與轉換風險，並在模型訓練過程中及早偵測異常變異，預防模型效能下降或產生預測偏誤。\n\n特別值得注意的是，當資料來源異質且動態時，若無即時監測與治理措施，極易發生數據漂移（Data Drift）或概念漂移（Concept Drift）。前者指資料分佈在\n\n時間上的變化（如消費行為改變），後者則為資料與標籤之間的關聯改變（如詐騙行為模式變異）。這些問題若未即時察覺與回應，將造成模型在實務應用中的效能迅速惡化。\n\n因此，應在機器學習流程中嵌入資料漂移偵測模組，如統計檢定（Kolmogorov- Smirnov Test）、KL 散度（KL Divergence）等方法，並與模型效能監測工具（如 Evidently、WhyLabs）搭配，形成可持續維運的數據品質與模型穩定性管理體系。\n\n#### （6）資料價值密度低（Value）\n\n在大數據環境中，大量資料雖隨時產生，但其中真正對決策或模型訓練有意義的訊息比例往往極低，形成所謂的低價值密度（Low Value Density）問題。這代表AI 系統不僅需處理資料規模與速度，更要能從雜訊中有效識別高價值樣本與特徵。具體挑戰包括：\n\n• 資料中混雜大量與任務無關的欄位或樣本，導致模型學習過程冗餘且不穩\n\n定。\n\n• 特徵冗餘、資料重複與非代表性樣本增加模型的過擬合風險。\n\n• 有價值的長尾樣本（如異常行為、少數事件）被主流資料掩蓋。\n\n對策上，可透過：\n\n• 特徵選擇（Feature Selection）與維度縮減（Dimensionality Reduction）技\n\n術（如 Lasso、PCA）以濃縮有效資訊。\n\n• 高資訊密度抽樣法，如根據資訊增益或貢獻度篩選樣本。\n\n• 導入自動化資料探索（Automated EDA）與資料可視化工具（如Sweetviz、\n\nPandas Profiling）輔助人員快速找出價值區段。\n\n• 在標註階段結合主動學習（Active Learning）策略，有效聚焦人力標註於\n\n具代表性的資料點。\n\n當資料價值密度被有效提升，不僅可減少模型訓練與運算資源耗損，也能強化模型的可解釋性與效益導向，使AI 系統更符合實務部署的商業價值需求。\n\n3.\n\n在資料量大與速度快的情境下，機器學習模型的訓練已無法仰賴單機或傳統批次訓練架構完成。大數據環境下的模型訓練，必須同時面對運算資源瓶頸、資料載入限制、模型收斂時間過長等問題，並需根據任務特性選擇最合適的加速技術與訓練框架。\n\n以下將從分散式架構設計、訓練效能最佳化策略與進階技術應用面向說明如何因應這些挑戰。\n\n#### （1）分散式模型訓練架構（Distributed Training）\n\n在大數據環境下，模型規模與資料量動輒超出單機的記憶體與運算限制，傳統訓練架構無法滿足效率與穩定性的需求。為此，分散式訓練架構成為主流解法，透過跨多節點平行分工，提升整體訓練效能與資源使用效率。\n\n分散式訓練主要可分為以下三種模式，依任務特性與硬體資源進行選擇與組合：\n\n• 資料並行（Data Parallelism）\n\n◦ 將訓練資料分批分發至多台工作節點（workers），每台使用相同模型副\n\n本。\n\n◦ 每次訓練後合併梯度（gradient aggregation），更新全域參數。\n\n◦ 適合影像分類、NLP 等樣本量大但模型中等的情境。\n\n• 模型並行（Model Parallelism）\n\n◦ 將一個大型模型的不同部分分配至不同節點運算（例如超大參數量的\n\n語言模型）\n\n◦ 用於單機記憶體無法容納整個模型的情況。\n\n◦ 適合GPT、BERT 等超大模型訓練。\n\n• 混合式並行（Hybrid Parallelism）\n\n◦ 將資料並行與模型並行結合使用，以達成橫向擴展與模型放大雙重目\n\n標。\n\n#### （2）訓練效能最佳化策略\n\n• 硬體加速\n\n◦ 使用GPU/TPU 加速訓練，支援張量運算與大規模矩陣計算。\n\n◦ 雲端平台（如AWS SageMaker、Google Vertex AI）可彈性配置計算資\n\n源。\n\n• 混合精度訓練（Mixed Precision Training）\n\n◦ 結合單精度（FP32）與半精度（FP16）浮點數計算，加速訓練同時節省\n\n記憶體。\n\n◦ 特別適用於語音、影像與語言模型，且與GPU 架構相容性佳。\n\n• 梯度累積與梯度壓縮\n\n◦ 當mini-batch 因記憶體限制無法設得太大時，可使用梯度累積（Gradient\n\nAccumulation）技術，在多個小batch 中先計算梯度再一次性更新參數，有效提升收斂穩定性。\n\n◦ 同時，在分散式訓練中，梯度的頻繁同步會造成傳輸壅塞，可透過梯度\n\n壓縮（如Top-k Sparsification、Quantization）或延遲同步（Delayed Gradient），減少傳輸量與頻率，提升整體平行訓練效能。\n\n• Early Stopping 與Checkpointing\n\n◦ 為避免模型過度訓練（Overfitting）或資源浪費，早停機制（Early\n\nStopping）可在驗證集表現未持續提升時自動中止訓練，節省計算資源。\n\n◦ 同時，導入模型檢查點（Checkpointing）機制，可定期儲存模型權重與\n\n訓練狀態，使訓練可中斷後續並接續訓練。\n\n#### （3）進階應用情境與延伸挑戰\n\n• 資料異步輸入與資料前處理瓶頸\n\n◦ 在高頻率資料流與多來源整合的情境下，傳統同步處理流程易形成效\n\n能瓶頸。可透過同步化優化資料管線（Data Pipeline）設計，搭配高效\n\n資料格式（如TFRecord、Parquet）與快取策略（例如TensorFlow 的 tf.data API），提升資料讀取效率並減少I/O 負擔。\n\n• 模型微調與多階段訓練\n\n◦ 面對任務多樣化與資源有限的挑戰，可採取預訓練（Pre-training）與微\n\n調（Fine-tuning）兩階段訓練方式。先於大規模資料上進行通用特徵學習，再針對特定任務進行調校，不僅可提升模型效能，也能有效降低訓練成本。\n\n• 持續學習（Continual / Online Learning）\n\n◦ 在資料隨時間變動或環境改變的情境中，靜態模型容易失效。導入持續\n\n學習（Continual Learning）或線上學習（Online Learning）技術，有助於模型持續適應新資料分佈，常見應用包括推薦系統、金融交易預測、詐欺偵測等。關鍵挑戰在於避免災難性遺忘（Catastrophic Forgetting）\n\n與平衡新舊知識。\n\n4.\n\n在傳統的機器學習流程中，模型開發與資料處理往往由分析師或資料科學家在本地環境完成，僅針對單次輸出進行實驗與驗證。然而，在大數據與企業級AI 導入的環境中，模型不只是單次訓練的成果，更是需要與資料流、業務邏輯與平台架構緊密整合的服務化元件。\n\n本小節聚焦於從大數據平台開始，如何將資料前處理、模型訓練、評估、部署到線上應用整合成一個可維運、可擴展的系統流程。此流程也稱為端對端機器學習流程（End-to-End ML Pipeline），並成為MLOps（Machine Learning Operations）\n\n實務的核心。\n\n#### （1）資料整合與處理管線（Data Processing）\n\n• 資料來源整合：\n\n◦ 整合來自IoT、Web log、CRM、交易系統等異質資料源，導入資料湖\n\n（Data Lake）或資料倉儲（Data Warehouse）作為統一儲存基礎。\n\n• 資料前處理流程自動化：\n\n◦ 運用Spark、Airflow、Kubeflow 等工具自動化資料處理流程，涵蓋欄位\n\n轉換、缺失值處理、資料清洗與特徵萃取，支援批次或串流模式。\n\n• 資料版本與追蹤：\n\n◦ 導入元資料管理與版本控管（如Delta Lake、MLflow Tracking），確保\n\n資料處理流程的可追溯性與再現性，強化模型開發基礎。\n\n#### （2）模型訓練與驗證（Model Training & Validation）\n\n• 自動化訓練流程（Pipeline）：\n\n◦ 使用機器學習平台（如SageMaker Pipeline、Vertex AI、KubeFlow\n\nPipelines）串接訓練腳本、模型調參、交叉驗證與評估指標計算。\n\n• 模型版本管理與實驗追蹤：\n\n◦ 使用MLflow、Weights & Biases 等工具追蹤模型架構、參數與訓練資\n\n料版本。\n\n• 多模型與多階段流程管理：\n\n◦ 支援多任務串接（如前段進行分類模型判斷，後段再串接推薦模型提供\n\n個人化內容）與條件分支處理邏輯（If-Then Routing）。\n\n#### （3）模型部署與上線（Model Deployment）\n\n• 彈性部署模式選擇：\n\n◦ Batch Serving：\n\n○ 定期批次產出預測結果（如每日風險預測報表）供下游使用。\n\n◦ Online Serving / API Serving：\n\n○ 以RESTful API 或gRPC 提供即時查詢預測服務。\n\n◦ Streaming Inference：\n\n○ 結合Kafka、Flink、Spark Streaming 等技術，支援低延遲事件驅動推\n\n論。\n\n• 容器化與可擴展部署：\n\n◦ 可使用如Docker 等容器技術、將模型封裝為容器，搭配Kubernetes 管\n\n理部署與彈性擴充，並導入A/B 測試、藍綠部署等策略，降低版本更新風險。\n\n#### （4）持續監控與模型維運（Monitoring & Lifecycle Management）\n\n• 模型效能與服務監控：\n\n◦ 持續監控預測準確率、延遲、錯誤率與系統可用性，並偵測資料漂移\n\n（Data Drift）與概念漂移（Concept Drift）等模型效能衰退指標。\n\n• 自動重訓與模型版本更新：\n\n◦ 設定門檻條件（如精確度低於標準值）自動觸發模型重訓，並結合CI/CD\n\n流程完成模型部署更新，確保系統持續最佳化。\n\n• MLOps 工作流程整合：\n\n◦ 建立跨資料工程、模型開發與平台運維的整合架構，實現機器學習系統\n\n的標準化、可監管與可持續運行。",
   "contentFormat": "markdown",
   "headings": [
     {
@@ -83,7 +83,10 @@
         118.18,
         174.28
       ],
-      "id": "block-1"
+      "id": "block-1",
+      "nodeId": "mid-s2c10",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -97,7 +100,10 @@
         90.67,
         218.12
       ],
-      "id": "block-2"
+      "id": "block-2",
+      "nodeId": "mid-s2c10",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -110,7 +116,10 @@
         523.35,
         267.29
       ],
-      "id": "block-3"
+      "id": "block-3",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -123,7 +132,10 @@
         517.91,
         342.5
       ],
-      "id": "block-4"
+      "id": "block-4",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -136,7 +148,10 @@
         518.67,
         417.5
       ],
-      "id": "block-5"
+      "id": "block-5",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -149,7 +164,10 @@
         90.67,
         468.13
       ],
-      "id": "block-6"
+      "id": "block-6",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -162,7 +180,10 @@
         518.25,
         617.56
       ],
-      "id": "block-7"
+      "id": "block-7",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -176,7 +197,10 @@
         233.71,
         667.63
       ],
-      "id": "block-8"
+      "id": "block-8",
+      "nodeId": "mid-s2c10",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -189,7 +213,10 @@
         518.16,
         742.63
       ],
-      "id": "block-9"
+      "id": "block-9",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -202,7 +229,10 @@
         521.4,
         214.07
       ],
-      "id": "block-10"
+      "id": "block-10",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -215,11 +245,14 @@
         517.93,
         264.14
       ],
-      "id": "block-11"
+      "id": "block-11",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "使用Spark MLlib 在分散式記憶體架構下執行迴歸、分類等模型。",
       "pageIndex": 140,
@@ -229,11 +262,14 @@
         483.24,
         289.1
       ],
-      "id": "block-12"
+      "id": "block-12",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "採用Horovod 進行多GPU 或多節點同步訓練，提升深度學習效率。",
       "pageIndex": 140,
@@ -243,11 +279,14 @@
         494.28,
         314.18
       ],
-      "id": "block-13"
+      "id": "block-13",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "應用TensorFlow MultiWorker Strategy 實現模型在多主機間的平行訓練與容錯調整。",
       "pageIndex": 140,
@@ -257,7 +296,10 @@
         518.08,
         364.1
       ],
-      "id": "block-14"
+      "id": "block-14",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -270,7 +312,10 @@
         518.32,
         464.2
       ],
-      "id": "block-15"
+      "id": "block-15",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -283,7 +328,10 @@
         517.93,
         513.91
       ],
-      "id": "block-16"
+      "id": "block-16",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -296,7 +344,10 @@
         452.01,
         539.2
       ],
-      "id": "block-17"
+      "id": "block-17",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -310,7 +361,10 @@
         245.35,
         589.12
       ],
-      "id": "block-18"
+      "id": "block-18",
+      "nodeId": "mid-s2c10",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -323,7 +377,10 @@
         521.1,
         689.23
       ],
-      "id": "block-19"
+      "id": "block-19",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -336,7 +393,10 @@
         517.93,
         738.94
       ],
-      "id": "block-20"
+      "id": "block-20",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -349,11 +409,14 @@
         117.4,
         764.22
       ],
-      "id": "block-21"
+      "id": "block-21",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "文字資料可透過詞嵌入（Word Embedding）技術（如Word2Vec、GloVe、BERT）將語意資訊轉換為向量表示。",
       "pageIndex": 141,
@@ -363,11 +426,14 @@
         521.52,
         139.07
       ],
-      "id": "block-22"
+      "id": "block-22",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "影像資料則常用卷積神經網路（Convolutional Neural Network, CNN）提取影像特徵，形成Encoder 表示。",
       "pageIndex": 141,
@@ -377,11 +443,14 @@
         518.38,
         189.11
       ],
-      "id": "block-23"
+      "id": "block-23",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "音訊與感測器資料則可經由時序分析（如Spectrogram 或RNN Encoder） 進行時間特徵轉換。",
       "pageIndex": 141,
@@ -391,11 +460,14 @@
         518.28,
         239.15
       ],
-      "id": "block-24"
+      "id": "block-24",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "若資料屬於多模態組合（如商品描述+商品圖片），則需進一步透過對齊技術（Alignment）與融合策略（Fusion）整合各模態特徵。",
       "pageIndex": 141,
@@ -405,7 +477,10 @@
         518.09,
         289.1
       ],
-      "id": "block-25"
+      "id": "block-25",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -418,7 +493,10 @@
         518.26,
         414.14
       ],
-      "id": "block-26"
+      "id": "block-26",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -431,7 +509,10 @@
         517.93,
         489.16
       ],
-      "id": "block-27"
+      "id": "block-27",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -444,7 +525,10 @@
         521.35,
         564.16
       ],
-      "id": "block-28"
+      "id": "block-28",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -458,7 +542,10 @@
         218.23,
         614.2
       ],
-      "id": "block-29"
+      "id": "block-29",
+      "nodeId": "mid-s2c10",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -471,7 +558,10 @@
         521.82,
         714.19
       ],
-      "id": "block-30"
+      "id": "block-30",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -484,7 +574,10 @@
         518.4,
         764.22
       ],
-      "id": "block-31"
+      "id": "block-31",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -497,7 +590,10 @@
         518.15,
         139.07
       ],
-      "id": "block-32"
+      "id": "block-32",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -510,11 +606,14 @@
         356.85,
         164.15
       ],
-      "id": "block-33"
+      "id": "block-33",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "類別加權（Class Weighting）：在模型訓練時，根據各類別樣本數自動或手動調整損失函數中的權重，使模型在訓練時對少數類別更為敏感。",
       "pageIndex": 142,
@@ -524,11 +623,14 @@
         518.15,
         214.07
       ],
-      "id": "block-34"
+      "id": "block-34",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "欠抽樣與過抽樣（Under-sampling / Over-sampling）：針對資料分佈不均的情況，透過刪除過多樣本或合成少數樣本（如SMOTE）來平衡資料集，提升模型對不同類別的辨識能力。",
       "pageIndex": 142,
@@ -538,11 +640,14 @@
         518.26,
         289.1
       ],
-      "id": "block-35"
+      "id": "block-35",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "弱標註與主動學習技術（Weak Labeling / Active Learning）：在面對大規模但標註品質參差的資料時，可透過規則式預標註、自動化推理、或以模型協助進行樣本篩選與重標註，減少人工負擔並提升標註一致性。",
       "pageIndex": 142,
@@ -552,11 +657,14 @@
         518.29,
         364.1
       ],
-      "id": "block-36"
+      "id": "block-36",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資料清理與品質控制流程：建立標準化的資料清洗管道，例如移除明顯異常值、偵測與合併重複樣本、針對高雜訊欄位進行欄位刪除或替代策略，確保模型訓練基礎具備穩定性與代表性。",
       "pageIndex": 142,
@@ -566,7 +674,10 @@
         521.37,
         439.1
       ],
-      "id": "block-37"
+      "id": "block-37",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -579,7 +690,10 @@
         521.78,
         564.16
       ],
-      "id": "block-38"
+      "id": "block-38",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -592,7 +706,10 @@
         517.93,
         639.19
       ],
-      "id": "block-39"
+      "id": "block-39",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -606,7 +723,10 @@
         248.95,
         689.23
       ],
-      "id": "block-40"
+      "id": "block-40",
+      "nodeId": "mid-s2c10",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -619,7 +739,10 @@
         524.64,
         764.22
       ],
-      "id": "block-41"
+      "id": "block-41",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -632,11 +755,14 @@
         331.65,
         168.95
       ],
-      "id": "block-42"
+      "id": "block-42",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資料流分析（Stream Processing）架構：進行即時資料接收與前處理。",
       "pageIndex": 143,
@@ -646,11 +772,14 @@
         506.04,
         194.03
       ],
-      "id": "block-43"
+      "id": "block-43",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "近即時模型更新（Near-Real-Time Model Update）：確保模型能夠持續學習新樣本，維持對當下環境的準確性。",
       "pageIndex": 143,
@@ -660,11 +789,14 @@
         518.37,
         243.95
       ],
-      "id": "block-44"
+      "id": "block-44",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "快速部署與預測回應機制：確保預測結果能即時傳遞至應用端。",
       "pageIndex": 143,
@@ -674,7 +806,10 @@
         474.96,
         269.06
       ],
-      "id": "block-45"
+      "id": "block-45",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -687,11 +822,14 @@
         306.43,
         298.82
       ],
-      "id": "block-46"
+      "id": "block-46",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資料切片更新（Mini-batch or Streaming Ingestion）：將資料流拆分為小區段進行逐步處理。",
       "pageIndex": 143,
@@ -701,11 +839,14 @@
         518.14,
         348.86
       ],
-      "id": "block-47"
+      "id": "block-47",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "模型微調（Fine-tuning）：針對已訓練模型，在不破壞原有能力下，快速適應新資料分佈（例如時間漂移、行為改變）。",
       "pageIndex": 143,
@@ -715,11 +856,14 @@
         518.33,
         398.9
       ],
-      "id": "block-48"
+      "id": "block-48",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "增量學習（Incremental Learning）：模型具備持續學習能力，例如使用Online Learning 演算法（如Perceptron、Naïve Bayes、SGDClassifier）或專門設計的框架（如Vowpal Wabbit、River），在資料流到達時即時更新模型權重。",
       "pageIndex": 143,
@@ -729,7 +873,10 @@
         521.88,
         473.92
       ],
-      "id": "block-49"
+      "id": "block-49",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -742,11 +889,14 @@
         281.23,
         503.68
       ],
-      "id": "block-50"
+      "id": "block-50",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "Apache Kafka：作為高吞吐量的資料訊息中介層，提供可靠的即時資料流佇列服務。",
       "pageIndex": 143,
@@ -756,11 +906,14 @@
         518.23,
         553.72
       ],
-      "id": "block-51"
+      "id": "block-51",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "Apache Flink 與Spark Streaming：分別為低延遲與高容錯的資料流處理引擎，支援窗口計算（Windowing）、狀態管理（Stateful Processing）與複雜事件處理（CEP）。",
       "pageIndex": 143,
@@ -770,11 +923,14 @@
         518.36,
         628.75
       ],
-      "id": "block-52"
+      "id": "block-52",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "Kinesis（AWS）、Pub/Sub（GCP）、Event Hub（Azure）：雲端平台提供的串流架構，便於整合至大規模AI 系統部署。",
       "pageIndex": 143,
@@ -784,7 +940,10 @@
         518.16,
         678.79
       ],
-      "id": "block-53"
+      "id": "block-53",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -797,7 +956,10 @@
         521.82,
         758.58
       ],
-      "id": "block-54"
+      "id": "block-54",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -810,7 +972,10 @@
         518.37,
         164.15
       ],
-      "id": "block-55"
+      "id": "block-55",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -824,7 +989,10 @@
         329.13,
         214.07
       ],
-      "id": "block-56"
+      "id": "block-56",
+      "nodeId": "mid-s2c10",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -837,7 +1005,10 @@
         518.28,
         339.14
       ],
-      "id": "block-57"
+      "id": "block-57",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -850,7 +1021,10 @@
         517.93,
         439.1
       ],
-      "id": "block-58"
+      "id": "block-58",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -863,11 +1037,14 @@
         419.85,
         464.2
       ],
-      "id": "block-59"
+      "id": "block-59",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資料編目（Data Catalog）：建立全域資料資源清單，統整資料集名稱、來源、格式、擁有者、描述與應用情境，方便團隊共享與查詢。",
       "pageIndex": 144,
@@ -877,11 +1054,14 @@
         517.99,
         514.12
       ],
-      "id": "block-60"
+      "id": "block-60",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資料來源追蹤（Data Lineage）：記錄資料從產生、傳輸、處理到應用的每一階段轉換流程與技術路徑，確保資料的可追溯性。",
       "pageIndex": 144,
@@ -891,11 +1071,14 @@
         518.13,
         564.16
       ],
-      "id": "block-61"
+      "id": "block-61",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資料版本控制與元資料管理：透過如Delta Lake、LakeFS 等框架，針對資料集提供版本紀錄與差異比對能力，並搭配元資料系統（如Apache Atlas、Amundsen）進行欄位屬性管理與存取權限設計。",
       "pageIndex": 144,
@@ -905,7 +1088,10 @@
         521.4,
         639.19
       ],
-      "id": "block-62"
+      "id": "block-62",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -918,7 +1104,10 @@
         518.37,
         714.19
       ],
-      "id": "block-63"
+      "id": "block-63",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -931,7 +1120,10 @@
         518.27,
         764.22
       ],
-      "id": "block-64"
+      "id": "block-64",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -944,7 +1136,10 @@
         517.95,
         164.15
       ],
-      "id": "block-65"
+      "id": "block-65",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -957,7 +1152,10 @@
         521.88,
         239.15
       ],
-      "id": "block-66"
+      "id": "block-66",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -971,7 +1169,10 @@
         248.71,
         289.1
       ],
-      "id": "block-67"
+      "id": "block-67",
+      "nodeId": "mid-s2c10",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -984,11 +1185,14 @@
         518.34,
         389.18
       ],
-      "id": "block-68"
+      "id": "block-68",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資料中混雜大量與任務無關的欄位或樣本，導致模型學習過程冗餘且不穩定。",
       "pageIndex": 145,
@@ -998,11 +1202,14 @@
         518.2,
         439.1
       ],
-      "id": "block-69"
+      "id": "block-69",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "特徵冗餘、資料重複與非代表性樣本增加模型的過擬合風險。",
       "pageIndex": 145,
@@ -1012,11 +1219,14 @@
         462.36,
         464.2
       ],
-      "id": "block-70"
+      "id": "block-70",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "有價值的長尾樣本（如異常行為、少數事件）被主流資料掩蓋。",
       "pageIndex": 145,
@@ -1026,7 +1236,10 @@
         474.96,
         489.16
       ],
-      "id": "block-71"
+      "id": "block-71",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1039,11 +1252,14 @@
         205.63,
         518.92
       ],
-      "id": "block-72"
+      "id": "block-72",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "特徵選擇（Feature Selection）與維度縮減（Dimensionality Reduction）技術（如 Lasso、PCA）以濃縮有效資訊。",
       "pageIndex": 145,
@@ -1053,11 +1269,14 @@
         518.28,
         569.08
       ],
-      "id": "block-73"
+      "id": "block-73",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "高資訊密度抽樣法，如根據資訊增益或貢獻度篩選樣本。",
       "pageIndex": 145,
@@ -1067,11 +1286,14 @@
         437.13,
         594.04
       ],
-      "id": "block-74"
+      "id": "block-74",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "導入自動化資料探索（Automated EDA）與資料可視化工具（如Sweetviz、Pandas Profiling）輔助人員快速找出價值區段。",
       "pageIndex": 145,
@@ -1081,11 +1303,14 @@
         521.64,
         644.11
       ],
-      "id": "block-75"
+      "id": "block-75",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "在標註階段結合主動學習（Active Learning）策略，有效聚焦人力標註於具代表性的資料點。",
       "pageIndex": 145,
@@ -1095,7 +1320,10 @@
         518.1,
         694.03
       ],
-      "id": "block-76"
+      "id": "block-76",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1108,7 +1336,10 @@
         517.93,
         765.78
       ],
-      "id": "block-77"
+      "id": "block-77",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1121,7 +1352,10 @@
         90.67,
         114.68
       ],
-      "id": "block-78"
+      "id": "block-78",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1134,7 +1368,10 @@
         517.93,
         214.07
       ],
-      "id": "block-79"
+      "id": "block-79",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1147,7 +1384,10 @@
         517.93,
         264.14
       ],
-      "id": "block-80"
+      "id": "block-80",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1161,7 +1401,10 @@
         355.41,
         314.18
       ],
-      "id": "block-81"
+      "id": "block-81",
+      "nodeId": "mid-s2c10",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1175,7 +1418,10 @@
         355.41,
         314.18
       ],
-      "id": "block-82"
+      "id": "block-82",
+      "nodeId": "mid-s2c10",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1188,7 +1434,10 @@
         521.52,
         389.18
       ],
-      "id": "block-83"
+      "id": "block-83",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1201,25 +1450,49 @@
         521.88,
         414.14
       ],
-      "id": "block-84"
+      "id": "block-84",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "資料並行（Data Parallelism） 將訓練資料分批分發至多台工作節點（workers），每台使用相同模型副本。",
+      "text": "資料並行（Data Parallelism）",
       "pageIndex": 146,
       "bbox": [
         102.16,
         425.65,
+        282.19,
+        439.1
+      ],
+      "id": "block-85",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "將訓練資料分批分發至多台工作節點（workers），每台使用相同模型副本。",
+      "pageIndex": 146,
+      "bbox": [
+        120.52,
+        450.75,
         518.15,
         489.16
       ],
-      "id": "block-85"
+      "id": "block-86",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "每次訓練後合併梯度（gradient aggregation），更新全域參數。",
       "pageIndex": 146,
       "bbox": [
@@ -1228,11 +1501,15 @@
         477.36,
         514.12
       ],
-      "id": "block-86"
+      "id": "block-87",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "適合影像分類、NLP 等樣本量大但模型中等的情境。",
       "pageIndex": 146,
       "bbox": [
@@ -1241,25 +1518,66 @@
         430.53,
         539.2
       ],
-      "id": "block-87"
+      "id": "block-88",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "模型並行（Model Parallelism） 將一個大型模型的不同部分分配至不同節點運算（例如超大參數量的語言模型） 用於單機記憶體無法容納整個模型的情況。",
+      "text": "模型並行（Model Parallelism）",
       "pageIndex": 146,
       "bbox": [
         102.16,
         550.71,
-        517.85,
-        639.19
+        291.19,
+        564.16
       ],
-      "id": "block-88"
+      "id": "block-89",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "將一個大型模型的不同部分分配至不同節點運算（例如超大參數量的語言模型）",
+      "pageIndex": 146,
+      "bbox": [
+        120.52,
+        575.67,
+        517.85,
+        614.2
+      ],
+      "id": "block-90",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "用於單機記憶體無法容納整個模型的情況。",
+      "pageIndex": 146,
+      "bbox": [
+        120.52,
+        625.74,
+        378.57,
+        639.19
+      ],
+      "id": "block-91",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "適合GPT、BERT 等超大模型訓練。",
       "pageIndex": 146,
       "bbox": [
@@ -1268,21 +1586,60 @@
         338.85,
         664.15
       ],
-      "id": "block-89"
+      "id": "block-92",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "混合式並行（Hybrid Parallelism） 將資料並行與模型並行結合使用，以達成橫向擴展與模型放大雙重目標。",
+      "text": "混合式並行（Hybrid Parallelism）",
+      "pageIndex": 146,
+      "bbox": [
+        102.16,
+        675.78,
+        306.67,
+        689.23
+      ],
+      "id": "block-93",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "將資料並行與模型並行結合使用，以達成橫向擴展與模型放大雙重目",
+      "pageIndex": 146,
+      "bbox": [
+        120.52,
+        700.74,
+        517.85,
+        714.12
+      ],
+      "id": "block-94",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "paragraph",
+      "depth": 5,
+      "text": "標。",
       "pageIndex": 146,
       "bbox": [
         76.6,
-        675.78,
-        517.85,
+        725.86,
+        223.63,
         755.82
       ],
-      "id": "block-90"
+      "id": "block-95",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1296,25 +1653,49 @@
         218.23,
         114.11
       ],
-      "id": "block-91"
+      "id": "block-96",
+      "nodeId": "mid-s2c10",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "硬體加速使用GPU/TPU 加速訓練，支援張量運算與大規模矩陣計算。",
+      "text": "硬體加速",
       "pageIndex": 147,
       "bbox": [
         102.16,
         125.62,
+        172.48,
+        139.07
+      ],
+      "id": "block-97",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "使用GPU/TPU 加速訓練，支援張量運算與大規模矩陣計算。",
+      "pageIndex": 147,
+      "bbox": [
+        120.52,
+        150.7,
         474.84,
         164.15
       ],
-      "id": "block-92"
+      "id": "block-98",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "雲端平台（如AWS SageMaker、Google Vertex AI）可彈性配置計算資源。",
       "pageIndex": 147,
       "bbox": [
@@ -1323,25 +1704,49 @@
         518.27,
         214.07
       ],
-      "id": "block-93"
+      "id": "block-99",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "混合精度訓練（Mixed Precision Training） 結合單精度（FP32）與半精度（FP16）浮點數計算，加速訓練同時節省記憶體。",
+      "text": "混合精度訓練（Mixed Precision Training）",
       "pageIndex": 147,
       "bbox": [
         102.16,
         225.7,
+        352.89,
+        239.15
+      ],
+      "id": "block-100",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "結合單精度（FP32）與半精度（FP16）浮點數計算，加速訓練同時節省記憶體。",
+      "pageIndex": 147,
+      "bbox": [
+        120.52,
+        250.69,
         518.11,
         289.1
       ],
-      "id": "block-94"
+      "id": "block-101",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "特別適用於語音、影像與語言模型，且與GPU 架構相容性佳。",
       "pageIndex": 147,
       "bbox": [
@@ -1350,25 +1755,49 @@
         485.4,
         314.18
       ],
-      "id": "block-95"
+      "id": "block-102",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "梯度累積與梯度壓縮當mini-batch 因記憶體限制無法設得太大時，可使用梯度累積（Gradient Accumulation）技術，在多個小batch 中先計算梯度再一次性更新參數，有效提升收斂穩定性。",
+      "text": "梯度累積與梯度壓縮",
       "pageIndex": 147,
       "bbox": [
         102.16,
         325.69,
+        235.51,
+        339.14
+      ],
+      "id": "block-103",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "當mini-batch 因記憶體限制無法設得太大時，可使用梯度累積（Gradient Accumulation）技術，在多個小batch 中先計算梯度再一次性更新參數，有效提升收斂穩定性。",
+      "pageIndex": 147,
+      "bbox": [
+        120.52,
+        350.65,
         521.85,
         414.14
       ],
-      "id": "block-96"
+      "id": "block-104",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "同時，在分散式訓練中，梯度的頻繁同步會造成傳輸壅塞，可透過梯度壓縮（如Top-k Sparsification、Quantization）或延遲同步（Delayed Gradient），減少傳輸量與頻率，提升整體平行訓練效能。",
       "pageIndex": 147,
       "bbox": [
@@ -1377,25 +1806,49 @@
         521.8,
         489.16
       ],
-      "id": "block-97"
+      "id": "block-105",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "Early Stopping 與Checkpointing 為避免模型過度訓練（Overfitting）或資源浪費，早停機制（Early Stopping）可在驗證集表現未持續提升時自動中止訓練，節省計算資源。",
+      "text": "Early Stopping 與Checkpointing",
       "pageIndex": 147,
       "bbox": [
         102.16,
         500.67,
+        292.15,
+        514.12
+      ],
+      "id": "block-106",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "為避免模型過度訓練（Overfitting）或資源浪費，早停機制（Early Stopping）可在驗證集表現未持續提升時自動中止訓練，節省計算資源。",
+      "pageIndex": 147,
+      "bbox": [
+        120.52,
+        525.75,
         521.88,
         564.16
       ],
-      "id": "block-98"
+      "id": "block-107",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "同時，導入模型檢查點（Checkpointing）機制，可定期儲存模型權重與訓練狀態，使訓練可中斷後續並接續訓練。",
       "pageIndex": 147,
       "bbox": [
@@ -1404,7 +1857,10 @@
         518.25,
         614.2
       ],
-      "id": "block-99"
+      "id": "block-108",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1418,52 +1874,82 @@
         243.43,
         664.15
       ],
-      "id": "block-100"
+      "id": "block-109",
+      "nodeId": "mid-s2c10",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "資料異步輸入與資料前處理瓶頸在高頻率資料流與多來源整合的情境下，傳統同步處理流程易形成效能瓶頸。可透過同步化優化資料管線（Data Pipeline）設計，搭配高效",
+      "text": "資料異步輸入與資料前處理瓶頸",
       "pageIndex": 147,
       "bbox": [
         102.16,
         675.78,
-        518.16,
-        739.15
+        298.51,
+        689.23
       ],
-      "id": "block-101"
-    },
-    {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "資料格式（如TFRecord、Parquet）與快取策略（例如TensorFlow 的 tf.data API），提升資料讀取效率並減少I/O 負擔。",
-      "pageIndex": 148,
-      "bbox": [
-        136.12,
-        100.82,
-        518.28,
-        139.07
-      ],
-      "id": "block-102"
+      "id": "block-110",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 6,
+      "marker": "◦",
+      "text": "在高頻率資料流與多來源整合的情境下，傳統同步處理流程易形成效能瓶頸。可透過同步化優化資料管線（Data Pipeline）設計，搭配高效資料格式（如TFRecord、Parquet）與快取策略（例如TensorFlow 的 tf.data API），提升資料讀取效率並減少I/O 負擔。",
+      "pageIndex": 147,
+      "bbox": [
+        120.52,
+        100.82,
+        518.28,
+        739.15
+      ],
+      "id": "block-111",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
       "marker": "•",
-      "text": "模型微調與多階段訓練面對任務多樣化與資源有限的挑戰，可採取預訓練（Pre-training）與微調（Fine-tuning）兩階段訓練方式。先於大規模資料上進行通用特徵學習，再針對特定任務進行調校，不僅可提升模型效能，也能有效降低訓練成本。",
+      "text": "模型微調與多階段訓練",
       "pageIndex": 148,
       "bbox": [
         102.16,
         150.7,
-        518.38,
-        264.14
+        248.11,
+        164.15
       ],
-      "id": "block-103"
+      "id": "block-112",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 6,
+      "marker": "◦",
+      "text": "面對任務多樣化與資源有限的挑戰，可採取預訓練（Pre-training）與微調（Fine-tuning）兩階段訓練方式。先於大規模資料上進行通用特徵學習，再針對特定任務進行調校，不僅可提升模型效能，也能有效降低訓練成本。",
+      "pageIndex": 148,
+      "bbox": [
+        120.52,
+        175.66,
+        518.38,
+        264.14
+      ],
+      "id": "block-113",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
       "marker": "•",
       "text": "持續學習（Continual / Online Learning）",
       "pageIndex": 148,
@@ -1473,11 +1959,15 @@
         341.49,
         289.1
       ],
-      "id": "block-104"
+      "id": "block-114",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "在資料隨時間變動或環境改變的情境中，靜態模型容易失效。導入持續學習（Continual Learning）或線上學習（Online Learning）技術，有助於模型持續適應新資料分佈，常見應用包括推薦系統、金融交易預測、詐欺偵測等。關鍵挑戰在於避免災難性遺忘（Catastrophic Forgetting） 與平衡新舊知識。",
       "pageIndex": 148,
       "bbox": [
@@ -1486,7 +1976,10 @@
         521.32,
         414.14
       ],
-      "id": "block-105"
+      "id": "block-115",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1499,7 +1992,10 @@
         90.67,
         464.77
       ],
-      "id": "block-106"
+      "id": "block-116",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1512,7 +2008,10 @@
         518.79,
         564.16
       ],
-      "id": "block-107"
+      "id": "block-117",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1525,7 +2024,10 @@
         524.76,
         664.15
       ],
-      "id": "block-108"
+      "id": "block-118",
+      "nodeId": "mid-s2c10",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1539,7 +2041,10 @@
         330.21,
         114.11
       ],
-      "id": "block-109"
+      "id": "block-119",
+      "nodeId": "mid-s2c10",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1553,11 +2058,14 @@
         330.21,
         114.11
       ],
-      "id": "block-110"
+      "id": "block-120",
+      "nodeId": "mid-s2c10",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資料來源整合：",
       "pageIndex": 149,
@@ -1567,11 +2075,15 @@
         210.31,
         139.07
       ],
-      "id": "block-111"
+      "id": "block-121",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "整合來自IoT、Web log、CRM、交易系統等異質資料源，導入資料湖 （Data Lake）或資料倉儲（Data Warehouse）作為統一儲存基礎。",
       "pageIndex": 149,
       "bbox": [
@@ -1580,11 +2092,14 @@
         518.23,
         189.11
       ],
-      "id": "block-112"
+      "id": "block-122",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資料前處理流程自動化：",
       "pageIndex": 149,
@@ -1594,11 +2109,15 @@
         260.71,
         214.07
       ],
-      "id": "block-113"
+      "id": "block-123",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "運用Spark、Airflow、Kubeflow 等工具自動化資料處理流程，涵蓋欄位轉換、缺失值處理、資料清洗與特徵萃取，支援批次或串流模式。",
       "pageIndex": 149,
       "bbox": [
@@ -1607,11 +2126,14 @@
         518.23,
         264.14
       ],
-      "id": "block-114"
+      "id": "block-124",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資料版本與追蹤：",
       "pageIndex": 149,
@@ -1621,11 +2143,15 @@
         222.91,
         289.1
       ],
-      "id": "block-115"
+      "id": "block-125",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "導入元資料管理與版本控管（如Delta Lake、MLflow Tracking），確保資料處理流程的可追溯性與再現性，強化模型開發基礎。",
       "pageIndex": 149,
       "bbox": [
@@ -1634,7 +2160,10 @@
         518.25,
         339.14
       ],
-      "id": "block-116"
+      "id": "block-126",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1648,11 +2177,14 @@
         375.09,
         389.18
       ],
-      "id": "block-117"
+      "id": "block-127",
+      "nodeId": "mid-s2c10",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "自動化訓練流程（Pipeline）：",
       "pageIndex": 149,
@@ -1662,11 +2194,15 @@
         283.51,
         414.14
       ],
-      "id": "block-118"
+      "id": "block-128",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "使用機器學習平台（如SageMaker Pipeline、Vertex AI、KubeFlow Pipelines）串接訓練腳本、模型調參、交叉驗證與評估指標計算。",
       "pageIndex": 149,
       "bbox": [
@@ -1675,11 +2211,14 @@
         521.78,
         464.2
       ],
-      "id": "block-119"
+      "id": "block-129",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "模型版本管理與實驗追蹤：",
       "pageIndex": 149,
@@ -1689,11 +2228,15 @@
         273.31,
         489.16
       ],
-      "id": "block-120"
+      "id": "block-130",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "使用MLflow、Weights & Biases 等工具追蹤模型架構、參數與訓練資料版本。",
       "pageIndex": 149,
       "bbox": [
@@ -1702,11 +2245,14 @@
         518.23,
         539.2
       ],
-      "id": "block-121"
+      "id": "block-131",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "多模型與多階段流程管理：",
       "pageIndex": 149,
@@ -1716,11 +2262,15 @@
         273.31,
         564.16
       ],
-      "id": "block-122"
+      "id": "block-132",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "支援多任務串接（如前段進行分類模型判斷，後段再串接推薦模型提供個人化內容）與條件分支處理邏輯（If-Then Routing）。",
       "pageIndex": 149,
       "bbox": [
@@ -1729,7 +2279,10 @@
         518.28,
         614.2
       ],
-      "id": "block-123"
+      "id": "block-133",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1743,11 +2296,14 @@
         320.73,
         664.15
       ],
-      "id": "block-124"
+      "id": "block-134",
+      "nodeId": "mid-s2c10",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "彈性部署模式選擇：",
       "pageIndex": 149,
@@ -1757,11 +2313,15 @@
         235.51,
         689.23
       ],
-      "id": "block-125"
+      "id": "block-135",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "Batch Serving：",
       "pageIndex": 149,
       "bbox": [
@@ -1770,11 +2330,15 @@
         223.99,
         714.19
       ],
-      "id": "block-126"
+      "id": "block-136",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "定期批次產出預測結果（如每日風險預測報表）供下游使用。",
       "pageIndex": 149,
       "bbox": [
@@ -1783,11 +2347,15 @@
         493.68,
         755.82
       ],
-      "id": "block-127"
+      "id": "block-137",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "Online Serving / API Serving：",
       "pageIndex": 150,
       "bbox": [
@@ -1796,11 +2364,15 @@
         301.51,
         114.11
       ],
-      "id": "block-128"
+      "id": "block-138",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "以RESTful API 或gRPC 提供即時查詢預測服務。",
       "pageIndex": 150,
       "bbox": [
@@ -1809,11 +2381,15 @@
         427.41,
         139.07
       ],
-      "id": "block-129"
+      "id": "block-139",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "Streaming Inference：",
       "pageIndex": 150,
       "bbox": [
@@ -1822,11 +2398,15 @@
         255.07,
         164.15
       ],
-      "id": "block-130"
+      "id": "block-140",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "結合Kafka、Flink、Spark Streaming 等技術，支援低延遲事件驅動推論。",
       "pageIndex": 150,
       "bbox": [
@@ -1835,11 +2415,14 @@
         518.23,
         214.07
       ],
-      "id": "block-131"
+      "id": "block-141",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "容器化與可擴展部署：",
       "pageIndex": 150,
@@ -1849,11 +2432,15 @@
         248.11,
         239.15
       ],
-      "id": "block-132"
+      "id": "block-142",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "可使用如Docker 等容器技術、將模型封裝為容器，搭配Kubernetes 管理部署與彈性擴充，並導入A/B 測試、藍綠部署等策略，降低版本更新風險。",
       "pageIndex": 150,
       "bbox": [
@@ -1862,7 +2449,10 @@
         518.28,
         314.18
       ],
-      "id": "block-133"
+      "id": "block-143",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1876,11 +2466,14 @@
         444.33,
         364.1
       ],
-      "id": "block-134"
+      "id": "block-144",
+      "nodeId": "mid-s2c10",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "模型效能與服務監控：",
       "pageIndex": 150,
@@ -1890,11 +2483,15 @@
         248.11,
         389.18
       ],
-      "id": "block-135"
+      "id": "block-145",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "持續監控預測準確率、延遲、錯誤率與系統可用性，並偵測資料漂移 （Data Drift）與概念漂移（Concept Drift）等模型效能衰退指標。",
       "pageIndex": 150,
       "bbox": [
@@ -1903,11 +2500,14 @@
         517.85,
         439.1
       ],
-      "id": "block-136"
+      "id": "block-146",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "自動重訓與模型版本更新：",
       "pageIndex": 150,
@@ -1917,11 +2517,15 @@
         273.31,
         464.2
       ],
-      "id": "block-137"
+      "id": "block-147",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "設定門檻條件（如精確度低於標準值）自動觸發模型重訓，並結合CI/CD 流程完成模型部署更新，確保系統持續最佳化。",
       "pageIndex": 150,
       "bbox": [
@@ -1930,11 +2534,14 @@
         518.73,
         514.12
       ],
-      "id": "block-138"
+      "id": "block-148",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "MLOps 工作流程整合：",
       "pageIndex": 150,
@@ -1944,11 +2551,15 @@
         252.31,
         539.2
       ],
-      "id": "block-139"
+      "id": "block-149",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "建立跨資料工程、模型開發與平台運維的整合架構，實現機器學習系統的標準化、可監管與可持續運行。",
       "pageIndex": 150,
       "bbox": [
@@ -1957,7 +2568,10 @@
         518.15,
         589.12
       ],
-      "id": "block-140"
+      "id": "block-150",
+      "nodeId": "mid-s2c10",
+      "kind": "list_item",
+      "source": "page_extract"
     }
   ],
   "sourcePages": [

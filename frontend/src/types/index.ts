@@ -155,6 +155,7 @@ export interface GuideOutlineSubject {
   nodesById: Record<string, GuideOutlineNode>
   flat: string[]
   stats: Record<string, number>
+  treeSource?: string
 }
 
 export interface GuideOutlinesData {

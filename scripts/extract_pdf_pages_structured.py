@@ -52,7 +52,13 @@ def pdf_map(level: str) -> dict[str, str]:
 
 
 def clean_text(text: str) -> str:
-    text = text.replace('\uf097', '• ')
+    text = (
+        text
+        .replace('\uf097', '• ')
+        .replace('\uf09f', '• ')
+        .replace('\uf077', '◦ ')
+        .replace('\uf0a1', '○ ')
+    )
     text = re.sub(r'[\ue000-\uf8ff]', '', text)
     return re.sub(r'[ \t]+', ' ', text).strip()
 

@@ -48,7 +48,13 @@ def write_json(path: Path, data: Any) -> None:
 
 
 def clean_line(line: str) -> str:
-    line = line.replace('\uf097', '• ')
+    line = (
+        line
+        .replace('\uf097', '• ')
+        .replace('\uf09f', '• ')
+        .replace('\uf077', '◦ ')
+        .replace('\uf0a1', '○ ')
+    )
     line = re.sub(r'[\ue000-\uf8ff]', '', line)
     line = re.sub(r'[ \t]+', ' ', line)
     return line.strip()

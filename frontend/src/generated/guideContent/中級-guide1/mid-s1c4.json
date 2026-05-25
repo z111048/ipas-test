@@ -1,7 +1,7 @@
 {
   "id": "mid-s1c4",
   "title": "多模態人工智慧應用",
-  "content": "# 多模態人工智慧應用\n\n3.4\n\n## 多模態人工智慧應用\n\n### 1. 前言與章節導覽\n\n多模態人工智慧（Multimodal Artificial Intelligence, Multimodal AI）是人工智慧技術的一項重要進展，其核心能力在於能夠同時處理並整合來自不同模態的資料，如文字、影像、語音、感測訊號等。相較於傳統僅針對單一資料型態進行學習與推論的模型，例如自然語言處理（NLP）僅處理文字、電腦視覺（CV）僅處理影像，多模態AI 強調跨模態訊息的理解、融合與應用，進一步擴展了AI 系統的感知能力與智慧水平。\n\n多模態AI 的崛起與近年來硬體運算能力的提升、深度學習架構的成熟密切相關。尤其是在Transformer 架構與大型語言模型（Large Language Models, LLMs）\n\n的推動下，多模態模型得以實現大規模語言、圖像與聲音的跨模態學習與共同理解。例如，OpenAI 的GPT-4（及更新之版本）已具備文字與圖像輸入能力，Meta 的ImageBind 則嘗試將多種感知模態（包括影像、聲音、深度、紅外線等）映射至統一的向量空間中。\n\n與單一模態技術相比，多模態AI 在處理複雜情境、多源資訊判斷與人機互動任務中展現了更高的彈性與準確性。例如在智慧客服系統中，AI 可以同時分析語音語調、語意文字與臉部表情；在醫療影像診斷中，則可結合病歷文字說明與影像資料，提高診斷效率與準確率。\n\n本節將介紹多模態AI 的核心觀念與應用潛力，並說明其與前述各章（自然語言處理、電腦視覺技術、生成式AI）之技術關聯性。多模態AI 不僅依賴上述模態的基礎處理能力，更進一步透過模態間的語意對齊（Semantic Alignment）與融合學習（Fusion Learning），實現跨模態的深層理解與互補性應用。\n\n### 2. 多模態\n\nAI基礎概念與演進脈絡\n\n#### （1）定義與範疇\n\n多模態人工智慧（Multimodal AI）是指能同時處理兩種以上不同資料模態 （Modality）的人工智慧系統。常見的資料模態包括：\n\n• 文字（如自然語言、描述、問句）\n\n• 影像（靜態圖像、影像序列）\n\n• 語音／音訊（語音內容、語音情緒、背景聲音）\n\n• 感測器資料（如位置感測器、加速度計、環境溫度等）\n\n每一種模態（Modality）都具有獨特的結構與特徵表達方式。文字資料是離散且語意性強的；影像資料包含空間資訊與顏色紋理；語音資料蘊含時間序列與情緒線索；感測器數據則反映實體環境的連續變化。多模態AI 的目標是從這些異質資料中提取有意義的資訊，並進行融合分析，以提升決策品質與模型理解力。\n\n其中一個核心技術為跨模態表示學習（Cross-modal Embeddings），即將不同模態資料映射至相同的語意空間，使模型能比較、關聯或互相翻譯不同模態下的輸入。例如OpenAI 提出的CLIP（Contrastive Language-Image Pre-training）即是一種以對比學習（Contrastive Learning）方式，同時訓練影像與文字的嵌入向量，使得「一張圖片」與「一句描述」可在嵌入空間中對應並且具語意一致性。\n\n#### （2）技術演進脈絡\n\n多模態AI 的發展可大致分為以下三個階段：\n\n##### A. 早期階段：特徵拼接與簡單融合策略\n\n最初的多模態系統多採用「特徵串接（Feature Concatenation）」的方式，將各模態的特徵向量合併後輸入傳統機器學習模型，如支援向量機（SVM）或決策樹。\n\n這種方式雖簡單，卻無法處理模態間的語意對齊與交互關係，且缺乏可擴展性。\n\n##### B. 深度學習階段：模態專屬網路與融合層設計\n\n隨著深度學習發展，研究者開始為每種模態設計專屬網路（如CNN 處理影像、RNN 處理文字與語音），再透過融合層（Fusion Layer）進行整合。此時，多模態深度學習（Multimodal Deep Learning）逐漸成為主流，模型表現與結構彈性明顯提升。\n\n##### C. 當前階段：Transformer 與自注意力驅動的統一架構\n\n近年來，Transformer 架構的普及與自注意力機制（Self-Attention）應用，使得跨模態理解能力顯著提升。例如M3AE（Masked Multimodal Autoencoder）模型使用統一編碼器對影像與文字進行遮罩預訓練，學習兩者共享的語意結構。現今的多模態模型，如Flamingo、BLIP-2 等，則進一步採用多層次對齊與視覺-語言融合（Vision-Language Fusion）機制，使模型能流暢地處理圖文問答、圖像生成敘述、跨模態檢索等應用任務。\n\n### 3. 多模態\n\nAI常見模型與工具\n\n多模態AI 的發展標誌著人工智慧從單一資料型態處理走向跨模態整合的里程碑。透過同時處理與對齊文字、圖片、語音、感測資料等多種模態，多模態AI 具備更全面的感知與生成能力，廣泛應用於圖文匹配、語音指令理解、智慧醫療、智慧城市等領域。這些技術的實現依賴於先進的模型設計與工具支援，推動了跨模態應用的落地與商業化。本節將介紹具代表性的多模態模型、關鍵技術流程與開發工具，並剖析其應用特性與實務價值。\n\n#### （1）CLIP：圖文對齊與對比學習基礎\n\nCLIP（Contrastive Language-Image Pre-training）由OpenAI 於2021 年提出，是一款開創性的多模態模型，透過對比學習（Contrastive Learning）實現圖片與文字的語意對齊。其訓練過程使用大量圖文配對資料（如網路爬取的4 億對圖文資料），將圖片與文字映射至同一向量空間，使語意相符的圖文對在空間中距離接近，反之則遠離。\n\nCLIP 的核心架構包括圖片編碼器（基於Vision Transformer 或ResNet）與文字編碼器（基於Transformer），兩者透過對比損失（Contrastive Loss）共同優化。\n\nCLIP 的高泛化性使其成為後續生成模型（如DALL·E）的基礎。\n\n##### A. 功能與應用\n\n• 圖文匹配（Image-Text Matching）：判斷圖片與文字描述是否相符。例如，輸入圖片與「一隻貓在草地上」描述，CLIP 可計算匹配度。\n\n• 圖文檢索（Image-Text Retrieval）：支援文字搜尋圖片（如「紅色跑車」）或圖片反向搜尋描述，提升資訊檢索效率。\n\n• 圖片標題生成（Image Captioning）：根據圖片生成語意描述，如輸入風景照生成「夕陽下的海灘」。\n\n##### B. 優勢：零樣本（Zero-shot）學習能力強，無需針對特定任務重新訓練即可應用。\n\n##### C. 限制：對複雜情境的細節理解有限，訓練資料偏見可能影響公平性。\n\n#### （2）語音模態的整合與應用\n\n多模態AI 逐漸將語音模態融入架構，形成文字、語音、圖片的整合系統。其核心流程包括：\n\n##### A. 語音辨識（Automatic Speech Recognition, ASR）：語音訊號轉換為文字，如\n\nWhisper 模型。\n\n##### B. 自然語言理解（Natural Language Understanding, NLU）：解析文字內容，提取\n\n意圖或語意，如BERT 或GPT 處理。\n\n##### C. 任務執行與回應：根據理解結果觸發動作或生成語音回饋（如TTS 技術）。例\n\n如，使用者說「今天天氣如何」，系統流程為：\n\n• 語音輸入→ASR 轉文字→NLU 解析意圖→生成回應「今天晴朗，氣溫25 度」。\n\n##### D. 應用情境\n\n• 語音助理：如智慧音箱，結合ASR 與NLU 實現語音指令控制。\n\n• 語音搜尋：支援語音輸入查詢，提升搜尋便利性。\n\n• 客服系統：自動化語音回應，提升服務效率。\n\n• 跨語言互動：整合多語言語音辨識與翻譯（TTS + Neural Machine Translation, NMT），實現多語言指令與對話。\n\n#### （3）感測資料的多模態融合\n\n多模態AI 不僅限於語言與視覺，還可整合感測器資料（如雷達、超音波、溫濕度、GPS、加速度計），提升環境感知能力。此類融合依賴感測融合（Sensor Fusion）\n\n技術，透過資料同步與特徵對齊，將異質資料整合至統一模型中。常見方法包括早期融合（Early Fusion，資料層級整合）與晚期融合（Late Fusion，特徵層級整合）。\n\n##### A. 應用情境：\n\n• 智慧城市：結合監視影像與感測資料（如空氣品質、交通流量），進行環境監測與異常預警。例如，分析影像中的車流與感測器數據，預測交通堵塞。\n\n• 智慧醫療：融合醫學影像（如X 光）與生命徵象（如心率、血壓），輔助診斷與即時監控。例如，結合MRI 影像與感測器數據，檢測心臟異常。\n\n• 自動駕駛與機器人：整合攝影機、雷達與超音波資料，提升定位準確度與障礙物偵測。例如，汽車使用影像與雷達數據判斷前方路況。\n\n##### B. 挑戰\n\n• 資料同步：不同感測器的採樣頻率與時間戳需精準對齊。\n\n• 模型複雜度：多模態融合增加運算負擔，需優化架構。\n\n#### （4）常見模型\n\n##### A. BLIP / BLIP-2：BLIP（Bootstrapping Language-Image Pre-training）由Salesforce\n\n發表，強化圖文問答（Visual Question Answering, VQA）與生成任務，支援圖片與文字的雙向理解。\n\n##### B. Flamingo（DeepMind）：具少樣本學習（Few-shot Learning）能力，可快速適應\n\n新圖文任務。\n\n##### C. M3AE：基於遮罩預訓練（Masked Pre-training）的多模態自編碼器，支持多模\n\n態特徵提取與生成。\n\n### 4. 多模態\n\nAI應用情境\n\n多模態AI 憑藉其整合多種資料來源的能力，能夠大幅提升模型對複雜情境的理解與判斷力，相較於單模態技術更貼近人類的多感官感知模式。這種跨模態融合技術在醫療、零售、虛實整合互動等領域展現出高度潛力，不僅優化了專業流程，也為使用者體驗帶來革新。以下介紹多模態AI 在三大領域的應用情境案例：\n\n#### （1）醫療領域：診斷與決策支持\n\n在智慧醫療中，醫師需綜合分析病患的影像資料（如CT、MRI）、電子病歷 （Electronic Medical Records, EMR）與生理訊號（如心電圖ECG、血糖值、血壓等）進行診斷。多模態AI 透過整合這些異質資料，提供全面的診斷支援與決策建議。\n\n##### A. 應用示例：\n\n• 對影像進行病灶判別，並結合病歷文字自動生成診斷摘要。例如，辨識肺部CT 中的結節並生成「疑似肺癌早期病灶」報告。\n\n• 跨資料來源分析病患狀況，如將連續心率數據與醫師筆記結合，預測心血管疾病風險或提出治療建議。\n\n• 提升診斷準確度與效率，特別適用於慢性病管理（如糖尿病）與重症監護（如 ICU 即時監控）。\n\n##### B. 挑戰與指標\n\n• 挑戰：資料隱私（需符合HIPAA 等規範）、異質資料的同步性、模型解釋性不足。\n\n• 相關評估指標：診斷準確率（Accuracy）、假陽性率（False Positive Rate）、生成報告的ROUGE 分數。\n\n#### （2）零售與顧客行為分析\n\n在實體與線上零售領域，企業可整合攝影機影像、POS 交易紀錄、顧客評論與社群媒體回饋等多模態資料，進行消費行為洞察與行銷策略優化。\n\n##### A. 應用示例：\n\n• 分析顧客動線與停留時間，搭配商品銷售資料，優化店面配置。例如，辨識熱門商品區並調整貨架布局。\n\n• 利用自然語言處理解析評論情感，結合銷售趨勢進行情境式推薦。例如，根據 「口感不佳」評論調整產品配方並推廣改良版。\n\n• 建立多模態資料可視化平台（BI Dashboard），即時監控營運狀況與顧客回應，提升決策敏捷性。\n\n##### B. 挑戰與指標\n\n• 挑戰：顧客隱私保護、多源資料噪聲、即時處理需求。\n\n• 相關評估指標：推薦準確率（Precision）、動線分析的IOU（Intersection over Union）、情感分析的F1 分數。\n\n#### （3）虛實整合互動與沉浸式應用\n\n在元宇宙與人機互動領域，多模態AI 支援語音、文字、表情、姿勢與3D 模型的同步處理，使虛擬互動更自然與真實。\n\n##### A. 應用示例：\n\n• 虛擬人偶（Avatar）根據使用者語音與手勢回應，提升沉浸體驗。例如，虛擬導覽員依據語音指令調整展示內容。\n\n• 整合視覺與語音控制的數位助理，如透過語音與手勢操作智慧螢幕。\n\n• 應用於虛擬展覽、智慧教室、遠距協作情境，如線上會議中的即時手勢辨識與語音轉文字。\n\n##### B. 挑戰與指標\n\n• 挑戰：系統延遲、跨模態一致性、運算資源需求。\n\n• 相關評估指標：回應延遲（Latency）、語音辨識的WER（Word Error Rate）、姿勢辨識的準確率。\n\n### 5. 多模態多模態\n\nAI風險與未來趨勢\n\n多模態AI 憑藉其跨模態整合能力展現出高度應用潛力，然而在資料處理、模型開發、法規遵循與系統部署等面向，仍面臨諸多挑戰。這些風險不僅影響技術的可靠度與效能，也涉及隱私、安全與倫理層面的考量。以下將列出多模態AI 的主要風險，並探討其解決策略與未來發展趨勢。\n\n#### （1）資料對齊與標註\n\n多模態資料來源多元（如影像、語音、感測器數據），其時間點、更新頻率與語意邏輯往往難以一致，導致資料對齊與標註成為技術瓶頸。\n\n##### A. 目前遇到的挑戰包括：\n\n• 不同模態資料需在時間軸或語意上同步例如，監控影像與語音指令的時間戳需精準對齊，感測器數據與影像的語意需一致。\n\n• 多模態標註成本高昂例如，為圖片標記物件同時撰寫文字描述，需耗費大量人力與專業知識。\n\n• 高品質標註資料稀缺且資料管理與儲存需求高，易因資料量龐大而增加維護成本。\n\n##### B. 影響與解決策略\n\n這些問題直接影響模型訓練品質與應用效能，可能導致語意誤判或預測偏差。\n\n解決策略包括：\n\n• 資料前處理：採用時序對齊演算法（如Dynamic Time Warping, DTW）與語意對齊技術（如CLIP 的對比學習）。\n\n• 自動標註：運用弱監督學習（Weakly Supervised Learning）或生成模型（如 DALL·E 生成標註原型）降低人工成本。\n\n• 資料管理：建立分散式儲存系統與資料版本控制，提升管理效率。\n\n#### （2）運算與部署\n\n多模態模型結構複雜、參數量龐大，對運算資源與部署效能要求極高。\n\n##### A. 目前遇到的挑戰包括：\n\n• 訓練過程需大量GPU 叢集或TPU 資源，訓練一個含影像與語音的多模態模型可能需數週時間與數十萬元的硬體成本。\n\n• 部署至邊緣設備需維持效能，涉及模型壓縮（如剪枝Pruning）、量化 （Quantization）或知識蒸餾（Knowledge Distillation）等技術。\n\n• 雲端部署具備彈性，但存在延遲與隱私疑慮。\n\n• 邊緣部署則需在效能與模型容量間權衡。\n\n##### B. 影響與解決策略\n\n高運算成本限制了技術的普及與即時應用。解決方案包括：\n\n• 模型優化：使用低秩適應（LoRA）或輕量化架構（如MobileNet）降低參數量。\n\n• 混合部署：結合雲端與邊緣運算，關鍵任務於邊緣執行，複雜推理交由雲端處理。\n\n• 硬體加速：採用NVIDIA TensorRT 或Intel OpenVINO 提升推論速度。\n\n#### （3）隱私與法規\n\n多模態AI 常處理敏感個人資料（如臉部影像、聲音樣本、生理訊號），隱私與資安風險不容忽視。\n\n##### A. 目前遇到的挑戰與問題包括：\n\n• 敏感資料未經加密或匿名化，易遭竊取或誤用，產生資安漏洞。\n\n• 模型可能被攻擊或誤用，生成偽造內容（如Deepfake 影像或語音），影響社會信任。\n\n• 在機器學習運維（MLOps）流程中，若缺乏安全審查與存取控管，可能違反法規或倫理規範。\n\n##### B. 影響與解決策略\n\n這些風險可能導致法律責任與公眾反彈。解決策略包括：\n\n• 資料保護：實施匿名化（如遮罩人臉）與端到端加密（End-to-End Encryption）。\n\n• 模型安全：加入對抗訓練（Adversarial Training）與生成內容檢測機制，防範偽造風險。\n\n• 法規遵循：遵循資料保護法規（如GDPR、台灣《個人資料保護法》），建立審計與監控流程。\n\n#### （4）未來趨勢\n\n多模態AI 將持續向下列幾個方向演進：\n\n##### A. 統一架構的發展\n\n未來模型將更加強調模態間的統一處理與共享表示，減少分離模組設計，朝向通用架構發展，支援任意模態輸入，提升彈性與擴展性。\n\n##### B. 即時與低資源環境部署\n\n為滿足邊緣設備與移動端的應用需求，多模態模型將持續進行壓縮與最佳化，以降低記憶體與運算負擔。未來也將結合更多自適應推論與多階段處理策略。\n\n##### C. 自主學習與自我監督機制\n\n隨著標註資料成本升高，自我監督學習（Self-supervised Learning）將成為主流，透過大規模未標註資料進行預訓練，強化模型跨模態對齊與泛化能力。\n\n##### D. 與代理式AI 的整合\n\n多模態AI 未來將與具備推理與決策能力的代理系統結合，實現主動感知、理解與回應的智慧體系，廣泛應用於機器人、智慧助理、教育與客服系統等情境。\n\n##### E. 法規與倫理框架的建置\n\n隨著多模態資料涉及個資與深度偽造風險，各國法規將持續強化對資料使用、模型訓練與應用過程的規範。技術發展需與隱私保護、倫理設計並進，確保AI 應用的安全與可信。\n\n1. 下列何者為自然語言處理（NLP）中的詞嵌入技術，能將文字轉換為向量以利機器學習處理？\n\n（A）TF-IDF （B）Word2Vec （C）Stop Words （D）Bag-of-Words 2. 在自然語言處理應用中，哪一項任務主要目的是從文字中識別出人名、地名、組織等資訊？\n\n（A）情感分析 （B）主題建模 （C）命名實體識別 （D）語音辨識 3. 語言模型BERT 的主要特性為何？\n\n（A）使用遞迴神經網路 （B）無法處理上下文資訊 （C）為單向語言模型 （D）具雙向上下文理解能力 4. 在電腦視覺中，影像分類（Image Classification）的主要任務是？\n\n（A）區分影像中不同實體的邊界 （B）產生新的影像內容 （C）為整張圖片指定一個標籤 （D）判斷影像是否含有文字 5. 若需在一張影像中辨識出多個目標並標示其位置，最適合使用何種技術？\n\n（A）影像增強 （B）影像分類\n\n（C）目標偵測 （D）圖像生成 6. 生成對抗網路（GAN）的訓練包含哪兩個核心組件？\n\n（A）分類器與分群器 （B）產生器與鑑別器 （C）強化器與回饋器 （D）解碼器與編碼器 7. 在以下哪一個任務中，生成式AI 技術最常被應用？\n\n（A）詐欺偵測 （B）語音辨識 （C）圖片風格轉換 （D）資料壓縮 8. 多模態人工智慧的核心目標為何？\n\n（A）提升硬體運算效能 （B）同時處理並整合來自不同感知類型的資料 （C）專注於純文字輸入的分析 （D）僅適用於影像分類任務 9. CLIP 模型結合了哪兩種模態進行訓練？\n\n（A）聲音與影像 （B）影像與文字 （C）文字與數值 （D）圖形與表格 10. 在多模態AI 應用中，以下哪一情境最能展現其優勢？\n\n（A）SQL 資料查詢 （B）純圖片壓縮 （C）影片自動生成字幕 （D）單一感測器故障排除\n\n1. Ans（B） Word2Vec 解析：Word2Vec 是一種詞嵌入方法，可將文字轉換為連續向量空間中具語意的表示，有利後續模型學習。\n\n2. Ans（C） 命名實體識別解析：命名實體識別（Named Entity Recognition, NER）用於辨識文本中的具名實體，如人名、地點與組織等。\n\n3. Ans（D） 具雙向上下文理解能力解析：BERT（Bidirectional Encoder Representations from Transformers）可同時考慮上下文中前後的語意，有利於更精準的語言理解。\n\n4. Ans（C） 為整張圖片指定一個標籤解析：影像分類是電腦視覺的基本任務之一，其目標是判斷整張影像的主要內容屬於哪一預定義類別，例如將圖片分類為「貓」、「狗」、「汽車」等。選項（A）\n\n描述的是語義分割（Semantic Segmentation），（B）屬於生成式任務如風格轉換，（D）則是目標偵測（Object Detection），因此僅有（C）為正確答案。\n\n5. Ans（C） 目標偵測解析：目標偵測（Object Detection）能辨識圖像中多個實體，並給出邊界框位置資訊。\n\n6. Ans（B） 產生器與鑑別器解析：GAN 由產生器（Generator）負責生成資料，鑑別器（Discriminator）判斷真偽，兩者相互對抗學習。\n\n7. Ans（C） 圖片風格轉換解析：圖片風格轉換（如將相片轉為畫風）是生成式AI 常見應用之一，通常利用GAN 完成。\n\n8. Ans（B） 同時處理並整合來自不同感知類型的資料解析：多模態AI 整合文字、影像、聲音等不同資料來源，提升模型理解與生成能力。\n\n9. Ans（B） 文字解析：CLIP 由OpenAI 所提出，透過大量圖文配對資料進行對比學習，使模型能理解跨模態語意關聯。\n\n10. Ans（C） 影片自動生成字幕解析：影片字幕生成涉及聲音（語音辨識）、文字（轉錄）、影像（上下文輔助）\n\n等多模態資料處理。",
+  "content": "# 多模態人工智慧應用\n\n3.4\n\n## 多模態人工智慧應用\n\n### 1. 前言與章節導覽\n\n多模態人工智慧（Multimodal Artificial Intelligence, Multimodal AI）是人工智慧技術的一項重要進展，其核心能力在於能夠同時處理並整合來自不同模態的資料，如文字、影像、語音、感測訊號等。相較於傳統僅針對單一資料型態進行學習與推論的模型，例如自然語言處理（NLP）僅處理文字、電腦視覺（CV）僅處理影像，多模態AI 強調跨模態訊息的理解、融合與應用，進一步擴展了AI 系統的感知能力與智慧水平。\n\n多模態AI 的崛起與近年來硬體運算能力的提升、深度學習架構的成熟密切相關。尤其是在Transformer 架構與大型語言模型（Large Language Models, LLMs）\n\n的推動下，多模態模型得以實現大規模語言、圖像與聲音的跨模態學習與共同理解。例如，OpenAI 的GPT-4（及更新之版本）已具備文字與圖像輸入能力，Meta 的ImageBind 則嘗試將多種感知模態（包括影像、聲音、深度、紅外線等）映射至統一的向量空間中。\n\n與單一模態技術相比，多模態AI 在處理複雜情境、多源資訊判斷與人機互動任務中展現了更高的彈性與準確性。例如在智慧客服系統中，AI 可以同時分析語音語調、語意文字與臉部表情；在醫療影像診斷中，則可結合病歷文字說明與影像資料，提高診斷效率與準確率。\n\n本節將介紹多模態AI 的核心觀念與應用潛力，並說明其與前述各章（自然語言處理、電腦視覺技術、生成式AI）之技術關聯性。多模態AI 不僅依賴上述模態的基礎處理能力，更進一步透過模態間的語意對齊（Semantic Alignment）與融合學習（Fusion Learning），實現跨模態的深層理解與互補性應用。\n\n### 2. 多模態\n\nAI基礎概念與演進脈絡\n\n#### （1）定義與範疇\n\n多模態人工智慧（Multimodal AI）是指能同時處理兩種以上不同資料模態 （Modality）的人工智慧系統。常見的資料模態包括：\n\n• 文字（如自然語言、描述、問句）\n\n• 影像（靜態圖像、影像序列）\n\n• 語音／音訊（語音內容、語音情緒、背景聲音）\n\n• 感測器資料（如位置感測器、加速度計、環境溫度等）\n\n每一種模態（Modality）都具有獨特的結構與特徵表達方式。文字資料是離散且語意性強的；影像資料包含空間資訊與顏色紋理；語音資料蘊含時間序列與情緒線索；感測器數據則反映實體環境的連續變化。多模態AI 的目標是從這些異質資料中提取有意義的資訊，並進行融合分析，以提升決策品質與模型理解力。\n\n其中一個核心技術為跨模態表示學習（Cross-modal Embeddings），即將不同模態資料映射至相同的語意空間，使模型能比較、關聯或互相翻譯不同模態下的輸入。例如OpenAI 提出的CLIP（Contrastive Language-Image Pre-training）即是一種以對比學習（Contrastive Learning）方式，同時訓練影像與文字的嵌入向量，使得「一張圖片」與「一句描述」可在嵌入空間中對應並且具語意一致性。\n\n#### （2）技術演進脈絡\n\n多模態AI 的發展可大致分為以下三個階段：\n\n##### A. 早期階段：特徵拼接與簡單融合策略\n\n最初的多模態系統多採用「特徵串接（Feature Concatenation）」的方式，將各模態的特徵向量合併後輸入傳統機器學習模型，如支援向量機（SVM）或決策樹。\n\n這種方式雖簡單，卻無法處理模態間的語意對齊與交互關係，且缺乏可擴展性。\n\n##### B. 深度學習階段：模態專屬網路與融合層設計\n\n隨著深度學習發展，研究者開始為每種模態設計專屬網路（如CNN 處理影像、RNN 處理文字與語音），再透過融合層（Fusion Layer）進行整合。此時，多模態深度學習（Multimodal Deep Learning）逐漸成為主流，模型表現與結構彈性明顯提升。\n\n##### C. 當前階段：Transformer 與自注意力驅動的統一架構\n\n近年來，Transformer 架構的普及與自注意力機制（Self-Attention）應用，使得跨模態理解能力顯著提升。例如M3AE（Masked Multimodal Autoencoder）模型使用統一編碼器對影像與文字進行遮罩預訓練，學習兩者共享的語意結構。現今的多模態模型，如Flamingo、BLIP-2 等，則進一步採用多層次對齊與視覺-語言融合（Vision-Language Fusion）機制，使模型能流暢地處理圖文問答、圖像生成敘述、跨模態檢索等應用任務。\n\n### 3. 多模態\n\nAI常見模型與工具\n\n多模態AI 的發展標誌著人工智慧從單一資料型態處理走向跨模態整合的里程碑。透過同時處理與對齊文字、圖片、語音、感測資料等多種模態，多模態AI 具備更全面的感知與生成能力，廣泛應用於圖文匹配、語音指令理解、智慧醫療、智慧城市等領域。這些技術的實現依賴於先進的模型設計與工具支援，推動了跨模態應用的落地與商業化。本節將介紹具代表性的多模態模型、關鍵技術流程與開發工具，並剖析其應用特性與實務價值。\n\n#### （1）CLIP：圖文對齊與對比學習基礎\n\nCLIP（Contrastive Language-Image Pre-training）由OpenAI 於2021 年提出，是一款開創性的多模態模型，透過對比學習（Contrastive Learning）實現圖片與文字的語意對齊。其訓練過程使用大量圖文配對資料（如網路爬取的4 億對圖文資料），將圖片與文字映射至同一向量空間，使語意相符的圖文對在空間中距離接近，反之則遠離。\n\nCLIP 的核心架構包括圖片編碼器（基於Vision Transformer 或ResNet）與文字編碼器（基於Transformer），兩者透過對比損失（Contrastive Loss）共同優化。\n\nCLIP 的高泛化性使其成為後續生成模型（如DALL·E）的基礎。\n\n##### A. 功能與應用\n\n• 圖文匹配（Image-Text Matching）：判斷圖片與文字描述是否相符。例如，輸\n\n入圖片與「一隻貓在草地上」描述，CLIP 可計算匹配度。\n\n• 圖文檢索（Image-Text Retrieval）：支援文字搜尋圖片（如「紅色跑車」）或\n\n圖片反向搜尋描述，提升資訊檢索效率。\n\n• 圖片標題生成（Image Captioning）：根據圖片生成語意描述，如輸入風景照\n\n生成「夕陽下的海灘」。\n\n##### B. 優勢：零樣本（Zero-shot）學習能力強，無需針對特定任務重新訓練即可應用。\n\n##### C. 限制：對複雜情境的細節理解有限，訓練資料偏見可能影響公平性。\n\n#### （2）語音模態的整合與應用\n\n多模態AI 逐漸將語音模態融入架構，形成文字、語音、圖片的整合系統。其核心流程包括：\n\n##### A. 語音辨識（Automatic Speech Recognition, ASR）：語音訊號轉換為文字，如\n\nWhisper 模型。\n\n##### B. 自然語言理解（Natural Language Understanding, NLU）：解析文字內容，提取\n\n意圖或語意，如BERT 或GPT 處理。\n\n##### C. 任務執行與回應：根據理解結果觸發動作或生成語音回饋（如TTS 技術）。例\n\n如，使用者說「今天天氣如何」，系統流程為：\n\n• 語音輸入→ASR 轉文字→NLU 解析意圖→生成回應「今天晴朗，氣溫25 度」。\n\n##### D. 應用情境\n\n• 語音助理：如智慧音箱，結合ASR 與NLU 實現語音指令控制。\n\n• 語音搜尋：支援語音輸入查詢，提升搜尋便利性。\n\n• 客服系統：自動化語音回應，提升服務效率。\n\n• 跨語言互動：整合多語言語音辨識與翻譯（TTS + Neural Machine Translation,\n\nNMT），實現多語言指令與對話。\n\n#### （3）感測資料的多模態融合\n\n多模態AI 不僅限於語言與視覺，還可整合感測器資料（如雷達、超音波、溫濕度、GPS、加速度計），提升環境感知能力。此類融合依賴感測融合（Sensor Fusion）\n\n技術，透過資料同步與特徵對齊，將異質資料整合至統一模型中。常見方法包括早期融合（Early Fusion，資料層級整合）與晚期融合（Late Fusion，特徵層級整合）。\n\n##### A. 應用情境：\n\n• 智慧城市：結合監視影像與感測資料（如空氣品質、交通流量），進行環境監測\n\n與異常預警。例如，分析影像中的車流與感測器數據，預測交通堵塞。\n\n• 智慧醫療：融合醫學影像（如X 光）與生命徵象（如心率、血壓），輔助診斷與\n\n即時監控。例如，結合MRI 影像與感測器數據，檢測心臟異常。\n\n• 自動駕駛與機器人：整合攝影機、雷達與超音波資料，提升定位準確度與障礙\n\n物偵測。例如，汽車使用影像與雷達數據判斷前方路況。\n\n##### B. 挑戰\n\n• 資料同步：不同感測器的採樣頻率與時間戳需精準對齊。\n\n• 模型複雜度：多模態融合增加運算負擔，需優化架構。\n\n#### （4）常見模型\n\n##### A. BLIP / BLIP-2：BLIP（Bootstrapping Language-Image Pre-training）由Salesforce\n\n發表，強化圖文問答（Visual Question Answering, VQA）與生成任務，支援圖片與文字的雙向理解。\n\n##### B. Flamingo（DeepMind）：具少樣本學習（Few-shot Learning）能力，可快速適應\n\n新圖文任務。\n\n##### C. M3AE：基於遮罩預訓練（Masked Pre-training）的多模態自編碼器，支持多模\n\n態特徵提取與生成。\n\n### 4. 多模態\n\nAI應用情境\n\n多模態AI 憑藉其整合多種資料來源的能力，能夠大幅提升模型對複雜情境的理解與判斷力，相較於單模態技術更貼近人類的多感官感知模式。這種跨模態融合技術在醫療、零售、虛實整合互動等領域展現出高度潛力，不僅優化了專業流程，也為使用者體驗帶來革新。以下介紹多模態AI 在三大領域的應用情境案例：\n\n#### （1）醫療領域：診斷與決策支持\n\n在智慧醫療中，醫師需綜合分析病患的影像資料（如CT、MRI）、電子病歷 （Electronic Medical Records, EMR）與生理訊號（如心電圖ECG、血糖值、血壓等）進行診斷。多模態AI 透過整合這些異質資料，提供全面的診斷支援與決策建議。\n\n##### A. 應用示例：\n\n• 對影像進行病灶判別，並結合病歷文字自動生成診斷摘要。例如，辨識肺部CT\n\n中的結節並生成「疑似肺癌早期病灶」報告。\n\n• 跨資料來源分析病患狀況，如將連續心率數據與醫師筆記結合，預測心血管疾\n\n病風險或提出治療建議。\n\n• 提升診斷準確度與效率，特別適用於慢性病管理（如糖尿病）與重症監護（如\n\nICU 即時監控）。\n\n##### B. 挑戰與指標\n\n• 挑戰：資料隱私（需符合HIPAA 等規範）、異質資料的同步性、模型解釋性不\n\n足。\n\n• 相關評估指標：診斷準確率（Accuracy）、假陽性率（False Positive Rate）、生成\n\n報告的ROUGE 分數。\n\n#### （2）零售與顧客行為分析\n\n在實體與線上零售領域，企業可整合攝影機影像、POS 交易紀錄、顧客評論與社群媒體回饋等多模態資料，進行消費行為洞察與行銷策略優化。\n\n##### A. 應用示例：\n\n• 分析顧客動線與停留時間，搭配商品銷售資料，優化店面配置。例如，辨識熱\n\n門商品區並調整貨架布局。\n\n• 利用自然語言處理解析評論情感，結合銷售趨勢進行情境式推薦。例如，根據\n\n「口感不佳」評論調整產品配方並推廣改良版。\n\n• 建立多模態資料可視化平台（BI Dashboard），即時監控營運狀況與顧客回應，\n\n提升決策敏捷性。\n\n##### B. 挑戰與指標\n\n• 挑戰：顧客隱私保護、多源資料噪聲、即時處理需求。\n\n• 相關評估指標：推薦準確率（Precision）、動線分析的IOU（Intersection over\n\nUnion）、情感分析的F1 分數。\n\n#### （3）虛實整合互動與沉浸式應用\n\n在元宇宙與人機互動領域，多模態AI 支援語音、文字、表情、姿勢與3D 模型的同步處理，使虛擬互動更自然與真實。\n\n##### A. 應用示例：\n\n• 虛擬人偶（Avatar）根據使用者語音與手勢回應，提升沉浸體驗。例如，虛擬導\n\n覽員依據語音指令調整展示內容。\n\n• 整合視覺與語音控制的數位助理，如透過語音與手勢操作智慧螢幕。\n\n• 應用於虛擬展覽、智慧教室、遠距協作情境，如線上會議中的即時手勢辨識與\n\n語音轉文字。\n\n##### B. 挑戰與指標\n\n• 挑戰：系統延遲、跨模態一致性、運算資源需求。\n\n• 相關評估指標：回應延遲（Latency）、語音辨識的WER（Word Error Rate）、姿\n\n勢辨識的準確率。\n\n### 5. 多模態多模態\n\nAI風險與未來趨勢\n\n多模態AI 憑藉其跨模態整合能力展現出高度應用潛力，然而在資料處理、模型開發、法規遵循與系統部署等面向，仍面臨諸多挑戰。這些風險不僅影響技術的可靠度與效能，也涉及隱私、安全與倫理層面的考量。以下將列出多模態AI 的主要風險，並探討其解決策略與未來發展趨勢。\n\n#### （1）資料對齊與標註\n\n多模態資料來源多元（如影像、語音、感測器數據），其時間點、更新頻率與語意邏輯往往難以一致，導致資料對齊與標註成為技術瓶頸。\n\n##### A. 目前遇到的挑戰包括：\n\n• 不同模態資料需在時間軸或語意上同步\n\n例如，監控影像與語音指令的時間戳需精準對齊，感測器數據與影像的語意需一致。\n\n• 多模態標註成本高昂\n\n例如，為圖片標記物件同時撰寫文字描述，需耗費大量人力與專業知識。\n\n• 高品質標註資料稀缺\n\n且資料管理與儲存需求高，易因資料量龐大而增加維護成本。\n\n##### B. 影響與解決策略\n\n這些問題直接影響模型訓練品質與應用效能，可能導致語意誤判或預測偏差。\n\n解決策略包括：\n\n• 資料前處理：採用時序對齊演算法（如Dynamic Time Warping, DTW）與語意\n\n對齊技術（如CLIP 的對比學習）。\n\n• 自動標註：運用弱監督學習（Weakly Supervised Learning）或生成模型（如\n\nDALL·E 生成標註原型）降低人工成本。\n\n• 資料管理：建立分散式儲存系統與資料版本控制，提升管理效率。\n\n#### （2）運算與部署\n\n多模態模型結構複雜、參數量龐大，對運算資源與部署效能要求極高。\n\n##### A. 目前遇到的挑戰包括：\n\n• 訓練過程需大量GPU 叢集或TPU 資源，訓練一個含影像與語音的多模態模型\n\n可能需數週時間與數十萬元的硬體成本。\n\n• 部署至邊緣設備需維持效能，涉及模型壓縮（如剪枝Pruning）、量化\n\n（Quantization）或知識蒸餾（Knowledge Distillation）等技術。\n\n• 雲端部署具備彈性，但存在延遲與隱私疑慮。\n\n• 邊緣部署則需在效能與模型容量間權衡。\n\n##### B. 影響與解決策略\n\n高運算成本限制了技術的普及與即時應用。解決方案包括：\n\n• 模型優化：使用低秩適應（LoRA）或輕量化架構（如MobileNet）降低參數量。\n\n• 混合部署：結合雲端與邊緣運算，關鍵任務於邊緣執行，複雜推理交由雲端處\n\n理。\n\n• 硬體加速：採用NVIDIA TensorRT 或Intel OpenVINO 提升推論速度。\n\n#### （3）隱私與法規\n\n多模態AI 常處理敏感個人資料（如臉部影像、聲音樣本、生理訊號），隱私與資安風險不容忽視。\n\n##### A. 目前遇到的挑戰與問題包括：\n\n• 敏感資料未經加密或匿名化，易遭竊取或誤用，產生資安漏洞。\n\n• 模型可能被攻擊或誤用，生成偽造內容（如Deepfake 影像或語音），影響社會\n\n信任。\n\n• 在機器學習運維（MLOps）流程中，若缺乏安全審查與存取控管，可能違反法\n\n規或倫理規範。\n\n##### B. 影響與解決策略\n\n這些風險可能導致法律責任與公眾反彈。解決策略包括：\n\n• 資料保護：實施匿名化（如遮罩人臉）與端到端加密（End-to-End Encryption）。\n\n• 模型安全：加入對抗訓練（Adversarial Training）與生成內容檢測機制，防範偽\n\n造風險。\n\n• 法規遵循：遵循資料保護法規（如GDPR、台灣《個人資料保護法》），建立審\n\n計與監控流程。\n\n#### （4）未來趨勢\n\n多模態AI 將持續向下列幾個方向演進：\n\n##### A. 統一架構的發展\n\n未來模型將更加強調模態間的統一處理與共享表示，減少分離模組設計，朝向通用架構發展，支援任意模態輸入，提升彈性與擴展性。\n\n##### B. 即時與低資源環境部署\n\n為滿足邊緣設備與移動端的應用需求，多模態模型將持續進行壓縮與最佳化，以降低記憶體與運算負擔。未來也將結合更多自適應推論與多階段處理策略。\n\n##### C. 自主學習與自我監督機制\n\n隨著標註資料成本升高，自我監督學習（Self-supervised Learning）將成為主流，透過大規模未標註資料進行預訓練，強化模型跨模態對齊與泛化能力。\n\n##### D. 與代理式AI 的整合\n\n多模態AI 未來將與具備推理與決策能力的代理系統結合，實現主動感知、理解與回應的智慧體系，廣泛應用於機器人、智慧助理、教育與客服系統等情境。\n\n##### E. 法規與倫理框架的建置\n\n隨著多模態資料涉及個資與深度偽造風險，各國法規將持續強化對資料使用、模型訓練與應用過程的規範。技術發展需與隱私保護、倫理設計並進，確保AI 應用的安全與可信。\n\n1. 下列何者為自然語言處理（NLP）中的詞嵌入技術，能將文字轉換為向量以利機器學習處理？\n\n（A）TF-IDF （B）Word2Vec （C）Stop Words （D）Bag-of-Words 2. 在自然語言處理應用中，哪一項任務主要目的是從文字中識別出人名、地名、組織等資訊？\n\n（A）情感分析 （B）主題建模 （C）命名實體識別 （D）語音辨識 3. 語言模型BERT 的主要特性為何？\n\n（A）使用遞迴神經網路 （B）無法處理上下文資訊 （C）為單向語言模型 （D）具雙向上下文理解能力 4. 在電腦視覺中，影像分類（Image Classification）的主要任務是？\n\n（A）區分影像中不同實體的邊界 （B）產生新的影像內容 （C）為整張圖片指定一個標籤 （D）判斷影像是否含有文字 5. 若需在一張影像中辨識出多個目標並標示其位置，最適合使用何種技術？\n\n（A）影像增強 （B）影像分類\n\n（C）目標偵測 （D）圖像生成 6. 生成對抗網路（GAN）的訓練包含哪兩個核心組件？\n\n（A）分類器與分群器 （B）產生器與鑑別器 （C）強化器與回饋器 （D）解碼器與編碼器 7. 在以下哪一個任務中，生成式AI 技術最常被應用？\n\n（A）詐欺偵測 （B）語音辨識 （C）圖片風格轉換 （D）資料壓縮 8. 多模態人工智慧的核心目標為何？\n\n（A）提升硬體運算效能 （B）同時處理並整合來自不同感知類型的資料 （C）專注於純文字輸入的分析 （D）僅適用於影像分類任務 9. CLIP 模型結合了哪兩種模態進行訓練？\n\n（A）聲音與影像 （B）影像與文字 （C）文字與數值 （D）圖形與表格 10. 在多模態AI 應用中，以下哪一情境最能展現其優勢？\n\n（A）SQL 資料查詢 （B）純圖片壓縮 （C）影片自動生成字幕 （D）單一感測器故障排除\n\n1. Ans（B） Word2Vec 解析：Word2Vec 是一種詞嵌入方法，可將文字轉換為連續向量空間中具語意的表示，有利後續模型學習。\n\n2. Ans（C） 命名實體識別解析：命名實體識別（Named Entity Recognition, NER）用於辨識文本中的具名實體，如人名、地點與組織等。\n\n3. Ans（D） 具雙向上下文理解能力解析：BERT（Bidirectional Encoder Representations from Transformers）可同時考慮上下文中前後的語意，有利於更精準的語言理解。\n\n4. Ans（C） 為整張圖片指定一個標籤解析：影像分類是電腦視覺的基本任務之一，其目標是判斷整張影像的主要內容屬於哪一預定義類別，例如將圖片分類為「貓」、「狗」、「汽車」等。選項（A）\n\n描述的是語義分割（Semantic Segmentation），（B）屬於生成式任務如風格轉換，（D）則是目標偵測（Object Detection），因此僅有（C）為正確答案。\n\n5. Ans（C） 目標偵測解析：目標偵測（Object Detection）能辨識圖像中多個實體，並給出邊界框位置資訊。\n\n6. Ans（B） 產生器與鑑別器解析：GAN 由產生器（Generator）負責生成資料，鑑別器（Discriminator）判斷真偽，兩者相互對抗學習。\n\n7. Ans（C） 圖片風格轉換解析：圖片風格轉換（如將相片轉為畫風）是生成式AI 常見應用之一，通常利用GAN 完成。\n\n8. Ans（B） 同時處理並整合來自不同感知類型的資料解析：多模態AI 整合文字、影像、聲音等不同資料來源，提升模型理解與生成能力。\n\n9. Ans（B） 文字解析：CLIP 由OpenAI 所提出，透過大量圖文配對資料進行對比學習，使模型能理解跨模態語意關聯。\n\n10. Ans（C） 影片自動生成字幕解析：影片字幕生成涉及聲音（語音辨識）、文字（轉錄）、影像（上下文輔助）\n\n等多模態資料處理。",
   "contentFormat": "markdown",
   "headings": [
     {
@@ -273,7 +273,10 @@
         284.62,
         174.28
       ],
-      "id": "block-1"
+      "id": "block-1",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -287,7 +290,10 @@
         203.57,
         218.12
       ],
-      "id": "block-2"
+      "id": "block-2",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -300,7 +306,10 @@
         518.4,
         367.58
       ],
-      "id": "block-3"
+      "id": "block-3",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -313,7 +322,10 @@
         524.64,
         417.5
       ],
-      "id": "block-4"
+      "id": "block-4",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -326,7 +338,10 @@
         518.77,
         517.6
       ],
-      "id": "block-5"
+      "id": "block-5",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -339,7 +354,10 @@
         518.17,
         617.56
       ],
-      "id": "block-6"
+      "id": "block-6",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -352,7 +370,10 @@
         518.25,
         717.55
       ],
-      "id": "block-7"
+      "id": "block-7",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -366,7 +387,10 @@
         296.27,
         114.68
       ],
-      "id": "block-8"
+      "id": "block-8",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -380,7 +404,10 @@
         167.92,
         139.07
       ],
-      "id": "block-9"
+      "id": "block-9",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -393,11 +420,14 @@
         518.14,
         189.11
       ],
-      "id": "block-10"
+      "id": "block-10",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "文字（如自然語言、描述、問句）",
       "pageIndex": 80,
@@ -407,11 +437,14 @@
         282.79,
         214.07
       ],
-      "id": "block-11"
+      "id": "block-11",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "影像（靜態圖像、影像序列）",
       "pageIndex": 80,
@@ -421,11 +454,14 @@
         257.59,
         239.15
       ],
-      "id": "block-12"
+      "id": "block-12",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "語音／音訊（語音內容、語音情緒、背景聲音）",
       "pageIndex": 80,
@@ -435,34 +471,27 @@
         358.41,
         264.14
       ],
-      "id": "block-13"
+      "id": "block-13",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "感測器資料（如位置感測器、加速度計、環境溫度等）",
+      "text": "感測器資料（如位置感測器、加速度計、環境溫度等） 每一種模態（Modality）都具有獨特的結構與特徵表達方式。文字資料是離散且語意性強的；影像資料包含空間資訊與顏色紋理；語音資料蘊含時間序列與情緒線索；感測器數據則反映實體環境的連續變化。多模態AI 的目標是從這些異質資料中提取有意義的資訊，並進行融合分析，以提升決策品質與模型理解力。",
       "pageIndex": 80,
       "bbox": [
         76.6,
         275.65,
-        396.21,
-        289.1
-      ],
-      "id": "block-14"
-    },
-    {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "每一種模態（Modality）都具有獨特的結構與特徵表達方式。文字資料是離散且語意性強的；影像資料包含空間資訊與顏色紋理；語音資料蘊含時間序列與情緒線索；感測器數據則反映實體環境的連續變化。多模態AI 的目標是從這些異質資料中提取有意義的資訊，並進行融合分析，以提升決策品質與模型理解力。",
-      "pageIndex": 80,
-      "bbox": [
-        76.6,
-        300.89,
         518.15,
         389.18
       ],
-      "id": "block-15"
+      "id": "block-14",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -475,7 +504,10 @@
         521.13,
         514.12
       ],
-      "id": "block-16"
+      "id": "block-15",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -489,7 +521,10 @@
         180.52,
         564.16
       ],
-      "id": "block-17"
+      "id": "block-16",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -502,7 +537,10 @@
         351.21,
         589.12
       ],
-      "id": "block-18"
+      "id": "block-17",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -516,7 +554,10 @@
         300.31,
         639.19
       ],
-      "id": "block-19"
+      "id": "block-18",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -529,7 +570,10 @@
         300.31,
         639.19
       ],
-      "id": "block-20"
+      "id": "block-19",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -542,7 +586,10 @@
         521.48,
         689.23
       ],
-      "id": "block-21"
+      "id": "block-20",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -555,7 +602,10 @@
         520.68,
         714.19
       ],
-      "id": "block-22"
+      "id": "block-21",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -569,7 +619,10 @@
         338.13,
         114.11
       ],
-      "id": "block-23"
+      "id": "block-22",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -582,7 +635,10 @@
         338.13,
         114.11
       ],
-      "id": "block-24"
+      "id": "block-23",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -595,7 +651,10 @@
         518.4,
         212.15
       ],
-      "id": "block-25"
+      "id": "block-24",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -609,7 +668,10 @@
         385.05,
         261.11
       ],
-      "id": "block-26"
+      "id": "block-25",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -622,7 +684,10 @@
         385.05,
         261.11
       ],
-      "id": "block-27"
+      "id": "block-26",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -635,7 +700,10 @@
         518.4,
         408.14
       ],
-      "id": "block-28"
+      "id": "block-27",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -649,7 +717,10 @@
         268.07,
         457.81
       ],
-      "id": "block-29"
+      "id": "block-28",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -662,7 +733,10 @@
         521.44,
         604.24
       ],
-      "id": "block-30"
+      "id": "block-29",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -676,7 +750,10 @@
         286.15,
         653.23
       ],
-      "id": "block-31"
+      "id": "block-30",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -689,7 +766,10 @@
         286.15,
         653.23
       ],
-      "id": "block-32"
+      "id": "block-31",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -702,7 +782,10 @@
         521.07,
         775.74
       ],
-      "id": "block-33"
+      "id": "block-32",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -715,7 +798,10 @@
         521.43,
         139.07
       ],
-      "id": "block-34"
+      "id": "block-33",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -728,12 +814,16 @@
         435.45,
         164.15
       ],
-      "id": "block-35"
+      "id": "block-34",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "question",
+      "type": "heading",
       "depth": 5,
-      "text": "A. 功能與應用",
+      "title": "A. 功能與應用",
+      "anchor": "a功能與應用",
       "pageIndex": 82,
       "bbox": [
         76.6,
@@ -741,11 +831,14 @@
         161.44,
         189.11
       ],
-      "id": "block-36"
+      "id": "block-35",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "圖文匹配（Image-Text Matching）：判斷圖片與文字描述是否相符。例如，輸入圖片與「一隻貓在草地上」描述，CLIP 可計算匹配度。",
       "pageIndex": 82,
@@ -755,11 +848,14 @@
         518.38,
         239.15
       ],
-      "id": "block-37"
+      "id": "block-36",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "圖文檢索（Image-Text Retrieval）：支援文字搜尋圖片（如「紅色跑車」）或圖片反向搜尋描述，提升資訊檢索效率。",
       "pageIndex": 82,
@@ -769,11 +865,14 @@
         518.36,
         289.1
       ],
-      "id": "block-38"
+      "id": "block-37",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "圖片標題生成（Image Captioning）：根據圖片生成語意描述，如輸入風景照生成「夕陽下的海灘」。",
       "pageIndex": 82,
@@ -783,12 +882,16 @@
         517.9,
         339.14
       ],
-      "id": "block-39"
+      "id": "block-38",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "question",
+      "type": "heading",
       "depth": 5,
-      "text": "B. 優勢：零樣本（Zero-shot）學習能力強，無需針對特定任務重新訓練即可應用。",
+      "title": "B. 優勢",
+      "anchor": "b優勢",
       "pageIndex": 82,
       "bbox": [
         76.6,
@@ -796,13 +899,32 @@
         521.88,
         364.1
       ],
-      "id": "block-40"
+      "id": "block-39",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
-      "type": "list_item",
+      "type": "paragraph",
+      "depth": 6,
+      "text": "零樣本（Zero-shot）學習能力強，無需針對特定任務重新訓練即可應用。",
+      "pageIndex": 82,
+      "bbox": [
+        76.6,
+        350.81,
+        521.88,
+        364.1
+      ],
+      "id": "block-40",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
+    },
+    {
+      "type": "heading",
       "depth": 5,
-      "marker": "C.",
-      "text": "限制",
+      "title": "C. 限制",
+      "anchor": "c限制",
       "pageIndex": 82,
       "bbox": [
         76.6,
@@ -810,7 +932,10 @@
         476.52,
         389.18
       ],
-      "id": "block-41"
+      "id": "block-41",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -823,7 +948,10 @@
         476.52,
         389.18
       ],
-      "id": "block-42"
+      "id": "block-42",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -837,7 +965,10 @@
         230.95,
         439.1
       ],
-      "id": "block-43"
+      "id": "block-43",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -850,7 +981,10 @@
         517.96,
         489.16
       ],
-      "id": "block-44"
+      "id": "block-44",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -864,7 +998,10 @@
         517.99,
         539.2
       ],
-      "id": "block-45"
+      "id": "block-45",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -877,7 +1014,10 @@
         517.99,
         539.2
       ],
-      "id": "block-46"
+      "id": "block-46",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -891,7 +1031,10 @@
         518.14,
         589.12
       ],
-      "id": "block-47"
+      "id": "block-47",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -904,37 +1047,47 @@
         518.14,
         589.12
       ],
-      "id": "block-48"
+      "id": "block-48",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "question",
-      "depth": 6,
-      "text": "C. 任務執行與回應：根據理解結果觸發動作或生成語音回饋（如TTS 技術）。例",
+      "type": "heading",
+      "depth": 5,
+      "title": "C. 任務執行與回應",
+      "anchor": "c任務執行與回應",
       "pageIndex": 82,
       "bbox": [
         76.6,
         600.91,
         518.24,
-        614.2
+        639.19
       ],
-      "id": "block-49"
+      "id": "block-49",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 6,
-      "text": "如，使用者說「今天天氣如何」，系統流程為：",
+      "text": "根據理解結果觸發動作或生成語音回饋（如TTS 技術）。例如，使用者說「今天天氣如何」，系統流程為：",
       "pageIndex": 82,
       "bbox": [
-        95.44,
-        625.9,
-        356.85,
+        76.6,
+        600.91,
+        518.24,
         639.19
       ],
-      "id": "block-50"
+      "id": "block-50",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "語音輸入→ASR 轉文字→NLU 解析意圖→生成回應「今天晴朗，氣溫25 度」。",
       "pageIndex": 82,
@@ -944,12 +1097,16 @@
         521.88,
         664.15
       ],
-      "id": "block-51"
+      "id": "block-51",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "question",
-      "depth": 6,
-      "text": "D. 應用情境",
+      "type": "heading",
+      "depth": 5,
+      "title": "D. 應用情境",
+      "anchor": "d應用情境",
       "pageIndex": 82,
       "bbox": [
         76.6,
@@ -957,11 +1114,14 @@
         148.84,
         689.23
       ],
-      "id": "block-52"
+      "id": "block-52",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "語音助理：如智慧音箱，結合ASR 與NLU 實現語音指令控制。",
       "pageIndex": 82,
@@ -971,11 +1131,14 @@
         462.72,
         714.19
       ],
-      "id": "block-53"
+      "id": "block-53",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "語音搜尋：支援語音輸入查詢，提升搜尋便利性。",
       "pageIndex": 82,
@@ -985,11 +1148,14 @@
         387.69,
         739.15
       ],
-      "id": "block-54"
+      "id": "block-54",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "客服系統：自動化語音回應，提升服務效率。",
       "pageIndex": 82,
@@ -999,11 +1165,14 @@
         362.49,
         764.22
       ],
-      "id": "block-55"
+      "id": "block-55",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "跨語言互動：整合多語言語音辨識與翻譯（TTS + Neural Machine Translation, NMT），實現多語言指令與對話。",
       "pageIndex": 83,
@@ -1013,7 +1182,10 @@
         521.51,
         139.07
       ],
-      "id": "block-56"
+      "id": "block-56",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1027,7 +1199,10 @@
         230.95,
         189.11
       ],
-      "id": "block-57"
+      "id": "block-57",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1040,7 +1215,10 @@
         524.76,
         239.15
       ],
-      "id": "block-58"
+      "id": "block-58",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1053,12 +1231,16 @@
         521.88,
         289.1
       ],
-      "id": "block-59"
+      "id": "block-59",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "question",
+      "type": "heading",
       "depth": 5,
-      "text": "A. 應用情境：",
+      "title": "A. 應用情境：",
+      "anchor": "a應用情境",
       "pageIndex": 83,
       "bbox": [
         76.6,
@@ -1066,11 +1248,14 @@
         161.56,
         339.14
       ],
-      "id": "block-60"
+      "id": "block-60",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "智慧城市：結合監視影像與感測資料（如空氣品質、交通流量），進行環境監測與異常預警。例如，分析影像中的車流與感測器數據，預測交通堵塞。",
       "pageIndex": 83,
@@ -1080,11 +1265,14 @@
         517.88,
         389.18
       ],
-      "id": "block-61"
+      "id": "block-61",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "智慧醫療：融合醫學影像（如X 光）與生命徵象（如心率、血壓），輔助診斷與即時監控。例如，結合MRI 影像與感測器數據，檢測心臟異常。",
       "pageIndex": 83,
@@ -1094,11 +1282,14 @@
         518.18,
         439.1
       ],
-      "id": "block-62"
+      "id": "block-62",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "自動駕駛與機器人：整合攝影機、雷達與超音波資料，提升定位準確度與障礙物偵測。例如，汽車使用影像與雷達數據判斷前方路況。",
       "pageIndex": 83,
@@ -1108,13 +1299,16 @@
         518.2,
         489.16
       ],
-      "id": "block-63"
+      "id": "block-63",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "list_item",
+      "type": "heading",
       "depth": 5,
-      "marker": "B.",
-      "text": "挑戰",
+      "title": "B. 挑戰",
+      "anchor": "b挑戰",
       "pageIndex": 83,
       "bbox": [
         76.6,
@@ -1122,11 +1316,14 @@
         123.64,
         539.2
       ],
-      "id": "block-64"
+      "id": "block-64",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資料同步：不同感測器的採樣頻率與時間戳需精準對齊。",
       "pageIndex": 83,
@@ -1136,11 +1333,14 @@
         408.81,
         564.16
       ],
-      "id": "block-65"
+      "id": "block-65",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "模型複雜度：多模態融合增加運算負擔，需優化架構。",
       "pageIndex": 83,
@@ -1150,7 +1350,10 @@
         396.21,
         589.12
       ],
-      "id": "block-66"
+      "id": "block-66",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1164,13 +1367,16 @@
         155.2,
         639.19
       ],
-      "id": "block-67"
+      "id": "block-67",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
-      "type": "list_item",
+      "type": "heading",
       "depth": 5,
-      "marker": "A.",
-      "text": "BLIP / BLIP-2",
+      "title": "A. BLIP / BLIP-2",
+      "anchor": "ablipblip-2",
       "pageIndex": 83,
       "bbox": [
         76.6,
@@ -1178,7 +1384,10 @@
         518.7,
         664.15
       ],
-      "id": "block-68"
+      "id": "block-68",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1191,7 +1400,10 @@
         518.7,
         664.15
       ],
-      "id": "block-69"
+      "id": "block-69",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1204,39 +1416,49 @@
         518.25,
         714.19
       ],
-      "id": "block-70"
+      "id": "block-70",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "question",
-      "depth": 6,
-      "text": "B. Flamingo（DeepMind）：具少樣本學習（Few-shot Learning）能力，可快速適應",
+      "type": "heading",
+      "depth": 5,
+      "title": "B. Flamingo（DeepMind）",
+      "anchor": "bflamingodeepmind",
       "pageIndex": 83,
       "bbox": [
         76.6,
         725.86,
         518.19,
-        739.15
+        764.22
       ],
-      "id": "block-71"
+      "id": "block-71",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 6,
-      "text": "新圖文任務。",
+      "text": "具少樣本學習（Few-shot Learning）能力，可快速適應新圖文任務。",
       "pageIndex": 83,
       "bbox": [
-        95.44,
-        750.94,
-        174.04,
+        76.6,
+        725.86,
+        518.19,
         764.22
       ],
-      "id": "block-72"
+      "id": "block-72",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "list_item",
+      "type": "heading",
       "depth": 5,
-      "marker": "C.",
-      "text": "M3AE",
+      "title": "C. M3AE",
+      "anchor": "cm3ae",
       "pageIndex": 84,
       "bbox": [
         76.6,
@@ -1244,7 +1466,10 @@
         518.1,
         139.07
       ],
-      "id": "block-73"
+      "id": "block-73",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1257,7 +1482,10 @@
         518.1,
         139.07
       ],
-      "id": "block-74"
+      "id": "block-74",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1271,7 +1499,10 @@
         225.66,
         189.68
       ],
-      "id": "block-75"
+      "id": "block-75",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1284,7 +1515,10 @@
         518.13,
         314.18
       ],
-      "id": "block-76"
+      "id": "block-76",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1298,7 +1532,10 @@
         256.15,
         364.1
       ],
-      "id": "block-77"
+      "id": "block-77",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1311,7 +1548,10 @@
         256.15,
         364.1
       ],
-      "id": "block-78"
+      "id": "block-78",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1324,12 +1564,16 @@
         518.4,
         464.2
       ],
-      "id": "block-79"
+      "id": "block-79",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "question",
+      "type": "heading",
       "depth": 5,
-      "text": "A. 應用示例：",
+      "title": "A. 應用示例：",
+      "anchor": "a應用示例",
       "pageIndex": 84,
       "bbox": [
         76.6,
@@ -1337,11 +1581,14 @@
         161.56,
         514.12
       ],
-      "id": "block-80"
+      "id": "block-80",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "對影像進行病灶判別，並結合病歷文字自動生成診斷摘要。例如，辨識肺部CT 中的結節並生成「疑似肺癌早期病灶」報告。",
       "pageIndex": 84,
@@ -1351,11 +1598,14 @@
         518.65,
         564.16
       ],
-      "id": "block-81"
+      "id": "block-81",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "跨資料來源分析病患狀況，如將連續心率數據與醫師筆記結合，預測心血管疾病風險或提出治療建議。",
       "pageIndex": 84,
@@ -1365,11 +1615,14 @@
         518.32,
         614.2
       ],
-      "id": "block-82"
+      "id": "block-82",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "提升診斷準確度與效率，特別適用於慢性病管理（如糖尿病）與重症監護（如 ICU 即時監控）。",
       "pageIndex": 84,
@@ -1379,13 +1632,16 @@
         518.19,
         681.07
       ],
-      "id": "block-83"
+      "id": "block-83",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "list_item",
+      "type": "heading",
       "depth": 5,
-      "marker": "B.",
-      "text": "挑戰與指標",
+      "title": "B. 挑戰與指標",
+      "anchor": "b挑戰與指標",
       "pageIndex": 84,
       "bbox": [
         76.6,
@@ -1393,11 +1649,14 @@
         161.56,
         705.55
       ],
-      "id": "block-84"
+      "id": "block-84",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "挑戰：資料隱私（需符合HIPAA 等規範）、異質資料的同步性、模型解釋性不足。",
       "pageIndex": 84,
@@ -1407,11 +1666,14 @@
         518.01,
         755.46
       ],
-      "id": "block-85"
+      "id": "block-85",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "相關評估指標：診斷準確率（Accuracy）、假陽性率（False Positive Rate）、生成報告的ROUGE 分數。",
       "pageIndex": 85,
@@ -1421,7 +1683,10 @@
         518.38,
         139.07
       ],
-      "id": "block-86"
+      "id": "block-86",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1435,7 +1700,10 @@
         218.35,
         189.11
       ],
-      "id": "block-87"
+      "id": "block-87",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1448,12 +1716,16 @@
         518.25,
         239.15
       ],
-      "id": "block-88"
+      "id": "block-88",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "question",
+      "type": "heading",
       "depth": 5,
-      "text": "A. 應用示例：",
+      "title": "A. 應用示例：",
+      "anchor": "a應用示例",
       "pageIndex": 85,
       "bbox": [
         76.6,
@@ -1461,11 +1733,14 @@
         161.56,
         289.1
       ],
-      "id": "block-89"
+      "id": "block-89",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "分析顧客動線與停留時間，搭配商品銷售資料，優化店面配置。例如，辨識熱門商品區並調整貨架布局。",
       "pageIndex": 85,
@@ -1475,11 +1750,14 @@
         518.32,
         339.14
       ],
-      "id": "block-90"
+      "id": "block-90",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "利用自然語言處理解析評論情感，結合銷售趨勢進行情境式推薦。例如，根據 「口感不佳」評論調整產品配方並推廣改良版。",
       "pageIndex": 85,
@@ -1489,11 +1767,14 @@
         518.32,
         389.18
       ],
-      "id": "block-91"
+      "id": "block-91",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "建立多模態資料可視化平台（BI Dashboard），即時監控營運狀況與顧客回應，提升決策敏捷性。",
       "pageIndex": 85,
@@ -1503,13 +1784,16 @@
         519.76,
         439.1
       ],
-      "id": "block-92"
+      "id": "block-92",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "list_item",
+      "type": "heading",
       "depth": 5,
-      "marker": "B.",
-      "text": "挑戰與指標",
+      "title": "B. 挑戰與指標",
+      "anchor": "b挑戰與指標",
       "pageIndex": 85,
       "bbox": [
         76.6,
@@ -1517,11 +1801,14 @@
         161.56,
         489.16
       ],
-      "id": "block-93"
+      "id": "block-93",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "挑戰：顧客隱私保護、多源資料噪聲、即時處理需求。",
       "pageIndex": 85,
@@ -1531,11 +1818,14 @@
         396.21,
         514.12
       ],
-      "id": "block-94"
+      "id": "block-94",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "相關評估指標：推薦準確率（Precision）、動線分析的IOU（Intersection over Union）、情感分析的F1 分數。",
       "pageIndex": 85,
@@ -1545,7 +1835,10 @@
         521.64,
         564.16
       ],
-      "id": "block-95"
+      "id": "block-95",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1559,7 +1852,10 @@
         256.15,
         614.2
       ],
-      "id": "block-96"
+      "id": "block-96",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1572,12 +1868,16 @@
         518.4,
         664.15
       ],
-      "id": "block-97"
+      "id": "block-97",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "question",
+      "type": "heading",
       "depth": 5,
-      "text": "A. 應用示例：",
+      "title": "A. 應用示例：",
+      "anchor": "a應用示例",
       "pageIndex": 85,
       "bbox": [
         76.6,
@@ -1585,11 +1885,14 @@
         161.56,
         714.19
       ],
-      "id": "block-98"
+      "id": "block-98",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "虛擬人偶（Avatar）根據使用者語音與手勢回應，提升沉浸體驗。例如，虛擬導覽員依據語音指令調整展示內容。",
       "pageIndex": 85,
@@ -1599,11 +1902,14 @@
         518.12,
         764.22
       ],
-      "id": "block-99"
+      "id": "block-99",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "整合視覺與語音控制的數位助理，如透過語音與手勢操作智慧螢幕。",
       "pageIndex": 86,
@@ -1613,11 +1919,14 @@
         471.84,
         114.11
       ],
-      "id": "block-100"
+      "id": "block-100",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "應用於虛擬展覽、智慧教室、遠距協作情境，如線上會議中的即時手勢辨識與語音轉文字。",
       "pageIndex": 86,
@@ -1627,13 +1936,16 @@
         518.2,
         164.15
       ],
-      "id": "block-101"
+      "id": "block-101",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "list_item",
+      "type": "heading",
       "depth": 5,
-      "marker": "B.",
-      "text": "挑戰與指標",
+      "title": "B. 挑戰與指標",
+      "anchor": "b挑戰與指標",
       "pageIndex": 86,
       "bbox": [
         76.6,
@@ -1641,11 +1953,14 @@
         161.56,
         214.07
       ],
-      "id": "block-102"
+      "id": "block-102",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "挑戰：系統延遲、跨模態一致性、運算資源需求。",
       "pageIndex": 86,
@@ -1655,11 +1970,14 @@
         371.01,
         239.15
       ],
-      "id": "block-103"
+      "id": "block-103",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "相關評估指標：回應延遲（Latency）、語音辨識的WER（Word Error Rate）、姿勢辨識的準確率。",
       "pageIndex": 86,
@@ -1669,7 +1987,10 @@
         518.26,
         289.1
       ],
-      "id": "block-104"
+      "id": "block-104",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1683,7 +2004,10 @@
         310.31,
         339.71
       ],
-      "id": "block-105"
+      "id": "block-105",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1696,7 +2020,10 @@
         518.16,
         439.1
       ],
-      "id": "block-106"
+      "id": "block-106",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1710,7 +2037,10 @@
         193.15,
         489.16
       ],
-      "id": "block-107"
+      "id": "block-107",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1723,7 +2053,10 @@
         518.3,
         539.2
       ],
-      "id": "block-108"
+      "id": "block-108",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1737,11 +2070,14 @@
         224.59,
         589.12
       ],
-      "id": "block-109"
+      "id": "block-109",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "不同模態資料需在時間軸或語意上同步例如，監控影像與語音指令的時間戳需精準對齊，感測器數據與影像的語意需一致。",
       "pageIndex": 86,
@@ -1751,11 +2087,14 @@
         518.32,
         664.15
       ],
-      "id": "block-110"
+      "id": "block-110",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "多模態標註成本高昂例如，為圖片標記物件同時撰寫文字描述，需耗費大量人力與專業知識。",
       "pageIndex": 86,
@@ -1765,11 +2104,14 @@
         497.04,
         714.19
       ],
-      "id": "block-111"
+      "id": "block-111",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "高品質標註資料稀缺且資料管理與儲存需求高，易因資料量龐大而增加維護成本。",
       "pageIndex": 86,
@@ -1779,7 +2121,10 @@
         434.01,
         764.22
       ],
-      "id": "block-112"
+      "id": "block-112",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1793,7 +2138,10 @@
         186.76,
         114.11
       ],
-      "id": "block-113"
+      "id": "block-113",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1806,7 +2154,10 @@
         521.42,
         138.86
       ],
-      "id": "block-114"
+      "id": "block-114",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1819,11 +2170,14 @@
         167.8,
         164.15
       ],
-      "id": "block-115"
+      "id": "block-115",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資料前處理：採用時序對齊演算法（如Dynamic Time Warping, DTW）與語意對齊技術（如CLIP 的對比學習）。",
       "pageIndex": 87,
@@ -1833,11 +2187,14 @@
         518.28,
         214.07
       ],
-      "id": "block-116"
+      "id": "block-116",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "自動標註：運用弱監督學習（Weakly Supervised Learning）或生成模型（如 DALL·E 生成標註原型）降低人工成本。",
       "pageIndex": 87,
@@ -1847,11 +2204,14 @@
         518.37,
         264.14
       ],
-      "id": "block-117"
+      "id": "block-117",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資料管理：建立分散式儲存系統與資料版本控制，提升管理效率。",
       "pageIndex": 87,
@@ -1861,7 +2221,10 @@
         459.24,
         289.1
       ],
-      "id": "block-118"
+      "id": "block-118",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1875,7 +2238,10 @@
         167.92,
         339.14
       ],
-      "id": "block-119"
+      "id": "block-119",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1888,7 +2254,10 @@
         495.48,
         364.1
       ],
-      "id": "block-120"
+      "id": "block-120",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1902,11 +2271,14 @@
         224.59,
         414.14
       ],
-      "id": "block-121"
+      "id": "block-121",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "訓練過程需大量GPU 叢集或TPU 資源，訓練一個含影像與語音的多模態模型可能需數週時間與數十萬元的硬體成本。",
       "pageIndex": 87,
@@ -1916,11 +2288,14 @@
         518.35,
         464.2
       ],
-      "id": "block-122"
+      "id": "block-122",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "部署至邊緣設備需維持效能，涉及模型壓縮（如剪枝Pruning）、量化 （Quantization）或知識蒸餾（Knowledge Distillation）等技術。",
       "pageIndex": 87,
@@ -1930,11 +2305,14 @@
         518.13,
         514.12
       ],
-      "id": "block-123"
+      "id": "block-123",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "雲端部署具備彈性，但存在延遲與隱私疑慮。",
       "pageIndex": 87,
@@ -1944,11 +2322,14 @@
         345.81,
         539.2
       ],
-      "id": "block-124"
+      "id": "block-124",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "邊緣部署則需在效能與模型容量間權衡。",
       "pageIndex": 87,
@@ -1958,7 +2339,10 @@
         320.61,
         564.16
       ],
-      "id": "block-125"
+      "id": "block-125",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1972,7 +2356,10 @@
         186.76,
         614.2
       ],
-      "id": "block-126"
+      "id": "block-126",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1985,11 +2372,14 @@
         432.45,
         639.19
       ],
-      "id": "block-127"
+      "id": "block-127",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "模型優化：使用低秩適應（LoRA）或輕量化架構（如MobileNet）降低參數量。",
       "pageIndex": 87,
@@ -1999,11 +2389,14 @@
         521.88,
         664.15
       ],
-      "id": "block-128"
+      "id": "block-128",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "混合部署：結合雲端與邊緣運算，關鍵任務於邊緣執行，複雜推理交由雲端處理。",
       "pageIndex": 87,
@@ -2013,11 +2406,14 @@
         518.2,
         714.19
       ],
-      "id": "block-129"
+      "id": "block-129",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "硬體加速：採用NVIDIA TensorRT 或Intel OpenVINO 提升推論速度。",
       "pageIndex": 87,
@@ -2027,7 +2423,10 @@
         477.0,
         739.15
       ],
-      "id": "block-130"
+      "id": "block-130",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2041,7 +2440,10 @@
         167.92,
         114.11
       ],
-      "id": "block-131"
+      "id": "block-131",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2054,7 +2456,10 @@
         517.99,
         164.15
       ],
-      "id": "block-132"
+      "id": "block-132",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2068,11 +2473,14 @@
         262.39,
         214.07
       ],
-      "id": "block-133"
+      "id": "block-133",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "敏感資料未經加密或匿名化，易遭竊取或誤用，產生資安漏洞。",
       "pageIndex": 88,
@@ -2082,11 +2490,14 @@
         446.61,
         239.15
       ],
-      "id": "block-134"
+      "id": "block-134",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "模型可能被攻擊或誤用，生成偽造內容（如Deepfake 影像或語音），影響社會信任。",
       "pageIndex": 88,
@@ -2096,11 +2507,14 @@
         518.26,
         289.1
       ],
-      "id": "block-135"
+      "id": "block-135",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "在機器學習運維（MLOps）流程中，若缺乏安全審查與存取控管，可能違反法規或倫理規範。",
       "pageIndex": 88,
@@ -2110,7 +2524,10 @@
         518.08,
         339.14
       ],
-      "id": "block-136"
+      "id": "block-136",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2124,7 +2541,10 @@
         186.76,
         389.18
       ],
-      "id": "block-137"
+      "id": "block-137",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2137,11 +2557,14 @@
         419.85,
         414.14
       ],
-      "id": "block-138"
+      "id": "block-138",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資料保護：實施匿名化（如遮罩人臉）與端到端加密（End-to-End Encryption）。",
       "pageIndex": 88,
@@ -2151,11 +2574,14 @@
         521.88,
         439.1
       ],
-      "id": "block-139"
+      "id": "block-139",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "模型安全：加入對抗訓練（Adversarial Training）與生成內容檢測機制，防範偽造風險。",
       "pageIndex": 88,
@@ -2165,11 +2591,14 @@
         518.23,
         489.16
       ],
-      "id": "block-140"
+      "id": "block-140",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "法規遵循：遵循資料保護法規（如GDPR、台灣《個人資料保護法》），建立審計與監控流程。",
       "pageIndex": 88,
@@ -2179,7 +2608,10 @@
         518.21,
         539.2
       ],
-      "id": "block-141"
+      "id": "block-141",
+      "nodeId": "mid-s1c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2193,7 +2625,10 @@
         155.2,
         589.12
       ],
-      "id": "block-142"
+      "id": "block-142",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2206,7 +2641,10 @@
         326.01,
         614.2
       ],
-      "id": "block-143"
+      "id": "block-143",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2220,7 +2658,10 @@
         186.76,
         664.15
       ],
-      "id": "block-144"
+      "id": "block-144",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2233,7 +2674,10 @@
         517.93,
         714.19
       ],
-      "id": "block-145"
+      "id": "block-145",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2247,7 +2691,10 @@
         224.59,
         114.11
       ],
-      "id": "block-146"
+      "id": "block-146",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2260,7 +2707,10 @@
         521.44,
         164.15
       ],
-      "id": "block-147"
+      "id": "block-147",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2274,7 +2724,10 @@
         237.19,
         214.07
       ],
-      "id": "block-148"
+      "id": "block-148",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2287,7 +2740,10 @@
         518.4,
         264.14
       ],
-      "id": "block-149"
+      "id": "block-149",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2301,7 +2757,10 @@
         206.95,
         314.18
       ],
-      "id": "block-150"
+      "id": "block-150",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2314,7 +2773,10 @@
         520.68,
         364.1
       ],
-      "id": "block-151"
+      "id": "block-151",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2328,7 +2790,10 @@
         224.59,
         414.14
       ],
-      "id": "block-152"
+      "id": "block-152",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2341,12 +2806,16 @@
         521.44,
         489.16
       ],
-      "id": "block-153"
+      "id": "block-153",
+      "nodeId": "mid-s1c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "question",
-      "depth": 6,
-      "text": "1. 下列何者為自然語言處理（NLP）中的詞嵌入技術，能將文字轉換為向量以利機器學習處理？",
+      "type": "heading",
+      "depth": 3,
+      "title": "章節練習題",
+      "anchor": "章節練習題",
       "pageIndex": 90,
       "bbox": [
         76.6,
@@ -2354,293 +2823,330 @@
         518.02,
         188.03
       ],
-      "id": "block-154"
+      "id": "block-154",
+      "nodeId": "mid-s1c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "（A）TF-IDF （B）Word2Vec （C）Stop Words （D）Bag-of-Words 2. 在自然語言處理應用中，哪一項任務主要目的是從文字中識別出人名、地名、組織等資訊？",
+      "type": "question",
+      "depth": 4,
+      "text": "1. 下列何者為自然語言處理（NLP）中的詞嵌入技術，能將文字轉換為向量以利機器學習處理？ （A）TF-IDF （B）Word2Vec （C）Stop Words （D）Bag-of-Words",
       "pageIndex": 90,
       "bbox": [
         76.6,
-        199.7,
-        521.44,
-        338.06
-      ],
-      "id": "block-155"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "（A）情感分析 （B）主題建模 （C）命名實體識別 （D）語音辨識 3. 語言模型BERT 的主要特性為何？",
-      "pageIndex": 90,
-      "bbox": [
-        76.6,
-        349.73,
-        287.11,
-        463.12
-      ],
-      "id": "block-156"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "（A）使用遞迴神經網路 （B）無法處理上下文資訊 （C）為單向語言模型 （D）具雙向上下文理解能力 4. 在電腦視覺中，影像分類（Image Classification）的主要任務是？",
-      "pageIndex": 90,
-      "bbox": [
-        76.6,
-        474.79,
-        455.52,
-        588.04
-      ],
-      "id": "block-157"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "（A）區分影像中不同實體的邊界 （B）產生新的影像內容 （C）為整張圖片指定一個標籤 （D）判斷影像是否含有文字 5. 若需在一張影像中辨識出多個目標並標示其位置，最適合使用何種技術？",
-      "pageIndex": 90,
-      "bbox": [
-        76.6,
-        599.83,
-        501.72,
-        713.11
-      ],
-      "id": "block-158"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "（A）影像增強 （B）影像分類 （C）目標偵測 （D）圖像生成 6. 生成對抗網路（GAN）的訓練包含哪兩個核心組件？",
-      "pageIndex": 90,
-      "bbox": [
-        76.6,
-        100.82,
-        389.97,
-        763.14
-      ],
-      "id": "block-159"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "（A）分類器與分群器 （B）產生器與鑑別器 （C）強化器與回饋器 （D）解碼器與編碼器 7. 在以下哪一個任務中，生成式AI 技術最常被應用？",
-      "pageIndex": 91,
-      "bbox": [
-        76.6,
-        175.82,
-        382.65,
-        289.1
-      ],
-      "id": "block-160"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "（A）詐欺偵測 （B）語音辨識 （C）圖片風格轉換 （D）資料壓縮 8. 多模態人工智慧的核心目標為何？",
-      "pageIndex": 91,
-      "bbox": [
-        76.6,
-        300.89,
-        287.47,
-        414.14
-      ],
-      "id": "block-161"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "（A）提升硬體運算效能 （B）同時處理並整合來自不同感知類型的資料 （C）專注於純文字輸入的分析 （D）僅適用於影像分類任務 9. CLIP 模型結合了哪兩種模態進行訓練？",
-      "pageIndex": 91,
-      "bbox": [
-        76.6,
-        425.81,
-        352.53,
-        539.2
-      ],
-      "id": "block-162"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "（A）聲音與影像 （B）影像與文字 （C）文字與數值 （D）圖形與表格 10. 在多模態AI 應用中，以下哪一情境最能展現其優勢？",
-      "pageIndex": 91,
-      "bbox": [
-        76.6,
-        550.87,
-        395.25,
-        664.15
-      ],
-      "id": "block-163"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "（A）SQL 資料查詢 （B）純圖片壓縮 （C）影片自動生成字幕 （D）單一感測器故障排除",
-      "pageIndex": 91,
-      "bbox": [
-        89.2,
-        675.94,
-        239.83,
-        764.22
-      ],
-      "id": "block-164"
-    },
-    {
-      "type": "answer",
-      "depth": 6,
-      "text": "1. Ans（B） Word2Vec 解析：Word2Vec 是一種詞嵌入方法，可將文字轉換為連續向量空間中具語意的表示，有利後續模型學習。",
-      "pageIndex": 92,
-      "bbox": [
-        76.6,
-        149.3,
-        518.23,
-        211.55
-      ],
-      "id": "block-165"
-    },
-    {
-      "type": "answer",
-      "depth": 6,
-      "text": "2. Ans（C） 命名實體識別解析：命名實體識別（Named Entity Recognition, NER）用於辨識文本中的具名實體，如人名、地點與組織等。",
-      "pageIndex": 92,
-      "bbox": [
-        76.6,
-        222.74,
-        518.14,
-        285.02
-      ],
-      "id": "block-166"
-    },
-    {
-      "type": "answer",
-      "depth": 6,
-      "text": "3. Ans（D） 具雙向上下文理解能力解析：BERT（Bidirectional Encoder Representations from Transformers）可同時考慮上下文中前後的語意，有利於更精準的語言理解。",
-      "pageIndex": 92,
-      "bbox": [
-        76.6,
-        296.33,
-        518.24,
-        358.58
-      ],
-      "id": "block-167"
-    },
-    {
-      "type": "answer",
-      "depth": 6,
-      "text": "4. Ans（C） 為整張圖片指定一個標籤解析：影像分類是電腦視覺的基本任務之一，其目標是判斷整張影像的主要內容屬於哪一預定義類別，例如將圖片分類為「貓」、「狗」、「汽車」等。選項（A）",
-      "pageIndex": 92,
-      "bbox": [
-        76.6,
-        369.77,
-        524.76,
-        432.02
-      ],
-      "id": "block-168"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "描述的是語義分割（Semantic Segmentation），（B）屬於生成式任務如風格轉換，（D）則是目標偵測（Object Detection），因此僅有（C）為正確答案。",
-      "pageIndex": 92,
-      "bbox": [
-        95.44,
-        443.35,
-        521.23,
-        481.12
-      ],
-      "id": "block-169"
-    },
-    {
-      "type": "answer",
-      "depth": 6,
-      "text": "5. Ans（C） 目標偵測解析：目標偵測（Object Detection）能辨識圖像中多個實體，並給出邊界框位置資訊。",
-      "pageIndex": 92,
-      "bbox": [
-        76.6,
-        492.31,
+        149.78,
         518.02,
-        554.56
+        188.03
       ],
-      "id": "block-170"
+      "id": "block-155",
+      "nodeId": "mid-s1c4",
+      "kind": "exercise_question",
+      "source": "page_extract"
+    },
+    {
+      "type": "question",
+      "depth": 4,
+      "text": "2. 在自然語言處理應用中，哪一項任務主要目的是從文字中識別出人名、地名、組織等資訊？ （A）情感分析 （B）主題建模 （C）命名實體識別 （D）語音辨識",
+      "pageIndex": 90,
+      "bbox": [
+        76.6,
+        149.78,
+        518.02,
+        188.03
+      ],
+      "id": "block-156",
+      "nodeId": "mid-s1c4",
+      "kind": "exercise_question",
+      "source": "page_extract"
+    },
+    {
+      "type": "question",
+      "depth": 4,
+      "text": "3. 語言模型BERT 的主要特性為何？ （A）使用遞迴神經網路 （B）無法處理上下文資訊 （C）為單向語言模型 （D）具雙向上下文理解能力",
+      "pageIndex": 90,
+      "bbox": [
+        76.6,
+        149.78,
+        518.02,
+        188.03
+      ],
+      "id": "block-157",
+      "nodeId": "mid-s1c4",
+      "kind": "exercise_question",
+      "source": "page_extract"
+    },
+    {
+      "type": "question",
+      "depth": 4,
+      "text": "4. 在電腦視覺中，影像分類（Image Classification）的主要任務是？ （A）區分影像中不同實體的邊界 （B）產生新的影像內容 （C）為整張圖片指定一個標籤 （D）判斷影像是否含有文字",
+      "pageIndex": 90,
+      "bbox": [
+        76.6,
+        149.78,
+        518.02,
+        188.03
+      ],
+      "id": "block-158",
+      "nodeId": "mid-s1c4",
+      "kind": "exercise_question",
+      "source": "page_extract"
+    },
+    {
+      "type": "question",
+      "depth": 4,
+      "text": "5. 若需在一張影像中辨識出多個目標並標示其位置，最適合使用何種技術？ （A）影像增強 （B）影像分類 （C）目標偵測 （D）圖像生成",
+      "pageIndex": 90,
+      "bbox": [
+        76.6,
+        149.78,
+        518.02,
+        188.03
+      ],
+      "id": "block-159",
+      "nodeId": "mid-s1c4",
+      "kind": "exercise_question",
+      "source": "page_extract"
+    },
+    {
+      "type": "question",
+      "depth": 4,
+      "text": "6. 生成對抗網路（GAN）的訓練包含哪兩個核心組件？ （A）分類器與分群器 （B）產生器與鑑別器 （C）強化器與回饋器 （D）解碼器與編碼器",
+      "pageIndex": 90,
+      "bbox": [
+        76.6,
+        149.78,
+        518.02,
+        188.03
+      ],
+      "id": "block-160",
+      "nodeId": "mid-s1c4",
+      "kind": "exercise_question",
+      "source": "page_extract"
+    },
+    {
+      "type": "question",
+      "depth": 4,
+      "text": "7. 在以下哪一個任務中，生成式AI 技術最常被應用？ （A）詐欺偵測 （B）語音辨識 （C）圖片風格轉換 （D）資料壓縮",
+      "pageIndex": 90,
+      "bbox": [
+        76.6,
+        149.78,
+        518.02,
+        188.03
+      ],
+      "id": "block-161",
+      "nodeId": "mid-s1c4",
+      "kind": "exercise_question",
+      "source": "page_extract"
+    },
+    {
+      "type": "question",
+      "depth": 4,
+      "text": "8. 多模態人工智慧的核心目標為何？ （A）提升硬體運算效能 （B）同時處理並整合來自不同感知類型的資料 （C）專注於純文字輸入的分析 （D）僅適用於影像分類任務",
+      "pageIndex": 90,
+      "bbox": [
+        76.6,
+        149.78,
+        518.02,
+        188.03
+      ],
+      "id": "block-162",
+      "nodeId": "mid-s1c4",
+      "kind": "exercise_question",
+      "source": "page_extract"
+    },
+    {
+      "type": "question",
+      "depth": 4,
+      "text": "9. CLIP 模型結合了哪兩種模態進行訓練？ （A）聲音與影像 （B）影像與文字 （C）文字與數值 （D）圖形與表格",
+      "pageIndex": 90,
+      "bbox": [
+        76.6,
+        149.78,
+        518.02,
+        188.03
+      ],
+      "id": "block-163",
+      "nodeId": "mid-s1c4",
+      "kind": "exercise_question",
+      "source": "page_extract"
+    },
+    {
+      "type": "question",
+      "depth": 4,
+      "text": "10. 在多模態AI 應用中，以下哪一情境最能展現其優勢？ （A）SQL 資料查詢 （B）純圖片壓縮 （C）影片自動生成字幕 （D）單一感測器故障排除",
+      "pageIndex": 90,
+      "bbox": [
+        76.6,
+        149.78,
+        518.02,
+        188.03
+      ],
+      "id": "block-164",
+      "nodeId": "mid-s1c4",
+      "kind": "exercise_question",
+      "source": "page_extract"
     },
     {
       "type": "answer",
-      "depth": 6,
+      "depth": 4,
+      "text": "1. Ans（B） Word2Vec 解析：Word2Vec 是一種詞嵌入方法，可將文字轉換為連續向量空間中具語意的表示，有利後續模型學習。",
+      "pageIndex": 90,
+      "bbox": [
+        76.6,
+        149.78,
+        518.02,
+        188.03
+      ],
+      "id": "block-165",
+      "nodeId": "mid-s1c4",
+      "kind": "exercise_answer",
+      "source": "page_extract"
+    },
+    {
+      "type": "answer",
+      "depth": 4,
+      "text": "2. Ans（C） 命名實體識別解析：命名實體識別（Named Entity Recognition, NER）用於辨識文本中的具名實體，如人名、地點與組織等。",
+      "pageIndex": 90,
+      "bbox": [
+        76.6,
+        149.78,
+        518.02,
+        188.03
+      ],
+      "id": "block-166",
+      "nodeId": "mid-s1c4",
+      "kind": "exercise_answer",
+      "source": "page_extract"
+    },
+    {
+      "type": "answer",
+      "depth": 4,
+      "text": "3. Ans（D） 具雙向上下文理解能力解析：BERT（Bidirectional Encoder Representations from Transformers）可同時考慮上下文中前後的語意，有利於更精準的語言理解。",
+      "pageIndex": 90,
+      "bbox": [
+        76.6,
+        149.78,
+        518.02,
+        188.03
+      ],
+      "id": "block-167",
+      "nodeId": "mid-s1c4",
+      "kind": "exercise_answer",
+      "source": "page_extract"
+    },
+    {
+      "type": "answer",
+      "depth": 4,
+      "text": "4. Ans（C） 為整張圖片指定一個標籤解析：影像分類是電腦視覺的基本任務之一，其目標是判斷整張影像的主要內容屬於哪一預定義類別，例如將圖片分類為「貓」、「狗」、「汽車」等。選項（A） 描述的是語義分割（Semantic Segmentation），（B）屬於生成式任務如風格轉換，（D）則是目標偵測（Object Detection），因此僅有（C）為正確答案。",
+      "pageIndex": 90,
+      "bbox": [
+        76.6,
+        149.78,
+        518.02,
+        188.03
+      ],
+      "id": "block-168",
+      "nodeId": "mid-s1c4",
+      "kind": "exercise_answer",
+      "source": "page_extract"
+    },
+    {
+      "type": "answer",
+      "depth": 4,
+      "text": "5. Ans（C） 目標偵測解析：目標偵測（Object Detection）能辨識圖像中多個實體，並給出邊界框位置資訊。",
+      "pageIndex": 90,
+      "bbox": [
+        76.6,
+        149.78,
+        518.02,
+        188.03
+      ],
+      "id": "block-169",
+      "nodeId": "mid-s1c4",
+      "kind": "exercise_answer",
+      "source": "page_extract"
+    },
+    {
+      "type": "answer",
+      "depth": 4,
       "text": "6. Ans（B） 產生器與鑑別器解析：GAN 由產生器（Generator）負責生成資料，鑑別器（Discriminator）判斷真偽，兩者相互對抗學習。",
-      "pageIndex": 92,
+      "pageIndex": 90,
       "bbox": [
         76.6,
-        565.75,
-        518.4,
-        628.15
+        149.78,
+        518.02,
+        188.03
       ],
-      "id": "block-171"
+      "id": "block-170",
+      "nodeId": "mid-s1c4",
+      "kind": "exercise_answer",
+      "source": "page_extract"
     },
     {
       "type": "answer",
-      "depth": 6,
+      "depth": 4,
       "text": "7. Ans（C） 圖片風格轉換解析：圖片風格轉換（如將相片轉為畫風）是生成式AI 常見應用之一，通常利用GAN 完成。",
-      "pageIndex": 92,
+      "pageIndex": 90,
       "bbox": [
         76.6,
-        639.34,
-        518.15,
-        701.59
+        149.78,
+        518.02,
+        188.03
       ],
-      "id": "block-172"
+      "id": "block-171",
+      "nodeId": "mid-s1c4",
+      "kind": "exercise_answer",
+      "source": "page_extract"
     },
     {
       "type": "answer",
-      "depth": 6,
+      "depth": 4,
       "text": "8. Ans（B） 同時處理並整合來自不同感知類型的資料解析：多模態AI 整合文字、影像、聲音等不同資料來源，提升模型理解與生成能力。",
-      "pageIndex": 92,
+      "pageIndex": 90,
       "bbox": [
         76.6,
-        712.78,
-        518.23,
-        775.14
+        149.78,
+        518.02,
+        188.03
       ],
-      "id": "block-173"
+      "id": "block-172",
+      "nodeId": "mid-s1c4",
+      "kind": "exercise_answer",
+      "source": "page_extract"
     },
     {
       "type": "answer",
-      "depth": 6,
+      "depth": 4,
       "text": "9. Ans（B） 文字解析：CLIP 由OpenAI 所提出，透過大量圖文配對資料進行對比學習，使模型能理解跨模態語意關聯。",
-      "pageIndex": 93,
+      "pageIndex": 90,
       "bbox": [
         76.6,
-        100.82,
-        518.12,
-        164.15
+        149.78,
+        518.02,
+        188.03
       ],
-      "id": "block-174"
+      "id": "block-173",
+      "nodeId": "mid-s1c4",
+      "kind": "exercise_answer",
+      "source": "page_extract"
     },
     {
       "type": "answer",
-      "depth": 6,
-      "text": "10. Ans（C） 影片自動生成字幕解析：影片字幕生成涉及聲音（語音辨識）、文字（轉錄）、影像（上下文輔助）",
-      "pageIndex": 93,
+      "depth": 4,
+      "text": "10. Ans（C） 影片自動生成字幕解析：影片字幕生成涉及聲音（語音辨識）、文字（轉錄）、影像（上下文輔助） 等多模態資料處理。",
+      "pageIndex": 90,
       "bbox": [
         76.6,
-        175.82,
-        524.26,
-        213.86
+        149.78,
+        518.02,
+        188.03
       ],
-      "id": "block-175"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "等多模態資料處理。",
-      "pageIndex": 93,
-      "bbox": [
-        95.44,
-        225.86,
-        211.87,
-        239.15
-      ],
-      "id": "block-176"
+      "id": "block-174",
+      "nodeId": "mid-s1c4",
+      "kind": "exercise_answer",
+      "source": "page_extract"
     }
   ],
   "sourcePages": [

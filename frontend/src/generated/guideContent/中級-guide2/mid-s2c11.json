@@ -1,7 +1,7 @@
 {
   "id": "mid-s2c11",
   "title": "大數據在鑑別式AI 中的應用",
-  "content": "# 大數據在鑑別式AI 中的應用\n\n6.2 AI\n\n1.\n\n目前發展與實用性最高的人工智慧系統應用類型、可分為兩類：鑑別式 （Discriminative）與生成式（Generative）模型。其中，鑑別式AI 著重於「區分」、「分類」與「預測」，是目前企業與組織在實務應用中最常導入的AI 類型之一。\n\n無論是產品推薦、詐欺偵測、疾病診斷、客戶流失預測、內容分類，背後皆為典型的鑑別式任務。\n\n在這些應用中，大數據提供了更豐富的樣本、更複雜的特徵組合與更細緻的行為模式，成為提升模型泛化能力與預測準確度的關鍵條件。然而，資料品質、來源多樣性、標註成本與樣本偏差等問題，也同步對模型設計與系統實作帶來挑戰。\n\n本節將說明大數據如何支撐鑑別式AI 任務的發展，並分析資料來源整合、特徵選擇與標註策略等對模型表現的實質影響。特別強調在真實世界中，如何平衡效能、可用性與維護成本，建構可落地的鑑別式AI 解決方案。\n\n2.\n\n鑑別式AI 的核心任務是對輸入資料進行分類或預測，是機器學習中最具應用廣度的任務類型之一。在大數據環境中，來自多平台、連續更新的龐大資料為複雜預測模型提供了豐富資訊，廣泛應用於商業決策、自動化流程、風險監測與個人化服務等情境。鑑別式AI 的成功不僅依賴模型選擇，還與資料品質、型態及標註方式密切相關，需結合前述資料準備與品質管理策略（如缺失率、一致性比率）。以下為常見應用情境與任務目標：\n\n#### （1）金融與風險管理\n\n• 任務目標：\n\n信用評分（Credit Scoring）：預測客戶是否可能違約（如貸款拖欠）。\n\n詐欺偵測（Fraud Detection）：從交易資料中識別潛在詐欺行為。\n\n反洗錢（AML）異常辨識：分析交易模式與人際網路，偵測異常或可疑活動。\n\n• 輸入資料特性：\n\n結構化資料：客戶屬性（年齡、收入、信用紀錄）、交易記錄（金額、時間、地點）。\n\n半結構化資料：日誌資料（如API 交易記錄）。\n\n多模態資料：結合交易資料與社群網路圖（Graph Data）。\n\n• 常見模型：\n\n邏輯迴歸（Logistic Regression）：簡單且可解釋，適合信用評分。\n\n隨機森林（Random Forest）：處理高維特徵，適合詐欺偵測。\n\n圖神經網路（Graph Neural Network, GNN）：分析AML 中的網路關係。\n\nXGBoost/LightGBM：高效處理不平衡資料（如詐欺少數類別）。\n\n• 實務案例：\n\n某銀行使用XGBoost 模型，結合客戶交易記錄與信用資料，預測違約風險，準確率提升至85%，減少20%壞帳損失。\n\n• 操作步驟：\n\n收集結構化資料（如SQL 查詢交易紀錄）並清理缺失值與異常值。\n\n特徵工程：生成衍生特徵（如交易頻率、金額變異）。\n\n訓練模型並使用交叉驗證（Cross-validation）優化參數。\n\n部署模型並監測效能（例如ROC 曲線、F1 分數）。\n\n• 挑戰：\n\n資料不平衡（詐欺交易比例低，需過採樣或SMOTE）。\n\n隱私保護：需遵守《個人資料保護法》，匿名化敏感欄位（如身分證號）。\n\n異常值影響：未處理的異常值可能導致模型誤判（如t 檢定中的均值偏誤）。\n\n#### （2）零售與電商推薦\n\n• 任務目標：\n\n顧客流失預測（Churn Prediction）：預測哪些顧客可能停止使用服務。\n\n客戶分群與精準行銷：根據特徵將客戶分群，推送個人化廣告。\n\n商品分類/價格預測：自動分類商品並預測銷售價格趨勢。\n\n• 輸入資料特性：\n\n結構化資料：購買紀錄、用戶屬性（年齡、性別）。\n\n半結構化資料：點擊日誌（JSON）、瀏覽行為。\n\n非結構化資料：商品評論（文字）、商品圖片（影像）。\n\n多模態資料：結合購買紀錄、評論與圖片。\n\n• 常見模型：\n\n決策樹/隨機森林：簡單且穩健，適合分群與流失預測。\n\n深度學習（如LSTM）：處理時間序列資料（如價格趨勢）。\n\n多模態模型（如CLIP）：結合文字與影像進行商品分類。\n\n• 實務案例：\n\n某電商平台使用隨機森林預測顧客流失，結合購買與點擊資料，識別 90%的高風險顧客，行銷活動回應率提升12%。\n\n• 挑戰：\n\n資料一致性：多來源資料格式不一致（如日期格式不統一），影響異數分析（ANOVA）的結果。\n\n標註成本：商品分類需大量人工標註，可結合弱監督式標註。\n\n即時性：推薦系統需即時處理串流資料（如Apache Kafka）。\n\n#### （3）客服與文本分類\n\n• 任務目標：\n\n對話分類：自動分類客服對話（如帳號問題、物流問題）。\n\n情感分析：預測用戶評論的情感（正向、中立、負向）。\n\n內容過濾與審查：判別社群貼文是否違規（如仇恨言論）。\n\n• 輸入資料特性：\n\n非結構化資料：客服對話、用戶評論、社群貼文（文字）。\n\n半結構化資料：日誌格式的對話記錄（JSON）。\n\n• 常見模型：\n\n傳統機器學習：Naive Bayes、SVM（常應用於簡單文本分類）。\n\n深度學習：BERT、RoBERTa（可用於高準確度情感分析與對話分類）。\n\n規則模型：正規表示式（Regular expression） （適合處理簡單違規檢測）。\n\n• 實務案例：\n\n某電信公司使用BERT 模型分類客服對話，自動識別95%的物流問題，減少30%人工處理時間。\n\n• 挑戰：\n\n標註品質：情感分析需保持一致性標籤，否則可能影響模型準確度。\n\n語言多樣性：台灣用語（如「讚」）需在地化詞典支持。\n\n資料品質：高缺失率或邏輯錯誤，將影響卡方檢定結果。\n\n#### （4）醫療與健康科技\n\n• 任務目標：\n\n疾病預測與診斷：根據病歷、影像或生理訊號預測疾病風險。\n\n保險理賠異常分析：判斷理賠申請是否異常或可疑。\n\n臨床決策支援：協助醫生選擇最佳治療路徑。\n\n• 輸入資料特性：\n\n結構化資料：病歷（年齡、性別、檢查結果）。\n\n非結構化資料：醫療影像（X 光、MRI）、醫師筆記（文字）。\n\n多模態資料：結合病歷、影像與筆記。\n\n• 常見模型：\n\nCNN：醫療影像分類（如ResNet、VGG）。\n\n隨機森林/XGBoost：結構化病歷資料預測。\n\n多模態模型：結合CNN 與BERT 處理影像與文字。\n\n• 實務案例：\n\n某醫院使用ResNet 模型分析X 光片，診斷肺炎準確率達92%，減少 25%誤診率。\n\n• 挑戰：\n\n資料隱私：需遵守《個人資料保護法》，加密敏感資料（如病患身分）。\n\n標註成本：醫療影像需專家標註，成本高，可用主動學習優化。\n\n異常值：未處理的異常值（如錯誤生理訊號）影響t 檢定結果。\n\n#### （5）資安與異常偵測\n\n• 任務目標：\n\n登入行為異常辨識：判斷是否為異常裝置或可疑地點登入行為。\n\n惡意流量分類：根據封包特徵識別攻擊行為（如DDoS）。\n\n釣魚郵件分類：自動判斷電子郵件是否具有詐騙特徵。\n\n• 輸入資料特性：\n\n結構化資料：登入記錄（IP、時間）、封包元數據。\n\n半結構化資料：日誌（JSON、CSV）。\n\n非結構化資料：郵件內容（文字）。\n\n• 常見模型：\n\n孤立森林（Isolation Forest）：異常偵測，適合處理高維資料。\n\n深度學習：LSTM（序列資料，如流量模式）、BERT（電子郵件分類）。\n\n規則模型：正規表示式（簡單釣魚檢測）。\n\n• 實務案例：\n\n某企業使用孤立森林模型分析登入日誌，識別98%的異常登入，減少 40%安全事件。\n\n• 挑戰：\n\n資料不平衡：異常事件比例低，需特殊處理（如SMOTE）。\n\n即時性：資安任務需低延遲處理，依賴串流平台（如Kafka）。\n\n重複值：日誌重複記錄可能影響卡方檢定結果。\n\n3.\n\n在鑑別式AI 任務中，資料的「品質」、「型態」與「標註方式」直接影響模型效能與實用性。雖然大數據提供了龐大的資料規模與潛在訊息，但要將這些原始資料有效轉化為可供訓練模型的輸入，仍面臨跨平台整合、資料一致性、標註成本與資料偏差等挑戰。\n\n本小節將說明鑑別式AI 中常見的輸入資料型態與資料來源形式，並說明實務上資料標註的主要策略，以及資料融合與整合過程中需注意的技術細節。\n\n#### （1）常見輸入資料型態與特性\n\n• 結構化資料（Structured Data）\n\n來源：\n\n關聯式資料庫，如ERP、CRM 或POS 系統產生的交易記錄、用戶屬性、設備資訊。\n\n特性：\n\n欄位明確、格式規範，適合直接轉換為表格式特徵（features），如數值或類別欄位。\n\n應用案例：\n\n信用評分：使用客戶收入、貸款紀錄預測信用風險。\n\n客戶分類：根據購買歷史與人口屬性進行客群分群。\n\n設備預測維修：利用感測器數據（如溫度、振動）預測機器故障。\n\n• 半結構化資料（Semi-structured Data）\n\n來源：\n\nJSON、XML 格式的API 回傳資料、伺服器日誌（Log）、行為記錄 （如點擊流）。\n\n特性：\n\n具有層次結構（如嵌套的JSON），但欄位可能動態變動，需解析 （Parsing）或展平（Flattening）。\n\n應用案例：\n\n網站行為分析：解析用戶點擊日誌，提取瀏覽路徑與停留時間。\n\nAPI 資料預測：使用天氣API 的JSON 資料預測銷售量。\n\n• 非結構化資料（Unstructured Data）\n\n來源與類型：\n\n文字：客服對話、產品評論、社群媒體貼文、電子郵件。\n\n影像：醫療影像（如X 光片）、產品照片、監控影像。\n\n聲音：客服錄音、語音指令、環境聲音。\n\n特性：\n\n無固定結構，需特徵萃取（Feature Extraction）轉為模型可用的數值表示。\n\n應用案例：\n\n文字：情緒分析（NLP）判斷顧客評論的正面/負面情緒。\n\n影像：醫療影像分類（CNN）診斷疾病。\n\n聲音：語音辨識（ASR）轉錄客服對話。\n\n• 多模態資料（Multi-modal Data）\n\n來源：\n\n結合多種資料型態，如用戶屬性（結構化）+ 產品評論（文字）+ 商品圖片（影像）。\n\n特性：\n\n需融合多來源特徵，模型需支援多輸入架構或特徵級融合。\n\n應用案例：\n\n電商推薦系統：結合用戶購買紀錄、評論文字與商品圖片進行個人化推薦。\n\n醫療診斷：整合病患病歷（結構化）、醫師筆記（文字）與CT 影像 （影像）。\n\n#### （2）資料標註策略與實務考量\n\n資料標註為鑑別式AI 提供監督學習所需的標籤（Labels），但標註成本、品質與效率是實務中的關鍵挑戰。以下為常見標註策略及其優缺點與實務建議：\n\n• 人工標註（Manual Labeling）\n\n優點：\n\n標註準確度高，特別適合需要專業知識的任務（如醫療影像診斷、法律文件分類）。\n\n限制：\n\n成本高、耗時，需專業人力；大規模資料標註難以擴展。\n\n實務案例：\n\n醫療團隊標註X 光片是否有病灶，確保診斷準確性。\n\n• 弱監督式標註（Weak Supervision）\n\n定義：\n\n使用規則、啟發式方法或第三方資料（如情緒詞典）自動生成標籤，減少人工成本。\n\n優點：\n\n速度快、成本低，適合大規模資料。\n\n限制：\n\n誤標風險高，標籤品質可能不穩定，需後續清理。\n\n實務案例：\n\n使用情緒詞典自動標註社群貼文的情感（正面/負面），再人工校正部分樣本。\n\n• 群眾外包標註（Crowdsourcing）\n\n定義：\n\n透過平台（如Amazon Mechanical Turk、Appen）將標註任務分散給大量非專業工作者。\n\n優點：\n\n成本低、速度快，適合簡單任務（如圖片分類、文字標籤）。\n\n限制：\n\n標註品質參差不齊，需一致性檢查與多工審核。\n\n實務案例：\n\n電商平台透過Appen 標註產品圖片是否包含特定物件（如「鞋子」）。\n\n• 主動式學習（Active Learning）\n\n定義：\n\n模型預測低置信度樣本，優先交由人工標註，優化標註效率。\n\n優點：\n\n減少標註量，適合成本高、資料量大的情境。\n\n限制：\n\n需初始標註資料與迭代訓練，技術門檻較高。\n\n實務案例：\n\n詐欺檢測模型中挑選不確定的交易（置信度< 0.6）交由專家標註，降低總標註成本。\n\n#### （3）跨來源資料整合與資料一致性挑戰\n\n鑑別式AI 常需整合來自多平台的資料（如ERP、API、日誌），但跨來源整合面臨以下挑戰與解決方案：\n\n• 主鍵不一致挑戰：\n\n不同系統的用戶ID、裝置ID 或訂單編號定義不同，無法直接對應。\n\n實務案例：\n\n電商平台的CRM 與POS 系統使用不同客戶ID，導致資料無法合併。\n\n• 時間戳記與時區對齊挑戰：\n\n跨系統資料的時間欄位可能有延遲、格式差異或時區不一致。\n\n實務案例：\n\n網站日誌（UTC）與本地POS 交易（台北時間）時間戳記不一致，影響行為分析。\n\n• 資料更新頻率不一致挑戰：\n\n部分來源為即時串流（如感測器資料），部分為批次同步（如ERP 資料），導致整合的時間視窗不一致。\n\n實務案例：\n\n即時點擊流與每日更新的庫存資料難以同步，影響推薦系統。\n\n• 資料品質不均挑戰：\n\n不同來源的資料可能有缺失值、不一致格式或邏輯錯誤，影響整合品質。\n\n實務案例：\n\nAPI 資料缺少關鍵欄位，ERP 資料單位不統一（如「1,000 克」/「1 公斤」）。\n\n#### （4）資料品質與統計推論的關聯\n\n資料品質直接影響鑑別式AI 與統計推論的可靠性，與先前討論的品質指標 （缺失率、異常值比率等）緊密相關：\n\n• 缺失值：\n\n高缺失率可能導致特徵不完整，影響模型訓練（如線性迴歸）或t 檢定的均值估計。\n\n• 異常值：\n\n未處理的異常值可能放大模型誤差，影響獨立樣本t 檢定或分類模型的決策邊界。\n\n• 重複值：\n\n重複記錄可能高估樣本權重，影響卡方檢定或模型訓練的平衡性。\n\n• 一致性錯誤：\n\n不統一的格式導致無法正確聚合特徵，影響ANOVA 或相關檢定的結果。\n\n• 邏輯錯誤：\n\n不合理的標籤（如錯誤分類）會導致模型學習錯誤模式，降低預測準確度。",
+  "content": "# 大數據在鑑別式AI 中的應用\n\n6.2 AI\n\n1.\n\n目前發展與實用性最高的人工智慧系統應用類型、可分為兩類：鑑別式 （Discriminative）與生成式（Generative）模型。其中，鑑別式AI 著重於「區分」、「分類」與「預測」，是目前企業與組織在實務應用中最常導入的AI 類型之一。\n\n無論是產品推薦、詐欺偵測、疾病診斷、客戶流失預測、內容分類，背後皆為典型的鑑別式任務。\n\n在這些應用中，大數據提供了更豐富的樣本、更複雜的特徵組合與更細緻的行為模式，成為提升模型泛化能力與預測準確度的關鍵條件。然而，資料品質、來源多樣性、標註成本與樣本偏差等問題，也同步對模型設計與系統實作帶來挑戰。\n\n本節將說明大數據如何支撐鑑別式AI 任務的發展，並分析資料來源整合、特徵選擇與標註策略等對模型表現的實質影響。特別強調在真實世界中，如何平衡效能、可用性與維護成本，建構可落地的鑑別式AI 解決方案。\n\n2.\n\n鑑別式AI 的核心任務是對輸入資料進行分類或預測，是機器學習中最具應用廣度的任務類型之一。在大數據環境中，來自多平台、連續更新的龐大資料為複雜預測模型提供了豐富資訊，廣泛應用於商業決策、自動化流程、風險監測與個人化服務等情境。鑑別式AI 的成功不僅依賴模型選擇，還與資料品質、型態及標註方式密切相關，需結合前述資料準備與品質管理策略（如缺失率、一致性比率）。以下為常見應用情境與任務目標：\n\n#### （1）金融與風險管理\n\n• 任務目標：\n\n◦ 信用評分（Credit Scoring）：預測客戶是否可能違約（如貸款拖欠）。\n\n◦ 詐欺偵測（Fraud Detection）：從交易資料中識別潛在詐欺行為。\n\n◦ 反洗錢（AML）異常辨識：分析交易模式與人際網路，偵測異常或可疑\n\n活動。\n\n• 輸入資料特性：\n\n◦ 結構化資料：客戶屬性（年齡、收入、信用紀錄）、交易記錄（金額、\n\n時間、地點）。\n\n◦ 半結構化資料：日誌資料（如API 交易記錄）。\n\n◦ 多模態資料：結合交易資料與社群網路圖（Graph Data）。\n\n• 常見模型：\n\n◦ 邏輯迴歸（Logistic Regression）：簡單且可解釋，適合信用評分。\n\n◦ 隨機森林（Random Forest）：處理高維特徵，適合詐欺偵測。\n\n◦ 圖神經網路（Graph Neural Network, GNN）：分析AML 中的網路關係。\n\n◦ XGBoost/LightGBM：高效處理不平衡資料（如詐欺少數類別）。\n\n• 實務案例：\n\n◦ 某銀行使用XGBoost 模型，結合客戶交易記錄與信用資料，預測違約\n\n風險，準確率提升至85%，減少20%壞帳損失。\n\n• 操作步驟：\n\n◦ 收集結構化資料（如SQL 查詢交易紀錄）並清理缺失值與異常值。\n\n◦ 特徵工程：生成衍生特徵（如交易頻率、金額變異）。\n\n◦ 訓練模型並使用交叉驗證（Cross-validation）優化參數。\n\n◦ 部署模型並監測效能（例如ROC 曲線、F1 分數）。\n\n• 挑戰：\n\n◦ 資料不平衡（詐欺交易比例低，需過採樣或SMOTE）。\n\n◦ 隱私保護：需遵守《個人資料保護法》，匿名化敏感欄位（如身分證號）。\n\n◦ 異常值影響：未處理的異常值可能導致模型誤判（如t 檢定中的均值偏\n\n誤）。\n\n#### （2）零售與電商推薦\n\n• 任務目標：\n\n◦ 顧客流失預測（Churn Prediction）：預測哪些顧客可能停止使用服務。\n\n◦ 客戶分群與精準行銷：根據特徵將客戶分群，推送個人化廣告。\n\n◦ 商品分類/價格預測：自動分類商品並預測銷售價格趨勢。\n\n• 輸入資料特性：\n\n◦ 結構化資料：購買紀錄、用戶屬性（年齡、性別）。\n\n◦ 半結構化資料：點擊日誌（JSON）、瀏覽行為。\n\n◦ 非結構化資料：商品評論（文字）、商品圖片（影像）。\n\n◦ 多模態資料：結合購買紀錄、評論與圖片。\n\n• 常見模型：\n\n◦ 決策樹/隨機森林：簡單且穩健，適合分群與流失預測。\n\n◦ 深度學習（如LSTM）：處理時間序列資料（如價格趨勢）。\n\n◦ 多模態模型（如CLIP）：結合文字與影像進行商品分類。\n\n• 實務案例：\n\n◦ 某電商平台使用隨機森林預測顧客流失，結合購買與點擊資料，識別\n\n90%的高風險顧客，行銷活動回應率提升12%。\n\n• 挑戰：\n\n◦ 資料一致性：多來源資料格式不一致（如日期格式不統一），影響異數\n\n分析（ANOVA）的結果。\n\n◦ 標註成本：商品分類需大量人工標註，可結合弱監督式標註。\n\n◦ 即時性：推薦系統需即時處理串流資料（如Apache Kafka）。\n\n#### （3）客服與文本分類\n\n• 任務目標：\n\n◦ 對話分類：自動分類客服對話（如帳號問題、物流問題）。\n\n◦ 情感分析：預測用戶評論的情感（正向、中立、負向）。\n\n◦ 內容過濾與審查：判別社群貼文是否違規（如仇恨言論）。\n\n• 輸入資料特性：\n\n◦ 非結構化資料：客服對話、用戶評論、社群貼文（文字）。\n\n◦ 半結構化資料：日誌格式的對話記錄（JSON）。\n\n• 常見模型：\n\n◦ 傳統機器學習：Naive Bayes、SVM（常應用於簡單文本分類）。\n\n◦ 深度學習：BERT、RoBERTa（可用於高準確度情感分析與對話分類）。\n\n◦ 規則模型：正規表示式（Regular expression） （適合處理簡單違規檢測）。\n\n• 實務案例：\n\n◦ 某電信公司使用BERT 模型分類客服對話，自動識別95%的物流問題，\n\n減少30%人工處理時間。\n\n• 挑戰：\n\n◦ 標註品質：情感分析需保持一致性標籤，否則可能影響模型準確度。\n\n◦ 語言多樣性：台灣用語（如「讚」）需在地化詞典支持。\n\n◦ 資料品質：高缺失率或邏輯錯誤，將影響卡方檢定結果。\n\n#### （4）醫療與健康科技\n\n• 任務目標：\n\n◦ 疾病預測與診斷：根據病歷、影像或生理訊號預測疾病風險。\n\n◦ 保險理賠異常分析：判斷理賠申請是否異常或可疑。\n\n◦ 臨床決策支援：協助醫生選擇最佳治療路徑。\n\n• 輸入資料特性：\n\n◦ 結構化資料：病歷（年齡、性別、檢查結果）。\n\n◦ 非結構化資料：醫療影像（X 光、MRI）、醫師筆記（文字）。\n\n◦ 多模態資料：結合病歷、影像與筆記。\n\n• 常見模型：\n\n◦ CNN：醫療影像分類（如ResNet、VGG）。\n\n◦ 隨機森林/XGBoost：結構化病歷資料預測。\n\n◦ 多模態模型：結合CNN 與BERT 處理影像與文字。\n\n• 實務案例：\n\n◦ 某醫院使用ResNet 模型分析X 光片，診斷肺炎準確率達92%，減少\n\n25%誤診率。\n\n• 挑戰：\n\n◦ 資料隱私：需遵守《個人資料保護法》，加密敏感資料（如病患身分）。\n\n◦ 標註成本：醫療影像需專家標註，成本高，可用主動學習優化。\n\n◦ 異常值：未處理的異常值（如錯誤生理訊號）影響t 檢定結果。\n\n#### （5）資安與異常偵測\n\n• 任務目標：\n\n◦ 登入行為異常辨識：判斷是否為異常裝置或可疑地點登入行為。\n\n◦ 惡意流量分類：根據封包特徵識別攻擊行為（如DDoS）。\n\n◦ 釣魚郵件分類：自動判斷電子郵件是否具有詐騙特徵。\n\n• 輸入資料特性：\n\n◦ 結構化資料：登入記錄（IP、時間）、封包元數據。\n\n◦ 半結構化資料：日誌（JSON、CSV）。\n\n◦ 非結構化資料：郵件內容（文字）。\n\n• 常見模型：\n\n◦ 孤立森林（Isolation Forest）：異常偵測，適合處理高維資料。\n\n◦ 深度學習：LSTM（序列資料，如流量模式）、BERT（電子郵件分類）。\n\n◦ 規則模型：正規表示式（簡單釣魚檢測）。\n\n• 實務案例：\n\n◦ 某企業使用孤立森林模型分析登入日誌，識別98%的異常登入，減少\n\n40%安全事件。\n\n• 挑戰：\n\n◦ 資料不平衡：異常事件比例低，需特殊處理（如SMOTE）。\n\n◦ 即時性：資安任務需低延遲處理，依賴串流平台（如Kafka）。\n\n◦ 重複值：日誌重複記錄可能影響卡方檢定結果。\n\n3.\n\n在鑑別式AI 任務中，資料的「品質」、「型態」與「標註方式」直接影響模型效能與實用性。雖然大數據提供了龐大的資料規模與潛在訊息，但要將這些原始資料有效轉化為可供訓練模型的輸入，仍面臨跨平台整合、資料一致性、標註成本與資料偏差等挑戰。\n\n本小節將說明鑑別式AI 中常見的輸入資料型態與資料來源形式，並說明實務上資料標註的主要策略，以及資料融合與整合過程中需注意的技術細節。\n\n#### （1）常見輸入資料型態與特性\n\n• 結構化資料（Structured Data）\n\n◦ 來源：\n\n○ 關聯式資料庫，如ERP、CRM 或POS 系統產生的交易記錄、用戶屬\n\n性、設備資訊。\n\n◦ 特性：\n\n○ 欄位明確、格式規範，適合直接轉換為表格式特徵（features），如數\n\n值或類別欄位。\n\n◦ 應用案例：\n\n○ 信用評分：使用客戶收入、貸款紀錄預測信用風險。\n\n○ 客戶分類：根據購買歷史與人口屬性進行客群分群。\n\n○ 設備預測維修：利用感測器數據（如溫度、振動）預測機器故障。\n\n• 半結構化資料（Semi-structured Data）\n\n◦ 來源：\n\n○ JSON、XML 格式的API 回傳資料、伺服器日誌（Log）、行為記錄\n\n（如點擊流）。\n\n◦ 特性：\n\n○ 具有層次結構（如嵌套的JSON），但欄位可能動態變動，需解析\n\n（Parsing）或展平（Flattening）。\n\n◦ 應用案例：\n\n○ 網站行為分析：解析用戶點擊日誌，提取瀏覽路徑與停留時間。\n\n○ API 資料預測：使用天氣API 的JSON 資料預測銷售量。\n\n• 非結構化資料（Unstructured Data）\n\n◦ 來源與類型：\n\n○ 文字：客服對話、產品評論、社群媒體貼文、電子郵件。\n\n○ 影像：醫療影像（如X 光片）、產品照片、監控影像。\n\n○ 聲音：客服錄音、語音指令、環境聲音。\n\n◦ 特性：\n\n○ 無固定結構，需特徵萃取（Feature Extraction）轉為模型可用的數值\n\n表示。\n\n◦ 應用案例：\n\n○ 文字：情緒分析（NLP）判斷顧客評論的正面/負面情緒。\n\n○ 影像：醫療影像分類（CNN）診斷疾病。\n\n○ 聲音：語音辨識（ASR）轉錄客服對話。\n\n• 多模態資料（Multi-modal Data）\n\n◦ 來源：\n\n○ 結合多種資料型態，如用戶屬性（結構化）+ 產品評論（文字）+ 商\n\n品圖片（影像）。\n\n◦ 特性：\n\n○ 需融合多來源特徵，模型需支援多輸入架構或特徵級融合。\n\n◦ 應用案例：\n\n○ 電商推薦系統：結合用戶購買紀錄、評論文字與商品圖片進行個人\n\n化推薦。\n\n○ 醫療診斷：整合病患病歷（結構化）、醫師筆記（文字）與CT 影像\n\n（影像）。\n\n#### （2）資料標註策略與實務考量\n\n資料標註為鑑別式AI 提供監督學習所需的標籤（Labels），但標註成本、品質與效率是實務中的關鍵挑戰。以下為常見標註策略及其優缺點與實務建議：\n\n• 人工標註（Manual Labeling）\n\n◦ 優點：\n\n○ 標註準確度高，特別適合需要專業知識的任務（如醫療影像診斷、法\n\n律文件分類）。\n\n◦ 限制：\n\n○ 成本高、耗時，需專業人力；大規模資料標註難以擴展。\n\n◦ 實務案例：\n\n○ 醫療團隊標註X 光片是否有病灶，確保診斷準確性。\n\n• 弱監督式標註（Weak Supervision）\n\n◦ 定義：\n\n○ 使用規則、啟發式方法或第三方資料（如情緒詞典）自動生成標籤，\n\n減少人工成本。\n\n◦ 優點：\n\n○ 速度快、成本低，適合大規模資料。\n\n◦ 限制：\n\n○ 誤標風險高，標籤品質可能不穩定，需後續清理。\n\n◦ 實務案例：\n\n○ 使用情緒詞典自動標註社群貼文的情感（正面/負面），再人工校正部\n\n分樣本。\n\n• 群眾外包標註（Crowdsourcing）\n\n◦ 定義：\n\n○ 透過平台（如Amazon Mechanical Turk、Appen）將標註任務分散給\n\n大量非專業工作者。\n\n◦ 優點：\n\n○ 成本低、速度快，適合簡單任務（如圖片分類、文字標籤）。\n\n◦ 限制：\n\n○ 標註品質參差不齊，需一致性檢查與多工審核。\n\n◦ 實務案例：\n\n○ 電商平台透過Appen 標註產品圖片是否包含特定物件（如「鞋子」）。\n\n• 主動式學習（Active Learning）\n\n◦ 定義：\n\n○ 模型預測低置信度樣本，優先交由人工標註，優化標註效率。\n\n◦ 優點：\n\n○ 減少標註量，適合成本高、資料量大的情境。\n\n◦ 限制：\n\n○ 需初始標註資料與迭代訓練，技術門檻較高。\n\n◦ 實務案例：\n\n○ 詐欺檢測模型中挑選不確定的交易（置信度< 0.6）交由專家標註，\n\n降低總標註成本。\n\n#### （3）跨來源資料整合與資料一致性挑戰\n\n鑑別式AI 常需整合來自多平台的資料（如ERP、API、日誌），但跨來源整合面臨以下挑戰與解決方案：\n\n• 主鍵不一致\n\n◦ 挑戰：\n\n○ 不同系統的用戶ID、裝置ID 或訂單編號定義不同，無法直接對應。\n\n◦ 實務案例：\n\n○ 電商平台的CRM 與POS 系統使用不同客戶ID，導致資料無法合\n\n併。\n\n• 時間戳記與時區對齊\n\n◦ 挑戰：\n\n○ 跨系統資料的時間欄位可能有延遲、格式差異或時區不一致。\n\n◦ 實務案例：\n\n○ 網站日誌（UTC）與本地POS 交易（台北時間）時間戳記不一致，\n\n影響行為分析。\n\n• 資料更新頻率不一致\n\n◦ 挑戰：\n\n○ 部分來源為即時串流（如感測器資料），部分為批次同步（如ERP 資\n\n料），導致整合的時間視窗不一致。\n\n◦ 實務案例：\n\n○ 即時點擊流與每日更新的庫存資料難以同步，影響推薦系統。\n\n• 資料品質不均\n\n◦ 挑戰：\n\n○ 不同來源的資料可能有缺失值、不一致格式或邏輯錯誤，影響整合\n\n品質。\n\n◦ 實務案例：\n\n○ API 資料缺少關鍵欄位，ERP 資料單位不統一（如「1,000 克」/「1\n\n公斤」）。\n\n#### （4）資料品質與統計推論的關聯\n\n資料品質直接影響鑑別式AI 與統計推論的可靠性，與先前討論的品質指標 （缺失率、異常值比率等）緊密相關：\n\n• 缺失值：\n\n◦ 高缺失率可能導致特徵不完整，影響模型訓練（如線性迴歸）或t 檢定\n\n的均值估計。\n\n• 異常值：\n\n◦ 未處理的異常值可能放大模型誤差，影響獨立樣本t 檢定或分類模型的\n\n決策邊界。\n\n• 重複值：\n\n◦ 重複記錄可能高估樣本權重，影響卡方檢定或模型訓練的平衡性。\n\n• 一致性錯誤：\n\n◦ 不統一的格式導致無法正確聚合特徵，影響ANOVA 或相關檢定的結\n\n果。\n\n• 邏輯錯誤：\n\n◦ 不合理的標籤（如錯誤分類）會導致模型學習錯誤模式，降低預測準確\n\n度。",
   "contentFormat": "markdown",
   "headings": [
     {
@@ -63,7 +63,10 @@
         269.67,
         174.28
       ],
-      "id": "block-1"
+      "id": "block-1",
+      "nodeId": "mid-s2c11",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -77,7 +80,10 @@
         90.67,
         218.12
       ],
-      "id": "block-2"
+      "id": "block-2",
+      "nodeId": "mid-s2c11",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -90,7 +96,10 @@
         521.43,
         292.58
       ],
-      "id": "block-3"
+      "id": "block-3",
+      "nodeId": "mid-s2c11",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -103,7 +112,10 @@
         517.91,
         342.5
       ],
-      "id": "block-4"
+      "id": "block-4",
+      "nodeId": "mid-s2c11",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -116,7 +128,10 @@
         518.4,
         442.58
       ],
-      "id": "block-5"
+      "id": "block-5",
+      "nodeId": "mid-s2c11",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -129,7 +144,10 @@
         518.08,
         517.6
       ],
-      "id": "block-6"
+      "id": "block-6",
+      "nodeId": "mid-s2c11",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -143,7 +161,10 @@
         90.67,
         568.09
       ],
-      "id": "block-7"
+      "id": "block-7",
+      "nodeId": "mid-s2c11",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -156,7 +177,10 @@
         518.02,
         717.55
       ],
-      "id": "block-8"
+      "id": "block-8",
+      "nodeId": "mid-s2c11",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -170,11 +194,14 @@
         193.03,
         114.11
       ],
-      "id": "block-9"
+      "id": "block-9",
+      "nodeId": "mid-s2c11",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "任務目標：",
       "pageIndex": 152,
@@ -184,11 +211,15 @@
         185.08,
         139.07
       ],
-      "id": "block-10"
+      "id": "block-10",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "信用評分（Credit Scoring）：預測客戶是否可能違約（如貸款拖欠）。",
       "pageIndex": 152,
       "bbox": [
@@ -197,11 +228,15 @@
         516.24,
         164.15
       ],
-      "id": "block-11"
+      "id": "block-11",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "詐欺偵測（Fraud Detection）：從交易資料中識別潛在詐欺行為。",
       "pageIndex": 152,
       "bbox": [
@@ -210,11 +245,15 @@
         492.24,
         189.11
       ],
-      "id": "block-12"
+      "id": "block-12",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "反洗錢（AML）異常辨識：分析交易模式與人際網路，偵測異常或可疑活動。",
       "pageIndex": 152,
       "bbox": [
@@ -223,11 +262,14 @@
         518.12,
         239.15
       ],
-      "id": "block-13"
+      "id": "block-13",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "輸入資料特性：",
       "pageIndex": 152,
@@ -237,11 +279,15 @@
         210.31,
         264.14
       ],
-      "id": "block-14"
+      "id": "block-14",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "結構化資料：客戶屬性（年齡、收入、信用紀錄）、交易記錄（金額、時間、地點）。",
       "pageIndex": 152,
       "bbox": [
@@ -250,11 +296,15 @@
         519.86,
         314.18
       ],
-      "id": "block-15"
+      "id": "block-15",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "半結構化資料：日誌資料（如API 交易記錄）。",
       "pageIndex": 152,
       "bbox": [
@@ -263,11 +313,15 @@
         398.85,
         339.14
       ],
-      "id": "block-16"
+      "id": "block-16",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "多模態資料：結合交易資料與社群網路圖（Graph Data）。",
       "pageIndex": 152,
       "bbox": [
@@ -276,11 +330,14 @@
         456.12,
         364.1
       ],
-      "id": "block-17"
+      "id": "block-17",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "常見模型：",
       "pageIndex": 152,
@@ -290,11 +347,15 @@
         185.08,
         389.18
       ],
-      "id": "block-18"
+      "id": "block-18",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "邏輯迴歸（Logistic Regression）：簡單且可解釋，適合信用評分。",
       "pageIndex": 152,
       "bbox": [
@@ -303,11 +364,15 @@
         498.84,
         414.14
       ],
-      "id": "block-19"
+      "id": "block-19",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "隨機森林（Random Forest）：處理高維特徵，適合詐欺偵測。",
       "pageIndex": 152,
       "bbox": [
@@ -316,11 +381,15 @@
         475.08,
         439.1
       ],
-      "id": "block-20"
+      "id": "block-20",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "圖神經網路（Graph Neural Network, GNN）：分析AML 中的網路關係。",
       "pageIndex": 152,
       "bbox": [
@@ -329,11 +398,15 @@
         521.88,
         464.2
       ],
-      "id": "block-21"
+      "id": "block-21",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "XGBoost/LightGBM：高效處理不平衡資料（如詐欺少數類別）。",
       "pageIndex": 152,
       "bbox": [
@@ -342,11 +415,14 @@
         491.76,
         489.16
       ],
-      "id": "block-22"
+      "id": "block-22",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "實務案例：",
       "pageIndex": 152,
@@ -356,11 +432,15 @@
         185.08,
         514.12
       ],
-      "id": "block-23"
+      "id": "block-23",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "某銀行使用XGBoost 模型，結合客戶交易記錄與信用資料，預測違約風險，準確率提升至85%，減少20%壞帳損失。",
       "pageIndex": 152,
       "bbox": [
@@ -369,11 +449,14 @@
         518.23,
         564.16
       ],
-      "id": "block-24"
+      "id": "block-24",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "操作步驟：",
       "pageIndex": 152,
@@ -383,11 +466,15 @@
         185.08,
         589.12
       ],
-      "id": "block-25"
+      "id": "block-25",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "收集結構化資料（如SQL 查詢交易紀錄）並清理缺失值與異常值。",
       "pageIndex": 152,
       "bbox": [
@@ -396,11 +483,15 @@
         509.28,
         614.2
       ],
-      "id": "block-26"
+      "id": "block-26",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "特徵工程：生成衍生特徵（如交易頻率、金額變異）。",
       "pageIndex": 152,
       "bbox": [
@@ -409,11 +500,15 @@
         435.33,
         639.19
       ],
-      "id": "block-27"
+      "id": "block-27",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "訓練模型並使用交叉驗證（Cross-validation）優化參數。",
       "pageIndex": 152,
       "bbox": [
@@ -422,11 +517,15 @@
         450.09,
         664.15
       ],
-      "id": "block-28"
+      "id": "block-28",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "部署模型並監測效能（例如ROC 曲線、F1 分數）。",
       "pageIndex": 152,
       "bbox": [
@@ -435,11 +534,14 @@
         420.57,
         689.23
       ],
-      "id": "block-29"
+      "id": "block-29",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "挑戰：",
       "pageIndex": 152,
@@ -449,11 +551,15 @@
         159.88,
         714.19
       ],
-      "id": "block-30"
+      "id": "block-30",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "資料不平衡（詐欺交易比例低，需過採樣或SMOTE）。",
       "pageIndex": 152,
       "bbox": [
@@ -462,11 +568,15 @@
         442.77,
         739.15
       ],
-      "id": "block-31"
+      "id": "block-31",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "隱私保護：需遵守《個人資料保護法》，匿名化敏感欄位（如身分證號）。",
       "pageIndex": 152,
       "bbox": [
@@ -475,11 +585,15 @@
         521.88,
         764.22
       ],
-      "id": "block-32"
+      "id": "block-32",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "異常值影響：未處理的異常值可能導致模型誤判（如t 檢定中的均值偏誤）。",
       "pageIndex": 153,
       "bbox": [
@@ -488,7 +602,10 @@
         518.25,
         139.07
       ],
-      "id": "block-33"
+      "id": "block-33",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -502,11 +619,14 @@
         193.03,
         189.11
       ],
-      "id": "block-34"
+      "id": "block-34",
+      "nodeId": "mid-s2c11",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "任務目標：",
       "pageIndex": 153,
@@ -516,11 +636,15 @@
         185.08,
         214.07
       ],
-      "id": "block-35"
+      "id": "block-35",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "顧客流失預測（Churn Prediction）：預測哪些顧客可能停止使用服務。",
       "pageIndex": 153,
       "bbox": [
@@ -529,11 +653,15 @@
         521.88,
         239.15
       ],
-      "id": "block-36"
+      "id": "block-36",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "客戶分群與精準行銷：根據特徵將客戶分群，推送個人化廣告。",
       "pageIndex": 153,
       "bbox": [
@@ -542,11 +670,15 @@
         492.0,
         264.14
       ],
-      "id": "block-37"
+      "id": "block-37",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "商品分類/價格預測：自動分類商品並預測銷售價格趨勢。",
       "pageIndex": 153,
       "bbox": [
@@ -555,11 +687,14 @@
         457.8,
         289.1
       ],
-      "id": "block-38"
+      "id": "block-38",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "輸入資料特性：",
       "pageIndex": 153,
@@ -569,11 +704,15 @@
         210.31,
         314.18
       ],
-      "id": "block-39"
+      "id": "block-39",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "結構化資料：購買紀錄、用戶屬性（年齡、性別）。",
       "pageIndex": 153,
       "bbox": [
@@ -582,11 +721,15 @@
         422.73,
         339.14
       ],
-      "id": "block-40"
+      "id": "block-40",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "半結構化資料：點擊日誌（JSON）、瀏覽行為。",
       "pageIndex": 153,
       "bbox": [
@@ -595,11 +738,15 @@
         402.21,
         364.1
       ],
-      "id": "block-41"
+      "id": "block-41",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "非結構化資料：商品評論（文字）、商品圖片（影像）。",
       "pageIndex": 153,
       "bbox": [
@@ -608,11 +755,15 @@
         462.84,
         389.18
       ],
-      "id": "block-42"
+      "id": "block-42",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "多模態資料：結合購買紀錄、評論與圖片。",
       "pageIndex": 153,
       "bbox": [
@@ -621,11 +772,14 @@
         378.57,
         414.14
       ],
-      "id": "block-43"
+      "id": "block-43",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "常見模型：",
       "pageIndex": 153,
@@ -635,11 +789,15 @@
         185.08,
         439.1
       ],
-      "id": "block-44"
+      "id": "block-44",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "決策樹/隨機森林：簡單且穩健，適合分群與流失預測。",
       "pageIndex": 153,
       "bbox": [
@@ -648,11 +806,15 @@
         445.17,
         464.2
       ],
-      "id": "block-45"
+      "id": "block-45",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "深度學習（如LSTM）：處理時間序列資料（如價格趨勢）。",
       "pageIndex": 153,
       "bbox": [
@@ -661,11 +823,15 @@
         465.48,
         489.16
       ],
-      "id": "block-46"
+      "id": "block-46",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "多模態模型（如CLIP）：結合文字與影像進行商品分類。",
       "pageIndex": 153,
       "bbox": [
@@ -674,11 +840,14 @@
         453.12,
         514.12
       ],
-      "id": "block-47"
+      "id": "block-47",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "實務案例：",
       "pageIndex": 153,
@@ -688,11 +857,15 @@
         185.08,
         539.2
       ],
-      "id": "block-48"
+      "id": "block-48",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "某電商平台使用隨機森林預測顧客流失，結合購買與點擊資料，識別 90%的高風險顧客，行銷活動回應率提升12%。",
       "pageIndex": 153,
       "bbox": [
@@ -701,11 +874,14 @@
         517.85,
         589.12
       ],
-      "id": "block-49"
+      "id": "block-49",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "挑戰：",
       "pageIndex": 153,
@@ -715,11 +891,15 @@
         159.88,
         614.2
       ],
-      "id": "block-50"
+      "id": "block-50",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "資料一致性：多來源資料格式不一致（如日期格式不統一），影響異數分析（ANOVA）的結果。",
       "pageIndex": 153,
       "bbox": [
@@ -728,11 +908,15 @@
         518.4,
         664.15
       ],
-      "id": "block-51"
+      "id": "block-51",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "標註成本：商品分類需大量人工標註，可結合弱監督式標註。",
       "pageIndex": 153,
       "bbox": [
@@ -741,11 +925,15 @@
         479.4,
         689.23
       ],
-      "id": "block-52"
+      "id": "block-52",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "即時性：推薦系統需即時處理串流資料（如Apache Kafka）。",
       "pageIndex": 153,
       "bbox": [
@@ -754,7 +942,10 @@
         473.16,
         714.19
       ],
-      "id": "block-53"
+      "id": "block-53",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -768,11 +959,14 @@
         193.03,
         114.11
       ],
-      "id": "block-54"
+      "id": "block-54",
+      "nodeId": "mid-s2c11",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "任務目標：",
       "pageIndex": 154,
@@ -782,11 +976,15 @@
         185.08,
         139.07
       ],
-      "id": "block-55"
+      "id": "block-55",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "對話分類：自動分類客服對話（如帳號問題、物流問題）。",
       "pageIndex": 154,
       "bbox": [
@@ -795,11 +993,15 @@
         460.56,
         164.15
       ],
-      "id": "block-56"
+      "id": "block-56",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "情感分析：預測用戶評論的情感（正向、中立、負向）。",
       "pageIndex": 154,
       "bbox": [
@@ -808,11 +1010,15 @@
         447.93,
         189.11
       ],
-      "id": "block-57"
+      "id": "block-57",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "內容過濾與審查：判別社群貼文是否違規（如仇恨言論）。",
       "pageIndex": 154,
       "bbox": [
@@ -821,11 +1027,14 @@
         460.56,
         214.07
       ],
-      "id": "block-58"
+      "id": "block-58",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "輸入資料特性：",
       "pageIndex": 154,
@@ -835,11 +1044,15 @@
         210.31,
         239.15
       ],
-      "id": "block-59"
+      "id": "block-59",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "非結構化資料：客服對話、用戶評論、社群貼文（文字）。",
       "pageIndex": 154,
       "bbox": [
@@ -848,11 +1061,15 @@
         460.56,
         264.14
       ],
-      "id": "block-60"
+      "id": "block-60",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "半結構化資料：日誌格式的對話記錄（JSON）。",
       "pageIndex": 154,
       "bbox": [
@@ -861,11 +1078,14 @@
         402.09,
         289.1
       ],
-      "id": "block-61"
+      "id": "block-61",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "常見模型：",
       "pageIndex": 154,
@@ -875,11 +1095,15 @@
         185.08,
         314.18
       ],
-      "id": "block-62"
+      "id": "block-62",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "傳統機器學習：Naive Bayes、SVM（常應用於簡單文本分類）。",
       "pageIndex": 154,
       "bbox": [
@@ -888,11 +1112,15 @@
         488.76,
         339.14
       ],
-      "id": "block-63"
+      "id": "block-63",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "深度學習：BERT、RoBERTa（可用於高準確度情感分析與對話分類）。",
       "pageIndex": 154,
       "bbox": [
@@ -901,11 +1129,15 @@
         521.88,
         364.1
       ],
-      "id": "block-64"
+      "id": "block-64",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "規則模型：正規表示式（Regular expression） （適合處理簡單違規檢測）。",
       "pageIndex": 154,
       "bbox": [
@@ -914,11 +1146,14 @@
         521.88,
         389.18
       ],
-      "id": "block-65"
+      "id": "block-65",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "實務案例：",
       "pageIndex": 154,
@@ -928,11 +1163,15 @@
         185.08,
         414.14
       ],
-      "id": "block-66"
+      "id": "block-66",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "某電信公司使用BERT 模型分類客服對話，自動識別95%的物流問題，減少30%人工處理時間。",
       "pageIndex": 154,
       "bbox": [
@@ -941,11 +1180,14 @@
         521.32,
         464.2
       ],
-      "id": "block-67"
+      "id": "block-67",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "挑戰：",
       "pageIndex": 154,
@@ -955,11 +1197,15 @@
         159.88,
         489.16
       ],
-      "id": "block-68"
+      "id": "block-68",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "標註品質：情感分析需保持一致性標籤，否則可能影響模型準確度。",
       "pageIndex": 154,
       "bbox": [
@@ -968,11 +1214,15 @@
         517.2,
         514.12
       ],
-      "id": "block-69"
+      "id": "block-69",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "語言多樣性：台灣用語（如「讚」）需在地化詞典支持。",
       "pageIndex": 154,
       "bbox": [
@@ -981,11 +1231,15 @@
         447.93,
         539.2
       ],
-      "id": "block-70"
+      "id": "block-70",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "資料品質：高缺失率或邏輯錯誤，將影響卡方檢定結果。",
       "pageIndex": 154,
       "bbox": [
@@ -994,7 +1248,10 @@
         454.2,
         564.16
       ],
-      "id": "block-71"
+      "id": "block-71",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1008,11 +1265,14 @@
         193.03,
         614.2
       ],
-      "id": "block-72"
+      "id": "block-72",
+      "nodeId": "mid-s2c11",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "任務目標：",
       "pageIndex": 154,
@@ -1022,11 +1282,15 @@
         185.08,
         639.19
       ],
-      "id": "block-73"
+      "id": "block-73",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "疾病預測與診斷：根據病歷、影像或生理訊號預測疾病風險。",
       "pageIndex": 154,
       "bbox": [
@@ -1035,11 +1299,15 @@
         479.4,
         664.15
       ],
-      "id": "block-74"
+      "id": "block-74",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "保險理賠異常分析：判斷理賠申請是否異常或可疑。",
       "pageIndex": 154,
       "bbox": [
@@ -1048,11 +1316,15 @@
         428.97,
         689.23
       ],
-      "id": "block-75"
+      "id": "block-75",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "臨床決策支援：協助醫生選擇最佳治療路徑。",
       "pageIndex": 154,
       "bbox": [
@@ -1061,11 +1333,14 @@
         391.17,
         714.19
       ],
-      "id": "block-76"
+      "id": "block-76",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "輸入資料特性：",
       "pageIndex": 154,
@@ -1075,11 +1350,15 @@
         210.31,
         739.15
       ],
-      "id": "block-77"
+      "id": "block-77",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "結構化資料：病歷（年齡、性別、檢查結果）。",
       "pageIndex": 154,
       "bbox": [
@@ -1088,11 +1367,15 @@
         397.53,
         764.22
       ],
-      "id": "block-78"
+      "id": "block-78",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "非結構化資料：醫療影像（X 光、MRI）、醫師筆記（文字）。",
       "pageIndex": 155,
       "bbox": [
@@ -1101,11 +1384,15 @@
         477.36,
         114.11
       ],
-      "id": "block-79"
+      "id": "block-79",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "多模態資料：結合病歷、影像與筆記。",
       "pageIndex": 155,
       "bbox": [
@@ -1114,11 +1401,14 @@
         353.37,
         139.07
       ],
-      "id": "block-80"
+      "id": "block-80",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "常見模型：",
       "pageIndex": 155,
@@ -1128,11 +1418,15 @@
         185.08,
         164.15
       ],
-      "id": "block-81"
+      "id": "block-81",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "CNN：醫療影像分類（如ResNet、VGG）。",
       "pageIndex": 155,
       "bbox": [
@@ -1141,11 +1435,15 @@
         377.49,
         189.11
       ],
-      "id": "block-82"
+      "id": "block-82",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "隨機森林/XGBoost：結構化病歷資料預測。",
       "pageIndex": 155,
       "bbox": [
@@ -1154,11 +1452,15 @@
         379.29,
         214.07
       ],
-      "id": "block-83"
+      "id": "block-83",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "多模態模型：結合CNN 與BERT 處理影像與文字。",
       "pageIndex": 155,
       "bbox": [
@@ -1167,11 +1469,14 @@
         423.33,
         239.15
       ],
-      "id": "block-84"
+      "id": "block-84",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "實務案例：",
       "pageIndex": 155,
@@ -1181,11 +1486,15 @@
         185.08,
         264.14
       ],
-      "id": "block-85"
+      "id": "block-85",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "某醫院使用ResNet 模型分析X 光片，診斷肺炎準確率達92%，減少 25%誤診率。",
       "pageIndex": 155,
       "bbox": [
@@ -1194,11 +1503,14 @@
         518.28,
         314.18
       ],
-      "id": "block-86"
+      "id": "block-86",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "挑戰：",
       "pageIndex": 155,
@@ -1208,11 +1520,15 @@
         159.88,
         339.14
       ],
-      "id": "block-87"
+      "id": "block-87",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "資料隱私：需遵守《個人資料保護法》，加密敏感資料（如病患身分）。",
       "pageIndex": 155,
       "bbox": [
@@ -1221,11 +1537,15 @@
         521.88,
         364.1
       ],
-      "id": "block-88"
+      "id": "block-88",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "標註成本：醫療影像需專家標註，成本高，可用主動學習優化。",
       "pageIndex": 155,
       "bbox": [
@@ -1234,11 +1554,15 @@
         492.0,
         389.18
       ],
-      "id": "block-89"
+      "id": "block-89",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "異常值：未處理的異常值（如錯誤生理訊號）影響t 檢定結果。",
       "pageIndex": 155,
       "bbox": [
@@ -1247,7 +1571,10 @@
         489.36,
         414.14
       ],
-      "id": "block-90"
+      "id": "block-90",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1261,11 +1588,14 @@
         193.03,
         464.2
       ],
-      "id": "block-91"
+      "id": "block-91",
+      "nodeId": "mid-s2c11",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "任務目標：",
       "pageIndex": 155,
@@ -1275,11 +1605,15 @@
         185.08,
         489.16
       ],
-      "id": "block-92"
+      "id": "block-92",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "登入行為異常辨識：判斷是否為異常裝置或可疑地點登入行為。",
       "pageIndex": 155,
       "bbox": [
@@ -1288,11 +1622,15 @@
         492.0,
         514.12
       ],
-      "id": "block-93"
+      "id": "block-93",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "惡意流量分類：根據封包特徵識別攻擊行為（如DDoS）。",
       "pageIndex": 155,
       "bbox": [
@@ -1301,11 +1639,15 @@
         457.08,
         539.2
       ],
-      "id": "block-94"
+      "id": "block-94",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "釣魚郵件分類：自動判斷電子郵件是否具有詐騙特徵。",
       "pageIndex": 155,
       "bbox": [
@@ -1314,11 +1656,14 @@
         441.57,
         564.16
       ],
-      "id": "block-95"
+      "id": "block-95",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "輸入資料特性：",
       "pageIndex": 155,
@@ -1328,11 +1673,15 @@
         210.31,
         589.12
       ],
-      "id": "block-96"
+      "id": "block-96",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "結構化資料：登入記錄（IP、時間）、封包元數據。",
       "pageIndex": 155,
       "bbox": [
@@ -1341,11 +1690,15 @@
         421.41,
         614.2
       ],
-      "id": "block-97"
+      "id": "block-97",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "半結構化資料：日誌（JSON、CSV）。",
       "pageIndex": 155,
       "bbox": [
@@ -1354,11 +1707,15 @@
         350.85,
         639.19
       ],
-      "id": "block-98"
+      "id": "block-98",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "非結構化資料：郵件內容（文字）。",
       "pageIndex": 155,
       "bbox": [
@@ -1367,11 +1724,14 @@
         334.53,
         664.15
       ],
-      "id": "block-99"
+      "id": "block-99",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "常見模型：",
       "pageIndex": 155,
@@ -1381,11 +1741,15 @@
         185.08,
         689.23
       ],
-      "id": "block-100"
+      "id": "block-100",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "孤立森林（Isolation Forest）：異常偵測，適合處理高維資料。",
       "pageIndex": 155,
       "bbox": [
@@ -1394,11 +1758,15 @@
         477.24,
         714.19
       ],
-      "id": "block-101"
+      "id": "block-101",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "深度學習：LSTM（序列資料，如流量模式）、BERT（電子郵件分類）。",
       "pageIndex": 155,
       "bbox": [
@@ -1407,11 +1775,15 @@
         521.88,
         739.15
       ],
-      "id": "block-102"
+      "id": "block-102",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "規則模型：正規表示式（簡單釣魚檢測）。",
       "pageIndex": 155,
       "bbox": [
@@ -1420,11 +1792,14 @@
         372.33,
         764.22
       ],
-      "id": "block-103"
+      "id": "block-103",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "實務案例：",
       "pageIndex": 156,
@@ -1434,11 +1809,15 @@
         185.08,
         114.11
       ],
-      "id": "block-104"
+      "id": "block-104",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "某企業使用孤立森林模型分析登入日誌，識別98%的異常登入，減少 40%安全事件。",
       "pageIndex": 156,
       "bbox": [
@@ -1447,11 +1826,14 @@
         518.16,
         164.15
       ],
-      "id": "block-105"
+      "id": "block-105",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "挑戰：",
       "pageIndex": 156,
@@ -1461,11 +1843,15 @@
         159.88,
         189.11
       ],
-      "id": "block-106"
+      "id": "block-106",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "資料不平衡：異常事件比例低，需特殊處理（如SMOTE）。",
       "pageIndex": 156,
       "bbox": [
@@ -1474,11 +1860,15 @@
         468.0,
         214.07
       ],
-      "id": "block-107"
+      "id": "block-107",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "即時性：資安任務需低延遲處理，依賴串流平台（如Kafka）。",
       "pageIndex": 156,
       "bbox": [
@@ -1487,11 +1877,15 @@
         481.92,
         239.15
       ],
-      "id": "block-108"
+      "id": "block-108",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "重複值：日誌重複記錄可能影響卡方檢定結果。",
       "pageIndex": 156,
       "bbox": [
@@ -1500,7 +1894,10 @@
         403.77,
         264.14
       ],
-      "id": "block-109"
+      "id": "block-109",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1513,7 +1910,10 @@
         90.67,
         314.75
       ],
-      "id": "block-110"
+      "id": "block-110",
+      "nodeId": "mid-s2c11",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1526,7 +1926,10 @@
         518.28,
         414.14
       ],
-      "id": "block-111"
+      "id": "block-111",
+      "nodeId": "mid-s2c11",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1539,7 +1942,10 @@
         518.27,
         464.2
       ],
-      "id": "block-112"
+      "id": "block-112",
+      "nodeId": "mid-s2c11",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1553,7 +1959,10 @@
         243.43,
         513.64
       ],
-      "id": "block-113"
+      "id": "block-113",
+      "nodeId": "mid-s2c11",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1567,25 +1976,49 @@
         243.43,
         513.64
       ],
-      "id": "block-114"
+      "id": "block-114",
+      "nodeId": "mid-s2c11",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "結構化資料（Structured Data） 來源：",
+      "text": "結構化資料（Structured Data）",
       "pageIndex": 156,
       "bbox": [
         102.16,
         525.27,
         290.47,
-        563.68
+        538.72
       ],
-      "id": "block-115"
+      "id": "block-115",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "來源：",
+      "pageIndex": 156,
+      "bbox": [
+        120.52,
+        550.23,
+        176.92,
+        563.68
+      ],
+      "id": "block-116",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "關聯式資料庫，如ERP、CRM 或POS 系統產生的交易記錄、用戶屬性、設備資訊。",
       "pageIndex": 156,
       "bbox": [
@@ -1594,11 +2027,15 @@
         518.37,
         613.72
       ],
-      "id": "block-116"
+      "id": "block-117",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "特性：",
       "pageIndex": 156,
       "bbox": [
@@ -1607,11 +2044,15 @@
         176.92,
         638.71
       ],
-      "id": "block-117"
+      "id": "block-118",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "欄位明確、格式規範，適合直接轉換為表格式特徵（features），如數值或類別欄位。",
       "pageIndex": 156,
       "bbox": [
@@ -1620,11 +2061,15 @@
         518.38,
         688.75
       ],
-      "id": "block-118"
+      "id": "block-119",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "應用案例：",
       "pageIndex": 156,
       "bbox": [
@@ -1633,11 +2078,15 @@
         202.15,
         713.71
       ],
-      "id": "block-119"
+      "id": "block-120",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "信用評分：使用客戶收入、貸款紀錄預測信用風險。",
       "pageIndex": 156,
       "bbox": [
@@ -1646,11 +2095,15 @@
         443.25,
         738.67
       ],
-      "id": "block-120"
+      "id": "block-121",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "客戶分類：根據購買歷史與人口屬性進行客群分群。",
       "pageIndex": 156,
       "bbox": [
@@ -1659,11 +2112,15 @@
         443.25,
         763.74
       ],
-      "id": "block-121"
+      "id": "block-122",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "設備預測維修：利用感測器數據（如溫度、振動）預測機器故障。",
       "pageIndex": 157,
       "bbox": [
@@ -1672,25 +2129,49 @@
         518.88,
         114.11
       ],
-      "id": "block-122"
+      "id": "block-123",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "半結構化資料（Semi-structured Data） 來源：",
+      "text": "半結構化資料（Semi-structured Data）",
       "pageIndex": 157,
       "bbox": [
         102.16,
         125.62,
         331.17,
-        164.15
+        139.07
       ],
-      "id": "block-123"
+      "id": "block-124",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "來源：",
+      "pageIndex": 157,
+      "bbox": [
+        120.52,
+        150.7,
+        176.92,
+        164.15
+      ],
+      "id": "block-125",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "JSON、XML 格式的API 回傳資料、伺服器日誌（Log）、行為記錄 （如點擊流）。",
       "pageIndex": 157,
       "bbox": [
@@ -1699,11 +2180,15 @@
         518.35,
         214.07
       ],
-      "id": "block-124"
+      "id": "block-126",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "特性：",
       "pageIndex": 157,
       "bbox": [
@@ -1712,11 +2197,15 @@
         176.92,
         239.15
       ],
-      "id": "block-125"
+      "id": "block-127",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "具有層次結構（如嵌套的JSON），但欄位可能動態變動，需解析 （Parsing）或展平（Flattening）。",
       "pageIndex": 157,
       "bbox": [
@@ -1725,11 +2214,15 @@
         518.09,
         289.1
       ],
-      "id": "block-126"
+      "id": "block-128",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "應用案例：",
       "pageIndex": 157,
       "bbox": [
@@ -1738,11 +2231,15 @@
         202.15,
         314.18
       ],
-      "id": "block-127"
+      "id": "block-129",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "網站行為分析：解析用戶點擊日誌，提取瀏覽路徑與停留時間。",
       "pageIndex": 157,
       "bbox": [
@@ -1751,11 +2248,15 @@
         506.28,
         339.14
       ],
-      "id": "block-128"
+      "id": "block-130",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "API 資料預測：使用天氣API 的JSON 資料預測銷售量。",
       "pageIndex": 157,
       "bbox": [
@@ -1764,25 +2265,49 @@
         466.44,
         364.1
       ],
-      "id": "block-129"
+      "id": "block-131",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "非結構化資料（Unstructured Data） 來源與類型：",
+      "text": "非結構化資料（Unstructured Data）",
       "pageIndex": 157,
       "bbox": [
         102.16,
         375.73,
         316.27,
-        414.14
+        389.18
       ],
-      "id": "block-130"
+      "id": "block-132",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "來源與類型：",
+      "pageIndex": 157,
+      "bbox": [
+        120.52,
+        400.69,
+        214.75,
+        414.14
+      ],
+      "id": "block-133",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "文字：客服對話、產品評論、社群媒體貼文、電子郵件。",
       "pageIndex": 157,
       "bbox": [
@@ -1791,11 +2316,15 @@
         468.48,
         439.1
       ],
-      "id": "block-131"
+      "id": "block-134",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "影像：醫療影像（如X 光片）、產品照片、監控影像。",
       "pageIndex": 157,
       "bbox": [
@@ -1804,11 +2333,15 @@
         452.25,
         464.2
       ],
-      "id": "block-132"
+      "id": "block-135",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "聲音：客服錄音、語音指令、環境聲音。",
       "pageIndex": 157,
       "bbox": [
@@ -1817,11 +2350,15 @@
         380.25,
         489.16
       ],
-      "id": "block-133"
+      "id": "block-136",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "特性：",
       "pageIndex": 157,
       "bbox": [
@@ -1830,11 +2367,15 @@
         176.92,
         514.12
       ],
-      "id": "block-134"
+      "id": "block-137",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "無固定結構，需特徵萃取（Feature Extraction）轉為模型可用的數值表示。",
       "pageIndex": 157,
       "bbox": [
@@ -1843,11 +2384,15 @@
         518.37,
         564.16
       ],
-      "id": "block-135"
+      "id": "block-138",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "應用案例：",
       "pageIndex": 157,
       "bbox": [
@@ -1856,11 +2401,15 @@
         202.15,
         589.12
       ],
-      "id": "block-136"
+      "id": "block-139",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "文字：情緒分析（NLP）判斷顧客評論的正面/負面情緒。",
       "pageIndex": 157,
       "bbox": [
@@ -1869,11 +2418,15 @@
         470.4,
         614.2
       ],
-      "id": "block-137"
+      "id": "block-140",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "影像：醫療影像分類（CNN）診斷疾病。",
       "pageIndex": 157,
       "bbox": [
@@ -1882,11 +2435,15 @@
         381.33,
         639.19
       ],
-      "id": "block-138"
+      "id": "block-141",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "聲音：語音辨識（ASR）轉錄客服對話。",
       "pageIndex": 157,
       "bbox": [
@@ -1895,25 +2452,49 @@
         379.29,
         664.15
       ],
-      "id": "block-139"
+      "id": "block-142",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "多模態資料（Multi-modal Data） 來源：",
+      "text": "多模態資料（Multi-modal Data）",
       "pageIndex": 157,
       "bbox": [
         102.16,
         675.78,
         301.39,
-        714.19
+        689.23
       ],
-      "id": "block-140"
+      "id": "block-143",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "來源：",
+      "pageIndex": 157,
+      "bbox": [
+        120.52,
+        700.74,
+        176.92,
+        714.19
+      ],
+      "id": "block-144",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "結合多種資料型態，如用戶屬性（結構化）+ 產品評論（文字）+ 商品圖片（影像）。",
       "pageIndex": 157,
       "bbox": [
@@ -1922,11 +2503,15 @@
         518.4,
         764.22
       ],
-      "id": "block-141"
+      "id": "block-145",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "特性：",
       "pageIndex": 158,
       "bbox": [
@@ -1935,11 +2520,15 @@
         176.92,
         114.11
       ],
-      "id": "block-142"
+      "id": "block-146",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "需融合多來源特徵，模型需支援多輸入架構或特徵級融合。",
       "pageIndex": 158,
       "bbox": [
@@ -1948,11 +2537,15 @@
         481.08,
         139.07
       ],
-      "id": "block-143"
+      "id": "block-147",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "應用案例：",
       "pageIndex": 158,
       "bbox": [
@@ -1961,11 +2554,15 @@
         202.15,
         164.15
       ],
-      "id": "block-144"
+      "id": "block-148",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "電商推薦系統：結合用戶購買紀錄、評論文字與商品圖片進行個人化推薦。",
       "pageIndex": 158,
       "bbox": [
@@ -1974,11 +2571,15 @@
         518.2,
         214.07
       ],
-      "id": "block-145"
+      "id": "block-149",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "醫療診斷：整合病患病歷（結構化）、醫師筆記（文字）與CT 影像 （影像）。",
       "pageIndex": 158,
       "bbox": [
@@ -1987,7 +2588,10 @@
         518.4,
         264.14
       ],
-      "id": "block-146"
+      "id": "block-150",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2001,7 +2605,10 @@
         243.43,
         314.18
       ],
-      "id": "block-147"
+      "id": "block-151",
+      "nodeId": "mid-s2c11",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2014,25 +2621,49 @@
         518.31,
         364.1
       ],
-      "id": "block-148"
+      "id": "block-152",
+      "nodeId": "mid-s2c11",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "人工標註（Manual Labeling） 優點：",
+      "text": "人工標註（Manual Labeling）",
       "pageIndex": 158,
       "bbox": [
         102.16,
         375.73,
         284.59,
-        414.14
+        389.18
       ],
-      "id": "block-149"
+      "id": "block-153",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "優點：",
+      "pageIndex": 158,
+      "bbox": [
+        120.52,
+        400.69,
+        176.92,
+        414.14
+      ],
+      "id": "block-154",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "標註準確度高，特別適合需要專業知識的任務（如醫療影像診斷、法律文件分類）。",
       "pageIndex": 158,
       "bbox": [
@@ -2041,11 +2672,15 @@
         518.03,
         464.2
       ],
-      "id": "block-150"
+      "id": "block-155",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "限制：",
       "pageIndex": 158,
       "bbox": [
@@ -2054,11 +2689,15 @@
         176.92,
         489.16
       ],
-      "id": "block-151"
+      "id": "block-156",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "成本高、耗時，需專業人力；大規模資料標註難以擴展。",
       "pageIndex": 158,
       "bbox": [
@@ -2067,11 +2706,15 @@
         468.48,
         514.12
       ],
-      "id": "block-152"
+      "id": "block-157",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "實務案例：",
       "pageIndex": 158,
       "bbox": [
@@ -2080,11 +2723,15 @@
         202.15,
         539.2
       ],
-      "id": "block-153"
+      "id": "block-158",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "醫療團隊標註X 光片是否有病灶，確保診斷準確性。",
       "pageIndex": 158,
       "bbox": [
@@ -2093,25 +2740,49 @@
         445.89,
         564.16
       ],
-      "id": "block-154"
+      "id": "block-159",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "弱監督式標註（Weak Supervision） 定義：",
+      "text": "弱監督式標註（Weak Supervision）",
       "pageIndex": 158,
       "bbox": [
         102.16,
         575.67,
         315.07,
-        614.2
+        589.12
       ],
-      "id": "block-155"
+      "id": "block-160",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "定義：",
+      "pageIndex": 158,
+      "bbox": [
+        120.52,
+        600.75,
+        176.92,
+        614.2
+      ],
+      "id": "block-161",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "使用規則、啟發式方法或第三方資料（如情緒詞典）自動生成標籤，減少人工成本。",
       "pageIndex": 158,
       "bbox": [
@@ -2120,11 +2791,15 @@
         521.47,
         664.15
       ],
-      "id": "block-156"
+      "id": "block-162",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "優點：",
       "pageIndex": 158,
       "bbox": [
@@ -2133,11 +2808,15 @@
         176.92,
         689.23
       ],
-      "id": "block-157"
+      "id": "block-163",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "速度快、成本低，適合大規模資料。",
       "pageIndex": 158,
       "bbox": [
@@ -2146,11 +2825,15 @@
         355.05,
         714.19
       ],
-      "id": "block-158"
+      "id": "block-164",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "限制：",
       "pageIndex": 158,
       "bbox": [
@@ -2159,11 +2842,15 @@
         176.92,
         739.15
       ],
-      "id": "block-159"
+      "id": "block-165",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "誤標風險高，標籤品質可能不穩定，需後續清理。",
       "pageIndex": 158,
       "bbox": [
@@ -2172,11 +2859,15 @@
         430.65,
         764.22
       ],
-      "id": "block-160"
+      "id": "block-166",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "實務案例：",
       "pageIndex": 159,
       "bbox": [
@@ -2185,11 +2876,15 @@
         202.15,
         114.11
       ],
-      "id": "block-161"
+      "id": "block-167",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "使用情緒詞典自動標註社群貼文的情感（正面/負面），再人工校正部分樣本。",
       "pageIndex": 159,
       "bbox": [
@@ -2198,25 +2893,49 @@
         518.28,
         164.15
       ],
-      "id": "block-162"
+      "id": "block-168",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "群眾外包標註（Crowdsourcing） 定義：",
+      "text": "群眾外包標註（Crowdsourcing）",
       "pageIndex": 159,
       "bbox": [
         102.16,
         175.66,
         300.79,
-        214.07
+        189.11
       ],
-      "id": "block-163"
+      "id": "block-169",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "定義：",
+      "pageIndex": 159,
+      "bbox": [
+        120.52,
+        200.62,
+        176.92,
+        214.07
+      ],
+      "id": "block-170",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "透過平台（如Amazon Mechanical Turk、Appen）將標註任務分散給大量非專業工作者。",
       "pageIndex": 159,
       "bbox": [
@@ -2225,11 +2944,15 @@
         518.37,
         264.14
       ],
-      "id": "block-164"
+      "id": "block-171",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "優點：",
       "pageIndex": 159,
       "bbox": [
@@ -2238,11 +2961,15 @@
         176.92,
         289.1
       ],
-      "id": "block-165"
+      "id": "block-172",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "成本低、速度快，適合簡單任務（如圖片分類、文字標籤）。",
       "pageIndex": 159,
       "bbox": [
@@ -2251,11 +2978,15 @@
         487.44,
         314.18
       ],
-      "id": "block-166"
+      "id": "block-173",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "限制：",
       "pageIndex": 159,
       "bbox": [
@@ -2264,11 +2995,15 @@
         176.92,
         339.14
       ],
-      "id": "block-167"
+      "id": "block-174",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "標註品質參差不齊，需一致性檢查與多工審核。",
       "pageIndex": 159,
       "bbox": [
@@ -2277,11 +3012,15 @@
         418.05,
         364.1
       ],
-      "id": "block-168"
+      "id": "block-175",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "實務案例：",
       "pageIndex": 159,
       "bbox": [
@@ -2290,11 +3029,15 @@
         202.15,
         389.18
       ],
-      "id": "block-169"
+      "id": "block-176",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "電商平台透過Appen 標註產品圖片是否包含特定物件（如「鞋子」）。",
       "pageIndex": 159,
       "bbox": [
@@ -2303,25 +3046,49 @@
         521.88,
         414.14
       ],
-      "id": "block-170"
+      "id": "block-177",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "主動式學習（Active Learning） 定義：",
+      "text": "主動式學習（Active Learning）",
       "pageIndex": 159,
       "bbox": [
         102.16,
         425.65,
         293.11,
-        464.2
+        439.1
       ],
-      "id": "block-171"
+      "id": "block-178",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "定義：",
+      "pageIndex": 159,
+      "bbox": [
+        120.52,
+        450.75,
+        176.92,
+        464.2
+      ],
+      "id": "block-179",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "模型預測低置信度樣本，優先交由人工標註，優化標註效率。",
       "pageIndex": 159,
       "bbox": [
@@ -2330,11 +3097,15 @@
         493.68,
         489.16
       ],
-      "id": "block-172"
+      "id": "block-180",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "優點：",
       "pageIndex": 159,
       "bbox": [
@@ -2343,11 +3114,15 @@
         176.92,
         514.12
       ],
-      "id": "block-173"
+      "id": "block-181",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "減少標註量，適合成本高、資料量大的情境。",
       "pageIndex": 159,
       "bbox": [
@@ -2356,11 +3131,15 @@
         405.45,
         539.2
       ],
-      "id": "block-174"
+      "id": "block-182",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "限制：",
       "pageIndex": 159,
       "bbox": [
@@ -2369,11 +3148,15 @@
         176.92,
         564.16
       ],
-      "id": "block-175"
+      "id": "block-183",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "需初始標註資料與迭代訓練，技術門檻較高。",
       "pageIndex": 159,
       "bbox": [
@@ -2382,11 +3165,15 @@
         405.45,
         589.12
       ],
-      "id": "block-176"
+      "id": "block-184",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "實務案例：",
       "pageIndex": 159,
       "bbox": [
@@ -2395,11 +3182,15 @@
         202.15,
         614.2
       ],
-      "id": "block-177"
+      "id": "block-185",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "詐欺檢測模型中挑選不確定的交易（置信度< 0.6）交由專家標註，降低總標註成本。",
       "pageIndex": 159,
       "bbox": [
@@ -2408,7 +3199,10 @@
         518.28,
         664.15
       ],
-      "id": "block-178"
+      "id": "block-186",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2422,7 +3216,10 @@
         293.95,
         714.19
       ],
-      "id": "block-179"
+      "id": "block-187",
+      "nodeId": "mid-s2c11",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2435,25 +3232,49 @@
         518.16,
         764.22
       ],
-      "id": "block-180"
+      "id": "block-188",
+      "nodeId": "mid-s2c11",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "主鍵不一致挑戰：",
+      "text": "主鍵不一致",
       "pageIndex": 160,
       "bbox": [
         102.16,
         100.66,
         185.08,
-        139.07
+        114.11
       ],
-      "id": "block-181"
+      "id": "block-189",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "挑戰：",
+      "pageIndex": 160,
+      "bbox": [
+        120.52,
+        125.62,
+        176.92,
+        139.07
+      ],
+      "id": "block-190",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "不同系統的用戶ID、裝置ID 或訂單編號定義不同，無法直接對應。",
       "pageIndex": 160,
       "bbox": [
@@ -2462,11 +3283,15 @@
         521.88,
         164.15
       ],
-      "id": "block-182"
+      "id": "block-191",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "實務案例：",
       "pageIndex": 160,
       "bbox": [
@@ -2475,11 +3300,15 @@
         202.15,
         189.11
       ],
-      "id": "block-183"
+      "id": "block-192",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "電商平台的CRM 與POS 系統使用不同客戶ID，導致資料無法合併。",
       "pageIndex": 160,
       "bbox": [
@@ -2488,25 +3317,49 @@
         518.28,
         239.15
       ],
-      "id": "block-184"
+      "id": "block-193",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "時間戳記與時區對齊挑戰：",
+      "text": "時間戳記與時區對齊",
       "pageIndex": 160,
       "bbox": [
         102.16,
         250.69,
         235.51,
-        289.1
+        264.14
       ],
-      "id": "block-185"
+      "id": "block-194",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "挑戰：",
+      "pageIndex": 160,
+      "bbox": [
+        120.52,
+        275.65,
+        176.92,
+        289.1
+      ],
+      "id": "block-195",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "跨系統資料的時間欄位可能有延遲、格式差異或時區不一致。",
       "pageIndex": 160,
       "bbox": [
@@ -2515,11 +3368,15 @@
         493.68,
         314.18
       ],
-      "id": "block-186"
+      "id": "block-196",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "實務案例：",
       "pageIndex": 160,
       "bbox": [
@@ -2528,11 +3385,15 @@
         202.15,
         339.14
       ],
-      "id": "block-187"
+      "id": "block-197",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "網站日誌（UTC）與本地POS 交易（台北時間）時間戳記不一致，影響行為分析。",
       "pageIndex": 160,
       "bbox": [
@@ -2541,25 +3402,49 @@
         518.79,
         389.18
       ],
-      "id": "block-188"
+      "id": "block-198",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "資料更新頻率不一致挑戰：",
+      "text": "資料更新頻率不一致",
       "pageIndex": 160,
       "bbox": [
         102.16,
         400.69,
         235.51,
-        439.1
+        414.14
       ],
-      "id": "block-189"
+      "id": "block-199",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "挑戰：",
+      "pageIndex": 160,
+      "bbox": [
+        120.52,
+        425.65,
+        176.92,
+        439.1
+      ],
+      "id": "block-200",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "部分來源為即時串流（如感測器資料），部分為批次同步（如ERP 資料），導致整合的時間視窗不一致。",
       "pageIndex": 160,
       "bbox": [
@@ -2568,11 +3453,15 @@
         518.4,
         489.16
       ],
-      "id": "block-190"
+      "id": "block-201",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "實務案例：",
       "pageIndex": 160,
       "bbox": [
@@ -2581,11 +3470,15 @@
         202.15,
         514.12
       ],
-      "id": "block-191"
+      "id": "block-202",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "即時點擊流與每日更新的庫存資料難以同步，影響推薦系統。",
       "pageIndex": 160,
       "bbox": [
@@ -2594,25 +3487,49 @@
         493.68,
         539.2
       ],
-      "id": "block-192"
+      "id": "block-203",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "資料品質不均挑戰：",
+      "text": "資料品質不均",
       "pageIndex": 160,
       "bbox": [
         102.16,
         550.71,
         197.71,
-        589.12
+        564.16
       ],
-      "id": "block-193"
+      "id": "block-204",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "挑戰：",
+      "pageIndex": 160,
+      "bbox": [
+        120.52,
+        575.67,
+        176.92,
+        589.12
+      ],
+      "id": "block-205",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "不同來源的資料可能有缺失值、不一致格式或邏輯錯誤，影響整合品質。",
       "pageIndex": 160,
       "bbox": [
@@ -2621,11 +3538,15 @@
         518.2,
         639.19
       ],
-      "id": "block-194"
+      "id": "block-206",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "實務案例：",
       "pageIndex": 160,
       "bbox": [
@@ -2634,11 +3555,15 @@
         202.15,
         664.15
       ],
-      "id": "block-195"
+      "id": "block-207",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "API 資料缺少關鍵欄位，ERP 資料單位不統一（如「1,000 克」/「1 公斤」）。",
       "pageIndex": 160,
       "bbox": [
@@ -2647,7 +3572,10 @@
         518.76,
         714.19
       ],
-      "id": "block-196"
+      "id": "block-208",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2661,7 +3589,10 @@
         256.15,
         114.11
       ],
-      "id": "block-197"
+      "id": "block-209",
+      "nodeId": "mid-s2c11",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2674,11 +3605,14 @@
         518.12,
         164.15
       ],
-      "id": "block-198"
+      "id": "block-210",
+      "nodeId": "mid-s2c11",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "缺失值：",
       "pageIndex": 161,
@@ -2688,11 +3622,15 @@
         172.48,
         189.11
       ],
-      "id": "block-199"
+      "id": "block-211",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "高缺失率可能導致特徵不完整，影響模型訓練（如線性迴歸）或t 檢定的均值估計。",
       "pageIndex": 161,
       "bbox": [
@@ -2701,11 +3639,14 @@
         518.4,
         239.15
       ],
-      "id": "block-200"
+      "id": "block-212",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "異常值：",
       "pageIndex": 161,
@@ -2715,11 +3656,15 @@
         172.48,
         264.14
       ],
-      "id": "block-201"
+      "id": "block-213",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "未處理的異常值可能放大模型誤差，影響獨立樣本t 檢定或分類模型的決策邊界。",
       "pageIndex": 161,
       "bbox": [
@@ -2728,11 +3673,14 @@
         518.25,
         314.18
       ],
-      "id": "block-202"
+      "id": "block-214",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "重複值：",
       "pageIndex": 161,
@@ -2742,11 +3690,15 @@
         172.48,
         339.14
       ],
-      "id": "block-203"
+      "id": "block-215",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "重複記錄可能高估樣本權重，影響卡方檢定或模型訓練的平衡性。",
       "pageIndex": 161,
       "bbox": [
@@ -2755,11 +3707,14 @@
         504.6,
         364.1
       ],
-      "id": "block-204"
+      "id": "block-216",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "一致性錯誤：",
       "pageIndex": 161,
@@ -2769,11 +3724,15 @@
         197.71,
         389.18
       ],
-      "id": "block-205"
+      "id": "block-217",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "不統一的格式導致無法正確聚合特徵，影響ANOVA 或相關檢定的結果。",
       "pageIndex": 161,
       "bbox": [
@@ -2782,11 +3741,14 @@
         518.25,
         439.1
       ],
-      "id": "block-206"
+      "id": "block-218",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "邏輯錯誤：",
       "pageIndex": 161,
@@ -2796,11 +3758,15 @@
         185.08,
         464.2
       ],
-      "id": "block-207"
+      "id": "block-219",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "不合理的標籤（如錯誤分類）會導致模型學習錯誤模式，降低預測準確度。",
       "pageIndex": 161,
       "bbox": [
@@ -2809,7 +3775,10 @@
         517.88,
         514.12
       ],
-      "id": "block-208"
+      "id": "block-220",
+      "nodeId": "mid-s2c11",
+      "kind": "list_item",
+      "source": "page_extract"
     }
   ],
   "sourcePages": [

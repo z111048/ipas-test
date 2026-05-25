@@ -1,7 +1,7 @@
 {
   "id": "mid-s1c3",
   "title": "生成式AI 技術與應用",
-  "content": "# 生成式AI 技術與應用\n\n3.3 生成式AI\n\n技術與應用\n\n### 1. 前言與章節導覽\n\n生成式人工智慧（Generative Artificial Intelligence, Generative AI）已成為近年來最受矚目的科技領域之一。自2022 年OpenAI 推出ChatGPT 以來，生成式AI 不僅引發了學術界與產業界的廣泛關注，也在文字創作、圖像合成、影音生成、語音模仿、程式碼撰寫等領域實現了大規模應用，並迅速改變了人類與AI 的互動方式與創作模式。\n\n在2025 年CES 展中，NVIDIA 執行長黃仁勳指出，AI 正經歷四個主要的演進階段：\n\n• 感知AI（Perception AI）：理解影像、語音、文字等資訊，如圖像辨識、語音轉文字等。\n\n• 生成式AI（Generative AI）：能夠主動產生文本、圖像、影片、語音等多模態內容。\n\n• 代理式AI（Agentic AI）：具備推理與計畫能力，能自動完成複雜任務。\n\n• 物理AI（Physical AI）：能在真實世界中移動、操控並進行互動，如AI 機器人與自駕車。\n\n其中，生成式AI 代表著AI 發展的第二個重要階段，它不僅理解資訊，還能夠創造新內容。這代表AI 不再僅是資料分析的工具，而是具備主動創造價值的能力。生成式AI 的技術基礎包括大規模預訓練模型、深度神經網路、跨模態學習、強化式學習與提示工程（Prompt Engineering）等，並與自然語言處理（NLP）、電腦視覺（CV）、語音處理等領域緊密結合。本節內容將介紹生成式AI 的發展與應用情境。\n\n### 2. 生成式\n\nAI基礎概念與演進脈絡\n\n#### （1）定義與範疇\n\n生成式人工智慧（Generative AI）是一類可以根據輸入訊息產生全新內容的人工智慧技術。與傳統的鑑別式AI（Discriminative AI）不同，後者主要應用於分類、辨識或預測，如圖像分類或語音辨識；而生成式AI 強調「創造性」，能夠生成新的資料樣本，涵蓋文本、圖像、音訊、影片、程式碼等領域。\n\n|  | AI | AI |\n| --- | --- | --- |\n|  | Generative AI | Discriminative AI |\n| 目標 | 生成新的資料樣本，例如文本、圖像、 音訊等 | 進行分類、辨識或預測，將資料歸類或分配標籤 |\n| 工作方式 | 學習資料的分佈並生成新的樣本 | 學習資料的特徵，並依此進行預測或分類 |\n| 主要應用 | 內容創作（如文本生成、圖像生成、語音合成等） | 分類問題（如圖像分類、語音辨識、疾病預測等） |\n| 模型例子 | GPT、VAE、GAN、Diffusion Models | SVM、決策樹、隨機森林、Logistic 迴歸等 |\n| 訓練方式 | 學習資料分佈的結構並生成新資料樣本 | 基於已有資料進行辨識與分類 |\n| 結果 | 生成新的數據或創造性內容 | 辨識資料的類別或預測目標變數 |\n| 輸出 | 新的資料點或內容，如圖像、文字等 | 類別標籤或數值預測 |\n| 例子 | ChatGPT（文本生成）、DALL·E（圖像生成） | ResNe（t 圖像分類）、HMM（語音辨識） |\n\n生成式AI 的核心在於學習資料的分佈特性與潛在結構，並藉此「模擬」或 「擴張」該分佈來產出新的樣本。這使其不僅僅是模仿已有的內容，還能展現一定程度的創造力與泛化能力，從而在多個領域得到了廣泛應用。具體應用包括以下幾大類型：\n\n• 文本生成（Text Generation）：如ChatGPT、Claude，能進行對話、摘要、文章撰寫及翻譯。\n\n• 圖像生成（Image Generation）：如DALL·E、Midjourney、Stable Diffusion，根據文字描述生成高解析度的圖像。\n\n• 語音與音樂生成（Audio Generation）：如ElevenLabs、MusicLM，可合成語音或創作音樂。\n\n• 影片生成（Video Generation）：如Runway、Sora，能根據文字描述自動生成影片片段。\n\n• 多模態生成（Multimodal Generation）：整合文字、圖像、語音及動作的輸入與輸出，如Gemini、GPT-4V、CLIP。\n\n生成式AI 不僅是單一模型，而是涵蓋一整套技術體系，包括預訓練、微調與應用調用。該體系涉及多種架構與技術，如大規模語言模型（LLM）、擴散模型 （Diffusion Models）、對抗生成網路（GAN）、變分自編碼器（VAE）等，並結合了提示工程（Prompt Engineering）、微調（Fine-tuning）及少樣本學習（Few-shot Learning）等策略來進行應用。\n\n這些技術的發展，使得生成式AI 不僅具備創作能力，還能夠進行多模態學習和生成，推動了人工智慧從單純的數據處理工具，轉向更具創意與自我表現的系統，並為各行各業帶來了巨大的應用潛力。\n\n#### （2）技術演進脈絡\n\n生成式AI 的發展歷程可追溯至2010 年代初，隨著深度學習與神經網路技術的成熟，其逐步進入可規模化訓練並廣泛應用的階段。從早期的簡單生成模型到當前的巨型多模態系統，生成式AI 的技術演進呈現出鮮明的階段性特徵，每個階段的突破都推動了生成能力的質變與應用情境的拓展。以下將其發展脈絡分為五個關鍵階段，梳理技術特徵、代表模型及演進趨勢。\n\n|  | 時間 | 核心技術 | 代表模型 | 特徵與限制 |\n| --- | --- | --- | --- | --- |\n| 初期階段 | 2013–2015 | VAE、RNN | VAE | 生成模糊、訓練困難 |\n| GAN 時代 | 2014–2020 | 對抗訓練 | DCGAN、 StyleGAN | 高寫實性、不穩定性 |\n| Transformer 崛起 | 2017 年起 | 自注意力機制 | BERT、GPT | 高效語境建模、 NLP 主導 |\n| 擴散與多模態 | 2020 年起 | 擴散模型、多模態對齊 | Stable Diffusion、 DALL·E | 高品質、多模態整合 |\n| 巨型模型與 Agent 化 | 2023 年起 | 巨型參數、工具整合 | GPT-4、Gemini | 自主性、任務導向 |\n\n##### A. 初期階段：編碼器-解碼器模型與變分自編碼器（2013–2015）\n\n生成式AI 的早期探索主要圍繞編碼器-解碼器（Encoder-Decoder）架構與變分自編碼器（Variational Autoencoder, VAE）展開。此階段的模型通常基於遞迴神經網路（Recurrent Neural Network, RNN）或簡單卷積結構，旨在生成圖像或語句等連續性內容。例如，VAE 通過學習數據的潛在分佈（Latent Distribution），能夠從隨機噪聲中重建圖像或文本。\n\n• 技術特徵：VAE 利用變分推斷（Variational Inference）生成數據，強調機率建模；RNN 則專注於序列數據的生成。\n\n• 代表應用：簡單圖像重建（如MNIST 手寫數字）、基礎文本生成。\n\n• 階段限制：生成結果往往模糊（如低解析度圖像）、品質不穩定，且訓練過程因梯度消失或計算複雜性而難以收斂。\n\n##### B. 對抗生成網路時代（2014–2020）\n\n2014 年，Ian Goodfellow 提出的對抗生成網路（Generative Adversarial Network, GAN）標誌著生成式AI 的重大轉折。GAN 通過生成器（Generator）與判別器 （Discriminator）的對抗訓練，實現了從隨機噪聲生成高品質數據的能力。其核心在於生成器學習逼近真實數據分佈，而判別器則負責區分生成數據與真實數據，\n\n形成動態平衡。\n\n• 技術特徵：對抗訓練機制提升了生成內容的寫實性與細節表現力。\n\n• 代表模型：DCGAN（深度卷積GAN）、CycleGAN（風格轉換）、StyleGAN（高品質人臉生成）。\n\n• 應用情境：人臉合成、圖像風格遷移（如油畫轉照片）、動畫角色生成。\n\n• 階段限制：訓練不穩定（如模式崩潰Mode Collapse）、對超參數敏感，且難以生成結構複雜的長序列內容。\n\n##### C. 自注意力與Transformer 崛起（2017 年起）\n\n2017 年，Google 提出的Transformer 架構徹底改變了生成式AI 的發展路徑。\n\n基於自注意力機制（Self-Attention），Transformer 克服了RNN 在長距離依賴建模上的局限，並顯著提升了並行計算效率。這一技術迅速從自然語言處理領域擴展至生成任務，催生了大型語言模型（Large Language Model, LLM）的興起。\n\n• 技術特徵：自注意力實現全局語境建模，支援高效的序列生成。\n\n• 代表模型：BERT（雙向理解）、GPT 系列（自迴歸生成）、T5（文本到文本轉換）。\n\n• 應用情境：文本生成（如文章撰寫）、對話系統、語意理解。\n\n• 階段影響：生成內容的連貫性與邏輯性大幅提升，為後續多模態生成奠定基礎。\n\n##### D. 擴散模型與多模態生成（2020 年起）\n\n2020 年後，擴散模型（Diffusion Models）憑藉其穩定性和高品質生成能力，成為圖像生成領域的新主流。擴散模型通過逐步去噪（Denoising）的過程，從隨機噪聲生成細節豐富的圖像，如DDPM（Denoising Diffusion Probabilistic Models）\n\n與Stable Diffusion。同時，多模態模型（Multimodal Models）開始整合圖像、文本、語音等多種數據類型，實現跨模態生成。\n\n• 技術特徵：擴散模型強調逐步優化生成過程；多模態模型依賴預訓練與跨模態對齊（如CLIP 的圖文對應）。\n\n• 代表模型：Stable Diffusion（圖像生成）、DALL·E（文本到圖像）、Flamingo（視覺問答）、Gemini（多模態整合）。\n\n• 應用情境：藝術創作（如AI 繪畫）、圖文生成廣告、多模態對話。\n\n• 階段優勢：生成解析度更高、細節更豐富，並能處理多模態任務。\n\n##### E. 巨型模型與Agent 化發展（2023 年至今）\n\n自2023 年起，生成式AI 進入巨型模型與代理式（Agentic）發展階段。參數規模突破百億甚至千億的模型（如GPT-4、Claude 2、Gemini 1.5）不僅具備卓越的生成能力，還通過指令理解與多回合互動展現初步的自主性。這些模型開始朝 「自主代理人」（Autonomous Agent）與「任務導向協作AI」演進，並與外部工具整合，提升實用性。\n\n• 技術特徵：巨型參數規模、指令驅動（Instruction Tuning）、工具鏈整合（如API 調用、RAG 檢索增強生成、記憶功能）。\n\n• 代表應用：自動任務規劃（如行程安排）、程式碼生成、多模態協作（如圖文編輯）。\n\n• 階段趨勢：生成式AI 從單純的內容創造轉向任務解決與智慧協助，應用邊界進一步拓寬。\n\n### 3. 生成式\n\nAI常見模型與工具\n\n生成式AI 作為人工智慧領域的重要分支，憑藉其從資料中創造新內容的能力，已在多個產業中展現出改變性的潛力。隨著深度學習技術的進步與運算資源的提升，生成式AI 不僅能生成高品質的文字、圖片與語音，還擴展至多模態內容生成、程式碼撰寫、資料增強等多樣化應用。這些技術的實現仰賴一系列先進模型與實用工具，它們共同構成了生成式AI 系統的核心支持。\n\n生成式AI 的應用情境極為廣泛，涵蓋了文字生成（如對話系統、文案撰寫）、圖片生成（如藝術創作、設計輔助）、語音合成（如虛擬助理、有聲書製作），以及其他領域如影片生成（如動畫預視化）、音樂創作（如AI 作曲）、跨模態生成（如\n\n圖文互轉）等。這些應用不僅提升了創作效率，也為商業、教育、娛樂等領域帶來了新的可能性。以下將舉例文字生成、圖片生成與語音合成三大領域，介紹其工具平台及其在示例如的具體實現。\n\n#### （1）文本生成（Text Generation）\n\n文本生成是生成式AI 中最先突破且目前最為成熟的應用領域之一。其核心目標是根據使用者提供的提示（Prompt），生成語意通順、邏輯合理的自然語言文本。從簡單的句子補全到複雜的對話生成，文本生成技術已廣泛應用於多個情境，並隨著大型語言模型（LLM）的發展達到新的高度。\n\n##### A. 常見工具/平台\n\n文本生成的技術基礎主要依賴預訓練語言模型，以下為代表性模型：\n\n• GPT 系列（Generative Pre-trained Transformer）：由OpenAI 開發，自GPT-2 起展現強大的語言理解與生成能力。GPT-3 與GPT-4 進一步提升品質，支持高準確度對話、摘要撰寫、翻譯及程式碼生成等任務。\n\n• ChatGPT：由OpenAI 開發，是目前最廣為人知與最多使用人數的對話式AI 應用，基於GPT 架構、提供即時文本生成與多情境對話支持。具有整合語言、圖像與工具調用能力，具有跨模態生成特性。\n\n• Claude（Anthropic）：以安全性與長上下文處理能力著稱，強調模型與人類價值的對齊，適用於需要高可信度的情境。\n\n• Gemini（Google DeepMind）：整合語言、圖像與工具調用能力，具有跨模態生成特性，適應多任務需求。\n\n• 開源模型：如LLaMA（Meta AI）、Mistral、Command-R（Cohere），提供高效能與靈活性，廣泛用於社群研究與企業內部部署。\n\n##### B. 應用情境示例\n\n• 自動化客服：生成即時回覆，提升問題解決效率。\n\n• 電子郵件撰寫：自動生成日常工作郵件或商業報告，減少人工重複勞動。\n\n• 法律/醫療文書草擬：快速生成合同草案、醫療報告，提升專業文件效率。\n\n• 程式碼補全：支援程式碼撰寫與除錯，如GitHub Copilot 的應用。\n\n• 教學內容生成：生成個人化學習材料，輔助教師與學生。\n\n##### C. 挑戰與關鍵指標\n\n• 挑戰：生成內容的真實性與一致性（如避免幻覺Hallucination）、長文本的邏輯連貫性。\n\n| • 指標： 指標 | 核心目標優勢 |  | 局限 | 適用情境 |\n| --- | --- | --- | --- | --- |\n| BLEU | 詞彙相似度 | 自動化、計算快速 | 忽略語意與流暢性 | 機器翻譯、文本生成 |\n| ROUGE | 摘要資訊召回 | 關注關鍵內容覆蓋 | 無法衡量創新性 | 自動摘要、問答 |\n| 人工評估 | 流暢性與準確性 | 捕捉語意與語用 | 主觀性強、成本高 | 對話、創意寫作 |\n\nBLEU（評估生成文本與參考文本相似度）\n\nBLEU 是一種用於評估生成文本與參考文本相似度的自動化指標，最初由 Papineni 等人於2002 年提出，主要應用於機器翻譯領域。其核心思想是計算生成文本與一組參考文本之間的n-gram（連續n 個詞的序列）重疊程度，並結合簡短懲罰（Brevity Penalty）修正過短生成的偏差。BLEU 分數範圍為0 到1，分數越高表示生成文本與參考文本越相似。\n\nROUGE（摘要品質）\n\nROUGE（Recall-Oriented Understudy for Gisting Evaluation）主要使用於自動摘要、內容生成與問答系統，是一組專為評估摘要品質設計的指標，由Lin 於2004 年提出，強調生成文本與參考文本的召回率（Recall）。其核心是比較生成文本與參考文本在n-gram、詞序列或最長公共子序列（LCS）上的重\n\n疊程度。常見變體包括ROUGE-N（n-gram 重疊）、ROUGE-L（最長公共子序列）與ROUGE-S（跳躍詞對）。\n\n人工評估（流暢性與準確性）\n\n人工評估常用於對話生成、創意寫作與專業文稿生成，通過人類評估者的主觀判斷，衡量生成文本的流暢性（Fluency）與準確性（Accuracy）。流暢性關注語法正確性與閱讀自然度，準確性則評估內容是否符合事實或上下文需求。通常採用打分制（如1-5 分）或排序法進行評估。\n\n#### （2）圖像生成（Image Generation）\n\n圖像生成為生成式AI 另一關鍵領域，能夠根據自然語言提示，創造出高解析度、具風格性的圖像。該技術廣泛應用於設計、遊戲、美術創作與行銷素材。\n\n##### A. 常見模型\n\n• Diffusion Models（擴散模型）：如 Stable Diffusion、DALL·E 2、Imagen 等，透過「逐步降噪」過程生成圖像，具備高自由度與真實感。\n\n• GAN（Generative Adversarial Network）：如StyleGAN、BigGAN，以對抗訓練生成逼真的人臉、風景、藝術風格圖。\n\n• ControlNet / InstructPix2Pix：用於控制圖像生成姿態、邊緣、遮罩或修改局部內容。\n\n##### B. 常見工具與平台\n\n• Midjourney：Midjourney 是一款基於雲端服務的圖像生成工具，可通過Discord 平台以指令操作、或是至該服務官網進行操作，以其生成高美學風格圖像的能力而聞名。使用者僅需輸入自然語言提示（Prompt），即可生成多樣化的視覺內容。其背後技術融合了擴散模型（Diffusion Models）與風格優化算法，能輸出具藝術感的插畫與圖像。\n\n• Stable Diffusion WebUI：Stable Diffusion WebUI 是開源的本地部署工具，基於 Stable Diffusion 模型開發，提供圖形化介面以便於使用者操作。它支援LoRA （Low-Rank Adaptation）微調，允許使用者針對特定風格或任務調整模型，並提供邊緣控制（ControlNet）與參數自定義功能，極具靈活性。\n\n• Adobe Firefly：Adobe Firefly 是Adobe 公司所開發的生成式AI 工具，專為設計師打造。它將圖像生成功能無縫集成至Photoshop 與Illustrator 等軟體中，支援從文本提示生成視覺素材，並提供後期編輯功能。其設計注重與專業工作的兼容性。\n\n• Canva AI：Canva AI 是內建於Canva 設計平台的圖像生成工具，旨在降低創作門檻。使用者可通過簡單的提示生成創意圖像，並直接在平台上進行編輯與應用。其目標是希望打造可讓非專業設計者都能簡易操作的環境，強調快速生成與易用性，生成的圖像多用於輕量級設計任務。\n\n##### C. 應用情境\n\n• 品牌視覺設計：生成品牌標誌、廣告圖像等。\n\n• 社群圖文素材產生：自動生成社交媒體貼文或推廣圖像。\n\n• 遊戲角色與場景創作：用於快速創建遊戲中的角色、場景或概念藝術。\n\n• 影片預視化（Pre-Visualization）：快速創作電影、動畫的場景設計。\n\n• 藝術風格模仿：根據指定風格創作藝術圖像或插畫。\n\n#### （3）語音合成（Voice Synthesis）\n\n語音合成（又稱文字轉語音，Text-to-Speech, TTS）是生成式AI 的一項核心技術，旨在將文字輸入轉換為自然語音輸出。其目標是生成語調自然、音質清晰的語音，以模擬人類語言的表達方式。這項技術廣泛應用於虛擬助理、有聲書製作、配音、教育及智慧設備互動等領域，極大地提升了人機互動的便利性與沉浸感。隨著生成模型的進步，語音合成的自然度與應用範圍持續提升，已成為多產業不可或缺的工具。\n\n##### A. 常用模型\n\n語音合成的技術基礎主要依賴深度學習模型，以下為幾個代表性模型：\n\n• Tacotron 2 與FastSpeech 2：基於序列轉換（Seq2Seq）架構。Tacotron 2 透過結合卷積與循環神經網路生成語音頻譜，再由WaveNet 轉換為波形，實現自然語調與節奏；FastSpeech 2 則採用非自迴歸（Non-Autoregressive）設計，提升生成速度與音質穩定性。\n\n• 特徵：語音流暢、節奏可控，適合高品質應用。\n\n• VITS（Variational Inference Text-to-Speech）：結合變分自編碼器（VAE）與生成對抗網路（GAN），通過端到端訓練直接從文字生成語音波形。VITS 在語音自然度與細節表現（如音色變化）上表現優異。\n\n特徵：音質細膩、訓練效率高，適應多語者情境。\n\n• Whisper（OpenAI）：雖然主要為語音辨識（Speech-to-Text）模型，但其強大的語音處理能力使其常與語音合成技術搭配使用，形成雙向語音應用流程（如先辨識再合成）。\n\n特徵：跨模態支援，增強語音系統整合性。\n\n##### B. 常見工具與平台\n\n以下工具與平台基於上述模型或相關技術，提供語音合成服務：\n\n• ElevenLabs：一款雲端語音合成工具，支持多語言與高情感表達，可微調聲音風格（如語氣、情緒）。其生成語音自然度高，深受內容創作者與遊戲開發者青睞。\n\n應用：遊戲配音、Podcast 製作。\n\n• Microsoft Azure TTS：提供穩定且高效的雲端語音合成服務，支持多種語言與語音風格選項，具備企業級擴展能力。\n\n應用：商業客服系統、語音導航。\n\n• Google Cloud TTS：基於Google 的語音技術，提供自動化、可擴展的API，支持多語言與語音客製化，廣泛應用於智慧設備與服務。\n\n應用：客服機器人、智慧助理。\n\n• Amazon Polly：亞馬遜推出的語音合成服務，支援多語言與多語者模型，提供高品質語音輸出，適合大規模部署。\n\n應用：虛擬語音助理、有聲書製作。\n\n##### C. 應用情境\n\n語音合成技術在實務情境中展現其實用價值，以下舉例相關應用：\n\n• 電子學習平台語音教材：將課程文字轉換為語音，提供有聲書或語音教程。例如，教育平台可使用Google Cloud TTS 生成多語言教學內容，提升學習可及性。\n\n• 有聲書製作：將書籍或文章轉換為可聆聽的語音格式。例如，Amazon Polly 可快速生成有聲書，提升出版效率。\n\n• 遊戲角色語音：為遊戲中的角色生成語音，增強互動體驗。例如，ElevenLabs 可用於生成具有情感的角色對白。\n\n• 虛擬偶像與動畫配音：為虛擬角色或動畫生成自然語音，提升沉浸感。例如，VITS 可生成具獨特音色的虛擬偶像語音。\n\n• 語音客服：在自動化客服系統中提供語音回應。例如，Microsoft Azure TTS 可用於生成即時客服語音，提升服務效率。\n\n• 智慧家居語音控制：支援語音提示與指令回饋，提升設備互動性。例如，Google Cloud TTS 可為智慧音箱生成語音提示。\n\n##### D. 挑戰\n\n• 情感表達自然度：生成語音需準確反映情緒與語境，避免機械感。\n\n• 多語言適應性：確保語音在不同語言與方言中的品質一致。\n\n• 倫理風險：語音複製（Clone）可能涉及隱私與偽造問題，需規範使用。\n\n##### E. 關鍵指標\n\n• MOS（Mean Opinion Score）：人工評估語音自然度的平均分數（1-5 分）。\n\n• WER（Word Error Rate）：衡量語音內容準確性的錯誤率。\n\n• 生成延遲：從文字輸入到語音輸出的時間，影響即時應用效果。\n\n### 4. 生成式\n\nAI風險與未來趨勢\n\n生成式AI 雖然在內容創作、商業應用與技術研發方面展現出極高潛力，但也伴隨著多重風險與治理挑戰。對於AI 應用規劃師而言，理解這些風險與未來技術演進方向，有助於在導入與規劃生成式AI 方案時，做出更審慎與負責的技術選擇。\n\n#### （1）潛在風險與挑戰\n\n##### A. 內容真偽與資訊可信度問題\n\n生成模型可創造看似真實但實際虛構的內容，舉例而言，偽造的新聞報導、改造的人物影像、合成語音等，都可能造成社會誤導，對選舉、金融、市場與個人名譽帶來實質危害。\n\n##### B. 智慧財產權與授權爭議\n\n生成式模型常依賴大量資料進行訓練，部分訓練資料可能涉及受著作權保護的內容，若未經授權使用，可能衍生著作權糾紛。\n\n##### C. 偏見放大與倫理風險\n\n若訓練資料本身存在性別、種族或文化偏見，生成模型可能無意間延續甚至強化這些偏見，導致在醫療、司法、招聘等應用領域出現倫理問題。\n\n##### D. 深偽（Deepfake）技術濫用\n\n結合圖像生成與語音合成技術所產生的深偽影片，已成為詐騙與假訊息散播的工具，亟需技術偵測與法律規範因應。\n\n##### E. 可控性與輸出結果不確定性\n\n生成模型的結果不完全可預測，使用者在提示中未能準確引導時，模型可能生成不相關或不適當的內容，對商業應用與決策系統的可靠性造成影響。\n\n#### （2）技術發展趨勢\n\n##### A. 多模態生成的崛起\n\n未來生成式AI 不再侷限於單一類型資料（如僅生成文本），而是整合語音、圖像、影片、3D 場景等多模態資料，打造高度互動的創作系統與智慧代理。\n\n##### B. 可控生成與提示工程深化\n\n可控性將成為生成式AI 的核心能力。模型不僅要能理解使用者輸入的意圖，還要能針對語氣、風格、長度、格式等多層次進行調整。提示工程（Prompt Engineering）將逐步發展為一項關鍵技能。\n\n##### C. 小型化與邊緣部署模型的興起\n\n為因應運算資源與資料隱私考量，越來越多生成模型將朝向「可在地端執行」\n\n的小型模型發展，利於嵌入在手機、個人電腦或IoT 設備等邊緣設備之上。\n\n##### D. 模型對齊與安全防護機制進化\n\n隨著模型規模擴張與社會關注升高，未來生成式AI 將更重視「對齊性」\n\n（Alignment）與「防濫用機制」，例如結合回饋式強化學習（Reinforcement Learning with Human Feedback, RLHF）、紅隊測試（Red Teaming）等技術，強化輸出內容的安全性與合規性。\n\n##### E. 法規制定與全球治理機制成形\n\n包括歐盟AI 法案（EU AI Act）、美國AI 政策框架，以及國際技術標準制定，預期將為生成式AI 應用劃出法規邊界。企業與開發者需持續關注法規動態，確保開發行為符合合規要求。",
+  "content": "# 生成式AI 技術與應用\n\n3.3 生成式AI\n\n技術與應用\n\n### 1. 前言與章節導覽\n\n生成式人工智慧（Generative Artificial Intelligence, Generative AI）已成為近年來最受矚目的科技領域之一。自2022 年OpenAI 推出ChatGPT 以來，生成式AI 不僅引發了學術界與產業界的廣泛關注，也在文字創作、圖像合成、影音生成、語音模仿、程式碼撰寫等領域實現了大規模應用，並迅速改變了人類與AI 的互動方式與創作模式。\n\n在2025 年CES 展中，NVIDIA 執行長黃仁勳指出，AI 正經歷四個主要的演進階段：\n\n• 感知AI（Perception AI）：理解影像、語音、文字等資訊，如圖像辨識、語音轉\n\n文字等。\n\n• 生成式AI（Generative AI）：能夠主動產生文本、圖像、影片、語音等多模態內\n\n容。\n\n• 代理式AI（Agentic AI）：具備推理與計畫能力，能自動完成複雜任務。\n\n• 物理AI（Physical AI）：能在真實世界中移動、操控並進行互動，如AI 機器人\n\n與自駕車。\n\n其中，生成式AI 代表著AI 發展的第二個重要階段，它不僅理解資訊，還能夠創造新內容。這代表AI 不再僅是資料分析的工具，而是具備主動創造價值的能力。生成式AI 的技術基礎包括大規模預訓練模型、深度神經網路、跨模態學習、強化式學習與提示工程（Prompt Engineering）等，並與自然語言處理（NLP）、電腦視覺（CV）、語音處理等領域緊密結合。本節內容將介紹生成式AI 的發展與應用情境。\n\n### 2. 生成式\n\nAI基礎概念與演進脈絡\n\n#### （1）定義與範疇\n\n生成式人工智慧（Generative AI）是一類可以根據輸入訊息產生全新內容的人工智慧技術。與傳統的鑑別式AI（Discriminative AI）不同，後者主要應用於分類、辨識或預測，如圖像分類或語音辨識；而生成式AI 強調「創造性」，能夠生成新的資料樣本，涵蓋文本、圖像、音訊、影片、程式碼等領域。\n\n<table>\n<thead>\n<tr>\n<th></th>\n<th>AI</th>\n<th>AI</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td></td>\n<td>Generative AI</td>\n<td>Discriminative AI</td>\n</tr>\n<tr>\n<td>目標</td>\n<td>生成新的資料樣本，例如文本、圖像、<br />音訊等</td>\n<td>進行分類、辨識或預測，將資料歸類或<br />分配標籤</td>\n</tr>\n<tr>\n<td>工作方式</td>\n<td>學習資料的分佈並生成新的樣本</td>\n<td>學習資料的特徵，並依此進行預測或<br />分類</td>\n</tr>\n<tr>\n<td>主要應用</td>\n<td>內容創作（如文本生成、圖像生成、語<br />音合成等）</td>\n<td>分類問題（如圖像分類、語音辨識、疾<br />病預測等）</td>\n</tr>\n<tr>\n<td>模型例子</td>\n<td>GPT、VAE、GAN、Diffusion Models</td>\n<td>SVM、決策樹、隨機森林、Logistic 迴<br />歸等</td>\n</tr>\n<tr>\n<td>訓練方式</td>\n<td>學習資料分佈的結構並生成新資料樣<br />本</td>\n<td>基於已有資料進行辨識與分類</td>\n</tr>\n<tr>\n<td>結果</td>\n<td>生成新的數據或創造性內容</td>\n<td>辨識資料的類別或預測目標變數</td>\n</tr>\n<tr>\n<td>輸出</td>\n<td>新的資料點或內容，如圖像、文字等</td>\n<td>類別標籤或數值預測</td>\n</tr>\n<tr>\n<td>例子</td>\n<td>ChatGPT（文本生成）、DALL·E（圖像<br />生成）</td>\n<td>ResNe（t 圖像分類）、HMM（語音辨識）</td>\n</tr>\n</tbody>\n</table>\n\n生成式AI 的核心在於學習資料的分佈特性與潛在結構，並藉此「模擬」或 「擴張」該分佈來產出新的樣本。這使其不僅僅是模仿已有的內容，還能展現一定程度的創造力與泛化能力，從而在多個領域得到了廣泛應用。具體應用包括以下幾大類型：\n\n• 文本生成（Text Generation）：如ChatGPT、Claude，能進行對話、摘要、文章\n\n撰寫及翻譯。\n\n• 圖像生成（Image Generation）：如DALL·E、Midjourney、Stable Diffusion，根\n\n據文字描述生成高解析度的圖像。\n\n• 語音與音樂生成（Audio Generation）：如ElevenLabs、MusicLM，可合成語音或\n\n創作音樂。\n\n• 影片生成（Video Generation）：如Runway、Sora，能根據文字描述自動生成影\n\n片片段。\n\n• 多模態生成（Multimodal Generation）：整合文字、圖像、語音及動作的輸入與\n\n輸出，如Gemini、GPT-4V、CLIP。\n\n生成式AI 不僅是單一模型，而是涵蓋一整套技術體系，包括預訓練、微調與應用調用。該體系涉及多種架構與技術，如大規模語言模型（LLM）、擴散模型 （Diffusion Models）、對抗生成網路（GAN）、變分自編碼器（VAE）等，並結合了提示工程（Prompt Engineering）、微調（Fine-tuning）及少樣本學習（Few-shot Learning）等策略來進行應用。\n\n這些技術的發展，使得生成式AI 不僅具備創作能力，還能夠進行多模態學習和生成，推動了人工智慧從單純的數據處理工具，轉向更具創意與自我表現的系統，並為各行各業帶來了巨大的應用潛力。\n\n#### （2）技術演進脈絡\n\n生成式AI 的發展歷程可追溯至2010 年代初，隨著深度學習與神經網路技術的成熟，其逐步進入可規模化訓練並廣泛應用的階段。從早期的簡單生成模型到當前的巨型多模態系統，生成式AI 的技術演進呈現出鮮明的階段性特徵，每個階段的突破都推動了生成能力的質變與應用情境的拓展。以下將其發展脈絡分為五個關鍵階段，梳理技術特徵、代表模型及演進趨勢。\n\n<table>\n<thead>\n<tr>\n<th></th>\n<th>時間</th>\n<th>核心技術</th>\n<th>代表模型</th>\n<th>特徵與限制</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>初期階段</td>\n<td>2013–2015</td>\n<td>VAE、RNN</td>\n<td>VAE</td>\n<td>生成模糊、訓練<br />困難</td>\n</tr>\n<tr>\n<td>GAN 時代</td>\n<td>2014–2020</td>\n<td>對抗訓練</td>\n<td>DCGAN、<br />StyleGAN</td>\n<td>高寫實性、不穩<br />定性</td>\n</tr>\n<tr>\n<td>Transformer 崛起</td>\n<td>2017 年起</td>\n<td>自注意力機制</td>\n<td>BERT、GPT</td>\n<td>高效語境建模、<br />NLP 主導</td>\n</tr>\n<tr>\n<td>擴散與多模態</td>\n<td>2020 年起</td>\n<td>擴散模型、多模<br />態對齊</td>\n<td>Stable<br />Diffusion、<br />DALL·E</td>\n<td>高品質、多模態<br />整合</td>\n</tr>\n<tr>\n<td>巨型模型與 Agent 化</td>\n<td>2023 年起</td>\n<td>巨型參數、工具<br />整合</td>\n<td>GPT-4、Gemini</td>\n<td>自主性、任務導<br />向</td>\n</tr>\n</tbody>\n</table>\n\n##### A. 初期階段：編碼器-解碼器模型與變分自編碼器（2013–2015）\n\n生成式AI 的早期探索主要圍繞編碼器-解碼器（Encoder-Decoder）架構與變分自編碼器（Variational Autoencoder, VAE）展開。此階段的模型通常基於遞迴神經網路（Recurrent Neural Network, RNN）或簡單卷積結構，旨在生成圖像或語句等連續性內容。例如，VAE 通過學習數據的潛在分佈（Latent Distribution），能夠從隨機噪聲中重建圖像或文本。\n\n• 技術特徵：VAE 利用變分推斷（Variational Inference）生成數據，強調機率建\n\n模；RNN 則專注於序列數據的生成。\n\n• 代表應用：簡單圖像重建（如MNIST 手寫數字）、基礎文本生成。\n\n• 階段限制：生成結果往往模糊（如低解析度圖像）、品質不穩定，且訓練過程因\n\n梯度消失或計算複雜性而難以收斂。\n\n##### B. 對抗生成網路時代（2014–2020）\n\n2014 年，Ian Goodfellow 提出的對抗生成網路（Generative Adversarial Network, GAN）標誌著生成式AI 的重大轉折。GAN 通過生成器（Generator）與判別器 （Discriminator）的對抗訓練，實現了從隨機噪聲生成高品質數據的能力。其核心在於生成器學習逼近真實數據分佈，而判別器則負責區分生成數據與真實數據，\n\n形成動態平衡。\n\n• 技術特徵：對抗訓練機制提升了生成內容的寫實性與細節表現力。\n\n• 代表模型：DCGAN（深度卷積GAN）、CycleGAN（風格轉換）、StyleGAN（高\n\n品質人臉生成）。\n\n• 應用情境：人臉合成、圖像風格遷移（如油畫轉照片）、動畫角色生成。\n\n• 階段限制：訓練不穩定（如模式崩潰Mode Collapse）、對超參數敏感，且難以\n\n生成結構複雜的長序列內容。\n\n##### C. 自注意力與Transformer 崛起（2017 年起）\n\n2017 年，Google 提出的Transformer 架構徹底改變了生成式AI 的發展路徑。\n\n基於自注意力機制（Self-Attention），Transformer 克服了RNN 在長距離依賴建模上的局限，並顯著提升了並行計算效率。這一技術迅速從自然語言處理領域擴展至生成任務，催生了大型語言模型（Large Language Model, LLM）的興起。\n\n• 技術特徵：自注意力實現全局語境建模，支援高效的序列生成。\n\n• 代表模型：BERT（雙向理解）、GPT 系列（自迴歸生成）、T5（文本到文本轉\n\n換）。\n\n• 應用情境：文本生成（如文章撰寫）、對話系統、語意理解。\n\n• 階段影響：生成內容的連貫性與邏輯性大幅提升，為後續多模態生成奠定基礎。\n\n##### D. 擴散模型與多模態生成（2020 年起）\n\n2020 年後，擴散模型（Diffusion Models）憑藉其穩定性和高品質生成能力，成為圖像生成領域的新主流。擴散模型通過逐步去噪（Denoising）的過程，從隨機噪聲生成細節豐富的圖像，如DDPM（Denoising Diffusion Probabilistic Models）\n\n與Stable Diffusion。同時，多模態模型（Multimodal Models）開始整合圖像、文本、語音等多種數據類型，實現跨模態生成。\n\n• 技術特徵：擴散模型強調逐步優化生成過程；多模態模型依賴預訓練與跨模態\n\n對齊（如CLIP 的圖文對應）。\n\n• 代表模型：Stable Diffusion（圖像生成）、DALL·E（文本到圖像）、Flamingo（視\n\n覺問答）、Gemini（多模態整合）。\n\n• 應用情境：藝術創作（如AI 繪畫）、圖文生成廣告、多模態對話。\n\n• 階段優勢：生成解析度更高、細節更豐富，並能處理多模態任務。\n\n##### E. 巨型模型與Agent 化發展（2023 年至今）\n\n自2023 年起，生成式AI 進入巨型模型與代理式（Agentic）發展階段。參數規模突破百億甚至千億的模型（如GPT-4、Claude 2、Gemini 1.5）不僅具備卓越的生成能力，還通過指令理解與多回合互動展現初步的自主性。這些模型開始朝 「自主代理人」（Autonomous Agent）與「任務導向協作AI」演進，並與外部工具整合，提升實用性。\n\n• 技術特徵：巨型參數規模、指令驅動（Instruction Tuning）、工具鏈整合（如API\n\n調用、RAG 檢索增強生成、記憶功能）。\n\n• 代表應用：自動任務規劃（如行程安排）、程式碼生成、多模態協作（如圖文編\n\n輯）。\n\n• 階段趨勢：生成式AI 從單純的內容創造轉向任務解決與智慧協助，應用邊界\n\n進一步拓寬。\n\n### 3. 生成式\n\nAI常見模型與工具\n\n生成式AI 作為人工智慧領域的重要分支，憑藉其從資料中創造新內容的能力，已在多個產業中展現出改變性的潛力。隨著深度學習技術的進步與運算資源的提升，生成式AI 不僅能生成高品質的文字、圖片與語音，還擴展至多模態內容生成、程式碼撰寫、資料增強等多樣化應用。這些技術的實現仰賴一系列先進模型與實用工具，它們共同構成了生成式AI 系統的核心支持。\n\n生成式AI 的應用情境極為廣泛，涵蓋了文字生成（如對話系統、文案撰寫）、圖片生成（如藝術創作、設計輔助）、語音合成（如虛擬助理、有聲書製作），以及其他領域如影片生成（如動畫預視化）、音樂創作（如AI 作曲）、跨模態生成（如\n\n圖文互轉）等。這些應用不僅提升了創作效率，也為商業、教育、娛樂等領域帶來了新的可能性。以下將舉例文字生成、圖片生成與語音合成三大領域，介紹其工具平台及其在示例如的具體實現。\n\n#### （1）文本生成（Text Generation）\n\n文本生成是生成式AI 中最先突破且目前最為成熟的應用領域之一。其核心目標是根據使用者提供的提示（Prompt），生成語意通順、邏輯合理的自然語言文本。從簡單的句子補全到複雜的對話生成，文本生成技術已廣泛應用於多個情境，並隨著大型語言模型（LLM）的發展達到新的高度。\n\n##### A. 常見工具/平台\n\n文本生成的技術基礎主要依賴預訓練語言模型，以下為代表性模型：\n\n• GPT 系列（Generative Pre-trained Transformer）：由OpenAI 開發，自GPT-2 起\n\n展現強大的語言理解與生成能力。GPT-3 與GPT-4 進一步提升品質，支持高準確度對話、摘要撰寫、翻譯及程式碼生成等任務。\n\n• ChatGPT：由OpenAI 開發，是目前最廣為人知與最多使用人數的對話式AI 應\n\n用，基於GPT 架構、提供即時文本生成與多情境對話支持。具有整合語言、圖像與工具調用能力，具有跨模態生成特性。\n\n• Claude（Anthropic）：以安全性與長上下文處理能力著稱，強調模型與人類價值\n\n的對齊，適用於需要高可信度的情境。\n\n• Gemini（Google DeepMind）：整合語言、圖像與工具調用能力，具有跨模態生\n\n成特性，適應多任務需求。\n\n• 開源模型：如LLaMA（Meta AI）、Mistral、Command-R（Cohere），提供高效能\n\n與靈活性，廣泛用於社群研究與企業內部部署。\n\n##### B. 應用情境示例\n\n• 自動化客服：生成即時回覆，提升問題解決效率。\n\n• 電子郵件撰寫：自動生成日常工作郵件或商業報告，減少人工重複勞動。\n\n• 法律/醫療文書草擬：快速生成合同草案、醫療報告，提升專業文件效率。\n\n• 程式碼補全：支援程式碼撰寫與除錯，如GitHub Copilot 的應用。\n\n• 教學內容生成：生成個人化學習材料，輔助教師與學生。\n\n##### C. 挑戰與關鍵指標\n\n• 挑戰：生成內容的真實性與一致性（如避免幻覺Hallucination）、長文本的邏輯\n\n連貫性。\n\n<table>\n<thead>\n<tr>\n<th>• 指標：<br />指標</th>\n<th>核心目標<br />優勢</th>\n<th></th>\n<th>局限</th>\n<th>適用情境</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>BLEU</td>\n<td>詞彙相似度</td>\n<td>自動化、計算快速</td>\n<td>忽略語意與流暢性</td>\n<td>機器翻譯、文本<br />生成</td>\n</tr>\n<tr>\n<td>ROUGE</td>\n<td>摘要資訊召回</td>\n<td>關注關鍵內容覆蓋</td>\n<td>無法衡量創新性</td>\n<td>自動摘要、問答</td>\n</tr>\n<tr>\n<td>人工評估</td>\n<td>流暢性與準確性</td>\n<td>捕捉語意與語用</td>\n<td>主觀性強、成本高</td>\n<td>對話、創意寫作</td>\n</tr>\n</tbody>\n</table>\n\n◦ BLEU（評估生成文本與參考文本相似度）\n\nBLEU 是一種用於評估生成文本與參考文本相似度的自動化指標，最初由 Papineni 等人於2002 年提出，主要應用於機器翻譯領域。其核心思想是計算生成文本與一組參考文本之間的n-gram（連續n 個詞的序列）重疊程度，並結合簡短懲罰（Brevity Penalty）修正過短生成的偏差。BLEU 分數範圍為0 到1，分數越高表示生成文本與參考文本越相似。\n\n◦ ROUGE（摘要品質）\n\nROUGE（Recall-Oriented Understudy for Gisting Evaluation）主要使用於自動摘要、內容生成與問答系統，是一組專為評估摘要品質設計的指標，由Lin 於2004 年提出，強調生成文本與參考文本的召回率（Recall）。其核心是比較生成文本與參考文本在n-gram、詞序列或最長公共子序列（LCS）上的重\n\n疊程度。常見變體包括ROUGE-N（n-gram 重疊）、ROUGE-L（最長公共子序列）與ROUGE-S（跳躍詞對）。\n\n◦ 人工評估（流暢性與準確性）\n\n人工評估常用於對話生成、創意寫作與專業文稿生成，通過人類評估者的主觀判斷，衡量生成文本的流暢性（Fluency）與準確性（Accuracy）。流暢性關注語法正確性與閱讀自然度，準確性則評估內容是否符合事實或上下文需求。通常採用打分制（如1-5 分）或排序法進行評估。\n\n#### （2）圖像生成（Image Generation）\n\n圖像生成為生成式AI 另一關鍵領域，能夠根據自然語言提示，創造出高解析度、具風格性的圖像。該技術廣泛應用於設計、遊戲、美術創作與行銷素材。\n\n##### A. 常見模型\n\n• Diffusion Models（擴散模型）：如 Stable Diffusion、DALL·E 2、Imagen 等，透\n\n過「逐步降噪」過程生成圖像，具備高自由度與真實感。\n\n• GAN（Generative Adversarial Network）：如StyleGAN、BigGAN，以對抗訓練\n\n生成逼真的人臉、風景、藝術風格圖。\n\n• ControlNet / InstructPix2Pix：用於控制圖像生成姿態、邊緣、遮罩或修改局部內\n\n容。\n\n##### B. 常見工具與平台\n\n• Midjourney：Midjourney 是一款基於雲端服務的圖像生成工具，可通過Discord\n\n平台以指令操作、或是至該服務官網進行操作，以其生成高美學風格圖像的能力而聞名。使用者僅需輸入自然語言提示（Prompt），即可生成多樣化的視覺內容。其背後技術融合了擴散模型（Diffusion Models）與風格優化算法，能輸出具藝術感的插畫與圖像。\n\n• Stable Diffusion WebUI：Stable Diffusion WebUI 是開源的本地部署工具，基於\n\nStable Diffusion 模型開發，提供圖形化介面以便於使用者操作。它支援LoRA （Low-Rank Adaptation）微調，允許使用者針對特定風格或任務調整模型，並提供邊緣控制（ControlNet）與參數自定義功能，極具靈活性。\n\n• Adobe Firefly：Adobe Firefly 是Adobe 公司所開發的生成式AI 工具，專為設計\n\n師打造。它將圖像生成功能無縫集成至Photoshop 與Illustrator 等軟體中，支援從文本提示生成視覺素材，並提供後期編輯功能。其設計注重與專業工作的兼容性。\n\n• Canva AI：Canva AI 是內建於Canva 設計平台的圖像生成工具，旨在降低創作\n\n門檻。使用者可通過簡單的提示生成創意圖像，並直接在平台上進行編輯與應用。其目標是希望打造可讓非專業設計者都能簡易操作的環境，強調快速生成與易用性，生成的圖像多用於輕量級設計任務。\n\n##### C. 應用情境\n\n• 品牌視覺設計：生成品牌標誌、廣告圖像等。\n\n• 社群圖文素材產生：自動生成社交媒體貼文或推廣圖像。\n\n• 遊戲角色與場景創作：用於快速創建遊戲中的角色、場景或概念藝術。\n\n• 影片預視化（Pre-Visualization）：快速創作電影、動畫的場景設計。\n\n• 藝術風格模仿：根據指定風格創作藝術圖像或插畫。\n\n#### （3）語音合成（Voice Synthesis）\n\n語音合成（又稱文字轉語音，Text-to-Speech, TTS）是生成式AI 的一項核心技術，旨在將文字輸入轉換為自然語音輸出。其目標是生成語調自然、音質清晰的語音，以模擬人類語言的表達方式。這項技術廣泛應用於虛擬助理、有聲書製作、配音、教育及智慧設備互動等領域，極大地提升了人機互動的便利性與沉浸感。隨著生成模型的進步，語音合成的自然度與應用範圍持續提升，已成為多產業不可或缺的工具。\n\n##### A. 常用模型\n\n語音合成的技術基礎主要依賴深度學習模型，以下為幾個代表性模型：\n\n• Tacotron 2 與FastSpeech 2：基於序列轉換（Seq2Seq）架構。Tacotron 2 透過結\n\n合卷積與循環神經網路生成語音頻譜，再由WaveNet 轉換為波形，實現自然語調與節奏；FastSpeech 2 則採用非自迴歸（Non-Autoregressive）設計，提升生成速度與音質穩定性。\n\n• 特徵：語音流暢、節奏可控，適合高品質應用。\n\n• VITS（Variational Inference Text-to-Speech）：結合變分自編碼器（VAE）與生成\n\n對抗網路（GAN），通過端到端訓練直接從文字生成語音波形。VITS 在語音自然度與細節表現（如音色變化）上表現優異。\n\n特徵：音質細膩、訓練效率高，適應多語者情境。\n\n• Whisper（OpenAI）：雖然主要為語音辨識（Speech-to-Text）模型，但其強大的\n\n語音處理能力使其常與語音合成技術搭配使用，形成雙向語音應用流程（如先辨識再合成）。\n\n特徵：跨模態支援，增強語音系統整合性。\n\n##### B. 常見工具與平台\n\n以下工具與平台基於上述模型或相關技術，提供語音合成服務：\n\n• ElevenLabs：一款雲端語音合成工具，支持多語言與高情感表達，可微調聲音風\n\n格（如語氣、情緒）。其生成語音自然度高，深受內容創作者與遊戲開發者青睞。\n\n應用：遊戲配音、Podcast 製作。\n\n• Microsoft Azure TTS：提供穩定且高效的雲端語音合成服務，支持多種語言與\n\n語音風格選項，具備企業級擴展能力。\n\n應用：商業客服系統、語音導航。\n\n• Google Cloud TTS：基於Google 的語音技術，提供自動化、可擴展的API，支\n\n持多語言與語音客製化，廣泛應用於智慧設備與服務。\n\n應用：客服機器人、智慧助理。\n\n• Amazon Polly：亞馬遜推出的語音合成服務，支援多語言與多語者模型，提供\n\n高品質語音輸出，適合大規模部署。\n\n應用：虛擬語音助理、有聲書製作。\n\n##### C. 應用情境\n\n語音合成技術在實務情境中展現其實用價值，以下舉例相關應用：\n\n• 電子學習平台語音教材：將課程文字轉換為語音，提供有聲書或語音教程。例\n\n如，教育平台可使用Google Cloud TTS 生成多語言教學內容，提升學習可及性。\n\n• 有聲書製作：將書籍或文章轉換為可聆聽的語音格式。例如，Amazon Polly 可\n\n快速生成有聲書，提升出版效率。\n\n• 遊戲角色語音：為遊戲中的角色生成語音，增強互動體驗。例如，ElevenLabs 可\n\n用於生成具有情感的角色對白。\n\n• 虛擬偶像與動畫配音：為虛擬角色或動畫生成自然語音，提升沉浸感。例如，\n\nVITS 可生成具獨特音色的虛擬偶像語音。\n\n• 語音客服：在自動化客服系統中提供語音回應。例如，Microsoft Azure TTS 可\n\n用於生成即時客服語音，提升服務效率。\n\n• 智慧家居語音控制：支援語音提示與指令回饋，提升設備互動性。例如，Google\n\nCloud TTS 可為智慧音箱生成語音提示。\n\n##### D. 挑戰\n\n• 情感表達自然度：生成語音需準確反映情緒與語境，避免機械感。\n\n• 多語言適應性：確保語音在不同語言與方言中的品質一致。\n\n• 倫理風險：語音複製（Clone）可能涉及隱私與偽造問題，需規範使用。\n\n##### E. 關鍵指標\n\n• MOS（Mean Opinion Score）：人工評估語音自然度的平均分數（1-5 分）。\n\n• WER（Word Error Rate）：衡量語音內容準確性的錯誤率。\n\n• 生成延遲：從文字輸入到語音輸出的時間，影響即時應用效果。\n\n### 4. 生成式\n\nAI風險與未來趨勢\n\n生成式AI 雖然在內容創作、商業應用與技術研發方面展現出極高潛力，但也伴隨著多重風險與治理挑戰。對於AI 應用規劃師而言，理解這些風險與未來技術演進方向，有助於在導入與規劃生成式AI 方案時，做出更審慎與負責的技術選擇。\n\n#### （1）潛在風險與挑戰\n\n##### A. 內容真偽與資訊可信度問題\n\n生成模型可創造看似真實但實際虛構的內容，舉例而言，偽造的新聞報導、改造的人物影像、合成語音等，都可能造成社會誤導，對選舉、金融、市場與個人名譽帶來實質危害。\n\n##### B. 智慧財產權與授權爭議\n\n生成式模型常依賴大量資料進行訓練，部分訓練資料可能涉及受著作權保護的內容，若未經授權使用，可能衍生著作權糾紛。\n\n##### C. 偏見放大與倫理風險\n\n若訓練資料本身存在性別、種族或文化偏見，生成模型可能無意間延續甚至強化這些偏見，導致在醫療、司法、招聘等應用領域出現倫理問題。\n\n##### D. 深偽（Deepfake）技術濫用\n\n結合圖像生成與語音合成技術所產生的深偽影片，已成為詐騙與假訊息散播的工具，亟需技術偵測與法律規範因應。\n\n##### E. 可控性與輸出結果不確定性\n\n生成模型的結果不完全可預測，使用者在提示中未能準確引導時，模型可能生成不相關或不適當的內容，對商業應用與決策系統的可靠性造成影響。\n\n#### （2）技術發展趨勢\n\n##### A. 多模態生成的崛起\n\n未來生成式AI 不再侷限於單一類型資料（如僅生成文本），而是整合語音、圖像、影片、3D 場景等多模態資料，打造高度互動的創作系統與智慧代理。\n\n##### B. 可控生成與提示工程深化\n\n可控性將成為生成式AI 的核心能力。模型不僅要能理解使用者輸入的意圖，還要能針對語氣、風格、長度、格式等多層次進行調整。提示工程（Prompt Engineering）將逐步發展為一項關鍵技能。\n\n##### C. 小型化與邊緣部署模型的興起\n\n為因應運算資源與資料隱私考量，越來越多生成模型將朝向「可在地端執行」\n\n的小型模型發展，利於嵌入在手機、個人電腦或IoT 設備等邊緣設備之上。\n\n##### D. 模型對齊與安全防護機制進化\n\n隨著模型規模擴張與社會關注升高，未來生成式AI 將更重視「對齊性」\n\n（Alignment）與「防濫用機制」，例如結合回饋式強化學習（Reinforcement Learning with Human Feedback, RLHF）、紅隊測試（Red Teaming）等技術，強化輸出內容的安全性與合規性。\n\n##### E. 法規制定與全球治理機制成形\n\n包括歐盟AI 法案（EU AI Act）、美國AI 政策框架，以及國際技術標準制定，預期將為生成式AI 應用劃出法規邊界。企業與開發者需持續關注法規動態，確保開發行為符合合規要求。",
   "contentFormat": "markdown",
   "headings": [
     {
@@ -203,7 +203,10 @@
         202.39,
         174.28
       ],
-      "id": "block-1"
+      "id": "block-1",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -216,7 +219,10 @@
         302.07,
         171.96
       ],
-      "id": "block-2"
+      "id": "block-2",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -230,7 +236,10 @@
         203.57,
         218.12
       ],
-      "id": "block-3"
+      "id": "block-3",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -243,7 +252,10 @@
         518.79,
         342.5
       ],
-      "id": "block-4"
+      "id": "block-4",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -256,11 +268,14 @@
         518.25,
         392.54
       ],
-      "id": "block-5"
+      "id": "block-5",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "感知AI（Perception AI）：理解影像、語音、文字等資訊，如圖像辨識、語音轉文字等。",
       "pageIndex": 65,
@@ -270,11 +285,14 @@
         518.07,
         442.58
       ],
-      "id": "block-6"
+      "id": "block-6",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "生成式AI（Generative AI）：能夠主動產生文本、圖像、影片、語音等多模態內容。",
       "pageIndex": 65,
@@ -284,11 +302,14 @@
         518.02,
         492.52
       ],
-      "id": "block-7"
+      "id": "block-7",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "代理式AI（Agentic AI）：具備推理與計畫能力，能自動完成複雜任務。",
       "pageIndex": 65,
@@ -298,11 +319,14 @@
         487.56,
         517.6
       ],
-      "id": "block-8"
+      "id": "block-8",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "物理AI（Physical AI）：能在真實世界中移動、操控並進行互動，如AI 機器人與自駕車。",
       "pageIndex": 65,
@@ -312,7 +336,10 @@
         518.37,
         567.52
       ],
-      "id": "block-9"
+      "id": "block-9",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -325,7 +352,10 @@
         521.1,
         717.55
       ],
-      "id": "block-10"
+      "id": "block-10",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -339,7 +369,10 @@
         296.27,
         114.68
       ],
-      "id": "block-11"
+      "id": "block-11",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -353,7 +386,10 @@
         167.92,
         139.07
       ],
-      "id": "block-12"
+      "id": "block-12",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -366,7 +402,10 @@
         521.38,
         239.15
       ],
-      "id": "block-13"
+      "id": "block-13",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "table",
@@ -430,7 +469,10 @@
         542.42,
         585.82
       ],
-      "id": "block-14"
+      "id": "block-14",
+      "nodeId": "mid-s1c3",
+      "kind": "table",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -443,11 +485,14 @@
         517.99,
         704.59
       ],
-      "id": "block-15"
+      "id": "block-15",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "文本生成（Text Generation）：如ChatGPT、Claude，能進行對話、摘要、文章撰寫及翻譯。",
       "pageIndex": 66,
@@ -457,11 +502,14 @@
         518.25,
         754.62
       ],
-      "id": "block-16"
+      "id": "block-16",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "圖像生成（Image Generation）：如DALL·E、Midjourney、Stable Diffusion，根據文字描述生成高解析度的圖像。",
       "pageIndex": 67,
@@ -471,11 +519,14 @@
         518.28,
         139.07
       ],
-      "id": "block-17"
+      "id": "block-17",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "語音與音樂生成（Audio Generation）：如ElevenLabs、MusicLM，可合成語音或創作音樂。",
       "pageIndex": 67,
@@ -485,11 +536,14 @@
         518.31,
         189.11
       ],
-      "id": "block-18"
+      "id": "block-18",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "影片生成（Video Generation）：如Runway、Sora，能根據文字描述自動生成影片片段。",
       "pageIndex": 67,
@@ -499,11 +553,14 @@
         518.25,
         239.15
       ],
-      "id": "block-19"
+      "id": "block-19",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "多模態生成（Multimodal Generation）：整合文字、圖像、語音及動作的輸入與輸出，如Gemini、GPT-4V、CLIP。",
       "pageIndex": 67,
@@ -513,7 +570,10 @@
         518.14,
         289.1
       ],
-      "id": "block-20"
+      "id": "block-20",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -526,7 +586,10 @@
         521.83,
         414.14
       ],
-      "id": "block-21"
+      "id": "block-21",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -539,7 +602,10 @@
         518.03,
         489.16
       ],
-      "id": "block-22"
+      "id": "block-22",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -553,7 +619,10 @@
         180.52,
         539.2
       ],
-      "id": "block-23"
+      "id": "block-23",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -566,7 +635,10 @@
         518.35,
         664.15
       ],
-      "id": "block-24"
+      "id": "block-24",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "table",
@@ -622,7 +694,10 @@
         523.44,
         326.36
       ],
-      "id": "block-25"
+      "id": "block-25",
+      "nodeId": "mid-s1c3",
+      "kind": "table",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -636,7 +711,10 @@
         437.01,
         370.34
       ],
-      "id": "block-26"
+      "id": "block-26",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -649,7 +727,10 @@
         437.01,
         370.34
       ],
-      "id": "block-27"
+      "id": "block-27",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -662,11 +743,14 @@
         518.4,
         495.28
       ],
-      "id": "block-28"
+      "id": "block-28",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "技術特徵：VAE 利用變分推斷（Variational Inference）生成數據，強調機率建模；RNN 則專注於序列數據的生成。",
       "pageIndex": 68,
@@ -676,11 +760,14 @@
         518.25,
         545.32
       ],
-      "id": "block-29"
+      "id": "block-29",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "代表應用：簡單圖像重建（如MNIST 手寫數字）、基礎文本生成。",
       "pageIndex": 68,
@@ -690,11 +777,14 @@
         460.32,
         570.28
       ],
-      "id": "block-30"
+      "id": "block-30",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "階段限制：生成結果往往模糊（如低解析度圖像）、品質不穩定，且訓練過程因梯度消失或計算複雜性而難以收斂。",
       "pageIndex": 68,
@@ -704,7 +794,10 @@
         517.88,
         620.32
       ],
-      "id": "block-31"
+      "id": "block-31",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -718,7 +811,10 @@
         281.23,
         670.39
       ],
-      "id": "block-32"
+      "id": "block-32",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -731,11 +827,14 @@
         521.5,
         770.14
       ],
-      "id": "block-33"
+      "id": "block-33",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "技術特徵：對抗訓練機制提升了生成內容的寫實性與細節表現力。",
       "pageIndex": 69,
@@ -745,11 +844,14 @@
         459.24,
         139.07
       ],
-      "id": "block-34"
+      "id": "block-34",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "代表模型：DCGAN（深度卷積GAN）、CycleGAN（風格轉換）、StyleGAN（高品質人臉生成）。",
       "pageIndex": 69,
@@ -759,11 +861,14 @@
         518.28,
         189.11
       ],
-      "id": "block-35"
+      "id": "block-35",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "應用情境：人臉合成、圖像風格遷移（如油畫轉照片）、動畫角色生成。",
       "pageIndex": 69,
@@ -773,11 +878,14 @@
         490.8,
         214.07
       ],
-      "id": "block-36"
+      "id": "block-36",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "階段限制：訓練不穩定（如模式崩潰Mode Collapse）、對超參數敏感，且難以生成結構複雜的長序列內容。",
       "pageIndex": 69,
@@ -787,7 +895,10 @@
         518.25,
         264.14
       ],
-      "id": "block-37"
+      "id": "block-37",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -801,7 +912,10 @@
         341.01,
         314.18
       ],
-      "id": "block-38"
+      "id": "block-38",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -814,7 +928,10 @@
         521.32,
         339.14
       ],
-      "id": "block-39"
+      "id": "block-39",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -827,11 +944,14 @@
         518.37,
         414.14
       ],
-      "id": "block-40"
+      "id": "block-40",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "技術特徵：自注意力實現全局語境建模，支援高效的序列生成。",
       "pageIndex": 69,
@@ -841,11 +961,14 @@
         446.61,
         439.1
       ],
-      "id": "block-41"
+      "id": "block-41",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "代表模型：BERT（雙向理解）、GPT 系列（自迴歸生成）、T5（文本到文本轉換）。",
       "pageIndex": 69,
@@ -855,11 +978,14 @@
         518.25,
         489.16
       ],
-      "id": "block-42"
+      "id": "block-42",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "應用情境：文本生成（如文章撰寫）、對話系統、語意理解。",
       "pageIndex": 69,
@@ -869,11 +995,14 @@
         427.77,
         514.12
       ],
-      "id": "block-43"
+      "id": "block-43",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "階段影響：生成內容的連貫性與邏輯性大幅提升，為後續多模態生成奠定基礎。",
       "pageIndex": 69,
@@ -883,7 +1012,10 @@
         521.88,
         539.2
       ],
-      "id": "block-44"
+      "id": "block-44",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -897,7 +1029,10 @@
         303.43,
         589.12
       ],
-      "id": "block-45"
+      "id": "block-45",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -910,7 +1045,10 @@
         524.64,
         664.15
       ],
-      "id": "block-46"
+      "id": "block-46",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -923,11 +1061,14 @@
         518.25,
         714.19
       ],
-      "id": "block-47"
+      "id": "block-47",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "技術特徵：擴散模型強調逐步優化生成過程；多模態模型依賴預訓練與跨模態對齊（如CLIP 的圖文對應）。",
       "pageIndex": 69,
@@ -937,11 +1078,14 @@
         517.92,
         764.22
       ],
-      "id": "block-48"
+      "id": "block-48",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "代表模型：Stable Diffusion（圖像生成）、DALL·E（文本到圖像）、Flamingo（視覺問答）、Gemini（多模態整合）。",
       "pageIndex": 70,
@@ -951,11 +1095,14 @@
         518.4,
         139.07
       ],
-      "id": "block-49"
+      "id": "block-49",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "應用情境：藝術創作（如AI 繪畫）、圖文生成廣告、多模態對話。",
       "pageIndex": 70,
@@ -965,11 +1112,14 @@
         459.96,
         164.15
       ],
-      "id": "block-50"
+      "id": "block-50",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "階段優勢：生成解析度更高、細節更豐富，並能處理多模態任務。",
       "pageIndex": 70,
@@ -979,7 +1129,10 @@
         459.24,
         189.11
       ],
-      "id": "block-51"
+      "id": "block-51",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -993,7 +1146,10 @@
         329.25,
         239.15
       ],
-      "id": "block-52"
+      "id": "block-52",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1006,11 +1162,14 @@
         518.37,
         364.1
       ],
-      "id": "block-53"
+      "id": "block-53",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "技術特徵：巨型參數規模、指令驅動（Instruction Tuning）、工具鏈整合（如API 調用、RAG 檢索增強生成、記憶功能）。",
       "pageIndex": 70,
@@ -1020,11 +1179,14 @@
         518.77,
         414.14
       ],
-      "id": "block-54"
+      "id": "block-54",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "代表應用：自動任務規劃（如行程安排）、程式碼生成、多模態協作（如圖文編輯）。",
       "pageIndex": 70,
@@ -1034,11 +1196,14 @@
         518.13,
         464.2
       ],
-      "id": "block-55"
+      "id": "block-55",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "階段趨勢：生成式AI 從單純的內容創造轉向任務解決與智慧協助，應用邊界進一步拓寬。",
       "pageIndex": 70,
@@ -1048,7 +1213,10 @@
         518.25,
         514.12
       ],
-      "id": "block-56"
+      "id": "block-56",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1062,7 +1230,10 @@
         268.07,
         564.73
       ],
-      "id": "block-57"
+      "id": "block-57",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1075,7 +1246,10 @@
         517.99,
         689.23
       ],
-      "id": "block-58"
+      "id": "block-58",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1088,7 +1262,10 @@
         521.16,
         764.22
       ],
-      "id": "block-59"
+      "id": "block-59",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1101,7 +1278,10 @@
         517.91,
         164.15
       ],
-      "id": "block-60"
+      "id": "block-60",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1115,7 +1295,10 @@
         268.15,
         214.07
       ],
-      "id": "block-61"
+      "id": "block-61",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1128,13 +1311,16 @@
         521.08,
         314.18
       ],
-      "id": "block-62"
+      "id": "block-62",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "list_item",
+      "type": "heading",
       "depth": 5,
-      "marker": "A.",
-      "text": "常見工具/平台",
+      "title": "A. 常見工具/平台",
+      "anchor": "a常見工具平台",
       "pageIndex": 71,
       "bbox": [
         76.6,
@@ -1142,7 +1328,10 @@
         177.76,
         364.1
       ],
-      "id": "block-63"
+      "id": "block-63",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1155,11 +1344,14 @@
         482.88,
         389.18
       ],
-      "id": "block-64"
+      "id": "block-64",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "GPT 系列（Generative Pre-trained Transformer）：由OpenAI 開發，自GPT-2 起展現強大的語言理解與生成能力。GPT-3 與GPT-4 進一步提升品質，支持高準確度對話、摘要撰寫、翻譯及程式碼生成等任務。",
       "pageIndex": 71,
@@ -1169,11 +1361,14 @@
         518.28,
         464.2
       ],
-      "id": "block-65"
+      "id": "block-65",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "ChatGPT：由OpenAI 開發，是目前最廣為人知與最多使用人數的對話式AI 應用，基於GPT 架構、提供即時文本生成與多情境對話支持。具有整合語言、圖像與工具調用能力，具有跨模態生成特性。",
       "pageIndex": 71,
@@ -1183,11 +1378,14 @@
         518.16,
         539.2
       ],
-      "id": "block-66"
+      "id": "block-66",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "Claude（Anthropic）：以安全性與長上下文處理能力著稱，強調模型與人類價值的對齊，適用於需要高可信度的情境。",
       "pageIndex": 71,
@@ -1197,11 +1395,14 @@
         518.08,
         589.12
       ],
-      "id": "block-67"
+      "id": "block-67",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "Gemini（Google DeepMind）：整合語言、圖像與工具調用能力，具有跨模態生成特性，適應多任務需求。",
       "pageIndex": 71,
@@ -1211,11 +1412,14 @@
         517.97,
         639.19
       ],
-      "id": "block-68"
+      "id": "block-68",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "開源模型：如LLaMA（Meta AI）、Mistral、Command-R（Cohere），提供高效能與靈活性，廣泛用於社群研究與企業內部部署。",
       "pageIndex": 71,
@@ -1225,12 +1429,16 @@
         518.32,
         689.23
       ],
-      "id": "block-69"
+      "id": "block-69",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "question",
-      "depth": 6,
-      "text": "B. 應用情境示例",
+      "type": "heading",
+      "depth": 5,
+      "title": "B. 應用情境示例",
+      "anchor": "b應用情境示例",
       "pageIndex": 71,
       "bbox": [
         76.6,
@@ -1238,11 +1446,14 @@
         174.16,
         739.15
       ],
-      "id": "block-70"
+      "id": "block-70",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "自動化客服：生成即時回覆，提升問題解決效率。",
       "pageIndex": 71,
@@ -1252,11 +1463,14 @@
         371.01,
         764.22
       ],
-      "id": "block-71"
+      "id": "block-71",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "電子郵件撰寫：自動生成日常工作郵件或商業報告，減少人工重複勞動。",
       "pageIndex": 72,
@@ -1266,11 +1480,14 @@
         497.04,
         114.11
       ],
-      "id": "block-72"
+      "id": "block-72",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "法律/醫療文書草擬：快速生成合同草案、醫療報告，提升專業文件效率。",
       "pageIndex": 72,
@@ -1280,11 +1497,14 @@
         500.64,
         139.07
       ],
-      "id": "block-73"
+      "id": "block-73",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "程式碼補全：支援程式碼撰寫與除錯，如GitHub Copilot 的應用。",
       "pageIndex": 72,
@@ -1294,11 +1514,14 @@
         456.48,
         164.15
       ],
-      "id": "block-74"
+      "id": "block-74",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "教學內容生成：生成個人化學習材料，輔助教師與學生。",
       "pageIndex": 72,
@@ -1308,13 +1531,16 @@
         408.81,
         189.11
       ],
-      "id": "block-75"
+      "id": "block-75",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "list_item",
+      "type": "heading",
       "depth": 5,
-      "marker": "C.",
-      "text": "挑戰與關鍵指標",
+      "title": "C. 挑戰與關鍵指標",
+      "anchor": "c挑戰與關鍵指標",
       "pageIndex": 72,
       "bbox": [
         76.6,
@@ -1322,11 +1548,14 @@
         186.76,
         239.15
       ],
-      "id": "block-76"
+      "id": "block-76",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "挑戰：生成內容的真實性與一致性（如避免幻覺Hallucination）、長文本的邏輯連貫性。",
       "pageIndex": 72,
@@ -1336,7 +1565,10 @@
         518.29,
         289.1
       ],
-      "id": "block-77"
+      "id": "block-77",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "table",
@@ -1378,85 +1610,61 @@
         523.47,
         487.02
       ],
-      "id": "block-78"
+      "id": "block-78",
+      "nodeId": "mid-s1c3",
+      "kind": "table",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
-      "text": "BLEU（評估生成文本與參考文本相似度）",
+      "marker": "◦",
+      "text": "BLEU（評估生成文本與參考文本相似度） BLEU 是一種用於評估生成文本與參考文本相似度的自動化指標，最初由 Papineni 等人於2002 年提出，主要應用於機器翻譯領域。其核心思想是計算生成文本與一組參考文本之間的n-gram（連續n 個詞的序列）重疊程度，並結合簡短懲罰（Brevity Penalty）修正過短生成的偏差。BLEU 分數範圍為0 到1，分數越高表示生成文本與參考文本越相似。",
       "pageIndex": 72,
       "bbox": [
         90.76,
         499.95,
-        342.09,
-        513.4
-      ],
-      "id": "block-79"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "BLEU 是一種用於評估生成文本與參考文本相似度的自動化指標，最初由 Papineni 等人於2002 年提出，主要應用於機器翻譯領域。其核心思想是計算生成文本與一組參考文本之間的n-gram（連續n 個詞的序列）重疊程度，並結合簡短懲罰（Brevity Penalty）修正過短生成的偏差。BLEU 分數範圍為0 到1，分數越高表示生成文本與參考文本越相似。",
-      "pageIndex": 72,
-      "bbox": [
-        105.64,
-        525.07,
         518.76,
         638.47
       ],
-      "id": "block-80"
+      "id": "block-79",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
-      "text": "ROUGE（摘要品質）",
+      "marker": "◦",
+      "text": "ROUGE（摘要品質） ROUGE（Recall-Oriented Understudy for Gisting Evaluation）主要使用於自動摘要、內容生成與問答系統，是一組專為評估摘要品質設計的指標，由Lin 於2004 年提出，強調生成文本與參考文本的召回率（Recall）。其核心是比較生成文本與參考文本在n-gram、詞序列或最長公共子序列（LCS）上的重疊程度。常見變體包括ROUGE-N（n-gram 重疊）、ROUGE-L（最長公共子序列）與ROUGE-S（跳躍詞對）。",
       "pageIndex": 72,
       "bbox": [
         90.76,
-        649.98,
-        226.39,
-        663.43
-      ],
-      "id": "block-81"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "ROUGE（Recall-Oriented Understudy for Gisting Evaluation）主要使用於自動摘要、內容生成與問答系統，是一組專為評估摘要品質設計的指標，由Lin 於2004 年提出，強調生成文本與參考文本的召回率（Recall）。其核心是比較生成文本與參考文本在n-gram、詞序列或最長公共子序列（LCS）上的重疊程度。常見變體包括ROUGE-N（n-gram 重疊）、ROUGE-L（最長公共子序列）與ROUGE-S（跳躍詞對）。",
-      "pageIndex": 72,
-      "bbox": [
-        105.64,
         100.82,
         518.61,
         763.38
       ],
-      "id": "block-82"
+      "id": "block-80",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
-      "text": "人工評估（流暢性與準確性）",
+      "marker": "◦",
+      "text": "人工評估（流暢性與準確性） 人工評估常用於對話生成、創意寫作與專業文稿生成，通過人類評估者的主觀判斷，衡量生成文本的流暢性（Fluency）與準確性（Accuracy）。流暢性關注語法正確性與閱讀自然度，準確性則評估內容是否符合事實或上下文需求。通常採用打分制（如1-5 分）或排序法進行評估。",
       "pageIndex": 73,
       "bbox": [
         90.76,
         150.7,
-        271.75,
-        164.15
-      ],
-      "id": "block-83"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "人工評估常用於對話生成、創意寫作與專業文稿生成，通過人類評估者的主觀判斷，衡量生成文本的流暢性（Fluency）與準確性（Accuracy）。流暢性關注語法正確性與閱讀自然度，準確性則評估內容是否符合事實或上下文需求。通常採用打分制（如1-5 分）或排序法進行評估。",
-      "pageIndex": 73,
-      "bbox": [
-        105.64,
-        176.9,
         518.36,
         264.14
       ],
-      "id": "block-84"
+      "id": "block-81",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1470,7 +1678,10 @@
         278.23,
         314.18
       ],
-      "id": "block-85"
+      "id": "block-82",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1483,7 +1694,10 @@
         518.0,
         364.1
       ],
-      "id": "block-86"
+      "id": "block-83",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1497,11 +1711,14 @@
         148.84,
         414.14
       ],
-      "id": "block-87"
+      "id": "block-84",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "Diffusion Models（擴散模型）：如 Stable Diffusion、DALL·E 2、Imagen 等，透過「逐步降噪」過程生成圖像，具備高自由度與真實感。",
       "pageIndex": 73,
@@ -1511,11 +1728,14 @@
         518.28,
         464.2
       ],
-      "id": "block-88"
+      "id": "block-85",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "GAN（Generative Adversarial Network）：如StyleGAN、BigGAN，以對抗訓練生成逼真的人臉、風景、藝術風格圖。",
       "pageIndex": 73,
@@ -1525,11 +1745,14 @@
         518.25,
         514.12
       ],
-      "id": "block-89"
+      "id": "block-86",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "ControlNet / InstructPix2Pix：用於控制圖像生成姿態、邊緣、遮罩或修改局部內容。",
       "pageIndex": 73,
@@ -1539,7 +1762,10 @@
         518.02,
         564.16
       ],
-      "id": "block-90"
+      "id": "block-87",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1553,11 +1779,14 @@
         186.76,
         614.2
       ],
-      "id": "block-91"
+      "id": "block-88",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "Midjourney：Midjourney 是一款基於雲端服務的圖像生成工具，可通過Discord 平台以指令操作、或是至該服務官網進行操作，以其生成高美學風格圖像的能力而聞名。使用者僅需輸入自然語言提示（Prompt），即可生成多樣化的視覺內容。其背後技術融合了擴散模型（Diffusion Models）與風格優化算法，能輸出具藝術感的插畫與圖像。",
       "pageIndex": 73,
@@ -1567,11 +1796,14 @@
         518.68,
         739.15
       ],
-      "id": "block-92"
+      "id": "block-89",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "Stable Diffusion WebUI：Stable Diffusion WebUI 是開源的本地部署工具，基於 Stable Diffusion 模型開發，提供圖形化介面以便於使用者操作。它支援LoRA （Low-Rank Adaptation）微調，允許使用者針對特定風格或任務調整模型，並提供邊緣控制（ControlNet）與參數自定義功能，極具靈活性。",
       "pageIndex": 74,
@@ -1581,11 +1813,14 @@
         518.62,
         189.11
       ],
-      "id": "block-93"
+      "id": "block-90",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "Adobe Firefly：Adobe Firefly 是Adobe 公司所開發的生成式AI 工具，專為設計師打造。它將圖像生成功能無縫集成至Photoshop 與Illustrator 等軟體中，支援從文本提示生成視覺素材，並提供後期編輯功能。其設計注重與專業工作的兼容性。",
       "pageIndex": 74,
@@ -1595,11 +1830,14 @@
         518.32,
         289.1
       ],
-      "id": "block-94"
+      "id": "block-91",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "Canva AI：Canva AI 是內建於Canva 設計平台的圖像生成工具，旨在降低創作門檻。使用者可通過簡單的提示生成創意圖像，並直接在平台上進行編輯與應用。其目標是希望打造可讓非專業設計者都能簡易操作的環境，強調快速生成與易用性，生成的圖像多用於輕量級設計任務。",
       "pageIndex": 74,
@@ -1609,12 +1847,16 @@
         518.35,
         389.18
       ],
-      "id": "block-95"
+      "id": "block-92",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "question",
-      "depth": 6,
-      "text": "C. 應用情境",
+      "type": "heading",
+      "depth": 5,
+      "title": "C. 應用情境",
+      "anchor": "c應用情境",
       "pageIndex": 74,
       "bbox": [
         76.6,
@@ -1622,11 +1864,14 @@
         148.84,
         439.1
       ],
-      "id": "block-96"
+      "id": "block-93",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "品牌視覺設計：生成品牌標誌、廣告圖像等。",
       "pageIndex": 74,
@@ -1636,11 +1881,14 @@
         345.81,
         464.2
       ],
-      "id": "block-97"
+      "id": "block-94",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "社群圖文素材產生：自動生成社交媒體貼文或推廣圖像。",
       "pageIndex": 74,
@@ -1650,11 +1898,14 @@
         408.81,
         489.16
       ],
-      "id": "block-98"
+      "id": "block-95",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "遊戲角色與場景創作：用於快速創建遊戲中的角色、場景或概念藝術。",
       "pageIndex": 74,
@@ -1664,11 +1915,14 @@
         484.44,
         514.12
       ],
-      "id": "block-99"
+      "id": "block-96",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "影片預視化（Pre-Visualization）：快速創作電影、動畫的場景設計。",
       "pageIndex": 74,
@@ -1678,11 +1932,14 @@
         465.72,
         539.2
       ],
-      "id": "block-100"
+      "id": "block-97",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "藝術風格模仿：根據指定風格創作藝術圖像或插畫。",
       "pageIndex": 74,
@@ -1692,7 +1949,10 @@
         383.61,
         564.16
       ],
-      "id": "block-101"
+      "id": "block-98",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1706,7 +1966,10 @@
         263.47,
         614.2
       ],
-      "id": "block-102"
+      "id": "block-99",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1719,13 +1982,16 @@
         518.4,
         764.22
       ],
-      "id": "block-103"
+      "id": "block-100",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "list_item",
+      "type": "heading",
       "depth": 5,
-      "marker": "A.",
-      "text": "常用模型",
+      "title": "A. 常用模型",
+      "anchor": "a常用模型",
       "pageIndex": 75,
       "bbox": [
         76.6,
@@ -1733,7 +1999,10 @@
         148.84,
         114.11
       ],
-      "id": "block-104"
+      "id": "block-101",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1746,11 +2015,14 @@
         495.48,
         139.07
       ],
-      "id": "block-105"
+      "id": "block-102",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "Tacotron 2 與FastSpeech 2：基於序列轉換（Seq2Seq）架構。Tacotron 2 透過結合卷積與循環神經網路生成語音頻譜，再由WaveNet 轉換為波形，實現自然語調與節奏；FastSpeech 2 則採用非自迴歸（Non-Autoregressive）設計，提升生成速度與音質穩定性。",
       "pageIndex": 75,
@@ -1760,11 +2032,14 @@
         518.37,
         239.15
       ],
-      "id": "block-106"
+      "id": "block-103",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "特徵：語音流暢、節奏可控，適合高品質應用。",
       "pageIndex": 75,
@@ -1774,11 +2049,14 @@
         358.41,
         264.14
       ],
-      "id": "block-107"
+      "id": "block-104",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "VITS（Variational Inference Text-to-Speech）：結合變分自編碼器（VAE）與生成對抗網路（GAN），通過端到端訓練直接從文字生成語音波形。VITS 在語音自然度與細節表現（如音色變化）上表現優異。",
       "pageIndex": 75,
@@ -1788,7 +2066,10 @@
         518.37,
         339.14
       ],
-      "id": "block-108"
+      "id": "block-105",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1801,11 +2082,14 @@
         371.49,
         364.1
       ],
-      "id": "block-109"
+      "id": "block-106",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "Whisper（OpenAI）：雖然主要為語音辨識（Speech-to-Text）模型，但其強大的語音處理能力使其常與語音合成技術搭配使用，形成雙向語音應用流程（如先辨識再合成）。",
       "pageIndex": 75,
@@ -1815,7 +2099,10 @@
         518.32,
         439.1
       ],
-      "id": "block-110"
+      "id": "block-107",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1828,13 +2115,16 @@
         333.69,
         464.2
       ],
-      "id": "block-111"
+      "id": "block-108",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "list_item",
+      "type": "heading",
       "depth": 5,
-      "marker": "B.",
-      "text": "常見工具與平台",
+      "title": "B. 常見工具與平台",
+      "anchor": "b常見工具與平台",
       "pageIndex": 75,
       "bbox": [
         76.6,
@@ -1842,7 +2132,10 @@
         186.76,
         514.12
       ],
-      "id": "block-112"
+      "id": "block-109",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1855,11 +2148,14 @@
         457.68,
         539.2
       ],
-      "id": "block-113"
+      "id": "block-110",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "ElevenLabs：一款雲端語音合成工具，支持多語言與高情感表達，可微調聲音風格（如語氣、情緒）。其生成語音自然度高，深受內容創作者與遊戲開發者青睞。",
       "pageIndex": 75,
@@ -1869,7 +2165,10 @@
         521.88,
         589.12
       ],
-      "id": "block-114"
+      "id": "block-111",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1882,11 +2181,14 @@
         275.47,
         614.2
       ],
-      "id": "block-115"
+      "id": "block-112",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "Microsoft Azure TTS：提供穩定且高效的雲端語音合成服務，支持多種語言與語音風格選項，具備企業級擴展能力。",
       "pageIndex": 75,
@@ -1896,7 +2198,10 @@
         517.94,
         664.15
       ],
-      "id": "block-116"
+      "id": "block-113",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1909,11 +2214,14 @@
         283.27,
         689.23
       ],
-      "id": "block-117"
+      "id": "block-114",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "Google Cloud TTS：基於Google 的語音技術，提供自動化、可擴展的API，支持多語言與語音客製化，廣泛應用於智慧設備與服務。",
       "pageIndex": 75,
@@ -1923,7 +2231,10 @@
         518.28,
         739.15
       ],
-      "id": "block-118"
+      "id": "block-115",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1936,11 +2247,14 @@
         270.67,
         764.22
       ],
-      "id": "block-119"
+      "id": "block-116",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "Amazon Polly：亞馬遜推出的語音合成服務，支援多語言與多語者模型，提供高品質語音輸出，適合大規模部署。",
       "pageIndex": 76,
@@ -1950,7 +2264,10 @@
         517.99,
         138.11
       ],
-      "id": "block-120"
+      "id": "block-117",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1963,12 +2280,16 @@
         295.87,
         163.07
       ],
-      "id": "block-121"
+      "id": "block-118",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "question",
-      "depth": 6,
-      "text": "C. 應用情境",
+      "type": "heading",
+      "depth": 5,
+      "title": "C. 應用情境",
+      "anchor": "c應用情境",
       "pageIndex": 76,
       "bbox": [
         76.6,
@@ -1976,7 +2297,10 @@
         148.84,
         212.63
       ],
-      "id": "block-122"
+      "id": "block-119",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1989,11 +2313,14 @@
         470.28,
         237.11
       ],
-      "id": "block-123"
+      "id": "block-120",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "電子學習平台語音教材：將課程文字轉換為語音，提供有聲書或語音教程。例如，教育平台可使用Google Cloud TTS 生成多語言教學內容，提升學習可及性。",
       "pageIndex": 76,
@@ -2003,11 +2330,14 @@
         521.88,
         286.22
       ],
-      "id": "block-124"
+      "id": "block-121",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "有聲書製作：將書籍或文章轉換為可聆聽的語音格式。例如，Amazon Polly 可快速生成有聲書，提升出版效率。",
       "pageIndex": 76,
@@ -2017,11 +2347,14 @@
         518.16,
         335.18
       ],
-      "id": "block-125"
+      "id": "block-122",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "遊戲角色語音：為遊戲中的角色生成語音，增強互動體驗。例如，ElevenLabs 可用於生成具有情感的角色對白。",
       "pageIndex": 76,
@@ -2031,11 +2364,14 @@
         518.4,
         384.14
       ],
-      "id": "block-126"
+      "id": "block-123",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "虛擬偶像與動畫配音：為虛擬角色或動畫生成自然語音，提升沉浸感。例如，VITS 可生成具獨特音色的虛擬偶像語音。",
       "pageIndex": 76,
@@ -2045,11 +2381,14 @@
         518.56,
         433.22
       ],
-      "id": "block-127"
+      "id": "block-124",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "語音客服：在自動化客服系統中提供語音回應。例如，Microsoft Azure TTS 可用於生成即時客服語音，提升服務效率。",
       "pageIndex": 76,
@@ -2059,11 +2398,14 @@
         518.4,
         482.2
       ],
-      "id": "block-128"
+      "id": "block-125",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "智慧家居語音控制：支援語音提示與指令回饋，提升設備互動性。例如，Google Cloud TTS 可為智慧音箱生成語音提示。",
       "pageIndex": 76,
@@ -2073,13 +2415,16 @@
         521.8,
         531.16
       ],
-      "id": "block-129"
+      "id": "block-126",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "list_item",
+      "type": "heading",
       "depth": 5,
-      "marker": "D.",
-      "text": "挑戰",
+      "title": "D. 挑戰",
+      "anchor": "d挑戰",
       "pageIndex": 76,
       "bbox": [
         76.6,
@@ -2087,11 +2432,14 @@
         123.64,
         580.72
       ],
-      "id": "block-130"
+      "id": "block-127",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "情感表達自然度：生成語音需準確反映情緒與語境，避免機械感。",
       "pageIndex": 76,
@@ -2101,11 +2449,14 @@
         459.24,
         605.2
       ],
-      "id": "block-131"
+      "id": "block-128",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "多語言適應性：確保語音在不同語言與方言中的品質一致。",
       "pageIndex": 76,
@@ -2115,11 +2466,14 @@
         421.41,
         629.71
       ],
-      "id": "block-132"
+      "id": "block-129",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "倫理風險：語音複製（Clone）可能涉及隱私與偽造問題，需規範使用。",
       "pageIndex": 76,
@@ -2129,13 +2483,16 @@
         489.36,
         654.19
       ],
-      "id": "block-133"
+      "id": "block-130",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "list_item",
+      "type": "heading",
       "depth": 5,
-      "marker": "E.",
-      "text": "關鍵指標",
+      "title": "E. 關鍵指標",
+      "anchor": "e關鍵指標",
       "pageIndex": 76,
       "bbox": [
         76.6,
@@ -2143,11 +2500,14 @@
         148.84,
         703.75
       ],
-      "id": "block-134"
+      "id": "block-131",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "MOS（Mean Opinion Score）：人工評估語音自然度的平均分數（1-5 分）。",
       "pageIndex": 76,
@@ -2157,11 +2517,14 @@
         498.24,
         728.23
       ],
-      "id": "block-135"
+      "id": "block-132",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "WER（Word Error Rate）：衡量語音內容準確性的錯誤率。",
       "pageIndex": 76,
@@ -2171,11 +2534,14 @@
         413.37,
         752.71
       ],
-      "id": "block-136"
+      "id": "block-133",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "生成延遲：從文字輸入到語音輸出的時間，影響即時應用效果。",
       "pageIndex": 76,
@@ -2185,7 +2551,10 @@
         446.61,
         777.18
       ],
-      "id": "block-137"
+      "id": "block-134",
+      "nodeId": "mid-s1c3",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2199,7 +2568,10 @@
         268.07,
         114.68
       ],
-      "id": "block-138"
+      "id": "block-135",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2212,7 +2584,10 @@
         518.05,
         214.07
       ],
-      "id": "block-139"
+      "id": "block-136",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2226,7 +2601,10 @@
         193.15,
         264.14
       ],
-      "id": "block-140"
+      "id": "block-137",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2240,7 +2618,10 @@
         249.79,
         289.1
       ],
-      "id": "block-141"
+      "id": "block-138",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2253,7 +2634,10 @@
         517.93,
         364.1
       ],
-      "id": "block-142"
+      "id": "block-139",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2267,7 +2651,10 @@
         224.59,
         414.14
       ],
-      "id": "block-143"
+      "id": "block-140",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2280,7 +2667,10 @@
         517.93,
         464.2
       ],
-      "id": "block-144"
+      "id": "block-141",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2294,7 +2684,10 @@
         211.99,
         514.12
       ],
-      "id": "block-145"
+      "id": "block-142",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2307,7 +2700,10 @@
         517.93,
         564.16
       ],
-      "id": "block-146"
+      "id": "block-143",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2321,7 +2717,10 @@
         249.67,
         614.2
       ],
-      "id": "block-147"
+      "id": "block-144",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2334,7 +2733,10 @@
         517.93,
         664.15
       ],
-      "id": "block-148"
+      "id": "block-145",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2348,7 +2750,10 @@
         249.79,
         714.19
       ],
-      "id": "block-149"
+      "id": "block-146",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2361,7 +2766,10 @@
         518.28,
         764.22
       ],
-      "id": "block-150"
+      "id": "block-147",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2375,7 +2783,10 @@
         180.52,
         114.11
       ],
-      "id": "block-151"
+      "id": "block-148",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2389,7 +2800,10 @@
         199.39,
         139.07
       ],
-      "id": "block-152"
+      "id": "block-149",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2402,7 +2816,10 @@
         518.02,
         189.11
       ],
-      "id": "block-153"
+      "id": "block-150",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2416,7 +2833,10 @@
         237.19,
         239.15
       ],
-      "id": "block-154"
+      "id": "block-151",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2429,7 +2849,10 @@
         521.8,
         314.18
       ],
-      "id": "block-155"
+      "id": "block-152",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2443,7 +2866,10 @@
         262.39,
         364.1
       ],
-      "id": "block-156"
+      "id": "block-153",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2456,7 +2882,10 @@
         524.66,
         414.14
       ],
-      "id": "block-157"
+      "id": "block-154",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2470,7 +2899,10 @@
         262.39,
         464.2
       ],
-      "id": "block-158"
+      "id": "block-155",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2483,7 +2915,10 @@
         518.27,
         489.16
       ],
-      "id": "block-159"
+      "id": "block-156",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2496,7 +2931,10 @@
         521.59,
         564.16
       ],
-      "id": "block-160"
+      "id": "block-157",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2510,7 +2948,10 @@
         262.39,
         614.2
       ],
-      "id": "block-161"
+      "id": "block-158",
+      "nodeId": "mid-s1c3",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2523,7 +2964,10 @@
         521.22,
         689.23
       ],
-      "id": "block-162"
+      "id": "block-159",
+      "nodeId": "mid-s1c3",
+      "kind": "paragraph",
+      "source": "page_extract"
     }
   ],
   "sourcePages": [

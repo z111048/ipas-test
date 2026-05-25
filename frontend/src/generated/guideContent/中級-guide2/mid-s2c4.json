@@ -1,7 +1,7 @@
 {
   "id": "mid-s2c4",
   "title": "數據收集與清理",
-  "content": "# 數據收集與清理\n\n4.1\n\n1.\n\n在大數據分析與人工智慧應用的完整流程中，資料收集與清理扮演著基礎且關鍵的角色。無論後續採用何種分析模型或技術方法，其結果的準確性與可解釋性，都深受資料品質的影響。若資料本身存在缺漏、錯誤、格式不一致等問題，將直接導致模型預測失真、決策失誤，甚至產生偏誤性的分析結論。\n\n大數據環境下的資料來源多樣，常見包括感測器訊號、API 資料交換、網站日誌、使用者行為紀錄、社群貼文與爬蟲資料等，其資料結構可能為結構化、半結構化或非結構化，對於資料蒐集策略與清理方法的選擇也提出了更高的挑戰。\n\n加上資料量大、更新頻繁，傳統的小規模資料清理方式往往無法適用，需引入更系統化與可擴展的技術手段。\n\n本節將從實務需求出發，依序介紹常見的資料來源與蒐集方式、資料品質問題的類型與評估方法、資料清理的策略與技術實務，以及資料清理完成後的準備與轉換作業。\n\n2.\n\n在大數據處理流程的起點，資料來源的多樣性與蒐集方式的選擇直接決定後續資料儲存、清理、分析與應用的架構設計。相較於傳統系統主要依賴結構化資料（以關聯式資料庫為主），大數據環境中的資料來源更為多元，涵蓋結構化（如表格數據）、半結構化（如JSON、XML）與非結構化（如文字、影像、影片）等型態，對蒐集策略、處理工具及資料品質管理提出了更高要求。選擇合適的蒐集方式不僅影響資料的可用性，也關係到分析結果的可靠性和商業價值的實現。以下是常見的大數據資料來源及其蒐集方式，依據型態與應用情境進行分類：\n\n• 感測器與物聯網（IoT）設備資料特性：高頻率、連續性、時間序列為主，數據量龐大，常見於製造業（設備監控）、交通（車流感測）、能源（智慧電網）及環境監控（氣象站）。\n\n蒐集方式：透過即時串流協議（如MQTT、Apache Kafka）接收資料，結合邊緣運算（Edge Computing）進行初步處理後傳輸至雲端或本地儲存系統。\n\n挑戰：需確保資料傳輸的穩定性與低延遲，同時處理高併發的數據流。\n\n• 系統日誌與使用者行為紀錄特性：記錄伺服器運作（Web Log）、應用程式點擊、設備操作軌跡等，屬於半結構化或非結構化資料，能反映使用者行為模式或系統效能。\n\n蒐集方式：由伺服器或應用程式自動生成，透過批次傳輸（如Flume、Logstash）或即時資料管線（如Apache NiFi）整合至儲存平台（如Hadoop HDFS、Elasticsearch）。\n\n挑戰：資料格式不一致（如不同系統的日誌結構），需標準化處理；高頻日誌可能造成儲存壓力。\n\n• API 與外部資料交換特性：透過應用程式介面（API）從第三方平台（如金融市場、社群媒體、地圖服務）獲取半結構化資料，通常以JSON 或XML 格式傳輸，數據結構靈活但需解析。\n\n蒐集方式：使用程式化請求（如RESTful API）定期或即時擷取，結合 ETL 工具（如Apache Airflow、Talend）進行資料整合與轉換。\n\n挑戰：API 限制（如速率限制、認證要求）可能影響資料完整性；資料格式變化需動態調整解析邏輯。\n\n• 網路爬蟲與開放資料平台特性：從網站爬取公開資料（文字、表格、影像）或從政府/產業開放平台（如data.gov、Kaggle）取得結構化或半結構化資料集。\n\n蒐集方式：使用爬蟲框架（如Scrapy、BeautifulSoup）自動化擷取，或透過API 下載開放資料集，後續需清理與格式轉換。\n\n挑戰：爬蟲可能受網站反爬機制限制；開放資料集品質參差不齊，需額外驗證與清理。\n\n• 企業內部營運系統資料特性：來自ERP、CRM、POS 等系統的結構化資料（如交易記錄、客戶資料、庫存資訊），品質穩定但更新頻率較低。\n\n蒐集方式：透過批次匯出（如SQL 查詢、CSV 匯出）或資料倉儲整合 （如Snowflake、Google BigQuery），結合ETL 流程進行集中管理。\n\n挑戰：跨部門資料整合可能因格式或命名規則不同而需額外標準化；歷史資料可能存在遺漏或不一致。\n\n在實務中，大數據項目通常涉及多來源、異質型態的資料整合。例如，智慧零售可能同時蒐集POS 交易資料（結構化）、顧客線上行為日誌（半結構化）以及社群媒體評論（非結構化）。為有效處理這些資料，需選擇適當的蒐集技術（如串流處理、批次ETL）、儲存平台（如Hadoop、NoSQL 資料庫）以及資料管線工具（如Apache Spark、Airflow）。同時，需考量以下關鍵因素：\n\n• 更新頻率：即時（串流）或定期（批次）蒐集。\n\n• 格式轉換：從非結構化到結構化的解析需求。\n\n• 即時性：是否需要低延遲處理（如即時推薦系統）。\n\n• 資料品質：確保資料完整性、一致性與準確性。\n\n• 隱私與合規：遵守GDPR、CCPA 等資料保護法規，避免違規風險。\n\n了解資料來源的特性與蒐集方式，是大數據工程與分析的基石。這一階段的決策直接影響後續的資料清理、儲存架構與分析模型的設計。為確保資料基礎穩定且高品質，實務中應結合資料治理策略（如數據流管理、品質監控）並採用視覺化工具（如流程圖、資料地圖）輔助設計與溝通。\n\n3.\n\n資料品質是資料分析、統計推論與決策應用的基礎。無論是進行統計檢定、建置機器學習模型，還是制定商業策略，低品質的資料（如不正確、不完整或不一致）都可能導致錯誤結論、模型偏差或決策失誤。在大數據環境中，資料量龐大、來源多元且結構異質（包括結構化、半結構化與非結構化資料），使得品質管理更具挑戰性。因此，系統性地辨識資料品質問題類型，並透過量化指標進行評估，是資料清理與治理的首要任務。\n\n#### （1）常見的資料品質問題類型\n\n• 缺失值（Missing Data）\n\n定義：\n\n資料中某些欄位缺少值，可能因使用者未填寫、感測器故障、系統錯誤或傳輸中斷導致。\n\n缺失值可分為完全隨機缺失（MCAR）（如偶爾出現有跳過填寫的資料）、隨機缺失（MAR） （如高收入者較不填寫）或非隨機缺失（MNAR）\n\n（如特定族群不回應）。\n\n示例：\n\n線上購物平台的用戶問卷中「年齡」欄位缺失。\n\n智慧工廠感測器因斷線導致溫度資料遺漏。\n\n影響：\n\n缺失值可能導致樣本偏差，影響統計推論（如單樣本t 檢定的均值估計偏高）或模型訓練（如線性迴歸無法處理空值）。\n\n處理策略：\n\n填補：使用均值、中位數或機器學習預測（如KNN 填補）。\n\n刪除：若缺失率低（如< 5%），可移除缺失記錄。\n\n保留：使用可處理缺失值的算法（如隨機森林）。\n\n• 異常值（Outliers）\n\n定義：\n\n偏離資料主體分佈的極端值，可能來自輸入錯誤、設備故障，或真實但罕見的事件（如極端消費行為）。\n\n示例：\n\n電商平台記錄單筆訂單金額達數億元（輸入錯誤）。\n\n醫療系統中某患者心率異常高（需驗證是否真實）。\n\n影響：\n\n異常值可能扭曲統計量（如均值、標準差），影響獨立樣本t 檢定或迴歸分析的顯著性，導致錯誤結論。\n\n處理策略：\n\n偵測：使用統計方法（IQR 法、Z 分數）或機器學習（孤立森林）。\n\n處理：根據領域知識保留（真實異常）、修正或移除。\n\n• 重複值（Duplicates）\n\n定義：\n\n同一觀察單位在資料集中多次出現，常因系統重複寫入、資料整合錯誤或缺少唯一識別碼導致。\n\n示例：\n\n客戶資料庫中同一用戶因多來源整合出現重複。\n\n伺服器日誌因重試機制記錄多次相同事件。\n\n影響：\n\n重複值會高估頻次或總量，影響卡方檢定的頻次分佈或模型訓練的權重分配。\n\n造成統計計算錯誤、重複累加同筆資料等情況。\n\n處理策略：\n\n檢查：使用唯一識別碼（ID）或關鍵欄位組合偵測重複。\n\n移除：去除重複值（如保留第一筆或最後一筆）。\n\n合併：若重複記錄包含不同資訊，需整合後去重。\n\n• 一致性錯誤（Inconsistency）\n\n定義：\n\n資料在單位、命名或格式上不統一，常見於多來源整合或人工輸入。\n\n示例：\n\n地址欄位混雜「臺北市」與「台北市」\n\n日期格式包含「2023/01/01」與「Jan-1-2023」\n\n重量單位混用公斤與磅。\n\n影響：\n\n不一致資料導致無法正確聚合或比較，增加清理成本，影響分析結果（如ANOVA 因單位錯誤無法比較組間均值）。\n\n處理策略：\n\n標準化：統一格式（例如全用YYYY-MM-DD）、命名規則或單位。\n\n• 邏輯錯誤/不合理資料（Logical Errors）\n\n定義：\n\n資料值符合格式但違反邏輯或領域知識，需專業判斷識別。\n\n示例：\n\n客戶出生年份為1890（不合理）。\n\n零售交易金額為負數（除非為退貨，需驗證）。\n\n病患體溫記錄為43°C（生理上異常）。\n\n影響：\n\n邏輯錯誤可能導致模型失效或推論錯誤，例如在皮爾森相關檢定中納入不合理數據，影響相關係數的解釋。\n\n處理策略：\n\n定義規則：設定邏輯檢查（如年齡範圍0-120、金額≥ 0）。\n\n審查：結合領域專家訂定規則、進行偵測與修正。\n\n#### （2）資料品質指標\n\n當面對大規模、多來源、異質性的資料時，僅依賴人工檢查資料品質已不敷使用，必須依賴具體且量化的指標，才能系統性地發現資料中的潛在缺陷與風險。\n\n以下幾項常用的資料品質評估指標，能協助資料科學團隊在資料清理與治理過程中快速定位問題、訂定優先順序並評估改善成效：\n\n• 缺失率（Missing Rate）：\n\n衡量各欄位中空值或缺漏資料的比例。高缺失率可能代表收集流程異常，或該欄位不適合分析使用。對於預測模型來說，缺失欄位過多會導致特徵無法使用或降低模型穩定性。\n\n• 唯一值比率（Uniqueness Rate）：\n\n評估資料中重複紀錄的情形。若主鍵（如用戶ID、交易編號）出現重複值，將嚴重破壞資料的正確性，影響後續整合與分析流程。\n\n• 一致性比率（Consistency Rate）：\n\n檢查欄位格式、單位、命名標準是否統一。例如同一資料欄中混合使用 「kg」與「公斤」、或日期格式不一等情形，將造成解析與分析困難，亦不利於資料共享與再利用。\n\n• 異常值比率（Outlier Rate）：\n\n計算明顯偏離正常分佈或上下限的數值比例，常透過Z-score、IQR 或模型式異常偵測法自動識別。異常值可能源自輸入錯誤、轉碼問題，或真實但罕見的行為，因此需搭配領域知識謹慎判讀。\n\n• 完整性比率（Completeness Rate）：\n\n評估觀察對象是否具備足夠資料描述。例如使用者資料中是否同時包含個人資料與行為記錄，若缺漏其中之一，將限制分析模型的應用。\n\n這些指標不僅用於靜態資料品質檢查，也能內嵌至資料流管線（Data Pipeline）\n\n與資料品質監控系統中，建立自動化偵測與回報機制，確保長期資料品質穩定。",
+  "content": "# 數據收集與清理\n\n4.1\n\n1.\n\n在大數據分析與人工智慧應用的完整流程中，資料收集與清理扮演著基礎且關鍵的角色。無論後續採用何種分析模型或技術方法，其結果的準確性與可解釋性，都深受資料品質的影響。若資料本身存在缺漏、錯誤、格式不一致等問題，將直接導致模型預測失真、決策失誤，甚至產生偏誤性的分析結論。\n\n大數據環境下的資料來源多樣，常見包括感測器訊號、API 資料交換、網站日誌、使用者行為紀錄、社群貼文與爬蟲資料等，其資料結構可能為結構化、半結構化或非結構化，對於資料蒐集策略與清理方法的選擇也提出了更高的挑戰。\n\n加上資料量大、更新頻繁，傳統的小規模資料清理方式往往無法適用，需引入更系統化與可擴展的技術手段。\n\n本節將從實務需求出發，依序介紹常見的資料來源與蒐集方式、資料品質問題的類型與評估方法、資料清理的策略與技術實務，以及資料清理完成後的準備與轉換作業。\n\n2.\n\n在大數據處理流程的起點，資料來源的多樣性與蒐集方式的選擇直接決定後續資料儲存、清理、分析與應用的架構設計。相較於傳統系統主要依賴結構化資料（以關聯式資料庫為主），大數據環境中的資料來源更為多元，涵蓋結構化（如表格數據）、半結構化（如JSON、XML）與非結構化（如文字、影像、影片）等型態，對蒐集策略、處理工具及資料品質管理提出了更高要求。選擇合適的蒐集方式不僅影響資料的可用性，也關係到分析結果的可靠性和商業價值的實現。以下是常見的大數據資料來源及其蒐集方式，依據型態與應用情境進行分類：\n\n• 感測器與物聯網（IoT）設備資料\n\n◦ 特性：高頻率、連續性、時間序列為主，數據量龐大，常見於製造業（設\n\n備監控）、交通（車流感測）、能源（智慧電網）及環境監控（氣象站）。\n\n◦ 蒐集方式：透過即時串流協議（如MQTT、Apache Kafka）接收資料，\n\n結合邊緣運算（Edge Computing）進行初步處理後傳輸至雲端或本地儲存系統。\n\n◦ 挑戰：需確保資料傳輸的穩定性與低延遲，同時處理高併發的數據流。\n\n• 系統日誌與使用者行為紀錄\n\n◦ 特性：記錄伺服器運作（Web Log）、應用程式點擊、設備操作軌跡等，\n\n屬於半結構化或非結構化資料，能反映使用者行為模式或系統效能。\n\n◦ 蒐集方式：由伺服器或應用程式自動生成，透過批次傳輸（如Flume、\n\nLogstash）或即時資料管線（如Apache NiFi）整合至儲存平台（如Hadoop HDFS、Elasticsearch）。\n\n◦ 挑戰：資料格式不一致（如不同系統的日誌結構），需標準化處理；高\n\n頻日誌可能造成儲存壓力。\n\n• API 與外部資料交換\n\n◦ 特性：透過應用程式介面（API）從第三方平台（如金融市場、社群媒\n\n體、地圖服務）獲取半結構化資料，通常以JSON 或XML 格式傳輸，數據結構靈活但需解析。\n\n◦ 蒐集方式：使用程式化請求（如RESTful API）定期或即時擷取，結合\n\nETL 工具（如Apache Airflow、Talend）進行資料整合與轉換。\n\n◦ 挑戰：API 限制（如速率限制、認證要求）可能影響資料完整性；資料\n\n格式變化需動態調整解析邏輯。\n\n• 網路爬蟲與開放資料平台\n\n◦ 特性：從網站爬取公開資料（文字、表格、影像）或從政府/產業開放\n\n平台（如data.gov、Kaggle）取得結構化或半結構化資料集。\n\n◦ 蒐集方式：使用爬蟲框架（如Scrapy、BeautifulSoup）自動化擷取，或\n\n透過API 下載開放資料集，後續需清理與格式轉換。\n\n◦ 挑戰：爬蟲可能受網站反爬機制限制；開放資料集品質參差不齊，需額\n\n外驗證與清理。\n\n• 企業內部營運系統資料\n\n◦ 特性：來自ERP、CRM、POS 等系統的結構化資料（如交易記錄、客\n\n戶資料、庫存資訊），品質穩定但更新頻率較低。\n\n◦ 蒐集方式：透過批次匯出（如SQL 查詢、CSV 匯出）或資料倉儲整合\n\n（如Snowflake、Google BigQuery），結合ETL 流程進行集中管理。\n\n◦ 挑戰：跨部門資料整合可能因格式或命名規則不同而需額外標準化；歷\n\n史資料可能存在遺漏或不一致。\n\n在實務中，大數據項目通常涉及多來源、異質型態的資料整合。例如，智慧零售可能同時蒐集POS 交易資料（結構化）、顧客線上行為日誌（半結構化）以及社群媒體評論（非結構化）。為有效處理這些資料，需選擇適當的蒐集技術（如串流處理、批次ETL）、儲存平台（如Hadoop、NoSQL 資料庫）以及資料管線工具（如Apache Spark、Airflow）。同時，需考量以下關鍵因素：\n\n• 更新頻率：即時（串流）或定期（批次）蒐集。\n\n• 格式轉換：從非結構化到結構化的解析需求。\n\n• 即時性：是否需要低延遲處理（如即時推薦系統）。\n\n• 資料品質：確保資料完整性、一致性與準確性。\n\n• 隱私與合規：遵守GDPR、CCPA 等資料保護法規，避免違規風險。\n\n了解資料來源的特性與蒐集方式，是大數據工程與分析的基石。這一階段的決策直接影響後續的資料清理、儲存架構與分析模型的設計。為確保資料基礎穩定且高品質，實務中應結合資料治理策略（如數據流管理、品質監控）並採用視覺化工具（如流程圖、資料地圖）輔助設計與溝通。\n\n3.\n\n資料品質是資料分析、統計推論與決策應用的基礎。無論是進行統計檢定、建置機器學習模型，還是制定商業策略，低品質的資料（如不正確、不完整或不一致）都可能導致錯誤結論、模型偏差或決策失誤。在大數據環境中，資料量龐大、來源多元且結構異質（包括結構化、半結構化與非結構化資料），使得品質管理更具挑戰性。因此，系統性地辨識資料品質問題類型，並透過量化指標進行評估，是資料清理與治理的首要任務。\n\n#### （1）常見的資料品質問題類型\n\n• 缺失值（Missing Data）\n\n◦ 定義：\n\n○ 資料中某些欄位缺少值，可能因使用者未填寫、感測器故障、系統錯\n\n誤或傳輸中斷導致。\n\n○ 缺失值可分為完全隨機缺失（MCAR）（如偶爾出現有跳過填寫的資\n\n料）、隨機缺失（MAR） （如高收入者較不填寫）或非隨機缺失（MNAR）\n\n（如特定族群不回應）。\n\n◦ 示例：\n\n○ 線上購物平台的用戶問卷中「年齡」欄位缺失。\n\n○ 智慧工廠感測器因斷線導致溫度資料遺漏。\n\n◦ 影響：\n\n○ 缺失值可能導致樣本偏差，影響統計推論（如單樣本t 檢定的均值估\n\n計偏高）或模型訓練（如線性迴歸無法處理空值）。\n\n◦ 處理策略：\n\n○ 填補：使用均值、中位數或機器學習預測（如KNN 填補）。\n\n○ 刪除：若缺失率低（如< 5%），可移除缺失記錄。\n\n○ 保留：使用可處理缺失值的算法（如隨機森林）。\n\n• 異常值（Outliers）\n\n◦ 定義：\n\n○ 偏離資料主體分佈的極端值，可能來自輸入錯誤、設備故障，或真實\n\n但罕見的事件（如極端消費行為）。\n\n◦ 示例：\n\n○ 電商平台記錄單筆訂單金額達數億元（輸入錯誤）。\n\n○ 醫療系統中某患者心率異常高（需驗證是否真實）。\n\n◦ 影響：\n\n○ 異常值可能扭曲統計量（如均值、標準差），影響獨立樣本t 檢定或\n\n迴歸分析的顯著性，導致錯誤結論。\n\n◦ 處理策略：\n\n○ 偵測：使用統計方法（IQR 法、Z 分數）或機器學習（孤立森林）。\n\n○ 處理：根據領域知識保留（真實異常）、修正或移除。\n\n• 重複值（Duplicates）\n\n◦ 定義：\n\n○ 同一觀察單位在資料集中多次出現，常因系統重複寫入、資料整合\n\n錯誤或缺少唯一識別碼導致。\n\n◦ 示例：\n\n○ 客戶資料庫中同一用戶因多來源整合出現重複。\n\n○ 伺服器日誌因重試機制記錄多次相同事件。\n\n◦ 影響：\n\n○ 重複值會高估頻次或總量，影響卡方檢定的頻次分佈或模型訓練的\n\n權重分配。\n\n○ 造成統計計算錯誤、重複累加同筆資料等情況。\n\n◦ 處理策略：\n\n○ 檢查：使用唯一識別碼（ID）或關鍵欄位組合偵測重複。\n\n○ 移除：去除重複值（如保留第一筆或最後一筆）。\n\n○ 合併：若重複記錄包含不同資訊，需整合後去重。\n\n• 一致性錯誤（Inconsistency）\n\n◦ 定義：\n\n○ 資料在單位、命名或格式上不統一，常見於多來源整合或人工輸入。\n\n◦ 示例：\n\n○ 地址欄位混雜「臺北市」與「台北市」\n\n○ 日期格式包含「2023/01/01」與「Jan-1-2023」\n\n○ 重量單位混用公斤與磅。\n\n◦ 影響：\n\n○ 不一致資料導致無法正確聚合或比較，增加清理成本，影響分析結\n\n果（如ANOVA 因單位錯誤無法比較組間均值）。\n\n◦ 處理策略：\n\n○ 標準化：統一格式（例如全用YYYY-MM-DD）、命名規則或單位。\n\n• 邏輯錯誤/不合理資料（Logical Errors）\n\n◦ 定義：\n\n○ 資料值符合格式但違反邏輯或領域知識，需專業判斷識別。\n\n◦ 示例：\n\n○ 客戶出生年份為1890（不合理）。\n\n○ 零售交易金額為負數（除非為退貨，需驗證）。\n\n○ 病患體溫記錄為43°C（生理上異常）。\n\n◦ 影響：\n\n○ 邏輯錯誤可能導致模型失效或推論錯誤，例如在皮爾森相關檢定中\n\n納入不合理數據，影響相關係數的解釋。\n\n◦ 處理策略：\n\n○ 定義規則：設定邏輯檢查（如年齡範圍0-120、金額≥ 0）。\n\n○ 審查：結合領域專家訂定規則、進行偵測與修正。\n\n#### （2）資料品質指標\n\n當面對大規模、多來源、異質性的資料時，僅依賴人工檢查資料品質已不敷使用，必須依賴具體且量化的指標，才能系統性地發現資料中的潛在缺陷與風險。\n\n以下幾項常用的資料品質評估指標，能協助資料科學團隊在資料清理與治理過程中快速定位問題、訂定優先順序並評估改善成效：\n\n• 缺失率（Missing Rate）：\n\n◦ 衡量各欄位中空值或缺漏資料的比例。高缺失率可能代表收集流程異\n\n常，或該欄位不適合分析使用。對於預測模型來說，缺失欄位過多會導致特徵無法使用或降低模型穩定性。\n\n• 唯一值比率（Uniqueness Rate）：\n\n◦ 評估資料中重複紀錄的情形。若主鍵（如用戶ID、交易編號）出現重\n\n複值，將嚴重破壞資料的正確性，影響後續整合與分析流程。\n\n• 一致性比率（Consistency Rate）：\n\n◦ 檢查欄位格式、單位、命名標準是否統一。例如同一資料欄中混合使用\n\n「kg」與「公斤」、或日期格式不一等情形，將造成解析與分析困難，亦不利於資料共享與再利用。\n\n• 異常值比率（Outlier Rate）：\n\n◦ 計算明顯偏離正常分佈或上下限的數值比例，常透過Z-score、IQR 或\n\n模型式異常偵測法自動識別。異常值可能源自輸入錯誤、轉碼問題，或真實但罕見的行為，因此需搭配領域知識謹慎判讀。\n\n• 完整性比率（Completeness Rate）：\n\n◦ 評估觀察對象是否具備足夠資料描述。例如使用者資料中是否同時包\n\n含個人資料與行為記錄，若缺漏其中之一，將限制分析模型的應用。\n\n這些指標不僅用於靜態資料品質檢查，也能內嵌至資料流管線（Data Pipeline）\n\n與資料品質監控系統中，建立自動化偵測與回報機制，確保長期資料品質穩定。",
   "contentFormat": "markdown",
   "headings": [
     {
@@ -28,7 +28,10 @@
         118.18,
         174.28
       ],
-      "id": "block-1"
+      "id": "block-1",
+      "nodeId": "mid-s2c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -42,7 +45,10 @@
         90.67,
         218.12
       ],
-      "id": "block-2"
+      "id": "block-2",
+      "nodeId": "mid-s2c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -55,7 +61,10 @@
         517.93,
         317.54
       ],
-      "id": "block-3"
+      "id": "block-3",
+      "nodeId": "mid-s2c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -68,7 +77,10 @@
         518.25,
         392.33
       ],
-      "id": "block-4"
+      "id": "block-4",
+      "nodeId": "mid-s2c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -81,7 +93,10 @@
         518.15,
         442.58
       ],
-      "id": "block-5"
+      "id": "block-5",
+      "nodeId": "mid-s2c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -94,7 +109,10 @@
         517.93,
         517.6
       ],
-      "id": "block-6"
+      "id": "block-6",
+      "nodeId": "mid-s2c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -107,7 +125,10 @@
         90.67,
         568.09
       ],
-      "id": "block-7"
+      "id": "block-7",
+      "nodeId": "mid-s2c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -120,25 +141,49 @@
         518.14,
         742.63
       ],
-      "id": "block-8"
+      "id": "block-8",
+      "nodeId": "mid-s2c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "感測器與物聯網（IoT）設備資料特性：高頻率、連續性、時間序列為主，數據量龐大，常見於製造業（設備監控）、交通（車流感測）、能源（智慧電網）及環境監控（氣象站）。",
+      "text": "感測器與物聯網（IoT）設備資料",
       "pageIndex": 57,
       "bbox": [
         102.16,
         100.66,
+        304.15,
+        114.11
+      ],
+      "id": "block-9",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "特性：高頻率、連續性、時間序列為主，數據量龐大，常見於製造業（設備監控）、交通（車流感測）、能源（智慧電網）及環境監控（氣象站）。",
+      "pageIndex": 57,
+      "bbox": [
+        120.52,
+        125.62,
         521.88,
         164.15
       ],
-      "id": "block-9"
+      "id": "block-10",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 3,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "蒐集方式：透過即時串流協議（如MQTT、Apache Kafka）接收資料，結合邊緣運算（Edge Computing）進行初步處理後傳輸至雲端或本地儲存系統。",
       "pageIndex": 57,
       "bbox": [
@@ -147,11 +192,15 @@
         521.43,
         239.15
       ],
-      "id": "block-10"
+      "id": "block-11",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 3,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "挑戰：需確保資料傳輸的穩定性與低延遲，同時處理高併發的數據流。",
       "pageIndex": 57,
       "bbox": [
@@ -160,25 +209,49 @@
         521.88,
         264.14
       ],
-      "id": "block-11"
+      "id": "block-12",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "系統日誌與使用者行為紀錄特性：記錄伺服器運作（Web Log）、應用程式點擊、設備操作軌跡等，屬於半結構化或非結構化資料，能反映使用者行為模式或系統效能。",
+      "text": "系統日誌與使用者行為紀錄",
       "pageIndex": 57,
       "bbox": [
         102.16,
         275.65,
+        273.31,
+        289.1
+      ],
+      "id": "block-13",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "特性：記錄伺服器運作（Web Log）、應用程式點擊、設備操作軌跡等，屬於半結構化或非結構化資料，能反映使用者行為模式或系統效能。",
+      "pageIndex": 57,
+      "bbox": [
+        120.52,
+        300.73,
         521.21,
         339.14
       ],
-      "id": "block-12"
+      "id": "block-14",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 3,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "蒐集方式：由伺服器或應用程式自動生成，透過批次傳輸（如Flume、Logstash）或即時資料管線（如Apache NiFi）整合至儲存平台（如Hadoop HDFS、Elasticsearch）。",
       "pageIndex": 57,
       "bbox": [
@@ -187,11 +260,15 @@
         521.8,
         414.14
       ],
-      "id": "block-13"
+      "id": "block-15",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 3,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "挑戰：資料格式不一致（如不同系統的日誌結構），需標準化處理；高頻日誌可能造成儲存壓力。",
       "pageIndex": 57,
       "bbox": [
@@ -200,25 +277,49 @@
         518.17,
         464.2
       ],
-      "id": "block-14"
+      "id": "block-16",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "API 與外部資料交換特性：透過應用程式介面（API）從第三方平台（如金融市場、社群媒體、地圖服務）獲取半結構化資料，通常以JSON 或XML 格式傳輸，數據結構靈活但需解析。",
+      "text": "API 與外部資料交換",
       "pageIndex": 57,
       "bbox": [
         102.16,
         475.71,
+        233.71,
+        489.16
+      ],
+      "id": "block-17",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "特性：透過應用程式介面（API）從第三方平台（如金融市場、社群媒體、地圖服務）獲取半結構化資料，通常以JSON 或XML 格式傳輸，數據結構靈活但需解析。",
+      "pageIndex": 57,
+      "bbox": [
+        120.52,
+        500.67,
         520.63,
         564.16
       ],
-      "id": "block-15"
+      "id": "block-18",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 3,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "蒐集方式：使用程式化請求（如RESTful API）定期或即時擷取，結合 ETL 工具（如Apache Airflow、Talend）進行資料整合與轉換。",
       "pageIndex": 57,
       "bbox": [
@@ -227,11 +328,15 @@
         518.25,
         614.2
       ],
-      "id": "block-16"
+      "id": "block-19",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 3,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "挑戰：API 限制（如速率限制、認證要求）可能影響資料完整性；資料格式變化需動態調整解析邏輯。",
       "pageIndex": 57,
       "bbox": [
@@ -240,25 +345,49 @@
         518.12,
         664.15
       ],
-      "id": "block-17"
+      "id": "block-20",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "網路爬蟲與開放資料平台特性：從網站爬取公開資料（文字、表格、影像）或從政府/產業開放平台（如data.gov、Kaggle）取得結構化或半結構化資料集。",
+      "text": "網路爬蟲與開放資料平台",
       "pageIndex": 57,
       "bbox": [
         102.16,
         675.78,
+        260.71,
+        689.23
+      ],
+      "id": "block-21",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "特性：從網站爬取公開資料（文字、表格、影像）或從政府/產業開放平台（如data.gov、Kaggle）取得結構化或半結構化資料集。",
+      "pageIndex": 57,
+      "bbox": [
+        120.52,
+        700.74,
         518.36,
         739.15
       ],
-      "id": "block-18"
+      "id": "block-22",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 3,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "蒐集方式：使用爬蟲框架（如Scrapy、BeautifulSoup）自動化擷取，或透過API 下載開放資料集，後續需清理與格式轉換。",
       "pageIndex": 58,
       "bbox": [
@@ -267,11 +396,15 @@
         518.2,
         139.07
       ],
-      "id": "block-19"
+      "id": "block-23",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 3,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "挑戰：爬蟲可能受網站反爬機制限制；開放資料集品質參差不齊，需額外驗證與清理。",
       "pageIndex": 58,
       "bbox": [
@@ -280,25 +413,49 @@
         517.91,
         189.11
       ],
-      "id": "block-20"
+      "id": "block-24",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "企業內部營運系統資料特性：來自ERP、CRM、POS 等系統的結構化資料（如交易記錄、客戶資料、庫存資訊），品質穩定但更新頻率較低。",
+      "text": "企業內部營運系統資料",
       "pageIndex": 58,
       "bbox": [
         102.16,
         200.62,
+        248.11,
+        214.07
+      ],
+      "id": "block-25",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "特性：來自ERP、CRM、POS 等系統的結構化資料（如交易記錄、客戶資料、庫存資訊），品質穩定但更新頻率較低。",
+      "pageIndex": 58,
+      "bbox": [
+        120.52,
+        225.7,
         518.23,
         264.14
       ],
-      "id": "block-21"
+      "id": "block-26",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 3,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "蒐集方式：透過批次匯出（如SQL 查詢、CSV 匯出）或資料倉儲整合 （如Snowflake、Google BigQuery），結合ETL 流程進行集中管理。",
       "pageIndex": 58,
       "bbox": [
@@ -307,11 +464,15 @@
         518.27,
         314.18
       ],
-      "id": "block-22"
+      "id": "block-27",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 3,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "挑戰：跨部門資料整合可能因格式或命名規則不同而需額外標準化；歷史資料可能存在遺漏或不一致。",
       "pageIndex": 58,
       "bbox": [
@@ -320,7 +481,10 @@
         518.0,
         364.1
       ],
-      "id": "block-23"
+      "id": "block-28",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -333,11 +497,14 @@
         518.33,
         497.32
       ],
-      "id": "block-24"
+      "id": "block-29",
+      "nodeId": "mid-s2c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "更新頻率：即時（串流）或定期（批次）蒐集。",
       "pageIndex": 58,
@@ -347,11 +514,14 @@
         386.73,
         530.44
       ],
-      "id": "block-25"
+      "id": "block-30",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "格式轉換：從非結構化到結構化的解析需求。",
       "pageIndex": 58,
@@ -361,11 +531,14 @@
         374.13,
         555.52
       ],
-      "id": "block-26"
+      "id": "block-31",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "即時性：是否需要低延遲處理（如即時推薦系統）。",
       "pageIndex": 58,
@@ -375,11 +548,14 @@
         405.69,
         580.48
       ],
-      "id": "block-27"
+      "id": "block-32",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資料品質：確保資料完整性、一致性與準確性。",
       "pageIndex": 58,
@@ -389,11 +565,14 @@
         386.73,
         605.44
       ],
-      "id": "block-28"
+      "id": "block-33",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "隱私與合規：遵守GDPR、CCPA 等資料保護法規，避免違規風險。",
       "pageIndex": 58,
@@ -403,7 +582,10 @@
         495.6,
         630.55
       ],
-      "id": "block-29"
+      "id": "block-34",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -416,7 +598,10 @@
         517.93,
         738.67
       ],
-      "id": "block-30"
+      "id": "block-35",
+      "nodeId": "mid-s2c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -429,7 +614,10 @@
         90.67,
         114.68
       ],
-      "id": "block-31"
+      "id": "block-36",
+      "nodeId": "mid-s2c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -442,7 +630,10 @@
         518.17,
         264.14
       ],
-      "id": "block-32"
+      "id": "block-37",
+      "nodeId": "mid-s2c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -456,7 +647,10 @@
         243.43,
         314.18
       ],
-      "id": "block-33"
+      "id": "block-38",
+      "nodeId": "mid-s2c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -470,25 +664,49 @@
         243.43,
         314.18
       ],
-      "id": "block-34"
+      "id": "block-39",
+      "nodeId": "mid-s2c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "缺失值（Missing Data） 定義：",
+      "text": "缺失值（Missing Data）",
       "pageIndex": 59,
       "bbox": [
         102.16,
         325.69,
         253.03,
-        364.1
+        339.14
       ],
-      "id": "block-35"
+      "id": "block-40",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "定義：",
+      "pageIndex": 59,
+      "bbox": [
+        120.52,
+        350.65,
+        176.92,
+        364.1
+      ],
+      "id": "block-41",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "資料中某些欄位缺少值，可能因使用者未填寫、感測器故障、系統錯誤或傳輸中斷導致。",
       "pageIndex": 59,
       "bbox": [
@@ -497,11 +715,15 @@
         518.32,
         414.14
       ],
-      "id": "block-36"
+      "id": "block-42",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "缺失值可分為完全隨機缺失（MCAR）（如偶爾出現有跳過填寫的資料）、隨機缺失（MAR） （如高收入者較不填寫）或非隨機缺失（MNAR） （如特定族群不回應）。",
       "pageIndex": 59,
       "bbox": [
@@ -510,11 +732,15 @@
         524.76,
         489.16
       ],
-      "id": "block-37"
+      "id": "block-43",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "示例：",
       "pageIndex": 59,
       "bbox": [
@@ -523,11 +749,15 @@
         176.92,
         514.12
       ],
-      "id": "block-38"
+      "id": "block-44",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "線上購物平台的用戶問卷中「年齡」欄位缺失。",
       "pageIndex": 59,
       "bbox": [
@@ -536,11 +766,15 @@
         418.05,
         539.2
       ],
-      "id": "block-39"
+      "id": "block-45",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "智慧工廠感測器因斷線導致溫度資料遺漏。",
       "pageIndex": 59,
       "bbox": [
@@ -549,11 +783,15 @@
         392.85,
         564.16
       ],
-      "id": "block-40"
+      "id": "block-46",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "影響：",
       "pageIndex": 59,
       "bbox": [
@@ -562,11 +800,15 @@
         176.92,
         589.12
       ],
-      "id": "block-41"
+      "id": "block-47",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "缺失值可能導致樣本偏差，影響統計推論（如單樣本t 檢定的均值估計偏高）或模型訓練（如線性迴歸無法處理空值）。",
       "pageIndex": 59,
       "bbox": [
@@ -575,11 +817,15 @@
         518.37,
         639.19
       ],
-      "id": "block-42"
+      "id": "block-48",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "處理策略：",
       "pageIndex": 59,
       "bbox": [
@@ -588,11 +834,15 @@
         202.15,
         664.15
       ],
-      "id": "block-43"
+      "id": "block-49",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "填補：使用均值、中位數或機器學習預測（如KNN 填補）。",
       "pageIndex": 59,
       "bbox": [
@@ -601,11 +851,15 @@
         482.76,
         689.23
       ],
-      "id": "block-44"
+      "id": "block-50",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "刪除：若缺失率低（如< 5%），可移除缺失記錄。",
       "pageIndex": 59,
       "bbox": [
@@ -614,11 +868,15 @@
         426.09,
         714.19
       ],
-      "id": "block-45"
+      "id": "block-51",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "保留：使用可處理缺失值的算法（如隨機森林）。",
       "pageIndex": 59,
       "bbox": [
@@ -627,25 +885,49 @@
         424.41,
         755.82
       ],
-      "id": "block-46"
+      "id": "block-52",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "異常值（Outliers） 定義：",
+      "text": "異常值（Outliers）",
       "pageIndex": 60,
       "bbox": [
         102.16,
         100.66,
         226.15,
-        139.07
+        114.11
       ],
-      "id": "block-47"
+      "id": "block-53",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "定義：",
+      "pageIndex": 60,
+      "bbox": [
+        120.52,
+        125.62,
+        176.92,
+        139.07
+      ],
+      "id": "block-54",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "偏離資料主體分佈的極端值，可能來自輸入錯誤、設備故障，或真實但罕見的事件（如極端消費行為）。",
       "pageIndex": 60,
       "bbox": [
@@ -654,11 +936,15 @@
         518.32,
         189.11
       ],
-      "id": "block-48"
+      "id": "block-55",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "示例：",
       "pageIndex": 60,
       "bbox": [
@@ -667,11 +953,15 @@
         176.92,
         214.07
       ],
-      "id": "block-49"
+      "id": "block-56",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "電商平台記錄單筆訂單金額達數億元（輸入錯誤）。",
       "pageIndex": 60,
       "bbox": [
@@ -680,11 +970,15 @@
         437.01,
         239.15
       ],
-      "id": "block-50"
+      "id": "block-57",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "醫療系統中某患者心率異常高（需驗證是否真實）。",
       "pageIndex": 60,
       "bbox": [
@@ -693,11 +987,15 @@
         437.01,
         264.14
       ],
-      "id": "block-51"
+      "id": "block-58",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "影響：",
       "pageIndex": 60,
       "bbox": [
@@ -706,11 +1004,15 @@
         176.92,
         289.1
       ],
-      "id": "block-52"
+      "id": "block-59",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "異常值可能扭曲統計量（如均值、標準差），影響獨立樣本t 檢定或迴歸分析的顯著性，導致錯誤結論。",
       "pageIndex": 60,
       "bbox": [
@@ -719,11 +1021,15 @@
         518.4,
         339.14
       ],
-      "id": "block-53"
+      "id": "block-60",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "處理策略：",
       "pageIndex": 60,
       "bbox": [
@@ -732,11 +1038,15 @@
         202.15,
         364.1
       ],
-      "id": "block-54"
+      "id": "block-61",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "偵測：使用統計方法（IQR 法、Z 分數）或機器學習（孤立森林）。",
       "pageIndex": 60,
       "bbox": [
@@ -745,11 +1055,15 @@
         521.88,
         389.18
       ],
-      "id": "block-55"
+      "id": "block-62",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "處理：根據領域知識保留（真實異常）、修正或移除。",
       "pageIndex": 60,
       "bbox": [
@@ -758,25 +1072,49 @@
         449.61,
         414.14
       ],
-      "id": "block-56"
+      "id": "block-63",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "重複值（Duplicates） 定義：",
+      "text": "重複值（Duplicates）",
       "pageIndex": 60,
       "bbox": [
         102.16,
         425.65,
         239.47,
-        464.2
+        439.1
       ],
-      "id": "block-57"
+      "id": "block-64",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "定義：",
+      "pageIndex": 60,
+      "bbox": [
+        120.52,
+        450.75,
+        176.92,
+        464.2
+      ],
+      "id": "block-65",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "同一觀察單位在資料集中多次出現，常因系統重複寫入、資料整合錯誤或缺少唯一識別碼導致。",
       "pageIndex": 60,
       "bbox": [
@@ -785,11 +1123,15 @@
         518.2,
         514.12
       ],
-      "id": "block-58"
+      "id": "block-66",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "示例：",
       "pageIndex": 60,
       "bbox": [
@@ -798,11 +1140,15 @@
         176.92,
         539.2
       ],
-      "id": "block-59"
+      "id": "block-67",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "客戶資料庫中同一用戶因多來源整合出現重複。",
       "pageIndex": 60,
       "bbox": [
@@ -811,11 +1157,15 @@
         418.05,
         564.16
       ],
-      "id": "block-60"
+      "id": "block-68",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "伺服器日誌因重試機制記錄多次相同事件。",
       "pageIndex": 60,
       "bbox": [
@@ -824,11 +1174,15 @@
         392.85,
         589.12
       ],
-      "id": "block-61"
+      "id": "block-69",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "影響：",
       "pageIndex": 60,
       "bbox": [
@@ -837,11 +1191,15 @@
         176.92,
         614.2
       ],
-      "id": "block-62"
+      "id": "block-70",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "重複值會高估頻次或總量，影響卡方檢定的頻次分佈或模型訓練的權重分配。",
       "pageIndex": 60,
       "bbox": [
@@ -850,11 +1208,15 @@
         518.2,
         664.15
       ],
-      "id": "block-63"
+      "id": "block-71",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "造成統計計算錯誤、重複累加同筆資料等情況。",
       "pageIndex": 60,
       "bbox": [
@@ -863,11 +1225,15 @@
         418.05,
         689.23
       ],
-      "id": "block-64"
+      "id": "block-72",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "處理策略：",
       "pageIndex": 60,
       "bbox": [
@@ -876,11 +1242,15 @@
         202.15,
         714.19
       ],
-      "id": "block-65"
+      "id": "block-73",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "檢查：使用唯一識別碼（ID）或關鍵欄位組合偵測重複。",
       "pageIndex": 60,
       "bbox": [
@@ -889,11 +1259,15 @@
         469.2,
         739.15
       ],
-      "id": "block-66"
+      "id": "block-74",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "移除：去除重複值（如保留第一筆或最後一筆）。",
       "pageIndex": 60,
       "bbox": [
@@ -902,11 +1276,15 @@
         424.41,
         764.22
       ],
-      "id": "block-67"
+      "id": "block-75",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "合併：若重複記錄包含不同資訊，需整合後去重。",
       "pageIndex": 61,
       "bbox": [
@@ -915,25 +1293,49 @@
         430.65,
         114.11
       ],
-      "id": "block-68"
+      "id": "block-76",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "一致性錯誤（Inconsistency） 定義：",
+      "text": "一致性錯誤（Inconsistency）",
       "pageIndex": 61,
       "bbox": [
         102.16,
         125.62,
         280.27,
-        164.15
+        139.07
       ],
-      "id": "block-69"
+      "id": "block-77",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "定義：",
+      "pageIndex": 61,
+      "bbox": [
+        120.52,
+        150.7,
+        176.92,
+        164.15
+      ],
+      "id": "block-78",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "資料在單位、命名或格式上不統一，常見於多來源整合或人工輸入。",
       "pageIndex": 61,
       "bbox": [
@@ -942,11 +1344,15 @@
         521.88,
         189.11
       ],
-      "id": "block-70"
+      "id": "block-79",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "示例：",
       "pageIndex": 61,
       "bbox": [
@@ -955,24 +1361,66 @@
         176.92,
         214.07
       ],
-      "id": "block-71"
+      "id": "block-80",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "地址欄位混雜「臺北市」與「台北市」 日期格式包含「2023/01/01」與「Jan-1-2023」 重量單位混用公斤與磅。",
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "地址欄位混雜「臺北市」與「台北市」",
       "pageIndex": 61,
       "bbox": [
         136.12,
         225.7,
-        406.77,
-        289.1
+        367.65,
+        239.15
       ],
-      "id": "block-72"
+      "id": "block-81",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "日期格式包含「2023/01/01」與「Jan-1-2023」",
+      "pageIndex": 61,
+      "bbox": [
+        136.12,
+        250.69,
+        406.77,
+        264.14
+      ],
+      "id": "block-82",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "重量單位混用公斤與磅。",
+      "pageIndex": 61,
+      "bbox": [
+        136.12,
+        275.65,
+        292.03,
+        289.1
+      ],
+      "id": "block-83",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "影響：",
       "pageIndex": 61,
       "bbox": [
@@ -981,11 +1429,15 @@
         176.92,
         314.18
       ],
-      "id": "block-73"
+      "id": "block-84",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "不一致資料導致無法正確聚合或比較，增加清理成本，影響分析結果（如ANOVA 因單位錯誤無法比較組間均值）。",
       "pageIndex": 61,
       "bbox": [
@@ -994,11 +1446,15 @@
         518.2,
         364.1
       ],
-      "id": "block-74"
+      "id": "block-85",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "處理策略：",
       "pageIndex": 61,
       "bbox": [
@@ -1007,11 +1463,15 @@
         202.15,
         389.18
       ],
-      "id": "block-75"
+      "id": "block-86",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "標準化：統一格式（例如全用YYYY-MM-DD）、命名規則或單位。",
       "pageIndex": 61,
       "bbox": [
@@ -1020,25 +1480,49 @@
         521.88,
         414.14
       ],
-      "id": "block-76"
+      "id": "block-87",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "邏輯錯誤/不合理資料（Logical Errors） 定義：",
+      "text": "邏輯錯誤/不合理資料（Logical Errors）",
       "pageIndex": 61,
       "bbox": [
         102.16,
         425.65,
         338.13,
-        464.2
+        439.1
       ],
-      "id": "block-77"
+      "id": "block-88",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "定義：",
+      "pageIndex": 61,
+      "bbox": [
+        120.52,
+        450.75,
+        176.92,
+        464.2
+      ],
+      "id": "block-89",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "資料值符合格式但違反邏輯或領域知識，需專業判斷識別。",
       "pageIndex": 61,
       "bbox": [
@@ -1047,11 +1531,15 @@
         481.08,
         489.16
       ],
-      "id": "block-78"
+      "id": "block-90",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "示例：",
       "pageIndex": 61,
       "bbox": [
@@ -1060,11 +1548,15 @@
         176.92,
         514.12
       ],
-      "id": "block-79"
+      "id": "block-91",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "客戶出生年份為1890（不合理）。",
       "pageIndex": 61,
       "bbox": [
@@ -1073,11 +1565,15 @@
         339.33,
         539.2
       ],
-      "id": "block-80"
+      "id": "block-92",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "零售交易金額為負數（除非為退貨，需驗證）。",
       "pageIndex": 61,
       "bbox": [
@@ -1086,11 +1582,15 @@
         411.81,
         564.16
       ],
-      "id": "block-81"
+      "id": "block-93",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "病患體溫記錄為43°C（生理上異常）。",
       "pageIndex": 61,
       "bbox": [
@@ -1099,11 +1599,15 @@
         365.37,
         589.12
       ],
-      "id": "block-82"
+      "id": "block-94",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "影響：",
       "pageIndex": 61,
       "bbox": [
@@ -1112,11 +1616,15 @@
         176.92,
         614.2
       ],
-      "id": "block-83"
+      "id": "block-95",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "邏輯錯誤可能導致模型失效或推論錯誤，例如在皮爾森相關檢定中納入不合理數據，影響相關係數的解釋。",
       "pageIndex": 61,
       "bbox": [
@@ -1125,11 +1633,15 @@
         518.23,
         664.15
       ],
-      "id": "block-84"
+      "id": "block-96",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "處理策略：",
       "pageIndex": 61,
       "bbox": [
@@ -1138,11 +1650,15 @@
         202.15,
         689.23
       ],
-      "id": "block-85"
+      "id": "block-97",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "定義規則：設定邏輯檢查（如年齡範圍0-120、金額≥ 0）。",
       "pageIndex": 61,
       "bbox": [
@@ -1151,11 +1667,15 @@
         473.52,
         714.19
       ],
-      "id": "block-86"
+      "id": "block-98",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "審查：結合領域專家訂定規則、進行偵測與修正。",
       "pageIndex": 61,
       "bbox": [
@@ -1164,7 +1684,10 @@
         430.65,
         739.15
       ],
-      "id": "block-87"
+      "id": "block-99",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1178,7 +1701,10 @@
         180.4,
         114.11
       ],
-      "id": "block-88"
+      "id": "block-100",
+      "nodeId": "mid-s2c4",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1191,7 +1717,10 @@
         521.08,
         163.94
       ],
-      "id": "block-89"
+      "id": "block-101",
+      "nodeId": "mid-s2c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1204,11 +1733,14 @@
         517.91,
         214.07
       ],
-      "id": "block-90"
+      "id": "block-102",
+      "nodeId": "mid-s2c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "缺失率（Missing Rate）：",
       "pageIndex": 62,
@@ -1218,11 +1750,15 @@
         258.79,
         239.15
       ],
-      "id": "block-91"
+      "id": "block-103",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "衡量各欄位中空值或缺漏資料的比例。高缺失率可能代表收集流程異常，或該欄位不適合分析使用。對於預測模型來說，缺失欄位過多會導致特徵無法使用或降低模型穩定性。",
       "pageIndex": 62,
       "bbox": [
@@ -1231,11 +1767,14 @@
         517.91,
         314.18
       ],
-      "id": "block-92"
+      "id": "block-104",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "唯一值比率（Uniqueness Rate）：",
       "pageIndex": 62,
@@ -1245,11 +1784,15 @@
         302.11,
         339.14
       ],
-      "id": "block-93"
+      "id": "block-105",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "評估資料中重複紀錄的情形。若主鍵（如用戶ID、交易編號）出現重複值，將嚴重破壞資料的正確性，影響後續整合與分析流程。",
       "pageIndex": 62,
       "bbox": [
@@ -1258,11 +1801,14 @@
         518.25,
         389.18
       ],
-      "id": "block-94"
+      "id": "block-106",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "一致性比率（Consistency Rate）：",
       "pageIndex": 62,
@@ -1272,11 +1818,15 @@
         305.11,
         414.14
       ],
-      "id": "block-95"
+      "id": "block-107",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "檢查欄位格式、單位、命名標準是否統一。例如同一資料欄中混合使用 「kg」與「公斤」、或日期格式不一等情形，將造成解析與分析困難，亦不利於資料共享與再利用。",
       "pageIndex": 62,
       "bbox": [
@@ -1285,11 +1835,14 @@
         519.55,
         489.16
       ],
-      "id": "block-96"
+      "id": "block-108",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "異常值比率（Outlier Rate）：",
       "pageIndex": 62,
@@ -1299,11 +1852,15 @@
         279.19,
         514.12
       ],
-      "id": "block-97"
+      "id": "block-109",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "計算明顯偏離正常分佈或上下限的數值比例，常透過Z-score、IQR 或模型式異常偵測法自動識別。異常值可能源自輸入錯誤、轉碼問題，或真實但罕見的行為，因此需搭配領域知識謹慎判讀。",
       "pageIndex": 62,
       "bbox": [
@@ -1312,11 +1869,14 @@
         518.4,
         589.12
       ],
-      "id": "block-98"
+      "id": "block-110",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "完整性比率（Completeness Rate）：",
       "pageIndex": 62,
@@ -1326,11 +1886,15 @@
         313.99,
         614.2
       ],
-      "id": "block-99"
+      "id": "block-111",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "評估觀察對象是否具備足夠資料描述。例如使用者資料中是否同時包含個人資料與行為記錄，若缺漏其中之一，將限制分析模型的應用。",
       "pageIndex": 62,
       "bbox": [
@@ -1339,7 +1903,10 @@
         517.85,
         664.15
       ],
-      "id": "block-100"
+      "id": "block-112",
+      "nodeId": "mid-s2c4",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1352,7 +1919,10 @@
         524.76,
         771.78
       ],
-      "id": "block-101"
+      "id": "block-113",
+      "nodeId": "mid-s2c4",
+      "kind": "paragraph",
+      "source": "page_extract"
     }
   ],
   "sourcePages": [

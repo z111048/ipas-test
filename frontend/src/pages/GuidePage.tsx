@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type React from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -66,8 +66,13 @@ function plainText(children: React.ReactNode): string {
   return ''
 }
 
-function blockIndent(depth: number, extra = 0) {
-  return `${Math.min(Math.max(depth - 1 + extra, 0), 8) * 0.9}rem`
+function blockIndentStyle(depth: number, extra = 0): React.CSSProperties {
+  const level = Math.max(depth - 1 + extra, 0)
+  return {
+    '--guide-indent-desktop': `${Math.min(level, 8) * 0.9}rem`,
+    '--guide-indent-tablet': `${Math.min(level, 5) * 0.62}rem`,
+    '--guide-indent-mobile': `${Math.min(level, 3) * 0.42}rem`,
+  } as React.CSSProperties
 }
 
 function blockTextClass(block: GuideBlock) {
@@ -83,36 +88,48 @@ function blockTextClass(block: GuideBlock) {
   return 'text-[0.9rem] leading-8 text-app-text mb-3 content-justify'
 }
 
+function guideHeadingDomId(blockId: string) {
+  return `guide-heading-${blockId}`
+}
+
+function GuideHtmlTable({ rows }: { rows: string[][] }) {
+  const [header, ...bodyRows] = rows
+  return (
+    <div className="guide-depth-block overflow-x-auto my-4">
+      <table className="border-collapse w-full text-sm table-auto">
+        <thead>
+          <tr>
+            {header.map((cell, index) => (
+              <th key={index} scope="col" className="border border-border bg-[#eef5ff] text-accent px-3 py-2 text-left align-top font-semibold whitespace-pre-line">
+                {cell}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {bodyRows.map((row, rowIndex) => (
+            <tr key={rowIndex}>
+              {row.map((cell, cellIndex) => (
+                <td key={cellIndex} className="border border-border px-3 py-2 leading-6 align-top whitespace-pre-line">
+                  {cell}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
 function GuideBlocksRenderer({ blocks }: { blocks: GuideBlock[] }) {
   return (
     <div className="guide-blocks text-app-text">
       {blocks.map((block) => {
         if (block.type === 'table' && block.rows?.length) {
-          const [header, ...bodyRows] = block.rows
           return (
-            <div key={block.id} className="overflow-x-auto my-4" style={{ marginLeft: blockIndent(block.depth) }}>
-              <table className="border-collapse w-full text-sm">
-                <thead>
-                  <tr>
-                    {header.map((cell, index) => (
-                      <th key={index} className="border border-border bg-[#eef5ff] text-accent px-3 py-2 text-left font-semibold">
-                        {cell}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {bodyRows.map((row, rowIndex) => (
-                    <tr key={rowIndex}>
-                      {row.map((cell, cellIndex) => (
-                        <td key={cellIndex} className="border border-border px-3 py-2 leading-6">
-                          {cell}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div key={block.id} style={blockIndentStyle(block.depth)}>
+              <GuideHtmlTable rows={block.rows} />
             </div>
           )
         }
@@ -121,10 +138,10 @@ function GuideBlocksRenderer({ blocks }: { blocks: GuideBlock[] }) {
           return (
             <div
               key={block.id}
-              className="grid grid-cols-[1.2rem_1fr] gap-2 text-[0.9rem] leading-7 text-app-text mb-2 content-justify"
-              style={{ marginLeft: blockIndent(block.depth) }}
+              className="guide-depth-block grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1 text-[0.9rem] leading-7 text-app-text mb-2 content-justify"
+              style={blockIndentStyle(block.depth)}
             >
-              <span className="text-accent font-semibold">{block.marker}</span>
+              <span className="min-w-[1.05rem] text-accent font-semibold">{block.marker}</span>
               <span>{block.text}</span>
             </div>
           )
@@ -135,9 +152,10 @@ function GuideBlocksRenderer({ blocks }: { blocks: GuideBlock[] }) {
           return (
             <Tag
               key={block.id}
-              id={block.anchor}
-              className={`scroll-mt-4 ${blockTextClass(block)}`}
-              style={{ marginLeft: blockIndent(block.depth) }}
+              id={guideHeadingDomId(block.id)}
+              data-guide-block-id={block.id}
+              className={`guide-depth-block scroll-mt-4 ${blockTextClass(block)}`}
+              style={blockIndentStyle(block.depth)}
             >
               {block.title}
             </Tag>
@@ -147,9 +165,9 @@ function GuideBlocksRenderer({ blocks }: { blocks: GuideBlock[] }) {
         return (
           <p
             key={block.id}
-            className={blockTextClass(block)}
+            className={`guide-depth-block ${blockTextClass(block)}`}
             style={{
-              marginLeft: blockIndent(block.depth),
+              ...blockIndentStyle(block.depth),
               textIndent: block.type === 'paragraph' ? '2em' : undefined,
             }}
           >
@@ -167,9 +185,10 @@ export default function GuidePage() {
   const chapter = chapterId && outlineGuide ? outlineGuide.nodesById[chapterId] : undefined
   const [content, setContent] = useState<GuideContent | null>(null)
   const [contentError, setContentError] = useState<string | null>(null)
+  const contentScrollRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    if (contentScrollRef.current) contentScrollRef.current.scrollTop = 0
   }, [chapterId])
 
   useEffect(() => {
@@ -226,15 +245,26 @@ export default function GuidePage() {
   const sourcePages = content?.sourcePages ?? []
   const contentHeadings = hasBlocks
     ? contentBlocks
-      .filter((block) => block.type === 'heading' && block.depth >= 3 && block.depth <= 4 && block.anchor && block.title)
-      .map((block) => ({ id: block.anchor ?? block.id, level: block.depth, title: block.title ?? '' }))
+      .filter((block) => block.type === 'heading' && block.depth >= 3 && block.depth <= 5 && block.id && block.title)
+      .map((block) => ({ id: block.id, level: block.depth, title: block.title ?? '' }))
     : content?.headings?.filter((heading) => heading.level >= 3 && heading.level <= 4) ?? []
   const childChapters = chapter.children.map((childId) => outlineGuide.nodesById[childId]).filter(Boolean)
   const hasChildChapters = childChapters.length > 0
   const pageRange = `PDF 第 ${chapter.pageRange[0]}–${chapter.pageRange[1]} 頁`
+  const scrollToContentBlock = (id: string) => {
+    const container = contentScrollRef.current
+    const target = container?.querySelector<HTMLElement>(`[data-guide-block-id="${id}"]`)
+    if (!container || !target) return
+    const containerTop = container.getBoundingClientRect().top
+    const targetTop = target.getBoundingClientRect().top
+    container.scrollTo({
+      top: container.scrollTop + targetTop - containerTop - 8,
+      behavior: 'smooth',
+    })
+  }
 
   return (
-    <div>
+    <div className="h-full min-h-0 flex flex-col overflow-hidden">
       <div className="text-2xl font-bold text-primary mb-1">{chapter.title}</div>
       <div className="text-text-light mb-4">
         {outlineGuide.subject} › 學習指引原文（{content ? `共 ${body.length.toLocaleString()} 字元` : '載入中'}）
@@ -264,7 +294,7 @@ export default function GuidePage() {
         />
       )}
 
-      <div className="bg-card rounded-xl shadow-sm border border-border p-5 mb-4">
+      <div className="shrink-0 bg-card rounded-xl shadow-sm border border-border p-4 sm:p-5 mb-4">
         <div className="flex flex-wrap gap-2 mb-4">
           <span className="text-[0.82rem] bg-[#eef5ff] text-accent px-3 py-1 rounded-full">
             📄 {paragraphs.length} 段落
@@ -304,35 +334,38 @@ export default function GuidePage() {
         )}
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-[minmax(220px,280px)_1fr] gap-4">
-        <aside className="bg-card rounded-xl shadow-sm border border-border p-5 h-fit xl:sticky xl:top-4">
-          <div className="text-[0.82rem] text-text-light font-semibold mb-3">PDF 目錄</div>
-          <GuideOutlineTree
-            subjectId={subjectId ?? outlineGuide.subjectId}
-            rootIds={outlineGuide.root}
-            nodesById={outlineGuide.nodesById}
-            activeId={chapter.id}
-          />
-          {contentHeadings.length > 0 && (
-            <div className="mt-5 border-t border-border pt-4">
-              <div className="text-[0.82rem] text-text-light font-semibold mb-3">本節階層</div>
-              <div className="max-h-[50vh] overflow-y-auto pr-1 space-y-1">
-                {contentHeadings.map((heading) => (
-                  <a
-                    key={`${heading.id}-${heading.title}`}
-                    href={`#${heading.id}`}
-                    className="block text-[0.78rem] leading-5 text-primary no-underline hover:text-accent"
-                    style={{ paddingLeft: `${Math.max(0, heading.level - 3) * 0.85}rem` }}
-                  >
-                    {heading.title}
-                  </a>
-                ))}
+      <div className="grid grid-cols-1 grid-rows-[auto_minmax(0,1fr)] xl:grid-cols-[minmax(220px,280px)_1fr] xl:grid-rows-1 gap-4 flex-1 min-h-0 overflow-hidden">
+        <aside className="z-20 bg-card rounded-xl shadow-sm border border-border p-4 sm:p-5 h-fit max-h-[30vh] md:max-h-[28vh] xl:h-full xl:max-h-none overflow-hidden">
+          <div className="h-full max-h-[calc(30vh-2rem)] md:max-h-[calc(28vh-2rem)] xl:max-h-full overflow-y-auto overflow-x-hidden pr-1 scrollbar-hidden">
+            <div className="text-[0.82rem] text-text-light font-semibold mb-3">PDF 目錄</div>
+            <GuideOutlineTree
+              subjectId={subjectId ?? outlineGuide.subjectId}
+              rootIds={outlineGuide.root}
+              nodesById={outlineGuide.nodesById}
+              activeId={chapter.id}
+            />
+            {contentHeadings.length > 0 && (
+              <div className="mt-5 border-t border-border pt-4">
+                <div className="text-[0.82rem] text-text-light font-semibold mb-3">本節階層</div>
+                <div className="space-y-1">
+                  {contentHeadings.map((heading) => (
+                    <button
+                      key={`${heading.id}-${heading.title}`}
+                      type="button"
+                      onClick={() => scrollToContentBlock(heading.id)}
+                      className="block w-full text-left text-[0.78rem] leading-5 text-primary no-underline hover:text-accent"
+                      style={{ paddingLeft: `${Math.max(0, heading.level - 3) * 0.85}rem` }}
+                    >
+                      {heading.title}
+                    </button>
+                  ))}
+                </div>
               </div>
+            )}
             </div>
-          )}
         </aside>
 
-        <div>
+        <div ref={contentScrollRef} className="min-h-0 overflow-y-auto overflow-x-hidden pr-1 app-scroll-stable">
           {contentError && (
             <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 mb-4 text-sm">
               無法載入學習指引內容：{contentError}
@@ -392,7 +425,7 @@ export default function GuidePage() {
               </div>
             </div>
           ) : (
-          <div className="bg-card rounded-xl shadow-sm border border-border p-5">
+          <div className="bg-card rounded-xl shadow-sm border border-border p-4 sm:p-5">
             {hasBlocks ? (
               <GuideBlocksRenderer blocks={contentBlocks} />
             ) : isMarkdown ? (
@@ -433,10 +466,10 @@ export default function GuidePage() {
                     </div>
                   ),
                   th: ({ children }) => (
-                    <th className="border border-border bg-[#eef5ff] text-accent px-3 py-2 text-left font-semibold">{children}</th>
+                    <th className="border border-border bg-[#eef5ff] text-accent px-3 py-2 text-left align-top font-semibold whitespace-pre-line">{children}</th>
                   ),
                   td: ({ children }) => (
-                    <td className="border border-border px-3 py-2 leading-6">{children}</td>
+                    <td className="border border-border px-3 py-2 leading-6 align-top whitespace-pre-line">{children}</td>
                   ),
                   strong: ({ children }) => (
                     <strong className="font-semibold text-app-text">{children}</strong>

@@ -1,7 +1,7 @@
 {
   "id": "mid-s2c1",
   "title": "敘述性統計與資料摘要技術",
-  "content": "# 敘述性統計與資料摘要技術\n\n3.1\n\n1.\n\n在進行數據分析或機器學習專案前，首先要對資料進行初步的探索與摘要。\n\n若能透過基礎統計量與圖表來快速理解資料的分佈型態、中心趨勢與離散程度，便有助於後續的特徵選擇、異常偵測與模型設計。\n\n敘述性統計（Descriptive Statistics）正是這樣數據探索方法，著重於「將資料本身做最直接的總結與可視化」，提供一套用來彙整、整理並呈現現有資料的技術其目的不在於做母體推論，而在於快速、清晰地了解樣本資料中有哪些重要特徵或潛在模式。讓分析人員能在短時間內掌握大局、發現潛在問題或特徵。通常可分為三大面向：\n\n#### （1）集中趨勢（Central Tendency）：\n\n透過平均數（Mean）、眾數（Mode）、中位數（Median）等數值，刻畫資料「最常見或核心的位置」，幫助分析者掌握「中心點」或「整體水準」。\n\n#### （2）離散量度（Variability/Dispersion）：\n\n透過變異數（Variance）、標準差（Standard Deviation, SD）、全距（Range）、四分位距（Interquartile Range, IQR）等指標，量化資料分散的程度，並辨識極端值或偏離情況。例如，標準差大代表波動較大、資料更分散；反之則更集中。\n\n#### （3）分佈形狀（Shape）：\n\n如偏度（Skewness）與峰度（Kurtosis），可觀察資料分佈是否對稱、尾部厚度如何。搭配圖表（如直方圖、箱形圖）能夠快速檢測是否存在偏態或極端尾端。\n\n透過這三個面向的綜合應用，我們便能從多角度總結原始資料，為後續分析 （如機率分佈檢定、假設檢定、機器學習等）奠定基礎。\n\n2.\n\n在進行「敘述性統計」時，最基礎且關鍵的工作便是明確掌握資料的「中心位置」及「離散程度」。中心位置通常透過集中趨勢指標（平均數、眾數、中位數）\n\n刻畫，而離散程度則以變異數、標準差、四分位距等指標衡量。協助分析人員快速判斷整體數值分佈是否集中、是否存在極端值，以及可能的偏態現象。下文將依序介紹這兩大部份，並以範例說明如何應用於真實情境。\n\n#### （1）集中趨勢測量\n\n##### A. 算術平均（Arithmetic Mean）\n\n• 意義：\n\n以「全部樣本數值的總和」除以「樣本筆數」，展現資料的「整體水準」。\n\n當資料相對對稱且無極端值時，算術平均能有效代表多數樣本情況。\n\n• 計算：\n\n若樣本數量為n，樣本值為x1, x2, …,xn 算術平均= 𝑥1 + 𝑥2 + ⋯+ 𝑥𝑛 𝑛 優勢：\n\n計算容易、概念直覺：最常用於報表或指標（如平均銷售額、平均月薪）。\n\n普及度高：與他人溝通時，算術平均為最易理解的中心值。\n\n侷限：\n\n對極端值敏感：少數離群點可能顯著拉高或降低平均數。\n\n無法呈現分散度：需搭配標準差、IQR 等才能判斷資料是否高度波動。\n\n##### B. 幾何平均（Geometric Mean）\n\n• 意義：\n\n適用於成長率、報酬率、人口成長等「乘積效應」情況，可避免簡單的算術平均失真的問題。\n\n• 計算：\n\n若樣本數量為n，樣本值為x1, x2, …,xn 1 𝑛 𝑛 幾何平均= (∏𝑥𝑖 )\n\n𝑖=1 • 優勢：\n\n能真實反映連續乘積（如股價成長）的「總體累積效應」。\n\n針對百分比或比率型資料更具代表性。\n\n• 侷限：\n\n需確保資料皆為正值（> 0），不適用於含負數或零的情況。\n\n計算量相對簡單，但解釋上可能不如算術平均直覺。\n\n##### C. 調和平均（Harmonic Mean）\n\n• 意義：\n\n常用於速率類數據（如行駛速度、油耗），適合整合「效率性」度量，避免算術平均失真。\n\n• 計算：\n\n若樣本數量為n，樣本值為x1, x2,…,xn 調和平均= 𝑛 ∑ 1 𝑥𝑖 𝑛 𝑖=1 • 優勢：\n\n對速率或效率類數據較合理。\n\n在需要「逆值」加權的場合，調和平均比算術平均更準確。\n\n• 侷限：\n\n不能有零或負值。\n\n一般在非速率環境使用時，意義不顯著。\n\n##### D. 眾數（Mode）\n\n• 意義：\n\n樣本中出現頻率最高的值。對於類別型資料，能快速指出「最常見」的類型或群組。\n\n• 優勢：\n\n適用於類別資料（如產品分類）。\n\n易於解釋，可作為市場最受歡迎或最常見指標。\n\n• 侷限：\n\n連續型資料需先分桶（Bin）才能判斷眾數。\n\n若分佈分散或多峰值，定義眾數會更複雜。\n\n##### E. 中位數（Median）\n\n• 意義：\n\n取排序後中間位置值，對長尾或極端值不敏感，常用於收入或房價分析。\n\n• 計算：\n\n當n為奇數：\n\n中位數= 𝑥(𝑛+1 2 )\n\n當n為偶數：\n\n𝑥(𝑛 2) + 𝑥(𝑛 2+1) 2 中位數= • 優勢：\n\n有效對抗極端值。\n\n• 侷限：\n\n無法呈現離散度。\n\n#### （2）離散程度測量\n\n在瞭解資料「集中趨勢」後，還需評估其「變動幅度」或「穩定程度」。離散程度指標能協助偵測是否包含極端值、廣度大等問題。\n\n##### A. 變異數（Variance）與標準差（Standard Deviation）\n\n• 意義：\n\n變異數與標準差都是用來衡量資料的分散程度。\n\n變異數是資料偏離平均數的程度，標準差則是變異數的平方根，並且單位與原資料相同。\n\n這兩個指標可以告訴我們資料的分佈情況，若標準差較大，表示資料變化幅度大，較為分散；反之，標準差較小則資料較為集中。\n\n• 計算：\n\n若有N 筆資料，xi 是資料點，μ 是平均數變異數公式 𝑁 𝜎2 = 1 𝑁∑(𝑥𝑖−𝜇)2 𝑖=1 標準差公式\n\n𝑁 σ = √1 𝑁∑(𝑥𝑖−𝜇)2 𝑖=1 • 優勢：\n\n量化資料的穩定性，標準差小代表資料分散度低。\n\n能為數據集的風險或不確定性提供清晰的衡量。\n\n• 侷限：\n\n對極端值（離群值）極為敏感，會顯著影響計算結果。\n\n僅顯示與平均數的距離，若資料分佈偏斜，需要搭配其他指標。\n\n##### B. 全距（Range）、四分位距（IQR）、四分位數（Quartiles）\n\n• 意義：\n\n全距：是指資料中最大值與最小值之間的差距。簡單易懂，可以快速顯示資料的總體範圍。然而，單純的全距可能受到單一極端值（離群值）\n\n的影響。\n\n四分位距（IQR, Interquartile Range）：\n\nIQR = Q3 - Q1 Q3 是第三四分位數（75%位置的數據值）。\n\nQ1 是第一四分位數（25%位置的數據值）。\n\n四分位數（Quartiles）\n\n將資料集劃分為四個等份的三個切點，用來描述資料的分佈情況。\n\n四分位數能幫助我們快速了解資料的變異程度，並且能夠有效地識別異常值。\n\n第一四分位數（Q1）：\n\n○ 也稱為下四分位數。\n\n○ 資料中25%的數據小於這個數值。\n\n第二四分位數（Q2）：\n\n○ 也稱為中位數。\n\n○ 將資料集分為兩半。50%的數據位於此數值之下，50%則位於此數值之上。\n\n第三四分位數（Q3）：\n\n○ 也稱為上四分位數。\n\n○ 資料中75%的數據小於這個數值，並且25%的數據大於此數值。\n\n• 優勢：\n\n適合處理含有離群值的資料。\n\n能夠準確反映資料的集中分佈範圍。\n\n• 侷限：\n\n雖然可以過濾極端值，但不提供資料分佈的具體細節。\n\n##### C. 箱形圖（Box Plot）\n\n• 意義：\n\n又稱為盒鬚圖、盒狀圖，用來可視化資料集中趨勢與離散程度的工具，尤其在資料探索階段（Exploratory Data Analysis, EDA）中非常有用。\n\n• 組成：\n\n中位數（Median）：\n\n箱形圖中的水平線，將資料分成兩個等份。這是資料的第二四分位數（Q2），也就是中位數。它表示數據集的中間位置，50%的數據位於其上方，50%位於其下方。\n\n第一四分位數（Q1）和第三四分位數（Q3）：\n\nQ1（第一四分位數）：盒子的下邊界，代表資料中最小的25%的數據。\n\nQ3（第三四分位數）：盒子的上邊界，代表資料中最上層的25%的數據。\n\n四分位距（Interquartile Range, IQR）：\n\nIQR = Q3 - Q1 即盒子內部的範圍，它表示資料中間50%的數據範圍，衡量資料的變異性。\n\n當IQR 較大時，表示資料的變異性大；而IQR 較小時，則表示資料的變異性較小。\n\n鬚（Whiskers）：\n\n鬚用於表示資料的「正常分佈範圍」，用以區分出異常值的邊界值。\n\n須注意，若在箱形圖中稱呼上鬚（Upper Whisker）為“最大值”，指的是“不包括離群值”的最大值，因此不見得會是整個資料集的最大值；\n\n同理，若在箱形圖中稱呼下鬚（Lower Whisker）為“最小值”，指的是“不包括離群值”的最小值，不見得會是整個資料集的最小值。\n\n一般計算上：\n\n○ 上鬚（Upper Whisker）：（Q3 + 1.5 × IQR）\n\n○ 下鬚（Lower Whisker）：（Q1 − 1.5 × IQR）\n\n離群值（Outliers）：\n\n如果資料超過了鬚的範圍，則被視為離群值。通常用圓點或星形標註，顯示資料中極端的值。\n\n通常，任何超出Q1 − 1.5 × IQR 或 Q3 + 1.5 × IQR 的數據會被視為異常值。\n\n• 應用：\n\n資料分佈檢視：快速了解資料的分佈情況、集中程度以及變異性。\n\n異常值檢測：通過標註的異常值，可以發現資料中的極端值，進而進行處理。\n\n比較不同資料集：透過多組箱形圖並列，能夠快速比較不同資料集之間的分佈情況、異常值以及數據變異。\n\n• 優勢：\n\n直觀且能展示資料的主要特徵（如集中度、分佈範圍與異常值）。\n\n無需進行繁瑣的計算，便於快速分析資料結構。\n\n可以有效識別分佈不對稱、極端值與偏態。\n\n• 侷限：\n\n無法顯示資料的精確形狀或分佈，例如，若資料呈現多峰分佈，箱形圖無法完全呈現出來。\n\n對於非常大範圍的資料，無法提供細節分析，只能反映出資料的整體趨勢。\n\n「集中趨勢」與「離散量度」是敘述性統計中最核心的度量指標。前者讓我們找到資料的「核心位置」，後者則協助判斷其「波動情形」。掌握這些指標不僅能在資料前期檢查中提早找出極端值與偏態，同時也是後續（如假設檢定、迴歸分析或機器學習模式設計）的基礎輔助，確保分析結果能更貼近真實狀況並避免誤判。\n\n3.\n\nSkewness Kurtosis 在前面討論集中趨勢與離散程度後，我們仍需要進一步探究「資料分佈形態」。\n\n某些分佈可能偏向右側或左側，也可能出現尖峰或扁平的尾部分佈。這些特徵對分析與應用（如機器學習特徵工程、風險管理、異常偵測）有實質影響。本節將介紹偏度與峰度的定義、判斷方式，以及常見的形狀分類。\n\n#### （1）偏度（Skewness）\n\n偏度（Skewness）是用於衡量資料分佈對稱程度的統計指標，反映資料是否均勻分佈於平均值兩側，或是否存在長尾現象。偏度的數值與分佈形狀密切相關，提供資料分佈特性的重要線索。\n\n• 正偏態（Positive-skewed）：\n\n也稱為右偏態（Right-skewed），偏度大於0。\n\n右側的尾部更長，分佈的主體集中在左側。\n\n常見於收入、房價或故障時間等分佈，右側極端值（如高收入者）拉高平均值。例如，某城市房價資料偏度為2.5，顯示少數豪宅價格顯著影響整體分佈。\n\n• 負偏態（Negtive-skewed）：\n\n也稱為左偏態（Left-skewed），偏度小於0。\n\n左側的尾部更長，分佈的主體集中在右側。\n\n常見於集中高值但少數低值的情況。例如，某設備壽命資料偏度為-1.8，原因為設備部屬早期時出現故障、因此有少數資料拉低平均值。\n\n• 偏度接近0：\n\n分佈趨近對稱，類似理想常態分佈。\n\n例如某工廠產品重量資料偏度為0.1，顯示分佈均衡。\n\n#### （2）峰度（Kurtosis）\n\n峰度（Kurtosis）也稱為尖度，在統計學中衡量實數隨機變數機率分佈的峰態。\n\n峰度用於衡量資料分佈「尾部與峰頂的尖銳程度」，亦即某分佈是否「高峰重尾」\n\n或「扁平輕尾」。根據不同的統計學家，峰度的定義有所不同。以下以常在統計學理論中使用之：\n\n「Pearson 定義、常態峰度標準3」作為說明。\n\n• 高峰（Leptokurtic）\n\nKurtosis > 3 當峰度大於3 時，稱為高峰分佈（Leptokurtic）。\n\n這意味著該分佈比常態分佈更加集中於中心，並且有更多的極端值 （outliers），即數據中較大（或較小）的值出現機率比常態分佈高。\n\n需要特別留意這類分佈在模型外推或異常檢測中的風險，因為極端值的存在可能會影響模型的預測結果，尤其是在處理預測或迴歸問題時。\n\n• 中峰（Mesokurtic）\n\nKurtosis ≈ 3 當峰度接近3 時，稱為中峰分佈（Mesokurtic）。這個分佈通常接近於常態分佈，既不過於尖銳，也不過於扁平。它可以被視為標準的常態分佈，適合作為比較其他類型分佈的參照。\n\n• 扁平（Platykurtic）\n\nKurtosis < 3 當峰度小於3 時，稱為扁平分佈（Platykurtic）。這意味著資料的分佈較為分散，並且比常態分佈更平坦，沒有太多極端值。",
+  "content": "# 敘述性統計與資料摘要技術\n\n3.1\n\n1.\n\n在進行數據分析或機器學習專案前，首先要對資料進行初步的探索與摘要。\n\n若能透過基礎統計量與圖表來快速理解資料的分佈型態、中心趨勢與離散程度，便有助於後續的特徵選擇、異常偵測與模型設計。\n\n敘述性統計（Descriptive Statistics）正是這樣數據探索方法，著重於「將資料本身做最直接的總結與可視化」，提供一套用來彙整、整理並呈現現有資料的技術其目的不在於做母體推論，而在於快速、清晰地了解樣本資料中有哪些重要特徵或潛在模式。讓分析人員能在短時間內掌握大局、發現潛在問題或特徵。通常可分為三大面向：\n\n#### （1）集中趨勢（Central Tendency）：\n\n透過平均數（Mean）、眾數（Mode）、中位數（Median）等數值，刻畫資料「最常見或核心的位置」，幫助分析者掌握「中心點」或「整體水準」。\n\n#### （2）離散量度（Variability/Dispersion）：\n\n透過變異數（Variance）、標準差（Standard Deviation, SD）、全距（Range）、四分位距（Interquartile Range, IQR）等指標，量化資料分散的程度，並辨識極端值或偏離情況。例如，標準差大代表波動較大、資料更分散；反之則更集中。\n\n#### （3）分佈形狀（Shape）：\n\n如偏度（Skewness）與峰度（Kurtosis），可觀察資料分佈是否對稱、尾部厚度如何。搭配圖表（如直方圖、箱形圖）能夠快速檢測是否存在偏態或極端尾端。\n\n透過這三個面向的綜合應用，我們便能從多角度總結原始資料，為後續分析 （如機率分佈檢定、假設檢定、機器學習等）奠定基礎。\n\n2.\n\n在進行「敘述性統計」時，最基礎且關鍵的工作便是明確掌握資料的「中心位置」及「離散程度」。中心位置通常透過集中趨勢指標（平均數、眾數、中位數）\n\n刻畫，而離散程度則以變異數、標準差、四分位距等指標衡量。協助分析人員快速判斷整體數值分佈是否集中、是否存在極端值，以及可能的偏態現象。下文將依序介紹這兩大部份，並以範例說明如何應用於真實情境。\n\n#### （1）集中趨勢測量\n\n##### A. 算術平均（Arithmetic Mean）\n\n• 意義：\n\n以「全部樣本數值的總和」除以「樣本筆數」，展現資料的「整體水準」。\n\n當資料相對對稱且無極端值時，算術平均能有效代表多數樣本情況。\n\n• 計算：\n\n◦ 若樣本數量為n，樣本值為x1, x2, …,xn\n\n算術平均= 𝑥1 + 𝑥2 + ⋯+ 𝑥𝑛 𝑛\n\n◦ 優勢：\n\n○ 計算容易、概念直覺：最常用於報表或指標（如平均銷售額、平均月\n\n薪）。\n\n○ 普及度高：與他人溝通時，算術平均為最易理解的中心值。\n\n◦ 侷限：\n\n○ 對極端值敏感：少數離群點可能顯著拉高或降低平均數。\n\n○ 無法呈現分散度：需搭配標準差、IQR 等才能判斷資料是否高度波\n\n動。\n\n##### B. 幾何平均（Geometric Mean）\n\n• 意義：\n\n◦ 適用於成長率、報酬率、人口成長等「乘積效應」情況，可避免簡單的\n\n算術平均失真的問題。\n\n• 計算：\n\n◦ 若樣本數量為n，樣本值為x1, x2, …,xn\n\n1 𝑛 𝑛 幾何平均= (∏𝑥𝑖 )\n\n𝑖=1\n\n• 優勢：\n\n◦ 能真實反映連續乘積（如股價成長）的「總體累積效應」。\n\n◦ 針對百分比或比率型資料更具代表性。\n\n• 侷限：\n\n◦ 需確保資料皆為正值（> 0），不適用於含負數或零的情況。\n\n◦ 計算量相對簡單，但解釋上可能不如算術平均直覺。\n\n##### C. 調和平均（Harmonic Mean）\n\n• 意義：\n\n◦ 常用於速率類數據（如行駛速度、油耗），適合整合「效率性」度量，\n\n避免算術平均失真。\n\n• 計算：\n\n◦ 若樣本數量為n，樣本值為x1, x2,…,xn\n\n調和平均= 𝑛 ∑ 1 𝑥𝑖 𝑛 𝑖=1\n\n• 優勢：\n\n◦ 對速率或效率類數據較合理。\n\n◦ 在需要「逆值」加權的場合，調和平均比算術平均更準確。\n\n• 侷限：\n\n◦ 不能有零或負值。\n\n◦ 一般在非速率環境使用時，意義不顯著。\n\n##### D. 眾數（Mode）\n\n• 意義：\n\n◦ 樣本中出現頻率最高的值。對於類別型資料，能快速指出「最常見」的\n\n類型或群組。\n\n• 優勢：\n\n◦ 適用於類別資料（如產品分類）。\n\n◦ 易於解釋，可作為市場最受歡迎或最常見指標。\n\n• 侷限：\n\n◦ 連續型資料需先分桶（Bin）才能判斷眾數。\n\n◦ 若分佈分散或多峰值，定義眾數會更複雜。\n\n##### E. 中位數（Median）\n\n• 意義：\n\n◦ 取排序後中間位置值，對長尾或極端值不敏感，常用於收入或房價分\n\n析。\n\n• 計算：\n\n◦ 當n為奇數：\n\n中位數= 𝑥(𝑛+1 2 )\n\n◦ 當n為偶數：\n\n𝑥(𝑛 2) + 𝑥(𝑛 2+1) 2 中位數=\n\n• 優勢：\n\n◦ 有效對抗極端值。\n\n• 侷限：\n\n◦ 無法呈現離散度。\n\n#### （2）離散程度測量\n\n在瞭解資料「集中趨勢」後，還需評估其「變動幅度」或「穩定程度」。離散程度指標能協助偵測是否包含極端值、廣度大等問題。\n\n##### A. 變異數（Variance）與標準差（Standard Deviation）\n\n• 意義：\n\n◦ 變異數與標準差都是用來衡量資料的分散程度。\n\n◦ 變異數是資料偏離平均數的程度，標準差則是變異數的平方根，並且單\n\n位與原資料相同。\n\n◦ 這兩個指標可以告訴我們資料的分佈情況，若標準差較大，表示資料變\n\n化幅度大，較為分散；反之，標準差較小則資料較為集中。\n\n• 計算：\n\n◦ 若有N 筆資料，\n\nxi 是資料點，μ 是平均數\n\n◦ 變異數公式\n\n𝑁 𝜎2 = 1 𝑁∑(𝑥𝑖−𝜇)2 𝑖=1\n\n◦ 標準差公式\n\n𝑁 σ = √1 𝑁∑(𝑥𝑖−𝜇)2 𝑖=1\n\n• 優勢：\n\n◦ 量化資料的穩定性，標準差小代表資料分散度低。\n\n◦ 能為數據集的風險或不確定性提供清晰的衡量。\n\n• 侷限：\n\n◦ 對極端值（離群值）極為敏感，會顯著影響計算結果。\n\n◦ 僅顯示與平均數的距離，若資料分佈偏斜，需要搭配其他指標。\n\n##### B. 全距（Range）、四分位距（IQR）、四分位數（Quartiles）\n\n• 意義：\n\n◦ 全距：是指資料中最大值與最小值之間的差距。簡單易懂，可以快速顯\n\n示資料的總體範圍。然而，單純的全距可能受到單一極端值（離群值）\n\n的影響。\n\n◦ 四分位距（IQR, Interquartile Range）：\n\n○ IQR = Q3 - Q1\n\n○ Q3 是第三四分位數（75%位置的數據值）。\n\n○ Q1 是第一四分位數（25%位置的數據值）。\n\n◦ 四分位數（Quartiles）\n\n○ 將資料集劃分為四個等份的三個切點，用來描述資料的分佈情況。\n\n四分位數能幫助我們快速了解資料的變異程度，並且能夠有效地識別異常值。\n\n○ 第一四分位數（Q1）：\n\n○ 也稱為下四分位數。\n\n○ 資料中25%的數據小於這個數值。\n\n○ 第二四分位數（Q2）：\n\n○ 也稱為中位數。\n\n○ 將資料集分為兩半。50%的數據位於此數值之下，50%則位於此\n\n數值之上。\n\n○ 第三四分位數（Q3）：\n\n○ 也稱為上四分位數。\n\n○ 資料中75%的數據小於這個數值，並且25%的數據大於此數值。\n\n• 優勢：\n\n◦ 適合處理含有離群值的資料。\n\n◦ 能夠準確反映資料的集中分佈範圍。\n\n• 侷限：\n\n◦ 雖然可以過濾極端值，但不提供資料分佈的具體細節。\n\n##### C. 箱形圖（Box Plot）\n\n• 意義：\n\n◦ 又稱為盒鬚圖、盒狀圖，用來可視化資料集中趨勢與離散程度的工具，\n\n尤其在資料探索階段（Exploratory Data Analysis, EDA）中非常有用。\n\n• 組成：\n\n◦ 中位數（Median）：\n\n○ 箱形圖中的水平線，將資料分成兩個等份。這是資料的第二四分位\n\n數（Q2），也就是中位數。它表示數據集的中間位置，50%的數據位於其上方，50%位於其下方。\n\n◦ 第一四分位數（Q1）和第三四分位數（Q3）：\n\n○ Q1（第一四分位數）：盒子的下邊界，代表資料中最小的25%的數\n\n據。\n\n○ Q3（第三四分位數）：盒子的上邊界，代表資料中最上層的25%的數\n\n據。\n\n◦ 四分位距（Interquartile Range, IQR）：\n\n○ IQR = Q3 - Q1\n\n○ 即盒子內部的範圍，它表示資料中間50%的數據範圍，衡量資料的\n\n變異性。\n\n○ 當IQR 較大時，表示資料的變異性大；而IQR 較小時，則表示資料\n\n的變異性較小。\n\n◦ 鬚（Whiskers）：\n\n○ 鬚用於表示資料的「正常分佈範圍」，用以區分出異常值的邊界值。\n\n○ 須注意，若在箱形圖中稱呼上鬚（Upper Whisker）為“最大值”，指的\n\n是“不包括離群值”的最大值，因此不見得會是整個資料集的最大值；\n\n同理，若在箱形圖中稱呼下鬚（Lower Whisker）為“最小值”，指的是“不包括離群值”的最小值，不見得會是整個資料集的最小值。\n\n○ 一般計算上：\n\n○ 上鬚（Upper Whisker）：（Q3 + 1.5 × IQR）\n\n○ 下鬚（Lower Whisker）：（Q1 − 1.5 × IQR）\n\n◦ 離群值（Outliers）：\n\n○ 如果資料超過了鬚的範圍，則被視為離群值。通常用圓點或星形標\n\n註，顯示資料中極端的值。\n\n○ 通常，任何超出Q1 − 1.5 × IQR 或 Q3 + 1.5 × IQR 的數據會被視為\n\n異常值。\n\n• 應用：\n\n◦ 資料分佈檢視：快速了解資料的分佈情況、集中程度以及變異性。\n\n◦ 異常值檢測：通過標註的異常值，可以發現資料中的極端值，進而進行\n\n處理。\n\n◦ 比較不同資料集：透過多組箱形圖並列，能夠快速比較不同資料集之間\n\n的分佈情況、異常值以及數據變異。\n\n• 優勢：\n\n◦ 直觀且能展示資料的主要特徵（如集中度、分佈範圍與異常值）。\n\n◦ 無需進行繁瑣的計算，便於快速分析資料結構。\n\n◦ 可以有效識別分佈不對稱、極端值與偏態。\n\n• 侷限：\n\n◦ 無法顯示資料的精確形狀或分佈，例如，若資料呈現多峰分佈，箱形圖\n\n無法完全呈現出來。\n\n◦ 對於非常大範圍的資料，無法提供細節分析，只能反映出資料的整體趨\n\n勢。\n\n「集中趨勢」與「離散量度」是敘述性統計中最核心的度量指標。前者讓我們找到資料的「核心位置」，後者則協助判斷其「波動情形」。掌握這些指標不僅能在資料前期檢查中提早找出極端值與偏態，同時也是後續（如假設檢定、迴歸分析或機器學習模式設計）的基礎輔助，確保分析結果能更貼近真實狀況並避免誤判。\n\n3.\n\nSkewness Kurtosis 在前面討論集中趨勢與離散程度後，我們仍需要進一步探究「資料分佈形態」。\n\n某些分佈可能偏向右側或左側，也可能出現尖峰或扁平的尾部分佈。這些特徵對分析與應用（如機器學習特徵工程、風險管理、異常偵測）有實質影響。本節將介紹偏度與峰度的定義、判斷方式，以及常見的形狀分類。\n\n#### （1）偏度（Skewness）\n\n偏度（Skewness）是用於衡量資料分佈對稱程度的統計指標，反映資料是否均勻分佈於平均值兩側，或是否存在長尾現象。偏度的數值與分佈形狀密切相關，提供資料分佈特性的重要線索。\n\n• 正偏態（Positive-skewed）：\n\n◦ 也稱為右偏態（Right-skewed），偏度大於0。\n\n◦ 右側的尾部更長，分佈的主體集中在左側。\n\n◦ 常見於收入、房價或故障時間等分佈，右側極端值（如高收入者）拉高\n\n平均值。例如，某城市房價資料偏度為2.5，顯示少數豪宅價格顯著影響整體分佈。\n\n• 負偏態（Negtive-skewed）：\n\n◦ 也稱為左偏態（Left-skewed），偏度小於0。\n\n◦ 左側的尾部更長，分佈的主體集中在右側。\n\n◦ 常見於集中高值但少數低值的情況。例如，某設備壽命資料偏度為-1.8，\n\n原因為設備部屬早期時出現故障、因此有少數資料拉低平均值。\n\n• 偏度接近0：\n\n◦ 分佈趨近對稱，類似理想常態分佈。\n\n◦ 例如某工廠產品重量資料偏度為0.1，顯示分佈均衡。\n\n#### （2）峰度（Kurtosis）\n\n峰度（Kurtosis）也稱為尖度，在統計學中衡量實數隨機變數機率分佈的峰態。\n\n峰度用於衡量資料分佈「尾部與峰頂的尖銳程度」，亦即某分佈是否「高峰重尾」\n\n或「扁平輕尾」。根據不同的統計學家，峰度的定義有所不同。以下以常在統計學理論中使用之：\n\n「Pearson 定義、常態峰度標準3」作為說明。\n\n• 高峰（Leptokurtic）\n\n◦ Kurtosis > 3\n\n◦ 當峰度大於3 時，稱為高峰分佈（Leptokurtic）。\n\n◦ 這意味著該分佈比常態分佈更加集中於中心，並且有更多的極端值\n\n（outliers），即數據中較大（或較小）的值出現機率比常態分佈高。\n\n◦ 需要特別留意這類分佈在模型外推或異常檢測中的風險，因為極端值\n\n的存在可能會影響模型的預測結果，尤其是在處理預測或迴歸問題時。\n\n• 中峰（Mesokurtic）\n\n◦ Kurtosis ≈ 3\n\n◦ 當峰度接近3 時，稱為中峰分佈（Mesokurtic）。這個分佈通常接近於\n\n常態分佈，既不過於尖銳，也不過於扁平。它可以被視為標準的常態分佈，適合作為比較其他類型分佈的參照。\n\n• 扁平（Platykurtic）\n\n◦ Kurtosis < 3\n\n◦ 當峰度小於3 時，稱為扁平分佈（Platykurtic）。這意味著資料的分佈較\n\n為分散，並且比常態分佈更平坦，沒有太多極端值。",
   "contentFormat": "markdown",
   "headings": [
     {
@@ -93,7 +93,10 @@
         118.18,
         174.28
       ],
-      "id": "block-1"
+      "id": "block-1",
+      "nodeId": "mid-s2c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -107,7 +110,10 @@
         517.93,
         242.3
       ],
-      "id": "block-2"
+      "id": "block-2",
+      "nodeId": "mid-s2c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -120,7 +126,10 @@
         517.93,
         242.3
       ],
-      "id": "block-3"
+      "id": "block-3",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -133,7 +142,10 @@
         517.91,
         292.58
       ],
-      "id": "block-4"
+      "id": "block-4",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -146,7 +158,10 @@
         518.31,
         417.5
       ],
-      "id": "block-5"
+      "id": "block-5",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -160,7 +175,10 @@
         282.55,
         467.56
       ],
-      "id": "block-6"
+      "id": "block-6",
+      "nodeId": "mid-s2c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -173,7 +191,10 @@
         518.29,
         517.6
       ],
-      "id": "block-7"
+      "id": "block-7",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -187,7 +208,10 @@
         306.43,
         567.52
       ],
-      "id": "block-8"
+      "id": "block-8",
+      "nodeId": "mid-s2c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -200,7 +224,10 @@
         519.36,
         642.55
       ],
-      "id": "block-9"
+      "id": "block-9",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -214,7 +241,10 @@
         219.67,
         692.59
       ],
-      "id": "block-10"
+      "id": "block-10",
+      "nodeId": "mid-s2c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -227,7 +257,10 @@
         520.68,
         759.18
       ],
-      "id": "block-11"
+      "id": "block-11",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -240,7 +273,10 @@
         517.93,
         139.07
       ],
-      "id": "block-12"
+      "id": "block-12",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -254,7 +290,10 @@
         90.67,
         189.68
       ],
-      "id": "block-13"
+      "id": "block-13",
+      "nodeId": "mid-s2c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -267,7 +306,10 @@
         524.24,
         238.94
       ],
-      "id": "block-14"
+      "id": "block-14",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -280,7 +322,10 @@
         518.2,
         314.18
       ],
-      "id": "block-15"
+      "id": "block-15",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -294,7 +339,10 @@
         180.52,
         364.1
       ],
-      "id": "block-16"
+      "id": "block-16",
+      "nodeId": "mid-s2c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -308,11 +356,14 @@
         269.83,
         389.18
       ],
-      "id": "block-17"
+      "id": "block-17",
+      "nodeId": "mid-s2c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "意義：",
       "pageIndex": 9,
@@ -322,7 +373,10 @@
         159.88,
         414.14
       ],
-      "id": "block-18"
+      "id": "block-18",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -335,7 +389,10 @@
         521.53,
         438.89
       ],
-      "id": "block-19"
+      "id": "block-19",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -348,11 +405,14 @@
         500.16,
         464.2
       ],
-      "id": "block-20"
+      "id": "block-20",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "計算：",
       "pageIndex": 9,
@@ -362,24 +422,49 @@
         159.88,
         489.16
       ],
-      "id": "block-21"
+      "id": "block-21",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
-      "text": "若樣本數量為n，樣本值為x1, x2, …,xn 算術平均= 𝑥1 + 𝑥2 + ⋯+ 𝑥𝑛 𝑛 優勢：",
+      "marker": "◦",
+      "text": "若樣本數量為n，樣本值為x1, x2, …,xn 算術平均= 𝑥1 + 𝑥2 + ⋯+ 𝑥𝑛 𝑛",
       "pageIndex": 9,
       "bbox": [
         120.52,
         500.67,
         350.97,
-        579.88
+        555.95
       ],
-      "id": "block-22"
+      "id": "block-22",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
+      "text": "優勢：",
+      "pageIndex": 9,
+      "bbox": [
+        120.52,
+        566.43,
+        176.92,
+        579.88
+      ],
+      "id": "block-23",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "計算容易、概念直覺：最常用於報表或指標（如平均銷售額、平均月薪）。",
       "pageIndex": 9,
       "bbox": [
@@ -388,11 +473,15 @@
         517.93,
         629.95
       ],
-      "id": "block-23"
+      "id": "block-24",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "普及度高：與他人溝通時，算術平均為最易理解的中心值。",
       "pageIndex": 9,
       "bbox": [
@@ -401,11 +490,15 @@
         481.08,
         654.91
       ],
-      "id": "block-24"
+      "id": "block-25",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "侷限：",
       "pageIndex": 9,
       "bbox": [
@@ -414,11 +507,15 @@
         176.92,
         679.99
       ],
-      "id": "block-25"
+      "id": "block-26",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "對極端值敏感：少數離群點可能顯著拉高或降低平均數。",
       "pageIndex": 9,
       "bbox": [
@@ -427,20 +524,43 @@
         468.48,
         704.95
       ],
-      "id": "block-26"
+      "id": "block-27",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "無法呈現分散度：需搭配標準差、IQR 等才能判斷資料是否高度波",
+      "pageIndex": 9,
+      "bbox": [
+        136.12,
+        716.46,
+        518.11,
+        729.91
+      ],
+      "id": "block-28",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 6,
-      "text": "無法呈現分散度：需搭配標準差、IQR 等才能判斷資料是否高度波動。",
+      "text": "動。",
       "pageIndex": 9,
       "bbox": [
         76.6,
-        716.46,
-        518.11,
+        741.7,
+        223.63,
         771.78
       ],
-      "id": "block-27"
+      "id": "block-29",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -454,11 +574,14 @@
         267.55,
         114.11
       ],
-      "id": "block-28"
+      "id": "block-30",
+      "nodeId": "mid-s2c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "意義：",
       "pageIndex": 10,
@@ -468,11 +591,15 @@
         159.88,
         139.07
       ],
-      "id": "block-29"
+      "id": "block-31",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "適用於成長率、報酬率、人口成長等「乘積效應」情況，可避免簡單的算術平均失真的問題。",
       "pageIndex": 10,
       "bbox": [
@@ -481,11 +608,14 @@
         518.05,
         189.11
       ],
-      "id": "block-30"
+      "id": "block-32",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "計算：",
       "pageIndex": 10,
@@ -495,24 +625,49 @@
         159.88,
         214.07
       ],
-      "id": "block-31"
+      "id": "block-33",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
-      "text": "若樣本數量為n，樣本值為x1, x2, …,xn 1 𝑛 𝑛 幾何平均= (∏𝑥𝑖 ) 𝑖=1 • 優勢：",
+      "marker": "◦",
+      "text": "若樣本數量為n，樣本值為x1, x2, …,xn 1 𝑛 𝑛 幾何平均= (∏𝑥𝑖 ) 𝑖=1",
+      "pageIndex": 10,
+      "bbox": [
+        120.52,
+        225.7,
+        350.97,
+        298.72
+      ],
+      "id": "block-34",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "優勢：",
       "pageIndex": 10,
       "bbox": [
         102.16,
-        225.7,
-        350.97,
+        307.69,
+        159.88,
         321.14
       ],
-      "id": "block-32"
+      "id": "block-35",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "能真實反映連續乘積（如股價成長）的「總體累積效應」。",
       "pageIndex": 10,
       "bbox": [
@@ -521,11 +676,15 @@
         460.56,
         346.22
       ],
-      "id": "block-33"
+      "id": "block-36",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "針對百分比或比率型資料更具代表性。",
       "pageIndex": 10,
       "bbox": [
@@ -534,11 +693,14 @@
         353.37,
         371.18
       ],
-      "id": "block-34"
+      "id": "block-37",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "侷限：",
       "pageIndex": 10,
@@ -548,11 +710,15 @@
         159.88,
         396.14
       ],
-      "id": "block-35"
+      "id": "block-38",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "需確保資料皆為正值（> 0），不適用於含負數或零的情況。",
       "pageIndex": 10,
       "bbox": [
@@ -561,11 +727,15 @@
         464.52,
         421.22
       ],
-      "id": "block-36"
+      "id": "block-39",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "計算量相對簡單，但解釋上可能不如算術平均直覺。",
       "pageIndex": 10,
       "bbox": [
@@ -574,7 +744,10 @@
         428.97,
         446.2
       ],
-      "id": "block-37"
+      "id": "block-40",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -588,11 +761,14 @@
         265.27,
         496.24
       ],
-      "id": "block-38"
+      "id": "block-41",
+      "nodeId": "mid-s2c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "意義：",
       "pageIndex": 10,
@@ -602,11 +778,15 @@
         159.88,
         521.2
       ],
-      "id": "block-39"
+      "id": "block-42",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "常用於速率類數據（如行駛速度、油耗），適合整合「效率性」度量，避免算術平均失真。",
       "pageIndex": 10,
       "bbox": [
@@ -615,11 +795,14 @@
         519.86,
         571.24
       ],
-      "id": "block-40"
+      "id": "block-43",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "計算：",
       "pageIndex": 10,
@@ -629,24 +812,49 @@
         159.88,
         596.2
       ],
-      "id": "block-41"
+      "id": "block-44",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
-      "text": "若樣本數量為n，樣本值為x1, x2,…,xn 調和平均= 𝑛 ∑ 1 𝑥𝑖 𝑛 𝑖=1 • 優勢：",
+      "marker": "◦",
+      "text": "若樣本數量為n，樣本值為x1, x2,…,xn 調和平均= 𝑛 ∑ 1 𝑥𝑖 𝑛 𝑖=1",
+      "pageIndex": 10,
+      "bbox": [
+        120.52,
+        607.71,
+        347.73,
+        676.65
+      ],
+      "id": "block-45",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "優勢：",
       "pageIndex": 10,
       "bbox": [
         102.16,
-        607.71,
-        347.73,
+        689.82,
+        159.88,
         703.27
       ],
-      "id": "block-42"
+      "id": "block-46",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "對速率或效率類數據較合理。",
       "pageIndex": 10,
       "bbox": [
@@ -655,11 +863,15 @@
         302.95,
         728.35
       ],
-      "id": "block-43"
+      "id": "block-47",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "在需要「逆值」加權的場合，調和平均比算術平均更準確。",
       "pageIndex": 10,
       "bbox": [
@@ -668,11 +880,14 @@
         466.8,
         769.86
       ],
-      "id": "block-44"
+      "id": "block-48",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "侷限：",
       "pageIndex": 11,
@@ -682,11 +897,15 @@
         159.88,
         114.11
       ],
-      "id": "block-45"
+      "id": "block-49",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "不能有零或負值。",
       "pageIndex": 11,
       "bbox": [
@@ -695,11 +914,15 @@
         239.95,
         139.07
       ],
-      "id": "block-46"
+      "id": "block-50",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "一般在非速率環境使用時，意義不顯著。",
       "pageIndex": 11,
       "bbox": [
@@ -708,7 +931,10 @@
         365.97,
         164.15
       ],
-      "id": "block-47"
+      "id": "block-51",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -722,11 +948,14 @@
         182.32,
         214.07
       ],
-      "id": "block-48"
+      "id": "block-52",
+      "nodeId": "mid-s2c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "意義：",
       "pageIndex": 11,
@@ -736,11 +965,15 @@
         159.88,
         239.15
       ],
-      "id": "block-49"
+      "id": "block-53",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "樣本中出現頻率最高的值。對於類別型資料，能快速指出「最常見」的類型或群組。",
       "pageIndex": 11,
       "bbox": [
@@ -749,11 +982,14 @@
         518.32,
         289.1
       ],
-      "id": "block-50"
+      "id": "block-54",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "優勢：",
       "pageIndex": 11,
@@ -763,11 +999,15 @@
         159.88,
         314.18
       ],
-      "id": "block-51"
+      "id": "block-55",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "適用於類別資料（如產品分類）。",
       "pageIndex": 11,
       "bbox": [
@@ -776,11 +1016,15 @@
         321.93,
         339.14
       ],
-      "id": "block-52"
+      "id": "block-56",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "易於解釋，可作為市場最受歡迎或最常見指標。",
       "pageIndex": 11,
       "bbox": [
@@ -789,11 +1033,14 @@
         403.77,
         364.1
       ],
-      "id": "block-53"
+      "id": "block-57",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "侷限：",
       "pageIndex": 11,
@@ -803,11 +1050,15 @@
         159.88,
         389.18
       ],
-      "id": "block-54"
+      "id": "block-58",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "連續型資料需先分桶（Bin）才能判斷眾數。",
       "pageIndex": 11,
       "bbox": [
@@ -816,11 +1067,15 @@
         384.21,
         414.14
       ],
-      "id": "block-55"
+      "id": "block-59",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "若分佈分散或多峰值，定義眾數會更複雜。",
       "pageIndex": 11,
       "bbox": [
@@ -829,7 +1084,10 @@
         378.57,
         439.1
       ],
-      "id": "block-56"
+      "id": "block-60",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -843,11 +1101,14 @@
         205.51,
         489.16
       ],
-      "id": "block-57"
+      "id": "block-61",
+      "nodeId": "mid-s2c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "意義：",
       "pageIndex": 11,
@@ -857,11 +1118,15 @@
         159.88,
         514.12
       ],
-      "id": "block-58"
+      "id": "block-62",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "取排序後中間位置值，對長尾或極端值不敏感，常用於收入或房價分析。",
       "pageIndex": 11,
       "bbox": [
@@ -870,11 +1135,14 @@
         517.85,
         564.16
       ],
-      "id": "block-59"
+      "id": "block-63",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "計算：",
       "pageIndex": 11,
@@ -884,11 +1152,15 @@
         159.88,
         589.12
       ],
-      "id": "block-60"
+      "id": "block-64",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "當n為奇數：",
       "pageIndex": 11,
       "bbox": [
@@ -897,37 +1169,81 @@
         208.87,
         614.27
       ],
-      "id": "block-61"
+      "id": "block-65",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 6,
-      "text": "中位數= 𝑥(𝑛+1 2 ) 當n為偶數：",
+      "text": "中位數= 𝑥(𝑛+1 2 )",
+      "pageIndex": 11,
+      "bbox": [
+        136.0,
+        632.02,
+        224.11,
+        653.73
+      ],
+      "id": "block-66",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "當n為偶數：",
       "pageIndex": 11,
       "bbox": [
         120.52,
-        632.02,
-        224.11,
+        666.54,
+        208.87,
         680.06
       ],
-      "id": "block-62"
+      "id": "block-67",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 6,
-      "text": "𝑥(𝑛 2) + 𝑥(𝑛 2+1) 2 中位數= • 優勢：",
+      "text": "𝑥(𝑛 2) + 𝑥(𝑛 2+1) 2 中位數=",
+      "pageIndex": 11,
+      "bbox": [
+        136.0,
+        689.65,
+        259.27,
+        724.7
+      ],
+      "id": "block-68",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "優勢：",
       "pageIndex": 11,
       "bbox": [
         102.16,
-        689.65,
-        259.27,
+        732.3,
+        159.88,
         745.75
       ],
-      "id": "block-63"
+      "id": "block-69",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "有效對抗極端值。",
       "pageIndex": 11,
       "bbox": [
@@ -936,11 +1252,14 @@
         239.95,
         770.7
       ],
-      "id": "block-64"
+      "id": "block-70",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "侷限：",
       "pageIndex": 12,
@@ -950,11 +1269,15 @@
         159.88,
         114.11
       ],
-      "id": "block-65"
+      "id": "block-71",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "無法呈現離散度。",
       "pageIndex": 12,
       "bbox": [
@@ -963,7 +1286,10 @@
         239.95,
         139.07
       ],
-      "id": "block-66"
+      "id": "block-72",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -977,7 +1303,10 @@
         180.52,
         189.11
       ],
-      "id": "block-67"
+      "id": "block-73",
+      "nodeId": "mid-s2c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -990,7 +1319,10 @@
         517.99,
         239.15
       ],
-      "id": "block-68"
+      "id": "block-74",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1004,11 +1336,14 @@
         393.81,
         289.1
       ],
-      "id": "block-69"
+      "id": "block-75",
+      "nodeId": "mid-s2c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "意義：",
       "pageIndex": 12,
@@ -1018,11 +1353,15 @@
         159.88,
         314.18
       ],
-      "id": "block-70"
+      "id": "block-76",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "變異數與標準差都是用來衡量資料的分散程度。",
       "pageIndex": 12,
       "bbox": [
@@ -1031,11 +1370,15 @@
         403.77,
         339.14
       ],
-      "id": "block-71"
+      "id": "block-77",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "變異數是資料偏離平均數的程度，標準差則是變異數的平方根，並且單位與原資料相同。",
       "pageIndex": 12,
       "bbox": [
@@ -1044,11 +1387,15 @@
         518.28,
         389.18
       ],
-      "id": "block-72"
+      "id": "block-78",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "這兩個指標可以告訴我們資料的分佈情況，若標準差較大，表示資料變化幅度大，較為分散；反之，標準差較小則資料較為集中。",
       "pageIndex": 12,
       "bbox": [
@@ -1057,11 +1404,14 @@
         518.2,
         439.1
       ],
-      "id": "block-73"
+      "id": "block-79",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "計算：",
       "pageIndex": 12,
@@ -1071,37 +1421,99 @@
         159.88,
         464.2
       ],
-      "id": "block-74"
+      "id": "block-80",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
-      "text": "若有N 筆資料，xi 是資料點，μ 是平均數變異數公式 𝑁 𝜎2 = 1 𝑁∑(𝑥𝑖−𝜇)2 𝑖=1 標準差公式",
+      "marker": "◦",
+      "text": "若有N 筆資料，xi 是資料點，μ 是平均數",
       "pageIndex": 12,
       "bbox": [
         120.52,
         475.71,
         275.47,
+        514.12
+      ],
+      "id": "block-81",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "變異數公式 𝑁 𝜎2 = 1 𝑁∑(𝑥𝑖−𝜇)2 𝑖=1",
+      "pageIndex": 12,
+      "bbox": [
+        120.52,
+        525.75,
+        237.92,
+        595.38
+      ],
+      "id": "block-82",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "標準差公式",
+      "pageIndex": 12,
+      "bbox": [
+        120.52,
+        607.71,
+        202.15,
         621.16
       ],
-      "id": "block-75"
+      "id": "block-83",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 6,
-      "text": "𝑁 σ = √1 𝑁∑(𝑥𝑖−𝜇)2 𝑖=1 • 優勢：",
+      "text": "𝑁 σ = √1 𝑁∑(𝑥𝑖−𝜇)2 𝑖=1",
+      "pageIndex": 12,
+      "bbox": [
+        136.0,
+        645.2,
+        241.04,
+        686.85
+      ],
+      "id": "block-84",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "優勢：",
       "pageIndex": 12,
       "bbox": [
         102.16,
-        645.2,
-        241.04,
+        706.14,
+        159.88,
         719.59
       ],
-      "id": "block-76"
+      "id": "block-85",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "量化資料的穩定性，標準差小代表資料分散度低。",
       "pageIndex": 12,
       "bbox": [
@@ -1110,11 +1522,15 @@
         416.37,
         744.55
       ],
-      "id": "block-77"
+      "id": "block-86",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "能為數據集的風險或不確定性提供清晰的衡量。",
       "pageIndex": 12,
       "bbox": [
@@ -1123,11 +1539,14 @@
         403.77,
         769.62
       ],
-      "id": "block-78"
+      "id": "block-87",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "侷限：",
       "pageIndex": 13,
@@ -1137,11 +1556,15 @@
         159.88,
         114.11
       ],
-      "id": "block-79"
+      "id": "block-88",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "對極端值（離群值）極為敏感，會顯著影響計算結果。",
       "pageIndex": 13,
       "bbox": [
@@ -1150,11 +1573,15 @@
         441.57,
         139.07
       ],
-      "id": "block-80"
+      "id": "block-89",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "僅顯示與平均數的距離，若資料分佈偏斜，需要搭配其他指標。",
       "pageIndex": 13,
       "bbox": [
@@ -1163,7 +1590,10 @@
         492.0,
         164.15
       ],
-      "id": "block-81"
+      "id": "block-90",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1177,11 +1607,14 @@
         424.29,
         214.07
       ],
-      "id": "block-82"
+      "id": "block-91",
+      "nodeId": "mid-s2c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "意義：",
       "pageIndex": 13,
@@ -1191,11 +1624,15 @@
         159.88,
         239.15
       ],
-      "id": "block-83"
+      "id": "block-92",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "全距：是指資料中最大值與最小值之間的差距。簡單易懂，可以快速顯示資料的總體範圍。然而，單純的全距可能受到單一極端值（離群值） 的影響。",
       "pageIndex": 13,
       "bbox": [
@@ -1204,11 +1641,15 @@
         524.68,
         314.18
       ],
-      "id": "block-84"
+      "id": "block-93",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "四分位距（IQR, Interquartile Range）：",
       "pageIndex": 13,
       "bbox": [
@@ -1217,24 +1658,49 @@
         347.97,
         339.14
       ],
-      "id": "block-85"
+      "id": "block-94",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "IQR = Q3 - Q1 Q3 是第三四分位數（75%位置的數據值）。",
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "IQR = Q3 - Q1",
       "pageIndex": 13,
       "bbox": [
         136.12,
         351.97,
+        230.11,
+        365.42
+      ],
+      "id": "block-95",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "Q3 是第三四分位數（75%位置的數據值）。",
+      "pageIndex": 13,
+      "bbox": [
+        136.12,
+        375.73,
         390.09,
         389.18
       ],
-      "id": "block-86"
+      "id": "block-96",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "Q1 是第一四分位數（25%位置的數據值）。",
       "pageIndex": 13,
       "bbox": [
@@ -1243,20 +1709,44 @@
         390.09,
         414.14
       ],
-      "id": "block-87"
+      "id": "block-97",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
-      "text": "四分位數（Quartiles） 將資料集劃分為四個等份的三個切點，用來描述資料的分佈情況。",
+      "marker": "◦",
+      "text": "四分位數（Quartiles）",
       "pageIndex": 13,
       "bbox": [
         120.52,
         425.65,
+        261.43,
+        439.1
+      ],
+      "id": "block-98",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "將資料集劃分為四個等份的三個切點，用來描述資料的分佈情況。",
+      "pageIndex": 13,
+      "bbox": [
+        136.12,
+        450.75,
         518.2,
         464.13
       ],
-      "id": "block-88"
+      "id": "block-99",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1269,11 +1759,15 @@
         518.2,
         514.12
       ],
-      "id": "block-89"
+      "id": "block-100",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "第一四分位數（Q1）：",
       "pageIndex": 13,
       "bbox": [
@@ -1282,11 +1776,14 @@
         275.83,
         539.2
       ],
-      "id": "block-90"
+      "id": "block-101",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "也稱為下四分位數。",
       "pageIndex": 13,
@@ -1296,11 +1793,14 @@
         283.75,
         564.16
       ],
-      "id": "block-91"
+      "id": "block-102",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "資料中25%的數據小於這個數值。",
       "pageIndex": 13,
@@ -1310,11 +1810,15 @@
         360.21,
         589.12
       ],
-      "id": "block-92"
+      "id": "block-103",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "第二四分位數（Q2）：",
       "pageIndex": 13,
       "bbox": [
@@ -1323,11 +1827,14 @@
         275.83,
         614.2
       ],
-      "id": "block-93"
+      "id": "block-104",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "也稱為中位數。",
       "pageIndex": 13,
@@ -1337,11 +1844,14 @@
         258.55,
         639.19
       ],
-      "id": "block-94"
+      "id": "block-105",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "將資料集分為兩半。50%的數據位於此數值之下，50%則位於此數值之上。",
       "pageIndex": 13,
@@ -1351,11 +1861,15 @@
         518.36,
         689.23
       ],
-      "id": "block-95"
+      "id": "block-106",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "第三四分位數（Q3）：",
       "pageIndex": 13,
       "bbox": [
@@ -1364,11 +1878,14 @@
         275.83,
         714.19
       ],
-      "id": "block-96"
+      "id": "block-107",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "也稱為上四分位數。",
       "pageIndex": 13,
@@ -1378,11 +1895,14 @@
         283.75,
         739.15
       ],
-      "id": "block-97"
+      "id": "block-108",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "資料中75%的數據小於這個數值，並且25%的數據大於此數值。",
       "pageIndex": 13,
@@ -1392,11 +1912,14 @@
         521.88,
         764.22
       ],
-      "id": "block-98"
+      "id": "block-109",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "優勢：",
       "pageIndex": 14,
@@ -1406,11 +1929,15 @@
         159.88,
         114.11
       ],
-      "id": "block-99"
+      "id": "block-110",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "適合處理含有離群值的資料。",
       "pageIndex": 14,
       "bbox": [
@@ -1419,11 +1946,15 @@
         302.95,
         139.07
       ],
-      "id": "block-100"
+      "id": "block-111",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "能夠準確反映資料的集中分佈範圍。",
       "pageIndex": 14,
       "bbox": [
@@ -1432,11 +1963,14 @@
         340.77,
         164.15
       ],
-      "id": "block-101"
+      "id": "block-112",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "侷限：",
       "pageIndex": 14,
@@ -1446,11 +1980,15 @@
         159.88,
         189.11
       ],
-      "id": "block-102"
+      "id": "block-113",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "雖然可以過濾極端值，但不提供資料分佈的具體細節。",
       "pageIndex": 14,
       "bbox": [
@@ -1459,7 +1997,10 @@
         441.57,
         214.07
       ],
-      "id": "block-103"
+      "id": "block-114",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1473,11 +2014,14 @@
         210.43,
         264.14
       ],
-      "id": "block-104"
+      "id": "block-115",
+      "nodeId": "mid-s2c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "意義：",
       "pageIndex": 14,
@@ -1487,11 +2031,15 @@
         159.88,
         476.44
       ],
-      "id": "block-105"
+      "id": "block-116",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "又稱為盒鬚圖、盒狀圖，用來可視化資料集中趨勢與離散程度的工具，尤其在資料探索階段（Exploratory Data Analysis, EDA）中非常有用。",
       "pageIndex": 14,
       "bbox": [
@@ -1500,11 +2048,14 @@
         521.02,
         526.48
       ],
-      "id": "block-106"
+      "id": "block-117",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "組成：",
       "pageIndex": 14,
@@ -1514,11 +2065,15 @@
         159.88,
         551.44
       ],
-      "id": "block-107"
+      "id": "block-118",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "中位數（Median）：",
       "pageIndex": 14,
       "bbox": [
@@ -1527,11 +2082,15 @@
         246.91,
         576.52
       ],
-      "id": "block-108"
+      "id": "block-119",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "箱形圖中的水平線，將資料分成兩個等份。這是資料的第二四分位數（Q2），也就是中位數。它表示數據集的中間位置，50%的數據位於其上方，50%位於其下方。",
       "pageIndex": 14,
       "bbox": [
@@ -1540,11 +2099,15 @@
         518.4,
         651.55
       ],
-      "id": "block-109"
+      "id": "block-120",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "第一四分位數（Q1）和第三四分位數（Q3）：",
       "pageIndex": 14,
       "bbox": [
@@ -1553,11 +2116,15 @@
         390.21,
         676.51
       ],
-      "id": "block-110"
+      "id": "block-121",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "Q1（第一四分位數）：盒子的下邊界，代表資料中最小的25%的數據。",
       "pageIndex": 14,
       "bbox": [
@@ -1566,11 +2133,15 @@
         518.4,
         726.55
       ],
-      "id": "block-111"
+      "id": "block-122",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "Q3（第三四分位數）：盒子的上邊界，代表資料中最上層的25%的數據。",
       "pageIndex": 14,
       "bbox": [
@@ -1579,11 +2150,15 @@
         518.28,
         776.46
       ],
-      "id": "block-112"
+      "id": "block-123",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "四分位距（Interquartile Range, IQR）：",
       "pageIndex": 15,
       "bbox": [
@@ -1592,24 +2167,49 @@
         347.97,
         114.11
       ],
-      "id": "block-113"
+      "id": "block-124",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "IQR = Q3 - Q1 即盒子內部的範圍，它表示資料中間50%的數據範圍，衡量資料的變異性。",
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "IQR = Q3 - Q1",
       "pageIndex": 15,
       "bbox": [
         136.12,
         126.94,
+        230.11,
+        140.39
+      ],
+      "id": "block-125",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "即盒子內部的範圍，它表示資料中間50%的數據範圍，衡量資料的變異性。",
+      "pageIndex": 15,
+      "bbox": [
+        136.12,
+        150.7,
         518.37,
         189.11
       ],
-      "id": "block-114"
+      "id": "block-126",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "當IQR 較大時，表示資料的變異性大；而IQR 較小時，則表示資料的變異性較小。",
       "pageIndex": 15,
       "bbox": [
@@ -1618,11 +2218,15 @@
         518.31,
         239.15
       ],
-      "id": "block-115"
+      "id": "block-127",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "鬚（Whiskers）：",
       "pageIndex": 15,
       "bbox": [
@@ -1631,11 +2235,15 @@
         230.95,
         264.14
       ],
-      "id": "block-116"
+      "id": "block-128",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "鬚用於表示資料的「正常分佈範圍」，用以區分出異常值的邊界值。",
       "pageIndex": 15,
       "bbox": [
@@ -1644,11 +2252,15 @@
         521.88,
         289.1
       ],
-      "id": "block-117"
+      "id": "block-129",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "須注意，若在箱形圖中稱呼上鬚（Upper Whisker）為“最大值”，指的是“不包括離群值”的最大值，因此不見得會是整個資料集的最大值；",
       "pageIndex": 15,
       "bbox": [
@@ -1657,7 +2269,10 @@
         521.52,
         339.14
       ],
-      "id": "block-118"
+      "id": "block-130",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1670,11 +2285,15 @@
         518.4,
         389.18
       ],
-      "id": "block-119"
+      "id": "block-131",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "一般計算上：",
       "pageIndex": 15,
       "bbox": [
@@ -1683,11 +2302,14 @@
         229.03,
         414.14
       ],
-      "id": "block-120"
+      "id": "block-132",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "上鬚（Upper Whisker）：（Q3 + 1.5 × IQR）",
       "pageIndex": 15,
@@ -1697,25 +2319,49 @@
         403.41,
         439.1
       ],
-      "id": "block-121"
+      "id": "block-133",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
-      "text": "下鬚（Lower Whisker）：（Q1 − 1.5 × IQR） 離群值（Outliers）：",
+      "text": "下鬚（Lower Whisker）：（Q1 − 1.5 × IQR）",
+      "pageIndex": 15,
+      "bbox": [
+        150.28,
+        450.75,
+        404.73,
+        464.2
+      ],
+      "id": "block-134",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "離群值（Outliers）：",
       "pageIndex": 15,
       "bbox": [
         120.52,
-        450.75,
-        404.73,
+        475.71,
+        249.55,
         489.16
       ],
-      "id": "block-122"
+      "id": "block-135",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "如果資料超過了鬚的範圍，則被視為離群值。通常用圓點或星形標註，顯示資料中極端的值。",
       "pageIndex": 15,
       "bbox": [
@@ -1724,11 +2370,15 @@
         518.2,
         539.2
       ],
-      "id": "block-123"
+      "id": "block-136",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "通常，任何超出Q1 − 1.5 × IQR 或 Q3 + 1.5 × IQR 的數據會被視為異常值。",
       "pageIndex": 15,
       "bbox": [
@@ -1737,11 +2387,14 @@
         518.37,
         589.12
       ],
-      "id": "block-124"
+      "id": "block-137",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "應用：",
       "pageIndex": 15,
@@ -1751,11 +2404,15 @@
         159.88,
         614.2
       ],
-      "id": "block-125"
+      "id": "block-138",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "資料分佈檢視：快速了解資料的分佈情況、集中程度以及變異性。",
       "pageIndex": 15,
       "bbox": [
@@ -1764,11 +2421,15 @@
         504.6,
         639.19
       ],
-      "id": "block-126"
+      "id": "block-139",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "異常值檢測：通過標註的異常值，可以發現資料中的極端值，進而進行處理。",
       "pageIndex": 15,
       "bbox": [
@@ -1777,24 +2438,47 @@
         517.91,
         689.23
       ],
-      "id": "block-127"
+      "id": "block-140",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "比較不同資料集：透過多組箱形圖並列，能夠快速比較不同資料集之間",
+      "pageIndex": 15,
+      "bbox": [
+        120.52,
+        700.74,
+        517.88,
+        714.12
+      ],
+      "id": "block-141",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 6,
-      "text": "比較不同資料集：透過多組箱形圖並列，能夠快速比較不同資料集之間的分佈情況、異常值以及數據變異。",
+      "text": "的分佈情況、異常值以及數據變異。",
       "pageIndex": 15,
       "bbox": [
         76.6,
-        700.74,
-        517.88,
+        725.86,
+        340.77,
         755.82
       ],
-      "id": "block-128"
+      "id": "block-142",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "優勢：",
       "pageIndex": 16,
@@ -1804,11 +2488,15 @@
         159.88,
         114.11
       ],
-      "id": "block-129"
+      "id": "block-143",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "直觀且能展示資料的主要特徵（如集中度、分佈範圍與異常值）。",
       "pageIndex": 16,
       "bbox": [
@@ -1817,11 +2505,15 @@
         498.36,
         139.07
       ],
-      "id": "block-130"
+      "id": "block-144",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "無需進行繁瑣的計算，便於快速分析資料結構。",
       "pageIndex": 16,
       "bbox": [
@@ -1830,11 +2522,15 @@
         403.77,
         164.15
       ],
-      "id": "block-131"
+      "id": "block-145",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "可以有效識別分佈不對稱、極端值與偏態。",
       "pageIndex": 16,
       "bbox": [
@@ -1843,11 +2539,14 @@
         378.57,
         189.11
       ],
-      "id": "block-132"
+      "id": "block-146",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "侷限：",
       "pageIndex": 16,
@@ -1857,11 +2556,15 @@
         159.88,
         214.07
       ],
-      "id": "block-133"
+      "id": "block-147",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "無法顯示資料的精確形狀或分佈，例如，若資料呈現多峰分佈，箱形圖無法完全呈現出來。",
       "pageIndex": 16,
       "bbox": [
@@ -1870,11 +2573,15 @@
         518.2,
         264.14
       ],
-      "id": "block-134"
+      "id": "block-148",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "對於非常大範圍的資料，無法提供細節分析，只能反映出資料的整體趨勢。",
       "pageIndex": 16,
       "bbox": [
@@ -1883,7 +2590,10 @@
         518.2,
         314.18
       ],
-      "id": "block-135"
+      "id": "block-149",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1896,7 +2606,10 @@
         517.93,
         447.28
       ],
-      "id": "block-136"
+      "id": "block-150",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1909,7 +2622,10 @@
         521.27,
         522.07
       ],
-      "id": "block-137"
+      "id": "block-151",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1922,7 +2638,10 @@
         518.24,
         597.28
       ],
-      "id": "block-138"
+      "id": "block-152",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1936,7 +2655,10 @@
         206.35,
         647.35
       ],
-      "id": "block-139"
+      "id": "block-153",
+      "nodeId": "mid-s2c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1950,7 +2672,10 @@
         206.35,
         647.35
       ],
-      "id": "block-140"
+      "id": "block-154",
+      "nodeId": "mid-s2c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1963,11 +2688,14 @@
         521.44,
         722.35
       ],
-      "id": "block-141"
+      "id": "block-155",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "正偏態（Positive-skewed）：",
       "pageIndex": 17,
@@ -1977,11 +2705,15 @@
         274.63,
         282.74
       ],
-      "id": "block-142"
+      "id": "block-156",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "也稱為右偏態（Right-skewed），偏度大於0。",
       "pageIndex": 17,
       "bbox": [
@@ -1990,11 +2722,15 @@
         389.01,
         307.82
       ],
-      "id": "block-143"
+      "id": "block-157",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "右側的尾部更長，分佈的主體集中在左側。",
       "pageIndex": 17,
       "bbox": [
@@ -2003,11 +2739,15 @@
         378.57,
         332.78
       ],
-      "id": "block-144"
+      "id": "block-158",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "常見於收入、房價或故障時間等分佈，右側極端值（如高收入者）拉高平均值。例如，某城市房價資料偏度為2.5，顯示少數豪宅價格顯著影響整體分佈。",
       "pageIndex": 17,
       "bbox": [
@@ -2016,11 +2756,14 @@
         518.35,
         407.78
       ],
-      "id": "block-145"
+      "id": "block-159",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "負偏態（Negtive-skewed）：",
       "pageIndex": 17,
@@ -2030,11 +2773,15 @@
         273.55,
         432.74
       ],
-      "id": "block-146"
+      "id": "block-160",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "也稱為左偏態（Left-skewed），偏度小於0。",
       "pageIndex": 17,
       "bbox": [
@@ -2043,11 +2790,15 @@
         382.05,
         457.84
       ],
-      "id": "block-147"
+      "id": "block-161",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "左側的尾部更長，分佈的主體集中在右側。",
       "pageIndex": 17,
       "bbox": [
@@ -2056,11 +2807,15 @@
         378.57,
         482.8
       ],
-      "id": "block-148"
+      "id": "block-162",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "常見於集中高值但少數低值的情況。例如，某設備壽命資料偏度為-1.8，原因為設備部屬早期時出現故障、因此有少數資料拉低平均值。",
       "pageIndex": 17,
       "bbox": [
@@ -2069,11 +2824,14 @@
         521.4,
         532.84
       ],
-      "id": "block-149"
+      "id": "block-163",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "偏度接近0：",
       "pageIndex": 17,
@@ -2083,11 +2841,15 @@
         194.59,
         557.8
       ],
-      "id": "block-150"
+      "id": "block-164",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "分佈趨近對稱，類似理想常態分佈。",
       "pageIndex": 17,
       "bbox": [
@@ -2096,11 +2858,15 @@
         340.77,
         582.76
       ],
-      "id": "block-151"
+      "id": "block-165",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "例如某工廠產品重量資料偏度為0.1，顯示分佈均衡。",
       "pageIndex": 17,
       "bbox": [
@@ -2109,7 +2875,10 @@
         435.45,
         607.84
       ],
-      "id": "block-152"
+      "id": "block-166",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2123,7 +2892,10 @@
         201.67,
         657.79
       ],
-      "id": "block-153"
+      "id": "block-167",
+      "nodeId": "mid-s2c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2136,7 +2908,10 @@
         521.16,
         682.87
       ],
-      "id": "block-154"
+      "id": "block-168",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2149,7 +2924,10 @@
         523.35,
         757.86
       ],
-      "id": "block-155"
+      "id": "block-169",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2162,25 +2940,66 @@
         359.13,
         114.11
       ],
-      "id": "block-156"
+      "id": "block-170",
+      "nodeId": "mid-s2c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "高峰（Leptokurtic） Kurtosis > 3 當峰度大於3 時，稱為高峰分佈（Leptokurtic）。",
+      "text": "高峰（Leptokurtic）",
       "pageIndex": 18,
       "bbox": [
         102.16,
         365.53,
+        231.79,
+        378.98
+      ],
+      "id": "block-171",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "Kurtosis > 3",
+      "pageIndex": 18,
+      "bbox": [
+        120.52,
+        391.81,
+        202.15,
+        405.26
+      ],
+      "id": "block-172",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "當峰度大於3 時，稱為高峰分佈（Leptokurtic）。",
+      "pageIndex": 18,
+      "bbox": [
+        120.52,
+        415.45,
         406.41,
         428.9
       ],
-      "id": "block-157"
+      "id": "block-173",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "這意味著該分佈比常態分佈更加集中於中心，並且有更多的極端值 （outliers），即數據中較大（或較小）的值出現機率比常態分佈高。",
       "pageIndex": 18,
       "bbox": [
@@ -2189,11 +3008,15 @@
         517.74,
         478.96
       ],
-      "id": "block-158"
+      "id": "block-174",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "需要特別留意這類分佈在模型外推或異常檢測中的風險，因為極端值的存在可能會影響模型的預測結果，尤其是在處理預測或迴歸問題時。",
       "pageIndex": 18,
       "bbox": [
@@ -2202,11 +3025,14 @@
         521.88,
         529.0
       ],
-      "id": "block-159"
+      "id": "block-175",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "中峰（Mesokurtic）",
       "pageIndex": 18,
@@ -2216,24 +3042,48 @@
         230.23,
         553.96
       ],
-      "id": "block-160"
+      "id": "block-176",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "Kurtosis ≈ 3 當峰度接近3 時，稱為中峰分佈（Mesokurtic）。這個分佈通常接近於常態分佈，既不過於尖銳，也不過於扁平。它可以被視為標準的常態分佈，適合作為比較其他類型分佈的參照。",
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "Kurtosis ≈ 3",
       "pageIndex": 18,
       "bbox": [
         120.52,
         566.79,
-        518.14,
-        653.95
+        202.03,
+        580.24
       ],
-      "id": "block-161"
+      "id": "block-177",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 6,
+      "marker": "◦",
+      "text": "當峰度接近3 時，稱為中峰分佈（Mesokurtic）。這個分佈通常接近於常態分佈，既不過於尖銳，也不過於扁平。它可以被視為標準的常態分佈，適合作為比較其他類型分佈的參照。",
+      "pageIndex": 18,
+      "bbox": [
+        120.52,
+        590.55,
+        518.14,
+        653.95
+      ],
+      "id": "block-178",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
       "marker": "•",
       "text": "扁平（Platykurtic）",
       "pageIndex": 18,
@@ -2243,20 +3093,44 @@
         228.43,
         679.03
       ],
-      "id": "block-162"
+      "id": "block-179",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "Kurtosis < 3 當峰度小於3 時，稱為扁平分佈（Platykurtic）。這意味著資料的分佈較為分散，並且比常態分佈更平坦，沒有太多極端值。",
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "Kurtosis < 3",
       "pageIndex": 18,
       "bbox": [
         120.52,
         691.86,
+        202.15,
+        705.31
+      ],
+      "id": "block-180",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "當峰度小於3 時，稱為扁平分佈（Platykurtic）。這意味著資料的分佈較為分散，並且比常態分佈更平坦，沒有太多極端值。",
+      "pageIndex": 18,
+      "bbox": [
+        120.52,
+        715.5,
         518.14,
         754.02
       ],
-      "id": "block-163"
+      "id": "block-181",
+      "nodeId": "mid-s2c1",
+      "kind": "list_item",
+      "source": "page_extract"
     }
   ],
   "sourcePages": [

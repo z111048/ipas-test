@@ -1,7 +1,7 @@
 {
   "id": "mid-s1c8",
   "title": "數據準備與模型選擇",
-  "content": "# 數據準備與模型選擇\n\n5.1\n\n## 數據準備與模型選擇\n\n### 1. 前言與章節導覽\n\n在人工智慧（AI）的實際導入過程中，「資料」的準備與處理往往是成敗的關鍵。業界經常引用一句話：「垃圾進，垃圾出（Garbage In, Garbage Out, GIGO）」，即明確指出了資料品質直接影響AI 模型的可靠性與準確度。因此，在完成前期AI 導入規劃後，下一步必須聚焦在如何有效地準備資料，並根據業務情境、問題類型與資料特性，選擇最適合的模型架構，以達成業務價值目標。本節將資料準備與模型選擇分為三步驟進行介紹。\n\n### 2. 資料收集與清理\n\n在AI 導入流程中，資料品質直接決定了模型的表現和效能。資料不僅是AI 模型的基礎，更是能否準確推理與預測的關鍵。為了確保AI 系統能夠穩定並有效地運行，建立系統化的「資料收集與清理」流程將對整體專案的成功至關重要。\n\n##### A. 資料來源與收集\n\n資料來源可分為內部資料與外部資料，不同來源的資料會有不同的存取方式、資料結構以及法規限制。以下示例幾種常見的資訊來源：\n\n• 內部資料來源：\n\nERP（Enterprise Resource Planning）：這類資料包括銷售、庫存、採購、財務等企業內部核心業務系統的資料，通常是公司營運的基礎資料來源。\n\nCRM（Customer Relationship Management）：包含顧客互動紀錄、服務歷程與回饋等，這些資料可用於進行客戶分群與行為預測。\n\n機台資料（Machine Data）：來自生產機台、設備與工廠自動化系統的資料，涵蓋運轉狀態、操作參數、故障紀錄與維護歷程等。製造業可利用這些資料\n\n進行生產排程優化、異常偵測、良率分析與預測保養，是智慧製造（Smart Manufacturing）的關鍵資產。\n\n使用者使用行為資料（POS、Web/App 紀錄、IoT 裝置等）：記錄使用者與產品互動的方式與頻率，例如軟體使用路徑、功能點擊熱區、登入與停留時間等。SaaS 業者可藉此追蹤產品黏著度與使用效率；消費型產品則能以此進行功能優化與升級設計。\n\n內部報表與流程紀錄：包含作業流程、內部稽核、法遵紀錄等，特別是在金融、醫療、政府等高度管制產業中，這些資料對風險管理與合規審查極為關鍵。\n\n• 外部資料來源：\n\n開放資料：包含政府開放資料平台、社群媒體API、氣象機構、商業資料平台等，能以程式介面自動擷取最新資料，應用於政策分析、市場研究或風險預測等情境。\n\nWeb Scraping（網頁爬蟲）：從網站上自動擷取網頁內容，例如價格資訊、評論資料、新聞文章等，用於市場競爭分析、輿情監測與文本探勘等用途。需特別注意網站條款與資料使用合規性。\n\n商業資料庫與數據供應商：如Refinitiv、Statista、Experian 等專業資料平台，提供授權購買的市場資料、財務資料、信用評等資訊等，廣泛用於金融投資、企業徵信、產業趨勢分析等應用。\n\n##### B. 清理與品質檢核\n\n資料清理是將原始資料進行內容確認與雜訊清理的步驟，這一過程主要處理以下幾個常見情況：\n\n• 缺失值（Missing Values）處理：常見方法包括：使用平均數/中位數填補 （Mean/Median Imputation）、前後值填補（Forward/Backward Fill）、插值法 （Interpolation）。若缺失比例過高，則應考慮刪除該欄位或使用模型推估填補。\n\n• 重複值（Duplicate Values）清除：針對主鍵欄位（如顧客編號、交易編號）進行重複值檢查。使用如pandas、Spark DataFrame 的.drop_duplicates（）方法進行去重處理。\n\n• 異常值（Outliers）檢測與處理：使用統計方法，如Z-score 或IQR（Interquartile Range）篩選異常資料。也可利用機器學習模型，如Isolation Forest、LOF（Local Outlier Factor）進行異常值偵測。\n\n• 資料品質（Data Quality）評估指標：\n\n完整性（Completeness）：資料是否完整，是否缺少關鍵欄位。\n\n一致性（Consistency）：資料欄位間邏輯是否一致，像是年齡欄位不應為負數。\n\n準確性（Accuracy）：資料值是否準確並反映真實世界的狀況。\n\n即時性（Timeliness）：資料是否是最新的，尤其是動態變化的數據。\n\n唯一性（Uniqueness）：資料是否有重複或衝突，特別是主鍵欄位。\n\n### 3. 資料標註與特徵工程\n\n特徵工程是將原始資料轉換為適合機器學習模型學習的格式與結構，目的是提升模型的表達力與預測效能。\n\n##### A. 特徵處理流程\n\n• 數值特徵轉換：\n\n正規化（Normalization）：將數值轉換至0 到1 之間，避免由於不同特徵的單位差異造成模型學習偏誤。常見方法是將最小值轉換為0，最大值轉換為1。\n\n標準化（Standardization）：將數值轉換為平均數為0、標準差為1 的分布，通常使用Z-score。這對於需要計算梯度的模型（如線性迴歸、支持向量機等）\n\n特別有效。\n\n• 類別特徵處理：\n\n獨熱編碼（One-hot Encoding）：將類別轉為二進位欄位，適用於無序分類變數。\n\n標籤編碼（Label Encoding）：將類別轉為整數，適用於有序類別（如高中、學士、碩士）。\n\n• 時間與結構特徵擴增：\n\n時間戳處理：從時間戳中擷取週期性特徵（如星期幾、上午/下午、工作日/週末），幫助模型捕捉時間與週期性模式。\n\n文字處理：從文字欄位中抽取關鍵詞，或轉換為數值形式。常見方法包括TF- IDF （Term Frequency-Inverse Document Frequency）和詞向量（Word Embeddings）等，將文字轉化為數值型資料，方便機器學習模型處理。\n\n##### B. 特徵選擇與降維\n\n• 特徵選擇（Feature Selection）：特徵選擇是從所有特徵中、挑選對模型預測效果影響較大，對預測結果最有用的特徵。常見的方法有：\n\n資訊增益（Information Gain）：衡量特徵在預測中帶來的資訊量。\n\n皮爾森相關係數（Pearson Correlation Coefficient）：衡量數值特徵之間的線性相關性。\n\nL1 正則化（Lasso）：通過懲罰模型的複雜度來選擇最具影響力的特徵，常用於線性模型中。\n\n根據資訊增益（Information Gain）、皮爾森相關係數、L1 正則化等方法，挑選對模型預測效果影響較大的變數。\n\n• 降維（Dimensionality Reduction）：降維是將高維資料轉換為低維資料，同時保留原有的資訊。常見的方法包括：\n\n主成分分析（PCA）：通過找到資料中方差最大的方向來減少維度，保留大部分資料訊息。PCA 適用於高維資料，能減少計算負擔並提高模型效能。\n\nt-SNE / UMAP：常用於視覺化資料分佈，便於人為觀察特徵空間的分類趨勢。\n\n##### C. 自動特徵工程（Auto Feature Engineering）\n\n隨著AutoML（自動化機器學習）技術的快速發展，越來越多的機器學習平台\n\n如Google AutoML、H2O.ai、AutoKeras 和TPOT 等，都提供了自動化的特徵工程功能。這些工具通過智慧算法自動生成、選擇特徵，使得資料科學家不再需要手動執行繁瑣的特徵處理過程、節省大量的時間和精力。自動化特徵生成與選擇的核心功能如下：\n\n• 自動特徵創建：\n\nAutoML 工具可以自動創建新的特徵，通過資料轉換、組合等方式生成新的變數。例如，將日期資料拆分為年、月、日、星期等，或基於現有特徵進行數學運算（如加法、乘法、對數轉換等）。\n\n有些平台可以進行高階的特徵工程操作，如多項式特徵的生成，或在時間序列資料中，根據滯後和滯後交互生成時間特徵。\n\n• 自動篩選有用特徵：\n\n在特徵工程中，選擇正確的特徵對於模型的表現至關重要。AutoML 可以通過不同的算法自動篩選出對目標變量影響最大的特徵。例如，通過利用隨機森林（Random Forest）或L1 正則化（Lasso）等技術，來評估特徵對模型性能的貢獻，從而選擇最有效的特徵集。\n\n這些工具會對特徵進行評估，並且會自動刪除冗餘或低貢獻的特徵，減少模型的複雜度。\n\n• 特徵組合與互動作用檢測：\n\n另一個自動化特徵工程的優勢是能夠檢測並創建特徵之間的交互作用 （Interaction）。這些工具會自動測試各特徵組合對預測結果的影響，幫助發現隱藏的關聯性，從而提高模型的預測準確度。\n\n• 適應不同的資料集特徵：\n\nAutoML 工具能夠根據不同資料集的特性自動選擇和調整特徵處理方法。例如，對於類別型資料，它會自動選擇合適的編碼方法（如One-hot encoding 或 Target encoding）；對於缺失資料，則會選擇合適的填補方式，如均值填補或基於預測的填補方法。\n\n• 基於模型的反饋進行特徵選擇：\n\n高端的AutoML 系統不僅依賴傳統的數據處理規則，還會根據模型的反饋自動調整特徵。通過不斷地訓練和驗證多個模型，這些工具能夠智慧選擇最佳的特徵集，以提高最終預測模型的性能。\n\n• AutoML 在特徵工程中的優勢：\n\n加速資料科學流程：自動化特徵生成和篩選極大地縮短了從原始資料到模型訓練的時間，資料科學家可以將更多時間專注於分析和優化模型本身。\n\n降低技術門檻：即便是對機器學習知識較少的使用者，借助AutoML 工具也能完成高效的特徵工程和模型建構，進而促進更多業界領域的AI 應用。\n\n高模型效能：透過自動生成和篩選特徵，AutoML 可以快速評估大量特徵組合，找到最有助於提高模型性能的特徵，從而提升預測準確性。\n\n### 4. 模型選擇策略\n\n在AI 專案中，「模型選擇」是技術落地前最具策略性的一項決策。它不僅關係到預測準確率與效能表現，更將深遠影響整體系統的可維護性、擴展性與運營成本。若模型選擇不當，將可能導致訓練耗時過長、部署困難，甚至在實務應用中無法產生穩定成效。\n\n##### A. 監督式學習 - 迴歸任務（Regression）\n\n迴歸任務的目的是預測一個連續數值型的結果，常見於需要估計數值大小的問題。迴歸模型預測的輸出通常是實數，適用於多數與數值預測相關的應用情境：\n\n• 常見演算法如下：\n\n線性迴歸（Linear Regression）：最簡單的迴歸方法，通過建立自變量與因變量之間的線性關係來進行預測。適用於資料具有線性關係的情況。\n\n決策樹迴歸（Decision Tree Regression）：基於樹狀結構進行迴歸預測，適用於非線性迴歸問題。具有較強的解釋性，但可能過度擬合。\n\n隨機森林迴歸（Random Forest Regression）：利用多棵決策樹的平均預測結果來提高預測準確度，減少過度擬合的風險。\n\n梯度提升樹（Gradient Boosting Regression）：一種集成學習方法，通過多次迭代來提升模型準確度，對於複雜的資料集表現良好。\n\n• 應用情境：\n\n銷售量預測：預測未來某一段時間的銷售額，協助企業進行庫存管理與生產規劃。\n\n房價預測：根據房地產市場的多種因素（如地段、房屋面積等）預測房價。\n\n##### B. 監督式學習 - 分類任務（Classification）\n\n分類任務的目的是將資料點分類到不同的類別中，通常會將資料分為兩個或多個類別，並進行預測。分類問題是機器學習中的常見應用，尤其適用於需要將資料歸類為離散標籤的問題。\n\n• 常見演算法邏輯迴歸（Logistic Regression）：用於二元或多元分類問題，透過Sigmoid 函數將預測值轉為機率，再根據機率進行分類判斷。適用於特徵與類別之間具線性可分的情況。\n\n決策樹分類（Decision Tree Classification）：以條件分支的方式進行分類，具備良好的解釋性。適用於處理非線性與混合型特徵的分類問題，但容易過度擬合。\n\n隨機森林分類（Random Forest Classification）：結合多棵決策樹進行分類投票，提升準確度並降低單一模型的過擬合風險，適合處理高維度與複雜結構的資料。\n\n支持向量機（Support Vector Machine, SVM）：尋找最佳超平面以分隔不同類別，對於高維資料或邊界清晰的分類問題表現良好，亦可透過核函數處理非線性分類。\n\nK 最近鄰（K-Nearest Neighbors, KNN）：根據鄰近資料的類別進行預測，簡單直觀但對資料量與維度敏感，適合用於小型資料集或特徵空間分布明顯的情境。\n\n梯度提升樹分類（Gradient Boosting Classification）:屬於集成學習方法，透過逐步修正錯誤提升分類準確率，在多數分類問題中表現穩定優異。\n\n• 應用情境垃圾郵件識別：根據郵件內容特徵分類為「正常郵件」或「垃圾郵件」，用於電子郵件服務的自動過濾功能。\n\n疾病診斷：結合病患檢查數值與症狀資料，預測其是否罹患某種疾病，常見於糖尿病、心臟病等醫療分類任務。\n\n客戶流失預測：分析用戶行為與歷史紀錄，預測客戶是否有流失傾向，以利企業提前介入挽留。\n\n金融風險評估：用於信用評分、詐欺偵測等，將個體分類為「高風險」或「低風險」，支援金融決策。\n\n##### C. 非監督式學習（Unsupervised Learning）\n\n非監督式學習是一種在資料無標註（即無明確答案或類別）的情況下進行分析的學習方法，目的是從資料中找出內在結構、群集或分佈模式。與監督式學習不同，它不依賴預先標註的輸出標籤，常見於探索性資料分析、特徵降維與資料建模前的預處理階段。\n\n• 常見演算法 K-means（K-means Clustering）：透過將資料點分配至最接近的中心點（Cluster Centroid），最終劃分出K 個群集。演算法簡單且高效，適合群集結構明確的資料。須事先給定K 值，對初始點與異常值敏感。\n\nDBSCAN（Density-Based Spatial Clustering of Applications with Noise）：基於密度的分群方法，能發現任意形狀的群集，並自動將離群點標示為雜訊 （Noise）。不需預先給定群集數，適合含雜訊或密度變化明顯的資料。\n\n階層式分群（Hierarchical Clustering）：建立資料之間的樹狀層級關係（如 Dendrogram），可自上而下或自下而上逐層劃分群集。無需指定群集數，適合探索資料分群層級結構。\n\n主成分分析（PCA, Principal Component Analysis）：常見的降維方法，用於資料視覺化與特徵壓縮，將原始變數轉換成若干主成分以保留最大變異。\n\n• 應用情境顧客分群（Customer Segmentation）：依據購買紀錄、網站行為等特徵自動分群，有助於行銷策略制定、客戶關係管理與個人化推薦。\n\n異常偵測（Anomaly Detection）：針對工業生產、金融詐欺、資安入侵等情境，辨識與多數樣本明顯不同的資料點。\n\n特徵壓縮與資料視覺化：如使用PCA 進行高維資料的降維後視覺呈現，幫助觀察潛在結構。\n\n##### D. 深度學習（Deep Learning）\n\n深度學習是以多層神經網路為基礎的學習架構，透過大量資料與層層抽象的特徵表示能力，在影像辨識、自然語言處理、語音辨識等任務中展現出卓越表現。\n\n相較傳統機器學習演算法，深度學習更依賴資料規模與計算資源，但在高維與非線性問題上表現優越。\n\n• 常見演算法卷積神經網路（Convolutional Neural Network, CNN）：主要用於處理圖像資料與空間特徵萃取。透過多層卷積、池化與非線性激活函數組成的網路架構，自動辨識局部特徵並保留其位置不變性。常用於人臉辨識、工業檢測、自動駕駛等任務。\n\n遞迴神經網路（Recurrent Neural Network, RNN）：專門處理時間序列資料（如語音、文字、感測器資料），能記住前一步的輸出資訊。但傳統RNN 面臨長期依賴問題，故實務上多採用改良版本如LSTM（長短期記憶）或GRU（門控遞迴單元）。\n\nTransformer 架構：透過自注意力（Self-Attention）機制建構語意關聯，在NLP 領域成為主流。代表模型如BERT（雙向編碼器表示）、GPT（生成式預訓練轉換器）等，已廣泛應用於語意理解、生成式任務與跨模態學習。\n\n• 應用情境醫療影像診斷：透過CNN 模型自動辨識X 光片或MRI 中異常病灶，協助醫師快速篩檢疾病。\n\n智慧客服/語音助理：透過Transformer 架構建構語意理解與回應能力，自動回答用戶問題。\n\n自動駕駛系統：整合深度學習模型進行多模態感知（攝影機、雷達、LIDAR），辨識車道、行人、交通號誌等。\n\n金融風險預測：運用LSTM 處理時序交易資料，進行信貸違約、詐欺偵測等風險判別。\n\n##### E. 強化式學習（Reinforcement Learning, RL）\n\n強化式學習是一種基於「試誤學習」的學習方法，透過智能體（Agent）在環境中不斷嘗試行動（Action）、觀察結果（State）、並根據獎勵（Reward）進行策略調整，最終學會達成任務目標的最優策略。與監督式學習不同之處在於，強化式學習無需明確標註資料，而是依靠互動經驗來學習。\n\n• 常見演算法 Q-learning：一種基於值函數的方法，透過表格或近似函數學習每個狀態-行為對的預期回報（Q 值），並根據最大Q 值選擇動作。適用於離散動作空間與較小的環境。\n\nDeep Q Network（DQN）：結合深度學習與Q-learning，使用深度神經網路近似Q 函數，能處理高維度的感知輸入（如圖像）。DQN 為Atari 遊戲中AI 打破人類紀錄的重要里程碑。\n\nPolicy Gradient（策略梯度）方法：直接學習從狀態到行為的機率分佈，透過最大化獲得的期望報酬來更新策略。代表方法如REINFORCE、Actor-Critic 架構等。\n\nProximal Policy Optimization（近端策略優化, PPO）\n\nPPO 是一種近年廣泛應用的強化式學習演算法，由OpenAI 提出，屬於策略梯度（Policy Gradient）方法的改良版本。其核心目標是平衡「策略更新幅度」\n\n與「學習效率」，避免策略在每次更新時產生過大的變動，導致學習不穩定或崩潰。常用於多種強化式學習任務，包含遊戲、機器人操作等。\n\n• 應用情境自駕車控制：車輛透過感測器與控制器，在模擬或真實道路環境中學習轉向、加速與煞車策略。\n\n智慧倉儲與物流：機器人在倉儲系統中學習最佳路徑與貨物搬運策略，提升作業效率。\n\n資源調度與配置：強化式學習可用於雲端資源分配、CPU 負載均衡、網路頻寬最佳化等問題。\n\n遊戲AI 訓練：AlphaGo、AlphaStar 等均以強化式學習為核心，在圍棋、星海爭霸等遊戲中達成超越人類表現的成就。\n\n##### F. 生成式模型（Generative Models）\n\n生成式模型的核心任務是學習資料的機率分佈，並據此生成與訓練資料相似的新樣本。與判別式模型僅關注「分類」不同，生成式模型強調「創造」，在多媒體生成、模擬學習與資料擴增等情境中具有高度價值。\n\n• 常見演算法生成對抗網路（Generative Adversarial Networks, GANs）：透過兩個神經網路 （生成器與判別器）對抗訓練，生成器負責產生偽造樣本，判別器判斷其真偽，雙方互相提升。適用於圖像生成、人臉合成、風格轉換等任務。缺點是訓練不穩定，可能出現模式崩潰（Mode Collapse）。\n\n變分自編碼器（Variational Autoencoder, VAE）：VAE 透過最大化資料潛在機率分佈下的下界進行訓練，具有良好的潛在空間結構，適合用於異常偵測、語音重建與隱含變數建模。生成樣本相對平滑，但有時缺乏銳利細節。\n\n擴散模型（Diffusion Models）：近期最具突破的生成技術。透過逐步加入與移除噪聲的方式訓練模型，學習資料轉換的反向過程。代表應用如OpenAI 的DALL·E 2、Stable Diffusion 等，在生成圖像品質方面具明顯優勢。缺點是生成速度慢、運算成本高。\n\n• 應用情境影像與藝術生成：GAN 與擴散模型能自動創作高解析度圖像，例如虛構人物、人像上色、風格遷移（如照片轉成梵谷畫風）。\n\n語音與文本合成：VAE 與Transformer 架構可用於語音合成（如TTS）、機器翻譯與長文本自動生成（如GPT、LLaMA）。\n\n資料補全與模擬：在醫療、金融、零售等領域，生成模型可協助填補缺失資料、模擬極端案例（如疾病異常圖像、極端交易情境）以強化AI 模型訓練。",
+  "content": "# 數據準備與模型選擇\n\n5.1\n\n## 數據準備與模型選擇\n\n### 1. 前言與章節導覽\n\n在人工智慧（AI）的實際導入過程中，「資料」的準備與處理往往是成敗的關鍵。業界經常引用一句話：「垃圾進，垃圾出（Garbage In, Garbage Out, GIGO）」，即明確指出了資料品質直接影響AI 模型的可靠性與準確度。因此，在完成前期AI 導入規劃後，下一步必須聚焦在如何有效地準備資料，並根據業務情境、問題類型與資料特性，選擇最適合的模型架構，以達成業務價值目標。本節將資料準備與模型選擇分為三步驟進行介紹。\n\n### 2. 資料收集與清理\n\n在AI 導入流程中，資料品質直接決定了模型的表現和效能。資料不僅是AI 模型的基礎，更是能否準確推理與預測的關鍵。為了確保AI 系統能夠穩定並有效地運行，建立系統化的「資料收集與清理」流程將對整體專案的成功至關重要。\n\n##### A. 資料來源與收集\n\n資料來源可分為內部資料與外部資料，不同來源的資料會有不同的存取方式、資料結構以及法規限制。以下示例幾種常見的資訊來源：\n\n• 內部資料來源：\n\n◦ ERP（Enterprise Resource Planning）：這類資料包括銷售、庫存、採購、財務\n\n等企業內部核心業務系統的資料，通常是公司營運的基礎資料來源。\n\n◦ CRM（Customer Relationship Management）：包含顧客互動紀錄、服務歷程與\n\n回饋等，這些資料可用於進行客戶分群與行為預測。\n\n◦ 機台資料（Machine Data）：來自生產機台、設備與工廠自動化系統的資料，\n\n涵蓋運轉狀態、操作參數、故障紀錄與維護歷程等。製造業可利用這些資料\n\n進行生產排程優化、異常偵測、良率分析與預測保養，是智慧製造（Smart Manufacturing）的關鍵資產。\n\n◦ 使用者使用行為資料（POS、Web/App 紀錄、IoT 裝置等）：記錄使用者與產\n\n品互動的方式與頻率，例如軟體使用路徑、功能點擊熱區、登入與停留時間等。SaaS 業者可藉此追蹤產品黏著度與使用效率；消費型產品則能以此進行功能優化與升級設計。\n\n◦ 內部報表與流程紀錄：包含作業流程、內部稽核、法遵紀錄等，特別是在金\n\n融、醫療、政府等高度管制產業中，這些資料對風險管理與合規審查極為關鍵。\n\n• 外部資料來源：\n\n◦ 開放資料：包含政府開放資料平台、社群媒體API、氣象機構、商業資料平\n\n台等，能以程式介面自動擷取最新資料，應用於政策分析、市場研究或風險預測等情境。\n\n◦ Web Scraping（網頁爬蟲）：從網站上自動擷取網頁內容，例如價格資訊、評\n\n論資料、新聞文章等，用於市場競爭分析、輿情監測與文本探勘等用途。需特別注意網站條款與資料使用合規性。\n\n◦ 商業資料庫與數據供應商：如Refinitiv、Statista、Experian 等專業資料平台，\n\n提供授權購買的市場資料、財務資料、信用評等資訊等，廣泛用於金融投資、企業徵信、產業趨勢分析等應用。\n\n##### B. 清理與品質檢核\n\n資料清理是將原始資料進行內容確認與雜訊清理的步驟，這一過程主要處理以下幾個常見情況：\n\n• 缺失值（Missing Values）處理：常見方法包括：使用平均數/中位數填補\n\n（Mean/Median Imputation）、前後值填補（Forward/Backward Fill）、插值法 （Interpolation）。若缺失比例過高，則應考慮刪除該欄位或使用模型推估填補。\n\n• 重複值（Duplicate Values）清除：針對主鍵欄位（如顧客編號、交易編號）進\n\n行重複值檢查。使用如pandas、Spark DataFrame 的.drop_duplicates（）方法進行去重處理。\n\n• 異常值（Outliers）檢測與處理：使用統計方法，如Z-score 或IQR（Interquartile\n\nRange）篩選異常資料。也可利用機器學習模型，如Isolation Forest、LOF（Local Outlier Factor）進行異常值偵測。\n\n• 資料品質（Data Quality）評估指標：\n\n◦ 完整性（Completeness）：資料是否完整，是否缺少關鍵欄位。\n\n◦ 一致性（Consistency）：資料欄位間邏輯是否一致，像是年齡欄位不應為負數。\n\n◦ 準確性（Accuracy）：資料值是否準確並反映真實世界的狀況。\n\n◦ 即時性（Timeliness）：資料是否是最新的，尤其是動態變化的數據。\n\n◦ 唯一性（Uniqueness）：資料是否有重複或衝突，特別是主鍵欄位。\n\n### 3. 資料標註與特徵工程\n\n特徵工程是將原始資料轉換為適合機器學習模型學習的格式與結構，目的是提升模型的表達力與預測效能。\n\n##### A. 特徵處理流程\n\n• 數值特徵轉換：\n\n◦ 正規化（Normalization）：將數值轉換至0 到1 之間，避免由於不同特徵的單\n\n位差異造成模型學習偏誤。常見方法是將最小值轉換為0，最大值轉換為1。\n\n◦ 標準化（Standardization）：將數值轉換為平均數為0、標準差為1 的分布，\n\n通常使用Z-score。這對於需要計算梯度的模型（如線性迴歸、支持向量機等）\n\n特別有效。\n\n• 類別特徵處理：\n\n◦ 獨熱編碼（One-hot Encoding）：將類別轉為二進位欄位，適用於無序分類變\n\n數。\n\n◦ 標籤編碼（Label Encoding）：將類別轉為整數，適用於有序類別（如高中、\n\n學士、碩士）。\n\n• 時間與結構特徵擴增：\n\n◦ 時間戳處理：從時間戳中擷取週期性特徵（如星期幾、上午/下午、工作日/週\n\n末），幫助模型捕捉時間與週期性模式。\n\n◦ 文字處理：從文字欄位中抽取關鍵詞，或轉換為數值形式。常見方法包括TF-\n\nIDF （Term Frequency-Inverse Document Frequency）和詞向量（Word Embeddings）等，將文字轉化為數值型資料，方便機器學習模型處理。\n\n##### B. 特徵選擇與降維\n\n• 特徵選擇（Feature Selection）：特徵選擇是從所有特徵中、挑選對模型預測效果\n\n影響較大，對預測結果最有用的特徵。常見的方法有：\n\n◦ 資訊增益（Information Gain）：衡量特徵在預測中帶來的資訊量。\n\n◦ 皮爾森相關係數（Pearson Correlation Coefficient）：衡量數值特徵之間的線性\n\n相關性。\n\n◦ L1 正則化（Lasso）：通過懲罰模型的複雜度來選擇最具影響力的特徵，常用\n\n於線性模型中。\n\n◦ 根據資訊增益（Information Gain）、皮爾森相關係數、L1 正則化等方法，挑\n\n選對模型預測效果影響較大的變數。\n\n• 降維（Dimensionality Reduction）：降維是將高維資料轉換為低維資料，同時保\n\n留原有的資訊。常見的方法包括：\n\n◦ 主成分分析（PCA）：通過找到資料中方差最大的方向來減少維度，保留大部\n\n分資料訊息。PCA 適用於高維資料，能減少計算負擔並提高模型效能。\n\n◦ t-SNE / UMAP：常用於視覺化資料分佈，便於人為觀察特徵空間的分類趨勢。\n\n##### C. 自動特徵工程（Auto Feature Engineering）\n\n隨著AutoML（自動化機器學習）技術的快速發展，越來越多的機器學習平台\n\n如Google AutoML、H2O.ai、AutoKeras 和TPOT 等，都提供了自動化的特徵工程功能。這些工具通過智慧算法自動生成、選擇特徵，使得資料科學家不再需要手動執行繁瑣的特徵處理過程、節省大量的時間和精力。自動化特徵生成與選擇的核心功能如下：\n\n• 自動特徵創建：\n\n◦ AutoML 工具可以自動創建新的特徵，通過資料轉換、組合等方式生成新的\n\n變數。例如，將日期資料拆分為年、月、日、星期等，或基於現有特徵進行數學運算（如加法、乘法、對數轉換等）。\n\n◦ 有些平台可以進行高階的特徵工程操作，如多項式特徵的生成，或在時間序\n\n列資料中，根據滯後和滯後交互生成時間特徵。\n\n• 自動篩選有用特徵：\n\n◦ 在特徵工程中，選擇正確的特徵對於模型的表現至關重要。AutoML 可以通\n\n過不同的算法自動篩選出對目標變量影響最大的特徵。例如，通過利用隨機森林（Random Forest）或L1 正則化（Lasso）等技術，來評估特徵對模型性能的貢獻，從而選擇最有效的特徵集。\n\n◦ 這些工具會對特徵進行評估，並且會自動刪除冗餘或低貢獻的特徵，減少模\n\n型的複雜度。\n\n• 特徵組合與互動作用檢測：\n\n◦ 另一個自動化特徵工程的優勢是能夠檢測並創建特徵之間的交互作用\n\n（Interaction）。這些工具會自動測試各特徵組合對預測結果的影響，幫助發現隱藏的關聯性，從而提高模型的預測準確度。\n\n• 適應不同的資料集特徵：\n\n◦ AutoML 工具能夠根據不同資料集的特性自動選擇和調整特徵處理方法。例\n\n如，對於類別型資料，它會自動選擇合適的編碼方法（如One-hot encoding 或 Target encoding）；對於缺失資料，則會選擇合適的填補方式，如均值填補或基於預測的填補方法。\n\n• 基於模型的反饋進行特徵選擇：\n\n◦ 高端的AutoML 系統不僅依賴傳統的數據處理規則，還會根據模型的反饋自\n\n動調整特徵。通過不斷地訓練和驗證多個模型，這些工具能夠智慧選擇最佳的特徵集，以提高最終預測模型的性能。\n\n• AutoML 在特徵工程中的優勢：\n\n◦ 加速資料科學流程：自動化特徵生成和篩選極大地縮短了從原始資料到模型\n\n訓練的時間，資料科學家可以將更多時間專注於分析和優化模型本身。\n\n◦ 降低技術門檻：即便是對機器學習知識較少的使用者，借助AutoML 工具也\n\n能完成高效的特徵工程和模型建構，進而促進更多業界領域的AI 應用。\n\n◦ 高模型效能：透過自動生成和篩選特徵，AutoML 可以快速評估大量特徵組\n\n合，找到最有助於提高模型性能的特徵，從而提升預測準確性。\n\n### 4. 模型選擇策略\n\n在AI 專案中，「模型選擇」是技術落地前最具策略性的一項決策。它不僅關係到預測準確率與效能表現，更將深遠影響整體系統的可維護性、擴展性與運營成本。若模型選擇不當，將可能導致訓練耗時過長、部署困難，甚至在實務應用中無法產生穩定成效。\n\n##### A. 監督式學習 - 迴歸任務（Regression）\n\n迴歸任務的目的是預測一個連續數值型的結果，常見於需要估計數值大小的問題。迴歸模型預測的輸出通常是實數，適用於多數與數值預測相關的應用情境：\n\n• 常見演算法如下：\n\n◦ 線性迴歸（Linear Regression）：最簡單的迴歸方法，通過建立自變量與因變\n\n量之間的線性關係來進行預測。適用於資料具有線性關係的情況。\n\n◦ 決策樹迴歸（Decision Tree Regression）：基於樹狀結構進行迴歸預測，適用\n\n於非線性迴歸問題。具有較強的解釋性，但可能過度擬合。\n\n◦ 隨機森林迴歸（Random Forest Regression）：利用多棵決策樹的平均預測結果\n\n來提高預測準確度，減少過度擬合的風險。\n\n◦ 梯度提升樹（Gradient Boosting Regression）：一種集成學習方法，通過多次\n\n迭代來提升模型準確度，對於複雜的資料集表現良好。\n\n• 應用情境：\n\n◦ 銷售量預測：預測未來某一段時間的銷售額，協助企業進行庫存管理與生產\n\n規劃。\n\n◦ 房價預測：根據房地產市場的多種因素（如地段、房屋面積等）預測房價。\n\n##### B. 監督式學習 - 分類任務（Classification）\n\n分類任務的目的是將資料點分類到不同的類別中，通常會將資料分為兩個或多個類別，並進行預測。分類問題是機器學習中的常見應用，尤其適用於需要將資料歸類為離散標籤的問題。\n\n• 常見演算法\n\n◦ 邏輯迴歸（Logistic Regression）：用於二元或多元分類問題，透過Sigmoid 函\n\n數將預測值轉為機率，再根據機率進行分類判斷。適用於特徵與類別之間具線性可分的情況。\n\n◦ 決策樹分類（Decision Tree Classification）：以條件分支的方式進行分類，具\n\n備良好的解釋性。適用於處理非線性與混合型特徵的分類問題，但容易過度擬合。\n\n◦ 隨機森林分類（Random Forest Classification）：結合多棵決策樹進行分類投\n\n票，提升準確度並降低單一模型的過擬合風險，適合處理高維度與複雜結構的資料。\n\n◦ 支持向量機（Support Vector Machine, SVM）：尋找最佳超平面以分隔不同類\n\n別，對於高維資料或邊界清晰的分類問題表現良好，亦可透過核函數處理非線性分類。\n\n◦ K 最近鄰（K-Nearest Neighbors, KNN）：根據鄰近資料的類別進行預測，簡\n\n單直觀但對資料量與維度敏感，適合用於小型資料集或特徵空間分布明顯的情境。\n\n◦ 梯度提升樹分類（Gradient Boosting Classification）:屬於集成學習方法，透過\n\n逐步修正錯誤提升分類準確率，在多數分類問題中表現穩定優異。\n\n• 應用情境\n\n◦ 垃圾郵件識別：根據郵件內容特徵分類為「正常郵件」或「垃圾郵件」，用於\n\n電子郵件服務的自動過濾功能。\n\n◦ 疾病診斷：結合病患檢查數值與症狀資料，預測其是否罹患某種疾病，常見\n\n於糖尿病、心臟病等醫療分類任務。\n\n◦ 客戶流失預測：分析用戶行為與歷史紀錄，預測客戶是否有流失傾向，以利\n\n企業提前介入挽留。\n\n◦ 金融風險評估：用於信用評分、詐欺偵測等，將個體分類為「高風險」或「低\n\n風險」，支援金融決策。\n\n##### C. 非監督式學習（Unsupervised Learning）\n\n非監督式學習是一種在資料無標註（即無明確答案或類別）的情況下進行分析的學習方法，目的是從資料中找出內在結構、群集或分佈模式。與監督式學習不同，它不依賴預先標註的輸出標籤，常見於探索性資料分析、特徵降維與資料建模前的預處理階段。\n\n• 常見演算法\n\n◦ K-means（K-means Clustering）：透過將資料點分配至最接近的中心點（Cluster\n\nCentroid），最終劃分出K 個群集。演算法簡單且高效，適合群集結構明確的資料。須事先給定K 值，對初始點與異常值敏感。\n\n◦ DBSCAN（Density-Based Spatial Clustering of Applications with Noise）：基於\n\n密度的分群方法，能發現任意形狀的群集，並自動將離群點標示為雜訊 （Noise）。不需預先給定群集數，適合含雜訊或密度變化明顯的資料。\n\n◦ 階層式分群（Hierarchical Clustering）：建立資料之間的樹狀層級關係（如\n\nDendrogram），可自上而下或自下而上逐層劃分群集。無需指定群集數，適合探索資料分群層級結構。\n\n◦ 主成分分析（PCA, Principal Component Analysis）：常見的降維方法，用於資\n\n料視覺化與特徵壓縮，將原始變數轉換成若干主成分以保留最大變異。\n\n• 應用情境\n\n◦ 顧客分群（Customer Segmentation）：依據購買紀錄、網站行為等特徵自動分\n\n群，有助於行銷策略制定、客戶關係管理與個人化推薦。\n\n◦ 異常偵測（Anomaly Detection）：針對工業生產、金融詐欺、資安入侵等情境，\n\n辨識與多數樣本明顯不同的資料點。\n\n◦ 特徵壓縮與資料視覺化：如使用PCA 進行高維資料的降維後視覺呈現，幫\n\n助觀察潛在結構。\n\n##### D. 深度學習（Deep Learning）\n\n深度學習是以多層神經網路為基礎的學習架構，透過大量資料與層層抽象的特徵表示能力，在影像辨識、自然語言處理、語音辨識等任務中展現出卓越表現。\n\n相較傳統機器學習演算法，深度學習更依賴資料規模與計算資源，但在高維與非線性問題上表現優越。\n\n• 常見演算法\n\n◦ 卷積神經網路（Convolutional Neural Network, CNN）：主要用於處理圖像資\n\n料與空間特徵萃取。透過多層卷積、池化與非線性激活函數組成的網路架構，自動辨識局部特徵並保留其位置不變性。常用於人臉辨識、工業檢測、自動駕駛等任務。\n\n◦ 遞迴神經網路（Recurrent Neural Network, RNN）：專門處理時間序列資料（如\n\n語音、文字、感測器資料），能記住前一步的輸出資訊。但傳統RNN 面臨長期依賴問題，故實務上多採用改良版本如LSTM（長短期記憶）或GRU（門控遞迴單元）。\n\n◦ Transformer 架構：透過自注意力（Self-Attention）機制建構語意關聯，在NLP\n\n領域成為主流。代表模型如BERT（雙向編碼器表示）、GPT（生成式預訓練轉換器）等，已廣泛應用於語意理解、生成式任務與跨模態學習。\n\n• 應用情境\n\n◦ 醫療影像診斷：透過CNN 模型自動辨識X 光片或MRI 中異常病灶，協助醫\n\n師快速篩檢疾病。\n\n◦ 智慧客服/語音助理：透過Transformer 架構建構語意理解與回應能力，自動\n\n回答用戶問題。\n\n◦ 自動駕駛系統：整合深度學習模型進行多模態感知（攝影機、雷達、LIDAR），\n\n辨識車道、行人、交通號誌等。\n\n◦ 金融風險預測：運用LSTM 處理時序交易資料，進行信貸違約、詐欺偵測等\n\n風險判別。\n\n##### E. 強化式學習（Reinforcement Learning, RL）\n\n強化式學習是一種基於「試誤學習」的學習方法，透過智能體（Agent）在環境中不斷嘗試行動（Action）、觀察結果（State）、並根據獎勵（Reward）進行策略調整，最終學會達成任務目標的最優策略。與監督式學習不同之處在於，強化式學習無需明確標註資料，而是依靠互動經驗來學習。\n\n• 常見演算法\n\n◦ Q-learning：一種基於值函數的方法，透過表格或近似函數學習每個狀態-行\n\n為對的預期回報（Q 值），並根據最大Q 值選擇動作。適用於離散動作空間與較小的環境。\n\n◦ Deep Q Network（DQN）：結合深度學習與Q-learning，使用深度神經網路近\n\n似Q 函數，能處理高維度的感知輸入（如圖像）。DQN 為Atari 遊戲中AI 打破人類紀錄的重要里程碑。\n\n◦ Policy Gradient（策略梯度）方法：直接學習從狀態到行為的機率分佈，透過\n\n最大化獲得的期望報酬來更新策略。代表方法如REINFORCE、Actor-Critic 架構等。\n\n◦ Proximal Policy Optimization（近端策略優化, PPO）\n\nPPO 是一種近年廣泛應用的強化式學習演算法，由OpenAI 提出，屬於策略梯度（Policy Gradient）方法的改良版本。其核心目標是平衡「策略更新幅度」\n\n與「學習效率」，避免策略在每次更新時產生過大的變動，導致學習不穩定或崩潰。常用於多種強化式學習任務，包含遊戲、機器人操作等。\n\n• 應用情境\n\n◦ 自駕車控制：車輛透過感測器與控制器，在模擬或真實道路環境中學習轉向、\n\n加速與煞車策略。\n\n◦ 智慧倉儲與物流：機器人在倉儲系統中學習最佳路徑與貨物搬運策略，提升\n\n作業效率。\n\n◦ 資源調度與配置：強化式學習可用於雲端資源分配、CPU 負載均衡、網路頻\n\n寬最佳化等問題。\n\n◦ 遊戲AI 訓練：AlphaGo、AlphaStar 等均以強化式學習為核心，在圍棋、星\n\n海爭霸等遊戲中達成超越人類表現的成就。\n\n##### F. 生成式模型（Generative Models）\n\n生成式模型的核心任務是學習資料的機率分佈，並據此生成與訓練資料相似的新樣本。與判別式模型僅關注「分類」不同，生成式模型強調「創造」，在多媒體生成、模擬學習與資料擴增等情境中具有高度價值。\n\n• 常見演算法\n\n◦ 生成對抗網路（Generative Adversarial Networks, GANs）：透過兩個神經網路\n\n（生成器與判別器）對抗訓練，生成器負責產生偽造樣本，判別器判斷其真偽，雙方互相提升。適用於圖像生成、人臉合成、風格轉換等任務。缺點是訓練不穩定，可能出現模式崩潰（Mode Collapse）。\n\n◦ 變分自編碼器（Variational Autoencoder, VAE）：VAE 透過最大化資料潛在機\n\n率分佈下的下界進行訓練，具有良好的潛在空間結構，適合用於異常偵測、語音重建與隱含變數建模。生成樣本相對平滑，但有時缺乏銳利細節。\n\n◦ 擴散模型（Diffusion Models）：近期最具突破的生成技術。透過逐步加入與\n\n移除噪聲的方式訓練模型，學習資料轉換的反向過程。代表應用如OpenAI 的DALL·E 2、Stable Diffusion 等，在生成圖像品質方面具明顯優勢。缺點是生成速度慢、運算成本高。\n\n• 應用情境\n\n◦ 影像與藝術生成：GAN 與擴散模型能自動創作高解析度圖像，例如虛構人\n\n物、人像上色、風格遷移（如照片轉成梵谷畫風）。\n\n◦ 語音與文本合成：VAE 與Transformer 架構可用於語音合成（如TTS）、機器\n\n翻譯與長文本自動生成（如GPT、LLaMA）。\n\n◦ 資料補全與模擬：在醫療、金融、零售等領域，生成模型可協助填補缺失資\n\n料、模擬極端案例（如疾病異常圖像、極端交易情境）以強化AI 模型訓練。",
   "contentFormat": "markdown",
   "headings": [
     {
@@ -98,7 +98,10 @@
         284.62,
         174.28
       ],
-      "id": "block-1"
+      "id": "block-1",
+      "nodeId": "mid-s1c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -112,7 +115,10 @@
         203.57,
         218.12
       ],
-      "id": "block-2"
+      "id": "block-2",
+      "nodeId": "mid-s1c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -125,7 +131,10 @@
         521.52,
         367.58
       ],
-      "id": "block-3"
+      "id": "block-3",
+      "nodeId": "mid-s1c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -139,7 +148,10 @@
         217.71,
         418.07
       ],
-      "id": "block-4"
+      "id": "block-4",
+      "nodeId": "mid-s1c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -152,7 +164,10 @@
         520.68,
         492.52
       ],
-      "id": "block-5"
+      "id": "block-5",
+      "nodeId": "mid-s1c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -166,7 +181,10 @@
         186.76,
         542.56
       ],
-      "id": "block-6"
+      "id": "block-6",
+      "nodeId": "mid-s1c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -179,11 +197,14 @@
         521.49,
         592.6
       ],
-      "id": "block-7"
+      "id": "block-7",
+      "nodeId": "mid-s1c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "內部資料來源：",
       "pageIndex": 142,
@@ -193,11 +214,15 @@
         181.96,
         617.56
       ],
-      "id": "block-8"
+      "id": "block-8",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "ERP（Enterprise Resource Planning）：這類資料包括銷售、庫存、採購、財務等企業內部核心業務系統的資料，通常是公司營運的基礎資料來源。",
       "pageIndex": 142,
       "bbox": [
@@ -206,11 +231,15 @@
         518.14,
         667.63
       ],
-      "id": "block-9"
+      "id": "block-9",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "CRM（Customer Relationship Management）：包含顧客互動紀錄、服務歷程與回饋等，這些資料可用於進行客戶分群與行為預測。",
       "pageIndex": 142,
       "bbox": [
@@ -219,11 +248,15 @@
         518.23,
         717.55
       ],
-      "id": "block-10"
+      "id": "block-10",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "機台資料（Machine Data）：來自生產機台、設備與工廠自動化系統的資料，涵蓋運轉狀態、操作參數、故障紀錄與維護歷程等。製造業可利用這些資料進行生產排程優化、異常偵測、良率分析與預測保養，是智慧製造（Smart Manufacturing）的關鍵資產。",
       "pageIndex": 142,
       "bbox": [
@@ -232,11 +265,15 @@
         521.82,
         767.38
       ],
-      "id": "block-11"
+      "id": "block-11",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "使用者使用行為資料（POS、Web/App 紀錄、IoT 裝置等）：記錄使用者與產品互動的方式與頻率，例如軟體使用路徑、功能點擊熱區、登入與停留時間等。SaaS 業者可藉此追蹤產品黏著度與使用效率；消費型產品則能以此進行功能優化與升級設計。",
       "pageIndex": 143,
       "bbox": [
@@ -245,11 +282,15 @@
         518.37,
         239.15
       ],
-      "id": "block-12"
+      "id": "block-12",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "內部報表與流程紀錄：包含作業流程、內部稽核、法遵紀錄等，特別是在金融、醫療、政府等高度管制產業中，這些資料對風險管理與合規審查極為關鍵。",
       "pageIndex": 143,
       "bbox": [
@@ -258,11 +299,14 @@
         518.2,
         314.18
       ],
-      "id": "block-13"
+      "id": "block-13",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "外部資料來源：",
       "pageIndex": 143,
@@ -272,11 +316,15 @@
         181.96,
         339.14
       ],
-      "id": "block-14"
+      "id": "block-14",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "開放資料：包含政府開放資料平台、社群媒體API、氣象機構、商業資料平台等，能以程式介面自動擷取最新資料，應用於政策分析、市場研究或風險預測等情境。",
       "pageIndex": 143,
       "bbox": [
@@ -285,11 +333,15 @@
         518.4,
         414.14
       ],
-      "id": "block-15"
+      "id": "block-15",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "Web Scraping（網頁爬蟲）：從網站上自動擷取網頁內容，例如價格資訊、評論資料、新聞文章等，用於市場競爭分析、輿情監測與文本探勘等用途。需特別注意網站條款與資料使用合規性。",
       "pageIndex": 143,
       "bbox": [
@@ -298,11 +350,15 @@
         518.23,
         489.16
       ],
-      "id": "block-16"
+      "id": "block-16",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "商業資料庫與數據供應商：如Refinitiv、Statista、Experian 等專業資料平台，提供授權購買的市場資料、財務資料、信用評等資訊等，廣泛用於金融投資、企業徵信、產業趨勢分析等應用。",
       "pageIndex": 143,
       "bbox": [
@@ -311,7 +367,10 @@
         521.41,
         564.16
       ],
-      "id": "block-17"
+      "id": "block-17",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -325,7 +384,10 @@
         186.76,
         614.2
       ],
-      "id": "block-18"
+      "id": "block-18",
+      "nodeId": "mid-s1c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -338,11 +400,14 @@
         518.08,
         664.15
       ],
-      "id": "block-19"
+      "id": "block-19",
+      "nodeId": "mid-s1c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "缺失值（Missing Values）處理：常見方法包括：使用平均數/中位數填補 （Mean/Median Imputation）、前後值填補（Forward/Backward Fill）、插值法 （Interpolation）。若缺失比例過高，則應考慮刪除該欄位或使用模型推估填補。",
       "pageIndex": 143,
@@ -352,11 +417,14 @@
         521.88,
         739.15
       ],
-      "id": "block-20"
+      "id": "block-20",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "重複值（Duplicate Values）清除：針對主鍵欄位（如顧客編號、交易編號）進行重複值檢查。使用如pandas、Spark DataFrame 的.drop_duplicates（）方法進行去重處理。",
       "pageIndex": 144,
@@ -366,11 +434,14 @@
         518.28,
         164.15
       ],
-      "id": "block-21"
+      "id": "block-21",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "異常值（Outliers）檢測與處理：使用統計方法，如Z-score 或IQR（Interquartile Range）篩選異常資料。也可利用機器學習模型，如Isolation Forest、LOF（Local Outlier Factor）進行異常值偵測。",
       "pageIndex": 144,
@@ -380,11 +451,14 @@
         521.82,
         239.15
       ],
-      "id": "block-22"
+      "id": "block-22",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資料品質（Data Quality）評估指標：",
       "pageIndex": 144,
@@ -394,11 +468,15 @@
         297.67,
         264.14
       ],
-      "id": "block-23"
+      "id": "block-23",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "完整性（Completeness）：資料是否完整，是否缺少關鍵欄位。",
       "pageIndex": 144,
       "bbox": [
@@ -407,11 +485,15 @@
         449.85,
         289.1
       ],
-      "id": "block-24"
+      "id": "block-24",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "一致性（Consistency）：資料欄位間邏輯是否一致，像是年齡欄位不應為負數。",
       "pageIndex": 144,
       "bbox": [
@@ -420,11 +502,15 @@
         521.88,
         314.18
       ],
-      "id": "block-25"
+      "id": "block-25",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "準確性（Accuracy）：資料值是否準確並反映真實世界的狀況。",
       "pageIndex": 144,
       "bbox": [
@@ -433,11 +519,15 @@
         452.52,
         339.14
       ],
-      "id": "block-26"
+      "id": "block-26",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "即時性（Timeliness）：資料是否是最新的，尤其是動態變化的數據。",
       "pageIndex": 144,
       "bbox": [
@@ -446,11 +536,15 @@
         484.56,
         364.1
       ],
-      "id": "block-27"
+      "id": "block-27",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "唯一性（Uniqueness）：資料是否有重複或衝突，特別是主鍵欄位。",
       "pageIndex": 144,
       "bbox": [
@@ -459,7 +553,10 @@
         475.68,
         389.18
       ],
-      "id": "block-28"
+      "id": "block-28",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -473,7 +570,10 @@
         231.76,
         439.67
       ],
-      "id": "block-29"
+      "id": "block-29",
+      "nodeId": "mid-s1c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -486,7 +586,10 @@
         517.93,
         489.16
       ],
-      "id": "block-30"
+      "id": "block-30",
+      "nodeId": "mid-s1c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -500,11 +603,14 @@
         174.16,
         539.2
       ],
-      "id": "block-31"
+      "id": "block-31",
+      "nodeId": "mid-s1c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "數值特徵轉換：",
       "pageIndex": 144,
@@ -514,11 +620,15 @@
         181.96,
         564.16
       ],
-      "id": "block-32"
+      "id": "block-32",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "正規化（Normalization）：將數值轉換至0 到1 之間，避免由於不同特徵的單位差異造成模型學習偏誤。常見方法是將最小值轉換為0，最大值轉換為1。",
       "pageIndex": 144,
       "bbox": [
@@ -527,11 +637,15 @@
         521.88,
         614.2
       ],
-      "id": "block-33"
+      "id": "block-33",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "標準化（Standardization）：將數值轉換為平均數為0、標準差為1 的分布，通常使用Z-score。這對於需要計算梯度的模型（如線性迴歸、支持向量機等） 特別有效。",
       "pageIndex": 144,
       "bbox": [
@@ -540,11 +654,14 @@
         524.44,
         689.23
       ],
-      "id": "block-34"
+      "id": "block-34",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "類別特徵處理：",
       "pageIndex": 144,
@@ -554,11 +671,15 @@
         181.96,
         714.19
       ],
-      "id": "block-35"
+      "id": "block-35",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "獨熱編碼（One-hot Encoding）：將類別轉為二進位欄位，適用於無序分類變數。",
       "pageIndex": 144,
       "bbox": [
@@ -567,11 +688,15 @@
         518.12,
         764.22
       ],
-      "id": "block-36"
+      "id": "block-36",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "標籤編碼（Label Encoding）：將類別轉為整數，適用於有序類別（如高中、學士、碩士）。",
       "pageIndex": 145,
       "bbox": [
@@ -580,11 +705,14 @@
         518.47,
         139.07
       ],
-      "id": "block-37"
+      "id": "block-37",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "時間與結構特徵擴增：",
       "pageIndex": 145,
@@ -594,11 +722,15 @@
         219.79,
         164.15
       ],
-      "id": "block-38"
+      "id": "block-38",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "時間戳處理：從時間戳中擷取週期性特徵（如星期幾、上午/下午、工作日/週末），幫助模型捕捉時間與週期性模式。",
       "pageIndex": 145,
       "bbox": [
@@ -607,11 +739,15 @@
         518.28,
         214.07
       ],
-      "id": "block-39"
+      "id": "block-39",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "文字處理：從文字欄位中抽取關鍵詞，或轉換為數值形式。常見方法包括TF- IDF （Term Frequency-Inverse Document Frequency）和詞向量（Word Embeddings）等，將文字轉化為數值型資料，方便機器學習模型處理。",
       "pageIndex": 145,
       "bbox": [
@@ -620,7 +756,10 @@
         521.84,
         289.1
       ],
-      "id": "block-40"
+      "id": "block-40",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -634,11 +773,14 @@
         186.76,
         339.14
       ],
-      "id": "block-41"
+      "id": "block-41",
+      "nodeId": "mid-s1c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "特徵選擇（Feature Selection）：特徵選擇是從所有特徵中、挑選對模型預測效果影響較大，對預測結果最有用的特徵。常見的方法有：",
       "pageIndex": 145,
@@ -648,11 +790,15 @@
         518.01,
         389.18
       ],
-      "id": "block-42"
+      "id": "block-42",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "資訊增益（Information Gain）：衡量特徵在預測中帶來的資訊量。",
       "pageIndex": 145,
       "bbox": [
@@ -661,11 +807,15 @@
         467.4,
         414.14
       ],
-      "id": "block-43"
+      "id": "block-43",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "皮爾森相關係數（Pearson Correlation Coefficient）：衡量數值特徵之間的線性相關性。",
       "pageIndex": 145,
       "bbox": [
@@ -674,11 +824,15 @@
         518.25,
         464.2
       ],
-      "id": "block-44"
+      "id": "block-44",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "L1 正則化（Lasso）：通過懲罰模型的複雜度來選擇最具影響力的特徵，常用於線性模型中。",
       "pageIndex": 145,
       "bbox": [
@@ -687,11 +841,15 @@
         517.97,
         514.12
       ],
-      "id": "block-45"
+      "id": "block-45",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "根據資訊增益（Information Gain）、皮爾森相關係數、L1 正則化等方法，挑選對模型預測效果影響較大的變數。",
       "pageIndex": 145,
       "bbox": [
@@ -700,11 +858,14 @@
         518.13,
         564.16
       ],
-      "id": "block-46"
+      "id": "block-46",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "降維（Dimensionality Reduction）：降維是將高維資料轉換為低維資料，同時保留原有的資訊。常見的方法包括：",
       "pageIndex": 145,
@@ -714,11 +875,15 @@
         518.24,
         614.2
       ],
-      "id": "block-47"
+      "id": "block-47",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "主成分分析（PCA）：通過找到資料中方差最大的方向來減少維度，保留大部分資料訊息。PCA 適用於高維資料，能減少計算負擔並提高模型效能。",
       "pageIndex": 145,
       "bbox": [
@@ -727,11 +892,15 @@
         518.23,
         664.15
       ],
-      "id": "block-48"
+      "id": "block-48",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "t-SNE / UMAP：常用於視覺化資料分佈，便於人為觀察特徵空間的分類趨勢。",
       "pageIndex": 145,
       "bbox": [
@@ -740,7 +909,10 @@
         521.88,
         689.23
       ],
-      "id": "block-49"
+      "id": "block-49",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -754,7 +926,10 @@
         340.29,
         739.15
       ],
-      "id": "block-50"
+      "id": "block-50",
+      "nodeId": "mid-s1c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -767,7 +942,10 @@
         518.2,
         764.22
       ],
-      "id": "block-51"
+      "id": "block-51",
+      "nodeId": "mid-s1c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -780,11 +958,14 @@
         518.09,
         189.11
       ],
-      "id": "block-52"
+      "id": "block-52",
+      "nodeId": "mid-s1c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "自動特徵創建：",
       "pageIndex": 146,
@@ -794,11 +975,15 @@
         181.96,
         214.07
       ],
-      "id": "block-53"
+      "id": "block-53",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "AutoML 工具可以自動創建新的特徵，通過資料轉換、組合等方式生成新的變數。例如，將日期資料拆分為年、月、日、星期等，或基於現有特徵進行數學運算（如加法、乘法、對數轉換等）。",
       "pageIndex": 146,
       "bbox": [
@@ -807,11 +992,15 @@
         518.25,
         289.1
       ],
-      "id": "block-54"
+      "id": "block-54",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "有些平台可以進行高階的特徵工程操作，如多項式特徵的生成，或在時間序列資料中，根據滯後和滯後交互生成時間特徵。",
       "pageIndex": 146,
       "bbox": [
@@ -820,11 +1009,14 @@
         518.2,
         339.14
       ],
-      "id": "block-55"
+      "id": "block-55",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "自動篩選有用特徵：",
       "pageIndex": 146,
@@ -834,11 +1026,15 @@
         207.19,
         364.1
       ],
-      "id": "block-56"
+      "id": "block-56",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "在特徵工程中，選擇正確的特徵對於模型的表現至關重要。AutoML 可以通過不同的算法自動篩選出對目標變量影響最大的特徵。例如，通過利用隨機森林（Random Forest）或L1 正則化（Lasso）等技術，來評估特徵對模型性能的貢獻，從而選擇最有效的特徵集。",
       "pageIndex": 146,
       "bbox": [
@@ -847,11 +1043,15 @@
         518.37,
         464.2
       ],
-      "id": "block-57"
+      "id": "block-57",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "這些工具會對特徵進行評估，並且會自動刪除冗餘或低貢獻的特徵，減少模型的複雜度。",
       "pageIndex": 146,
       "bbox": [
@@ -860,11 +1060,14 @@
         518.2,
         514.12
       ],
-      "id": "block-58"
+      "id": "block-58",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "特徵組合與互動作用檢測：",
       "pageIndex": 146,
@@ -874,11 +1077,15 @@
         244.99,
         539.2
       ],
-      "id": "block-59"
+      "id": "block-59",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "另一個自動化特徵工程的優勢是能夠檢測並創建特徵之間的交互作用 （Interaction）。這些工具會自動測試各特徵組合對預測結果的影響，幫助發現隱藏的關聯性，從而提高模型的預測準確度。",
       "pageIndex": 146,
       "bbox": [
@@ -887,11 +1094,14 @@
         517.97,
         614.2
       ],
-      "id": "block-60"
+      "id": "block-60",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "適應不同的資料集特徵：",
       "pageIndex": 146,
@@ -901,11 +1111,15 @@
         232.39,
         639.19
       ],
-      "id": "block-61"
+      "id": "block-61",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "AutoML 工具能夠根據不同資料集的特性自動選擇和調整特徵處理方法。例如，對於類別型資料，它會自動選擇合適的編碼方法（如One-hot encoding 或 Target encoding）；對於缺失資料，則會選擇合適的填補方式，如均值填補或基於預測的填補方法。",
       "pageIndex": 146,
       "bbox": [
@@ -914,11 +1128,14 @@
         521.78,
         755.82
       ],
-      "id": "block-62"
+      "id": "block-62",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "基於模型的反饋進行特徵選擇：",
       "pageIndex": 147,
@@ -928,11 +1145,15 @@
         270.19,
         114.11
       ],
-      "id": "block-63"
+      "id": "block-63",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "高端的AutoML 系統不僅依賴傳統的數據處理規則，還會根據模型的反饋自動調整特徵。通過不斷地訓練和驗證多個模型，這些工具能夠智慧選擇最佳的特徵集，以提高最終預測模型的性能。",
       "pageIndex": 147,
       "bbox": [
@@ -941,11 +1162,14 @@
         518.28,
         189.11
       ],
-      "id": "block-64"
+      "id": "block-64",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "AutoML 在特徵工程中的優勢：",
       "pageIndex": 147,
@@ -955,11 +1179,15 @@
         266.71,
         214.07
       ],
-      "id": "block-65"
+      "id": "block-65",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "加速資料科學流程：自動化特徵生成和篩選極大地縮短了從原始資料到模型訓練的時間，資料科學家可以將更多時間專注於分析和優化模型本身。",
       "pageIndex": 147,
       "bbox": [
@@ -968,11 +1196,15 @@
         518.28,
         264.14
       ],
-      "id": "block-66"
+      "id": "block-66",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "降低技術門檻：即便是對機器學習知識較少的使用者，借助AutoML 工具也能完成高效的特徵工程和模型建構，進而促進更多業界領域的AI 應用。",
       "pageIndex": 147,
       "bbox": [
@@ -981,11 +1213,15 @@
         518.28,
         314.18
       ],
-      "id": "block-67"
+      "id": "block-67",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "高模型效能：透過自動生成和篩選特徵，AutoML 可以快速評估大量特徵組合，找到最有助於提高模型性能的特徵，從而提升預測準確性。",
       "pageIndex": 147,
       "bbox": [
@@ -994,7 +1230,10 @@
         518.25,
         364.1
       ],
-      "id": "block-68"
+      "id": "block-68",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1008,7 +1247,10 @@
         189.4,
         414.71
       ],
-      "id": "block-69"
+      "id": "block-69",
+      "nodeId": "mid-s1c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1021,7 +1263,10 @@
         517.91,
         514.12
       ],
-      "id": "block-70"
+      "id": "block-70",
+      "nodeId": "mid-s1c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1035,7 +1280,10 @@
         313.51,
         564.16
       ],
-      "id": "block-71"
+      "id": "block-71",
+      "nodeId": "mid-s1c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1048,11 +1296,14 @@
         521.88,
         614.2
       ],
-      "id": "block-72"
+      "id": "block-72",
+      "nodeId": "mid-s1c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "常見演算法如下：",
       "pageIndex": 147,
@@ -1062,11 +1313,15 @@
         194.59,
         639.19
       ],
-      "id": "block-73"
+      "id": "block-73",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "線性迴歸（Linear Regression）：最簡單的迴歸方法，通過建立自變量與因變量之間的線性關係來進行預測。適用於資料具有線性關係的情況。",
       "pageIndex": 147,
       "bbox": [
@@ -1075,11 +1330,15 @@
         518.0,
         689.23
       ],
-      "id": "block-74"
+      "id": "block-74",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "決策樹迴歸（Decision Tree Regression）：基於樹狀結構進行迴歸預測，適用於非線性迴歸問題。具有較強的解釋性，但可能過度擬合。",
       "pageIndex": 147,
       "bbox": [
@@ -1088,11 +1347,15 @@
         518.17,
         739.15
       ],
-      "id": "block-75"
+      "id": "block-75",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "隨機森林迴歸（Random Forest Regression）：利用多棵決策樹的平均預測結果來提高預測準確度，減少過度擬合的風險。",
       "pageIndex": 148,
       "bbox": [
@@ -1101,11 +1364,15 @@
         518.09,
         139.07
       ],
-      "id": "block-76"
+      "id": "block-76",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "梯度提升樹（Gradient Boosting Regression）：一種集成學習方法，通過多次迭代來提升模型準確度，對於複雜的資料集表現良好。",
       "pageIndex": 148,
       "bbox": [
@@ -1114,11 +1381,14 @@
         518.09,
         189.11
       ],
-      "id": "block-77"
+      "id": "block-77",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "應用情境：",
       "pageIndex": 148,
@@ -1128,11 +1398,15 @@
         156.76,
         214.07
       ],
-      "id": "block-78"
+      "id": "block-78",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "銷售量預測：預測未來某一段時間的銷售額，協助企業進行庫存管理與生產規劃。",
       "pageIndex": 148,
       "bbox": [
@@ -1141,11 +1415,15 @@
         517.81,
         264.14
       ],
-      "id": "block-79"
+      "id": "block-79",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "房價預測：根據房地產市場的多種因素（如地段、房屋面積等）預測房價。",
       "pageIndex": 148,
       "bbox": [
@@ -1154,7 +1432,10 @@
         521.88,
         289.1
       ],
-      "id": "block-80"
+      "id": "block-80",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1168,7 +1449,10 @@
         328.29,
         339.14
       ],
-      "id": "block-81"
+      "id": "block-81",
+      "nodeId": "mid-s1c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1181,25 +1465,49 @@
         517.93,
         414.14
       ],
-      "id": "block-82"
+      "id": "block-82",
+      "nodeId": "mid-s1c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "常見演算法邏輯迴歸（Logistic Regression）：用於二元或多元分類問題，透過Sigmoid 函數將預測值轉為機率，再根據機率進行分類判斷。適用於特徵與類別之間具線性可分的情況。",
+      "text": "常見演算法",
       "pageIndex": 148,
       "bbox": [
         76.6,
         425.65,
+        156.76,
+        439.1
+      ],
+      "id": "block-83",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "邏輯迴歸（Logistic Regression）：用於二元或多元分類問題，透過Sigmoid 函數將預測值轉為機率，再根據機率進行分類判斷。適用於特徵與類別之間具線性可分的情況。",
+      "pageIndex": 148,
+      "bbox": [
+        90.76,
+        450.75,
         518.4,
         514.12
       ],
-      "id": "block-83"
+      "id": "block-84",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "決策樹分類（Decision Tree Classification）：以條件分支的方式進行分類，具備良好的解釋性。適用於處理非線性與混合型特徵的分類問題，但容易過度擬合。",
       "pageIndex": 148,
       "bbox": [
@@ -1208,11 +1516,15 @@
         518.37,
         589.12
       ],
-      "id": "block-84"
+      "id": "block-85",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "隨機森林分類（Random Forest Classification）：結合多棵決策樹進行分類投票，提升準確度並降低單一模型的過擬合風險，適合處理高維度與複雜結構的資料。",
       "pageIndex": 148,
       "bbox": [
@@ -1221,11 +1533,15 @@
         518.22,
         664.15
       ],
-      "id": "block-85"
+      "id": "block-86",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "支持向量機（Support Vector Machine, SVM）：尋找最佳超平面以分隔不同類別，對於高維資料或邊界清晰的分類問題表現良好，亦可透過核函數處理非線性分類。",
       "pageIndex": 148,
       "bbox": [
@@ -1234,11 +1550,15 @@
         518.21,
         739.15
       ],
-      "id": "block-86"
+      "id": "block-87",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "K 最近鄰（K-Nearest Neighbors, KNN）：根據鄰近資料的類別進行預測，簡單直觀但對資料量與維度敏感，適合用於小型資料集或特徵空間分布明顯的情境。",
       "pageIndex": 149,
       "bbox": [
@@ -1247,11 +1567,15 @@
         518.37,
         164.15
       ],
-      "id": "block-87"
+      "id": "block-88",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "梯度提升樹分類（Gradient Boosting Classification）:屬於集成學習方法，透過逐步修正錯誤提升分類準確率，在多數分類問題中表現穩定優異。",
       "pageIndex": 149,
       "bbox": [
@@ -1260,25 +1584,49 @@
         518.25,
         214.07
       ],
-      "id": "block-88"
+      "id": "block-89",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "應用情境垃圾郵件識別：根據郵件內容特徵分類為「正常郵件」或「垃圾郵件」，用於電子郵件服務的自動過濾功能。",
+      "text": "應用情境",
       "pageIndex": 149,
       "bbox": [
         76.6,
         225.7,
+        144.16,
+        239.15
+      ],
+      "id": "block-90",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "垃圾郵件識別：根據郵件內容特徵分類為「正常郵件」或「垃圾郵件」，用於電子郵件服務的自動過濾功能。",
+      "pageIndex": 149,
+      "bbox": [
+        90.76,
+        250.69,
         517.88,
         289.1
       ],
-      "id": "block-89"
+      "id": "block-91",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "疾病診斷：結合病患檢查數值與症狀資料，預測其是否罹患某種疾病，常見於糖尿病、心臟病等醫療分類任務。",
       "pageIndex": 149,
       "bbox": [
@@ -1287,11 +1635,15 @@
         517.93,
         339.14
       ],
-      "id": "block-90"
+      "id": "block-92",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "客戶流失預測：分析用戶行為與歷史紀錄，預測客戶是否有流失傾向，以利企業提前介入挽留。",
       "pageIndex": 149,
       "bbox": [
@@ -1300,11 +1652,15 @@
         517.93,
         389.18
       ],
-      "id": "block-91"
+      "id": "block-93",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "金融風險評估：用於信用評分、詐欺偵測等，將個體分類為「高風險」或「低風險」，支援金融決策。",
       "pageIndex": 149,
       "bbox": [
@@ -1313,7 +1669,10 @@
         518.03,
         439.1
       ],
-      "id": "block-92"
+      "id": "block-94",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1327,7 +1686,10 @@
         326.01,
         489.16
       ],
-      "id": "block-93"
+      "id": "block-95",
+      "nodeId": "mid-s1c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1340,25 +1702,49 @@
         517.93,
         589.12
       ],
-      "id": "block-94"
+      "id": "block-96",
+      "nodeId": "mid-s1c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "常見演算法 K-means（K-means Clustering）：透過將資料點分配至最接近的中心點（Cluster Centroid），最終劃分出K 個群集。演算法簡單且高效，適合群集結構明確的資料。須事先給定K 值，對初始點與異常值敏感。",
+      "text": "常見演算法",
       "pageIndex": 149,
       "bbox": [
         76.6,
         600.75,
+        156.76,
+        614.2
+      ],
+      "id": "block-97",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "K-means（K-means Clustering）：透過將資料點分配至最接近的中心點（Cluster Centroid），最終劃分出K 個群集。演算法簡單且高效，適合群集結構明確的資料。須事先給定K 值，對初始點與異常值敏感。",
+      "pageIndex": 149,
+      "bbox": [
+        90.76,
+        625.74,
         521.79,
         689.23
       ],
-      "id": "block-95"
+      "id": "block-98",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "DBSCAN（Density-Based Spatial Clustering of Applications with Noise）：基於密度的分群方法，能發現任意形狀的群集，並自動將離群點標示為雜訊 （Noise）。不需預先給定群集數，適合含雜訊或密度變化明顯的資料。",
       "pageIndex": 149,
       "bbox": [
@@ -1367,11 +1753,15 @@
         518.28,
         764.22
       ],
-      "id": "block-96"
+      "id": "block-99",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "階層式分群（Hierarchical Clustering）：建立資料之間的樹狀層級關係（如 Dendrogram），可自上而下或自下而上逐層劃分群集。無需指定群集數，適合探索資料分群層級結構。",
       "pageIndex": 150,
       "bbox": [
@@ -1380,11 +1770,15 @@
         521.88,
         164.15
       ],
-      "id": "block-97"
+      "id": "block-100",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "主成分分析（PCA, Principal Component Analysis）：常見的降維方法，用於資料視覺化與特徵壓縮，將原始變數轉換成若干主成分以保留最大變異。",
       "pageIndex": 150,
       "bbox": [
@@ -1393,25 +1787,49 @@
         518.13,
         214.07
       ],
-      "id": "block-98"
+      "id": "block-101",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "應用情境顧客分群（Customer Segmentation）：依據購買紀錄、網站行為等特徵自動分群，有助於行銷策略制定、客戶關係管理與個人化推薦。",
+      "text": "應用情境",
       "pageIndex": 150,
       "bbox": [
         76.6,
         225.7,
+        144.16,
+        239.15
+      ],
+      "id": "block-102",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "顧客分群（Customer Segmentation）：依據購買紀錄、網站行為等特徵自動分群，有助於行銷策略制定、客戶關係管理與個人化推薦。",
+      "pageIndex": 150,
+      "bbox": [
+        90.76,
+        250.69,
         518.05,
         289.1
       ],
-      "id": "block-99"
+      "id": "block-103",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "異常偵測（Anomaly Detection）：針對工業生產、金融詐欺、資安入侵等情境，辨識與多數樣本明顯不同的資料點。",
       "pageIndex": 150,
       "bbox": [
@@ -1420,11 +1838,15 @@
         521.42,
         339.14
       ],
-      "id": "block-100"
+      "id": "block-104",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "特徵壓縮與資料視覺化：如使用PCA 進行高維資料的降維後視覺呈現，幫助觀察潛在結構。",
       "pageIndex": 150,
       "bbox": [
@@ -1433,7 +1855,10 @@
         518.23,
         389.18
       ],
-      "id": "block-101"
+      "id": "block-105",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1447,7 +1872,10 @@
         254.35,
         439.1
       ],
-      "id": "block-102"
+      "id": "block-106",
+      "nodeId": "mid-s1c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1460,7 +1888,10 @@
         521.1,
         488.95
       ],
-      "id": "block-103"
+      "id": "block-107",
+      "nodeId": "mid-s1c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1473,25 +1904,49 @@
         517.91,
         539.2
       ],
-      "id": "block-104"
+      "id": "block-108",
+      "nodeId": "mid-s1c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "常見演算法卷積神經網路（Convolutional Neural Network, CNN）：主要用於處理圖像資料與空間特徵萃取。透過多層卷積、池化與非線性激活函數組成的網路架構，自動辨識局部特徵並保留其位置不變性。常用於人臉辨識、工業檢測、自動駕駛等任務。",
+      "text": "常見演算法",
       "pageIndex": 150,
       "bbox": [
         76.6,
         550.71,
+        156.76,
+        564.16
+      ],
+      "id": "block-109",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "卷積神經網路（Convolutional Neural Network, CNN）：主要用於處理圖像資料與空間特徵萃取。透過多層卷積、池化與非線性激活函數組成的網路架構，自動辨識局部特徵並保留其位置不變性。常用於人臉辨識、工業檢測、自動駕駛等任務。",
+      "pageIndex": 150,
+      "bbox": [
+        90.76,
+        575.67,
         520.99,
         664.15
       ],
-      "id": "block-105"
+      "id": "block-110",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "遞迴神經網路（Recurrent Neural Network, RNN）：專門處理時間序列資料（如語音、文字、感測器資料），能記住前一步的輸出資訊。但傳統RNN 面臨長期依賴問題，故實務上多採用改良版本如LSTM（長短期記憶）或GRU（門控遞迴單元）。",
       "pageIndex": 150,
       "bbox": [
@@ -1500,11 +1955,15 @@
         518.37,
         764.22
       ],
-      "id": "block-106"
+      "id": "block-111",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "Transformer 架構：透過自注意力（Self-Attention）機制建構語意關聯，在NLP 領域成為主流。代表模型如BERT（雙向編碼器表示）、GPT（生成式預訓練轉換器）等，已廣泛應用於語意理解、生成式任務與跨模態學習。",
       "pageIndex": 151,
       "bbox": [
@@ -1513,25 +1972,49 @@
         518.47,
         162.59
       ],
-      "id": "block-107"
+      "id": "block-112",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "應用情境醫療影像診斷：透過CNN 模型自動辨識X 光片或MRI 中異常病灶，協助醫師快速篩檢疾病。",
+      "text": "應用情境",
       "pageIndex": 151,
       "bbox": [
         76.6,
         173.74,
+        144.16,
+        187.19
+      ],
+      "id": "block-113",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "醫療影像診斷：透過CNN 模型自動辨識X 光片或MRI 中異常病灶，協助醫師快速篩檢疾病。",
+      "pageIndex": 151,
+      "bbox": [
+        90.76,
+        198.22,
         518.29,
         236.15
       ],
-      "id": "block-108"
+      "id": "block-114",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "智慧客服/語音助理：透過Transformer 架構建構語意理解與回應能力，自動回答用戶問題。",
       "pageIndex": 151,
       "bbox": [
@@ -1540,11 +2023,15 @@
         518.23,
         285.14
       ],
-      "id": "block-109"
+      "id": "block-115",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "自動駕駛系統：整合深度學習模型進行多模態感知（攝影機、雷達、LIDAR），辨識車道、行人、交通號誌等。",
       "pageIndex": 151,
       "bbox": [
@@ -1553,11 +2040,15 @@
         521.4,
         334.22
       ],
-      "id": "block-110"
+      "id": "block-116",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "金融風險預測：運用LSTM 處理時序交易資料，進行信貸違約、詐欺偵測等風險判別。",
       "pageIndex": 151,
       "bbox": [
@@ -1566,7 +2057,10 @@
         518.23,
         383.18
       ],
-      "id": "block-111"
+      "id": "block-117",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1580,7 +2074,10 @@
         343.41,
         432.14
       ],
-      "id": "block-112"
+      "id": "block-118",
+      "nodeId": "mid-s1c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1593,25 +2090,49 @@
         518.4,
         530.2
       ],
-      "id": "block-113"
+      "id": "block-119",
+      "nodeId": "mid-s1c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "常見演算法 Q-learning：一種基於值函數的方法，透過表格或近似函數學習每個狀態-行為對的預期回報（Q 值），並根據最大Q 值選擇動作。適用於離散動作空間與較小的環境。",
+      "text": "常見演算法",
       "pageIndex": 151,
       "bbox": [
         76.6,
         541.23,
+        156.76,
+        554.68
+      ],
+      "id": "block-120",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "Q-learning：一種基於值函數的方法，透過表格或近似函數學習每個狀態-行為對的預期回報（Q 值），並根據最大Q 值選擇動作。適用於離散動作空間與較小的環境。",
+      "pageIndex": 151,
+      "bbox": [
+        90.76,
+        565.71,
         518.4,
         628.27
       ],
-      "id": "block-114"
+      "id": "block-121",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "Deep Q Network（DQN）：結合深度學習與Q-learning，使用深度神經網路近似Q 函數，能處理高維度的感知輸入（如圖像）。DQN 為Atari 遊戲中AI 打破人類紀錄的重要里程碑。",
       "pageIndex": 151,
       "bbox": [
@@ -1620,11 +2141,15 @@
         518.16,
         701.71
       ],
-      "id": "block-115"
+      "id": "block-122",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "Policy Gradient（策略梯度）方法：直接學習從狀態到行為的機率分佈，透過最大化獲得的期望報酬來更新策略。代表方法如REINFORCE、Actor-Critic 架構等。",
       "pageIndex": 151,
       "bbox": [
@@ -1633,64 +2158,66 @@
         521.8,
         775.26
       ],
-      "id": "block-116"
+      "id": "block-123",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
-      "text": "Proximal Policy Optimization（近端策略優化, PPO）",
+      "marker": "◦",
+      "text": "Proximal Policy Optimization（近端策略優化, PPO） PPO 是一種近年廣泛應用的強化式學習演算法，由OpenAI 提出，屬於策略梯度（Policy Gradient）方法的改良版本。其核心目標是平衡「策略更新幅度」 與「學習效率」，避免策略在每次更新時產生過大的變動，導致學習不穩定或崩潰。常用於多種強化式學習任務，包含遊戲、機器人操作等。",
       "pageIndex": 152,
       "bbox": [
         90.76,
         100.66,
-        390.69,
-        114.11
-      ],
-      "id": "block-117"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "PPO 是一種近年廣泛應用的強化式學習演算法，由OpenAI 提出，屬於策略梯度（Policy Gradient）方法的改良版本。其核心目標是平衡「策略更新幅度」",
-      "pageIndex": 152,
-      "bbox": [
-        104.92,
-        125.78,
         524.59,
-        164.15
-      ],
-      "id": "block-118"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "與「學習效率」，避免策略在每次更新時產生過大的變動，導致學習不穩定或崩潰。常用於多種強化式學習任務，包含遊戲、機器人操作等。",
-      "pageIndex": 152,
-      "bbox": [
-        104.92,
-        176.9,
-        517.86,
         214.07
       ],
-      "id": "block-119"
+      "id": "block-124",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "應用情境自駕車控制：車輛透過感測器與控制器，在模擬或真實道路環境中學習轉向、加速與煞車策略。",
+      "text": "應用情境",
       "pageIndex": 152,
       "bbox": [
         76.6,
         225.7,
+        144.16,
+        239.15
+      ],
+      "id": "block-125",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "自駕車控制：車輛透過感測器與控制器，在模擬或真實道路環境中學習轉向、加速與煞車策略。",
+      "pageIndex": 152,
+      "bbox": [
+        90.76,
+        250.69,
         520.98,
         289.1
       ],
-      "id": "block-120"
+      "id": "block-126",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "智慧倉儲與物流：機器人在倉儲系統中學習最佳路徑與貨物搬運策略，提升作業效率。",
       "pageIndex": 152,
       "bbox": [
@@ -1699,11 +2226,15 @@
         517.81,
         339.14
       ],
-      "id": "block-121"
+      "id": "block-127",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "資源調度與配置：強化式學習可用於雲端資源分配、CPU 負載均衡、網路頻寬最佳化等問題。",
       "pageIndex": 152,
       "bbox": [
@@ -1712,11 +2243,15 @@
         518.31,
         389.18
       ],
-      "id": "block-122"
+      "id": "block-128",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "遊戲AI 訓練：AlphaGo、AlphaStar 等均以強化式學習為核心，在圍棋、星海爭霸等遊戲中達成超越人類表現的成就。",
       "pageIndex": 152,
       "bbox": [
@@ -1725,7 +2260,10 @@
         518.25,
         439.1
       ],
-      "id": "block-123"
+      "id": "block-129",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1739,7 +2277,10 @@
         288.79,
         489.16
       ],
-      "id": "block-124"
+      "id": "block-130",
+      "nodeId": "mid-s1c8",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1752,25 +2293,49 @@
         517.95,
         564.16
       ],
-      "id": "block-125"
+      "id": "block-131",
+      "nodeId": "mid-s1c8",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "常見演算法生成對抗網路（Generative Adversarial Networks, GANs）：透過兩個神經網路 （生成器與判別器）對抗訓練，生成器負責產生偽造樣本，判別器判斷其真偽，雙方互相提升。適用於圖像生成、人臉合成、風格轉換等任務。缺點是訓練不穩定，可能出現模式崩潰（Mode Collapse）。",
+      "text": "常見演算法",
       "pageIndex": 152,
       "bbox": [
         76.6,
         575.67,
+        156.76,
+        589.12
+      ],
+      "id": "block-132",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "生成對抗網路（Generative Adversarial Networks, GANs）：透過兩個神經網路 （生成器與判別器）對抗訓練，生成器負責產生偽造樣本，判別器判斷其真偽，雙方互相提升。適用於圖像生成、人臉合成、風格轉換等任務。缺點是訓練不穩定，可能出現模式崩潰（Mode Collapse）。",
+      "pageIndex": 152,
+      "bbox": [
+        90.76,
+        600.75,
         518.37,
         689.23
       ],
-      "id": "block-126"
+      "id": "block-133",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "變分自編碼器（Variational Autoencoder, VAE）：VAE 透過最大化資料潛在機率分佈下的下界進行訓練，具有良好的潛在空間結構，適合用於異常偵測、語音重建與隱含變數建模。生成樣本相對平滑，但有時缺乏銳利細節。",
       "pageIndex": 152,
       "bbox": [
@@ -1779,11 +2344,15 @@
         520.12,
         764.22
       ],
-      "id": "block-127"
+      "id": "block-134",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "擴散模型（Diffusion Models）：近期最具突破的生成技術。透過逐步加入與移除噪聲的方式訓練模型，學習資料轉換的反向過程。代表應用如OpenAI 的DALL·E 2、Stable Diffusion 等，在生成圖像品質方面具明顯優勢。缺點是生成速度慢、運算成本高。",
       "pageIndex": 153,
       "bbox": [
@@ -1792,25 +2361,49 @@
         518.73,
         189.11
       ],
-      "id": "block-128"
+      "id": "block-135",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "應用情境影像與藝術生成：GAN 與擴散模型能自動創作高解析度圖像，例如虛構人物、人像上色、風格遷移（如照片轉成梵谷畫風）。",
+      "text": "應用情境",
       "pageIndex": 153,
       "bbox": [
         76.6,
         200.62,
+        144.16,
+        214.07
+      ],
+      "id": "block-136",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "影像與藝術生成：GAN 與擴散模型能自動創作高解析度圖像，例如虛構人物、人像上色、風格遷移（如照片轉成梵谷畫風）。",
+      "pageIndex": 153,
+      "bbox": [
+        90.76,
+        225.7,
         518.47,
         264.14
       ],
-      "id": "block-129"
+      "id": "block-137",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "語音與文本合成：VAE 與Transformer 架構可用於語音合成（如TTS）、機器翻譯與長文本自動生成（如GPT、LLaMA）。",
       "pageIndex": 153,
       "bbox": [
@@ -1819,11 +2412,15 @@
         518.38,
         314.18
       ],
-      "id": "block-130"
+      "id": "block-138",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "資料補全與模擬：在醫療、金融、零售等領域，生成模型可協助填補缺失資料、模擬極端案例（如疾病異常圖像、極端交易情境）以強化AI 模型訓練。",
       "pageIndex": 153,
       "bbox": [
@@ -1832,7 +2429,10 @@
         521.88,
         364.1
       ],
-      "id": "block-131"
+      "id": "block-139",
+      "nodeId": "mid-s1c8",
+      "kind": "list_item",
+      "source": "page_extract"
     }
   ],
   "sourcePages": [

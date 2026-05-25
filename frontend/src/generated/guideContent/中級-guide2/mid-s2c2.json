@@ -1,7 +1,7 @@
 {
   "id": "mid-s2c2",
   "title": "機率分佈與資料分佈模型",
-  "content": "# 機率分佈與資料分佈模型\n\n3.2\n\n1.\n\n在大數據分析中，我們不僅需要從「敘述性統計」層面掌握資料的集中趨勢與離散度，也需對資料背後的機率特徵與分佈模型有更深入的理解。若能辨識資料屬於何種理論分佈（例如常態分佈、二項分佈、Poisson 等），便能在後續推論與假設檢定時做更精準的模型選擇，也利於機器學習演算法或特徵工程優化。本節即聚焦在常見機率分佈，介紹離散型分佈、連續型分佈的基礎概念。\n\n2.\n\n機率分佈（Probability Distribution）是描述隨機變數的所有可能值及其相應機率的數學函數。在統計學與機率論中，機率分佈是用來表示一個隨機實驗結果的所有可能性及其發生的機率。可以應用於幫助我們理解和預測隨機現象，並用來計算風險、優化資源配置等。\n\n#### （1）機率分佈的兩個重要數值\n\n機率分佈的兩個重要數值，期望值（Expected Value）與變異數（Variance），是統計學中衡量隨機變數性質的關鍵指標。\n\n• 期望值（Expected Value, E（X））\n\n期望值是一個隨機變數的加權平均值，它描述的是該隨機變數在多次試驗中可能出現的平均結果。期望值在統計學中有時被稱為「數學期望」，代表了隨機變數的長期平均或中心位置。\n\n對於離散型隨機變數X，期望值的計算公式為：\n\n𝑛 𝐸(X) = ∑𝑥𝑖𝑃(𝑥𝑖)\n\n𝑖=1\n\nxi 為隨機變數X 的所有可能取值，P（xi）為對應的機率。\n\n對於連續型隨機變數X，期望值的計算公式為：\n\n∞ 𝐸(𝑋) = ∫ 𝑥𝑓(𝑥)\n\n𝑑𝑥 −∞ 其中f（x）是隨機變數X 的機率密度函數（PDF）。\n\n• 變異數（Variance, Var（X））\n\n變異數衡量的是隨機變數取值的分散程度，它反映了數據點偏離期望值的平均程度。變異數越大，表示隨機變數的取值越分散；變異數越小，表示隨機變數的取值較為集中。\n\n對於離散型隨機變數X，變異數的計算公式為：\n\n𝑛 2𝑃(𝑥𝑖)\n\nVar(𝑋) = ∑(𝑥𝑖−𝐸(𝑋))\n\n𝑖=1 對於連續型隨機變數X，變異數的計算公式為：\n\n∞ 2𝑓(𝑥)\n\nVar(𝑋) = ∫ (𝑥−𝐸(𝑋))\n\n𝑑𝑥 −∞ 隨機變數偏離其期望值的程度，數值越大，表示變數變動範圍越大。\n\n標準差（Standard Deviation）：變異數的平方根，便於直觀理解資料的分佈，並且單位與原資料相同。\n\n#### （2）機率分佈的兩種類型\n\n根據隨機變數的特性，機率分佈可以分為離散型和連續型兩大類：\n\n• 離散型機率分佈（Discrete Probability Distribution）\n\n離散型隨機變數：\n\n值是有限或可數的，例如擲骰子的結果（1、2、3、4、5、6）或某電商平台每日訂單數（0、1、2…）。這些變數的值通常為整數，且可能取值集合是明確的。\n\n離散型機率分佈：\n\n透過機率質量函數（Probability Mass Function, PMF）描述隨機變數 「每一個特定取值的機率」。\n\n例如，擲骰子時，PMF 為P（X=1）=1/6，P（X=2）=1/6，PMF 總和等於1：\n\n∑𝑃(𝑋= 𝑥𝑖)\n\n= 1 𝑥𝑖 • 連續型機率分佈（Continuous Probability Distribution）\n\n連續型隨機變數：\n\n值是無限且連續的，通常用於描述測量型變數，如身高、體重、時間或溫度。這些變數不僅包含整數，還可以是任意實數，例如某病患等待時間可能為5.3 分鐘或5.31 分鐘。\n\n連續型機率分佈：\n\n透過機率密度函數（Probability Density Function,PDF）描述隨機變數 「於某取值範圍內的機率」。對於連續型隨機變數X，PDF 必須滿足以下條件：\n\n𝑏 𝑃(𝑎≤𝑋≤𝑏) = ∫𝑓(𝑥)\n\n𝑑𝑥 𝑎 ○ 其中，f（x）是隨機變數X 的機率密度函數（PDF），描述了隨機變數在區間[a, b]內的機率。\n\n#### （3）機率分佈的應用\n\n機率分佈是統計學和機率論的核心工具之一，廣泛應用於各個領域，示例應用如：\n\n• 風險管理：在金融領域，投資者可以根據資產的機率分佈來計算風險和報酬，進行資產配置和風險控制。\n\n• 品質控制：製造業使用常態分佈來描述產品的測量數據，進行品質檢查和控制。\n\n• 預測分析：根據過去的數據，利用機率分佈來預測未來事件的可能性，這在各行各業中都很常見，如銷售預測、需求預測等。\n\n3.\n\n#### （1）伯努利分佈（Bernoulli Distribution）\n\n• 定義：\n\n伯努利分佈是一種描述單次試驗中只有兩種結果（成功與失敗）的離散型分佈。它是二項分佈的特例，當試驗次數n=1 時，便可使用伯努利分佈來描述。\n\n數學公式：\n\nP (X = 1) = p，P ( X = 0) = 1 - p p 是成功的機率，X 只能取0（失敗）或1（成功）。\n\n• 期望值與變異數：\n\nE (X) = p Var (X) = p (1 - p)\n\n• 應用示例：\n\n單個產品的品質檢測是否合格（1 = 合格，0 = 不合格）。\n\n使用者是否點擊廣告（1 = 點擊，0 = 未點擊）。\n\n• 侷限：\n\n僅適用於單次試驗的情況，無法擴展到多次試驗。\n\n#### （2）二項分佈（Binomial Distribution）\n\n• 定義：\n\n二項分佈描述的是在固定次數n 的獨立試驗中，每次試驗成功的機率為p，並記錄成功的次數X。\n\n二項分佈適用於多次獨立試驗中成功次數的計算。\n\n• 數學公式：\n\n𝑃(𝑋= 𝑘) = (𝑛 𝑘) 𝑝𝑘(1 −𝑝)𝑛−𝑘，𝑘= 0,1, … , 𝑛 n：表示試驗的總次數（固定的正整數）。\n\np：表示每次試驗成功的機率，範圍是0 ≦ p ≦ 1。\n\nk：表示期望成功的次數，且k 是介於0 到n 之間的整數。\n\n𝑛 ( 𝑘) 二項係數，表示從n 次試驗中選出k 次成功的方式數，計算公式為：\n\n(𝑛 𝑘) = 𝑛! 𝑘! (𝑛−𝑘)! • 期望值與變異數：\n\nE (X) = np Var (X) = np ( 1 - p)\n\n• 應用示例：\n\n電商投放n 則廣告，觀察成功（如點擊或購買）的次數。\n\n檢驗n 個產品中合格品的數量。\n\n• 侷限：\n\n試驗必須是獨立的，且成功機率p 固定，若任一條件不滿足，則不適用。\n\n#### （3）泊松分佈（Poisson Distribution）\n\n• 定義：泊松分佈用來描述某一事件在固定時間或空間區間內「發生次數」\n\n的機率分佈，平均發生率（速率）為𝛌。\n\n• 數學公式：\n\n𝑃(𝑋= 𝑘) = 𝜆𝑘𝑒−𝜆 𝑘!，𝑘= 0,1, … 𝛌：事件的平均發生率（每單位時間或空間的平均次數）\n\nk：事件發生的次數 e：自然對數的底數，約為2.71828 • 期望值與變異數：\n\nE(X) = Var(X) = • 應用示例：\n\n事件的次數，例如客戶服務中心的來電量、網站的訪問次數。\n\n稀少事件的發生，如設備故障、車禍發生的次數。\n\n• 侷限：\n\n泊松分佈假設事件發生的平均發生速率𝛌是固定的，若發生率隨時間變化則不適用。\n\n4.\n\n#### （1）常態分佈（Normal Distribution）\n\n• 定義：\n\n常態分佈是最常見的連續型機率分佈之一，其數據呈現對稱的鐘形曲線。它由兩個參數決定：均值（μ）和標準差（σ），這兩個參數決定了分佈的中心位置和擴展範圍。\n\n常態分佈常用來描述許多自然現象中的變數行為。\n\n根據中央極限定理（Central limit theorem），當樣本量足夠大時，無論原始資料分佈為何，任一組獨立且同分佈的隨機變數，其總和或平均值的分佈都會趨近於常態分佈。\n\n• 數學公式：\n\n常態分佈的機率密度函數（PDF）為：\n\n𝑒𝑥𝑝(−(𝑥−𝜇)2 𝑓(𝑥) = 1 2𝜎2 )\n\n𝜎√2𝜋\n\n• 期望值與變異數：\n\nE(X) = Var(X) = 2 • 應用示例：\n\n身高、體重等自然科學數據通常服從常態分佈。\n\n在金融領域，股票的價格波動、日收益等也可近似常態分佈。\n\n用於假設檢定（如t 檢定、z 檢定等）。\n\n• 侷限：\n\n若數據呈現偏態或長尾（Leptokurtic），則不適合假設常態分佈。\n\n極端值較多的情況下常態分佈不再適用。\n\n#### （2）指數分佈（Exponential Distribution）\n\n• 定義：\n\n指數分佈描述的是事件發生之間的間隔時間，適用於隨機過程中等待時間的分佈，通常用來描述「等待時間」或「生存時間」。\n\n例如，機器故障時間、電話來電間隔等都可以用指數分佈來建模。該分佈的特徵是記憶性（Memoryless），即未來的事件發生與過去的時間無關。\n\n• 數學公式：\n\n指數分佈的機率密度函數（PDF）為：\n\nf (x)=e-x，x 0 其中：𝛌是發生率，定義為單位時間內事件發生的平均頻率。\n\n• 期望值與變異數：\n\n𝐸(𝑋) = 1 𝜆 Var(𝑋) = 1 𝜆2\n\n• 應用示例：\n\n描述等待時間，如客服中心接到來電的時間間隔。\n\n機器壽命、零件故障時間等。\n\n排隊理論中的基礎模型。\n\n• 侷限：\n\n需要假設事件發生率是固定的；若隨時間變化，指數分佈將不再適用。\n\n當發生事件的速率變化時，需選擇更複雜的分佈，如Weibull 分佈。\n\n#### （3）卡方分佈（Chi-square Distribution）\n\n• 定義：\n\n卡方分佈是常態分佈的平方和，通常用於檢驗假設、測量變異數，並且與多種統計檢定（如適配度檢定、獨立性檢定、齊一性檢定）相關。\n\n卡方分佈是一個偏態分佈，且隨著自由度k 的增加，卡方分佈會趨近常態分佈。\n\n• 關於自由度（Degrees of Freedom）：\n\n定義：\n\n自由度（Degrees of Freedom, df）是統計學中的一個重要概念，指的是在計算統計量時，「可以自由變動的資料點數量」。\n\n在許多統計檢定和估計中，自由度的大小會影響檢定的結果、分佈的形狀及其精確度。\n\n示例：\n\n例如，在計算樣本標準差時，使用了樣本平均值作為已知量，這樣就減少了一個自由度。\n\n卡方分佈中的應用：\n\n自由度（k）是卡方分佈中的一個重要參數，影響卡方分佈的形狀與尾部的長度。\n\n當自由度較小時，卡方分佈會有更明顯的偏態。\n\n當自由度增加時，分佈會逐漸趨近常態分佈。\n\n• 數學公式：\n\n卡方分佈的機率密度函數（PDF）為：\n\n𝑘 2−1𝑒−𝑥 𝑓(𝑥) = 𝑥 2，𝑥≥0 𝑘 2Γ (𝑘 2 2)\n\n其中：k 是自由度；𝚪是伽瑪函數。\n\n• 期望值與變異數：\n\nE(X) = k Var(X) = 2k • 應用示例：\n\n用於假設檢定，尤其是適配度檢定（Goodness of Fit）和列聯表獨立性檢定。\n\n測量樣本資料與理論分佈的差異，檢查變數間的獨立性。\n\n• 侷限：\n\n若自由度k 較小，檢定的準確度可能會受限。\n\n5.\n\n#### （1）定義\n\n• 分佈擬合（Distribution Fitting）：\n\n分佈擬合的目的是找出一個合適的數學模型（分佈），來描述我們收集到的資料。例如，當我們收集到一大堆的銷售數據，我們會想知道這些數據的分佈形態是什麼樣的。它是像鐘形一樣對稱的（如常態分佈），還是稀疏事件（如Poisson 分佈）？我們需要從不同的分佈中選擇一個，來準確描述我們的數據。\n\n我們進行分佈擬合，基本上就是選擇一個適合的分佈來代表資料的樣子，然後通過數學方法（比如最大似然估計），找出這個分佈的參數，讓它最好地貼合我們的數據。\n\n• 資料建模資料建模則是將擬合後的分佈應用到現實問題中，來進行預測、風險分析或其他決策。例如，假設我們已經確定了某些業務數據（像是網站點擊量）符合常態分佈，那麼我們就可以利用這個分佈的特性來預測未來的網站訪問量，或計算出異常情況發生的機率。\n\n在這個過程中，資料建模不僅限於描述數據的分佈，它還會將這些數學模型應用到實際的業務情境中，比如做出商業預測、風險預測，或者為機器學習模型提供更準確的數據特徵。\n\n#### （2）步驟\n\n分佈擬合的成功取決於資料特性與假設的匹配，以下為關鍵條件與考量：\n\n• 資料型態確認：\n\n需先判斷資料屬於離散型還是連續型（如交易金額）。\n\n離散型資料適用於計數變數，如某製造企業分析每日故障次數。\n\n連續型資料則適用於測量變數，例如某醫療機構分析病患等待時間。\n\n• 模型候選選擇：\n\n根據資料特性選取分佈。\n\n若資料呈現偏態或長尾（如收入資料偏度2.5），可考慮對數常態分佈或重尾分佈（如t 分佈）。\n\n若事件稀少且獨立（如每小時客服投訴），則泊松分佈較合適。例如，某金融機構分析交易頻率，發現事件稀疏，選用泊松分佈提升預測準確性。\n\n• 獨立性與固定率假設：\n\n二項分佈與泊松分佈假設試驗獨立且機率或發生率固定。\n\n例如，某零售企業分析顧客購買行為，若促銷活動改變成功率，二項分佈可能失效，需改用動態模型。實務中，需檢查資料是否滿足假設，例如使用自相關（Autocorrelation）分析確認獨立性。",
+  "content": "# 機率分佈與資料分佈模型\n\n3.2\n\n1.\n\n在大數據分析中，我們不僅需要從「敘述性統計」層面掌握資料的集中趨勢與離散度，也需對資料背後的機率特徵與分佈模型有更深入的理解。若能辨識資料屬於何種理論分佈（例如常態分佈、二項分佈、Poisson 等），便能在後續推論與假設檢定時做更精準的模型選擇，也利於機器學習演算法或特徵工程優化。本節即聚焦在常見機率分佈，介紹離散型分佈、連續型分佈的基礎概念。\n\n2.\n\n機率分佈（Probability Distribution）是描述隨機變數的所有可能值及其相應機率的數學函數。在統計學與機率論中，機率分佈是用來表示一個隨機實驗結果的所有可能性及其發生的機率。可以應用於幫助我們理解和預測隨機現象，並用來計算風險、優化資源配置等。\n\n#### （1）機率分佈的兩個重要數值\n\n機率分佈的兩個重要數值，期望值（Expected Value）與變異數（Variance），是統計學中衡量隨機變數性質的關鍵指標。\n\n• 期望值（Expected Value, E（X））\n\n◦ 期望值是一個隨機變數的加權平均值，它描述的是該隨機變數在多次\n\n試驗中可能出現的平均結果。期望值在統計學中有時被稱為「數學期望」，代表了隨機變數的長期平均或中心位置。\n\n◦ 對於離散型隨機變數X，期望值的計算公式為：\n\n𝑛 𝐸(X) = ∑𝑥𝑖𝑃(𝑥𝑖)\n\n𝑖=1\n\nxi 為隨機變數X 的所有可能取值，P（xi）為對應的機率。\n\n◦ 對於連續型隨機變數X，期望值的計算公式為：\n\n∞ 𝐸(𝑋) = ∫ 𝑥𝑓(𝑥)\n\n𝑑𝑥 −∞ 其中f（x）是隨機變數X 的機率密度函數（PDF）。\n\n• 變異數（Variance, Var（X））\n\n◦ 變異數衡量的是隨機變數取值的分散程度，它反映了數據點偏離期望\n\n值的平均程度。變異數越大，表示隨機變數的取值越分散；變異數越小，表示隨機變數的取值較為集中。\n\n◦ 對於離散型隨機變數X，變異數的計算公式為：\n\n𝑛 2𝑃(𝑥𝑖)\n\nVar(𝑋) = ∑(𝑥𝑖−𝐸(𝑋))\n\n𝑖=1\n\n◦ 對於連續型隨機變數X，變異數的計算公式為：\n\n∞ 2𝑓(𝑥)\n\nVar(𝑋) = ∫ (𝑥−𝐸(𝑋))\n\n𝑑𝑥 −∞ 隨機變數偏離其期望值的程度，數值越大，表示變數變動範圍越大。\n\n◦ 標準差（Standard Deviation）：變異數的平方根，便於直觀理解資料的\n\n分佈，並且單位與原資料相同。\n\n#### （2）機率分佈的兩種類型\n\n根據隨機變數的特性，機率分佈可以分為離散型和連續型兩大類：\n\n• 離散型機率分佈（Discrete Probability Distribution）\n\n◦ 離散型隨機變數：\n\n○ 值是有限或可數的，例如擲骰子的結果（1、2、3、4、5、6）或某電\n\n商平台每日訂單數（0、1、2…）。這些變數的值通常為整數，且可能取值集合是明確的。\n\n◦ 離散型機率分佈：\n\n○ 透過機率質量函數（Probability Mass Function, PMF）描述隨機變數\n\n「每一個特定取值的機率」。\n\n○ 例如，擲骰子時，PMF 為P（X=1）=1/6，P（X=2）=1/6，\n\n○ PMF 總和等於1：\n\n∑𝑃(𝑋= 𝑥𝑖)\n\n= 1 𝑥𝑖\n\n• 連續型機率分佈（Continuous Probability Distribution）\n\n◦ 連續型隨機變數：\n\n○ 值是無限且連續的，通常用於描述測量型變數，如身高、體重、時間\n\n或溫度。這些變數不僅包含整數，還可以是任意實數，例如某病患等待時間可能為5.3 分鐘或5.31 分鐘。\n\n◦ 連續型機率分佈：\n\n○ 透過機率密度函數（Probability Density Function,PDF）描述隨機變數\n\n「於某取值範圍內的機率」。對於連續型隨機變數X，PDF 必須滿足以下條件：\n\n𝑏 𝑃(𝑎≤𝑋≤𝑏) = ∫𝑓(𝑥)\n\n𝑑𝑥 𝑎\n\n○ 其中，\n\nf（x）是隨機變數X 的機率密度函數（PDF），描述了隨機變數在區間[a, b]內的機率。\n\n#### （3）機率分佈的應用\n\n機率分佈是統計學和機率論的核心工具之一，廣泛應用於各個領域，示例應用如：\n\n• 風險管理：在金融領域，投資者可以根據資產的機率分佈來計算風險和報\n\n酬，進行資產配置和風險控制。\n\n• 品質控制：製造業使用常態分佈來描述產品的測量數據，進行品質檢查和\n\n控制。\n\n• 預測分析：根據過去的數據，利用機率分佈來預測未來事件的可能性，這\n\n在各行各業中都很常見，如銷售預測、需求預測等。\n\n3.\n\n#### （1）伯努利分佈（Bernoulli Distribution）\n\n• 定義：\n\n◦ 伯努利分佈是一種描述單次試驗中只有兩種結果（成功與失敗）的離散\n\n型分佈。它是二項分佈的特例，當試驗次數n=1 時，便可使用伯努利分佈來描述。\n\n◦ 數學公式：\n\nP (X = 1) = p，P ( X = 0) = 1 - p p 是成功的機率，X 只能取0（失敗）或1（成功）。\n\n• 期望值與變異數：\n\nE (X) = p Var (X) = p (1 - p)\n\n• 應用示例：\n\n◦ 單個產品的品質檢測是否合格（1 = 合格，0 = 不合格）。\n\n◦ 使用者是否點擊廣告（1 = 點擊，0 = 未點擊）。\n\n• 侷限：\n\n◦ 僅適用於單次試驗的情況，無法擴展到多次試驗。\n\n#### （2）二項分佈（Binomial Distribution）\n\n• 定義：\n\n◦ 二項分佈描述的是在固定次數n 的獨立試驗中，每次試驗成功的機率\n\n為p，並記錄成功的次數X。\n\n◦ 二項分佈適用於多次獨立試驗中成功次數的計算。\n\n• 數學公式：\n\n𝑃(𝑋= 𝑘) = (𝑛 𝑘) 𝑝𝑘(1 −𝑝)𝑛−𝑘，𝑘= 0,1, … , 𝑛\n\n◦ n：表示試驗的總次數（固定的正整數）。\n\n◦ p：表示每次試驗成功的機率，範圍是0 ≦ p ≦ 1。\n\n◦ k：表示期望成功的次數，且k 是介於0 到n 之間的整數。\n\n𝑛\n\n◦ (\n\n𝑘) 二項係數，表示從n 次試驗中選出k 次成功的方式數，計算公式為：\n\n(𝑛 𝑘) = 𝑛! 𝑘! (𝑛−𝑘)!\n\n• 期望值與變異數：\n\nE (X) = np Var (X) = np ( 1 - p)\n\n• 應用示例：\n\n◦ 電商投放n 則廣告，觀察成功（如點擊或購買）的次數。\n\n◦ 檢驗n 個產品中合格品的數量。\n\n• 侷限：\n\n◦ 試驗必須是獨立的，且成功機率p 固定，若任一條件不滿足，則不適\n\n用。\n\n#### （3）泊松分佈（Poisson Distribution）\n\n• 定義：泊松分佈用來描述某一事件在固定時間或空間區間內「發生次數」\n\n的機率分佈，平均發生率（速率）為𝛌。\n\n• 數學公式：\n\n𝑃(𝑋= 𝑘) = 𝜆𝑘𝑒−𝜆 𝑘!，𝑘= 0,1, …\n\n◦ 𝛌：事件的平均發生率（每單位時間或空間的平均次數）\n\n◦ k：事件發生的次數\n\n◦ e：自然對數的底數，約為2.71828\n\n• 期望值與變異數：\n\nE(X) = Var(X) =\n\n• 應用示例：\n\n◦ 事件的次數，例如客戶服務中心的來電量、網站的訪問次數。\n\n◦ 稀少事件的發生，如設備故障、車禍發生的次數。\n\n• 侷限：\n\n◦ 泊松分佈假設事件發生的平均發生速率𝛌是固定的，若發生率隨時間變\n\n化則不適用。\n\n4.\n\n#### （1）常態分佈（Normal Distribution）\n\n• 定義：\n\n◦ 常態分佈是最常見的連續型機率分佈之一，其數據呈現對稱的鐘形曲\n\n線。它由兩個參數決定：均值（μ）和標準差（σ），這兩個參數決定了分佈的中心位置和擴展範圍。\n\n◦ 常態分佈常用來描述許多自然現象中的變數行為。\n\n◦ 根據中央極限定理（Central limit theorem），當樣本量足夠大時，無論\n\n原始資料分佈為何，任一組獨立且同分佈的隨機變數，其總和或平均值的分佈都會趨近於常態分佈。\n\n• 數學公式：\n\n◦ 常態分佈的機率密度函數（PDF）為：\n\n𝑒𝑥𝑝(−(𝑥−𝜇)2 𝑓(𝑥) = 1 2𝜎2 )\n\n𝜎√2𝜋\n\n• 期望值與變異數：\n\nE(X) = Var(X) = 2\n\n• 應用示例：\n\n◦ 身高、體重等自然科學數據通常服從常態分佈。\n\n◦ 在金融領域，股票的價格波動、日收益等也可近似常態分佈。\n\n◦ 用於假設檢定（如t 檢定、z 檢定等）。\n\n• 侷限：\n\n◦ 若數據呈現偏態或長尾（Leptokurtic），則不適合假設常態分佈。\n\n◦ 極端值較多的情況下常態分佈不再適用。\n\n#### （2）指數分佈（Exponential Distribution）\n\n• 定義：\n\n◦ 指數分佈描述的是事件發生之間的間隔時間，適用於隨機過程中等待\n\n時間的分佈，通常用來描述「等待時間」或「生存時間」。\n\n◦ 例如，機器故障時間、電話來電間隔等都可以用指數分佈來建模。該分\n\n佈的特徵是記憶性（Memoryless），即未來的事件發生與過去的時間無關。\n\n• 數學公式：\n\n◦ 指數分佈的機率密度函數（PDF）為：\n\nf (x)=e-x，x 0\n\n◦ 其中：𝛌是發生率，定義為單位時間內事件發生的平均頻率。\n\n• 期望值與變異數：\n\n𝐸(𝑋) = 1 𝜆 Var(𝑋) = 1 𝜆2\n\n• 應用示例：\n\n◦ 描述等待時間，如客服中心接到來電的時間間隔。\n\n◦ 機器壽命、零件故障時間等。\n\n◦ 排隊理論中的基礎模型。\n\n• 侷限：\n\n◦ 需要假設事件發生率是固定的；若隨時間變化，指數分佈將不再適用。\n\n◦ 當發生事件的速率變化時，需選擇更複雜的分佈，如Weibull 分佈。\n\n#### （3）卡方分佈（Chi-square Distribution）\n\n• 定義：\n\n◦ 卡方分佈是常態分佈的平方和，通常用於檢驗假設、測量變異數，並且\n\n與多種統計檢定（如適配度檢定、獨立性檢定、齊一性檢定）相關。\n\n◦ 卡方分佈是一個偏態分佈，且隨著自由度k 的增加，卡方分佈會趨近\n\n常態分佈。\n\n• 關於自由度（Degrees of Freedom）：\n\n◦ 定義：\n\n○ 自由度（Degrees of Freedom, df）是統計學中的一個重要概念，指的\n\n是在計算統計量時，「可以自由變動的資料點數量」。\n\n○ 在許多統計檢定和估計中，自由度的大小會影響檢定的結果、分佈\n\n的形狀及其精確度。\n\n◦ 示例：\n\n○ 例如，在計算樣本標準差時，使用了樣本平均值作為已知量，這樣就\n\n減少了一個自由度。\n\n◦ 卡方分佈中的應用：\n\n○ 自由度（k）是卡方分佈中的一個重要參數，影響卡方分佈的形狀與\n\n尾部的長度。\n\n○ 當自由度較小時，卡方分佈會有更明顯的偏態。\n\n○ 當自由度增加時，分佈會逐漸趨近常態分佈。\n\n• 數學公式：\n\n◦ 卡方分佈的機率密度函數（PDF）為：\n\n𝑘 2−1𝑒−𝑥 𝑓(𝑥) = 𝑥 2，𝑥≥0 𝑘 2Γ (𝑘 2 2)\n\n◦ 其中：k 是自由度；𝚪是伽瑪函數。\n\n• 期望值與變異數：\n\nE(X) = k Var(X) = 2k\n\n• 應用示例：\n\n◦ 用於假設檢定，尤其是適配度檢定（Goodness of Fit）和列聯表獨立性\n\n檢定。\n\n◦ 測量樣本資料與理論分佈的差異，檢查變數間的獨立性。\n\n• 侷限：\n\n◦ 若自由度k 較小，檢定的準確度可能會受限。\n\n5.\n\n#### （1）定義\n\n• 分佈擬合（Distribution Fitting）：\n\n分佈擬合的目的是找出一個合適的數學模型（分佈），來描述我們收集到的資料。例如，當我們收集到一大堆的銷售數據，我們會想知道這些數據的分佈形態是什麼樣的。它是像鐘形一樣對稱的（如常態分佈），還是稀疏事件（如Poisson 分佈）？我們需要從不同的分佈中選擇一個，來準確描述我們的數據。\n\n我們進行分佈擬合，基本上就是選擇一個適合的分佈來代表資料的樣子，然後通過數學方法（比如最大似然估計），找出這個分佈的參數，讓它最好地貼合我們的數據。\n\n• 資料建模\n\n資料建模則是將擬合後的分佈應用到現實問題中，來進行預測、風險分析或其他決策。例如，假設我們已經確定了某些業務數據（像是網站點擊量）符合常態分佈，那麼我們就可以利用這個分佈的特性來預測未來的網站訪問量，或計算出異常情況發生的機率。\n\n在這個過程中，資料建模不僅限於描述數據的分佈，它還會將這些數學模型應用到實際的業務情境中，比如做出商業預測、風險預測，或者為機器學習模型提供更準確的數據特徵。\n\n#### （2）步驟\n\n分佈擬合的成功取決於資料特性與假設的匹配，以下為關鍵條件與考量：\n\n• 資料型態確認：\n\n◦ 需先判斷資料屬於離散型還是連續型（如交易金額）。\n\n◦ 離散型資料適用於計數變數，如某製造企業分析每日故障次數。\n\n◦ 連續型資料則適用於測量變數，例如某醫療機構分析病患等待時間。\n\n• 模型候選選擇：\n\n◦ 根據資料特性選取分佈。\n\n◦ 若資料呈現偏態或長尾（如收入資料偏度2.5），可考慮對數常態分佈\n\n或重尾分佈（如t 分佈）。\n\n◦ 若事件稀少且獨立（如每小時客服投訴），則泊松分佈較合適。例如，\n\n某金融機構分析交易頻率，發現事件稀疏，選用泊松分佈提升預測準確性。\n\n• 獨立性與固定率假設：\n\n◦ 二項分佈與泊松分佈假設試驗獨立且機率或發生率固定。\n\n◦ 例如，某零售企業分析顧客購買行為，若促銷活動改變成功率，二項分\n\n佈可能失效，需改用動態模型。實務中，需檢查資料是否滿足假設，例如使用自相關（Autocorrelation）分析確認獨立性。",
   "contentFormat": "markdown",
   "headings": [
     {
@@ -73,7 +73,10 @@
         118.18,
         174.28
       ],
-      "id": "block-1"
+      "id": "block-1",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -87,7 +90,10 @@
         90.67,
         218.12
       ],
-      "id": "block-2"
+      "id": "block-2",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -100,7 +106,10 @@
         518.15,
         342.5
       ],
-      "id": "block-3"
+      "id": "block-3",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -114,7 +123,10 @@
         90.67,
         393.11
       ],
-      "id": "block-4"
+      "id": "block-4",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -127,7 +139,10 @@
         518.02,
         492.52
       ],
-      "id": "block-5"
+      "id": "block-5",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -141,7 +156,10 @@
         243.55,
         542.56
       ],
-      "id": "block-6"
+      "id": "block-6",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -154,11 +172,14 @@
         520.8,
         592.6
       ],
-      "id": "block-7"
+      "id": "block-7",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "期望值（Expected Value, E（X））",
       "pageIndex": 19,
@@ -168,11 +189,15 @@
         306.19,
         617.56
       ],
-      "id": "block-8"
+      "id": "block-8",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "期望值是一個隨機變數的加權平均值，它描述的是該隨機變數在多次試驗中可能出現的平均結果。期望值在統計學中有時被稱為「數學期望」，代表了隨機變數的長期平均或中心位置。",
       "pageIndex": 19,
       "bbox": [
@@ -181,11 +206,15 @@
         517.85,
         692.59
       ],
-      "id": "block-9"
+      "id": "block-9",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "對於離散型隨機變數X，期望值的計算公式為：",
       "pageIndex": 19,
       "bbox": [
@@ -194,7 +223,10 @@
         403.29,
         717.55
       ],
-      "id": "block-10"
+      "id": "block-10",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -207,11 +239,15 @@
         456.24,
         773.36
       ],
-      "id": "block-11"
+      "id": "block-11",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "對於連續型隨機變數X，期望值的計算公式為：",
       "pageIndex": 20,
       "bbox": [
@@ -220,7 +256,10 @@
         403.29,
         139.07
       ],
-      "id": "block-12"
+      "id": "block-12",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -233,11 +272,14 @@
         417.69,
         213.06
       ],
-      "id": "block-13"
+      "id": "block-13",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "變異數（Variance, Var（X））",
       "pageIndex": 20,
@@ -247,11 +289,15 @@
         281.23,
         238.07
       ],
-      "id": "block-14"
+      "id": "block-14",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "變異數衡量的是隨機變數取值的分散程度，它反映了數據點偏離期望值的平均程度。變異數越大，表示隨機變數的取值越分散；變異數越小，表示隨機變數的取值較為集中。",
       "pageIndex": 20,
       "bbox": [
@@ -260,11 +306,15 @@
         521.15,
         313.1
       ],
-      "id": "block-15"
+      "id": "block-15",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "對於離散型隨機變數X，變異數的計算公式為：",
       "pageIndex": 20,
       "bbox": [
@@ -273,20 +323,43 @@
         403.29,
         338.06
       ],
-      "id": "block-16"
+      "id": "block-16",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "𝑛 2𝑃(𝑥𝑖) Var(𝑋) = ∑(𝑥𝑖−𝐸(𝑋)) 𝑖=1 對於連續型隨機變數X，變異數的計算公式為：",
+      "text": "𝑛 2𝑃(𝑥𝑖) Var(𝑋) = ∑(𝑥𝑖−𝐸(𝑋)) 𝑖=1",
+      "pageIndex": 20,
+      "bbox": [
+        136.0,
+        351.99,
+        297.25,
+        393.76
+      ],
+      "id": "block-17",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "對於連續型隨機變數X，變異數的計算公式為：",
       "pageIndex": 20,
       "bbox": [
         120.52,
-        351.99,
+        406.69,
         403.29,
         420.14
       ],
-      "id": "block-17"
+      "id": "block-18",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -299,11 +372,15 @@
         514.2,
         494.08
       ],
-      "id": "block-18"
+      "id": "block-19",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "標準差（Standard Deviation）：變異數的平方根，便於直觀理解資料的分佈，並且單位與原資料相同。",
       "pageIndex": 20,
       "bbox": [
@@ -312,7 +389,10 @@
         518.02,
         544.0
       ],
-      "id": "block-19"
+      "id": "block-20",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -326,7 +406,10 @@
         218.35,
         594.04
       ],
-      "id": "block-20"
+      "id": "block-21",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -339,38 +422,82 @@
         470.28,
         619.0
       ],
-      "id": "block-21"
+      "id": "block-22",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "離散型機率分佈（Discrete Probability Distribution） 離散型隨機變數：",
+      "text": "離散型機率分佈（Discrete Probability Distribution）",
       "pageIndex": 20,
       "bbox": [
         102.16,
         630.54,
         402.93,
+        643.99
+      ],
+      "id": "block-23",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "離散型隨機變數：",
+      "pageIndex": 20,
+      "bbox": [
+        120.52,
+        655.62,
+        239.95,
         669.07
       ],
-      "id": "block-22"
+      "id": "block-24",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "值是有限或可數的，例如擲骰子的結果（1、2、3、4、5、6）或某電",
+      "pageIndex": 20,
+      "bbox": [
+        136.12,
+        680.58,
+        518.37,
+        694.03
+      ],
+      "id": "block-25",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "值是有限或可數的，例如擲骰子的結果（1、2、3、4、5、6）或某電商平台每日訂單數（0、1、2…）。這些變數的值通常為整數，且可能取值集合是明確的。",
+      "text": "商平台每日訂單數（0、1、2…）。這些變數的值通常為整數，且可能取值集合是明確的。",
       "pageIndex": 20,
       "bbox": [
         76.6,
-        680.58,
+        705.7,
         518.4,
         760.62
       ],
-      "id": "block-23"
+      "id": "block-26",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "離散型機率分佈：",
       "pageIndex": 21,
       "bbox": [
@@ -379,11 +506,15 @@
         239.95,
         114.11
       ],
-      "id": "block-24"
+      "id": "block-27",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "透過機率質量函數（Probability Mass Function, PMF）描述隨機變數 「每一個特定取值的機率」。",
       "pageIndex": 21,
       "bbox": [
@@ -392,37 +523,99 @@
         518.37,
         164.15
       ],
-      "id": "block-25"
+      "id": "block-28",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "例如，擲骰子時，PMF 為P（X=1）=1/6，P（X=2）=1/6，PMF 總和等於1：",
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "例如，擲骰子時，PMF 為P（X=1）=1/6，P（X=2）=1/6，",
       "pageIndex": 21,
       "bbox": [
         136.12,
         175.66,
         478.92,
+        189.11
+      ],
+      "id": "block-29",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "PMF 總和等於1：",
+      "pageIndex": 21,
+      "bbox": [
+        136.12,
+        200.62,
+        253.99,
         214.07
       ],
-      "id": "block-26"
+      "id": "block-30",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "∑𝑃(𝑋= 𝑥𝑖) = 1 𝑥𝑖 • 連續型機率分佈（Continuous Probability Distribution） 連續型隨機變數：",
+      "text": "∑𝑃(𝑋= 𝑥𝑖) = 1 𝑥𝑖",
+      "pageIndex": 21,
+      "bbox": [
+        150.76,
+        238.73,
+        244.99,
+        266.93
+      ],
+      "id": "block-31",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "連續型機率分佈（Continuous Probability Distribution）",
       "pageIndex": 21,
       "bbox": [
         102.16,
-        238.73,
+        282.73,
         418.77,
-        321.14
+        296.18
       ],
-      "id": "block-27"
+      "id": "block-32",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "連續型隨機變數：",
+      "pageIndex": 21,
+      "bbox": [
+        120.52,
+        307.69,
+        239.95,
+        321.14
+      ],
+      "id": "block-33",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "值是無限且連續的，通常用於描述測量型變數，如身高、體重、時間或溫度。這些變數不僅包含整數，還可以是任意實數，例如某病患等待時間可能為5.3 分鐘或5.31 分鐘。",
       "pageIndex": 21,
       "bbox": [
@@ -431,11 +624,15 @@
         518.32,
         396.14
       ],
-      "id": "block-28"
+      "id": "block-34",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "連續型機率分佈：",
       "pageIndex": 21,
       "bbox": [
@@ -444,11 +641,15 @@
         239.95,
         421.22
       ],
-      "id": "block-29"
+      "id": "block-35",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "透過機率密度函數（Probability Density Function,PDF）描述隨機變數 「於某取值範圍內的機率」。對於連續型隨機變數X，PDF 必須滿足以下條件：",
       "pageIndex": 21,
       "bbox": [
@@ -457,20 +658,43 @@
         518.4,
         496.24
       ],
-      "id": "block-30"
+      "id": "block-36",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "𝑏 𝑃(𝑎≤𝑋≤𝑏) = ∫𝑓(𝑥) 𝑑𝑥 𝑎 ○ 其中，f（x）是隨機變數X 的機率密度函數（PDF），描述了隨機變數在區間[a, b]內的機率。",
+      "text": "𝑏 𝑃(𝑎≤𝑋≤𝑏) = ∫𝑓(𝑥) 𝑑𝑥 𝑎",
+      "pageIndex": 21,
+      "bbox": [
+        150.88,
+        506.69,
+        294.31,
+        540.3
+      ],
+      "id": "block-37",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "其中，f（x）是隨機變數X 的機率密度函數（PDF），描述了隨機變數在區間[a, b]內的機率。",
       "pageIndex": 21,
       "bbox": [
         150.28,
-        506.69,
+        548.55,
         518.39,
         611.92
       ],
-      "id": "block-31"
+      "id": "block-38",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -484,7 +708,10 @@
         193.15,
         661.99
       ],
-      "id": "block-32"
+      "id": "block-39",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -497,11 +724,14 @@
         517.93,
         712.03
       ],
-      "id": "block-33"
+      "id": "block-40",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "風險管理：在金融領域，投資者可以根據資產的機率分佈來計算風險和報酬，進行資產配置和風險控制。",
       "pageIndex": 21,
@@ -511,11 +741,14 @@
         517.99,
         761.94
       ],
-      "id": "block-34"
+      "id": "block-41",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "品質控制：製造業使用常態分佈來描述產品的測量數據，進行品質檢查和控制。",
       "pageIndex": 22,
@@ -525,11 +758,14 @@
         518.4,
         139.07
       ],
-      "id": "block-35"
+      "id": "block-42",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "預測分析：根據過去的數據，利用機率分佈來預測未來事件的可能性，這在各行各業中都很常見，如銷售預測、需求預測等。",
       "pageIndex": 22,
@@ -539,7 +775,10 @@
         517.78,
         189.11
       ],
-      "id": "block-36"
+      "id": "block-43",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -553,7 +792,10 @@
         90.67,
         239.72
       ],
-      "id": "block-37"
+      "id": "block-44",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -567,11 +809,14 @@
         313.39,
         264.14
       ],
-      "id": "block-38"
+      "id": "block-45",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "定義：",
       "pageIndex": 22,
@@ -581,11 +826,15 @@
         159.88,
         289.1
       ],
-      "id": "block-39"
+      "id": "block-46",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "伯努利分佈是一種描述單次試驗中只有兩種結果（成功與失敗）的離散型分佈。它是二項分佈的特例，當試驗次數n=1 時，便可使用伯努利分佈來描述。",
       "pageIndex": 22,
       "bbox": [
@@ -594,11 +843,15 @@
         518.25,
         364.1
       ],
-      "id": "block-40"
+      "id": "block-47",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "數學公式：",
       "pageIndex": 22,
       "bbox": [
@@ -607,7 +860,10 @@
         202.15,
         389.18
       ],
-      "id": "block-41"
+      "id": "block-48",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -620,11 +876,14 @@
         424.65,
         439.1
       ],
-      "id": "block-42"
+      "id": "block-49",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "期望值與變異數：",
       "pageIndex": 22,
@@ -634,7 +893,10 @@
         222.91,
         464.2
       ],
-      "id": "block-43"
+      "id": "block-50",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -647,11 +909,14 @@
         215.35,
         515.44
       ],
-      "id": "block-44"
+      "id": "block-51",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "應用示例：",
       "pageIndex": 22,
@@ -661,11 +926,15 @@
         185.08,
         544.0
       ],
-      "id": "block-45"
+      "id": "block-52",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "單個產品的品質檢測是否合格（1 = 合格，0 = 不合格）。",
       "pageIndex": 22,
       "bbox": [
@@ -674,11 +943,15 @@
         456.6,
         569.08
       ],
-      "id": "block-46"
+      "id": "block-53",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "使用者是否點擊廣告（1 = 點擊，0 = 未點擊）。",
       "pageIndex": 22,
       "bbox": [
@@ -687,11 +960,14 @@
         406.29,
         594.04
       ],
-      "id": "block-47"
+      "id": "block-54",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "侷限：",
       "pageIndex": 22,
@@ -701,11 +977,15 @@
         159.88,
         619.0
       ],
-      "id": "block-48"
+      "id": "block-55",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "僅適用於單次試驗的情況，無法擴展到多次試驗。",
       "pageIndex": 22,
       "bbox": [
@@ -714,7 +994,10 @@
         416.37,
         644.11
       ],
-      "id": "block-49"
+      "id": "block-56",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -728,11 +1011,14 @@
         299.11,
         694.03
       ],
-      "id": "block-50"
+      "id": "block-57",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "定義：",
       "pageIndex": 22,
@@ -742,11 +1028,15 @@
         159.88,
         719.11
       ],
-      "id": "block-51"
+      "id": "block-58",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "二項分佈描述的是在固定次數n 的獨立試驗中，每次試驗成功的機率為p，並記錄成功的次數X。",
       "pageIndex": 22,
       "bbox": [
@@ -755,11 +1045,15 @@
         518.23,
         769.02
       ],
-      "id": "block-52"
+      "id": "block-59",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "二項分佈適用於多次獨立試驗中成功次數的計算。",
       "pageIndex": 23,
       "bbox": [
@@ -768,11 +1062,14 @@
         416.37,
         114.11
       ],
-      "id": "block-53"
+      "id": "block-60",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "數學公式：",
       "pageIndex": 23,
@@ -782,24 +1079,48 @@
         185.08,
         139.07
       ],
-      "id": "block-54"
+      "id": "block-61",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "𝑃(𝑋= 𝑘) = (𝑛 𝑘) 𝑝𝑘(1 −𝑝)𝑛−𝑘，𝑘= 0,1, … , 𝑛 n：表示試驗的總次數（固定的正整數）。",
+      "text": "𝑃(𝑋= 𝑘) = (𝑛 𝑘) 𝑝𝑘(1 −𝑝)𝑛−𝑘，𝑘= 0,1, … , 𝑛",
       "pageIndex": 23,
       "bbox": [
         120.04,
         142.85,
+        354.21,
+        172.02
+      ],
+      "id": "block-62",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "n：表示試驗的總次數（固定的正整數）。",
+      "pageIndex": 23,
+      "bbox": [
+        120.52,
+        183.22,
         366.09,
         196.67
       ],
-      "id": "block-55"
+      "id": "block-63",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "p：表示每次試驗成功的機率，範圍是0 ≦ p ≦ 1。",
       "pageIndex": 23,
       "bbox": [
@@ -808,11 +1129,15 @@
         423.45,
         221.75
       ],
-      "id": "block-56"
+      "id": "block-64",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "k：表示期望成功的次數，且k 是介於0 到n 之間的整數。",
       "pageIndex": 23,
       "bbox": [
@@ -821,33 +1146,76 @@
         460.56,
         246.71
       ],
-      "id": "block-57"
+      "id": "block-65",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "𝑛 ( 𝑘) 二項係數，表示從n 次試驗中選出k 次成功的方式數，計算公式為：",
+      "text": "𝑛",
+      "pageIndex": 23,
+      "bbox": [
+        142.0,
+        255.27,
+        147.53,
+        263.8
+      ],
+      "id": "block-66",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "( 𝑘) 二項係數，表示從n 次試驗中選出k 次成功的方式數，計算公式為：",
       "pageIndex": 23,
       "bbox": [
         120.52,
-        255.27,
+        258.13,
         462.12,
         304.34
       ],
-      "id": "block-58"
+      "id": "block-67",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "(𝑛 𝑘) = 𝑛! 𝑘! (𝑛−𝑘)! • 期望值與變異數：",
+      "text": "(𝑛 𝑘) = 𝑛! 𝑘! (𝑛−𝑘)!",
+      "pageIndex": 23,
+      "bbox": [
+        134.56,
+        313.04,
+        229.02,
+        342.21
+      ],
+      "id": "block-68",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "期望值與變異數：",
       "pageIndex": 23,
       "bbox": [
         102.16,
-        313.04,
-        229.02,
+        353.29,
+        222.91,
         366.74
       ],
-      "id": "block-59"
+      "id": "block-69",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -860,11 +1228,14 @@
         224.23,
         418.1
       ],
-      "id": "block-60"
+      "id": "block-70",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "應用示例：",
       "pageIndex": 23,
@@ -874,11 +1245,15 @@
         185.08,
         441.74
       ],
-      "id": "block-61"
+      "id": "block-71",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "電商投放n 則廣告，觀察成功（如點擊或購買）的次數。",
       "pageIndex": 23,
       "bbox": [
@@ -887,11 +1262,15 @@
         454.2,
         466.84
       ],
-      "id": "block-62"
+      "id": "block-72",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "檢驗n 個產品中合格品的數量。",
       "pageIndex": 23,
       "bbox": [
@@ -900,11 +1279,14 @@
         315.55,
         491.8
       ],
-      "id": "block-63"
+      "id": "block-73",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "侷限：",
       "pageIndex": 23,
@@ -914,11 +1296,15 @@
         159.88,
         516.76
       ],
-      "id": "block-64"
+      "id": "block-74",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "試驗必須是獨立的，且成功機率p 固定，若任一條件不滿足，則不適用。",
       "pageIndex": 23,
       "bbox": [
@@ -927,7 +1313,10 @@
         518.25,
         566.8
       ],
-      "id": "block-65"
+      "id": "block-75",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -941,11 +1330,14 @@
         290.83,
         616.84
       ],
-      "id": "block-66"
+      "id": "block-76",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "定義：泊松分佈用來描述某一事件在固定時間或空間區間內「發生次數」 的機率分佈，平均發生率（速率）為𝛌。",
       "pageIndex": 23,
@@ -955,11 +1347,14 @@
         521.76,
         666.86
       ],
-      "id": "block-67"
+      "id": "block-77",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "數學公式：",
       "pageIndex": 23,
@@ -969,37 +1364,132 @@
         185.08,
         691.87
       ],
-      "id": "block-68"
+      "id": "block-78",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "𝑃(𝑋= 𝑘) = 𝜆𝑘𝑒−𝜆 𝑘!，𝑘= 0,1, … 𝛌：事件的平均發生率（每單位時間或空間的平均次數） k：事件發生的次數 e：自然對數的底數，約為2.71828 • 期望值與變異數：",
+      "text": "𝑃(𝑋= 𝑘) = 𝜆𝑘𝑒−𝜆 𝑘!，𝑘= 0,1, …",
       "pageIndex": 23,
       "bbox": [
-        102.16,
-        100.66,
+        119.2,
+        704.36,
+        282.91,
+        735.26
+      ],
+      "id": "block-79",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "𝛌：事件的平均發生率（每單位時間或空間的平均次數）",
+      "pageIndex": 23,
+      "bbox": [
+        120.52,
+        744.17,
         448.65,
         757.7
       ],
-      "id": "block-69"
+      "id": "block-80",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "k：事件發生的次數",
+      "pageIndex": 24,
+      "bbox": [
+        120.52,
+        100.66,
+        246.31,
+        114.11
+      ],
+      "id": "block-81",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "e：自然對數的底數，約為2.71828",
+      "pageIndex": 24,
+      "bbox": [
+        120.52,
+        125.62,
+        327.69,
+        139.07
+      ],
+      "id": "block-82",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
       "depth": 5,
-      "text": "E(X) = Var(X) = • 應用示例：",
+      "marker": "•",
+      "text": "期望值與變異數：",
       "pageIndex": 24,
       "bbox": [
         102.16,
-        176.02,
-        185.08,
-        239.15
+        150.7,
+        222.91,
+        164.15
       ],
-      "id": "block-70"
+      "id": "block-83",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 5,
+      "text": "E(X) = Var(X) =",
+      "pageIndex": 24,
+      "bbox": [
+        117.71,
+        176.02,
+        182.31,
+        215.7
+      ],
+      "id": "block-84",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "應用示例：",
+      "pageIndex": 24,
+      "bbox": [
+        102.16,
+        225.7,
+        185.08,
+        239.15
+      ],
+      "id": "block-85",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "事件的次數，例如客戶服務中心的來電量、網站的訪問次數。",
       "pageIndex": 24,
       "bbox": [
@@ -1008,11 +1498,15 @@
         479.4,
         264.14
       ],
-      "id": "block-71"
+      "id": "block-86",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "稀少事件的發生，如設備故障、車禍發生的次數。",
       "pageIndex": 24,
       "bbox": [
@@ -1021,11 +1515,14 @@
         416.37,
         289.1
       ],
-      "id": "block-72"
+      "id": "block-87",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "侷限：",
       "pageIndex": 24,
@@ -1035,11 +1532,15 @@
         159.88,
         314.18
       ],
-      "id": "block-73"
+      "id": "block-88",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "泊松分佈假設事件發生的平均發生速率𝛌是固定的，若發生率隨時間變化則不適用。",
       "pageIndex": 24,
       "bbox": [
@@ -1048,7 +1549,10 @@
         518.25,
         364.1
       ],
-      "id": "block-74"
+      "id": "block-89",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1062,7 +1566,10 @@
         90.67,
         414.71
       ],
-      "id": "block-75"
+      "id": "block-90",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1076,11 +1583,14 @@
         291.19,
         439.1
       ],
-      "id": "block-76"
+      "id": "block-91",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "定義：",
       "pageIndex": 24,
@@ -1090,11 +1600,15 @@
         159.88,
         464.2
       ],
-      "id": "block-77"
+      "id": "block-92",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "常態分佈是最常見的連續型機率分佈之一，其數據呈現對稱的鐘形曲線。它由兩個參數決定：均值（μ）和標準差（σ），這兩個參數決定了分佈的中心位置和擴展範圍。",
       "pageIndex": 24,
       "bbox": [
@@ -1103,11 +1617,15 @@
         518.16,
         539.2
       ],
-      "id": "block-78"
+      "id": "block-93",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "常態分佈常用來描述許多自然現象中的變數行為。",
       "pageIndex": 24,
       "bbox": [
@@ -1116,11 +1634,15 @@
         416.37,
         564.16
       ],
-      "id": "block-79"
+      "id": "block-94",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "根據中央極限定理（Central limit theorem），當樣本量足夠大時，無論原始資料分佈為何，任一組獨立且同分佈的隨機變數，其總和或平均值的分佈都會趨近於常態分佈。",
       "pageIndex": 24,
       "bbox": [
@@ -1129,11 +1651,14 @@
         518.25,
         639.19
       ],
-      "id": "block-80"
+      "id": "block-95",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "數學公式：",
       "pageIndex": 24,
@@ -1143,11 +1668,15 @@
         185.08,
         664.15
       ],
-      "id": "block-81"
+      "id": "block-96",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "常態分佈的機率密度函數（PDF）為：",
       "pageIndex": 24,
       "bbox": [
@@ -1156,7 +1685,10 @@
         351.09,
         689.23
       ],
-      "id": "block-82"
+      "id": "block-97",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1169,11 +1701,14 @@
         302.22,
         732.62
       ],
-      "id": "block-83"
+      "id": "block-98",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "期望值與變異數：",
       "pageIndex": 25,
@@ -1183,24 +1718,48 @@
         222.91,
         114.11
       ],
-      "id": "block-84"
+      "id": "block-99",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "E(X) = Var(X) = 2 • 應用示例：",
+      "text": "E(X) = Var(X) = 2",
+      "pageIndex": 25,
+      "bbox": [
+        119.2,
+        125.74,
+        184.84,
+        165.47
+      ],
+      "id": "block-100",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "應用示例：",
       "pageIndex": 25,
       "bbox": [
         102.16,
-        125.74,
+        175.66,
         185.08,
         189.11
       ],
-      "id": "block-85"
+      "id": "block-101",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "身高、體重等自然科學數據通常服從常態分佈。",
       "pageIndex": 25,
       "bbox": [
@@ -1209,11 +1768,15 @@
         403.77,
         214.07
       ],
-      "id": "block-86"
+      "id": "block-102",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "在金融領域，股票的價格波動、日收益等也可近似常態分佈。",
       "pageIndex": 25,
       "bbox": [
@@ -1222,11 +1785,15 @@
         479.4,
         239.15
       ],
-      "id": "block-87"
+      "id": "block-103",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "用於假設檢定（如t 檢定、z 檢定等）。",
       "pageIndex": 25,
       "bbox": [
@@ -1235,11 +1802,14 @@
         353.25,
         264.14
       ],
-      "id": "block-88"
+      "id": "block-104",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "侷限：",
       "pageIndex": 25,
@@ -1249,11 +1819,15 @@
         159.88,
         289.1
       ],
-      "id": "block-89"
+      "id": "block-105",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "若數據呈現偏態或長尾（Leptokurtic），則不適合假設常態分佈。",
       "pageIndex": 25,
       "bbox": [
@@ -1262,11 +1836,15 @@
         494.64,
         314.18
       ],
-      "id": "block-90"
+      "id": "block-106",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "極端值較多的情況下常態分佈不再適用。",
       "pageIndex": 25,
       "bbox": [
@@ -1275,7 +1853,10 @@
         365.97,
         339.14
       ],
-      "id": "block-91"
+      "id": "block-107",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1289,11 +1870,14 @@
         315.43,
         389.18
       ],
-      "id": "block-92"
+      "id": "block-108",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "定義：",
       "pageIndex": 25,
@@ -1303,11 +1887,15 @@
         159.88,
         414.14
       ],
-      "id": "block-93"
+      "id": "block-109",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "指數分佈描述的是事件發生之間的間隔時間，適用於隨機過程中等待時間的分佈，通常用來描述「等待時間」或「生存時間」。",
       "pageIndex": 25,
       "bbox": [
@@ -1316,11 +1904,15 @@
         517.85,
         464.2
       ],
-      "id": "block-94"
+      "id": "block-110",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "例如，機器故障時間、電話來電間隔等都可以用指數分佈來建模。該分佈的特徵是記憶性（Memoryless），即未來的事件發生與過去的時間無關。",
       "pageIndex": 25,
       "bbox": [
@@ -1329,11 +1921,14 @@
         518.25,
         539.2
       ],
-      "id": "block-95"
+      "id": "block-111",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "數學公式：",
       "pageIndex": 25,
@@ -1343,11 +1938,15 @@
         185.08,
         564.16
       ],
-      "id": "block-96"
+      "id": "block-112",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "指數分佈的機率密度函數（PDF）為：",
       "pageIndex": 25,
       "bbox": [
@@ -1356,24 +1955,47 @@
         351.09,
         589.12
       ],
-      "id": "block-97"
+      "id": "block-113",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "f (x)=e-x，x 0 其中：𝛌是發生率，定義為單位時間內事件發生的平均頻率。",
+      "text": "f (x)=e-x，x 0",
       "pageIndex": 25,
       "bbox": [
-        120.52,
+        136.72,
         598.61,
-        473.88,
-        646.82
+        233.23,
+        613.94
       ],
-      "id": "block-98"
+      "id": "block-114",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 6,
+      "marker": "◦",
+      "text": "其中：𝛌是發生率，定義為單位時間內事件發生的平均頻率。",
+      "pageIndex": 25,
+      "bbox": [
+        120.52,
+        633.3,
+        473.88,
+        646.82
+      ],
+      "id": "block-115",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
       "marker": "•",
       "text": "期望值與變異數：",
       "pageIndex": 25,
@@ -1383,7 +2005,10 @@
         222.91,
         671.83
       ],
-      "id": "block-99"
+      "id": "block-116",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1396,11 +2021,14 @@
         184.0,
         738.5
       ],
-      "id": "block-100"
+      "id": "block-117",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "應用示例：",
       "pageIndex": 26,
@@ -1410,11 +2038,15 @@
         185.08,
         114.11
       ],
-      "id": "block-101"
+      "id": "block-118",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "描述等待時間，如客服中心接到來電的時間間隔。",
       "pageIndex": 26,
       "bbox": [
@@ -1423,11 +2055,15 @@
         416.37,
         139.07
       ],
-      "id": "block-102"
+      "id": "block-119",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "機器壽命、零件故障時間等。",
       "pageIndex": 26,
       "bbox": [
@@ -1436,11 +2072,15 @@
         302.95,
         164.15
       ],
-      "id": "block-103"
+      "id": "block-120",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "排隊理論中的基礎模型。",
       "pageIndex": 26,
       "bbox": [
@@ -1449,11 +2089,14 @@
         277.75,
         189.11
       ],
-      "id": "block-104"
+      "id": "block-121",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "侷限：",
       "pageIndex": 26,
@@ -1463,11 +2106,15 @@
         159.88,
         214.07
       ],
-      "id": "block-105"
+      "id": "block-122",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "需要假設事件發生率是固定的；若隨時間變化，指數分佈將不再適用。",
       "pageIndex": 26,
       "bbox": [
@@ -1476,11 +2123,15 @@
         521.88,
         239.15
       ],
-      "id": "block-106"
+      "id": "block-123",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "當發生事件的速率變化時，需選擇更複雜的分佈，如Weibull 分佈。",
       "pageIndex": 26,
       "bbox": [
@@ -1489,7 +2140,10 @@
         512.88,
         264.14
       ],
-      "id": "block-107"
+      "id": "block-124",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1503,11 +2157,14 @@
         310.27,
         314.18
       ],
-      "id": "block-108"
+      "id": "block-125",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "定義：",
       "pageIndex": 26,
@@ -1517,11 +2174,15 @@
         159.88,
         339.14
       ],
-      "id": "block-109"
+      "id": "block-126",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "卡方分佈是常態分佈的平方和，通常用於檢驗假設、測量變異數，並且與多種統計檢定（如適配度檢定、獨立性檢定、齊一性檢定）相關。",
       "pageIndex": 26,
       "bbox": [
@@ -1530,11 +2191,15 @@
         518.2,
         389.18
       ],
-      "id": "block-110"
+      "id": "block-127",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "卡方分佈是一個偏態分佈，且隨著自由度k 的增加，卡方分佈會趨近常態分佈。",
       "pageIndex": 26,
       "bbox": [
@@ -1543,11 +2208,14 @@
         518.25,
         439.1
       ],
-      "id": "block-111"
+      "id": "block-128",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "關於自由度（Degrees of Freedom）：",
       "pageIndex": 26,
@@ -1557,11 +2225,15 @@
         319.99,
         464.2
       ],
-      "id": "block-112"
+      "id": "block-129",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "定義：",
       "pageIndex": 26,
       "bbox": [
@@ -1570,11 +2242,15 @@
         176.92,
         489.16
       ],
-      "id": "block-113"
+      "id": "block-130",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "自由度（Degrees of Freedom, df）是統計學中的一個重要概念，指的是在計算統計量時，「可以自由變動的資料點數量」。",
       "pageIndex": 26,
       "bbox": [
@@ -1583,11 +2259,15 @@
         518.19,
         539.2
       ],
-      "id": "block-114"
+      "id": "block-131",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "在許多統計檢定和估計中，自由度的大小會影響檢定的結果、分佈的形狀及其精確度。",
       "pageIndex": 26,
       "bbox": [
@@ -1596,11 +2276,15 @@
         518.25,
         589.12
       ],
-      "id": "block-115"
+      "id": "block-132",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "示例：",
       "pageIndex": 26,
       "bbox": [
@@ -1609,11 +2293,15 @@
         176.92,
         614.2
       ],
-      "id": "block-116"
+      "id": "block-133",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "例如，在計算樣本標準差時，使用了樣本平均值作為已知量，這樣就減少了一個自由度。",
       "pageIndex": 26,
       "bbox": [
@@ -1622,11 +2310,15 @@
         518.04,
         664.15
       ],
-      "id": "block-117"
+      "id": "block-134",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "卡方分佈中的應用：",
       "pageIndex": 26,
       "bbox": [
@@ -1635,11 +2327,15 @@
         252.55,
         689.23
       ],
-      "id": "block-118"
+      "id": "block-135",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "自由度（k）是卡方分佈中的一個重要參數，影響卡方分佈的形狀與尾部的長度。",
       "pageIndex": 26,
       "bbox": [
@@ -1648,11 +2344,15 @@
         518.07,
         739.15
       ],
-      "id": "block-119"
+      "id": "block-136",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "當自由度較小時，卡方分佈會有更明顯的偏態。",
       "pageIndex": 26,
       "bbox": [
@@ -1661,11 +2361,15 @@
         418.05,
         764.22
       ],
-      "id": "block-120"
+      "id": "block-137",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "當自由度增加時，分佈會逐漸趨近常態分佈。",
       "pageIndex": 27,
       "bbox": [
@@ -1674,11 +2378,14 @@
         405.45,
         114.11
       ],
-      "id": "block-121"
+      "id": "block-138",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "數學公式：",
       "pageIndex": 27,
@@ -1688,11 +2395,15 @@
         185.08,
         139.07
       ],
-      "id": "block-122"
+      "id": "block-139",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "卡方分佈的機率密度函數（PDF）為：",
       "pageIndex": 27,
       "bbox": [
@@ -1701,24 +2412,47 @@
         351.09,
         164.15
       ],
-      "id": "block-123"
+      "id": "block-140",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "𝑘 2−1𝑒−𝑥 𝑓(𝑥) = 𝑥 2，𝑥≥0 𝑘 2Γ (𝑘 2 2) 其中：k 是自由度；𝚪是伽瑪函數。",
+      "text": "𝑘 2−1𝑒−𝑥 𝑓(𝑥) = 𝑥 2，𝑥≥0 𝑘 2Γ (𝑘 2 2)",
       "pageIndex": 27,
       "bbox": [
-        120.52,
+        135.4,
         166.68,
-        332.13,
-        238.14
+        263.95,
+        216.66
       ],
-      "id": "block-124"
+      "id": "block-141",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 6,
+      "marker": "◦",
+      "text": "其中：k 是自由度；𝚪是伽瑪函數。",
+      "pageIndex": 27,
+      "bbox": [
+        120.52,
+        224.62,
+        332.13,
+        238.14
+      ],
+      "id": "block-142",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
       "marker": "•",
       "text": "期望值與變異數：",
       "pageIndex": 27,
@@ -1728,24 +2462,48 @@
         222.91,
         263.06
       ],
-      "id": "block-125"
+      "id": "block-143",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "E(X) = k Var(X) = 2k • 應用示例：",
+      "text": "E(X) = k Var(X) = 2k",
+      "pageIndex": 27,
+      "bbox": [
+        119.2,
+        276.05,
+        181.6,
+        314.42
+      ],
+      "id": "block-144",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "應用示例：",
       "pageIndex": 27,
       "bbox": [
         102.16,
-        276.05,
+        324.61,
         185.08,
         338.06
       ],
-      "id": "block-126"
+      "id": "block-145",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "用於假設檢定，尤其是適配度檢定（Goodness of Fit）和列聯表獨立性檢定。",
       "pageIndex": 27,
       "bbox": [
@@ -1754,11 +2512,15 @@
         518.28,
         388.1
       ],
-      "id": "block-127"
+      "id": "block-146",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "測量樣本資料與理論分佈的差異，檢查變數間的獨立性。",
       "pageIndex": 27,
       "bbox": [
@@ -1767,11 +2529,14 @@
         454.2,
         413.06
       ],
-      "id": "block-128"
+      "id": "block-147",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "侷限：",
       "pageIndex": 27,
@@ -1781,11 +2546,15 @@
         159.88,
         438.02
       ],
-      "id": "block-129"
+      "id": "block-148",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "若自由度k 較小，檢定的準確度可能會受限。",
       "pageIndex": 27,
       "bbox": [
@@ -1794,7 +2563,10 @@
         391.17,
         463.12
       ],
-      "id": "block-130"
+      "id": "block-149",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1808,7 +2580,10 @@
         90.67,
         513.61
       ],
-      "id": "block-131"
+      "id": "block-150",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1822,11 +2597,14 @@
         130.0,
         538.12
       ],
-      "id": "block-132"
+      "id": "block-151",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "分佈擬合（Distribution Fitting）：",
       "pageIndex": 27,
@@ -1836,7 +2614,10 @@
         303.07,
         563.08
       ],
-      "id": "block-133"
+      "id": "block-152",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1849,7 +2630,10 @@
         518.35,
         688.15
       ],
-      "id": "block-134"
+      "id": "block-153",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1862,11 +2646,14 @@
         518.2,
         763.14
       ],
-      "id": "block-135"
+      "id": "block-154",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資料建模資料建模則是將擬合後的分佈應用到現實問題中，來進行預測、風險分析或其他決策。例如，假設我們已經確定了某些業務數據（像是網站點擊量）符合常態分佈，那麼我們就可以利用這個分佈的特性來預測未來的網站訪問量，或計算出異常情況發生的機率。",
       "pageIndex": 28,
@@ -1876,7 +2663,10 @@
         518.2,
         214.07
       ],
-      "id": "block-136"
+      "id": "block-155",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1889,7 +2679,10 @@
         518.44,
         289.1
       ],
-      "id": "block-137"
+      "id": "block-156",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1903,7 +2696,10 @@
         130.0,
         339.14
       ],
-      "id": "block-138"
+      "id": "block-157",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1916,11 +2712,14 @@
         508.08,
         364.1
       ],
-      "id": "block-139"
+      "id": "block-158",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資料型態確認：",
       "pageIndex": 28,
@@ -1930,11 +2729,15 @@
         210.31,
         389.18
       ],
-      "id": "block-140"
+      "id": "block-159",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "需先判斷資料屬於離散型還是連續型（如交易金額）。",
       "pageIndex": 28,
       "bbox": [
@@ -1943,11 +2746,15 @@
         435.33,
         414.14
       ],
-      "id": "block-141"
+      "id": "block-160",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "離散型資料適用於計數變數，如某製造企業分析每日故障次數。",
       "pageIndex": 28,
       "bbox": [
@@ -1956,11 +2763,15 @@
         492.0,
         439.1
       ],
-      "id": "block-142"
+      "id": "block-161",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "連續型資料則適用於測量變數，例如某醫療機構分析病患等待時間。",
       "pageIndex": 28,
       "bbox": [
@@ -1969,11 +2780,14 @@
         517.2,
         464.2
       ],
-      "id": "block-143"
+      "id": "block-162",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "模型候選選擇：",
       "pageIndex": 28,
@@ -1983,11 +2797,15 @@
         210.31,
         489.16
       ],
-      "id": "block-144"
+      "id": "block-163",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "根據資料特性選取分佈。",
       "pageIndex": 28,
       "bbox": [
@@ -1996,11 +2814,15 @@
         277.75,
         514.12
       ],
-      "id": "block-145"
+      "id": "block-164",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "若資料呈現偏態或長尾（如收入資料偏度2.5），可考慮對數常態分佈或重尾分佈（如t 分佈）。",
       "pageIndex": 28,
       "bbox": [
@@ -2009,11 +2831,15 @@
         518.26,
         564.16
       ],
-      "id": "block-146"
+      "id": "block-165",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "若事件稀少且獨立（如每小時客服投訴），則泊松分佈較合適。例如，某金融機構分析交易頻率，發現事件稀疏，選用泊松分佈提升預測準確性。",
       "pageIndex": 28,
       "bbox": [
@@ -2022,11 +2848,14 @@
         519.86,
         639.19
       ],
-      "id": "block-147"
+      "id": "block-166",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "獨立性與固定率假設：",
       "pageIndex": 28,
@@ -2036,11 +2865,15 @@
         248.11,
         664.15
       ],
-      "id": "block-148"
+      "id": "block-167",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "二項分佈與泊松分佈假設試驗獨立且機率或發生率固定。",
       "pageIndex": 28,
       "bbox": [
@@ -2049,11 +2882,15 @@
         454.2,
         689.23
       ],
-      "id": "block-149"
+      "id": "block-168",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "例如，某零售企業分析顧客購買行為，若促銷活動改變成功率，二項分佈可能失效，需改用動態模型。實務中，需檢查資料是否滿足假設，例如使用自相關（Autocorrelation）分析確認獨立性。",
       "pageIndex": 28,
       "bbox": [
@@ -2062,7 +2899,10 @@
         518.05,
         764.22
       ],
-      "id": "block-150"
+      "id": "block-169",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     }
   ],
   "sourcePages": [

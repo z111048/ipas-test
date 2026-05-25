@@ -1,7 +1,7 @@
 {
   "id": "mid-s3c1",
   "title": "機率/統計之機器學習基礎應用",
-  "content": "# 機率/統計之機器學習基礎應用\n\n3.1 機率/\n\n統計之機器學習基礎應用\n\n### 1. 前言與章節導覽\n\n在真實世界中，資料往往受限於觀察條件、取樣變異或內在隨機性，使得預測結果不具唯一性與確定性。因此，機器學習模型的核心任務，並非僅在於尋找絕對規則，而是要能處理資料中不可避免的「不確定性」，並在此基礎上進行合理的預測與決策。這正是機率與統計在機器學習中扮演關鍵角色的原因。\n\n本節將介紹機率與統計在建構機器學習模型時的實務應用，說明如何運用隨機變數、機率分佈來表示資料行為，進而透過條件機率、貝氏定理等概念進行推論與模型更新。同時，也會探討統計推論（如假設檢定、p 值計算）在模型評估與特徵選擇等任務中的操作方法。\n\n### 2. 資料與隨機變數的機率表示\n\n在建構機器學習模型時，其核心邏輯通常可表述為：「在特定觀察條件下，某結果發生的可能性有多大。」這意味著我們並非尋求唯一解，而是學習一種條件機率分佈（Conditional Probability Distribution）。\n\n其形式可表示為：P（Y｜X），其中X 為輸入特徵（Feature）、Y 為目標變數 （Label）。這樣的機率模型有兩種意涵：\n\n• 預測導向：模型輸出為某結果的機率（如分類機率），而非確定性分類結果。\n\n• 不確定性評估：機率反映了模型對預測的信心程度，有助於風險控制與決策制定。\n\n在以機率方式理解資料時，我們會根據資料型態的不同，區分為離散型與連續型隨機變數，並透過不同的機率分佈來加以建模。這些機率分佈不僅可用來表示資料的行為特性，也可作為機器學習模型假設的基礎架構，影響模型選擇與參數學習方式。根據隨機變數的特性，機率分佈可以分為離散型和連續型兩大類：\n\n#### （1）離散型機率分佈（Discrete Probability Distribution）\n\n• 離散型隨機變數：\n\n值是有限或可數的，例如擲骰子的結果（1、2、3、4、5、6）或某電商平台每日訂單數（0、1、2…）。這些變數的值通常為整數，且可能取值集合是明確的。\n\n• 離散型機率分佈：\n\n透過機率質量函數（Probability Mass Function, PMF）描述隨機變數「每一個特定取值的機率」。\n\n例如，擲骰子時，PMF 為P（X=1）=1/6，P（X=2）=1/6，PMF 總和等於1：\n\n= 1 ∑𝑃(𝑋= 𝑥𝑖)\n\n𝑥𝑖 • 常見分佈伯努利分佈（Bernoulli）：用於表示具有兩種可能結果的事件，例如成功與失敗、點擊與否等，常見於二元分類任務。\n\n二項分佈（Binomial）：描述在n 次獨立試驗中，某事件發生的次數，常用於模擬多次伯努利事件的累計行為。\n\n泊松分佈（Poisson）：描述在固定時間或空間區間中，某事件發生的次數。此分佈常應用於模擬稀有事件，例如單位時間內的客服來電數量、網頁伺服器的請求次數等。泊松分佈假設事件發生彼此獨立，且平均發生率為常數。\n\n#### （2）連續型機率分佈（Continuous Probability Distribution）\n\n• 連續型隨機變數：\n\n值是無限且連續的，通常用於描述測量型變數，如身高、體重、時間或溫度。這些變數不僅包含整數，還可以是任意實數，例如某病患等待時間可能為5.3 分鐘或5.31 分鐘。\n\n• 連續型機率分佈：\n\n透過機率密度函數（Probability Density Function, PDF）描述隨機變數 「於某取值範圍內的機率」。\n\n對於連續型隨機變數X，PDF 必須滿足以下條件：\n\n𝑏 𝑃(𝑎≤𝑋≤𝑏) = ∫𝑓(𝑥)𝑑𝑥 𝑎 其中，f（x）是隨機變數X 的機率密度函數（PDF），描述了隨機變數在區間[a, b]內的機率。\n\n常見的分佈常態分佈（Normal）：對稱的鐘型分佈，是最常見的連續型分佈，廣泛應用於誤差建模、參數估計、特徵分數標準化與生成模型。\n\n均勻分佈（Uniform）：表示在某個固定區間內，所有數值具有相同的發生機率，常用於初始化參數或隨機抽樣。\n\n指數分佈（Exponential）：指數分佈描述的是事件發生之間的間隔時間，適用於隨機過程中等待時間的分佈，通常用來描述「等待時間」\n\n或「生存時間」。例如，機器故障時間、電話來電間隔等都可以用指數分佈來建模。該分佈的特徵是無記憶性（Memoryless），即未來的事件發生與過去的時間無關。\n\n卡方分佈（Chi-square）：主要用於描述一組獨立標準常態分佈變數平方和的分佈結果，廣泛應用於統計檢定領域，特別是在變異數分析、卡方適合度檢定、列聯表獨立性檢定等情境中。\n\n在模型設計過程中，選用的機率分佈代表對資料生成機制的先驗假設。舉例來說，邏輯迴歸模型假設目標變數服從伯努利分佈，用以處理二元分類問題；線性迴歸則假設誤差項符合常態分佈，藉此推導參數估計與檢定的統計性質。至於生成模型（例如變分自編碼器，Variational Autoencoder），則更進一步將潛在變數與觀察變數的分佈型態納入模型架構核心，使機率分佈不只是輔助工具，而是模型運作本身的一部分。\n\n### 3. 條件機率與貝氏推論\n\n#### （1）條件機率\n\n在機器學習中，除了觀察變數本身的分佈外，同時關注當已知某些條件（例如輸入特徵）時，如何推估另一個變數（如目標標籤）的可能性。這種在給定條件下估算機率的行為，即為條件機率（Conditional Probability）的概念。條件機率不僅是理解機器學習的邏輯核心，也構成了貝氏推論（Bayesian Inference）的基礎架構。\n\n條件機率的數學定義為：\n\n𝑃(𝐴|𝐵) = 𝑃(𝐴∩𝐵)\n\n𝑃(𝐵)\n\n表示在事件B 發生的前提下，事件A 發生的機率。這種推論形式在分類、推薦、風險預測等領域皆有廣泛應用。以下舉例條件機率在機器學習中的應用場景：\n\n• 分類任務中的條件預測：模型的任務通常是學習條件機率P（Y｜X），即在觀察輸入特徵X 的情況下，預測Y 的可能性分佈。像是邏輯迴歸、貝氏分類器等，皆以此為核心。\n\n• 生醫與金融風控領域的風險預測：當已知某些檢驗結果或行為模式，條件機率可協助預估未來事件發生的可能性，例如罹病風險、違約機率等。\n\n• 生成模型中的變數關聯建構：在變分自編碼器或隱馬可夫模型（Hidden Markov Model, HMM）中，條件機率用於建構潛在變數與觀察變數間的依存關係。\n\n#### （2）貝氏定理\n\n機器學習模型的常見目標之一、是推估條件機率P（Y｜X），也就是在已知某些輸入條件X 的情況下，預測Y 的可能性。這種條件推論不僅存在於分類與推薦系統，也廣泛應用於風險預測、醫療診斷與生成模型等場景。隨著模型運作過程中不斷有新資料進入，若能根據這些資料即時調整對事件的預期，就能提升預測品質與模型靈活度。\n\n貝氏定理（Bayes' Theorem）正是處理這類條件推論問題的核心工具。建立在條件機率之上，是一種利用已知條件更新事件發生機率的方法：\n\n𝑃(𝐴|𝐵) = 𝑃(𝐵|𝐴) ∙𝑃(𝐴)\n\n𝑃(𝐵)\n\n此公式表示：在事件B 已發生的情況下，重新評估事件A 發生機率的方式。\n\n其四個構成元素如下：\n\n• P（A）：\n\n先驗機率（Prior Probability）— 在尚未觀察事件B 之前，對事件A 發生的「初始信念」或「預設機率」。\n\n• P（B｜A）：\n\n條件機率，或稱似然（Likelihood）— 在事件A 發生的前提下，事件B 發生的可能性。\n\n• P（B）：\n\n邊際機率（Marginal Probability）— 事件B 發生的總體機率，亦為所有可能A 條件下B 發生機率的加權總和。（無論A 是否發生，B 發生的整體可能性。）\n\n• P（A｜B）：\n\n後驗機率（Posterior Probability）— 在觀察到事件B 之後，根據新的資訊更新後，對事件A 發生機率的重新估計。\n\n這是貝式定理的核心輸出。\n\n貝氏定理的關鍵意涵，在於可以將「原有知識」與「新資料觀察」整合起來，產生即時的後驗機率調整。這種更新能力，使得機器學習模型在面對不確定性與資料稀疏問題時，能保有推論的彈性與解釋力。\n\n### 4. 假設檢定與統計推論\n\n在機器學習與資料分析中，我們常遇到需要根據有限樣本，推論整體資料或模型是否具備某種統計性質。例如，某個特徵是否與目標變數顯著相關、兩種模\n\n型的表現差異是否具有統計意義等。這些問題皆屬於統計推論（Statistical Inference）的範疇，而假設檢定（Hypothesis Testing）則是其中最常用的工具之一。\n\n#### （1）統計推論\n\n統計推論的核心任務，是利用樣本資料對母體參數或模型行為進行估計與判斷，並量化不確定性。透過統計方法，我們可以推斷模型訓練的結果是否穩定、資料特徵之間是否存在顯著差異、以及模型選擇是否具有合理依據。\n\n統計推論可概略分為兩大核心分支：參數估計（Parameter Estimation）與假設檢定（Hypothesis Testing），兩者雖然目的不同，但均依賴機率模型作為推論依據，\n\n| 並對樣本中的不確定性進行量化處理。 參數估計 | 統計假設檢定項目 |  |\n| --- | --- | --- |\n| 目的 | 推測母體參數的「值」或「區間」 | 驗證某個關於母體參數的「主張」是否成立 |\n| 重點問題 | 這個母體參數大約是多少？（例如： 平均收入是多少？） | 我們是否有足夠證據拒絕一個假設？（例如：新藥是否有效？） |\n| 輸出結果 | 提供點估計值（如平均數）與信賴區間（如 95% CI） | 提供 p 值、檢定統計量，並根據顯著水準決定是否拒絕虛無假設 |\n| 依據 | 基於樣本資料，計算出母體參數的估計值 | 基於假設前提與樣本結果，進行推論判斷 |\n| 例子 | 根據樣本估計出平均體重為 68 公斤，95%信賴區間為[66, 70] | 假設新運動課程能降低體重，檢定結果 p = 0.03，小於設定的 α值 0.05。 因此拒絕虛無零假設，認為有效 |\n\n#### （2）假設檢定\n\n假設檢定是一種以機率模型為基礎的推論方法，用於檢視樣本資料是否提供足夠證據來拒絕某一原先的假設。整體流程包含：\n\n##### A. 設定虛無假設（或稱零假設）與對立假設\n\n##### B. 選擇適當的檢定方法與檢定統計量\n\n##### C. 決定顯著水準\n\n##### D. 計算檢定統計量與p 值\n\n##### E. 比較顯著水準（α）並進行決策\n\n#### （3）顯著水準（α）與p 值\n\n在進行假設檢定之前，研究者需預先設定一個可接受的錯誤機率上限，稱為顯著水準（α）。顯著水準代表在虛無假設為真的前提下，仍可能因樣本隨機波動而錯誤地拒絕該假設的機率，也就是型一錯誤（Type I Error）發生的機率。\n\n而p 值則是在觀察到樣本資料後所計算出的機率，用來衡量資料與虛無假設的相符程度。\n\n### 5. 統計量與機器學習中的應用\n\n除了選擇適當的分佈型態，統計量（Statistical Measures）是用以描述資料分佈特性的重要指標，能夠協助分析者快速掌握變數的整體趨勢、變異程度與潛在異常。這些統計量廣泛應用於機器學習各階段，從前期的資料探索與特徵工程，到後期的模型訓練與效能評估，皆是不可或缺的輔助工具。\n\n在資料前處理與探索階段，統計量有助於確認變數的分佈型態與異常狀況，進而決定後續的標準化、轉換或篩選策略。常見應用如下：\n\n• 期望值（Expected Value）：反映變數的平均趨勢，為許多模型的預測基準與參數估計核心，例如線性迴歸中的截距項。\n\n• 變異數（Variance）與標準差（Standard Deviation）：衡量資料的離散程度，能判斷特徵是否需進行標準化處理，避免尺度不一致對模型訓練造成偏誤。\n\n• 偏態（Skewness）：判斷分佈是否對稱，若偏態過大，常需對變數進行對數轉換或Box-Cox 轉換，以改善模型收斂性與預測穩定性。\n\n• 峰度（Kurtosis）：觀察資料是否具有尖峰或厚尾，亦可作為偵測異常值密度與風險擴散的一項參考指標。\n\n這些統計量常透過視覺化方式（如直方圖、箱型圖、QQ-plot）輔助解釋，幫助分析者理解資料行為模式，並確認是否需採取分群處理、變數轉換或資料清理等動作。",
+  "content": "# 機率/統計之機器學習基礎應用\n\n3.1 機率/\n\n統計之機器學習基礎應用\n\n### 1. 前言與章節導覽\n\n在真實世界中，資料往往受限於觀察條件、取樣變異或內在隨機性，使得預測結果不具唯一性與確定性。因此，機器學習模型的核心任務，並非僅在於尋找絕對規則，而是要能處理資料中不可避免的「不確定性」，並在此基礎上進行合理的預測與決策。這正是機率與統計在機器學習中扮演關鍵角色的原因。\n\n本節將介紹機率與統計在建構機器學習模型時的實務應用，說明如何運用隨機變數、機率分佈來表示資料行為，進而透過條件機率、貝氏定理等概念進行推論與模型更新。同時，也會探討統計推論（如假設檢定、p 值計算）在模型評估與特徵選擇等任務中的操作方法。\n\n### 2. 資料與隨機變數的機率表示\n\n在建構機器學習模型時，其核心邏輯通常可表述為：「在特定觀察條件下，某結果發生的可能性有多大。」這意味著我們並非尋求唯一解，而是學習一種條件機率分佈（Conditional Probability Distribution）。\n\n其形式可表示為：P（Y｜X），其中X 為輸入特徵（Feature）、Y 為目標變數 （Label）。這樣的機率模型有兩種意涵：\n\n• 預測導向：模型輸出為某結果的機率（如分類機率），而非確定性分類結果。\n\n• 不確定性評估：機率反映了模型對預測的信心程度，有助於風險控制與決\n\n策制定。\n\n在以機率方式理解資料時，我們會根據資料型態的不同，區分為離散型與連續型隨機變數，並透過不同的機率分佈來加以建模。這些機率分佈不僅可用來表示資料的行為特性，也可作為機器學習模型假設的基礎架構，影響模型選擇與參數學習方式。根據隨機變數的特性，機率分佈可以分為離散型和連續型兩大類：\n\n#### （1）離散型機率分佈（Discrete Probability Distribution）\n\n• 離散型隨機變數：\n\n◦ 值是有限或可數的，例如擲骰子的結果（1、2、3、4、5、6）或某電商\n\n平台每日訂單數（0、1、2…）。這些變數的值通常為整數，且可能取值集合是明確的。\n\n• 離散型機率分佈：\n\n◦ 透過機率質量函數（Probability Mass Function, PMF）描述隨機變數「每\n\n一個特定取值的機率」。\n\n◦ 例如，擲骰子時，PMF 為P（X=1）=1/6，P（X=2）=1/6，\n\n◦ PMF 總和等於1：\n\n= 1 ∑𝑃(𝑋= 𝑥𝑖)\n\n𝑥𝑖\n\n• 常見分佈\n\n◦ 伯努利分佈（Bernoulli）：用於表示具有兩種可能結果的事件，例如成\n\n功與失敗、點擊與否等，常見於二元分類任務。\n\n◦ 二項分佈（Binomial）：描述在n 次獨立試驗中，某事件發生的次數，\n\n常用於模擬多次伯努利事件的累計行為。\n\n◦ 泊松分佈（Poisson）：描述在固定時間或空間區間中，某事件發生的次\n\n數。此分佈常應用於模擬稀有事件，例如單位時間內的客服來電數量、網頁伺服器的請求次數等。泊松分佈假設事件發生彼此獨立，且平均發生率為常數。\n\n#### （2）連續型機率分佈（Continuous Probability Distribution）\n\n• 連續型隨機變數：\n\n◦ 值是無限且連續的，通常用於描述測量型變數，如身高、體重、時間或\n\n溫度。這些變數不僅包含整數，還可以是任意實數，例如某病患等待時間可能為5.3 分鐘或5.31 分鐘。\n\n• 連續型機率分佈：\n\n◦ 透過機率密度函數（Probability Density Function, PDF）描述隨機變數\n\n「於某取值範圍內的機率」。\n\n◦ 對於連續型隨機變數X，PDF 必須滿足以下條件：\n\n𝑏 𝑃(𝑎≤𝑋≤𝑏) = ∫𝑓(𝑥)𝑑𝑥 𝑎 其中，f（x）是隨機變數X 的機率密度函數（PDF），描述了隨機變數在區間[a, b]內的機率。\n\n◦ 常見的分佈\n\n○ 常態分佈（Normal）：對稱的鐘型分佈，是最常見的連續型分佈，廣\n\n泛應用於誤差建模、參數估計、特徵分數標準化與生成模型。\n\n○ 均勻分佈（Uniform）：表示在某個固定區間內，所有數值具有相同的\n\n發生機率，常用於初始化參數或隨機抽樣。\n\n○ 指數分佈（Exponential）：指數分佈描述的是事件發生之間的間隔時\n\n間，適用於隨機過程中等待時間的分佈，通常用來描述「等待時間」\n\n或「生存時間」。例如，機器故障時間、電話來電間隔等都可以用指數分佈來建模。該分佈的特徵是無記憶性（Memoryless），即未來的事件發生與過去的時間無關。\n\n○ 卡方分佈（Chi-square）：主要用於描述一組獨立標準常態分佈變數平\n\n方和的分佈結果，廣泛應用於統計檢定領域，特別是在變異數分析、卡方適合度檢定、列聯表獨立性檢定等情境中。\n\n在模型設計過程中，選用的機率分佈代表對資料生成機制的先驗假設。舉例來說，邏輯迴歸模型假設目標變數服從伯努利分佈，用以處理二元分類問題；線性迴歸則假設誤差項符合常態分佈，藉此推導參數估計與檢定的統計性質。至於生成模型（例如變分自編碼器，Variational Autoencoder），則更進一步將潛在變數與觀察變數的分佈型態納入模型架構核心，使機率分佈不只是輔助工具，而是模型運作本身的一部分。\n\n### 3. 條件機率與貝氏推論\n\n#### （1）條件機率\n\n在機器學習中，除了觀察變數本身的分佈外，同時關注當已知某些條件（例如輸入特徵）時，如何推估另一個變數（如目標標籤）的可能性。這種在給定條件下估算機率的行為，即為條件機率（Conditional Probability）的概念。條件機率不僅是理解機器學習的邏輯核心，也構成了貝氏推論（Bayesian Inference）的基礎架構。\n\n條件機率的數學定義為：\n\n𝑃(𝐴|𝐵) = 𝑃(𝐴∩𝐵)\n\n𝑃(𝐵)\n\n表示在事件B 發生的前提下，事件A 發生的機率。這種推論形式在分類、推薦、風險預測等領域皆有廣泛應用。以下舉例條件機率在機器學習中的應用場景：\n\n• 分類任務中的條件預測：模型的任務通常是學習條件機率P（Y｜X），即\n\n在觀察輸入特徵X 的情況下，預測Y 的可能性分佈。像是邏輯迴歸、貝氏分類器等，皆以此為核心。\n\n• 生醫與金融風控領域的風險預測：當已知某些檢驗結果或行為模式，條件\n\n機率可協助預估未來事件發生的可能性，例如罹病風險、違約機率等。\n\n• 生成模型中的變數關聯建構：在變分自編碼器或隱馬可夫模型（Hidden\n\nMarkov Model, HMM）中，條件機率用於建構潛在變數與觀察變數間的依存關係。\n\n#### （2）貝氏定理\n\n機器學習模型的常見目標之一、是推估條件機率P（Y｜X），也就是在已知某些輸入條件X 的情況下，預測Y 的可能性。這種條件推論不僅存在於分類與推薦系統，也廣泛應用於風險預測、醫療診斷與生成模型等場景。隨著模型運作過程中不斷有新資料進入，若能根據這些資料即時調整對事件的預期，就能提升預測品質與模型靈活度。\n\n貝氏定理（Bayes' Theorem）正是處理這類條件推論問題的核心工具。建立在條件機率之上，是一種利用已知條件更新事件發生機率的方法：\n\n𝑃(𝐴|𝐵) = 𝑃(𝐵|𝐴) ∙𝑃(𝐴)\n\n𝑃(𝐵)\n\n此公式表示：在事件B 已發生的情況下，重新評估事件A 發生機率的方式。\n\n其四個構成元素如下：\n\n• P（A）：\n\n◦ 先驗機率（Prior Probability）— 在尚未觀察事件B 之前，對事件A 發\n\n生的「初始信念」或「預設機率」。\n\n• P（B｜A）：\n\n◦ 條件機率，或稱似然（Likelihood）— 在事件A 發生的前提下，事件B\n\n發生的可能性。\n\n• P（B）：\n\n◦ 邊際機率（Marginal Probability）— 事件B 發生的總體機率，亦為所\n\n有可能A 條件下B 發生機率的加權總和。（無論A 是否發生，B 發生的整體可能性。）\n\n• P（A｜B）：\n\n◦ 後驗機率（Posterior Probability）— 在觀察到事件B 之後，根據新的\n\n資訊更新後，對事件A 發生機率的重新估計。\n\n◦ 這是貝式定理的核心輸出。\n\n貝氏定理的關鍵意涵，在於可以將「原有知識」與「新資料觀察」整合起來，產生即時的後驗機率調整。這種更新能力，使得機器學習模型在面對不確定性與資料稀疏問題時，能保有推論的彈性與解釋力。\n\n### 4. 假設檢定與統計推論\n\n在機器學習與資料分析中，我們常遇到需要根據有限樣本，推論整體資料或模型是否具備某種統計性質。例如，某個特徵是否與目標變數顯著相關、兩種模\n\n型的表現差異是否具有統計意義等。這些問題皆屬於統計推論（Statistical Inference）的範疇，而假設檢定（Hypothesis Testing）則是其中最常用的工具之一。\n\n#### （1）統計推論\n\n統計推論的核心任務，是利用樣本資料對母體參數或模型行為進行估計與判斷，並量化不確定性。透過統計方法，我們可以推斷模型訓練的結果是否穩定、資料特徵之間是否存在顯著差異、以及模型選擇是否具有合理依據。\n\n統計推論可概略分為兩大核心分支：參數估計（Parameter Estimation）與假設檢定（Hypothesis Testing），兩者雖然目的不同，但均依賴機率模型作為推論依據，\n\n<table>\n<thead>\n<tr>\n<th>並對樣本中的不確定性進行量化處理。<br />參數估計</th>\n<th>統計假設檢定<br />項目</th>\n<th></th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>目的</td>\n<td>推測母體參數的「值」或「區間」</td>\n<td>驗證某個關於母體參數的「主張」是<br />否成立</td>\n</tr>\n<tr>\n<td>重點問題</td>\n<td>這個母體參數大約是多少？（例如：<br />平均收入是多少？）</td>\n<td>我們是否有足夠證據拒絕一個假<br />設？（例如：新藥是否有效？）</td>\n</tr>\n<tr>\n<td>輸出結果</td>\n<td>提供點估計值（如平均數）與信賴區<br />間（如 95% CI）</td>\n<td>提供 p 值、檢定統計量，並根據顯著<br />水準決定是否拒絕虛無假設</td>\n</tr>\n<tr>\n<td>依據</td>\n<td>基於樣本資料，計算出母體參數的<br />估計值</td>\n<td>基於假設前提與樣本結果，進行推<br />論判斷</td>\n</tr>\n<tr>\n<td>例子</td>\n<td>根據樣本估計出平均體重為 68 公<br />斤，95%信賴區間為[66, 70]</td>\n<td>假設新運動課程能降低體重，檢定<br />結果 p = 0.03，小於設定的 α值 0.05。<br />因此拒絕虛無零假設，認為有效</td>\n</tr>\n</tbody>\n</table>\n\n#### （2）假設檢定\n\n假設檢定是一種以機率模型為基礎的推論方法，用於檢視樣本資料是否提供足夠證據來拒絕某一原先的假設。整體流程包含：\n\n##### A. 設定虛無假設（或稱零假設）與對立假設\n\n##### B. 選擇適當的檢定方法與檢定統計量\n\n##### C. 決定顯著水準\n\n##### D. 計算檢定統計量與p 值\n\n##### E. 比較顯著水準（α）並進行決策\n\n#### （3）顯著水準（α）與p 值\n\n在進行假設檢定之前，研究者需預先設定一個可接受的錯誤機率上限，稱為顯著水準（α）。顯著水準代表在虛無假設為真的前提下，仍可能因樣本隨機波動而錯誤地拒絕該假設的機率，也就是型一錯誤（Type I Error）發生的機率。\n\n而p 值則是在觀察到樣本資料後所計算出的機率，用來衡量資料與虛無假設的相符程度。\n\n### 5. 統計量與機器學習中的應用\n\n除了選擇適當的分佈型態，統計量（Statistical Measures）是用以描述資料分佈特性的重要指標，能夠協助分析者快速掌握變數的整體趨勢、變異程度與潛在異常。這些統計量廣泛應用於機器學習各階段，從前期的資料探索與特徵工程，到後期的模型訓練與效能評估，皆是不可或缺的輔助工具。\n\n在資料前處理與探索階段，統計量有助於確認變數的分佈型態與異常狀況，進而決定後續的標準化、轉換或篩選策略。常見應用如下：\n\n• 期望值（Expected Value）：反映變數的平均趨勢，為許多模型的預測基準與參\n\n數估計核心，例如線性迴歸中的截距項。\n\n• 變異數（Variance）與標準差（Standard Deviation）：衡量資料的離散程度，能\n\n判斷特徵是否需進行標準化處理，避免尺度不一致對模型訓練造成偏誤。\n\n• 偏態（Skewness）：判斷分佈是否對稱，若偏態過大，常需對變數進行對數轉換\n\n或Box-Cox 轉換，以改善模型收斂性與預測穩定性。\n\n• 峰度（Kurtosis）：觀察資料是否具有尖峰或厚尾，亦可作為偵測異常值密度與\n\n風險擴散的一項參考指標。\n\n這些統計量常透過視覺化方式（如直方圖、箱型圖、QQ-plot）輔助解釋，幫助分析者理解資料行為模式，並確認是否需採取分群處理、變數轉換或資料清理等動作。",
   "contentFormat": "markdown",
   "headings": [
     {
@@ -103,7 +103,10 @@
         168.87,
         174.28
       ],
-      "id": "block-1"
+      "id": "block-1",
+      "nodeId": "mid-s3c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -116,7 +119,10 @@
         368.01,
         171.96
       ],
-      "id": "block-2"
+      "id": "block-2",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -130,7 +136,10 @@
         203.57,
         218.12
       ],
-      "id": "block-3"
+      "id": "block-3",
+      "nodeId": "mid-s3c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -143,7 +152,10 @@
         517.96,
         317.54
       ],
-      "id": "block-4"
+      "id": "block-4",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -156,7 +168,10 @@
         518.15,
         417.5
       ],
-      "id": "block-5"
+      "id": "block-5",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -170,7 +185,10 @@
         274.0,
         468.13
       ],
-      "id": "block-6"
+      "id": "block-6",
+      "nodeId": "mid-s3c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -183,7 +201,10 @@
         518.32,
         542.56
       ],
-      "id": "block-7"
+      "id": "block-7",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -196,11 +217,14 @@
         518.4,
         592.6
       ],
-      "id": "block-8"
+      "id": "block-8",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "預測導向：模型輸出為某結果的機率（如分類機率），而非確定性分類結果。",
       "pageIndex": 8,
@@ -210,11 +234,14 @@
         521.88,
         617.56
       ],
-      "id": "block-9"
+      "id": "block-9",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "不確定性評估：機率反映了模型對預測的信心程度，有助於風險控制與決策制定。",
       "pageIndex": 8,
@@ -224,7 +251,10 @@
         517.91,
         667.63
       ],
-      "id": "block-10"
+      "id": "block-10",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -237,7 +267,10 @@
         520.68,
         767.58
       ],
-      "id": "block-11"
+      "id": "block-11",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -251,11 +284,14 @@
         396.45,
         114.11
       ],
-      "id": "block-12"
+      "id": "block-12",
+      "nodeId": "mid-s3c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "離散型隨機變數：",
       "pageIndex": 9,
@@ -265,11 +301,15 @@
         223.03,
         139.07
       ],
-      "id": "block-13"
+      "id": "block-13",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "值是有限或可數的，例如擲骰子的結果（1、2、3、4、5、6）或某電商平台每日訂單數（0、1、2…）。這些變數的值通常為整數，且可能取值集合是明確的。",
       "pageIndex": 9,
       "bbox": [
@@ -278,11 +318,14 @@
         518.24,
         214.07
       ],
-      "id": "block-14"
+      "id": "block-14",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "離散型機率分佈：",
       "pageIndex": 9,
@@ -292,11 +335,15 @@
         223.03,
         239.15
       ],
-      "id": "block-15"
+      "id": "block-15",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "透過機率質量函數（Probability Mass Function, PMF）描述隨機變數「每一個特定取值的機率」。",
       "pageIndex": 9,
       "bbox": [
@@ -305,50 +352,99 @@
         518.29,
         289.1
       ],
-      "id": "block-16"
+      "id": "block-16",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "例如，擲骰子時，PMF 為P（X=1）=1/6，P（X=2）=1/6，PMF 總和等於1：",
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "例如，擲骰子時，PMF 為P（X=1）=1/6，P（X=2）=1/6，",
       "pageIndex": 9,
       "bbox": [
         120.52,
         300.73,
         464.64,
+        314.18
+      ],
+      "id": "block-17",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "PMF 總和等於1：",
+      "pageIndex": 9,
+      "bbox": [
+        120.52,
+        325.69,
+        239.71,
         339.14
       ],
-      "id": "block-17"
+      "id": "block-18",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "= 1 ∑𝑃(𝑋= 𝑥𝑖)",
+      "text": "= 1 ∑𝑃(𝑋= 𝑥𝑖) 𝑥𝑖",
       "pageIndex": 9,
       "bbox": [
         138.04,
         354.17,
         232.63,
-        369.16
+        383.69
       ],
-      "id": "block-18"
+      "id": "block-19",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 5,
-      "text": "𝑥𝑖 • 常見分佈伯努利分佈（Bernoulli）：用於表示具有兩種可能結果的事件，例如成功與失敗、點擊與否等，常見於二元分類任務。",
+      "marker": "•",
+      "text": "常見分佈",
       "pageIndex": 9,
       "bbox": [
         102.16,
-        373.59,
+        399.61,
+        172.6,
+        413.06
+      ],
+      "id": "block-20",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "伯努利分佈（Bernoulli）：用於表示具有兩種可能結果的事件，例如成功與失敗、點擊與否等，常見於二元分類任務。",
+      "pageIndex": 9,
+      "bbox": [
+        120.52,
+        424.57,
         518.0,
         463.12
       ],
-      "id": "block-19"
+      "id": "block-21",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "二項分佈（Binomial）：描述在n 次獨立試驗中，某事件發生的次數，常用於模擬多次伯努利事件的累計行為。",
       "pageIndex": 9,
       "bbox": [
@@ -357,11 +453,15 @@
         518.17,
         513.04
       ],
-      "id": "block-20"
+      "id": "block-22",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "泊松分佈（Poisson）：描述在固定時間或空間區間中，某事件發生的次數。此分佈常應用於模擬稀有事件，例如單位時間內的客服來電數量、網頁伺服器的請求次數等。泊松分佈假設事件發生彼此獨立，且平均發生率為常數。",
       "pageIndex": 9,
       "bbox": [
@@ -370,7 +470,10 @@
         521.35,
         613.12
       ],
-      "id": "block-21"
+      "id": "block-23",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -384,11 +487,14 @@
         414.69,
         663.07
       ],
-      "id": "block-22"
+      "id": "block-24",
+      "nodeId": "mid-s3c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "連續型隨機變數：",
       "pageIndex": 9,
@@ -398,11 +504,15 @@
         223.03,
         688.15
       ],
-      "id": "block-23"
+      "id": "block-25",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "值是無限且連續的，通常用於描述測量型變數，如身高、體重、時間或溫度。這些變數不僅包含整數，還可以是任意實數，例如某病患等待時間可能為5.3 分鐘或5.31 分鐘。",
       "pageIndex": 9,
       "bbox": [
@@ -411,11 +521,14 @@
         518.32,
         763.14
       ],
-      "id": "block-24"
+      "id": "block-26",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "連續型機率分佈：",
       "pageIndex": 10,
@@ -425,11 +538,15 @@
         223.03,
         114.11
       ],
-      "id": "block-25"
+      "id": "block-27",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "透過機率密度函數（Probability Density Function, PDF）描述隨機變數 「於某取值範圍內的機率」。",
       "pageIndex": 10,
       "bbox": [
@@ -438,11 +555,15 @@
         518.25,
         164.15
       ],
-      "id": "block-26"
+      "id": "block-28",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "對於連續型隨機變數X，PDF 必須滿足以下條件：",
       "pageIndex": 10,
       "bbox": [
@@ -451,7 +572,10 @@
         416.73,
         189.11
       ],
-      "id": "block-27"
+      "id": "block-29",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -464,24 +588,49 @@
         518.29,
         276.62
       ],
-      "id": "block-28"
+      "id": "block-30",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "常見的分佈常態分佈（Normal）：對稱的鐘型分佈，是最常見的連續型分佈，廣泛應用於誤差建模、參數估計、特徵分數標準化與生成模型。",
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "常見的分佈",
       "pageIndex": 10,
       "bbox": [
         120.52,
         288.13,
+        202.15,
+        301.58
+      ],
+      "id": "block-31",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "常態分佈（Normal）：對稱的鐘型分佈，是最常見的連續型分佈，廣泛應用於誤差建模、參數估計、特徵分數標準化與生成模型。",
+      "pageIndex": 10,
+      "bbox": [
+        136.12,
+        313.09,
         517.99,
         351.62
       ],
-      "id": "block-29"
+      "id": "block-32",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "均勻分佈（Uniform）：表示在某個固定區間內，所有數值具有相同的發生機率，常用於初始化參數或隨機抽樣。",
       "pageIndex": 10,
       "bbox": [
@@ -490,37 +639,32 @@
         518.14,
         401.54
       ],
-      "id": "block-30"
+      "id": "block-33",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "指數分佈（Exponential）：指數分佈描述的是事件發生之間的間隔時間，適用於隨機過程中等待時間的分佈，通常用來描述「等待時間」",
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "指數分佈（Exponential）：指數分佈描述的是事件發生之間的間隔時間，適用於隨機過程中等待時間的分佈，通常用來描述「等待時間」 或「生存時間」。例如，機器故障時間、電話來電間隔等都可以用指數分佈來建模。該分佈的特徵是無記憶性（Memoryless），即未來的事件發生與過去的時間無關。",
       "pageIndex": 10,
       "bbox": [
         136.12,
         413.17,
         524.23,
-        451.39
-      ],
-      "id": "block-31"
-    },
-    {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "或「生存時間」。例如，機器故障時間、電話來電間隔等都可以用指數分佈來建模。該分佈的特徵是無記憶性（Memoryless），即未來的事件發生與過去的時間無關。",
-      "pageIndex": 10,
-      "bbox": [
-        150.28,
-        464.35,
-        518.23,
         526.6
       ],
-      "id": "block-32"
+      "id": "block-34",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "卡方分佈（Chi-square）：主要用於描述一組獨立標準常態分佈變數平方和的分佈結果，廣泛應用於統計檢定領域，特別是在變異數分析、卡方適合度檢定、列聯表獨立性檢定等情境中。",
       "pageIndex": 10,
       "bbox": [
@@ -529,7 +673,10 @@
         521.03,
         601.6
       ],
-      "id": "block-33"
+      "id": "block-35",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -542,7 +689,10 @@
         521.76,
         759.78
       ],
-      "id": "block-34"
+      "id": "block-36",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -556,7 +706,10 @@
         231.76,
         114.68
       ],
-      "id": "block-35"
+      "id": "block-37",
+      "nodeId": "mid-s3c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -570,7 +723,10 @@
         155.2,
         139.07
       ],
-      "id": "block-36"
+      "id": "block-38",
+      "nodeId": "mid-s3c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -583,7 +739,10 @@
         518.37,
         264.14
       ],
-      "id": "block-37"
+      "id": "block-39",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -596,7 +755,10 @@
         243.43,
         289.1
       ],
-      "id": "block-38"
+      "id": "block-40",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -609,7 +771,10 @@
         205.03,
         330.81
       ],
-      "id": "block-39"
+      "id": "block-41",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -622,11 +787,14 @@
         521.88,
         379.94
       ],
-      "id": "block-40"
+      "id": "block-42",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "分類任務中的條件預測：模型的任務通常是學習條件機率P（Y｜X），即在觀察輸入特徵X 的情況下，預測Y 的可能性分佈。像是邏輯迴歸、貝氏分類器等，皆以此為核心。",
       "pageIndex": 11,
@@ -636,11 +804,14 @@
         518.38,
         454.96
       ],
-      "id": "block-41"
+      "id": "block-43",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "生醫與金融風控領域的風險預測：當已知某些檢驗結果或行為模式，條件機率可協助預估未來事件發生的可能性，例如罹病風險、違約機率等。",
       "pageIndex": 11,
@@ -650,11 +821,14 @@
         518.32,
         504.88
       ],
-      "id": "block-42"
+      "id": "block-44",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "生成模型中的變數關聯建構：在變分自編碼器或隱馬可夫模型（Hidden Markov Model, HMM）中，條件機率用於建構潛在變數與觀察變數間的依存關係。",
       "pageIndex": 11,
@@ -664,7 +838,10 @@
         521.8,
         579.88
       ],
-      "id": "block-43"
+      "id": "block-45",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -678,7 +855,10 @@
         155.2,
         629.95
       ],
-      "id": "block-44"
+      "id": "block-46",
+      "nodeId": "mid-s3c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -691,7 +871,10 @@
         518.4,
         771.54
       ],
-      "id": "block-45"
+      "id": "block-47",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -704,7 +887,10 @@
         518.01,
         139.07
       ],
-      "id": "block-46"
+      "id": "block-48",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -717,7 +903,10 @@
         521.49,
         204.83
       ],
-      "id": "block-47"
+      "id": "block-49",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -730,11 +919,14 @@
         205.63,
         229.91
       ],
-      "id": "block-48"
+      "id": "block-50",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "P（A）：",
       "pageIndex": 12,
@@ -744,11 +936,15 @@
         169.6,
         254.87
       ],
-      "id": "block-49"
+      "id": "block-51",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "先驗機率（Prior Probability）— 在尚未觀察事件B 之前，對事件A 發生的「初始信念」或「預設機率」。",
       "pageIndex": 12,
       "bbox": [
@@ -757,11 +953,14 @@
         518.4,
         304.94
       ],
-      "id": "block-50"
+      "id": "block-52",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "P（B｜A）：",
       "pageIndex": 12,
@@ -771,11 +970,15 @@
         190.63,
         329.9
       ],
-      "id": "block-51"
+      "id": "block-53",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "條件機率，或稱似然（Likelihood）— 在事件A 發生的前提下，事件B 發生的可能性。",
       "pageIndex": 12,
       "bbox": [
@@ -784,11 +987,14 @@
         518.72,
         379.94
       ],
-      "id": "block-52"
+      "id": "block-54",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "P（B）：",
       "pageIndex": 12,
@@ -798,11 +1004,15 @@
         169.0,
         404.9
       ],
-      "id": "block-53"
+      "id": "block-55",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "邊際機率（Marginal Probability）— 事件B 發生的總體機率，亦為所有可能A 條件下B 發生機率的加權總和。（無論A 是否發生，B 發生的整體可能性。）",
       "pageIndex": 12,
       "bbox": [
@@ -811,11 +1021,14 @@
         518.4,
         479.92
       ],
-      "id": "block-54"
+      "id": "block-56",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "P（A｜B）：",
       "pageIndex": 12,
@@ -825,11 +1038,15 @@
         190.63,
         504.88
       ],
-      "id": "block-55"
+      "id": "block-57",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "後驗機率（Posterior Probability）— 在觀察到事件B 之後，根據新的資訊更新後，對事件A 發生機率的重新估計。",
       "pageIndex": 12,
       "bbox": [
@@ -838,11 +1055,15 @@
         518.28,
         554.92
       ],
-      "id": "block-56"
+      "id": "block-58",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "這是貝式定理的核心輸出。",
       "pageIndex": 12,
       "bbox": [
@@ -851,7 +1072,10 @@
         290.35,
         579.88
       ],
-      "id": "block-57"
+      "id": "block-59",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -864,7 +1088,10 @@
         521.44,
         667.99
       ],
-      "id": "block-58"
+      "id": "block-60",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -878,7 +1105,10 @@
         231.76,
         718.48
       ],
-      "id": "block-59"
+      "id": "block-61",
+      "nodeId": "mid-s3c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -891,7 +1121,10 @@
         517.93,
         767.74
       ],
-      "id": "block-60"
+      "id": "block-62",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -904,7 +1137,10 @@
         521.88,
         139.07
       ],
-      "id": "block-61"
+      "id": "block-63",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -918,7 +1154,10 @@
         155.2,
         189.11
       ],
-      "id": "block-62"
+      "id": "block-64",
+      "nodeId": "mid-s3c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -931,7 +1170,10 @@
         518.0,
         262.7
       ],
-      "id": "block-63"
+      "id": "block-65",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -944,7 +1186,10 @@
         521.23,
         311.66
       ],
-      "id": "block-64"
+      "id": "block-66",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "table",
@@ -988,7 +1233,10 @@
         523.44,
         572.49
       ],
-      "id": "block-65"
+      "id": "block-67",
+      "nodeId": "mid-s3c1",
+      "kind": "table",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1002,7 +1250,10 @@
         155.2,
         603.88
       ],
-      "id": "block-66"
+      "id": "block-68",
+      "nodeId": "mid-s3c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1015,7 +1266,10 @@
         518.27,
         652.87
       ],
-      "id": "block-67"
+      "id": "block-69",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1029,7 +1283,10 @@
         325.29,
         677.47
       ],
-      "id": "block-68"
+      "id": "block-70",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1043,7 +1300,10 @@
         287.47,
         701.95
       ],
-      "id": "block-69"
+      "id": "block-71",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1057,7 +1317,10 @@
         174.04,
         726.43
       ],
-      "id": "block-70"
+      "id": "block-72",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1071,7 +1334,10 @@
         224.47,
         750.91
       ],
-      "id": "block-71"
+      "id": "block-73",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1085,7 +1351,10 @@
         268.87,
         775.38
       ],
-      "id": "block-72"
+      "id": "block-74",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1099,7 +1368,10 @@
         226.03,
         114.11
       ],
-      "id": "block-73"
+      "id": "block-75",
+      "nodeId": "mid-s3c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1112,7 +1384,10 @@
         518.4,
         189.11
       ],
-      "id": "block-74"
+      "id": "block-76",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1125,7 +1400,10 @@
         518.23,
         239.15
       ],
-      "id": "block-75"
+      "id": "block-77",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1139,7 +1417,10 @@
         274.0,
         289.67
       ],
-      "id": "block-76"
+      "id": "block-78",
+      "nodeId": "mid-s3c1",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1152,7 +1433,10 @@
         518.37,
         389.18
       ],
-      "id": "block-77"
+      "id": "block-79",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1165,11 +1449,14 @@
         517.93,
         439.1
       ],
-      "id": "block-78"
+      "id": "block-80",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "期望值（Expected Value）：反映變數的平均趨勢，為許多模型的預測基準與參數估計核心，例如線性迴歸中的截距項。",
       "pageIndex": 14,
@@ -1179,11 +1466,14 @@
         518.08,
         489.16
       ],
-      "id": "block-79"
+      "id": "block-81",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "變異數（Variance）與標準差（Standard Deviation）：衡量資料的離散程度，能判斷特徵是否需進行標準化處理，避免尺度不一致對模型訓練造成偏誤。",
       "pageIndex": 14,
@@ -1193,11 +1483,14 @@
         518.23,
         539.2
       ],
-      "id": "block-80"
+      "id": "block-82",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "偏態（Skewness）：判斷分佈是否對稱，若偏態過大，常需對變數進行對數轉換或Box-Cox 轉換，以改善模型收斂性與預測穩定性。",
       "pageIndex": 14,
@@ -1207,11 +1500,14 @@
         518.06,
         589.12
       ],
-      "id": "block-81"
+      "id": "block-83",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "峰度（Kurtosis）：觀察資料是否具有尖峰或厚尾，亦可作為偵測異常值密度與風險擴散的一項參考指標。",
       "pageIndex": 14,
@@ -1221,7 +1517,10 @@
         518.0,
         639.19
       ],
-      "id": "block-82"
+      "id": "block-84",
+      "nodeId": "mid-s3c1",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1234,7 +1533,10 @@
         518.31,
         722.35
       ],
-      "id": "block-83"
+      "id": "block-85",
+      "nodeId": "mid-s3c1",
+      "kind": "paragraph",
+      "source": "page_extract"
     }
   ],
   "sourcePages": [

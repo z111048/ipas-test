@@ -4,6 +4,7 @@
 import json
 import re
 import shutil
+from html import escape
 from pathlib import Path
 from typing import Any
 
@@ -114,7 +115,7 @@ def is_numbered_section_heading(text: str) -> bool:
 
 
 def is_markdown_structural_line(text: str) -> bool:
-    return bool(re.match(r'^(#{1,6}\s|[|>`~])', text))
+    return bool(re.match(r'^(#{1,6}\s|[|>`~]|</?(?:table|thead|tbody|tr|th|td)\b)', text))
 
 
 def normalize_ocr_soft_breaks(markdown: str) -> str:
@@ -252,7 +253,7 @@ def text_looks_hard_complete(text: str) -> bool:
 def text_looks_structural(text: str) -> bool:
     text = text.strip()
     return bool(
-        re.match(r'^(第[一二三四五六七八九十]+章\s+|\d+\.\d+\s+|\d+\.$|（\d+）|[A-Z]\.\s+|[a-z]\.\s+)', text)
+        re.match(r'^(第[一二三四五六七八九十]+章\s+|\d+\.\d+\s+|\d+\.$|（\d+）|[A-Z]\.\s+|[a-z]\.\s+|[•◦○]\s+|[\uf097\uf09f\uf077\uf0a1]\s*)', text)
         or is_numbered_section_heading(text)
     )
 
@@ -416,7 +417,39 @@ def table_rows_to_markdown(rows: list[list[str]]) -> str:
     return '\n'.join(lines)
 
 
+def table_rows_to_html(rows: list[list[str]]) -> str:
+    if not rows:
+        return ''
+    column_count = max(len(row) for row in rows)
+    normalized_rows = [row + [''] * (column_count - len(row)) for row in rows]
+    header = normalized_rows[0]
+    body = normalized_rows[1:]
+
+    def cell_text(value: str) -> str:
+        escaped = escape(value, quote=False)
+        return escaped.replace('\n', '<br />')
+
+    lines = ['<table>', '<thead>', '<tr>']
+    for cell in header:
+        lines.append(f'<th>{cell_text(cell)}</th>')
+    lines.extend(['</tr>', '</thead>', '<tbody>'])
+    for row in body:
+        lines.append('<tr>')
+        for cell in row:
+            lines.append(f'<td>{cell_text(cell)}</td>')
+        lines.append('</tr>')
+    lines.extend(['</tbody>', '</table>'])
+    return '\n'.join(lines)
+
+
 def block_text(value: str) -> str:
+    value = (
+        value
+        .replace('\uf097', '• ')
+        .replace('\uf09f', '• ')
+        .replace('\uf077', '◦ ')
+        .replace('\uf0a1', '○ ')
+    )
     text = ' '.join(line.strip() for line in value.splitlines() if line.strip())
     text = re.sub(r'([，、；：])\s+', r'\1', text)
     text = re.sub(r'\s+([，。！？；：、）】])', r'\1', text)
@@ -432,19 +465,17 @@ def numbered_question_like(text: str) -> bool:
         return False
     return bool(
         re.match(r'^\d+\.\s+', stripped)
-        and (
-            re.search(r'(？|\?|下列|以下|何者|哪一|哪個|哪種|何種|是否|最適合|屬於|正確|錯誤|主要|目的|稱為|可以採用|應)', stripped)
-            or len(stripped) > 34
-        )
+        and re.search(r'(？|\?|下列|以下|何者|哪一|哪些|哪個|哪種|何種|是否|最適合)', stripped)
     )
 
 
 def lettered_question_like(text: str) -> bool:
     stripped = text.strip()
-    return bool(
-        re.match(r'^[A-Za-z]\.\s+', stripped)
-        and re.search(r'(？|\?|下列|以下|何者|哪一|哪些|哪個|哪種|何種|是否|最適合|屬於|正確|錯誤|主要|目的|應)', stripped)
-    )
+    # In the guide PDFs, "A." / "B." is primarily a content hierarchy marker.
+    # Chapter exercises use numbered questions plus full-width options such as
+    # "（A）", so treating lettered content as questions corrupts headings like
+    # "B. 常見合規做法與因應策略" because of the substring "因應".
+    return False
 
 
 def classify_text_block(text: str) -> tuple[str, int, str | None]:
@@ -463,10 +494,18 @@ def classify_text_block(text: str) -> tuple[str, int, str | None]:
         return 'heading', 5, None
     if re.match(r'^[a-z]\.\s+', stripped):
         return 'heading', 6, None
+    if stripped.startswith(' ') or stripped.startswith(' '):
+        return 'list_item', 5, stripped[:1]
+    if stripped.startswith(' '):
+        return 'list_item', 6, stripped[:1]
+    if stripped.startswith(' '):
+        return 'list_item', 7, stripped[:1]
     if stripped.startswith('• '):
-        return 'list_item', 7, '•'
+        return 'list_item', 5, '•'
+    if stripped.startswith('◦ '):
+        return 'list_item', 6, '◦'
     if stripped.startswith('○ '):
-        return 'list_item', 8, '○'
+        return 'list_item', 7, '○'
     if re.match(r'^\d+\.\s*Ans', stripped):
         return 'answer', 3, None
     if numbered_question_like(stripped):
@@ -636,16 +675,16 @@ PARENT_BEFORE_HEADING: dict[str, dict[str, str]] = {
         '（1）偏度（Skewness）': '3. 分佈形狀與資料型態',
     },
     'mid-s2pdf-c4': {
-        '（1）常見的資料品質問題類型': '4.1 數據收集與清理',
-        '（1）結構化資料': '4.2 數據儲存與管理',
-        '（1）特徵選擇方法（Feature Selection）': '4.3 數據處理技術與工具',
+        '（1）常見的資料品質問題類型': '3. 資料品質問題與評估',
+        '（1）結構化資料': '2. 資料型態與儲存管理',
+        '（1）特徵選擇方法（Feature Selection）': '3. 特徵工程',
     },
     'mid-s2pdf-c5': {
         '（1）樣本非隨機，偏誤被放大': '3. 大數據下統計推論的限制與風險',
     },
     'mid-s2pdf-c6': {
-        '（1）資料規模大（Volume）': '6.1 大數據與機器學習',
-        '（1）個資識別風險': '6.4 大數據隱私保護、安全與合規',
+        '（1）資料規模大（Volume）': '2. 大數據特性對機器學習流程的影響',
+        '（1）個資識別風險': '2. 個資識別風險與保護技術',
     },
     's2c1': {
         '（1） 模型準確性與可靠性': '6. AI No Code / Low Code 導入挑戰與風險',
@@ -875,6 +914,82 @@ def merge_heading_continuation_paragraphs(blocks: list[dict]) -> list[dict]:
     return merged
 
 
+def split_numbered_exercise_segments(text: str, answer_mode: bool = False) -> list[str]:
+    text = block_text(text)
+    if not text:
+        return []
+    if answer_mode:
+        pattern = re.compile(r'(?<!\d)(\d{1,3})\.\s*Ans')
+    else:
+        pattern = re.compile(r'(?<!\d)(\d{1,3})\.\s+(?!Ans)')
+    matches = list(pattern.finditer(text))
+    if not matches:
+        return [text]
+    segments = []
+    for index, match in enumerate(matches):
+        start = match.start()
+        end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+        segment = text[start:end].strip()
+        if segment:
+            segments.append(segment)
+    return segments
+
+
+def normalize_chapter_exercise_blocks(blocks: list[dict]) -> list[dict]:
+    """Re-split chapter exercises that PDF extraction merged into option paragraphs."""
+    normalized: list[dict] = []
+    index = 0
+    while index < len(blocks):
+        block = blocks[index]
+        normalized.append(block)
+        if block.get('type') != 'heading' or block.get('title') != '章節練習題':
+            index += 1
+            continue
+
+        exercise_blocks: list[dict] = []
+        index += 1
+        while index < len(blocks):
+            exercise_blocks.append(blocks[index])
+            index += 1
+
+        question_parts: list[str] = []
+        answer_parts: list[str] = []
+        answer_started = False
+        first_meta = {
+            'pageIndex': exercise_blocks[0].get('pageIndex') if exercise_blocks else block.get('pageIndex'),
+            'bbox': exercise_blocks[0].get('bbox') if exercise_blocks else block.get('bbox'),
+        }
+        for exercise_block in exercise_blocks:
+            text = exercise_block.get('text') or exercise_block.get('title') or ''
+            if not text:
+                continue
+            if exercise_block.get('type') == 'answer' or re.match(r'^\d+\.\s*Ans', text.strip()):
+                answer_started = True
+            if answer_started:
+                answer_parts.append(text)
+            else:
+                question_parts.append(text)
+
+        for segment in split_numbered_exercise_segments(' '.join(question_parts), answer_mode=False):
+            normalized.append({
+                'type': 'question',
+                'depth': 4,
+                'text': segment,
+                'pageIndex': first_meta['pageIndex'],
+                'bbox': first_meta['bbox'],
+            })
+        for segment in split_numbered_exercise_segments(' '.join(answer_parts), answer_mode=True):
+            normalized.append({
+                'type': 'answer',
+                'depth': 4,
+                'text': segment,
+                'pageIndex': first_meta['pageIndex'],
+                'bbox': first_meta['bbox'],
+            })
+        break
+    return normalized
+
+
 def post_process_guide_blocks(current_id: str, raw_title: str, blocks: list[dict]) -> list[dict]:
     processed: list[dict] = []
     seen_markers: dict[str, int] = {}
@@ -1045,6 +1160,7 @@ def post_process_guide_blocks(current_id: str, raw_title: str, blocks: list[dict
     demote_specific_alpha_sequences(current_id, processed)
     demote_leading_toc_headings(current_id, processed)
     processed = merge_heading_continuation_paragraphs(processed)
+    processed = normalize_chapter_exercise_blocks(processed)
     for index, block in enumerate(processed, start=1):
         if block.get('type') == 'heading':
             retitle_heading(block, block.get('title') or '', index)
@@ -1078,7 +1194,7 @@ def can_extend_previous_text_block(previous: dict, text: str, item: dict) -> boo
         return False
     if text_looks_hard_complete(previous.get('text') or ''):
         return False
-    if len(text) > 60:
+    if previous.get('type') != 'list_item' and len(text) > 60:
         return False
     prev_bbox = previous.get('bbox') or []
     current_bbox = item.get('bbox') or []
@@ -1086,6 +1202,10 @@ def can_extend_previous_text_block(previous: dict, text: str, item: dict) -> boo
         vertical_gap = current_bbox[1] - prev_bbox[3]
         if vertical_gap > 24:
             return False
+        if previous.get('type') == 'list_item':
+            continuation_indent = current_bbox[0] >= prev_bbox[0] + 8
+            same_line_wrap = abs(current_bbox[0] - prev_bbox[0]) <= 24
+            return continuation_indent or same_line_wrap
     return True
 
 
@@ -1105,6 +1225,7 @@ def merge_block_bbox(previous: list | None, current: list | None) -> list | None
 def build_content_blocks(items: list[dict]) -> list[dict]:
     blocks: list[dict] = []
     current_context_depth = 2
+    in_chapter_exercises = False
     for item in merge_text_items(items):
         item_type = item.get('type')
         if item_type == 'table':
@@ -1153,6 +1274,17 @@ def build_content_blocks(items: list[dict]) -> list[dict]:
                 'bbox': item.get('bbox'),
             })
         elif block_type == 'question':
+            if not in_chapter_exercises:
+                in_chapter_exercises = True
+                current_context_depth = 3
+                append_block(blocks, {
+                    'type': 'heading',
+                    'depth': 3,
+                    'title': '章節練習題',
+                    'anchor': slugify_heading('章節練習題', len(blocks) + 1),
+                    'pageIndex': item.get('page_index'),
+                    'bbox': item.get('bbox'),
+                })
             append_block(blocks, {
                 'type': 'question',
                 'depth': max(current_context_depth + 1, depth),
@@ -1289,9 +1421,9 @@ def render_positioned_items(items: list[dict]) -> str:
     chunks = []
     for item in merge_text_items(items):
         if item.get('type') == 'table':
-            markdown = table_rows_to_markdown(item.get('rows') or [])
-            if markdown:
-                chunks.append(markdown)
+            html = table_rows_to_html(item.get('rows') or [])
+            if html:
+                chunks.append(html)
         else:
             text = item.get('text') or ''
             if text:
@@ -1427,6 +1559,7 @@ def build_nodes(
     raw_nodes: list[dict],
     manifest_subject: dict,
     content_dir: Path,
+    prebuilt_blocks_by_node: dict[str, list[dict]] | None = None,
     parent_id: str | None = None,
     depth: int = 1,
     index_path: list[int] | None = None,
@@ -1457,6 +1590,7 @@ def build_nodes(
             raw_nodes=raw_node.get('children', []),
             manifest_subject=manifest_subject,
             content_dir=content_dir,
+            prebuilt_blocks_by_node=prebuilt_blocks_by_node,
             parent_id=current_id,
             depth=depth + 1,
             index_path=current_path,
@@ -1470,7 +1604,13 @@ def build_nodes(
         content_ref = f'{current_id}.json'
         content = page_content(level, key, start_page, end_page)
         markdown_content = format_markdown(raw_node.get('title') or '', content)
-        blocks = post_process_guide_blocks(current_id, raw_node.get('title') or '', page_blocks(level, key, start_page, end_page))
+        blocks = (
+            prebuilt_blocks_by_node.get(current_id)
+            if prebuilt_blocks_by_node is not None
+            else None
+        )
+        if blocks is None:
+            blocks = post_process_guide_blocks(current_id, raw_node.get('title') or '', page_blocks(level, key, start_page, end_page))
         write_json(content_dir / content_key / content_ref, {
             'id': current_id,
             'title': raw_node.get('title') or '',
@@ -1562,7 +1702,56 @@ def export_level(level: str, content_dir: Path) -> dict[str, Any]:
     return guides
 
 
-def export(levels: list[str]) -> dict[str, Any]:
+def load_guide_tree(level: str, key: str) -> tuple[dict, dict[str, list[dict]]]:
+    tree_dir = BASE / 'data' / level / 'guide_tree' / key
+    tree_path = tree_dir / 'tree.json'
+    blocks_path = tree_dir / 'blocks.json'
+    if not tree_path.exists() or not blocks_path.exists():
+        raise FileNotFoundError(
+            f'Missing guide tree for {level}/{key}; run '
+            f'python3 scripts/build_guide_tree.py --level {level} --key {key}'
+        )
+    return load_json(tree_path), load_json(blocks_path)
+
+
+def export_level_from_guide_tree(level: str, content_dir: Path) -> dict[str, Any]:
+    manifest = load_json(BASE / 'data' / level / 'toc_manifest.json')
+    guides = {}
+    for subject in manifest['subjects']:
+        key = subject['key']
+        content_key = f'{level}-{key}'
+        tree, blocks_by_node = load_guide_tree(level, key)
+        nodes_by_id: dict[str, dict] = {}
+        root_ids = build_nodes(
+            level=level,
+            subject_id=subject['id'],
+            key=key,
+            content_key=content_key,
+            raw_nodes=tree['outline'],
+            manifest_subject=subject,
+            content_dir=content_dir,
+            prebuilt_blocks_by_node=blocks_by_node,
+            nodes_by_id=nodes_by_id,
+        )
+        guide = {
+            'level': level,
+            'subjectId': subject['id'],
+            'key': content_key,
+            'sourceKey': key,
+            'subject': subject['subject'],
+            'pdf': subject['pdf'],
+            'root': root_ids,
+            'nodesById': nodes_by_id,
+            'flat': flatten_ids(root_ids, nodes_by_id),
+            'stats': tree.get('stats') or {},
+            'treeSource': f'data/{level}/guide_tree/{key}/tree.json',
+        }
+        validate_guide(guide, content_dir)
+        guides[subject['id']] = guide
+    return guides
+
+
+def export(levels: list[str], use_guide_tree: bool = False) -> dict[str, Any]:
     generated_dir = BASE / 'frontend' / 'src' / 'generated'
     content_dir = generated_dir / 'guideContent'
     if content_dir.exists():
@@ -1570,7 +1759,10 @@ def export(levels: list[str]) -> dict[str, Any]:
 
     guides = {}
     for level in levels:
-        guides.update(export_level(level, content_dir))
+        if use_guide_tree:
+            guides.update(export_level_from_guide_tree(level, content_dir))
+        else:
+            guides.update(export_level(level, content_dir))
     return {
         'levels': levels,
         'guides': guides,
@@ -1582,10 +1774,11 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--level', default='初級', help='資料等級資料夾（預設: 初級）')
     parser.add_argument('--all-levels', action='store_true', help='匯出所有已支援等級')
+    parser.add_argument('--use-guide-tree', action='store_true', help='使用 data/{level}/guide_tree/{key}/ 的預建章節樹')
     args = parser.parse_args()
 
     levels = ['初級', '中級'] if args.all_levels else [args.level]
-    data = export(levels)
+    data = export(levels, use_guide_tree=args.use_guide_tree)
     out_path = BASE / 'frontend' / 'src' / 'generated' / 'guideOutlines.json'
     write_json(out_path, data)
     for guide in data['guides'].values():

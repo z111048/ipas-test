@@ -1,7 +1,7 @@
 {
   "id": "mid-s3c2",
   "title": "線性代數之機器學習基礎應用",
-  "content": "# 線性代數之機器學習基礎應用\n\n3.2\n\n## 線性代數之機器學習基礎應用\n\n### 1. 前言與章節導覽\n\n線性代數（Linear Algebra）是機器學習模型運算與表示的數學基礎，其核心概念貫穿於資料結構表示、模型參數計算、梯度更新與特徵轉換等環節。在現代機器學習與深度學習系統中，絕大多數演算法都以矩陣與向量為運算單位，並透過線性變換、特徵分解與最小平方估計等工具來實現模型訓練與預測。\n\n本節從向量與矩陣表示、線性變換與特徵空間開始，到矩陣分解與維度簡化與最小平方估計與線性迴歸，介紹基礎概念背後的幾何意義與演算法對應，並建立其與實際建模流程的連結。\n\n### 2. 向量與矩陣表示\n\n在機器學習中，幾乎所有資料與模型參數都可以向量（Vector）與矩陣（Matrix）\n\n的形式來表示與運算。向量與矩陣不僅是資料的儲存結構，更是模型計算與訓練流程中的基本單位，包含特徵表達、線性組合、梯度運算等均仰賴這些基礎工具。\n\n#### （1）向量在機器學習中的角色\n\n向量是具有方向與大小的數學物件，通常用於描述單一樣本的特徵組合。例如：\n\n一筆5 維的樣本輸入可以表示為向量 x = [𝑥1, 𝑥2, 𝑥3, 𝑥4, 𝑥5]⊺ 模型的參數向量 𝜃= [𝜃1, 𝜃2, … , 𝜃𝑑] 可用於計算預測值 𝒴̂ = 𝜃⊺x 常見向量運算包括：\n\n• 點積（Dot Product）：\n\n評估兩個向量在同一方向上的對應程度，為線性模型預測核心運算。\n\n其物理意義是「投影」和「相似度」。\n\n• L2 範數（Norm）：\n\n或稱歐幾里得範數。\n\n用於計算向量的「長度」或「大小」，亦為正規化與正則化（如L2 損失）的基礎。\n\n• 向量加減與線性組合：\n\n可用於計算誤差向量、梯度向量等。\n\n#### （2）矩陣在機器學習中的應用\n\n矩陣是多個向量的集合，常用於表示多筆樣本資料、特徵轉換或神經網路中的權重。舉例如：\n\n• 特徵矩陣 𝑋∈ℝ𝑛×𝑑：\n\nn 筆樣本、每筆含d 個特徵，每一行為一筆樣本向量。\n\n• 權重矩陣 𝑊∈ℝ𝑑×𝑘：\n\n用於多類別分類中，將d 維輸入特徵映射為k 維輸出機率分數。\n\n常見矩陣運算包含：\n\n• 矩陣乘法（Matrix Multiplication）：模型運算的核心，用於批次預測、權重更新、轉換特徵空間。\n\n• 轉置（Transpose）：將矩陣的列與行互換，用於維度對齊與內積計算。\n\n• 矩陣求逆（Inverse）與偽逆（Pseudo-Inverse）：用於封閉解的求解（如最小平方解），或在無法反矩陣的情況下近似解決。\n\n在模型建構中的具體應用示例：\n\n• 線性迴歸中，預測值可由 𝑦̂ = 𝑋𝜃 表示，並以矩陣形式進行損失函數與導數運算。\n\n• 神經網路的前向傳播中，層與層之間的計算本質為矩陣與向量的乘法：\n\nz(l) = W(l)a(l-1) + b(l)。\n\n• 主成分分析（Principal Components Analysis, PCA）需對特徵矩陣進行協方差計算與矩陣分解，以尋找最具代表性的投影方向。\n\n### 3. 線性變換與特徵空間\n\n線性變換（Linear Transformation）是線性代數中的核心概念，其本質是在不破壞空間線性結構的前提下，對資料進行伸縮、旋轉或投影等操作。機器學習模型中大量的資料處理與特徵映射，其實都可視為一種線性變換，尤其在神經網路、特徵工程與降維方法中扮演關鍵角色。\n\n#### （1）向量經過矩陣運算的幾何意涵\n\n當一個向量 x ∈ℝ𝑑被一個矩陣 𝐴∈ℝ𝑘×𝑑左乘時，所得到的新向量 𝐴x ∈ℝ𝑘可視為對原始向量的一次線性變換。這個變換可能發生在同一維度空間中，也可能將向量投射至另一個維度的空間中，其幾何意義包含：\n\n• 縮放（Scaling）：\n\n調整向量在各個方向上的長度，改變其尺度但不改變方向。\n\n• 旋轉（Rotation）：\n\n改變向量的方向而不改變其長度，常見於正交變換或特徵對齊。\n\n• 剪切（Shearing）：\n\n使向量方向在空間中產生傾斜變化，常出現在非對角矩陣的變換中。\n\n• 投影（Projection）：\n\n將高維向量投射到某個子空間（如主成分空間或分類超平面），保留對任務最有意義的資訊。\n\n這些操作可以理解為對原始特徵空間的「重構」或「重新編碼」，其目的在於讓資料在轉換後的空間中更利於模型處理。例如，透過適當的線性變換，可以強化資料的分群結構、降低維度冗餘，或提高對特定方向的敏感度。\n\n#### （2）線性變換與特徵空間重構\n\n特徵空間（Feature Space）是指資料中各個特徵所張成的數學空間，其中每一個軸代表一個特徵維度，每一筆資料可視為空間中的一個點。這個空間的幾何結構不僅描述了資料的分佈狀態，也影響了模型如何進行分類、迴歸或聚類等任務。\n\n透過線性變換，我們可以達到：\n\n• 特徵重組：\n\n將原始特徵做線性組合，產生新的表示（如主成分分析）。\n\n• 維度轉換：\n\n將資料從原始高維空間轉換至低維或嵌入空間（如投影到主成分空間或隱藏層）。\n\n• 方向加權：\n\n強化模型對於某些方向（變數組合）的敏感性。\n\n舉例，在主成分分析（PCA）中，我們即是透過找出一組能最大化資料變異量的正交向量基底，將原始資料透過矩陣乘法映射到這組基底所定義的空間中，達到降維與特徵重組的目的。\n\n#### （3）線性變換在機器學習模型中的出現形式\n\n• 線性迴歸與邏輯迴歸：\n\n𝑦= w⊺x + 𝑏 本質為一維線性投影，將多維特徵向量投射到一條直線上以進行預測。\n\n• 神經網路中的前向傳播：\n\n每一層的運算如 z(l) = W(l)a(l-1) + b(l) 可視為將上一層輸出透過線性變換映射至下一層特徵空間，再經過非線性激活。\n\n• 嵌入層（Embedding Layer）：\n\n將離散類別轉為連續空間的向量表示，其核心操作也是一組特定矩陣的線性查詢與轉換。\n\n• 特徵投影與空間壓縮：\n\n如LDA（線性判別分析, Linear Discriminant Analysis）、Autoencoder 等，皆仰賴線性變換將高維資料重構為低維潛在向量空間。\n\n### 4. 矩陣分解與維度簡化\n\n在高維資料分析中，資料的維度（特徵數量）往往遠高於模型所需，有時甚至導致過擬合、計算效率低下或資訊冗餘。矩陣分解（Matrix Factorization）是一種有效的數值工具，可將原始矩陣拆解為多個較小且具有結構意義的子矩陣，進而實現資料降維、壓縮與轉換的目的。\n\n#### （1）矩陣分解的核心概念\n\n矩陣分解是指將一個高維矩陣 𝑋∈ℝ𝑚×𝑛 拆解為數個較小矩陣的乘積，這些子矩陣在運算上更具可解性，或在幾何上具有特定意涵。分解後的矩陣可視為資料的潛在結構（如主成分、潛在特徵）之表現，有助於後續的建模與解釋。\n\n#### （2）常見的矩陣分解方法與應用\n\n• 特徵值分解（Eigenvalue Decomposition）\n\n原理：\n\n適用於對稱方陣，將矩陣分解為一組特徵向量與特徵值的組合形式。\n\n將矩陣 𝐴∈ℝ𝑛×𝑛 分解為特徵向量與特徵值的組合形式：\n\n𝐴= 𝑄⋀𝑄⊺ 其中：\n\n○ 𝑄 是正交矩陣，由 𝐴 的特徵向量（Eigenvectors）構成。\n\n○ Λ 是對角矩陣，對角元素為特徵值（Eigenvalues）。\n\n○ 𝑄T 表示矩陣 𝑄 的轉置。簡單來說，就是將 𝑄 的行變成列，列變成行。\n\n幾何意義：\n\n特徵值分解找出一組能穩定表示資料在空間中「拉伸方向」的基底，並量化每個方向的重要性。\n\n應用場景：\n\n主成分分析（PCA）：將資料投影到最大變異方向上，達到降維與資訊保留的平衡。\n\n線性判別分析（LDA）：用於找出最佳分類投影方向，以最大化類別間差異與最小化類別內變異。\n\n• 奇異值分解（Singular Value Decomposition, SVD）\n\n原理：\n\n奇異值分解是一種可應用於任意實數矩陣（不需為方陣）的分解方法，將矩陣 𝑋∈ℝ𝑚×𝑛 拆解為三個部分：\n\n𝑋= 𝑈Σ𝑉⊺，其中：\n\n○ 𝑈∈ℝ𝑚×𝑚：左奇異向量矩陣（對應樣本方向）\n\n○ Σ ∈ℝ𝑚×𝑛：奇異值對角矩陣（對角線為非負實數，表示各主方向的重要性）\n\n○ 𝑉∈ℝ𝑛×𝑛：右奇異向量矩陣（對應特徵方向）\n\n幾何意義：\n\nSVD 將原始矩陣轉換為不同空間基底的縮放與旋轉操作，具有極佳的數值穩定性與資訊解構能力。\n\n應用場景：\n\n資料降維：保留前k 個奇異值與對應向量，近似原始資料（用於PCA 計算）。\n\n推薦系統：分解使用者 - 項目矩陣，找出潛在偏好向量。\n\n潛在語意分析（Latent Semantic Analysis, LSA）：抽取語料中詞與文件間的潛在語意結構。\n\n影像壓縮：只保留主成分影像資訊，降低儲存與運算成本。\n\n• 非負矩陣分解（Non-negative Matrix Factorization, NMF）\n\n原理：\n\n將非負矩陣 𝑋∈ℝ𝑚×𝑛，𝑋≥0 分解為兩個非負矩陣乘積的技術：𝑋≈𝑊𝐻 其中：\n\n○ 𝑊∈ℝ𝑚×𝑘，𝑊≥0：表示基底矩陣（可視為潛在特徵）\n\n○ 𝐻∈ℝ𝑘×𝑛，𝐻≥0：表示各基底的組合係數幾何意義：\n\nNMF 將資料視為幾個「可加疊的部件」，提供具備語意解釋力的解構方式，並能自然引入稀疏性。\n\n應用場景：\n\n主題建模（Topic Modeling）：將文件–詞矩陣分解為主題與詞彙分佈生物訊號分析：如腦波分解、基因表現訊號擷取影像分析：將影像資料拆解為基本視覺元素社群分析：萃取潛在社群結構或互動關聯性\n\n#### （3）維度簡化與學習效率的關聯\n\n在機器學習中，資料常包含數十甚至數百個特徵，但實際上並非每個特徵都對模型預測有貢獻。若將所有特徵無差別地納入建模，不僅會造成運算成本上升，也容易導致模型過擬合，進而影響預測穩定性與泛化能力。\n\n透過矩陣分解等技術進行「維度簡化」，可有效將資料壓縮為一組更有代表性的特徵組合。這些組合捕捉了資料的主要變異方向，同時排除了雜訊與重複資訊，有助於：\n\n• 提升訓練效率：\n\n減少模型參數量與計算資源需求，加快訓練時間，特別適用於大型資料集或深度學習模型。\n\n• 穩定模型表現：\n\n去除雜訊與共線性問題，有助於降低過擬合風險，提升預測準確度。\n\n• 強化資料解釋性：\n\n轉換後的特徵常具有明確的幾何或語意意義，更容易與業務需求連結，輔助模型診斷與結果溝通。\n\n• 利於視覺化與後續分析：\n\n在維度降低後，可將資料投影至二維或三維空間中，方便進行資料探索、群集判斷與異常偵測等任務。\n\n### 5. 最小平方估計與線性迴歸\n\n線性迴歸（Linear Regression）是機器學習中最基礎且最具代表性的監督式學習模型之一，其核心目的在於找出一條「最佳擬合線」，用以描述輸入變數與目標變數之間的線性關係。這條擬合線的建立，即是透過一種稱為「最小平方估計」\n\n的方法所完成。\n\n#### （1）最小平方估計的核心概念\n\n最小平方估計（Ordinary Least Squares, OLS）是一種以「誤差最小化」為目標的參數估計方法。在進行模型訓練時，會比較模型所預測的值與實際觀測值之間的差異，並試圖找出一組參數，使這些差異的平方總和達到最小。這樣的方式不僅能提供穩定且具代表性的模型，也具備清楚的幾何與統計意義。\n\n#### （2）幾何觀點下的線性迴歸\n\n從幾何角度來看，線性迴歸的本質是一種投影：我們將輸入資料在特徵空間中投影到一個最接近實際結果的平面上。這個平面，就是模型所學習到的線性關係。透過這樣的視角，我們可以理解為何線性迴歸如此直觀，同時又能提供具體的數學保證。\n\n這種幾何結構也說明了為何資料的排列與變異會影響模型的準確性—資料若分佈過於分散或存在離群點，擬合出的平面可能會受到扭曲。\n\n#### （3）應用情境與特點\n\n線性迴歸雖然簡單，但其應用場景廣泛，常見情境如：\n\n• 銷售預測：根據廣告支出或市場活動，預測未來營收。\n\n• 醫療風險評估：用年齡、血壓等指標預測患病機率或醫療成本。\n\n• 房價估值：將房屋大小、樓層、地點等作為輸入，預測合理價格。\n\n• 行為建模：描述某一變數如何受多個條件共同影響。",
+  "content": "# 線性代數之機器學習基礎應用\n\n3.2\n\n## 線性代數之機器學習基礎應用\n\n### 1. 前言與章節導覽\n\n線性代數（Linear Algebra）是機器學習模型運算與表示的數學基礎，其核心概念貫穿於資料結構表示、模型參數計算、梯度更新與特徵轉換等環節。在現代機器學習與深度學習系統中，絕大多數演算法都以矩陣與向量為運算單位，並透過線性變換、特徵分解與最小平方估計等工具來實現模型訓練與預測。\n\n本節從向量與矩陣表示、線性變換與特徵空間開始，到矩陣分解與維度簡化與最小平方估計與線性迴歸，介紹基礎概念背後的幾何意義與演算法對應，並建立其與實際建模流程的連結。\n\n### 2. 向量與矩陣表示\n\n在機器學習中，幾乎所有資料與模型參數都可以向量（Vector）與矩陣（Matrix）\n\n的形式來表示與運算。向量與矩陣不僅是資料的儲存結構，更是模型計算與訓練流程中的基本單位，包含特徵表達、線性組合、梯度運算等均仰賴這些基礎工具。\n\n#### （1）向量在機器學習中的角色\n\n向量是具有方向與大小的數學物件，通常用於描述單一樣本的特徵組合。例如：\n\n一筆5 維的樣本輸入可以表示為向量 x = [𝑥1, 𝑥2, 𝑥3, 𝑥4, 𝑥5]⊺ 模型的參數向量 𝜃= [𝜃1, 𝜃2, … , 𝜃𝑑] 可用於計算預測值 𝒴̂ = 𝜃⊺x 常見向量運算包括：\n\n• 點積（Dot Product）：\n\n◦ 評估兩個向量在同一方向上的對應程度，為線性模型預測核心運算。\n\n◦ 其物理意義是「投影」和「相似度」。\n\n• L2 範數（Norm）：\n\n◦ 或稱歐幾里得範數。\n\n◦ 用於計算向量的「長度」或「大小」，亦為正規化與正則化（如L2 損\n\n失）的基礎。\n\n• 向量加減與線性組合：\n\n◦ 可用於計算誤差向量、梯度向量等。\n\n#### （2）矩陣在機器學習中的應用\n\n矩陣是多個向量的集合，常用於表示多筆樣本資料、特徵轉換或神經網路中的權重。舉例如：\n\n• 特徵矩陣 𝑋∈ℝ𝑛×𝑑：\n\nn 筆樣本、每筆含d 個特徵，每一行為一筆樣本向量。\n\n• 權重矩陣 𝑊∈ℝ𝑑×𝑘：\n\n用於多類別分類中，將d 維輸入特徵映射為k 維輸出機率分數。\n\n常見矩陣運算包含：\n\n• 矩陣乘法（Matrix Multiplication）：模型運算的核心，用於批次預測、權重\n\n更新、轉換特徵空間。\n\n• 轉置（Transpose）：將矩陣的列與行互換，用於維度對齊與內積計算。\n\n• 矩陣求逆（Inverse）與偽逆（Pseudo-Inverse）：用於封閉解的求解（如最\n\n小平方解），或在無法反矩陣的情況下近似解決。\n\n在模型建構中的具體應用示例：\n\n• 線性迴歸中，預測值可由 𝑦̂ = 𝑋𝜃 表示，並以矩陣形式進行損失函數與導\n\n數運算。\n\n• 神經網路的前向傳播中，層與層之間的計算本質為矩陣與向量的乘法：\n\nz(l) = W(l)a(l-1) + b(l)。\n\n• 主成分分析（Principal Components Analysis, PCA）需對特徵矩陣進行協方\n\n差計算與矩陣分解，以尋找最具代表性的投影方向。\n\n### 3. 線性變換與特徵空間\n\n線性變換（Linear Transformation）是線性代數中的核心概念，其本質是在不破壞空間線性結構的前提下，對資料進行伸縮、旋轉或投影等操作。機器學習模型中大量的資料處理與特徵映射，其實都可視為一種線性變換，尤其在神經網路、特徵工程與降維方法中扮演關鍵角色。\n\n#### （1）向量經過矩陣運算的幾何意涵\n\n當一個向量 x ∈ℝ𝑑被一個矩陣 𝐴∈ℝ𝑘×𝑑左乘時，所得到的新向量 𝐴x ∈ℝ𝑘可視為對原始向量的一次線性變換。這個變換可能發生在同一維度空間中，也可能將向量投射至另一個維度的空間中，其幾何意義包含：\n\n• 縮放（Scaling）：\n\n◦ 調整向量在各個方向上的長度，改變其尺度但不改變方向。\n\n• 旋轉（Rotation）：\n\n◦ 改變向量的方向而不改變其長度，常見於正交變換或特徵對齊。\n\n• 剪切（Shearing）：\n\n◦ 使向量方向在空間中產生傾斜變化，常出現在非對角矩陣的變換中。\n\n• 投影（Projection）：\n\n◦ 將高維向量投射到某個子空間（如主成分空間或分類超平面），保留對\n\n任務最有意義的資訊。\n\n這些操作可以理解為對原始特徵空間的「重構」或「重新編碼」，其目的在於讓資料在轉換後的空間中更利於模型處理。例如，透過適當的線性變換，可以強化資料的分群結構、降低維度冗餘，或提高對特定方向的敏感度。\n\n#### （2）線性變換與特徵空間重構\n\n特徵空間（Feature Space）是指資料中各個特徵所張成的數學空間，其中每一個軸代表一個特徵維度，每一筆資料可視為空間中的一個點。這個空間的幾何結構不僅描述了資料的分佈狀態，也影響了模型如何進行分類、迴歸或聚類等任務。\n\n透過線性變換，我們可以達到：\n\n• 特徵重組：\n\n◦ 將原始特徵做線性組合，產生新的表示（如主成分分析）。\n\n• 維度轉換：\n\n◦ 將資料從原始高維空間轉換至低維或嵌入空間（如投影到主成分空間\n\n或隱藏層）。\n\n• 方向加權：\n\n◦ 強化模型對於某些方向（變數組合）的敏感性。\n\n舉例，在主成分分析（PCA）中，我們即是透過找出一組能最大化資料變異量的正交向量基底，將原始資料透過矩陣乘法映射到這組基底所定義的空間中，達到降維與特徵重組的目的。\n\n#### （3）線性變換在機器學習模型中的出現形式\n\n• 線性迴歸與邏輯迴歸：\n\n◦ 𝑦= w⊺x + 𝑏 本質為一維線性投影，將多維特徵向量投射到一條直線上\n\n以進行預測。\n\n• 神經網路中的前向傳播：\n\n◦ 每一層的運算如 z(l) = W(l)a(l-1) + b(l) 可視為將上一層輸出透過線性變\n\n換映射至下一層特徵空間，再經過非線性激活。\n\n• 嵌入層（Embedding Layer）：\n\n◦ 將離散類別轉為連續空間的向量表示，其核心操作也是一組特定矩陣的線性\n\n查詢與轉換。\n\n• 特徵投影與空間壓縮：\n\n◦ 如LDA（線性判別分析, Linear Discriminant Analysis）、Autoencoder 等，\n\n皆仰賴線性變換將高維資料重構為低維潛在向量空間。\n\n### 4. 矩陣分解與維度簡化\n\n在高維資料分析中，資料的維度（特徵數量）往往遠高於模型所需，有時甚至導致過擬合、計算效率低下或資訊冗餘。矩陣分解（Matrix Factorization）是一種有效的數值工具，可將原始矩陣拆解為多個較小且具有結構意義的子矩陣，進而實現資料降維、壓縮與轉換的目的。\n\n#### （1）矩陣分解的核心概念\n\n矩陣分解是指將一個高維矩陣 𝑋∈ℝ𝑚×𝑛 拆解為數個較小矩陣的乘積，這些子矩陣在運算上更具可解性，或在幾何上具有特定意涵。分解後的矩陣可視為資料的潛在結構（如主成分、潛在特徵）之表現，有助於後續的建模與解釋。\n\n#### （2）常見的矩陣分解方法與應用\n\n• 特徵值分解（Eigenvalue Decomposition）\n\n◦ 原理：\n\n○ 適用於對稱方陣，將矩陣分解為一組特徵向量與特徵值的組合形式。\n\n○ 將矩陣 𝐴∈ℝ𝑛×𝑛 分解為特徵向量與特徵值的組合形式：\n\n𝐴= 𝑄⋀𝑄⊺ 其中：\n\n○ 𝑄 是正交矩陣，由 𝐴 的特徵向量（Eigenvectors）構成。\n\n○ Λ 是對角矩陣，對角元素為特徵值（Eigenvalues）。\n\n○ 𝑄T 表示矩陣 𝑄 的轉置。簡單來說，就是將 𝑄 的行變成列，列\n\n變成行。\n\n◦ 幾何意義：\n\n○ 特徵值分解找出一組能穩定表示資料在空間中「拉伸方向」的基底，\n\n並量化每個方向的重要性。\n\n◦ 應用場景：\n\n○ 主成分分析（PCA）：將資料投影到最大變異方向上，達到降維與資\n\n訊保留的平衡。\n\n○ 線性判別分析（LDA）：用於找出最佳分類投影方向，以最大化類別\n\n間差異與最小化類別內變異。\n\n• 奇異值分解（Singular Value Decomposition, SVD）\n\n◦ 原理：\n\n○ 奇異值分解是一種可應用於任意實數矩陣（不需為方陣）的分解方\n\n法，將矩陣 𝑋∈ℝ𝑚×𝑛 拆解為三個部分：\n\n𝑋= 𝑈Σ𝑉⊺，其中：\n\n○ 𝑈∈ℝ𝑚×𝑚：左奇異向量矩陣（對應樣本方向）\n\n○ Σ ∈ℝ𝑚×𝑛：奇異值對角矩陣（對角線為非負實數，表示各主方向\n\n的重要性）\n\n○ 𝑉∈ℝ𝑛×𝑛：右奇異向量矩陣（對應特徵方向）\n\n◦ 幾何意義：\n\n○ SVD 將原始矩陣轉換為不同空間基底的縮放與旋轉操作，具有極佳\n\n的數值穩定性與資訊解構能力。\n\n◦ 應用場景：\n\n○ 資料降維：保留前k 個奇異值與對應向量，近似原始資料（用於PCA\n\n計算）。\n\n○ 推薦系統：分解使用者 - 項目矩陣，找出潛在偏好向量。\n\n○ 潛在語意分析（Latent Semantic Analysis, LSA）：抽取語料中詞與文\n\n件間的潛在語意結構。\n\n○ 影像壓縮：只保留主成分影像資訊，降低儲存與運算成本。\n\n• 非負矩陣分解（Non-negative Matrix Factorization, NMF）\n\n◦ 原理：\n\n○ 將非負矩陣 𝑋∈ℝ𝑚×𝑛，𝑋≥0\n\n○ 分解為兩個非負矩陣乘積的技術：𝑋≈𝑊𝐻\n\n○ 其中：\n\n○ 𝑊∈ℝ𝑚×𝑘，𝑊≥0：表示基底矩陣（可視為潛在特徵）\n\n○ 𝐻∈ℝ𝑘×𝑛，𝐻≥0：表示各基底的組合係數\n\n◦ 幾何意義：\n\n○ NMF 將資料視為幾個「可加疊的部件」，提供具備語意解釋力的解\n\n構方式，並能自然引入稀疏性。\n\n◦ 應用場景：\n\n○ 主題建模（Topic Modeling）：將文件–詞矩陣分解為主題與詞彙分佈\n\n○ 生物訊號分析：如腦波分解、基因表現訊號擷取\n\n○ 影像分析：將影像資料拆解為基本視覺元素\n\n○ 社群分析：萃取潛在社群結構或互動關聯性\n\n#### （3）維度簡化與學習效率的關聯\n\n在機器學習中，資料常包含數十甚至數百個特徵，但實際上並非每個特徵都對模型預測有貢獻。若將所有特徵無差別地納入建模，不僅會造成運算成本上升，也容易導致模型過擬合，進而影響預測穩定性與泛化能力。\n\n透過矩陣分解等技術進行「維度簡化」，可有效將資料壓縮為一組更有代表性的特徵組合。這些組合捕捉了資料的主要變異方向，同時排除了雜訊與重複資訊，有助於：\n\n• 提升訓練效率：\n\n◦ 減少模型參數量與計算資源需求，加快訓練時間，特別適用於大型資料\n\n集或深度學習模型。\n\n• 穩定模型表現：\n\n◦ 去除雜訊與共線性問題，有助於降低過擬合風險，提升預測準確度。\n\n• 強化資料解釋性：\n\n◦ 轉換後的特徵常具有明確的幾何或語意意義，更容易與業務需求連結，\n\n輔助模型診斷與結果溝通。\n\n• 利於視覺化與後續分析：\n\n◦ 在維度降低後，可將資料投影至二維或三維空間中，方便進行資料探\n\n索、群集判斷與異常偵測等任務。\n\n### 5. 最小平方估計與線性迴歸\n\n線性迴歸（Linear Regression）是機器學習中最基礎且最具代表性的監督式學習模型之一，其核心目的在於找出一條「最佳擬合線」，用以描述輸入變數與目標變數之間的線性關係。這條擬合線的建立，即是透過一種稱為「最小平方估計」\n\n的方法所完成。\n\n#### （1）最小平方估計的核心概念\n\n最小平方估計（Ordinary Least Squares, OLS）是一種以「誤差最小化」為目標的參數估計方法。在進行模型訓練時，會比較模型所預測的值與實際觀測值之間的差異，並試圖找出一組參數，使這些差異的平方總和達到最小。這樣的方式不僅能提供穩定且具代表性的模型，也具備清楚的幾何與統計意義。\n\n#### （2）幾何觀點下的線性迴歸\n\n從幾何角度來看，線性迴歸的本質是一種投影：我們將輸入資料在特徵空間中投影到一個最接近實際結果的平面上。這個平面，就是模型所學習到的線性關係。透過這樣的視角，我們可以理解為何線性迴歸如此直觀，同時又能提供具體的數學保證。\n\n這種幾何結構也說明了為何資料的排列與變異會影響模型的準確性—資料若分佈過於分散或存在離群點，擬合出的平面可能會受到扭曲。\n\n#### （3）應用情境與特點\n\n線性迴歸雖然簡單，但其應用場景廣泛，常見情境如：\n\n• 銷售預測：根據廣告支出或市場活動，預測未來營收。\n\n• 醫療風險評估：用年齡、血壓等指標預測患病機率或醫療成本。\n\n• 房價估值：將房屋大小、樓層、地點等作為輸入，預測合理價格。\n\n• 行為建模：描述某一變數如何受多個條件共同影響。",
   "contentFormat": "markdown",
   "headings": [
     {
@@ -103,7 +103,10 @@
         351.0,
         174.28
       ],
-      "id": "block-1"
+      "id": "block-1",
+      "nodeId": "mid-s3c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -117,7 +120,10 @@
         203.57,
         218.12
       ],
-      "id": "block-2"
+      "id": "block-2",
+      "nodeId": "mid-s3c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -130,7 +136,10 @@
         518.23,
         317.54
       ],
-      "id": "block-3"
+      "id": "block-3",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -143,7 +152,10 @@
         517.93,
         392.54
       ],
-      "id": "block-4"
+      "id": "block-4",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -157,7 +169,10 @@
         203.57,
         443.15
       ],
-      "id": "block-5"
+      "id": "block-5",
+      "nodeId": "mid-s3c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -170,7 +185,10 @@
         524.64,
         467.56
       ],
-      "id": "block-6"
+      "id": "block-6",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -183,7 +201,10 @@
         521.88,
         517.6
       ],
-      "id": "block-7"
+      "id": "block-7",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -197,7 +218,10 @@
         243.43,
         567.52
       ],
-      "id": "block-8"
+      "id": "block-8",
+      "nodeId": "mid-s3c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -210,7 +234,10 @@
         521.88,
         592.6
       ],
-      "id": "block-9"
+      "id": "block-9",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -223,11 +250,14 @@
         446.85,
         667.63
       ],
-      "id": "block-10"
+      "id": "block-10",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "點積（Dot Product）：",
       "pageIndex": 15,
@@ -237,11 +267,15 @@
         240.55,
         692.59
       ],
-      "id": "block-11"
+      "id": "block-11",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "評估兩個向量在同一方向上的對應程度，為線性模型預測核心運算。",
       "pageIndex": 15,
       "bbox": [
@@ -250,11 +284,15 @@
         517.2,
         717.55
       ],
-      "id": "block-12"
+      "id": "block-12",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "其物理意義是「投影」和「相似度」。",
       "pageIndex": 15,
       "bbox": [
@@ -263,11 +301,14 @@
         347.13,
         759.18
       ],
-      "id": "block-13"
+      "id": "block-13",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "L2 範數（Norm）：",
       "pageIndex": 16,
@@ -277,11 +318,15 @@
         225.19,
         114.11
       ],
-      "id": "block-14"
+      "id": "block-14",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "或稱歐幾里得範數。",
       "pageIndex": 16,
       "bbox": [
@@ -290,11 +335,15 @@
         252.55,
         139.07
       ],
-      "id": "block-15"
+      "id": "block-15",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "用於計算向量的「長度」或「大小」，亦為正規化與正則化（如L2 損失）的基礎。",
       "pageIndex": 16,
       "bbox": [
@@ -303,11 +352,14 @@
         518.16,
         189.11
       ],
-      "id": "block-16"
+      "id": "block-16",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "向量加減與線性組合：",
       "pageIndex": 16,
@@ -317,11 +369,15 @@
         248.23,
         214.07
       ],
-      "id": "block-17"
+      "id": "block-17",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "可用於計算誤差向量、梯度向量等。",
       "pageIndex": 16,
       "bbox": [
@@ -330,7 +386,10 @@
         340.77,
         239.15
       ],
-      "id": "block-18"
+      "id": "block-18",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -344,7 +403,10 @@
         243.43,
         289.1
       ],
-      "id": "block-19"
+      "id": "block-19",
+      "nodeId": "mid-s3c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -357,11 +419,14 @@
         517.93,
         339.14
       ],
-      "id": "block-20"
+      "id": "block-20",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "特徵矩陣 𝑋∈ℝ𝑛×𝑑：",
       "pageIndex": 16,
@@ -371,7 +436,10 @@
         247.51,
         364.17
       ],
-      "id": "block-21"
+      "id": "block-21",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -384,11 +452,14 @@
         421.53,
         389.18
       ],
-      "id": "block-22"
+      "id": "block-22",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "權重矩陣 𝑊∈ℝ𝑑×𝑘：",
       "pageIndex": 16,
@@ -398,7 +469,10 @@
         250.99,
         414.21
       ],
-      "id": "block-23"
+      "id": "block-23",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -411,7 +485,10 @@
         475.08,
         439.1
       ],
-      "id": "block-24"
+      "id": "block-24",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -424,11 +501,14 @@
         218.23,
         472.36
       ],
-      "id": "block-25"
+      "id": "block-25",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "矩陣乘法（Matrix Multiplication）：模型運算的核心，用於批次預測、權重更新、轉換特徵空間。",
       "pageIndex": 16,
@@ -438,11 +518,14 @@
         518.32,
         522.28
       ],
-      "id": "block-26"
+      "id": "block-26",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "轉置（Transpose）：將矩陣的列與行互換，用於維度對齊與內積計算。",
       "pageIndex": 16,
@@ -452,11 +535,14 @@
         507.84,
         547.36
       ],
-      "id": "block-27"
+      "id": "block-27",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "矩陣求逆（Inverse）與偽逆（Pseudo-Inverse）：用於封閉解的求解（如最小平方解），或在無法反矩陣的情況下近似解決。",
       "pageIndex": 16,
@@ -466,7 +552,10 @@
         518.23,
         597.28
       ],
-      "id": "block-28"
+      "id": "block-28",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -479,11 +568,14 @@
         281.23,
         630.55
       ],
-      "id": "block-29"
+      "id": "block-29",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "線性迴歸中，預測值可由 𝑦̂ = 𝑋𝜃 表示，並以矩陣形式進行損失函數與導數運算。",
       "pageIndex": 16,
@@ -493,11 +585,14 @@
         518.18,
         680.47
       ],
-      "id": "block-30"
+      "id": "block-30",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "神經網路的前向傳播中，層與層之間的計算本質為矩陣與向量的乘法：",
       "pageIndex": 16,
@@ -507,7 +602,10 @@
         512.88,
         705.55
       ],
-      "id": "block-31"
+      "id": "block-31",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -520,11 +618,14 @@
         234.43,
         730.61
       ],
-      "id": "block-32"
+      "id": "block-32",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "主成分分析（Principal Components Analysis, PCA）需對特徵矩陣進行協方差計算與矩陣分解，以尋找最具代表性的投影方向。",
       "pageIndex": 17,
@@ -534,7 +635,10 @@
         518.14,
         139.07
       ],
-      "id": "block-33"
+      "id": "block-33",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -548,7 +652,10 @@
         231.76,
         189.68
       ],
-      "id": "block-34"
+      "id": "block-34",
+      "nodeId": "mid-s3c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -561,7 +668,10 @@
         521.44,
         289.1
       ],
-      "id": "block-35"
+      "id": "block-35",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -575,7 +685,10 @@
         268.75,
         339.14
       ],
-      "id": "block-36"
+      "id": "block-36",
+      "nodeId": "mid-s3c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -588,11 +701,14 @@
         518.28,
         414.14
       ],
-      "id": "block-37"
+      "id": "block-37",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "縮放（Scaling）：",
       "pageIndex": 17,
@@ -602,11 +718,15 @@
         217.03,
         439.1
       ],
-      "id": "block-38"
+      "id": "block-38",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "調整向量在各個方向上的長度，改變其尺度但不改變方向。",
       "pageIndex": 17,
       "bbox": [
@@ -615,11 +735,14 @@
         466.8,
         464.2
       ],
-      "id": "block-39"
+      "id": "block-39",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "旋轉（Rotation）：",
       "pageIndex": 17,
@@ -629,11 +752,15 @@
         222.67,
         489.16
       ],
-      "id": "block-40"
+      "id": "block-40",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "改變向量的方向而不改變其長度，常見於正交變換或特徵對齊。",
       "pageIndex": 17,
       "bbox": [
@@ -642,11 +769,14 @@
         492.0,
         514.12
       ],
-      "id": "block-41"
+      "id": "block-41",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "剪切（Shearing）：",
       "pageIndex": 17,
@@ -656,11 +786,15 @@
         223.99,
         539.2
       ],
-      "id": "block-42"
+      "id": "block-42",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "使向量方向在空間中產生傾斜變化，常出現在非對角矩陣的變換中。",
       "pageIndex": 17,
       "bbox": [
@@ -669,11 +803,14 @@
         517.2,
         564.16
       ],
-      "id": "block-43"
+      "id": "block-43",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "投影（Projection）：",
       "pageIndex": 17,
@@ -683,11 +820,15 @@
         231.31,
         589.12
       ],
-      "id": "block-44"
+      "id": "block-44",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "將高維向量投射到某個子空間（如主成分空間或分類超平面），保留對任務最有意義的資訊。",
       "pageIndex": 17,
       "bbox": [
@@ -696,7 +837,10 @@
         518.18,
         639.19
       ],
-      "id": "block-45"
+      "id": "block-45",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -709,7 +853,10 @@
         518.33,
         722.35
       ],
-      "id": "block-46"
+      "id": "block-46",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -723,7 +870,10 @@
         243.43,
         114.11
       ],
-      "id": "block-47"
+      "id": "block-47",
+      "nodeId": "mid-s3c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -736,7 +886,10 @@
         521.88,
         187.67
       ],
-      "id": "block-48"
+      "id": "block-48",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -749,11 +902,14 @@
         281.23,
         212.15
       ],
-      "id": "block-49"
+      "id": "block-49",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "特徵重組：",
       "pageIndex": 18,
@@ -763,11 +919,15 @@
         185.2,
         236.63
       ],
-      "id": "block-50"
+      "id": "block-50",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "將原始特徵做線性組合，產生新的表示（如主成分分析）。",
       "pageIndex": 18,
       "bbox": [
@@ -776,11 +936,14 @@
         460.56,
         261.11
       ],
-      "id": "block-51"
+      "id": "block-51",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "維度轉換：",
       "pageIndex": 18,
@@ -790,11 +953,15 @@
         185.2,
         285.62
       ],
-      "id": "block-52"
+      "id": "block-52",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "將資料從原始高維空間轉換至低維或嵌入空間（如投影到主成分空間或隱藏層）。",
       "pageIndex": 18,
       "bbox": [
@@ -803,11 +970,14 @@
         517.85,
         334.7
       ],
-      "id": "block-53"
+      "id": "block-53",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "方向加權：",
       "pageIndex": 18,
@@ -817,11 +987,15 @@
         185.2,
         359.18
       ],
-      "id": "block-54"
+      "id": "block-54",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "強化模型對於某些方向（變數組合）的敏感性。",
       "pageIndex": 18,
       "bbox": [
@@ -830,7 +1004,10 @@
         403.77,
         383.66
       ],
-      "id": "block-55"
+      "id": "block-55",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -843,7 +1020,10 @@
         518.11,
         481.72
       ],
-      "id": "block-56"
+      "id": "block-56",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -857,11 +1037,14 @@
         319.15,
         530.68
       ],
-      "id": "block-57"
+      "id": "block-57",
+      "nodeId": "mid-s3c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "線性迴歸與邏輯迴歸：",
       "pageIndex": 18,
@@ -871,11 +1054,15 @@
         248.23,
         555.16
       ],
-      "id": "block-58"
+      "id": "block-58",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "𝑦= w⊺x + 𝑏 本質為一維線性投影，將多維特徵向量投射到一條直線上以進行預測。",
       "pageIndex": 18,
       "bbox": [
@@ -884,11 +1071,14 @@
         518.23,
         605.2
       ],
-      "id": "block-59"
+      "id": "block-59",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "神經網路中的前向傳播：",
       "pageIndex": 18,
@@ -898,11 +1088,15 @@
         260.83,
         629.71
       ],
-      "id": "block-60"
+      "id": "block-60",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "每一層的運算如 z(l) = W(l)a(l-1) + b(l) 可視為將上一層輸出透過線性變換映射至下一層特徵空間，再經過非線性激活。",
       "pageIndex": 18,
       "bbox": [
@@ -911,11 +1105,14 @@
         518.09,
         679.75
       ],
-      "id": "block-61"
+      "id": "block-61",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "嵌入層（Embedding Layer）：",
       "pageIndex": 18,
@@ -925,11 +1122,15 @@
         282.43,
         704.23
       ],
-      "id": "block-62"
+      "id": "block-62",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "將離散類別轉為連續空間的向量表示，其核心操作也是一組特定矩陣的線性查詢與轉換。",
       "pageIndex": 18,
       "bbox": [
@@ -938,11 +1139,14 @@
         518.32,
         753.18
       ],
-      "id": "block-63"
+      "id": "block-63",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "特徵投影與空間壓縮：",
       "pageIndex": 19,
@@ -952,11 +1156,15 @@
         248.23,
         114.11
       ],
-      "id": "block-64"
+      "id": "block-64",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "如LDA（線性判別分析, Linear Discriminant Analysis）、Autoencoder 等，皆仰賴線性變換將高維資料重構為低維潛在向量空間。",
       "pageIndex": 19,
       "bbox": [
@@ -965,7 +1173,10 @@
         521.4,
         164.15
       ],
-      "id": "block-65"
+      "id": "block-65",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -979,7 +1190,10 @@
         231.76,
         214.64
       ],
-      "id": "block-66"
+      "id": "block-66",
+      "nodeId": "mid-s3c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -992,7 +1206,10 @@
         518.37,
         314.18
       ],
-      "id": "block-67"
+      "id": "block-67",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1006,7 +1223,10 @@
         218.23,
         364.1
       ],
-      "id": "block-68"
+      "id": "block-68",
+      "nodeId": "mid-s3c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1019,7 +1239,10 @@
         518.37,
         439.1
       ],
-      "id": "block-69"
+      "id": "block-69",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1033,25 +1256,49 @@
         256.15,
         489.16
       ],
-      "id": "block-70"
+      "id": "block-70",
+      "nodeId": "mid-s3c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "特徵值分解（Eigenvalue Decomposition） 原理：",
+      "text": "特徵值分解（Eigenvalue Decomposition）",
       "pageIndex": 19,
       "bbox": [
         102.16,
         500.67,
         347.97,
-        539.2
+        514.12
       ],
-      "id": "block-71"
+      "id": "block-71",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "原理：",
+      "pageIndex": 19,
+      "bbox": [
+        120.52,
+        525.75,
+        176.92,
+        539.2
+      ],
+      "id": "block-72",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "適用於對稱方陣，將矩陣分解為一組特徵向量與特徵值的組合形式。",
       "pageIndex": 19,
       "bbox": [
@@ -1060,11 +1307,15 @@
         521.88,
         564.16
       ],
-      "id": "block-72"
+      "id": "block-73",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "將矩陣 𝐴∈ℝ𝑛×𝑛 分解為特徵向量與特徵值的組合形式：",
       "pageIndex": 19,
       "bbox": [
@@ -1073,7 +1324,10 @@
         467.28,
         589.53
       ],
-      "id": "block-73"
+      "id": "block-74",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1086,11 +1340,14 @@
         205.27,
         639.19
       ],
-      "id": "block-74"
+      "id": "block-75",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "𝑄 是正交矩陣，由 𝐴 的特徵向量（Eigenvectors）構成。",
       "pageIndex": 19,
@@ -1100,11 +1357,14 @@
         486.96,
         664.22
       ],
-      "id": "block-75"
+      "id": "block-76",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "Λ 是對角矩陣，對角元素為特徵值（Eigenvalues）。",
       "pageIndex": 19,
@@ -1114,25 +1374,48 @@
         455.64,
         689.23
       ],
-      "id": "block-76"
+      "id": "block-77",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
-      "text": "𝑄T 表示矩陣 𝑄 的轉置。簡單來說，就是將 𝑄 的行變成列，列變成行。",
+      "text": "𝑄T 表示矩陣 𝑄 的轉置。簡單來說，就是將 𝑄 的行變成列，列",
       "pageIndex": 19,
       "bbox": [
-        76.6,
+        150.28,
         699.87,
         518.4,
-        755.82
+        714.26
       ],
-      "id": "block-77"
+      "id": "block-78",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 5,
+      "text": "變成行。",
+      "pageIndex": 19,
+      "bbox": [
+        76.6,
+        725.86,
+        223.63,
+        755.82
+      ],
+      "id": "block-79",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "幾何意義：",
       "pageIndex": 20,
       "bbox": [
@@ -1141,11 +1424,15 @@
         202.15,
         114.11
       ],
-      "id": "block-78"
+      "id": "block-80",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "特徵值分解找出一組能穩定表示資料在空間中「拉伸方向」的基底，並量化每個方向的重要性。",
       "pageIndex": 20,
       "bbox": [
@@ -1154,11 +1441,15 @@
         521.28,
         164.15
       ],
-      "id": "block-79"
+      "id": "block-81",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "應用場景：",
       "pageIndex": 20,
       "bbox": [
@@ -1167,11 +1458,15 @@
         202.15,
         189.11
       ],
-      "id": "block-80"
+      "id": "block-82",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "主成分分析（PCA）：將資料投影到最大變異方向上，達到降維與資訊保留的平衡。",
       "pageIndex": 20,
       "bbox": [
@@ -1180,11 +1475,15 @@
         517.99,
         239.15
       ],
-      "id": "block-81"
+      "id": "block-83",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "線性判別分析（LDA）：用於找出最佳分類投影方向，以最大化類別間差異與最小化類別內變異。",
       "pageIndex": 20,
       "bbox": [
@@ -1193,25 +1492,49 @@
         518.03,
         289.1
       ],
-      "id": "block-82"
+      "id": "block-84",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "奇異值分解（Singular Value Decomposition, SVD） 原理：",
+      "text": "奇異值分解（Singular Value Decomposition, SVD）",
       "pageIndex": 20,
       "bbox": [
         102.16,
         300.73,
         397.53,
-        339.14
+        314.18
       ],
-      "id": "block-83"
+      "id": "block-85",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "原理：",
+      "pageIndex": 20,
+      "bbox": [
+        120.52,
+        325.69,
+        176.92,
+        339.14
+      ],
+      "id": "block-86",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "奇異值分解是一種可應用於任意實數矩陣（不需為方陣）的分解方法，將矩陣 𝑋∈ℝ𝑚×𝑛 拆解為三個部分：",
       "pageIndex": 20,
       "bbox": [
@@ -1220,7 +1543,10 @@
         518.32,
         389.59
       ],
-      "id": "block-84"
+      "id": "block-87",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1233,11 +1559,14 @@
         254.83,
         414.21
       ],
-      "id": "block-85"
+      "id": "block-88",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "𝑈∈ℝ𝑚×𝑚：左奇異向量矩陣（對應樣本方向）",
       "pageIndex": 20,
@@ -1247,11 +1576,14 @@
         426.33,
         439.17
       ],
-      "id": "block-86"
+      "id": "block-89",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "Σ ∈ℝ𝑚×𝑛：奇異值對角矩陣（對角線為非負實數，表示各主方向的重要性）",
       "pageIndex": 20,
@@ -1261,25 +1593,49 @@
         518.07,
         489.16
       ],
-      "id": "block-87"
+      "id": "block-90",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
-      "text": "𝑉∈ℝ𝑛×𝑛：右奇異向量矩陣（對應特徵方向） 幾何意義：",
+      "text": "𝑉∈ℝ𝑛×𝑛：右奇異向量矩陣（對應特徵方向）",
+      "pageIndex": 20,
+      "bbox": [
+        150.28,
+        500.45,
+        420.81,
+        514.19
+      ],
+      "id": "block-91",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "幾何意義：",
       "pageIndex": 20,
       "bbox": [
         120.52,
-        500.45,
-        420.81,
+        525.75,
+        202.15,
         539.2
       ],
-      "id": "block-88"
+      "id": "block-92",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "SVD 將原始矩陣轉換為不同空間基底的縮放與旋轉操作，具有極佳的數值穩定性與資訊解構能力。",
       "pageIndex": 20,
       "bbox": [
@@ -1288,11 +1644,15 @@
         518.2,
         589.12
       ],
-      "id": "block-89"
+      "id": "block-93",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "應用場景：",
       "pageIndex": 20,
       "bbox": [
@@ -1301,11 +1661,15 @@
         202.15,
         614.2
       ],
-      "id": "block-90"
+      "id": "block-94",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "資料降維：保留前k 個奇異值與對應向量，近似原始資料（用於PCA 計算）。",
       "pageIndex": 20,
       "bbox": [
@@ -1314,11 +1678,15 @@
         518.64,
         664.15
       ],
-      "id": "block-91"
+      "id": "block-95",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "推薦系統：分解使用者 - 項目矩陣，找出潛在偏好向量。",
       "pageIndex": 20,
       "bbox": [
@@ -1327,11 +1695,15 @@
         473.28,
         689.23
       ],
-      "id": "block-92"
+      "id": "block-96",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "潛在語意分析（Latent Semantic Analysis, LSA）：抽取語料中詞與文件間的潛在語意結構。",
       "pageIndex": 20,
       "bbox": [
@@ -1340,11 +1712,15 @@
         518.27,
         739.15
       ],
-      "id": "block-93"
+      "id": "block-97",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "影像壓縮：只保留主成分影像資訊，降低儲存與運算成本。",
       "pageIndex": 20,
       "bbox": [
@@ -1353,38 +1729,99 @@
         480.96,
         764.22
       ],
-      "id": "block-94"
+      "id": "block-98",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "非負矩陣分解（Non-negative Matrix Factorization, NMF） 原理：",
+      "text": "非負矩陣分解（Non-negative Matrix Factorization, NMF）",
       "pageIndex": 21,
       "bbox": [
         102.16,
         100.66,
         433.77,
-        139.07
+        114.11
       ],
-      "id": "block-95"
+      "id": "block-99",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "將非負矩陣 𝑋∈ℝ𝑚×𝑛，𝑋≥0 分解為兩個非負矩陣乘積的技術：𝑋≈𝑊𝐻 其中：",
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "原理：",
+      "pageIndex": 21,
+      "bbox": [
+        120.52,
+        125.62,
+        176.92,
+        139.07
+      ],
+      "id": "block-100",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "將非負矩陣 𝑋∈ℝ𝑚×𝑛，𝑋≥0",
       "pageIndex": 21,
       "bbox": [
         136.12,
         150.36,
-        386.37,
-        214.07
+        317.23,
+        164.1
       ],
-      "id": "block-96"
+      "id": "block-101",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
+      "marker": "○",
+      "text": "分解為兩個非負矩陣乘積的技術：𝑋≈𝑊𝐻",
+      "pageIndex": 21,
+      "bbox": [
+        136.12,
+        175.66,
+        386.37,
+        189.18
+      ],
+      "id": "block-102",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "其中：",
+      "pageIndex": 21,
+      "bbox": [
+        136.12,
+        200.62,
+        191.11,
+        214.07
+      ],
+      "id": "block-103",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
       "marker": "○",
       "text": "𝑊∈ℝ𝑚×𝑘，𝑊≥0：表示基底矩陣（可視為潛在特徵）",
       "pageIndex": 21,
@@ -1394,25 +1831,49 @@
         473.76,
         239.1
       ],
-      "id": "block-97"
+      "id": "block-104",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
-      "text": "𝐻∈ℝ𝑘×𝑛，𝐻≥0：表示各基底的組合係數幾何意義：",
+      "text": "𝐻∈ℝ𝑘×𝑛，𝐻≥0：表示各基底的組合係數",
+      "pageIndex": 21,
+      "bbox": [
+        150.28,
+        250.44,
+        402.81,
+        264.21
+      ],
+      "id": "block-105",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "幾何意義：",
       "pageIndex": 21,
       "bbox": [
         120.52,
-        250.44,
-        402.81,
+        283.33,
+        202.15,
         296.78
       ],
-      "id": "block-98"
+      "id": "block-106",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "NMF 將資料視為幾個「可加疊的部件」，提供具備語意解釋力的解構方式，並能自然引入稀疏性。",
       "pageIndex": 21,
       "bbox": [
@@ -1421,11 +1882,15 @@
         518.23,
         346.7
       ],
-      "id": "block-99"
+      "id": "block-107",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "應用場景：",
       "pageIndex": 21,
       "bbox": [
@@ -1434,20 +1899,78 @@
         202.15,
         371.78
       ],
-      "id": "block-100"
+      "id": "block-108",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "主題建模（Topic Modeling）：將文件–詞矩陣分解為主題與詞彙分佈生物訊號分析：如腦波分解、基因表現訊號擷取影像分析：將影像資料拆解為基本視覺元素社群分析：萃取潛在社群結構或互動關聯性",
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "主題建模（Topic Modeling）：將文件–詞矩陣分解為主題與詞彙分佈",
       "pageIndex": 21,
       "bbox": [
         136.12,
         383.29,
         521.88,
+        396.74
+      ],
+      "id": "block-109",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "生物訊號分析：如腦波分解、基因表現訊號擷取",
+      "pageIndex": 21,
+      "bbox": [
+        136.12,
+        408.25,
+        417.93,
+        421.7
+      ],
+      "id": "block-110",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "影像分析：將影像資料拆解為基本視覺元素",
+      "pageIndex": 21,
+      "bbox": [
+        136.12,
+        433.35,
+        392.73,
+        446.8
+      ],
+      "id": "block-111",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
+      "text": "社群分析：萃取潛在社群結構或互動關聯性",
+      "pageIndex": 21,
+      "bbox": [
+        136.12,
+        458.31,
+        392.73,
         471.76
       ],
-      "id": "block-101"
+      "id": "block-112",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1461,7 +1984,10 @@
         256.15,
         521.8
       ],
-      "id": "block-102"
+      "id": "block-113",
+      "nodeId": "mid-s3c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1474,7 +2000,10 @@
         521.44,
         596.8
       ],
-      "id": "block-103"
+      "id": "block-114",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1487,11 +2016,14 @@
         521.29,
         671.83
       ],
-      "id": "block-104"
+      "id": "block-115",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "提升訓練效率：",
       "pageIndex": 21,
@@ -1501,24 +2033,47 @@
         210.43,
         696.79
       ],
-      "id": "block-105"
+      "id": "block-116",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "減少模型參數量與計算資源需求，加快訓練時間，特別適用於大型資料",
+      "pageIndex": 21,
+      "bbox": [
+        120.52,
+        708.3,
+        518.2,
+        721.68
+      ],
+      "id": "block-117",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "減少模型參數量與計算資源需求，加快訓練時間，特別適用於大型資料集或深度學習模型。",
+      "text": "集或深度學習模型。",
       "pageIndex": 21,
       "bbox": [
         76.6,
-        708.3,
-        518.2,
+        733.54,
+        252.55,
         763.38
       ],
-      "id": "block-106"
+      "id": "block-118",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "穩定模型表現：",
       "pageIndex": 22,
@@ -1528,11 +2083,15 @@
         210.43,
         114.11
       ],
-      "id": "block-107"
+      "id": "block-119",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "去除雜訊與共線性問題，有助於降低過擬合風險，提升預測準確度。",
       "pageIndex": 22,
       "bbox": [
@@ -1541,11 +2100,14 @@
         517.2,
         139.07
       ],
-      "id": "block-108"
+      "id": "block-120",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "強化資料解釋性：",
       "pageIndex": 22,
@@ -1555,11 +2117,15 @@
         223.03,
         164.15
       ],
-      "id": "block-109"
+      "id": "block-121",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "轉換後的特徵常具有明確的幾何或語意意義，更容易與業務需求連結，輔助模型診斷與結果溝通。",
       "pageIndex": 22,
       "bbox": [
@@ -1568,11 +2134,14 @@
         521.44,
         214.07
       ],
-      "id": "block-110"
+      "id": "block-122",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "利於視覺化與後續分析：",
       "pageIndex": 22,
@@ -1582,11 +2151,15 @@
         260.83,
         239.15
       ],
-      "id": "block-111"
+      "id": "block-123",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 5,
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
       "text": "在維度降低後，可將資料投影至二維或三維空間中，方便進行資料探索、群集判斷與異常偵測等任務。",
       "pageIndex": 22,
       "bbox": [
@@ -1595,7 +2168,10 @@
         517.85,
         289.1
       ],
-      "id": "block-112"
+      "id": "block-124",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1609,7 +2185,10 @@
         259.96,
         339.71
       ],
-      "id": "block-113"
+      "id": "block-125",
+      "nodeId": "mid-s3c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1622,7 +2201,10 @@
         518.12,
         439.1
       ],
-      "id": "block-114"
+      "id": "block-126",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1636,7 +2218,10 @@
         243.43,
         489.16
       ],
-      "id": "block-115"
+      "id": "block-127",
+      "nodeId": "mid-s3c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1649,7 +2234,10 @@
         518.37,
         589.12
       ],
-      "id": "block-116"
+      "id": "block-128",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1663,7 +2251,10 @@
         230.83,
         639.19
       ],
-      "id": "block-117"
+      "id": "block-129",
+      "nodeId": "mid-s3c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1676,7 +2267,10 @@
         517.93,
         755.82
       ],
-      "id": "block-118"
+      "id": "block-130",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1689,7 +2283,10 @@
         518.37,
         139.07
       ],
-      "id": "block-119"
+      "id": "block-131",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1703,7 +2300,10 @@
         193.03,
         189.11
       ],
-      "id": "block-120"
+      "id": "block-132",
+      "nodeId": "mid-s3c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1716,11 +2316,14 @@
         407.25,
         214.07
       ],
-      "id": "block-121"
+      "id": "block-133",
+      "nodeId": "mid-s3c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "銷售預測：根據廣告支出或市場活動，預測未來營收。",
       "pageIndex": 23,
@@ -1730,11 +2333,14 @@
         424.65,
         239.15
       ],
-      "id": "block-122"
+      "id": "block-134",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "醫療風險評估：用年齡、血壓等指標預測患病機率或醫療成本。",
       "pageIndex": 23,
@@ -1744,11 +2350,14 @@
         475.08,
         264.14
       ],
-      "id": "block-123"
+      "id": "block-135",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "房價估值：將房屋大小、樓層、地點等作為輸入，預測合理價格。",
       "pageIndex": 23,
@@ -1758,11 +2367,14 @@
         487.68,
         289.1
       ],
-      "id": "block-124"
+      "id": "block-136",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "行為建模：描述某一變數如何受多個條件共同影響。",
       "pageIndex": 23,
@@ -1772,7 +2384,10 @@
         412.05,
         314.18
       ],
-      "id": "block-125"
+      "id": "block-137",
+      "nodeId": "mid-s3c2",
+      "kind": "list_item",
+      "source": "page_extract"
     }
   ],
   "sourcePages": [

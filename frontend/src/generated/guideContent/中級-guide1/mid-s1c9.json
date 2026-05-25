@@ -1,7 +1,7 @@
 {
   "id": "mid-s1c9",
   "title": "AI 技術系統集成與部署",
-  "content": "# AI 技術系統集成與部署\n\n5.2 AI\n\n技術系統集成與部署\n\n### 1. 前言與章節導覽\n\n在完成資料準備與模型選擇後，AI 專案會經歷一系列後續步驟，包括模型訓練、交叉驗證、性能評估，以及必要的調參與再訓練作業，最終產出一組可用於實務情境的候選模型。然而，這些模型若僅停留在實驗環境中，無法被部署至實際營運流程，便無法產生真正的商業價值。\n\n相較於傳統IT 系統，AI 系統部署的複雜性來自於其動態性與資料敏感性。\n\n模型的效能會隨著輸入資料的變化而衰退，必須具備彈性更新與及時監控能力，同時也需滿足更高的可說明性與合規要求。例如，模型訓練結果可能會隨資料變化而失效（模型漂移）、推論服務對延遲與可用性有更高要求、模型更新頻繁需具備自動化重訓與版本控管能力，此外還需符合法規對資料使用與透明度的合規要求。因此，AI 模型的「部署」不單是模型上線，而是一套涵蓋開發、測試、部署、監控、回訓與優化的完整技術流程。\n\n### 2. 系統集成\n\nAI 系統不應是獨立存在的模組，而是應該能與企業現有資訊架構無縫整合。\n\n系統集成的重點在於，將AI 模型與資料來源、應用服務、人機介面、監控模組、企業內部系統（如ERP、CRM）等資源互通互連，以實現AI 驅動的業務流程自動化與智慧決策。常見整合面向：\n\n##### A. 資料來源與資料管線整合\n\n現代AI 系統須從多種來源取得資料，包括企業內部資料倉儲（Data Warehouse）、大規模非結構資料的資料湖（Data Lake）、IoT 裝置即時回傳的感測資料、以及第三方系統提供的API。為確保資料能夠持續、穩定地流入模型運行\n\n流程，需建立完整的資料管線（Data Pipeline），涵蓋資料擷取、格式轉換、清理與入庫流程。\n\n##### B. 企業內部系統整合\n\nAI 模型預測結果若無法導入企業日常作業流程，其價值將大打折扣。因此，必須將模型輸出的建議或決策結果，整合回ERP（企業資源規劃）、CRM（客戶關係管理）、POS（銷售點）、MES（製造執行系統）等既有核心系統，使AI 服務真正支援業務端執行。例如，CRM 可自動根據模型推薦寄送促銷信件，或ERP 根據需求預測動態調整採購。\n\n##### C. API 與平台接軌：\n\n為了讓模型推論結果能被前端應用（如網站、App、BI 工具）即時取得，需封裝為可存取的服務介面。最常見的實作方式為使用RESTful API，也可依效能與雙向通訊需求採用gRPC 或Webhooks。此一層設計也應納入容錯、快取與負載管理等機制，提升服務穩定性。\n\n##### D. 安全與權限控管\n\nAI 系統的存取必須納入資訊安全考量，特別是在涉及個資、商業機密或金融應用時。常見的安全措施包括：\n\n• 使用OAuth2 或JWT（JSON Web Token）進行用戶身份驗證與授權。\n\n• 對不同角色設定不同的存取權限（例如僅部分用戶可進行模型重訓或調參）。\n\n• 實作API Gateways 進行存取日誌記錄與流量控管。\n\n##### E. 跨雲與異質系統整合\n\n在實務部署中，AI 模型可能橫跨不同環境與平台：部分訓練作業在本地資料中心，部分推論則執行於邊緣裝置或雲端平台（如AWS、Azure）。為確保資料一致性與服務連續性，需設計中介整合層或服務中樞（如Service Mesh），統一管理資料同步、服務調用與狀態追蹤，並避免平台間的資訊孤島。\n\n### 3. 系統架構設計\n\nAI 系統部署不僅涉及模型推論環境的選擇，更須從「整體系統」的角度，設計一個穩定、高可用、可擴展、易於維運的技術架構。透過模組化、容器化與服務化的設計方式，可以提升模型部署效率與組織內部的工程協同能力。以下介紹常見架構設計：\n\n##### A. 微服務架構（Microservices Architecture）\n\n微服務是將單一應用程式拆分為一組小型服務的架構風格，每個服務實作單一功能，並可獨立部署、更新與擴展。\n\n• 優點：\n\n易於隔離錯誤（單一模組失效不影響全系統）\n\n適合跨團隊並行開發可依模組需求彈性調整資源（例如推論流量增加時擴增模型API 模組）\n\n• 挑戰：\n\n模組間介接需設計標準API 分散式管理複雜度高\n\n##### B. 容器化與編排（Containerization and Orchestration）\n\n容器化技術（如Docker）可將應用程式與其依賴環境封裝在一起，確保跨平台部署一致性。為管理大量容器，常結合Kubernetes（K8s）進行容器編排。\n\n• 常見容器工具：\n\nDocker：容器映像建構與執行 Kubernetes：容器編排、資源調度、故障恢復 • 常見實作原則：\n\n滾動更新（Rolling Update）：不中斷服務地更新容器版本自動擴縮（Autoscaling）：根據流量自動調整容器數量負載平衡（Load Balancing）：確保多個推論節點分擔請求壓力\n\n##### C. 模型服務化與API 封裝\n\n為了讓AI 模型能與前端應用、業務流程無縫整合，需將模型封裝為可透過 HTTP/REST 呼叫的推論服務（例如使用Flask、FastAPI、TensorFlow Serving 等工具）。\n\n• 可設定多版本管理（Model Versioning）\n\n• 可加入使用者驗證、速率限制等API 安全機制 • 提供模型推論結果的記錄與監控（Log & Metrics）\n\n##### D. 可擴充與高可用性設計\n\nAI 系統在實務運行中常面對高變動流量與嚴格可靠性需求，因此應採用高可用與自我修復的架構設計：\n\n• 冗餘部署（Redundancy）：多節點部署避免單點故障 • 容錯切換（Failover）：一個節點故障時自動切換至備援節點\n\n### 4. 部署模式\n\n在AI 模型完成訓練後，能否穩定、有效地部署（Deployment）於實際營運環境，是AI 專案邁向產品化的關鍵門檻。本節將說明AI 部署的基本類型、系統架構設計原則。\n\n##### A. 公有雲部署（Public Cloud）\n\n公有雲由雲端服務供應商提供基礎設施與運算平台，例如Amazon Web Services（AWS）、Microsoft Azure、Google Cloud Platform（GCP）等。\n\n• 優勢：資源彈性擴充、部署速度快、全球節點支援、按量付費，有助於快速試驗與規模擴展。\n\n• 適用情境：新創團隊、中大型企業AI 專案、跨地區部署需求、GPU 資源密集型訓練。\n\n• 挑戰：對於需處理敏感資料的應用，需特別關注法規遵循（如 GDPR）、資料主權與供應商鎖定風險。\n\n##### B. 私有雲部署（Private Cloud）\n\n私有雲為企業自建或專屬的雲端環境，可使用OpenStack、VMware 等平台架設於本地資料中心，提供更高的控制性與安全性。\n\n• 優勢：資安風險可控、資料僅在內部可控環境（不外流）、可依產業法規進行定制化部署。\n\n• 適用情境：政府、金融、醫療等對資料保護要求嚴格的領域。\n\n• 挑戰：建置與維運成本高、彈性與資源彈性擴展性受限。\n\n##### C. 邊緣運算（Edge Computing）\n\n邊緣運算是在靠近資料來源端的裝置（如IoT、手機、車載系統）上進行模型推論，以減少延遲與頻寬消耗。\n\n• 優勢：即時反應、降低傳輸延遲、提升隱私保護。\n\n• 適用情境：工業設備監控、智慧城市、車聯網、邊緣AI 智慧應用等。\n\n• 挑戰：運算資源有限、更新與同步需額外設計。\n\n##### D. 混合部署（Hybrid Deployment）\n\n混合部署結合公有雲、私有雲與邊緣架構，針對不同任務配置最合適的執行位置。例如：雲端進行模型訓練，邊緣進行即時推論。\n\n• 優勢：兼顧計算能力、反應速度與資料保護；具彈性且適應多元情境。\n\n• 挑戰：系統整合難度高，需設計良好的同步機制與一致性管理流程。\n\n### 5. MLOps與持續維運\n\n當AI 模型完成部署並投入實際運行後，如何確保其穩定運作、持續提供可靠預測、並具備應變能力，便成為系統成功的關鍵。這個階段的核心理念，即為 MLOps（Machine Learning Operations）。\n\nMLOps 是DevOps 在AI 領域的延伸，強調將模型訓練、測試、部署與監控進行持續整合與自動化，確保模型在全生命週期中的一致性、效率與可追蹤性。\n\n##### A. 持續整合與持續部署（CI/CD）\n\nMLOps 透過CI/CD（Continuous Integration / Continuous Deployment）流程，將模型的開發、測試與部署自動化，提升團隊協作效率並降低人為錯誤。\n\n• CI 持續整合（Continuous Integration）內容包含：\n\n原始碼與資料變動即觸發模型訓練與測試流程。\n\n整合單元測試、模型準確率驗證與效能基準比較。\n\n• CD 持續部署（Continuous Deployment）涵蓋：\n\n通過測試門檻的模型，自動部署至測試或生產環境。\n\n支援A/B 測試或藍綠部署（Blue-Green Deployment）以控制風險。\n\n• 模型版本控管（Model Versioning）：\n\n透過如MLflow、DVC 等工具，追蹤每次訓練的參數、資料版本與模型成果，建立可重現性。\n\nMLflow：開源平台，用於管理機器學習全流程，包括實驗記錄、模型訓練、部署與版本控制。\n\nDVC（Data Version Control）：版本控制工具，專為機器學習項目設計，支援資料集與模型的版本追蹤與再現性。\n\n##### B. 模型監控與回饋機制（Monitoring & Feedback）\n\nAI 模型部署後，並非「一勞永逸」，隨時間推進，資料型態與使用環境可能發生變化，導致模型效能下降。此時需透過監控與回饋機制來偵測與修正。\n\n• 常見監控項目包含：\n\n模型漂移（Model Drift）：模型預測分佈與訓練時期不同，可能表示模型已不再適用資料漂移（Data Drift）：輸入資料的統計特徵改變，如欄位分佈或異常比例異常錯誤率、延遲、吞吐量等效能指標 • 回饋與自動修正流程：\n\n設定觸發門檻（如準確率下降5%）\n\n啟動再訓練流程（Retraining Pipeline）\n\n或透過熱更新（Hot Swap）或滾動更新（Rolling Update）替換模型版本 • 可視化與預警機制：\n\n整合Log 分析與Dashboard 工具（如Prometheus + Grafana）\n\n自動警告/提示系統，異常偵測時通知相關工程人員\n\n### 6. 成效追蹤與優化\n\nAI 模型部署上線後，並不代表專案已結束。實際上，進入生產環境後進入「持續觀測、效能追蹤與模型優化」階段，才是AI 能持續為業務產生價值的關鍵所在。\n\n##### A. 成效指標設計與回收週期建立\n\n• 關鍵效能指標（KPI）設定不同AI 應用需對應不同層級的效能指標：\n\n系統層級：推論延遲（Inference Latency）、吞吐量（Throughput）、服務可用率（Uptime）、資源使用率（如GPU 記憶體）。\n\n應用層級：推薦點擊率（CTR）、預測準確率（Accuracy）、分類F1-Score、異常偵測精確度等。\n\n業務層級：轉換率提升、成本節省、客戶留存率變化、ROI（投資報酬率）\n\n等。\n\n• 資料與績效回收週期（Feedback Loop）\n\n系統應建立定期的資料回收與監測週期，例如：\n\n每日監控推論效能與使用情況；\n\n每週收集錯誤樣本與業務回饋；\n\n每月進行一次模型重新評估或retraining 需求確認。\n\n• 跨層級指標聯動實務中，單一層級指標可能無法全面反映系統效能，建議採「技術指標 + 業務指標」雙軌制，讓工程團隊與業務部門有共同語言與追蹤重心。\n\n##### B. 模型更新與持續優化\n\n• 模型版本管理與滾動更新（Rolling Update）\n\n為避免中斷服務或部署風險，模型更新應採版本控管與滾動釋出策略。可搭配藍綠部署（Blue-Green Deployment）、金絲雀部署（Canary Deployment）等技術，降低新模型不穩定帶來的風險。\n\n• 再訓練與資料再標註機制隨著時間推移與環境變動，資料分佈可能發生漂移（Data Drift），導致模型效能下降。應設立資料監測機制，當漂移超過門檻時，自動觸發模型再訓練流程，並更新資料集標註品質。\n\n• 使用者與業務回饋融入優化流程如客服或銷售反映的錯誤案例、自動標記錯誤樣本進行學習（Human-in-the- Loop）、使用者點擊行為記錄等，皆可轉化為模型優化素材。\n\n• 自動化模型優化機制（AutoML / Online Learning）\n\n對於變化快速或大規模資料情境，可搭配AutoML 或在線學習（Online Learning）\n\n架構，實現持續模型微調，保持預測準確度。\n\n### 7. 跨部門整合\n\nAI 專案的成功落地，並不僅僅是技術部署的完成，而是建立在組織內部各部門協作與共同推動的基礎上。由於AI 模型的應用往往跨越業務、行銷、客服、法務、資訊等多個部門，因此在部署階段與營運階段，建立清晰的跨部門整合機制至關重要。\n\n##### A. 明確部門角色與參與責任\n\n• 業務與行銷部門：提供實際需求情境與績效指標，並根據AI 模型的輸出（如預測結果、推薦清單）進行策略應用與反饋調整。\n\n• 客服與營運部門：在模型應用端與客戶接觸最頻繁，負責回收實際互動案例與異常反應，用於持續優化模型。\n\n• 法務與風險部門：針對資料隱私、模型公平性與風險揭露進行審查，並協助建立符合法規的使用框架。\n\n• 資訊部門：負責部署、權限管理、API 整合與維運支援，確保AI 系統可穩定接軌企業基礎架構。\n\n##### B. 建立常態溝通與決策機制\n\n• 定期召開AI 專案工作小組，協調各部門目標與需求差異。\n\n• 推動共用績效指標（如AI 成效影響KPI）作為跨部門合作的共同成果基準。\n\n• 對於模型調整、資料異常處理、實務需求更動等，建立快速協調與決策通道。\n\n##### C. AI 納入組織治理流程\n\nAI 不應僅是技術團隊的專案，更應納入整體營運治理。\n\n企業可考慮設立：\n\n• AI 治理委員會：統籌資源分配、風險審查與戰略發展。\n\n• 內部AI 產品經理或協調人員：作為技術與部門間的橋梁，確保語言一致與任務協同。\n\n• 跨部門培訓與教育機制：強化非技術人員對AI 模型意義與限制的理解，減少誤解與溝通摩擦。\n\n透過制度化的部門協作與治理機制，AI 系統才能真正被納入企業日常運作流程中，並成為組織持續創新的動能。\n\n1. 在進行AI 建模前，進行「資料標註」的主要目的是？\n\n（A）減少資料容量 （B）強化系統安全性 （C）讓模型能夠辨識輸入與目標之間的對應關係 （D）提升資料儲存速度 2. 在特徵工程中，進行特徵標準化（如Z-score 標準化）的主要目的是？\n\n（A）增加欄位數量 （B）提升資料壓縮效率 （C）將特徵縮放至相同尺度，利於模型學習 （D）將文字轉換為向量 3. 若某企業的目標是預測顧客是否會流失，最適合選用下列哪一種模型任務？\n\n（A）分類任務 （B）迴歸任務 （C）生成任務 （D）分群任務 4. 關於模型選擇，下列哪一項敘述較為正確？\n\n（A）模型越複雜越好 （B）模型應優先考慮開發成本與可部署性 （C）只要準確率高就不需考慮其他指標 （D）模型無須考慮資料量大小 5. 下列哪一種資料前處理技術主要用來處理缺失值？\n\n（A）資料增強 （B）標準化 （C）插補法 （D）降維\n\n6. 在設計AI 應用系統架構時，使用容器技術（如Docker）的主要優點為？\n\n（A）加快資料標註速度 （B）提升API 回應速度 （C）促進模型跨平台部署與環境一致性 （D）減少模型所需參數量 7. MLOps 的主要目的為何？\n\n（A）壓縮模型參數 （B）簡化使用者介面設計 （C）實現AI 模型的自動化開發、部署與持續維運流程 （D）將AI 模型嵌入硬體晶片 8. 在邊緣運算架構中，AI 模型的推論通常會發生在哪裡？\n\n（A）雲端GPU 伺服器 （B）終端裝置本地端 （C）資料標註平台 （D）資料儲存庫 9. 持續監控部署後AI 模型效能的主要目的為何？\n\n（A）減少資料備份空間 （B）提升UI 使用效率 （C）偵測模型概念漂移與效能下降 （D）強化模型壓縮效果 10. 在AI 系統整合過程中，為確保模型可與業務流程無縫對接，通常需要哪種角色協作？\n\n（A）社群經營人員 （B）資料標註員 （C）產品經理與工程人員 （D）硬體維修技術員\n\n1. Ans（C） 讓模型能夠辨識輸入與目標之間的對應關係解析：資料標註是監督式學習的關鍵步驟，能讓模型理解每筆資料對應的標籤或結果。\n\n2. Ans（C） 將特徵縮放至相同尺度，利於模型學習解析：許多演算法（如SVM、KNN）對特徵尺度敏感，標準化有助於提升模型表現與穩定性。\n\n3. Ans（A） 分類任務解析：顧客流失通常為「會/不會」的二元分類問題，適合使用分類模型如 Logistic Regression、決策樹等。\n\n4. Ans（B） 模型應優先考慮開發成本與可部署性解析：選擇模型需考量資料特性、開發時間、計算成本與後續維運難度，不應一味追求複雜度。\n\n5. Ans（C） 插補法解析：插補法（Imputation）可用平均數、中位數、眾數或模型預測方式填補缺失欄位，常用於資料清理階段。\n\n6. Ans（C） 促進模型跨平台部署與環境一致性解析：容器技術可封裝應用與其依賴環境，確保模型從開發到部署保持一致。\n\n7. Ans（C） 實現AI 模型的自動化開發、部署與持續維運流程解析：MLOps 結合DevOps 與機器學習，可實現模型生命週期的持續整合、測試與監控。\n\n8. Ans（B）終端裝置本地端解析：邊緣AI 將模型部署至如手機、攝影機、感測器等裝置上，提升即時性並減少延遲。\n\n9. Ans（C）偵測模型概念漂移與效能下降解析：模型部署後若輸入資料特性改變，將可能導致預測不準，故需建立監控機制。\n\n10. Ans（C） 產品經理與工程人員解析：產品經理負責需求對齊與驗證場景，工程人員負責將模型封裝並整合至應用流程。",
+  "content": "# AI 技術系統集成與部署\n\n5.2 AI\n\n技術系統集成與部署\n\n### 1. 前言與章節導覽\n\n在完成資料準備與模型選擇後，AI 專案會經歷一系列後續步驟，包括模型訓練、交叉驗證、性能評估，以及必要的調參與再訓練作業，最終產出一組可用於實務情境的候選模型。然而，這些模型若僅停留在實驗環境中，無法被部署至實際營運流程，便無法產生真正的商業價值。\n\n相較於傳統IT 系統，AI 系統部署的複雜性來自於其動態性與資料敏感性。\n\n模型的效能會隨著輸入資料的變化而衰退，必須具備彈性更新與及時監控能力，同時也需滿足更高的可說明性與合規要求。例如，模型訓練結果可能會隨資料變化而失效（模型漂移）、推論服務對延遲與可用性有更高要求、模型更新頻繁需具備自動化重訓與版本控管能力，此外還需符合法規對資料使用與透明度的合規要求。因此，AI 模型的「部署」不單是模型上線，而是一套涵蓋開發、測試、部署、監控、回訓與優化的完整技術流程。\n\n### 2. 系統集成\n\nAI 系統不應是獨立存在的模組，而是應該能與企業現有資訊架構無縫整合。\n\n系統集成的重點在於，將AI 模型與資料來源、應用服務、人機介面、監控模組、企業內部系統（如ERP、CRM）等資源互通互連，以實現AI 驅動的業務流程自動化與智慧決策。常見整合面向：\n\n##### A. 資料來源與資料管線整合\n\n現代AI 系統須從多種來源取得資料，包括企業內部資料倉儲（Data Warehouse）、大規模非結構資料的資料湖（Data Lake）、IoT 裝置即時回傳的感測資料、以及第三方系統提供的API。為確保資料能夠持續、穩定地流入模型運行\n\n流程，需建立完整的資料管線（Data Pipeline），涵蓋資料擷取、格式轉換、清理與入庫流程。\n\n##### B. 企業內部系統整合\n\nAI 模型預測結果若無法導入企業日常作業流程，其價值將大打折扣。因此，必須將模型輸出的建議或決策結果，整合回ERP（企業資源規劃）、CRM（客戶關係管理）、POS（銷售點）、MES（製造執行系統）等既有核心系統，使AI 服務真正支援業務端執行。例如，CRM 可自動根據模型推薦寄送促銷信件，或ERP 根據需求預測動態調整採購。\n\n##### C. API 與平台接軌：\n\n為了讓模型推論結果能被前端應用（如網站、App、BI 工具）即時取得，需封裝為可存取的服務介面。最常見的實作方式為使用RESTful API，也可依效能與雙向通訊需求採用gRPC 或Webhooks。此一層設計也應納入容錯、快取與負載管理等機制，提升服務穩定性。\n\n##### D. 安全與權限控管\n\nAI 系統的存取必須納入資訊安全考量，特別是在涉及個資、商業機密或金融應用時。常見的安全措施包括：\n\n• 使用OAuth2 或JWT（JSON Web Token）進行用戶身份驗證與授權。\n\n• 對不同角色設定不同的存取權限（例如僅部分用戶可進行模型重訓或調參）。\n\n• 實作API Gateways 進行存取日誌記錄與流量控管。\n\n##### E. 跨雲與異質系統整合\n\n在實務部署中，AI 模型可能橫跨不同環境與平台：部分訓練作業在本地資料中心，部分推論則執行於邊緣裝置或雲端平台（如AWS、Azure）。為確保資料一致性與服務連續性，需設計中介整合層或服務中樞（如Service Mesh），統一管理資料同步、服務調用與狀態追蹤，並避免平台間的資訊孤島。\n\n### 3. 系統架構設計\n\nAI 系統部署不僅涉及模型推論環境的選擇，更須從「整體系統」的角度，設計一個穩定、高可用、可擴展、易於維運的技術架構。透過模組化、容器化與服務化的設計方式，可以提升模型部署效率與組織內部的工程協同能力。以下介紹常見架構設計：\n\n##### A. 微服務架構（Microservices Architecture）\n\n微服務是將單一應用程式拆分為一組小型服務的架構風格，每個服務實作單一功能，並可獨立部署、更新與擴展。\n\n• 優點：\n\n◦ 易於隔離錯誤（單一模組失效不影響全系統）\n\n◦ 適合跨團隊並行開發\n\n◦ 可依模組需求彈性調整資源（例如推論流量增加時擴增模型API 模組）\n\n• 挑戰：\n\n◦ 模組間介接需設計標準API\n\n◦ 分散式管理複雜度高\n\n##### B. 容器化與編排（Containerization and Orchestration）\n\n容器化技術（如Docker）可將應用程式與其依賴環境封裝在一起，確保跨平台部署一致性。為管理大量容器，常結合Kubernetes（K8s）進行容器編排。\n\n• 常見容器工具：\n\n◦ Docker：容器映像建構與執行\n\n◦ Kubernetes：容器編排、資源調度、故障恢復\n\n• 常見實作原則：\n\n◦ 滾動更新（Rolling Update）：不中斷服務地更新容器版本\n\n◦ 自動擴縮（Autoscaling）：根據流量自動調整容器數量\n\n◦ 負載平衡（Load Balancing）：確保多個推論節點分擔請求壓力\n\n##### C. 模型服務化與API 封裝\n\n為了讓AI 模型能與前端應用、業務流程無縫整合，需將模型封裝為可透過 HTTP/REST 呼叫的推論服務（例如使用Flask、FastAPI、TensorFlow Serving 等工具）。\n\n• 可設定多版本管理（Model Versioning）\n\n• 可加入使用者驗證、速率限制等API 安全機制\n\n• 提供模型推論結果的記錄與監控（Log & Metrics）\n\n##### D. 可擴充與高可用性設計\n\nAI 系統在實務運行中常面對高變動流量與嚴格可靠性需求，因此應採用高可用與自我修復的架構設計：\n\n• 冗餘部署（Redundancy）：多節點部署避免單點故障\n\n• 容錯切換（Failover）：一個節點故障時自動切換至備援節點\n\n### 4. 部署模式\n\n在AI 模型完成訓練後，能否穩定、有效地部署（Deployment）於實際營運環境，是AI 專案邁向產品化的關鍵門檻。本節將說明AI 部署的基本類型、系統架構設計原則。\n\n##### A. 公有雲部署（Public Cloud）\n\n公有雲由雲端服務供應商提供基礎設施與運算平台，例如Amazon Web Services（AWS）、Microsoft Azure、Google Cloud Platform（GCP）等。\n\n• 優勢：資源彈性擴充、部署速度快、全球節點支援、按量付費，有助於快速試\n\n驗與規模擴展。\n\n• 適用情境：新創團隊、中大型企業AI 專案、跨地區部署需求、GPU 資源密集\n\n型訓練。\n\n• 挑戰：對於需處理敏感資料的應用，需特別關注法規遵循（如 GDPR）、資料主\n\n權與供應商鎖定風險。\n\n##### B. 私有雲部署（Private Cloud）\n\n私有雲為企業自建或專屬的雲端環境，可使用OpenStack、VMware 等平台架設於本地資料中心，提供更高的控制性與安全性。\n\n• 優勢：資安風險可控、資料僅在內部可控環境（不外流）、可依產業法規進行定\n\n制化部署。\n\n• 適用情境：政府、金融、醫療等對資料保護要求嚴格的領域。\n\n• 挑戰：建置與維運成本高、彈性與資源彈性擴展性受限。\n\n##### C. 邊緣運算（Edge Computing）\n\n邊緣運算是在靠近資料來源端的裝置（如IoT、手機、車載系統）上進行模型推論，以減少延遲與頻寬消耗。\n\n• 優勢：即時反應、降低傳輸延遲、提升隱私保護。\n\n• 適用情境：工業設備監控、智慧城市、車聯網、邊緣AI 智慧應用等。\n\n• 挑戰：運算資源有限、更新與同步需額外設計。\n\n##### D. 混合部署（Hybrid Deployment）\n\n混合部署結合公有雲、私有雲與邊緣架構，針對不同任務配置最合適的執行位置。例如：雲端進行模型訓練，邊緣進行即時推論。\n\n• 優勢：兼顧計算能力、反應速度與資料保護；具彈性且適應多元情境。\n\n• 挑戰：系統整合難度高，需設計良好的同步機制與一致性管理流程。\n\n### 5. MLOps與持續維運\n\n當AI 模型完成部署並投入實際運行後，如何確保其穩定運作、持續提供可靠預測、並具備應變能力，便成為系統成功的關鍵。這個階段的核心理念，即為 MLOps（Machine Learning Operations）。\n\nMLOps 是DevOps 在AI 領域的延伸，強調將模型訓練、測試、部署與監控進行持續整合與自動化，確保模型在全生命週期中的一致性、效率與可追蹤性。\n\n##### A. 持續整合與持續部署（CI/CD）\n\nMLOps 透過CI/CD（Continuous Integration / Continuous Deployment）流程，將模型的開發、測試與部署自動化，提升團隊協作效率並降低人為錯誤。\n\n• CI 持續整合（Continuous Integration）內容包含：\n\n◦ 原始碼與資料變動即觸發模型訓練與測試流程。\n\n◦ 整合單元測試、模型準確率驗證與效能基準比較。\n\n• CD 持續部署（Continuous Deployment）涵蓋：\n\n◦ 通過測試門檻的模型，自動部署至測試或生產環境。\n\n◦ 支援A/B 測試或藍綠部署（Blue-Green Deployment）以控制風險。\n\n• 模型版本控管（Model Versioning）：\n\n◦ 透過如MLflow、DVC 等工具，追蹤每次訓練的參數、資料版本與模型成果，\n\n建立可重現性。\n\n○ MLflow：開源平台，用於管理機器學習全流程，包括實驗記錄、模型訓練、\n\n部署與版本控制。\n\n○ DVC（Data Version Control）：版本控制工具，專為機器學習項目設計，支\n\n援資料集與模型的版本追蹤與再現性。\n\n##### B. 模型監控與回饋機制（Monitoring & Feedback）\n\nAI 模型部署後，並非「一勞永逸」，隨時間推進，資料型態與使用環境可能發生變化，導致模型效能下降。此時需透過監控與回饋機制來偵測與修正。\n\n• 常見監控項目包含：\n\n◦ 模型漂移（Model Drift）：模型預測分佈與訓練時期不同，可能表示模型已不\n\n再適用\n\n◦ 資料漂移（Data Drift）：輸入資料的統計特徵改變，如欄位分佈或異常比例\n\n異常\n\n◦ 錯誤率、延遲、吞吐量等效能指標\n\n• 回饋與自動修正流程：\n\n◦ 設定觸發門檻（如準確率下降5%）\n\n◦ 啟動再訓練流程（Retraining Pipeline）\n\n◦ 或透過熱更新（Hot Swap）或滾動更新（Rolling Update）替換模型版本\n\n• 可視化與預警機制：\n\n◦ 整合Log 分析與Dashboard 工具（如Prometheus + Grafana）\n\n◦ 自動警告/提示系統，異常偵測時通知相關工程人員\n\n### 6. 成效追蹤與優化\n\nAI 模型部署上線後，並不代表專案已結束。實際上，進入生產環境後進入「持續觀測、效能追蹤與模型優化」階段，才是AI 能持續為業務產生價值的關鍵所在。\n\n##### A. 成效指標設計與回收週期建立\n\n• 關鍵效能指標（KPI）設定\n\n不同AI 應用需對應不同層級的效能指標：\n\n◦ 系統層級：推論延遲（Inference Latency）、吞吐量（Throughput）、服務可用\n\n率（Uptime）、資源使用率（如GPU 記憶體）。\n\n◦ 應用層級：推薦點擊率（CTR）、預測準確率（Accuracy）、分類F1-Score、\n\n異常偵測精確度等。\n\n◦ 業務層級：轉換率提升、成本節省、客戶留存率變化、ROI（投資報酬率）\n\n等。\n\n• 資料與績效回收週期（Feedback Loop）\n\n系統應建立定期的資料回收與監測週期，例如：\n\n◦ 每日監控推論效能與使用情況；\n\n◦ 每週收集錯誤樣本與業務回饋；\n\n◦ 每月進行一次模型重新評估或retraining 需求確認。\n\n• 跨層級指標聯動\n\n實務中，單一層級指標可能無法全面反映系統效能，建議採「技術指標 + 業務指標」雙軌制，讓工程團隊與業務部門有共同語言與追蹤重心。\n\n##### B. 模型更新與持續優化\n\n• 模型版本管理與滾動更新（Rolling Update）\n\n為避免中斷服務或部署風險，模型更新應採版本控管與滾動釋出策略。可搭配藍綠部署（Blue-Green Deployment）、金絲雀部署（Canary Deployment）等技術，降低新模型不穩定帶來的風險。\n\n• 再訓練與資料再標註機制\n\n隨著時間推移與環境變動，資料分佈可能發生漂移（Data Drift），導致模型效能下降。應設立資料監測機制，當漂移超過門檻時，自動觸發模型再訓練流程，並更新資料集標註品質。\n\n• 使用者與業務回饋融入優化流程\n\n如客服或銷售反映的錯誤案例、自動標記錯誤樣本進行學習（Human-in-the- Loop）、使用者點擊行為記錄等，皆可轉化為模型優化素材。\n\n• 自動化模型優化機制（AutoML / Online Learning）\n\n對於變化快速或大規模資料情境，可搭配AutoML 或在線學習（Online Learning）\n\n架構，實現持續模型微調，保持預測準確度。\n\n### 7. 跨部門整合\n\nAI 專案的成功落地，並不僅僅是技術部署的完成，而是建立在組織內部各部門協作與共同推動的基礎上。由於AI 模型的應用往往跨越業務、行銷、客服、法務、資訊等多個部門，因此在部署階段與營運階段，建立清晰的跨部門整合機制至關重要。\n\n##### A. 明確部門角色與參與責任\n\n• 業務與行銷部門：提供實際需求情境與績效指標，並根據AI 模型的輸出（如預\n\n測結果、推薦清單）進行策略應用與反饋調整。\n\n• 客服與營運部門：在模型應用端與客戶接觸最頻繁，負責回收實際互動案例與\n\n異常反應，用於持續優化模型。\n\n• 法務與風險部門：針對資料隱私、模型公平性與風險揭露進行審查，並協助建\n\n立符合法規的使用框架。\n\n• 資訊部門：負責部署、權限管理、API 整合與維運支援，確保AI 系統可穩定接\n\n軌企業基礎架構。\n\n##### B. 建立常態溝通與決策機制\n\n• 定期召開AI 專案工作小組，協調各部門目標與需求差異。\n\n• 推動共用績效指標（如AI 成效影響KPI）作為跨部門合作的共同成果基準。\n\n• 對於模型調整、資料異常處理、實務需求更動等，建立快速協調與決策通道。\n\n##### C. AI 納入組織治理流程\n\nAI 不應僅是技術團隊的專案，更應納入整體營運治理。\n\n企業可考慮設立：\n\n• AI 治理委員會：統籌資源分配、風險審查與戰略發展。\n\n• 內部AI 產品經理或協調人員：作為技術與部門間的橋梁，確保語言一致與任\n\n務協同。\n\n• 跨部門培訓與教育機制：強化非技術人員對AI 模型意義與限制的理解，減少\n\n誤解與溝通摩擦。\n\n透過制度化的部門協作與治理機制，AI 系統才能真正被納入企業日常運作流程中，並成為組織持續創新的動能。\n\n1. 在進行AI 建模前，進行「資料標註」的主要目的是？\n\n（A）減少資料容量 （B）強化系統安全性 （C）讓模型能夠辨識輸入與目標之間的對應關係 （D）提升資料儲存速度 2. 在特徵工程中，進行特徵標準化（如Z-score 標準化）的主要目的是？\n\n（A）增加欄位數量 （B）提升資料壓縮效率 （C）將特徵縮放至相同尺度，利於模型學習 （D）將文字轉換為向量 3. 若某企業的目標是預測顧客是否會流失，最適合選用下列哪一種模型任務？\n\n（A）分類任務 （B）迴歸任務 （C）生成任務 （D）分群任務 4. 關於模型選擇，下列哪一項敘述較為正確？\n\n（A）模型越複雜越好 （B）模型應優先考慮開發成本與可部署性 （C）只要準確率高就不需考慮其他指標 （D）模型無須考慮資料量大小 5. 下列哪一種資料前處理技術主要用來處理缺失值？\n\n（A）資料增強 （B）標準化 （C）插補法 （D）降維\n\n6. 在設計AI 應用系統架構時，使用容器技術（如Docker）的主要優點為？\n\n（A）加快資料標註速度 （B）提升API 回應速度 （C）促進模型跨平台部署與環境一致性 （D）減少模型所需參數量 7. MLOps 的主要目的為何？\n\n（A）壓縮模型參數 （B）簡化使用者介面設計 （C）實現AI 模型的自動化開發、部署與持續維運流程 （D）將AI 模型嵌入硬體晶片 8. 在邊緣運算架構中，AI 模型的推論通常會發生在哪裡？\n\n（A）雲端GPU 伺服器 （B）終端裝置本地端 （C）資料標註平台 （D）資料儲存庫 9. 持續監控部署後AI 模型效能的主要目的為何？\n\n（A）減少資料備份空間 （B）提升UI 使用效率 （C）偵測模型概念漂移與效能下降 （D）強化模型壓縮效果 10. 在AI 系統整合過程中，為確保模型可與業務流程無縫對接，通常需要哪種角色協作？\n\n（A）社群經營人員 （B）資料標註員 （C）產品經理與工程人員 （D）硬體維修技術員\n\n1. Ans（C） 讓模型能夠辨識輸入與目標之間的對應關係解析：資料標註是監督式學習的關鍵步驟，能讓模型理解每筆資料對應的標籤或結果。\n\n2. Ans（C） 將特徵縮放至相同尺度，利於模型學習解析：許多演算法（如SVM、KNN）對特徵尺度敏感，標準化有助於提升模型表現與穩定性。\n\n3. Ans（A） 分類任務解析：顧客流失通常為「會/不會」的二元分類問題，適合使用分類模型如 Logistic Regression、決策樹等。\n\n4. Ans（B） 模型應優先考慮開發成本與可部署性解析：選擇模型需考量資料特性、開發時間、計算成本與後續維運難度，不應一味追求複雜度。\n\n5. Ans（C） 插補法解析：插補法（Imputation）可用平均數、中位數、眾數或模型預測方式填補缺失欄位，常用於資料清理階段。\n\n6. Ans（C） 促進模型跨平台部署與環境一致性解析：容器技術可封裝應用與其依賴環境，確保模型從開發到部署保持一致。\n\n7. Ans（C） 實現AI 模型的自動化開發、部署與持續維運流程解析：MLOps 結合DevOps 與機器學習，可實現模型生命週期的持續整合、測試與監控。\n\n8. Ans（B）終端裝置本地端解析：邊緣AI 將模型部署至如手機、攝影機、感測器等裝置上，提升即時性並減少延遲。\n\n9. Ans（C）偵測模型概念漂移與效能下降解析：模型部署後若輸入資料特性改變，將可能導致預測不準，故需建立監控機制。\n\n10. Ans（C） 產品經理與工程人員解析：產品經理負責需求對齊與驗證場景，工程人員負責將模型封裝並整合至應用流程。",
   "contentFormat": "markdown",
   "headings": [
     {
@@ -153,7 +153,10 @@
         149.28,
         174.28
       ],
-      "id": "block-1"
+      "id": "block-1",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -166,7 +169,10 @@
         315.31,
         171.96
       ],
-      "id": "block-2"
+      "id": "block-2",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -180,7 +186,10 @@
         203.57,
         218.12
       ],
-      "id": "block-3"
+      "id": "block-3",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -193,7 +202,10 @@
         518.17,
         317.54
       ],
-      "id": "block-4"
+      "id": "block-4",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -206,7 +218,10 @@
         517.97,
         342.5
       ],
-      "id": "block-5"
+      "id": "block-5",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -219,7 +234,10 @@
         521.08,
         492.52
       ],
-      "id": "block-6"
+      "id": "block-6",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -233,7 +251,10 @@
         161.17,
         543.13
       ],
-      "id": "block-7"
+      "id": "block-7",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -246,7 +267,10 @@
         520.46,
         567.52
       ],
-      "id": "block-8"
+      "id": "block-8",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -259,7 +283,10 @@
         521.32,
         642.55
       ],
-      "id": "block-9"
+      "id": "block-9",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -273,7 +300,10 @@
         237.19,
         692.59
       ],
-      "id": "block-10"
+      "id": "block-10",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -286,7 +316,10 @@
         521.83,
         766.14
       ],
-      "id": "block-11"
+      "id": "block-11",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -300,7 +333,10 @@
         199.39,
         188.15
       ],
-      "id": "block-12"
+      "id": "block-12",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -313,7 +349,10 @@
         520.46,
         310.7
       ],
-      "id": "block-13"
+      "id": "block-13",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -327,7 +366,10 @@
         198.91,
         360.14
       ],
-      "id": "block-14"
+      "id": "block-14",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -340,7 +382,10 @@
         518.31,
         458.2
       ],
-      "id": "block-15"
+      "id": "block-15",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -354,7 +399,10 @@
         186.76,
         507.64
       ],
-      "id": "block-16"
+      "id": "block-16",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -367,11 +415,14 @@
         518.2,
         556.72
       ],
-      "id": "block-17"
+      "id": "block-17",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "使用OAuth2 或JWT（JSON Web Token）進行用戶身份驗證與授權。",
       "pageIndex": 155,
@@ -381,11 +432,14 @@
         472.2,
         581.2
       ],
-      "id": "block-18"
+      "id": "block-18",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "對不同角色設定不同的存取權限（例如僅部分用戶可進行模型重訓或調參）。",
       "pageIndex": 155,
@@ -395,11 +449,14 @@
         516.0,
         605.68
       ],
-      "id": "block-19"
+      "id": "block-19",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "實作API Gateways 進行存取日誌記錄與流量控管。",
       "pageIndex": 155,
@@ -409,7 +466,10 @@
         374.97,
         630.19
       ],
-      "id": "block-20"
+      "id": "block-20",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -423,7 +483,10 @@
         211.99,
         679.75
       ],
-      "id": "block-21"
+      "id": "block-21",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -436,7 +499,10 @@
         518.35,
         777.66
       ],
-      "id": "block-22"
+      "id": "block-22",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -450,7 +516,10 @@
         189.4,
         114.68
       ],
-      "id": "block-23"
+      "id": "block-23",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -463,7 +532,10 @@
         517.91,
         214.07
       ],
-      "id": "block-24"
+      "id": "block-24",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -477,7 +549,10 @@
         332.97,
         264.14
       ],
-      "id": "block-25"
+      "id": "block-25",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -490,11 +565,14 @@
         517.93,
         314.18
       ],
-      "id": "block-26"
+      "id": "block-26",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "優點：",
       "pageIndex": 156,
@@ -504,24 +582,65 @@
         131.56,
         339.14
       ],
-      "id": "block-27"
+      "id": "block-27",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
-      "text": "易於隔離錯誤（單一模組失效不影響全系統） 適合跨團隊並行開發可依模組需求彈性調整資源（例如推論流量增加時擴增模型API 模組）",
+      "marker": "◦",
+      "text": "易於隔離錯誤（單一模組失效不影響全系統）",
       "pageIndex": 156,
       "bbox": [
         90.76,
         350.65,
-        499.92,
-        414.14
+        359.97,
+        364.1
       ],
-      "id": "block-28"
+      "id": "block-28",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 6,
+      "marker": "◦",
+      "text": "適合跨團隊並行開發",
+      "pageIndex": 156,
+      "bbox": [
+        90.76,
+        375.73,
+        221.35,
+        389.18
+      ],
+      "id": "block-29",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "可依模組需求彈性調整資源（例如推論流量增加時擴增模型API 模組）",
+      "pageIndex": 156,
+      "bbox": [
+        90.76,
+        400.69,
+        499.92,
+        414.14
+      ],
+      "id": "block-30",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
       "marker": "•",
       "text": "挑戰：",
       "pageIndex": 156,
@@ -531,20 +650,44 @@
         131.56,
         439.1
       ],
-      "id": "block-29"
+      "id": "block-31",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
-      "text": "模組間介接需設計標準API 分散式管理複雜度高",
+      "marker": "◦",
+      "text": "模組間介接需設計標準API",
       "pageIndex": 156,
       "bbox": [
         90.76,
         450.75,
         257.35,
+        464.2
+      ],
+      "id": "block-32",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "分散式管理複雜度高",
+      "pageIndex": 156,
+      "bbox": [
+        90.76,
+        475.71,
+        221.35,
         489.16
       ],
-      "id": "block-30"
+      "id": "block-33",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -558,7 +701,10 @@
         393.33,
         539.2
       ],
-      "id": "block-31"
+      "id": "block-34",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -571,11 +717,14 @@
         518.08,
         589.12
       ],
-      "id": "block-32"
+      "id": "block-35",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "常見容器工具：",
       "pageIndex": 156,
@@ -585,33 +734,112 @@
         181.96,
         614.2
       ],
-      "id": "block-33"
+      "id": "block-36",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
-      "text": "Docker：容器映像建構與執行 Kubernetes：容器編排、資源調度、故障恢復 • 常見實作原則：",
+      "marker": "◦",
+      "text": "Docker：容器映像建構與執行",
+      "pageIndex": 156,
+      "bbox": [
+        90.76,
+        625.74,
+        271.03,
+        639.19
+      ],
+      "id": "block-37",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "Kubernetes：容器編排、資源調度、故障恢復",
+      "pageIndex": 156,
+      "bbox": [
+        90.76,
+        650.7,
+        354.57,
+        664.15
+      ],
+      "id": "block-38",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "常見實作原則：",
       "pageIndex": 156,
       "bbox": [
         76.6,
-        625.74,
-        354.57,
+        675.78,
+        181.96,
         689.23
       ],
-      "id": "block-34"
+      "id": "block-39",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
-      "text": "滾動更新（Rolling Update）：不中斷服務地更新容器版本自動擴縮（Autoscaling）：根據流量自動調整容器數量負載平衡（Load Balancing）：確保多個推論節點分擔請求壓力",
+      "marker": "◦",
+      "text": "滾動更新（Rolling Update）：不中斷服務地更新容器版本",
       "pageIndex": 156,
       "bbox": [
         90.76,
         700.74,
+        418.89,
+        714.19
+      ],
+      "id": "block-40",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "自動擴縮（Autoscaling）：根據流量自動調整容器數量",
+      "pageIndex": 156,
+      "bbox": [
+        90.76,
+        725.7,
+        402.33,
+        739.15
+      ],
+      "id": "block-41",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "負載平衡（Load Balancing）：確保多個推論節點分擔請求壓力",
+      "pageIndex": 156,
+      "bbox": [
+        90.76,
+        750.77,
         446.85,
         764.22
       ],
-      "id": "block-35"
+      "id": "block-42",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -625,7 +853,10 @@
         227.23,
         114.11
       ],
-      "id": "block-36"
+      "id": "block-43",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -638,11 +869,14 @@
         521.88,
         164.15
       ],
-      "id": "block-37"
+      "id": "block-44",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "可設定多版本管理（Model Versioning）",
       "pageIndex": 157,
@@ -652,21 +886,44 @@
         310.75,
         189.11
       ],
-      "id": "block-38"
+      "id": "block-45",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "可加入使用者驗證、速率限制等API 安全機制 • 提供模型推論結果的記錄與監控（Log & Metrics）",
+      "text": "可加入使用者驗證、速率限制等API 安全機制",
       "pageIndex": 157,
       "bbox": [
         76.6,
         200.62,
+        347.13,
+        214.07
+      ],
+      "id": "block-46",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "提供模型推論結果的記錄與監控（Log & Metrics）",
+      "pageIndex": 157,
+      "bbox": [
+        76.6,
+        225.7,
         370.65,
         239.15
       ],
-      "id": "block-39"
+      "id": "block-47",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -680,7 +937,10 @@
         224.59,
         289.1
       ],
-      "id": "block-40"
+      "id": "block-48",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -693,21 +953,44 @@
         517.97,
         339.14
       ],
-      "id": "block-41"
+      "id": "block-49",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "冗餘部署（Redundancy）：多節點部署避免單點故障 • 容錯切換（Failover）：一個節點故障時自動切換至備援節點",
+      "text": "冗餘部署（Redundancy）：多節點部署避免單點故障",
       "pageIndex": 157,
       "bbox": [
         76.6,
         350.65,
+        377.25,
+        364.1
+      ],
+      "id": "block-50",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "容錯切換（Failover）：一個節點故障時自動切換至備援節點",
+      "pageIndex": 157,
+      "bbox": [
+        76.6,
+        375.73,
         419.73,
         389.18
       ],
-      "id": "block-42"
+      "id": "block-51",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -721,7 +1004,10 @@
         161.17,
         439.67
       ],
-      "id": "block-43"
+      "id": "block-52",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -734,7 +1020,10 @@
         518.25,
         514.12
       ],
-      "id": "block-44"
+      "id": "block-53",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -748,7 +1037,10 @@
         257.35,
         564.16
       ],
-      "id": "block-45"
+      "id": "block-54",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -761,11 +1053,14 @@
         521.74,
         614.2
       ],
-      "id": "block-46"
+      "id": "block-55",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "優勢：資源彈性擴充、部署速度快、全球節點支援、按量付費，有助於快速試驗與規模擴展。",
       "pageIndex": 157,
@@ -775,11 +1070,14 @@
         518.2,
         664.15
       ],
-      "id": "block-47"
+      "id": "block-56",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "適用情境：新創團隊、中大型企業AI 專案、跨地區部署需求、GPU 資源密集型訓練。",
       "pageIndex": 157,
@@ -789,11 +1087,14 @@
         518.4,
         714.19
       ],
-      "id": "block-48"
+      "id": "block-57",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "挑戰：對於需處理敏感資料的應用，需特別關注法規遵循（如 GDPR）、資料主權與供應商鎖定風險。",
       "pageIndex": 157,
@@ -803,7 +1104,10 @@
         518.25,
         764.22
       ],
-      "id": "block-49"
+      "id": "block-58",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -817,7 +1121,10 @@
         262.39,
         114.11
       ],
-      "id": "block-50"
+      "id": "block-59",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -830,11 +1137,14 @@
         518.4,
         164.15
       ],
-      "id": "block-51"
+      "id": "block-60",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "優勢：資安風險可控、資料僅在內部可控環境（不外流）、可依產業法規進行定制化部署。",
       "pageIndex": 158,
@@ -844,11 +1154,14 @@
         517.88,
         214.07
       ],
-      "id": "block-52"
+      "id": "block-61",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "適用情境：政府、金融、醫療等對資料保護要求嚴格的領域。",
       "pageIndex": 158,
@@ -858,11 +1171,14 @@
         434.01,
         239.15
       ],
-      "id": "block-53"
+      "id": "block-62",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "挑戰：建置與維運成本高、彈性與資源彈性擴展性受限。",
       "pageIndex": 158,
@@ -872,7 +1188,10 @@
         408.81,
         264.14
       ],
-      "id": "block-54"
+      "id": "block-63",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -886,7 +1205,10 @@
         265.39,
         314.18
       ],
-      "id": "block-55"
+      "id": "block-64",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -899,11 +1221,14 @@
         518.14,
         364.1
       ],
-      "id": "block-56"
+      "id": "block-65",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "優勢：即時反應、降低傳輸延遲、提升隱私保護。",
       "pageIndex": 158,
@@ -913,11 +1238,14 @@
         371.01,
         389.18
       ],
-      "id": "block-57"
+      "id": "block-66",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "適用情境：工業設備監控、智慧城市、車聯網、邊緣AI 智慧應用等。",
       "pageIndex": 158,
@@ -927,11 +1255,14 @@
         478.8,
         414.14
       ],
-      "id": "block-58"
+      "id": "block-67",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "挑戰：運算資源有限、更新與同步需額外設計。",
       "pageIndex": 158,
@@ -941,7 +1272,10 @@
         358.41,
         439.1
       ],
-      "id": "block-59"
+      "id": "block-68",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -955,7 +1289,10 @@
         281.59,
         489.16
       ],
-      "id": "block-60"
+      "id": "block-69",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -968,11 +1305,14 @@
         517.93,
         539.2
       ],
-      "id": "block-61"
+      "id": "block-70",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "優勢：兼顧計算能力、反應速度與資料保護；具彈性且適應多元情境。",
       "pageIndex": 158,
@@ -982,11 +1322,14 @@
         484.44,
         564.16
       ],
-      "id": "block-62"
+      "id": "block-71",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "挑戰：系統整合難度高，需設計良好的同步機制與一致性管理流程。",
       "pageIndex": 158,
@@ -996,7 +1339,10 @@
         471.84,
         589.12
       ],
-      "id": "block-63"
+      "id": "block-72",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1010,7 +1356,10 @@
         224.81,
         639.76
       ],
-      "id": "block-64"
+      "id": "block-73",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1023,7 +1372,10 @@
         517.92,
         714.19
       ],
-      "id": "block-65"
+      "id": "block-74",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1036,7 +1388,10 @@
         518.15,
         764.22
       ],
-      "id": "block-66"
+      "id": "block-75",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1050,7 +1405,10 @@
         272.71,
         114.11
       ],
-      "id": "block-67"
+      "id": "block-76",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1063,11 +1421,14 @@
         519.84,
         163.19
       ],
-      "id": "block-68"
+      "id": "block-77",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "CI 持續整合（Continuous Integration）內容包含：",
       "pageIndex": 159,
@@ -1077,11 +1438,15 @@
         365.73,
         187.67
       ],
-      "id": "block-69"
+      "id": "block-78",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "原始碼與資料變動即觸發模型訓練與測試流程。",
       "pageIndex": 159,
       "bbox": [
@@ -1090,11 +1455,15 @@
         372.57,
         212.15
       ],
-      "id": "block-70"
+      "id": "block-79",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "整合單元測試、模型準確率驗證與效能基準比較。",
       "pageIndex": 159,
       "bbox": [
@@ -1103,11 +1472,14 @@
         385.17,
         236.63
       ],
-      "id": "block-71"
+      "id": "block-80",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "CD 持續部署（Continuous Deployment）涵蓋：",
       "pageIndex": 159,
@@ -1117,11 +1489,15 @@
         351.69,
         261.11
       ],
-      "id": "block-72"
+      "id": "block-81",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "通過測試門檻的模型，自動部署至測試或生產環境。",
       "pageIndex": 159,
       "bbox": [
@@ -1130,11 +1506,15 @@
         397.77,
         285.62
       ],
-      "id": "block-73"
+      "id": "block-82",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "支援A/B 測試或藍綠部署（Blue-Green Deployment）以控制風險。",
       "pageIndex": 159,
       "bbox": [
@@ -1143,11 +1523,14 @@
         474.0,
         310.22
       ],
-      "id": "block-74"
+      "id": "block-83",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "模型版本控管（Model Versioning）：",
       "pageIndex": 159,
@@ -1157,11 +1540,15 @@
         291.91,
         334.7
       ],
-      "id": "block-75"
+      "id": "block-84",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "透過如MLflow、DVC 等工具，追蹤每次訓練的參數、資料版本與模型成果，建立可重現性。",
       "pageIndex": 159,
       "bbox": [
@@ -1170,11 +1557,15 @@
         521.41,
         383.66
       ],
-      "id": "block-76"
+      "id": "block-85",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "MLflow：開源平台，用於管理機器學習全流程，包括實驗記錄、模型訓練、部署與版本控制。",
       "pageIndex": 159,
       "bbox": [
@@ -1183,11 +1574,15 @@
         521.06,
         432.62
       ],
-      "id": "block-77"
+      "id": "block-86",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "○",
       "text": "DVC（Data Version Control）：版本控制工具，專為機器學習項目設計，支援資料集與模型的版本追蹤與再現性。",
       "pageIndex": 159,
       "bbox": [
@@ -1196,7 +1591,10 @@
         518.13,
         481.72
       ],
-      "id": "block-78"
+      "id": "block-87",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1210,7 +1608,10 @@
         367.53,
         531.16
       ],
-      "id": "block-79"
+      "id": "block-88",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1223,11 +1624,14 @@
         518.02,
         580.24
       ],
-      "id": "block-80"
+      "id": "block-89",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "常見監控項目包含：",
       "pageIndex": 159,
@@ -1237,46 +1641,180 @@
         207.19,
         604.72
       ],
-      "id": "block-81"
+      "id": "block-90",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
-      "text": "模型漂移（Model Drift）：模型預測分佈與訓練時期不同，可能表示模型已不再適用資料漂移（Data Drift）：輸入資料的統計特徵改變，如欄位分佈或異常比例異常錯誤率、延遲、吞吐量等效能指標 • 回饋與自動修正流程：",
+      "marker": "◦",
+      "text": "模型漂移（Model Drift）：模型預測分佈與訓練時期不同，可能表示模型已不再適用",
       "pageIndex": 159,
       "bbox": [
-        76.6,
+        90.76,
         615.78,
         518.0,
-        751.75
+        653.71
       ],
-      "id": "block-82"
+      "id": "block-91",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
-      "text": "設定觸發門檻（如準確率下降5%） 啟動再訓練流程（Retraining Pipeline） 或透過熱更新（Hot Swap）或滾動更新（Rolling Update）替換模型版本 • 可視化與預警機制：",
+      "marker": "◦",
+      "text": "資料漂移（Data Drift）：輸入資料的統計特徵改變，如欄位分佈或異常比例異常",
+      "pageIndex": 159,
+      "bbox": [
+        90.76,
+        664.74,
+        517.96,
+        702.67
+      ],
+      "id": "block-92",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "錯誤率、延遲、吞吐量等效能指標",
+      "pageIndex": 159,
+      "bbox": [
+        90.76,
+        713.82,
+        296.95,
+        727.27
+      ],
+      "id": "block-93",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "回饋與自動修正流程：",
       "pageIndex": 159,
       "bbox": [
         76.6,
-        100.66,
-        500.52,
-        776.7
+        738.3,
+        219.79,
+        751.75
       ],
-      "id": "block-83"
+      "id": "block-94",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
-      "text": "整合Log 分析與Dashboard 工具（如Prometheus + Grafana） 自動警告/提示系統，異常偵測時通知相關工程人員",
+      "marker": "◦",
+      "text": "設定觸發門檻（如準確率下降5%）",
+      "pageIndex": 159,
+      "bbox": [
+        90.76,
+        763.25,
+        304.15,
+        776.7
+      ],
+      "id": "block-95",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "啟動再訓練流程（Retraining Pipeline）",
+      "pageIndex": 160,
+      "bbox": [
+        90.76,
+        100.66,
+        319.99,
+        114.11
+      ],
+      "id": "block-96",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "或透過熱更新（Hot Swap）或滾動更新（Rolling Update）替換模型版本",
+      "pageIndex": 160,
+      "bbox": [
+        90.76,
+        125.62,
+        500.52,
+        139.07
+      ],
+      "id": "block-97",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "可視化與預警機制：",
+      "pageIndex": 160,
+      "bbox": [
+        76.6,
+        150.7,
+        207.19,
+        164.15
+      ],
+      "id": "block-98",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "整合Log 分析與Dashboard 工具（如Prometheus + Grafana）",
       "pageIndex": 160,
       "bbox": [
         90.76,
         175.66,
         438.81,
+        189.11
+      ],
+      "id": "block-99",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "自動警告/提示系統，異常偵測時通知相關工程人員",
+      "pageIndex": 160,
+      "bbox": [
+        90.76,
+        200.62,
+        388.77,
         214.07
       ],
-      "id": "block-84"
+      "id": "block-100",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1290,7 +1828,10 @@
         203.57,
         264.71
       ],
-      "id": "block-85"
+      "id": "block-101",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1303,7 +1844,10 @@
         521.88,
         314.18
       ],
-      "id": "block-86"
+      "id": "block-102",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1317,11 +1861,14 @@
         262.39,
         364.1
       ],
-      "id": "block-87"
+      "id": "block-103",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "關鍵效能指標（KPI）設定不同AI 應用需對應不同層級的效能指標：",
       "pageIndex": 160,
@@ -1331,11 +1878,15 @@
         328.53,
         414.14
       ],
-      "id": "block-88"
+      "id": "block-104",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "系統層級：推論延遲（Inference Latency）、吞吐量（Throughput）、服務可用率（Uptime）、資源使用率（如GPU 記憶體）。",
       "pageIndex": 160,
       "bbox": [
@@ -1344,11 +1895,15 @@
         518.23,
         464.2
       ],
-      "id": "block-89"
+      "id": "block-105",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "應用層級：推薦點擊率（CTR）、預測準確率（Accuracy）、分類F1-Score、異常偵測精確度等。",
       "pageIndex": 160,
       "bbox": [
@@ -1357,11 +1912,15 @@
         518.4,
         514.12
       ],
-      "id": "block-90"
+      "id": "block-106",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "業務層級：轉換率提升、成本節省、客戶留存率變化、ROI（投資報酬率） 等。",
       "pageIndex": 160,
       "bbox": [
@@ -1370,11 +1929,14 @@
         518.17,
         564.16
       ],
-      "id": "block-91"
+      "id": "block-107",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資料與績效回收週期（Feedback Loop） 系統應建立定期的資料回收與監測週期，例如：",
       "pageIndex": 160,
@@ -1384,11 +1946,15 @@
         359.37,
         614.2
       ],
-      "id": "block-92"
+      "id": "block-108",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "每日監控推論效能與使用情況；",
       "pageIndex": 160,
       "bbox": [
@@ -1397,11 +1963,15 @@
         284.35,
         639.19
       ],
-      "id": "block-93"
+      "id": "block-109",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "每週收集錯誤樣本與業務回饋；",
       "pageIndex": 160,
       "bbox": [
@@ -1410,11 +1980,15 @@
         284.35,
         664.15
       ],
-      "id": "block-94"
+      "id": "block-110",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "◦",
       "text": "每月進行一次模型重新評估或retraining 需求確認。",
       "pageIndex": 160,
       "bbox": [
@@ -1423,11 +1997,14 @@
         390.69,
         689.23
       ],
-      "id": "block-95"
+      "id": "block-111",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "跨層級指標聯動實務中，單一層級指標可能無法全面反映系統效能，建議採「技術指標 + 業務指標」雙軌制，讓工程團隊與業務部門有共同語言與追蹤重心。",
       "pageIndex": 160,
@@ -1437,7 +2014,10 @@
         518.4,
         764.22
       ],
-      "id": "block-96"
+      "id": "block-112",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1451,38 +2031,31 @@
         211.99,
         114.11
       ],
-      "id": "block-97"
+      "id": "block-113",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
-      "text": "模型版本管理與滾動更新（Rolling Update）",
+      "text": "模型版本管理與滾動更新（Rolling Update） 為避免中斷服務或部署風險，模型更新應採版本控管與滾動釋出策略。可搭配藍綠部署（Blue-Green Deployment）、金絲雀部署（Canary Deployment）等技術，降低新模型不穩定帶來的風險。",
       "pageIndex": 161,
       "bbox": [
         76.6,
         125.62,
-        335.49,
-        139.07
-      ],
-      "id": "block-98"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "為避免中斷服務或部署風險，模型更新應採版本控管與滾動釋出策略。可搭配藍綠部署（Blue-Green Deployment）、金絲雀部署（Canary Deployment）等技術，降低新模型不穩定帶來的風險。",
-      "pageIndex": 161,
-      "bbox": [
-        90.76,
-        151.94,
         521.49,
         214.07
       ],
-      "id": "block-99"
+      "id": "block-114",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "再訓練與資料再標註機制隨著時間推移與環境變動，資料分佈可能發生漂移（Data Drift），導致模型效能下降。應設立資料監測機制，當漂移超過門檻時，自動觸發模型再訓練流程，並更新資料集標註品質。",
       "pageIndex": 161,
@@ -1492,11 +2065,14 @@
         518.56,
         314.18
       ],
-      "id": "block-100"
+      "id": "block-115",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "使用者與業務回饋融入優化流程如客服或銷售反映的錯誤案例、自動標記錯誤樣本進行學習（Human-in-the- Loop）、使用者點擊行為記錄等，皆可轉化為模型優化素材。",
       "pageIndex": 161,
@@ -1506,11 +2082,14 @@
         518.67,
         389.18
       ],
-      "id": "block-101"
+      "id": "block-116",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "自動化模型優化機制（AutoML / Online Learning） 對於變化快速或大規模資料情境，可搭配AutoML 或在線學習（Online Learning） 架構，實現持續模型微調，保持預測準確度。",
       "pageIndex": 161,
@@ -1520,7 +2099,10 @@
         524.64,
         464.2
       ],
-      "id": "block-102"
+      "id": "block-117",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1534,7 +2116,10 @@
         189.47,
         514.69
       ],
-      "id": "block-103"
+      "id": "block-118",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1547,7 +2132,10 @@
         518.08,
         614.2
       ],
-      "id": "block-104"
+      "id": "block-119",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1561,11 +2149,14 @@
         237.19,
         664.15
       ],
-      "id": "block-105"
+      "id": "block-120",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "業務與行銷部門：提供實際需求情境與績效指標，並根據AI 模型的輸出（如預測結果、推薦清單）進行策略應用與反饋調整。",
       "pageIndex": 161,
@@ -1575,11 +2166,14 @@
         518.29,
         714.19
       ],
-      "id": "block-106"
+      "id": "block-121",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "客服與營運部門：在模型應用端與客戶接觸最頻繁，負責回收實際互動案例與異常反應，用於持續優化模型。",
       "pageIndex": 161,
@@ -1589,11 +2183,14 @@
         518.32,
         764.22
       ],
-      "id": "block-107"
+      "id": "block-122",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "法務與風險部門：針對資料隱私、模型公平性與風險揭露進行審查，並協助建立符合法規的使用框架。",
       "pageIndex": 162,
@@ -1603,11 +2200,14 @@
         518.37,
         139.07
       ],
-      "id": "block-108"
+      "id": "block-123",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "資訊部門：負責部署、權限管理、API 整合與維運支援，確保AI 系統可穩定接軌企業基礎架構。",
       "pageIndex": 162,
@@ -1617,7 +2217,10 @@
         518.37,
         189.11
       ],
-      "id": "block-109"
+      "id": "block-124",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1631,11 +2234,14 @@
         237.19,
         239.15
       ],
-      "id": "block-110"
+      "id": "block-125",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "定期召開AI 專案工作小組，協調各部門目標與需求差異。",
       "pageIndex": 162,
@@ -1645,11 +2251,14 @@
         415.77,
         264.14
       ],
-      "id": "block-111"
+      "id": "block-126",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "推動共用績效指標（如AI 成效影響KPI）作為跨部門合作的共同成果基準。",
       "pageIndex": 162,
@@ -1659,11 +2268,14 @@
         514.8,
         289.1
       ],
-      "id": "block-112"
+      "id": "block-127",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "對於模型調整、資料異常處理、實務需求更動等，建立快速協調與決策通道。",
       "pageIndex": 162,
@@ -1673,7 +2285,10 @@
         521.88,
         314.18
       ],
-      "id": "block-113"
+      "id": "block-128",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1687,7 +2302,10 @@
         216.43,
         364.1
       ],
-      "id": "block-114"
+      "id": "block-129",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1700,7 +2318,10 @@
         411.09,
         389.18
       ],
-      "id": "block-115"
+      "id": "block-130",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1713,11 +2334,14 @@
         180.4,
         414.14
       ],
-      "id": "block-116"
+      "id": "block-131",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "AI 治理委員會：統籌資源分配、風險審查與戰略發展。",
       "pageIndex": 162,
@@ -1727,11 +2351,14 @@
         400.05,
         439.1
       ],
-      "id": "block-117"
+      "id": "block-132",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "內部AI 產品經理或協調人員：作為技術與部門間的橋梁，確保語言一致與任務協同。",
       "pageIndex": 162,
@@ -1741,11 +2368,14 @@
         517.85,
         489.16
       ],
-      "id": "block-118"
+      "id": "block-133",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 5,
       "marker": "•",
       "text": "跨部門培訓與教育機制：強化非技術人員對AI 模型意義與限制的理解，減少誤解與溝通摩擦。",
       "pageIndex": 162,
@@ -1755,7 +2385,10 @@
         518.1,
         539.2
       ],
-      "id": "block-119"
+      "id": "block-134",
+      "nodeId": "mid-s1c9",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1768,12 +2401,16 @@
         518.05,
         597.28
       ],
-      "id": "block-120"
+      "id": "block-135",
+      "nodeId": "mid-s1c9",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
-      "type": "question",
-      "depth": 6,
-      "text": "1. 在進行AI 建模前，進行「資料標註」的主要目的是？",
+      "type": "heading",
+      "depth": 3,
+      "title": "章節練習題",
+      "anchor": "章節練習題",
       "pageIndex": 163,
       "bbox": [
         76.6,
@@ -1781,280 +2418,330 @@
         395.25,
         163.07
       ],
-      "id": "block-121"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "（A）減少資料容量 （B）強化系統安全性 （C）讓模型能夠辨識輸入與目標之間的對應關係 （D）提升資料儲存速度 2. 在特徵工程中，進行特徵標準化（如Z-score 標準化）的主要目的是？",
-      "pageIndex": 163,
-      "bbox": [
-        76.6,
-        174.74,
-        483.84,
-        288.02
-      ],
-      "id": "block-122"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "（A）增加欄位數量 （B）提升資料壓縮效率 （C）將特徵縮放至相同尺度，利於模型學習 （D）將文字轉換為向量 3. 若某企業的目標是預測顧客是否會流失，最適合選用下列哪一種模型任務？",
-      "pageIndex": 163,
-      "bbox": [
-        76.6,
-        299.81,
-        514.32,
-        413.06
-      ],
-      "id": "block-123"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "（A）分類任務 （B）迴歸任務 （C）生成任務 （D）分群任務 4. 關於模型選擇，下列哪一項敘述較為正確？",
-      "pageIndex": 163,
-      "bbox": [
-        76.6,
-        424.73,
-        337.89,
-        538.12
-      ],
-      "id": "block-124"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "（A）模型越複雜越好 （B）模型應優先考慮開發成本與可部署性 （C）只要準確率高就不需考慮其他指標 （D）模型無須考慮資料量大小 5. 下列哪一種資料前處理技術主要用來處理缺失值？",
-      "pageIndex": 163,
-      "bbox": [
-        76.6,
-        549.79,
-        375.69,
-        663.07
-      ],
-      "id": "block-125"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "（A）資料增強 （B）標準化 （C）插補法 （D）降維",
-      "pageIndex": 163,
-      "bbox": [
-        89.2,
-        674.86,
-        176.8,
-        763.14
-      ],
-      "id": "block-126"
+      "id": "block-136",
+      "nodeId": "mid-s1c9",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "question",
-      "depth": 6,
-      "text": "6. 在設計AI 應用系統架構時，使用容器技術（如Docker）的主要優點為？",
-      "pageIndex": 164,
+      "depth": 4,
+      "text": "1. 在進行AI 建模前，進行「資料標註」的主要目的是？ （A）減少資料容量 （B）強化系統安全性 （C）讓模型能夠辨識輸入與目標之間的對應關係 （D）提升資料儲存速度",
+      "pageIndex": 163,
       "bbox": [
         76.6,
-        100.82,
-        498.6,
-        114.11
+        149.78,
+        395.25,
+        163.07
       ],
-      "id": "block-127"
+      "id": "block-137",
+      "nodeId": "mid-s1c9",
+      "kind": "exercise_question",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "（A）加快資料標註速度 （B）提升API 回應速度 （C）促進模型跨平台部署與環境一致性 （D）減少模型所需參數量 7. MLOps 的主要目的為何？",
-      "pageIndex": 164,
+      "type": "question",
+      "depth": 4,
+      "text": "2. 在特徵工程中，進行特徵標準化（如Z-score 標準化）的主要目的是？ （A）增加欄位數量 （B）提升資料壓縮效率 （C）將特徵縮放至相同尺度，利於模型學習 （D）將文字轉換為向量",
+      "pageIndex": 163,
       "bbox": [
         76.6,
-        125.78,
-        314.71,
-        239.15
+        149.78,
+        395.25,
+        163.07
       ],
-      "id": "block-128"
+      "id": "block-138",
+      "nodeId": "mid-s1c9",
+      "kind": "exercise_question",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "（A）壓縮模型參數 （B）簡化使用者介面設計 （C）實現AI 模型的自動化開發、部署與持續維運流程 （D）將AI 模型嵌入硬體晶片 8. 在邊緣運算架構中，AI 模型的推論通常會發生在哪裡？",
-      "pageIndex": 164,
+      "type": "question",
+      "depth": 4,
+      "text": "3. 若某企業的目標是預測顧客是否會流失，最適合選用下列哪一種模型任務？ （A）分類任務 （B）迴歸任務 （C）生成任務 （D）分群任務",
+      "pageIndex": 163,
       "bbox": [
         76.6,
-        250.85,
-        404.73,
-        364.1
+        149.78,
+        395.25,
+        163.07
       ],
-      "id": "block-129"
+      "id": "block-139",
+      "nodeId": "mid-s1c9",
+      "kind": "exercise_question",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "（A）雲端GPU 伺服器 （B）終端裝置本地端 （C）資料標註平台 （D）資料儲存庫 9. 持續監控部署後AI 模型效能的主要目的為何？",
-      "pageIndex": 164,
+      "type": "question",
+      "depth": 4,
+      "text": "4. 關於模型選擇，下列哪一項敘述較為正確？ （A）模型越複雜越好 （B）模型應優先考慮開發成本與可部署性 （C）只要準確率高就不需考慮其他指標 （D）模型無須考慮資料量大小",
+      "pageIndex": 163,
       "bbox": [
         76.6,
-        375.89,
-        357.45,
-        489.16
+        149.78,
+        395.25,
+        163.07
       ],
-      "id": "block-130"
+      "id": "block-140",
+      "nodeId": "mid-s1c9",
+      "kind": "exercise_question",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "（A）減少資料備份空間 （B）提升UI 使用效率 （C）偵測模型概念漂移與效能下降 （D）強化模型壓縮效果 10. 在AI 系統整合過程中，為確保模型可與業務流程無縫對接，通常需要哪種角色協作？",
-      "pageIndex": 164,
+      "type": "question",
+      "depth": 4,
+      "text": "5. 下列哪一種資料前處理技術主要用來處理缺失值？ （A）資料增強 （B）標準化 （C）插補法 （D）降維",
+      "pageIndex": 163,
       "bbox": [
         76.6,
-        500.83,
-        517.84,
-        639.19
+        149.78,
+        395.25,
+        163.07
       ],
-      "id": "block-131"
+      "id": "block-141",
+      "nodeId": "mid-s1c9",
+      "kind": "exercise_question",
+      "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "（A）社群經營人員 （B）資料標註員 （C）產品經理與工程人員 （D）硬體維修技術員",
-      "pageIndex": 164,
+      "type": "question",
+      "depth": 4,
+      "text": "6. 在設計AI 應用系統架構時，使用容器技術（如Docker）的主要優點為？ （A）加快資料標註速度 （B）提升API 回應速度 （C）促進模型跨平台部署與環境一致性 （D）減少模型所需參數量",
+      "pageIndex": 163,
       "bbox": [
         76.6,
-        650.86,
-        239.11,
-        755.82
+        149.78,
+        395.25,
+        163.07
       ],
-      "id": "block-132"
+      "id": "block-142",
+      "nodeId": "mid-s1c9",
+      "kind": "exercise_question",
+      "source": "page_extract"
+    },
+    {
+      "type": "question",
+      "depth": 4,
+      "text": "7. MLOps 的主要目的為何？ （A）壓縮模型參數 （B）簡化使用者介面設計 （C）實現AI 模型的自動化開發、部署與持續維運流程 （D）將AI 模型嵌入硬體晶片",
+      "pageIndex": 163,
+      "bbox": [
+        76.6,
+        149.78,
+        395.25,
+        163.07
+      ],
+      "id": "block-143",
+      "nodeId": "mid-s1c9",
+      "kind": "exercise_question",
+      "source": "page_extract"
+    },
+    {
+      "type": "question",
+      "depth": 4,
+      "text": "8. 在邊緣運算架構中，AI 模型的推論通常會發生在哪裡？ （A）雲端GPU 伺服器 （B）終端裝置本地端 （C）資料標註平台 （D）資料儲存庫",
+      "pageIndex": 163,
+      "bbox": [
+        76.6,
+        149.78,
+        395.25,
+        163.07
+      ],
+      "id": "block-144",
+      "nodeId": "mid-s1c9",
+      "kind": "exercise_question",
+      "source": "page_extract"
+    },
+    {
+      "type": "question",
+      "depth": 4,
+      "text": "9. 持續監控部署後AI 模型效能的主要目的為何？ （A）減少資料備份空間 （B）提升UI 使用效率 （C）偵測模型概念漂移與效能下降 （D）強化模型壓縮效果",
+      "pageIndex": 163,
+      "bbox": [
+        76.6,
+        149.78,
+        395.25,
+        163.07
+      ],
+      "id": "block-145",
+      "nodeId": "mid-s1c9",
+      "kind": "exercise_question",
+      "source": "page_extract"
+    },
+    {
+      "type": "question",
+      "depth": 4,
+      "text": "10. 在AI 系統整合過程中，為確保模型可與業務流程無縫對接，通常需要哪種角色協作？ （A）社群經營人員 （B）資料標註員 （C）產品經理與工程人員 （D）硬體維修技術員",
+      "pageIndex": 163,
+      "bbox": [
+        76.6,
+        149.78,
+        395.25,
+        163.07
+      ],
+      "id": "block-146",
+      "nodeId": "mid-s1c9",
+      "kind": "exercise_question",
+      "source": "page_extract"
     },
     {
       "type": "answer",
-      "depth": 6,
+      "depth": 4,
       "text": "1. Ans（C） 讓模型能夠辨識輸入與目標之間的對應關係解析：資料標註是監督式學習的關鍵步驟，能讓模型理解每筆資料對應的標籤或結果。",
-      "pageIndex": 165,
+      "pageIndex": 163,
       "bbox": [
         76.6,
-        149.3,
-        517.86,
-        211.55
+        149.78,
+        395.25,
+        163.07
       ],
-      "id": "block-133"
+      "id": "block-147",
+      "nodeId": "mid-s1c9",
+      "kind": "exercise_answer",
+      "source": "page_extract"
     },
     {
       "type": "answer",
-      "depth": 6,
+      "depth": 4,
       "text": "2. Ans（C） 將特徵縮放至相同尺度，利於模型學習解析：許多演算法（如SVM、KNN）對特徵尺度敏感，標準化有助於提升模型表現與穩定性。",
-      "pageIndex": 165,
+      "pageIndex": 163,
       "bbox": [
         76.6,
-        222.74,
-        518.23,
-        285.02
+        149.78,
+        395.25,
+        163.07
       ],
-      "id": "block-134"
+      "id": "block-148",
+      "nodeId": "mid-s1c9",
+      "kind": "exercise_answer",
+      "source": "page_extract"
     },
     {
       "type": "answer",
-      "depth": 6,
+      "depth": 4,
       "text": "3. Ans（A） 分類任務解析：顧客流失通常為「會/不會」的二元分類問題，適合使用分類模型如 Logistic Regression、決策樹等。",
-      "pageIndex": 165,
+      "pageIndex": 163,
       "bbox": [
         76.6,
-        296.33,
-        521.88,
-        358.58
+        149.78,
+        395.25,
+        163.07
       ],
-      "id": "block-135"
+      "id": "block-149",
+      "nodeId": "mid-s1c9",
+      "kind": "exercise_answer",
+      "source": "page_extract"
     },
     {
       "type": "answer",
-      "depth": 6,
+      "depth": 4,
       "text": "4. Ans（B） 模型應優先考慮開發成本與可部署性解析：選擇模型需考量資料特性、開發時間、計算成本與後續維運難度，不應一味追求複雜度。",
-      "pageIndex": 165,
+      "pageIndex": 163,
       "bbox": [
         76.6,
-        369.77,
-        518.15,
-        432.02
+        149.78,
+        395.25,
+        163.07
       ],
-      "id": "block-136"
+      "id": "block-150",
+      "nodeId": "mid-s1c9",
+      "kind": "exercise_answer",
+      "source": "page_extract"
     },
     {
       "type": "answer",
-      "depth": 6,
+      "depth": 4,
       "text": "5. Ans（C） 插補法解析：插補法（Imputation）可用平均數、中位數、眾數或模型預測方式填補缺失欄位，常用於資料清理階段。",
-      "pageIndex": 165,
+      "pageIndex": 163,
       "bbox": [
         76.6,
-        443.35,
-        518.02,
-        505.6
+        149.78,
+        395.25,
+        163.07
       ],
-      "id": "block-137"
+      "id": "block-151",
+      "nodeId": "mid-s1c9",
+      "kind": "exercise_answer",
+      "source": "page_extract"
     },
     {
       "type": "answer",
-      "depth": 6,
+      "depth": 4,
       "text": "6. Ans（C） 促進模型跨平台部署與環境一致性解析：容器技術可封裝應用與其依賴環境，確保模型從開發到部署保持一致。",
-      "pageIndex": 165,
+      "pageIndex": 163,
       "bbox": [
         76.6,
-        516.79,
-        521.88,
-        554.56
+        149.78,
+        395.25,
+        163.07
       ],
-      "id": "block-138"
+      "id": "block-152",
+      "nodeId": "mid-s1c9",
+      "kind": "exercise_answer",
+      "source": "page_extract"
     },
     {
       "type": "answer",
-      "depth": 6,
+      "depth": 4,
       "text": "7. Ans（C） 實現AI 模型的自動化開發、部署與持續維運流程解析：MLOps 結合DevOps 與機器學習，可實現模型生命週期的持續整合、測試與監控。",
-      "pageIndex": 165,
+      "pageIndex": 163,
       "bbox": [
         76.6,
-        565.75,
-        518.14,
-        628.15
+        149.78,
+        395.25,
+        163.07
       ],
-      "id": "block-139"
+      "id": "block-153",
+      "nodeId": "mid-s1c9",
+      "kind": "exercise_answer",
+      "source": "page_extract"
     },
     {
       "type": "answer",
-      "depth": 6,
+      "depth": 4,
       "text": "8. Ans（B）終端裝置本地端解析：邊緣AI 將模型部署至如手機、攝影機、感測器等裝置上，提升即時性並減少延遲。",
-      "pageIndex": 165,
+      "pageIndex": 163,
       "bbox": [
         76.6,
-        639.34,
-        518.2,
-        701.59
+        149.78,
+        395.25,
+        163.07
       ],
-      "id": "block-140"
+      "id": "block-154",
+      "nodeId": "mid-s1c9",
+      "kind": "exercise_answer",
+      "source": "page_extract"
     },
     {
       "type": "answer",
-      "depth": 6,
+      "depth": 4,
       "text": "9. Ans（C）偵測模型概念漂移與效能下降解析：模型部署後若輸入資料特性改變，將可能導致預測不準，故需建立監控機制。",
-      "pageIndex": 165,
+      "pageIndex": 163,
       "bbox": [
         76.6,
-        712.78,
-        517.87,
-        775.14
+        149.78,
+        395.25,
+        163.07
       ],
-      "id": "block-141"
+      "id": "block-155",
+      "nodeId": "mid-s1c9",
+      "kind": "exercise_answer",
+      "source": "page_extract"
     },
     {
       "type": "answer",
-      "depth": 6,
+      "depth": 4,
       "text": "10. Ans（C） 產品經理與工程人員解析：產品經理負責需求對齊與驗證場景，工程人員負責將模型封裝並整合至應用流程。",
-      "pageIndex": 166,
+      "pageIndex": 163,
       "bbox": [
         76.6,
-        100.82,
-        517.86,
-        164.15
+        149.78,
+        395.25,
+        163.07
       ],
-      "id": "block-142"
+      "id": "block-156",
+      "nodeId": "mid-s1c9",
+      "kind": "exercise_answer",
+      "source": "page_extract"
     }
   ],
   "sourcePages": [
