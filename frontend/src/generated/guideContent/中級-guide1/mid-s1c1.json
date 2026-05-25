@@ -2167,8 +2167,9 @@
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "▪",
       "text": "接著，針對表格中提及之相關NLP 技術進行介紹與說明：",
       "pageIndex": 21,
       "bbox": [
@@ -2177,10 +2178,9 @@
         424.53,
         239.15
       ],
-      "indentFirstLine": false,
       "id": "block-112",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
@@ -2440,7 +2440,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "\"dog\"對應的One-hot 向量為[1, 0, 0]",
       "pageIndex": 21,
@@ -2457,7 +2457,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "\"cat\"對應的One-hot 向量為[0, 1, 0]",
       "pageIndex": 21,
@@ -2474,7 +2474,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "\"fish\"對應的One-hot 向量為[0, 0, 1]",
       "pageIndex": 22,
@@ -2746,7 +2746,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "文件1 \"dog dog cat\"",
       "pageIndex": 22,
@@ -2763,7 +2763,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "文件2 \"cat fish fish\"",
       "pageIndex": 22,
@@ -2797,7 +2797,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "[2, 1, 0]（\"dog\"出現2 次，\"cat\"出現1 次，\"fish\"沒有出現）",
       "pageIndex": 22,
@@ -2831,7 +2831,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "[0, 1, 2]（\"dog\"沒有出現，\"cat\"出現1 次，\"fish\"出現2 次）",
       "pageIndex": 22,
@@ -3205,7 +3205,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "語料庫中有1000 篇文件（D = 1000）",
       "pageIndex": 24,
@@ -3222,7 +3222,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "詞彙\"AI\"只出現在10 篇文件中",
       "pageIndex": 24,
@@ -3239,7 +3239,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "某文件（d）總共有100 個詞",
       "pageIndex": 24,
@@ -3256,7 +3256,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "某文件（d）中詞彙\"AI\"出現3 次",
       "pageIndex": 24,
@@ -3782,8 +3782,9 @@
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "▪",
       "text": "Word2Vec 是基於神經網路的詞嵌入方法，有兩種主要架構、通過CBOW （Continuous Bag of Words）和Skip-gram 兩種模型來學習詞彙和上下文之間的關係：",
       "pageIndex": 26,
       "bbox": [
@@ -3792,10 +3793,9 @@
         518.53,
         564.16
       ],
-      "indentFirstLine": false,
       "id": "block-207",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
@@ -3817,7 +3817,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "以給定上下文（周圍詞彙）來預測中心詞。",
       "pageIndex": 26,
@@ -3834,7 +3834,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "訓練速度較快，適合小型語料。",
       "pageIndex": 26,
@@ -3851,7 +3851,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "示例：假設有句子「The cat sits on the mat」，如果我們選擇「sits」作為中心詞，那麼上下文就是「The」、「cat」、「on」、「the」、「mat」。CBOW 模型的目標是根據這些上下文詞彙來預測中心詞\"sits\"。",
       "pageIndex": 26,
@@ -3867,9 +3867,10 @@
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "上下文（Context）：The, cat, on, the, mat 預測中心詞（Center Word）：sits",
+      "type": "list_item",
+      "depth": 9,
+      "marker": "▪",
+      "text": "上下文（Context）：The, cat, on, the, mat",
       "pageIndex": 26,
       "bbox": [
         137.56,
@@ -3877,10 +3878,26 @@
         369.09,
         764.22
       ],
-      "indentFirstLine": true,
       "id": "block-212",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 9,
+      "marker": "▪",
+      "text": "預測中心詞（Center Word）：sits",
+      "pageIndex": 26,
+      "bbox": [
+        137.56,
+        725.7,
+        369.09,
+        764.22
+      ],
+      "id": "block-213",
+      "nodeId": "mid-s1c1",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
@@ -3895,14 +3912,14 @@
         188.08,
         114.11
       ],
-      "id": "block-213",
+      "id": "block-214",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "以給定中心詞，預測其周圍的上下文詞彙。",
       "pageIndex": 27,
@@ -3912,14 +3929,14 @@
         378.57,
         139.07
       ],
-      "id": "block-214",
+      "id": "block-215",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "對低頻詞更有效，語意捕捉能力更好。",
       "pageIndex": 27,
@@ -3929,14 +3946,14 @@
         353.37,
         164.15
       ],
-      "id": "block-215",
+      "id": "block-216",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "示例：如果中心詞是「sits」，Skip-gram 模型會利用「sits」來預測它周圍的上下文詞，如「The」、「cat」、「on」、「the」、「mat」。",
       "pageIndex": 27,
@@ -3946,7 +3963,7 @@
         518.2,
         214.07
       ],
-      "id": "block-216",
+      "id": "block-217",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -3963,14 +3980,14 @@
         159.88,
         239.15
       ],
-      "id": "block-217",
+      "id": "block-218",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "Word2Ve 經訓練後會將「國王（king）」、「男人（man）」、「女人（woman）」 與「女王（queen）」等詞語嵌入於同一個語意向量空間中。在這個空間中，詞與詞之間的向量差異可反映語意邏輯，例如：「king - man + woman ≈ queen」，這展現了Word2Vec 的語意推理能力，並可應用於類比判斷與相似詞推論任務中。",
       "pageIndex": 27,
@@ -3980,7 +3997,7 @@
         524.64,
         364.1
       ],
-      "id": "block-218",
+      "id": "block-219",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -3997,7 +4014,7 @@
         519.96,
         514.12
       ],
-      "id": "block-219",
+      "id": "block-220",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4014,14 +4031,14 @@
         159.88,
         539.2
       ],
-      "id": "block-220",
+      "id": "block-221",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "假設在語料庫中，「king（國王）」經常與「throne（王座）」、「royal（皇室）」等詞共同出現；而「queen（女王）」也與「throne（王座）」、「royal （皇室）」這些詞高度共現。GloV 會透過這些詞對的共現資訊，將「king」 與「queen」在向量空間中的位置學習為接近，因為它們在語料中的「共現上下文」相似，進而捕捉到語意上的對等關係。",
       "pageIndex": 27,
@@ -4031,7 +4048,7 @@
         524.64,
         664.15
       ],
-      "id": "block-221",
+      "id": "block-222",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4048,7 +4065,7 @@
         164.08,
         689.23
       ],
-      "id": "block-222",
+      "id": "block-223",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4065,7 +4082,7 @@
         739.15
       ],
       "indentFirstLine": false,
-      "id": "block-223",
+      "id": "block-224",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -4082,14 +4099,14 @@
         159.88,
         164.15
       ],
-      "id": "block-224",
+      "id": "block-225",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "FastText 將每個詞切割成n-gram 子詞（例如\"playing\" → \"pla\", \"lay\", \"ayi\", \"yin\", \"ing\"），然後學習每個子詞的向量表示，最後將所有子詞向量加總或平均，作為整個詞的向量。（常用n-gram：3 到6 字母）",
       "pageIndex": 28,
@@ -4099,7 +4116,7 @@
         521.73,
         239.15
       ],
-      "id": "block-225",
+      "id": "block-226",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4116,14 +4133,14 @@
         159.88,
         264.14
       ],
-      "id": "block-226",
+      "id": "block-227",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "「unhappiness」→ <un, unh, hap, app, ppi, pin, ine, nes, ess>",
       "pageIndex": 28,
@@ -4133,14 +4150,14 @@
         458.04,
         289.1
       ],
-      "id": "block-227",
+      "id": "block-228",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "若模型未見過「nationalization」，但學過「nation」、「-al」、「-ization」等子詞，FastText 便能透過子詞向量進行加總，生成該新詞的向量，使其語意與原始詞根「nation」相關。",
       "pageIndex": 28,
@@ -4150,7 +4167,7 @@
         518.28,
         364.1
       ],
-      "id": "block-228",
+      "id": "block-229",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4167,7 +4184,7 @@
         518.32,
         464.2
       ],
-      "id": "block-229",
+      "id": "block-230",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4184,7 +4201,7 @@
         539.2
       ],
       "indentFirstLine": false,
-      "id": "block-230",
+      "id": "block-231",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -4201,7 +4218,7 @@
         589.12
       ],
       "indentFirstLine": false,
-      "id": "block-231",
+      "id": "block-232",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -4218,7 +4235,7 @@
         145.72,
         614.2
       ],
-      "id": "block-232",
+      "id": "block-233",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4235,7 +4252,7 @@
         517.99,
         664.15
       ],
-      "id": "block-233",
+      "id": "block-234",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4252,7 +4269,7 @@
         518.37,
         714.19
       ],
-      "id": "block-234",
+      "id": "block-235",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4269,7 +4286,7 @@
         517.99,
         764.22
       ],
-      "id": "block-235",
+      "id": "block-236",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4286,7 +4303,7 @@
         518.08,
         139.07
       ],
-      "id": "block-236",
+      "id": "block-237",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4303,7 +4320,7 @@
         133.12,
         164.15
       ],
-      "id": "block-237",
+      "id": "block-238",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4320,7 +4337,7 @@
         506.28,
         189.11
       ],
-      "id": "block-238",
+      "id": "block-239",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4337,7 +4354,7 @@
         474.96,
         214.07
       ],
-      "id": "block-239",
+      "id": "block-240",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4354,7 +4371,7 @@
         518.28,
         264.14
       ],
-      "id": "block-240",
+      "id": "block-241",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4371,7 +4388,7 @@
         518.28,
         364.1
       ],
-      "id": "block-241",
+      "id": "block-242",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4388,7 +4405,7 @@
         296.47,
         389.18
       ],
-      "id": "block-242",
+      "id": "block-243",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4405,7 +4422,7 @@
         399.33,
         414.14
       ],
-      "id": "block-243",
+      "id": "block-244",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4422,7 +4439,7 @@
         462.36,
         439.1
       ],
-      "id": "block-244",
+      "id": "block-245",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4439,7 +4456,7 @@
         521.52,
         489.16
       ],
-      "id": "block-245",
+      "id": "block-246",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4456,7 +4473,7 @@
         518.74,
         564.16
       ],
-      "id": "block-246",
+      "id": "block-247",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4473,7 +4490,7 @@
         329.85,
         589.12
       ],
-      "id": "block-247",
+      "id": "block-248",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4490,7 +4507,7 @@
         462.36,
         614.2
       ],
-      "id": "block-248",
+      "id": "block-249",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4507,7 +4524,7 @@
         424.53,
         639.19
       ],
-      "id": "block-249",
+      "id": "block-250",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4524,7 +4541,7 @@
         521.62,
         689.23
       ],
-      "id": "block-250",
+      "id": "block-251",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4541,7 +4558,7 @@
         518.28,
         764.22
       ],
-      "id": "block-251",
+      "id": "block-252",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4558,7 +4575,7 @@
         396.09,
         114.11
       ],
-      "id": "block-252",
+      "id": "block-253",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4575,7 +4592,7 @@
         518.7,
         164.15
       ],
-      "id": "block-253",
+      "id": "block-254",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4592,7 +4609,7 @@
         399.33,
         189.11
       ],
-      "id": "block-254",
+      "id": "block-255",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4609,7 +4626,7 @@
         518.25,
         239.15
       ],
-      "id": "block-255",
+      "id": "block-256",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4626,7 +4643,7 @@
         249.55,
         289.1
       ],
-      "id": "block-256",
+      "id": "block-257",
       "nodeId": "mid-s1c1",
       "kind": "heading",
       "source": "page_extract"
@@ -4643,7 +4660,7 @@
         389.18
       ],
       "indentFirstLine": false,
-      "id": "block-257",
+      "id": "block-258",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -4660,7 +4677,7 @@
         518.4,
         514.12
       ],
-      "id": "block-258",
+      "id": "block-259",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4701,7 +4718,7 @@
         523.47,
         683.9
       ],
-      "id": "block-259",
+      "id": "block-260",
       "nodeId": "mid-s1c1",
       "kind": "table",
       "source": "page_extract"
@@ -4718,7 +4735,7 @@
         777.78
       ],
       "indentFirstLine": false,
-      "id": "block-260",
+      "id": "block-261",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -4735,7 +4752,7 @@
         518.28,
         189.11
       ],
-      "id": "block-261",
+      "id": "block-262",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4752,7 +4769,7 @@
         196.15,
         214.07
       ],
-      "id": "block-262",
+      "id": "block-263",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4769,14 +4786,14 @@
         518.4,
         264.14
       ],
-      "id": "block-263",
+      "id": "block-264",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "在傳統RNN 中，模型需逐字（token by token）讀取序列，難以捕捉長距離語意。",
       "pageIndex": 31,
@@ -4786,14 +4803,14 @@
         518.13,
         314.18
       ],
-      "id": "block-264",
+      "id": "block-265",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "Self-Attention 機制可同時考慮整段輸入序列的上下文，根據每個詞與其他詞的關聯程度進行加權表示，這使得模型能有效學習像是「主詞— 動詞」這類長距離依賴關係（Long-Range Dependencies）。",
       "pageIndex": 31,
@@ -4803,14 +4820,14 @@
         518.64,
         389.18
       ],
-      "id": "block-265",
+      "id": "block-266",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "示例：在句子\"The cat that was chased by the dog ran away.\"中，Self- Attention 能正確捕捉\"cat\"與\"ran\"的關聯，即使中間隔了許多詞。",
       "pageIndex": 31,
@@ -4820,7 +4837,7 @@
         518.79,
         439.1
       ],
-      "id": "block-266",
+      "id": "block-267",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4837,14 +4854,14 @@
         521.88,
         489.16
       ],
-      "id": "block-267",
+      "id": "block-268",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "Encoder 模組：負責將輸入序列轉換為抽象的語意向量（contextual representation）。",
       "pageIndex": 31,
@@ -4854,14 +4871,14 @@
         521.76,
         539.2
       ],
-      "id": "block-268",
+      "id": "block-269",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "Decoder 模組：接收Encoder 輸出的語意向量，逐步產生目標語言或文字。",
       "pageIndex": 31,
@@ -4871,14 +4888,14 @@
         518.02,
         589.12
       ],
-      "id": "block-269",
+      "id": "block-270",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "此架構適合應用於機器翻譯、摘要生成、文字改寫等任務，因為這些任務通常涉及「輸入一段語言，輸出另一段語言」的結構。",
       "pageIndex": 31,
@@ -4888,7 +4905,7 @@
         518.2,
         639.19
       ],
-      "id": "block-270",
+      "id": "block-271",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4905,14 +4922,14 @@
         518.37,
         714.19
       ],
-      "id": "block-271",
+      "id": "block-272",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "Self-Attention 模組允許模型一次性處理整個輸入序列，並列計算所有詞與詞之間的注意力分數。結果是：訓練速度大幅提升、更適合在 GPU/TPU 上運行，且能有效擴展至極大規模語料（如GPT-3、PaLM 等）。",
       "pageIndex": 31,
@@ -4922,14 +4939,14 @@
         518.47,
         764.02
       ],
-      "id": "block-272",
+      "id": "block-273",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "應用示例：",
       "pageIndex": 32,
@@ -4939,7 +4956,7 @@
         202.15,
         164.15
       ],
-      "id": "block-273",
+      "id": "block-274",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -4956,7 +4973,7 @@
         262.22
       ],
       "indentFirstLine": true,
-      "id": "block-274",
+      "id": "block-275",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -4973,7 +4990,7 @@
         360.14
       ],
       "indentFirstLine": true,
-      "id": "block-275",
+      "id": "block-276",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -4990,7 +5007,7 @@
         433.7
       ],
       "indentFirstLine": true,
-      "id": "block-276",
+      "id": "block-277",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5007,7 +5024,7 @@
         564.28
       ],
       "indentFirstLine": true,
-      "id": "block-277",
+      "id": "block-278",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5024,7 +5041,7 @@
         193.03,
         614.32
       ],
-      "id": "block-278",
+      "id": "block-279",
       "nodeId": "mid-s1c1",
       "kind": "heading",
       "source": "page_extract"
@@ -5041,7 +5058,7 @@
         712.39
       ],
       "indentFirstLine": true,
-      "id": "block-279",
+      "id": "block-280",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5058,7 +5075,7 @@
         761.14
       ],
       "indentFirstLine": true,
-      "id": "block-280",
+      "id": "block-281",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5075,7 +5092,7 @@
         518.23,
         163.67
       ],
-      "id": "block-281",
+      "id": "block-282",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5110,7 +5127,7 @@
         523.48,
         311.33
       ],
-      "id": "block-282",
+      "id": "block-283",
       "nodeId": "mid-s1c1",
       "kind": "table",
       "source": "page_extract"
@@ -5127,7 +5144,7 @@
         405.38
       ],
       "indentFirstLine": true,
-      "id": "block-283",
+      "id": "block-284",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5144,7 +5161,7 @@
         480.4
       ],
       "indentFirstLine": true,
-      "id": "block-284",
+      "id": "block-285",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5161,7 +5178,7 @@
         555.4
       ],
       "indentFirstLine": true,
-      "id": "block-285",
+      "id": "block-286",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5178,7 +5195,7 @@
         268.03,
         605.32
       ],
-      "id": "block-286",
+      "id": "block-287",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5195,7 +5212,7 @@
         521.88,
         655.39
       ],
-      "id": "block-287",
+      "id": "block-288",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5212,14 +5229,14 @@
         518.28,
         730.39
       ],
-      "id": "block-288",
+      "id": "block-289",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "示例：在情感分析任務中，我們可以將問題重寫為：「這條評論是[情感]。」讓模型填入[情感]欄位，輸出結果為「正面」或「負面」。或是在問答任務中，將問題重寫為「What is the capital of France? [Answer]」，模型將直接填入答案「Paris」。",
       "pageIndex": 34,
@@ -5229,7 +5246,7 @@
         521.4,
         187.19
       ],
-      "id": "block-289",
+      "id": "block-290",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5246,14 +5263,14 @@
         518.4,
         260.63
       ],
-      "id": "block-290",
+      "id": "block-291",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "示例：假設我們希望模型能夠辨識某些產品的情感價值。我們可以提供少量示例（如5 條已標註情感的評論），模型將學習如何基於這些示例來分析新評論。",
       "pageIndex": 34,
@@ -5263,7 +5280,7 @@
         518.21,
         334.22
       ],
-      "id": "block-291",
+      "id": "block-292",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5280,7 +5297,7 @@
         518.2,
         407.66
       ],
-      "id": "block-292",
+      "id": "block-293",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5297,7 +5314,7 @@
         176.92,
         432.14
       ],
-      "id": "block-293",
+      "id": "block-294",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5314,7 +5331,7 @@
         505.72
       ],
       "indentFirstLine": false,
-      "id": "block-294",
+      "id": "block-295",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5331,7 +5348,7 @@
         628.27
       ],
       "indentFirstLine": false,
-      "id": "block-295",
+      "id": "block-296",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5348,7 +5365,7 @@
         652.75
       ],
       "indentFirstLine": false,
-      "id": "block-296",
+      "id": "block-297",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5365,7 +5382,7 @@
         524.64,
         775.26
       ],
-      "id": "block-297",
+      "id": "block-298",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5382,14 +5399,14 @@
         518.4,
         164.15
       ],
-      "id": "block-298",
+      "id": "block-299",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "示例：在一個問答系統中，RAG 可以先檢索出相關的資料（如從 Wikipedia 檢索某一領域的資料），再基於這些資料生成對應的答案。例如，在解答「What are the symptoms of COVID-19?」時，RAG 系統首先會從公共知識庫檢索相關資料，再生成更具體的答案。或是在醫療摘要任務中，RAG 可以從醫學文獻資料庫中檢索最新的研究資料，並將其結合生成診斷或治療建議。",
       "pageIndex": 35,
@@ -5399,7 +5416,7 @@
         518.4,
         314.18
       ],
-      "id": "block-299",
+      "id": "block-300",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5416,7 +5433,7 @@
         520.99,
         389.18
       ],
-      "id": "block-300",
+      "id": "block-301",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5433,14 +5450,14 @@
         489.16
       ],
       "indentFirstLine": false,
-      "id": "block-301",
+      "id": "block-302",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "示例：假設我們要在資源有限的邊緣設備上部署大型預訓練模型（如 GPT-3），我們可以利用LoRA 技術來微調模型，僅調整必要的低秩參數，從而大幅減少計算和儲存需求，實現高效的部署。",
       "pageIndex": 35,
@@ -5450,7 +5467,7 @@
         518.23,
         564.16
       ],
-      "id": "block-302",
+      "id": "block-303",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5467,7 +5484,7 @@
         697.39
       ],
       "indentFirstLine": false,
-      "id": "block-303",
+      "id": "block-304",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5484,7 +5501,7 @@
         262.78,
         114.68
       ],
-      "id": "block-304",
+      "id": "block-305",
       "nodeId": "mid-s1c1",
       "kind": "heading",
       "source": "page_extract"
@@ -5501,7 +5518,7 @@
         214.07
       ],
       "indentFirstLine": false,
-      "id": "block-305",
+      "id": "block-306",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5518,7 +5535,7 @@
         518.2,
         314.18
       ],
-      "id": "block-306",
+      "id": "block-307",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5535,7 +5552,7 @@
         518.29,
         364.1
       ],
-      "id": "block-307",
+      "id": "block-308",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5552,7 +5569,7 @@
         517.99,
         439.1
       ],
-      "id": "block-308",
+      "id": "block-309",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5569,7 +5586,7 @@
         518.08,
         514.12
       ],
-      "id": "block-309",
+      "id": "block-310",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5586,7 +5603,7 @@
         564.16
       ],
       "indentFirstLine": false,
-      "id": "block-310",
+      "id": "block-311",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5603,7 +5620,7 @@
         521.15,
         664.15
       ],
-      "id": "block-311",
+      "id": "block-312",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5620,7 +5637,7 @@
         518.25,
         739.15
       ],
-      "id": "block-312",
+      "id": "block-313",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5637,7 +5654,7 @@
         517.95,
         164.15
       ],
-      "id": "block-313",
+      "id": "block-314",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5654,7 +5671,7 @@
         214.07
       ],
       "indentFirstLine": false,
-      "id": "block-314",
+      "id": "block-315",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5671,7 +5688,7 @@
         518.32,
         289.1
       ],
-      "id": "block-315",
+      "id": "block-316",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5688,7 +5705,7 @@
         518.2,
         389.18
       ],
-      "id": "block-316",
+      "id": "block-317",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5705,7 +5722,7 @@
         521.14,
         464.2
       ],
-      "id": "block-317",
+      "id": "block-318",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5722,7 +5739,7 @@
         514.12
       ],
       "indentFirstLine": false,
-      "id": "block-318",
+      "id": "block-319",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5739,7 +5756,7 @@
         518.11,
         589.12
       ],
-      "id": "block-319",
+      "id": "block-320",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5756,7 +5773,7 @@
         518.28,
         664.15
       ],
-      "id": "block-320",
+      "id": "block-321",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5773,7 +5790,7 @@
         518.28,
         714.19
       ],
-      "id": "block-321",
+      "id": "block-322",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5790,7 +5807,7 @@
         521.0,
         764.22
       ],
-      "id": "block-322",
+      "id": "block-323",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5807,7 +5824,7 @@
         138.11
       ],
       "indentFirstLine": false,
-      "id": "block-323",
+      "id": "block-324",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5824,7 +5841,7 @@
         518.32,
         211.67
       ],
-      "id": "block-324",
+      "id": "block-325",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5841,7 +5858,7 @@
         517.93,
         260.63
       ],
-      "id": "block-325",
+      "id": "block-326",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5858,7 +5875,7 @@
         520.17,
         309.62
       ],
-      "id": "block-326",
+      "id": "block-327",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5875,7 +5892,7 @@
         517.81,
         358.7
       ],
-      "id": "block-327",
+      "id": "block-328",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5892,7 +5909,7 @@
         407.66
       ],
       "indentFirstLine": false,
-      "id": "block-328",
+      "id": "block-329",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5909,7 +5926,7 @@
         518.2,
         505.72
       ],
-      "id": "block-329",
+      "id": "block-330",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5926,7 +5943,7 @@
         518.28,
         579.16
       ],
-      "id": "block-330",
+      "id": "block-331",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5943,7 +5960,7 @@
         518.32,
         652.75
       ],
-      "id": "block-331",
+      "id": "block-332",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -5960,7 +5977,7 @@
         775.26
       ],
       "indentFirstLine": false,
-      "id": "block-332",
+      "id": "block-333",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5977,7 +5994,7 @@
         234.59,
         114.68
       ],
-      "id": "block-333",
+      "id": "block-334",
       "nodeId": "mid-s1c1",
       "kind": "heading",
       "source": "page_extract"
@@ -5994,7 +6011,7 @@
         264.14
       ],
       "indentFirstLine": true,
-      "id": "block-334",
+      "id": "block-335",
       "nodeId": "mid-s1c1",
       "kind": "paragraph",
       "source": "page_extract"
@@ -6011,7 +6028,7 @@
         518.35,
         339.14
       ],
-      "id": "block-335",
+      "id": "block-336",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -6028,7 +6045,7 @@
         518.11,
         439.1
       ],
-      "id": "block-336",
+      "id": "block-337",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -6045,7 +6062,7 @@
         517.99,
         489.16
       ],
-      "id": "block-337",
+      "id": "block-338",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -6062,14 +6079,14 @@
         185.08,
         514.12
       ],
-      "id": "block-338",
+      "id": "block-339",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "進行資料匿名化（Anonymization）或去識別化（De-identification），以確保資料的安全與隱私。",
       "pageIndex": 39,
@@ -6079,14 +6096,14 @@
         518.38,
         564.16
       ],
-      "id": "block-339",
+      "id": "block-340",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "企業應確保在資料收集、儲存及處理過程中遵循相關合規規範，如 GDPR 或《個人資料保護法》。",
       "pageIndex": 39,
@@ -6096,7 +6113,7 @@
         521.88,
         614.2
       ],
-      "id": "block-340",
+      "id": "block-341",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -6113,7 +6130,7 @@
         323.73,
         639.19
       ],
-      "id": "block-341",
+      "id": "block-342",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -6130,14 +6147,15 @@
         521.15,
         764.22
       ],
-      "id": "block-342",
+      "id": "block-343",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 8,
+      "marker": "▪",
       "text": "常見方法：",
       "pageIndex": 40,
       "bbox": [
@@ -6146,15 +6164,15 @@
         214.75,
         114.11
       ],
-      "indentFirstLine": false,
-      "id": "block-343",
+      "id": "block-344",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "代碼替換（Pseudonymization）：將姓名、地址等敏感資料以代碼或亂數ID 取代，保持資料結構與分析價值。例如將電話「0912- 345-678」以「phone_XXYYZZ」代碼替換。",
       "pageIndex": 40,
       "bbox": [
@@ -6163,15 +6181,15 @@
         518.79,
         189.11
       ],
-      "indentFirstLine": false,
-      "id": "block-344",
+      "id": "block-345",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "資料抽象化（Data Generalization）：將精確資料轉換為較廣泛的範疇，例如「1986/07/12」改為「1980 年代出生」。",
       "pageIndex": 40,
       "bbox": [
@@ -6180,15 +6198,15 @@
         518.22,
         239.15
       ],
-      "indentFirstLine": false,
-      "id": "block-345",
+      "id": "block-346",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "資料遮罩（Masking）：對關鍵資訊進行遮蔽，例如將 「kevin.wang@example.com」變成「k****@example.com」、「王曉明」變成「王X 明」。",
       "pageIndex": 40,
       "bbox": [
@@ -6197,10 +6215,9 @@
         518.4,
         314.18
       ],
-      "indentFirstLine": false,
-      "id": "block-346",
+      "id": "block-347",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
@@ -6215,14 +6232,15 @@
         518.4,
         414.14
       ],
-      "id": "block-347",
+      "id": "block-348",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 8,
+      "marker": "▪",
       "text": "常見方法：",
       "pageIndex": 40,
       "bbox": [
@@ -6231,15 +6249,15 @@
         214.75,
         439.1
       ],
-      "indentFirstLine": false,
-      "id": "block-348",
+      "id": "block-349",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "徹底刪除辨識資料：移除如姓名、電話、ID 號碼等欄位，使資料完全與個體脫鉤。",
       "pageIndex": 40,
       "bbox": [
@@ -6248,15 +6266,15 @@
         518.27,
         489.16
       ],
-      "indentFirstLine": false,
-      "id": "block-349",
+      "id": "block-350",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "資料隨機化（Randomization）：使用隨機值或統計方法替代原始資料，如將「25 歲」替換為「隨機產生的年齡分布數值」，降低資料再識別風險。",
       "pageIndex": 40,
       "bbox": [
@@ -6265,15 +6283,15 @@
         518.4,
         564.16
       ],
-      "indentFirstLine": false,
-      "id": "block-350",
+      "id": "block-351",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "聚合處理（Aggregation）：將資料彙整為群體統計資訊，例如「某區域共有500 人為30-40 歲群體」。",
       "pageIndex": 40,
       "bbox": [
@@ -6282,10 +6300,9 @@
         518.29,
         614.2
       ],
-      "indentFirstLine": false,
-      "id": "block-351",
+      "id": "block-352",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
@@ -6300,7 +6317,7 @@
         521.42,
         714.19
       ],
-      "id": "block-352",
+      "id": "block-353",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -6317,14 +6334,14 @@
         210.31,
         739.15
       ],
-      "id": "block-353",
+      "id": "block-354",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "資料代表性不足或具有資料偏見（Data Bias）：語料樣本來源偏狹、或本身存在刻板印象、歧視性語言，會直接導致模型無法泛化或出現偏見，影響模型公平性與社會接受度。（例如只使用特定語言族群或社群資料。）",
       "pageIndex": 41,
@@ -6334,7 +6351,7 @@
         518.25,
         189.11
       ],
-      "id": "block-354",
+      "id": "block-355",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -6351,14 +6368,14 @@
         185.08,
         214.07
       ],
-      "id": "block-355",
+      "id": "block-356",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "標註資料應經過審查和驗證，並確保標註的一致性與準確性。",
       "pageIndex": 41,
@@ -6368,14 +6385,14 @@
         479.4,
         239.15
       ],
-      "id": "block-356",
+      "id": "block-357",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "應該使用數據增強技術或基於多重標註來降低偏誤，並確保模型能正確處理不同語境下的語言。",
       "pageIndex": 41,
@@ -6385,7 +6402,7 @@
         517.85,
         289.1
       ],
-      "id": "block-357",
+      "id": "block-358",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -6402,7 +6419,7 @@
         518.2,
         414.14
       ],
-      "id": "block-358",
+      "id": "block-359",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -6419,14 +6436,14 @@
         210.31,
         439.1
       ],
-      "id": "block-359",
+      "id": "block-360",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "使用網路爬蟲抓取網站資料，但未獲得資料提供方的明確授權。",
       "pageIndex": 41,
@@ -6436,14 +6453,14 @@
         492.0,
         464.2
       ],
-      "id": "block-360",
+      "id": "block-361",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "使用公共領域資料但未遵循相關授權條款，可能會違反智慧財產權法規。",
       "pageIndex": 41,
@@ -6453,14 +6470,14 @@
         518.19,
         514.12
       ],
-      "id": "block-361",
+      "id": "block-362",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "使用企業內部資料（如客戶資訊、員工資料等）進行訓練，但未經適當的內部授權或未遵守隱私政策。",
       "pageIndex": 41,
@@ -6470,14 +6487,14 @@
         518.27,
         564.16
       ],
-      "id": "block-362",
+      "id": "block-363",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "在自動生成的新聞摘要中，可能無意中使用受版權保護的段落或語句，或生成的文章內容侵犯他人的專利或著作權。",
       "pageIndex": 41,
@@ -6487,14 +6504,14 @@
         521.49,
         614.2
       ],
-      "id": "block-363",
+      "id": "block-364",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "使用GPT 等生成模型自動寫作商業文件或廣告時，可能會生成與某些專利技術或受版權保護的內容高度相似的文案。",
       "pageIndex": 41,
@@ -6504,7 +6521,7 @@
         518.23,
         664.15
       ],
-      "id": "block-364",
+      "id": "block-365",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -6521,14 +6538,14 @@
         185.08,
         689.23
       ],
-      "id": "block-365",
+      "id": "block-366",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "確保所有用於訓練資料的資料來源都有適當的授權，並遵守其使用條款。",
       "pageIndex": 41,
@@ -6538,14 +6555,14 @@
         517.85,
         739.15
       ],
-      "id": "block-366",
+      "id": "block-367",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "進行資料清理過程時，應去除未經授權或受版權保護的內容。",
       "pageIndex": 41,
@@ -6555,14 +6572,14 @@
         479.4,
         764.22
       ],
-      "id": "block-367",
+      "id": "block-368",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "使用公開資料庫或已授權的資料集進行訓練，避免將未經授權的內容納入訓練集。",
       "pageIndex": 42,
@@ -6572,14 +6589,14 @@
         518.28,
         139.07
       ],
-      "id": "block-368",
+      "id": "block-369",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "生成的內容應經過版權檢查，利用專業工具如抄襲檢測軟體來防止侵犯他人智慧財產權。",
       "pageIndex": 42,
@@ -6589,14 +6606,14 @@
         517.85,
         189.11
       ],
-      "id": "block-369",
+      "id": "block-370",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "在公開發表或商業應用生成內容時，應加入適當的版權聲明與使用條款，並且規範內容的使用範圍。",
       "pageIndex": 42,
@@ -6606,7 +6623,7 @@
         517.85,
         239.15
       ],
-      "id": "block-370",
+      "id": "block-371",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -6623,7 +6640,7 @@
         156.76,
         264.14
       ],
-      "id": "block-371",
+      "id": "block-372",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -6640,7 +6657,7 @@
         521.12,
         364.1
       ],
-      "id": "block-372",
+      "id": "block-373",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -6657,7 +6674,7 @@
         518.32,
         414.14
       ],
-      "id": "block-373",
+      "id": "block-374",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -6674,14 +6691,14 @@
         185.08,
         439.1
       ],
-      "id": "block-374",
+      "id": "block-375",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "使用WEAT（Word Embedding Association Test）等工具分析詞向量中的偏見，檢測模型是否無意中學習到社會偏見。",
       "pageIndex": 42,
@@ -6691,14 +6708,14 @@
         518.26,
         489.16
       ],
-      "id": "block-375",
+      "id": "block-376",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "通過對訓練資料進行平衡調整，移除性別或族群標註欄位，來降低模型的偏見。",
       "pageIndex": 42,
@@ -6708,7 +6725,7 @@
         518.2,
         539.2
       ],
-      "id": "block-376",
+      "id": "block-377",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -6725,7 +6742,7 @@
         520.15,
         614.2
       ],
-      "id": "block-377",
+      "id": "block-378",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -6742,7 +6759,7 @@
         517.99,
         664.15
       ],
-      "id": "block-378",
+      "id": "block-379",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -6759,14 +6776,14 @@
         185.08,
         689.23
       ],
-      "id": "block-379",
+      "id": "block-380",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "在設計NLP 專案時，應從一開始就納入公平性指標，進行多維度的資料審查。",
       "pageIndex": 42,
@@ -6776,14 +6793,14 @@
         518.23,
         739.15
       ],
-      "id": "block-380",
+      "id": "block-381",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "確保模型結果有審查及人工覆核機制，對於發現的偏見進行即時修正，避免模型無意中加深社會不公。",
       "pageIndex": 43,
@@ -6793,7 +6810,7 @@
         521.49,
         139.07
       ],
-      "id": "block-381",
+      "id": "block-382",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -6810,7 +6827,7 @@
         518.28,
         214.07
       ],
-      "id": "block-382",
+      "id": "block-383",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
@@ -6827,14 +6844,15 @@
         521.88,
         314.18
       ],
-      "id": "block-383",
+      "id": "block-384",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 8,
+      "marker": "▪",
       "text": "風險情境示例：",
       "pageIndex": 43,
       "bbox": [
@@ -6843,15 +6861,15 @@
         239.95,
         339.14
       ],
-      "indentFirstLine": false,
-      "id": "block-384",
+      "id": "block-385",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "當使用者在社群平台上說「這服務真的好讚^_^」，NLP 模型可能會誤解為正面評論，忽視了用戶實際上是在表達負面情緒（即反話）。這樣的誤判可能導致錯誤的情感分析結果，影響品牌聲譽。",
       "pageIndex": 43,
       "bbox": [
@@ -6860,15 +6878,15 @@
         521.88,
         414.14
       ],
-      "indentFirstLine": true,
-      "id": "block-385",
+      "id": "block-386",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "模型無法正確理解某些地方性方言或俚語，造成對語句的誤解或錯誤反應。例如，模型將台灣地區的「很雷」誤解為“非常快”，但實際上這是形容事物非常糟糕。",
       "pageIndex": 43,
       "bbox": [
@@ -6877,15 +6895,15 @@
         518.32,
         489.16
       ],
-      "indentFirstLine": true,
-      "id": "block-386",
+      "id": "block-387",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 8,
+      "marker": "▪",
       "text": "處理機制：",
       "pageIndex": 43,
       "bbox": [
@@ -6894,15 +6912,15 @@
         214.75,
         514.12
       ],
-      "indentFirstLine": false,
-      "id": "block-387",
+      "id": "block-388",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "針對語意理解挑戰，應結合語境型詞向量（如BERT、GPT）來增強模型的語境理解能力，特別是在多義詞和反語等情境下的表現。",
       "pageIndex": 43,
       "bbox": [
@@ -6911,15 +6929,15 @@
         518.38,
         589.12
       ],
-      "indentFirstLine": true,
-      "id": "block-388",
+      "id": "block-389",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "加入常識推理模組（Common Sense Reasoning），協助模型理解日常語言中的隱含意圖與語境依賴，減少理解偏差。",
       "pageIndex": 43,
       "bbox": [
@@ -6928,10 +6946,9 @@
         518.16,
         639.19
       ],
-      "indentFirstLine": true,
-      "id": "block-389",
+      "id": "block-390",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
@@ -6946,14 +6963,15 @@
         521.32,
         764.22
       ],
-      "id": "block-390",
+      "id": "block-391",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 8,
+      "marker": "▪",
       "text": "風險情境示例：",
       "pageIndex": 44,
       "bbox": [
@@ -6962,15 +6980,15 @@
         239.95,
         114.11
       ],
-      "indentFirstLine": false,
-      "id": "block-391",
+      "id": "block-392",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "當FAQ Chatbot 部署後，可能因為未進行適當的再訓練與優化，導致回答過程中出現錯誤資訊，且無法即時檢測和更新，影響用戶體驗。",
       "pageIndex": 44,
       "bbox": [
@@ -6979,15 +6997,15 @@
         518.35,
         189.11
       ],
-      "indentFirstLine": false,
-      "id": "block-392",
+      "id": "block-393",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "模型的推論速度過慢，導致在高並發情況下無法即時響應，影響系統的即時性與可靠性。",
       "pageIndex": 44,
       "bbox": [
@@ -6996,15 +7014,15 @@
         518.2,
         239.15
       ],
-      "indentFirstLine": false,
-      "id": "block-393",
+      "id": "block-394",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "在處理某些複雜查詢時，模型消耗大量計算資源，導致系統運行緩慢或崩潰，進一步損害使用者體驗。",
       "pageIndex": 44,
       "bbox": [
@@ -7013,15 +7031,15 @@
         518.2,
         289.1
       ],
-      "indentFirstLine": false,
-      "id": "block-394",
+      "id": "block-395",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 8,
+      "marker": "▪",
       "text": "處理機制：",
       "pageIndex": 44,
       "bbox": [
@@ -7030,15 +7048,15 @@
         214.75,
         314.18
       ],
-      "indentFirstLine": false,
-      "id": "block-395",
+      "id": "block-396",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "設計適當的回饋機制，確保模型能夠在運行過程中持續收集使用者回饋，並定期進行模型的監控與再訓練。",
       "pageIndex": 44,
       "bbox": [
@@ -7047,15 +7065,15 @@
         518.4,
         364.1
       ],
-      "indentFirstLine": false,
-      "id": "block-396",
+      "id": "block-397",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "應用容錯機制，並進行資源優化，如動態調整計算資源的分配，確保模型的穩定運行。",
       "pageIndex": 44,
       "bbox": [
@@ -7064,15 +7082,15 @@
         518.44,
         414.14
       ],
-      "indentFirstLine": false,
-      "id": "block-397",
+      "id": "block-398",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "建立版本控制與更新流程，保持模型運行的透明度和可管理性，避免系統中出現過時或不一致的版本。",
       "pageIndex": 44,
       "bbox": [
@@ -7081,10 +7099,9 @@
         518.44,
         464.2
       ],
-      "indentFirstLine": false,
-      "id": "block-398",
+      "id": "block-399",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
@@ -7099,14 +7116,15 @@
         520.89,
         589.12
       ],
-      "id": "block-399",
+      "id": "block-400",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 8,
+      "marker": "▪",
       "text": "風險情境示例：",
       "pageIndex": 44,
       "bbox": [
@@ -7115,15 +7133,15 @@
         239.95,
         614.2
       ],
-      "indentFirstLine": false,
-      "id": "block-400",
+      "id": "block-401",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "模型幻覺（Model Hallucination）：指的是機器學習模型，尤其是自然語言處理（NLP）或生成模型（如GPT），儘管模型應該提供準確和基於事實的回應，但在生成回應或內容時，產生虛假的、誤導性的或完全虛構的資訊。這種現象發生在模型生成的內容不基於其訓練資料或用戶提供的輸入，甚至與現實世界的資訊無關。舉例：一個聊天機器人生成了這樣的回應：「法國的首都在柏林」，雖然語句語法正確、語氣自然，但其中的資訊是錯誤的，正確答案是巴黎，這就是模型幻覺的例子。",
       "pageIndex": 44,
       "bbox": [
@@ -7132,15 +7150,15 @@
         518.49,
         764.02
       ],
-      "indentFirstLine": false,
-      "id": "block-401",
+      "id": "block-402",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "在智慧客服系統中，若模型無法正確處理某些敏感話題或情境，可能會生成冒犯性或不當的語言，導致使用者對品牌產生負面情緒。",
       "pageIndex": 45,
       "bbox": [
@@ -7149,15 +7167,15 @@
         518.44,
         214.07
       ],
-      "indentFirstLine": false,
-      "id": "block-402",
+      "id": "block-403",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "生成的內容可能無法保證真實性，特別是在涉及醫療、法律、金融等高風險領域時，可能導致錯誤的建議或資訊錯誤。",
       "pageIndex": 45,
       "bbox": [
@@ -7166,15 +7184,15 @@
         518.32,
         264.14
       ],
-      "indentFirstLine": false,
-      "id": "block-403",
+      "id": "block-404",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 8,
+      "marker": "▪",
       "text": "處理機制：",
       "pageIndex": 45,
       "bbox": [
@@ -7183,15 +7201,15 @@
         214.75,
         289.1
       ],
-      "indentFirstLine": false,
-      "id": "block-404",
+      "id": "block-405",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "在生成內容的過程中加入事實檢查機制，確保生成的文本符合真實性與準確性要求。",
       "pageIndex": 45,
       "bbox": [
@@ -7200,15 +7218,15 @@
         518.32,
         339.14
       ],
-      "indentFirstLine": false,
-      "id": "block-405",
+      "id": "block-406",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "設計強有力的審核機制，特別是在高風險領域（如新聞、醫療、法律等），生成內容應經過人工審核，以確保其品質。",
       "pageIndex": 45,
       "bbox": [
@@ -7217,15 +7235,15 @@
         518.44,
         389.18
       ],
-      "indentFirstLine": false,
-      "id": "block-406",
+      "id": "block-407",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "提供透明的使用者回饋機制，一旦生成內容存在問題，應快速修正並再訓練模型，以減少類似問題發生。",
       "pageIndex": 45,
       "bbox": [
@@ -7234,10 +7252,9 @@
         518.2,
         439.1
       ],
-      "indentFirstLine": false,
-      "id": "block-407",
+      "id": "block-408",
       "nodeId": "mid-s1c1",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
@@ -7252,7 +7269,7 @@
         521.88,
         464.2
       ],
-      "id": "block-408",
+      "id": "block-409",
       "nodeId": "mid-s1c1",
       "kind": "list_item",
       "source": "page_extract"

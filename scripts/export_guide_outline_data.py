@@ -998,6 +998,222 @@ def remove_standalone_numeric_artifact_paragraphs(blocks: list[dict]) -> list[di
     return result
 
 
+def opens_nested_example_list(text: str) -> bool:
+    stripped = block_text(text)
+    if not stripped.endswith(('：', ':')):
+        return False
+    return bool(re.search(r'(示例|例如|假設|分別為|如下|如下所示)', stripped))
+
+
+def looks_like_nested_example_child(text: str) -> bool:
+    stripped = block_text(text)
+    if not stripped:
+        return False
+    if opens_nested_example_subheading(stripped):
+        return False
+    return bool(
+        re.match(r'^(文件\s*\d+|["“][^"”]+["”]|[\[（(]|[A-Za-z][A-Za-z0-9_-]*\s*[=:：])', stripped)
+        or re.match(r'^[\d.-]+(?:\s|,|，)', stripped)
+    )
+
+
+def opens_nested_example_subheading(text: str) -> bool:
+    stripped = block_text(text)
+    return bool(re.match(r'^文件\s*\d+\s*的.+(?:向量|矩陣|結果|數值|計算)\s*為$', stripped))
+
+
+def bbox_left(block: dict) -> float | None:
+    bbox = block.get('bbox') or []
+    if len(bbox) == 4 and isinstance(bbox[0], (int, float)):
+        return float(bbox[0])
+    return None
+
+
+def can_open_indented_children(text: str) -> bool:
+    stripped = block_text(text)
+    if stripped.endswith(('：', ':')):
+        return True
+    colon_index = min(
+        [index for index in [stripped.find('：'), stripped.find(':')] if index >= 0],
+        default=-1,
+    )
+    if colon_index <= 0 or colon_index > 90:
+        return False
+    label = stripped[:colon_index]
+    if re.search(r'[。！？；;，,]', label):
+        return False
+    return bool(re.search(r'[\u4e00-\u9fffA-Za-z]', label))
+
+
+def refine_indented_same_marker_list_depths(blocks: list[dict]) -> list[dict]:
+    """Use PDF indentation to recover nested lists when extraction reuses ○ for multiple levels."""
+    result: list[dict] = []
+    stack: list[dict] = []
+    for block in blocks:
+        block = dict(block)
+        if block.get('type') != 'list_item':
+            if block.get('type') in {'heading', 'table', 'question', 'answer'}:
+                stack = []
+            result.append(block)
+            continue
+
+        left = bbox_left(block)
+        depth = int(block.get('depth') or 0)
+        marker = block.get('marker') or ''
+        while stack:
+            parent = stack[-1]
+            parent_left = parent.get('left')
+            parent_depth = int(parent.get('depth') or 0)
+            if left is None or parent_left is None or left <= parent_left + 7 or depth < parent_depth:
+                stack.pop()
+                continue
+            break
+
+        if stack and marker == stack[-1].get('marker') and left is not None:
+            parent_left = stack[-1].get('left')
+            if parent_left is not None and left > float(parent_left) + 7:
+                block['depth'] = min(int(stack[-1].get('depth') or depth) + 1, 9)
+
+        text = block.get('text') or ''
+        if can_open_indented_children(text) and left is not None:
+            stack.append({'left': left, 'depth': int(block.get('depth') or depth), 'marker': marker})
+        result.append(block)
+    return result
+
+
+def split_inferred_nested_example_paragraphs(blocks: list[dict]) -> list[dict]:
+    result: list[dict] = []
+    for block in blocks:
+        if (
+            result
+            and block.get('type') == 'paragraph'
+            and result[-1].get('type') == 'list_item'
+            and '示例' in (result[-1].get('text') or '')
+        ):
+            previous_left = bbox_left(result[-1])
+            current_left = bbox_left(block)
+            text = block_text(block.get('text') or '')
+            if previous_left is not None and current_left is not None and current_left > previous_left + 8:
+                parts = re.split(r'\s+(?=預測中心詞（Center Word）)', text)
+                if len(parts) > 1 and all(part.strip() for part in parts):
+                    child_depth = min(int(result[-1].get('depth') or 7) + 1, 9)
+                    for part in parts:
+                        result.append({
+                            'type': 'list_item',
+                            'depth': child_depth,
+                            'marker': '▪',
+                            'text': block_text(part),
+                            'pageIndex': block.get('pageIndex'),
+                            'bbox': block.get('bbox'),
+                        })
+                    continue
+        result.append(block)
+    return result
+
+
+def infer_indented_paragraph_list_items(blocks: list[dict]) -> list[dict]:
+    """Recover list levels whose glyphs were lost but whose indentation remains in the PDF."""
+    result: list[dict] = []
+    list_parent: dict | None = None
+    inferred_parent: dict | None = None
+    for block in blocks:
+        block = dict(block)
+        block_type = block.get('type')
+        left = bbox_left(block)
+
+        if block_type == 'list_item':
+            list_parent = {'left': left, 'depth': int(block.get('depth') or 0)}
+            inferred_parent = None
+            result.append(block)
+            continue
+
+        if block_type in {'heading', 'table', 'question', 'answer'}:
+            list_parent = None
+            inferred_parent = None
+            result.append(block)
+            continue
+
+        if block_type != 'paragraph' or left is None:
+            result.append(block)
+            continue
+
+        text = block_text(block.get('text') or '')
+        if not text:
+            result.append(block)
+            continue
+
+        parent_left = list_parent.get('left') if list_parent else None
+        parent_depth = int(list_parent.get('depth') or 0) if list_parent else 0
+        inferred_left = inferred_parent.get('left') if inferred_parent else None
+        inferred_depth = int(inferred_parent.get('depth') or 0) if inferred_parent else 0
+
+        if text.endswith(('：', ':')) and parent_left is not None and left > float(parent_left) + 8:
+            depth = min(parent_depth + 1, 9)
+            converted = {
+                'type': 'list_item',
+                'depth': depth,
+                'marker': '▪',
+                'text': text,
+                'pageIndex': block.get('pageIndex'),
+                'bbox': block.get('bbox'),
+            }
+            result.append(converted)
+            inferred_parent = {'left': left, 'depth': depth}
+            continue
+
+        if inferred_left is not None and left > float(inferred_left) + 8:
+            result.append({
+                'type': 'list_item',
+                'depth': min(inferred_depth + 1, 9),
+                'marker': '-',
+                'text': text,
+                'pageIndex': block.get('pageIndex'),
+                'bbox': block.get('bbox'),
+            })
+            continue
+
+        inferred_parent = None
+        result.append(block)
+
+    return result
+
+
+def refine_nested_example_list_depths(blocks: list[dict]) -> list[dict]:
+    """Use local semantics to nest example rows when PDF bullets reuse the same glyph."""
+    active_parent_depth: int | None = None
+    result = []
+    for block in blocks:
+        block = dict(block)
+        block_type = block.get('type')
+        if block_type != 'list_item':
+            if block_type in {'heading', 'table', 'question', 'answer'}:
+                active_parent_depth = None
+            result.append(block)
+            continue
+
+        marker = block.get('marker') or ''
+        depth = int(block.get('depth') or 0)
+        text = block.get('text') or ''
+        if marker in {'•', '◦'} and depth <= 6:
+            active_parent_depth = None
+
+        if marker == '○':
+            if active_parent_depth is not None and depth == active_parent_depth and opens_nested_example_subheading(text):
+                active_parent_depth = depth
+            elif active_parent_depth is not None and depth == active_parent_depth and looks_like_nested_example_child(text):
+                block['depth'] = min(active_parent_depth + 1, 9)
+            elif active_parent_depth is not None and depth <= active_parent_depth and not opens_nested_example_list(text):
+                active_parent_depth = None
+
+            if depth == 7 and (opens_nested_example_list(text) or opens_nested_example_subheading(text)):
+                active_parent_depth = depth
+        elif marker not in {'○'}:
+            active_parent_depth = None
+
+        result.append(block)
+    return result
+
+
 def split_numbered_exercise_segments(text: str, answer_mode: bool = False) -> list[str]:
     text = block_text(text)
     if not text:
@@ -1247,6 +1463,10 @@ def post_process_guide_blocks(current_id: str, raw_title: str, blocks: list[dict
     processed = merge_heading_continuation_paragraphs(processed)
     processed = merge_list_item_continuation_paragraphs(processed)
     processed = remove_standalone_numeric_artifact_paragraphs(processed)
+    processed = refine_indented_same_marker_list_depths(processed)
+    processed = split_inferred_nested_example_paragraphs(processed)
+    processed = infer_indented_paragraph_list_items(processed)
+    processed = refine_nested_example_list_depths(processed)
     processed = normalize_chapter_exercise_blocks(processed)
     for index, block in enumerate(processed, start=1):
         if block.get('type') == 'heading':

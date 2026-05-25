@@ -2998,8 +2998,9 @@
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "▪",
       "text": "接著，針對表格中提及之相關NLP 技術進行介紹與說明：",
       "pageIndex": 21,
       "bbox": [
@@ -3008,10 +3009,9 @@
         424.53,
         239.15
       ],
-      "indentFirstLine": false,
       "id": "block-122",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
@@ -3271,7 +3271,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "\"dog\"對應的One-hot 向量為[1, 0, 0]",
       "pageIndex": 21,
@@ -3288,7 +3288,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "\"cat\"對應的One-hot 向量為[0, 1, 0]",
       "pageIndex": 21,
@@ -3305,7 +3305,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "\"fish\"對應的One-hot 向量為[0, 0, 1]",
       "pageIndex": 22,
@@ -3577,7 +3577,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "文件1 \"dog dog cat\"",
       "pageIndex": 22,
@@ -3594,7 +3594,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "文件2 \"cat fish fish\"",
       "pageIndex": 22,
@@ -3628,7 +3628,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "[2, 1, 0]（\"dog\"出現2 次，\"cat\"出現1 次，\"fish\"沒有出現）",
       "pageIndex": 22,
@@ -3662,7 +3662,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "[0, 1, 2]（\"dog\"沒有出現，\"cat\"出現1 次，\"fish\"出現2 次）",
       "pageIndex": 22,
@@ -4036,7 +4036,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "語料庫中有1000 篇文件（D = 1000）",
       "pageIndex": 24,
@@ -4053,7 +4053,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "詞彙\"AI\"只出現在10 篇文件中",
       "pageIndex": 24,
@@ -4070,7 +4070,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "某文件（d）總共有100 個詞",
       "pageIndex": 24,
@@ -4087,7 +4087,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "某文件（d）中詞彙\"AI\"出現3 次",
       "pageIndex": 24,
@@ -4613,8 +4613,9 @@
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
+      "type": "list_item",
+      "depth": 7,
+      "marker": "▪",
       "text": "Word2Vec 是基於神經網路的詞嵌入方法，有兩種主要架構、通過CBOW （Continuous Bag of Words）和Skip-gram 兩種模型來學習詞彙和上下文之間的關係：",
       "pageIndex": 26,
       "bbox": [
@@ -4623,10 +4624,9 @@
         518.53,
         564.16
       ],
-      "indentFirstLine": false,
       "id": "block-217",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
@@ -4648,7 +4648,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "以給定上下文（周圍詞彙）來預測中心詞。",
       "pageIndex": 26,
@@ -4665,7 +4665,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "訓練速度較快，適合小型語料。",
       "pageIndex": 26,
@@ -4682,7 +4682,7 @@
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "示例：假設有句子「The cat sits on the mat」，如果我們選擇「sits」作為中心詞，那麼上下文就是「The」、「cat」、「on」、「the」、「mat」。CBOW 模型的目標是根據這些上下文詞彙來預測中心詞\"sits\"。",
       "pageIndex": 26,
@@ -4698,9 +4698,10 @@
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "上下文（Context）：The, cat, on, the, mat 預測中心詞（Center Word）：sits",
+      "type": "list_item",
+      "depth": 9,
+      "marker": "▪",
+      "text": "上下文（Context）：The, cat, on, the, mat",
       "pageIndex": 26,
       "bbox": [
         137.56,
@@ -4708,10 +4709,26 @@
         369.09,
         764.22
       ],
-      "indentFirstLine": true,
       "id": "block-222",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "list_item",
+      "depth": 9,
+      "marker": "▪",
+      "text": "預測中心詞（Center Word）：sits",
+      "pageIndex": 26,
+      "bbox": [
+        137.56,
+        725.7,
+        369.09,
+        764.22
+      ],
+      "id": "block-223",
+      "nodeId": "mid-s1pdf-c3",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
@@ -4726,14 +4743,14 @@
         188.08,
         114.11
       ],
-      "id": "block-223",
+      "id": "block-224",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "以給定中心詞，預測其周圍的上下文詞彙。",
       "pageIndex": 27,
@@ -4743,14 +4760,14 @@
         378.57,
         139.07
       ],
-      "id": "block-224",
+      "id": "block-225",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "對低頻詞更有效，語意捕捉能力更好。",
       "pageIndex": 27,
@@ -4760,14 +4777,14 @@
         353.37,
         164.15
       ],
-      "id": "block-225",
+      "id": "block-226",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "示例：如果中心詞是「sits」，Skip-gram 模型會利用「sits」來預測它周圍的上下文詞，如「The」、「cat」、「on」、「the」、「mat」。",
       "pageIndex": 27,
@@ -4777,7 +4794,7 @@
         518.2,
         214.07
       ],
-      "id": "block-226",
+      "id": "block-227",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -4794,14 +4811,14 @@
         159.88,
         239.15
       ],
-      "id": "block-227",
+      "id": "block-228",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "Word2Ve 經訓練後會將「國王（king）」、「男人（man）」、「女人（woman）」 與「女王（queen）」等詞語嵌入於同一個語意向量空間中。在這個空間中，詞與詞之間的向量差異可反映語意邏輯，例如：「king - man + woman ≈ queen」，這展現了Word2Vec 的語意推理能力，並可應用於類比判斷與相似詞推論任務中。",
       "pageIndex": 27,
@@ -4811,7 +4828,7 @@
         524.64,
         364.1
       ],
-      "id": "block-228",
+      "id": "block-229",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -4828,7 +4845,7 @@
         519.96,
         514.12
       ],
-      "id": "block-229",
+      "id": "block-230",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -4845,14 +4862,14 @@
         159.88,
         539.2
       ],
-      "id": "block-230",
+      "id": "block-231",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "假設在語料庫中，「king（國王）」經常與「throne（王座）」、「royal（皇室）」等詞共同出現；而「queen（女王）」也與「throne（王座）」、「royal （皇室）」這些詞高度共現。GloV 會透過這些詞對的共現資訊，將「king」 與「queen」在向量空間中的位置學習為接近，因為它們在語料中的「共現上下文」相似，進而捕捉到語意上的對等關係。",
       "pageIndex": 27,
@@ -4862,7 +4879,7 @@
         524.64,
         664.15
       ],
-      "id": "block-231",
+      "id": "block-232",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -4879,7 +4896,7 @@
         164.08,
         689.23
       ],
-      "id": "block-232",
+      "id": "block-233",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -4896,7 +4913,7 @@
         739.15
       ],
       "indentFirstLine": false,
-      "id": "block-233",
+      "id": "block-234",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -4913,14 +4930,14 @@
         159.88,
         164.15
       ],
-      "id": "block-234",
+      "id": "block-235",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "FastText 將每個詞切割成n-gram 子詞（例如\"playing\" → \"pla\", \"lay\", \"ayi\", \"yin\", \"ing\"），然後學習每個子詞的向量表示，最後將所有子詞向量加總或平均，作為整個詞的向量。（常用n-gram：3 到6 字母）",
       "pageIndex": 28,
@@ -4930,7 +4947,7 @@
         521.73,
         239.15
       ],
-      "id": "block-235",
+      "id": "block-236",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -4947,14 +4964,14 @@
         159.88,
         264.14
       ],
-      "id": "block-236",
+      "id": "block-237",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "「unhappiness」→ <un, unh, hap, app, ppi, pin, ine, nes, ess>",
       "pageIndex": 28,
@@ -4964,14 +4981,14 @@
         458.04,
         289.1
       ],
-      "id": "block-237",
+      "id": "block-238",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "若模型未見過「nationalization」，但學過「nation」、「-al」、「-ization」等子詞，FastText 便能透過子詞向量進行加總，生成該新詞的向量，使其語意與原始詞根「nation」相關。",
       "pageIndex": 28,
@@ -4981,7 +4998,7 @@
         518.28,
         364.1
       ],
-      "id": "block-238",
+      "id": "block-239",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -4998,7 +5015,7 @@
         518.32,
         464.2
       ],
-      "id": "block-239",
+      "id": "block-240",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5015,7 +5032,7 @@
         539.2
       ],
       "indentFirstLine": false,
-      "id": "block-240",
+      "id": "block-241",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5032,7 +5049,7 @@
         589.12
       ],
       "indentFirstLine": false,
-      "id": "block-241",
+      "id": "block-242",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5049,7 +5066,7 @@
         145.72,
         614.2
       ],
-      "id": "block-242",
+      "id": "block-243",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5066,7 +5083,7 @@
         517.99,
         664.15
       ],
-      "id": "block-243",
+      "id": "block-244",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5083,7 +5100,7 @@
         518.37,
         714.19
       ],
-      "id": "block-244",
+      "id": "block-245",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5100,7 +5117,7 @@
         517.99,
         764.22
       ],
-      "id": "block-245",
+      "id": "block-246",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5117,7 +5134,7 @@
         518.08,
         139.07
       ],
-      "id": "block-246",
+      "id": "block-247",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5134,7 +5151,7 @@
         133.12,
         164.15
       ],
-      "id": "block-247",
+      "id": "block-248",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5151,7 +5168,7 @@
         506.28,
         189.11
       ],
-      "id": "block-248",
+      "id": "block-249",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5168,7 +5185,7 @@
         474.96,
         214.07
       ],
-      "id": "block-249",
+      "id": "block-250",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5185,7 +5202,7 @@
         518.28,
         264.14
       ],
-      "id": "block-250",
+      "id": "block-251",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5202,7 +5219,7 @@
         518.28,
         364.1
       ],
-      "id": "block-251",
+      "id": "block-252",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5219,7 +5236,7 @@
         296.47,
         389.18
       ],
-      "id": "block-252",
+      "id": "block-253",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5236,7 +5253,7 @@
         399.33,
         414.14
       ],
-      "id": "block-253",
+      "id": "block-254",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5253,7 +5270,7 @@
         462.36,
         439.1
       ],
-      "id": "block-254",
+      "id": "block-255",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5270,7 +5287,7 @@
         521.52,
         489.16
       ],
-      "id": "block-255",
+      "id": "block-256",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5287,7 +5304,7 @@
         518.74,
         564.16
       ],
-      "id": "block-256",
+      "id": "block-257",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5304,7 +5321,7 @@
         329.85,
         589.12
       ],
-      "id": "block-257",
+      "id": "block-258",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5321,7 +5338,7 @@
         462.36,
         614.2
       ],
-      "id": "block-258",
+      "id": "block-259",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5338,7 +5355,7 @@
         424.53,
         639.19
       ],
-      "id": "block-259",
+      "id": "block-260",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5355,7 +5372,7 @@
         521.62,
         689.23
       ],
-      "id": "block-260",
+      "id": "block-261",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5372,7 +5389,7 @@
         518.28,
         764.22
       ],
-      "id": "block-261",
+      "id": "block-262",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5389,7 +5406,7 @@
         396.09,
         114.11
       ],
-      "id": "block-262",
+      "id": "block-263",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5406,7 +5423,7 @@
         518.7,
         164.15
       ],
-      "id": "block-263",
+      "id": "block-264",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5423,7 +5440,7 @@
         399.33,
         189.11
       ],
-      "id": "block-264",
+      "id": "block-265",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5440,7 +5457,7 @@
         518.25,
         239.15
       ],
-      "id": "block-265",
+      "id": "block-266",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5457,7 +5474,7 @@
         249.55,
         289.1
       ],
-      "id": "block-266",
+      "id": "block-267",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -5474,7 +5491,7 @@
         389.18
       ],
       "indentFirstLine": false,
-      "id": "block-267",
+      "id": "block-268",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5491,7 +5508,7 @@
         518.4,
         514.12
       ],
-      "id": "block-268",
+      "id": "block-269",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5532,7 +5549,7 @@
         523.47,
         683.9
       ],
-      "id": "block-269",
+      "id": "block-270",
       "nodeId": "mid-s1pdf-c3",
       "kind": "table",
       "source": "page_extract"
@@ -5549,7 +5566,7 @@
         777.78
       ],
       "indentFirstLine": false,
-      "id": "block-270",
+      "id": "block-271",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5566,7 +5583,7 @@
         518.28,
         189.11
       ],
-      "id": "block-271",
+      "id": "block-272",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5583,7 +5600,7 @@
         196.15,
         214.07
       ],
-      "id": "block-272",
+      "id": "block-273",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5600,14 +5617,14 @@
         518.4,
         264.14
       ],
-      "id": "block-273",
+      "id": "block-274",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "在傳統RNN 中，模型需逐字（token by token）讀取序列，難以捕捉長距離語意。",
       "pageIndex": 31,
@@ -5617,14 +5634,14 @@
         518.13,
         314.18
       ],
-      "id": "block-274",
+      "id": "block-275",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "Self-Attention 機制可同時考慮整段輸入序列的上下文，根據每個詞與其他詞的關聯程度進行加權表示，這使得模型能有效學習像是「主詞— 動詞」這類長距離依賴關係（Long-Range Dependencies）。",
       "pageIndex": 31,
@@ -5634,14 +5651,14 @@
         518.64,
         389.18
       ],
-      "id": "block-275",
+      "id": "block-276",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "示例：在句子\"The cat that was chased by the dog ran away.\"中，Self- Attention 能正確捕捉\"cat\"與\"ran\"的關聯，即使中間隔了許多詞。",
       "pageIndex": 31,
@@ -5651,7 +5668,7 @@
         518.79,
         439.1
       ],
-      "id": "block-276",
+      "id": "block-277",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5668,14 +5685,14 @@
         521.88,
         489.16
       ],
-      "id": "block-277",
+      "id": "block-278",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "Encoder 模組：負責將輸入序列轉換為抽象的語意向量（contextual representation）。",
       "pageIndex": 31,
@@ -5685,14 +5702,14 @@
         521.76,
         539.2
       ],
-      "id": "block-278",
+      "id": "block-279",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "Decoder 模組：接收Encoder 輸出的語意向量，逐步產生目標語言或文字。",
       "pageIndex": 31,
@@ -5702,14 +5719,14 @@
         518.02,
         589.12
       ],
-      "id": "block-279",
+      "id": "block-280",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "此架構適合應用於機器翻譯、摘要生成、文字改寫等任務，因為這些任務通常涉及「輸入一段語言，輸出另一段語言」的結構。",
       "pageIndex": 31,
@@ -5719,7 +5736,7 @@
         518.2,
         639.19
       ],
-      "id": "block-280",
+      "id": "block-281",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5736,14 +5753,14 @@
         518.37,
         714.19
       ],
-      "id": "block-281",
+      "id": "block-282",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "Self-Attention 模組允許模型一次性處理整個輸入序列，並列計算所有詞與詞之間的注意力分數。結果是：訓練速度大幅提升、更適合在 GPU/TPU 上運行，且能有效擴展至極大規模語料（如GPT-3、PaLM 等）。",
       "pageIndex": 31,
@@ -5753,14 +5770,14 @@
         518.47,
         764.02
       ],
-      "id": "block-282",
+      "id": "block-283",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "應用示例：",
       "pageIndex": 32,
@@ -5770,7 +5787,7 @@
         202.15,
         164.15
       ],
-      "id": "block-283",
+      "id": "block-284",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5787,7 +5804,7 @@
         262.22
       ],
       "indentFirstLine": true,
-      "id": "block-284",
+      "id": "block-285",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5804,7 +5821,7 @@
         360.14
       ],
       "indentFirstLine": true,
-      "id": "block-285",
+      "id": "block-286",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5821,7 +5838,7 @@
         433.7
       ],
       "indentFirstLine": true,
-      "id": "block-286",
+      "id": "block-287",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5838,7 +5855,7 @@
         564.28
       ],
       "indentFirstLine": true,
-      "id": "block-287",
+      "id": "block-288",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5855,7 +5872,7 @@
         193.03,
         614.32
       ],
-      "id": "block-288",
+      "id": "block-289",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -5872,7 +5889,7 @@
         712.39
       ],
       "indentFirstLine": true,
-      "id": "block-289",
+      "id": "block-290",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5889,7 +5906,7 @@
         761.14
       ],
       "indentFirstLine": true,
-      "id": "block-290",
+      "id": "block-291",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5906,7 +5923,7 @@
         518.23,
         163.67
       ],
-      "id": "block-291",
+      "id": "block-292",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -5941,7 +5958,7 @@
         523.48,
         311.33
       ],
-      "id": "block-292",
+      "id": "block-293",
       "nodeId": "mid-s1pdf-c3",
       "kind": "table",
       "source": "page_extract"
@@ -5958,7 +5975,7 @@
         405.38
       ],
       "indentFirstLine": true,
-      "id": "block-293",
+      "id": "block-294",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5975,7 +5992,7 @@
         480.4
       ],
       "indentFirstLine": true,
-      "id": "block-294",
+      "id": "block-295",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -5992,7 +6009,7 @@
         555.4
       ],
       "indentFirstLine": true,
-      "id": "block-295",
+      "id": "block-296",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -6009,7 +6026,7 @@
         268.03,
         605.32
       ],
-      "id": "block-296",
+      "id": "block-297",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6026,7 +6043,7 @@
         521.88,
         655.39
       ],
-      "id": "block-297",
+      "id": "block-298",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6043,14 +6060,14 @@
         518.28,
         730.39
       ],
-      "id": "block-298",
+      "id": "block-299",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "示例：在情感分析任務中，我們可以將問題重寫為：「這條評論是[情感]。」讓模型填入[情感]欄位，輸出結果為「正面」或「負面」。或是在問答任務中，將問題重寫為「What is the capital of France? [Answer]」，模型將直接填入答案「Paris」。",
       "pageIndex": 34,
@@ -6060,7 +6077,7 @@
         521.4,
         187.19
       ],
-      "id": "block-299",
+      "id": "block-300",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6077,14 +6094,14 @@
         518.4,
         260.63
       ],
-      "id": "block-300",
+      "id": "block-301",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "示例：假設我們希望模型能夠辨識某些產品的情感價值。我們可以提供少量示例（如5 條已標註情感的評論），模型將學習如何基於這些示例來分析新評論。",
       "pageIndex": 34,
@@ -6094,7 +6111,7 @@
         518.21,
         334.22
       ],
-      "id": "block-301",
+      "id": "block-302",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6111,7 +6128,7 @@
         518.2,
         407.66
       ],
-      "id": "block-302",
+      "id": "block-303",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6128,7 +6145,7 @@
         176.92,
         432.14
       ],
-      "id": "block-303",
+      "id": "block-304",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6145,7 +6162,7 @@
         505.72
       ],
       "indentFirstLine": false,
-      "id": "block-304",
+      "id": "block-305",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -6162,7 +6179,7 @@
         628.27
       ],
       "indentFirstLine": false,
-      "id": "block-305",
+      "id": "block-306",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -6179,7 +6196,7 @@
         652.75
       ],
       "indentFirstLine": false,
-      "id": "block-306",
+      "id": "block-307",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -6196,7 +6213,7 @@
         524.64,
         775.26
       ],
-      "id": "block-307",
+      "id": "block-308",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6213,14 +6230,14 @@
         518.4,
         164.15
       ],
-      "id": "block-308",
+      "id": "block-309",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "示例：在一個問答系統中，RAG 可以先檢索出相關的資料（如從 Wikipedia 檢索某一領域的資料），再基於這些資料生成對應的答案。例如，在解答「What are the symptoms of COVID-19?」時，RAG 系統首先會從公共知識庫檢索相關資料，再生成更具體的答案。或是在醫療摘要任務中，RAG 可以從醫學文獻資料庫中檢索最新的研究資料，並將其結合生成診斷或治療建議。",
       "pageIndex": 35,
@@ -6230,7 +6247,7 @@
         518.4,
         314.18
       ],
-      "id": "block-309",
+      "id": "block-310",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6247,7 +6264,7 @@
         520.99,
         389.18
       ],
-      "id": "block-310",
+      "id": "block-311",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6264,14 +6281,14 @@
         489.16
       ],
       "indentFirstLine": false,
-      "id": "block-311",
+      "id": "block-312",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "示例：假設我們要在資源有限的邊緣設備上部署大型預訓練模型（如 GPT-3），我們可以利用LoRA 技術來微調模型，僅調整必要的低秩參數，從而大幅減少計算和儲存需求，實現高效的部署。",
       "pageIndex": 35,
@@ -6281,7 +6298,7 @@
         518.23,
         564.16
       ],
-      "id": "block-312",
+      "id": "block-313",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6298,7 +6315,7 @@
         697.39
       ],
       "indentFirstLine": false,
-      "id": "block-313",
+      "id": "block-314",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -6315,7 +6332,7 @@
         262.78,
         114.68
       ],
-      "id": "block-314",
+      "id": "block-315",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -6332,7 +6349,7 @@
         214.07
       ],
       "indentFirstLine": false,
-      "id": "block-315",
+      "id": "block-316",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -6349,7 +6366,7 @@
         518.2,
         314.18
       ],
-      "id": "block-316",
+      "id": "block-317",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6366,7 +6383,7 @@
         518.29,
         364.1
       ],
-      "id": "block-317",
+      "id": "block-318",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6383,7 +6400,7 @@
         517.99,
         439.1
       ],
-      "id": "block-318",
+      "id": "block-319",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6400,7 +6417,7 @@
         518.08,
         514.12
       ],
-      "id": "block-319",
+      "id": "block-320",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6417,7 +6434,7 @@
         564.16
       ],
       "indentFirstLine": false,
-      "id": "block-320",
+      "id": "block-321",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -6434,7 +6451,7 @@
         521.15,
         664.15
       ],
-      "id": "block-321",
+      "id": "block-322",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6451,7 +6468,7 @@
         518.25,
         739.15
       ],
-      "id": "block-322",
+      "id": "block-323",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6468,7 +6485,7 @@
         517.95,
         164.15
       ],
-      "id": "block-323",
+      "id": "block-324",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6485,7 +6502,7 @@
         214.07
       ],
       "indentFirstLine": false,
-      "id": "block-324",
+      "id": "block-325",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -6502,7 +6519,7 @@
         518.32,
         289.1
       ],
-      "id": "block-325",
+      "id": "block-326",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6519,7 +6536,7 @@
         518.2,
         389.18
       ],
-      "id": "block-326",
+      "id": "block-327",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6536,7 +6553,7 @@
         521.14,
         464.2
       ],
-      "id": "block-327",
+      "id": "block-328",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6553,7 +6570,7 @@
         514.12
       ],
       "indentFirstLine": false,
-      "id": "block-328",
+      "id": "block-329",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -6570,7 +6587,7 @@
         518.11,
         589.12
       ],
-      "id": "block-329",
+      "id": "block-330",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6587,7 +6604,7 @@
         518.28,
         664.15
       ],
-      "id": "block-330",
+      "id": "block-331",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6604,7 +6621,7 @@
         518.28,
         714.19
       ],
-      "id": "block-331",
+      "id": "block-332",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6621,7 +6638,7 @@
         521.0,
         764.22
       ],
-      "id": "block-332",
+      "id": "block-333",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6638,7 +6655,7 @@
         138.11
       ],
       "indentFirstLine": false,
-      "id": "block-333",
+      "id": "block-334",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -6655,7 +6672,7 @@
         518.32,
         211.67
       ],
-      "id": "block-334",
+      "id": "block-335",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6672,7 +6689,7 @@
         517.93,
         260.63
       ],
-      "id": "block-335",
+      "id": "block-336",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6689,7 +6706,7 @@
         520.17,
         309.62
       ],
-      "id": "block-336",
+      "id": "block-337",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6706,7 +6723,7 @@
         517.81,
         358.7
       ],
-      "id": "block-337",
+      "id": "block-338",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6723,7 +6740,7 @@
         407.66
       ],
       "indentFirstLine": false,
-      "id": "block-338",
+      "id": "block-339",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -6740,7 +6757,7 @@
         518.2,
         505.72
       ],
-      "id": "block-339",
+      "id": "block-340",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6757,7 +6774,7 @@
         518.28,
         579.16
       ],
-      "id": "block-340",
+      "id": "block-341",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6774,7 +6791,7 @@
         518.32,
         652.75
       ],
-      "id": "block-341",
+      "id": "block-342",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6791,7 +6808,7 @@
         775.26
       ],
       "indentFirstLine": false,
-      "id": "block-342",
+      "id": "block-343",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -6808,7 +6825,7 @@
         234.59,
         114.68
       ],
-      "id": "block-343",
+      "id": "block-344",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -6825,7 +6842,7 @@
         264.14
       ],
       "indentFirstLine": true,
-      "id": "block-344",
+      "id": "block-345",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -6842,7 +6859,7 @@
         518.35,
         339.14
       ],
-      "id": "block-345",
+      "id": "block-346",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6859,7 +6876,7 @@
         518.11,
         439.1
       ],
-      "id": "block-346",
+      "id": "block-347",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6876,7 +6893,7 @@
         517.99,
         489.16
       ],
-      "id": "block-347",
+      "id": "block-348",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6893,14 +6910,14 @@
         185.08,
         514.12
       ],
-      "id": "block-348",
+      "id": "block-349",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "進行資料匿名化（Anonymization）或去識別化（De-identification），以確保資料的安全與隱私。",
       "pageIndex": 39,
@@ -6910,14 +6927,14 @@
         518.38,
         564.16
       ],
-      "id": "block-349",
+      "id": "block-350",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "企業應確保在資料收集、儲存及處理過程中遵循相關合規規範，如 GDPR 或《個人資料保護法》。",
       "pageIndex": 39,
@@ -6927,7 +6944,7 @@
         521.88,
         614.2
       ],
-      "id": "block-350",
+      "id": "block-351",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6944,7 +6961,7 @@
         323.73,
         639.19
       ],
-      "id": "block-351",
+      "id": "block-352",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -6961,14 +6978,15 @@
         521.15,
         764.22
       ],
-      "id": "block-352",
+      "id": "block-353",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 8,
+      "marker": "▪",
       "text": "常見方法：",
       "pageIndex": 40,
       "bbox": [
@@ -6977,15 +6995,15 @@
         214.75,
         114.11
       ],
-      "indentFirstLine": false,
-      "id": "block-353",
+      "id": "block-354",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "代碼替換（Pseudonymization）：將姓名、地址等敏感資料以代碼或亂數ID 取代，保持資料結構與分析價值。例如將電話「0912- 345-678」以「phone_XXYYZZ」代碼替換。",
       "pageIndex": 40,
       "bbox": [
@@ -6994,15 +7012,15 @@
         518.79,
         189.11
       ],
-      "indentFirstLine": false,
-      "id": "block-354",
+      "id": "block-355",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "資料抽象化（Data Generalization）：將精確資料轉換為較廣泛的範疇，例如「1986/07/12」改為「1980 年代出生」。",
       "pageIndex": 40,
       "bbox": [
@@ -7011,15 +7029,15 @@
         518.22,
         239.15
       ],
-      "indentFirstLine": false,
-      "id": "block-355",
+      "id": "block-356",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "資料遮罩（Masking）：對關鍵資訊進行遮蔽，例如將 「kevin.wang@example.com」變成「k****@example.com」、「王曉明」變成「王X 明」。",
       "pageIndex": 40,
       "bbox": [
@@ -7028,10 +7046,9 @@
         518.4,
         314.18
       ],
-      "indentFirstLine": false,
-      "id": "block-356",
+      "id": "block-357",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
@@ -7046,14 +7063,15 @@
         518.4,
         414.14
       ],
-      "id": "block-357",
+      "id": "block-358",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 8,
+      "marker": "▪",
       "text": "常見方法：",
       "pageIndex": 40,
       "bbox": [
@@ -7062,15 +7080,15 @@
         214.75,
         439.1
       ],
-      "indentFirstLine": false,
-      "id": "block-358",
+      "id": "block-359",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "徹底刪除辨識資料：移除如姓名、電話、ID 號碼等欄位，使資料完全與個體脫鉤。",
       "pageIndex": 40,
       "bbox": [
@@ -7079,15 +7097,15 @@
         518.27,
         489.16
       ],
-      "indentFirstLine": false,
-      "id": "block-359",
+      "id": "block-360",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "資料隨機化（Randomization）：使用隨機值或統計方法替代原始資料，如將「25 歲」替換為「隨機產生的年齡分布數值」，降低資料再識別風險。",
       "pageIndex": 40,
       "bbox": [
@@ -7096,15 +7114,15 @@
         518.4,
         564.16
       ],
-      "indentFirstLine": false,
-      "id": "block-360",
+      "id": "block-361",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "聚合處理（Aggregation）：將資料彙整為群體統計資訊，例如「某區域共有500 人為30-40 歲群體」。",
       "pageIndex": 40,
       "bbox": [
@@ -7113,10 +7131,9 @@
         518.29,
         614.2
       ],
-      "indentFirstLine": false,
-      "id": "block-361",
+      "id": "block-362",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
@@ -7131,7 +7148,7 @@
         521.42,
         714.19
       ],
-      "id": "block-362",
+      "id": "block-363",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -7148,14 +7165,14 @@
         210.31,
         739.15
       ],
-      "id": "block-363",
+      "id": "block-364",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "資料代表性不足或具有資料偏見（Data Bias）：語料樣本來源偏狹、或本身存在刻板印象、歧視性語言，會直接導致模型無法泛化或出現偏見，影響模型公平性與社會接受度。（例如只使用特定語言族群或社群資料。）",
       "pageIndex": 41,
@@ -7165,7 +7182,7 @@
         518.25,
         189.11
       ],
-      "id": "block-364",
+      "id": "block-365",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -7182,14 +7199,14 @@
         185.08,
         214.07
       ],
-      "id": "block-365",
+      "id": "block-366",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "標註資料應經過審查和驗證，並確保標註的一致性與準確性。",
       "pageIndex": 41,
@@ -7199,14 +7216,14 @@
         479.4,
         239.15
       ],
-      "id": "block-366",
+      "id": "block-367",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "應該使用數據增強技術或基於多重標註來降低偏誤，並確保模型能正確處理不同語境下的語言。",
       "pageIndex": 41,
@@ -7216,7 +7233,7 @@
         517.85,
         289.1
       ],
-      "id": "block-367",
+      "id": "block-368",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -7233,7 +7250,7 @@
         518.2,
         414.14
       ],
-      "id": "block-368",
+      "id": "block-369",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -7250,14 +7267,14 @@
         210.31,
         439.1
       ],
-      "id": "block-369",
+      "id": "block-370",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "使用網路爬蟲抓取網站資料，但未獲得資料提供方的明確授權。",
       "pageIndex": 41,
@@ -7267,14 +7284,14 @@
         492.0,
         464.2
       ],
-      "id": "block-370",
+      "id": "block-371",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "使用公共領域資料但未遵循相關授權條款，可能會違反智慧財產權法規。",
       "pageIndex": 41,
@@ -7284,14 +7301,14 @@
         518.19,
         514.12
       ],
-      "id": "block-371",
+      "id": "block-372",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "使用企業內部資料（如客戶資訊、員工資料等）進行訓練，但未經適當的內部授權或未遵守隱私政策。",
       "pageIndex": 41,
@@ -7301,14 +7318,14 @@
         518.27,
         564.16
       ],
-      "id": "block-372",
+      "id": "block-373",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "在自動生成的新聞摘要中，可能無意中使用受版權保護的段落或語句，或生成的文章內容侵犯他人的專利或著作權。",
       "pageIndex": 41,
@@ -7318,14 +7335,14 @@
         521.49,
         614.2
       ],
-      "id": "block-373",
+      "id": "block-374",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "使用GPT 等生成模型自動寫作商業文件或廣告時，可能會生成與某些專利技術或受版權保護的內容高度相似的文案。",
       "pageIndex": 41,
@@ -7335,7 +7352,7 @@
         518.23,
         664.15
       ],
-      "id": "block-374",
+      "id": "block-375",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -7352,14 +7369,14 @@
         185.08,
         689.23
       ],
-      "id": "block-375",
+      "id": "block-376",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "確保所有用於訓練資料的資料來源都有適當的授權，並遵守其使用條款。",
       "pageIndex": 41,
@@ -7369,14 +7386,14 @@
         517.85,
         739.15
       ],
-      "id": "block-376",
+      "id": "block-377",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "進行資料清理過程時，應去除未經授權或受版權保護的內容。",
       "pageIndex": 41,
@@ -7386,14 +7403,14 @@
         479.4,
         764.22
       ],
-      "id": "block-377",
+      "id": "block-378",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "使用公開資料庫或已授權的資料集進行訓練，避免將未經授權的內容納入訓練集。",
       "pageIndex": 42,
@@ -7403,14 +7420,14 @@
         518.28,
         139.07
       ],
-      "id": "block-378",
+      "id": "block-379",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "生成的內容應經過版權檢查，利用專業工具如抄襲檢測軟體來防止侵犯他人智慧財產權。",
       "pageIndex": 42,
@@ -7420,14 +7437,14 @@
         517.85,
         189.11
       ],
-      "id": "block-379",
+      "id": "block-380",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "在公開發表或商業應用生成內容時，應加入適當的版權聲明與使用條款，並且規範內容的使用範圍。",
       "pageIndex": 42,
@@ -7437,7 +7454,7 @@
         517.85,
         239.15
       ],
-      "id": "block-380",
+      "id": "block-381",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -7454,7 +7471,7 @@
         156.76,
         264.14
       ],
-      "id": "block-381",
+      "id": "block-382",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -7471,7 +7488,7 @@
         521.12,
         364.1
       ],
-      "id": "block-382",
+      "id": "block-383",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -7488,7 +7505,7 @@
         518.32,
         414.14
       ],
-      "id": "block-383",
+      "id": "block-384",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -7505,14 +7522,14 @@
         185.08,
         439.1
       ],
-      "id": "block-384",
+      "id": "block-385",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "使用WEAT（Word Embedding Association Test）等工具分析詞向量中的偏見，檢測模型是否無意中學習到社會偏見。",
       "pageIndex": 42,
@@ -7522,14 +7539,14 @@
         518.26,
         489.16
       ],
-      "id": "block-385",
+      "id": "block-386",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "通過對訓練資料進行平衡調整，移除性別或族群標註欄位，來降低模型的偏見。",
       "pageIndex": 42,
@@ -7539,7 +7556,7 @@
         518.2,
         539.2
       ],
-      "id": "block-386",
+      "id": "block-387",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -7556,7 +7573,7 @@
         520.15,
         614.2
       ],
-      "id": "block-387",
+      "id": "block-388",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -7573,7 +7590,7 @@
         517.99,
         664.15
       ],
-      "id": "block-388",
+      "id": "block-389",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -7590,14 +7607,14 @@
         185.08,
         689.23
       ],
-      "id": "block-389",
+      "id": "block-390",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "在設計NLP 專案時，應從一開始就納入公平性指標，進行多維度的資料審查。",
       "pageIndex": 42,
@@ -7607,14 +7624,14 @@
         518.23,
         739.15
       ],
-      "id": "block-390",
+      "id": "block-391",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "確保模型結果有審查及人工覆核機制，對於發現的偏見進行即時修正，避免模型無意中加深社會不公。",
       "pageIndex": 43,
@@ -7624,7 +7641,7 @@
         521.49,
         139.07
       ],
-      "id": "block-391",
+      "id": "block-392",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -7641,7 +7658,7 @@
         518.28,
         214.07
       ],
-      "id": "block-392",
+      "id": "block-393",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -7658,14 +7675,15 @@
         521.88,
         314.18
       ],
-      "id": "block-393",
+      "id": "block-394",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 8,
+      "marker": "▪",
       "text": "風險情境示例：",
       "pageIndex": 43,
       "bbox": [
@@ -7674,15 +7692,15 @@
         239.95,
         339.14
       ],
-      "indentFirstLine": false,
-      "id": "block-394",
+      "id": "block-395",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "當使用者在社群平台上說「這服務真的好讚^_^」，NLP 模型可能會誤解為正面評論，忽視了用戶實際上是在表達負面情緒（即反話）。這樣的誤判可能導致錯誤的情感分析結果，影響品牌聲譽。",
       "pageIndex": 43,
       "bbox": [
@@ -7691,15 +7709,15 @@
         521.88,
         414.14
       ],
-      "indentFirstLine": true,
-      "id": "block-395",
+      "id": "block-396",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "模型無法正確理解某些地方性方言或俚語，造成對語句的誤解或錯誤反應。例如，模型將台灣地區的「很雷」誤解為“非常快”，但實際上這是形容事物非常糟糕。",
       "pageIndex": 43,
       "bbox": [
@@ -7708,15 +7726,15 @@
         518.32,
         489.16
       ],
-      "indentFirstLine": true,
-      "id": "block-396",
+      "id": "block-397",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 8,
+      "marker": "▪",
       "text": "處理機制：",
       "pageIndex": 43,
       "bbox": [
@@ -7725,15 +7743,15 @@
         214.75,
         514.12
       ],
-      "indentFirstLine": false,
-      "id": "block-397",
+      "id": "block-398",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "針對語意理解挑戰，應結合語境型詞向量（如BERT、GPT）來增強模型的語境理解能力，特別是在多義詞和反語等情境下的表現。",
       "pageIndex": 43,
       "bbox": [
@@ -7742,15 +7760,15 @@
         518.38,
         589.12
       ],
-      "indentFirstLine": true,
-      "id": "block-398",
+      "id": "block-399",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "加入常識推理模組（Common Sense Reasoning），協助模型理解日常語言中的隱含意圖與語境依賴，減少理解偏差。",
       "pageIndex": 43,
       "bbox": [
@@ -7759,10 +7777,9 @@
         518.16,
         639.19
       ],
-      "indentFirstLine": true,
-      "id": "block-399",
+      "id": "block-400",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
@@ -7777,14 +7794,15 @@
         521.32,
         764.22
       ],
-      "id": "block-400",
+      "id": "block-401",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 8,
+      "marker": "▪",
       "text": "風險情境示例：",
       "pageIndex": 44,
       "bbox": [
@@ -7793,15 +7811,15 @@
         239.95,
         114.11
       ],
-      "indentFirstLine": false,
-      "id": "block-401",
+      "id": "block-402",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "當FAQ Chatbot 部署後，可能因為未進行適當的再訓練與優化，導致回答過程中出現錯誤資訊，且無法即時檢測和更新，影響用戶體驗。",
       "pageIndex": 44,
       "bbox": [
@@ -7810,15 +7828,15 @@
         518.35,
         189.11
       ],
-      "indentFirstLine": false,
-      "id": "block-402",
+      "id": "block-403",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "模型的推論速度過慢，導致在高並發情況下無法即時響應，影響系統的即時性與可靠性。",
       "pageIndex": 44,
       "bbox": [
@@ -7827,15 +7845,15 @@
         518.2,
         239.15
       ],
-      "indentFirstLine": false,
-      "id": "block-403",
+      "id": "block-404",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "在處理某些複雜查詢時，模型消耗大量計算資源，導致系統運行緩慢或崩潰，進一步損害使用者體驗。",
       "pageIndex": 44,
       "bbox": [
@@ -7844,15 +7862,15 @@
         518.2,
         289.1
       ],
-      "indentFirstLine": false,
-      "id": "block-404",
+      "id": "block-405",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 8,
+      "marker": "▪",
       "text": "處理機制：",
       "pageIndex": 44,
       "bbox": [
@@ -7861,15 +7879,15 @@
         214.75,
         314.18
       ],
-      "indentFirstLine": false,
-      "id": "block-405",
+      "id": "block-406",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "設計適當的回饋機制，確保模型能夠在運行過程中持續收集使用者回饋，並定期進行模型的監控與再訓練。",
       "pageIndex": 44,
       "bbox": [
@@ -7878,15 +7896,15 @@
         518.4,
         364.1
       ],
-      "indentFirstLine": false,
-      "id": "block-406",
+      "id": "block-407",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "應用容錯機制，並進行資源優化，如動態調整計算資源的分配，確保模型的穩定運行。",
       "pageIndex": 44,
       "bbox": [
@@ -7895,15 +7913,15 @@
         518.44,
         414.14
       ],
-      "indentFirstLine": false,
-      "id": "block-407",
+      "id": "block-408",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "建立版本控制與更新流程，保持模型運行的透明度和可管理性，避免系統中出現過時或不一致的版本。",
       "pageIndex": 44,
       "bbox": [
@@ -7912,10 +7930,9 @@
         518.44,
         464.2
       ],
-      "indentFirstLine": false,
-      "id": "block-408",
+      "id": "block-409",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
@@ -7930,14 +7947,15 @@
         520.89,
         589.12
       ],
-      "id": "block-409",
+      "id": "block-410",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 8,
+      "marker": "▪",
       "text": "風險情境示例：",
       "pageIndex": 44,
       "bbox": [
@@ -7946,15 +7964,15 @@
         239.95,
         614.2
       ],
-      "indentFirstLine": false,
-      "id": "block-410",
+      "id": "block-411",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "模型幻覺（Model Hallucination）：指的是機器學習模型，尤其是自然語言處理（NLP）或生成模型（如GPT），儘管模型應該提供準確和基於事實的回應，但在生成回應或內容時，產生虛假的、誤導性的或完全虛構的資訊。這種現象發生在模型生成的內容不基於其訓練資料或用戶提供的輸入，甚至與現實世界的資訊無關。舉例：一個聊天機器人生成了這樣的回應：「法國的首都在柏林」，雖然語句語法正確、語氣自然，但其中的資訊是錯誤的，正確答案是巴黎，這就是模型幻覺的例子。",
       "pageIndex": 44,
       "bbox": [
@@ -7963,15 +7981,15 @@
         518.49,
         764.02
       ],
-      "indentFirstLine": false,
-      "id": "block-411",
+      "id": "block-412",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "在智慧客服系統中，若模型無法正確處理某些敏感話題或情境，可能會生成冒犯性或不當的語言，導致使用者對品牌產生負面情緒。",
       "pageIndex": 45,
       "bbox": [
@@ -7980,15 +7998,15 @@
         518.44,
         214.07
       ],
-      "indentFirstLine": false,
-      "id": "block-412",
+      "id": "block-413",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "生成的內容可能無法保證真實性，特別是在涉及醫療、法律、金融等高風險領域時，可能導致錯誤的建議或資訊錯誤。",
       "pageIndex": 45,
       "bbox": [
@@ -7997,15 +8015,15 @@
         518.32,
         264.14
       ],
-      "indentFirstLine": false,
-      "id": "block-413",
+      "id": "block-414",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 8,
+      "marker": "▪",
       "text": "處理機制：",
       "pageIndex": 45,
       "bbox": [
@@ -8014,15 +8032,15 @@
         214.75,
         289.1
       ],
-      "indentFirstLine": false,
-      "id": "block-414",
+      "id": "block-415",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "在生成內容的過程中加入事實檢查機制，確保生成的文本符合真實性與準確性要求。",
       "pageIndex": 45,
       "bbox": [
@@ -8031,15 +8049,15 @@
         518.32,
         339.14
       ],
-      "indentFirstLine": false,
-      "id": "block-415",
+      "id": "block-416",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "設計強有力的審核機制，特別是在高風險領域（如新聞、醫療、法律等），生成內容應經過人工審核，以確保其品質。",
       "pageIndex": 45,
       "bbox": [
@@ -8048,15 +8066,15 @@
         518.44,
         389.18
       ],
-      "indentFirstLine": false,
-      "id": "block-416",
+      "id": "block-417",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
-      "depth": 4,
+      "type": "list_item",
+      "depth": 9,
+      "marker": "-",
       "text": "提供透明的使用者回饋機制，一旦生成內容存在問題，應快速修正並再訓練模型，以減少類似問題發生。",
       "pageIndex": 45,
       "bbox": [
@@ -8065,10 +8083,9 @@
         518.2,
         439.1
       ],
-      "indentFirstLine": false,
-      "id": "block-417",
+      "id": "block-418",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
@@ -8083,7 +8100,7 @@
         521.88,
         464.2
       ],
-      "id": "block-418",
+      "id": "block-419",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -8100,7 +8117,7 @@
         284.62,
         174.28
       ],
-      "id": "block-419",
+      "id": "block-420",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -8117,7 +8134,7 @@
         203.57,
         218.12
       ],
-      "id": "block-420",
+      "id": "block-421",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -8134,7 +8151,7 @@
         317.54
       ],
       "indentFirstLine": true,
-      "id": "block-421",
+      "id": "block-422",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -8151,7 +8168,7 @@
         467.56
       ],
       "indentFirstLine": true,
-      "id": "block-422",
+      "id": "block-423",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -8168,7 +8185,7 @@
         542.56
       ],
       "indentFirstLine": true,
-      "id": "block-423",
+      "id": "block-424",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -8185,7 +8202,7 @@
         642.55
       ],
       "indentFirstLine": true,
-      "id": "block-424",
+      "id": "block-425",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -8202,7 +8219,7 @@
         692.59
       ],
       "indentFirstLine": false,
-      "id": "block-425",
+      "id": "block-426",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -8219,7 +8236,7 @@
         767.58
       ],
       "indentFirstLine": true,
-      "id": "block-426",
+      "id": "block-427",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -8236,7 +8253,7 @@
         254.95,
         114.68
       ],
-      "id": "block-427",
+      "id": "block-428",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -8253,7 +8270,7 @@
         167.8,
         139.07
       ],
-      "id": "block-428",
+      "id": "block-429",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -8270,7 +8287,7 @@
         264.14
       ],
       "indentFirstLine": true,
-      "id": "block-429",
+      "id": "block-430",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -8287,7 +8304,7 @@
         414.14
       ],
       "indentFirstLine": true,
-      "id": "block-430",
+      "id": "block-431",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -8304,7 +8321,7 @@
         539.2
       ],
       "indentFirstLine": true,
-      "id": "block-431",
+      "id": "block-432",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -8321,7 +8338,7 @@
         564.16
       ],
       "indentFirstLine": true,
-      "id": "block-432",
+      "id": "block-433",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -8368,7 +8385,7 @@
         523.0,
         170.84
       ],
-      "id": "block-433",
+      "id": "block-434",
       "nodeId": "mid-s1pdf-c3",
       "kind": "table",
       "source": "page_extract"
@@ -8385,7 +8402,7 @@
         289.46
       ],
       "indentFirstLine": true,
-      "id": "block-434",
+      "id": "block-435",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -8402,7 +8419,7 @@
         439.46
       ],
       "indentFirstLine": true,
-      "id": "block-435",
+      "id": "block-436",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -8419,7 +8436,7 @@
         489.52
       ],
       "indentFirstLine": true,
-      "id": "block-436",
+      "id": "block-437",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -8436,7 +8453,7 @@
         180.4,
         539.56
       ],
-      "id": "block-437",
+      "id": "block-438",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -8453,7 +8470,7 @@
         614.56
       ],
       "indentFirstLine": true,
-      "id": "block-438",
+      "id": "block-439",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -8470,7 +8487,7 @@
         521.88,
         714.55
       ],
-      "id": "block-439",
+      "id": "block-440",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -8487,7 +8504,7 @@
         518.28,
         764.58
       ],
-      "id": "block-440",
+      "id": "block-441",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -8504,7 +8521,7 @@
         518.07,
         139.07
       ],
-      "id": "block-441",
+      "id": "block-442",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -8521,7 +8538,7 @@
         448.17,
         164.15
       ],
-      "id": "block-442",
+      "id": "block-443",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -8538,7 +8555,7 @@
         518.0,
         214.07
       ],
-      "id": "block-443",
+      "id": "block-444",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -8555,7 +8572,7 @@
         264.14
       ],
       "indentFirstLine": false,
-      "id": "block-444",
+      "id": "block-445",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -8572,7 +8589,7 @@
         518.32,
         364.1
       ],
-      "id": "block-445",
+      "id": "block-446",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -8589,7 +8606,7 @@
         518.2,
         414.14
       ],
-      "id": "block-446",
+      "id": "block-447",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -8606,7 +8623,7 @@
         521.4,
         489.16
       ],
-      "id": "block-447",
+      "id": "block-448",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -8623,7 +8640,7 @@
         518.64,
         539.2
       ],
-      "id": "block-448",
+      "id": "block-449",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -8640,7 +8657,7 @@
         521.52,
         589.12
       ],
-      "id": "block-449",
+      "id": "block-450",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -8657,7 +8674,7 @@
         639.19
       ],
       "indentFirstLine": false,
-      "id": "block-450",
+      "id": "block-451",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -8674,7 +8691,7 @@
         518.32,
         739.15
       ],
-      "id": "block-451",
+      "id": "block-452",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -8691,7 +8708,7 @@
         524.21,
         189.11
       ],
-      "id": "block-452",
+      "id": "block-453",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -8708,7 +8725,7 @@
         518.25,
         314.18
       ],
-      "id": "block-453",
+      "id": "block-454",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -8725,7 +8742,7 @@
         518.05,
         389.18
       ],
-      "id": "block-454",
+      "id": "block-455",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -8742,7 +8759,7 @@
         518.32,
         489.16
       ],
-      "id": "block-455",
+      "id": "block-456",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -8759,7 +8776,7 @@
         518.23,
         564.16
       ],
-      "id": "block-456",
+      "id": "block-457",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -8776,7 +8793,7 @@
         518.35,
         639.19
       ],
-      "id": "block-457",
+      "id": "block-458",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -8793,7 +8810,7 @@
         518.25,
         714.19
       ],
-      "id": "block-458",
+      "id": "block-459",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -8810,7 +8827,7 @@
         764.22
       ],
       "indentFirstLine": false,
-      "id": "block-459",
+      "id": "block-460",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -8827,7 +8844,7 @@
         139.07
       ],
       "indentFirstLine": true,
-      "id": "block-460",
+      "id": "block-461",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -8844,7 +8861,7 @@
         245.8,
         189.68
       ],
-      "id": "block-461",
+      "id": "block-462",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -8861,7 +8878,7 @@
         289.1
       ],
       "indentFirstLine": true,
-      "id": "block-462",
+      "id": "block-463",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -8878,7 +8895,7 @@
         277.75,
         339.14
       ],
-      "id": "block-463",
+      "id": "block-464",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -8895,7 +8912,7 @@
         439.1
       ],
       "indentFirstLine": true,
-      "id": "block-464",
+      "id": "block-465",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -8954,7 +8971,7 @@
         523.43,
         723.4
       ],
-      "id": "block-465",
+      "id": "block-466",
       "nodeId": "mid-s1pdf-c3",
       "kind": "table",
       "source": "page_extract"
@@ -8971,7 +8988,7 @@
         139.07
       ],
       "indentFirstLine": false,
-      "id": "block-466",
+      "id": "block-467",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -8988,7 +9005,7 @@
         518.32,
         239.15
       ],
-      "id": "block-467",
+      "id": "block-468",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9005,7 +9022,7 @@
         518.32,
         339.14
       ],
-      "id": "block-468",
+      "id": "block-469",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9022,7 +9039,7 @@
         518.56,
         439.1
       ],
-      "id": "block-469",
+      "id": "block-470",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9039,7 +9056,7 @@
         521.76,
         489.16
       ],
-      "id": "block-470",
+      "id": "block-471",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9056,7 +9073,7 @@
         517.81,
         539.2
       ],
-      "id": "block-471",
+      "id": "block-472",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9073,7 +9090,7 @@
         518.32,
         589.12
       ],
-      "id": "block-472",
+      "id": "block-473",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9090,7 +9107,7 @@
         521.88,
         664.15
       ],
-      "id": "block-473",
+      "id": "block-474",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9107,7 +9124,7 @@
         379.05,
         714.19
       ],
-      "id": "block-474",
+      "id": "block-475",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -9124,7 +9141,7 @@
         738.94
       ],
       "indentFirstLine": false,
-      "id": "block-475",
+      "id": "block-476",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -9141,7 +9158,7 @@
         764.22
       ],
       "indentFirstLine": false,
-      "id": "block-476",
+      "id": "block-477",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -9198,7 +9215,7 @@
         523.43,
         404.34
       ],
-      "id": "block-477",
+      "id": "block-478",
       "nodeId": "mid-s1pdf-c3",
       "kind": "table",
       "source": "page_extract"
@@ -9215,7 +9232,7 @@
         446.61,
         455.32
       ],
-      "id": "block-478",
+      "id": "block-479",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9232,7 +9249,7 @@
         517.81,
         505.36
       ],
-      "id": "block-479",
+      "id": "block-480",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9249,7 +9266,7 @@
         518.06,
         555.28
       ],
-      "id": "block-480",
+      "id": "block-481",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9266,7 +9283,7 @@
         521.84,
         605.32
       ],
-      "id": "block-481",
+      "id": "block-482",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9283,7 +9300,7 @@
         254.95,
         655.96
       ],
-      "id": "block-482",
+      "id": "block-483",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -9300,7 +9317,7 @@
         290.83,
         680.35
       ],
-      "id": "block-483",
+      "id": "block-484",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -9317,7 +9334,7 @@
         730.39
       ],
       "indentFirstLine": false,
-      "id": "block-484",
+      "id": "block-485",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -9334,7 +9351,7 @@
         518.2,
         164.15
       ],
-      "id": "block-485",
+      "id": "block-486",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9351,7 +9368,7 @@
         518.25,
         214.07
       ],
-      "id": "block-486",
+      "id": "block-487",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9368,7 +9385,7 @@
         517.93,
         264.14
       ],
-      "id": "block-487",
+      "id": "block-488",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9385,7 +9402,7 @@
         518.4,
         314.18
       ],
-      "id": "block-488",
+      "id": "block-489",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9402,7 +9419,7 @@
         517.93,
         364.1
       ],
-      "id": "block-489",
+      "id": "block-490",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9419,7 +9436,7 @@
         447.69,
         414.14
       ],
-      "id": "block-490",
+      "id": "block-491",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9436,7 +9453,7 @@
         518.01,
         489.16
       ],
-      "id": "block-491",
+      "id": "block-492",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9453,7 +9470,7 @@
         313.75,
         514.12
       ],
-      "id": "block-492",
+      "id": "block-493",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9470,7 +9487,7 @@
         518.01,
         564.16
       ],
-      "id": "block-493",
+      "id": "block-494",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9487,7 +9504,7 @@
         521.64,
         614.2
       ],
-      "id": "block-494",
+      "id": "block-495",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9504,7 +9521,7 @@
         518.15,
         664.15
       ],
-      "id": "block-495",
+      "id": "block-496",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9521,7 +9538,7 @@
         518.03,
         714.19
       ],
-      "id": "block-496",
+      "id": "block-497",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9538,7 +9555,7 @@
         473.64,
         755.82
       ],
-      "id": "block-497",
+      "id": "block-498",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9555,7 +9572,7 @@
         145.72,
         114.11
       ],
-      "id": "block-498",
+      "id": "block-499",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9572,7 +9589,7 @@
         361.53,
         139.07
       ],
-      "id": "block-499",
+      "id": "block-500",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9589,7 +9606,7 @@
         462.36,
         164.15
       ],
-      "id": "block-500",
+      "id": "block-501",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9606,7 +9623,7 @@
         228.67,
         189.11
       ],
-      "id": "block-501",
+      "id": "block-502",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9623,7 +9640,7 @@
         518.12,
         239.15
       ],
-      "id": "block-502",
+      "id": "block-503",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9640,7 +9657,7 @@
         518.28,
         314.18
       ],
-      "id": "block-503",
+      "id": "block-504",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9657,7 +9674,7 @@
         518.64,
         364.1
       ],
-      "id": "block-504",
+      "id": "block-505",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9674,7 +9691,7 @@
         521.52,
         414.14
       ],
-      "id": "block-505",
+      "id": "block-506",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9691,7 +9708,7 @@
         359.97,
         439.1
       ],
-      "id": "block-506",
+      "id": "block-507",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9708,7 +9725,7 @@
         518.4,
         514.12
       ],
-      "id": "block-507",
+      "id": "block-508",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9725,7 +9742,7 @@
         521.52,
         564.16
       ],
-      "id": "block-508",
+      "id": "block-509",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9742,7 +9759,7 @@
         518.13,
         614.2
       ],
-      "id": "block-509",
+      "id": "block-510",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9759,7 +9776,7 @@
         271.63,
         664.15
       ],
-      "id": "block-510",
+      "id": "block-511",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -9776,7 +9793,7 @@
         714.19
       ],
       "indentFirstLine": false,
-      "id": "block-511",
+      "id": "block-512",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -9793,7 +9810,7 @@
         517.99,
         764.22
       ],
-      "id": "block-512",
+      "id": "block-513",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9810,7 +9827,7 @@
         518.28,
         139.07
       ],
-      "id": "block-513",
+      "id": "block-514",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9827,7 +9844,7 @@
         518.02,
         189.11
       ],
-      "id": "block-514",
+      "id": "block-515",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9844,7 +9861,7 @@
         144.16,
         214.07
       ],
-      "id": "block-515",
+      "id": "block-516",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9861,7 +9878,7 @@
         518.28,
         264.14
       ],
-      "id": "block-516",
+      "id": "block-517",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9878,7 +9895,7 @@
         518.4,
         314.18
       ],
-      "id": "block-517",
+      "id": "block-518",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9895,7 +9912,7 @@
         517.93,
         364.1
       ],
-      "id": "block-518",
+      "id": "block-519",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9912,7 +9929,7 @@
         290.95,
         414.14
       ],
-      "id": "block-519",
+      "id": "block-520",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -9929,7 +9946,7 @@
         464.2
       ],
       "indentFirstLine": false,
-      "id": "block-520",
+      "id": "block-521",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -9946,7 +9963,7 @@
         521.32,
         564.16
       ],
-      "id": "block-521",
+      "id": "block-522",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9963,7 +9980,7 @@
         521.09,
         638.98
       ],
-      "id": "block-522",
+      "id": "block-523",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -9980,7 +9997,7 @@
         689.23
       ],
       "indentFirstLine": false,
-      "id": "block-523",
+      "id": "block-524",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -9997,7 +10014,7 @@
         181.96,
         714.19
       ],
-      "id": "block-524",
+      "id": "block-525",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10014,7 +10031,7 @@
         307.51,
         739.15
       ],
-      "id": "block-525",
+      "id": "block-526",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10031,7 +10048,7 @@
         518.17,
         189.11
       ],
-      "id": "block-526",
+      "id": "block-527",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10048,7 +10065,7 @@
         521.44,
         239.15
       ],
-      "id": "block-527",
+      "id": "block-528",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10065,7 +10082,7 @@
         339.14
       ],
       "indentFirstLine": false,
-      "id": "block-528",
+      "id": "block-529",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -10082,7 +10099,7 @@
         521.37,
         464.2
       ],
-      "id": "block-529",
+      "id": "block-530",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10099,7 +10116,7 @@
         156.76,
         489.16
       ],
-      "id": "block-530",
+      "id": "block-531",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10116,7 +10133,7 @@
         276.31,
         514.12
       ],
-      "id": "block-531",
+      "id": "block-532",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10133,7 +10150,7 @@
         518.08,
         589.12
       ],
-      "id": "block-532",
+      "id": "block-533",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10150,7 +10167,7 @@
         631.72
       ],
       "indentFirstLine": true,
-      "id": "block-533",
+      "id": "block-534",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -10167,7 +10184,7 @@
         185.08,
         654.91
       ],
-      "id": "block-534",
+      "id": "block-535",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10184,7 +10201,7 @@
         413.25,
         679.99
       ],
-      "id": "block-535",
+      "id": "block-536",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10201,7 +10218,7 @@
         521.88,
         704.95
       ],
-      "id": "block-536",
+      "id": "block-537",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10218,14 +10235,14 @@
         159.88,
         729.91
       ],
-      "id": "block-537",
+      "id": "block-538",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "假設我們有一張影像，其中真實物體的標註區域（Ground Truth）是一個矩形框，而預測模型產生的預測框（Predicted Box）也是一個矩形框。",
       "pageIndex": 57,
@@ -10235,7 +10252,7 @@
         521.41,
         754.98
       ],
-      "id": "block-538",
+      "id": "block-539",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10252,14 +10269,14 @@
         139.07
       ],
       "indentFirstLine": false,
-      "id": "block-539",
+      "id": "block-540",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "假設情境：",
       "pageIndex": 58,
@@ -10269,7 +10286,7 @@
         202.15,
         164.15
       ],
-      "id": "block-540",
+      "id": "block-541",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10286,7 +10303,7 @@
         214.07
       ],
       "indentFirstLine": false,
-      "id": "block-541",
+      "id": "block-542",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -10303,7 +10320,7 @@
         239.15
       ],
       "indentFirstLine": false,
-      "id": "block-542",
+      "id": "block-543",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -10320,14 +10337,14 @@
         289.1
       ],
       "indentFirstLine": false,
-      "id": "block-543",
+      "id": "block-544",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
     },
     {
       "type": "list_item",
-      "depth": 7,
+      "depth": 8,
       "marker": "○",
       "text": "計算IOU：",
       "pageIndex": 58,
@@ -10337,7 +10354,7 @@
         202.39,
         314.18
       ],
-      "id": "block-544",
+      "id": "block-545",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10354,7 +10371,7 @@
         389.18
       ],
       "indentFirstLine": false,
-      "id": "block-545",
+      "id": "block-546",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -10371,7 +10388,7 @@
         494.96
       ],
       "indentFirstLine": true,
-      "id": "block-546",
+      "id": "block-547",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -10388,7 +10405,7 @@
         254.95,
         547.33
       ],
-      "id": "block-547",
+      "id": "block-548",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -10405,7 +10422,7 @@
         696.79
       ],
       "indentFirstLine": false,
-      "id": "block-548",
+      "id": "block-549",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -10422,7 +10439,7 @@
         322.05,
         114.11
       ],
-      "id": "block-549",
+      "id": "block-550",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -10439,7 +10456,7 @@
         517.85,
         164.15
       ],
-      "id": "block-550",
+      "id": "block-551",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -10455,7 +10472,7 @@
         517.85,
         164.15
       ],
-      "id": "block-551",
+      "id": "block-552",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -10472,7 +10489,7 @@
         446.61,
         189.11
       ],
-      "id": "block-552",
+      "id": "block-553",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10489,7 +10506,7 @@
         446.61,
         214.07
       ],
-      "id": "block-553",
+      "id": "block-554",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10506,7 +10523,7 @@
         517.97,
         264.14
       ],
-      "id": "block-554",
+      "id": "block-555",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10523,7 +10540,7 @@
         518.28,
         314.18
       ],
-      "id": "block-555",
+      "id": "block-556",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -10539,7 +10556,7 @@
         518.28,
         314.18
       ],
-      "id": "block-556",
+      "id": "block-557",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -10556,7 +10573,7 @@
         364.1
       ],
       "indentFirstLine": false,
-      "id": "block-557",
+      "id": "block-558",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -10573,7 +10590,7 @@
         333.21,
         389.18
       ],
-      "id": "block-558",
+      "id": "block-559",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10590,7 +10607,7 @@
         408.81,
         414.14
       ],
-      "id": "block-559",
+      "id": "block-560",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10607,7 +10624,7 @@
         199.27,
         464.2
       ],
-      "id": "block-560",
+      "id": "block-561",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -10624,7 +10641,7 @@
         518.13,
         514.12
       ],
-      "id": "block-561",
+      "id": "block-562",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10641,7 +10658,7 @@
         517.92,
         564.16
       ],
-      "id": "block-562",
+      "id": "block-563",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10658,7 +10675,7 @@
         521.27,
         639.19
       ],
-      "id": "block-563",
+      "id": "block-564",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -10674,7 +10691,7 @@
         521.27,
         639.19
       ],
-      "id": "block-564",
+      "id": "block-565",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -10691,7 +10708,7 @@
         297.31,
         689.23
       ],
-      "id": "block-565",
+      "id": "block-566",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -10708,7 +10725,7 @@
         161.56,
         714.19
       ],
-      "id": "block-566",
+      "id": "block-567",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -10725,7 +10742,7 @@
         518.01,
         764.22
       ],
-      "id": "block-567",
+      "id": "block-568",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10742,7 +10759,7 @@
         396.21,
         114.11
       ],
-      "id": "block-568",
+      "id": "block-569",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10759,7 +10776,7 @@
         161.56,
         164.15
       ],
-      "id": "block-569",
+      "id": "block-570",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -10776,7 +10793,7 @@
         521.29,
         214.07
       ],
-      "id": "block-570",
+      "id": "block-571",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10793,7 +10810,7 @@
         471.84,
         239.15
       ],
-      "id": "block-571",
+      "id": "block-572",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10810,7 +10827,7 @@
         224.59,
         289.1
       ],
-      "id": "block-572",
+      "id": "block-573",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -10827,7 +10844,7 @@
         518.35,
         339.14
       ],
-      "id": "block-573",
+      "id": "block-574",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10844,7 +10861,7 @@
         497.04,
         364.1
       ],
-      "id": "block-574",
+      "id": "block-575",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10861,7 +10878,7 @@
         186.76,
         414.14
       ],
-      "id": "block-575",
+      "id": "block-576",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -10878,7 +10895,7 @@
         518.32,
         464.2
       ],
-      "id": "block-576",
+      "id": "block-577",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10895,7 +10912,7 @@
         386.37,
         514.12
       ],
-      "id": "block-577",
+      "id": "block-578",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -10912,7 +10929,7 @@
         346.17,
         539.2
       ],
-      "id": "block-578",
+      "id": "block-579",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -10929,7 +10946,7 @@
         521.88,
         564.16
       ],
-      "id": "block-579",
+      "id": "block-580",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10946,7 +10963,7 @@
         345.81,
         589.12
       ],
-      "id": "block-580",
+      "id": "block-581",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10963,7 +10980,7 @@
         343.17,
         639.19
       ],
-      "id": "block-581",
+      "id": "block-582",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -10980,7 +10997,7 @@
         518.32,
         689.23
       ],
-      "id": "block-582",
+      "id": "block-583",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -10997,7 +11014,7 @@
         345.81,
         714.19
       ],
-      "id": "block-583",
+      "id": "block-584",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11014,7 +11031,7 @@
         237.19,
         114.11
       ],
-      "id": "block-584",
+      "id": "block-585",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -11031,7 +11048,7 @@
         518.32,
         164.15
       ],
-      "id": "block-585",
+      "id": "block-586",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11048,7 +11065,7 @@
         518.56,
         214.07
       ],
-      "id": "block-586",
+      "id": "block-587",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11065,7 +11082,7 @@
         356.37,
         264.14
       ],
-      "id": "block-587",
+      "id": "block-588",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -11082,7 +11099,7 @@
         518.05,
         314.18
       ],
-      "id": "block-588",
+      "id": "block-589",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11099,7 +11116,7 @@
         155.2,
         364.1
       ],
-      "id": "block-589",
+      "id": "block-590",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -11116,7 +11133,7 @@
         494.4,
         389.18
       ],
-      "id": "block-590",
+      "id": "block-591",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -11133,7 +11150,7 @@
         517.87,
         439.1
       ],
-      "id": "block-591",
+      "id": "block-592",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11150,7 +11167,7 @@
         521.05,
         489.16
       ],
-      "id": "block-592",
+      "id": "block-593",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11167,7 +11184,7 @@
         287.23,
         539.2
       ],
-      "id": "block-593",
+      "id": "block-594",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -11184,7 +11201,7 @@
         521.24,
         589.12
       ],
-      "id": "block-594",
+      "id": "block-595",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11201,7 +11218,7 @@
         521.49,
         639.19
       ],
-      "id": "block-595",
+      "id": "block-596",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11218,7 +11235,7 @@
         279.55,
         664.15
       ],
-      "id": "block-596",
+      "id": "block-597",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11235,7 +11252,7 @@
         521.49,
         714.19
       ],
-      "id": "block-597",
+      "id": "block-598",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11252,7 +11269,7 @@
         511.2,
         756.06
       ],
-      "id": "block-598",
+      "id": "block-599",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11269,7 +11286,7 @@
         226.75,
         114.68
       ],
-      "id": "block-599",
+      "id": "block-600",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -11286,7 +11303,7 @@
         239.15
       ],
       "indentFirstLine": true,
-      "id": "block-600",
+      "id": "block-601",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -11303,7 +11320,7 @@
         193.15,
         289.1
       ],
-      "id": "block-601",
+      "id": "block-602",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -11320,7 +11337,7 @@
         211.99,
         314.18
       ],
-      "id": "block-602",
+      "id": "block-603",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -11337,7 +11354,7 @@
         414.14
       ],
       "indentFirstLine": true,
-      "id": "block-603",
+      "id": "block-604",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -11354,7 +11371,7 @@
         518.13,
         489.16
       ],
-      "id": "block-604",
+      "id": "block-605",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11371,7 +11388,7 @@
         518.2,
         539.2
       ],
-      "id": "block-605",
+      "id": "block-606",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11388,7 +11405,7 @@
         237.19,
         589.12
       ],
-      "id": "block-606",
+      "id": "block-607",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -11405,7 +11422,7 @@
         518.2,
         639.19
       ],
-      "id": "block-607",
+      "id": "block-608",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11422,7 +11439,7 @@
         518.4,
         689.23
       ],
-      "id": "block-608",
+      "id": "block-609",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11439,7 +11456,7 @@
         518.32,
         755.82
       ],
-      "id": "block-609",
+      "id": "block-610",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11456,7 +11473,7 @@
         186.76,
         114.11
       ],
-      "id": "block-610",
+      "id": "block-611",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -11473,7 +11490,7 @@
         189.11
       ],
       "indentFirstLine": false,
-      "id": "block-611",
+      "id": "block-612",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -11490,7 +11507,7 @@
         254.11,
         239.15
       ],
-      "id": "block-612",
+      "id": "block-613",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -11507,7 +11524,7 @@
         249.79,
         264.14
       ],
-      "id": "block-613",
+      "id": "block-614",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -11524,7 +11541,7 @@
         314.18
       ],
       "indentFirstLine": false,
-      "id": "block-614",
+      "id": "block-615",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -11541,7 +11558,7 @@
         518.44,
         364.1
       ],
-      "id": "block-615",
+      "id": "block-616",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11558,7 +11575,7 @@
         517.92,
         414.14
       ],
-      "id": "block-616",
+      "id": "block-617",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11575,7 +11592,7 @@
         518.2,
         464.2
       ],
-      "id": "block-617",
+      "id": "block-618",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11592,7 +11609,7 @@
         249.79,
         514.12
       ],
-      "id": "block-618",
+      "id": "block-619",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -11609,7 +11626,7 @@
         518.03,
         564.16
       ],
-      "id": "block-619",
+      "id": "block-620",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11626,7 +11643,7 @@
         518.03,
         614.2
       ],
-      "id": "block-620",
+      "id": "block-621",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11643,7 +11660,7 @@
         275.11,
         664.15
       ],
-      "id": "block-621",
+      "id": "block-622",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -11660,7 +11677,7 @@
         518.0,
         714.19
       ],
-      "id": "block-622",
+      "id": "block-623",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11677,7 +11694,7 @@
         518.32,
         764.22
       ],
-      "id": "block-623",
+      "id": "block-624",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11694,7 +11711,7 @@
         518.12,
         139.07
       ],
-      "id": "block-624",
+      "id": "block-625",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11711,7 +11728,7 @@
         193.15,
         189.11
       ],
-      "id": "block-625",
+      "id": "block-626",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -11728,7 +11745,7 @@
         211.99,
         214.07
       ],
-      "id": "block-626",
+      "id": "block-627",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -11745,7 +11762,7 @@
         264.14
       ],
       "indentFirstLine": false,
-      "id": "block-627",
+      "id": "block-628",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -11762,7 +11779,7 @@
         518.19,
         314.18
       ],
-      "id": "block-628",
+      "id": "block-629",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11779,7 +11796,7 @@
         518.32,
         364.1
       ],
-      "id": "block-629",
+      "id": "block-630",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11796,7 +11813,7 @@
         211.99,
         414.14
       ],
-      "id": "block-630",
+      "id": "block-631",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -11813,7 +11830,7 @@
         518.32,
         464.2
       ],
-      "id": "block-631",
+      "id": "block-632",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11830,7 +11847,7 @@
         518.4,
         514.12
       ],
-      "id": "block-632",
+      "id": "block-633",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11847,7 +11864,7 @@
         517.92,
         564.16
       ],
-      "id": "block-633",
+      "id": "block-634",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11864,7 +11881,7 @@
         148.84,
         614.2
       ],
-      "id": "block-634",
+      "id": "block-635",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -11881,7 +11898,7 @@
         518.25,
         664.15
       ],
-      "id": "block-635",
+      "id": "block-636",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11898,7 +11915,7 @@
         521.88,
         689.23
       ],
-      "id": "block-636",
+      "id": "block-637",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11915,7 +11932,7 @@
         518.2,
         739.15
       ],
-      "id": "block-637",
+      "id": "block-638",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -11932,7 +11949,7 @@
         202.39,
         174.28
       ],
-      "id": "block-638",
+      "id": "block-639",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -11949,7 +11966,7 @@
         171.96
       ],
       "indentFirstLine": true,
-      "id": "block-639",
+      "id": "block-640",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -11966,7 +11983,7 @@
         203.57,
         218.12
       ],
-      "id": "block-640",
+      "id": "block-641",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -11983,7 +12000,7 @@
         342.5
       ],
       "indentFirstLine": true,
-      "id": "block-641",
+      "id": "block-642",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -12000,7 +12017,7 @@
         392.54
       ],
       "indentFirstLine": true,
-      "id": "block-642",
+      "id": "block-643",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -12017,7 +12034,7 @@
         518.07,
         442.58
       ],
-      "id": "block-643",
+      "id": "block-644",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12034,7 +12051,7 @@
         518.02,
         492.52
       ],
-      "id": "block-644",
+      "id": "block-645",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12051,7 +12068,7 @@
         487.56,
         517.6
       ],
-      "id": "block-645",
+      "id": "block-646",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12068,7 +12085,7 @@
         518.37,
         567.52
       ],
-      "id": "block-646",
+      "id": "block-647",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12085,7 +12102,7 @@
         717.55
       ],
       "indentFirstLine": true,
-      "id": "block-647",
+      "id": "block-648",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -12102,7 +12119,7 @@
         296.27,
         114.68
       ],
-      "id": "block-648",
+      "id": "block-649",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -12119,7 +12136,7 @@
         167.92,
         139.07
       ],
-      "id": "block-649",
+      "id": "block-650",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -12136,7 +12153,7 @@
         239.15
       ],
       "indentFirstLine": true,
-      "id": "block-650",
+      "id": "block-651",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -12203,7 +12220,7 @@
         542.42,
         585.82
       ],
-      "id": "block-651",
+      "id": "block-652",
       "nodeId": "mid-s1pdf-c3",
       "kind": "table",
       "source": "page_extract"
@@ -12220,7 +12237,7 @@
         704.59
       ],
       "indentFirstLine": true,
-      "id": "block-652",
+      "id": "block-653",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -12237,7 +12254,7 @@
         518.25,
         754.62
       ],
-      "id": "block-653",
+      "id": "block-654",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12254,7 +12271,7 @@
         518.28,
         139.07
       ],
-      "id": "block-654",
+      "id": "block-655",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12271,7 +12288,7 @@
         518.31,
         189.11
       ],
-      "id": "block-655",
+      "id": "block-656",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12288,7 +12305,7 @@
         518.25,
         239.15
       ],
-      "id": "block-656",
+      "id": "block-657",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12305,7 +12322,7 @@
         518.14,
         289.1
       ],
-      "id": "block-657",
+      "id": "block-658",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12322,7 +12339,7 @@
         414.14
       ],
       "indentFirstLine": true,
-      "id": "block-658",
+      "id": "block-659",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -12339,7 +12356,7 @@
         489.16
       ],
       "indentFirstLine": true,
-      "id": "block-659",
+      "id": "block-660",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -12356,7 +12373,7 @@
         180.52,
         539.2
       ],
-      "id": "block-660",
+      "id": "block-661",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -12373,7 +12390,7 @@
         664.15
       ],
       "indentFirstLine": true,
-      "id": "block-661",
+      "id": "block-662",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -12432,7 +12449,7 @@
         523.44,
         326.36
       ],
-      "id": "block-662",
+      "id": "block-663",
       "nodeId": "mid-s1pdf-c3",
       "kind": "table",
       "source": "page_extract"
@@ -12449,7 +12466,7 @@
         437.01,
         370.34
       ],
-      "id": "block-663",
+      "id": "block-664",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -12465,7 +12482,7 @@
         437.01,
         370.34
       ],
-      "id": "block-664",
+      "id": "block-665",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -12482,7 +12499,7 @@
         495.28
       ],
       "indentFirstLine": true,
-      "id": "block-665",
+      "id": "block-666",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -12499,7 +12516,7 @@
         518.25,
         545.32
       ],
-      "id": "block-666",
+      "id": "block-667",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12516,7 +12533,7 @@
         460.32,
         570.28
       ],
-      "id": "block-667",
+      "id": "block-668",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12533,7 +12550,7 @@
         517.88,
         620.32
       ],
-      "id": "block-668",
+      "id": "block-669",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12550,7 +12567,7 @@
         281.23,
         670.39
       ],
-      "id": "block-669",
+      "id": "block-670",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -12567,7 +12584,7 @@
         770.14
       ],
       "indentFirstLine": true,
-      "id": "block-670",
+      "id": "block-671",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -12584,7 +12601,7 @@
         459.24,
         139.07
       ],
-      "id": "block-671",
+      "id": "block-672",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12601,7 +12618,7 @@
         518.28,
         189.11
       ],
-      "id": "block-672",
+      "id": "block-673",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12618,7 +12635,7 @@
         490.8,
         214.07
       ],
-      "id": "block-673",
+      "id": "block-674",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12635,7 +12652,7 @@
         518.25,
         264.14
       ],
-      "id": "block-674",
+      "id": "block-675",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12652,7 +12669,7 @@
         341.01,
         314.18
       ],
-      "id": "block-675",
+      "id": "block-676",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -12669,7 +12686,7 @@
         339.14
       ],
       "indentFirstLine": true,
-      "id": "block-676",
+      "id": "block-677",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -12686,7 +12703,7 @@
         414.14
       ],
       "indentFirstLine": false,
-      "id": "block-677",
+      "id": "block-678",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -12703,7 +12720,7 @@
         446.61,
         439.1
       ],
-      "id": "block-678",
+      "id": "block-679",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12720,7 +12737,7 @@
         518.25,
         489.16
       ],
-      "id": "block-679",
+      "id": "block-680",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12737,7 +12754,7 @@
         427.77,
         514.12
       ],
-      "id": "block-680",
+      "id": "block-681",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12754,7 +12771,7 @@
         521.88,
         539.2
       ],
-      "id": "block-681",
+      "id": "block-682",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12771,7 +12788,7 @@
         303.43,
         589.12
       ],
-      "id": "block-682",
+      "id": "block-683",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -12788,7 +12805,7 @@
         664.15
       ],
       "indentFirstLine": true,
-      "id": "block-683",
+      "id": "block-684",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -12805,7 +12822,7 @@
         714.19
       ],
       "indentFirstLine": false,
-      "id": "block-684",
+      "id": "block-685",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -12822,7 +12839,7 @@
         517.92,
         764.22
       ],
-      "id": "block-685",
+      "id": "block-686",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12839,7 +12856,7 @@
         518.4,
         139.07
       ],
-      "id": "block-686",
+      "id": "block-687",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12856,7 +12873,7 @@
         459.96,
         164.15
       ],
-      "id": "block-687",
+      "id": "block-688",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12873,7 +12890,7 @@
         459.24,
         189.11
       ],
-      "id": "block-688",
+      "id": "block-689",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12890,7 +12907,7 @@
         329.25,
         239.15
       ],
-      "id": "block-689",
+      "id": "block-690",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -12907,7 +12924,7 @@
         364.1
       ],
       "indentFirstLine": true,
-      "id": "block-690",
+      "id": "block-691",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -12924,7 +12941,7 @@
         518.77,
         414.14
       ],
-      "id": "block-691",
+      "id": "block-692",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12941,7 +12958,7 @@
         518.13,
         464.2
       ],
-      "id": "block-692",
+      "id": "block-693",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12958,7 +12975,7 @@
         518.25,
         514.12
       ],
-      "id": "block-693",
+      "id": "block-694",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -12975,7 +12992,7 @@
         268.07,
         564.73
       ],
-      "id": "block-694",
+      "id": "block-695",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -12992,7 +13009,7 @@
         689.23
       ],
       "indentFirstLine": true,
-      "id": "block-695",
+      "id": "block-696",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -13009,7 +13026,7 @@
         764.22
       ],
       "indentFirstLine": true,
-      "id": "block-696",
+      "id": "block-697",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -13026,7 +13043,7 @@
         164.15
       ],
       "indentFirstLine": false,
-      "id": "block-697",
+      "id": "block-698",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -13043,7 +13060,7 @@
         268.15,
         214.07
       ],
-      "id": "block-698",
+      "id": "block-699",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -13060,7 +13077,7 @@
         314.18
       ],
       "indentFirstLine": false,
-      "id": "block-699",
+      "id": "block-700",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -13077,7 +13094,7 @@
         177.76,
         364.1
       ],
-      "id": "block-700",
+      "id": "block-701",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -13094,7 +13111,7 @@
         389.18
       ],
       "indentFirstLine": false,
-      "id": "block-701",
+      "id": "block-702",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -13111,7 +13128,7 @@
         518.28,
         464.2
       ],
-      "id": "block-702",
+      "id": "block-703",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13128,7 +13145,7 @@
         518.16,
         539.2
       ],
-      "id": "block-703",
+      "id": "block-704",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13145,7 +13162,7 @@
         518.08,
         589.12
       ],
-      "id": "block-704",
+      "id": "block-705",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13162,7 +13179,7 @@
         517.97,
         639.19
       ],
-      "id": "block-705",
+      "id": "block-706",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13179,7 +13196,7 @@
         518.32,
         689.23
       ],
-      "id": "block-706",
+      "id": "block-707",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13196,7 +13213,7 @@
         174.16,
         739.15
       ],
-      "id": "block-707",
+      "id": "block-708",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -13213,7 +13230,7 @@
         371.01,
         764.22
       ],
-      "id": "block-708",
+      "id": "block-709",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13230,7 +13247,7 @@
         497.04,
         114.11
       ],
-      "id": "block-709",
+      "id": "block-710",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13247,7 +13264,7 @@
         500.64,
         139.07
       ],
-      "id": "block-710",
+      "id": "block-711",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13264,7 +13281,7 @@
         456.48,
         164.15
       ],
-      "id": "block-711",
+      "id": "block-712",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13281,7 +13298,7 @@
         408.81,
         189.11
       ],
-      "id": "block-712",
+      "id": "block-713",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13298,7 +13315,7 @@
         186.76,
         239.15
       ],
-      "id": "block-713",
+      "id": "block-714",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -13315,7 +13332,7 @@
         518.29,
         289.1
       ],
-      "id": "block-714",
+      "id": "block-715",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13360,7 +13377,7 @@
         523.47,
         487.02
       ],
-      "id": "block-715",
+      "id": "block-716",
       "nodeId": "mid-s1pdf-c3",
       "kind": "table",
       "source": "page_extract"
@@ -13377,7 +13394,7 @@
         518.76,
         638.47
       ],
-      "id": "block-716",
+      "id": "block-717",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13394,7 +13411,7 @@
         518.61,
         763.38
       ],
-      "id": "block-717",
+      "id": "block-718",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13411,7 +13428,7 @@
         518.36,
         264.14
       ],
-      "id": "block-718",
+      "id": "block-719",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13428,7 +13445,7 @@
         278.23,
         314.18
       ],
-      "id": "block-719",
+      "id": "block-720",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -13445,7 +13462,7 @@
         364.1
       ],
       "indentFirstLine": false,
-      "id": "block-720",
+      "id": "block-721",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -13462,7 +13479,7 @@
         148.84,
         414.14
       ],
-      "id": "block-721",
+      "id": "block-722",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -13479,7 +13496,7 @@
         518.28,
         464.2
       ],
-      "id": "block-722",
+      "id": "block-723",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13496,7 +13513,7 @@
         518.25,
         514.12
       ],
-      "id": "block-723",
+      "id": "block-724",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13513,7 +13530,7 @@
         518.02,
         564.16
       ],
-      "id": "block-724",
+      "id": "block-725",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13530,7 +13547,7 @@
         186.76,
         614.2
       ],
-      "id": "block-725",
+      "id": "block-726",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -13547,7 +13564,7 @@
         518.68,
         739.15
       ],
-      "id": "block-726",
+      "id": "block-727",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13564,7 +13581,7 @@
         518.62,
         189.11
       ],
-      "id": "block-727",
+      "id": "block-728",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13581,7 +13598,7 @@
         518.32,
         289.1
       ],
-      "id": "block-728",
+      "id": "block-729",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13598,7 +13615,7 @@
         518.35,
         389.18
       ],
-      "id": "block-729",
+      "id": "block-730",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13615,7 +13632,7 @@
         148.84,
         439.1
       ],
-      "id": "block-730",
+      "id": "block-731",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -13632,7 +13649,7 @@
         345.81,
         464.2
       ],
-      "id": "block-731",
+      "id": "block-732",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13649,7 +13666,7 @@
         408.81,
         489.16
       ],
-      "id": "block-732",
+      "id": "block-733",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13666,7 +13683,7 @@
         484.44,
         514.12
       ],
-      "id": "block-733",
+      "id": "block-734",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13683,7 +13700,7 @@
         465.72,
         539.2
       ],
-      "id": "block-734",
+      "id": "block-735",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13700,7 +13717,7 @@
         383.61,
         564.16
       ],
-      "id": "block-735",
+      "id": "block-736",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13717,7 +13734,7 @@
         263.47,
         614.2
       ],
-      "id": "block-736",
+      "id": "block-737",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -13734,7 +13751,7 @@
         764.22
       ],
       "indentFirstLine": false,
-      "id": "block-737",
+      "id": "block-738",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -13751,7 +13768,7 @@
         148.84,
         114.11
       ],
-      "id": "block-738",
+      "id": "block-739",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -13768,7 +13785,7 @@
         139.07
       ],
       "indentFirstLine": false,
-      "id": "block-739",
+      "id": "block-740",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -13785,7 +13802,7 @@
         518.37,
         239.15
       ],
-      "id": "block-740",
+      "id": "block-741",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13802,7 +13819,7 @@
         358.41,
         264.14
       ],
-      "id": "block-741",
+      "id": "block-742",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13819,7 +13836,7 @@
         518.37,
         339.14
       ],
-      "id": "block-742",
+      "id": "block-743",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13836,7 +13853,7 @@
         364.1
       ],
       "indentFirstLine": false,
-      "id": "block-743",
+      "id": "block-744",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -13853,7 +13870,7 @@
         518.32,
         439.1
       ],
-      "id": "block-744",
+      "id": "block-745",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13870,7 +13887,7 @@
         464.2
       ],
       "indentFirstLine": false,
-      "id": "block-745",
+      "id": "block-746",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -13887,7 +13904,7 @@
         186.76,
         514.12
       ],
-      "id": "block-746",
+      "id": "block-747",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -13904,7 +13921,7 @@
         539.2
       ],
       "indentFirstLine": false,
-      "id": "block-747",
+      "id": "block-748",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -13921,7 +13938,7 @@
         521.88,
         589.12
       ],
-      "id": "block-748",
+      "id": "block-749",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13938,7 +13955,7 @@
         614.2
       ],
       "indentFirstLine": false,
-      "id": "block-749",
+      "id": "block-750",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -13955,7 +13972,7 @@
         517.94,
         664.15
       ],
-      "id": "block-750",
+      "id": "block-751",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -13972,7 +13989,7 @@
         689.23
       ],
       "indentFirstLine": false,
-      "id": "block-751",
+      "id": "block-752",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -13989,7 +14006,7 @@
         518.28,
         739.15
       ],
-      "id": "block-752",
+      "id": "block-753",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -14006,7 +14023,7 @@
         764.22
       ],
       "indentFirstLine": false,
-      "id": "block-753",
+      "id": "block-754",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -14023,7 +14040,7 @@
         517.99,
         138.11
       ],
-      "id": "block-754",
+      "id": "block-755",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -14040,7 +14057,7 @@
         163.07
       ],
       "indentFirstLine": false,
-      "id": "block-755",
+      "id": "block-756",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -14057,7 +14074,7 @@
         148.84,
         212.63
       ],
-      "id": "block-756",
+      "id": "block-757",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -14074,7 +14091,7 @@
         237.11
       ],
       "indentFirstLine": false,
-      "id": "block-757",
+      "id": "block-758",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -14091,7 +14108,7 @@
         521.88,
         286.22
       ],
-      "id": "block-758",
+      "id": "block-759",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -14108,7 +14125,7 @@
         518.16,
         335.18
       ],
-      "id": "block-759",
+      "id": "block-760",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -14125,7 +14142,7 @@
         518.4,
         384.14
       ],
-      "id": "block-760",
+      "id": "block-761",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -14142,7 +14159,7 @@
         518.56,
         433.22
       ],
-      "id": "block-761",
+      "id": "block-762",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -14159,7 +14176,7 @@
         518.4,
         482.2
       ],
-      "id": "block-762",
+      "id": "block-763",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -14176,7 +14193,7 @@
         521.8,
         531.16
       ],
-      "id": "block-763",
+      "id": "block-764",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -14193,7 +14210,7 @@
         123.64,
         580.72
       ],
-      "id": "block-764",
+      "id": "block-765",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -14210,7 +14227,7 @@
         459.24,
         605.2
       ],
-      "id": "block-765",
+      "id": "block-766",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -14227,7 +14244,7 @@
         421.41,
         629.71
       ],
-      "id": "block-766",
+      "id": "block-767",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -14244,7 +14261,7 @@
         489.36,
         654.19
       ],
-      "id": "block-767",
+      "id": "block-768",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -14261,7 +14278,7 @@
         148.84,
         703.75
       ],
-      "id": "block-768",
+      "id": "block-769",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -14278,7 +14295,7 @@
         498.24,
         728.23
       ],
-      "id": "block-769",
+      "id": "block-770",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -14295,7 +14312,7 @@
         413.37,
         752.71
       ],
-      "id": "block-770",
+      "id": "block-771",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -14312,7 +14329,7 @@
         446.61,
         777.18
       ],
-      "id": "block-771",
+      "id": "block-772",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -14329,7 +14346,7 @@
         268.07,
         114.68
       ],
-      "id": "block-772",
+      "id": "block-773",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -14346,7 +14363,7 @@
         214.07
       ],
       "indentFirstLine": true,
-      "id": "block-773",
+      "id": "block-774",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -14363,7 +14380,7 @@
         193.15,
         264.14
       ],
-      "id": "block-774",
+      "id": "block-775",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -14380,7 +14397,7 @@
         249.79,
         289.1
       ],
-      "id": "block-775",
+      "id": "block-776",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -14397,7 +14414,7 @@
         364.1
       ],
       "indentFirstLine": true,
-      "id": "block-776",
+      "id": "block-777",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -14414,7 +14431,7 @@
         224.59,
         414.14
       ],
-      "id": "block-777",
+      "id": "block-778",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -14431,7 +14448,7 @@
         464.2
       ],
       "indentFirstLine": true,
-      "id": "block-778",
+      "id": "block-779",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -14448,7 +14465,7 @@
         211.99,
         514.12
       ],
-      "id": "block-779",
+      "id": "block-780",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -14465,7 +14482,7 @@
         564.16
       ],
       "indentFirstLine": true,
-      "id": "block-780",
+      "id": "block-781",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -14482,7 +14499,7 @@
         249.67,
         614.2
       ],
-      "id": "block-781",
+      "id": "block-782",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -14499,7 +14516,7 @@
         664.15
       ],
       "indentFirstLine": true,
-      "id": "block-782",
+      "id": "block-783",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -14516,7 +14533,7 @@
         249.79,
         714.19
       ],
-      "id": "block-783",
+      "id": "block-784",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -14533,7 +14550,7 @@
         764.22
       ],
       "indentFirstLine": true,
-      "id": "block-784",
+      "id": "block-785",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -14550,7 +14567,7 @@
         180.52,
         114.11
       ],
-      "id": "block-785",
+      "id": "block-786",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -14567,7 +14584,7 @@
         199.39,
         139.07
       ],
-      "id": "block-786",
+      "id": "block-787",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -14584,7 +14601,7 @@
         189.11
       ],
       "indentFirstLine": true,
-      "id": "block-787",
+      "id": "block-788",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -14601,7 +14618,7 @@
         237.19,
         239.15
       ],
-      "id": "block-788",
+      "id": "block-789",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -14618,7 +14635,7 @@
         314.18
       ],
       "indentFirstLine": true,
-      "id": "block-789",
+      "id": "block-790",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -14635,7 +14652,7 @@
         262.39,
         364.1
       ],
-      "id": "block-790",
+      "id": "block-791",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -14652,7 +14669,7 @@
         414.14
       ],
       "indentFirstLine": true,
-      "id": "block-791",
+      "id": "block-792",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -14669,7 +14686,7 @@
         262.39,
         464.2
       ],
-      "id": "block-792",
+      "id": "block-793",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -14686,7 +14703,7 @@
         489.16
       ],
       "indentFirstLine": true,
-      "id": "block-793",
+      "id": "block-794",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -14703,7 +14720,7 @@
         564.16
       ],
       "indentFirstLine": false,
-      "id": "block-794",
+      "id": "block-795",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -14720,7 +14737,7 @@
         262.39,
         614.2
       ],
-      "id": "block-795",
+      "id": "block-796",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -14737,7 +14754,7 @@
         689.23
       ],
       "indentFirstLine": true,
-      "id": "block-796",
+      "id": "block-797",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -14754,7 +14771,7 @@
         284.62,
         174.28
       ],
-      "id": "block-797",
+      "id": "block-798",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -14771,7 +14788,7 @@
         203.57,
         218.12
       ],
-      "id": "block-798",
+      "id": "block-799",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -14788,7 +14805,7 @@
         367.58
       ],
       "indentFirstLine": true,
-      "id": "block-799",
+      "id": "block-800",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -14805,7 +14822,7 @@
         417.5
       ],
       "indentFirstLine": true,
-      "id": "block-800",
+      "id": "block-801",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -14822,7 +14839,7 @@
         517.6
       ],
       "indentFirstLine": false,
-      "id": "block-801",
+      "id": "block-802",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -14839,7 +14856,7 @@
         617.56
       ],
       "indentFirstLine": true,
-      "id": "block-802",
+      "id": "block-803",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -14856,7 +14873,7 @@
         717.55
       ],
       "indentFirstLine": true,
-      "id": "block-803",
+      "id": "block-804",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -14873,7 +14890,7 @@
         296.27,
         114.68
       ],
-      "id": "block-804",
+      "id": "block-805",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -14890,7 +14907,7 @@
         167.92,
         139.07
       ],
-      "id": "block-805",
+      "id": "block-806",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -14907,7 +14924,7 @@
         189.11
       ],
       "indentFirstLine": true,
-      "id": "block-806",
+      "id": "block-807",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -14924,7 +14941,7 @@
         282.79,
         214.07
       ],
-      "id": "block-807",
+      "id": "block-808",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -14941,7 +14958,7 @@
         257.59,
         239.15
       ],
-      "id": "block-808",
+      "id": "block-809",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -14958,7 +14975,7 @@
         358.41,
         264.14
       ],
-      "id": "block-809",
+      "id": "block-810",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -14975,7 +14992,7 @@
         518.15,
         389.18
       ],
-      "id": "block-810",
+      "id": "block-811",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -14992,7 +15009,7 @@
         514.12
       ],
       "indentFirstLine": true,
-      "id": "block-811",
+      "id": "block-812",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15009,7 +15026,7 @@
         180.52,
         564.16
       ],
-      "id": "block-812",
+      "id": "block-813",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -15026,7 +15043,7 @@
         589.12
       ],
       "indentFirstLine": true,
-      "id": "block-813",
+      "id": "block-814",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15043,7 +15060,7 @@
         300.31,
         639.19
       ],
-      "id": "block-814",
+      "id": "block-815",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -15059,7 +15076,7 @@
         300.31,
         639.19
       ],
-      "id": "block-815",
+      "id": "block-816",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15076,7 +15093,7 @@
         689.23
       ],
       "indentFirstLine": true,
-      "id": "block-816",
+      "id": "block-817",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15093,7 +15110,7 @@
         714.19
       ],
       "indentFirstLine": false,
-      "id": "block-817",
+      "id": "block-818",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15110,7 +15127,7 @@
         338.13,
         114.11
       ],
-      "id": "block-818",
+      "id": "block-819",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -15126,7 +15143,7 @@
         338.13,
         114.11
       ],
-      "id": "block-819",
+      "id": "block-820",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15143,7 +15160,7 @@
         212.15
       ],
       "indentFirstLine": true,
-      "id": "block-820",
+      "id": "block-821",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15160,7 +15177,7 @@
         385.05,
         261.11
       ],
-      "id": "block-821",
+      "id": "block-822",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -15176,7 +15193,7 @@
         385.05,
         261.11
       ],
-      "id": "block-822",
+      "id": "block-823",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15193,7 +15210,7 @@
         408.14
       ],
       "indentFirstLine": true,
-      "id": "block-823",
+      "id": "block-824",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15210,7 +15227,7 @@
         268.07,
         457.81
       ],
-      "id": "block-824",
+      "id": "block-825",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -15227,7 +15244,7 @@
         604.24
       ],
       "indentFirstLine": true,
-      "id": "block-825",
+      "id": "block-826",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15244,7 +15261,7 @@
         286.15,
         653.23
       ],
-      "id": "block-826",
+      "id": "block-827",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -15260,7 +15277,7 @@
         286.15,
         653.23
       ],
-      "id": "block-827",
+      "id": "block-828",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15277,7 +15294,7 @@
         775.74
       ],
       "indentFirstLine": true,
-      "id": "block-828",
+      "id": "block-829",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15294,7 +15311,7 @@
         139.07
       ],
       "indentFirstLine": true,
-      "id": "block-829",
+      "id": "block-830",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15311,7 +15328,7 @@
         164.15
       ],
       "indentFirstLine": false,
-      "id": "block-830",
+      "id": "block-831",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15328,7 +15345,7 @@
         161.44,
         189.11
       ],
-      "id": "block-831",
+      "id": "block-832",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -15345,7 +15362,7 @@
         518.38,
         239.15
       ],
-      "id": "block-832",
+      "id": "block-833",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -15362,7 +15379,7 @@
         518.36,
         289.1
       ],
-      "id": "block-833",
+      "id": "block-834",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -15379,7 +15396,7 @@
         517.9,
         339.14
       ],
-      "id": "block-834",
+      "id": "block-835",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -15396,7 +15413,7 @@
         521.88,
         364.1
       ],
-      "id": "block-835",
+      "id": "block-836",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -15412,7 +15429,7 @@
         521.88,
         364.1
       ],
-      "id": "block-836",
+      "id": "block-837",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15429,7 +15446,7 @@
         476.52,
         389.18
       ],
-      "id": "block-837",
+      "id": "block-838",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -15445,7 +15462,7 @@
         476.52,
         389.18
       ],
-      "id": "block-838",
+      "id": "block-839",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15462,7 +15479,7 @@
         230.95,
         439.1
       ],
-      "id": "block-839",
+      "id": "block-840",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -15479,7 +15496,7 @@
         489.16
       ],
       "indentFirstLine": true,
-      "id": "block-840",
+      "id": "block-841",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15496,7 +15513,7 @@
         517.99,
         539.2
       ],
-      "id": "block-841",
+      "id": "block-842",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -15512,7 +15529,7 @@
         517.99,
         539.2
       ],
-      "id": "block-842",
+      "id": "block-843",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15529,7 +15546,7 @@
         518.14,
         589.12
       ],
-      "id": "block-843",
+      "id": "block-844",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -15545,7 +15562,7 @@
         518.14,
         589.12
       ],
-      "id": "block-844",
+      "id": "block-845",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15562,7 +15579,7 @@
         518.24,
         639.19
       ],
-      "id": "block-845",
+      "id": "block-846",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -15578,7 +15595,7 @@
         518.24,
         639.19
       ],
-      "id": "block-846",
+      "id": "block-847",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15595,7 +15612,7 @@
         521.88,
         664.15
       ],
-      "id": "block-847",
+      "id": "block-848",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -15612,7 +15629,7 @@
         148.84,
         689.23
       ],
-      "id": "block-848",
+      "id": "block-849",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -15629,7 +15646,7 @@
         462.72,
         714.19
       ],
-      "id": "block-849",
+      "id": "block-850",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -15646,7 +15663,7 @@
         387.69,
         739.15
       ],
-      "id": "block-850",
+      "id": "block-851",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -15663,7 +15680,7 @@
         362.49,
         764.22
       ],
-      "id": "block-851",
+      "id": "block-852",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -15680,7 +15697,7 @@
         521.51,
         139.07
       ],
-      "id": "block-852",
+      "id": "block-853",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -15697,7 +15714,7 @@
         230.95,
         189.11
       ],
-      "id": "block-853",
+      "id": "block-854",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -15714,7 +15731,7 @@
         239.15
       ],
       "indentFirstLine": true,
-      "id": "block-854",
+      "id": "block-855",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15731,7 +15748,7 @@
         289.1
       ],
       "indentFirstLine": false,
-      "id": "block-855",
+      "id": "block-856",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15748,7 +15765,7 @@
         161.56,
         339.14
       ],
-      "id": "block-856",
+      "id": "block-857",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -15765,7 +15782,7 @@
         517.88,
         389.18
       ],
-      "id": "block-857",
+      "id": "block-858",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -15782,7 +15799,7 @@
         518.18,
         439.1
       ],
-      "id": "block-858",
+      "id": "block-859",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -15799,7 +15816,7 @@
         518.2,
         489.16
       ],
-      "id": "block-859",
+      "id": "block-860",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -15816,7 +15833,7 @@
         123.64,
         539.2
       ],
-      "id": "block-860",
+      "id": "block-861",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -15833,7 +15850,7 @@
         408.81,
         564.16
       ],
-      "id": "block-861",
+      "id": "block-862",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -15850,7 +15867,7 @@
         396.21,
         589.12
       ],
-      "id": "block-862",
+      "id": "block-863",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -15867,7 +15884,7 @@
         155.2,
         639.19
       ],
-      "id": "block-863",
+      "id": "block-864",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -15884,7 +15901,7 @@
         518.7,
         664.15
       ],
-      "id": "block-864",
+      "id": "block-865",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -15900,7 +15917,7 @@
         518.7,
         664.15
       ],
-      "id": "block-865",
+      "id": "block-866",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15917,7 +15934,7 @@
         714.19
       ],
       "indentFirstLine": true,
-      "id": "block-866",
+      "id": "block-867",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15934,7 +15951,7 @@
         518.19,
         764.22
       ],
-      "id": "block-867",
+      "id": "block-868",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -15950,7 +15967,7 @@
         518.19,
         764.22
       ],
-      "id": "block-868",
+      "id": "block-869",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -15967,7 +15984,7 @@
         518.1,
         139.07
       ],
-      "id": "block-869",
+      "id": "block-870",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -15983,7 +16000,7 @@
         518.1,
         139.07
       ],
-      "id": "block-870",
+      "id": "block-871",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -16000,7 +16017,7 @@
         225.66,
         189.68
       ],
-      "id": "block-871",
+      "id": "block-872",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -16017,7 +16034,7 @@
         314.18
       ],
       "indentFirstLine": true,
-      "id": "block-872",
+      "id": "block-873",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -16034,7 +16051,7 @@
         256.15,
         364.1
       ],
-      "id": "block-873",
+      "id": "block-874",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -16050,7 +16067,7 @@
         256.15,
         364.1
       ],
-      "id": "block-874",
+      "id": "block-875",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -16067,7 +16084,7 @@
         464.2
       ],
       "indentFirstLine": true,
-      "id": "block-875",
+      "id": "block-876",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -16084,7 +16101,7 @@
         161.56,
         514.12
       ],
-      "id": "block-876",
+      "id": "block-877",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -16101,7 +16118,7 @@
         518.65,
         564.16
       ],
-      "id": "block-877",
+      "id": "block-878",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16118,7 +16135,7 @@
         518.32,
         614.2
       ],
-      "id": "block-878",
+      "id": "block-879",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16135,7 +16152,7 @@
         518.19,
         681.07
       ],
-      "id": "block-879",
+      "id": "block-880",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16152,7 +16169,7 @@
         161.56,
         705.55
       ],
-      "id": "block-880",
+      "id": "block-881",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -16169,7 +16186,7 @@
         518.01,
         755.46
       ],
-      "id": "block-881",
+      "id": "block-882",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16186,7 +16203,7 @@
         518.38,
         139.07
       ],
-      "id": "block-882",
+      "id": "block-883",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16203,7 +16220,7 @@
         218.35,
         189.11
       ],
-      "id": "block-883",
+      "id": "block-884",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -16220,7 +16237,7 @@
         239.15
       ],
       "indentFirstLine": false,
-      "id": "block-884",
+      "id": "block-885",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -16237,7 +16254,7 @@
         161.56,
         289.1
       ],
-      "id": "block-885",
+      "id": "block-886",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -16254,7 +16271,7 @@
         518.32,
         339.14
       ],
-      "id": "block-886",
+      "id": "block-887",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16271,7 +16288,7 @@
         518.32,
         389.18
       ],
-      "id": "block-887",
+      "id": "block-888",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16288,7 +16305,7 @@
         519.76,
         439.1
       ],
-      "id": "block-888",
+      "id": "block-889",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16305,7 +16322,7 @@
         161.56,
         489.16
       ],
-      "id": "block-889",
+      "id": "block-890",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -16322,7 +16339,7 @@
         396.21,
         514.12
       ],
-      "id": "block-890",
+      "id": "block-891",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16339,7 +16356,7 @@
         521.64,
         564.16
       ],
-      "id": "block-891",
+      "id": "block-892",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16356,7 +16373,7 @@
         256.15,
         614.2
       ],
-      "id": "block-892",
+      "id": "block-893",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -16373,7 +16390,7 @@
         664.15
       ],
       "indentFirstLine": false,
-      "id": "block-893",
+      "id": "block-894",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -16390,7 +16407,7 @@
         161.56,
         714.19
       ],
-      "id": "block-894",
+      "id": "block-895",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -16407,7 +16424,7 @@
         518.12,
         764.22
       ],
-      "id": "block-895",
+      "id": "block-896",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16424,7 +16441,7 @@
         471.84,
         114.11
       ],
-      "id": "block-896",
+      "id": "block-897",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16441,7 +16458,7 @@
         518.2,
         164.15
       ],
-      "id": "block-897",
+      "id": "block-898",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16458,7 +16475,7 @@
         161.56,
         214.07
       ],
-      "id": "block-898",
+      "id": "block-899",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -16475,7 +16492,7 @@
         371.01,
         239.15
       ],
-      "id": "block-899",
+      "id": "block-900",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16492,7 +16509,7 @@
         518.26,
         289.1
       ],
-      "id": "block-900",
+      "id": "block-901",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16509,7 +16526,7 @@
         310.31,
         339.71
       ],
-      "id": "block-901",
+      "id": "block-902",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -16526,7 +16543,7 @@
         439.1
       ],
       "indentFirstLine": false,
-      "id": "block-902",
+      "id": "block-903",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -16543,7 +16560,7 @@
         193.15,
         489.16
       ],
-      "id": "block-903",
+      "id": "block-904",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -16560,7 +16577,7 @@
         539.2
       ],
       "indentFirstLine": false,
-      "id": "block-904",
+      "id": "block-905",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -16577,7 +16594,7 @@
         224.59,
         589.12
       ],
-      "id": "block-905",
+      "id": "block-906",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16594,7 +16611,7 @@
         518.32,
         664.15
       ],
-      "id": "block-906",
+      "id": "block-907",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16611,7 +16628,7 @@
         497.04,
         714.19
       ],
-      "id": "block-907",
+      "id": "block-908",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16628,7 +16645,7 @@
         434.01,
         764.22
       ],
-      "id": "block-908",
+      "id": "block-909",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16645,7 +16662,7 @@
         186.76,
         114.11
       ],
-      "id": "block-909",
+      "id": "block-910",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16662,7 +16679,7 @@
         138.86
       ],
       "indentFirstLine": false,
-      "id": "block-910",
+      "id": "block-911",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -16679,7 +16696,7 @@
         164.15
       ],
       "indentFirstLine": false,
-      "id": "block-911",
+      "id": "block-912",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -16696,7 +16713,7 @@
         518.28,
         214.07
       ],
-      "id": "block-912",
+      "id": "block-913",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16713,7 +16730,7 @@
         518.37,
         264.14
       ],
-      "id": "block-913",
+      "id": "block-914",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16730,7 +16747,7 @@
         459.24,
         289.1
       ],
-      "id": "block-914",
+      "id": "block-915",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16747,7 +16764,7 @@
         167.92,
         339.14
       ],
-      "id": "block-915",
+      "id": "block-916",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -16764,7 +16781,7 @@
         364.1
       ],
       "indentFirstLine": false,
-      "id": "block-916",
+      "id": "block-917",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -16781,7 +16798,7 @@
         224.59,
         414.14
       ],
-      "id": "block-917",
+      "id": "block-918",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16798,7 +16815,7 @@
         518.35,
         464.2
       ],
-      "id": "block-918",
+      "id": "block-919",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16815,7 +16832,7 @@
         518.13,
         514.12
       ],
-      "id": "block-919",
+      "id": "block-920",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16832,7 +16849,7 @@
         345.81,
         539.2
       ],
-      "id": "block-920",
+      "id": "block-921",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16849,7 +16866,7 @@
         320.61,
         564.16
       ],
-      "id": "block-921",
+      "id": "block-922",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16866,14 +16883,15 @@
         186.76,
         614.2
       ],
-      "id": "block-922",
+      "id": "block-923",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "▪",
       "text": "高運算成本限制了技術的普及與即時應用。解決方案包括：",
       "pageIndex": 87,
       "bbox": [
@@ -16882,10 +16900,9 @@
         432.45,
         639.19
       ],
-      "indentFirstLine": false,
-      "id": "block-923",
+      "id": "block-924",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
@@ -16900,7 +16917,7 @@
         521.88,
         664.15
       ],
-      "id": "block-924",
+      "id": "block-925",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16917,7 +16934,7 @@
         518.2,
         714.19
       ],
-      "id": "block-925",
+      "id": "block-926",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16934,7 +16951,7 @@
         477.0,
         739.15
       ],
-      "id": "block-926",
+      "id": "block-927",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -16951,7 +16968,7 @@
         167.92,
         114.11
       ],
-      "id": "block-927",
+      "id": "block-928",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -16968,7 +16985,7 @@
         164.15
       ],
       "indentFirstLine": false,
-      "id": "block-928",
+      "id": "block-929",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -16985,7 +17002,7 @@
         262.39,
         214.07
       ],
-      "id": "block-929",
+      "id": "block-930",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -17002,7 +17019,7 @@
         446.61,
         239.15
       ],
-      "id": "block-930",
+      "id": "block-931",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -17019,7 +17036,7 @@
         518.26,
         289.1
       ],
-      "id": "block-931",
+      "id": "block-932",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -17036,7 +17053,7 @@
         518.08,
         339.14
       ],
-      "id": "block-932",
+      "id": "block-933",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -17053,14 +17070,15 @@
         186.76,
         389.18
       ],
-      "id": "block-933",
+      "id": "block-934",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
-      "type": "paragraph",
+      "type": "list_item",
       "depth": 6,
+      "marker": "▪",
       "text": "這些風險可能導致法律責任與公眾反彈。解決策略包括：",
       "pageIndex": 88,
       "bbox": [
@@ -17069,10 +17087,9 @@
         419.85,
         414.14
       ],
-      "indentFirstLine": false,
-      "id": "block-934",
+      "id": "block-935",
       "nodeId": "mid-s1pdf-c3",
-      "kind": "paragraph",
+      "kind": "list_item",
       "source": "page_extract"
     },
     {
@@ -17087,7 +17104,7 @@
         521.88,
         439.1
       ],
-      "id": "block-935",
+      "id": "block-936",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -17104,7 +17121,7 @@
         518.23,
         489.16
       ],
-      "id": "block-936",
+      "id": "block-937",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -17121,7 +17138,7 @@
         518.21,
         539.2
       ],
-      "id": "block-937",
+      "id": "block-938",
       "nodeId": "mid-s1pdf-c3",
       "kind": "list_item",
       "source": "page_extract"
@@ -17138,7 +17155,7 @@
         155.2,
         589.12
       ],
-      "id": "block-938",
+      "id": "block-939",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -17155,7 +17172,7 @@
         614.2
       ],
       "indentFirstLine": false,
-      "id": "block-939",
+      "id": "block-940",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -17172,7 +17189,7 @@
         186.76,
         664.15
       ],
-      "id": "block-940",
+      "id": "block-941",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -17189,7 +17206,7 @@
         714.19
       ],
       "indentFirstLine": false,
-      "id": "block-941",
+      "id": "block-942",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -17206,7 +17223,7 @@
         224.59,
         114.11
       ],
-      "id": "block-942",
+      "id": "block-943",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -17223,7 +17240,7 @@
         164.15
       ],
       "indentFirstLine": true,
-      "id": "block-943",
+      "id": "block-944",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -17240,7 +17257,7 @@
         237.19,
         214.07
       ],
-      "id": "block-944",
+      "id": "block-945",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -17257,7 +17274,7 @@
         264.14
       ],
       "indentFirstLine": true,
-      "id": "block-945",
+      "id": "block-946",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -17274,7 +17291,7 @@
         206.95,
         314.18
       ],
-      "id": "block-946",
+      "id": "block-947",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -17291,7 +17308,7 @@
         364.1
       ],
       "indentFirstLine": true,
-      "id": "block-947",
+      "id": "block-948",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -17308,7 +17325,7 @@
         224.59,
         414.14
       ],
-      "id": "block-948",
+      "id": "block-949",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -17325,7 +17342,7 @@
         489.16
       ],
       "indentFirstLine": true,
-      "id": "block-949",
+      "id": "block-950",
       "nodeId": "mid-s1pdf-c3",
       "kind": "paragraph",
       "source": "page_extract"
@@ -17342,7 +17359,7 @@
         518.02,
         188.03
       ],
-      "id": "block-950",
+      "id": "block-951",
       "nodeId": "mid-s1pdf-c3",
       "kind": "heading",
       "source": "page_extract"
@@ -17358,7 +17375,7 @@
         518.02,
         188.03
       ],
-      "id": "block-951",
+      "id": "block-952",
       "nodeId": "mid-s1pdf-c3",
       "kind": "exercise_question",
       "source": "page_extract"
@@ -17374,7 +17391,7 @@
         518.02,
         188.03
       ],
-      "id": "block-952",
+      "id": "block-953",
       "nodeId": "mid-s1pdf-c3",
       "kind": "exercise_question",
       "source": "page_extract"
@@ -17390,7 +17407,7 @@
         518.02,
         188.03
       ],
-      "id": "block-953",
+      "id": "block-954",
       "nodeId": "mid-s1pdf-c3",
       "kind": "exercise_question",
       "source": "page_extract"
@@ -17406,7 +17423,7 @@
         518.02,
         188.03
       ],
-      "id": "block-954",
+      "id": "block-955",
       "nodeId": "mid-s1pdf-c3",
       "kind": "exercise_question",
       "source": "page_extract"
@@ -17422,7 +17439,7 @@
         518.02,
         188.03
       ],
-      "id": "block-955",
+      "id": "block-956",
       "nodeId": "mid-s1pdf-c3",
       "kind": "exercise_question",
       "source": "page_extract"
@@ -17438,7 +17455,7 @@
         518.02,
         188.03
       ],
-      "id": "block-956",
+      "id": "block-957",
       "nodeId": "mid-s1pdf-c3",
       "kind": "exercise_question",
       "source": "page_extract"
@@ -17454,7 +17471,7 @@
         518.02,
         188.03
       ],
-      "id": "block-957",
+      "id": "block-958",
       "nodeId": "mid-s1pdf-c3",
       "kind": "exercise_question",
       "source": "page_extract"
@@ -17470,7 +17487,7 @@
         518.02,
         188.03
       ],
-      "id": "block-958",
+      "id": "block-959",
       "nodeId": "mid-s1pdf-c3",
       "kind": "exercise_question",
       "source": "page_extract"
@@ -17486,7 +17503,7 @@
         518.02,
         188.03
       ],
-      "id": "block-959",
+      "id": "block-960",
       "nodeId": "mid-s1pdf-c3",
       "kind": "exercise_question",
       "source": "page_extract"
@@ -17502,7 +17519,7 @@
         518.02,
         188.03
       ],
-      "id": "block-960",
+      "id": "block-961",
       "nodeId": "mid-s1pdf-c3",
       "kind": "exercise_question",
       "source": "page_extract"
@@ -17518,7 +17535,7 @@
         518.02,
         188.03
       ],
-      "id": "block-961",
+      "id": "block-962",
       "nodeId": "mid-s1pdf-c3",
       "kind": "exercise_answer",
       "source": "page_extract"
@@ -17534,7 +17551,7 @@
         518.02,
         188.03
       ],
-      "id": "block-962",
+      "id": "block-963",
       "nodeId": "mid-s1pdf-c3",
       "kind": "exercise_answer",
       "source": "page_extract"
@@ -17550,7 +17567,7 @@
         518.02,
         188.03
       ],
-      "id": "block-963",
+      "id": "block-964",
       "nodeId": "mid-s1pdf-c3",
       "kind": "exercise_answer",
       "source": "page_extract"
@@ -17566,7 +17583,7 @@
         518.02,
         188.03
       ],
-      "id": "block-964",
+      "id": "block-965",
       "nodeId": "mid-s1pdf-c3",
       "kind": "exercise_answer",
       "source": "page_extract"
@@ -17582,7 +17599,7 @@
         518.02,
         188.03
       ],
-      "id": "block-965",
+      "id": "block-966",
       "nodeId": "mid-s1pdf-c3",
       "kind": "exercise_answer",
       "source": "page_extract"
@@ -17598,7 +17615,7 @@
         518.02,
         188.03
       ],
-      "id": "block-966",
+      "id": "block-967",
       "nodeId": "mid-s1pdf-c3",
       "kind": "exercise_answer",
       "source": "page_extract"
@@ -17614,7 +17631,7 @@
         518.02,
         188.03
       ],
-      "id": "block-967",
+      "id": "block-968",
       "nodeId": "mid-s1pdf-c3",
       "kind": "exercise_answer",
       "source": "page_extract"
@@ -17630,7 +17647,7 @@
         518.02,
         188.03
       ],
-      "id": "block-968",
+      "id": "block-969",
       "nodeId": "mid-s1pdf-c3",
       "kind": "exercise_answer",
       "source": "page_extract"
@@ -17646,7 +17663,7 @@
         518.02,
         188.03
       ],
-      "id": "block-969",
+      "id": "block-970",
       "nodeId": "mid-s1pdf-c3",
       "kind": "exercise_answer",
       "source": "page_extract"
@@ -17662,7 +17679,7 @@
         518.02,
         188.03
       ],
-      "id": "block-970",
+      "id": "block-971",
       "nodeId": "mid-s1pdf-c3",
       "kind": "exercise_answer",
       "source": "page_extract"
