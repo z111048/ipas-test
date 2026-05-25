@@ -1,73 +1,66 @@
 import { Link, useParams } from 'react-router-dom'
-import { useEffect } from 'react'
-import s1q from '@data/questions/subject1_questions.json'
-import s2q from '@data/questions/subject2_questions.json'
-import s1GuideExerciseQ from '@data/questions/subject1_guide_exercises.json'
-import s2GuideExerciseQ from '@data/questions/subject2_guide_exercises.json'
-import midS1q from '@data-mid/questions/subject1_questions.json'
-import midS2q from '@data-mid/questions/subject2_questions.json'
-import midS3q from '@data-mid/questions/subject3_questions.json'
-import midS1GuideExerciseQ from '@data-mid/questions/subject1_guide_exercises.json'
-import midS2GuideExerciseQ from '@data-mid/questions/subject2_guide_exercises.json'
-import midS3GuideExerciseQ from '@data-mid/questions/subject3_guide_exercises.json'
-import midS1Codex100q from '@data-mid/questions/subject1_codex100_questions.json'
-import midS2Codex100q from '@data-mid/questions/subject2_codex100_questions.json'
-import midS3Codex100q from '@data-mid/questions/subject3_codex100_questions.json'
-import { resourceLevels } from '../data/resourceRegistry'
+import { useEffect, useState } from 'react'
+import { resourceLevels, resourceSummary } from '../data/resourceRegistry'
+import { loadSubjectQuestions } from '../data/questionLoaders'
 import type { SubjectQuestions } from '../types'
 import QuestionCard from '../components/practice/QuestionCard'
-
-const questionData: Record<string, SubjectQuestions> = {
-  s1: s1q as SubjectQuestions,
-  s2: s2q as SubjectQuestions,
-  'mid-s1': midS1q as SubjectQuestions,
-  'mid-s2': midS2q as SubjectQuestions,
-  'mid-s3': midS3q as SubjectQuestions,
-}
-
-const codex100QuestionData: Record<string, SubjectQuestions> = {
-  'mid-s1': midS1Codex100q as SubjectQuestions,
-  'mid-s2': midS2Codex100q as SubjectQuestions,
-  'mid-s3': midS3Codex100q as SubjectQuestions,
-}
-
-const guideExerciseQuestionData: Record<string, SubjectQuestions> = {
-  s1: s1GuideExerciseQ as SubjectQuestions,
-  s2: s2GuideExerciseQ as SubjectQuestions,
-  'mid-s1': midS1GuideExerciseQ as SubjectQuestions,
-  'mid-s2': midS2GuideExerciseQ as SubjectQuestions,
-  'mid-s3': midS3GuideExerciseQ as SubjectQuestions,
-}
 
 export default function PracticePage() {
   const { subjectId, chapterId, practiceSet } = useParams<{ subjectId: string; chapterId: string; practiceSet?: string }>()
   const isCodex100 = practiceSet === 'codex100'
   const isGuideExercise = practiceSet === 'guide'
-  const data = subjectId
-    ? isCodex100
-      ? codex100QuestionData[subjectId]
-      : isGuideExercise
-        ? guideExerciseQuestionData[subjectId]
-        : questionData[subjectId]
-    : undefined
-  const originalData = subjectId ? questionData[subjectId] : undefined
-  const codex100Data = subjectId ? codex100QuestionData[subjectId] : undefined
-  const guideExerciseData = subjectId ? guideExerciseQuestionData[subjectId] : undefined
-  const originalChapter = originalData?.chapters.find((c) => c.id === chapterId)
-  const codex100Chapter = codex100Data?.chapters.find((c) => c.id === chapterId)
-  const guideExerciseChapter = guideExerciseData?.chapters.find((c) => c.id === chapterId)
+  const [data, setData] = useState<SubjectQuestions | undefined>()
+  const [loading, setLoading] = useState(false)
+  const [loadError, setLoadError] = useState<string | null>(null)
   const chapter = data?.chapters.find((c) => c.id === chapterId)
   const practiceSetSuffix = isCodex100 ? '/codex100' : isGuideExercise ? '/guide' : ''
   const chapterRoute = (targetChapterId: string) =>
     `/practice/${subjectId}/${targetChapterId}${practiceSetSuffix}`
   const level = resourceLevels.find((item) => item.subjects.some((subject) => subject.id === subjectId))
   const subject = level?.subjects.find((item) => item.id === subjectId)
+  const subjectData = level?.toc.subjects.find((item) => item.id === subjectId)
+  const summary = level && subjectId ? resourceSummary.levels[level.id].subjects[subjectId] : undefined
+  const activeSummary = isCodex100 ? summary?.codex100 : isGuideExercise ? summary?.guide : summary?.ai
+  const originalChapterCount = chapterId ? summary?.ai?.chapterCounts[chapterId] ?? 0 : 0
+  const guideExerciseChapterCount = chapterId ? summary?.guide?.chapterCounts[chapterId] ?? 0 : 0
+  const codex100ChapterCount = chapterId ? summary?.codex100?.chapterCounts[chapterId] ?? 0 : 0
   const setLabel = isCodex100 ? 'Codex 100 題' : isGuideExercise ? '學習指引練習' : 'AI 舊版練習'
-  const selectableChapters = data?.chapters.filter((item) => !isGuideExercise || item.questions.length > 0) ?? []
+  const selectableChapters = subjectData?.chapters.filter((item) => (activeSummary?.chapterCounts[item.id] ?? 0) > 0) ?? []
 
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [chapterId, practiceSet])
+
+  useEffect(() => {
+    let active = true
+    setData(undefined)
+    setLoadError(null)
+    if (!subjectId) return
+
+    setLoading(true)
+    loadSubjectQuestions(subjectId, practiceSet)
+      .then((loadedData) => {
+        if (active) setData(loadedData)
+      })
+      .catch((error) => {
+        if (active) setLoadError(error instanceof Error ? error.message : String(error))
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+
+    return () => {
+      active = false
+    }
+  }, [subjectId, practiceSet])
+
+  if (loading) {
+    return <div className="text-text-light p-4">題目載入中...</div>
+  }
+
+  if (loadError) {
+    return <div className="text-error p-4">題目載入失敗：{loadError}</div>
+  }
 
   if (isGuideExercise && data && chapter && chapter.questions.length === 0) {
     return (
@@ -86,7 +79,7 @@ export default function PracticePage() {
                   to={`/practice/${subjectId}/${item.id}/guide`}
                   className="text-[0.8rem] px-3 py-1.5 rounded-lg border border-[#9a5c17] text-[#9a5c17] hover:bg-[#9a5c17] hover:text-white transition-colors no-underline"
                 >
-                  {item.title}（{item.questions.length} 題）
+                  {item.title}（{summary?.guide?.chapterCounts[item.id] ?? 0} 題）
                 </Link>
               ))}
             </div>
@@ -139,7 +132,7 @@ export default function PracticePage() {
         {data.subject} › {chapter.title} › {setLabel}（共 {chapter.questions.length} 題）
       </div>
       <div className="flex flex-wrap gap-2 mb-5">
-        {originalChapter && originalChapter.questions.length > 0 && (
+        {originalChapterCount > 0 && (
           <Link
             to={`/practice/${subjectId}/${chapterId}`}
             className={`text-[0.85rem] px-3 py-1.5 rounded-lg border transition-colors no-underline ${
@@ -148,10 +141,10 @@ export default function PracticePage() {
                 : 'border-border text-text-light hover:border-accent hover:text-accent'
             }`}
           >
-            AI 舊版練習（{originalChapter.questions.length} 題）
+            AI 舊版練習（{originalChapterCount} 題）
           </Link>
         )}
-        {guideExerciseChapter && guideExerciseChapter.questions.length > 0 && (
+        {guideExerciseChapterCount > 0 && (
           <Link
             to={`/practice/${subjectId}/${chapterId}/guide`}
             className={`text-[0.85rem] px-3 py-1.5 rounded-lg border transition-colors no-underline ${
@@ -160,10 +153,10 @@ export default function PracticePage() {
                 : 'border-border text-text-light hover:border-[#9a5c17] hover:text-[#9a5c17]'
             }`}
           >
-            學習指引練習（{guideExerciseChapter.questions.length} 題）
+            學習指引練習（{guideExerciseChapterCount} 題）
           </Link>
         )}
-        {codex100Chapter && codex100Chapter.questions.length > 0 && (
+        {codex100ChapterCount > 0 && (
           <Link
             to={`/practice/${subjectId}/${chapterId}/codex100`}
             className={`text-[0.85rem] px-3 py-1.5 rounded-lg border transition-colors no-underline ${
@@ -172,7 +165,7 @@ export default function PracticePage() {
                 : 'border-border text-text-light hover:border-[#5b7c2a] hover:text-[#5b7c2a]'
             }`}
           >
-            Codex 100 題（{codex100Chapter.questions.length} 題）
+            Codex 100 題（{codex100ChapterCount} 題）
           </Link>
         )}
       </div>
@@ -181,7 +174,7 @@ export default function PracticePage() {
           <div className="text-[0.78rem] font-semibold text-text-light mb-2">切換章節</div>
           <div className="flex flex-wrap gap-2">
             {selectableChapters.map((item, index) => {
-              const count = item.questions.length
+              const count = activeSummary?.chapterCounts[item.id] ?? 0
               return (
                 <Link
                   key={item.id}

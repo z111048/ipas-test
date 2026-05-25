@@ -6,7 +6,7 @@ import { galleryRoute, resourceLevels, type ResourceNavItem } from '../../data/r
 import type { GuideOutlinesData } from '../../types'
 import GuideOutlineTree from '../guide/GuideOutlineTree'
 
-const guideOutlines = guideOutlinesRaw as GuideOutlinesData
+const guideOutlines = guideOutlinesRaw as unknown as GuideOutlinesData
 const STORAGE_KEY = 'ipas-sidebar-expanded-v2'
 
 interface SidebarProps {

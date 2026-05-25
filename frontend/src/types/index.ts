@@ -164,6 +164,34 @@ export interface GuideOutlinesData {
   guides: Record<string, GuideOutlineSubject>
 }
 
+export interface ResourceQuestionSummary {
+  available: boolean
+  total: number
+  firstChapterId: string | null
+  chapterCounts: Record<string, number>
+}
+
+export interface ResourceExamSummary {
+  available: boolean
+  total: number
+}
+
+export interface ResourceSubjectSummary {
+  ai?: ResourceQuestionSummary
+  guide?: ResourceQuestionSummary
+  codex100?: ResourceQuestionSummary
+}
+
+export interface ResourceLevelSummary {
+  level: string
+  subjects: Record<string, ResourceSubjectSummary>
+  exams: Record<string, ResourceExamSummary>
+}
+
+export interface ResourceSummaryData {
+  levels: Record<'junior' | 'middle', ResourceLevelSummary>
+}
+
 export type UserAnswers = Record<number, 'A' | 'B' | 'C' | 'D'>
 export type ExamPhase = 'intro' | 'active' | 'results'
 

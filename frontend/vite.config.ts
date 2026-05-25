@@ -9,6 +9,15 @@ export default defineConfig({
   build: {
     outDir: resolve(__dirname, '../docs'),
     emptyOutDir: true,
+    chunkSizeWarningLimit: 650,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return undefined
+          return 'vendor'
+        },
+      },
+    },
   },
   resolve: {
     alias: {

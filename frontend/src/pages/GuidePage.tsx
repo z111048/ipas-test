@@ -9,7 +9,7 @@ import { GUIDE_NOTICES } from '../constants/guideNotices'
 import GuideOutlineTree from '../components/guide/GuideOutlineTree'
 import { publicAsset } from '../utils/assets'
 
-const guideOutlines = guideOutlinesRaw as GuideOutlinesData
+const guideOutlines = guideOutlinesRaw as unknown as GuideOutlinesData
 const guideContentModules = import.meta.glob<{ default: GuideContent }>('../generated/guideContent/*/*.json')
 
 function normalizeOcrSoftBreaks(text: string) {

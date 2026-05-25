@@ -20,6 +20,7 @@ Data pipeline scripts support `--level` (default `初級`); paths resolve to `da
 - `scripts/export_question_generation_data.py`: exports guide/question seed files for the question-generation pipeline from `frontend/src/generated/guideOutlines.json` + split guide content. Writes `data/{level}/guide/subject{N}_guide.json` and initializes/refreshes `data/{level}/questions/subject{N}_questions.json` while preserving existing questions. Supports `--level`, `--all-levels`.
 - `scripts/build_pdf_outline.py`: **PDF outline builder** — analyzes structured page extraction and Vision headings to build reviewable hierarchical outlines under `data/{level}/outline/`. Supports `--level`, `--key`, `--all`.
 - `scripts/export_pdf_image_gallery.py`: exports cropped image/table assets from `page_extract/` to `frontend/public/pdf-assets/{level}/` with `gallery.json` for the frontend image viewer. Supports `--level`, `--force`.
+- `scripts/export_resource_summary.py`: exports lightweight question/exam counts to `frontend/src/generated/resourceSummary.json`. The frontend sidebar, home page, and subject overview use this summary so full question JSON can be loaded lazily only inside practice/exam routes.
 - `scripts/pdf_vision_extract.py`: **Guide extraction** — renders each PDF page to PNG and calls Gemini Vision API (`gemini-2.5-flash`). Results cached at `data/{level}/pages_cache/{key}/page_NNN.json`; auto-generates `page_index.json` (TOC) on completion. Requires `GEMINI_API_KEY`. Supports `--level`, `--subject`, `--all`, `--dry-run`, `--force`, `--page`.
 - `scripts/gemini_exam_vision_extract.py`: **Exam Vision OCR** — renders official exam/sample PDF pages from `EXAM_PDFS_BY_LEVEL` to PNG and calls Gemini Vision API with an exam-specific schema for questions, answers, shared contexts, and visual references. Results cached at `data/{level}/exam_pages_cache/{key}/page_NNN.json`. Requires `GEMINI_API_KEY`. Supports `--level`, `--key`, `--all`, `--page`, `--force`, `--dry-run`.
 - `scripts/parse_guides.py`: **Guide assembly** — assembles chapter JSON from vision cache (preferred) or falls back to regex extraction. Reads chapter definitions from `toc_manifest.json`. Supports `--level`, `--subject`.
@@ -52,6 +53,7 @@ This project uses `uv` for dependency management. Run `uv sync` after cloning to
 - `python3 scripts/export_question_generation_data.py --level 中級`: refresh question-generation guide seeds and empty/preserved chapter-question files for a level.
 - `python3 scripts/build_pdf_outline.py --level 初級 --all`: rebuild reviewable PDF hierarchy outlines from the page extraction.
 - `python3 scripts/export_pdf_image_gallery.py --level 初級 --force`: refresh frontend image/table gallery assets.
+- `python3 scripts/export_resource_summary.py`: refresh lightweight frontend question/exam counts after question JSON changes.
 
 **Guide pipeline (Vision extraction via Gemini):**
 - Step 1: `uv run python3 scripts/pdf_vision_extract.py --level 初級 --all` — render pages to PNG, call Gemini Vision API, cache results.

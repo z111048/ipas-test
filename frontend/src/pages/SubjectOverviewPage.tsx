@@ -1,45 +1,11 @@
 import { Link, useParams } from 'react-router-dom'
-import juniorSubject1Raw from '@data/questions/subject1_questions.json'
-import juniorSubject2Raw from '@data/questions/subject2_questions.json'
-import juniorSubject1GuideExerciseRaw from '@data/questions/subject1_guide_exercises.json'
-import juniorSubject2GuideExerciseRaw from '@data/questions/subject2_guide_exercises.json'
-import middleSubject1Raw from '@data-mid/questions/subject1_questions.json'
-import middleSubject2Raw from '@data-mid/questions/subject2_questions.json'
-import middleSubject3Raw from '@data-mid/questions/subject3_questions.json'
-import middleSubject1GuideExerciseRaw from '@data-mid/questions/subject1_guide_exercises.json'
-import middleSubject2GuideExerciseRaw from '@data-mid/questions/subject2_guide_exercises.json'
-import middleSubject3GuideExerciseRaw from '@data-mid/questions/subject3_guide_exercises.json'
-import middleSubject1Codex100Raw from '@data-mid/questions/subject1_codex100_questions.json'
-import middleSubject2Codex100Raw from '@data-mid/questions/subject2_codex100_questions.json'
-import middleSubject3Codex100Raw from '@data-mid/questions/subject3_codex100_questions.json'
 import guideOutlinesRaw from '../generated/guideOutlines.json'
-import { resourceLevels } from '../data/resourceRegistry'
-import type { GuideOutlinesData, SubjectQuestions } from '../types'
+import { resourceLevels, resourceSummary } from '../data/resourceRegistry'
+import type { GuideOutlinesData } from '../types'
 import ProgressBar from '../components/shared/ProgressBar'
 import GuideOutlineTree from '../components/guide/GuideOutlineTree'
 
-const guideOutlines = guideOutlinesRaw as GuideOutlinesData
-const questionMap: Record<string, SubjectQuestions> = {
-  s1: juniorSubject1Raw as SubjectQuestions,
-  s2: juniorSubject2Raw as SubjectQuestions,
-  'mid-s1': middleSubject1Raw as SubjectQuestions,
-  'mid-s2': middleSubject2Raw as SubjectQuestions,
-  'mid-s3': middleSubject3Raw as SubjectQuestions,
-}
-
-const codex100QuestionMap: Record<string, SubjectQuestions> = {
-  'mid-s1': middleSubject1Codex100Raw as SubjectQuestions,
-  'mid-s2': middleSubject2Codex100Raw as SubjectQuestions,
-  'mid-s3': middleSubject3Codex100Raw as SubjectQuestions,
-}
-
-const guideExerciseQuestionMap: Record<string, SubjectQuestions> = {
-  s1: juniorSubject1GuideExerciseRaw as SubjectQuestions,
-  s2: juniorSubject2GuideExerciseRaw as SubjectQuestions,
-  'mid-s1': middleSubject1GuideExerciseRaw as SubjectQuestions,
-  'mid-s2': middleSubject2GuideExerciseRaw as SubjectQuestions,
-  'mid-s3': middleSubject3GuideExerciseRaw as SubjectQuestions,
-}
+const guideOutlines = guideOutlinesRaw as unknown as GuideOutlinesData
 
 function resourceForSubject(subjectId?: string) {
   for (const level of resourceLevels) {
@@ -60,17 +26,18 @@ export default function SubjectOverviewPage() {
   const { level, subject, subjectData } = resourceForSubject(subjectId)
   const guideOutline = guideOutlines.guides[subjectData.id]
   const hasPractice = subject.practiceStatus === 'available'
-  const questionData = questionMap[subjectData.id]
-  const codex100QuestionData = codex100QuestionMap[subjectData.id]
-  const guideExerciseQuestionData = guideExerciseQuestionMap[subjectData.id]
+  const summary = resourceSummary.levels[level.id].subjects[subjectData.id]
+  const questionSummary = summary?.ai
+  const guideExerciseSummary = summary?.guide
+  const codex100Summary = summary?.codex100
   const practiceCounts = subjectData.chapters.map((chapter) =>
-    questionData?.chapters.find((item) => item.id === chapter.id)?.questions.length ?? 0
+    questionSummary?.chapterCounts[chapter.id] ?? 0
   )
   const guideExerciseCounts = subjectData.chapters.map((chapter) =>
-    guideExerciseQuestionData?.chapters.find((item) => item.id === chapter.id)?.questions.length ?? 0
+    guideExerciseSummary?.chapterCounts[chapter.id] ?? 0
   )
   const codex100Counts = subjectData.chapters.map((chapter) =>
-    codex100QuestionData?.chapters.find((item) => item.id === chapter.id)?.questions.length ?? 0
+    codex100Summary?.chapterCounts[chapter.id] ?? 0
   )
   const maxPracticeQ = Math.max(...practiceCounts, 1)
   const maxGuideExerciseQ = Math.max(...guideExerciseCounts, 1)
@@ -176,7 +143,7 @@ export default function SubjectOverviewPage() {
         </div>
       </div>
 
-      {guideExerciseQuestionData && (
+      {guideExerciseSummary && (
         <div className="bg-card rounded-xl shadow-sm border border-border p-5 mb-6">
           <h2 className="text-lg font-semibold text-primary mb-4">學習指引練習狀態</h2>
           <div className="space-y-3">
@@ -196,7 +163,7 @@ export default function SubjectOverviewPage() {
         </div>
       )}
 
-      {codex100QuestionData && (
+      {codex100Summary && (
         <div className="bg-card rounded-xl shadow-sm border border-border p-5">
           <h2 className="text-lg font-semibold text-primary mb-4">Codex 100 題狀態</h2>
           <div className="space-y-3">
