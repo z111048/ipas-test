@@ -131,22 +131,6 @@ def render_clean_page(
     out_path.parent.mkdir(parents=True, exist_ok=True)
     pix = page.get_pixmap(matrix=fitz.Matrix(scale, scale), alpha=False)
     pix.save(str(out_path))
-
-    image = Image.open(out_path).convert('RGB')
-    for embedded in page.get_images(full=True):
-        xref = embedded[0]
-        for rect in page.get_image_rects(xref):
-            bbox_tuple = image_bbox_key(rect)
-            if bbox_tuple not in watermark_bboxes and not is_watermark_geometry(page, rect):
-                continue
-            fill_rect = (
-                max(0, int(rect.x0 * scale) - 2),
-                max(0, int(rect.y0 * scale) - 2),
-                min(image.width, int(rect.x1 * scale) + 2),
-                min(image.height, int(rect.y1 * scale) + 2),
-            )
-            image.paste((255, 255, 255), fill_rect)
-    image.save(out_path)
     return {
         'id': 'page',
         'bbox': rect_to_list(page.rect),

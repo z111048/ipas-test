@@ -92,6 +92,11 @@ function guideHeadingDomId(blockId: string) {
   return `guide-heading-${blockId}`
 }
 
+function cssEscape(value: string) {
+  if (typeof CSS !== 'undefined' && CSS.escape) return CSS.escape(value)
+  return value.replace(/["\\]/g, '\\$&')
+}
+
 function GuideHtmlTable({ rows }: { rows: string[][] }) {
   const [header, ...bodyRows] = rows
   return (
@@ -152,8 +157,9 @@ function GuideBlocksRenderer({ blocks }: { blocks: GuideBlock[] }) {
           return (
             <Tag
               key={block.id}
-              id={guideHeadingDomId(block.id)}
+              id={guideHeadingDomId(block.anchor || block.id)}
               data-guide-block-id={block.id}
+              data-guide-anchor={block.anchor}
               className={`guide-depth-block scroll-mt-4 ${blockTextClass(block)}`}
               style={blockIndentStyle(block.depth)}
             >
@@ -246,21 +252,39 @@ export default function GuidePage() {
   const contentHeadings = hasBlocks
     ? contentBlocks
       .filter((block) => block.type === 'heading' && block.depth >= 3 && block.depth <= 5 && block.id && block.title)
-      .map((block) => ({ id: block.id, level: block.depth, title: block.title ?? '' }))
-    : content?.headings?.filter((heading) => heading.level >= 3 && heading.level <= 4) ?? []
+      .map((block) => ({ id: block.id, anchor: block.anchor, level: block.depth, title: block.title ?? '' }))
+    : content?.headings
+      ?.filter((heading) => heading.level >= 3 && heading.level <= 4)
+      .map((heading) => ({ ...heading, anchor: undefined as string | undefined })) ?? []
   const childChapters = chapter.children.map((childId) => outlineGuide.nodesById[childId]).filter(Boolean)
   const hasChildChapters = childChapters.length > 0
   const pageRange = `PDF 第 ${chapter.pageRange[0]}–${chapter.pageRange[1]} 頁`
-  const scrollToContentBlock = (id: string) => {
+  const scrollToContentBlock = (id: string, anchor?: string) => {
     const container = contentScrollRef.current
-    const target = container?.querySelector<HTMLElement>(`[data-guide-block-id="${id}"]`)
-    if (!container || !target) return
+    const root: ParentNode = container ?? document
+    const target = root.querySelector<HTMLElement>(
+      [
+        `[data-guide-block-id="${cssEscape(id)}"]`,
+        anchor ? `[data-guide-anchor="${cssEscape(anchor)}"]` : '',
+        `#${cssEscape(guideHeadingDomId(anchor || id))}`,
+        `#${cssEscape(id)}`,
+      ].filter(Boolean).join(',')
+    )
+    if (!target) return
+    if (!container) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      return
+    }
     const containerTop = container.getBoundingClientRect().top
     const targetTop = target.getBoundingClientRect().top
+    const nextTop = container.scrollTop + targetTop - containerTop - 8
     container.scrollTo({
-      top: container.scrollTop + targetTop - containerTop - 8,
+      top: nextTop,
       behavior: 'smooth',
     })
+    if (Math.abs(container.scrollTop - nextTop) > 2 && container.scrollHeight <= container.clientHeight) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
   }
 
   return (
@@ -352,7 +376,7 @@ export default function GuidePage() {
                     <button
                       key={`${heading.id}-${heading.title}`}
                       type="button"
-                      onClick={() => scrollToContentBlock(heading.id)}
+                      onClick={() => scrollToContentBlock(heading.id, heading.anchor)}
                       className="block w-full text-left text-[0.78rem] leading-5 text-primary no-underline hover:text-accent"
                       style={{ paddingLeft: `${Math.max(0, heading.level - 3) * 0.85}rem` }}
                     >
