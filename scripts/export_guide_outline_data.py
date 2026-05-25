@@ -481,6 +481,576 @@ def append_block(blocks: list[dict], block: dict) -> None:
     blocks.append(block)
 
 
+def reset_block_ids(blocks: list[dict]) -> list[dict]:
+    for index, block in enumerate(blocks, start=1):
+        block['id'] = f'block-{index}'
+    return blocks
+
+
+def heading_anchor(title: str, index: int) -> str:
+    return slugify_heading(title, index)
+
+
+def retitle_heading(block: dict, title: str, index: int) -> None:
+    block['title'] = block_text(title)
+    block['anchor'] = heading_anchor(block['title'], index)
+
+
+def split_heading_title(title: str, depth: int) -> tuple[str, str | None]:
+    """Split verbose PDF headings such as "A. 原理：..." into heading + paragraph."""
+    stripped = title.strip()
+    if depth <= 3:
+        return stripped, None
+
+    colon_match = re.match(r'^((?:（\d+）|[A-Z]\.|[a-z]\.)\s*[^：:]{2,70})[：:]\s*(.+)$', stripped)
+    if colon_match:
+        heading = colon_match.group(1).strip()
+        detail = colon_match.group(2).strip()
+        if detail:
+            return heading, detail
+        return heading, None
+
+    paren_match = re.match(r'^(（\d+）\s*.+?(?:（[^）]+）|\([^)]*\)))\s*(.+)$', stripped)
+    if paren_match and len(stripped) > 34:
+        heading = paren_match.group(1).strip()
+        detail = paren_match.group(2).strip()
+        if detail and not re.fullmatch(r'[：:，,。；;]*', detail):
+            return heading, detail
+
+    return stripped, None
+
+
+CONTENT_SECTION_TITLES: dict[str, dict[str, list[str]]] = {
+    'mid-s2c1': {
+        '1.': ['1. 前言與章節導覽'],
+        '2.': ['2. 集中趨勢與離散程度'],
+    },
+    'mid-s2c2': {
+        '1.': ['1. 前言與章節導覽'],
+        '2.': ['2. 機率分佈基本概念'],
+        '3.': ['3. 離散型機率分佈'],
+        '4.': ['4. 連續型機率分佈'],
+        '5.': ['5. 分佈擬合與資料建模'],
+    },
+    'mid-s2c6': {
+        '1.': ['1. 前言與章節導覽'],
+        '2.': ['2. 資料轉換與前處理'],
+    },
+    'mid-s2c7': {
+        '1.': ['1. 前言與章節導覽'],
+        '3.': ['3. 大數據下統計推論的限制與風險'],
+    },
+    'mid-s2c11': {
+        '1.': ['1. 前言與章節導覽'],
+        '2.': ['2. 鑑別式AI 的核心任務與應用情境'],
+    },
+    'mid-s2c12': {
+        '1.': ['1. 前言與章節導覽'],
+        '2.': ['2. 生成式AI 資料需求與選擇'],
+    },
+    's2c1': {
+        '3.': ['3. AI No Code / Low Code'],
+        '4.': ['4. AI No Code / Low Code 產業應用'],
+        '5.': ['5. No Code / Low Code 平台選擇與評估'],
+        '7.': ['7. No Code / Low Code 導入效益'],
+        '8.': ['8. AI No Code / Low Code 發展趨勢'],
+    },
+    's2c2': {
+        '1.': ['1. 生成式AI 的基本概念'],
+        '2.': ['2. 生成式AI 的市場價值與影響力'],
+        '3.': ['3. 生成式AI 工具的技術進化'],
+        '4.': ['4. 生成式AI 應用領域'],
+    },
+    's2c3': {
+        '1.': ['1. 生成式AI 導入評估標準'],
+    },
+    's2pdf-c3': {
+        '3.': ['3. AI No Code / Low Code', '3. 生成式AI 工具的技術進化'],
+        '4.': ['4. AI No Code / Low Code 產業應用', '4. 生成式AI 應用領域'],
+        '5.': ['5. 生成式AI 應用案例'],
+        '7.': ['7. No Code / Low Code 導入效益'],
+        '8.': ['8. AI No Code / Low Code 發展趨勢'],
+    },
+}
+
+
+TITLE_REPLACEMENTS = {
+    '3.1 第三章 AI 相關技術應用': '第三章 AI 相關技術應用',
+    '3.1 第三章人工智慧基礎概論': '3.1 人工智慧概念',
+    '3.1 第三章生成式AI 應用與規劃': '3.1 No code / Low code 概念',
+    '3.1 No code / Low code': '3.1 No code / Low code 概念',
+    '3.3 生成式AI': '3.3 生成式AI 技術與應用',
+    '3.2 AI': '3.2 生成式AI 應用領域與工具使用',
+    '3.3 AI': '3.3 生成式AI 導入評估規劃',
+    '3.4 AI': '3.4 鑑別式AI 與生成式AI 概念',
+    '4.1 AI': '4.1 AI 導入評估',
+    '4.2 AI': '4.2 AI 導入規劃',
+    '4.3 AI': '4.3 AI 風險管理',
+    '5.2 AI': '5.2 AI 技術系統集成與部署',
+    '6.2 AI': '6.2 大數據在鑑別式AI 中的應用',
+    '6.3 AI': '6.3 大數據在生成式AI 中的應用',
+    '3.1 機率/': '3.1 機率/統計之機器學習基礎應用',
+    '5. No Code / Low Code': '5. No Code / Low Code 平台選擇與評估',
+    '7. No Code / Low Code': '7. No Code / Low Code 導入效益',
+    '8. AI No Code / Low Code': '8. AI No Code / Low Code 發展趨勢',
+    '（4）數值標準化（Standardization）': '（4）數值標準化（Standardization）與正規化（Normalization）',
+    '（1）基本架構與監督式學習不同，非監督學習模型的輸出通常不是具體的預測值，而是：': '（1）基本架構',
+    '5. 多模態多模態 AI風險與未來趨勢': '5. 多模態 AI風險與未來趨勢',
+    '3. 偏見（Bias）與倫理（Ethics': '3. 偏見（Bias）與倫理（Ethics）',
+    'A. 原理：': 'A. 原理',
+    '2. 監督式學習-': '2. 監督式學習-迴歸任務',
+    '3. 監督式學習-': '3. 監督式學習-分類任務',
+    '2. 生成式AI 導入流程': '3. 生成式AI 導入流程',
+    '5. 生成式AI 導入風險與管理': '4. 生成式AI 導入風險與管理',
+}
+
+
+PARENT_BEFORE_HEADING: dict[str, dict[str, str]] = {
+    'mid-s2c1': {
+        '（1）偏度（Skewness）': '3. 分佈形狀與資料型態',
+    },
+    'mid-s2c4': {
+        '（1）常見的資料品質問題類型': '2. 資料品質問題與清理策略',
+    },
+    'mid-s2c5': {
+        '（1）結構化資料': '2. 資料型態與儲存需求',
+    },
+    'mid-s2c6': {
+        '（1）特徵選擇方法（Feature Selection）': '3. 特徵工程',
+        '（1）資料處理管線設計原則與流程架構': '4. 資料處理管線設計',
+    },
+    'mid-s2c10': {
+        '（1）分散式模型訓練架構（Distributed Training）': '2. 大數據環境下的機器學習訓練',
+        '（1）資料整合與處理管線（Data Processing）': '3. 端對端機器學習流程',
+    },
+    'mid-s2c11': {
+        '（1）常見輸入資料型態與特性': '3. 鑑別式AI 的資料型態與標註策略',
+    },
+    'mid-s2c13': {
+        '（1）個資識別風險': '2. 個資識別風險與保護技術',
+        '（1）合規資料處理的基本原則': '3. 合規資料處理原則',
+        '（1）制定資料與AI 治理政策': '4. 企業內部資料與AI 治理制度',
+    },
+    'mid-s2pdf-c3': {
+        '（1）集中趨勢（Central Tendency）': '3.1 敘述性統計與資料摘要技術',
+        '（1）偏度（Skewness）': '3. 分佈形狀與資料型態',
+    },
+    'mid-s2pdf-c4': {
+        '（1）常見的資料品質問題類型': '4.1 數據收集與清理',
+        '（1）結構化資料': '4.2 數據儲存與管理',
+        '（1）特徵選擇方法（Feature Selection）': '4.3 數據處理技術與工具',
+    },
+    'mid-s2pdf-c5': {
+        '（1）樣本非隨機，偏誤被放大': '3. 大數據下統計推論的限制與風險',
+    },
+    'mid-s2pdf-c6': {
+        '（1）資料規模大（Volume）': '6.1 大數據與機器學習',
+        '（1）個資識別風險': '6.4 大數據隱私保護、安全與合規',
+    },
+    's2c1': {
+        '（1） 模型準確性與可靠性': '6. AI No Code / Low Code 導入挑戰與風險',
+        '（1） 降低技術門檻': '9. AI No Code / Low Code 對產業與社會的影響',
+    },
+    's2c2': {
+        '（1） 生成式AI 技術突破': '3. 生成式AI 工具的技術進化',
+        '（1） 藝術與設計/內容創作': '5. 生成式AI 應用案例',
+    },
+    's2c3': {
+        '（1） 常見風險識別': '4. 生成式AI 導入風險與管理',
+        '（1） 準備階段（挑選AI 應用方案）': '3. 生成式AI 導入流程',
+        'A. 明確目標設定與優先級排序': '2. 導入目標與策略規劃',
+    },
+    's2pdf-c3': {
+        '（1） 自動生成程式碼': '3. AI No Code / Low Code',
+        '（1） 醫療保健': '4. AI No Code / Low Code 產業應用',
+        '（1） 模型準確性與可靠性': '6. AI No Code / Low Code 導入挑戰與風險',
+        '（1） 降低技術門檻': '9. AI No Code / Low Code 對產業與社會的影響',
+        '（1） 深度學習網路（Deep Learning Networks）': '1. 生成式AI 的基本概念',
+        '（1） 市場規模與增長趨勢': '2. 生成式AI 的市場價值與影響力',
+        '（1） 生成式AI 技術突破': '3. 生成式AI 工具的技術進化',
+        '（1） 專業化與垂直整合': '4. 生成式AI 應用領域',
+        '（1） 藝術與設計/內容創作': '5. 生成式AI 應用案例',
+        '（1） 需求與現狀評估': '1. 生成式AI 導入評估標準',
+        '（1） 目標用戶與技術需求': '5. No Code / Low Code 平台選擇與評估',
+        '（1） 準備階段（挑選AI 應用方案）': '3. 生成式AI 導入流程',
+        'A. 明確目標設定與優先級排序': '2. 導入目標與策略規劃',
+        '（1） 常見風險識別': '4. 生成式AI 導入風險與管理',
+    },
+}
+
+
+DEMOTE_EXACT_HEADINGS_BY_CONTENT: dict[str, set[str]] = {
+    's2pdf-c3': {
+        '5. No Code / Low Code 平台選擇與評估',
+    },
+}
+
+
+DEMOTE_ALPHA_PREFIXES_BY_CONTENT: dict[str, tuple[str, ...]] = {
+    'mid-s3c1': ('A. 設定虛無假設',),
+    'mid-s3pdf-c3': ('A. 設定虛無假設',),
+    'mid-s3c4': ('A. 初始化策略或價值函數',),
+    'mid-s3pdf-c4': ('A. 初始化策略或價值函數',),
+    'mid-s1c4': ('A. 目前遇到的挑戰',),
+    'mid-s1pdf-c3': ('A. 目前遇到的挑戰',),
+    'mid-s2c3': ('A. 設定虛無假設',),
+    'mid-s2pdf-c3': ('A. 設定虛無假設',),
+}
+
+
+DEMOTE_LEADING_TOC_BY_CONTENT: dict[str, set[str]] = {
+    'mid-s1pdf-c3': {
+        '第三章 AI 相關技術應用',
+        '3.1 自然語言處理技術與應用',
+        '3.2 電腦視覺技術與應用',
+        '3.3 生成式AI 技術與應用',
+        '3.4 多模態人工智慧應用',
+    },
+}
+
+
+S1C4_MODEL_HEADING_PREFIXES = (
+    '（1） 邏輯迴歸',
+    '（2） 支援向量機',
+    '（3） 決策樹',
+    '（4） 隨機森林',
+    '（5） 神經網路',
+    '（1） 生成對抗網路',
+    '（2） 變分自編碼器',
+    '（3） 擴散模型',
+)
+
+
+def manifest_chapter_heading(current_id: str, raw_title: str, blocks: list[dict]) -> str | None:
+    if 'pdf-' in current_id or 'pdf' in current_id:
+        return None
+    if not raw_title:
+        return None
+    for block in blocks[:4]:
+        text = block.get('title') or block.get('text') or ''
+        match = re.match(r'^(\d+\.\d+)(?:\s+.*)?$', text.strip())
+        if match:
+            return f'{match.group(1)} {raw_title}'
+    return None
+
+
+def next_section_title(content_id: str, marker: str, seen_markers: dict[str, int]) -> str | None:
+    options = CONTENT_SECTION_TITLES.get(content_id, {}).get(marker)
+    if not options:
+        return None
+    index = seen_markers.get(marker, 0)
+    seen_markers[marker] = index + 1
+    if index < len(options):
+        return options[index]
+    return None
+
+
+def normalize_guide_heading_depths(blocks: list[dict]) -> None:
+    seen_depth4_since_depth3 = False
+    for block in blocks:
+        if block.get('type') != 'heading':
+            continue
+        depth = int(block.get('depth') or 0)
+        title = block.get('title') or ''
+        if depth <= 3:
+            seen_depth4_since_depth3 = False
+        if depth == 4:
+            seen_depth4_since_depth3 = True
+        if depth == 5 and re.match(r'^[A-Z]\.\s+', title) and not seen_depth4_since_depth3:
+            block['depth'] = 4
+
+
+def demote_heading_to_list_item(block: dict) -> dict:
+    title = block.get('title') or ''
+    marker_match = re.match(r'^([A-Za-z]\.)\s*(.+)$', title)
+    marker = marker_match.group(1) if marker_match else ''
+    text = marker_match.group(2) if marker_match else title
+    return {
+        'type': 'list_item',
+        'depth': int(block.get('depth') or 5),
+        'marker': marker,
+        'text': block_text(text),
+        'pageIndex': block.get('pageIndex'),
+        'bbox': block.get('bbox'),
+    }
+
+
+def demote_leading_toc_headings(current_id: str, blocks: list[dict]) -> None:
+    titles = DEMOTE_LEADING_TOC_BY_CONTENT.get(current_id)
+    if not titles:
+        return
+    demoted: set[str] = set()
+    for index, block in enumerate(blocks):
+        if block.get('type') != 'heading':
+            continue
+        title = block.get('title') or ''
+        if title in titles and title not in demoted:
+            blocks[index] = {
+                'type': 'list_item',
+                'depth': 3,
+                'marker': '',
+                'text': title,
+                'pageIndex': block.get('pageIndex'),
+                'bbox': block.get('bbox'),
+            }
+            demoted.add(title)
+            if demoted == titles:
+                return
+
+
+def demote_gapped_alpha_heading_groups(blocks: list[dict]) -> None:
+    group: list[int] = []
+
+    def flush() -> None:
+        nonlocal group
+        if len(group) == 1:
+            title = blocks[group[0]].get('title') or ''
+            if not title.startswith('A. '):
+                blocks[group[0]] = demote_heading_to_list_item(blocks[group[0]])
+            group = []
+            return
+        if len(group) < 2:
+            group = []
+            return
+        letters = []
+        for index in group:
+            title = blocks[index].get('title') or ''
+            match = re.match(r'^([A-Z])\.\s+', title)
+            if match:
+                letters.append(match.group(1))
+        expected = [chr(ord('A') + offset) for offset in range(len(letters))]
+        if letters != expected:
+            for index in group:
+                blocks[index] = demote_heading_to_list_item(blocks[index])
+        group = []
+
+    for index, block in enumerate(blocks):
+        if block.get('type') != 'heading':
+            continue
+        title = block.get('title') or ''
+        depth = int(block.get('depth') or 0)
+        if depth <= 4:
+            flush()
+        if depth == 5 and re.match(r'^[A-Z]\.\s+', title):
+            group.append(index)
+        elif depth <= 5:
+            flush()
+    flush()
+
+
+def demote_specific_alpha_sequences(current_id: str, blocks: list[dict]) -> None:
+    prefixes = DEMOTE_ALPHA_PREFIXES_BY_CONTENT.get(current_id)
+    if not prefixes:
+        return
+    active_depth: int | None = None
+    for index, block in enumerate(blocks):
+        if block.get('type') != 'heading':
+            continue
+        depth = int(block.get('depth') or 0)
+        title = block.get('title') or ''
+        if active_depth is not None:
+            if depth == active_depth and re.match(r'^[A-Z]\.\s+', title):
+                blocks[index] = demote_heading_to_list_item(block)
+                continue
+            if depth <= active_depth:
+                active_depth = None
+        if any(title.startswith(prefix) for prefix in prefixes):
+            active_depth = depth
+            blocks[index] = demote_heading_to_list_item(block)
+
+
+def merge_heading_continuation_paragraphs(blocks: list[dict]) -> list[dict]:
+    merged: list[dict] = []
+    for block in blocks:
+        if (
+            merged
+            and merged[-1].get('type') == 'heading'
+            and block.get('type') == 'paragraph'
+            and re.match(r'^(與|及|和)[^。！？]{1,40}$', block.get('text') or '')
+        ):
+            title = f'{merged[-1]["title"]}{block["text"]}'
+            retitle_heading(merged[-1], TITLE_REPLACEMENTS.get(title, title), len(merged))
+            continue
+        merged.append(block)
+    return merged
+
+
+def post_process_guide_blocks(current_id: str, raw_title: str, blocks: list[dict]) -> list[dict]:
+    processed: list[dict] = []
+    seen_markers: dict[str, int] = {}
+    chapter_heading = manifest_chapter_heading(current_id, raw_title, blocks)
+    used_chapter_heading = False
+
+    for original in blocks:
+        block = dict(original)
+        block_type = block.get('type')
+        title_or_text = block.get('title') or block.get('text') or ''
+        stripped = title_or_text.strip()
+
+        if stripped == 'AI' and processed and processed[-1].get('type') == 'heading' and processed[-1].get('depth') == 2:
+            continue
+
+        if block_type in {'paragraph', 'question'}:
+            marker_match = re.fullmatch(r'\d+\.', stripped)
+            replacement = next_section_title(current_id, stripped, seen_markers) if marker_match else None
+            if (
+                not replacement
+                and current_id not in {'s2pdf-c3'}
+                and stripped == '1.'
+                and processed
+                and processed[-1].get('type') == 'heading'
+                and processed[-1].get('depth') == 2
+            ):
+                replacement = '1. 前言與章節導覽'
+            if replacement:
+                block = {
+                    'type': 'heading',
+                    'depth': 3,
+                    'title': replacement,
+                    'anchor': '',
+                    'pageIndex': block.get('pageIndex'),
+                    'bbox': block.get('bbox'),
+                }
+                processed.append(block)
+                continue
+            if chapter_heading and not used_chapter_heading and re.fullmatch(r'\d+\.\d+', stripped):
+                block = {
+                    'type': 'heading',
+                    'depth': 2,
+                    'title': chapter_heading,
+                    'anchor': '',
+                    'pageIndex': block.get('pageIndex'),
+                    'bbox': block.get('bbox'),
+                }
+                used_chapter_heading = True
+                processed.append(block)
+                continue
+            paragraph_section = re.match(r'^(\d+\.)\s+(.+)$', stripped)
+            if paragraph_section:
+                replacement = next_section_title(current_id, paragraph_section.group(1), seen_markers)
+                if (
+                    not replacement
+                    and current_id not in {'s2pdf-c3'}
+                    and paragraph_section.group(1) == '1.'
+                    and processed
+                    and processed[-1].get('type') == 'heading'
+                    and processed[-1].get('depth') == 2
+                ):
+                    replacement = '1. 前言與章節導覽'
+                if replacement:
+                    block = {
+                        'type': 'heading',
+                        'depth': 3,
+                        'title': replacement,
+                        'anchor': '',
+                        'pageIndex': block.get('pageIndex'),
+                        'bbox': block.get('bbox'),
+                    }
+                    processed.append(block)
+                    detail = paragraph_section.group(2).strip()
+                    if detail:
+                        processed.append({
+                            'type': 'paragraph',
+                            'depth': 4,
+                            'text': detail,
+                            'pageIndex': original.get('pageIndex'),
+                            'bbox': original.get('bbox'),
+                        })
+                    continue
+
+        if block_type == 'heading':
+            title = TITLE_REPLACEMENTS.get(stripped, stripped)
+            if title.startswith('第三章 '):
+                block['depth'] = 1
+            if chapter_heading and not used_chapter_heading and int(block.get('depth') or 0) == 2:
+                current_prefix = re.match(r'^(\d+\.\d+)(?:\s+.*)?$', title)
+                target_prefix = re.match(r'^(\d+\.\d+)(?:\s+.*)?$', chapter_heading)
+                if current_prefix and target_prefix and current_prefix.group(1) == target_prefix.group(1):
+                    title = chapter_heading
+                    used_chapter_heading = True
+
+            if re.match(r'^[a-z]\.\s+', title):
+                marker, text = title.split('.', 1)
+                block = {
+                    'type': 'list_item',
+                    'depth': 6,
+                    'marker': f'{marker}.',
+                    'text': block_text(text),
+                    'pageIndex': block.get('pageIndex'),
+                    'bbox': block.get('bbox'),
+                }
+                processed.append(block)
+                continue
+
+            heading, detail = split_heading_title(title, int(block.get('depth') or 0))
+            heading = TITLE_REPLACEMENTS.get(heading, heading)
+            if current_id in {'s2c3', 's2pdf-c3'} and heading == '（3） 資源與基礎設施評估':
+                heading = '（3） 導入策略與階段規劃'
+            block['title'] = heading
+            if (
+                heading in DEMOTE_EXACT_HEADINGS_BY_CONTENT.get(current_id, set())
+                or (current_id == 's2pdf-c3' and heading.startswith('5. No Code / Low Code 平台選擇'))
+            ):
+                block = demote_heading_to_list_item(block)
+                processed.append(block)
+                if detail:
+                    processed.append({
+                        'type': 'paragraph',
+                        'depth': min(int(block.get('depth') or 0) + 1, 9),
+                        'text': block_text(detail),
+                        'pageIndex': original.get('pageIndex'),
+                        'bbox': original.get('bbox'),
+                    })
+                continue
+            if current_id in {'s1c4', 's1pdf-c3'} and any(heading.startswith(prefix) for prefix in S1C4_MODEL_HEADING_PREFIXES):
+                block['depth'] = 5
+            if current_id in {'s1c4', 's1pdf-c3'} and heading == 'A. 原理':
+                block = demote_heading_to_list_item(block)
+                processed.append(block)
+                if detail:
+                    processed.append({
+                        'type': 'paragraph',
+                        'depth': 6,
+                        'text': block_text(detail),
+                        'pageIndex': original.get('pageIndex'),
+                        'bbox': original.get('bbox'),
+                    })
+                continue
+            parent_title = PARENT_BEFORE_HEADING.get(current_id, {}).get(heading)
+            if parent_title and not any(item.get('type') == 'heading' and item.get('title') == parent_title for item in processed):
+                parent_depth = 2 if re.match(r'^\d+\.\d+\s+', parent_title) else 3
+                processed.append({
+                    'type': 'heading',
+                    'depth': parent_depth,
+                    'title': parent_title,
+                    'anchor': '',
+                    'pageIndex': block.get('pageIndex'),
+                    'bbox': block.get('bbox'),
+                })
+            processed.append(block)
+            if detail:
+                processed.append({
+                    'type': 'paragraph',
+                    'depth': min(int(block.get('depth') or 0) + 1, 9),
+                    'text': block_text(detail),
+                    'pageIndex': block.get('pageIndex'),
+                    'bbox': block.get('bbox'),
+                })
+            continue
+
+        processed.append(block)
+
+    normalize_guide_heading_depths(processed)
+    demote_gapped_alpha_heading_groups(processed)
+    demote_specific_alpha_sequences(current_id, processed)
+    demote_leading_toc_headings(current_id, processed)
+    processed = merge_heading_continuation_paragraphs(processed)
+    for index, block in enumerate(processed, start=1):
+        if block.get('type') == 'heading':
+            retitle_heading(block, block.get('title') or '', index)
+    return reset_block_ids(processed)
+
+
 def can_extend_previous_heading(previous: dict, text: str, item: dict) -> bool:
     if previous.get('type') != 'heading':
         return False
@@ -900,7 +1470,7 @@ def build_nodes(
         content_ref = f'{current_id}.json'
         content = page_content(level, key, start_page, end_page)
         markdown_content = format_markdown(raw_node.get('title') or '', content)
-        blocks = page_blocks(level, key, start_page, end_page)
+        blocks = post_process_guide_blocks(current_id, raw_node.get('title') or '', page_blocks(level, key, start_page, end_page))
         write_json(content_dir / content_key / content_ref, {
             'id': current_id,
             'title': raw_node.get('title') or '',
