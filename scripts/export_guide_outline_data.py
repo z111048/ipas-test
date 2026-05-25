@@ -346,11 +346,30 @@ def text_items_should_join(previous: dict, current: dict) -> bool:
     return same_left_edge or continuation_indent or not text_looks_complete(previous_text)
 
 
+def merge_text_metadata(previous: dict, current: dict) -> None:
+    previous.setdefault('first_x', previous.get('x'))
+    previous.setdefault('line_xs', [previous.get('x')])
+    previous.setdefault('body_left', previous.get('x'))
+    current_x = current.get('x')
+    if current_x is not None:
+        previous['line_xs'] = [x for x in previous.get('line_xs', []) if x is not None] + [current_x]
+    current_body_left = current.get('body_left')
+    if previous.get('body_left') is None:
+        previous['body_left'] = current_body_left
+    elif current_body_left is not None:
+        previous['body_left'] = min(previous['body_left'], current_body_left)
+
+
 def merge_text_items(items: list[dict]) -> list[dict]:
     merged: list[dict] = []
     for item in items:
+        if item.get('type') == 'text':
+            item = dict(item)
+            item.setdefault('first_x', item.get('x'))
+            item.setdefault('line_xs', [item.get('x')])
         if merged and items_form_numbered_heading(merged[-1], item):
             merged[-1]['text'] = f'{merged[-1]["text"]} {item["text"]}'
+            merge_text_metadata(merged[-1], item)
             previous_bbox = merged[-1].get('bbox') or item.get('bbox')
             current_bbox = item.get('bbox') or previous_bbox
             if len(previous_bbox) == 4 and len(current_bbox) == 4:
@@ -363,6 +382,7 @@ def merge_text_items(items: list[dict]) -> list[dict]:
             continue
         if merged and items_form_same_line_heading(merged[-1], item):
             merged[-1]['text'] = join_heading_fragments(merged[-1]['text'], item['text'])
+            merge_text_metadata(merged[-1], item)
             previous_bbox = merged[-1].get('bbox') or item.get('bbox')
             current_bbox = item.get('bbox') or previous_bbox
             if len(previous_bbox) == 4 and len(current_bbox) == 4:
@@ -375,6 +395,7 @@ def merge_text_items(items: list[dict]) -> list[dict]:
             continue
         if merged and text_items_should_join(merged[-1], item):
             merged[-1]['text'] = f'{merged[-1]["text"]}\n{item["text"]}'
+            merge_text_metadata(merged[-1], item)
             previous_bbox = merged[-1].get('bbox') or item.get('bbox')
             current_bbox = item.get('bbox') or previous_bbox
             if len(previous_bbox) == 4 and len(current_bbox) == 4:
@@ -1301,13 +1322,21 @@ def build_content_blocks(items: list[dict]) -> list[dict]:
                 'bbox': item.get('bbox'),
             })
         else:
-            append_block(blocks, {
+            first_x = item.get('first_x')
+            body_left = item.get('body_left')
+            line_xs = [x for x in item.get('line_xs', []) if isinstance(x, (int, float))]
+            block = {
                 'type': 'paragraph',
                 'depth': min(current_context_depth + 1, 9),
                 'text': text,
                 'pageIndex': item.get('page_index'),
                 'bbox': item.get('bbox'),
-            })
+            }
+            if isinstance(first_x, (int, float)) and isinstance(body_left, (int, float)):
+                block['indentFirstLine'] = first_x - body_left >= 12
+            elif len(line_xs) >= 2:
+                block['indentFirstLine'] = line_xs[0] - min(line_xs) >= 12
+            append_block(blocks, block)
     return blocks
 
 
@@ -1339,7 +1368,7 @@ def positioned_page_items(level: str, key: str, page_index: int, cleaned_page: d
 
     page_height = float(extracted.get('height') or 0)
     table_bboxes = [table.get('bbox') or [] for table in tables if len(table.get('bbox') or []) == 4]
-    items: list[dict] = []
+    text_items: list[dict] = []
     for block in extracted.get('blocks') or []:
         bbox = block.get('bbox') or []
         if len(bbox) != 4:
@@ -1351,7 +1380,7 @@ def positioned_page_items(level: str, key: str, page_index: int, cleaned_page: d
             continue
         if any(block_overlaps_table(block, table_bbox) for table_bbox in table_bboxes):
             continue
-        items.append({
+        text_items.append({
             'type': 'text',
             'page_index': page_index,
             'page_height': page_height,
@@ -1361,6 +1390,13 @@ def positioned_page_items(level: str, key: str, page_index: int, cleaned_page: d
             'text': text,
         })
 
+    body_left = page_body_left(text_items)
+    for item in text_items:
+        item['body_left'] = body_left
+        item['first_x'] = item.get('x')
+        item['line_xs'] = [item.get('x')]
+
+    items: list[dict] = [*text_items]
     for table in tables:
         bbox = table.get('bbox') or []
         if len(bbox) != 4:
@@ -1378,6 +1414,23 @@ def positioned_page_items(level: str, key: str, page_index: int, cleaned_page: d
             })
 
     return sorted(items, key=lambda item: (item['page_index'], item['y'], item['x']))
+
+
+def page_body_left(text_items: list[dict]) -> float | None:
+    xs = [
+        float(item['x'])
+        for item in text_items
+        if isinstance(item.get('x'), (int, float))
+        and len((item.get('text') or '').strip()) >= 4
+        and not text_looks_structural(item.get('text') or '')
+    ]
+    if not xs:
+        return None
+    buckets: dict[int, list[float]] = {}
+    for x in xs:
+        buckets.setdefault(round(x / 4), []).append(x)
+    _, values = max(buckets.items(), key=lambda item: (len(item[1]), -sum(item[1]) / len(item[1])))
+    return sum(values) / len(values)
 
 
 def table_column_count(item: dict) -> int:

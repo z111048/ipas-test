@@ -174,7 +174,7 @@ function GuideBlocksRenderer({ blocks }: { blocks: GuideBlock[] }) {
             className={`guide-depth-block ${blockTextClass(block)}`}
             style={{
               ...blockIndentStyle(block.depth),
-              textIndent: block.type === 'paragraph' ? '2em' : undefined,
+              textIndent: block.type === 'paragraph' && block.indentFirstLine ? '2em' : undefined,
             }}
           >
             {block.text}

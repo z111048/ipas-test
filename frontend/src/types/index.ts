@@ -142,6 +142,7 @@ export interface GuideBlock {
   rows?: string[][]
   pageIndex?: number
   bbox?: number[]
+  indentFirstLine?: boolean
 }
 
 export interface GuideOutlineSubject {
