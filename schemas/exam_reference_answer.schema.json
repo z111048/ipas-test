@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ExamReferenceAnswer",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "level",
+    "exam_key",
+    "question_id",
+    "answer",
+    "reference_answer",
+    "option_analysis",
+    "key_concepts",
+    "citations",
+    "confidence",
+    "notes"
+  ],
+  "properties": {
+    "level": { "type": "string" },
+    "exam_key": { "type": "string" },
+    "question_id": { "type": "string" },
+    "answer": { "type": "string", "enum": ["A", "B", "C", "D"] },
+    "reference_answer": {
+      "type": "string",
+      "minLength": 80,
+      "description": "Detailed Traditional Chinese reference answer."
+    },
+    "option_analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["A", "B", "C", "D"],
+      "properties": {
+        "A": { "type": "string", "minLength": 10 },
+        "B": { "type": "string", "minLength": 10 },
+        "C": { "type": "string", "minLength": 10 },
+        "D": { "type": "string", "minLength": 10 }
+      }
+    },
+    "key_concepts": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "citations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["guide_key", "node_id", "title", "page_label", "block_ids", "why_relevant"],
+        "properties": {
+          "guide_key": { "type": "string" },
+          "node_id": { "type": "string" },
+          "title": { "type": "string" },
+          "page_label": { "type": ["string", "null"] },
+          "block_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "why_relevant": { "type": "string" }
+        }
+      }
+    },
+    "confidence": { "type": "string", "enum": ["high", "medium", "low"] },
+    "notes": { "type": "string" }
+  }
+}

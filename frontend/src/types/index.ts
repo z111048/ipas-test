@@ -45,6 +45,25 @@ export interface Question {
   }
 }
 
+export interface ExamReferenceCitation {
+  guide_key: string
+  node_id: string
+  title: string
+  page_label?: string | null
+  block_ids?: string[]
+  why_relevant?: string
+}
+
+export interface ExamReferenceAnswer {
+  answer: 'A' | 'B' | 'C' | 'D'
+  reference_answer: string
+  option_analysis?: Partial<Record<'A' | 'B' | 'C' | 'D', string>>
+  key_concepts?: string[]
+  citations?: ExamReferenceCitation[]
+  confidence?: 'high' | 'medium' | 'low'
+  notes?: string
+}
+
 export interface Chapter {
   id: string
   title: string

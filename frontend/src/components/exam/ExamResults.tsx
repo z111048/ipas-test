@@ -1,5 +1,6 @@
+import { useEffect, useState } from 'react'
 import { useExamStore } from '../../store/examStore'
-import type { QuestionImage } from '../../types'
+import type { ExamReferenceAnswer, QuestionImage } from '../../types'
 import ProgressBar from '../shared/ProgressBar'
 import StatBox from '../shared/StatBox'
 import { publicAsset } from '../../utils/assets'
@@ -19,9 +20,97 @@ function imageAspectRatio(image: QuestionImage) {
   return `${width} / ${height}`
 }
 
+type ExamReferenceModule = { default: unknown }
+
+const answerOptions = ['A', 'B', 'C', 'D'] as const
+const asReferenceMap = (module: ExamReferenceModule) => module.default as Record<string, ExamReferenceAnswer>
+const referenceLoaders: Record<string, () => Promise<Record<string, ExamReferenceAnswer>>> = {
+  mock1: () => import('../../generated/examReferenceAnswers/mock1.json').then(asReferenceMap),
+  mock2: () => import('../../generated/examReferenceAnswers/mock2.json').then(asReferenceMap),
+  sample: () => import('../../generated/examReferenceAnswers/sample.json').then(asReferenceMap),
+  mid1: () => import('../../generated/examReferenceAnswers/mid1.json').then(asReferenceMap),
+  mid2: () => import('../../generated/examReferenceAnswers/mid2.json').then(asReferenceMap),
+  mid3: () => import('../../generated/examReferenceAnswers/mid3.json').then(asReferenceMap),
+  midSample: () => import('../../generated/examReferenceAnswers/midSample.json').then(asReferenceMap),
+}
+
+function ReferenceAnswerBlock({ reference }: { reference: ExamReferenceAnswer }) {
+  return (
+    <section className="mt-3 border-t border-border pt-3">
+      <div className="mb-2 text-[0.8rem] font-semibold text-primary">參考答案</div>
+      <div className="rounded-lg bg-[#f4f9fd] px-3 py-3 text-[0.86rem] leading-relaxed text-app-text">
+        {reference.reference_answer}
+      </div>
+
+      {reference.option_analysis && (
+        <div className="mt-3">
+          <div className="mb-1 text-[0.78rem] font-semibold text-text-light">選項解析</div>
+          <div className="space-y-1.5 text-[0.82rem] leading-relaxed text-app-text">
+            {answerOptions.map((option) => {
+              const analysis = reference.option_analysis?.[option]
+              if (!analysis) return null
+              return (
+                <div key={option} className="grid grid-cols-[1.75rem_1fr] gap-2">
+                  <span className={option === reference.answer ? 'font-semibold text-success' : 'font-semibold text-text-light'}>
+                    {option}.
+                  </span>
+                  <span>{analysis}</span>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
+      {(reference.key_concepts?.length || reference.citations?.length) && (
+        <div className="mt-3 flex flex-wrap gap-2 text-[0.74rem] text-text-light">
+          {reference.key_concepts?.map((concept) => (
+            <span key={concept} className="rounded-full border border-border bg-white px-2 py-1">
+              {concept}
+            </span>
+          ))}
+          {reference.citations?.slice(0, 3).map((citation, index) => (
+            <span
+              key={`${citation.guide_key}-${citation.node_id}-${index}`}
+              className="rounded-full border border-[#d7e7f5] bg-white px-2 py-1"
+              title={citation.why_relevant}
+            >
+              {citation.title}
+              {citation.page_label ? ` · ${citation.page_label}` : ''}
+            </span>
+          ))}
+        </div>
+      )}
+    </section>
+  )
+}
+
 export default function ExamResults({ onRetry }: ExamResultsProps) {
   const examData = useExamStore((s) => s.examData)!
+  const examKey = useExamStore((s) => s.examKey)
   const userAnswers = useExamStore((s) => s.userAnswers)
+  const [referencesByQuestion, setReferencesByQuestion] = useState<Record<string, ExamReferenceAnswer>>({})
+
+  useEffect(() => {
+    let active = true
+    const loader = referenceLoaders[examKey]
+    if (!loader) {
+      setReferencesByQuestion({})
+      return
+    }
+
+    loader()
+      .then((module) => {
+        if (active) setReferencesByQuestion(module)
+      })
+      .catch(() => {
+        if (active) setReferencesByQuestion({})
+      })
+
+    return () => {
+      active = false
+    }
+  }, [examKey])
 
   let correct = 0, wrong = 0, skipped = 0
   examData.questions.forEach((q, i) => {
@@ -98,6 +187,7 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
         const ua = userAnswers[i]
         const isCorrect = ua === q.answer
         const isSkipped = !ua
+        const reference = referencesByQuestion[q.id]
         const contextImages = q.images?.filter((image) => image.placement === 'context') ?? []
         const questionImages = q.images?.filter((image) => image.placement !== 'option' && image.placement !== 'context') ?? []
         const optionImages = q.images?.filter((image) => image.placement === 'option') ?? []
@@ -208,6 +298,7 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
                 {q.explanation}
               </div>
             )}
+            {reference && <ReferenceAnswerBlock reference={reference} />}
           </div>
         )
       })}
