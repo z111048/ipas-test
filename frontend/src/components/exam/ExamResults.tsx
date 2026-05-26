@@ -155,13 +155,13 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
   }
 
   return (
-    <div>
-      <div className="bg-card rounded-xl shadow-sm border border-border p-8 text-center mb-6">
-        <div className="text-text-light mb-2">{examData.exam}</div>
-        <div className={`text-6xl font-bold mb-2 ${pass ? 'text-success' : 'text-error'}`}>
+    <div className="page-shell">
+      <div className="page-header text-center mb-6">
+        <div className="eyebrow mb-2">{examData.exam}</div>
+        <div className={`text-5xl font-bold mb-2 tabular-nums ${pass ? 'text-success' : 'text-error'}`}>
           {score} 分
         </div>
-        <div className="text-lg mb-6">{pass ? '🎉 恭喜通過！' : '❌ 尚未通過，繼續加油！'}</div>
+        <div className="text-base font-semibold mb-6 text-app-text">{pass ? '已達及格標準' : '尚未達及格標準'}</div>
         <div className="flex gap-3 flex-wrap justify-center mb-6">
           <StatBox value={correct} label="答對" valueColor="text-success" />
           <StatBox value={wrong} label="答錯" valueColor="text-error" />
@@ -175,14 +175,14 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
         />
         <div className="text-[0.8rem] text-text-light mt-2">及格線：{examData.passing_score} 分</div>
         <button
-          className="mt-6 border border-accent text-accent rounded-lg px-6 py-2 text-[0.88rem] hover:bg-accent hover:text-white transition-colors cursor-pointer bg-transparent"
+          className="btn-outline mt-6 cursor-pointer bg-transparent"
           onClick={onRetry}
         >
           重新考試
         </button>
       </div>
 
-      <h2 className="text-lg font-semibold text-primary mb-4">📝 詳細解析</h2>
+      <h2 className="section-title mb-4">詳細解析</h2>
       {examData.questions.map((q, i) => {
         const ua = userAnswers[i]
         const isCorrect = ua === q.answer
@@ -194,7 +194,7 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
         return (
           <div
             key={q.id}
-            className={`bg-card rounded-xl border p-5 mb-3 ${
+            className={`surface p-5 mb-3 ${
               isCorrect ? 'border-success/30' : isSkipped ? 'border-border' : 'border-error/30'
             }`}
           >
@@ -211,7 +211,7 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
                       : 'bg-[#fdf2f2] text-error'
                 }`}
               >
-                {isCorrect ? '✓ 正確' : isSkipped ? '— 未作答' : '✗ 錯誤'}
+                {isCorrect ? '正確' : isSkipped ? '未作答' : '錯誤'}
               </span>
             </div>
             {q.context && (

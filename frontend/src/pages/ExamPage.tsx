@@ -60,19 +60,19 @@ export default function ExamPage() {
   }, [examKey, phase])
 
   if (loading) {
-    return <div className="text-text-light p-4">考卷載入中...</div>
+    return <div className="page-shell text-text-light p-4">考卷載入中...</div>
   }
 
   if (loadError) {
-    return <div className="text-error p-4">考卷載入失敗：{loadError}</div>
+    return <div className="page-shell text-error p-4">考卷載入失敗：{loadError}</div>
   }
 
   if (!examData) {
-    return <div className="text-error p-4">找不到考試：{examKey}</div>
+    return <div className="page-shell text-error p-4">找不到考試：{examKey}</div>
   }
 
   if (examKey !== storeExamKey || currentExamData !== examData) {
-    return <div className="text-text-light p-4">考卷準備中...</div>
+    return <div className="page-shell text-text-light p-4">考卷準備中...</div>
   }
 
   if (phase === 'intro') {
@@ -86,23 +86,23 @@ export default function ExamPage() {
   const answeredCount = Object.keys(userAnswers).length
 
   return (
-    <div>
-      <div className="bg-primary text-white rounded-xl mb-4 p-4 flex items-center justify-between gap-4 shadow-md">
-        <div>
-          <div className="text-[0.78rem] opacity-70">模擬考試</div>
-          <div className="text-[0.88rem] font-semibold">{currentExamData.exam}</div>
-        </div>
-        <ExamTimer />
-        <div className="text-right">
-          <div className="text-[0.78rem] opacity-80 mb-1">
-            已答：{answeredCount} / {currentExamData.total}
+    <div className="page-shell">
+      <div className="sticky top-0 z-20 mb-4 rounded-lg border border-[#b8cce2] bg-primary text-white shadow-lg">
+        <div className="flex flex-col gap-3 p-4 md:flex-row md:items-center md:justify-between">
+          <div className="min-w-0">
+            <div className="text-[0.74rem] font-semibold uppercase tracking-wide text-white/60">模擬考試</div>
+            <div className="truncate text-[0.9rem] font-semibold">{currentExamData.exam}</div>
           </div>
-          <button
-            className="bg-white text-primary text-[0.82rem] font-semibold px-4 py-1.5 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer border-0"
-            onClick={submitExam}
-          >
-            繳卷
-          </button>
+          <ExamTimer />
+          <div className="flex items-center justify-between gap-3 md:justify-end">
+            <div className="text-[0.8rem] text-white/80">已答：{answeredCount} / {currentExamData.total}</div>
+            <button
+              className="rounded-md border border-white/20 bg-white px-4 py-2 text-[0.82rem] font-semibold text-primary transition-colors hover:bg-slate-100 cursor-pointer"
+              onClick={submitExam}
+            >
+              繳卷
+            </button>
+          </div>
         </div>
       </div>
 
@@ -112,7 +112,7 @@ export default function ExamPage() {
 
       <div className="text-center py-4">
         <button
-          className="bg-accent hover:bg-accent-hover text-white text-lg font-semibold px-8 py-3 rounded-xl transition-colors cursor-pointer border-0"
+          className="btn-primary cursor-pointer border-0 px-8 py-3 text-base"
           onClick={submitExam}
         >
           繳卷交答案

@@ -63,16 +63,16 @@ function GuideOutlineTreeNode({
         <NavLink
           to={to}
           className={({ isActive }) =>
-            `block py-[0.5rem] pr-4 cursor-pointer text-[0.82rem] border-l-[3px] transition-all duration-150 no-underline ${
+            `block py-2 pr-4 cursor-pointer text-[0.8rem] border-l-[3px] transition-all duration-150 no-underline ${
               isActive || activeId === node.id
-                ? 'bg-white/10 border-l-accent text-white font-semibold'
-                : 'border-l-transparent text-white/85 hover:bg-white/8 hover:text-white'
+                ? 'bg-white/12 border-l-accent text-white font-semibold'
+                : 'border-l-transparent text-white/76 hover:bg-white/8 hover:text-white'
             }`
           }
           style={{ paddingLeft: `${1 + (node.depth - 1) * 0.9}rem` }}
           onClick={onNavigate}
         >
-          <span className="block truncate">📖 {label}</span>
+          <span className="block truncate">{label}</span>
           <span className="block text-[0.68rem] text-white/45 mt-0.5">{pageRange}</span>
         </NavLink>
         {node.children.map((childId) => (
@@ -96,7 +96,7 @@ function GuideOutlineTreeNode({
       <div className="flex flex-wrap items-center gap-2">
         <Link
           to={to}
-          className={`text-[0.9rem] font-medium no-underline ${
+          className={`text-[0.88rem] font-semibold no-underline ${
             isActive ? 'text-accent' : 'text-primary hover:text-accent'
           }`}
         >
@@ -108,7 +108,7 @@ function GuideOutlineTreeNode({
         )}
       </div>
       {node.children.length > 0 && (
-        <div className="ml-5 mt-2 space-y-2 border-l border-border pl-4">
+        <div className="ml-4 mt-2 space-y-2 border-l border-border pl-4">
           {node.children.map((childId) => (
             <GuideOutlineTreeNode
               key={childId}

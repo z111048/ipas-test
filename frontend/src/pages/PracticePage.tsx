@@ -55,29 +55,32 @@ export default function PracticePage() {
   }, [subjectId, practiceSet])
 
   if (loading) {
-    return <div className="text-text-light p-4">題目載入中...</div>
+    return <div className="page-shell text-text-light p-4">題目載入中...</div>
   }
 
   if (loadError) {
-    return <div className="text-error p-4">題目載入失敗：{loadError}</div>
+    return <div className="page-shell text-error p-4">題目載入失敗：{loadError}</div>
   }
 
   if (isGuideExercise && data && chapter && chapter.questions.length === 0) {
     return (
-      <div>
-        <div className="text-2xl font-bold text-primary mb-1">本章沒有學習指引練習題</div>
-        <div className="text-text-light mb-5">
+      <div className="page-shell">
+        <div className="page-header mb-5">
+          <div className="eyebrow mb-2">Practice</div>
+          <h1 className="text-2xl font-bold text-primary mb-1">本章沒有學習指引練習題</h1>
+          <div className="text-text-light">
           {data.subject} › {chapter.title} 在學習指引 PDF 內沒有內嵌章節練習題。
+          </div>
         </div>
         {selectableChapters.length > 0 && (
-          <div className="bg-card rounded-lg border border-border p-3 mb-5">
-            <div className="text-[0.78rem] font-semibold text-text-light mb-2">可練習章節</div>
+          <div className="surface p-4 mb-5">
+            <div className="section-title mb-2">可練習章節</div>
             <div className="flex flex-wrap gap-2">
               {selectableChapters.map((item) => (
                 <Link
                   key={item.id}
                   to={`/practice/${subjectId}/${item.id}/guide`}
-                  className="text-[0.8rem] px-3 py-1.5 rounded-lg border border-[#9a5c17] text-[#9a5c17] hover:bg-[#9a5c17] hover:text-white transition-colors no-underline"
+                  className="btn-warning"
                 >
                   {item.title}（{summary?.guide?.chapterCounts[item.id] ?? 0} 題）
                 </Link>
@@ -91,19 +94,22 @@ export default function PracticePage() {
 
   if (!data || (!isCodex100 && !isGuideExercise && subject?.practiceStatus === 'pending') || chapter?.questions.length === 0) {
     return (
-      <div>
-        <div className="text-2xl font-bold text-primary mb-1">章節練習題待建立</div>
-        <div className="text-text-light mb-5">
+      <div className="page-shell">
+        <div className="page-header mb-5">
+          <div className="eyebrow mb-2">Practice</div>
+          <h1 className="text-2xl font-bold text-primary mb-1">章節練習題待建立</h1>
+          <div className="text-text-light">
           {subject?.label ?? subjectId} 的 AI 模擬章節練習題尚未入庫。
+          </div>
         </div>
-        <div className="rounded-lg border border-[#f2d28b] bg-[#fff8e6] text-[#7a5700] px-4 py-3 mb-5 text-[0.9rem]">
+        <div className="alert-warning mb-5">
           目前中級可先使用學習指引與公告試題；後續完成 AI 模擬題後，此入口會自動改為可練習。
         </div>
         <div className="flex flex-wrap gap-2">
           {subject?.guideTo && (
             <Link
               to={subject.guideTo}
-              className="text-[0.85rem] px-3 py-1.5 rounded-lg border border-accent text-accent hover:bg-accent hover:text-white transition-colors no-underline"
+              className="btn-outline"
             >
               前往學習指引
             </Link>
@@ -111,7 +117,7 @@ export default function PracticePage() {
           {subject?.examTo && (
             <Link
               to={subject.examTo}
-              className="text-[0.85rem] px-3 py-1.5 rounded-lg border border-accent text-accent hover:bg-accent hover:text-white transition-colors no-underline"
+              className="btn-outline"
             >
               前往公告試題
             </Link>
@@ -122,20 +128,26 @@ export default function PracticePage() {
   }
 
   if (!chapter) {
-    return <div className="text-error p-4">找不到章節：{chapterId}</div>
+    return <div className="page-shell text-error p-4">找不到章節：{chapterId}</div>
   }
 
   return (
-    <div>
-      <div className="text-2xl font-bold text-primary mb-1">{chapter.title}</div>
-      <div className="text-text-light mb-5">
-        {data.subject} › {chapter.title} › {setLabel}（共 {chapter.questions.length} 題）
+    <div className="page-shell">
+      <div className="page-header mb-5">
+        <div className="eyebrow mb-2">Practice</div>
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-primary mb-1">{chapter.title}</h1>
+            <p className="text-[0.9rem] text-text-light">{data.subject} › {setLabel}</p>
+          </div>
+          <span className="pill">共 {chapter.questions.length} 題</span>
+        </div>
       </div>
       <div className="flex flex-wrap gap-2 mb-5">
         {originalChapterCount > 0 && (
           <Link
             to={`/practice/${subjectId}/${chapterId}`}
-            className={`text-[0.85rem] px-3 py-1.5 rounded-lg border transition-colors no-underline ${
+            className={`btn-outline ${
               !isCodex100 && !isGuideExercise
                 ? 'border-accent bg-accent text-white'
                 : 'border-border text-text-light hover:border-accent hover:text-accent'
@@ -147,7 +159,7 @@ export default function PracticePage() {
         {guideExerciseChapterCount > 0 && (
           <Link
             to={`/practice/${subjectId}/${chapterId}/guide`}
-            className={`text-[0.85rem] px-3 py-1.5 rounded-lg border transition-colors no-underline ${
+            className={`btn-outline ${
               isGuideExercise
                 ? 'border-[#9a5c17] bg-[#9a5c17] text-white'
                 : 'border-border text-text-light hover:border-[#9a5c17] hover:text-[#9a5c17]'
@@ -159,7 +171,7 @@ export default function PracticePage() {
         {codex100ChapterCount > 0 && (
           <Link
             to={`/practice/${subjectId}/${chapterId}/codex100`}
-            className={`text-[0.85rem] px-3 py-1.5 rounded-lg border transition-colors no-underline ${
+            className={`btn-outline ${
               isCodex100
                 ? 'border-[#5b7c2a] bg-[#5b7c2a] text-white'
                 : 'border-border text-text-light hover:border-[#5b7c2a] hover:text-[#5b7c2a]'
@@ -170,8 +182,8 @@ export default function PracticePage() {
         )}
       </div>
       {selectableChapters.length > 1 && (
-        <div className="bg-card rounded-lg border border-border p-3 mb-5">
-          <div className="text-[0.78rem] font-semibold text-text-light mb-2">切換章節</div>
+        <div className="surface p-4 mb-5">
+          <div className="section-title mb-2">切換章節</div>
           <div className="flex flex-wrap gap-2">
             {selectableChapters.map((item, index) => {
               const count = activeSummary?.chapterCounts[item.id] ?? 0
@@ -179,7 +191,7 @@ export default function PracticePage() {
                 <Link
                   key={item.id}
                   to={chapterRoute(item.id)}
-                  className={`text-[0.8rem] px-3 py-1.5 rounded-lg border transition-colors no-underline ${
+                  className={`btn-outline ${
                     item.id === chapter.id
                       ? 'border-accent bg-accent text-white'
                       : 'border-border text-text-light hover:border-accent hover:text-accent'

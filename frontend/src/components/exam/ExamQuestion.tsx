@@ -60,8 +60,8 @@ export default function ExamQuestion({ question, index }: ExamQuestionProps) {
   }
 
   return (
-    <div className="bg-card rounded-xl shadow-sm border border-border p-5 mb-4">
-      <div className="text-[0.78rem] text-text-light font-semibold mb-2 uppercase tracking-wide">
+    <article className="surface p-5 mb-4">
+      <div className="eyebrow mb-2">
         第 {index + 1} 題
       </div>
       {question.context && (
@@ -97,7 +97,7 @@ export default function ExamQuestion({ question, index }: ExamQuestionProps) {
           <CodeSnippet code={block.markdown} language={block.language} />
         </div>
       ))}
-      <div className="text-[0.95rem] leading-relaxed mb-4 text-app-text">{question.question}</div>
+      <div className="text-[0.96rem] leading-8 mb-4 text-app-text content-justify">{question.question}</div>
       {questionImages.length > 0 && (
         <div className="grid grid-cols-1 gap-3 mb-4">
           {questionImages.map((image) => (
@@ -119,8 +119,8 @@ export default function ExamQuestion({ question, index }: ExamQuestionProps) {
             key={key}
             className={`flex items-start gap-3 px-4 py-3 rounded-lg border cursor-pointer transition-colors text-[0.9rem] ${
               selected === key
-                ? 'bg-[#eef5ff] border-accent text-primary'
-                : 'bg-card border-border hover:bg-[#f5f7fa] hover:border-accent/50'
+                ? 'bg-[#eff6ff] border-accent text-primary'
+                : 'bg-white border-border hover:bg-[#f8fbff] hover:border-accent/60'
             }`}
             onClick={() => selectAnswer(index, key)}
           >
@@ -148,6 +148,6 @@ export default function ExamQuestion({ question, index }: ExamQuestionProps) {
           </label>
         ))}
       </div>
-    </div>
+    </article>
   )
 }

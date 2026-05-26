@@ -7,19 +7,19 @@ interface ExamIntroProps {
 
 export default function ExamIntro({ examData, onStart }: ExamIntroProps) {
   return (
-    <div className="flex flex-col items-center text-center py-12">
-      <h2 className="text-2xl font-bold text-primary mb-3">{examData.exam}</h2>
-      <p className="text-text-light mb-6">
-        共 <strong>{examData.total}</strong> 題 &nbsp;|&nbsp; 考試時間：
-        <strong>{examData.time_limit}</strong> &nbsp;|&nbsp; 及格分數：
-        <strong>{examData.passing_score} 分</strong>
-      </p>
-      <button
-        className="bg-accent hover:bg-accent-hover text-white text-lg font-semibold px-8 py-3 rounded-xl transition-colors cursor-pointer border-0"
-        onClick={onStart}
-      >
-        開始考試 ▶
-      </button>
+    <div className="page-shell">
+      <div className="page-header text-center">
+        <div className="eyebrow mb-2">Mock exam</div>
+        <h1 className="text-2xl font-bold text-primary mb-4">{examData.exam}</h1>
+        <div className="mb-6 flex flex-wrap justify-center gap-2 text-[0.86rem]">
+          <span className="pill">共 {examData.total} 題</span>
+          <span className="pill pill-muted">考試時間：{examData.time_limit}</span>
+          <span className="pill pill-muted">及格分數：{examData.passing_score} 分</span>
+        </div>
+        <button className="btn-primary min-w-[9rem] cursor-pointer border-0" onClick={onStart}>
+          開始考試
+        </button>
+      </div>
     </div>
   )
 }

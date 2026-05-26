@@ -24,7 +24,7 @@ function AppShell() {
       <Overlay isOpen={sidebarOpen} onClick={() => setSidebarOpen(false)} />
       <div className="flex flex-1 overflow-hidden h-[calc(100vh-3.5rem)]">
         <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-        <main className={`app-scroll-stable flex-1 min-h-0 ${mainOverflow} p-4 md:p-6 min-w-0`}>
+        <main className={`app-scroll-stable flex-1 min-h-0 ${mainOverflow} px-4 py-4 md:px-6 md:py-6 min-w-0`}>
           <Suspense fallback={<div className="text-text-light p-4">頁面載入中...</div>}>
             <Routes>
               <Route path="/" element={<HomePage />} />

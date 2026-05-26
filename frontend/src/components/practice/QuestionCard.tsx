@@ -29,11 +29,11 @@ export default function QuestionCard({ question, index }: QuestionCardProps) {
   }
 
   return (
-    <div className="bg-card rounded-xl shadow-sm border border-border p-5 mb-4">
-      <div className="text-[0.78rem] text-text-light font-semibold mb-2 uppercase tracking-wide">
+    <article className="surface p-5 mb-4">
+      <div className="eyebrow mb-2">
         第 {index + 1} 題
       </div>
-      <div className="text-[0.95rem] leading-relaxed mb-4 text-app-text content-justify">{question.question}</div>
+      <div className="text-[0.96rem] leading-8 mb-4 text-app-text content-justify">{question.question}</div>
 
       <div className="flex flex-col gap-2">
         {(['A', 'B', 'C', 'D'] as const).map((key) => (
@@ -50,7 +50,7 @@ export default function QuestionCard({ question, index }: QuestionCardProps) {
 
       {!revealed && (
         <button
-          className="mt-3 text-[0.85rem] text-accent border border-accent rounded-lg px-4 py-2 hover:bg-accent hover:text-white transition-colors cursor-pointer bg-transparent"
+          className="btn-outline mt-3 cursor-pointer"
           onClick={() => setRevealed(true)}
         >
           顯示答案與解析
@@ -58,8 +58,8 @@ export default function QuestionCard({ question, index }: QuestionCardProps) {
       )}
 
       {revealed && (
-        <div className="mt-4 bg-[#f0f9ff] border-l-4 border-accent rounded-lg p-4 text-[0.88rem] leading-relaxed content-justify">
-          <strong>✅ 正確答案：({question.answer}) {question.options[question.answer]}</strong>
+        <div className="mt-4 rounded-lg border border-[#bfdbfe] bg-[#eff6ff] p-4 text-[0.88rem] leading-7 content-justify">
+          <strong>正確答案：({question.answer}) {question.options[question.answer]}</strong>
           <br /><br />
           {question.explanation}
         </div>
@@ -68,14 +68,14 @@ export default function QuestionCard({ question, index }: QuestionCardProps) {
       {revealed && question.card && (
         <>
           <button
-            className="mt-3 text-[0.82rem] text-primary-light border border-primary-light rounded-lg px-4 py-2 hover:bg-primary hover:text-white transition-colors cursor-pointer bg-transparent"
+            className="btn-outline mt-3 cursor-pointer"
             onClick={() => setCardOpen((o) => !o)}
           >
-            {cardOpen ? '📌 收起解說圖卡' : '📌 查看解說圖卡'}
+            {cardOpen ? '收起解說圖卡' : '查看解說圖卡'}
           </button>
           {cardOpen && <CardPanel card={question.card} />}
         </>
       )}
-    </div>
+    </article>
   )
 }

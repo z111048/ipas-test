@@ -22,12 +22,12 @@ function badge(status?: ResourceNavItem['status']) {
 
 function navItemClass(isActive: boolean, disabled = false) {
   if (disabled) {
-    return 'block py-[0.55rem] px-5 text-[0.85rem] border-l-[3px] border-l-transparent text-white/45 cursor-not-allowed'
+    return 'block py-2 px-5 text-[0.84rem] border-l-[3px] border-l-transparent text-white/40 cursor-not-allowed'
   }
-  return `block py-[0.55rem] px-5 cursor-pointer text-[0.85rem] border-l-[3px] transition-all duration-150 no-underline ${
+  return `block py-2 px-5 cursor-pointer text-[0.84rem] border-l-[3px] transition-all duration-150 no-underline ${
     isActive
-      ? 'bg-white/10 border-l-accent text-white font-semibold'
-      : 'border-l-transparent text-white/85 hover:bg-white/8 hover:text-white'
+      ? 'bg-white/12 border-l-accent text-white font-semibold'
+      : 'border-l-transparent text-white/78 hover:bg-white/8 hover:text-white'
   }`
 }
 
@@ -37,7 +37,7 @@ function ItemLabel({ item }: { item: ResourceNavItem }) {
     <span className="flex items-center justify-between gap-2">
       <span>{item.label}</span>
       {itemBadge && (
-        <span className="rounded-full bg-white/10 px-2 py-0.5 text-[0.68rem] text-white/75">
+        <span className="rounded-full border border-white/10 bg-white/8 px-2 py-0.5 text-[0.66rem] text-white/70">
           {itemBadge}
         </span>
       )}
@@ -108,8 +108,8 @@ function Section({
 }) {
   const isOpen = open
   const buttonClass = tone === 'level'
-    ? 'mx-3 mt-3 w-[calc(100%-1.5rem)] rounded-md bg-white/12 px-3 py-2 text-left text-[0.86rem] font-semibold text-white hover:bg-white/16'
-    : 'w-full px-4 pt-2 pb-1 text-left text-[0.7rem] uppercase tracking-widest text-white/55 font-semibold hover:text-white/80'
+    ? 'mx-3 mt-3 w-[calc(100%-1.5rem)] rounded-md border border-white/10 bg-white/10 px-3 py-2 text-left text-[0.86rem] font-semibold text-white hover:bg-white/14'
+    : 'w-full px-4 pt-2 pb-1 text-left text-[0.68rem] uppercase tracking-widest text-white/50 font-semibold hover:text-white/75'
 
   const content = isOpen ? children : null
   if (tone === 'level') {
@@ -163,13 +163,13 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
   return (
     <aside
       className={`
-        fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-[286px] bg-primary text-white
+        fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-[292px] bg-[#132b43] text-white
         flex-shrink-0 z-50 transition-transform duration-300
         md:sticky md:top-0 md:left-auto md:h-full md:translate-x-0 md:z-auto
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
       `}
     >
-      <div className="h-full overflow-y-auto overflow-x-hidden pb-8 scrollbar-hidden">
+      <div className="h-full overflow-y-auto overflow-x-hidden pb-8 scrollbar-hidden border-r border-slate-950/20">
       <Section
         id="overview"
         heading="總覽"

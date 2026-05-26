@@ -115,11 +115,11 @@ function GuideHtmlTable({ rows }: { rows: string[][] }) {
   const [header, ...bodyRows] = rows
   return (
     <div className="guide-depth-block overflow-x-auto my-4">
-      <table className="border-collapse w-full text-sm table-auto">
+      <table className="table-soft text-sm table-auto">
         <thead>
           <tr>
             {header.map((cell, index) => (
-              <th key={index} scope="col" className="border border-border bg-[#eef5ff] text-accent px-3 py-2 text-left align-top font-semibold whitespace-pre-line">
+              <th key={index} scope="col" className="whitespace-pre-line">
                 {cell}
               </th>
             ))}
@@ -129,7 +129,7 @@ function GuideHtmlTable({ rows }: { rows: string[][] }) {
           {bodyRows.map((row, rowIndex) => (
             <tr key={rowIndex}>
               {row.map((cell, cellIndex) => (
-                <td key={cellIndex} className="border border-border px-3 py-2 leading-6 align-top whitespace-pre-line">
+                <td key={cellIndex} className="leading-6 whitespace-pre-line">
                   {cell}
                 </td>
               ))}
@@ -261,7 +261,7 @@ export default function GuidePage() {
   }, [chapter, outlineGuide])
 
   if (!outlineGuide || !chapter) {
-    return <div className="text-error p-4">找不到章節：{chapterId}</div>
+    return <div className="page-shell text-error p-4">找不到章節：{chapterId}</div>
   }
 
   const body = content?.content ?? ''
@@ -313,13 +313,22 @@ export default function GuidePage() {
   }
 
   return (
-    <div className="h-full min-h-0 flex flex-col overflow-hidden">
-      <div className="text-2xl font-bold text-primary mb-1">{chapter.title}</div>
-      <div className="text-text-light mb-4">
-        {outlineGuide.subject} › 學習指引原文（{content ? `共 ${body.length.toLocaleString()} 字元` : '載入中'}）
+    <div className="page-shell h-full min-h-0 flex flex-col overflow-hidden">
+      <div className="page-header mb-4 shrink-0">
+        <div className="eyebrow mb-2">Guide</div>
+        <div className="flex flex-col gap-3 xl:flex-row xl:items-end xl:justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-primary mb-1">{chapter.title}</h1>
+            <p className="text-[0.9rem] text-text-light">{outlineGuide.subject} › 學習指引原文（{content ? `共 ${body.length.toLocaleString()} 字元` : '載入中'}）</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <span className="pill">{pageRange}</span>
+            <span className="pill pill-muted">{paragraphs.length} 段落</span>
+          </div>
+        </div>
       </div>
 
-      <div className="flex flex-wrap gap-2 text-[0.8rem] text-text-light mb-4">
+      <div className="flex flex-wrap gap-2 text-[0.8rem] text-text-light mb-4 shrink-0">
         <Link to={`/subject/${subjectId}`} className="text-accent no-underline hover:underline">
           {outlineGuide.subject}
         </Link>
@@ -338,37 +347,37 @@ export default function GuidePage() {
 
       {notice && (
         <div
-          className="bg-[#fef9e7] border-l-4 border-warning rounded-lg p-4 mb-4 text-[0.88rem] leading-relaxed"
+          className="alert-warning mb-4 shrink-0"
           dangerouslySetInnerHTML={{ __html: notice }}
         />
       )}
 
-      <div className="shrink-0 bg-card rounded-xl shadow-sm border border-border p-4 sm:p-5 mb-4">
+      <div className="surface shrink-0 p-4 sm:p-5 mb-4">
         <div className="flex flex-wrap gap-2 mb-4">
-          <span className="text-[0.82rem] bg-[#eef5ff] text-accent px-3 py-1 rounded-full">
-            📄 {paragraphs.length} 段落
+          <span className="pill">
+            {paragraphs.length} 段落
           </span>
-          <span className="text-[0.82rem] bg-[#eef5ff] text-accent px-3 py-1 rounded-full">
-            📝 {body.length.toLocaleString()} 字元
+          <span className="pill">
+            {body.length.toLocaleString()} 字元
           </span>
-          <span className="text-[0.82rem] bg-[#eef5ff] text-accent px-3 py-1 rounded-full">
+          <span className="pill">
             {pageRange}
           </span>
           {sourcePages.length > 0 && (
-            <span className="text-[0.82rem] bg-[#eef5ff] text-accent px-3 py-1 rounded-full">
+            <span className="pill">
               PDF {sourcePages[0].label || sourcePages[0].page}–{sourcePages[sourcePages.length - 1].label || sourcePages[sourcePages.length - 1].page}
             </span>
           )}
         </div>
         {hasChildChapters && (
           <>
-            <div className="text-[0.82rem] text-text-light font-semibold mb-2 mt-4">下層章節</div>
+            <div className="section-title mb-2 mt-4">下層章節</div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {childChapters.map((child) => (
                 <Link
                   key={child.id}
                   to={`/guide/${subjectId}/${child.id}`}
-                  className="block bg-[#f7fbff] text-primary px-4 py-3 rounded-lg border border-accent/20 no-underline hover:border-accent hover:bg-[#eef7ff]"
+                  className="block surface-compact px-4 py-3 text-primary no-underline transition-colors hover:border-accent hover:bg-[#f8fbff]"
                 >
                   <span className="block text-[0.9rem] font-semibold">
                     {child.number ? `${child.number} ` : ''}{child.title}
@@ -384,9 +393,9 @@ export default function GuidePage() {
       </div>
 
       <div className="grid grid-cols-1 grid-rows-[auto_minmax(0,1fr)] xl:grid-cols-[minmax(220px,280px)_1fr] xl:grid-rows-1 gap-4 flex-1 min-h-0 overflow-hidden">
-        <aside className="z-20 bg-card rounded-xl shadow-sm border border-border p-4 sm:p-5 h-fit max-h-[30vh] md:max-h-[28vh] xl:h-full xl:max-h-none overflow-hidden">
+        <aside className="surface z-20 h-fit max-h-[30vh] overflow-hidden p-4 md:max-h-[28vh] sm:p-5 xl:h-full xl:max-h-none">
           <div className="h-full max-h-[calc(30vh-2rem)] md:max-h-[calc(28vh-2rem)] xl:max-h-full overflow-y-auto overflow-x-hidden pr-1 scrollbar-hidden">
-            <div className="text-[0.82rem] text-text-light font-semibold mb-3">PDF 目錄</div>
+            <div className="section-title mb-3">PDF 目錄</div>
             <GuideOutlineTree
               subjectId={subjectId ?? outlineGuide.subjectId}
               rootIds={outlineGuide.root}
@@ -395,14 +404,14 @@ export default function GuidePage() {
             />
             {contentHeadings.length > 0 && (
               <div className="mt-5 border-t border-border pt-4">
-                <div className="text-[0.82rem] text-text-light font-semibold mb-3">本節階層</div>
+                <div className="section-title mb-3">本節階層</div>
                 <div className="space-y-1">
                   {contentHeadings.map((heading) => (
                     <button
                       key={`${heading.id}-${heading.title}`}
                       type="button"
                       onClick={() => scrollToContentBlock(heading.id, heading.anchor)}
-                      className="block w-full text-left text-[0.78rem] leading-5 text-primary no-underline hover:text-accent"
+                      className="block w-full rounded-md px-2 py-1 text-left text-[0.78rem] leading-5 text-primary no-underline hover:bg-[#f8fbff] hover:text-accent"
                       style={{ paddingLeft: `${Math.max(0, heading.level - 3) * 0.85}rem` }}
                     >
                       {heading.title}
@@ -416,19 +425,19 @@ export default function GuidePage() {
 
         <div ref={contentScrollRef} className="min-h-0 overflow-y-auto overflow-x-hidden pr-1 app-scroll-stable">
           {contentError && (
-            <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 mb-4 text-sm">
+            <div className="rounded-lg border border-red-200 bg-red-50 p-4 mb-4 text-sm text-red-700">
               無法載入學習指引內容：{contentError}
             </div>
           )}
 
           {!content && !contentError && (
-            <div className="bg-card rounded-xl shadow-sm border border-border p-5 mb-4 text-text-light">
+            <div className="surface p-5 mb-4 text-text-light">
               載入學習指引內容中...
             </div>
           )}
 
           {sourcePages.length > 0 && (
-            <details className="bg-card rounded-xl shadow-sm border border-border p-5 mb-4">
+            <details className="surface p-5 mb-4">
               <summary className="cursor-pointer text-primary font-semibold">
                 PDF 原頁截圖（{sourcePages.length} 頁）
               </summary>
@@ -451,7 +460,7 @@ export default function GuidePage() {
           )}
 
           {hasChildChapters ? (
-            <div className="bg-card rounded-xl shadow-sm border border-border p-5">
+            <div className="surface p-5">
               <div className="text-primary font-semibold mb-2">請選擇下層章節</div>
               <p className="text-[0.9rem] leading-7 text-text-light mb-4">
                 這一層是 PDF 的章節容器，內容已依下層章節拆開，避免把多個章節連在同一頁閱讀。
@@ -461,7 +470,7 @@ export default function GuidePage() {
                   <Link
                     key={child.id}
                     to={`/guide/${subjectId}/${child.id}`}
-                    className="block border border-border rounded-lg px-4 py-3 no-underline hover:border-accent hover:bg-[#f7fbff]"
+                    className="block surface-compact px-4 py-3 no-underline transition-colors hover:border-accent hover:bg-[#f8fbff]"
                   >
                     <span className="block text-primary font-semibold">
                       {child.number ? `${child.number} ` : ''}{child.title}
@@ -474,7 +483,7 @@ export default function GuidePage() {
               </div>
             </div>
           ) : (
-          <div className="bg-card rounded-xl shadow-sm border border-border p-4 sm:p-5">
+          <div className="surface p-4 sm:p-5">
             {hasBlocks ? (
               <GuideBlocksRenderer blocks={contentBlocks} />
             ) : isMarkdown ? (
@@ -511,14 +520,14 @@ export default function GuidePage() {
                   ),
                   table: ({ children }) => (
                     <div className="overflow-x-auto my-4">
-                      <table className="border-collapse w-full text-sm">{children}</table>
+                      <table className="table-soft text-sm">{children}</table>
                     </div>
                   ),
                   th: ({ children }) => (
-                    <th className="border border-border bg-[#eef5ff] text-accent px-3 py-2 text-left align-top font-semibold whitespace-pre-line">{children}</th>
+                    <th className="whitespace-pre-line">{children}</th>
                   ),
                   td: ({ children }) => (
-                    <td className="border border-border px-3 py-2 leading-6 align-top whitespace-pre-line">{children}</td>
+                    <td className="leading-6 whitespace-pre-line">{children}</td>
                   ),
                   strong: ({ children }) => (
                     <strong className="font-semibold text-app-text">{children}</strong>

@@ -6,8 +6,8 @@ interface StatBoxProps {
 
 export default function StatBox({ value, label, valueColor }: StatBoxProps) {
   return (
-    <div className="bg-card rounded-xl p-5 text-center shadow-sm border border-border flex-1 min-w-[100px]">
-      <div className={`text-3xl font-bold ${valueColor ?? 'text-primary'}`}>{value}</div>
+    <div className="surface-compact p-4 text-center flex-1 min-w-[112px]">
+      <div className={`text-2xl font-bold tabular-nums ${valueColor ?? 'text-primary'}`}>{value}</div>
       <div className="text-[0.82rem] text-text-light mt-1">{label}</div>
     </div>
   )
