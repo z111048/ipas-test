@@ -16,12 +16,14 @@ ipas-test/
 │   ├── export_guide_outline_data.py # 匯出前端 PDF 目錄 metadata + blocks 階層內容
 │   ├── export_guide_embedded_exercises.py # 從學習指引 PDF 內嵌練習抽取官方章節題
 │   ├── export_pdf_image_gallery.py # 匯出圖表檢視頁所需 public assets + manifest
+│   ├── export_guide_image_units.py # 從 guide_tree 拆出適合產圖的最小小節單元
 │   ├── pdf_vision_extract.py     # PDF → Gemini Vision → pages_cache + page_index.json（有 LLM）
 │   ├── parse_guides.py           # pages_cache/extracted → 章節 JSON（vision/regex）
 │   ├── audit_chapters.py         # 解析後 LLM 審核 → subject{N}_audit_report.json
 │   ├── extract_pdfs.py           # PDF → 文字/JSON（供考題 pipeline 使用）
 │   ├── parse_exams_v2.py         # JSON 表格 → 模擬考試題庫 JSON
 │   ├── generate_questions.py     # Claude API → 章節題目 + 解說圖卡
+│   ├── generate_images.py        # Codex CLI → WebP 資訊圖表 public assets
 │   ├── multi_ai_pipeline.py      # 多 AI 出題流水線（Gemini/Codex/Claude CLI）
 │   ├── render_guide_page_images.py # 學習指引 PDF 原頁截圖 → frontend/public/guide-pages/
 │   ├── verify_data_alignment.py  # 檢查 PDF / manifest / guide / questions 是否一致
@@ -85,6 +87,12 @@ python3 scripts/export_guide_embedded_exercises.py --level 初級
 python3 scripts/export_guide_embedded_exercises.py --level 中級
 python3 scripts/build_pdf_outline.py --level 初級 --all
 python3 scripts/export_pdf_image_gallery.py --level 初級 --force
+python3 scripts/export_guide_image_units.py
+python3 scripts/export_guide_images_data.py
+
+# 0c. （選用）AI 資訊圖表產圖：先 dry-run，再單張測試
+python3 scripts/generate_images.py --dry-run
+python3 scripts/generate_images.py --name ai-study-roadmap
 
 # ── 學習指引 Guide pipeline（Vision 提取，需 GEMINI_API_KEY）────────────
 
@@ -139,7 +147,7 @@ cd frontend && npm run dev -- --host    # http://localhost:5173/（--host 供 WS
 依賴套件：
 
 ```bash
-uv sync                                    # Python 依賴（pdfplumber、pymupdf、anthropic、google-genai）
+uv sync                                    # Python 依賴（pdfplumber、pymupdf、Pillow、anthropic、google-genai）
 cd frontend && npm install                 # 前端依賴（React、Vite、Tailwind CSS v4 等）
 # multi_ai_pipeline.py 不需額外 Python 套件，但需以下 CLI 工具：
 #   gemini  → https://github.com/google-gemini/gemini-cli
@@ -248,6 +256,84 @@ python3 scripts/export_guide_outline_data.py --all-levels
 ```bash
 python3 scripts/export_pdf_image_gallery.py --level 初級 --force
 ```
+
+---
+
+### `scripts/export_guide_image_units.py`
+
+讀取 `data/{level}/guide_tree/{guide1,guide2}/tree.json` 與 `blocks.json`，依現有 PDF 階層把學習指引拆成適合產生資訊圖表的最小單元。預設只輸出真正教材章節（`s1c*`、`s2c*`），略過考試科目表與前置章節；每個 unit 都是某個 heading 底下的 exclusive content，不會把子小節內容再併回父層。
+
+輸出：
+
+- `data/初級/image_units/guide1_image_units.json`
+- `data/初級/image_units/guide2_image_units.json`
+- `data/初級/image_units/all_image_units.json`
+
+每筆 unit 包含 `sourceNodeId`、`headingPath`、`pageNumbers`、`visualBrief`、`imagePrompt` 與建議 WebP 檔名 `output`，可作為後續資料驅動批次產圖的輸入。
+
+```bash
+python3 scripts/export_guide_image_units.py
+python3 scripts/export_guide_image_units.py --key guide1
+python3 scripts/export_guide_image_units.py --include-front-matter
+```
+
+產圖完成後，執行 `scripts/export_guide_images_data.py` 可把已存在的 `frontend/public/images/*.webp` 匯出成前端可讀的 `frontend/src/generated/guideImages.json`。此檔會依 `guideKey:sourceNodeId` 分組，並保留 `headingBlockId`，讓 guide 頁能把資訊圖插在對應小節 heading 後方。匯出時會驗證每張 WebP 都存在，缺檔會直接報錯。
+
+```bash
+python3 scripts/export_guide_images_data.py
+```
+
+---
+
+### `scripts/generate_images.py`
+
+使用 Codex CLI 產生章節資訊圖表，並用 Pillow 將 Codex 輸出的 PNG 轉成 WebP，放到 Vite 前端可直接引用的 `frontend/public/images/`。前端引用路徑格式為 `/images/{name}.webp`。
+
+前置需求：
+
+- 已安裝並登入 `codex` CLI
+- 帳號具備 `gpt-image-2` 圖片生成權限
+- 已安裝 Pillow；本專案用 `uv sync` 安裝 Python 依賴
+
+建議流程：
+
+```bash
+# 先確認 prompt 與輸出路徑，不會產圖
+python3 scripts/generate_images.py --dry-run
+
+# 先單張測試，確認 frontend/public/images/ai-study-roadmap.webp 可被前端引用
+python3 scripts/generate_images.py --name ai-study-roadmap
+
+# 全部固定清單產圖；既有 WebP 預設略過
+python3 scripts/generate_images.py
+
+# 強制重產指定圖片
+python3 scripts/generate_images.py --name ai-study-roadmap --no-skip-existing
+```
+
+腳本固定圖片清單在 `IMAGES`，每筆包含 `name`、`output`、`visual`、`prompt`。Prompt 標準格式為：
+
+```text
+Generate a 1792x1024 wide landscape image (16:9).
+Style: clean flat-vector editorial infographic illustration for the iPAS AI study platform; off-white background, deep navy and slate foundation, blue accent, restrained amber and green highlights, soft shadows, 8px-radius visual panels.
+Layout: fixed 16:9 widescreen composition with one central concept object, three to five surrounding icon-based panels, thin connector lines, generous margins, consistent safe area, no cropping.
+Topic reference, summarize this into the title and labels without copying long text verbatim: {visual_description}.
+Text: the image must contain visible, correctly written Traditional Chinese text: one short main title plus three to five concise Traditional Chinese labels; each label must be eight Chinese characters or fewer; use large legible sans-serif typography; place each label inside a dedicated panel with strong contrast and generous padding.
+Rules: high quality, coherent composition, readable Chinese text is required, no text-free infographic, no long paragraphs, no tiny text, no random letters, no fake UI, no logos, no watermarks, no UI screenshots
+```
+
+目前預設風格配合本站教育平台調性，使用深藍、藍色 accent、淺灰白背景與少量 amber/green 狀態色，而不是 pixel art。所有圖片都固定為同一個 16:9 資訊圖架構，以維持尺寸與構圖一致；文字必須是可讀的繁中短標題與 3–5 個短標籤，避免無字資訊圖、長段落與小字破壞可讀性。資料驅動批次產圖時，每個 chapter/section unit 的 `imagePrompt` 是提示詞來源；`build/image_prompts.json` 只保留目前 prompt 快照，不會覆蓋 units JSON 的 prompt。每次 Codex 嘗試、成功、失敗、skip 都會附完整 prompt 記錄到 `build/image_generation_log.jsonl`，可用圖片 `name` 回查實際使用的是 primary 或 fallback prompt：
+
+```json
+{
+  "ai-study-roadmap": {
+    "visual": "...",
+    "image_prompt": "..."
+  }
+}
+```
+
+Codex CLI 呼叫格式為 `codex exec --skip-git-repo-check "{prompt}"`。腳本會從 stdout/stderr 以 `session id` 解析產圖目錄，尋找 `~/.codex/generated_images/{session_id}/ig_*.png`，再轉成 quality 92 的 WebP。單張失敗不會中斷整批，最後會印出 `完成：ok / failed / skipped` 統計。
 
 ---
 

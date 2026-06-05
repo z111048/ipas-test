@@ -4,12 +4,14 @@ import type React from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import guideOutlinesRaw from '../generated/guideOutlines.json'
-import type { GuideBlock, GuideContent, GuideOutlineNode, GuideOutlinesData } from '../types'
+import guideImagesRaw from '../generated/guideImages.json'
+import type { GuideBlock, GuideContent, GuideImageAsset, GuideImagesData, GuideOutlineNode, GuideOutlinesData } from '../types'
 import { GUIDE_NOTICES } from '../constants/guideNotices'
 import GuideOutlineTree from '../components/guide/GuideOutlineTree'
 import { publicAsset } from '../utils/assets'
 
 const guideOutlines = guideOutlinesRaw as unknown as GuideOutlinesData
+const guideImages = guideImagesRaw as unknown as GuideImagesData
 const guideContentModules = import.meta.glob<{ default: GuideContent }>('../generated/guideContent/*/*.json')
 
 function normalizeOcrSoftBreaks(text: string) {
@@ -141,21 +143,66 @@ function GuideHtmlTable({ rows }: { rows: string[][] }) {
   )
 }
 
-function GuideBlocksRenderer({ blocks }: { blocks: GuideBlock[] }) {
+function GuideImageFigure({ image, depth }: { image: GuideImageAsset; depth: number }) {
+  const caption = image.headingPath.length > 0 ? image.headingPath.join(' › ') : image.title
+  return (
+    <figure
+      className="guide-depth-block my-5"
+      style={blockIndentStyle(depth)}
+      data-guide-image-id={image.id}
+    >
+      <img
+        src={publicAsset(image.src)}
+        alt={image.title}
+        loading="lazy"
+        className="block w-full max-w-4xl rounded-lg border border-border bg-white object-cover"
+      />
+      <figcaption className="mt-2 text-[0.78rem] leading-5 text-text-light">
+        {caption}
+      </figcaption>
+    </figure>
+  )
+}
+
+function GuideBlocksRenderer({ blocks, images }: { blocks: GuideBlock[]; images: GuideImageAsset[] }) {
+  const imagesByHeading = images.reduce<Record<string, GuideImageAsset[]>>((acc, image) => {
+    if (!image.headingBlockId) return acc
+    acc[image.headingBlockId] = [...(acc[image.headingBlockId] ?? []), image]
+    return acc
+  }, {})
+
+  const unmatchedImages = images.filter((image) => !image.headingBlockId || !blocks.some((block) => block.id === image.headingBlockId))
+
+  const renderWithImages = (block: GuideBlock, element: React.ReactNode) => {
+    const blockImages = imagesByHeading[block.id] ?? []
+    if (blockImages.length === 0) return element
+    return (
+      <div key={`${block.id}-with-images`}>
+        {element}
+        {blockImages.map((image) => (
+          <GuideImageFigure key={image.id} image={image} depth={block.depth} />
+        ))}
+      </div>
+    )
+  }
+
   return (
     <div className="guide-blocks text-app-text">
+      {unmatchedImages.map((image) => (
+        <GuideImageFigure key={image.id} image={image} depth={Math.max(image.headingDepth ?? 2, 2)} />
+      ))}
       {blocks.map((block) => {
         if (block.type === 'table' && block.rows?.length) {
-          return (
+          return renderWithImages(block, (
             <div key={block.id} style={blockIndentStyle(block.depth)}>
               <GuideHtmlTable rows={block.rows} />
             </div>
-          )
+          ))
         }
 
         if (block.type === 'list_item') {
           if (!block.marker) {
-            return (
+            return renderWithImages(block, (
               <p
                 key={block.id}
                 className="guide-depth-block text-[0.9rem] leading-7 text-app-text mb-2 content-justify"
@@ -163,9 +210,9 @@ function GuideBlocksRenderer({ blocks }: { blocks: GuideBlock[] }) {
               >
                 {block.text}
               </p>
-            )
+            ))
           }
-          return (
+          return renderWithImages(block, (
             <div
               key={block.id}
               className="guide-depth-block grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1 text-[0.9rem] leading-7 text-app-text mb-2 content-justify"
@@ -174,12 +221,12 @@ function GuideBlocksRenderer({ blocks }: { blocks: GuideBlock[] }) {
               <span className={listMarkerClass(block.marker)}>{block.marker}</span>
               <span className={listTextClass(block.marker)}>{block.text}</span>
             </div>
-          )
+          ))
         }
 
         if (block.type === 'heading') {
           const Tag = (block.depth <= 2 ? 'h2' : block.depth === 3 ? 'h3' : block.depth === 4 ? 'h4' : block.depth === 5 ? 'h5' : 'h6') as keyof React.JSX.IntrinsicElements
-          return (
+          return renderWithImages(block, (
             <Tag
               key={block.id}
               id={guideHeadingDomId(block.anchor || block.id)}
@@ -190,10 +237,10 @@ function GuideBlocksRenderer({ blocks }: { blocks: GuideBlock[] }) {
             >
               {block.title}
             </Tag>
-          )
+          ))
         }
 
-        return (
+        return renderWithImages(block, (
           <p
             key={block.id}
             className={`guide-depth-block ${blockTextClass(block)}`}
@@ -204,7 +251,7 @@ function GuideBlocksRenderer({ blocks }: { blocks: GuideBlock[] }) {
           >
             {block.text}
           </p>
-        )
+        ))
       })}
     </div>
   )
@@ -267,6 +314,8 @@ export default function GuidePage() {
   const body = content?.content ?? ''
   const contentBlocks = content?.blocks ?? []
   const hasBlocks = contentBlocks.length > 0
+  const guideImageKey = `${outlineGuide.sourceKey ?? outlineGuide.key}:${chapter.id}`
+  const chapterImages = guideImages.byChapter[guideImageKey] ?? []
   const normalizedBody = normalizeOcrSoftBreaks(body)
   const isMarkdown = content?.contentFormat === 'markdown' || body.trimStart().startsWith('#') || body.trimStart().startsWith('##')
   const paragraphs = hasBlocks
@@ -485,7 +534,7 @@ export default function GuidePage() {
           ) : (
           <div className="surface p-4 sm:p-5">
             {hasBlocks ? (
-              <GuideBlocksRenderer blocks={contentBlocks} />
+              <GuideBlocksRenderer blocks={contentBlocks} images={chapterImages} />
             ) : isMarkdown ? (
               <div className="guide-content prose prose-sm max-w-none text-[0.9rem] leading-8 text-app-text content-justify">
               <ReactMarkdown

@@ -148,6 +148,28 @@ export interface GuideContent {
   sourcePages: GuideSourcePage[]
 }
 
+export interface GuideImageAsset {
+  id: string
+  level: string
+  subjectId: string
+  guideKey: string
+  sourceNodeId: string
+  headingBlockId: string | null
+  headingDepth: number | null
+  title: string
+  headingPath: string[]
+  pageNumbers: number[]
+  src: string
+  output: string
+}
+
+export interface GuideImagesData {
+  source: string
+  totalImages: number
+  images: GuideImageAsset[]
+  byChapter: Record<string, GuideImageAsset[]>
+}
+
 export type GuideBlockType = 'heading' | 'paragraph' | 'list_item' | 'table' | 'question' | 'answer' | 'spacer'
 
 export interface GuideBlock {
