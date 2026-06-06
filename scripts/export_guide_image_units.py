@@ -9,7 +9,11 @@ from typing import Any
 
 BASE = Path('/home/james/projects/ipas-test')
 DEFAULT_LEVEL = '初級'
-GUIDE_KEYS = ('guide1', 'guide2')
+GUIDE_KEYS = ('guide1', 'guide2', 'guide3')
+GUIDE_KEYS_BY_LEVEL: dict[str, tuple[str, ...]] = {
+    '初級': ('guide1', 'guide2'),
+    '中級': ('guide1', 'guide2', 'guide3'),
+}
 IMAGE_STYLE = (
     'clean flat-vector editorial infographic illustration for the iPAS AI study platform; '
     'off-white background, deep navy and slate foundation, blue accent, restrained amber '
@@ -82,7 +86,7 @@ def flatten_outline(nodes: list[dict], parent_path: list[str] | None = None) -> 
 def is_content_node(node_id: str, include_front_matter: bool) -> bool:
     if include_front_matter:
         return True
-    return bool(re.fullmatch(r's\d+c\d+', node_id))
+    return bool(re.fullmatch(r'(?:mid-)?s\d+c\d+', node_id))
 
 
 def new_section(node: dict, block: dict, order: int, parent: dict | None) -> dict:
@@ -296,12 +300,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--level', default=DEFAULT_LEVEL, help='資料等級資料夾（預設: 初級）')
     parser.add_argument('--key', choices=GUIDE_KEYS, help='只匯出指定 guide key')
-    parser.add_argument('--all', action='store_true', help='匯出 guide1 與 guide2（預設）')
+    parser.add_argument('--all', action='store_true', help='匯出該等級所有 guide keys')
     parser.add_argument('--include-front-matter', action='store_true', help='包含 s*pdf-c* 等前置章節')
     parser.add_argument('--min-chars', type=int, default=80, help='產圖單元最少文字字元數（預設: 80）')
     parser.add_argument('--min-list-items', type=int, default=3, help='文字不足時，至少幾個 list item 仍保留（預設: 3）')
     parser.add_argument('--max-context-chars', type=int, default=700, help='visualBrief 最長字元數（預設: 700）')
-    parser.add_argument('--out-dir', default='data/初級/image_units', help='輸出資料夾')
+    parser.add_argument('--out-dir', default=None, help='輸出資料夾（預設: data/{level}/image_units）')
     args = parser.parse_args()
 
     if args.min_chars < 1:
@@ -311,8 +315,9 @@ def main() -> None:
     if args.max_context_chars < 100:
         parser.error('--max-context-chars must be >= 100')
 
-    keys = [args.key] if args.key else list(GUIDE_KEYS)
-    out_dir = BASE / args.out_dir
+    level_keys = GUIDE_KEYS_BY_LEVEL.get(args.level, GUIDE_KEYS)
+    keys = [args.key] if args.key else list(level_keys)
+    out_dir = BASE / (args.out_dir or f'data/{args.level}/image_units')
     manifests = []
     all_units = []
     for key in keys:
