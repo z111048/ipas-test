@@ -96,7 +96,7 @@ Frontend dependencies: run `cd frontend && npm install` after cloning (requires 
 - **`scripts/extract_pdf_pages_structured.py`**: Page-faithful extraction. Converts every PDF page to text, records text/image/table bbox positions, and crops detected images/tables to PNG under `data/{level}/page_extract/{key}/assets/`. Use this when PDF → txt may lose figures, tables, or layout context.
 - **`scripts/clean_pdf_page_text.py`**: Cleans page starts/ends from `page_extract/` with per-PDF strategies, removes headers/footers/page labels/table labels, marks cross-page continuation, and rebuilds per-PDF outlines under `data/{level}/page_clean/{key}/`.
 - **`scripts/codex_review_pdf_pages.py`**: Runs Codex CLI (`codex exec --sandbox read-only`) to review cleaned pages and write per-page audit JSON under `data/{level}/codex_page_review/{key}/`. Requires authenticated Codex CLI and network access; supports batching with `--limit`.
-- **`scripts/export_guide_outline_data.py`**: Exports cleaned guide outlines to lightweight frontend metadata (`guideOutlines.json`) and split per-node content JSON under `frontend/src/generated/guideContent/{key}/`. GuidePage dynamically imports node content to keep the main bundle smaller.
+- **`scripts/export_guide_outline_data.py`**: Exports cleaned guide outlines to lightweight frontend metadata (`guideOutlines.json`) and split per-node content JSON under `frontend/src/generated/guideContent/{key}/`. GuidePage dynamically imports node content to keep the main bundle smaller. **⚠️ 重要：預設只處理 `初級`；若有中級資料必須加 `--all-levels`，否則 `guideContent/` 被清空後中級檔案不會重建。** 此外，腳本對所有 `（\d+）` 開頭行一律輸出 `####`，無法區分 PDF 中不同嵌套層次的同符號標題；s1c4（科目一 3.4）已手動修正 6 個頂層 heading 為 `###`，重跑後需補回（見下方「已知手動修正」）。
 - **`scripts/build_pdf_outline.py`**: Builds reviewable PDF hierarchy outlines from `page_extract/`, using Vision headings when available and regex fallback otherwise. Outputs `data/{level}/outline/{key}_outline.{json,md}`.
 - **`scripts/export_pdf_image_gallery.py`**: Copies cropped image/table assets from `page_extract/` into `frontend/public/pdf-assets/{level}/` and writes `gallery.json` for the `#/images` frontend viewer.
 - **`scripts/parse_exams_v2.py`**: Parses question/answer tables from the extracted JSON (handles full-width characters A-D and parentheses). Outputs `mock_exam1.json`, `mock_exam2.json`, `sample_exam.json` to `data/{level}/questions/`. Note: `subject1/2_questions.json` are manually curated and not overwritten by this script. Supports `--level`.
@@ -158,6 +158,43 @@ After running the pipeline:
 If the card panel is missing, verify the underlying question JSON actually contains `card` fields before treating it as a frontend regression.
 
 Future tests should go in `tests/test_*.py`.
+
+## 已知手動修正（重跑 pipeline 後需補回）
+
+### s1c4 本節階層 heading 層級（科目一 3.4 鑑別式AI與生成式AI概念）
+
+**問題**：`export_guide_outline_data.py` 對所有 `（\d+）` 開頭行一律輸出 `####`（h4），但 PDF 原文中此符號同時用於兩個嵌套層次，導致「本節階層」出現 `（1）→（1）` 同層顯示。
+
+**根本原因**：PDF 內各 `（\d+）` 文字區塊的 x 座標完全相同（70.2），無縮排差異可供判斷層次。
+
+**修正方式**：執行以下腳本，將 6 個頂層項目的 heading 從 h4 改回 h3：
+
+```python
+import json
+from pathlib import Path
+
+s1c4 = Path('frontend/src/generated/guideContent/初級-guide1/s1c4.json')
+data = json.loads(s1c4.read_text(encoding='utf-8'))
+content = data['content']
+fixes = [
+    ('#### （1）鑑別式AI 的原理與應用\n',        '### （1）鑑別式AI 的原理與應用\n'),
+    ('#### （2）生成式AI 的原理與應用\n',         '### （2）生成式AI 的原理與應用\n'),
+    ('#### （3）鑑別式AI 與生成式AI 的技術差異\n','### （3）鑑別式AI 與生成式AI 的技術差異\n'),
+    ('#### （1）整合應用的價值\n',               '### （1）整合應用的價值\n'),
+    ('#### （2）整合應用的技術優勢\n',            '### （2）整合應用的技術優勢\n'),
+    ('#### （3）整合應用的挑戰與解決策略\n',      '### （3）整合應用的挑戰與解決策略\n'),
+]
+targets = {f.split('\n')[0].lstrip('#').strip() for f, _ in fixes}
+for old, new in fixes:
+    content = content.replace(old, new)
+data['content'] = content
+for h in data.get('headings', []):
+    if h.get('title') in targets and h.get('level') == 4:
+        h['level'] = 3
+s1c4.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
+```
+
+**觸發時機**：每次執行 `export_guide_outline_data.py`（含 `--all-levels`）後均需補回。
 
 ## Coding Style
 
