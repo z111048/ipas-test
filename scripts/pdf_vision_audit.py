@@ -51,62 +51,74 @@ INPUT_PRICE_PER_M  = 0.15   # non-thinking / flex mode
 OUTPUT_PRICE_PER_M = 0.60
 DEFAULT_MAX_COST   = 5.0    # USD hard budget cap
 
-# ── Prompt ────────────────────────────────────────────────────────────────────
+# ── Prompts ───────────────────────────────────────────────────────────────────
 
-AUDIT_PROMPT = """\
-你正在審核一頁來自台灣「iPAS AI 應用規劃師（初級）學習指引—科目二：生成式AI應用與規劃」的 PDF 頁面。
+def _build_prompt(with_bbox: bool) -> str:
+    bbox_rule = (
+        '\n每個 block 必須包含 "bbox"：[x0, y0, x1, y1]，'
+        '座標為 0–1000 正規化值（頁面寬/高各為 1000），整數，y 軸向下遞增。'
+        if with_bbox else ''
+    )
+    bf = ',"bbox":[x0,y0,x1,y1]' if with_bbox else ''   # bbox field in examples
+    bq = '\n- bbox 需準確反映內容在頁面上的實際位置（0–1000 正規化）' if with_bbox else ''
 
-目的：提取結構化內容，供教材品質審核與補強，**不是用來取代現有教材**。
+    return (
+        '你正在審核一頁來自台灣「iPAS AI 應用規劃師（初級）學習指引—科目二：生成式AI應用與規劃」的 PDF 頁面。\n'
+        '\n'
+        '目的：提取結構化內容，供教材品質審核與補強，**不是用來取代現有教材**。\n'
+        '\n'
+        '請只輸出以下 JSON（不加其他文字、markdown fence 或任何說明）：\n'
+        '{\n'
+        '  "type": "content" | "practice" | "skip",\n'
+        '  "blocks": [ ... ]\n'
+        '}\n'
+        '\n'
+        '━━━ type 判斷 ━━━\n'
+        '- "practice"：選擇題題目頁或解析答案頁（含「Ans」「解析」等字樣）\n'
+        '- "skip"：目錄、序言、版權頁、空白頁、參考書目\n'
+        '- "content"：教材正文（type 非 content 時，blocks 填空陣列 []）\n'
+        '\n'
+        '━━━ blocks 陣列規則 ━━━\n'
+        f'依頁面由上至下順序列出所有內容區塊。{bbox_rule}\n'
+        '\n'
+        '■ heading（章節標題）\n'
+        f'{{"type":"heading","level":2|3|4,"text":"完整標題文字"{bf}}}\n'
+        '  level 2 → 大節（如「1. No Code 概念」「3.2 生成式AI應用」）\n'
+        '  level 3 → 子節（如「（1）定義與特性」「A. 工具分類」）\n'
+        '  level 4 → 更深子節\n'
+        '\n'
+        '■ paragraph（段落文字）\n'
+        f'{{"type":"paragraph","text":"完整段落，保留所有中英文術語與縮寫"{bf}}}\n'
+        '\n'
+        '■ list（條列清單）\n'
+        f'{{"type":"list","ordered":true|false,"items":["項目1","項目2"]{bf}}}\n'
+        '  ordered: true 為數字編號，false 為符號清單\n'
+        '  items 中的文字不含前綴符號（-, •, 1.）\n'
+        '\n'
+        '■ table（表格） → 必須轉成 HTML\n'
+        f'{{"type":"table","html":"<table><tr><th>欄位</th></tr><tr><td>內容</td></tr></table>","caption":"表格說明（若無則省略此欄）"{bf}}}\n'
+        '  表頭用 <th>，資料格用 <td>，合併格加 colspan/rowspan 屬性\n'
+        '  不得省略任何儲存格內容，換行用 <br>\n'
+        '\n'
+        '■ formula（數學 / 統計公式） → 必須轉成 LaTeX\n'
+        f'{{"type":"formula","latex":"LaTeX 公式內容","display":true|false{bf}}}\n'
+        '  display: true = 獨立行公式，false = 行內公式\n'
+        '  latex 欄位只填公式本身，不含 $ 或 $$ 符號\n'
+        '\n'
+        '■ image（圖表、示意圖、流程圖、截圖）\n'
+        f'{{"type":"image","description":"描述圖片主題、重要元素、數字與文字標籤（100字以內）"{bf}}}\n'
+        '  圖中如有文字標籤或數值，必須在 description 中提及\n'
+        '\n'
+        '━━━ 品質要求 ━━━\n'
+        '- 完整保留所有技術術語及中英對照（如 No Code、Prompt Engineering）\n'
+        '- 不合併相鄰段落；段落不截斷\n'
+        f'- 頁碼數字、頁首章節名稱、頁尾資訊不列入 blocks{bq}'
+    )
 
-請只輸出以下 JSON（不加其他文字、markdown fence 或任何說明）：
-{
-  "type": "content" | "practice" | "skip",
-  "blocks": [ ... ]
-}
 
-━━━ type 判斷 ━━━
-- "practice"：選擇題題目頁或解析答案頁（含「Ans」「解析」等字樣）
-- "skip"：目錄、序言、版權頁、空白頁、參考書目
-- "content"：教材正文（type 非 content 時，blocks 填空陣列 []）
-
-━━━ blocks 陣列規則 ━━━
-依頁面由上至下順序列出所有內容區塊。
-每個 block 必須包含 "bbox"：[left%, top%, right%, bottom%]（頁面寬高各為 100，整數）。
-
-■ heading（章節標題）
-{"type":"heading","level":2|3|4,"text":"完整標題文字","bbox":[...]}
-  level 2 → 大節（如「1. No Code 概念」「3.2 生成式AI應用」）
-  level 3 → 子節（如「（1）定義與特性」「A. 工具分類」）
-  level 4 → 更深子節
-
-■ paragraph（段落文字）
-{"type":"paragraph","text":"完整段落，保留所有中英文術語與縮寫","bbox":[...]}
-
-■ list（條列清單）
-{"type":"list","ordered":true|false,"items":["項目1","項目2"],"bbox":[...]}
-  ordered: true 為數字編號，false 為符號清單
-  items 中的文字不含前綴符號（-, •, 1.）
-
-■ table（表格） → 必須轉成 HTML
-{"type":"table","html":"<table><tr><th>欄位</th></tr><tr><td>內容</td></tr></table>","caption":"表格說明（若無則省略此欄）","bbox":[...]}
-  表頭用 <th>，資料格用 <td>，合併格加 colspan/rowspan 屬性
-  不得省略任何儲存格內容，換行用 <br>
-
-■ formula（數學 / 統計公式） → 必須轉成 LaTeX
-{"type":"formula","latex":"LaTeX 公式內容","display":true|false,"bbox":[...]}
-  display: true = 獨立行公式，false = 行內公式
-  latex 欄位只填公式本身，不含 $ 或 $$ 符號
-
-■ image（圖表、示意圖、流程圖、截圖）
-{"type":"image","description":"描述圖片主題、重要元素、數字與文字標籤（100字以內）","bbox":[...]}
-  圖中如有文字標籤或數值，必須在 description 中提及
-
-━━━ 品質要求 ━━━
-- 完整保留所有技術術語及中英對照（如 No Code、Prompt Engineering）
-- 不合併相鄰段落；段落不截斷
-- 頁碼數字、頁首章節名稱、頁尾資訊不列入 blocks
-- bbox 使用頁面絕對座標（PDF point 單位），準確反映內容在頁面上的位置
-  bbox = [x0, y0, x1, y1]，x0/y0 為左上角，x1/y1 為右下角，y 軸向下遞增"""
+# Pre-built prompt constants
+AUDIT_PROMPT      = _build_prompt(with_bbox=False)   # default — no bbox
+AUDIT_PROMPT_BBOX = _build_prompt(with_bbox=True)    # targeted spatial analysis
 
 
 # ── Manifest ──────────────────────────────────────────────────────────────────
@@ -138,12 +150,16 @@ def page_to_png_bytes(page: fitz.Page, scale: float = 2.0) -> bytes:
 ALLOWED_TYPES       = {'content', 'practice', 'skip'}
 ALLOWED_BLOCK_TYPES = {'heading', 'paragraph', 'list', 'table', 'formula', 'image'}
 REQUIRED_FIELDS: dict[str, list[str]] = {
-    'heading':   ['level', 'text', 'bbox'],
-    'paragraph': ['text', 'bbox'],
-    'list':      ['ordered', 'items', 'bbox'],
-    'table':     ['html', 'bbox'],
-    'formula':   ['latex', 'display', 'bbox'],
-    'image':     ['description', 'bbox'],
+    'heading':   ['level', 'text'],
+    'paragraph': ['text'],
+    'list':      ['ordered', 'items'],
+    'table':     ['html'],
+    'formula':   ['latex', 'display'],
+    'image':     ['description'],
+}
+# Additional required fields when bbox mode is active
+REQUIRED_FIELDS_BBOX: dict[str, list[str]] = {
+    k: v + ['bbox'] for k, v in REQUIRED_FIELDS.items()
 }
 
 
@@ -188,7 +204,7 @@ def _check_latex(latex: str) -> str | None:
     return None
 
 
-def validate(data: dict) -> list[str]:
+def validate(data: dict, with_bbox: bool = False) -> list[str]:
     """Return list of error strings; empty list means valid."""
     errors: list[str] = []
 
@@ -210,6 +226,8 @@ def validate(data: dict) -> list[str]:
     if len(blocks) == 0:
         errors.append('content page has empty blocks []')
 
+    required = REQUIRED_FIELDS_BBOX if with_bbox else REQUIRED_FIELDS
+
     for i, block in enumerate(blocks):
         pfx = f'block[{i}]'
         btype = block.get('type')
@@ -218,13 +236,14 @@ def validate(data: dict) -> list[str]:
             errors.append(f'{pfx}: unknown type {btype!r}')
             continue
 
-        for field in REQUIRED_FIELDS.get(btype, []):
+        for field in required.get(btype, []):
             if field not in block:
                 errors.append(f'{pfx} ({btype}): missing field "{field}"')
 
-        err = _check_bbox(block.get('bbox'))
-        if err:
-            errors.append(f'{pfx} ({btype}) bbox: {err}')
+        if with_bbox and 'bbox' in block:
+            err = _check_bbox(block.get('bbox'))
+            if err:
+                errors.append(f'{pfx} ({btype}) bbox: {err}')
 
         if btype == 'heading':
             if block.get('level') not in (2, 3, 4):
@@ -261,6 +280,7 @@ def call_api(
     img_bytes: bytes,
     model: str,
     use_flex: bool,
+    with_bbox: bool = False,
 ) -> tuple[dict, dict]:
     """Returns (parsed_data, usage_dict). Raises ValueError on JSON parse failure."""
     config_kwargs: dict = {}
@@ -270,11 +290,12 @@ def call_api(
         except AttributeError:
             pass  # Older SDK — no ThinkingConfig; proceed without it
 
+    prompt = AUDIT_PROMPT_BBOX if with_bbox else AUDIT_PROMPT
     call_kw: dict = dict(
         model=model,
         contents=[
             genai_types.Part.from_bytes(data=img_bytes, mime_type='image/png'),
-            genai_types.Part.from_text(text=AUDIT_PROMPT),
+            genai_types.Part.from_text(text=prompt),
         ],
     )
     if config_kwargs:
@@ -319,6 +340,7 @@ def process_guide(
     force: bool = False,
     dry_run: bool = False,
     single_page: int | None = None,
+    with_bbox: bool = False,
 ) -> None:
     key = cfg['key']
     pdf_path = pdf_dir / cfg['pdf']
@@ -385,13 +407,14 @@ def process_guide(
             img_bytes = page_to_png_bytes(page_obj)
             page_w = round(page_obj.rect.width, 1)
             page_h = round(page_obj.rect.height, 1)
-            data, usage = call_api(client, img_bytes, model, use_flex)
+            data, usage = call_api(client, img_bytes, model, use_flex, with_bbox)
 
-            errors   = validate(data)
+            errors    = validate(data, with_bbox=with_bbox)
             validated = len(errors) == 0
 
             entry = {
                 'idx':               idx,
+                'with_bbox':         with_bbox,
                 'page_width_pt':     page_w,   # PDF point units for bbox normalisation
                 'page_height_pt':    page_h,
                 'type':              data.get('type', 'error'),
@@ -496,8 +519,10 @@ def main() -> None:
     parser.add_argument('--page',     type=int,  help='只處理指定頁面索引（0-based）')
     parser.add_argument('--max-cost', type=float, default=DEFAULT_MAX_COST,
                         help=f'預算上限 USD（預設 {DEFAULT_MAX_COST}）')
-    parser.add_argument('--no-flex',  action='store_true',
+    parser.add_argument('--no-flex',   action='store_true',
                         help='停用 flex 模式（允許 thinking，費用較高）')
+    parser.add_argument('--with-bbox', action='store_true',
+                        help='啟用 bbox 模式（針對特定頁面的空間位置解析）')
     parser.add_argument('--input-price',  type=float, default=INPUT_PRICE_PER_M,
                         help='輸入 token 費率 USD/1M（預設保守估算值）')
     parser.add_argument('--output-price', type=float, default=OUTPUT_PRICE_PER_M,
@@ -524,7 +549,8 @@ def main() -> None:
     cumulative_cost: list[float] = [0.0]
 
     print(f'=== pdf_vision_audit ===')
-    print(f'Model: {model}  Flex(no-thinking): {use_flex}  Budget: ${args.max_cost}')
+    with_bbox = args.with_bbox
+    print(f'Model: {model}  Flex(no-thinking): {use_flex}  BBox: {with_bbox}  Budget: ${args.max_cost}')
 
     for s in subjects:
         if s not in guides:
@@ -535,6 +561,7 @@ def main() -> None:
             model, use_flex, args.max_cost, cumulative_cost,
             args.input_price, args.output_price,
             force=args.force, dry_run=args.dry_run, single_page=args.page,
+            with_bbox=with_bbox,
         )
         if cumulative_cost[0] >= args.max_cost:
             print(f'\n[BUDGET EXHAUSTED] ${cumulative_cost[0]:.4f} >= ${args.max_cost}. Stopping.')
