@@ -320,10 +320,35 @@ def call_api(
 
     try:
         data = json.loads(text)
-    except json.JSONDecodeError as exc:
-        raise ValueError(
-            f'JSON parse failed: {exc}\n--- raw (first 600 chars) ---\n{text[:600]}'
-        ) from exc
+    except json.JSONDecodeError:
+        # Gemini sometimes emits bare LaTeX backslashes (e.g. \{, \log, \frac)
+        # that are invalid JSON escape sequences.  Walk the string and escape
+        # any backslash that is not already part of a valid JSON escape
+        # sequence (\", \\, \/, \b, \f, \n, \r, \t, \uXXXX).
+        _VALID_SINGLE = set('"\\\/bfnrt')
+        _HEX = set('0123456789abcdefABCDEF')
+        parts: list[str] = []
+        i = 0
+        while i < len(text):
+            if text[i] == '\\' and i + 1 < len(text):
+                nxt = text[i + 1]
+                if nxt in _VALID_SINGLE:
+                    parts.append(text[i:i + 2]); i += 2
+                elif nxt == 'u' and i + 5 <= len(text) and all(c in _HEX for c in text[i + 2:i + 6]):
+                    parts.append(text[i:i + 6]); i += 6
+                else:
+                    parts.append('\\\\'); i += 1  # double the rogue backslash
+            else:
+                parts.append(text[i]); i += 1
+        fixed = ''.join(parts)
+        try:
+            data = json.loads(fixed)
+        except json.JSONDecodeError as exc:
+            pos = exc.pos if hasattr(exc, 'pos') else 0
+            snippet = text[max(0, pos - 80):pos + 80]
+            raise ValueError(
+                f'JSON parse failed: {exc}\n--- around char {pos} ---\n{repr(snippet)}'
+            ) from exc
 
     return data, usage
 
