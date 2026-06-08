@@ -43,11 +43,36 @@ uv run python3 scripts/pdf_vision_extract.py --level 初級 --all        # 兩�
 uv run python3 scripts/pdf_vision_extract.py --level 初級 --subject 1  # 只跑科目一
 uv run python3 scripts/pdf_vision_extract.py --level 初級 --subject 1 --dry-run  # 估算費用
 uv run python3 scripts/pdf_vision_extract.py --level 初級 --subject 1 --force    # 強制重跑
+uv run python3 scripts/pdf_vision_extract.py --level 中級 --chapter mid-s1c1     # 單章（從 toc_manifest 自動解析頁碼範圍）
+uv run python3 scripts/pdf_vision_extract.py --level 中級 --page-range 10 25     # 手動指定 1-based 頁碼範圍
 
 # Step 2: 組裝章節 JSON（自動偵測 pages_cache → vision mode；否則 fallback regex mode）
 uv run python3 scripts/parse_guides.py --level 初級      # → data/初級/guide/subject{1,2}_guide.json
 uv run python3 scripts/parse_guides.py --level 初級 --subject 1  # 只跑科目一
 python3 scripts/render_guide_page_images.py --level 初級 --all  # PDF 原頁截圖 → frontend/public/guide-pages/
+```
+
+### Guide content quality audit（PDF 更新後執行，審核內容品質）
+
+```bash
+# Step A: Gemini Vision 逐頁結構審核（使用 AUDIT_PROMPT，結果獨立於 pages_cache）
+uv run python3 scripts/pdf_vision_audit.py --level 中級 --subject 1
+uv run python3 scripts/pdf_vision_audit.py --level 中級 --subject 1 --page 6  # 單頁
+# → data/{level}/audit_cache/{key}/page_NNN.json（gitignored）
+
+# Step B: Codex CLI 比對 audit_cache 與 subject{N}_guide.json 的標題結構
+python3 scripts/codex_audit_compare.py --level 中級 --subject 1
+python3 scripts/codex_audit_compare.py --level 中級 --subject 1 --chapter mid-s1c1  # 單章
+python3 scripts/codex_audit_compare.py --level 中級 --subject 1 --dry-run
+# → data/{level}/audit_compare/{key}/{chapter_id}.json（gitignored）
+# status: ok / warn / fail；summary.json 統計各科 fail 數
+
+# Step C: 依審核結果補充 fail 章節（從 audit_cache 重組 Markdown 寫回 guide JSON）
+uv run python3 scripts/supplement_guide_from_audit.py --level 中級 --subject 1
+uv run python3 scripts/supplement_guide_from_audit.py --level 中級 --all
+uv run python3 scripts/supplement_guide_from_audit.py --level 中級 --subject 1 --chapter mid-s1c1
+uv run python3 scripts/supplement_guide_from_audit.py --level 中級 --all --strategy all  # 強制覆蓋 ok 章節
+uv run python3 scripts/supplement_guide_from_audit.py --level 中級 --subject 1 --source pages_cache  # 從 pages_cache 組裝
 ```
 
 ### Step 3：解析後 LLM 審核（確認章節內容正確入庫）
@@ -102,13 +127,24 @@ Frontend dependencies: run `cd frontend && npm install` after cloning (requires 
 - **`scripts/parse_exams_v2.py`**: Parses question/answer tables from the extracted JSON (handles full-width characters A-D and parentheses). Outputs `mock_exam1.json`, `mock_exam2.json`, `sample_exam.json` to `data/{level}/questions/`. Note: `subject1/2_questions.json` are manually curated and not overwritten by this script. Supports `--level`.
 - **`scripts/build_manifest.py`**: Single source of truth for chapter definitions. Contains the only hardcoded `GUIDES_BY_LEVEL` dict in the codebase. Opens PDFs to compute `page_range` (0-based) for each chapter and writes `data/{level}/toc_manifest.json`. Run whenever chapters or PDFs change; all other scripts load from this manifest at runtime. Supports `--level`.
 - **`scripts/audit_chapters.py`**: LLM-based chapter content audit. Reads `subject{N}_guide.json`, sends each chapter's content + subtopics to Claude Haiku API, and checks whether all subtopics are covered and no content is misplaced. Outputs `subject{N}_audit_report.json` with `overall_status: PASS/WARN/FAIL`. Supports `--level`, `--subject`, `--all`, `--chapter`, `--dry-run`.
-- **`scripts/pdf_vision_extract.py`**: Renders each PDF page to PNG (2× scale via PyMuPDF) and calls **Gemini Vision API** (`gemini-2.5-flash`) to extract structured Markdown. Results are cached per page at `data/{level}/pages_cache/{key}/page_NNN.json` (`type`: content/practice/skip, `headings`: `[{level, title}]`, `markdown`, `usage`). After all pages complete, auto-generates `page_index.json` (TOC with chapter boundaries). Re-runs only process missing/failed pages. Requires `GEMINI_API_KEY`. Supports `--level`, `--subject`, `--all`, `--dry-run`, `--force`, `--page`.
+- **`scripts/pdf_vision_extract.py`**: Renders each PDF page to PNG (2× scale via PyMuPDF) and calls **Gemini Vision API** (`gemini-2.5-flash`) to extract structured Markdown. Results are cached per page at `data/{level}/pages_cache/{key}/page_NNN.json` (`type`: content/practice/skip, `headings`: `[{level, title}]`, `markdown`, `usage`). After all pages complete, auto-generates `page_index.json` (TOC with chapter boundaries). Re-runs only process missing/failed pages. Requires `GEMINI_API_KEY`. Supports `--level`, `--subject`/`--all`/`--chapter CHAPTER_ID`/`--page-range START END` (mutually exclusive), `--dry-run`, `--force`, `--page`.
 - **`scripts/parse_guides.py`**: Assembles chapter JSON from vision cache (preferred) or falls back to regex-based text extraction. **Vision mode**: uses `pages_cache/{key}/` + PyMuPDF page-label map to determine per-chapter page ranges; concatenates LLM markdown. **Regex mode** (emergency fallback when cache <80% complete): splits `extracted/guide{N}.json` on in-document page-number anchors, cleans noise, converts structure via `text_to_markdown()`. Writes `data/{level}/guide/subject{N}_guide.json` with `content_format: 'markdown'`. Supports `--level`, `--subject`.
 - **`scripts/generate_questions.py`**: Calls Claude API to generate new questions per chapter (`--subject N`) or add `card` fields to existing questions (`--enrich`). Use `--dry-run` to preview prompts without API calls. Questions follow the extended schema with `card`, `difficulty`, `type`, and `tags` fields. Supports `--level`.
 - **`scripts/multi_ai_pipeline.py`**: Multi-AI question generation pipeline using three CLI tools via subprocess. Roles: Gemini (出題者) → Codex (審核者) → Claude (完稿者). After finalization all three AIs independently answer each question; if 2+ answer incorrectly the question is written to `flagged.json` for human review. Intermediate artifacts go to `data/{level}/pipeline/<run_id>/`. Final questions are merged into `subject{N}_questions.json`. Supports `--level`, `--subject`, `--chapter`, `--count`, `--dry-run`, `--skip-review`, `--skip-validation`, `--creator/reviewer/finalizer` overrides.
 - **`scripts/render_guide_page_images.py`**: Renders guide JSON `source_pages` from PDF into `frontend/public/guide-pages/{level}/{key}/`. The guide page shows these screenshots in a collapsible section to preserve figures, tables, layout, and cross-page context that plain text extraction can lose.
 - **`scripts/verify_data_alignment.py`**: Local consistency check for PDF references and app data. Compares current `toc_manifest.json` against `build_manifest.py` + actual PDF page labels, checks guide/exam PDF references, and verifies guide/question chapter IDs and titles match the manifest. Supports `--level`.
 - **`scripts/build_web.py`**: Thin wrapper that runs `npm run build` inside `frontend/`. Vite bundles the React app and outputs to `docs/` (local only). Production deployment is handled by `.github/workflows/deploy.yml` — push to `main` triggers GitHub Actions to build and deploy to GitHub Pages automatically (`docs/` is gitignored).
+- **`scripts/pdf_vision_audit.py`**: Second Gemini Vision pass using AUDIT_PROMPT (structured blocks with heading/paragraph/list/table/formula/image types). Distinct from `pdf_vision_extract.py` — purpose is auditing and enrichment, not content replacement. Results cached at `data/{level}/audit_cache/{key}/page_NNN.json` (gitignored). Requires `GEMINI_API_KEY`. Supports `--level`, `--subject`, `--page`, `--force`, `--dry-run`.
+- **`scripts/codex_audit_compare.py`**: Compares `audit_cache` heading structure (A) against `subject{N}_guide.json` heading outline (B) via Codex CLI. Reports heading level mismatches, headings present in A but missing from B, and table/image issues. Outputs per-chapter JSON + `summary.json` under `data/{level}/audit_compare/{key}/` (gitignored). status values: `ok`/`warn`/`fail`. Supports `--level`, `--subject`, `--chapter`, `--dry-run`, `--force`.
+- **`scripts/supplement_guide_from_audit.py`**: Replaces or supplements fail-status guide chapters with Markdown assembled from `audit_cache` blocks (or optionally `pages_cache` markdown). Keeps warn/ok chapters untouched by default. Backs up original guide as `*.bak`. Supports `--level`, `--subject`, `--all`, `--chapter`, `--strategy {fail,all}`, `--source {audit_cache,pages_cache}`, `--dry-run`.
+- **`scripts/build_guide_tree.py`**: Builds reviewable guide hierarchy trees from `page_clean/` outputs. Feeds `export_guide_image_units.py`. Outputs to `data/{level}/guide_tree/{key}/tree.json` (gitignored).
+- **`scripts/export_guide_image_units.py`**: Splits guide tree blocks into small topic units for infographic generation. Outputs `data/{level}/image_units/all_image_units.json` and `data/共用/image_units_all_levels.json`.
+- **`scripts/generate_images.py`**: Calls Codex image generation API per unit from `image_units`, converts results to WebP, writes to `frontend/public/images/`. Requires authenticated Codex CLI.
+- **`scripts/export_guide_images_data.py`**: Exports generated infographic metadata (`frontend/src/generated/guideImages.json`) for frontend rendering. Maps image units → guide node IDs for display in GuidePage.
+- **`scripts/export_guide_embedded_exercises.py`**: Extracts embedded practice questions from `page_clean/` pages (numbered Q&A format). Supplements `questions/` with exercises found inline in the study guide PDF.
+- **`scripts/gemini_exam_vision_extract.py`**: Extracts structured exam question records from official exam PDF pages via Gemini Vision. Separate from `pdf_vision_extract.py` — targets question/answer-key page types. Cache at `data/{level}/exam_pages_cache/`.
+- **`scripts/export_resource_summary.py`**: Exports lightweight frontend resource summary (`frontend/src/generated/resourceSummary.json`) with chapter/question counts and coverage stats for both 初級 and 中級.
+- **`scripts/export_question_generation_data.py`**: Exports seed files (guide content + existing questions per chapter) used by the question generation pipeline to provide context for `generate_questions.py` and `multi_ai_pipeline.py`.
 - **`frontend/`**: Vite project (React 19 + TypeScript + Tailwind CSS v4 + React Router v6 + Zustand). Source in `frontend/src/`. Build config in `frontend/vite.config.ts` — output dir is `../docs`, `@data` alias points to `../data/初級`. All JSON data is imported statically at build time (no runtime fetch). Routes use HashRouter to avoid GitHub Pages 404 issues. Chapter navigation and overview pages import `toc_manifest.json` to render titles, subtopics, PDF page ranges, and quick-links — do not add hardcoded chapter arrays back.
 - The study-question pages are reached from sidebar `✏️` items (route `/practice/:subjectId/:chapterId`). On mobile widths the sidebar is hidden behind the `☰` drawer button, so navigation regressions should be checked there too.
 
@@ -121,10 +157,12 @@ Frontend dependencies: run `cd frontend && npm install` after cloning (requires 
 Treat `data/{level}/questions/*.json`, `data/{level}/guide/*.json`, and `docs/` as build artifacts. Only edit JSON files manually when intentionally curating content, and document the change.
 
 `data/{level}/guide/` 輸出：
-- `subject{N}_guide.json` — 前端使用的章節 JSON（`content_format: 'markdown'`）
+- `subject{N}_guide.json` — 供 `audit_chapters.py`、`codex_audit_compare.py`、`supplement_guide_from_audit.py` 使用的後端章節 JSON（`content_format: 'markdown'`）。**注意：前端 GuidePage 不直接讀此檔**；前端讀的是 `export_guide_outline_data.py` 從 `page_clean/` 生成的 `frontend/src/generated/guideContent/`。
 - `subject{N}_audit_report.json` — LLM 章節審核報告；`overall_status: PASS/WARN/FAIL`；由 `audit_chapters.py` 生成
 
 `data/{level}/pages_cache/` — Vision API 每頁快取（gitignored）。`content_format: 'markdown'` JSON 欄位控制前端渲染模式（GuidePage.tsx 用 ReactMarkdown 渲染）。
+`data/{level}/audit_cache/` — `pdf_vision_audit.py` 的 AUDIT_PROMPT 逐頁結構快取（gitignored）。與 `pages_cache/` 使用不同 prompt，不可互換。
+`data/{level}/audit_compare/` — `codex_audit_compare.py` 的比對報告（gitignored）。每章一個 JSON，`summary.json` 統計 fail/warn/ok 數量。
 If `frontend/src/` or any data JSON changes, rerun `uv run python3 scripts/build_web.py` (or `cd frontend && npm run build`) to validate the production build. `docs/` is gitignored and normally should not be committed; GitHub Actions rebuilds it for Pages.
 
 `data/{level}/pipeline/` holds intermediate artifacts from `multi_ai_pipeline.py` runs (draft, review, final, validation, flagged JSON per chapter). These are gitignored and do not need to be committed unless curating a specific run.
