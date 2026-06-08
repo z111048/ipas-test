@@ -83,22 +83,30 @@ PAGE_PROMPT = """\
   "markdown": "..."
 }
 
-【type 判斷規則】
+━━━ type 判斷規則 ━━━
 - "practice"：此頁主要為編號選擇題（如「1. 下列何者...（A）...（B）...」）或解析答案頁（含「Ans（X）解析：」）
 - "skip"：目錄、序言、版權頁、空白頁、參考書目
-- "content"：教材正文內容頁
+- "content"：教材正文內容頁（type 非 content 時，headings 填 []，markdown 填 ""）
 
-【headings 規則】（type 非 content 時填空陣列）
-只列出此頁實際出現的標題，並給予語義化名稱：
-- level 2：大節編號（如「1.」「2.」「3.」），根據後續內容推斷語義名稱，如「AI 應用領域」、「AI 架構組成」
-- level 3：子節標題（如「（1）醫療保健」「（2）金融」）
-- level 4：字母小節（如「A. 資料處理與分析」「B. 演算法」）
+━━━ headings 規則 ━━━
+只列出視覺上字體**明顯大於正文**的標題，給予語義化名稱：
+- level 2：字體最大的大節標題（如「1. AI 應用領域」「第三章 機器學習基礎」）
+- level 3：字體中等、明顯大於正文的子節（如「（1）定義與特性」「一、背景」）
+- level 4：字體略大於正文、仍可辨為標題的更深子節（如「A. 資料處理與分析」）
+⚠️ 粗體但字體大小與正文相同的項目 → 不算 heading，不列入 headings
 
-【markdown 規則】（type 非 content 時填空字串）
-- 省略頁碼（如「3-24」）和章節頁首（如「第三章 人工智慧基礎概論」）
-- 保留所有中英文專業術語，完整呈現技術內容
-- 清單項目使用 -，表格轉為 Markdown 表格格式
-- 不加任何評語或說明"""
+━━━ markdown 規則 ━━━
+1. 省略：頁碼（如「3-24」）、頁首章節名稱（如「第三章 人工智慧基礎概論」）、頁尾資訊
+2. 標題：以 ## / ### / #### 對應 heading level，與 headings 陣列一致
+3. 段落：完整保留，**不合併相鄰段落**，段落不截斷
+4. 清單：使用 -；巢狀清單縮排兩格（  -）；items 中去除前綴符號
+5. 表格 → HTML 格式：
+   <table><tr><th>欄位</th></tr><tr><td>內容</td></tr></table>
+   表頭用 <th>，資料格用 <td>，合併格加 colspan/rowspan 屬性；換行用 <br>；不省略任何儲存格
+6. 數學/統計公式 → LaTeX：獨立行公式用 $$公式$$，行內公式用 $公式$
+7. 圖表/流程圖/示意圖 → > 🖼 描述圖片主題與重要文字標籤（100 字以內）
+8. 完整保留所有中英文專業術語與中英對照（如 No Code、Transformer、Prompt Engineering）
+9. 不加任何評語或說明"""
 
 
 def page_to_png_bytes(page: fitz.Page, scale: float = 2.0) -> bytes:
@@ -152,6 +160,7 @@ def process_guide(
     force: bool = False,
     dry_run: bool = False,
     single_page: int | None = None,
+    page_range: tuple[int, int] | None = None,
 ) -> None:
     key = cfg['key']
     pdf_path = pdf_dir / cfg['pdf']
@@ -169,6 +178,12 @@ def process_guide(
     # Determine which pages to process
     if single_page is not None:
         page_indices = [single_page]
+    elif page_range is not None:
+        # page_range is (start, end) 1-based inclusive → convert to 0-based indices
+        start_idx = max(0, page_range[0] - 1)
+        end_idx = min(total_pages - 1, page_range[1] - 1)
+        page_indices = list(range(start_idx, end_idx + 1))
+        print(f'  Page range: {page_range[0]}–{page_range[1]} (indices {start_idx}–{end_idx})')
     else:
         page_indices = list(range(total_pages))
 
@@ -294,21 +309,38 @@ def _write_summary(cache_dir: Path, total_pages: int) -> None:
     print(f'  Summary: {summary}')
 
 
+def _resolve_chapter_page_range(level: str, chapter_id: str) -> tuple[int, int, int]:
+    """Return (subject_num, start_page, end_page) for a chapter ID from toc_manifest.
+    Pages are 1-based inclusive. Raises SystemExit if not found."""
+    manifest_path = BASE / 'data' / level / 'toc_manifest.json'
+    manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+    for i, subj in enumerate(manifest['subjects'], 1):
+        for ch in subj['chapters']:
+            if ch['id'] == chapter_id:
+                pr = ch.get('page_range')
+                if not pr:
+                    sys.exit(f'Chapter {chapter_id} has no page_range in toc_manifest.json')
+                return i, pr[0], pr[1]
+    sys.exit(f'Chapter "{chapter_id}" not found in toc_manifest.json for level "{level}"')
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description='Extract PDF pages via Gemini Vision')
     parser.add_argument('--level', default='初級',
                         help='資料等級資料夾（預設: 初級）')
-    parser.add_argument('--subject', type=int,
-                        help='科目編號（需與 --all 二擇一）')
-    parser.add_argument('--all', action='store_true',
-                        help='處理所有科目')
+    grp = parser.add_mutually_exclusive_group(required=True)
+    grp.add_argument('--subject', type=int,
+                     help='科目編號')
+    grp.add_argument('--all', action='store_true',
+                     help='處理所有科目')
+    grp.add_argument('--chapter',
+                     help='只處理指定章節（如 mid-s1c1），自動解析頁碼範圍')
     parser.add_argument('--force', action='store_true', help='Reprocess all pages')
     parser.add_argument('--dry-run', action='store_true', help='Estimate cost only')
-    parser.add_argument('--page', type=int, help='Process a single page index')
+    parser.add_argument('--page', type=int, help='Process a single page index (0-based)')
+    parser.add_argument('--page-range', type=int, nargs=2, metavar=('START', 'END'),
+                        help='Process pages START–END (1-based, inclusive)')
     args = parser.parse_args()
-
-    if not args.subject and not args.all:
-        parser.error('Specify --subject N or --all')
 
     data_dir = BASE / 'data' / args.level
     pdf_dir = data_dir / 'pdfs'
@@ -319,13 +351,26 @@ def main() -> None:
         sys.exit(f'No subjects defined for level "{args.level}". '
                  f'Run build_manifest.py --level {args.level} first.')
 
+    # --chapter: resolve subject + page range from manifest
+    if args.chapter:
+        subject_num, start_p, end_p = _resolve_chapter_page_range(args.level, args.chapter)
+        if subject_num not in guides:
+            sys.exit(f'Subject {subject_num} not found in manifest')
+        print(f'Chapter {args.chapter}: subject {subject_num}, pages {start_p}–{end_p}')
+        process_guide(subject_num, guides[subject_num], pdf_dir, cache_dir,
+                      force=args.force, dry_run=args.dry_run,
+                      page_range=(start_p, end_p))
+        return
+
+    page_range = tuple(args.page_range) if args.page_range else None
     subjects = sorted(guides.keys()) if args.all else [args.subject]
     for s in subjects:
         if s not in guides:
             print(f'[WARN] Subject {s} not found in manifest for level "{args.level}"')
             continue
         process_guide(s, guides[s], pdf_dir, cache_dir,
-                      force=args.force, dry_run=args.dry_run, single_page=args.page)
+                      force=args.force, dry_run=args.dry_run,
+                      single_page=args.page, page_range=page_range)
 
 
 if __name__ == '__main__':

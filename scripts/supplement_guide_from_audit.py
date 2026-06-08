@@ -131,6 +131,21 @@ def _trim_to_first_heading(md: str) -> str:
     return md  # no heading found — return as-is
 
 
+def _find_title_start_idx(
+    pages: list[tuple[int, list[dict], str]],
+    chapter_title: str,
+) -> int:
+    """Return the index into `pages` where the chapter title first appears in
+    a heading, so we can skip leading pages that contain previous-chapter overview.
+    Falls back to 0 (first page) if no match is found."""
+    title_core = re.sub(r'^\d+[\.\s]+', '', chapter_title).strip()
+    for i, (_, headings, _) in enumerate(pages):
+        for h in headings:
+            if title_core and title_core in h.get('title', ''):
+                return i
+    return 0
+
+
 def assemble_chapter_from_audit(
     key: str,
     page_range: list[int],
@@ -159,6 +174,45 @@ def assemble_chapter_from_audit(
         all_blocks.extend(d.get('blocks', []))
 
     return _trim_to_first_heading(blocks_to_markdown(all_blocks))
+
+
+def assemble_chapter_from_pages_cache(
+    key: str,
+    page_range: list[int],
+    cache_dir: Path,
+    chapter_title: str = '',
+    skip_practice: bool = False,
+) -> str:
+    """Assemble Markdown content for one chapter from pages_cache (vision extract).
+
+    Reads the pre-built `markdown` field from each page and concatenates them.
+    If `chapter_title` is given, skips leading pages until the title appears
+    in a heading (handles chapter-boundary pages with previous-chapter overviews).
+    Falls back gracefully if pages are missing from cache.
+    """
+    start_page, end_page = page_range  # 1-based, inclusive
+    pages: list[tuple[int, list[dict], str]] = []
+
+    for page_num in range(start_page, end_page + 1):
+        idx = page_num - 1  # 0-based
+        page_file = cache_dir / f'page_{idx:03d}.json'
+        if not page_file.exists():
+            continue
+        d = json.loads(page_file.read_text(encoding='utf-8'))
+        page_type = d.get('type', 'content')
+        if page_type == 'skip':
+            continue
+        if skip_practice and page_type == 'practice':
+            continue
+        md = d.get('markdown', '').strip()
+        if md:
+            pages.append((idx, d.get('headings', []), md))
+
+    if not pages:
+        return ''
+
+    start_idx = _find_title_start_idx(pages, chapter_title) if chapter_title else 0
+    return '\n\n'.join(md for _, _, md in pages[start_idx:])
 
 
 # ── Status helpers ──────────────────────────────────────────────────────────────
@@ -208,14 +262,19 @@ def process_subject(
     force_chapter: str | None,
     dry_run: bool,
     skip_practice: bool,
+    source: str = 'audit_cache',
 ) -> None:
     data_dir = BASE / 'data' / level
-    cache_dir = data_dir / 'audit_cache' / guide_key
+    audit_cache_dir = data_dir / 'audit_cache' / guide_key
+    pages_cache_dir = data_dir / 'pages_cache' / guide_key
     compare_dir = data_dir / 'audit_compare' / guide_key
     guide_path = data_dir / 'guide' / f'subject{subject_num}_guide.json'
 
-    if not cache_dir.exists():
+    if source == 'audit_cache' and not audit_cache_dir.exists():
         print(f'  [skip] audit_cache/{guide_key}/ not found')
+        return
+    if source == 'pages_cache' and not pages_cache_dir.exists():
+        print(f'  [skip] pages_cache/{guide_key}/ not found')
         return
     if not guide_path.exists():
         print(f'  [skip] guide not found: {guide_path}')
@@ -229,6 +288,7 @@ def process_subject(
 
     for ch_def in chapters:
         ch_id = ch_def['id']
+        ch_title = ch_def.get('title', '')
         page_range = ch_def.get('page_range')
         if not page_range:
             print(f'  {ch_id}: no page_range, skipping')
@@ -245,9 +305,27 @@ def process_subject(
             continue
 
         # Assemble new content
-        new_content = assemble_chapter_from_audit(
-            guide_key, page_range, cache_dir, skip_practice
-        )
+        if source == 'pages_cache':
+            # Check coverage for this chapter's page range
+            start_idx, end_idx = page_range[0] - 1, page_range[1] - 1
+            cached_pages = sum(
+                1 for i in range(start_idx, end_idx + 1)
+                if (pages_cache_dir / f'page_{i:03d}.json').exists()
+            )
+            total_pages = end_idx - start_idx + 1
+            coverage = cached_pages / total_pages if total_pages else 0
+            if coverage < 0.8:
+                print(f'  {ch_id}: pages_cache coverage {coverage:.0%} < 80%, skipping')
+                skipped += 1
+                continue
+            new_content = assemble_chapter_from_pages_cache(
+                guide_key, page_range, pages_cache_dir,
+                chapter_title=ch_title, skip_practice=skip_practice,
+            )
+        else:
+            new_content = assemble_chapter_from_audit(
+                guide_key, page_range, audit_cache_dir, skip_practice
+            )
         if not new_content.strip():
             print(f'  {ch_id}: assembled content empty, skipping')
             skipped += 1
@@ -304,6 +382,13 @@ def main() -> None:
     )
     parser.add_argument('--skip-practice', action='store_true',
                         help='Exclude practice/exam pages from assembled content')
+    parser.add_argument(
+        '--source',
+        choices=['audit_cache', 'pages_cache'],
+        default='audit_cache',
+        help='Content source: audit_cache (default, structured blocks) or '
+             'pages_cache (vision extract markdown, requires 80%% chapter coverage)',
+    )
     parser.add_argument('--dry-run', action='store_true')
     args = parser.parse_args()
 
@@ -338,6 +423,7 @@ def main() -> None:
             force_chapter=args.chapter,
             dry_run=args.dry_run,
             skip_practice=args.skip_practice,
+            source=args.source,
         )
 
     print('\n完成')
