@@ -15,14 +15,14 @@ LEVELS = {
         "level": "初級",
         "data_dir": ROOT / "data" / "初級",
         "subject_ids": ["s1", "s2"],
-        "exam_keys": ["mock1", "mock2"],
+        "exam_keys": ["jr_1141_s1", "jr_1141_s2", "jr_1151_s1", "jr_1151_s2", "jr_1152_s1", "jr_1152_s2"],
         "sample_key": "sample",
     },
     "middle": {
         "level": "中級",
         "data_dir": ROOT / "data" / "中級",
         "subject_ids": ["mid-s1", "mid-s2", "mid-s3"],
-        "exam_keys": ["mid1", "mid2", "mid3"],
+        "exam_keys": ["mid_1141_s1", "mid_1141_s2", "mid_1141_s3"],
         "sample_key": "midSample",
     },
 }
@@ -35,14 +35,18 @@ PRACTICE_FILES = {
 
 EXAM_FILES = {
     "junior": {
-        "mock1": "mock_exam1.json",
-        "mock2": "mock_exam2.json",
+        "jr_1141_s1": "mock_jr_1141_s1.json",
+        "jr_1141_s2": "mock_jr_1141_s2.json",
+        "jr_1151_s1": "mock_jr_1151_s1.json",
+        "jr_1151_s2": "mock_jr_1151_s2.json",
+        "jr_1152_s1": "mock_jr_1152_s1.json",
+        "jr_1152_s2": "mock_jr_1152_s2.json",
         "sample": "sample_exam.json",
     },
     "middle": {
-        "mid1": "mock_exam1.json",
-        "mid2": "mock_exam2.json",
-        "mid3": "mock_exam3.json",
+        "mid_1141_s1": "mock_mid_1141_s1.json",
+        "mid_1141_s2": "mock_mid_1141_s2.json",
+        "mid_1141_s3": "mock_mid_1141_s3.json",
         "midSample": "sample_exam.json",
     },
 }

@@ -3,12 +3,18 @@ import type { ExamData } from '../types'
 type JsonModule = { default: unknown }
 
 const examLoaders: Record<string, () => Promise<JsonModule>> = {
-  mock1: () => import('@data/questions/mock_exam1.json'),
-  mock2: () => import('@data/questions/mock_exam2.json'),
+  // 初級 公告試題
+  jr_1141_s1: () => import('@data/questions/mock_jr_1141_s1.json'),
+  jr_1141_s2: () => import('@data/questions/mock_jr_1141_s2.json'),
+  jr_1151_s1: () => import('@data/questions/mock_jr_1151_s1.json'),
+  jr_1151_s2: () => import('@data/questions/mock_jr_1151_s2.json'),
+  jr_1152_s1: () => import('@data/questions/mock_jr_1152_s1.json'),
+  jr_1152_s2: () => import('@data/questions/mock_jr_1152_s2.json'),
   sample: () => import('@data/questions/sample_exam.json'),
-  mid1: () => import('@data-mid/questions/mock_exam1.json'),
-  mid2: () => import('@data-mid/questions/mock_exam2.json'),
-  mid3: () => import('@data-mid/questions/mock_exam3.json'),
+  // 中級 公告試題
+  mid_1141_s1: () => import('@data-mid/questions/mock_mid_1141_s1.json'),
+  mid_1141_s2: () => import('@data-mid/questions/mock_mid_1141_s2.json'),
+  mid_1141_s3: () => import('@data-mid/questions/mock_mid_1141_s3.json'),
   midSample: () => import('@data-mid/questions/sample_exam.json'),
 }
 

@@ -24,16 +24,35 @@ BASE = Path('/home/james/projects/ipas-test')
 # Exam PDFs by level (guide PDFs are read from toc_manifest at runtime).
 # Keep official references separate so they can be extracted/viewed without being
 # parsed as question banks.
+# Key convention: {level_code}_{2-digit-year}{nth-session}_{subject}
+#   level_code : jr (初級) | mid (中級)
+#   year       : 2-digit ROC year (e.g. 114, 115)
+#   nth-session: 1-digit session index (1,2,3,…); 初級114年第四梯次 mapped to session 1
+#   subject    : s1 | s2 | s3
+# Special keys: 'sample' (考試樣題, no session/subject suffix)
+#
+# Output filenames: mock_{key}.json (sample → sample_exam.json)
+# Frontend loader keys: same string as dict key
+#
+# To add a new exam: append an entry here and a matching title in parse_exams_v2.py
 EXAM_PDFS_BY_LEVEL: dict[str, dict[str, str]] = {
     '初級': {
-        'exam1': '114年第四梯次初級AI應用規劃師第一科人工智慧基礎概論(當次試題公告114_20251226000442.pdf',
-        'exam2': '114年第四梯次初級AI應用規劃師第二科生成式AI應用與規劃(當次試題公告114_20251226000507.pdf',
+        # 114年第四梯次（初級第一次公告試題）
+        'jr_1141_s1': '114年第四梯次初級AI應用規劃師第一科人工智慧基礎概論(當次試題公告114_20251226000442.pdf',
+        'jr_1141_s2': '114年第四梯次初級AI應用規劃師第二科生成式AI應用與規劃(當次試題公告114_20251226000507.pdf',
+        # 115年第一次公告試題
+        'jr_1151_s1': '115年第一次初級AI應用規劃師_第一科_人工智慧基礎概論_公告試題_20260410164304.pdf',
+        'jr_1151_s2': '115年第一次初級AI應用規劃師_第二科_生成式AI應用與規劃_公告試題_20260410164328.pdf',
+        # 115年第二次公告試題
+        'jr_1152_s1': '115年第二次初級AI應用規劃師_第一科_人工智慧基礎概論_公告試題_20260604212644.pdf',
+        'jr_1152_s2': '115年第二次初級AI應用規劃師_第二科_生成式AI應用與規劃_公告試題_20260604212719.pdf',
         'sample': 'iPAS AI應用規劃師初級能力鑑定-考試樣題(114年9月版)_20251226162246.pdf',
     },
     '中級': {
-        'exam1': '114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf',
-        'exam2': '114年第二梯次中級AI應用規劃師第二科大數據處理分析與應用(當次試題公告114_20251226000634.pdf',
-        'exam3': '114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf',
+        # 114年第二梯次（中級第一次公告試題）
+        'mid_1141_s1': '114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf',
+        'mid_1141_s2': '114年第二梯次中級AI應用規劃師第二科大數據處理分析與應用(當次試題公告114_20251226000634.pdf',
+        'mid_1141_s3': '114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf',
         'sample': 'iPAS AI應用規劃師中級能力鑑定-考試樣題(114年9月版) _v2_20251222174110.pdf',
     },
 }

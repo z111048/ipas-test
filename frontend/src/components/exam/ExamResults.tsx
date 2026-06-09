@@ -25,12 +25,18 @@ type ExamReferenceModule = { default: unknown }
 const answerOptions = ['A', 'B', 'C', 'D'] as const
 const asReferenceMap = (module: ExamReferenceModule) => module.default as Record<string, ExamReferenceAnswer>
 const referenceLoaders: Record<string, () => Promise<Record<string, ExamReferenceAnswer>>> = {
-  mock1: () => import('../../generated/examReferenceAnswers/mock1.json').then(asReferenceMap),
-  mock2: () => import('../../generated/examReferenceAnswers/mock2.json').then(asReferenceMap),
+  // 初級
+  jr_1141_s1: () => import('../../generated/examReferenceAnswers/jr_1141_s1.json').then(asReferenceMap),
+  jr_1141_s2: () => import('../../generated/examReferenceAnswers/jr_1141_s2.json').then(asReferenceMap),
+  jr_1151_s1: () => import('../../generated/examReferenceAnswers/jr_1151_s1.json').then(asReferenceMap),
+  jr_1151_s2: () => import('../../generated/examReferenceAnswers/jr_1151_s2.json').then(asReferenceMap),
+  jr_1152_s1: () => import('../../generated/examReferenceAnswers/jr_1152_s1.json').then(asReferenceMap),
+  jr_1152_s2: () => import('../../generated/examReferenceAnswers/jr_1152_s2.json').then(asReferenceMap),
   sample: () => import('../../generated/examReferenceAnswers/sample.json').then(asReferenceMap),
-  mid1: () => import('../../generated/examReferenceAnswers/mid1.json').then(asReferenceMap),
-  mid2: () => import('../../generated/examReferenceAnswers/mid2.json').then(asReferenceMap),
-  mid3: () => import('../../generated/examReferenceAnswers/mid3.json').then(asReferenceMap),
+  // 中級
+  mid_1141_s1: () => import('../../generated/examReferenceAnswers/mid_1141_s1.json').then(asReferenceMap),
+  mid_1141_s2: () => import('../../generated/examReferenceAnswers/mid_1141_s2.json').then(asReferenceMap),
+  mid_1141_s3: () => import('../../generated/examReferenceAnswers/mid_1141_s3.json').then(asReferenceMap),
   midSample: () => import('../../generated/examReferenceAnswers/midSample.json').then(asReferenceMap),
 }
 

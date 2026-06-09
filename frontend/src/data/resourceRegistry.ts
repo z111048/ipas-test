@@ -82,7 +82,7 @@ function subjectResources(toc: TocManifest, level: 'junior' | 'middle'): Subject
       practiceDetail: isJunior ? 'AI 模擬章節練習題' : '原有 AI 模擬章節練習題',
       guideExercisePracticeDetail: hasGuideExerciseQuestions ? `${guideSummary?.total ?? 0} 題，從學習指引 PDF 內嵌練習抽取` : undefined,
       codex100PracticeDetail: hasCodex100Questions ? `${codex100Summary?.total ?? 0} 題，依章節平均分配` : undefined,
-      examTo: isJunior ? `/exam/mock${index + 1}` : `/exam/mid${index + 1}`,
+      examTo: isJunior ? `/exam/jr_1152_s${index + 1}` : `/exam/mid_1141_s${index + 1}`,
       chapters: subject.chapters.length,
     }
   })
@@ -116,12 +116,14 @@ export const resourceLevels: LevelResource[] = [
     subtitle: '已有章節練習題、公告試題與官方樣題',
     toc: juniorToc,
     subjects: subjectResources(juniorToc, 'junior'),
-    exams: juniorToc.subjects.map((subject, index) => ({
-      label: `${subject.subject.split('：')[0]}公告試題`,
-      detail: `${resourceSummary.levels.junior.exams[`mock${index + 1}`]?.total ?? 0} 題`,
-      to: `/exam/mock${index + 1}`,
-      status: 'available',
-    })),
+    exams: [
+      { label: '科目一 公告試題（115年第二次）', detail: `${resourceSummary.levels.junior.exams.jr_1152_s1?.total ?? 0} 題`, to: '/exam/jr_1152_s1', status: 'available' as const },
+      { label: '科目二 公告試題（115年第二次）', detail: `${resourceSummary.levels.junior.exams.jr_1152_s2?.total ?? 0} 題`, to: '/exam/jr_1152_s2', status: 'available' as const },
+      { label: '科目一 公告試題（115年第一次）', detail: `${resourceSummary.levels.junior.exams.jr_1151_s1?.total ?? 0} 題`, to: '/exam/jr_1151_s1', status: 'available' as const },
+      { label: '科目二 公告試題（115年第一次）', detail: `${resourceSummary.levels.junior.exams.jr_1151_s2?.total ?? 0} 題`, to: '/exam/jr_1151_s2', status: 'available' as const },
+      { label: '科目一 公告試題（114年第四梯次）', detail: `${resourceSummary.levels.junior.exams.jr_1141_s1?.total ?? 0} 題`, to: '/exam/jr_1141_s1', status: 'available' as const },
+      { label: '科目二 公告試題（114年第四梯次）', detail: `${resourceSummary.levels.junior.exams.jr_1141_s2?.total ?? 0} 題`, to: '/exam/jr_1141_s2', status: 'available' as const },
+    ],
     samples: [{
       label: '初級考試樣題（114年9月版）',
       detail: `${resourceSummary.levels.junior.exams.sample?.total ?? 0} 題`,
@@ -141,12 +143,11 @@ export const resourceLevels: LevelResource[] = [
     subtitle: '已有學習指引與公告試題；章節練習內容先集中在學習指引內',
     toc: middleToc,
     subjects: subjectResources(middleToc, 'middle'),
-    exams: middleToc.subjects.map((subject, index) => ({
-      label: `${subject.subject.split('：')[0]}公告試題`,
-      detail: `${resourceSummary.levels.middle.exams[`mid${index + 1}`]?.total ?? 0} 題`,
-      to: `/exam/mid${index + 1}`,
-      status: 'available',
-    })),
+    exams: [
+      { label: '科目一 公告試題（114年第二梯次）', detail: `${resourceSummary.levels.middle.exams.mid_1141_s1?.total ?? 0} 題`, to: '/exam/mid_1141_s1', status: 'available' as const },
+      { label: '科目二 公告試題（114年第二梯次）', detail: `${resourceSummary.levels.middle.exams.mid_1141_s2?.total ?? 0} 題`, to: '/exam/mid_1141_s2', status: 'available' as const },
+      { label: '科目三 公告試題（114年第二梯次）', detail: `${resourceSummary.levels.middle.exams.mid_1141_s3?.total ?? 0} 題`, to: '/exam/mid_1141_s3', status: 'available' as const },
+    ],
     samples: [{
       label: '中級考試樣題（114年9月版）',
       detail: `${resourceSummary.levels.middle.exams.midSample?.total ?? 0} 題`,

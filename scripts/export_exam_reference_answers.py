@@ -13,14 +13,18 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "frontend/src/generated/examReferenceAnswers"
 ROUTES_BY_LEVEL = {
     "初級": {
-        "exam1": "mock1",
-        "exam2": "mock2",
+        "jr_1141_s1": "jr_1141_s1",
+        "jr_1141_s2": "jr_1141_s2",
+        "jr_1151_s1": "jr_1151_s1",
+        "jr_1151_s2": "jr_1151_s2",
+        "jr_1152_s1": "jr_1152_s1",
+        "jr_1152_s2": "jr_1152_s2",
         "sample": "sample",
     },
     "中級": {
-        "exam1": "mid1",
-        "exam2": "mid2",
-        "exam3": "mid3",
+        "mid_1141_s1": "mid_1141_s1",
+        "mid_1141_s2": "mid_1141_s2",
+        "mid_1141_s3": "mid_1141_s3",
         "sample": "midSample",
     },
 }
