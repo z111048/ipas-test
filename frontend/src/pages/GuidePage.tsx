@@ -3,7 +3,9 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type React from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import remarkMath from 'remark-math'
 import rehypeRaw from 'rehype-raw'
+import rehypeKatex from 'rehype-katex'
 import guideOutlinesRaw from '../generated/guideOutlines.json'
 import guideImagesRaw from '../generated/guideImages.json'
 import type { GuideBlock, GuideContent, GuideImageAsset, GuideImagesData, GuideOutlineNode, GuideOutlinesData } from '../types'
@@ -539,8 +541,8 @@ export default function GuidePage() {
             ) : isMarkdown ? (
               <div className="guide-content prose prose-sm max-w-none text-[0.9rem] leading-8 text-app-text content-justify">
               <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeRaw]}
+                remarkPlugins={[remarkGfm, remarkMath]}
+                rehypePlugins={[rehypeRaw, rehypeKatex]}
                 components={{
                   h2: ({ children }) => (
                     <h2 id={headingAnchor(plainText(children))} className="scroll-mt-4 text-lg font-bold text-primary mt-6 mb-2 border-b border-border pb-1">{children}</h2>
