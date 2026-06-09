@@ -22,30 +22,45 @@ from typing import Any
 BASE = Path('/home/james/projects/ipas-test')
 SCHEMA_PATH = BASE / 'schemas' / 'exam_reference_answer.schema.json'
 DEFAULT_RUN_ROOT = BASE / 'data' / '中級' / 'pipeline' / 'exam_reference_answers'
-EXAM_FILES = {
-    'exam1': 'mock_exam1.json',
-    'exam2': 'mock_exam2.json',
-    'exam3': 'mock_exam3.json',
-    'sample': 'sample_exam.json',
+
+# Key convention: {level_code}_{2-digit-year}{nth-session}_{subject}, e.g. jr_1152_s1
+EXAM_FILES_BY_LEVEL: dict[str, dict[str, str]] = {
+    '初級': {
+        'jr_1141_s1': 'mock_jr_1141_s1.json',
+        'jr_1141_s2': 'mock_jr_1141_s2.json',
+        'jr_1151_s1': 'mock_jr_1151_s1.json',
+        'jr_1151_s2': 'mock_jr_1151_s2.json',
+        'jr_1152_s1': 'mock_jr_1152_s1.json',
+        'jr_1152_s2': 'mock_jr_1152_s2.json',
+        'sample': 'sample_exam.json',
+    },
+    '中級': {
+        'mid_1141_s1': 'mock_mid_1141_s1.json',
+        'mid_1141_s2': 'mock_mid_1141_s2.json',
+        'mid_1141_s3': 'mock_mid_1141_s3.json',
+        'sample': 'sample_exam.json',
+    },
 }
-EXAM_ALIASES = {
-    'mock_exam1': 'exam1',
-    'mock1': 'exam1',
-    'mid1': 'exam1',
-    'mock_exam2': 'exam2',
-    'mock2': 'exam2',
-    'mid2': 'exam2',
-    'mock_exam3': 'exam3',
-    'mock3': 'exam3',
-    'mid3': 'exam3',
-    'sample_exam': 'sample',
-    'midSample': 'sample',
+EXAM_ALIASES: dict[str, dict[str, str]] = {
+    '初級': {},
+    '中級': {
+        'exam1': 'mid_1141_s1', 'mock_exam1': 'mid_1141_s1', 'mock1': 'mid_1141_s1', 'mid1': 'mid_1141_s1',
+        'exam2': 'mid_1141_s2', 'mock_exam2': 'mid_1141_s2', 'mock2': 'mid_1141_s2', 'mid2': 'mid_1141_s2',
+        'exam3': 'mid_1141_s3', 'mock_exam3': 'mid_1141_s3', 'mock3': 'mid_1141_s3', 'mid3': 'mid_1141_s3',
+        'sample_exam': 'sample', 'midSample': 'sample',
+    },
 }
-EXAM_GUIDE_KEYS = {
-    'exam1': ['guide1'],
-    'exam2': ['guide2'],
-    'exam3': ['guide3'],
-    'sample': ['guide1', 'guide2', 'guide3'],
+EXAM_GUIDE_KEYS_BY_LEVEL: dict[str, dict[str, list[str]]] = {
+    '初級': {
+        'jr_1141_s1': ['guide1'], 'jr_1141_s2': ['guide2'],
+        'jr_1151_s1': ['guide1'], 'jr_1151_s2': ['guide2'],
+        'jr_1152_s1': ['guide1'], 'jr_1152_s2': ['guide2'],
+        'sample': ['guide1', 'guide2'],
+    },
+    '中級': {
+        'mid_1141_s1': ['guide1'], 'mid_1141_s2': ['guide2'], 'mid_1141_s3': ['guide3'],
+        'sample': ['guide1', 'guide2', 'guide3'],
+    },
 }
 
 
@@ -70,14 +85,14 @@ def write_json(path: Path, data: Any) -> None:
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
 
 
-def normalize_exam_key(key: str) -> str:
-    return EXAM_ALIASES.get(key, key)
+def normalize_exam_key(key: str, level: str) -> str:
+    return EXAM_ALIASES.get(level, {}).get(key, key)
 
 
 def available_exams(level: str) -> list[str]:
     questions_dir = BASE / 'data' / level / 'questions'
     result = []
-    for exam_key, file_name in EXAM_FILES.items():
+    for exam_key, file_name in EXAM_FILES_BY_LEVEL.get(level, {}).items():
         if (questions_dir / file_name).exists():
             result.append(exam_key)
     return result
@@ -353,10 +368,13 @@ def main() -> None:
     if args.exam == 'all':
         exam_keys = available_exams(level)
     else:
-        exam_keys = [normalize_exam_key(args.exam)]
+        exam_keys = [normalize_exam_key(args.exam, level)]
 
     if not exam_keys:
         raise SystemExit(f'No exam JSON found for level {level}')
+
+    exam_files = EXAM_FILES_BY_LEVEL.get(level, {})
+    exam_guide_keys = EXAM_GUIDE_KEYS_BY_LEVEL.get(level, {})
 
     summary: dict[str, Any] = {
         'level': level,
@@ -368,18 +386,15 @@ def main() -> None:
     completed = skipped = failed = prompts = 0
 
     for exam_key in exam_keys:
-        file_name = EXAM_FILES.get(exam_key)
+        file_name = exam_files.get(exam_key)
         if not file_name:
             raise SystemExit(f'Unsupported exam key: {exam_key}')
         exam_path = BASE / 'data' / level / 'questions' / file_name
         if not exam_path.exists():
             print(f'SKIP {level}/{exam_key}: missing {exam_path.relative_to(BASE)}')
             continue
-        guide_keys = EXAM_GUIDE_KEYS[exam_key]
-        if level == '初級':
-            guide_keys = [key for key in guide_keys if (BASE / 'data' / level / 'guide_tree' / key).exists()]
-            if exam_key == 'sample':
-                guide_keys = [subject['key'] for subject in load_json(BASE / 'data' / level / 'toc_manifest.json').get('subjects') or []]
+        guide_keys = list(exam_guide_keys.get(exam_key, []))
+        guide_keys = [key for key in guide_keys if (BASE / 'data' / level / 'guide_tree' / key).exists()]
         chunks = load_guide_chunks(level, guide_keys)
         exam = load_json(exam_path)
         for question in selected_questions(exam, args.question_id, args.limit):

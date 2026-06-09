@@ -145,6 +145,8 @@ Frontend dependencies: run `cd frontend && npm install` after cloning (requires 
 - **`scripts/gemini_exam_vision_extract.py`**: Extracts structured exam question records from official exam PDF pages via Gemini Vision. Separate from `pdf_vision_extract.py` — targets question/answer-key page types. Cache at `data/{level}/exam_pages_cache/`.
 - **`scripts/export_resource_summary.py`**: Exports lightweight frontend resource summary (`frontend/src/generated/resourceSummary.json`) with chapter/question counts and coverage stats for both 初級 and 中級.
 - **`scripts/export_question_generation_data.py`**: Exports seed files (guide content + existing questions per chapter) used by the question generation pipeline to provide context for `generate_questions.py` and `multi_ai_pipeline.py`.
+- **`scripts/run_codex_exam_reference_answers.py`**: Generates detailed Codex reference answers for official exam questions. Retrieves top-k guide snippets per question via BM25-style token overlap, writes prompts to `data/{level}/pipeline/exam_reference_answers/{exam_key}/prompts/`, and runs `codex exec --sandbox read-only` to produce per-question JSON. Validates output schema (answer, reference_answer, option_analysis A-D, citations). Run without `--run` to write prompts only. After running, call `export_exam_reference_answers.py` to publish to frontend. Supports `--level`, `--exam {key|all}`, `--question-id`, `--limit`, `--force`, `--top-k`, `--timeout`.
+- **`scripts/export_exam_reference_answers.py`**: Reads per-question JSON from `data/{level}/pipeline/exam_reference_answers/{exam_key}/outputs/` and merges into `frontend/src/generated/examReferenceAnswers/{route_key}.json`. Exam key → route key mapping defined in `ROUTES_BY_LEVEL`. Supports `--level`.
 - **`frontend/`**: Vite project (React 19 + TypeScript + Tailwind CSS v4 + React Router v6 + Zustand). Source in `frontend/src/`. Build config in `frontend/vite.config.ts` — output dir is `../docs`, `@data` alias points to `../data/初級`. All JSON data is imported statically at build time (no runtime fetch). Routes use HashRouter to avoid GitHub Pages 404 issues. Chapter navigation and overview pages import `toc_manifest.json` to render titles, subtopics, PDF page ranges, and quick-links — do not add hardcoded chapter arrays back.
 - The study-question pages are reached from sidebar `✏️` items (route `/practice/:subjectId/:chapterId`). On mobile widths the sidebar is hidden behind the `☰` drawer button, so navigation regressions should be checked there too.
 
@@ -233,6 +235,36 @@ s1c4.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8'
 ```
 
 **觸發時機**：每次執行 `export_guide_outline_data.py`（含 `--all-levels`）後均需補回。
+
+### s1c4 H4 標題截短（本節階層 (1)→(1) 問題）
+
+**問題**：s1c4 在「鑑別式AI原理」與「生成式AI原理」兩個 H3 節下，H4 模型條目仍保有 `（1）（2）...` 前綴，導致 本節階層 顯示「(1) 鑑別式AI…」下方又出現「(1) 邏輯迴歸…」同層視覺。
+
+**修正方式**：執行以下腳本，將 8 個 H4 標題去掉序號前綴並截短為模型名稱：
+
+```python
+import json
+from pathlib import Path
+
+s1c4 = Path('frontend/src/generated/guideContent/初級-guide1/s1c4.json')
+data = json.loads(s1c4.read_text(encoding='utf-8'))
+fixes = {
+    '（1） 邏輯迴歸（Logistic Regression）是鑑別式AI 中最簡單且最基礎的分類模型': '邏輯迴歸（Logistic Regression）',
+    '（2） 支援向量機（Support Vector Machine, SVM）是一種強大的分類模型，其核心': '支援向量機（SVM）',
+    '（3） 決策樹（Decision Tree）是一種基於樹形結構進行數據分類的模型。其透過': '決策樹（Decision Tree）',
+    '（4） 隨機森林（Random Forest）是決策樹的集成學習方法，其透過構建多棵決策': '隨機森林（Random Forest）',
+    '（5） 神經網路（Neural Networks）是一種模擬生物神經系統的非線性模型，透過': '神經網路（Neural Networks）',
+    '（1） 生成對抗網路（Generative Adversarial Networks, GAN）是生成式AI 中最具': '生成對抗網路（GAN）',
+    '（2） 變分自編碼器（Variational Autoencoders, VAE）是一種基於概率生成模型的': '變分自編碼器（VAE）',
+    '（3） 擴散模型（Diffusion Models）是一種基於逐步添加與去除雜訊的數據生成方': '擴散模型（Diffusion Models）',
+}
+for h in data.get('headings', []):
+    if h['title'] in fixes:
+        h['title'] = fixes[h['title']]
+s1c4.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
+```
+
+**觸發時機**：每次執行 `export_guide_outline_data.py`（含 `--all-levels`）後均需補回，**且在 H3 heading 層級修正腳本之後執行**。
 
 ## Coding Style
 
