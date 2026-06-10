@@ -95,7 +95,7 @@ def parse_json_response(text: str) -> object:
 # ---------------------------------------------------------------------------
 
 GENERATION_PROMPT = """\
-你是一位精通 Python 的 AI 教學設計師，負責為「中級 AI 應用規劃師（iPAS）」考試教材設計 Colab 實作練習。
+你是一位精通 Python 的 AI 教學設計師，負責為「{level_label} AI 應用規劃師（iPAS）」考試教材設計 Colab 實作練習。
 
 【章節 ID】{chapter_id}
 【章節標題】{title}
@@ -480,7 +480,9 @@ def process_chapter(
     log.info(f'[{chapter_id}] 開始生成：{title}')
 
     # ── Step 1: Codex 生成草稿 ────────────────────────────────────────────
+    level_label = '初級' if level == '初級' else '中級'
     generation_prompt = GENERATION_PROMPT.format(
+        level_label=level_label,
         chapter_id=chapter_id,
         title=title,
         content=content,

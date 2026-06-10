@@ -1,0 +1,57 @@
+{
+  "chapter_id": "s1c2",
+  "chapter_title": "資料處理與分析概念",
+  "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/初級/s1c2.ipynb",
+  "status": "pass",
+  "cells": [
+    {
+      "type": "markdown",
+      "content": "# 資料處理與分析概念\n\n## 學習目標\n\n完成本 Notebook 後，你將能夠：\n\n1. 使用 Python 計算平均數、中位數、眾數等中央趨勢統計量。\n2. 使用全距、四分位距、變異數與標準差理解資料分散程度。\n3. 透過簡單圖表進行探索式資料分析，觀察分布、異常值與變數關係。\n4. 理解虛無假設、對立假設、顯著水準與 p 值的意義。\n5. 使用輕量資料集完成一個從 EDA 到假說檢定的小型分析流程。"
+    },
+    {
+      "type": "code",
+      "title": "環境設定",
+      "explanation": "載入本章節所需的 Python 套件，並建立一份可重複使用的範例資料。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom collections import Counter\nfrom scipy import stats\n\nnp.random.seed(42)\n\nscores = np.array([68, 72, 75, 78, 80, 82, 82, 85, 88, 90, 95, 100])\nstudy_hours = np.array([1.5, 2.0, 2.2, 2.8, 3.0, 3.5, 3.8, 4.1, 4.5, 5.0, 5.5, 6.0])\n\nsales_df = pd.DataFrame({\n    '學習時數': study_hours,\n    '測驗分數': scores,\n    '是否完成練習': ['否', '否', '否', '是', '是', '是', '是', '是', '是', '是', '是', '是']\n})\n\nprint('資料筆數:', len(sales_df))\nprint(sales_df.head())"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念",
+      "content": "## 核心概念說明\n\n在 AI 與機器學習中，資料品質會直接影響模型品質。進入模型訓練之前，通常會先做資料處理與資料分析，了解資料是否完整、是否有異常值、分布是否合理，以及變數之間是否可能存在關係。\n\n常見統計量可分成兩大類：\n\n- 中央趨勢：描述資料集中位置，例如平均數、中位數、眾數。\n- 分散程度：描述資料變動大小，例如全距、四分位距、變異數、標準差。\n\n平均數容易受到極端值影響；中位數對極端值較穩健；眾數適合觀察最常出現的類別或數值。分散程度則能幫助我們判斷資料是否穩定，例如標準差越大，代表資料點離平均值通常越遠。"
+    },
+    {
+      "type": "code",
+      "title": "示範：中央趨勢與極端值影響",
+      "explanation": "這段程式碼示範平均數、中位數、眾數的計算，並比較加入極端值後對統計量的影響。",
+      "content": "import numpy as np\nfrom collections import Counter\n\nscores = np.array([68, 72, 75, 78, 80, 82, 82, 85, 88, 90, 95, 100])\nscores_with_outlier = np.append(scores, 200)\n\ndef mode_value(values):\n    counts = Counter(values)\n    max_count = max(counts.values())\n    return [value for value, count in counts.items() if count == max_count]\n\nprint('原始資料')\nprint('平均數:', np.mean(scores))\nprint('中位數:', np.median(scores))\nprint('眾數:', mode_value(scores))\n\nprint('\\n加入極端值 200 後')\nprint('平均數:', np.mean(scores_with_outlier))\nprint('中位數:', np.median(scores_with_outlier))\nprint('眾數:', mode_value(scores_with_outlier))\n\nprint('\\n觀察：平均數明顯上升，中位數變化較小，表示中位數較不容易受到極端值影響。')"
+    },
+    {
+      "type": "markdown",
+      "title": "分散度與探索式分析",
+      "content": "## 分散度與探索式資料分析\n\n分散度衡量資料的離散程度。常見指標包含：\n\n- 全距：最大值減最小值，簡單但非常容易受到極端值影響。\n- 四分位距：第三四分位數減第一四分位數，常用於觀察中間 50% 資料的變動範圍。\n- 變異數與標準差：描述資料相對於平均數的平均偏離程度。\n\n探索式資料分析強調先觀察資料，再形成問題與假設。常見方法包含摘要統計、直方圖、盒鬚圖與散佈圖。這些方法能協助找出分布型態、異常值與變數關係。"
+    },
+    {
+      "type": "code",
+      "title": "示範：分散度與 EDA 圖表",
+      "explanation": "這段程式碼計算全距、四分位距、變異數與標準差，並使用直方圖、盒鬚圖和散佈圖觀察資料。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nscores = np.array([68, 72, 75, 78, 80, 82, 82, 85, 88, 90, 95, 100])\nstudy_hours = np.array([1.5, 2.0, 2.2, 2.8, 3.0, 3.5, 3.8, 4.1, 4.5, 5.0, 5.5, 6.0])\n\nq1 = np.percentile(scores, 25)\nq3 = np.percentile(scores, 75)\niqr = q3 - q1\n\nprint('全距:', np.max(scores) - np.min(scores))\nprint('第一四分位數 Q1:', q1)\nprint('第三四分位數 Q3:', q3)\nprint('四分位距 IQR:', iqr)\nprint('變異數:', np.var(scores, ddof=1))\nprint('標準差:', np.std(scores, ddof=1))\n\nfig, axes = plt.subplots(1, 3, figsize=(15, 4))\n\naxes[0].hist(scores, bins=6, edgecolor='black')\naxes[0].set_title('測驗分數直方圖')\naxes[0].set_xlabel('分數')\naxes[0].set_ylabel('人數')\n\naxes[1].boxplot(scores, vert=True)\naxes[1].set_title('測驗分數盒鬚圖')\naxes[1].set_ylabel('分數')\n\naxes[2].scatter(study_hours, scores)\naxes[2].set_title('學習時數與測驗分數')\naxes[2].set_xlabel('學習時數')\naxes[2].set_ylabel('測驗分數')\n\nplt.tight_layout()\nplt.show()"
+    },
+    {
+      "type": "markdown",
+      "title": "假說檢定",
+      "content": "## 假說檢定與統計推論\n\n當我們從樣本推論母體時，樣本統計量與母體參數之間可能存在抽樣變異，因此需要透過機率模型與假說檢定來量化不確定性。\n\n假說檢定常見流程為：提出假設、蒐集資料、計算檢定統計量、取得 p 值、根據顯著水準做決策。\n\n常用名詞：\n\n- 虛無假設 H0：通常表示沒有差異、沒有效果或沒有關係。\n- 對立假設 Ha：通常表示存在差異、存在效果或存在關係。\n- 顯著水準 alpha：常見為 0.05，表示可接受的第一型錯誤風險門檻。\n- p 值：在 H0 為真時，觀察到目前或更極端結果的機率。\n\n判斷方式通常是：若 p 值小於 alpha，拒絕 H0；若 p 值大於或等於 alpha，則沒有足夠證據拒絕 H0。"
+    },
+    {
+      "type": "code",
+      "title": "實際應用：從 EDA 到假說檢定",
+      "explanation": "這段程式碼示範如何比較兩組學生的測驗分數，先做描述統計，再使用 t 檢定判斷平均分數是否有顯著差異。",
+      "content": "import numpy as np\nimport pandas as pd\nfrom scipy import stats\n\nnp.random.seed(7)\n\ntraditional = np.array([70, 72, 75, 76, 78, 80, 81, 83, 84, 85])\nai_assisted = np.array([76, 78, 79, 82, 84, 85, 87, 88, 90, 92])\n\nsummary = pd.DataFrame({\n    '組別': ['傳統學習', 'AI 輔助學習'],\n    '平均數': [np.mean(traditional), np.mean(ai_assisted)],\n    '中位數': [np.median(traditional), np.median(ai_assisted)],\n    '標準差': [np.std(traditional, ddof=1), np.std(ai_assisted, ddof=1)]\n})\n\nprint(summary)\n\nalpha = 0.05\nt_stat, p_value = stats.ttest_ind(ai_assisted, traditional, equal_var=False)\n\nprint('\\n虛無假設 H0：兩組平均分數沒有差異')\nprint('對立假設 Ha：兩組平均分數有差異')\nprint('t 統計量:', round(t_stat, 4))\nprint('p 值:', round(p_value, 4))\n\nif p_value < alpha:\n    print('結論：p 值小於 0.05，拒絕 H0，兩組平均分數可能存在顯著差異。')\nelse:\n    print('結論：p 值不小於 0.05，沒有足夠證據拒絕 H0。')"
+    },
+    {
+      "type": "code",
+      "title": "自我測驗",
+      "explanation": "請完成下方 TODO 填空，實作中央趨勢、分散度與簡單假說檢定的功能。",
+      "content": "import numpy as np\nfrom scipy import stats\n\n# 題目資料：某班 10 位學生的測驗分數\nscores = np.array([60, 65, 70, 70, 75, 80, 85, 90, 95, 100])\n\n# TODO 1：計算平均數\nmean_score = None\n\n# TODO 2：計算中位數\nmedian_score = None\n\n# TODO 3：計算全距\nscore_range = None\n\n# TODO 4：計算樣本標準差，請使用 ddof=1\nsample_std = None\n\nprint('平均數:', mean_score)\nprint('中位數:', median_score)\nprint('全距:', score_range)\nprint('樣本標準差:', sample_std)\n\n# Expected:\n# 平均數: 79.0\n# 中位數: 77.5\n# 全距: 40\n# 樣本標準差: 約 13.7\n\n# 進階 TODO 5：檢定這組學生的平均分數是否顯著不同於 75\n# 提示：使用 stats.ttest_1samp(scores, popmean=75)\nt_stat, p_value = None, None\n\nprint('t 統計量:', t_stat)\nprint('p 值:', p_value)\n\n# Expected:\n# t 統計量與 p 值會是數值輸出\n# 若 p 值 < 0.05，代表平均分數與 75 有顯著差異；否則沒有足夠證據認為有顯著差異。"
+    }
+  ]
+}

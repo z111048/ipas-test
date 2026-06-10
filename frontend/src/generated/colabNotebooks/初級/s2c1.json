@@ -1,0 +1,51 @@
+{
+  "chapter_id": "s2c1",
+  "chapter_title": "No Code / Low Code概念",
+  "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/初級/s2c1.ipynb",
+  "status": "warn",
+  "cells": [
+    {
+      "type": "markdown",
+      "content": "# No Code / Low Code概念\n\n## 📌 學習目標\n\n完成本 Notebook 後，你將能夠：\n\n1. 說明 No Code 與 Low Code 平台的差異。\n2. 判斷不同使用情境適合 No Code、Low Code 或傳統開發。\n3. 使用簡單資料表建立平台評估模型。\n4. 以輕量文字分析模擬生成式 AI 在 No Code / Low Code 中的輔助決策概念。\n5. 辨識導入生成式 AI 與 No Code / Low Code 時常見的風險與評估因素。"
+    },
+    {
+      "type": "code",
+      "title": "環境設定與範例資料",
+      "explanation": "載入本章節會用到的套件，並建立一份簡化的 No Code / Low Code 平台情境資料。",
+      "content": "import pandas as pd\nimport numpy as np\n\nplatforms = pd.DataFrame({\n    \"platform_type\": [\"No Code\", \"No Code\", \"Low Code\", \"Low Code\", \"Traditional Code\"],\n    \"scenario\": [\"快速原型\", \"內部表單與流程\", \"企業系統整合\", \"客製化 AI 應用\", \"高度複雜核心系統\"],\n    \"technical_skill\": [1, 1, 3, 4, 5],\n    \"development_speed\": [5, 5, 4, 3, 2],\n    \"customization\": [2, 2, 4, 5, 5],\n    \"integration_need\": [1, 2, 4, 4, 5],\n    \"governance_need\": [2, 3, 4, 5, 5]\n})\n\nprint(platforms)"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念",
+      "content": "## 核心概念說明\n\nNo Code 與 Low Code 都是降低開發門檻的工具，但適用對象與彈性不同。\n\n| 類型 | 主要使用者 | 開發方式 | 適合情境 |\n|---|---|---|---|\n| No Code | 非技術使用者 | 拖拉元件、設定流程 | 快速原型、小型應用、內部工具 |\n| Low Code | 具基礎技術能力者 | 視覺化設計加少量程式碼 | 企業整合、客製化流程、複雜邏輯 |\n| Traditional Code | 專業工程師 | 完整程式開發 | 高度複雜、效能或安全要求高的核心系統 |\n\n生成式 AI 的加入，可以協助產生程式碼、優化模板、分析資料、生成行銷文案或設計 UI，但仍需要驗證機制、資料安全控管與倫理風險管理。"
+    },
+    {
+      "type": "code",
+      "title": "示範：用評分規則選擇平台類型",
+      "explanation": "這段程式碼示範如何根據技術能力、客製化需求與整合需求，建立簡單的平台推薦規則。",
+      "content": "def recommend_platform(technical_skill, customization_need, integration_need):\n    if technical_skill <= 2 and customization_need <= 2 and integration_need <= 2:\n        return \"No Code\"\n    elif technical_skill <= 4 and customization_need <= 4:\n        return \"Low Code\"\n    else:\n        return \"Traditional Code\"\n\ncases = pd.DataFrame({\n    \"case\": [\"活動報名表\", \"CRM 與 ERP 串接\", \"銀行核心交易系統\"],\n    \"technical_skill\": [1, 3, 5],\n    \"customization_need\": [1, 4, 5],\n    \"integration_need\": [1, 4, 5]\n})\n\ncases[\"recommendation\"] = cases.apply(\n    lambda row: recommend_platform(row[\"technical_skill\"], row[\"customization_need\"], row[\"integration_need\"]),\n    axis=1\n)\n\nprint(cases)"
+    },
+    {
+      "type": "markdown",
+      "title": "生成式 AI 的輕量模擬",
+      "content": "## 生成式 AI 與 No Code / Low Code 的結合\n\n真實平台可能使用大型語言模型協助使用者自動生成程式碼、推薦模板、設計流程或分析資料。由於本練習限制使用 Colab 預裝套件，我們改用 TF-IDF 文字相似度來模擬「AI 根據需求描述推薦應用模板」的概念。\n\n這個示範重點不是建立真正的 LLM，而是理解生成式 AI 在平台中扮演的角色：\n\n1. 讀取使用者需求。\n2. 比對可用模板或案例。\n3. 推薦最接近的開發方向。\n4. 讓使用者再進行人工檢查與調整。"
+    },
+    {
+      "type": "code",
+      "title": "示範：用 TF-IDF 模擬 AI 模板推薦",
+      "explanation": "這段程式碼使用 TF-IDF 與餘弦相似度，模擬生成式 AI 根據需求描述推薦 No Code / Low Code 應用模板。",
+      "content": "from sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.metrics.pairwise import cosine_similarity\nimport pandas as pd\n\ntemplates = pd.DataFrame({\n    \"template\": [\n        \"顧客問卷與滿意度分析\",\n        \"庫存預測與補貨提醒\",\n        \"自動化客服回覆\",\n        \"內部簽核流程\",\n        \"金融風險評估儀表板\"\n    ],\n    \"description\": [\n        \"收集顧客回饋 分析滿意度 產生行銷建議\",\n        \"分析銷售資料 預測需求 提醒補貨 降低庫存成本\",\n        \"根據客戶問題 自動產生回覆 提升客服效率\",\n        \"建立表單 流程審核 權限控管 自動通知\",\n        \"整合市場資料 模擬風險 建立金融決策儀表板\"\n    ],\n    \"suggested_platform\": [\"No Code\", \"Low Code\", \"Low Code\", \"No Code\", \"Low Code\"]\n})\n\nuser_need = \"我想分析銷售資料並預測商品需求，讓系統提醒何時補貨\"\n\n# 中文句子通常沒有空白分隔，預設 tokenizer 可能無法切出可比對詞彙。\n# 改用字元 n-gram，讓「銷售資料」「預測需求」「提醒補貨」等片段能產生相似度。\nvectorizer = TfidfVectorizer(analyzer=\"char\", ngram_range=(2, 4))\ntexts = templates[\"description\"].tolist() + [user_need]\ntfidf = vectorizer.fit_transform(texts)\n\nsimilarities = cosine_similarity(tfidf[-1], tfidf[:-1]).flatten()\nbest_index = similarities.argmax()\n\nprint(\"使用者需求：\", user_need)\nprint(\"推薦模板：\", templates.loc[best_index, \"template\"])\nprint(\"建議平台：\", templates.loc[best_index, \"suggested_platform\"])\nprint(\"相似度：\", round(similarities[best_index], 3))"
+    },
+    {
+      "type": "markdown",
+      "title": "評估與風險",
+      "content": "## 平台選擇與導入挑戰\n\n選擇 No Code / Low Code 平台時，不能只看開發速度，也要考量以下因素：\n\n1. 目標用戶與技術需求：非技術使用者通常適合 No Code，需要高度客製化則偏向 Low Code 或傳統開發。\n2. 功能與擴展性：是否能整合 CRM、ERP、資料庫或其他企業系統。\n3. 安全性與合規性：是否支援權限控管、資料加密、稽核紀錄與隱私保護。\n4. 成本與效益：要評估總擁有成本 TCO 與投資報酬率 ROI。\n5. 技術支援與社群：文件、範例、客服與使用者社群會影響導入效率。\n6. 市場評價與成功案例：相似產業案例可協助判斷平台成熟度。\n\n生成式 AI 加入後，也要特別注意模型準確性、資料外洩、偏見、錯誤資訊與人工審核流程。"
+    },
+    {
+      "type": "code",
+      "title": "🧪 自我測驗",
+      "explanation": "請完成下方 TODO 填空，根據評估分數計算最適合的平台類型，並確認輸出是否符合預期。",
+      "content": "import pandas as pd\n\n# 情境：某公司想建立一個內部請假與簽核系統。\n# 條件：使用者多為非技術背景，需求不複雜，但需要基本權限控管。\ncase = {\n    \"technical_skill\": 1,\n    \"customization_need\": 2,\n    \"integration_need\": 2,\n    \"governance_need\": 3\n}\n\n# TODO 1: 若 technical_skill <= 2 且 customization_need <= 2，platform 應設為 \"No Code\"\n# TODO 2: 若 customization_need >= 4 或 integration_need >= 4，platform 應設為 \"Low Code\"\n# TODO 3: 其他情況 platform 設為 \"Traditional Code\"\n\nif case[\"technical_skill\"] <= 2 and case[\"customization_need\"] <= 2:\n    platform = \"No Code\"\nelif case[\"customization_need\"] >= 4 or case[\"integration_need\"] >= 4:\n    platform = \"Low Code\"\nelse:\n    platform = \"Traditional Code\"\n\nrisk_notes = []\n\n# TODO 4: 如果 governance_need >= 3，加入 \"需要權限控管與資料安全檢查\"\nif case[\"governance_need\"] >= 3:\n    risk_notes.append(\"需要權限控管與資料安全檢查\")\n\nprint(\"推薦平台：\", platform)\nprint(\"導入提醒：\", risk_notes)\n\n# Expected:\n# 推薦平台： No Code\n# 導入提醒： ['需要權限控管與資料安全檢查']"
+    }
+  ]
+}

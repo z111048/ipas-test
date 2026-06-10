@@ -304,14 +304,15 @@ export default function GuidePage() {
     }
   }, [chapter, outlineGuide])
 
-  // Load Colab notebook for 中級 chapters
+  // Load Colab notebook if available (初級 and 中級)
   useEffect(() => {
     let cancelled = false
     setColabNotebook(null)
     if (!outlineGuide || !chapter) return
-    if (outlineGuide.level !== '中級') return
+    const level = outlineGuide.level
+    if (!level) return
 
-    const notebookKey = `../generated/colabNotebooks/${outlineGuide.level}/${chapter.id}.json`
+    const notebookKey = `../generated/colabNotebooks/${level}/${chapter.id}.json`
     const loader = colabNotebookModules[notebookKey]
     if (!loader) return
 

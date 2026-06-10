@@ -1,0 +1,57 @@
+{
+  "chapter_id": "s2c3",
+  "chapter_title": "生成式AI導入評估規劃",
+  "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/初級/s2c3.ipynb",
+  "status": "warn",
+  "cells": [
+    {
+      "type": "markdown",
+      "content": "# 生成式AI導入評估規劃\n\n## 📌 學習目標\n\n完成本 Colab 練習後，你將能夠：\n\n1. 使用資料表建立生成式 AI 導入評估清單。\n2. 將「業務價值、技術可行性、資料準備度、風險」轉換成可量化分數。\n3. 用簡單的 TF-IDF 方法模擬「應用場景與企業痛點的匹配」。\n4. 根據評估結果排定 AI 導入優先順序。\n5. 建立一個簡化版 POC 與 ROI 評估流程。"
+    },
+    {
+      "type": "code",
+      "title": "環境設定",
+      "explanation": "載入本章節會用到的 Python 套件，並建立一組企業導入生成式 AI 的候選應用資料。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.metrics.pairwise import cosine_similarity\n\nuse_cases = pd.DataFrame({\n    \"方案\": [\"客服回覆助理\", \"內部知識檢索\", \"行銷文案生成\", \"供應鏈異常摘要\", \"合約條款檢查\"],\n    \"業務痛點\": [\n        \"客服等待時間過長 回覆品質不一致\",\n        \"員工查找制度 文件 流程耗時\",\n        \"行銷內容產出速度慢 缺乏多版本測試\",\n        \"供應鏈資料分散 異常原因難以快速整理\",\n        \"合約審閱耗時 法規與條款風險需要初步標記\"\n    ],\n    \"業務價值\": [5, 4, 3, 4, 5],\n    \"技術可行性\": [4, 5, 5, 3, 3],\n    \"資料準備度\": [4, 3, 4, 3, 2],\n    \"風險可控度\": [3, 4, 4, 3, 2]\n})\n\nprint(\"候選 AI 導入方案：\")\ndisplay(use_cases)"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念",
+      "content": "## 核心概念說明\n\n生成式 AI 導入不是單純選一個工具，而是要從企業需求、資料、技術、人員與風險多面向評估。\n\n常見評估構面如下：\n\n- **需求與現狀評估**：企業是否有明確痛點？AI 是否能處理這個問題？\n- **資源與基礎設施評估**：資料品質、系統架構、技術人才是否足夠？\n- **階段性導入策略**：是否能先從小規模 POC 開始，再逐步擴展？\n- **員工技能與文化導入**：使用者是否能理解並接受 AI 工具？\n- **風險評估與管理**：是否考慮資料安全、隱私、模型偏誤、法規遵循？\n\n在實務上，可以先建立一個評分模型，將每個候選應用依不同構面量化，協助決策者排序。"
+    },
+    {
+      "type": "code",
+      "title": "示範：AI 導入評估矩陣",
+      "explanation": "這段程式碼示範如何把多個評估構面轉換成加權總分，找出最適合優先試點的生成式 AI 應用。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nuse_cases = pd.DataFrame({\n    \"方案\": [\"客服回覆助理\", \"內部知識檢索\", \"行銷文案生成\", \"供應鏈異常摘要\", \"合約條款檢查\"],\n    \"業務價值\": [5, 4, 3, 4, 5],\n    \"技術可行性\": [4, 5, 5, 3, 3],\n    \"資料準備度\": [4, 3, 4, 3, 2],\n    \"風險可控度\": [3, 4, 4, 3, 2]\n})\n\nweights = {\n    \"業務價值\": 0.35,\n    \"技術可行性\": 0.25,\n    \"資料準備度\": 0.25,\n    \"風險可控度\": 0.15\n}\n\nuse_cases[\"導入優先分數\"] = sum(use_cases[col] * weight for col, weight in weights.items())\nranked = use_cases.sort_values(\"導入優先分數\", ascending=False)\n\nprint(\"AI 導入優先順序：\")\ndisplay(ranked)\n\nplt.figure(figsize=(8, 4))\nplt.bar(ranked[\"方案\"], ranked[\"導入優先分數\"])\nplt.title(\"生成式 AI 導入優先分數\")\nplt.ylabel(\"加權分數\")\nplt.xticks(rotation=30, ha=\"right\")\nplt.ylim(0, 5)\nplt.tight_layout()\nplt.show()"
+    },
+    {
+      "type": "markdown",
+      "title": "POC 與 ROI",
+      "content": "## 從評估到試點\n\n完成初步排序後，企業通常不會立刻全面導入，而是先進行 POC，也就是概念驗證。\n\nPOC 階段常見檢查項目：\n\n- 模型是否能在真實業務資料上產生有用結果。\n- 是否能降低錯誤率、節省時間或提升服務品質。\n- 使用者是否能順利把 AI 工具放入既有流程。\n- 資料安全、隱私與法規要求是否可被滿足。\n\n接著可用簡化 ROI 評估：\n\n**ROI =（預期效益 - 導入成本）/ 導入成本**\n\nROI 不是唯一標準，但能幫助企業比較不同導入方案的短期效益與資源投入。"
+    },
+    {
+      "type": "code",
+      "title": "示範：用 TF-IDF 模擬痛點與應用場景匹配",
+      "explanation": "大型語言模型常用語意向量理解文本相似度；本練習用 Colab 預裝的 TF-IDF 建立輕量版相似度示範，協助判斷企業痛點適合哪一類 AI 應用。",
+      "content": "import pandas as pd\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.metrics.pairwise import cosine_similarity\n\npain_point = \"客服等待時間太長，回答內容不一致，主管希望降低客服人力負擔\"\n\nai_scenarios = pd.DataFrame({\n    \"應用場景\": [\"客服回覆助理\", \"內部知識檢索\", \"行銷文案生成\", \"合約條款檢查\"],\n    \"場景描述\": [\n        \"自動整理客戶問題 產生一致且快速的客服回覆\",\n        \"協助員工搜尋內部文件 制度 流程與知識庫\",\n        \"快速產生廣告文案 社群貼文與多版本行銷內容\",\n        \"初步標記合約條款 法規風險與審閱重點\"\n    ]\n})\n\ntexts = [pain_point] + ai_scenarios[\"場景描述\"].tolist()\nvectorizer = TfidfVectorizer(analyzer=\"char_wb\", ngram_range=(2, 4))\ntfidf = vectorizer.fit_transform(texts)\n\nsimilarities = cosine_similarity(tfidf[0:1], tfidf[1:]).flatten()\nai_scenarios[\"痛點匹配分數\"] = similarities\nresult = ai_scenarios.sort_values(\"痛點匹配分數\", ascending=False)\n\nprint(\"企業痛點：\", pain_point)\nprint(\"最相近的 AI 應用場景：\")\ndisplay(result)"
+    },
+    {
+      "type": "markdown",
+      "title": "實務決策",
+      "content": "## 實際應用：建立導入路線圖\n\n企業可將候選 AI 應用分成三類：\n\n- **立即試點**：高價值、低難度、資料較完整、風險可控。\n- **準備後導入**：價值高，但資料、人才或系統尚未成熟。\n- **暫緩推動**：技術難度高、風險高，或短期效益不明確。\n\n這種分類能呼應教材中的分階段策略：先試點驗證，再擴大整合，最後進入成熟階段的全面創新。"
+    },
+    {
+      "type": "code",
+      "title": "實際應用：AI 導入路線圖分類",
+      "explanation": "這段程式碼根據導入優先分數與風險可控度，自動把 AI 應用分成不同導入階段，模擬企業進行生成式 AI 導入規劃的決策流程。",
+      "content": "import pandas as pd\n\nprojects = pd.DataFrame({\n    \"方案\": [\"客服回覆助理\", \"內部知識檢索\", \"行銷文案生成\", \"供應鏈異常摘要\", \"合約條款檢查\"],\n    \"導入優先分數\": [4.05, 4.05, 4.00, 3.30, 3.20],\n    \"風險可控度\": [3, 4, 4, 3, 2],\n    \"資料準備度\": [4, 3, 4, 3, 2]\n})\n\ndef classify_stage(row):\n    if row[\"導入優先分數\"] >= 4.0 and row[\"風險可控度\"] >= 3:\n        return \"立即試點\"\n    if row[\"導入優先分數\"] >= 3.3 and row[\"資料準備度\"] >= 3:\n        return \"準備後導入\"\n    return \"暫緩推動\"\n\nprojects[\"建議導入階段\"] = projects.apply(classify_stage, axis=1)\n\nprint(\"生成式 AI 導入路線圖：\")\ndisplay(projects.sort_values([\"建議導入階段\", \"導入優先分數\"], ascending=[True, False]))\n\nsummary = projects[\"建議導入階段\"].value_counts()\nprint(\"\\n各階段方案數量：\")\nprint(summary)"
+    },
+    {
+      "type": "code",
+      "title": "🧪 自我測驗",
+      "explanation": "請完成下方 TODO 填空，實作 ROI 計算與導入建議判斷。這個練習對應教材中的成本效益評估、POC 驗證與階段性導入規劃。",
+      "content": "import pandas as pd\n\npoc_results = pd.DataFrame({\n    \"方案\": [\"客服回覆助理\", \"內部知識檢索\", \"合約條款檢查\"],\n    \"導入成本\": [120000, 90000, 180000],\n    \"預期年度效益\": [210000, 135000, 200000],\n    \"POC成功率\": [0.82, 0.76, 0.58]\n})\n\n# TODO 1: 計算 ROI，公式為（預期年度效益 - 導入成本）/ 導入成本\npoc_results[\"ROI\"] = (poc_results[\"預期年度效益\"] - poc_results[\"導入成本\"]) / poc_results[\"導入成本\"]\n\n# TODO 2: 若 ROI >= 0.5 且 POC成功率 >= 0.75，建議為「擴大導入」，否則為「重新評估」\ndef make_decision(row):\n    if row[\"ROI\"] >= 0.5 and row[\"POC成功率\"] >= 0.75:\n        return \"擴大導入\"\n    return \"重新評估\"\n\npoc_results[\"導入建議\"] = poc_results.apply(make_decision, axis=1)\n\nprint(poc_results[[\"方案\", \"ROI\", \"POC成功率\", \"導入建議\"]])\n\n# Expected:\n# 客服回覆助理 ROI 約 0.75，導入建議為 擴大導入\n# 內部知識檢索 ROI 約 0.50，導入建議為 擴大導入\n# 合約條款檢查 ROI 約 0.11，導入建議為 重新評估"
+    }
+  ]
+}

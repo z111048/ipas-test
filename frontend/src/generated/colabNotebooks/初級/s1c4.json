@@ -1,0 +1,51 @@
+{
+  "chapter_id": "s1c4",
+  "chapter_title": "鑑別式AI與生成式AI概念",
+  "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/初級/s1c4.ipynb",
+  "status": "warn",
+  "cells": [
+    {
+      "type": "markdown",
+      "content": "# 鑑別式AI與生成式AI概念\n\n## 📌 學習目標\n\n完成本 Notebook 後，你將能夠：\n\n1. 說明鑑別式 AI 與生成式 AI 的核心差異。\n2. 理解鑑別式 AI 如何學習 `P(y|x)` 來進行分類或預測。\n3. 理解生成式 AI 如何學習資料分布，並產生新的資料樣本。\n4. 使用輕量 Python 範例觀察分類邊界與資料生成效果。\n5. 判斷常見應用情境較適合鑑別式 AI 或生成式 AI。"
+    },
+    {
+      "type": "code",
+      "title": "環境設定",
+      "explanation": "載入本章節會使用到的 Python 套件，並設定繪圖樣式與隨機種子，讓每次執行結果較容易重現。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nfrom sklearn.datasets import make_classification\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.naive_bayes import GaussianNB\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import accuracy_score, classification_report\n\nnp.random.seed(42)\nplt.style.use('default')\n\nprint('環境設定完成')\nprint('numpy version:', np.__version__)\nprint('pandas version:', pd.__version__)"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念",
+      "content": "## 核心概念說明\n\n鑑別式 AI 與生成式 AI 的差異，可以從「模型想學什麼」來理解。\n\n### 鑑別式 AI：學會判斷\n\n鑑別式 AI 通常學習條件機率 `P(y|x)`，也就是在給定輸入資料 `x` 的情況下，判斷它最可能屬於哪一個標籤 `y`。\n\n常見任務包含：\n\n- 分類：例如判斷 email 是否為垃圾郵件。\n- 預測：例如預測使用者是否會違約。\n- 決策支援：例如醫療影像初步篩檢。\n\n常見模型包含邏輯迴歸、SVM、決策樹、隨機森林與神經網路。\n\n### 生成式 AI：學會創造\n\n生成式 AI 通常學習資料的分布，例如 `P(x)` 或 `P(x,y)`，目標是理解資料長什麼樣子，進而產生新的資料。\n\n常見任務包含：\n\n- 文字生成。\n- 圖像生成。\n- 資料增強。\n- 模擬可能情境。\n\n大型生成式模型如 LLM、GAN、VAE、Diffusion Model 計算量較大，本 Notebook 會使用高斯分布抽樣與簡單文字模型來示範相同概念。"
+    },
+    {
+      "type": "code",
+      "title": "示範：鑑別式 AI 的分類邊界",
+      "explanation": "這段程式碼使用邏輯迴歸示範鑑別式 AI 如何根據資料特徵學習分類邊界，並判斷新資料屬於哪一類。",
+      "content": "import numpy as np\nimport matplotlib.pyplot as plt\nfrom sklearn.datasets import make_classification\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score\n\nnp.random.seed(42)\n\nX, y = make_classification(\n    n_samples=200,\n    n_features=2,\n    n_redundant=0,\n    n_informative=2,\n    n_clusters_per_class=1,\n    class_sep=1.4,\n    random_state=42\n)\n\nmodel = LogisticRegression()\nmodel.fit(X, y)\n\npred = model.predict(X)\nacc = accuracy_score(y, pred)\n\nx_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1\ny_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1\nxx, yy = np.meshgrid(\n    np.linspace(x_min, x_max, 200),\n    np.linspace(y_min, y_max, 200)\n)\n\ngrid = np.c_[xx.ravel(), yy.ravel()]\nZ = model.predict(grid).reshape(xx.shape)\n\nplt.figure(figsize=(7, 5))\nplt.contourf(xx, yy, Z, alpha=0.25, cmap='coolwarm')\nplt.scatter(X[:, 0], X[:, 1], c=y, cmap='coolwarm', edgecolor='k')\nplt.title(f'鑑別式 AI：邏輯迴歸學習分類邊界，accuracy={acc:.2f}')\nplt.xlabel('特徵 1')\nplt.ylabel('特徵 2')\nplt.show()\n\nnew_sample = np.array([[0.5, 1.0]])\nnew_pred = model.predict(new_sample)[0]\nnew_prob = model.predict_proba(new_sample)[0]\n\nprint('新資料:', new_sample.tolist())\nprint('預測類別:', new_pred)\nprint('兩類機率:', np.round(new_prob, 3))"
+    },
+    {
+      "type": "markdown",
+      "title": "生成式觀點",
+      "content": "## 生成式 AI 的輕量示範方式\n\n真正的生成式 AI 可能使用大型語言模型、GAN、VAE 或擴散模型，但在入門教學中，可以先用較小的模型理解同一個概念。\n\n本 Notebook 使用高斯分布模型示範生成式思維：\n\n1. 先觀察某一類資料的平均值與變異情形。\n2. 假設資料大致服從某種分布。\n3. 從該分布抽樣，產生新的資料點。\n\n這與大型生成式 AI 的核心精神相似：模型不是只做分類，而是學習資料的樣貌，並產生新的內容。"
+    },
+    {
+      "type": "code",
+      "title": "示範：生成式 AI 的資料抽樣概念",
+      "explanation": "這段程式碼使用每個類別的平均值與共變異數建立簡化的生成模型，再從學到的分布中產生新的資料點。",
+      "content": "import numpy as np\nimport matplotlib.pyplot as plt\nfrom sklearn.datasets import make_classification\n\nnp.random.seed(42)\n\nX, y = make_classification(\n    n_samples=200,\n    n_features=2,\n    n_redundant=0,\n    n_informative=2,\n    n_clusters_per_class=1,\n    class_sep=1.4,\n    random_state=42\n)\n\ngenerated_points = []\ngenerated_labels = []\n\nfor class_id in sorted(np.unique(y)):\n    class_data = X[y == class_id]\n    mean = class_data.mean(axis=0)\n    cov = np.cov(class_data.T)\n    samples = np.random.multivariate_normal(mean, cov, size=40)\n    generated_points.append(samples)\n    generated_labels.extend([class_id] * len(samples))\n\nX_gen = np.vstack(generated_points)\ny_gen = np.array(generated_labels)\n\nplt.figure(figsize=(7, 5))\nplt.scatter(X[:, 0], X[:, 1], c=y, cmap='coolwarm', alpha=0.35, label='原始資料')\nplt.scatter(X_gen[:, 0], X_gen[:, 1], c=y_gen, cmap='coolwarm', marker='x', s=60, label='生成資料')\nplt.title('生成式 AI 概念：根據學到的資料分布產生新樣本')\nplt.xlabel('特徵 1')\nplt.ylabel('特徵 2')\nplt.legend()\nplt.show()\n\nprint('原始資料筆數:', len(X))\nprint('生成資料筆數:', len(X_gen))\nprint('前 5 筆生成資料:')\nprint(np.round(X_gen[:5], 3))"
+    },
+    {
+      "type": "markdown",
+      "title": "應用辨識",
+      "content": "## 應用情境比較\n\n| 情境 | 較適合的 AI 類型 | 原因 |\n|---|---|---|\n| 判斷 email 是否為垃圾郵件 | 鑑別式 AI | 目標是分類 |\n| 預測貸款是否違約 | 鑑別式 AI | 目標是決策與風險判斷 |\n| 根據提示產生文章草稿 | 生成式 AI | 目標是創造新內容 |\n| 產生更多訓練圖片輔助模型訓練 | 生成式 AI | 目標是資料增強 |\n| 先產生模擬資料，再訓練分類器 | 兩者整合 | 生成式 AI 產生資料，鑑別式 AI 進行判斷 |\n\n在實務中，兩者經常整合使用。例如：先用生成式 AI 產生多樣化訓練資料，再用鑑別式 AI 訓練更穩定的分類模型。"
+    },
+    {
+      "type": "code",
+      "title": "實際應用：文字分類與簡單文字生成",
+      "explanation": "這段程式碼使用 TF-IDF 加邏輯迴歸示範鑑別式文字分類，再用簡單的詞彙接續規則示範生成式文字的概念。",
+      "content": "import re\nimport numpy as np\nfrom collections import defaultdict, Counter\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import classification_report\n\ntexts = [\n    '這封信提供免費獎品 請立即點擊連結',\n    '限時優惠 中獎通知 請輸入帳號密碼',\n    '免費課程名額有限 立即領取',\n    '系統通知 您的會議將在下午三點開始',\n    '老師提醒 明天要繳交作業',\n    '專案會議紀錄已更新 請查看文件',\n    '恭喜你獲得現金回饋 請點擊領獎',\n    '本週讀書會改到星期五晚上',\n    '帳戶異常 請立即驗證個人資料',\n    '課程教材已上傳到雲端資料夾'\n]\nlabels = np.array([1, 1, 1, 0, 0, 0, 1, 0, 1, 0])\n\nvectorizer = TfidfVectorizer(token_pattern=r'(?u)\\b\\w+\\b')\nX = vectorizer.fit_transform(texts)\n\nclf = LogisticRegression(random_state=42)\nclf.fit(X, labels)\n\nnew_texts = [\n    '請立即 點擊 連結 領取 免費 獎品',\n    '老師 提醒 明天 下午 要 交 作業',\n    '帳戶 異常 請 立即 驗證 個人資料'\n]\n\nnew_X = vectorizer.transform(new_texts)\npred_labels = clf.predict(new_X)\npred_probs = clf.predict_proba(new_X)\n\nlabel_names = {0: '正常訊息', 1: '可疑訊息'}\n\nprint('=== 鑑別式 AI：文字分類 ===')\nfor text, pred, prob in zip(new_texts, pred_labels, pred_probs):\n    print(f'文字：{text}')\n    print(f'預測：{label_names[pred]}，可疑機率={prob[1]:.2f}')\n\ntrain_pred = clf.predict(X)\nprint('\\n訓練資料分類報告：')\nprint(classification_report(labels, train_pred, target_names=['正常訊息', '可疑訊息'], zero_division=0))\n\nprint('=== 生成式 AI：簡單詞彙接續 ===')\n\nword_sequences = [sentence.split() for sentence in texts]\ntransition_counts = defaultdict(Counter)\nstart_words = []\n\nfor words in word_sequences:\n    if not words:\n        continue\n    start_words.append(words[0])\n    for current_word, next_word in zip(words, words[1:]):\n        transition_counts[current_word][next_word] += 1\n\nrng = np.random.default_rng(42)\n\ndef choose_next(counter):\n    words = list(counter.keys())\n    weights = np.array(list(counter.values()), dtype=float)\n    weights = weights / weights.sum()\n    return rng.choice(words, p=weights)\n\ndef generate_sentence(start_word=None, max_words=8):\n    if start_word is None:\n        start_word = rng.choice(start_words)\n\n    generated = [start_word]\n    current_word = start_word\n\n    for _ in range(max_words - 1):\n        next_options = transition_counts.get(current_word)\n        if not next_options:\n            break\n        current_word = choose_next(next_options)\n        generated.append(current_word)\n\n    return ' '.join(generated)\n\nfor seed_word in ['請立即點擊連結', '老師提醒', '系統通知']:\n    print(f'種子詞：{seed_word}')\n    print('生成文字：', generate_sentence(seed_word))"
+    }
+  ]
+}
