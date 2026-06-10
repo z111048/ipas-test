@@ -2004,10 +2004,13 @@ def build_nodes(
 
         content_ref = f'{current_id}.json'
         if use_vision:
-            markdown_content = format_vision_markdown(
-                raw_node.get('title') or '',
-                vision_page_content(level, key, start_page, end_page),
-            )
+            raw_vision = vision_page_content(level, key, start_page, end_page)
+            if len(raw_vision.strip()) > 50:
+                markdown_content = format_vision_markdown(raw_node.get('title') or '', raw_vision)
+            else:
+                # Vision pages were skipped/empty — fall back to page_clean content
+                content = page_content(level, key, start_page, end_page)
+                markdown_content = format_markdown(raw_node.get('title') or '', content)
             blocks = (
                 prebuilt_blocks_by_node.get(current_id)
                 if prebuilt_blocks_by_node is not None
