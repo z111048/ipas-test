@@ -99,6 +99,7 @@ function GuideOutlineTreeNode({
           className={`text-[0.88rem] font-semibold no-underline ${
             isActive ? 'text-accent' : 'text-primary hover:text-accent'
           }`}
+          onClick={onNavigate}
         >
           {label}
         </Link>

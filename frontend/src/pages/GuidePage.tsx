@@ -269,10 +269,12 @@ export default function GuidePage() {
   const [content, setContent] = useState<GuideContent | null>(null)
   const [contentError, setContentError] = useState<string | null>(null)
   const [colabNotebook, setColabNotebook] = useState<ColabNotebook | null>(null)
+  const [showDrawer, setShowDrawer] = useState(false)
   const contentScrollRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     if (contentScrollRef.current) contentScrollRef.current.scrollTop = 0
+    setShowDrawer(false)
   }, [chapterId])
 
   useEffect(() => {
@@ -358,6 +360,15 @@ export default function GuidePage() {
   const childChapters = chapter.children.map((childId) => outlineGuide.nodesById[childId]).filter(Boolean)
   const hasChildChapters = childChapters.length > 0
   const pageRange = `PDF 第 ${chapter.pageRange[0]}–${chapter.pageRange[1]} 頁`
+
+  // Prev/next chapters for mobile navigation bar
+  const flatIds = outlineGuide.flat
+  const currentFlatIndex = flatIds.indexOf(chapter.id)
+  const prevChapterId = currentFlatIndex > 0 ? flatIds[currentFlatIndex - 1] : undefined
+  const nextChapterId = currentFlatIndex < flatIds.length - 1 ? flatIds[currentFlatIndex + 1] : undefined
+  const prevChapter = prevChapterId ? outlineGuide.nodesById[prevChapterId] : undefined
+  const nextChapter = nextChapterId ? outlineGuide.nodesById[nextChapterId] : undefined
+
   const scrollToContentBlock = (id: string, anchor?: string) => {
     const container = contentScrollRef.current
     const root: ParentNode = container ?? document
@@ -388,21 +399,21 @@ export default function GuidePage() {
 
   return (
     <div className="page-shell h-full min-h-0 flex flex-col overflow-hidden">
-      <div className="page-header mb-4 shrink-0">
-        <div className="eyebrow mb-2">Guide</div>
+      <div className="page-header mb-2 sm:mb-4 shrink-0">
+        <div className="eyebrow mb-2 hidden sm:block">Guide</div>
         <div className="flex flex-col gap-3 xl:flex-row xl:items-end xl:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-primary mb-1">{chapter.title}</h1>
-            <p className="text-[0.9rem] text-text-light">{outlineGuide.subject} › 學習指引原文（{content ? `共 ${body.length.toLocaleString()} 字元` : '載入中'}）</p>
+            <h1 className="text-xl sm:text-2xl font-bold text-primary mb-1">{chapter.title}</h1>
+            <p className="hidden sm:block text-[0.9rem] text-text-light">{outlineGuide.subject} › 學習指引原文（{content ? `共 ${body.length.toLocaleString()} 字元` : '載入中'}）</p>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="hidden sm:flex flex-wrap gap-2">
             <span className="pill">{pageRange}</span>
             <span className="pill pill-muted">{paragraphs.length} 段落</span>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2 text-[0.8rem] text-text-light mb-4 shrink-0">
+      <div className="flex flex-wrap gap-2 text-[0.8rem] text-text-light mb-2 sm:mb-4 shrink-0">
         <Link to={`/subject/${subjectId}`} className="text-accent no-underline hover:underline">
           {outlineGuide.subject}
         </Link>
@@ -426,7 +437,7 @@ export default function GuidePage() {
         />
       )}
 
-      <div className="surface shrink-0 p-4 sm:p-5 mb-4">
+      <div className="hidden sm:block surface shrink-0 p-4 sm:p-5 mb-4">
         <div className="flex flex-wrap gap-2 mb-4">
           <span className="pill">
             {paragraphs.length} 段落
@@ -466,9 +477,9 @@ export default function GuidePage() {
         )}
       </div>
 
-      <div className="grid grid-cols-1 grid-rows-[auto_minmax(0,1fr)] xl:grid-cols-[minmax(220px,280px)_1fr] xl:grid-rows-1 gap-4 flex-1 min-h-0 overflow-hidden">
-        <aside className="surface z-20 h-fit max-h-[30vh] overflow-hidden p-4 md:max-h-[28vh] sm:p-5 xl:h-full xl:max-h-none">
-          <div className="h-full max-h-[calc(30vh-2rem)] md:max-h-[calc(28vh-2rem)] xl:max-h-full overflow-y-auto overflow-x-hidden pr-1 scrollbar-hidden">
+      <div className="flex flex-col xl:grid xl:grid-cols-[minmax(220px,280px)_1fr] xl:grid-rows-1 gap-4 flex-1 min-h-0 overflow-hidden">
+        <aside className="hidden xl:flex xl:flex-col surface z-20 p-4 sm:p-5 xl:h-full xl:overflow-hidden">
+          <div className="h-full overflow-y-auto overflow-x-hidden pr-1 scrollbar-hidden">
             <div className="section-title mb-3">PDF 目錄</div>
             <GuideOutlineTree
               subjectId={subjectId ?? outlineGuide.subjectId}
@@ -494,10 +505,10 @@ export default function GuidePage() {
                 </div>
               </div>
             )}
-            </div>
+          </div>
         </aside>
 
-        <div ref={contentScrollRef} className="min-h-0 overflow-y-auto overflow-x-hidden pr-1 app-scroll-stable">
+        <div ref={contentScrollRef} className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden pr-1 app-scroll-stable pb-14 xl:pb-0">
           {contentError && (
             <div className="rounded-lg border border-red-200 bg-red-50 p-4 mb-4 text-sm text-red-700">
               無法載入學習指引內容：{contentError}
@@ -622,6 +633,125 @@ export default function GuidePage() {
           </div>
           )}
           {colabNotebook && <ColabSection notebook={colabNotebook} />}
+        </div>
+      </div>
+
+      {/* ── Mobile bottom chapter navigation bar ──────────────────────── */}
+      <div className="xl:hidden fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-border shadow-[0_-2px_10px_rgba(0,0,0,0.07)]">
+        <div className="flex items-stretch h-14">
+          {/* Prev chapter */}
+          {prevChapter ? (
+            <Link
+              to={`/guide/${subjectId}/${prevChapter.id}`}
+              className="flex items-center justify-center w-12 shrink-0 text-primary hover:bg-gray-50 active:bg-gray-100 border-r border-border"
+              title={prevChapter.title}
+              aria-label="上一章"
+            >
+              <span className="text-2xl leading-none">‹</span>
+            </Link>
+          ) : (
+            <span className="flex items-center justify-center w-12 shrink-0 text-gray-300 border-r border-border">
+              <span className="text-2xl leading-none">‹</span>
+            </span>
+          )}
+
+          {/* Center: chapter info + opens drawer */}
+          <button
+            type="button"
+            className="flex-1 flex items-center justify-between gap-2 px-3 min-w-0 hover:bg-gray-50 active:bg-gray-100 text-left"
+            onClick={() => setShowDrawer(true)}
+            aria-label="開啟章節目錄"
+          >
+            <div className="flex flex-col items-start min-w-0">
+              <span className="text-[0.64rem] text-text-light leading-none truncate max-w-full">{outlineGuide.subject}</span>
+              <span className="text-[0.82rem] font-semibold text-primary truncate max-w-full leading-snug mt-0.5">{chapter.title}</span>
+            </div>
+            <div className="flex items-center gap-1.5 shrink-0">
+              <span className="text-[0.68rem] text-text-light bg-gray-100 px-1.5 py-0.5 rounded-full whitespace-nowrap">
+                {currentFlatIndex + 1}/{flatIds.length}
+              </span>
+              <span className="text-text-light/60 text-base leading-none">☰</span>
+            </div>
+          </button>
+
+          {/* Next chapter */}
+          {nextChapter ? (
+            <Link
+              to={`/guide/${subjectId}/${nextChapter.id}`}
+              className="flex items-center justify-center w-12 shrink-0 text-primary hover:bg-gray-50 active:bg-gray-100 border-l border-border"
+              title={nextChapter.title}
+              aria-label="下一章"
+            >
+              <span className="text-2xl leading-none">›</span>
+            </Link>
+          ) : (
+            <span className="flex items-center justify-center w-12 shrink-0 text-gray-300 border-l border-border">
+              <span className="text-2xl leading-none">›</span>
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* ── Mobile chapter drawer ──────────────────────────────────────── */}
+      {/* Backdrop */}
+      <div
+        className={`xl:hidden fixed inset-0 z-40 bg-black/50 transition-opacity duration-300 ${showDrawer ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        onClick={() => setShowDrawer(false)}
+        aria-hidden="true"
+      />
+      {/* Drawer panel */}
+      <div
+        className={`xl:hidden fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-2xl shadow-2xl flex flex-col max-h-[78vh] transition-transform duration-300 ease-out ${showDrawer ? 'translate-y-0' : 'translate-y-full'}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="章節目錄"
+      >
+        {/* Drag handle */}
+        <div className="flex justify-center pt-2.5 pb-1 shrink-0">
+          <div className="w-10 h-1 rounded-full bg-gray-200" />
+        </div>
+        {/* Drawer header */}
+        <div className="flex items-center justify-between px-4 py-2 border-b border-border shrink-0">
+          <span className="font-semibold text-primary text-sm">章節目錄</span>
+          <button
+            type="button"
+            onClick={() => setShowDrawer(false)}
+            className="text-text-light hover:text-primary p-1 -mr-1 rounded"
+            aria-label="關閉"
+          >
+            ✕
+          </button>
+        </div>
+        {/* Scrollable content */}
+        <div className="overflow-y-auto flex-1 px-4 py-3 pb-8 overscroll-contain">
+          <GuideOutlineTree
+            subjectId={subjectId ?? outlineGuide.subjectId}
+            rootIds={outlineGuide.root}
+            nodesById={outlineGuide.nodesById}
+            activeId={chapter.id}
+            onNavigate={() => setShowDrawer(false)}
+          />
+          {contentHeadings.length > 0 && (
+            <div className="mt-5 border-t border-border pt-4">
+              <div className="section-title mb-3">本節階層</div>
+              <div className="space-y-0.5">
+                {contentHeadings.map((heading) => (
+                  <button
+                    key={`${heading.id}-${heading.title}`}
+                    type="button"
+                    onClick={() => {
+                      setShowDrawer(false)
+                      requestAnimationFrame(() => scrollToContentBlock(heading.id, heading.anchor))
+                    }}
+                    className="block w-full rounded-md px-2 py-1.5 text-left text-[0.82rem] leading-5 text-primary hover:bg-[#f8fbff] hover:text-accent active:bg-[#f0f7ff]"
+                    style={{ paddingLeft: `${0.5 + Math.max(0, heading.level - 3) * 0.85}rem` }}
+                  >
+                    {heading.title}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
