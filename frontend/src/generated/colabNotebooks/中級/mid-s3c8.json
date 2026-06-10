@@ -1,0 +1,46 @@
+{
+  "chapter_id": "mid-s3c8",
+  "chapter_title": "模型選擇與架構設計",
+  "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s3c8.ipynb",
+  "status": "warn",
+  "cells": [
+    {
+      "type": "markdown",
+      "content": "# 模型選擇與架構設計\n\n## 學習目標\n\n完成本 Notebook 後，你將能夠：\n\n1. 根據任務類型選擇合適的機器學習模型。\n2. 理解資料規模、模型複雜度與過擬合風險之間的關係。\n3. 比較不同模型在準確率、解釋性與推論成本上的差異。\n4. 使用交叉驗證進行基本模型選擇。\n5. 從實務限制角度思考模型部署與架構設計。\n\n本章會以輕量的 sklearn 範例示範分類模型選擇、偏差與變異權衡，以及簡單的模型評估流程。"
+    },
+    {
+      "type": "code",
+      "title": "環境設定",
+      "explanation": "載入本章節所需的 Python 套件，並建立可重現的隨機種子設定。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nfrom sklearn.datasets import make_classification, make_moons\nfrom sklearn.model_selection import train_test_split, cross_val_score\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import make_pipeline\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.tree import DecisionTreeClassifier\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.svm import SVC\nfrom sklearn.metrics import accuracy_score, classification_report\n\nRANDOM_STATE = 42\nnp.random.seed(RANDOM_STATE)\n\nprint('環境設定完成')\nprint('可用套件：numpy, pandas, matplotlib, sklearn')"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念",
+      "content": "## 核心概念說明\n\n模型選擇不是只挑選準確率最高的模型，而是要同時考量任務、資料、解釋性、資源限制與部署情境。\n\n### 1. 任務類型與模型配對\n\n- 分類任務：預測離散類別，例如客戶是否流失、郵件是否為垃圾郵件。\n- 迴歸任務：預測連續數值，例如房價、銷售量、能源消耗。\n- 非監督學習：從未標註資料中找出結構，例如分群或降維。\n- 序列與時間序列任務：根據時間或順序資料預測未來狀態。\n\n### 2. 資料規模與模型複雜度\n\n- 小資料集通常適合簡單模型，例如邏輯迴歸、淺層決策樹。\n- 中型資料集可嘗試隨機森林、梯度提升等較高表現力模型。\n- 大型或非結構化資料可考慮深度學習，但需要更多運算資源。\n\n### 3. 解釋性與效能取捨\n\n線性模型與淺層決策樹通常較容易解釋；隨機森林、SVM 或神經網路可能有較佳預測能力，但決策過程較不直觀。\n\n### 4. 偏差與變異權衡\n\n簡單模型可能欠擬合，複雜模型可能過擬合。模型選擇的重點是在訓練表現與泛化能力之間取得平衡。"
+    },
+    {
+      "type": "code",
+      "title": "示範：分類任務的模型比較",
+      "explanation": "這段程式碼建立一個分類資料集，並比較邏輯迴歸、決策樹、隨機森林與 SVM 的測試準確率。",
+      "content": "import numpy as np\nimport pandas as pd\n\nfrom sklearn.datasets import make_classification\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import make_pipeline\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.tree import DecisionTreeClassifier\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.svm import SVC\nfrom sklearn.metrics import accuracy_score\n\nRANDOM_STATE = 42\n\nX, y = make_classification(\n    n_samples=1200,\n    n_features=12,\n    n_informative=6,\n    n_redundant=2,\n    n_classes=2,\n    class_sep=1.2,\n    random_state=RANDOM_STATE\n)\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.25, stratify=y, random_state=RANDOM_STATE\n)\n\nmodels = {\n    '邏輯迴歸': make_pipeline(StandardScaler(), LogisticRegression(max_iter=1000)),\n    '決策樹': DecisionTreeClassifier(max_depth=5, random_state=RANDOM_STATE),\n    '隨機森林': RandomForestClassifier(n_estimators=100, random_state=RANDOM_STATE),\n    'SVM': make_pipeline(StandardScaler(), SVC(kernel='rbf', C=1.0))\n}\n\nresults = []\n\nfor name, model in models.items():\n    model.fit(X_train, y_train)\n    y_pred = model.predict(X_test)\n    acc = accuracy_score(y_test, y_pred)\n    results.append({'模型': name, '測試準確率': round(acc, 4)})\n\nresult_df = pd.DataFrame(results).sort_values('測試準確率', ascending=False)\nprint(result_df.to_string(index=False))"
+    },
+    {
+      "type": "markdown",
+      "title": "模型選擇觀察",
+      "content": "## 如何解讀模型比較結果\n\n若某個模型在測試集準確率較高，代表它在目前資料切分下有較好的泛化表現，但仍不能只根據單次切分做最終決策。\n\n實務上可以進一步檢查：\n\n- 模型是否穩定：不同資料切分下表現是否一致。\n- 模型是否可解釋：業務或法規單位是否能理解模型決策。\n- 推論是否夠快：是否符合即時服務需求。\n- 訓練成本是否可接受：是否需要大量記憶體、GPU 或長時間訓練。\n- 維運是否容易：模型上線後是否容易監控、重訓與除錯。\n\n因此，最佳模型不一定是最複雜的模型，而是最符合任務需求與限制條件的模型。"
+    },
+    {
+      "type": "code",
+      "title": "示範：偏差與變異權衡",
+      "explanation": "這段程式碼使用非線性資料比較不同深度的決策樹，觀察模型複雜度對訓練與測試準確率的影響。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nfrom sklearn.datasets import make_moons\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.tree import DecisionTreeClassifier\nfrom sklearn.metrics import accuracy_score\n\nRANDOM_STATE = 42\n\nX, y = make_moons(n_samples=800, noise=0.28, random_state=RANDOM_STATE)\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.3, stratify=y, random_state=RANDOM_STATE\n)\n\ndepths = [1, 2, 3, 5, 10, None]\nrecords = []\n\nfor depth in depths:\n    model = DecisionTreeClassifier(max_depth=depth, random_state=RANDOM_STATE)\n    model.fit(X_train, y_train)\n    train_acc = accuracy_score(y_train, model.predict(X_train))\n    test_acc = accuracy_score(y_test, model.predict(X_test))\n    records.append({\n        'max_depth': '無限制' if depth is None else depth,\n        '訓練準確率': train_acc,\n        '測試準確率': test_acc\n    })\n\nscore_df = pd.DataFrame(records)\nprint(score_df.round(4).to_string(index=False))\n\nplt.figure(figsize=(8, 4))\nplt.plot(score_df['max_depth'].astype(str), score_df['訓練準確率'], marker='o', label='訓練準確率')\nplt.plot(score_df['max_depth'].astype(str), score_df['測試準確率'], marker='o', label='測試準確率')\nplt.xlabel('決策樹深度')\nplt.ylabel('Accuracy')\nplt.title('模型複雜度與泛化表現')\nplt.ylim(0.7, 1.05)\nplt.legend()\nplt.grid(True, alpha=0.3)\nplt.show()"
+    },
+    {
+      "type": "code",
+      "title": "實際應用：用交叉驗證選擇模型",
+      "explanation": "這段程式碼使用交叉驗證比較模型平均表現，避免只依賴單一次訓練測試切分。",
+      "content": "import numpy as np\nimport pandas as pd\n\nfrom sklearn.datasets import make_classification\nfrom sklearn.model_selection import cross_val_score\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import make_pipeline\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.tree import DecisionTreeClassifier\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.svm import SVC\n\nRANDOM_STATE = 42\n\nX, y = make_classification(\n    n_samples=1000,\n    n_features=10,\n    n_informative=5,\n    n_redundant=2,\n    random_state=RANDOM_STATE\n)\n\ncandidate_models = {\n    '高解釋性：邏輯迴歸': make_pipeline(StandardScaler(), LogisticRegression(max_iter=1000)),\n    '簡單規則：決策樹': DecisionTreeClassifier(max_depth=5, random_state=RANDOM_STATE),\n    '高表現力：隨機森林': RandomForestClassifier(n_estimators=150, random_state=RANDOM_STATE),\n    '非線性邊界：SVM': make_pipeline(StandardScaler(), SVC(kernel='rbf', C=1.0))\n}\n\ncv_results = []\n\nfor name, model in candidate_models.items():\n    scores = cross_val_score(model, X, y, cv=5, scoring='accuracy')\n    cv_results.append({\n        '模型': name,\n        '平均準確率': scores.mean(),\n        '標準差': scores.std()\n    })\n\ncv_df = pd.DataFrame(cv_results).sort_values('平均準確率', ascending=False)\nprint(cv_df.round(4).to_string(index=False))\n\nbest_model = cv_df.iloc[0]\nprint(f\"\\n建議優先評估模型：{best_model['模型']}\")\nprint(f\"交叉驗證平均準確率：{best_model['平均準確率']:.4f} ± {best_model['標準差']:.4f}\")"
+    }
+  ]
+}

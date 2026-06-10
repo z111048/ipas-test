@@ -1,0 +1,47 @@
+{
+  "chapter_id": "mid-s3c5",
+  "chapter_title": "常見機器學習演算法",
+  "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s3c5.ipynb",
+  "status": "warn",
+  "cells": [
+    {
+      "type": "markdown",
+      "content": "# 常見機器學習演算法\n\n## 學習目標\n\n本 Notebook 以「中級 AI 應用規劃師」考試常見概念為核心，透過小型資料集實作下列重點：\n\n1. 理解監督式學習中迴歸任務的基本流程。\n2. 比較線性迴歸、Ridge 迴歸、Lasso 迴歸與 SVR 的差異。\n3. 使用 MSE、RMSE、MAE、R2 評估模型表現。\n4. 觀察正規化如何影響模型係數與特徵選擇。\n5. 建立選擇演算法時的實務判斷能力。"
+    },
+    {
+      "type": "code",
+      "title": "環境設定",
+      "explanation": "載入本章節所需的 Python 套件，並確認 sklearn、numpy、pandas 與 matplotlib 可正常使用。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nfrom sklearn.datasets import make_regression\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import make_pipeline\nfrom sklearn.linear_model import LinearRegression, Ridge, Lasso\nfrom sklearn.svm import SVR\nfrom sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score\n\nnp.random.seed(42)\nprint('環境設定完成')"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念",
+      "content": "## 核心概念說明\n\n### 監督式學習與迴歸任務\n\n監督式學習會使用已知答案的資料進行訓練。若目標值是連續數值，例如房價、銷售額、用電量或風險分數，通常稱為迴歸任務。\n\n### 線性迴歸\n\n線性迴歸假設輸入特徵與目標值之間存在近似線性關係，模型會學習每個特徵的係數。係數越大，代表該特徵對預測結果的影響通常越明顯。\n\n### Ridge 與 Lasso\n\nRidge 與 Lasso 都是在迴歸模型中加入正規化，目的是降低過度擬合風險。\n\n- Ridge 使用 L2 正規化，會壓小係數，但通常不會讓係數變成 0。\n- Lasso 使用 L1 正規化，可能讓部分係數變成 0，因此具備特徵選擇效果。\n\n### SVR\n\n支援向量迴歸 SVR 不像一般線性迴歸追求所有誤差都最小，而是允許預測落在 epsilon 範圍內。搭配 RBF kernel 時，可處理非線性資料。"
+    },
+    {
+      "type": "code",
+      "title": "示範：建立迴歸資料與評估函式",
+      "explanation": "建立一組可重現的迴歸資料，並定義常用評估指標函式，包含 MSE、RMSE、MAE 與 R2。",
+      "content": "import numpy as np\nimport pandas as pd\nfrom sklearn.datasets import make_regression\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score\n\nnp.random.seed(42)\n\nX, y = make_regression(\n    n_samples=220,\n    n_features=5,\n    n_informative=3,\n    noise=18,\n    random_state=42\n)\n\nfeature_names = [f'特徵_{i+1}' for i in range(X.shape[1])]\ndf = pd.DataFrame(X, columns=feature_names)\ndf['目標值'] = y\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.25, random_state=42\n)\n\ndef evaluate_regression(y_true, y_pred):\n    mse = mean_squared_error(y_true, y_pred)\n    rmse = np.sqrt(mse)\n    mae = mean_absolute_error(y_true, y_pred)\n    r2 = r2_score(y_true, y_pred)\n    return pd.Series({'MSE': mse, 'RMSE': rmse, 'MAE': mae, 'R2': r2})\n\nprint(df.head())\nprint('\\n訓練資料筆數:', X_train.shape[0])\nprint('測試資料筆數:', X_test.shape[0])"
+    },
+    {
+      "type": "code",
+      "title": "示範：線性迴歸模型",
+      "explanation": "訓練線性迴歸模型，觀察模型評估結果與各特徵係數，理解可解釋性在迴歸任務中的角色。",
+      "content": "import numpy as np\nimport pandas as pd\nfrom sklearn.datasets import make_regression\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score\n\nnp.random.seed(42)\n\nX, y = make_regression(\n    n_samples=220,\n    n_features=5,\n    n_informative=3,\n    noise=18,\n    random_state=42\n)\nfeature_names = [f'特徵_{i+1}' for i in range(X.shape[1])]\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)\n\ndef evaluate_regression(y_true, y_pred):\n    mse = mean_squared_error(y_true, y_pred)\n    return pd.Series({\n        'MSE': mse,\n        'RMSE': np.sqrt(mse),\n        'MAE': mean_absolute_error(y_true, y_pred),\n        'R2': r2_score(y_true, y_pred)\n    })\n\nmodel = LinearRegression()\nmodel.fit(X_train, y_train)\ny_pred = model.predict(X_test)\n\nmetrics = evaluate_regression(y_test, y_pred)\ncoef_table = pd.DataFrame({\n    '特徵': feature_names,\n    '係數': model.coef_\n}).sort_values('係數', key=np.abs, ascending=False)\n\nprint('線性迴歸評估結果')\nprint(metrics.round(3))\nprint('\\n特徵係數')\nprint(coef_table.round(3))"
+    },
+    {
+      "type": "code",
+      "title": "示範：Ridge 與 Lasso 正規化比較",
+      "explanation": "比較線性迴歸、Ridge 與 Lasso 的評估結果與係數差異，觀察 Lasso 可能將不重要特徵係數壓縮為 0。",
+      "content": "import numpy as np\nimport pandas as pd\nfrom sklearn.datasets import make_regression\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import make_pipeline\nfrom sklearn.linear_model import LinearRegression, Ridge, Lasso\nfrom sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score\n\nnp.random.seed(42)\n\nX, y = make_regression(\n    n_samples=240,\n    n_features=8,\n    n_informative=3,\n    noise=25,\n    random_state=42\n)\nfeature_names = [f'特徵_{i+1}' for i in range(X.shape[1])]\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)\n\ndef evaluate_regression(y_true, y_pred):\n    mse = mean_squared_error(y_true, y_pred)\n    return {\n        'MSE': mse,\n        'RMSE': np.sqrt(mse),\n        'MAE': mean_absolute_error(y_true, y_pred),\n        'R2': r2_score(y_true, y_pred)\n    }\n\nmodels = {\n    'LinearRegression': make_pipeline(StandardScaler(), LinearRegression()),\n    'Ridge alpha=10': make_pipeline(StandardScaler(), Ridge(alpha=10)),\n    'Lasso alpha=5': make_pipeline(StandardScaler(), Lasso(alpha=5, max_iter=10000))\n}\n\nrows = []\ncoefs = {}\nfor name, model in models.items():\n    model.fit(X_train, y_train)\n    pred = model.predict(X_test)\n    rows.append({'模型': name, **evaluate_regression(y_test, pred)})\n    coefs[name] = model.named_steps[list(model.named_steps.keys())[-1]].coef_\n\nresult = pd.DataFrame(rows).set_index('模型')\ncoef_table = pd.DataFrame(coefs, index=feature_names)\n\nprint('模型評估比較')\nprint(result.round(3))\nprint('\\n係數比較')\nprint(coef_table.round(3))\nprint('\\nLasso 係數為 0 的特徵數:', int((np.abs(coef_table['Lasso alpha=5']) < 1e-8).sum()))"
+    },
+    {
+      "type": "code",
+      "title": "實際應用：非線性資料上的 SVR",
+      "explanation": "建立一組非線性資料，比較線性迴歸與 RBF kernel SVR 的表現，理解 SVR 適合處理非線性趨勢的情境。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import make_pipeline\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.svm import SVR\nfrom sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score\n\nnp.random.seed(42)\n\nX = np.linspace(-3, 3, 180).reshape(-1, 1)\ny = 12 * np.sin(X[:, 0]) + 0.8 * X[:, 0] ** 2 + np.random.normal(0, 1.2, size=X.shape[0])\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.25, random_state=42\n)\n\ndef evaluate_regression(y_true, y_pred):\n    mse = mean_squared_error(y_true, y_pred)\n    return {\n        'MSE': mse,\n        'RMSE': np.sqrt(mse),\n        'MAE': mean_absolute_error(y_true, y_pred),\n        'R2': r2_score(y_true, y_pred)\n    }\n\nmodels = {\n    'LinearRegression': make_pipeline(StandardScaler(), LinearRegression()),\n    'SVR RBF kernel': make_pipeline(StandardScaler(), SVR(kernel='rbf', C=30, gamma='scale', epsilon=0.5))\n}\n\nrows = []\nfor name, model in models.items():\n    model.fit(X_train, y_train)\n    pred = model.predict(X_test)\n    rows.append({'模型': name, **evaluate_regression(y_test, pred)})\n\nresult = pd.DataFrame(rows).set_index('模型')\nprint('非線性資料模型評估比較')\nprint(result.round(3))\n\nX_plot = np.linspace(X.min(), X.max(), 300).reshape(-1, 1)\nplt.figure(figsize=(8, 5))\nplt.scatter(X_train[:, 0], y_train, alpha=0.45, label='訓練資料')\nplt.scatter(X_test[:, 0], y_test, alpha=0.75, label='測試資料')\n\nfor name, model in models.items():\n    y_plot = model.predict(X_plot)\n    plt.plot(X_plot[:, 0], y_plot, linewidth=2, label=name)\n\nplt.title('線性迴歸與 RBF SVR 在非線性資料上的比較')\nplt.xlabel('特徵 X')\nplt.ylabel('目標值 y')\nplt.legend()\nplt.grid(alpha=0.3)\nplt.show()"
+    }
+  ]
+}

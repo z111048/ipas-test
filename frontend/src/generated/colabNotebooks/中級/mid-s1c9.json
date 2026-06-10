@@ -1,0 +1,51 @@
+{
+  "chapter_id": "mid-s1c9",
+  "chapter_title": "AI技術系統集成與部署",
+  "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s1c9.ipynb",
+  "status": "warn",
+  "cells": [
+    {
+      "type": "markdown",
+      "content": "# AI技術系統集成與部署\n\n## 📌 學習目標\n\n完成本 Notebook 後，你將能夠：\n\n1. 說明 AI 模型部署不只是「把模型上線」，而是包含資料管線、推論服務、監控、版本控管與持續維運的完整流程。\n2. 使用 Python 模擬資料管線整合，理解資料清理、特徵轉換與模型推論如何串接。\n3. 以輕量方式示範模型服務化概念，理解 REST API 背後的輸入、推論、輸出流程。\n4. 比較公有雲、私有雲、邊緣運算與混合部署的適用情境。\n5. 實作簡易的模型監控與資料漂移偵測，理解 MLOps 在部署後維運中的角色。"
+    },
+    {
+      "type": "code",
+      "title": "環境設定",
+      "explanation": "載入本章節所需的 Python 套件，並建立一組可重現的範例資料。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score\nfrom scipy.stats import ks_2samp\n\nnp.random.seed(42)\n\ncustomers = pd.DataFrame({\n    \"customer_id\": range(1, 11),\n    \"monthly_visits\": [3, 8, 2, 10, 6, 12, 1, 7, 5, 9],\n    \"avg_order_value\": [500, 1200, 300, 1500, 900, 1800, 250, 1000, 700, 1300],\n    \"support_tickets\": [2, 0, 3, 0, 1, 0, 4, 1, 2, 0],\n    \"responded_campaign\": [0, 1, 0, 1, 1, 1, 0, 1, 0, 1]\n})\n\nprint(\"範例資料：\")\nprint(customers)\nprint(\"\\n資料筆數與欄位數：\", customers.shape)"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念",
+      "content": "## 核心概念說明\n\nAI 技術系統集成與部署的重點，不是單一模型本身，而是模型如何進入實際營運流程。\n\n### 1. 系統集成\n\nAI 系統需要與資料來源、企業內部系統、前端應用、監控平台與權限控管機制整合。例如 CRM 可以呼叫模型預測顧客是否可能回應行銷活動，再自動決定是否寄送促銷訊息。\n\n### 2. 系統架構設計\n\n常見做法包含微服務架構、容器化、模型服務化與高可用設計。模型通常會被包裝成一個可被呼叫的推論服務，而不是只能在資料科學家的 Notebook 中執行。\n\n### 3. 部署模式\n\n公有雲適合快速擴充，私有雲適合高資安需求，邊緣運算適合低延遲場景，混合部署則可同時兼顧資料保護、即時性與運算能力。\n\n### 4. MLOps\n\n模型上線後仍需持續監控。若輸入資料分布改變，模型可能發生資料漂移或效能衰退。因此需要版本控管、CI/CD、自動測試、監控指標與再訓練流程。"
+    },
+    {
+      "type": "code",
+      "title": "示範：資料管線整合",
+      "explanation": "這段程式碼模擬 AI 系統如何從企業資料表取得資料，完成清理、特徵轉換與模型訓練。",
+      "content": "import numpy as np\nimport pandas as pd\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score\n\nnp.random.seed(42)\n\nraw_data = pd.DataFrame({\n    \"customer_id\": range(1, 13),\n    \"monthly_visits\": [3, 8, 2, 10, 6, 12, 1, 7, 5, 9, np.nan, 4],\n    \"avg_order_value\": [500, 1200, 300, 1500, 900, 1800, 250, 1000, 700, 1300, 600, np.nan],\n    \"support_tickets\": [2, 0, 3, 0, 1, 0, 4, 1, 2, 0, 2, 3],\n    \"responded_campaign\": [0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0]\n})\n\n# 1. 資料清理：用中位數補缺值\nclean_data = raw_data.copy()\nfor col in [\"monthly_visits\", \"avg_order_value\"]:\n    clean_data[col] = clean_data[col].fillna(clean_data[col].median())\n\n# 2. 特徵與標籤切分\nfeatures = [\"monthly_visits\", \"avg_order_value\", \"support_tickets\"]\nX = clean_data[features]\ny = clean_data[\"responded_campaign\"]\n\n# 3. 特徵標準化與模型訓練\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\nmodel = LogisticRegression()\nmodel.fit(X_scaled, y)\n\n# 4. 推論與評估\npred = model.predict(X_scaled)\nacc = accuracy_score(y, pred)\n\nprint(\"清理後資料：\")\nprint(clean_data)\nprint(\"\\n模型訓練準確率：\", round(acc, 3))\nprint(\"\\n這個流程對應到部署前的資料管線：擷取 → 清理 → 特徵轉換 → 推論或訓練\")"
+    },
+    {
+      "type": "markdown",
+      "title": "模型服務化",
+      "content": "## 模型服務化與 API 封裝\n\n在實務部署中，模型通常不會要求使用者直接執行訓練程式，而是封裝成服務。\n\n一個典型推論服務會包含：\n\n1. 接收輸入資料，例如顧客近期瀏覽次數、消費金額、客服紀錄。\n2. 執行與訓練時一致的前處理，例如欄位檢查與標準化。\n3. 呼叫模型產生預測結果。\n4. 回傳可被前端、CRM、ERP 或 BI 系統使用的結果。\n\n以下不啟動真實 Web Server，而是用 Python 函式模擬 API 背後的推論邏輯。這種示範能幫助理解 REST API 或 gRPC 服務的核心行為。"
+    },
+    {
+      "type": "code",
+      "title": "示範：用函式模擬模型推論 API",
+      "explanation": "這段程式碼用函式模擬 API endpoint，展示模型服務接收輸入、完成前處理並回傳推論結果的流程。",
+      "content": "import numpy as np\nimport pandas as pd\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.linear_model import LogisticRegression\n\ntraining_data = pd.DataFrame({\n    \"monthly_visits\": [3, 8, 2, 10, 6, 12, 1, 7, 5, 9],\n    \"avg_order_value\": [500, 1200, 300, 1500, 900, 1800, 250, 1000, 700, 1300],\n    \"support_tickets\": [2, 0, 3, 0, 1, 0, 4, 1, 2, 0],\n    \"responded_campaign\": [0, 1, 0, 1, 1, 1, 0, 1, 0, 1]\n})\n\nfeatures = [\"monthly_visits\", \"avg_order_value\", \"support_tickets\"]\nX = training_data[features]\ny = training_data[\"responded_campaign\"]\n\nscaler = StandardScaler()\nmodel = LogisticRegression()\nmodel.fit(scaler.fit_transform(X), y)\n\ndef predict_campaign_response(request_json):\n    \"\"\"模擬模型推論 API：輸入 dict，輸出 dict。\"\"\"\n    missing = [col for col in features if col not in request_json]\n    if missing:\n        return {\"status\": \"error\", \"message\": f\"缺少欄位：{missing}\"}\n\n    input_df = pd.DataFrame([request_json])[features]\n    input_scaled = scaler.transform(input_df)\n    probability = model.predict_proba(input_scaled)[0, 1]\n    prediction = int(probability >= 0.5)\n\n    return {\n        \"status\": \"ok\",\n        \"prediction\": prediction,\n        \"probability\": round(float(probability), 3),\n        \"business_action\": \"寄送促銷訊息\" if prediction == 1 else \"暫不寄送\"\n    }\n\napi_request = {\n    \"monthly_visits\": 9,\n    \"avg_order_value\": 1400,\n    \"support_tickets\": 0\n}\n\napi_response = predict_campaign_response(api_request)\nprint(\"API 請求：\", api_request)\nprint(\"API 回應：\", api_response)"
+    },
+    {
+      "type": "markdown",
+      "title": "部署與維運",
+      "content": "## 部署模式與 MLOps 維運\n\nAI 系統部署後，需要根據場景選擇適當的執行環境。\n\n| 部署模式 | 適用情境 | 主要優勢 | 主要挑戰 |\n|---|---|---|---|\n| 公有雲 | 快速試驗、跨地區服務、GPU 訓練 | 彈性高、部署快 | 法規、資料主權、供應商鎖定 |\n| 私有雲 | 金融、醫療、政府資料 | 控制性高、資安可控 | 建置與維運成本高 |\n| 邊緣運算 | IoT、車聯網、工廠即時監控 | 低延遲、節省頻寬 | 裝置資源有限、更新困難 |\n| 混合部署 | 雲端訓練、邊緣推論 | 彈性高、兼顧資安與效能 | 整合與同步複雜 |\n\nMLOps 的核心任務是讓模型從開發、測試、部署到監控都能被追蹤與自動化。以下示範如何使用簡單統計方法偵測資料漂移，這是部署後監控的重要概念。"
+    },
+    {
+      "type": "code",
+      "title": "示範：資料漂移監控與部署決策",
+      "explanation": "這段程式碼示範如何偵測新資料是否與訓練資料分布明顯不同，並根據業務需求建議部署模式。",
+      "content": "import numpy as np\nimport pandas as pd\nfrom scipy.stats import ks_2samp\n\nnp.random.seed(7)\n\n# 訓練時期的資料分布\ntraining_visits = np.random.normal(loc=6, scale=2, size=200)\ntraining_order_value = np.random.normal(loc=900, scale=250, size=200)\n\n# 部署後收集到的新資料分布：平均瀏覽次數與客單價都略有上升\nnew_visits = np.random.normal(loc=8, scale=2.2, size=120)\nnew_order_value = np.random.normal(loc=1150, scale=280, size=120)\n\nmonitoring_data = pd.DataFrame({\n    \"feature\": [\"monthly_visits\", \"avg_order_value\"],\n    \"training_mean\": [training_visits.mean(), training_order_value.mean()],\n    \"new_mean\": [new_visits.mean(), new_order_value.mean()]\n})\n\nks_results = []\nfor feature_name, train_values, new_values in [\n    (\"monthly_visits\", training_visits, new_visits),\n    (\"avg_order_value\", training_order_value, new_order_value),\n]:\n    statistic, p_value = ks_2samp(train_values, new_values)\n    drift_detected = p_value < 0.05\n    ks_results.append({\n        \"feature\": feature_name,\n        \"ks_statistic\": round(float(statistic), 3),\n        \"p_value\": round(float(p_value), 5),\n        \"drift_detected\": drift_detected\n    })\n\nks_report = pd.DataFrame(ks_results)\nany_drift = ks_report[\"drift_detected\"].any()\n\nbusiness_need = \"低延遲門市推薦\"\ncontains_sensitive_data = True\n\nif business_need == \"低延遲門市推薦\" and contains_sensitive_data:\n    deployment_mode = \"混合部署\"\n    reason = \"雲端集中訓練模型，門市或邊緣端負責即時推論，兼顧延遲與資料保護。\"\nelif business_need == \"低延遲門市推薦\":\n    deployment_mode = \"邊緣運算\"\n    reason = \"靠近使用場景推論，可降低網路延遲。\"\nelif contains_sensitive_data:\n    deployment_mode = \"私有雲\"\n    reason = \"敏感資料留在可控環境中，降低合規與資料外洩風險。\"\nelse:\n    deployment_mode = \"公有雲\"\n    reason = \"適合快速擴充與彈性調度運算資源。\"\n\nprint(\"監控資料摘要：\")\nprint(monitoring_data.round(2))\nprint(\"\\nKS 檢定結果：\")\nprint(ks_report)\nprint(\"\\n是否偵測到資料漂移：\", \"是\" if any_drift else \"否\")\n\nif any_drift:\n    print(\"建議維運動作：啟動資料品質檢查、評估模型表現，必要時重新訓練與重新部署。\")\nelse:\n    print(\"建議維運動作：持續監控，目前可維持現有模型版本。\")\n\nprint(\"\\n部署模式建議：\", deployment_mode)\nprint(\"原因：\", reason)"
+    }
+  ]
+}

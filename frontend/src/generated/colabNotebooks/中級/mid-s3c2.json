@@ -1,0 +1,57 @@
+{
+  "chapter_id": "mid-s3c2",
+  "chapter_title": "線性代數之機器學習基礎應用",
+  "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s3c2.ipynb",
+  "status": "warn",
+  "cells": [
+    {
+      "type": "markdown",
+      "content": "# 線性代數之機器學習基礎應用\n\n## 學習目標\n\n完成本 Notebook 後，你將能夠：\n\n1. 使用向量與矩陣表示機器學習中的樣本、特徵與模型參數。\n2. 以 NumPy 實作點積、矩陣乘法、L2 範數與批次預測。\n3. 理解線性變換如何改變特徵空間中的資料分布。\n4. 使用 PCA 與 SVD 示範矩陣分解與維度簡化。\n5. 使用最小平方估計求解線性迴歸參數。\n\n本章的重點不是背公式，而是看懂「資料如何被矩陣表示，模型如何透過矩陣運算完成預測與轉換」。"
+    },
+    {
+      "type": "code",
+      "title": "環境設定",
+      "explanation": "載入本章節會使用到的 Python 套件，並設定圖表與亂數種子，確保每次執行結果一致。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.decomposition import PCA\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.preprocessing import StandardScaler\n\nnp.random.seed(42)\nplt.rcParams['figure.figsize'] = (6, 4)\nplt.rcParams['axes.grid'] = True\n\nprint('環境設定完成')\nprint('NumPy version:', np.__version__)"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念：向量與矩陣表示",
+      "content": "## 核心概念：向量與矩陣表示\n\n在機器學習中，一筆資料通常可表示為一個向量，多筆資料則可組成一個矩陣。\n\n例如一筆學生資料包含三個特徵：學習時數、練習題數、模擬考分數，則可寫成：\n\n`x = [學習時數, 練習題數, 模擬考分數]`\n\n若模型有一組參數向量：\n\n`theta = [theta1, theta2, theta3]`\n\n線性模型的預測可透過點積完成：\n\n`y_hat = theta^T x`\n\n若一次處理多筆資料，則可使用特徵矩陣 `X` 與參數向量 `theta`：\n\n`y_hat = X theta`\n\n這就是許多機器學習模型能夠高效率批次運算的原因。"
+    },
+    {
+      "type": "code",
+      "title": "示範：向量點積、L2 範數與矩陣批次預測",
+      "explanation": "這段程式碼示範如何用向量表示單筆樣本，用矩陣表示多筆樣本，並以點積與矩陣乘法完成線性預測。",
+      "content": "import numpy as np\nimport pandas as pd\n\n# 單筆樣本：學習時數、練習題數、模擬考分數\nx = np.array([12, 80, 75])\n\n# 模型參數：每個特徵對預測結果的權重\ntheta = np.array([1.5, 0.2, 0.6])\n\n# 點積：單筆樣本的線性預測\ny_hat_single = np.dot(theta, x)\n\n# L2 範數：衡量向量長度\nx_norm = np.linalg.norm(x, ord=2)\n\nprint('單筆樣本 x:', x)\nprint('參數 theta:', theta)\nprint('點積預測 y_hat:', round(y_hat_single, 2))\nprint('x 的 L2 範數:', round(x_norm, 2))\n\n# 多筆樣本組成特徵矩陣 X\nX = np.array([\n    [12, 80, 75],\n    [8, 50, 62],\n    [15, 90, 88],\n    [5, 30, 55]\n])\n\n# 矩陣乘法：批次預測\npredictions = X @ theta\n\nresult = pd.DataFrame(X, columns=['學習時數', '練習題數', '模擬考分數'])\nresult['預測分數'] = np.round(predictions, 2)\n\nprint('\\n批次預測結果：')\nprint(result)"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念：線性變換與特徵空間",
+      "content": "## 核心概念：線性變換與特徵空間\n\n線性變換可以理解為使用矩陣重新表示資料。當資料點 `x` 左乘矩陣 `A` 時：\n\n`x_new = A x`\n\n可能產生以下效果：\n\n1. 縮放：放大或縮小某些方向。\n2. 旋轉：改變資料點方向，但保留相對結構。\n3. 剪切：讓資料分布產生傾斜。\n4. 投影：將高維資料壓縮到較低維度空間。\n\n在機器學習中，線性迴歸、邏輯迴歸、PCA、神經網路前向傳播，都可以看到線性變換的影子。"
+    },
+    {
+      "type": "code",
+      "title": "示範：線性變換對資料空間的影響",
+      "explanation": "這段程式碼建立一組二維資料點，並套用縮放、旋轉與剪切矩陣，觀察資料在特徵空間中的幾何變化。",
+      "content": "import numpy as np\nimport matplotlib.pyplot as plt\n\nnp.random.seed(42)\nX = np.random.randn(80, 2)\n\nscale_matrix = np.array([\n    [2.0, 0.0],\n    [0.0, 0.5]\n])\n\nangle = np.deg2rad(35)\nrotation_matrix = np.array([\n    [np.cos(angle), -np.sin(angle)],\n    [np.sin(angle), np.cos(angle)]\n])\n\nshear_matrix = np.array([\n    [1.0, 0.8],\n    [0.0, 1.0]\n])\n\nX_scaled = X @ scale_matrix.T\nX_rotated = X @ rotation_matrix.T\nX_sheared = X @ shear_matrix.T\n\nfig, axes = plt.subplots(1, 4, figsize=(14, 3.5), sharex=True, sharey=True)\nplots = [\n    ('原始資料', X),\n    ('縮放', X_scaled),\n    ('旋轉', X_rotated),\n    ('剪切', X_sheared)\n]\n\nfor ax, (title, data) in zip(axes, plots):\n    ax.scatter(data[:, 0], data[:, 1], alpha=0.75)\n    ax.axhline(0, color='black', linewidth=0.8)\n    ax.axvline(0, color='black', linewidth=0.8)\n    ax.set_title(title)\n    ax.set_aspect('equal', adjustable='box')\n\nplt.tight_layout()\nplt.show()\n\nprint('原始資料形狀:', X.shape)\nprint('縮放後資料形狀:', X_scaled.shape)\nprint('旋轉後資料形狀:', X_rotated.shape)\nprint('剪切後資料形狀:', X_sheared.shape)"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念：矩陣分解、降維與最小平方",
+      "content": "## 核心概念：矩陣分解、降維與最小平方\n\n高維資料常有資訊冗餘，矩陣分解可以幫助我們找出資料中較重要的方向。\n\n常見方法包含：\n\n1. 特徵值分解：適用於對稱方陣，常用於理解資料變異方向。\n2. SVD：可用於任意矩陣，是 PCA、推薦系統與影像壓縮的重要基礎。\n3. NMF：適合非負資料，可將資料拆成可加疊、較容易解釋的部件。\n\n在線性迴歸中，最小平方估計則是另一個典型線性代數應用。它的目標是找到一組參數，讓預測值與真實值之間的平方誤差總和最小。"
+    },
+    {
+      "type": "code",
+      "title": "實際應用：PCA 降維、SVD 近似與最小平方線性迴歸",
+      "explanation": "這段程式碼示範三個常見應用：使用 PCA 將三維資料降成二維、使用 SVD 重建矩陣，以及用最小平方估計求解線性迴歸參數。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.decomposition import PCA\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.linear_model import LinearRegression\n\nnp.random.seed(7)\n\n# 一、PCA：將三個相關特徵降成兩個主成分\nstudy_hours = np.random.normal(10, 3, 100)\npractice_count = study_hours * 6 + np.random.normal(0, 8, 100)\nmock_score = study_hours * 5 + practice_count * 0.4 + np.random.normal(0, 6, 100)\n\nX = np.column_stack([study_hours, practice_count, mock_score])\nX_scaled = StandardScaler().fit_transform(X)\n\npca = PCA(n_components=2)\nX_pca = pca.fit_transform(X_scaled)\n\nprint('PCA 解釋變異比例:', np.round(pca.explained_variance_ratio_, 3))\nprint('兩個主成分合計保留資訊比例:', round(pca.explained_variance_ratio_.sum(), 3))\n\nplt.scatter(X_pca[:, 0], X_pca[:, 1], alpha=0.75)\nplt.xlabel('第一主成分')\nplt.ylabel('第二主成分')\nplt.title('PCA 二維投影')\nplt.show()\n\n# 二、SVD：用較少成分近似原始矩陣\nA = np.array([\n    [5, 4, 0, 0],\n    [4, 5, 0, 0],\n    [0, 0, 4, 5],\n    [0, 0, 5, 4]\n], dtype=float)\n\nU, S, Vt = np.linalg.svd(A, full_matrices=False)\nk = 2\nA_approx = U[:, :k] @ np.diag(S[:k]) @ Vt[:k, :]\n\nprint('\\n原始矩陣 A:')\nprint(A)\nprint('\\n保留前 2 個奇異值的近似矩陣:')\nprint(np.round(A_approx, 2))\n\n# 三、最小平方線性迴歸：y = X theta\nX_reg = np.column_stack([np.ones(100), study_hours, practice_count])\ny = mock_score\n\ntheta_hat = np.linalg.pinv(X_reg) @ y\n\nprint('\\n使用偽逆求得的最小平方參數:')\nprint('截距:', round(theta_hat[0], 3))\nprint('學習時數權重:', round(theta_hat[1], 3))\nprint('練習題數權重:', round(theta_hat[2], 3))\n\nmodel = LinearRegression()\nmodel.fit(X_reg[:, 1:], y)\nprint('\\nsklearn LinearRegression 對照：')\nprint('截距:', round(model.intercept_, 3))\nprint('權重:', np.round(model.coef_, 3))"
+    },
+    {
+      "type": "code",
+      "title": "自我測驗",
+      "explanation": "請完成下方 TODO 填空，練習使用 NumPy 計算向量點積、L2 範數、矩陣批次預測與最小平方參數。",
+      "content": "import numpy as np\n\n# 自我測驗 1：向量點積與 L2 範數\nsample = np.array([6, 40, 70])\nweights = np.array([2.0, 0.3, 0.5])\n\n# TODO: 使用 np.dot 計算 sample 與 weights 的線性預測\nscore = np.dot(sample, weights)\n\n# TODO: 使用 np.linalg.norm 計算 sample 的 L2 範數\nsample_norm = np.linalg.norm(sample, ord=2)\n\nprint('線性預測:', round(score, 2))\nprint('L2 範數:', round(sample_norm, 2))\n# Expected: 線性預測: 59.0\n# Expected: L2 範數: 80.87\n\n# 自我測驗 2：矩陣批次預測\nX_quiz = np.array([\n    [6, 40, 70],\n    [10, 65, 82],\n    [4, 25, 60]\n])\n\n# TODO: 使用矩陣乘法 @ 一次計算三筆資料的預測值\nbatch_scores = X_quiz @ weights\n\nprint('批次預測:', np.round(batch_scores, 2))\n# Expected: 批次預測: [59.  80.5 45.5]\n\n# 自我測驗 3：最小平方估計\nX_train = np.array([\n    [1, 1],\n    [1, 2],\n    [1, 3],\n    [1, 4]\n], dtype=float)\ny_train = np.array([3, 5, 7, 9], dtype=float)\n\n# TODO: 使用偽逆 np.linalg.pinv 求解 theta_hat\nquiz_theta_hat = np.linalg.pinv(X_train) @ y_train\n\nprint('最小平方參數:', np.round(quiz_theta_hat, 2))\n# Expected: 最小平方參數: [1. 2.]"
+    }
+  ]
+}

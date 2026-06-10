@@ -1,0 +1,57 @@
+{
+  "chapter_id": "mid-s3c10",
+  "chapter_title": "模型調整與優化",
+  "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s3c10.ipynb",
+  "status": "warn",
+  "cells": [
+    {
+      "type": "markdown",
+      "content": "# 模型調整與優化\n\n## 學習目標\n\n完成本 Colab 後，你將能夠：\n\n1. 說明學習率、批次大小、模型複雜度、正則化與優化策略對模型表現的影響。\n2. 使用交叉驗證與 Grid Search 進行超參數調校。\n3. 比較欠擬合、適度擬合與過擬合模型的差異。\n4. 使用正則化與重取樣改善模型泛化能力與類別不平衡問題。\n5. 以輕量方式理解模型壓縮與推論加速的概念。\n\n本練習使用 scikit-learn 的內建資料集，不需要下載外部資料，適合在 Google Colab 直接執行。"
+    },
+    {
+      "type": "code",
+      "title": "環境設定",
+      "explanation": "載入本章節需要的 Python 套件，並建立一個可重複實驗的分類資料集。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nfrom sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score, classification_report, confusion_matrix\n\nRANDOM_STATE = 42\n\nX, y = load_breast_cancer(return_X_y=True)\nfeature_names = load_breast_cancer().feature_names\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.25, random_state=RANDOM_STATE, stratify=y\n)\n\nbaseline_model = Pipeline([\n    (\"scaler\", StandardScaler()),\n    (\"model\", LogisticRegression(max_iter=2000, random_state=RANDOM_STATE))\n])\n\nbaseline_model.fit(X_train, y_train)\ny_pred = baseline_model.predict(X_test)\n\nprint(\"資料筆數:\", X.shape[0])\nprint(\"特徵數量:\", X.shape[1])\nprint(\"訓練集大小:\", X_train.shape)\nprint(\"測試集大小:\", X_test.shape)\nprint(\"Baseline Accuracy:\", round(accuracy_score(y_test, y_pred), 4))"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念",
+      "content": "## 核心概念說明\n\n模型調整與優化的目標，不只是讓訓練資料分數變高，而是讓模型在未見過的新資料上也能穩定表現。\n\n### 超參數調校\n\n超參數是訓練前由開發者指定的設定，例如 Logistic Regression 的正則化強度 `C`、決策樹深度、學習率、批次大小等。它們不會由模型自動從資料中學得，但會明顯影響收斂速度、穩定性與泛化能力。\n\n常見做法包含：\n\n- Grid Search：列出候選組合，逐一測試。\n- Random Search：隨機抽樣候選組合，適合搜尋空間很大時。\n- Cross Validation：用多次切分估計模型是否穩定。\n\n### 正則化\n\n正則化會限制模型參數過度複雜，降低過擬合風險。以 Logistic Regression 為例：\n\n- `C` 較小：正則化較強，模型較保守。\n- `C` 較大：正則化較弱，模型較容易貼合訓練資料。\n\n### 重取樣與資料平衡\n\n若某一類資料遠多於另一類，模型可能傾向預測多數類。可透過重取樣、類別權重或評估指標調整來改善。\n\n### 模型壓縮與加速\n\n在實務部署時，模型不只要準，也要能快速推論。可用特徵選擇、降維、剪枝或較小模型，降低資源消耗。"
+    },
+    {
+      "type": "code",
+      "title": "示範：使用 Grid Search 調整超參數",
+      "explanation": "這段程式碼示範如何用交叉驗證搜尋 Logistic Regression 的正則化強度與懲罰方式，找出較穩定的設定。",
+      "content": "import numpy as np\nimport pandas as pd\n\nfrom sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split, GridSearchCV\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score\n\nRANDOM_STATE = 42\nX, y = load_breast_cancer(return_X_y=True)\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.25, random_state=RANDOM_STATE, stratify=y\n)\n\npipe = Pipeline([\n    (\"scaler\", StandardScaler()),\n    (\"model\", LogisticRegression(max_iter=3000, solver=\"liblinear\", random_state=RANDOM_STATE))\n])\n\nparam_grid = {\n    \"model__C\": [0.01, 0.1, 1, 10, 100],\n    \"model__penalty\": [\"l1\", \"l2\"]\n}\n\ngrid = GridSearchCV(\n    pipe,\n    param_grid=param_grid,\n    cv=5,\n    scoring=\"accuracy\",\n    n_jobs=-1,\n    return_train_score=True\n)\n\ngrid.fit(X_train, y_train)\n\nbest_model = grid.best_estimator_\ny_pred = best_model.predict(X_test)\n\nresults = pd.DataFrame(grid.cv_results_)[[\n    \"param_model__C\",\n    \"param_model__penalty\",\n    \"mean_train_score\",\n    \"mean_test_score\",\n    \"rank_test_score\"\n]].sort_values(\"rank_test_score\")\n\nprint(\"最佳參數:\", grid.best_params_)\nprint(\"交叉驗證最佳分數:\", round(grid.best_score_, 4))\nprint(\"測試集 Accuracy:\", round(accuracy_score(y_test, y_pred), 4))\nprint(\"\\n前 5 名參數組合:\")\nprint(results.head())"
+    },
+    {
+      "type": "markdown",
+      "title": "過擬合與正則化",
+      "content": "## 過擬合、欠擬合與正則化\n\n在模型調整時，不能只看訓練分數。常見情境如下：\n\n- 欠擬合：訓練分數與測試分數都低，表示模型能力不足或特徵不足。\n- 適度擬合：訓練分數與測試分數都高，且差距不大。\n- 過擬合：訓練分數很高，但測試分數明顯較低，表示模型記住訓練資料細節，泛化能力不足。\n\n正則化的核心精神是「不要讓模型為了追求訓練資料的完美表現而變得過度複雜」。在 Logistic Regression 中，`C` 越小，正則化越強；`C` 越大，正則化越弱。"
+    },
+    {
+      "type": "code",
+      "title": "示範：比較不同正則化強度",
+      "explanation": "這段程式碼比較不同 C 值下的訓練分數與測試分數，觀察正則化強度如何影響泛化能力。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nfrom sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score\n\nRANDOM_STATE = 42\nX, y = load_breast_cancer(return_X_y=True)\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.25, random_state=RANDOM_STATE, stratify=y\n)\n\nc_values = [0.001, 0.01, 0.1, 1, 10, 100]\nrecords = []\n\nfor c in c_values:\n    model = Pipeline([\n        (\"scaler\", StandardScaler()),\n        (\"clf\", LogisticRegression(C=c, max_iter=3000, random_state=RANDOM_STATE))\n    ])\n    model.fit(X_train, y_train)\n    train_acc = accuracy_score(y_train, model.predict(X_train))\n    test_acc = accuracy_score(y_test, model.predict(X_test))\n    records.append({\"C\": c, \"train_accuracy\": train_acc, \"test_accuracy\": test_acc})\n\nresult = pd.DataFrame(records)\nprint(result)\n\nplt.figure(figsize=(8, 4))\nplt.plot(result[\"C\"], result[\"train_accuracy\"], marker=\"o\", label=\"Train Accuracy\")\nplt.plot(result[\"C\"], result[\"test_accuracy\"], marker=\"o\", label=\"Test Accuracy\")\nplt.xscale(\"log\")\nplt.xlabel(\"C，數值越小代表正則化越強\")\nplt.ylabel(\"Accuracy\")\nplt.title(\"正則化強度對模型表現的影響\")\nplt.legend()\nplt.grid(True)\nplt.show()"
+    },
+    {
+      "type": "markdown",
+      "title": "實務優化策略",
+      "content": "## 實務優化策略\n\n模型調整通常不是單一技巧，而是一組取捨：\n\n1. 若模型不穩定，可以先檢查資料切分、特徵尺度、學習率或正則化。\n2. 若模型過擬合，可以增加正則化、降低模型複雜度、加入更多資料或做資料增強。\n3. 若資料類別不平衡，可以使用重取樣或類別權重。\n4. 若推論太慢，可以減少特徵、改用較小模型或進行模型壓縮。\n\n以下用「類別權重」與「特徵選擇」示範兩個常見的輕量優化方向。"
+    },
+    {
+      "type": "code",
+      "title": "實際應用：處理類別不平衡與降低特徵數量",
+      "explanation": "這段程式碼先建立一個人工不平衡資料集，再比較一般模型與 class_weight='balanced' 的差異，最後示範用 SelectKBest 減少特徵數量以降低模型複雜度。",
+      "content": "import numpy as np\nimport pandas as pd\n\nfrom sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.feature_selection import SelectKBest, f_classif\nfrom sklearn.metrics import classification_report, accuracy_score\n\nRANDOM_STATE = 42\nX, y = load_breast_cancer(return_X_y=True)\n\nrng = np.random.default_rng(RANDOM_STATE)\nmajority_idx = np.where(y == 1)[0]\nminority_idx = np.where(y == 0)[0]\nminority_sample = rng.choice(minority_idx, size=45, replace=False)\nimbalanced_idx = np.concatenate([majority_idx, minority_sample])\n\nX_imb = X[imbalanced_idx]\ny_imb = y[imbalanced_idx]\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X_imb, y_imb, test_size=0.3, random_state=RANDOM_STATE, stratify=y_imb\n)\n\nplain_model = Pipeline([\n    (\"scaler\", StandardScaler()),\n    (\"clf\", LogisticRegression(max_iter=3000, random_state=RANDOM_STATE))\n])\n\nbalanced_model = Pipeline([\n    (\"scaler\", StandardScaler()),\n    (\"clf\", LogisticRegression(max_iter=3000, class_weight=\"balanced\", random_state=RANDOM_STATE))\n])\n\nsmall_model = Pipeline([\n    (\"selector\", SelectKBest(score_func=f_classif, k=8)),\n    (\"scaler\", StandardScaler()),\n    (\"clf\", LogisticRegression(max_iter=3000, class_weight=\"balanced\", random_state=RANDOM_STATE))\n])\n\nfor name, model in [\n    (\"一般模型\", plain_model),\n    (\"加入類別權重\", balanced_model),\n    (\"特徵選擇加類別權重\", small_model)\n]:\n    model.fit(X_train, y_train)\n    y_pred = model.predict(X_test)\n    print(\"\\n===\", name, \"===\")\n    print(\"使用特徵數:\", 8 if name == \"特徵選擇加類別權重\" else X.shape[1])\n    print(\"Accuracy:\", round(accuracy_score(y_test, y_pred), 4))\n    print(classification_report(y_test, y_pred, digits=3))"
+    },
+    {
+      "type": "code",
+      "title": "🧪 自我測驗",
+      "explanation": "請完成下方 TODO 填空，使用 GridSearchCV 找出最佳 C 值，並觀察模型在測試集上的表現。",
+      "content": "# TODO: 依提示完成以下程式碼\n# 目標：使用 Logistic Regression 調整 C 值，找出最佳超參數。\n\nimport numpy as np\nfrom sklearn.datasets import load_breast_cancer\nfrom sklearn.model_selection import train_test_split, GridSearchCV\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score\n\nRANDOM_STATE = 42\nX, y = load_breast_cancer(return_X_y=True)\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.25, random_state=RANDOM_STATE, stratify=y\n)\n\npipe = Pipeline([\n    (\"scaler\", StandardScaler()),\n    (\"model\", LogisticRegression(max_iter=3000, random_state=RANDOM_STATE))\n])\n\n# TODO 1: 將 C 的候選值設定為 [0.01, 0.1, 1, 10]\nparam_grid = {\n    \"model__C\": _____\n}\n\n# TODO 2: 建立 GridSearchCV，cv 設為 5，scoring 設為 \"accuracy\"\nsearch = GridSearchCV(\n    estimator=pipe,\n    param_grid=param_grid,\n    cv=_____,\n    scoring=_____\n)\n\n# TODO 3: 使用訓練資料訓練 search\n_____.fit(X_train, y_train)\n\nbest_model = search.best_estimator_\ny_pred = best_model.predict(X_test)\n\nprint(\"最佳 C:\", search.best_params_[\"model__C\"])\nprint(\"CV Accuracy:\", round(search.best_score_, 4))\nprint(\"Test Accuracy:\", round(accuracy_score(y_test, y_pred), 4))\n\n# Expected: 最佳 C 會是候選值之一，例如 0.1、1 或 10\n# Expected: CV Accuracy 與 Test Accuracy 通常會高於 0.95"
+    }
+  ]
+}

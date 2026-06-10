@@ -1,0 +1,46 @@
+{
+  "chapter_id": "mid-s3c3",
+  "chapter_title": "數值優化技術與方法",
+  "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s3c3.ipynb",
+  "status": "warn",
+  "cells": [
+    {
+      "type": "markdown",
+      "content": "# 數值優化技術與方法\n\n## 學習目標\n\n完成本 Notebook 後，你將能夠：\n\n1. 說明機器學習訓練為何可以視為數值最佳化問題。\n2. 理解目標函數、決策變數、可行域、凸性與可導性的角色。\n3. 比較 MSE、MAE 與 Huber Loss 對異常值的敏感度。\n4. 使用 Python 實作梯度下降法，觀察學習率對收斂行為的影響。\n5. 比較 Batch Gradient Descent、SGD、Mini-batch SGD 與 Momentum 的更新差異。\n6. 透過簡單的線性迴歸任務，連結損失函數、梯度與參數更新的實務流程。\n\n## 情境設定\n\n在機器學習中，模型訓練的核心任務是：找到一組參數，讓模型預測結果與真實資料之間的誤差最小。這正是一個數值最佳化問題。\n\n本章將用輕量的迴歸任務示範：如何定義損失函數、如何更新模型參數，以及不同優化方法對收斂速度與穩定性的影響。"
+    },
+    {
+      "type": "code",
+      "title": "環境設定",
+      "explanation": "載入本章節所需套件，並建立一組可重複使用的簡單線性資料。這組資料用來模擬機器學習中的模型訓練情境。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nnp.random.seed(42)\n\n# 建立簡單線性資料：y = 3x + 2 + noise\nX = np.linspace(0, 10, 80)\nnoise = np.random.normal(0, 2, size=X.shape)\ny = 3 * X + 2 + noise\n\nprint('資料筆數:', len(X))\nprint('X 前 5 筆:', np.round(X[:5], 2))\nprint('y 前 5 筆:', np.round(y[:5], 2))\n\nplt.figure(figsize=(7, 4))\nplt.scatter(X, y, alpha=0.75, label='訓練資料')\nplt.xlabel('X')\nplt.ylabel('y')\nplt.title('簡單線性迴歸資料')\nplt.legend()\nplt.grid(alpha=0.3)\nplt.show()"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念",
+      "content": "## 核心概念說明\n\n在機器學習中，訓練模型通常可以整理成以下最佳化結構：\n\n| 組成要素 | 意義 | 在機器學習中的例子 |\n|---|---|---|\n| 目標函數 | 要最小化或最大化的函數 | MSE、交叉熵損失、排序損失 |\n| 決策變數 | 要被調整的參數 | 權重、偏差、神經網路參數 |\n| 可行域 | 參數允許存在的範圍 | 非負限制、總和為 1、正則化約束 |\n| 函數性質 | 影響求解難度的數學特性 | 凸性、可導性、是否存在局部最小值 |\n\n以線性迴歸為例，模型可寫成：\n\n```text\n預測值 = w * x + b\n```\n\n其中 `w` 與 `b` 是決策變數。訓練的目標，是找到一組 `w` 與 `b`，讓預測值與真實答案之間的損失最小。\n\n常見損失函數包含：\n\n- MSE：放大大誤差，對異常值敏感。\n- MAE：對所有誤差給予線性懲罰，較不受異常值影響。\n- Huber Loss：小誤差時像 MSE，大誤差時像 MAE，兼顧穩定與抗雜訊。\n\n若損失函數可導，就能計算梯度，並使用梯度下降法更新參數。"
+    },
+    {
+      "type": "code",
+      "title": "示範：比較 MSE、MAE 與 Huber Loss",
+      "explanation": "這段程式碼示範不同損失函數如何懲罰預測誤差。當誤差變大時，MSE 的懲罰成長最快，因此對異常值較敏感。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nerrors = np.linspace(-10, 10, 300)\n\ndef mse_loss(e):\n    return e ** 2\n\ndef mae_loss(e):\n    return np.abs(e)\n\ndef huber_loss(e, delta=2.0):\n    return np.where(np.abs(e) <= delta, 0.5 * e ** 2, delta * (np.abs(e) - 0.5 * delta))\n\nloss_df = pd.DataFrame({\n    'error': errors,\n    'MSE': mse_loss(errors),\n    'MAE': mae_loss(errors),\n    'Huber': huber_loss(errors)\n})\n\nprint(loss_df.iloc[[0, 75, 150, 225, 299]].round(2))\n\nplt.figure(figsize=(8, 5))\nplt.plot(errors, loss_df['MSE'], label='MSE')\nplt.plot(errors, loss_df['MAE'], label='MAE')\nplt.plot(errors, loss_df['Huber'], label='Huber Loss')\nplt.xlabel('預測誤差 y_pred - y_true')\nplt.ylabel('損失值')\nplt.title('不同損失函數對誤差的懲罰方式')\nplt.ylim(0, 45)\nplt.legend()\nplt.grid(alpha=0.3)\nplt.show()"
+    },
+    {
+      "type": "code",
+      "title": "示範：手刻梯度下降法",
+      "explanation": "這段程式碼以線性迴歸為例，示範如何透過梯度下降法最小化 MSE。每一次迭代都會根據梯度調整權重 w 與偏差 b。",
+      "content": "import numpy as np\nimport matplotlib.pyplot as plt\n\nnp.random.seed(42)\nX = np.linspace(0, 10, 80)\ny = 3 * X + 2 + np.random.normal(0, 2, size=X.shape)\n\nw = 0.0\nb = 0.0\nlearning_rate = 0.01\nepochs = 120\nloss_history = []\n\nfor epoch in range(epochs):\n    y_pred = w * X + b\n    error = y_pred - y\n    loss = np.mean(error ** 2)\n    loss_history.append(loss)\n\n    grad_w = 2 * np.mean(error * X)\n    grad_b = 2 * np.mean(error)\n\n    w -= learning_rate * grad_w\n    b -= learning_rate * grad_b\n\nprint('訓練後 w:', round(w, 3))\nprint('訓練後 b:', round(b, 3))\nprint('最後 MSE:', round(loss_history[-1], 3))\n\nplt.figure(figsize=(12, 4))\n\nplt.subplot(1, 2, 1)\nplt.plot(loss_history)\nplt.xlabel('Epoch')\nplt.ylabel('MSE')\nplt.title('梯度下降的損失變化')\nplt.grid(alpha=0.3)\n\nplt.subplot(1, 2, 2)\nplt.scatter(X, y, alpha=0.7, label='訓練資料')\nplt.plot(X, w * X + b, color='red', label='學到的線性模型')\nplt.xlabel('X')\nplt.ylabel('y')\nplt.title('模型擬合結果')\nplt.legend()\nplt.grid(alpha=0.3)\n\nplt.tight_layout()\nplt.show()"
+    },
+    {
+      "type": "markdown",
+      "title": "優化演算法比較",
+      "content": "## 常見優化演算法比較\n\n不同優化演算法的差異，主要來自「每次用多少資料估計梯度」以及「是否調整更新方向或步長」。\n\n| 方法 | 每次更新使用資料 | 優點 | 限制 |\n|---|---:|---|---|\n| Batch Gradient Descent | 全部資料 | 更新穩定，方向準確 | 資料大時計算慢 |\n| SGD | 單筆資料 | 更新快，適合線上學習 | 波動大，收斂不穩 |\n| Mini-batch SGD | 一小批資料 | 效率與穩定性折衷 | 批次大小需調整 |\n| Momentum | 小批次或全批次 | 減少震盪，加速收斂 | 需設定動量係數 |\n\n在實務中，深度學習常使用 Mini-batch SGD 搭配 Momentum、Adam 或 RMSprop 等進階方法。它們的核心仍然是根據梯度調整參數，只是加入了更聰明的更新策略。"
+    },
+    {
+      "type": "code",
+      "title": "實際應用：比較 Batch、SGD、Mini-batch 與 Momentum",
+      "explanation": "這段程式碼在同一個線性迴歸任務上比較四種更新方法。觀察損失曲線可以看出，SGD 波動較大，Mini-batch 較平衡，Momentum 則常能讓收斂更平順。",
+      "content": "import numpy as np\nimport matplotlib.pyplot as plt\n\nnp.random.seed(42)\nX = np.linspace(0, 10, 100)\ny = 3 * X + 2 + np.random.normal(0, 2, size=X.shape)\n\nX_mean = X.mean()\nX_std = X.std()\nX_scaled = (X - X_mean) / X_std\n\ndef mse(y_true, y_pred):\n    return np.mean((y_pred - y_true) ** 2)\n\ndef train(method='batch', epochs=80, lr=0.05, batch_size=16, momentum=0.9):\n    rng = np.random.default_rng(7)\n    w, b = 0.0, 0.0\n    vw, vb = 0.0, 0.0\n    losses = []\n\n    for epoch in range(epochs):\n        if method == 'batch':\n            batches = [np.arange(len(X_scaled))]\n        elif method == 'sgd':\n            batches = [[i] for i in rng.permutation(len(X_scaled))]\n        else:\n            idx = rng.permutation(len(X_scaled))\n            batches = [idx[i:i + batch_size] for i in range(0, len(idx), batch_size)]\n\n        for batch in batches:\n            xb = X_scaled[batch]\n            yb = y[batch]\n            pred = w * xb + b\n            error = pred - yb\n            grad_w = 2 * np.mean(error * xb)\n            grad_b = 2 * np.mean(error)\n\n            if method == 'momentum':\n                vw = momentum * vw + lr * grad_w\n                vb = momentum * vb + lr * grad_b\n                w -= vw\n                b -= vb\n            else:\n                w -= lr * grad_w\n                b -= lr * grad_b\n\n        full_pred = w * X_scaled + b\n        losses.append(mse(y, full_pred))\n\n    return w, b, losses\n\nmethods = {\n    'Batch GD': {'method': 'batch', 'lr': 0.05},\n    'SGD': {'method': 'sgd', 'lr': 0.01},\n    'Mini-batch SGD': {'method': 'mini_batch', 'lr': 0.03, 'batch_size': 16},\n    'Momentum': {'method': 'momentum', 'lr': 0.03, 'batch_size': 16, 'momentum': 0.9}\n}\n\nresults = {}\nfor name, params in methods.items():\n    w, b, losses = train(**params)\n    results[name] = {'w': w, 'b': b, 'losses': losses}\n    print(f'{name:14s} 最後 MSE: {losses[-1]:.3f}')\n\nplt.figure(figsize=(9, 5))\nfor name, result in results.items():\n    plt.plot(result['losses'], label=name)\n\nplt.xlabel('Epoch')\nplt.ylabel('完整資料集 MSE')\nplt.title('四種梯度更新方法的損失曲線比較')\nplt.legend()\nplt.grid(alpha=0.3)\nplt.show()"
+    }
+  ]
+}

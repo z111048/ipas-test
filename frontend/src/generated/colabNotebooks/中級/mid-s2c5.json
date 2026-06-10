@@ -1,0 +1,57 @@
+{
+  "chapter_id": "mid-s2c5",
+  "chapter_title": "數據儲存與管理",
+  "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s2c5.ipynb",
+  "status": "warn",
+  "cells": [
+    {
+      "type": "markdown",
+      "content": "# 數據儲存與管理\n\n## 📌 學習目標\n\n完成本 Notebook 後，你將能夠：\n\n1. 區分結構化、半結構化與非結構化資料。\n2. 理解分散式儲存中的切分、副本與容錯概念。\n3. 用小型資料模擬資料湖的 schema-on-read 思維。\n4. 比較分區查詢、欄位裁剪與壓縮對儲存與查詢效率的影響。\n5. 依照資料型態與使用情境，選擇合適的儲存管理策略。"
+    },
+    {
+      "type": "code",
+      "title": "環境設定",
+      "explanation": "載入本章節示範所需的 Python 套件，並建立可重現的隨機種子。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport re\nfrom collections import Counter, defaultdict\n\nnp.random.seed(42)\nprint('環境設定完成')"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念",
+      "content": "## 核心概念說明\n\n在大數據與 AI 應用中，資料儲存與管理的重點不只是把資料放起來，而是要讓資料能穩定、快速、安全地被取用。\n\n常見資料型態包含：\n\n- **結構化資料**：有固定欄位與資料型別，例如訂單表、會員資料表。\n- **半結構化資料**：有標記或階層，但欄位不一定固定，例如 JSON、XML。\n- **非結構化資料**：沒有明確表格結構，例如圖片、影片、PDF、客服對話。\n\n常見儲存設計包含：\n\n- **RDBMS**：適合結構穩定、需要 SQL 與交易一致性的資料。\n- **文件型 NoSQL**：適合欄位彈性高的 JSON 類資料。\n- **物件儲存或 HDFS**：適合大量檔案與非結構化資料。\n- **資料湖**：保留原始資料，讀取時再套用結構，也就是 schema-on-read。"
+    },
+    {
+      "type": "code",
+      "title": "示範：資料型態分類",
+      "explanation": "這段程式碼用簡化規則判斷資料樣本屬於結構化、半結構化或非結構化資料。",
+      "content": "import pandas as pd\nimport re\n\nsamples = [\n    {'name': 'orders_table', 'sample': 'order_id,customer_id,amount,order_date'},\n    {'name': 'api_payload', 'sample': '{\"sensor_id\":\"A01\", \"temp\":26.5, \"ts\":\"2026-06-10\"}'},\n    {'name': 'product_image', 'sample': 'images/product_001.jpg'},\n    {'name': 'customer_note', 'sample': '客戶反映配送遲，希望客服回覆'},\n    {'name': 'log_record', 'sample': '{\"level\":\"WARN\", \"service\":\"payment\", \"retry\":3}'},\n]\n\ndef classify_data_type(text):\n    text = str(text).strip()\n    if text.startswith('{') and text.endswith('}'):\n        return '半結構化資料'\n    if re.search(r'\\.(jpg|png|mp4|pdf|wav)$', text, re.IGNORECASE):\n        return '非結構化資料'\n    if ',' in text and len(text.split(',')) >= 3:\n        return '結構化資料'\n    return '非結構化資料'\n\nresult = pd.DataFrame(samples)\nresult['data_type'] = result['sample'].apply(classify_data_type)\nprint(result)"
+    },
+    {
+      "type": "markdown",
+      "title": "分散式儲存",
+      "content": "## 分散式儲存與資料湖\n\n分散式儲存會把資料切成多個區塊，分散到不同節點，並透過副本或冗餘機制降低單一節點故障造成的風險。\n\n重要觀念：\n\n- **切分 Data Chunks**：把大資料拆成小區塊。\n- **副本 Replication**：同一份資料放在多個節點。\n- **容錯 Fault Tolerance**：節點失效時仍可讀到資料。\n- **資料本地性 Data Locality**：盡量讓運算靠近資料，降低傳輸成本。\n\n資料湖則常用於整合多來源、多格式的原始資料。它不要求資料在寫入時就完全結構化，而是在讀取分析時再套用欄位結構。"
+    },
+    {
+      "type": "code",
+      "title": "示範：分散式切分與副本",
+      "explanation": "這段程式碼模擬把資料切成區塊，並建立副本到多個節點，觀察節點故障後資料是否仍可讀取。",
+      "content": "import numpy as np\nimport pandas as pd\nfrom collections import defaultdict\n\nnp.random.seed(7)\nrecords = [f'record_{i:02d}' for i in range(12)]\nnodes = ['node_A', 'node_B', 'node_C', 'node_D']\nreplication_factor = 2\n\nplacement = defaultdict(list)\nfor record in records:\n    selected_nodes = np.random.choice(nodes, size=replication_factor, replace=False)\n    for node in selected_nodes:\n        placement[record].append(node)\n\nplacement_df = pd.DataFrame([\n    {'record': record, 'replicas': ', '.join(replica_nodes)}\n    for record, replica_nodes in placement.items()\n])\nprint('資料副本配置：')\nprint(placement_df)\n\nfailed_node = 'node_B'\navailable = []\nfor record, replica_nodes in placement.items():\n    available.append({\n        'record': record,\n        'readable_after_failure': any(node != failed_node for node in replica_nodes)\n    })\n\navailability_df = pd.DataFrame(available)\nprint('\\n節點 node_B 故障後可讀取比例：')\nprint(availability_df['readable_after_failure'].mean())"
+    },
+    {
+      "type": "markdown",
+      "title": "效能優化",
+      "content": "## 儲存效能優化與查詢管理\n\n資料量變大後，查詢慢通常不是因為 Python 或 SQL 本身，而是因為掃描了太多不必要的資料。\n\n常見策略：\n\n- **分區儲存 Partitioning**：依月份、地區、設備類型等欄位切分資料，查詢時只掃描相關分區。\n- **欄位裁剪 Column Pruning**：只讀取需要的欄位，減少 I/O。\n- **壓縮 Compression**：降低儲存空間與傳輸量，常搭配 Parquet、ORC 等列式格式。\n- **儲存分層 Storage Tiering**：熱資料放高速儲存，冷資料放低成本儲存。\n\n以下用小型 pandas 資料模擬這些概念。"
+    },
+    {
+      "type": "code",
+      "title": "實際應用：分區查詢、欄位裁剪與壓縮估算",
+      "explanation": "這段程式碼建立模擬交易資料，比較全表掃描與分區查詢的掃描量，並估算欄位裁剪與壓縮帶來的資料量差異。",
+      "content": "import numpy as np\nimport pandas as pd\n\nnp.random.seed(10)\nn = 5000\ndf = pd.DataFrame({\n    'month': np.random.choice(['2026-01', '2026-02', '2026-03', '2026-04'], size=n, p=[0.2, 0.25, 0.25, 0.3]),\n    'region': np.random.choice(['北部', '中部', '南部', '東部'], size=n),\n    'customer_id': np.random.randint(1000, 2000, size=n),\n    'amount': np.random.gamma(shape=2.0, scale=600.0, size=n).round(0),\n    'event_text': np.random.choice(['click', 'view', 'purchase', 'refund'], size=n)\n})\n\nquery_month = '2026-03'\nfull_scan_rows = len(df)\npartition_scan_rows = len(df[df['month'] == query_month])\nscan_reduction = 1 - partition_scan_rows / full_scan_rows\n\nall_columns_memory = df.memory_usage(deep=True).sum()\nneeded_columns = ['month', 'amount']\npruned_memory = df[needed_columns].memory_usage(deep=True).sum()\ncolumn_reduction = 1 - pruned_memory / all_columns_memory\n\ncompression_ratio = 0.35\nestimated_compressed_size = int(pruned_memory * compression_ratio)\n\nsummary = pd.DataFrame({\n    'metric': ['全表掃描列數', '分區掃描列數', '分區減少掃描比例', '全欄位記憶體bytes', '欄位裁剪後bytes', '欄位裁剪減少比例', '估計壓縮後bytes'],\n    'value': [full_scan_rows, partition_scan_rows, round(scan_reduction, 3), all_columns_memory, pruned_memory, round(column_reduction, 3), estimated_compressed_size]\n})\nprint(summary)\n\nmonthly_amount = df[df['month'] == query_month].groupby('region')['amount'].sum().sort_values(ascending=False)\nprint('\\n2026-03 各區銷售額：')\nprint(monthly_amount)"
+    },
+    {
+      "type": "code",
+      "title": "🧪 自我測驗",
+      "explanation": "請完成下方 TODO 填空，實作分區查詢與欄位裁剪，並確認輸出符合 Expected 註解。",
+      "content": "import pandas as pd\n\nlogs = pd.DataFrame({\n    'month': ['2026-01', '2026-01', '2026-02', '2026-02', '2026-03'],\n    'service': ['api', 'web', 'api', 'batch', 'web'],\n    'latency_ms': [120, 95, 180, 240, 110],\n    'bytes_scanned': [1500, 1200, 2100, 3200, 900],\n    'status': ['ok', 'ok', 'warn', 'ok', 'ok']\n})\n\ntarget_month = '2026-02'\nneeded_columns = ['service', 'latency_ms']\n\n# TODO 1: 用 target_month 進行分區查詢，只保留 2026-02 的紀錄。\npartitioned_logs = logs[logs['month'] == target_month]\n\n# TODO 2: 進行欄位裁剪，只保留 service 與 latency_ms 欄位。\npruned_logs = partitioned_logs[needed_columns]\n\n# TODO 3: 計算分區查詢後的平均 latency_ms。\navg_latency = pruned_logs['latency_ms'].mean()\n\nprint('分區查詢列數:', len(partitioned_logs))\nprint('\\n欄位裁剪結果:')\nprint(pruned_logs)\nprint('\\n2026-02 平均延遲:', avg_latency)\n\n# Expected:\n# 分區查詢列數: 2\n#\n# 欄位裁剪結果:\n#   service  latency_ms\n# 2     api         180\n# 3   batch         240\n#\n# 2026-02 平均延遲: 210.0"
+    }
+  ]
+}

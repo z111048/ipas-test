@@ -1,0 +1,46 @@
+{
+  "chapter_id": "mid-s2c13",
+  "chapter_title": "大數據隱私保護、安全與合規",
+  "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s2c13.ipynb",
+  "status": "warn",
+  "cells": [
+    {
+      "type": "markdown",
+      "content": "# 大數據隱私保護、安全與合規\n\n## 學習目標\n\n完成本 Notebook 後，你將能夠：\n\n1. 區分直接識別資訊、準識別資訊與敏感資料。\n2. 理解資料再識別風險如何從欄位組合與外部資料比對產生。\n3. 使用 Python 實作常見匿名化方法：遮蔽、雜湊、泛化、分桶與擾動。\n4. 觀察 k-匿名如何降低個體被唯一識別的風險。\n5. 以簡化方式模擬差分隱私中的噪音加入概念。\n6. 建立 AI 訓練資料合規檢查的基本思維。"
+    },
+    {
+      "type": "code",
+      "title": "環境設定",
+      "explanation": "載入本章節所需的 Python 套件，並建立一份模擬的顧客資料集，後續將用來示範匿名化與隱私風險評估。",
+      "content": "import numpy as np\nimport pandas as pd\nimport hashlib\nimport matplotlib.pyplot as plt\n\nnp.random.seed(42)\n\ndata = pd.DataFrame({\n    \"name\": [\"王小明\", \"李雅婷\", \"陳志豪\", \"林怡君\", \"張家豪\", \"黃思涵\", \"吳宗翰\", \"周佩蓉\"],\n    \"email\": [\n        \"ming@example.com\", \"ya@example.com\", \"hao@example.com\", \"yi@example.com\",\n        \"chang@example.com\", \"han@example.com\", \"wu@example.com\", \"chou@example.com\"\n    ],\n    \"gender\": [\"男\", \"女\", \"男\", \"女\", \"男\", \"女\", \"男\", \"女\"],\n    \"age\": [29, 31, 32, 45, 47, 46, 63, 64],\n    \"zipcode\": [\"100\", \"100\", \"104\", \"220\", \"220\", \"221\", \"800\", \"800\"],\n    \"purchase_amount\": [1200, 1500, 1800, 3200, 2800, 3500, 7600, 8100],\n    \"disease_risk\": [\"低\", \"低\", \"中\", \"中\", \"高\", \"高\", \"高\", \"中\"]\n})\n\nprint(\"原始資料：\")\ndisplay(data)"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念",
+      "content": "## 核心概念說明\n\n在 AI 與大數據應用中，資料常被分為以下幾類：\n\n- **直接識別資訊**：可直接指向個人的欄位，例如姓名、Email、電話、身分證字號、裝置 ID。\n- **準識別資訊**：單獨看未必能識別個人，但組合後可能造成再識別，例如年齡、性別、郵遞區號、瀏覽紀錄、交易時間。\n- **敏感資料**：一旦外洩可能造成重大權益損害的資料，例如健康紀錄、信用狀況、宗教信仰、政治立場。\n\n匿名化不是只刪除姓名而已。若保留過於精細的年齡、地區、時間或行為軌跡，攻擊者仍可能透過外部資料比對找出個人。因此，實務上常結合遮蔽、雜湊、泛化、分桶、擾動、k-匿名與差分隱私等方法，在資料可用性與隱私保護之間取得平衡。"
+    },
+    {
+      "type": "code",
+      "title": "示範：基礎匿名化技術",
+      "explanation": "這段程式碼示範遮蔽、雜湊、年齡泛化、金額分桶與數值擾動，觀察不同方法如何降低個人資料暴露風險。",
+      "content": "import numpy as np\nimport pandas as pd\nimport hashlib\n\nnp.random.seed(42)\n\ndata = pd.DataFrame({\n    \"name\": [\"王小明\", \"李雅婷\", \"陳志豪\", \"林怡君\", \"張家豪\", \"黃思涵\", \"吳宗翰\", \"周佩蓉\"],\n    \"email\": [\n        \"ming@example.com\", \"ya@example.com\", \"hao@example.com\", \"yi@example.com\",\n        \"chang@example.com\", \"han@example.com\", \"wu@example.com\", \"chou@example.com\"\n    ],\n    \"gender\": [\"男\", \"女\", \"男\", \"女\", \"男\", \"女\", \"男\", \"女\"],\n    \"age\": [29, 31, 32, 45, 47, 46, 63, 64],\n    \"zipcode\": [\"100\", \"100\", \"104\", \"220\", \"220\", \"221\", \"800\", \"800\"],\n    \"purchase_amount\": [1200, 1500, 1800, 3200, 2800, 3500, 7600, 8100],\n    \"disease_risk\": [\"低\", \"低\", \"中\", \"中\", \"高\", \"高\", \"高\", \"中\"]\n})\n\ndef mask_name(name):\n    return name[0] + \"○\" * (len(name) - 1)\n\ndef hash_text(text):\n    return hashlib.sha256(text.encode(\"utf-8\")).hexdigest()[:12]\n\ndef age_group(age):\n    decade = age // 10 * 10\n    return f\"{decade}-{decade + 9}歲\"\n\ndef amount_bucket(amount):\n    if amount < 2000:\n        return \"0-1999\"\n    if amount < 5000:\n        return \"2000-4999\"\n    return \"5000以上\"\n\nanonymous = data.copy()\nanonymous[\"name\"] = anonymous[\"name\"].apply(mask_name)\nanonymous[\"email\"] = anonymous[\"email\"].apply(hash_text)\nanonymous[\"age\"] = anonymous[\"age\"].apply(age_group)\nanonymous[\"purchase_amount_bucket\"] = anonymous[\"purchase_amount\"].apply(amount_bucket)\nanonymous[\"purchase_amount_noisy\"] = anonymous[\"purchase_amount\"] + np.random.normal(0, 120, len(anonymous)).round(0)\nanonymous = anonymous.drop(columns=[\"purchase_amount\"])\n\nprint(\"匿名化後資料：\")\ndisplay(anonymous)"
+    },
+    {
+      "type": "markdown",
+      "title": "再識別風險",
+      "content": "## 再識別風險與 k-匿名\n\n再識別風險常發生在準識別欄位的組合過於精細時。例如「性別 + 年齡 + 郵遞區號」可能在資料集中只對應到一個人，即使姓名與 Email 已被移除，仍可能被外部資料比對識別。\n\n**k-匿名**的目標是：對每一筆資料而言，在指定的準識別欄位組合下，至少要有 k 筆資料看起來相同。若 k = 2，代表每個人至少能藏在 2 人群組中；若某組只有 1 筆資料，該筆資料就有較高的再識別風險。\n\n本練習用簡化方法計算每筆資料在準識別欄位下的群組大小，藉此判斷是否符合 k-匿名。"
+    },
+    {
+      "type": "code",
+      "title": "示範：檢查 k-匿名風險",
+      "explanation": "這段程式碼比較精細欄位與泛化欄位對 k-匿名的影響，說明為什麼準識別資訊需要降低精度。",
+      "content": "import pandas as pd\n\nraw = pd.DataFrame({\n    \"gender\": [\"男\", \"女\", \"男\", \"女\", \"男\", \"女\", \"男\", \"女\"],\n    \"age\": [29, 31, 32, 45, 47, 46, 63, 64],\n    \"zipcode\": [\"100\", \"100\", \"104\", \"220\", \"220\", \"221\", \"800\", \"800\"],\n    \"disease_risk\": [\"低\", \"低\", \"中\", \"中\", \"高\", \"高\", \"高\", \"中\"]\n})\n\ndef age_group(age):\n    decade = age // 10 * 10\n    return f\"{decade}-{decade + 9}歲\"\n\ndef zipcode_generalize(zipcode):\n    return zipcode[0] + \"**\"\n\ndef add_k_size(df, quasi_columns):\n    result = df.copy()\n    result[\"k_group_size\"] = result.groupby(quasi_columns)[quasi_columns[0]].transform(\"count\")\n    return result\n\nfine_result = add_k_size(raw, [\"gender\", \"age\", \"zipcode\"])\n\ngeneralized = raw.copy()\ngeneralized[\"age\"] = generalized[\"age\"].apply(age_group)\ngeneralized[\"zipcode\"] = generalized[\"zipcode\"].apply(zipcode_generalize)\ngeneralized_result = add_k_size(generalized, [\"gender\", \"age\", \"zipcode\"])\n\nprint(\"使用精細準識別欄位時：\")\ndisplay(fine_result)\nprint(\"\\n泛化年齡與郵遞區號後：\")\ndisplay(generalized_result)\nprint(\"\\n是否符合 k=2：\", generalized_result[\"k_group_size\"].min() >= 2)"
+    },
+    {
+      "type": "code",
+      "title": "實際應用：合規資料處理檢查表",
+      "explanation": "這段程式碼建立一個簡化的 AI 訓練資料合規檢查器，協助判斷資料集是否符合目的限制、資料最小化、保存期限與匿名化要求。",
+      "content": "import pandas as pd\n\nchecklist = pd.DataFrame({\n    \"item\": [\n        \"已取得明確同意或具備合法處理依據\",\n        \"資料用途符合原始蒐集目的\",\n        \"未蒐集訓練任務不需要的欄位\",\n        \"已設定保存期限\",\n        \"已移除或匿名化直接識別資訊\",\n        \"已評估準識別欄位的再識別風險\",\n        \"敏感資料有額外保護措施\"\n    ],\n    \"status\": [True, True, False, True, True, False, True]\n})\n\nchecklist[\"result\"] = checklist[\"status\"].map({True: \"通過\", False: \"需改善\"})\nrisk_score = (~checklist[\"status\"]).sum()\n\nprint(\"合規檢查結果：\")\ndisplay(checklist)\nprint(f\"未通過項目數：{risk_score}\")\n\nif risk_score == 0:\n    print(\"整體判斷：低風險，可進入後續資料使用流程。\")\nelse:\n    failed_items = checklist.loc[~checklist[\"status\"], \"item\"].tolist()\n    print(\"整體判斷：需改善，請先處理下列項目：\")\n    for item in failed_items:\n        print(f\"- {item}\")"
+    }
+  ]
+}

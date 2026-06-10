@@ -1,0 +1,51 @@
+{
+  "chapter_id": "mid-s2c12",
+  "chapter_title": "大數據在生成式AI中的應用",
+  "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s2c12.ipynb",
+  "status": "warn",
+  "cells": [
+    {
+      "type": "markdown",
+      "content": "# 大數據在生成式AI中的應用\n\n## 📌 學習目標\n\n完成本 Notebook 後，你將能夠：\n\n1. 說明生成式 AI 為何高度依賴大量、多樣且高品質的資料。\n2. 用輕量 Python 方法觀察資料多樣性、代表性、品質與時效性。\n3. 理解資料偏誤如何影響生成式 AI 的輸出公平性與可信度。\n4. 使用 TF-IDF 與簡單統計指標，模擬生成式 AI 資料準備流程中的資料檢查。\n5. 設計基本的資料篩選規則，降低低品質或過時資料對模型的影響。"
+    },
+    {
+      "type": "code",
+      "title": "環境設定與模擬資料建立",
+      "explanation": "載入本章節所需的 Python 套件，並建立一份模擬的多來源文字資料集，用來代表生成式 AI 訓練前的資料池。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom collections import Counter\n\nrecords = [\n    {\"id\": 1, \"source\": \"news\", \"domain\": \"科技\", \"group\": \"都市\", \"year\": 2026, \"quality\": 0.92, \"text\": \"生成式AI可協助企業撰寫商品描述與客服回覆。\"},\n    {\"id\": 2, \"source\": \"forum\", \"domain\": \"生活\", \"group\": \"都市\", \"year\": 2024, \"quality\": 0.61, \"text\": \"這個AI工具很方便，但有時候回答會亂編。\"},\n    {\"id\": 3, \"source\": \"policy\", \"domain\": \"法律\", \"group\": \"全體\", \"year\": 2026, \"quality\": 0.95, \"text\": \"資料治理需考量個人資料保護、授權來源與內容可追溯性。\"},\n    {\"id\": 4, \"source\": \"blog\", \"domain\": \"醫療\", \"group\": \"偏鄉\", \"year\": 2023, \"quality\": 0.74, \"text\": \"醫療生成模型需要高品質病歷與專業審查。\"},\n    {\"id\": 5, \"source\": \"social\", \"domain\": \"娛樂\", \"group\": \"年輕族群\", \"year\": 2026, \"quality\": 0.58, \"text\": \"AI畫圖好酷，風格很多但偶爾手指會怪怪的。\"},\n    {\"id\": 6, \"source\": \"product\", \"domain\": \"零售\", \"group\": \"中高收入\", \"year\": 2025, \"quality\": 0.88, \"text\": \"文字生成可依照產品特色產生不同語氣的廣告文案。\"},\n    {\"id\": 7, \"source\": \"support\", \"domain\": \"客服\", \"group\": \"銀髮族\", \"year\": 2026, \"quality\": 0.81, \"text\": \"智慧客服需要理解訂單、退貨與常見操作問題。\"},\n    {\"id\": 8, \"source\": \"sensor\", \"domain\": \"交通\", \"group\": \"全體\", \"year\": 2022, \"quality\": 0.69, \"text\": \"感測器資料可模擬交通異常與設備故障情境。\"}\n]\n\ndf = pd.DataFrame(records)\nprint(df)\nprint(\"\\n資料筆數:\", len(df))\nprint(\"平均品質分數:\", round(df[\"quality\"].mean(), 3))"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念",
+      "content": "## 核心概念說明\n\n生成式 AI 的輸出品質，通常不是只由模型大小決定，也高度受到訓練資料影響。對大語言模型、圖像生成模型或多模態模型而言，資料扮演了「學習世界樣貌」的來源。\n\n本章可用四個資料面向來理解：\n\n1. **資料多樣性**：是否涵蓋不同主題、語氣、來源與應用情境。資料越單一，生成結果越容易狹窄或重複。\n2. **資料代表性與偏誤風險**：資料是否過度集中於特定族群、平台、地區或觀點。偏誤資料可能讓模型產生不公平或刻板的內容。\n3. **資料品質與內容正確性**：資料是否正確、清楚、低雜訊、格式一致。低品質資料可能導致生成內容錯誤、不可信或語意混亂。\n4. **資料時效性與更新**：資料是否反映最新事件、政策、流行語與市場變化。過時資料可能讓模型輸出不合時宜的內容。\n\n在真實大型模型中，這些面向會透過大規模資料管線處理。本 Notebook 使用 TF-IDF、群體比例與品質分數等輕量方法，模擬資料檢查的核心觀念。"
+    },
+    {
+      "type": "code",
+      "title": "示範：用 TF-IDF 觀察資料多樣性",
+      "explanation": "這段程式碼使用 TF-IDF 將文字轉成特徵向量，並用平均相似度粗略觀察資料是否過於相似。相似度越高，代表資料內容可能越單一。",
+      "content": "import numpy as np\nimport pandas as pd\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.metrics.pairwise import cosine_similarity\n\ntexts = [\n    \"生成式AI 可協助企業撰寫商品描述與客服回覆\",\n    \"生成式AI 可產生廣告文案與產品標題\",\n    \"生成式AI 可協助客服回答訂單與退貨問題\",\n    \"醫療生成模型需要高品質病歷與專業審查\",\n    \"交通感測器資料可模擬異常情境與設備故障\",\n    \"資料治理需考量個人資料保護與授權來源\"\n]\n\nvectorizer = TfidfVectorizer(token_pattern=r\"(?u)\\b\\w+\\b\")\nX = vectorizer.fit_transform(texts)\nsim = cosine_similarity(X)\n\nmask = ~np.eye(len(texts), dtype=bool)\navg_similarity = sim[mask].mean()\ndiversity_score = 1 - avg_similarity\n\nprint(\"平均文本相似度:\", round(avg_similarity, 3))\nprint(\"資料多樣性分數:\", round(diversity_score, 3))\n\nif diversity_score >= 0.85:\n    print(\"判讀: 資料主題相對多元，較有利於生成式 AI 學習不同語境。\")\nelse:\n    print(\"判讀: 資料可能過於集中，建議增加不同來源、主題或語氣的資料。\")"
+    },
+    {
+      "type": "markdown",
+      "title": "資料代表性",
+      "content": "## 代表性與偏誤風險\n\n生成式 AI 會從資料中學習語言風格、敘事方式、價值傾向與常見關聯。如果資料集中在少數族群、平台或情境，模型就可能把局部資料誤認為整體世界的常態。\n\n例如：\n\n- 若商業文本多以男性角色描述工程師，模型可能延續性別刻板印象。\n- 若資料主要來自都市高收入族群，模型可能忽略偏鄉或中低收入族群需求。\n- 若語料只來自社群平台，模型可能不擅長正式、法律或專業語境。\n\n因此，在資料收集與前處理階段，需要檢查不同群體、來源與主題的比例，避免資料過度集中。"
+    },
+    {
+      "type": "code",
+      "title": "示範：檢查資料代表性與偏誤風險",
+      "explanation": "這段程式碼計算不同群體在資料中的比例，並找出比例過低或過高的群體，用來模擬生成式 AI 訓練資料的代表性檢查。",
+      "content": "import pandas as pd\n\nrecords = [\n    {\"group\": \"都市\", \"domain\": \"科技\"},\n    {\"group\": \"都市\", \"domain\": \"生活\"},\n    {\"group\": \"都市\", \"domain\": \"零售\"},\n    {\"group\": \"都市\", \"domain\": \"客服\"},\n    {\"group\": \"中高收入\", \"domain\": \"零售\"},\n    {\"group\": \"中高收入\", \"domain\": \"科技\"},\n    {\"group\": \"偏鄉\", \"domain\": \"醫療\"},\n    {\"group\": \"銀髮族\", \"domain\": \"客服\"}\n]\n\ndf = pd.DataFrame(records)\ngroup_ratio = df[\"group\"].value_counts(normalize=True).rename(\"ratio\").reset_index()\ngroup_ratio.columns = [\"group\", \"ratio\"]\n\ntoo_high = group_ratio[group_ratio[\"ratio\"] > 0.45]\ntoo_low = group_ratio[group_ratio[\"ratio\"] < 0.15]\n\nprint(\"各群體比例:\")\nprint(group_ratio)\n\nprint(\"\\n可能過度集中的群體:\")\nprint(too_high if len(too_high) > 0 else \"無\")\n\nprint(\"\\n可能代表性不足的群體:\")\nprint(too_low if len(too_low) > 0 else \"無\")"
+    },
+    {
+      "type": "markdown",
+      "title": "典型應用情境",
+      "content": "## 生成式 AI 的典型應用情境\n\n生成式 AI 的資料需求會隨應用情境而改變：\n\n- **語言生成**：新聞摘要、商品描述、客服回覆、電子郵件草稿、程式碼補全。\n- **圖像生成**：產品圖、廣告素材、風格轉換、室內設計預覽。\n- **多模態生成**：文字轉圖像、圖片生成標題、語音導覽、虛擬分身。\n- **合成資料與模擬訓練資料**：補足少數樣本、模擬罕見事件、測試模型在異常情境下的穩定性。\n\n在資料準備時，可以先依任務建立檢查表：資料是否多元、是否代表目標族群、是否品質足夠、是否夠新。這些檢查不一定需要大型模型才能開始，簡單統計與規則就能先排除明顯風險。"
+    },
+    {
+      "type": "code",
+      "title": "實際應用與自我測驗：建立資料篩選規則",
+      "explanation": "請完成下方 TODO 參數設定，根據品質與時效性篩選適合用於生成式 AI 任務的資料，並觀察保留下來的資料分布。",
+      "content": "import pandas as pd\n\nrecords = [\n    {\"id\": 1, \"source\": \"news\", \"domain\": \"科技\", \"year\": 2026, \"quality\": 0.92, \"text\": \"生成式AI協助企業撰寫商品描述。\"},\n    {\"id\": 2, \"source\": \"forum\", \"domain\": \"生活\", \"year\": 2024, \"quality\": 0.61, \"text\": \"AI工具有時候回答會亂編。\"},\n    {\"id\": 3, \"source\": \"policy\", \"domain\": \"法律\", \"year\": 2026, \"quality\": 0.95, \"text\": \"資料治理需考量個資保護與授權。\"},\n    {\"id\": 4, \"source\": \"blog\", \"domain\": \"醫療\", \"year\": 2023, \"quality\": 0.74, \"text\": \"醫療模型需要專業審查。\"},\n    {\"id\": 5, \"source\": \"social\", \"domain\": \"娛樂\", \"year\": 2026, \"quality\": 0.58, \"text\": \"AI畫圖風格很多但偶爾會出錯。\"},\n    {\"id\": 6, \"source\": \"product\", \"domain\": \"零售\", \"year\": 2025, \"quality\": 0.88, \"text\": \"文字生成可產生不同語氣的廣告文案。\"},\n    {\"id\": 7, \"source\": \"support\", \"domain\": \"客服\", \"year\": 2026, \"quality\": 0.81, \"text\": \"智慧客服需要理解訂單與退貨問題。\"},\n    {\"id\": 8, \"source\": \"sensor\", \"domain\": \"交通\", \"year\": 2022, \"quality\": 0.69, \"text\": \"感測器資料可模擬交通異常情境。\"}\n]\n\ndf = pd.DataFrame(records)\n\n# TODO: 調整以下兩個門檻，觀察保留下來的資料筆數與主題分布如何改變。\nmin_quality = 0.80\nmin_year = 2025\n\nfiltered = df[(df[\"quality\"] >= min_quality) & (df[\"year\"] >= min_year)].copy()\ndomain_counts = filtered[\"domain\"].value_counts().reset_index()\ndomain_counts.columns = [\"domain\", \"count\"]\n\nprint(\"篩選條件:\")\nprint(f\"quality >= {min_quality}, year >= {min_year}\")\n\nprint(\"\\n保留資料:\")\nprint(filtered[[\"id\", \"source\", \"domain\", \"year\", \"quality\", \"text\"]])\n\nprint(\"\\n保留筆數:\", len(filtered))\nprint(\"平均品質分數:\", round(filtered[\"quality\"].mean(), 3) if len(filtered) > 0 else \"無資料\")\n\nprint(\"\\n保留資料的主題分布:\")\nprint(domain_counts if len(domain_counts) > 0 else \"無資料\")\n\nif len(filtered) < 3:\n    print(\"\\n判讀: 篩選後資料太少，可能降低資料多樣性。\")\nelif filtered[\"domain\"].nunique() < 3:\n    print(\"\\n判讀: 品質與時效性符合門檻，但主題可能過於集中。\")\nelse:\n    print(\"\\n判讀: 篩選後仍保有多個主題，較適合作為生成式 AI 任務的資料池。\")\n\n# Expected: 使用預設 min_quality = 0.80、min_year = 2025 時，應保留 id 1、3、6、7 共 4 筆資料。"
+    }
+  ]
+}

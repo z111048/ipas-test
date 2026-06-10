@@ -1,0 +1,51 @@
+{
+  "chapter_id": "mid-s3c4",
+  "chapter_title": "機器學習原理與技術",
+  "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s3c4.ipynb",
+  "status": "warn",
+  "cells": [
+    {
+      "type": "markdown",
+      "content": "# 機器學習原理與技術\n\n## 學習目標\n\n完成本 Colab 後，你將能夠：\n\n1. 說明機器學習中「特徵空間、標籤、模型、損失函數、評估指標」的關係。\n2. 分辨監督式學習與非監督式學習的資料條件與任務目標。\n3. 使用 `sklearn` 建立簡單的分類、迴歸、聚類與降維模型。\n4. 觀察訓練集、測試集與評估指標如何影響模型解讀。\n5. 透過小型實作理解 iPAS 中級考試常見的機器學習觀念。"
+    },
+    {
+      "type": "code",
+      "title": "環境設定與範例資料",
+      "explanation": "載入本章節會使用到的套件，並建立一組可重複使用的簡單分類資料。此資料可視為特徵空間中的點，每個樣本都有兩個特徵與一個類別標籤。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.datasets import make_classification\n\n# 固定隨機種子，讓每次執行結果一致\nnp.random.seed(42)\n\nX, y = make_classification(\n    n_samples=120,\n    n_features=2,\n    n_redundant=0,\n    n_informative=2,\n    n_clusters_per_class=1,\n    class_sep=1.5,\n    random_state=42\n)\n\ndf = pd.DataFrame(X, columns=[\"feature_1\", \"feature_2\"])\ndf[\"label\"] = y\n\nprint(\"資料前 5 筆：\")\nprint(df.head())\nprint(\"\\n資料形狀：\", df.shape)\n\nplt.figure(figsize=(6, 4))\nplt.scatter(df[\"feature_1\"], df[\"feature_2\"], c=df[\"label\"], cmap=\"coolwarm\", edgecolor=\"k\")\nplt.title(\"特徵空間中的分類資料\")\nplt.xlabel(\"feature_1\")\nplt.ylabel(\"feature_2\")\nplt.show()"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念",
+      "content": "## 核心概念說明\n\n機器學習的基本流程可整理為：\n\n1. **輸入資料與特徵空間**：原始資料經過前處理後，轉換成模型可理解的數值特徵。每筆資料可視為特徵空間中的一個點。\n2. **任務目標與標籤型態**：若標籤是類別，通常是分類任務；若標籤是連續數值，通常是迴歸任務；若沒有標籤，常見任務包含聚類與降維。\n3. **模型與假設空間**：模型是一個從輸入特徵映射到輸出結果的函數。不同模型代表不同假設，例如線性模型假設資料可用線性邊界描述。\n4. **損失函數**：損失函數用來量化預測結果與真實答案之間的差距，例如分類常用交叉熵，迴歸常用 MSE 或 MAE。\n5. **資料分割與評估**：訓練集用於學習參數，測試集用於檢查泛化能力。分類可用 Accuracy、Precision、Recall、F1；迴歸可用 MAE、MSE、R²。"
+    },
+    {
+      "type": "code",
+      "title": "示範：監督式學習的分類任務",
+      "explanation": "這段程式碼示範如何將有標籤資料分成訓練集與測試集，並使用邏輯斯迴歸完成二元分類。重點是理解特徵、標籤、模型訓練與測試評估之間的關係。",
+      "content": "import numpy as np\nimport matplotlib.pyplot as plt\nfrom sklearn.datasets import make_classification\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix\n\nX, y = make_classification(\n    n_samples=160,\n    n_features=2,\n    n_redundant=0,\n    n_informative=2,\n    n_clusters_per_class=1,\n    class_sep=1.3,\n    random_state=7\n)\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.25, random_state=7, stratify=y\n)\n\nmodel = LogisticRegression()\nmodel.fit(X_train, y_train)\ny_pred = model.predict(X_test)\n\nprint(\"Accuracy:\", round(accuracy_score(y_test, y_pred), 3))\nprint(\"Precision:\", round(precision_score(y_test, y_pred), 3))\nprint(\"Recall:\", round(recall_score(y_test, y_pred), 3))\nprint(\"F1:\", round(f1_score(y_test, y_pred), 3))\nprint(\"混淆矩陣：\")\nprint(confusion_matrix(y_test, y_pred))\n\nplt.figure(figsize=(6, 4))\nplt.scatter(X_test[:, 0], X_test[:, 1], c=y_pred, cmap=\"coolwarm\", edgecolor=\"k\")\nplt.title(\"測試資料的預測分類結果\")\nplt.xlabel(\"feature_1\")\nplt.ylabel(\"feature_2\")\nplt.show()"
+    },
+    {
+      "type": "markdown",
+      "title": "監督式與非監督式",
+      "content": "## 任務類型比較\n\n**監督式學習**使用具標籤資料訓練模型，目標是學會輸入與輸出之間的對應關係。常見任務包含：\n\n- 分類：預測離散類別，例如垃圾信件偵測、疾病類型判斷。\n- 迴歸：預測連續數值，例如房價、銷售量、滿意度分數。\n\n**非監督式學習**不依賴明確標籤，目標是發現資料內部結構。常見任務包含：\n\n- 聚類：依相似度自動分群，例如顧客分群。\n- 降維：保留主要結構並降低特徵數，例如將高維資料壓縮成 2D 方便視覺化。\n\n考試常見判斷方式：先看資料是否有標籤，再看輸出目標是類別、數值、群組還是低維表示。"
+    },
+    {
+      "type": "code",
+      "title": "示範：非監督式學習的聚類與降維",
+      "explanation": "這段程式碼示範 KMeans 聚類與 PCA 降維。資料本身沒有提供標籤時，模型會根據樣本間的距離與分布結構自動找出群組。",
+      "content": "import numpy as np\nimport matplotlib.pyplot as plt\nfrom sklearn.datasets import make_blobs\nfrom sklearn.cluster import KMeans\nfrom sklearn.decomposition import PCA\nfrom sklearn.metrics import silhouette_score\n\nX, _ = make_blobs(\n    n_samples=180,\n    centers=3,\n    n_features=4,\n    cluster_std=1.0,\n    random_state=10\n)\n\nkmeans = KMeans(n_clusters=3, random_state=10, n_init=10)\ncluster_labels = kmeans.fit_predict(X)\nscore = silhouette_score(X, cluster_labels)\n\npca = PCA(n_components=2)\nX_2d = pca.fit_transform(X)\n\nprint(\"聚類標籤前 10 筆：\", cluster_labels[:10])\nprint(\"Silhouette score:\", round(score, 3))\nprint(\"PCA 解釋變異比例：\", np.round(pca.explained_variance_ratio_, 3))\n\nplt.figure(figsize=(6, 4))\nplt.scatter(X_2d[:, 0], X_2d[:, 1], c=cluster_labels, cmap=\"viridis\", edgecolor=\"k\")\nplt.title(\"KMeans 聚類後的 PCA 2D 視覺化\")\nplt.xlabel(\"PC1\")\nplt.ylabel(\"PC2\")\nplt.show()"
+    },
+    {
+      "type": "markdown",
+      "title": "損失函數與評估",
+      "content": "## 損失函數與評估指標\n\n損失函數是模型學習的方向盤，用來告訴模型目前預測有多差。評估指標則用來描述模型在資料上的實際表現。\n\n常見配對如下：\n\n- 分類任務：可使用交叉熵作為訓練損失，並用 Accuracy、Precision、Recall、F1 評估。\n- 迴歸任務：可使用 MSE 或 MAE 作為損失或評估指標。\n- 聚類任務：因為沒有標準答案，常用 Silhouette score 等內部指標觀察群內相似與群間分離程度。\n\n實務上不應只看單一指標。例如在詐欺偵測或醫療診斷中，Accuracy 可能很高，但 Recall 太低會漏掉重要案例。"
+    },
+    {
+      "type": "code",
+      "title": "🧪 自我測驗",
+      "explanation": "請依照 TODO 註解完成填空，練習判斷任務類型、建立模型，並輸出對應評估結果。此版本已放入參考答案，建議先閱讀題目後再嘗試修改數值或模型。",
+      "content": "import numpy as np\nfrom sklearn.datasets import make_regression, make_blobs\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.cluster import KMeans\nfrom sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score, silhouette_score\n\n# 題目 1：迴歸任務\n# TODO: 建立一組連續數值標籤資料，並使用線性迴歸模型預測 y\n# Expected: 使用 make_regression 產生 X_reg, y_reg，y_reg 為連續數值標籤\nX_reg, y_reg = make_regression(\n    n_samples=120,\n    n_features=3,\n    noise=12,\n    random_state=42\n)\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X_reg, y_reg, test_size=0.25, random_state=42\n)\n\n# TODO: 選擇適合「連續數值預測」的模型\n# Expected: 使用 LinearRegression，並輸出 MAE、MSE、R2 作為迴歸評估指標\nreg_model = LinearRegression()\nreg_model.fit(X_train, y_train)\ny_pred = reg_model.predict(X_test)\n\nmae = mean_absolute_error(y_test, y_pred)\nmse = mean_squared_error(y_test, y_pred)\nr2 = r2_score(y_test, y_pred)\n\nprint(\"迴歸任務評估\")\nprint(\"MAE:\", round(mae, 2))\nprint(\"MSE:\", round(mse, 2))\nprint(\"R2:\", round(r2, 3))\n\n# 題目 2：非監督式聚類任務\n# TODO: 建立一組沒有標籤的群集資料，並使用 KMeans 找出群組\n# Expected: 使用 make_blobs 產生 X_cluster，使用 KMeans(n_clusters=3) 取得 cluster_labels\nX_cluster, _ = make_blobs(\n    n_samples=150,\n    centers=3,\n    n_features=2,\n    cluster_std=0.9,\n    random_state=42\n)\n\ncluster_model = KMeans(n_clusters=3, random_state=42, n_init=10)\ncluster_labels = cluster_model.fit_predict(X_cluster)\n\n# TODO: 選擇適合「無標籤聚類」的評估指標\n# Expected: 使用 silhouette_score，分數越高通常代表群內越集中、群間越分離\nsil_score = silhouette_score(X_cluster, cluster_labels)\n\nprint(\"\\n聚類任務評估\")\nprint(\"群組標籤前 10 筆：\", cluster_labels[:10])\nprint(\"Silhouette score:\", round(sil_score, 3))"
+    }
+  ]
+}

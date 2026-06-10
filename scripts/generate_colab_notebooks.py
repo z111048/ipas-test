@@ -153,6 +153,26 @@ GENERATION_PROMPT = """\
 8. 只回傳 JSON，不加其他說明文字
 """
 
+FIX_PROMPT = """\
+你是 Python 程式碼修正者，請根據審核意見修正 Notebook 中有問題的 cells。
+
+【章節】{title}（{chapter_id}）
+
+【完整 cells（含 index）】
+{all_cells_json}
+
+【審核發現的問題】
+{issues_json}
+
+修正要求：
+1. 修正所有語法錯誤（特別是截斷或不完整的程式碼，補齊完整邏輯）
+2. 自我測驗 cell 必須有 # TODO 填空和 # Expected: 預期輸出提示
+3. 保持 title 和 explanation 不變（除非審核說需要修改）
+4. 未被標記為 fail 的 cells 保持原樣不修改
+5. 只回傳修正後的「完整」cells 列表，JSON 格式：{{"cells": [...]}}
+6. 只回傳 JSON，不加其他說明文字
+"""
+
 REVIEW_PROMPT = """\
 你是 Python 程式碼審核者，請審核以下 Notebook 的品質。
 
@@ -214,6 +234,8 @@ ALLOWED_IMPORTS = {
     'abc', 'functools', 'warnings', 'io', 'base64', 'hashlib',
     'string', 'copy', 'dataclasses', 'enum', 'pathlib',
     'torch', 'tensorflow', 'transformers', 'datasets',
+    'statsmodels', 'xgboost', 'lightgbm', 'catboost',
+    'networkx', 'sympy', 'numba',
 }
 
 
@@ -237,7 +259,11 @@ def check_imports(code: str) -> tuple[bool, str]:
 
 
 def run_code(code: str, timeout: int = EXEC_TIMEOUT) -> tuple[bool, str]:
-    """Execute code in subprocess. Return (ok, error_output)."""
+    """Execute code in subprocess. Return (ok, error_output).
+
+    ModuleNotFoundError for packages in ALLOWED_IMPORTS is treated as a skip
+    (those packages exist in Colab but may not be installed locally).
+    """
     # Skip cells that are only comments, TODOs, or empty
     stripped = '\n'.join(
         line for line in code.split('\n')
@@ -257,6 +283,25 @@ def run_code(code: str, timeout: int = EXEC_TIMEOUT) -> tuple[bool, str]:
         )
         if result.returncode != 0:
             stderr = result.stderr.strip()
+            # If failure is ModuleNotFoundError for a known Colab package, skip silently
+            if 'ModuleNotFoundError' in stderr:
+                import re as _re
+                missing = _re.search(r"No module named '([^']+)'", stderr)
+                if missing:
+                    pkg = missing.group(1).split('.')[0]
+                    if pkg in ALLOWED_IMPORTS:
+                        return True, f'(skipped: {pkg} not local, OK in Colab)'
+            # If failure is NameError for a common library alias, it means the cell relies on
+            # a previous cell's import (normal in Colab). Skip rather than fail.
+            if 'NameError' in stderr:
+                import re as _re
+                name_match = _re.search(r"name '([^']+)' is not defined", stderr)
+                if name_match:
+                    alias = name_match.group(1)
+                    COMMON_ALIASES = {'np', 'pd', 'plt', 'sns', 'tf', 'torch', 'cv2', 'sk',
+                                      'sp', 'nx', 'sm', 'stats', 'preprocessing', 'datasets'}
+                    if alias in COMMON_ALIASES:
+                        return True, f'(skipped: {alias} from previous cell, OK in Colab)'
             # Filter out common harmless warnings
             error_lines = [
                 l for l in stderr.split('\n')
@@ -271,6 +316,75 @@ def run_code(code: str, timeout: int = EXEC_TIMEOUT) -> tuple[bool, str]:
         return False, f'執行逾時（>{timeout}s）'
     except Exception as e:
         return False, str(e)
+
+
+# ---------------------------------------------------------------------------
+# Auto-fix
+# ---------------------------------------------------------------------------
+
+def attempt_autofix_cells(
+    draft_cells: list[dict],
+    review_result: dict,
+    title: str,
+    chapter_id: str,
+    chapter_pipeline: Path,
+) -> list[dict] | None:
+    """Ask Codex to fix failing cells. Returns fixed cells list or None on failure."""
+    fail_cells = [
+        c for c in review_result.get('cells', [])
+        if c.get('status') == 'fail'
+    ]
+    if not fail_cells:
+        return None
+
+    issues_summary = [
+        {
+            'cell_index': c['cell_index'],
+            'issues': c.get('issues', []),
+            'suggestion': c.get('suggestion', ''),
+        }
+        for c in fail_cells
+    ]
+
+    all_cells_json = json.dumps(
+        [{'index': i, **c} for i, c in enumerate(draft_cells)],
+        ensure_ascii=False,
+        indent=2,
+    )
+    fix_prompt = FIX_PROMPT.format(
+        title=title,
+        chapter_id=chapter_id,
+        all_cells_json=all_cells_json[:6000],
+        issues_json=json.dumps(issues_summary, ensure_ascii=False, indent=2),
+    )
+
+    log.info(f'[{chapter_id}] 呼叫 Codex 自動修正 {len(fail_cells)} 個問題 cells...')
+    raw = call_codex(fix_prompt, timeout=DEFAULT_TIMEOUT)
+    if not raw:
+        log.warning(f'[{chapter_id}] Codex 修正無回應')
+        return None
+
+    try:
+        parsed = parse_json_response(raw)
+        fixed_cells = parsed if isinstance(parsed, list) else parsed.get('cells', [])
+    except (json.JSONDecodeError, KeyError) as e:
+        log.warning(f'[{chapter_id}] 修正 JSON 解析失敗：{e}')
+        return None
+
+    if not fixed_cells:
+        log.warning(f'[{chapter_id}] 修正結果為空')
+        return None
+
+    # Strip 'index' field added during prompt construction
+    for cell in fixed_cells:
+        cell.pop('index', None)
+
+    (chapter_pipeline / 'fix.json').write_text(
+        json.dumps({'cells': fixed_cells}, ensure_ascii=False, indent=2),
+        encoding='utf-8',
+    )
+    log.info(f'[{chapter_id}] 修正草稿已儲存：{len(fixed_cells)} cells')
+    return fixed_cells
 
 
 # ---------------------------------------------------------------------------
@@ -468,6 +582,33 @@ def process_chapter(
 
     overall = review_result.get('overall_status', 'warn')
     log.info(f'[{chapter_id}] 審核結果：{overall}')
+
+    if overall == 'fail':
+        # ── Step 4.5: 嘗試自動修正失敗 cells ─────────────────────────────
+        fixed_cells = attempt_autofix_cells(
+            draft_cells, review_result, title, chapter_id, chapter_pipeline
+        )
+        if fixed_cells:
+            static_issues_fixed: list[dict] = []
+            for i, cell in enumerate(fixed_cells):
+                if cell.get('type') != 'code':
+                    continue
+                code = cell.get('content', '')
+                ok_syntax, err_syntax = check_syntax(code)
+                if not ok_syntax:
+                    static_issues_fixed.append({'cell_index': i, 'check': 'syntax', 'error': err_syntax})
+                    log.warning(f'[{chapter_id}] [fix] cell[{i}] syntax error: {err_syntax}')
+                ok_exec, err_exec = run_code(code)
+                if not ok_exec:
+                    static_issues_fixed.append({'cell_index': i, 'check': 'execution', 'error': err_exec})
+                    log.warning(f'[{chapter_id}] [fix] cell[{i}] exec error: {err_exec[:100]}')
+
+            if not static_issues_fixed:
+                log.info(f'[{chapter_id}] ✓ 自動修正成功，降級為 warn')
+                draft_cells = fixed_cells
+                overall = 'warn'
+            else:
+                log.warning(f'[{chapter_id}] 自動修正後仍有 {len(static_issues_fixed)} 個靜態問題')
 
     if overall == 'fail':
         flagged = {

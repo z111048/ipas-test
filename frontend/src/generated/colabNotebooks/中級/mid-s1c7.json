@@ -1,0 +1,46 @@
+{
+  "chapter_id": "mid-s1c7",
+  "chapter_title": "AI風險管理",
+  "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s1c7.ipynb",
+  "status": "warn",
+  "cells": [
+    {
+      "type": "markdown",
+      "content": "# AI風險管理\n\n## 📌 學習目標\n\n完成本 Notebook 後，你將能夠：\n\n1. 說明 AI 專案常見風險類型：資料品質、模型穩定性、組織人力、法規合規與侵權風險。\n2. 使用簡單資料分析方法辨識資料遺漏、類別偏差與標註異常。\n3. 以模型表現差異觀察資料漂移或模型漂移對 AI 系統的影響。\n4. 建立一份簡化版 AI 風險登錄表，並依風險機率與衝擊程度排序。\n5. 將法規合規需求轉換成可檢查的治理清單。"
+    },
+    {
+      "type": "code",
+      "title": "環境設定",
+      "explanation": "載入本章節所需的 Python 套件，並建立後續範例會用到的隨機種子設定。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score, confusion_matrix\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nfrom scipy.stats import entropy\nfrom collections import Counter\n\nnp.random.seed(42)\nprint('環境設定完成')"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念",
+      "content": "## 核心概念說明\n\nAI 風險管理不是模型上線後才補做的文件工作，而是從規劃、資料蒐集、模型訓練、測試、部署到維運都要持續進行的治理流程。\n\n本章可將 AI 風險分為五大類：\n\n| 風險類型 | 說明 | 常見例子 |\n|---|---|---|\n| 資料品質風險 | 資料缺失、錯誤、不具代表性或標註錯誤 | 缺失值、資料偏頗、不正確標註 |\n| 模型穩定性風險 | 模型在環境變化後表現下降 | 模型漂移、資料漂移、概念漂移、過擬合 |\n| 組織人力風險 | 導入 AI 時跨部門協作與技能不足 | 角色不清、技能短缺、變革抵制 |\n| 法規合規風險 | 個資、隱私、產業規範未被遵守 | GDPR、台灣個資法、HIPAA、PCI-DSS |\n| 侵權風險 | 未授權使用第三方資料、模型、程式碼或演算法 | 訓練資料侵權、開源授權違規 |\n\n接下來的實作會用簡化資料模擬企業導入 AI 信用風險模型時，如何檢查資料偏誤、模型漂移與合規風險。"
+    },
+    {
+      "type": "code",
+      "title": "示範：資料品質與偏誤檢查",
+      "explanation": "這段程式碼建立一份模擬信用評分資料，檢查缺失值、群體分布不均與核准率差異，對應資料品質風險與資料偏頗風險。",
+      "content": "import numpy as np\nimport pandas as pd\n\nnp.random.seed(42)\nn = 300\ncustomer_group = np.random.choice(['A群體', 'B群體', 'C群體'], size=n, p=[0.65, 0.25, 0.10])\nincome = np.random.normal(60000, 15000, n).round(0)\ndebt_ratio = np.random.beta(2, 5, n).round(2)\n\n# 模擬偏誤：C群體即使條件相近，也較容易被拒絕\napproval_score = income / 100000 - debt_ratio\napproval_score -= np.where(customer_group == 'C群體', 0.18, 0)\napproved = (approval_score > 0.25).astype(int)\n\n# 製造少量缺失值\nincome[np.random.choice(n, 12, replace=False)] = np.nan\n\ndf = pd.DataFrame({\n    'customer_group': customer_group,\n    'income': income,\n    'debt_ratio': debt_ratio,\n    'approved': approved\n})\n\nmissing_report = df.isna().sum()\ngroup_distribution = df['customer_group'].value_counts(normalize=True).round(3)\napproval_by_group = df.groupby('customer_group')['approved'].mean().round(3)\n\nprint('缺失值檢查：')\nprint(missing_report)\nprint('\\n群體分布比例：')\nprint(group_distribution)\nprint('\\n各群體核准率：')\nprint(approval_by_group)\n\nrisk_flags = []\nif missing_report['income'] > 0:\n    risk_flags.append('資料遺漏風險：income 欄位存在缺失值')\nif group_distribution.min() < 0.15:\n    risk_flags.append('資料代表性風險：至少一個群體樣本比例低於 15%')\nif approval_by_group.max() - approval_by_group.min() > 0.2:\n    risk_flags.append('公平性風險：不同群體核准率差距超過 20 個百分點')\n\nprint('\\n偵測到的風險：')\nfor flag in risk_flags:\n    print('-', flag)"
+    },
+    {
+      "type": "markdown",
+      "title": "資料漂移與模型漂移",
+      "content": "## 資料漂移與模型漂移\n\nAI 系統上線後，外部環境可能改變，例如客戶行為、經濟條件、設備狀態或資料來源格式改變。這會造成輸入資料分布與訓練期間不同，稱為資料漂移。\n\n若模型因資料或概念變化而預測準確度下降，則可能出現模型漂移。實務上可透過以下方式監控：\n\n- 定期比較訓練資料與近期資料的分布差異。\n- 追蹤模型準確率、召回率、錯誤率等指標。\n- 設定警戒門檻，超過門檻時啟動重訓、人工審查或風險通報。\n\n以下範例用簡化的信用核准模型示範：當新資料的收入分布與負債比例改變後，模型表現可能下降。"
+    },
+    {
+      "type": "code",
+      "title": "示範：模型穩定性與資料漂移監控",
+      "explanation": "這段程式碼訓練一個簡單分類模型，接著用分布已改變的新資料測試，觀察模型準確率下降與資料漂移指標。",
+      "content": "import numpy as np\nimport pandas as pd\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score\nfrom scipy.stats import entropy\n\nnp.random.seed(7)\n\n# 訓練期間資料\nn_train = 500\ntrain_income = np.random.normal(65000, 12000, n_train)\ntrain_debt = np.random.beta(2, 5, n_train)\ntrain_y = ((train_income / 100000 - train_debt) > 0.25).astype(int)\ntrain_X = pd.DataFrame({'income': train_income, 'debt_ratio': train_debt})\n\n# 上線後資料：收入下降、負債比例提高，模擬環境改變\nn_new = 300\nnew_income = np.random.normal(54000, 14000, n_new)\nnew_debt = np.random.beta(3, 4, n_new)\nnew_y = ((new_income / 100000 - new_debt) > 0.25).astype(int)\nnew_X = pd.DataFrame({'income': new_income, 'debt_ratio': new_debt})\n\nmodel = LogisticRegression()\nmodel.fit(train_X, train_y)\n\ntrain_acc = accuracy_score(train_y, model.predict(train_X))\nnew_acc = accuracy_score(new_y, model.predict(new_X))\n\n# 使用直方圖機率分布與 KL divergence 作為簡化漂移指標\nbins = np.linspace(20000, 100000, 12)\ntrain_hist, _ = np.histogram(train_income, bins=bins, density=True)\nnew_hist, _ = np.histogram(new_income, bins=bins, density=True)\ntrain_hist = train_hist + 1e-9\nnew_hist = new_hist + 1e-9\nkl_divergence = entropy(new_hist, train_hist)\n\nprint(f'訓練資料準確率：{train_acc:.3f}')\nprint(f'上線後新資料準確率：{new_acc:.3f}')\nprint(f'收入分布 KL divergence：{kl_divergence:.3f}')\n\nif new_acc < train_acc - 0.08:\n    print('警示：模型表現明顯下降，可能存在模型漂移。')\nif kl_divergence > 0.15:\n    print('警示：輸入資料分布明顯改變，可能存在資料漂移。')"
+    },
+    {
+      "type": "code",
+      "title": "實際應用：AI 風險登錄表排序",
+      "explanation": "這段程式碼建立簡化版 AI 風險登錄表，使用風險分數等於機率乘以衝擊程度，協助專案團隊排序優先處理項目。",
+      "content": "import pandas as pd\n\nrisk_register = pd.DataFrame([\n    {'risk': '資料缺失導致模型誤判', 'category': '資料品質', 'probability': 4, 'impact': 5, 'control': '建立缺失值檢查與資料補值流程'},\n    {'risk': '特定群體核准率偏低', 'category': '偏誤公平性', 'probability': 3, 'impact': 5, 'control': '定期檢查群體表現差異並進行公平性審查'},\n    {'risk': '模型上線後準確率下降', 'category': '模型穩定性', 'probability': 4, 'impact': 4, 'control': '設定模型監控儀表板與重訓門檻'},\n    {'risk': '未取得個資使用同意', 'category': '法規合規', 'probability': 2, 'impact': 5, 'control': '導入同意管理與資料處理紀錄'},\n    {'risk': '使用未授權第三方資料', 'category': '侵權風險', 'probability': 2, 'impact': 4, 'control': '建立資料來源與授權條款盤點'},\n    {'risk': '業務與技術部門需求認知不同', 'category': '組織人力', 'probability': 4, 'impact': 3, 'control': '定義角色責任並建立跨部門例會'}\n])\n\nrisk_register['risk_score'] = risk_register['probability'] * risk_register['impact']\nrisk_register['priority'] = pd.cut(\n    risk_register['risk_score'],\n    bins=[0, 8, 14, 25],\n    labels=['低', '中', '高']\n)\n\nresult = risk_register.sort_values('risk_score', ascending=False).reset_index(drop=True)\nresult"
+    }
+  ]
+}

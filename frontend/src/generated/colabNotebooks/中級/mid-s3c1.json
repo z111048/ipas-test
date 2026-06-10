@@ -1,0 +1,51 @@
+{
+  "chapter_id": "mid-s3c1",
+  "chapter_title": "機率/統計之機器學習基礎應用",
+  "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s3c1.ipynb",
+  "status": "warn",
+  "cells": [
+    {
+      "type": "markdown",
+      "content": "# 機率/統計之機器學習基礎應用\n\n## 📌 學習目標\n\n完成本 Notebook 後，你將能夠：\n\n1. 區分離散型與連續型隨機變數，並理解 PMF 與 PDF 的差異。\n2. 使用 Python 模擬伯努利、二項、泊松與常態分佈。\n3. 以條件機率與貝氏定理更新事件發生機率。\n4. 使用假設檢定與 p 值輔助模型或特徵判斷。\n5. 將機率概念連結到機器學習分類模型的預測機率。\n\n本練習聚焦於中級 AI 應用規劃師常見的實務理解：模型不是只輸出答案，而是根據資料估計「某結果發生的可能性」。"
+    },
+    {
+      "type": "code",
+      "title": "環境設定",
+      "explanation": "載入本章節所需的 Python 套件，並設定隨機種子與圖表樣式，方便後續模擬結果可重現。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom scipy import stats\nfrom sklearn.datasets import make_classification\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import accuracy_score, log_loss\n\nnp.random.seed(42)\nplt.style.use('seaborn-v0_8-whitegrid')\n\nprint('環境設定完成')\nprint('numpy 版本:', np.__version__)\nprint('pandas 版本:', pd.__version__)"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念",
+      "content": "## 核心概念說明\n\n在機器學習中，我們通常不是直接尋找唯一且絕對的答案，而是估計條件機率：\n\n$$P(Y|X)$$\n\n其中，`X` 代表輸入特徵，`Y` 代表目標變數。分類模型輸出的「類別機率」就是這個概念的實務形式。\n\n### 離散型隨機變數\n\n離散型隨機變數的可能值有限或可數，例如：是否點擊、是否通過審核、一天內客服來電次數。常見分佈包含：\n\n- 伯努利分佈：一次成功或失敗事件。\n- 二項分佈：多次伯努利事件中的成功次數。\n- 泊松分佈：固定時間或空間內事件發生次數。\n\n### 連續型隨機變數\n\n連續型隨機變數可取任意實數，例如：等待時間、溫度、分數、身高。常見分佈包含：\n\n- 常態分佈：常用於誤差、量測值與標準化特徵。\n- 均勻分佈：每個區間內數值出現機率相同。\n- 指數分佈：常用於等待時間或事件間隔時間。"
+    },
+    {
+      "type": "code",
+      "title": "示範：離散型機率分佈",
+      "explanation": "這段程式碼示範伯努利、二項與泊松分佈，並用模擬結果理解不同分佈適合描述的資料型態。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom scipy import stats\n\nnp.random.seed(42)\n\n# 伯努利分佈：一次事件是否成功，例如使用者是否點擊廣告\np_click = 0.3\nbernoulli_samples = stats.bernoulli.rvs(p_click, size=1000)\n\n# 二項分佈：20 次曝光中，使用者點擊幾次\nbinomial_samples = stats.binom.rvs(n=20, p=p_click, size=1000)\n\n# 泊松分佈：每小時平均 4 通客服來電\npoisson_samples = stats.poisson.rvs(mu=4, size=1000)\n\nsummary = pd.DataFrame({\n    '分佈': ['伯努利', '二項', '泊松'],\n    '模擬情境': ['單次是否點擊', '20 次曝光中的點擊數', '每小時客服來電數'],\n    '樣本平均': [bernoulli_samples.mean(), binomial_samples.mean(), poisson_samples.mean()],\n    '樣本變異數': [bernoulli_samples.var(), binomial_samples.var(), poisson_samples.var()]\n})\n\nprint(summary)\n\nfig, axes = plt.subplots(1, 3, figsize=(15, 4))\n\naxes[0].hist(bernoulli_samples, bins=[-0.5, 0.5, 1.5], rwidth=0.6)\naxes[0].set_title('伯努利分佈：是否點擊')\naxes[0].set_xticks([0, 1])\n\naxes[1].hist(binomial_samples, bins=range(0, 22), rwidth=0.8)\naxes[1].set_title('二項分佈：20 次中的成功次數')\n\naxes[2].hist(poisson_samples, bins=range(0, 13), rwidth=0.8)\naxes[2].set_title('泊松分佈：每小時事件數')\n\nfor ax in axes:\n    ax.set_xlabel('取值')\n    ax.set_ylabel('出現次數')\n\nplt.tight_layout()\nplt.show()"
+    },
+    {
+      "type": "markdown",
+      "title": "條件機率與貝氏推論",
+      "content": "## 條件機率與貝氏推論\n\n條件機率描述的是：在某條件已知的前提下，另一事件發生的機率。\n\n$$P(A|B)=\\frac{P(A \\cap B)}{P(B)}$$\n\n貝氏定理則進一步說明如何用新觀察更新原本的信念：\n\n$$P(A|B)=\\frac{P(B|A)P(A)}{P(B)}$$\n\n在機器學習中，這可對應到：\n\n- 先驗機率：尚未觀察新資料前的初始信念。\n- 似然：假設某狀態成立時，觀察到目前資料的可能性。\n- 後驗機率：整合新資料後更新的機率。\n\n例如在風險預測、醫療診斷、垃圾郵件分類或推薦系統中，模型會根據新觀察到的特徵，更新某個結果發生的可能性。"
+    },
+    {
+      "type": "code",
+      "title": "示範：貝氏定理更新風險機率",
+      "explanation": "這段程式碼用簡化的醫療檢測情境示範貝氏定理：即使檢測準確率很高，若疾病本身很罕見，陽性後的實際罹病機率仍需透過條件機率重新計算。",
+      "content": "import numpy as np\n\n# 情境：某疾病盛行率為 1%，檢測靈敏度 95%，偽陽性率 5%\nprior_disease = 0.01              # P(疾病)\nsensitivity = 0.95                # P(陽性 | 疾病)\nfalse_positive_rate = 0.05        # P(陽性 | 無疾病)\nprior_no_disease = 1 - prior_disease\n\n# P(陽性) = P(陽性|疾病)P(疾病) + P(陽性|無疾病)P(無疾病)\np_positive = sensitivity * prior_disease + false_positive_rate * prior_no_disease\n\n# P(疾病|陽性) = P(陽性|疾病)P(疾病) / P(陽性)\nposterior_disease_given_positive = sensitivity * prior_disease / p_positive\n\nprint(f'疾病先驗機率 P(疾病): {prior_disease:.2%}')\nprint(f'檢測陽性的總機率 P(陽性): {p_positive:.2%}')\nprint(f'陽性後的後驗機率 P(疾病|陽性): {posterior_disease_given_positive:.2%}')\n\nif posterior_disease_given_positive < 0.5:\n    print('解讀：檢測陽性會提高風險估計，但仍不代表一定罹病，需結合更多資訊。')\nelse:\n    print('解讀：檢測陽性後風險已明顯升高，需進一步確認。')"
+    },
+    {
+      "type": "markdown",
+      "title": "統計推論到機器學習",
+      "content": "## 從統計推論連到機器學習模型\n\n統計推論常用來判斷觀察到的差異是否可能只是隨機變異造成。例如在特徵選擇或 A/B 測試中，我們會使用假設檢定與 p 值來輔助判斷。\n\n在分類模型中，機器學習模型通常會輸出每個類別的預測機率。以邏輯迴歸為例，它適合用於二元分類任務，可被視為估計：\n\n$$P(Y=1|X)$$\n\n因此，機率與統計不是額外的理論，而是直接影響模型假設、模型輸出解讀與決策門檻設定的基礎。"
+    },
+    {
+      "type": "code",
+      "title": "實際應用：分類模型的預測機率與假設檢定",
+      "explanation": "這段程式碼建立一個二元分類資料集，訓練邏輯迴歸模型，觀察模型輸出的預測機率，並使用 t 檢定比較某個特徵在兩類之間是否有顯著差異。",
+      "content": "import numpy as np\nimport pandas as pd\nfrom scipy import stats\nfrom sklearn.datasets import make_classification\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import accuracy_score, log_loss\n\nnp.random.seed(42)\n\nX, y = make_classification(\n    n_samples=600,\n    n_features=4,\n    n_informative=2,\n    n_redundant=0,\n    class_sep=1.2,\n    random_state=42\n)\n\nfeature_names = ['特徵1', '特徵2', '特徵3', '特徵4']\ndf = pd.DataFrame(X, columns=feature_names)\ndf['目標'] = y\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.25, random_state=42, stratify=y\n)\n\nmodel = LogisticRegression()\nmodel.fit(X_train, y_train)\n\npred_label = model.predict(X_test)\npred_prob = model.predict_proba(X_test)[:, 1]\n\nprint(f'Accuracy: {accuracy_score(y_test, pred_label):.3f}')\nprint(f'Log loss: {log_loss(y_test, pred_prob):.3f}')\n\nresult = pd.DataFrame({\n    '實際類別': y_test[:10],\n    '預測為類別1的機率': np.round(pred_prob[:10], 3),\n    '預測類別': pred_label[:10]\n})\nprint('\\n前 10 筆預測結果：')\nprint(result)\n\n# 假設檢定：比較特徵1在目標類別 0 與 1 之間的平均數是否不同\ngroup_0 = df[df['目標'] == 0]['特徵1']\ngroup_1 = df[df['目標'] == 1]['特徵1']\nt_stat, p_value = stats.ttest_ind(group_0, group_1, equal_var=False)\n\nprint('\\n特徵1的兩組平均數比較：')\nprint(f'類別 0 平均: {group_0.mean():.3f}')\nprint(f'類別 1 平均: {group_1.mean():.3f}')\nprint(f't statistic: {t_stat:.3f}')\nprint(f'p-value: {p_value:.4f}')\n\nalpha = 0.05\nif p_value < alpha:\n    print('解讀：p 值小於 0.05，表示特徵1在兩個類別之間的平均數差異具有統計顯著性。')\nelse:\n    print('解讀：p 值不小於 0.05，尚無足夠證據認為特徵1在兩個類別之間的平均數不同。')"
+    }
+  ]
+}

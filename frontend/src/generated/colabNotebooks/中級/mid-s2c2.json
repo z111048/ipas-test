@@ -1,0 +1,46 @@
+{
+  "chapter_id": "mid-s2c2",
+  "chapter_title": "機率分佈與資料分佈模型",
+  "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s2c2.ipynb",
+  "status": "warn",
+  "cells": [
+    {
+      "type": "markdown",
+      "content": "# 機率分佈與資料分佈模型\n\n## 📌 學習目標\n\n完成本 Notebook 後，你將能夠：\n\n1. 區分離散型與連續型機率分佈。\n2. 使用 Python 計算期望值、變異數與標準差。\n3. 模擬伯努利分佈、二項分佈、泊松分佈、常態分佈與指數分佈。\n4. 透過視覺化觀察不同分佈的資料形狀。\n5. 將分佈模型應用在廣告點擊、客服來電、產品品質與等待時間等情境。"
+    },
+    {
+      "type": "code",
+      "title": "環境設定",
+      "explanation": "載入本章節會使用到的 Python 套件，並設定固定隨機種子，讓每次執行都能得到相近結果。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom scipy.stats import bernoulli, binom, poisson, norm, expon\n\nnp.random.seed(42)\n\nprint('套件載入完成')\nprint('NumPy version:', np.__version__)"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念",
+      "content": "## 核心概念說明\n\n機率分佈用來描述隨機變數可能出現的值，以及每個值或每段區間出現的機率。\n\n### 1. 離散型機率分佈\n\n離散型隨機變數的取值是有限或可數的，例如：\n\n- 一次品質檢測是否合格：0 或 1\n- 10 次廣告曝光中有幾次被點擊：0 到 10\n- 每分鐘客服中心接到幾通電話：0、1、2、3 ...\n\n常見模型包含伯努利分佈、二項分佈與泊松分佈。\n\n### 2. 連續型機率分佈\n\n連續型隨機變數可以取某個範圍內的任意實數，例如：\n\n- 身高\n- 體重\n- 等待時間\n- 零件壽命\n\n常見模型包含常態分佈、指數分佈與卡方分佈。\n\n### 3. 期望值與變異數\n\n- 期望值代表長期平均結果。\n- 變異數代表資料分散程度。\n- 標準差是變異數的平方根，單位與原始資料相同，較容易解讀。"
+    },
+    {
+      "type": "code",
+      "title": "示範：離散型分佈",
+      "explanation": "這段程式碼示範伯努利分佈、二項分佈與泊松分佈，分別對應單次成功失敗、多次成功次數，以及固定時間內事件發生次數。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom scipy.stats import bernoulli, binom, poisson\n\nnp.random.seed(42)\n\n# 伯努利分佈：單次廣告是否被點擊\nclick_probability = 0.25\nbernoulli_samples = bernoulli.rvs(click_probability, size=1000)\n\n# 二項分佈：每 20 次廣告曝光中，被點擊的次數\nn_ads = 20\nbinomial_samples = binom.rvs(n=n_ads, p=click_probability, size=1000)\n\n# 泊松分佈：每小時客服來電數，平均每小時 6 通\nlambda_calls = 6\npoisson_samples = poisson.rvs(mu=lambda_calls, size=1000)\n\nsummary = pd.DataFrame({\n    '分佈': ['伯努利', '二項', '泊松'],\n    '樣本平均': [bernoulli_samples.mean(), binomial_samples.mean(), poisson_samples.mean()],\n    '樣本變異數': [bernoulli_samples.var(), binomial_samples.var(), poisson_samples.var()],\n    '理論期望值': [click_probability, n_ads * click_probability, lambda_calls],\n    '理論變異數': [click_probability * (1 - click_probability), n_ads * click_probability * (1 - click_probability), lambda_calls]\n})\n\nprint(summary.round(3))\n\nfig, axes = plt.subplots(1, 3, figsize=(15, 4))\naxes[0].hist(bernoulli_samples, bins=[-0.5, 0.5, 1.5], edgecolor='black')\naxes[0].set_title('Bernoulli: 是否點擊')\naxes[0].set_xticks([0, 1])\n\naxes[1].hist(binomial_samples, bins=range(0, n_ads + 2), edgecolor='black')\naxes[1].set_title('Binomial: 20 次曝光點擊數')\n\naxes[2].hist(poisson_samples, bins=range(0, max(poisson_samples) + 2), edgecolor='black')\naxes[2].set_title('Poisson: 每小時來電數')\n\nfor ax in axes:\n    ax.set_xlabel('取值')\n    ax.set_ylabel('次數')\n\nplt.tight_layout()\nplt.show()"
+    },
+    {
+      "type": "markdown",
+      "title": "連續型分佈",
+      "content": "## 連續型分佈的觀察重點\n\n連續型分佈不關心某個單一數值的機率，而是關心某個區間內的機率。\n\n例如等待時間是連續型變數，顧客剛好等待 `3.000000` 分鐘的機率幾乎沒有實務意義；比較合理的問法是：\n\n- 等待時間小於 3 分鐘的機率是多少？\n- 等待時間介於 3 到 5 分鐘的機率是多少？\n\n常態分佈常用於描述集中且對稱的資料，例如測量誤差、身高或考試分數。指數分佈常用於描述等待時間，例如來電間隔、設備故障間隔或服務到達間隔。"
+    },
+    {
+      "type": "code",
+      "title": "示範：連續型分佈",
+      "explanation": "這段程式碼示範常態分佈與指數分佈，並計算特定區間的機率。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom scipy.stats import norm, expon\n\nnp.random.seed(42)\n\n# 常態分佈：考試分數，平均 70 分，標準差 10 分\nmu = 70\nsigma = 10\nscores = norm.rvs(loc=mu, scale=sigma, size=2000)\n\n# 指數分佈：客服來電間隔，平均等待 5 分鐘，因此 scale = 5\nmean_wait = 5\nwait_times = expon.rvs(scale=mean_wait, size=2000)\n\n# 區間機率\nprob_score_60_80 = norm.cdf(80, loc=mu, scale=sigma) - norm.cdf(60, loc=mu, scale=sigma)\nprob_wait_under_3 = expon.cdf(3, scale=mean_wait)\n\nprint(f'考試分數介於 60 到 80 分的機率：約 {prob_score_60_80:.3f}')\nprint(f'等待時間小於 3 分鐘的機率：約 {prob_wait_under_3:.3f}')\n\nfig, axes = plt.subplots(1, 2, figsize=(12, 4))\naxes[0].hist(scores, bins=30, density=True, alpha=0.7, edgecolor='black')\nx_score = np.linspace(30, 110, 300)\naxes[0].plot(x_score, norm.pdf(x_score, loc=mu, scale=sigma), linewidth=2)\naxes[0].set_title('Normal: 考試分數')\naxes[0].set_xlabel('分數')\naxes[0].set_ylabel('密度')\n\naxes[1].hist(wait_times, bins=30, density=True, alpha=0.7, edgecolor='black')\nx_wait = np.linspace(0, 30, 300)\naxes[1].plot(x_wait, expon.pdf(x_wait, scale=mean_wait), linewidth=2)\naxes[1].set_title('Exponential: 等待時間')\naxes[1].set_xlabel('分鐘')\naxes[1].set_ylabel('密度')\n\nplt.tight_layout()\nplt.show()"
+    },
+    {
+      "type": "code",
+      "title": "實際應用：用資料判斷可能的分佈模型",
+      "explanation": "這段程式碼建立一份模擬營運資料，包含廣告點擊、每日訂單數與客服等待時間，並依資料型態選擇合適的分佈模型進行摘要。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nnp.random.seed(42)\n\nn_days = 120\nad_exposures = np.random.randint(80, 160, size=n_days)\nclick_rate = 0.08\nclicks = np.random.binomial(n=ad_exposures, p=click_rate)\norders = np.random.poisson(lam=12, size=n_days)\nwait_minutes = np.random.exponential(scale=4, size=n_days)\n\nbusiness_data = pd.DataFrame({\n    'ad_exposures': ad_exposures,\n    'clicks': clicks,\n    'orders': orders,\n    'wait_minutes': wait_minutes\n})\n\nbusiness_data['observed_ctr'] = business_data['clicks'] / business_data['ad_exposures']\n\nprint('資料前五列：')\nprint(business_data.head())\n\nprint('\\n營運指標摘要：')\nsummary = business_data.agg({\n    'ad_exposures': ['mean', 'std'],\n    'clicks': ['mean', 'std'],\n    'orders': ['mean', 'std'],\n    'wait_minutes': ['mean', 'std'],\n    'observed_ctr': ['mean', 'std']\n})\nprint(summary.round(3))\n\nmodel_mapping = pd.DataFrame({\n    '欄位': ['clicks', 'orders', 'wait_minutes'],\n    '資料意義': ['固定曝光次數中的點擊數', '每天訂單數', '客服等待時間'],\n    '可能分佈': ['二項分佈', '泊松分佈', '指數分佈'],\n    '判斷理由': ['成功次數，且每次曝光可視為點擊或未點擊', '固定期間內事件發生次數', '事件發生前的等待時間']\n})\nprint('\\n模型選擇建議：')\nprint(model_mapping)\n\nfig, axes = plt.subplots(1, 3, figsize=(15, 4))\nbusiness_data['clicks'].hist(ax=axes[0], bins=15, edgecolor='black')\naxes[0].set_title('每日點擊數')\naxes[0].set_xlabel('點擊數')\naxes[0].set_ylabel('天數')\n\nbusiness_data['orders'].hist(ax=axes[1], bins=15, edgecolor='black')\naxes[1].set_title('每日訂單數')\naxes[1].set_xlabel('訂單數')\naxes[1].set_ylabel('天數')\n\nbusiness_data['wait_minutes'].hist(ax=axes[2], bins=15, edgecolor='black')\naxes[2].set_title('客服等待時間')\naxes[2].set_xlabel('分鐘')\naxes[2].set_ylabel('天數')\n\nplt.tight_layout()\nplt.show()"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "chapter_id": "mid-s2c8",
+  "chapter_title": "常見的大數據分析方法",
+  "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s2c8.ipynb",
+  "status": "warn",
+  "cells": [
+    {
+      "type": "markdown",
+      "content": "# 常見的大數據分析方法\n\n## 學習目標\n\n完成本 Notebook 後，你將能夠：\n\n1. 說明大數據分析為什麼需要近似計算。\n2. 使用抽樣、直方圖與串流統計估計大型資料的分布特徵。\n3. 實作 Count-Min Sketch 的基本概念，估計高頻項目。\n4. 使用移動平均與指數平滑分析時序資料。\n5. 判讀近似統計與時序分析在實務決策中的限制。\n\n## 情境設定\n\n假設你是電商平台的資料分析師，需要快速掌握大量訂單金額、熱門商品點擊，以及每日網站流量趨勢。真實大數據環境可能使用 Spark、BigQuery 或資料庫擴充套件；本練習將用 Colab 預裝套件，以小型資料模擬同樣的核心概念。"
+    },
+    {
+      "type": "code",
+      "title": "環境設定與模擬資料",
+      "explanation": "建立可重現的模擬資料，包含偏態訂單金額、商品點擊紀錄與網站流量時序資料。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom collections import Counter\n\nnp.random.seed(42)\n\n# 模擬偏態訂單金額：多數訂單金額較低，少數訂單非常高\norder_amounts = np.random.lognormal(mean=4.2, sigma=0.8, size=100_000)\n\n# 模擬商品點擊：少數熱門商品出現頻率特別高\nproducts = [f\"P{i:03d}\" for i in range(1, 101)]\nweights = np.array([1 / i for i in range(1, 101)])\nweights = weights / weights.sum()\nclick_stream = np.random.choice(products, size=80_000, p=weights)\n\n# 模擬每日網站流量：包含趨勢、週期與雜訊\nn_days = 120\ndates = pd.date_range(\"2026-01-01\", periods=n_days, freq=\"D\")\ntrend = np.linspace(1000, 1600, n_days)\nweekly = 180 * np.sin(2 * np.pi * np.arange(n_days) / 7)\nnoise = np.random.normal(0, 80, n_days)\ntraffic = trend + weekly + noise\ntraffic_df = pd.DataFrame({\"date\": dates, \"visits\": traffic})\n\nprint(\"訂單筆數:\", len(order_amounts))\nprint(\"點擊紀錄筆數:\", len(click_stream))\nprint(\"時序資料天數:\", len(traffic_df))\nprint(traffic_df.head())"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念",
+      "content": "## 核心概念說明\n\n在大數據環境中，資料量可能大到無法一次全部載入記憶體，或資料會以串流方式持續進來。因此分析方法常需要在「速度、記憶體、精確度」之間取捨。\n\n### 近似描述性統計\n\n傳統描述性統計會精確計算平均數、中位數、分位數與變異數；但在大規模或串流資料中，完整排序或保留全部歷史資料可能成本過高。近似統計的目標不是完全精準，而是在可接受誤差內快速得到足以支援決策的摘要。\n\n常見方法包括：\n\n- 近似分位數：用抽樣或 sketch 估計中位數、90th percentile、99th percentile。\n- Histogram Sketch：用有限區間近似資料分布，適合快速觀察偏態與集中區間。\n- Count-Min Sketch：用小型計數表估計項目頻率，適合串流熱門項目偵測。\n- Online Mean / Variance：逐筆更新平均與變異數，不需保存所有歷史資料。"
+    },
+    {
+      "type": "code",
+      "title": "示範：近似分位數、直方圖與串流平均",
+      "explanation": "比較精確統計與抽樣近似統計，並用 Welford 方法示範串流環境中的平均與變異數更新。",
+      "content": "import numpy as np\nimport matplotlib.pyplot as plt\n\nnp.random.seed(42)\norder_amounts = np.random.lognormal(mean=4.2, sigma=0.8, size=100_000)\n\n# 精確分位數：需要對完整資料進行計算\nexact_median = np.quantile(order_amounts, 0.50)\nexact_p90 = np.quantile(order_amounts, 0.90)\nexact_p99 = np.quantile(order_amounts, 0.99)\n\n# 近似分位數：用抽樣資料估計，模擬大數據環境中降低成本的做法\nsample = np.random.choice(order_amounts, size=3000, replace=False)\napprox_median = np.quantile(sample, 0.50)\napprox_p90 = np.quantile(sample, 0.90)\napprox_p99 = np.quantile(sample, 0.99)\n\nprint(\"精確分位數:\")\nprint(f\"median={exact_median:.2f}, p90={exact_p90:.2f}, p99={exact_p99:.2f}\")\nprint(\"\\n抽樣近似分位數:\")\nprint(f\"median={approx_median:.2f}, p90={approx_p90:.2f}, p99={approx_p99:.2f}\")\n\n# Welford's Method：逐筆更新平均與變異數\ncount = 0\nmean = 0.0\nm2 = 0.0\nfor x in order_amounts:\n    count += 1\n    delta = x - mean\n    mean += delta / count\n    delta2 = x - mean\n    m2 += delta * delta2\n\nonline_variance = m2 / (count - 1)\nprint(\"\\n串流更新結果:\")\nprint(f\"online mean={mean:.2f}\")\nprint(f\"online variance={online_variance:.2f}\")\n\nplt.figure(figsize=(8, 4))\nplt.hist(order_amounts, bins=60, range=(0, 500), color=\"#5B8FF9\", alpha=0.8)\nplt.axvline(exact_median, color=\"red\", linestyle=\"--\", label=\"median\")\nplt.axvline(exact_p90, color=\"orange\", linestyle=\"--\", label=\"p90\")\nplt.title(\"訂單金額近似直方圖\")\nplt.xlabel(\"訂單金額\")\nplt.ylabel(\"筆數\")\nplt.legend()\nplt.show()"
+    },
+    {
+      "type": "markdown",
+      "title": "頻率估計與時序分析",
+      "content": "## 頻率估計與時序分析\n\n### Count-Min Sketch 的想法\n\nCount-Min Sketch 適合用於估計大量串流資料中各項目的出現頻率。它不保存每個項目的完整紀錄，而是使用多列計數表與多個雜湊函數來更新計數。查詢某個項目的頻率時，取多列估計值的最小值，降低雜湊碰撞造成的高估影響。\n\n### 時序分析的想法\n\n時序資料具有時間順序，例如每日流量、感測器讀值、股價與用電量。常見入門方法包括：\n\n- 移動平均：平滑短期波動，觀察長期趨勢。\n- 指數平滑：讓近期資料有較高權重，適合快速追蹤變化。\n- 異常偵測：比較實際值與平滑基準，找出明顯偏離的時間點。\n\n在真實平台中，這些方法可進一步結合 Spark Streaming、BigQuery 查詢或資料庫內建函數，支援更大規模與近即時的分析。"
+    },
+    {
+      "type": "code",
+      "title": "示範：Count-Min Sketch 估計熱門商品",
+      "explanation": "實作簡化版 Count-Min Sketch，估計商品點擊頻率，並與精確計數比較。",
+      "content": "import numpy as np\nfrom collections import Counter\n\nnp.random.seed(42)\nproducts = [f\"P{i:03d}\" for i in range(1, 101)]\nweights = np.array([1 / i for i in range(1, 101)])\nweights = weights / weights.sum()\nclick_stream = np.random.choice(products, size=80_000, p=weights)\n\nclass CountMinSketch:\n    def __init__(self, width=300, depth=5, seed=42):\n        self.width = width\n        self.depth = depth\n        self.table = np.zeros((depth, width), dtype=int)\n        rng = np.random.default_rng(seed)\n        self.a = rng.integers(1, 10_000, size=depth)\n        self.b = rng.integers(0, 10_000, size=depth)\n        self.prime = 104729\n\n    def _hash(self, item, row):\n        base = abs(hash(item))\n        return ((self.a[row] * base + self.b[row]) % self.prime) % self.width\n\n    def update(self, item, count=1):\n        for row in range(self.depth):\n            self.table[row, self._hash(item, row)] += count\n\n    def estimate(self, item):\n        return min(self.table[row, self._hash(item, row)] for row in range(self.depth))\n\ncms = CountMinSketch(width=300, depth=5)\nfor item in click_stream:\n    cms.update(item)\n\nexact_counts = Counter(click_stream)\ntop_items = [item for item, count in exact_counts.most_common(10)]\n\nprint(\"商品 | 精確點擊數 | CMS 估計點擊數\")\nfor item in top_items:\n    print(f\"{item} | {exact_counts[item]:>8} | {cms.estimate(item):>12}\")\n\nprint(\"\\n說明：CMS 通常不會低估，但可能因雜湊碰撞而高估。\")"
+    },
+    {
+      "type": "markdown",
+      "title": "實務任務",
+      "content": "## 實際應用任務\n\n接下來要模擬一個網站流量監控任務。你需要同時完成三件事：\n\n1. 用 7 日移動平均觀察長期趨勢。\n2. 用指數平滑讓近期資料有較高權重。\n3. 用殘差的標準差找出可能異常流量日。\n\n這類分析可用於電商促銷監控、資安流量預警、智慧製造設備訊號檢查，以及公共服務量能調度。"
+    },
+    {
+      "type": "code",
+      "title": "實際應用：網站流量平滑與異常偵測",
+      "explanation": "計算 7 日移動平均與指數平滑，並用殘差標準差標記異常流量日。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\n# 若尚未執行環境設定 cell，先建立同樣的模擬網站流量資料\nif \"traffic_df\" not in globals():\n    np.random.seed(42)\n    n_days = 120\n    dates = pd.date_range(\"2026-01-01\", periods=n_days, freq=\"D\")\n    trend = np.linspace(1000, 1600, n_days)\n    weekly = 180 * np.sin(2 * np.pi * np.arange(n_days) / 7)\n    noise = np.random.normal(0, 80, n_days)\n    traffic = trend + weekly + noise\n    traffic_df = pd.DataFrame({\"date\": dates, \"visits\": traffic})\n\nanalysis_df = traffic_df.copy()\nanalysis_df[\"moving_avg_7\"] = analysis_df[\"visits\"].rolling(window=7, min_periods=1).mean()\nanalysis_df[\"exp_smooth\"] = analysis_df[\"visits\"].ewm(alpha=0.30, adjust=False).mean()\n\n# 用實際值與指數平滑基準的差距作為殘差，超過 2 倍標準差視為可能異常\nanalysis_df[\"residual\"] = analysis_df[\"visits\"] - analysis_df[\"exp_smooth\"]\nresidual_std = analysis_df[\"residual\"].std()\nthreshold = 2 * residual_std\nanalysis_df[\"is_anomaly\"] = analysis_df[\"residual\"].abs() > threshold\n\nanomalies = analysis_df[analysis_df[\"is_anomaly\"]]\nprint(f\"殘差標準差: {residual_std:.2f}\")\nprint(f\"異常門檻: ±{threshold:.2f}\")\nprint(f\"偵測到可能異常天數: {len(anomalies)}\")\n\nif len(anomalies) > 0:\n    print(anomalies[[\"date\", \"visits\", \"exp_smooth\", \"residual\"]].round(2))\nelse:\n    print(\"本次模擬資料未偵測到超過門檻的異常日。\")\n\nplt.figure(figsize=(10, 5))\nplt.plot(analysis_df[\"date\"], analysis_df[\"visits\"], label=\"daily visits\", color=\"#4E79A7\", alpha=0.65)\nplt.plot(analysis_df[\"date\"], analysis_df[\"moving_avg_7\"], label=\"7-day moving average\", color=\"#F28E2B\", linewidth=2)\nplt.plot(analysis_df[\"date\"], analysis_df[\"exp_smooth\"], label=\"exponential smoothing\", color=\"#59A14F\", linewidth=2)\nplt.scatter(anomalies[\"date\"], anomalies[\"visits\"], color=\"red\", label=\"possible anomaly\", zorder=5)\nplt.title(\"網站流量平滑與異常偵測\")\nplt.xlabel(\"日期\")\nplt.ylabel(\"拜訪次數\")\nplt.legend()\nplt.xticks(rotation=30)\nplt.tight_layout()\nplt.show()"
+    },
+    {
+      "type": "code",
+      "title": "自我測驗：調整異常偵測門檻",
+      "explanation": "練習修改標準差倍數，觀察門檻越嚴格或越寬鬆時，異常日數量如何改變。",
+      "content": "# TODO: 將下面的 std_multiplier 改成 1.5、2.0 或 3.0，觀察異常天數的變化\nstd_multiplier = 2.0\n\nresidual_std = analysis_df[\"residual\"].std()\ncustom_threshold = std_multiplier * residual_std\ncustom_anomaly_count = (analysis_df[\"residual\"].abs() > custom_threshold).sum()\n\nprint(f\"標準差倍數: {std_multiplier}\")\nprint(f\"自訂門檻: ±{custom_threshold:.2f}\")\nprint(f\"可能異常天數: {custom_anomaly_count}\")\n\n# Expected: 標準差倍數越小，偵測到的可能異常天數通常越多；標準差倍數越大，異常天數通常越少。"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "chapter_id": "mid-s2c3",
+  "chapter_title": "假設檢定與統計推論",
+  "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s2c3.ipynb",
+  "status": "pass",
+  "cells": [
+    {
+      "type": "markdown",
+      "content": "# 假設檢定與統計推論\n\n## 📌 學習目標\n\n完成本 Colab 練習後，你將能夠：\n\n1. 說明統計推論如何由樣本推估母體特徵。\n2. 區分參數估計與假設檢定的目的。\n3. 建立虛無假設 H₀ 與對立假設 H₁。\n4. 使用 Python 計算信賴區間、t 檢定與比例檢定。\n5. 依據 p 值與顯著水準 α 做出合理決策。\n\n本練習以「新廣告是否提升購買金額」與「新介面是否提升轉換率」為情境，對應 iPAS 中級 AI 應用規劃師考試中常見的資料分析與決策推論能力。"
+    },
+    {
+      "type": "code",
+      "title": "環境設定",
+      "explanation": "載入本章節會用到的 Python 套件，並設定隨機種子，確保每次執行結果一致。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom scipy import stats\n\nnp.random.seed(42)\n\nprint(\"環境設定完成\")\nprint(\"NumPy version:\", np.__version__)\nprint(\"Pandas version:\", pd.__version__)"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念",
+      "content": "## 核心概念說明\n\n統計推論是根據樣本資料，對母體特徵進行估計或判斷的方法。實務中通常無法取得所有資料，例如所有顧客、所有病患或所有交易，因此需要用樣本推論整體。\n\n### 參數估計\n\n參數估計關心的是「母體參數大約是多少」。常見方法包含：\n\n- 點估計：用單一數值估計母體參數，例如樣本平均數。\n- 區間估計：提供一個合理範圍，例如 95% 信賴區間。\n\n### 假設檢定\n\n假設檢定關心的是「樣本資料是否提供足夠證據，拒絕某個預設主張」。典型流程如下：\n\n1. 設定虛無假設 H₀ 與對立假設 H₁。\n2. 選擇適當檢定方法。\n3. 設定顯著水準 α，例如 0.05。\n4. 計算檢定統計量與 p 值。\n5. 若 p 值小於 α，拒絕 H₀；否則無法拒絕 H₀。\n\n注意：無法拒絕 H₀ 不代表 H₀ 一定為真，只代表目前樣本證據不足。"
+    },
+    {
+      "type": "code",
+      "title": "示範：點估計與信賴區間",
+      "explanation": "使用模擬的顧客滿意度資料，計算樣本平均數與 95% 信賴區間，示範參數估計的基本概念。",
+      "content": "import numpy as np\nimport pandas as pd\nfrom scipy import stats\n\nnp.random.seed(7)\n\n# 模擬 80 位顧客的滿意度評分，分數約落在 1 到 5 分\nscores = np.random.normal(loc=4.2, scale=0.45, size=80)\nscores = np.clip(scores, 1, 5)\n\nsample_mean = np.mean(scores)\nsample_std = np.std(scores, ddof=1)\nn = len(scores)\n\nconfidence_level = 0.95\nalpha = 1 - confidence_level\nt_critical = stats.t.ppf(1 - alpha / 2, df=n - 1)\nmargin_error = t_critical * sample_std / np.sqrt(n)\nci_lower = sample_mean - margin_error\nci_upper = sample_mean + margin_error\n\nsummary = pd.DataFrame({\n    \"統計量\": [\"樣本數\", \"樣本平均\", \"樣本標準差\", \"95% 信賴區間下限\", \"95% 信賴區間上限\"],\n    \"數值\": [n, sample_mean, sample_std, ci_lower, ci_upper]\n})\n\nprint(summary.to_string(index=False))"
+    },
+    {
+      "type": "markdown",
+      "title": "檢定設計",
+      "content": "## 假設檢定設計\n\n假設某公司想知道新版廣告是否改變顧客平均購買金額。可以將問題形式化如下：\n\n- H₀：新版廣告與舊版廣告的平均購買金額沒有差異。\n- H₁：新版廣告與舊版廣告的平均購買金額有差異。\n\n若比較的是兩組不同顧客的平均數，可使用兩獨立樣本 t 檢定。若只想知道新版是否「提升」平均購買金額，則可使用單尾檢定；若只關心是否「不同」，則使用雙尾檢定。\n\n本練習採雙尾檢定，顯著水準設定為 α = 0.05。"
+    },
+    {
+      "type": "code",
+      "title": "示範：兩獨立樣本 t 檢定",
+      "explanation": "模擬舊版與新版廣告的購買金額，使用 Welch t 檢定判斷兩組平均數是否有顯著差異。",
+      "content": "import numpy as np\nimport pandas as pd\nfrom scipy import stats\n\nnp.random.seed(11)\n\nold_ad = np.random.normal(loc=980, scale=180, size=60)\nnew_ad = np.random.normal(loc=1080, scale=210, size=60)\n\nalpha = 0.05\n\nt_stat, p_value = stats.ttest_ind(new_ad, old_ad, equal_var=False)\n\nresult = \"拒絕 H0，兩組平均購買金額有顯著差異\" if p_value < alpha else \"無法拒絕 H0，目前證據不足以認定有差異\"\n\nsummary = pd.DataFrame({\n    \"組別\": [\"舊版廣告\", \"新版廣告\"],\n    \"樣本數\": [len(old_ad), len(new_ad)],\n    \"平均購買金額\": [np.mean(old_ad), np.mean(new_ad)],\n    \"標準差\": [np.std(old_ad, ddof=1), np.std(new_ad, ddof=1)]\n})\n\nprint(summary.to_string(index=False))\nprint(\"\\nt statistic:\", round(t_stat, 4))\nprint(\"p-value:\", round(p_value, 4))\nprint(\"決策:\", result)"
+    },
+    {
+      "type": "markdown",
+      "title": "實務判讀",
+      "content": "## 實務判讀重點\n\np 值表示：在 H₀ 為真的前提下，觀察到目前樣本結果或更極端結果的機率。p 值越小，代表樣本結果越不容易由 H₀ 解釋。\n\n常見判斷規則：\n\n- p < 0.05：通常視為具有統計顯著性。\n- p >= 0.05：目前證據不足，無法拒絕 H₀。\n\n但統計顯著不等於實務上重要。若樣本數很大，即使差異很小也可能顯著；因此實務決策應同時檢查效果量、成本、風險與商業情境。"
+    },
+    {
+      "type": "code",
+      "title": "實際應用：A/B 測試比例檢定",
+      "explanation": "使用二項比例檢定概念，判斷新版介面的轉換率是否高於舊版介面，並以常態近似計算 z 統計量與 p 值。",
+      "content": "import numpy as np\nimport pandas as pd\nfrom scipy import stats\n\n# A/B 測試資料：訪客數與轉換數\nvisitors_a = 1200\nconversions_a = 132\nvisitors_b = 1250\nconversions_b = 175\n\nrate_a = conversions_a / visitors_a\nrate_b = conversions_b / visitors_b\n\n# H0: 兩組轉換率相同；H1: B 組轉換率高於 A 組\npooled_rate = (conversions_a + conversions_b) / (visitors_a + visitors_b)\nstandard_error = np.sqrt(pooled_rate * (1 - pooled_rate) * (1 / visitors_a + 1 / visitors_b))\nz_stat = (rate_b - rate_a) / standard_error\np_value = 1 - stats.norm.cdf(z_stat)\n\nalpha = 0.05\ndecision = \"拒絕 H0，新版介面轉換率顯著較高\" if p_value < alpha else \"無法拒絕 H0，目前證據不足以認定新版較高\"\n\nab_summary = pd.DataFrame({\n    \"版本\": [\"A 舊版\", \"B 新版\"],\n    \"訪客數\": [visitors_a, visitors_b],\n    \"轉換數\": [conversions_a, conversions_b],\n    \"轉換率\": [rate_a, rate_b]\n})\n\nprint(ab_summary.to_string(index=False))\nprint(\"\\nz statistic:\", round(z_stat, 4))\nprint(\"one-tailed p-value:\", round(p_value, 4))\nprint(\"決策:\", decision)"
+    },
+    {
+      "type": "code",
+      "title": "🧪 自我測驗",
+      "explanation": "請依 TODO 提示修改參數，完成單樣本 t 檢定，判斷產品平均重量是否符合 500 公克規格。",
+      "content": "import numpy as np\nfrom scipy import stats\n\nnp.random.seed(21)\n\n# 情境：工廠抽查 30 件產品重量，檢查平均重量是否不同於標準值 500 公克\nweights = np.random.normal(loc=496.5, scale=8.0, size=30)\n\n# TODO: 將規格標準值設定為 500\nstandard_weight = 500\n\n# TODO: 將顯著水準設定為 0.05\nalpha = 0.05\n\n# TODO: 使用 scipy.stats.ttest_1samp 完成單樣本 t 檢定\n# 提示：stats.ttest_1samp(樣本資料, popmean=母體假設平均數)\nt_stat, p_value = stats.ttest_1samp(weights, popmean=standard_weight)\n\nsample_mean = np.mean(weights)\n\ndecision = \"拒絕 H0，平均重量與規格有顯著差異\" if p_value < alpha else \"無法拒絕 H0，目前證據不足以認定平均重量不同於規格\"\n\nprint(\"樣本平均重量:\", round(sample_mean, 2))\nprint(\"t statistic:\", round(t_stat, 4))\nprint(\"p-value:\", round(p_value, 4))\nprint(\"決策:\", decision)\n\n# Expected: 印出樣本平均重量、t statistic、p-value，並根據 alpha = 0.05 顯示是否拒絕 H0"
+    }
+  ]
+}

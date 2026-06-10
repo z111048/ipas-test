@@ -1,0 +1,47 @@
+{
+  "chapter_id": "mid-s3c6",
+  "chapter_title": "深度學習原理與框架",
+  "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s3c6.ipynb",
+  "status": "warn",
+  "cells": [
+    {
+      "type": "markdown",
+      "content": "# 深度學習原理與框架\n\n## 學習目標\n\n完成本 Notebook 後，你將能夠：\n\n1. 說明人工神經元如何透過「輸入、權重、偏置、激活函數」產生輸出。\n2. 理解感知器只能處理線性可分問題，並觀察 XOR 問題為何需要多層網路。\n3. 比較 Step、Sigmoid、Tanh、ReLU 等常見激活函數的輸出特性。\n4. 用 NumPy 實作前向傳播與簡化版反向傳播。\n5. 使用 sklearn 的 MLPClassifier 體驗深度學習框架如何封裝訓練流程。\n\n本練習採用輕量資料與 NumPy / sklearn 示範核心概念，避免依賴大型 GPU 或深度學習框架。"
+    },
+    {
+      "type": "code",
+      "title": "環境設定",
+      "explanation": "載入本章節所需的 Python 套件，並建立固定亂數種子，讓每次執行結果較容易重現。",
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.datasets import make_moons\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.neural_network import MLPClassifier\nfrom sklearn.metrics import accuracy_score, confusion_matrix\n\nnp.random.seed(42)\n\nprint('NumPy version:', np.__version__)\nprint('環境設定完成，可以開始深度學習概念實作。')"
+    },
+    {
+      "type": "markdown",
+      "title": "核心概念",
+      "content": "## 核心概念說明\n\n### 1. 人工神經元\n\n人工神經元會接收多個輸入值，將每個輸入乘上對應權重，加總後再加上偏置，形成加權和：\n\n`z = w1*x1 + w2*x2 + ... + wn*xn + b`\n\n接著，神經元會把 `z` 丟進激活函數，產生最後輸出：\n\n`output = activation(z)`\n\n### 2. 感知器\n\n感知器是早期且簡化的人工神經元模型，常使用 Step Function 作為激活函數。它適合處理線性可分的二元分類問題，例如 AND、OR，但無法單獨解決 XOR 這種非線性可分問題。\n\n### 3. 激活函數\n\n激活函數的關鍵價值是引入非線性。若神經網路沒有非線性激活函數，即使堆疊很多層，整體仍只等價於一個線性模型。\n\n常見激活函數包括：\n\n- Step：輸出 0 或 1，常用於感知器概念示範。\n- Sigmoid：輸出介於 0 到 1，常被解讀為機率。\n- Tanh：輸出介於 -1 到 1。\n- ReLU：負值輸出 0，正值原樣輸出，是深度學習中常見選擇。\n\n### 4. 前向傳播與反向傳播\n\n前向傳播負責產生預測；反向傳播負責根據損失函數計算梯度，進一步更新權重與偏置，使下一次預測更準確。"
+    },
+    {
+      "type": "code",
+      "title": "示範：人工神經元與感知器",
+      "explanation": "這段程式碼用 NumPy 實作單一人工神經元，並示範感知器如何學會 AND 邏輯閘。",
+      "content": "import numpy as np\nimport pandas as pd\n\nnp.random.seed(42)\n\n# AND 邏輯閘資料\nX = np.array([\n    [0, 0],\n    [0, 1],\n    [1, 0],\n    [1, 1]\n])\ny = np.array([0, 0, 0, 1])\n\n# 初始化感知器參數\nweights = np.zeros(X.shape[1])\nbias = 0.0\nlearning_rate = 0.1\n\ndef step_function(z):\n    return 1 if z >= 0 else 0\n\n# 感知器訓練\nfor epoch in range(10):\n    errors = 0\n    for xi, target in zip(X, y):\n        z = np.dot(xi, weights) + bias\n        prediction = step_function(z)\n        update = learning_rate * (target - prediction)\n        weights += update * xi\n        bias += update\n        errors += int(update != 0)\n    print(f'Epoch {epoch + 1:02d} | errors = {errors} | weights = {weights} | bias = {bias:.2f}')\n\n# 測試結果\nrows = []\nfor xi in X:\n    z = np.dot(xi, weights) + bias\n    pred = step_function(z)\n    rows.append({'x1': xi[0], 'x2': xi[1], 'weighted_sum': round(z, 2), 'prediction': pred})\n\nresult = pd.DataFrame(rows)\nprint('\\nAND 感知器預測結果：')\nprint(result)"
+    },
+    {
+      "type": "code",
+      "title": "示範：激活函數視覺化",
+      "explanation": "這段程式碼比較 Step、Sigmoid、Tanh、ReLU 的輸出曲線，觀察不同激活函數如何改變神經元輸出。",
+      "content": "import numpy as np\nimport matplotlib.pyplot as plt\n\nx = np.linspace(-5, 5, 400)\n\nstep = np.where(x >= 0, 1, 0)\nsigmoid = 1 / (1 + np.exp(-x))\ntanh = np.tanh(x)\nrelu = np.maximum(0, x)\n\nplt.figure(figsize=(10, 6))\nplt.plot(x, step, label='Step')\nplt.plot(x, sigmoid, label='Sigmoid')\nplt.plot(x, tanh, label='Tanh')\nplt.plot(x, relu, label='ReLU')\nplt.axhline(0, color='black', linewidth=0.8)\nplt.axvline(0, color='black', linewidth=0.8)\nplt.title('常見激活函數比較')\nplt.xlabel('輸入 z')\nplt.ylabel('輸出 activation(z)')\nplt.legend()\nplt.grid(True, alpha=0.3)\nplt.show()\n\nprint('觀察重點：ReLU 會保留正值並將負值變成 0；Sigmoid 會把輸出壓縮到 0 到 1。')"
+    },
+    {
+      "type": "code",
+      "title": "示範：前向傳播與反向傳播",
+      "explanation": "這段程式碼用 NumPy 建立一個極簡單的神經元，透過前向傳播產生預測，並用梯度下降更新權重與偏置。",
+      "content": "import numpy as np\n\nnp.random.seed(42)\n\n# 簡單二元分類資料：輸入越大，越可能屬於類別 1\nX = np.array([[0.1], [0.3], [0.5], [0.7], [0.9]])\ny = np.array([[0], [0], [1], [1], [1]])\n\nw = np.random.randn(1, 1) * 0.1\nb = np.zeros((1, 1))\nlearning_rate = 0.8\n\ndef sigmoid(z):\n    return 1 / (1 + np.exp(-z))\n\ndef binary_cross_entropy(y_true, y_pred):\n    eps = 1e-9\n    return -np.mean(y_true * np.log(y_pred + eps) + (1 - y_true) * np.log(1 - y_pred + eps))\n\nfor epoch in range(1200):\n    # 前向傳播\n    z = X @ w + b\n    y_pred = sigmoid(z)\n    loss = binary_cross_entropy(y, y_pred)\n\n    # 反向傳播：對 w 與 b 求梯度\n    dz = y_pred - y\n    dw = X.T @ dz / len(X)\n    db = np.mean(dz, axis=0, keepdims=True)\n\n    # 參數更新\n    w -= learning_rate * dw\n    b -= learning_rate * db\n\n    if epoch in [0, 1, 2, 10, 100, 1199]:\n        print(f'Epoch {epoch:04d} | loss = {loss:.4f} | w = {w[0, 0]:.4f} | b = {b[0, 0]:.4f}')\n\nfinal_pred = sigmoid(X @ w + b)\nprint('\\n最終預測機率：')\nprint(np.round(final_pred, 3).ravel())\nprint('最終分類結果：')\nprint((final_pred >= 0.5).astype(int).ravel())"
+    },
+    {
+      "type": "code",
+      "title": "實際應用：使用 sklearn MLPClassifier",
+      "explanation": "這段程式碼使用 sklearn 的多層感知器分類器處理非線性資料，體驗深度學習框架如何封裝前向傳播、反向傳播與參數更新。",
+      "content": "import numpy as np\nimport matplotlib.pyplot as plt\nfrom sklearn.datasets import make_moons\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.neural_network import MLPClassifier\nfrom sklearn.metrics import accuracy_score, confusion_matrix\n\nnp.random.seed(42)\n\nX, y = make_moons(n_samples=500, noise=0.25, random_state=42)\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42, stratify=y)\n\nscaler = StandardScaler()\nX_train_scaled = scaler.fit_transform(X_train)\nX_test_scaled = scaler.transform(X_test)\n\nmodel = MLPClassifier(\n    hidden_layer_sizes=(8, 4),\n    activation='relu',\n    solver='adam',\n    max_iter=2000,\n    random_state=42\n)\nmodel.fit(X_train_scaled, y_train)\n\npred = model.predict(X_test_scaled)\nacc = accuracy_score(y_test, pred)\ncm = confusion_matrix(y_test, pred)\n\nprint(f'測試集準確率：{acc:.3f}')\nprint('混淆矩陣：')\nprint(cm)\n\nplt.figure(figsize=(7, 5))\nplt.scatter(\n    X_test[:, 0],\n    X_test[:, 1],\n    c=pred,\n    cmap='coolwarm',\n    edgecolor='black',\n    alpha=0.8,\n    label='預測類別'\n)\nplt.title('MLPClassifier 在 make_moons 測試資料上的分類結果')\nplt.xlabel('特徵 1')\nplt.ylabel('特徵 2')\nplt.grid(True, alpha=0.3)\nplt.show()\n\nprint('觀察重點：多層感知器能透過隱藏層與非線性激活函數，學習 make_moons 這類非線性分類邊界。')"
+    }
+  ]
+}
