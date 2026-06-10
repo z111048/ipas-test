@@ -309,9 +309,9 @@ export default function GuidePage() {
     let cancelled = false
     setColabNotebook(null)
     if (!outlineGuide || !chapter) return
-    if (!outlineGuide.key.startsWith('中級')) return
+    if (outlineGuide.level !== '中級') return
 
-    const notebookKey = `../generated/colabNotebooks/${outlineGuide.key}/${chapter.id}.json`
+    const notebookKey = `../generated/colabNotebooks/${outlineGuide.level}/${chapter.id}.json`
     const loader = colabNotebookModules[notebookKey]
     if (!loader) return
 
