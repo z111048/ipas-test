@@ -76,66 +76,6 @@ def page_blocks(level: str, key: str, start_page: int, end_page: int) -> list[di
     return build_content_blocks(merge_split_tables(items))
 
 
-def has_vision_cache(level: str, key: str) -> bool:
-    """Return True when the pages_cache for this guide key is sufficiently complete (≥80%)."""
-    cache_dir = BASE / 'data' / level / 'pages_cache' / key
-    if not cache_dir.exists():
-        return False
-    summary_path = cache_dir / 'summary.json'
-    if summary_path.exists():
-        try:
-            data = load_json(summary_path)
-            total = data.get('total', 0)
-            missing = (data.get('missing') or 0) + (data.get('error') or 0)
-            return total > 0 and missing / total < 0.2
-        except Exception:
-            pass
-    pages = list(cache_dir.glob('page_*.json'))
-    return len(pages) > 5
-
-
-def vision_page_content(level: str, key: str, start_page: int, end_page: int) -> str:
-    """Concatenate Gemini Vision markdown for a 1-based page range."""
-    cache_dir = BASE / 'data' / level / 'pages_cache' / key
-    parts = []
-    for page_number in range(start_page, end_page + 1):
-        page_index = page_number - 1
-        page_path = cache_dir / f'page_{page_index:03d}.json'
-        if not page_path.exists():
-            continue
-        data = load_json(page_path)
-        if data.get('type') == 'skip':
-            continue
-        markdown = (data.get('markdown') or '').strip()
-        if markdown:
-            parts.append(markdown)
-    return '\n\n'.join(parts)
-
-
-def format_vision_markdown(title: str, raw_content: str) -> str:
-    """Minimal formatting for already-structured vision Markdown.
-
-    Unlike format_markdown(), this path does NOT re-parse heading markers or
-    apply OCR soft-break joining, both of which would corrupt LaTeX formulas
-    and already-correct heading levels from Gemini extraction.
-    """
-    lines = [line.rstrip() for line in raw_content.splitlines()]
-    result = [f'# {title}', '']
-    previous_blank = True
-    for line in lines:
-        if not line.strip():
-            if not previous_blank:
-                result.append('')
-                previous_blank = True
-            continue
-        result.append(line)
-        previous_blank = False
-    cleaned = re.sub(r'\n{3,}', '\n\n', '\n'.join(result).strip())
-    # Remove incidental spaces between CJK characters (safe for markdown/LaTeX)
-    cleaned = re.sub(r'(?<=[一-鿿])[ \t]+(?=[一-鿿])', '', cleaned)
-    return cleaned
-
-
 def markdown_heading_for_line(line: str, root_title: str) -> str | None:
     """Map common PDF outline markers to Markdown headings."""
     text = line.strip()
@@ -1963,7 +1903,6 @@ def build_nodes(
     depth: int = 1,
     index_path: list[int] | None = None,
     nodes_by_id: dict[str, dict] | None = None,
-    use_vision: bool = False,
 ) -> list[str]:
     if index_path is None:
         index_path = []
@@ -1995,7 +1934,6 @@ def build_nodes(
             depth=depth + 1,
             index_path=current_path,
             nodes_by_id=nodes_by_id,
-            use_vision=use_vision,
         )
         for child_id in child_node_ids:
             child_depth = nodes_by_id[child_id]['depth']
@@ -2003,29 +1941,15 @@ def build_nodes(
                 raise ValueError(f'Invalid depth for child {child_id}: {child_depth}')
 
         content_ref = f'{current_id}.json'
-        if use_vision:
-            raw_vision = vision_page_content(level, key, start_page, end_page)
-            if len(raw_vision.strip()) > 50:
-                markdown_content = format_vision_markdown(raw_node.get('title') or '', raw_vision)
-            else:
-                # Vision pages were skipped/empty — fall back to page_clean content
-                content = page_content(level, key, start_page, end_page)
-                markdown_content = format_markdown(raw_node.get('title') or '', content)
-            blocks = (
-                prebuilt_blocks_by_node.get(current_id)
-                if prebuilt_blocks_by_node is not None
-                else []
-            )
-        else:
-            content = page_content(level, key, start_page, end_page)
-            markdown_content = format_markdown(raw_node.get('title') or '', content)
-            blocks = (
-                prebuilt_blocks_by_node.get(current_id)
-                if prebuilt_blocks_by_node is not None
-                else None
-            )
-            if blocks is None:
-                blocks = post_process_guide_blocks(current_id, raw_node.get('title') or '', page_blocks(level, key, start_page, end_page))
+        content = page_content(level, key, start_page, end_page)
+        markdown_content = format_markdown(raw_node.get('title') or '', content)
+        blocks = (
+            prebuilt_blocks_by_node.get(current_id)
+            if prebuilt_blocks_by_node is not None
+            else None
+        )
+        if blocks is None:
+            blocks = post_process_guide_blocks(current_id, raw_node.get('title') or '', page_blocks(level, key, start_page, end_page))
         write_json(content_dir / content_key / content_ref, {
             'id': current_id,
             'title': raw_node.get('title') or '',
@@ -2089,9 +2013,6 @@ def export_level(level: str, content_dir: Path) -> dict[str, Any]:
         key = subject['key']
         content_key = f'{level}-{key}'
         outline = load_json(BASE / 'data' / level / 'page_clean' / key / 'outline.json')
-        use_vision = has_vision_cache(level, key)
-        if use_vision:
-            print(f'  [vision mode] {level}/{key}')
         nodes_by_id: dict[str, dict] = {}
         root_ids = build_nodes(
             level=level,
@@ -2102,7 +2023,6 @@ def export_level(level: str, content_dir: Path) -> dict[str, Any]:
             manifest_subject=subject,
             content_dir=content_dir,
             nodes_by_id=nodes_by_id,
-            use_vision=use_vision,
         )
         guide = {
             'level': level,
@@ -2140,9 +2060,6 @@ def export_level_from_guide_tree(level: str, content_dir: Path) -> dict[str, Any
         key = subject['key']
         content_key = f'{level}-{key}'
         tree, blocks_by_node = load_guide_tree(level, key)
-        use_vision = has_vision_cache(level, key)
-        if use_vision:
-            print(f'  [vision mode] {level}/{key}')
         nodes_by_id: dict[str, dict] = {}
         root_ids = build_nodes(
             level=level,
@@ -2154,7 +2071,6 @@ def export_level_from_guide_tree(level: str, content_dir: Path) -> dict[str, Any
             content_dir=content_dir,
             prebuilt_blocks_by_node=blocks_by_node,
             nodes_by_id=nodes_by_id,
-            use_vision=use_vision,
         )
         guide = {
             'level': level,
