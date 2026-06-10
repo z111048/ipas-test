@@ -101,6 +101,30 @@ python3 scripts/multi_ai_pipeline.py --level 初級 --subject 1 --chapter s1c1 -
 python3 scripts/multi_ai_pipeline.py --level 初級 --subject 1 --count 3
 ```
 
+### Colab notebook pipeline（中級章節實作練習）
+
+```bash
+# Step 1: Codex CLI 生成草稿 → 靜態/執行/Codex 三層品質檢核 → .ipynb + metadata JSON
+# 中間產物 data/{level}/pipeline/colab_notebooks/ 已 gitignored
+# 最終輸出：notebooks/中級/{chapter_id}.ipynb（committed）
+#         + frontend/src/generated/colabNotebooks/中級/{chapter_id}.json（committed）
+python3 scripts/generate_colab_notebooks.py --level 中級 --all
+python3 scripts/generate_colab_notebooks.py --level 中級 --subject 2
+python3 scripts/generate_colab_notebooks.py --level 中級 --chapter mid-s2c1
+python3 scripts/generate_colab_notebooks.py --level 中級 --chapter mid-s2c1 --force  # 強制重生成
+python3 scripts/generate_colab_notebooks.py --level 中級 --all --dry-run             # 預覽 prompt
+
+# Step 2: 從 .ipynb 重新匯出 metadata（手動編輯 .ipynb 後使用）
+python3 scripts/export_colab_metadata.py --level 中級
+python3 scripts/export_colab_metadata.py --level 中級 --chapter mid-s2c1
+
+# Step 3: Colab CLI 執行驗證（使用者手動執行）
+# colab execute notebooks/中級/mid-s2c1.ipynb
+```
+
+品質門檻：pass/warn → 輸出；fail（含嚴重程式碼問題）→ 寫入 `data/{level}/pipeline/colab_notebooks/{chapter_id}/flagged.json` 需人工審查。
+前端：GuidePage 在 `中級` 章節底部自動顯示「⚗️ 實作練習」摺疊區塊（含程式碼高亮 + Colab badge）。
+
 ### Frontend
 
 ```bash
@@ -147,6 +171,8 @@ Frontend dependencies: run `cd frontend && npm install` after cloning (requires 
 - **`scripts/export_question_generation_data.py`**: Exports seed files (guide content + existing questions per chapter) used by the question generation pipeline to provide context for `generate_questions.py` and `multi_ai_pipeline.py`.
 - **`scripts/run_codex_exam_reference_answers.py`**: Generates detailed Codex reference answers for official exam questions. Retrieves top-k guide snippets per question via BM25-style token overlap, writes prompts to `data/{level}/pipeline/exam_reference_answers/{exam_key}/prompts/`, and runs `codex exec --sandbox read-only` to produce per-question JSON. Validates output schema (answer, reference_answer, option_analysis A-D, citations). Run without `--run` to write prompts only. After running, call `export_exam_reference_answers.py` to publish to frontend. Supports `--level`, `--exam {key|all}`, `--question-id`, `--limit`, `--force`, `--top-k`, `--timeout`.
 - **`scripts/export_exam_reference_answers.py`**: Reads per-question JSON from `data/{level}/pipeline/exam_reference_answers/{exam_key}/outputs/` and merges into `frontend/src/generated/examReferenceAnswers/{route_key}.json`. Exam key → route key mapping defined in `ROUTES_BY_LEVEL`. Supports `--level`.
+- **`scripts/generate_colab_notebooks.py`**: Three-stage Colab notebook pipeline for 中級 chapters. Stage 1: Codex CLI generates draft cells (JSON). Stage 2: static checks (`ast.parse` + subprocess execution per code cell). Stage 3: Codex CLI review pass. pass/warn → writes `notebooks/{level}/{chapter_id}.ipynb` + `frontend/src/generated/colabNotebooks/{level}/{chapter_id}.json`; fail → writes `flagged.json` for human review. Supports `--level`, `--subject`, `--chapter`, `--all`, `--force`, `--dry-run`.
+- **`scripts/export_colab_metadata.py`**: Re-exports `.ipynb` files from `notebooks/{level}/` to lightweight frontend metadata JSON under `frontend/src/generated/colabNotebooks/{level}/`. Use after manually editing `.ipynb` files. Supports `--level`, `--chapter`.
 - **`frontend/`**: Vite project (React 19 + TypeScript + Tailwind CSS v4 + React Router v6 + Zustand). Source in `frontend/src/`. Build config in `frontend/vite.config.ts` — output dir is `../docs`, `@data` alias points to `../data/初級`. All JSON data is imported statically at build time (no runtime fetch). Routes use HashRouter to avoid GitHub Pages 404 issues. Chapter navigation and overview pages import `toc_manifest.json` to render titles, subtopics, PDF page ranges, and quick-links — do not add hardcoded chapter arrays back.
 - The study-question pages are reached from sidebar `✏️` items (route `/practice/:subjectId/:chapterId`). On mobile widths the sidebar is hidden behind the `☰` drawer button, so navigation regressions should be checked there too.
 

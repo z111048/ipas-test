@@ -8,14 +8,16 @@ import rehypeRaw from 'rehype-raw'
 import rehypeKatex from 'rehype-katex'
 import guideOutlinesRaw from '../generated/guideOutlines.json'
 import guideImagesRaw from '../generated/guideImages.json'
-import type { GuideBlock, GuideContent, GuideImageAsset, GuideImagesData, GuideOutlineNode, GuideOutlinesData } from '../types'
+import type { ColabNotebook, GuideBlock, GuideContent, GuideImageAsset, GuideImagesData, GuideOutlineNode, GuideOutlinesData } from '../types'
 import { GUIDE_NOTICES } from '../constants/guideNotices'
 import GuideOutlineTree from '../components/guide/GuideOutlineTree'
+import ColabSection from '../components/guide/ColabSection'
 import { publicAsset } from '../utils/assets'
 
 const guideOutlines = guideOutlinesRaw as unknown as GuideOutlinesData
 const guideImages = guideImagesRaw as unknown as GuideImagesData
 const guideContentModules = import.meta.glob<{ default: GuideContent }>('../generated/guideContent/*/*.json')
+const colabNotebookModules = import.meta.glob<{ default: ColabNotebook }>('../generated/colabNotebooks/*/*.json')
 
 function normalizeOcrSoftBreaks(text: string) {
   const structuralLine = /^(#{1,6}\s|[-*+]\s|\d+\.\s|[A-Z]\.\s|[a-z]\.\s|[|>`~])/
@@ -266,6 +268,7 @@ export default function GuidePage() {
   const chapter = chapterId && outlineGuide ? outlineGuide.nodesById[chapterId] : undefined
   const [content, setContent] = useState<GuideContent | null>(null)
   const [contentError, setContentError] = useState<string | null>(null)
+  const [colabNotebook, setColabNotebook] = useState<ColabNotebook | null>(null)
   const contentScrollRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -297,6 +300,25 @@ export default function GuidePage() {
     return () => {
       cancelled = true
     }
+  }, [chapter, outlineGuide])
+
+  // Load Colab notebook for 中級 chapters
+  useEffect(() => {
+    let cancelled = false
+    setColabNotebook(null)
+    if (!outlineGuide || !chapter) return
+    if (!outlineGuide.key.startsWith('中級')) return
+
+    const notebookKey = `../generated/colabNotebooks/${outlineGuide.key}/${chapter.id}.json`
+    const loader = colabNotebookModules[notebookKey]
+    if (!loader) return
+
+    loader()
+      .then((module) => {
+        if (!cancelled) setColabNotebook(module.default)
+      })
+      .catch(() => {/* silently ignore missing notebooks */})
+    return () => { cancelled = true }
   }, [chapter, outlineGuide])
 
   const breadcrumb = useMemo(() => {
@@ -599,6 +621,7 @@ export default function GuidePage() {
             )}
           </div>
           )}
+          {colabNotebook && <ColabSection notebook={colabNotebook} />}
         </div>
       </div>
     </div>

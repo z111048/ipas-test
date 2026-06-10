@@ -279,3 +279,18 @@ export interface PdfImageGallery {
   total: number
   items: PdfImageAsset[]
 }
+
+export interface ColabCell {
+  type: 'markdown' | 'code'
+  title?: string
+  explanation?: string
+  content: string
+}
+
+export interface ColabNotebook {
+  chapter_id: string
+  chapter_title: string
+  colab_url: string
+  status?: 'pass' | 'warn'
+  cells: ColabCell[]
+}
