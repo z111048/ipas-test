@@ -201,11 +201,11 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
       className={`
         fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-[272px] bg-[#132b43] text-white
         flex-shrink-0 z-50 transition-transform duration-300
-        md:sticky md:top-0 md:left-auto md:h-full md:translate-x-0 md:z-auto
+        md:relative md:top-auto md:left-auto md:h-full md:translate-x-0 md:z-auto
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
       `}
     >
-      <div className="h-full overflow-y-auto overflow-x-hidden pb-8 scrollbar-hidden border-r border-slate-950/20">
+      <div className="h-full overflow-y-auto overflow-x-hidden pb-8 overscroll-contain scrollbar-sidebar border-r border-slate-950/20">
         {/* 首頁 */}
         <div className="pt-2 pb-1">
           <NavLink
