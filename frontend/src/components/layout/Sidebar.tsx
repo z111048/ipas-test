@@ -201,7 +201,7 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
       className={`
         fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-[272px] bg-[#132b43] text-white
         flex-shrink-0 z-50 transition-transform duration-300
-        md:relative md:top-auto md:left-auto md:h-full md:translate-x-0 md:z-auto
+        md:sticky md:top-0 md:left-auto md:h-full md:translate-x-0 md:z-auto
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
       `}
     >
