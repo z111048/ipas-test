@@ -64,6 +64,51 @@ export interface ExamReferenceAnswer {
   notes?: string
 }
 
+export interface GuideExamAnnotation {
+  id: string
+  examKey: string
+  examLabel: string
+  examTitle: string
+  route: string
+  questionId: string
+  referenceQuestionId?: string
+  questionNumber: number
+  question: string
+  answer: 'A' | 'B' | 'C' | 'D'
+  confidence?: 'high' | 'medium' | 'low'
+  reasons?: string[]
+}
+
+export interface GuideExamAnnotationsChapterData {
+  guideKey: string
+  nodeId: string
+  stats: {
+    questions: number
+    guideBlocks: number
+    annotations: number
+  }
+  blocks: Record<string, GuideExamAnnotation[]>
+}
+
+export interface GuideExamAnnotationsIndexData {
+  source: string
+  scope: 'officialPastExams'
+  stats: {
+    exams: number
+    questions: number
+    guideNodes: number
+    guideBlocks: number
+    annotations: number
+    missingQuestions: number
+    missingBlocks: number
+  }
+  byGuide: Record<string, Record<string, {
+    questions: number
+    guideBlocks: number
+    annotations: number
+  }>>
+}
+
 export interface Chapter {
   id: string
   title: string

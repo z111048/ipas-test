@@ -8,7 +8,8 @@ import rehypeRaw from 'rehype-raw'
 import rehypeKatex from 'rehype-katex'
 import guideOutlinesRaw from '../generated/guideOutlines.json'
 import guideImagesRaw from '../generated/guideImages.json'
-import type { ColabNotebook, GuideBlock, GuideContent, GuideFormula, GuideImageAsset, GuideImagesData, GuideOutlineNode, GuideOutlinesData } from '../types'
+import guideExamAnnotationsIndexRaw from '../generated/guideExamAnnotations/index.json'
+import type { ColabNotebook, GuideBlock, GuideContent, GuideExamAnnotation, GuideExamAnnotationsChapterData, GuideExamAnnotationsIndexData, GuideFormula, GuideImageAsset, GuideImagesData, GuideOutlineNode, GuideOutlinesData } from '../types'
 import { GUIDE_NOTICES } from '../constants/guideNotices'
 import GuideOutlineTree from '../components/guide/GuideOutlineTree'
 import ColabSection from '../components/guide/ColabSection'
@@ -16,8 +17,10 @@ import { publicAsset } from '../utils/assets'
 
 const guideOutlines = guideOutlinesRaw as unknown as GuideOutlinesData
 const guideImages = guideImagesRaw as unknown as GuideImagesData
+const guideExamAnnotationsIndex = guideExamAnnotationsIndexRaw as unknown as GuideExamAnnotationsIndexData
 const guideContentModules = import.meta.glob<{ default: GuideContent }>('../generated/guideContent/*/*.json')
 const colabNotebookModules = import.meta.glob<{ default: ColabNotebook }>('../generated/colabNotebooks/*/*.json')
+const guideExamAnnotationModules = import.meta.glob<{ default: GuideExamAnnotationsChapterData }>('../generated/guideExamAnnotations/*/*.json')
 
 function normalizeOcrSoftBreaks(text: string) {
   const structuralLine = /^(#{1,6}\s|[-*+]\s|\d+\.\s|[A-Z]\.\s|[a-z]\.\s|[|>`~])/
@@ -224,7 +227,64 @@ function GuideImageFigure({ image, depth }: { image: GuideImageAsset; depth: num
   )
 }
 
-function GuideBlocksRenderer({ blocks, images }: { blocks: GuideBlock[]; images: GuideImageAsset[] }) {
+function GuideExamReferenceNotes({ annotations, depth }: { annotations: GuideExamAnnotation[]; depth: number }) {
+  if (annotations.length === 0) return null
+  const visibleAnnotations = annotations.slice(0, 8)
+  const hiddenCount = annotations.length - visibleAnnotations.length
+  const examLabels = Array.from(new Set(annotations.map((annotation) => annotation.examLabel)))
+
+  return (
+    <details
+      className="guide-depth-block my-3 rounded-md border border-[#f2d5a2] bg-[#fffaf1] px-3 py-2 text-[0.82rem] leading-6 text-app-text"
+      style={blockIndentStyle(depth)}
+    >
+      <summary className="cursor-pointer text-primary">
+        <span className="font-semibold">歷屆試題</span>
+        <span className="ml-2 text-[0.76rem] text-text-light">
+          {annotations.length} 題曾引用此段
+          {examLabels.length > 0 ? ` · ${examLabels.slice(0, 2).join('、')}${examLabels.length > 2 ? ` 等 ${examLabels.length} 份` : ''}` : ''}
+        </span>
+      </summary>
+      <div className="mt-2 space-y-2">
+        {visibleAnnotations.map((annotation) => (
+          <div key={annotation.id} className="border-t border-[#f3dfbd] pt-2 first:border-t-0 first:pt-0">
+            <div className="flex flex-wrap items-center gap-2">
+              <Link to={annotation.route} className="font-semibold text-accent no-underline hover:underline">
+                {annotation.examLabel} 第 {annotation.questionNumber} 題
+              </Link>
+              <span className="rounded-full border border-[#f3dfbd] bg-white px-2 py-0.5 text-[0.72rem] font-semibold text-primary">
+                答案 {annotation.answer}
+              </span>
+            </div>
+            <div className="mt-1 text-[0.8rem] leading-6 text-app-text content-justify">
+              {annotation.question}
+            </div>
+            {annotation.reasons?.[0] && (
+              <div className="mt-1 text-[0.75rem] leading-5 text-text-light">
+                {annotation.reasons[0]}
+              </div>
+            )}
+          </div>
+        ))}
+        {hiddenCount > 0 && (
+          <div className="border-t border-[#f3dfbd] pt-2 text-[0.76rem] text-text-light">
+            另有 {hiddenCount} 題引用此區塊。
+          </div>
+        )}
+      </div>
+    </details>
+  )
+}
+
+function GuideBlocksRenderer({
+  blocks,
+  images,
+  examAnnotations,
+}: {
+  blocks: GuideBlock[]
+  images: GuideImageAsset[]
+  examAnnotations: Record<string, GuideExamAnnotation[]>
+}) {
   const imagesByHeading = images.reduce<Record<string, GuideImageAsset[]>>((acc, image) => {
     if (!image.headingBlockId) return acc
     acc[image.headingBlockId] = [...(acc[image.headingBlockId] ?? []), image]
@@ -235,13 +295,15 @@ function GuideBlocksRenderer({ blocks, images }: { blocks: GuideBlock[]; images:
 
   const renderWithImages = (block: GuideBlock, element: React.ReactNode) => {
     const blockImages = imagesByHeading[block.id] ?? []
-    if (blockImages.length === 0) return element
+    const blockAnnotations = examAnnotations[block.id] ?? []
+    if (blockImages.length === 0 && blockAnnotations.length === 0) return element
     return (
-      <div key={`${block.id}-with-images`}>
+      <div key={`${block.id}-with-extras`}>
         {element}
         {blockImages.map((image) => (
           <GuideImageFigure key={image.id} image={image} depth={block.depth} />
         ))}
+        <GuideExamReferenceNotes annotations={blockAnnotations} depth={block.depth} />
       </div>
     )
   }
@@ -340,6 +402,7 @@ export default function GuidePage() {
   const chapter = chapterId && outlineGuide ? outlineGuide.nodesById[chapterId] : undefined
   const [content, setContent] = useState<GuideContent | null>(null)
   const [contentError, setContentError] = useState<string | null>(null)
+  const [examAnnotationsByBlock, setExamAnnotationsByBlock] = useState<Record<string, GuideExamAnnotation[]>>({})
   const [colabNotebook, setColabNotebook] = useState<ColabNotebook | null>(null)
   const [showDrawer, setShowDrawer] = useState(false)
   const contentScrollRef = useRef<HTMLDivElement | null>(null)
@@ -370,6 +433,27 @@ export default function GuidePage() {
         if (!cancelled) {
           setContentError(error instanceof Error ? error.message : 'unknown error')
         }
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [chapter, outlineGuide])
+
+  useEffect(() => {
+    let cancelled = false
+    setExamAnnotationsByBlock({})
+    if (!outlineGuide || !chapter) return
+
+    const moduleKey = `../generated/guideExamAnnotations/${outlineGuide.key}/${chapter.id}.json`
+    const loader = guideExamAnnotationModules[moduleKey]
+    if (!loader) return
+
+    loader()
+      .then((module) => {
+        if (!cancelled) setExamAnnotationsByBlock(module.default.blocks ?? {})
+      })
+      .catch(() => {
+        if (!cancelled) setExamAnnotationsByBlock({})
       })
     return () => {
       cancelled = true
@@ -416,6 +500,11 @@ export default function GuidePage() {
   const hasBlocks = contentBlocks.length > 0
   const guideImageKey = `${outlineGuide.sourceKey ?? outlineGuide.key}:${chapter.id}`
   const chapterImages = guideImages.byChapter[guideImageKey] ?? []
+  const chapterExamAnnotationSummary = guideExamAnnotationsIndex.byGuide[outlineGuide.key]?.[chapter.id]
+  const loadedExamAnnotationItems = Object.values(examAnnotationsByBlock).flat()
+  const loadedExamQuestionCount = new Set(loadedExamAnnotationItems.map((annotation) => annotation.id)).size
+  const chapterExamQuestionCount = chapterExamAnnotationSummary?.questions ?? loadedExamQuestionCount
+  const chapterExamBlockCount = chapterExamAnnotationSummary?.guideBlocks ?? Object.keys(examAnnotationsByBlock).length
   const normalizedBody = normalizeOcrSoftBreaks(body)
   const isMarkdown = content?.contentFormat === 'markdown' || body.trimStart().startsWith('#') || body.trimStart().startsWith('##')
   const paragraphs = hasBlocks
@@ -482,6 +571,11 @@ export default function GuidePage() {
           <div className="hidden sm:flex flex-wrap gap-2">
             <span className="pill">{pageRange}</span>
             <span className="pill pill-muted">{paragraphs.length} 段落</span>
+            {chapterExamQuestionCount > 0 && (
+              <span className="pill">
+                歷屆試題 {chapterExamQuestionCount} 題
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -521,6 +615,11 @@ export default function GuidePage() {
           <span className="pill">
             {pageRange}
           </span>
+          {chapterExamQuestionCount > 0 && (
+            <span className="pill">
+              歷屆試題 {chapterExamQuestionCount} 題 / {chapterExamBlockCount} 處
+            </span>
+          )}
           {sourcePages.length > 0 && (
             <span className="pill">
               PDF {sourcePages[0].label || sourcePages[0].page}–{sourcePages[sourcePages.length - 1].label || sourcePages[sourcePages.length - 1].page}
@@ -643,7 +742,11 @@ export default function GuidePage() {
           ) : (
           <div className="surface p-4 sm:p-5">
             {hasBlocks ? (
-              <GuideBlocksRenderer blocks={contentBlocks} images={chapterImages} />
+              <GuideBlocksRenderer
+                blocks={contentBlocks}
+                images={chapterImages}
+                examAnnotations={examAnnotationsByBlock}
+              />
             ) : isMarkdown ? (
               <div className="guide-content prose prose-sm max-w-none text-[0.9rem] leading-8 text-app-text content-justify">
               <ReactMarkdown
