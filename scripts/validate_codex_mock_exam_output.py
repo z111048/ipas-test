@@ -11,6 +11,8 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
+from question_dedupe import find_similar_question_pairs, question_label
+
 BASE = Path('/home/james/projects/ipas-test')
 LEVEL = '中級'
 TOTAL = 100
@@ -115,6 +117,19 @@ def validate(path: Path) -> list[str]:
                     errors.append(f'{where} missing card.{key}')
             if card.get('frequency') not in {'高', '中', '低'}:
                 errors.append(f'{where} invalid card.frequency: {card.get("frequency")!r}')
+
+    questions_by_chapter: dict[str, list[dict[str, Any]]] = {}
+    for question in questions:
+        if isinstance(question, dict):
+            chapter_id = str(question.get('chapter_id') or '')
+            questions_by_chapter.setdefault(chapter_id, []).append(question)
+    for chapter_id, chapter_questions in questions_by_chapter.items():
+        for left_index, right_index, ratio, left, right in find_similar_question_pairs(chapter_questions):
+            errors.append(
+                f'{chapter_id} near-duplicate question stem '
+                f'{question_label(left, left_index)} <> {question_label(right, right_index)} '
+                f'(similarity={ratio:.2f})'
+            )
 
     return errors
 

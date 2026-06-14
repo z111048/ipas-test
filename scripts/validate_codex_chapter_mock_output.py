@@ -9,6 +9,8 @@ import re
 from pathlib import Path
 from typing import Any
 
+from question_dedupe import find_similar_question_pairs, question_label
+
 BASE = Path('/home/james/projects/ipas-test')
 LEVEL = '中級'
 
@@ -111,6 +113,14 @@ def validate_file(path: Path) -> list[str]:
                     errors.append(f'{prefix}.card.{field} is required')
             if card.get('frequency') not in {'高', '中', '低'}:
                 errors.append(f'{prefix}.card.frequency must be 高/中/低')
+
+    valid_questions = [question for question in questions if isinstance(question, dict)]
+    for left_index, right_index, ratio, left, right in find_similar_question_pairs(valid_questions):
+        errors.append(
+            'near-duplicate question stem '
+            f'{question_label(left, left_index)} <> {question_label(right, right_index)} '
+            f'(similarity={ratio:.2f})'
+        )
 
     return errors
 

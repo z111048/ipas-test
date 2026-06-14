@@ -9,6 +9,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
+from question_dedupe import find_similar_question_pairs, question_label
 from run_codex_question_batch_generation import validate_batch
 from validate_codex_chapter_mock_output import validate_file
 
@@ -77,6 +78,12 @@ def main() -> None:
                 source = 'batch'
                 for path in batch_outputs:
                     chapter_questions.extend(load_json(path)['questions'])
+                for left_index, right_index, ratio, left, right in find_similar_question_pairs(chapter_questions):
+                    errors.append(
+                        'near-duplicate question stem '
+                        f'{question_label(left, left_index)} <> {question_label(right, right_index)} '
+                        f'(similarity={ratio:.2f})'
+                    )
             else:
                 path = full_chapter_output(chapter_dir, subject_order_by_id[subject_id], chapter_order, chapter_id)
                 if path.exists():
@@ -85,7 +92,7 @@ def main() -> None:
                         source = 'chapter'
                         chapter_questions = load_json(path)['questions']
 
-            complete = len(chapter_questions) == expected_count
+            complete = len(chapter_questions) == expected_count and not errors
             if complete:
                 merged_questions.extend(chapter_questions)
             chapters_status.append({

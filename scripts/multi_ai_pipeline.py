@@ -26,6 +26,12 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from pathlib import Path
 
+from question_dedupe import (
+    find_similar_question_pairs,
+    find_similar_question_pairs_between,
+    question_label,
+)
+
 BASE = Path('/home/james/projects/ipas-test')
 LOG_DIR = BASE / 'logs'
 
@@ -586,27 +592,56 @@ def merge_into_subject_questions(
     guide_chapters: list,
     chapter_id: str,
     new_questions: list,
-):
-    """Append new questions to the chapter entry in subject_data (in-place)."""
+) -> int:
+    """Append non-duplicate new questions to the chapter entry in subject_data."""
     chapter_map = {ch['id']: ch for ch in subject_data.get('chapters', [])}
     guide_map = {ch['id']: ch for ch in guide_chapters}
 
     existing = chapter_map.get(chapter_id, {})
-    existing_count = len(existing.get('questions', []))
+    existing_questions = existing.get('questions', [])
+    existing_count = len(existing_questions)
 
-    for i, q in enumerate(new_questions, existing_count + 1):
+    skip_indexes: set[int] = set()
+    for left_index, right_index, ratio, left, right in find_similar_question_pairs(new_questions):
+        skip_indexes.add(right_index)
+        log.warning(
+            "[%s] skipping near-duplicate generated question %s vs %s (similarity=%.2f)",
+            chapter_id,
+            question_label(right, right_index),
+            question_label(left, left_index),
+            ratio,
+        )
+    for current_index, previous_index, ratio, current, previous in find_similar_question_pairs_between(
+        new_questions, existing_questions
+    ):
+        skip_indexes.add(current_index)
+        log.warning(
+            "[%s] skipping generated question similar to existing %s vs %s (similarity=%.2f)",
+            chapter_id,
+            question_label(current, current_index),
+            question_label(previous, previous_index),
+            ratio,
+        )
+
+    filtered_questions = [
+        question for index, question in enumerate(new_questions)
+        if index not in skip_indexes
+    ]
+
+    for i, q in enumerate(filtered_questions, existing_count + 1):
         q['id'] = f'{chapter_id}q{i}_multi'
+        q['chapter_id'] = chapter_id
         q.setdefault('source', 'multi_ai_pipeline')
         q.setdefault('level', subject_data.get('level', ''))
 
     if chapter_id in chapter_map:
-        chapter_map[chapter_id].setdefault('questions', []).extend(new_questions)
+        chapter_map[chapter_id].setdefault('questions', []).extend(filtered_questions)
     else:
         guide_ch = guide_map.get(chapter_id, {})
         chapter_map[chapter_id] = {
             'id': chapter_id,
             'title': guide_ch.get('title', chapter_id),
-            'questions': new_questions,
+            'questions': filtered_questions,
         }
 
     # Rebuild chapters list preserving original order, then guide chapters
@@ -614,6 +649,7 @@ def merge_into_subject_questions(
     guide_ids = [ch['id'] for ch in guide_chapters]
     all_ids = original_ids + [i for i in guide_ids if i not in original_ids]
     subject_data['chapters'] = [chapter_map[i] for i in all_ids if i in chapter_map]
+    return len(filtered_questions)
 
 # ---------------------------------------------------------------------------
 # Chapter pipeline
@@ -752,13 +788,13 @@ def run_subject_pipeline(args: argparse.Namespace, available: dict):
 
         if result['status'] not in ('failed_creation',) and not args.dry_run:
             final_qs = result.get('final_questions', [])
-            merge_into_subject_questions(
+            added_count = merge_into_subject_questions(
                 subject_data,
                 guide['chapters'],
                 chapter['id'],
                 final_qs,
             )
-            total_generated += len(final_qs)
+            total_generated += added_count
             total_flagged += result.get('questions_flagged', 0)
 
     if not args.dry_run:

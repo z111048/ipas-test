@@ -12,6 +12,12 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
+from question_dedupe import (
+    find_similar_question_pairs,
+    find_similar_question_pairs_between,
+    question_label,
+)
+
 BASE = Path('/home/james/projects/ipas-test')
 DEFAULT_RUN_DIR = BASE / 'data' / '中級' / 'pipeline' / 'codex_question_batch_prompts'
 SCHEMA_PATH = BASE / 'schemas' / 'middle_mock_exam_chapter.schema.json'
@@ -84,6 +90,68 @@ def validate_batch(path: Path, batch: dict) -> list[str]:
                 if not isinstance(card.get(field), str) or not card[field].strip():
                     errors.append(f'{prefix}.card.{field} is required')
 
+    valid_questions = [question for question in questions if isinstance(question, dict)]
+    for left_index, right_index, ratio, left, right in find_similar_question_pairs(valid_questions):
+        errors.append(
+            'near-duplicate question stem inside batch '
+            f'{question_label(left, left_index)} <> {question_label(right, right_index)} '
+            f'(similarity={ratio:.2f})'
+        )
+
+    return errors
+
+
+def previous_batches(summary: dict[str, Any], batch: dict[str, Any]) -> list[dict[str, Any]]:
+    by_output = {item['output']: item for item in summary.get('batches', [])}
+    explicit_previous = [
+        by_output[path]
+        for path in batch.get('previous_outputs', [])
+        if path in by_output
+    ]
+    if explicit_previous:
+        return explicit_previous
+    return [
+        item
+        for item in summary.get('batches', [])
+        if item.get('chapter_id') == batch.get('chapter_id')
+        and item.get('first_question', 0) < batch.get('first_question', 0)
+    ]
+
+
+def load_previous_questions(summary: dict[str, Any], batch: dict[str, Any]) -> list[dict[str, Any]]:
+    questions: list[dict[str, Any]] = []
+    for previous in previous_batches(summary, batch):
+        path = BASE / previous['output']
+        if not path.exists() or validate_batch(path, previous):
+            continue
+        data = load_json(path)
+        questions.extend(
+            question for question in data.get('questions', [])
+            if isinstance(question, dict)
+        )
+    return questions
+
+
+def validate_against_previous(
+    path: Path,
+    previous_questions: list[dict[str, Any]],
+) -> list[str]:
+    if not previous_questions:
+        return []
+    data = load_json(path)
+    current_questions = [
+        question for question in data.get('questions', [])
+        if isinstance(question, dict)
+    ]
+    errors = []
+    for current_index, previous_index, ratio, current, previous in find_similar_question_pairs_between(
+        current_questions, previous_questions
+    ):
+        errors.append(
+            'near-duplicate question stem against previous batch '
+            f'{question_label(current, current_index)} <> {question_label(previous, previous_index)} '
+            f'(similarity={ratio:.2f})'
+        )
     return errors
 
 
@@ -153,6 +221,7 @@ def main() -> None:
 
         if output_path.exists() and not args.force:
             errors = validate_batch(output_path, batch)
+            errors.extend(validate_against_previous(output_path, load_previous_questions(summary, batch)))
             if not errors:
                 skipped += 1
                 print(f'SKIP {label}')
@@ -166,6 +235,7 @@ def main() -> None:
 
         if ok and output_path.exists():
             errors = validate_batch(output_path, batch)
+            errors.extend(validate_against_previous(output_path, load_previous_questions(summary, batch)))
             if errors:
                 failed += 1
                 print(f'FAIL {label}: validation errors')

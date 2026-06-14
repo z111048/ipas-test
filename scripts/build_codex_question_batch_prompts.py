@@ -44,7 +44,14 @@ def chunks(total: int, size: int) -> list[tuple[int, int]]:
     return ranges
 
 
-def build_prompt(subject: dict, chapter: dict, first_question: int, count: int, output_path: Path) -> str:
+def build_prompt(
+    subject: dict,
+    chapter: dict,
+    first_question: int,
+    count: int,
+    output_path: Path,
+    previous_outputs: list[Path],
+) -> str:
     subject_id = subject['id']
     subject_no = SUBJECT_NUMBER[subject_id]
     guide_path = f'data/中級/guide/subject{subject_no}_guide.json'
@@ -55,6 +62,11 @@ def build_prompt(subject: dict, chapter: dict, first_question: int, count: int, 
     chapter_json = json.dumps(chapter, ensure_ascii=False, indent=2)
     last_question = first_question + count - 1
     first_id = f'{chapter["id"]}q{first_question:03d}_codex100'
+    previous_output_lines = (
+        '\n'.join(f'    - `{path.relative_to(BASE).as_posix()}`' for path in previous_outputs)
+        if previous_outputs
+        else '    - 無，本批是此章第一批。'
+    )
 
     return dedent(f"""\
     你是 iPAS「AI 應用規劃師（中級）」命題專家。請在 Codex CLI 的 read-only sandbox 內工作。
@@ -82,11 +94,14 @@ def build_prompt(subject: dict, chapter: dict, first_question: int, count: int, 
     - 中級官方考試樣題解析：`{sample_exam_path}`
     - 目前既有章節題：`{current_questions_path}`（用於避免重複）
     - 中級關鍵字表：`{glossary_path}`（用於術語一致性）
+    - 同章前批 Codex 輸出（若檔案存在，必讀並避免重複）：
+{previous_output_lines}
 
     ## 出題策略
     - 請先從 `{guide_path}` 找出 chapter_id = `{chapter['id']}` 的章節內容，只依此章與其 subtopics 出題。
     - 參考 `{official_exam_path}` 和 `{sample_exam_path}` 的題型、語氣、選項長度與情境敘述方式，但不可抄題、不可只替換名詞。
     - 避免與 `{current_questions_path}` 既有題目高度相似。
+    - 若本章前批 Codex 輸出檔存在，必須先讀取其 questions，避免與前批題幹、情境、正確答案概念高度相似。
     - 本批必須剛好產生 {count} 題。
     - 本批題目需覆蓋不同概念，不要只集中在同一小節。
 
@@ -165,13 +180,14 @@ def main() -> None:
         subject = subjects[subject_id]
         counts = allocation(subject['chapters'])
         for chapter_order, chapter in enumerate(subject['chapters'], start=1):
+            previous_outputs: list[Path] = []
             for first_question, count in chunks(counts[chapter['id']], args.batch_size):
                 batch_index += 1
                 last_question = first_question + count - 1
                 prefix = f'{subject_order:02d}_{chapter_order:02d}_{chapter["id"]}_q{first_question:03d}-{last_question:03d}'
                 prompt_path = prompt_dir / f'{prefix}.prompt.md'
                 output_path = result_dir / f'{prefix}.json'
-                write_text(prompt_path, build_prompt(subject, chapter, first_question, count, output_path))
+                write_text(prompt_path, build_prompt(subject, chapter, first_question, count, output_path, previous_outputs))
                 commands.append(
                     'codex exec '
                     f'--cd {BASE.as_posix()} '
@@ -191,7 +207,9 @@ def main() -> None:
                     'count': count,
                     'prompt': prompt_path.relative_to(BASE).as_posix(),
                     'output': output_path.relative_to(BASE).as_posix(),
+                    'previous_outputs': [path.relative_to(BASE).as_posix() for path in previous_outputs],
                 })
+                previous_outputs.append(output_path)
 
     write_text(out_dir / 'run_codex_readonly.sh', '#!/usr/bin/env bash\nset -euo pipefail\n\n' + '\n\n'.join(commands) + '\n')
     write_text(out_dir / 'summary.json', json.dumps(summary, ensure_ascii=False, indent=2) + '\n')

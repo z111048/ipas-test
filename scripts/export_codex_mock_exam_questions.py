@@ -8,6 +8,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from question_dedupe import find_similar_question_pairs, question_label
+
 BASE = Path('/home/james/projects/ipas-test')
 LEVEL = '中級'
 SOURCE_DIR = BASE / 'data' / LEVEL / 'pipeline' / 'codex_mock_exam_generated'
@@ -46,6 +48,12 @@ def export_subject(subject_id: str, manifest_subject: dict[str, Any]) -> Path:
     chapters = []
     for chapter in manifest_subject['chapters']:
         chapter_questions = questions_by_chapter.get(chapter['id'], [])
+        for left_index, right_index, ratio, left, right in find_similar_question_pairs(chapter_questions):
+            raise ValueError(
+                f'{subject_id} {chapter["id"]} near-duplicate question stem: '
+                f'{question_label(left, left_index)} <> {question_label(right, right_index)} '
+                f'(similarity={ratio:.2f})'
+            )
         chapters.append({
             'id': chapter['id'],
             'title': chapter['title'],
