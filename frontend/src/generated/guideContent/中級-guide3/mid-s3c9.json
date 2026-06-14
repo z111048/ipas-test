@@ -944,7 +944,8 @@
         523.48,
         734.73
       ],
-      "id": "block-60"
+      "id": "block-60",
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th></th>\n<th>Positive</th>\n<th>Negative</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>預測為正類</td>\n<td>真正（TP）<br />（True Positive）</td>\n<td>假正（FP）<br />（False Positive）</td>\n</tr>\n<tr>\n<td>預測為負類</td>\n<td>假負（FN）<br />（False Negative）</td>\n<td>真負（TN）<br />（True Negative）</td>\n</tr>\n</tbody>\n</table>"
     },
     {
       "type": "list_item",
@@ -1042,7 +1043,14 @@
         303.43,
         268.96
       ],
-      "id": "block-67"
+      "id": "block-67",
+      "formulas": [
+        {
+          "latex": "\\text{Accuracy} = \\frac{TP+TN}{TP+TN+FP+FN}",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -1112,7 +1120,14 @@
         268.39,
         426.52
       ],
-      "id": "block-72"
+      "id": "block-72",
+      "formulas": [
+        {
+          "latex": "\\text{Precision} = \\frac{TP}{TP+FP}",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -1182,7 +1197,14 @@
         251.47,
         559.14
       ],
-      "id": "block-77"
+      "id": "block-77",
+      "formulas": [
+        {
+          "latex": "\\text{Recall} = \\frac{TP}{TP+FN}",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -1252,7 +1274,13 @@
         290.11,
         692.13
       ],
-      "id": "block-82"
+      "id": "block-82",
+      "formulas": [
+        {
+          "latex": "F1 = 2 \\cdot \\frac{\\text{Precision} \\cdot \\text{Recall}}{\\text{Precision} + \\text{Recall}}",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -1448,7 +1476,14 @@
         332.85,
         730.17
       ],
-      "id": "block-96"
+      "id": "block-96",
+      "formulas": [
+        {
+          "latex": "MSE = \\frac{1}{n} \\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -1546,7 +1581,14 @@
         363.81,
         243.97
       ],
-      "id": "block-103"
+      "id": "block-103",
+      "formulas": [
+        {
+          "latex": "R^2 = 1 - \\frac{\\sum_{i=1}^n(y_i - \\hat{y}_i)^2}{\\sum_{i=1}^n(y_i - \\bar{y})^2} = 1 - \\frac{RSS}{TSS}",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -1854,7 +1896,14 @@
         161.65
       ],
       "indentFirstLine": true,
-      "id": "block-125"
+      "id": "block-125",
+      "formulas": [
+        {
+          "latex": "RSS = \\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -1924,7 +1973,14 @@
         310.6
       ],
       "indentFirstLine": true,
-      "id": "block-130"
+      "id": "block-130",
+      "formulas": [
+        {
+          "latex": "TSS = \\sum_{i=1}^{n} (y_i - \\bar{y})^2",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",

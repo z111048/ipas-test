@@ -1533,7 +1533,14 @@
         756.8
       ],
       "indentFirstLine": true,
-      "id": "block-101"
+      "id": "block-101",
+      "formulas": [
+        {
+          "latex": "\\text{Softmax}(z_i) = \\frac{e^{z_i}}{\\sum_{j=1}^{K} e^{z_j}}",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -1701,7 +1708,13 @@
         390.5
       ],
       "indentFirstLine": false,
-      "id": "block-113"
+      "id": "block-113",
+      "formulas": [
+        {
+          "latex": "\\text{ReLU}(x) = \\max(0, x)",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -1869,7 +1882,14 @@
         698.18
       ],
       "indentFirstLine": false,
-      "id": "block-125"
+      "id": "block-125",
+      "formulas": [
+        {
+          "latex": "\\sigma(x) = \\frac{1}{1 + e^{-x}}",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -2695,7 +2715,13 @@
         460.86
       ],
       "indentFirstLine": false,
-      "id": "block-184"
+      "id": "block-184",
+      "formulas": [
+        {
+          "latex": "\\theta_{t+1} = \\theta_t - \\eta \\cdot \\nabla_{\\theta} L(\\theta_t)",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -2891,7 +2917,13 @@
         211.67
       ],
       "indentFirstLine": false,
-      "id": "block-198"
+      "id": "block-198",
+      "formulas": [
+        {
+          "latex": "v_{t+1} = \\gamma \\cdot v_t + \\eta \\cdot \\nabla_\\theta L(\\theta_t)",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -3073,7 +3105,13 @@
         371.37,
         636.31
       ],
-      "id": "block-211"
+      "id": "block-211",
+      "formulas": [
+        {
+          "latex": "\\theta_{t+1} = \\theta_t - v_{t+1}",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -3255,7 +3293,14 @@
         352.77,
         360.62
       ],
-      "id": "block-224"
+      "id": "block-224",
+      "formulas": [
+        {
+          "latex": "m_t = \\beta_1 \\cdot m_{t-1} + (1 - \\beta_1) \\cdot \\nabla_{\\theta} L(\\theta_t)",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -3269,7 +3314,14 @@
         362.25,
         418.22
       ],
-      "id": "block-225"
+      "id": "block-225",
+      "formulas": [
+        {
+          "latex": "v_t = \\beta_2 \\cdot v_{t-1} + (1 - \\beta_2) \\cdot (\\nabla_{\\theta} L(\\theta_t))^2",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -3283,7 +3335,14 @@
         234.43,
         508.48
       ],
-      "id": "block-226"
+      "id": "block-226",
+      "formulas": [
+        {
+          "latex": "\\hat{m}_t = \\frac{m_t}{1 - \\beta_1^t}",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "paragraph",
@@ -3297,7 +3356,13 @@
         607.36
       ],
       "indentFirstLine": false,
-      "id": "block-227"
+      "id": "block-227",
+      "formulas": [
+        {
+          "latex": "\\hat{v}_t = \\frac{v_t}{1 - \\beta_2^t}",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -3507,7 +3572,13 @@
         414.14
       ],
       "indentFirstLine": false,
-      "id": "block-242"
+      "id": "block-242",
+      "formulas": [
+        {
+          "latex": "\\text{Loss} = \\text{原始損失} + \\lambda \\times \\text{Regularization Term}",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -3899,7 +3970,13 @@
         721.85
       ],
       "indentFirstLine": false,
-      "id": "block-270"
+      "id": "block-270",
+      "formulas": [
+        {
+          "latex": "Loss = \\text{原始損失} + \\lambda \\sum |\\theta_i|",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -4123,7 +4200,13 @@
         571.72
       ],
       "indentFirstLine": true,
-      "id": "block-286"
+      "id": "block-286",
+      "formulas": [
+        {
+          "latex": "Loss = \\text{原始損失} + \\lambda \\sum \\theta_i^2",
+          "display": true
+        }
+      ]
     },
     {
       "type": "paragraph",
@@ -4333,7 +4416,14 @@
         391.53
       ],
       "indentFirstLine": true,
-      "id": "block-301"
+      "id": "block-301",
+      "formulas": [
+        {
+          "latex": "\\text{Loss} = \\text{原始損失} + \\lambda_1 \\sum |\\theta_i| + \\lambda_2 \\sum \\theta_i^2",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",

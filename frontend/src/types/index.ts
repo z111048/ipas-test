@@ -172,6 +172,11 @@ export interface GuideImagesData {
 
 export type GuideBlockType = 'heading' | 'paragraph' | 'list_item' | 'table' | 'question' | 'answer' | 'spacer'
 
+export interface GuideFormula {
+  latex: string
+  display?: boolean
+}
+
 export interface GuideBlock {
   id: string
   type: GuideBlockType
@@ -181,6 +186,10 @@ export interface GuideBlock {
   marker?: string
   anchor?: string
   rows?: string[][]
+  html?: string
+  formulas?: GuideFormula[]
+  latex?: string | string[]
+  formulaOnly?: boolean
   pageIndex?: number
   bbox?: number[]
   indentFirstLine?: boolean

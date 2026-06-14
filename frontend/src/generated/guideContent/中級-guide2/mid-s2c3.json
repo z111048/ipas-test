@@ -335,7 +335,8 @@
         523.44,
         360.34
       ],
-      "id": "block-9"
+      "id": "block-9",
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th></th>\n<th>目的<br />推測母體參數的「值」或「區間」 驗證某個關於母體參數的「主張」是</th>\n<th></th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>目的</td>\n<td>推測母體參數的「值」或「區間」</td>\n<td>驗證某個關於母體參數的「主張」是<br />否成立</td>\n</tr>\n<tr>\n<td>重點問題</td>\n<td>這個母體參數大約是多少？（例如：<br />平均收入是多少？）</td>\n<td>我們是否有足夠證據拒絕一個假<br />設？（例如：新藥是否有效？）</td>\n</tr>\n<tr>\n<td>輸出結果</td>\n<td>提供點估計值（如平均數）與信賴區<br />間（如 95% CI）</td>\n<td>提供 p 值、檢定統計量，並根據顯著<br />水準決定是否拒絕虛無假設</td>\n</tr>\n<tr>\n<td>依據</td>\n<td>基於樣本資料，計算出母體參數的<br />估計值</td>\n<td>基於假設前提與樣本結果，進行推<br />論判斷</td>\n</tr>\n<tr>\n<td>例子</td>\n<td>根據樣本估計出平均體重為 68 公<br />斤，95%信賴區間為[66, 70]</td>\n<td>假設新運動課程能降低體重（對立<br />假設），檢定結果 p = 0.03，小於 0.05，<br />拒絕虛無零假設，接受對立假設，認<br />為有效</td>\n</tr>\n</tbody>\n</table>"
     },
     {
       "type": "heading",
@@ -790,7 +791,8 @@
         523.43,
         585.37
       ],
-      "id": "block-39"
+      "id": "block-39",
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th></th>\n<th>H₀</th>\n<th>H₁</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>定義</td>\n<td>原始主張、現狀、無差異或無效果的<br />假設</td>\n<td>想要驗證的新主張，代表某種差異、<br />效果或變化存在</td>\n</tr>\n<tr>\n<td>功能</td>\n<td>作為檢定的基準起點，假設沒有任何<br />顯著變化</td>\n<td>與 H₀相反<br />若 H₀被拒絕，則支持 H₁</td>\n</tr>\n<tr>\n<td>評估方式</td>\n<td>資料是否足以拒絕 H₀？</td>\n<td>若拒絕 H₀<br />則間接支持 H₁</td>\n</tr>\n<tr>\n<td>結論邏輯</td>\n<td>無法拒絕不代表接受，僅表示證據不<br />足</td>\n<td>拒絕 H₀代表支持 H₁<br />有統計上的意義</td>\n</tr>\n<tr>\n<td>實例 1：<br />藥物療效</td>\n<td>H₀：新藥與安慰劑效果相同</td>\n<td>H₁：新藥效果不同於安慰劑</td>\n</tr>\n<tr>\n<td>實例 2：<br />廣告成效</td>\n<td>H₀：新舊廣告對轉換率無顯著差異</td>\n<td>H₁：新廣告轉換率顯著不同於舊廣告</td>\n</tr>\n</tbody>\n</table>"
     },
     {
       "type": "heading",
@@ -922,7 +924,8 @@
         523.43,
         475.87
       ],
-      "id": "block-45"
+      "id": "block-45",
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>一組數值資料是否與<br />某個理論值不同？</td>\n<td>一組連續變數<br />（如身高、成績）</td>\n<td>單樣本 t 檢定</td>\n<td>假設母體為常態<br />分佈</td>\n</tr>\n<tr>\n<td>兩組不同人的平均數<br />是否不同？</td>\n<td>兩組獨立樣本<br />（如男性 vs 女性）</td>\n<td>獨立樣本 t 檢定</td>\n<td>需檢查變異數是否<br />相等</td>\n</tr>\n<tr>\n<td>同一批人前後變化是<br />否顯著？</td>\n<td>配對樣本（如治療前<br />後血壓）</td>\n<td>配對樣本 t 檢定</td>\n<td>比較「差值」是否為<br />0</td>\n</tr>\n<tr>\n<td>兩組比例是否有差<br />異？</td>\n<td>類別資料（如成功<br />率、贊成率）</td>\n<td>比例 Z檢定<br />或卡方檢定</td>\n<td>樣本夠大時可用 Z<br />檢定</td>\n</tr>\n<tr>\n<td>三組以上的平均是否<br />不同？</td>\n<td>三組以上獨立樣本</td>\n<td>單因子變異數分析<br />（ANOVA）</td>\n<td>需滿足常態與變異<br />數齊一性</td>\n</tr>\n<tr>\n<td>類別變數間是否有關<br />聯？</td>\n<td>交叉表資料<br />（如地區 x 性別）</td>\n<td>卡方獨立性檢定</td>\n<td>每格期望次數應<br />足夠（&gt;5）</td>\n</tr>\n<tr>\n<td>兩個連續變數是否有<br />線性關係？</td>\n<td>連續變數<br />（如身高與體重）</td>\n<td>皮爾森相關係數<br />檢定</td>\n<td>需符合雙變數常</td>\n</tr>\n</tbody>\n</table>"
     },
     {
       "type": "heading",
@@ -1287,7 +1290,8 @@
         523.48,
         633.57
       ],
-      "id": "block-70"
+      "id": "block-70",
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th></th>\n<th>H₀</th>\n<th>H₀</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>保留 H₀</td>\n<td>正確判斷<br />機率 = 1 − α</td>\n<td>型二錯誤（漏判）<br />機率 = β</td>\n</tr>\n<tr>\n<td>拒絕 H₀</td>\n<td>型一錯誤（誤判）<br />機率 = α</td>\n<td>正確判斷（檢定力）<br />機率 = 1 − β</td>\n</tr>\n</tbody>\n</table>"
     },
     {
       "type": "table",
@@ -1337,7 +1341,8 @@
         523.44,
         361.47
       ],
-      "id": "block-71"
+      "id": "block-71",
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th>舉例示意：</th>\n<th>H₀</th>\n<th></th>\n<th></th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>緊急地震預警<br />系統</td>\n<td>沒有即將發生的強震</td>\n<td>發出錯誤警報，實際上<br />沒有地震</td>\n<td>未發出警報，實際上發<br />生強震</td>\n</tr>\n<tr>\n<td>銀行防詐騙機<br />制</td>\n<td>交易為正常行為</td>\n<td>誤判為詐騙交易，阻擋<br />用戶的合法交易</td>\n<td>誤判為正常交易，放行<br />實際的詐騙行為</td>\n</tr>\n<tr>\n<td>製造業品管</td>\n<td>出廠產品為合格品</td>\n<td>判定合格品為不合格<br />品，浪費良品</td>\n<td>判定不合格品為合格<br />品，讓瑕疵品流入市場</td>\n</tr>\n<tr>\n<td>招生測驗篩選</td>\n<td>考生不具備入學資格</td>\n<td>錄取不符合能力標準的<br />考生</td>\n<td>錯失具備優秀能力但未<br />被錄取的考生</td>\n</tr>\n<tr>\n<td>電商評論過濾</td>\n<td>使用者評論為正常留<br />言</td>\n<td>正常評論誤判為違規，<br />遭到刪除</td>\n<td>違規內容未被識別，繼<br />續顯示在網站上</td>\n</tr>\n</tbody>\n</table>"
     },
     {
       "type": "heading",
@@ -2009,7 +2014,13 @@
         449.49,
         510.16
       ],
-      "id": "block-119"
+      "id": "block-119",
+      "formulas": [
+        {
+          "latex": "\\mu_0",
+          "display": false
+        }
+      ]
     },
     {
       "type": "table",
@@ -2043,7 +2054,8 @@
         523.47,
         656.57
       ],
-      "id": "block-120"
+      "id": "block-120",
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th></th>\n<th>○ 對立假設（H₁）依檢定方向不同，可分為三種：<br />H₁</th>\n<th></th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>雙尾檢定</td>\n<td>μ ≠ μ₀</td>\n<td>想知道是否有「差異」（不論方向）</td>\n</tr>\n<tr>\n<td>左尾檢定</td>\n<td>μ &lt; μ₀</td>\n<td>想確認是否「變小」或「變差」</td>\n</tr>\n<tr>\n<td>右尾檢定</td>\n<td>μ &gt; μ₀</td>\n<td>想確認是否「變大」或「改善」</td>\n</tr>\n</tbody>\n</table>"
     },
     {
       "type": "paragraph",
@@ -2315,7 +2327,8 @@
         523.47,
         635.57
       ],
-      "id": "block-138"
+      "id": "block-138",
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th></th>\n<th>○ 對立假設（H₁）有三種形式：<br />H₁</th>\n<th></th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>雙尾檢定</td>\n<td>μ₁ ≠ μ₂</td>\n<td>想檢查兩組平均是否不同（不論方向）</td>\n</tr>\n<tr>\n<td>左尾檢定</td>\n<td>μ₁ &lt; μ₂</td>\n<td>關注第一組是否「低於」第二組</td>\n</tr>\n<tr>\n<td>右尾檢定</td>\n<td>μ₁ &gt; μ₂</td>\n<td>關注第一組是否「高於」第二組</td>\n</tr>\n</tbody>\n</table>"
     },
     {
       "type": "paragraph",
@@ -2609,7 +2622,13 @@
         443.25,
         614.2
       ],
-      "id": "block-159"
+      "id": "block-159",
+      "formulas": [
+        {
+          "latex": "H_0 : \\mu_d = 0",
+          "display": true
+        }
+      ]
     },
     {
       "type": "table",
@@ -2643,7 +2662,8 @@
         523.01,
         743.04
       ],
-      "id": "block-160"
+      "id": "block-160",
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th></th>\n<th>○ 對立假設（H₁）則依檢定方向分為三種情況：<br />H₁</th>\n<th></th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>雙尾檢定</td>\n<td>μd ≠ 0</td>\n<td>檢查兩次測量之間是否有「任一方向」的差異</td>\n</tr>\n<tr>\n<td>左尾檢定</td>\n<td>μd &lt; 0</td>\n<td>第二次測量結果顯著低於第一次，例如療效降低</td>\n</tr>\n<tr>\n<td>右尾檢定</td>\n<td>μd &gt; 0</td>\n<td>第二次測量結果顯著高於第一次，例如成績進步</td>\n</tr>\n</tbody>\n</table>"
     },
     {
       "type": "list_item",
@@ -2881,7 +2901,13 @@
         491.04,
         714.19
       ],
-      "id": "block-177"
+      "id": "block-177",
+      "formulas": [
+        {
+          "latex": "H_0 : \\mu_1 = \\mu_2 = ... = \\mu_k",
+          "display": false
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -3181,7 +3207,8 @@
         523.32,
         235.96
       ],
-      "id": "block-197"
+      "id": "block-197",
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th>H₁</th>\n<th>○ 對立假設（H₁）依問題方向分為三種形式：</th>\n<th></th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>雙尾檢定</td>\n<td>p ≠ 𝑝<br />0</td>\n<td>不確定方向，只想知道是否有差異</td>\n</tr>\n<tr>\n<td>左尾檢定</td>\n<td>p &lt; 𝑝<br />0</td>\n<td>關注比例是否顯著低於預期（如滿意率是否未達標）</td>\n</tr>\n<tr>\n<td>右尾檢定</td>\n<td>p &gt; 𝑝<br />0</td>\n<td>關注比例是否顯著高於預期（如通過率是否超標）</td>\n</tr>\n</tbody>\n</table>"
     },
     {
       "type": "list_item",
@@ -3439,7 +3466,8 @@
         523.47,
         310.96
       ],
-      "id": "block-214"
+      "id": "block-214",
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th></th>\n<th>○ 對立假設（H₁）依檢定方向分為三種形式：<br />H₁</th>\n<th></th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>雙尾檢定</td>\n<td>𝑝 = 𝑝<br />1 2</td>\n<td>關注兩組之間是否存在任何差異</td>\n</tr>\n<tr>\n<td>左尾檢定</td>\n<td>𝑝 &lt; 𝑝<br />1 2</td>\n<td>關注第一組比例是否顯著低於第二組</td>\n</tr>\n<tr>\n<td>右尾檢定</td>\n<td>𝑝 &gt; 𝑝<br />1 2</td>\n<td>關注第一組比例是否顯著高於第二組</td>\n</tr>\n</tbody>\n</table>"
     },
     {
       "type": "list_item",
@@ -4405,7 +4433,13 @@
         449.61,
         771.78
       ],
-      "id": "block-283"
+      "id": "block-283",
+      "formulas": [
+        {
+          "latex": "\\rho_s = 0",
+          "display": false
+        }
+      ]
     },
     {
       "type": "list_item",

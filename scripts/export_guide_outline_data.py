@@ -450,7 +450,7 @@ def table_rows_to_html(rows: list[list[str]]) -> str:
         escaped = escape(value, quote=False)
         return escaped.replace('\n', '<br />')
 
-    lines = ['<table>', '<thead>', '<tr>']
+    lines = ['<table class="table-soft text-sm table-auto">', '<thead>', '<tr>']
     for cell in header:
         lines.append(f'<th>{cell_text(cell)}</th>')
     lines.extend(['</tr>', '</thead>', '<tbody>'])
@@ -461,6 +461,288 @@ def table_rows_to_html(rows: list[list[str]]) -> str:
         lines.append('</tr>')
     lines.extend(['</tbody>', '</table>'])
     return '\n'.join(lines)
+
+
+def collect_formula_blocks(value: Any) -> list[dict]:
+    formulas: list[dict] = []
+    if isinstance(value, dict):
+        if value.get('type') == 'formula' and str(value.get('latex') or '').strip():
+            formulas.append({
+                'latex': str(value['latex']).strip(),
+                'display': bool(value.get('display', True)),
+            })
+        for child in value.values():
+            formulas.extend(collect_formula_blocks(child))
+    elif isinstance(value, list):
+        for child in value:
+            formulas.extend(collect_formula_blocks(child))
+    return formulas
+
+
+def load_audit_formula_pages(level: str, key: str) -> dict[int, list[dict]]:
+    cache_dir = BASE / 'data' / level / 'audit_cache' / key
+    if not cache_dir.exists():
+        return {}
+
+    pages: dict[int, list[dict]] = {}
+    for path in sorted(cache_dir.glob('page_*.json')):
+        try:
+            page_index = int(path.stem.removeprefix('page_'))
+        except ValueError:
+            continue
+        formulas = collect_formula_blocks(load_json(path))
+        if formulas:
+            pages[page_index] = formulas
+    return pages
+
+
+FORMULA_TEXT_RE = re.compile(
+    r'([=∑Σ√∞≤≥≈≠^]|'
+    r'[𝑎-𝑧𝐴-𝑍𝛼-𝜔𝝁𝝈𝜇𝜎𝜆]|'
+    r'\b(?:ROI|NPV|MSE|IQR|IOU|RSS|TSS|Softmax|Sigmoid|ReLU|TF|IDF|tf-idf|'
+    r'Var|Accuracy|Precision|Recall|F1|Loss|Bayes)\b|'
+    r'[A-Za-z𝑨-𝒛𝐴-𝑍]\s*[（(][^）)]*[|｜=,，])',
+    re.IGNORECASE,
+)
+
+FORMULA_CUE_RE = re.compile(r'(公式如下|計算公式|計算方式|可表示為|數學定義為|定義為：?$)')
+FORMULA_EXPRESSION_RE = re.compile(
+    r'([=＝∑Σ√∞≤≥≈≠^]|'
+    r'[𝑎-𝑧𝐴-𝑍𝛼-𝜔𝝁𝝈𝜇𝜎𝜆]|'
+    r'[P𝑃]\s*[（(][^）)]*[|｜=,，])'
+)
+
+
+def text_looks_formula_related(text: str) -> bool:
+    if not text:
+        return False
+    return bool(FORMULA_TEXT_RE.search(text) or FORMULA_CUE_RE.search(text))
+
+
+def text_has_formula_expression(text: str) -> bool:
+    if not text:
+        return False
+    return bool(FORMULA_EXPRESSION_RE.search(text))
+
+
+def formula_slot_count(text: str) -> int:
+    if not text:
+        return 0
+    equation_count = len(re.findall(r'[=＝]', text))
+    probability_count = len(re.findall(r'[P𝑃]\s*[（(]', text))
+    named_formula_count = len(re.findall(
+        r'\b(?:ROI|NPV|MSE|IQR|IOU|RSS|TSS|TF|IDF|tf-idf|N-grams|Softmax|Sigmoid|ReLU|Accuracy|Precision|Recall|F1|Loss)\b',
+        text,
+        re.IGNORECASE,
+    ))
+    slots = max(probability_count, named_formula_count, 1 if equation_count else 0)
+    if slots == 0 and (FORMULA_CUE_RE.search(text) or text_looks_formula_related(text)):
+        slots = 1
+    return max(1, min(slots, 4)) if text_looks_formula_related(text) else 0
+
+
+def text_is_formula_cue_only(text: str) -> bool:
+    return bool(FORMULA_CUE_RE.search(text) and not FORMULA_TEXT_RE.search(text))
+
+
+def text_is_formula_context_only(text: str) -> bool:
+    return text_looks_formula_related(text) and not FORMULA_CUE_RE.search(text) and not text_has_formula_expression(text)
+
+
+def text_is_formula_only(text: str) -> bool:
+    stripped = text.strip()
+    if not stripped:
+        return False
+    chinese_count = len(re.findall(r'[\u4e00-\u9fff]', stripped))
+    math_count = len(re.findall(r'[=∑Σ√∞≤≥≈≠×÷^]|[𝑎-𝑧𝐴-𝑍𝛼-𝜔𝝁𝝈𝜇𝜎𝜆]', stripped))
+    latin_formula = bool(re.search(r'^(?:ROI|NPV|MSE|IQR|IOU|RSS|TSS|TF|IDF|Var|Loss|P|E|f|Z|R\^2)\b', stripped, re.IGNORECASE))
+    return (
+        len(stripped) <= 120
+        and (math_count >= 3 or latin_formula)
+        and chinese_count <= 8
+    )
+
+
+def high_confidence_formula_for_text(text: str) -> dict | None:
+    stripped = text.strip()
+    if not stripped:
+        return None
+    normalized = re.sub(r'\s+', '', stripped).lower()
+    if 'roi' in normalized and '投資回報' in stripped:
+        return {'latex': r'\mathrm{ROI} = \frac{\text{投資回報} - \text{投資成本}}{\text{投資成本}} \times 100\%', 'display': True}
+    if 'npv' in normalized and '每期現金流' in stripped:
+        return {'latex': r'\mathrm{NPV} = \sum_{t=1}^{n}\frac{\mathrm{CF}_t}{(1+r)^t} - I_0', 'display': True}
+    if '風險等級' in stripped and '發生機率' in stripped and '影響程度' in stripped:
+        return {'latex': r'\text{風險等級} = \text{發生機率} \times \text{影響程度}', 'display': True}
+    if '變異數公式' in stripped or ('𝜎2' in stripped and '∑' in stripped):
+        return {'latex': r'\sigma^2 = \frac{1}{N}\sum_{i=1}^{N}(x_i-\mu)^2', 'display': True}
+    if '標準差公式' in stripped or ('𝜎' in stripped and '√' in stripped and '∑' in stripped):
+        return {'latex': r'\sigma = \sqrt{\frac{1}{N}\sum_{i=1}^{N}(x_i-\mu)^2}', 'display': True}
+    if '算術平均' in stripped and ('x1' in normalized or '𝑥1' in stripped):
+        return {'latex': r'\text{算術平均} = \frac{x_1+x_2+\cdots+x_n}{n}', 'display': True}
+    if '幾何平均' in stripped and ('∏' in stripped or '乘積' in stripped):
+        return {'latex': r'\text{幾何平均} = \left(\prod_{i=1}^{n}x_i\right)^{1/n}', 'display': True}
+    if '調和平均' in stripped and ('∑' in stripped or '倒數' in stripped):
+        return {'latex': r'\text{調和平均} = \frac{n}{\sum_{i=1}^{n}\frac{1}{x_i}}', 'display': True}
+    if '中位數' in stripped and ('n+1' in normalized or '𝑛+1' in stripped):
+        return {'latex': r'\text{中位數} = x_{\left(\frac{n+1}{2}\right)}', 'display': True}
+    if '中位數' in stripped and ('n/2' in normalized or '𝑛/2' in stripped):
+        return {'latex': r'\text{中位數} = \frac{x_{\left(\frac{n}{2}\right)} + x_{\left(\frac{n}{2}+1\right)}}{2}', 'display': True}
+    if re.search(r'\bIOU\b', stripped, re.IGNORECASE) and ('intersection' in normalized or 'union' in normalized):
+        return {'latex': r'\mathrm{IOU} = \frac{\mathrm{Intersection}}{\mathrm{Union}}', 'display': True}
+    return None
+
+
+FORMULA_MATCH_KEYWORDS = (
+    'tf-idf', 'tfidf', 'tf', 'idf', 'roi', 'npv', 'mse', 'iqr', 'iou',
+    'rss', 'tss', 'softmax', 'sigmoid', 'relu', 'accuracy', 'precision',
+    'recall', 'f1', 'loss', 'var', 'bayes', 'n-grams', 'ngrams',
+    'support', 'lift', 'confidence',
+)
+
+GREEK_TEXT_MARKERS = {
+    'alpha': ('α', '𝛼'),
+    'beta': ('β', '𝛽'),
+    'gamma': ('γ', '𝛾'),
+    'lambda': ('λ', '𝜆'),
+    'mu': ('μ', '𝜇'),
+    'omega': ('ω', '𝜔'),
+    'rho': ('ρ', '𝜌'),
+    'sigma': ('σ', '𝜎'),
+    'theta': ('θ', '𝜃'),
+    'xi': ('ξ', '𝜉'),
+}
+
+
+def compact_formula_text(text: str) -> str:
+    lowered = text.lower()
+    lowered = lowered.replace('tf-idf', 'tfidf').replace('n-grams', 'ngrams')
+    return re.sub(r'\s+', '', lowered)
+
+
+def formula_match_score(formula: dict, text: str) -> int:
+    latex = str(formula.get('latex') or '')
+    if not latex or not text:
+        return 0
+    latex_compact = compact_formula_text(latex)
+    text_compact = compact_formula_text(text)
+    score = 0
+
+    for keyword in FORMULA_MATCH_KEYWORDS:
+        key = keyword.replace('-', '')
+        if key in latex_compact and key in text_compact:
+            score += 5
+
+    for chinese in re.findall(r'[\u4e00-\u9fff]{2,}', latex):
+        if chinese in text:
+            score += 3
+
+    if '\\sum' in latex and '∑' in text:
+        score += 2
+    if '\\frac' in latex and ('/' in text or '分數' in text or '公式' in text):
+        score += 1
+    if re.search(r'\\?binom|\\choose', latex) and ('二項' in text or '組合' in text):
+        score += 3
+    if re.search(r'\bP\s*\(', latex) and re.search(r'[P𝑃]\s*[（(]', text):
+        score += 5
+    if re.search(r'\bS\s*=', latex) and re.search(r'\bS\s*=', text):
+        score += 5
+
+    for greek_name, markers in GREEK_TEXT_MARKERS.items():
+        if f'\\{greek_name}' in latex and any(marker in text for marker in markers):
+            score += 2
+
+    latex_tokens = {
+        token
+        for token in re.findall(r'(?<!\\)\b[A-Za-z][A-Za-z0-9]*\b', latex)
+        if len(token) <= 8 and token.lower() not in {'text', 'frac', 'left', 'right', 'sum', 'log', 'exp'}
+    }
+    for token in latex_tokens:
+        if token.lower() in text_compact:
+            score += 1
+
+    return score
+
+
+def add_formula_to_block(block: dict, formula: dict) -> None:
+    formulas = block.setdefault('formulas', [])
+    if any(existing.get('latex') == formula.get('latex') for existing in formulas):
+        return
+    formulas.append(formula)
+
+
+def enrich_guide_blocks(blocks: list[dict], audit_formulas_by_page: dict[int, list[dict]]) -> list[dict]:
+    enriched = [dict(block) for block in blocks]
+    text_blocks_by_page: dict[int, list[dict]] = {}
+
+    for block in enriched:
+        if block.get('type') == 'table':
+            rows = block.get('rows') or []
+            html = table_rows_to_html(rows)
+            if html:
+                block['html'] = html
+            continue
+
+        if block.get('type') not in {'paragraph', 'list_item', 'question', 'answer'}:
+            continue
+
+        page_index = block.get('pageIndex')
+        if isinstance(page_index, int):
+            text_blocks_by_page.setdefault(page_index, []).append(block)
+
+    for page_index, page_formulas in audit_formulas_by_page.items():
+        remaining = [dict(formula) for formula in page_formulas]
+        page_blocks = text_blocks_by_page.get(page_index) or []
+        candidates = [
+            block
+            for block in page_blocks
+            if text_looks_formula_related(block.get('text') or '')
+        ]
+        effective_candidates = [
+            block
+            for index, block in enumerate(candidates)
+            if not (
+                (
+                    text_is_formula_cue_only(block.get('text') or '')
+                    or text_is_formula_context_only(block.get('text') or '')
+                )
+                and any(
+                    text_has_formula_expression(candidate.get('text') or '')
+                    for candidate in candidates[index + 1:]
+                )
+            )
+        ] or candidates
+
+        capacities = {
+            id(block): formula_slot_count(block.get('text') or '')
+            for block in effective_candidates
+        }
+        for formula in remaining:
+            available = [block for block in effective_candidates if capacities.get(id(block), 0) > 0]
+            if not available:
+                break
+            scored = [
+                (formula_match_score(formula, block.get('text') or ''), -index, block)
+                for index, block in enumerate(available)
+            ]
+            best_score, _, best_block = max(scored, key=lambda item: (item[0], item[1]))
+            if best_score < 2:
+                continue
+            add_formula_to_block(best_block, formula)
+            capacities[id(best_block)] = max(0, capacities.get(id(best_block), 0) - 1)
+
+    for page_blocks in text_blocks_by_page.values():
+        for block in page_blocks:
+            page_index = block.get('pageIndex')
+            page_has_audit_formula = isinstance(page_index, int) and page_index in audit_formulas_by_page
+            rule_formula = high_confidence_formula_for_text(block.get('text') or '')
+            if rule_formula and not block.get('formulas') and not page_has_audit_formula:
+                add_formula_to_block(block, rule_formula)
+
+    for block in enriched:
+        if block.get('formulas') and text_is_formula_only(block.get('text') or ''):
+            block['formulaOnly'] = True
+    return enriched
 
 
 def block_text(value: str) -> str:
@@ -1899,6 +2181,7 @@ def build_nodes(
     manifest_subject: dict,
     content_dir: Path,
     prebuilt_blocks_by_node: dict[str, list[dict]] | None = None,
+    audit_formulas_by_page: dict[int, list[dict]] | None = None,
     parent_id: str | None = None,
     depth: int = 1,
     index_path: list[int] | None = None,
@@ -1930,6 +2213,7 @@ def build_nodes(
             manifest_subject=manifest_subject,
             content_dir=content_dir,
             prebuilt_blocks_by_node=prebuilt_blocks_by_node,
+            audit_formulas_by_page=audit_formulas_by_page,
             parent_id=current_id,
             depth=depth + 1,
             index_path=current_path,
@@ -1950,6 +2234,7 @@ def build_nodes(
         )
         if blocks is None:
             blocks = post_process_guide_blocks(current_id, raw_node.get('title') or '', page_blocks(level, key, start_page, end_page))
+        blocks = enrich_guide_blocks(blocks, audit_formulas_by_page or {})
         write_json(content_dir / content_key / content_ref, {
             'id': current_id,
             'title': raw_node.get('title') or '',
@@ -2013,6 +2298,7 @@ def export_level(level: str, content_dir: Path) -> dict[str, Any]:
         key = subject['key']
         content_key = f'{level}-{key}'
         outline = load_json(BASE / 'data' / level / 'page_clean' / key / 'outline.json')
+        audit_formulas_by_page = load_audit_formula_pages(level, key)
         nodes_by_id: dict[str, dict] = {}
         root_ids = build_nodes(
             level=level,
@@ -2022,6 +2308,7 @@ def export_level(level: str, content_dir: Path) -> dict[str, Any]:
             raw_nodes=filter_duplicate_sibling_nodes(outline['outline']),
             manifest_subject=subject,
             content_dir=content_dir,
+            audit_formulas_by_page=audit_formulas_by_page,
             nodes_by_id=nodes_by_id,
         )
         guide = {
@@ -2060,6 +2347,7 @@ def export_level_from_guide_tree(level: str, content_dir: Path) -> dict[str, Any
         key = subject['key']
         content_key = f'{level}-{key}'
         tree, blocks_by_node = load_guide_tree(level, key)
+        audit_formulas_by_page = load_audit_formula_pages(level, key)
         nodes_by_id: dict[str, dict] = {}
         root_ids = build_nodes(
             level=level,
@@ -2070,6 +2358,7 @@ def export_level_from_guide_tree(level: str, content_dir: Path) -> dict[str, Any
             manifest_subject=subject,
             content_dir=content_dir,
             prebuilt_blocks_by_node=blocks_by_node,
+            audit_formulas_by_page=audit_formulas_by_page,
             nodes_by_id=nodes_by_id,
         )
         guide = {

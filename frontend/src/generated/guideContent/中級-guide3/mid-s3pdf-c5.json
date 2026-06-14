@@ -4865,7 +4865,8 @@
         523.48,
         734.73
       ],
-      "id": "block-324"
+      "id": "block-324",
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th></th>\n<th>Positive</th>\n<th>Negative</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>預測為正類</td>\n<td>真正（TP）<br />（True Positive）</td>\n<td>假正（FP）<br />（False Positive）</td>\n</tr>\n<tr>\n<td>預測為負類</td>\n<td>假負（FN）<br />（False Negative）</td>\n<td>真負（TN）<br />（True Negative）</td>\n</tr>\n</tbody>\n</table>"
     },
     {
       "type": "list_item",
@@ -4963,7 +4964,14 @@
         303.43,
         268.96
       ],
-      "id": "block-331"
+      "id": "block-331",
+      "formulas": [
+        {
+          "latex": "\\text{Accuracy} = \\frac{TP+TN}{TP+TN+FP+FN}",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -5033,7 +5041,14 @@
         268.39,
         426.52
       ],
-      "id": "block-336"
+      "id": "block-336",
+      "formulas": [
+        {
+          "latex": "\\text{Precision} = \\frac{TP}{TP+FP}",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -5103,7 +5118,14 @@
         251.47,
         559.14
       ],
-      "id": "block-341"
+      "id": "block-341",
+      "formulas": [
+        {
+          "latex": "\\text{Recall} = \\frac{TP}{TP+FN}",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -5173,7 +5195,13 @@
         290.11,
         692.13
       ],
-      "id": "block-346"
+      "id": "block-346",
+      "formulas": [
+        {
+          "latex": "F1 = 2 \\cdot \\frac{\\text{Precision} \\cdot \\text{Recall}}{\\text{Precision} + \\text{Recall}}",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -5369,7 +5397,14 @@
         332.85,
         730.17
       ],
-      "id": "block-360"
+      "id": "block-360",
+      "formulas": [
+        {
+          "latex": "MSE = \\frac{1}{n} \\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -5467,7 +5502,14 @@
         363.81,
         243.97
       ],
-      "id": "block-367"
+      "id": "block-367",
+      "formulas": [
+        {
+          "latex": "R^2 = 1 - \\frac{\\sum_{i=1}^n(y_i - \\hat{y}_i)^2}{\\sum_{i=1}^n(y_i - \\bar{y})^2} = 1 - \\frac{RSS}{TSS}",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -5775,7 +5817,14 @@
         161.65
       ],
       "indentFirstLine": true,
-      "id": "block-389"
+      "id": "block-389",
+      "formulas": [
+        {
+          "latex": "RSS = \\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -5845,7 +5894,14 @@
         310.6
       ],
       "indentFirstLine": true,
-      "id": "block-394"
+      "id": "block-394",
+      "formulas": [
+        {
+          "latex": "TSS = \\sum_{i=1}^{n} (y_i - \\bar{y})^2",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -8505,7 +8561,14 @@
         756.8
       ],
       "indentFirstLine": true,
-      "id": "block-584"
+      "id": "block-584",
+      "formulas": [
+        {
+          "latex": "\\text{Softmax}(z_i) = \\frac{e^{z_i}}{\\sum_{j=1}^{K} e^{z_j}}",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -8673,7 +8736,13 @@
         390.5
       ],
       "indentFirstLine": false,
-      "id": "block-596"
+      "id": "block-596",
+      "formulas": [
+        {
+          "latex": "\\text{ReLU}(x) = \\max(0, x)",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -8841,7 +8910,14 @@
         698.18
       ],
       "indentFirstLine": false,
-      "id": "block-608"
+      "id": "block-608",
+      "formulas": [
+        {
+          "latex": "\\sigma(x) = \\frac{1}{1 + e^{-x}}",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -9667,7 +9743,13 @@
         460.86
       ],
       "indentFirstLine": false,
-      "id": "block-667"
+      "id": "block-667",
+      "formulas": [
+        {
+          "latex": "\\theta_{t+1} = \\theta_t - \\eta \\cdot \\nabla_{\\theta} L(\\theta_t)",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -9863,7 +9945,13 @@
         211.67
       ],
       "indentFirstLine": false,
-      "id": "block-681"
+      "id": "block-681",
+      "formulas": [
+        {
+          "latex": "v_{t+1} = \\gamma \\cdot v_t + \\eta \\cdot \\nabla_\\theta L(\\theta_t)",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -10045,7 +10133,13 @@
         371.37,
         636.31
       ],
-      "id": "block-694"
+      "id": "block-694",
+      "formulas": [
+        {
+          "latex": "\\theta_{t+1} = \\theta_t - v_{t+1}",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -10227,7 +10321,14 @@
         352.77,
         360.62
       ],
-      "id": "block-707"
+      "id": "block-707",
+      "formulas": [
+        {
+          "latex": "m_t = \\beta_1 \\cdot m_{t-1} + (1 - \\beta_1) \\cdot \\nabla_{\\theta} L(\\theta_t)",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -10241,7 +10342,14 @@
         362.25,
         418.22
       ],
-      "id": "block-708"
+      "id": "block-708",
+      "formulas": [
+        {
+          "latex": "v_t = \\beta_2 \\cdot v_{t-1} + (1 - \\beta_2) \\cdot (\\nabla_{\\theta} L(\\theta_t))^2",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -10255,7 +10363,14 @@
         234.43,
         508.48
       ],
-      "id": "block-709"
+      "id": "block-709",
+      "formulas": [
+        {
+          "latex": "\\hat{m}_t = \\frac{m_t}{1 - \\beta_1^t}",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "paragraph",
@@ -10269,7 +10384,13 @@
         607.36
       ],
       "indentFirstLine": false,
-      "id": "block-710"
+      "id": "block-710",
+      "formulas": [
+        {
+          "latex": "\\hat{v}_t = \\frac{v_t}{1 - \\beta_2^t}",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -10479,7 +10600,13 @@
         414.14
       ],
       "indentFirstLine": false,
-      "id": "block-725"
+      "id": "block-725",
+      "formulas": [
+        {
+          "latex": "\\text{Loss} = \\text{原始損失} + \\lambda \\times \\text{Regularization Term}",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -10871,7 +10998,13 @@
         721.85
       ],
       "indentFirstLine": false,
-      "id": "block-753"
+      "id": "block-753",
+      "formulas": [
+        {
+          "latex": "Loss = \\text{原始損失} + \\lambda \\sum |\\theta_i|",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -11095,7 +11228,13 @@
         571.72
       ],
       "indentFirstLine": true,
-      "id": "block-769"
+      "id": "block-769",
+      "formulas": [
+        {
+          "latex": "Loss = \\text{原始損失} + \\lambda \\sum \\theta_i^2",
+          "display": true
+        }
+      ]
     },
     {
       "type": "paragraph",
@@ -11305,7 +11444,14 @@
         391.53
       ],
       "indentFirstLine": true,
-      "id": "block-784"
+      "id": "block-784",
+      "formulas": [
+        {
+          "latex": "\\text{Loss} = \\text{原始損失} + \\lambda_1 \\sum |\\theta_i| + \\lambda_2 \\sum \\theta_i^2",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",

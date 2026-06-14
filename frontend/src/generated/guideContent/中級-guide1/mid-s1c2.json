@@ -464,7 +464,8 @@
         523.0,
         170.84
       ],
-      "id": "block-15"
+      "id": "block-15",
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th></th>\n<th>說明</th>\n<th>常見應用情境</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>影像分類（Image<br />Classification）</td>\n<td>判斷影像屬於哪一類別。</td>\n<td>商品辨識、醫療影像診斷、<br />社群內容分類</td>\n</tr>\n<tr>\n<td>物件偵測（Object<br />Detection）</td>\n<td>辨識影像中是否存在特定物件，並<br />標示其位置（通常以邊界框標示）。</td>\n<td>自動駕駛、安防監控、人流<br />偵測</td>\n</tr>\n<tr>\n<td>語意分割（Semantic<br />Segmentation）</td>\n<td>將影像中每一個像素標註為對應的<br />語意類別（如道路、車輛、行人等）。</td>\n<td>城市街景理解、農作物分類、<br />醫學影像處理</td>\n</tr>\n<tr>\n<td>實例分割（Instance<br />Segmentation）</td>\n<td>除了語意標註外，還要分辨同一類<br />別中不同實體（如兩台車分別標<br />註）。</td>\n<td>自駕車多目標辨識、AR 虛實<br />分離、精密製造檢測</td>\n</tr>\n<tr>\n<td>影像生成與合成<br />（Image Generation<br />&amp; Synthesis）</td>\n<td>利用生成模型合成新影像，例如從<br />文字描述生成圖片，或進行風格轉<br />換。</td>\n<td>設計輔助、遊戲開發、風格<br />轉換、產出訓練用資料等</td>\n</tr>\n</tbody>\n</table>"
     },
     {
       "type": "paragraph",
@@ -954,7 +955,8 @@
         523.43,
         723.4
       ],
-      "id": "block-47"
+      "id": "block-47",
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th>任務類型</th>\n<th>標註方式</th>\n<th>說明</th>\n<th>工具範例</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>影像分類（Image<br />Classification）</td>\n<td>類別標籤（Label）</td>\n<td>為整張影像標記單<br />一類別</td>\n<td>LabelImg、Label<br />Studio</td>\n</tr>\n<tr>\n<td>物件偵測（Object<br />Detection）</td>\n<td>邊界框（Bounding<br />Box）</td>\n<td>標示物件位置與類<br />別</td>\n<td>CVAT、Roboflow</td>\n</tr>\n<tr>\n<td>語意分割（Semantic<br />Segmentation）</td>\n<td>每個像素分割標籤</td>\n<td>影像每一像素皆對<br />應類別</td>\n<td>LabelMe、<br />SuperAnnotate</td>\n</tr>\n<tr>\n<td>實例分割（Instance<br />Segmentation）</td>\n<td>像素遮罩 + 實例<br />ID</td>\n<td>區分同類型的多個<br />物件</td>\n<td>VGG Image<br />Annotator</td>\n</tr>\n<tr>\n<td>關鍵點標注（Keypoint<br />Annotation）</td>\n<td>身體節點或特定點<br />位座標</td>\n<td>常用於人體姿態估<br />計</td>\n<td>COCO Annotator</td>\n</tr>\n<tr>\n<td>文字辨識（OCR）</td>\n<td>區塊框選 + 文字內<br />容</td>\n<td>每段文字框選並輸<br />入正確字串</td>\n<td>Tesseract Trainer 、<br />LabelImg OCR 模式</td>\n</tr>\n</tbody>\n</table>"
     },
     {
       "type": "paragraph",
@@ -1162,7 +1164,8 @@
         523.43,
         404.34
       ],
-      "id": "block-59"
+      "id": "block-59",
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th>相關技術</th>\n<th>說明與應用</th>\n<th></th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>圖像尺寸處理</td>\n<td>Resize / Padding / Cropping</td>\n<td>將影像統一為模型輸入所需大小，避免<br />變形或資訊遺失</td>\n</tr>\n<tr>\n<td>正規化處理</td>\n<td>Pixel Normalization</td>\n<td>將像素值（如 0–255）轉為 0–1 或標準<br />化至均值為 0、標準差為 1</td>\n</tr>\n<tr>\n<td>像素增強</td>\n<td>直方圖均衡化、Gamma 校正</td>\n<td>提升影像對比度與亮度，適合低光源或<br />品質差的影像</td>\n</tr>\n<tr>\n<td>噪聲去除</td>\n<td>平滑濾波、邊緣保留濾波</td>\n<td>減少感測器或拍攝產生的雜訊（如高斯<br />濾波、雙邊濾波）</td>\n</tr>\n<tr>\n<td>色彩空間轉換</td>\n<td>RGB ↔ Grayscale, HSV</td>\n<td>根據任務調整顏色通道結構，灰階處理<br />常用於簡化輸入</td>\n</tr>\n<tr>\n<td>資料擴增（Data<br />Augmentation）</td>\n<td>翻轉、旋轉、裁剪、模糊、<br />色彩偏移等</td>\n<td>增強模型的泛化能力，有效對抗過擬<br />合，常與訓練同步進行</td>\n</tr>\n<tr>\n<td>序列統一</td>\n<td>在影片或時間序列中進行影<br />格取樣</td>\n<td>應用於動作辨識或影像序列建模任務</td>\n</tr>\n</tbody>\n</table>"
     },
     {
       "type": "list_item",
@@ -1946,7 +1949,14 @@
         631.72
       ],
       "indentFirstLine": true,
-      "id": "block-115"
+      "id": "block-115",
+      "formulas": [
+        {
+          "latex": "IOU = \\frac{Area_{Intersection}}{Area_{union}}",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -2128,7 +2138,13 @@
         494.96
       ],
       "indentFirstLine": true,
-      "id": "block-128"
+      "id": "block-128",
+      "formulas": [
+        {
+          "latex": "IOU = \\frac{Intersection}{union} = \\frac{40}{140} \\approx 0.286",
+          "display": true
+        }
+      ]
     },
     {
       "type": "heading",

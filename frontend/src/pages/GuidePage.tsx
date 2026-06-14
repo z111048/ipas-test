@@ -8,7 +8,7 @@ import rehypeRaw from 'rehype-raw'
 import rehypeKatex from 'rehype-katex'
 import guideOutlinesRaw from '../generated/guideOutlines.json'
 import guideImagesRaw from '../generated/guideImages.json'
-import type { ColabNotebook, GuideBlock, GuideContent, GuideImageAsset, GuideImagesData, GuideOutlineNode, GuideOutlinesData } from '../types'
+import type { ColabNotebook, GuideBlock, GuideContent, GuideFormula, GuideImageAsset, GuideImagesData, GuideOutlineNode, GuideOutlinesData } from '../types'
 import { GUIDE_NOTICES } from '../constants/guideNotices'
 import GuideOutlineTree from '../components/guide/GuideOutlineTree'
 import ColabSection from '../components/guide/ColabSection'
@@ -118,7 +118,16 @@ function cssEscape(value: string) {
   return value.replace(/["\\]/g, '\\$&')
 }
 
-function GuideHtmlTable({ rows }: { rows: string[][] }) {
+function GuideHtmlTable({ rows, html }: { rows?: string[][]; html?: string }) {
+  if (html) {
+    return (
+      <div
+        className="guide-depth-block overflow-x-auto my-4"
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+    )
+  }
+  if (!rows?.length) return null
   const [header, ...bodyRows] = rows
   return (
     <div className="guide-depth-block overflow-x-auto my-4">
@@ -145,6 +154,52 @@ function GuideHtmlTable({ rows }: { rows: string[][] }) {
         </tbody>
       </table>
     </div>
+  )
+}
+
+function blockFormulaEntries(block: GuideBlock): GuideFormula[] {
+  if (block.formulas?.length) return block.formulas
+  if (Array.isArray(block.latex)) return block.latex.map((latex) => ({ latex, display: true }))
+  if (block.latex) return [{ latex: block.latex, display: true }]
+  return []
+}
+
+function GuideFormulas({ formulas }: { formulas: GuideFormula[] }) {
+  if (formulas.length === 0) return null
+  return (
+    <div className="guide-formulas mt-2 space-y-1 overflow-x-auto text-[0.9rem]">
+      {formulas.map((formula, index) => {
+        const source = formula.display === false
+          ? `$${formula.latex}$`
+          : `$$\n${formula.latex}\n$$`
+        return (
+          <ReactMarkdown
+            key={`${formula.latex}-${index}`}
+            remarkPlugins={[remarkMath]}
+            rehypePlugins={[rehypeKatex]}
+            components={{
+              p: ({ children }) => (
+                <div className="m-0 leading-7">{children}</div>
+              ),
+            }}
+          >
+            {source}
+          </ReactMarkdown>
+        )
+      })}
+    </div>
+  )
+}
+
+function GuideBlockBody({ block }: { block: GuideBlock }) {
+  const formulas = blockFormulaEntries(block)
+  if (formulas.length === 0) return <>{block.text}</>
+  if (block.formulaOnly) return <GuideFormulas formulas={formulas} />
+  return (
+    <>
+      {block.text && <span>{block.text}</span>}
+      <GuideFormulas formulas={formulas} />
+    </>
   )
 }
 
@@ -197,24 +252,26 @@ function GuideBlocksRenderer({ blocks, images }: { blocks: GuideBlock[]; images:
         <GuideImageFigure key={image.id} image={image} depth={Math.max(image.headingDepth ?? 2, 2)} />
       ))}
       {blocks.map((block) => {
-        if (block.type === 'table' && block.rows?.length) {
+        if (block.type === 'table' && (block.html || block.rows?.length)) {
           return renderWithImages(block, (
             <div key={block.id} style={blockIndentStyle(block.depth)}>
-              <GuideHtmlTable rows={block.rows} />
+              <GuideHtmlTable rows={block.rows} html={block.html} />
             </div>
           ))
         }
 
         if (block.type === 'list_item') {
+          const hasFormulas = blockFormulaEntries(block).length > 0
           if (!block.marker) {
+            const Element = hasFormulas ? 'div' : 'p'
             return renderWithImages(block, (
-              <p
+              <Element
                 key={block.id}
                 className="guide-depth-block text-[0.9rem] leading-7 text-app-text mb-2 content-justify"
                 style={blockIndentStyle(block.depth)}
               >
-                {block.text}
-              </p>
+                <GuideBlockBody block={block} />
+              </Element>
             ))
           }
           return renderWithImages(block, (
@@ -224,7 +281,9 @@ function GuideBlocksRenderer({ blocks, images }: { blocks: GuideBlock[]; images:
               style={blockIndentStyle(block.depth)}
             >
               <span className={listMarkerClass(block.marker)}>{block.marker}</span>
-              <span className={listTextClass(block.marker)}>{block.text}</span>
+              <div className={listTextClass(block.marker)}>
+                <GuideBlockBody block={block} />
+              </div>
             </div>
           ))
         }
@@ -245,14 +304,27 @@ function GuideBlocksRenderer({ blocks, images }: { blocks: GuideBlock[]; images:
           ))
         }
 
+        const hasFormulas = blockFormulaEntries(block).length > 0
+        const textStyle = {
+          ...blockIndentStyle(block.depth),
+          textIndent: !hasFormulas && block.type === 'paragraph' && block.indentFirstLine ? '2em' : undefined,
+        }
+        if (hasFormulas) {
+          return renderWithImages(block, (
+            <div
+              key={block.id}
+              className={`guide-depth-block ${blockTextClass(block)}`}
+              style={textStyle}
+            >
+              <GuideBlockBody block={block} />
+            </div>
+          ))
+        }
         return renderWithImages(block, (
           <p
             key={block.id}
             className={`guide-depth-block ${blockTextClass(block)}`}
-            style={{
-              ...blockIndentStyle(block.depth),
-              textIndent: block.type === 'paragraph' && block.indentFirstLine ? '2em' : undefined,
-            }}
+            style={textStyle}
           >
             {block.text}
           </p>

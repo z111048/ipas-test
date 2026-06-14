@@ -473,7 +473,8 @@
         523.46,
         282.85
       ],
-      "id": "block-22"
+      "id": "block-22",
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th>概念</th>\n<th>角色定位</th>\n<th>範疇</th>\n<th>常見任務</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>自然語言處理 NLP</td>\n<td>總稱</td>\n<td>整合所有讓機器能理<br />解、處理、產生語言的<br />技術</td>\n<td>對話系統、機器翻譯、<br />語音助理</td>\n</tr>\n<tr>\n<td>自然語言理解 NLU</td>\n<td>NLP 的「理解」階段</td>\n<td>理解輸入語言的語意<br />與結構，分析使用者<br />意圖</td>\n<td>意圖辨識、命名實體<br />辨識（NER）、情感分<br />析</td>\n</tr>\n<tr>\n<td>自然語言生成 NLG</td>\n<td>NLP 的「產出」階段</td>\n<td>將資料或語意，轉換<br />為自然語言文字進行<br />表達</td>\n<td>自動摘要、回應生成、<br />報告撰寫</td>\n</tr>\n</tbody>\n</table>"
     },
     {
       "type": "heading",
@@ -559,7 +560,8 @@
         523.46,
         694.34
       ],
-      "id": "block-26"
+      "id": "block-26",
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th>時期<br />技術階段</th>\n<th>核心特徵</th>\n<th></th>\n<th>代表技術<br />/<br />模型</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>1980s–1990s</td>\n<td>規則式方法<br />（Rule-based）</td>\n<td>手動設計語法規則與詞<br />彙辭典</td>\n<td>ELIZA、專家系統</td>\n</tr>\n<tr>\n<td>1990s–2010</td>\n<td>統計語言模型<br />（Statistical LM）</td>\n<td>使用大量語料訓練機率<br />模型</td>\n<td>N-gram、HMM、CRF</td>\n</tr>\n<tr>\n<td>2010–2018</td>\n<td>深度學習模型<br />（Deep Learning）</td>\n<td>使用神經網路處理語言<br />序列</td>\n<td>RNN、LSTM、GRU</td>\n</tr>\n<tr>\n<td>2018–至今</td>\n<td>預訓練語言模型<br />（Pre-trained LM）</td>\n<td>大規模語料預訓練＋下<br />游微調</td>\n<td>BERT、GPT、RoBERTa、<br />T5</td>\n</tr>\n</tbody>\n</table>"
     },
     {
       "type": "heading",
@@ -1215,7 +1217,8 @@
         523.44,
         563.37
       ],
-      "id": "block-71"
+      "id": "block-71",
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th>分詞</th>\n<th>說明</th>\n<th>常見工具與技巧</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>分詞<br />（Tokenization）</td>\n<td>將一段文字拆解為單字、詞組或<br />子詞，作為語言處理的基本單位。</td>\n<td>基於空白、斷詞字典或子詞<br />分解（如 BPE）。</td>\n</tr>\n<tr>\n<td>詞性標注<br />（Part-of-Speech<br />Tagging, POS）</td>\n<td>標記每個詞的語法角色，如名詞、<br />動詞、形容詞等。</td>\n<td>常用於語法分析、命名實體<br />辨識。</td>\n</tr>\n<tr>\n<td>詞形還原<br />（Lemmatization）</td>\n<td>將單詞還原為其字典形式（如<br />\"running\" → \"run\"）。</td>\n<td>保留語意一致性，適合語意<br />分析任務。</td>\n</tr>\n<tr>\n<td>詞幹提取<br />（Stemming）</td>\n<td>去除詞尾變化，取得詞幹（如<br />\"connections\"→\"connect\"）。</td>\n<td>處理速度快但準確性低於<br />Lemmatization。</td>\n</tr>\n<tr>\n<td>停用詞移除<br />（Stopword Removal）</td>\n<td>去除如\"is\", \"the\", \"at\"等語意貢獻<br />低的高頻詞。</td>\n<td>可降低資料維度、提升關鍵<br />詞比重。</td>\n</tr>\n</tbody>\n</table>"
     },
     {
       "type": "heading",
@@ -1607,7 +1610,8 @@
         523.45,
         418.36
       ],
-      "id": "block-95"
+      "id": "block-95",
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th></th>\n<th>技術代表</th>\n<th>分布特性</th>\n<th>語境特性</th>\n<th>優點</th>\n<th>限制</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>純離散表示</td>\n<td>One-hot<br />Encoding、Bag<br />of Words</td>\n<td>非分布式</td>\n<td>非語境型</td>\n<td>結構簡單、<br />容易實作、<br />適合入門教<br />學 與 傳 統<br />機器學習</td>\n<td>向量稀疏、<br />無語意、維<br />度高</td>\n</tr>\n<tr>\n<td>統計型表示</td>\n<td>TF-IDF</td>\n<td>非分布式</td>\n<td>非語境型</td>\n<td>能反詞彙重<br />要性、實作<br />簡單、效果</td>\n<td>忽略上下文<br />與語序、無<br />法處理同詞</td>\n</tr>\n<tr>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td>穩定</td>\n<td>異義或多義<br />詞</td>\n</tr>\n<tr>\n<td>統計共現表示<br />（統計+離散型）</td>\n<td>N-grams</td>\n<td>有限分布性</td>\n<td>上下文敏感<br />（短範圍）</td>\n<td>可表示語序<br />與詞組共現<br />特性、基礎<br />語言模型之<br />用</td>\n<td>長 句 效 果<br />差、資料稀<br />疏嚴重、無<br />法捕捉長距<br />依賴</td>\n</tr>\n<tr>\n<td>靜態詞嵌入</td>\n<td>Word2Vec、<br />GloVe、<br />FastText</td>\n<td>分布式</td>\n<td>非語境型</td>\n<td>可表示語意<br />結構、向量<br />可運算、效<br />能佳、訓練<br />成本低</td>\n<td>每個詞只有<br />一個向量表<br />示、忽略上<br />下文語意</td>\n</tr>\n<tr>\n<td>語境型詞嵌入</td>\n<td>ELMo、BERT、<br />GPT</td>\n<td>分布式</td>\n<td>動態語境型</td>\n<td>語意精準、<br />支 援 上 下<br />文、處理同<br />詞異義佳</td>\n<td>模型大、需<br />要高算力與<br />記憶體</td>\n</tr>\n</tbody>\n</table>"
     },
     {
       "type": "paragraph",
@@ -2503,7 +2507,13 @@
         386.97
       ],
       "indentFirstLine": true,
-      "id": "block-159"
+      "id": "block-159",
+      "formulas": [
+        {
+          "latex": "\\text{TF}(t, d) = \\frac{\\text{詞語 } t \\text{ 在文檔 } d \\text{ 中的出現次數}}{\\text{文檔 } d \\text{ 的總詞數}}",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -2531,7 +2541,13 @@
         480.83
       ],
       "indentFirstLine": true,
-      "id": "block-161"
+      "id": "block-161",
+      "formulas": [
+        {
+          "latex": "\\text{IDF}(t, D) = \\log \\left( \\frac{|D|}{|\\{d \\in D : t \\in d\\}|} \\right)",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -2559,7 +2575,14 @@
         556.72
       ],
       "indentFirstLine": false,
-      "id": "block-163"
+      "id": "block-163",
+      "formulas": [
+        {
+          "latex": "\\text{tf-idf}(t, d, D) = \\text{TF}(t, d) \\times \\text{IDF}(t, D)",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -2769,7 +2792,22 @@
         365.42
       ],
       "indentFirstLine": false,
-      "id": "block-178"
+      "id": "block-178",
+      "formulas": [
+        {
+          "latex": "TF(\"AI\", d) = \\frac{3}{100} = 0.03",
+          "display": true
+        },
+        {
+          "latex": "IDF(\"AI\", D) = \\log(\\frac{1000}{10}) = \\log(100) \\approx 2",
+          "display": true
+        },
+        {
+          "latex": "tf-idf(\"AI\", d, D) = 0.03 \\times 2 = 0.06",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -2811,7 +2849,13 @@
         223.99,
         571.98
       ],
-      "id": "block-181"
+      "id": "block-181",
+      "formulas": [
+        {
+          "latex": "S = (\\omega_1, \\omega_2, ..., \\omega_m)",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -2825,7 +2869,14 @@
         413.25,
         620.58
       ],
-      "id": "block-182"
+      "id": "block-182",
+      "formulas": [
+        {
+          "latex": "N-grams(S, n) = \\{(\\omega_i, \\omega_{i+1}, ..., \\omega_{i+n-1}) \\mid 1 \\le i \\le m - n + 1\\}",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -3941,7 +3992,8 @@
         523.47,
         683.9
       ],
-      "id": "block-260"
+      "id": "block-260",
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th>特點</th>\n<th>優點</th>\n<th>限制</th>\n<th></th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>RNN</td>\n<td>基礎序列模型，每一步<br />輸出依賴前一步狀態</td>\n<td>能處理時間序列與語序<br />資訊</td>\n<td>訓練不穩定，梯度消失<br />問題嚴重</td>\n</tr>\n<tr>\n<td>LSTM</td>\n<td>引入記憶單元與門控機<br />制</td>\n<td>能捕捉長距離依賴關<br />係，較穩定</td>\n<td>結構較複雜，訓練耗時</td>\n</tr>\n<tr>\n<td>GRU</td>\n<td>精簡版 LSTM，整合部<br />分門控機制</td>\n<td>運算較快，效果接近<br />LSTM</td>\n<td>對長序列仍有限制</td>\n</tr>\n</tbody>\n</table>"
     },
     {
       "type": "paragraph",
@@ -4281,7 +4333,8 @@
         523.48,
         311.33
       ],
-      "id": "block-283"
+      "id": "block-283",
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th>BERT（Bidirectional Encoder</th>\n<th>發展單位</th>\n<th>核心機制</th>\n<th>特點</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>BERT（Bidirectional Encoder<br />Representations from<br />Transformers）</td>\n<td>Google</td>\n<td>雙 向 Transformer<br />Encoder</td>\n<td>主要用於理解類任務，<br />如問答、分類等</td>\n</tr>\n<tr>\n<td>GPT（Generative Pre-trained<br />Transformer）</td>\n<td>OpenAI</td>\n<td>單 向 Transformer<br />Decoder，自迴歸生成</td>\n<td>擅長生成任務，應用於<br />對話生成、文本創作等</td>\n</tr>\n</tbody>\n</table>"
     },
     {
       "type": "paragraph",
