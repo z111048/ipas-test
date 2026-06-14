@@ -40,6 +40,41 @@ const referenceLoaders: Record<string, () => Promise<Record<string, ExamReferenc
   midSample: () => import('../../generated/examReferenceAnswers/midSample.json').then(asReferenceMap),
 }
 
+const legacyReferencePrefixByExam: Record<string, string> = {
+  jr_1141_s1: 'exam1',
+  jr_1141_s2: 'exam2',
+  mid_1141_s1: 'exam1',
+  mid_1141_s2: 'exam2',
+  mid_1141_s3: 'exam3',
+}
+
+function questionNumberToken(questionId: string) {
+  return questionId.match(/_q(\d+)$/)?.[1]
+}
+
+function referenceForQuestion(
+  references: Record<string, ExamReferenceAnswer>,
+  examKey: string,
+  questionId: string,
+) {
+  const direct = references[questionId]
+  if (direct) return direct
+
+  const number = questionNumberToken(questionId)
+  if (!number) return undefined
+
+  const legacyPrefix = legacyReferencePrefixByExam[examKey]
+  if (legacyPrefix) {
+    const legacy = references[`${legacyPrefix}_q${number}`]
+    if (legacy) return legacy
+  }
+
+  const suffix = `_q${number}`
+  const fallbackKeys = Object.keys(references).filter((key) => key.endsWith(suffix))
+  if (fallbackKeys.length === 1) return references[fallbackKeys[0]]
+  return undefined
+}
+
 function ReferenceAnswerBlock({ reference }: { reference: ExamReferenceAnswer }) {
   return (
     <section className="mt-3 border-t border-border pt-3">
@@ -193,7 +228,7 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
         const ua = userAnswers[i]
         const isCorrect = ua === q.answer
         const isSkipped = !ua
-        const reference = referencesByQuestion[q.id]
+        const reference = referenceForQuestion(referencesByQuestion, examKey, q.id)
         const contextImages = q.images?.filter((image) => image.placement === 'context') ?? []
         const questionImages = q.images?.filter((image) => image.placement !== 'option' && image.placement !== 'context') ?? []
         const optionImages = q.images?.filter((image) => image.placement === 'option') ?? []
