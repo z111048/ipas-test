@@ -1,0 +1,1358 @@
+{
+  "id": "mid-s3c8",
+  "levelId": "middle",
+  "levelLabel": "中級",
+  "subjectId": "mid-s3",
+  "subjectTitle": "中級科目三：機器學習技術與應用",
+  "subjectShortTitle": "機器學習技術與應用",
+  "title": "模型選擇與架構設計",
+  "order": 8,
+  "globalOrder": 208,
+  "route": "/articles/mid-s3c8",
+  "guideRoute": "/guide/mid-s3/mid-s3c8",
+  "practiceRoute": "/practice/mid-s3/mid-s3c8",
+  "pathIds": [
+    "ml-engineering"
+  ],
+  "subtopics": [
+    "模型選型",
+    "架構設計",
+    "資料規模與限制",
+    "基準模型"
+  ],
+  "excerpt": "在機器學習專案的實務推動過程中，選擇適合任務的模型與設定適當的模型架構，是模型表現與產出符合關鍵因素。模型選擇與架構設計不僅需考量資料規模、特徵性質與任務類型，還必須平衡模型複雜度、運算資源限制，以及實務應用場景中對模型解釋性的需求。",
+  "wordCount": 2973,
+  "readingMinutes": 5,
+  "sectionCount": 7,
+  "source": {
+    "guideKey": "中級-guide3",
+    "nodeId": "mid-s3c8",
+    "contentRef": "mid-s3c8.json",
+    "sourceContentRef": "mid-s3c8.json",
+    "sourcePageRange": [
+      145,
+      150
+    ],
+    "pdf": "AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf"
+  },
+  "sections": [
+    {
+      "id": "block-2",
+      "title": "1. 前言與章節導覽",
+      "depth": 3
+    },
+    {
+      "id": "block-5",
+      "title": "2. 模型選擇的原則與考量因素",
+      "depth": 3
+    },
+    {
+      "id": "block-8",
+      "title": "（1）任務類型與模型特性配對",
+      "depth": 4
+    },
+    {
+      "id": "block-55",
+      "title": "（2）資料規模與模型選擇",
+      "depth": 4
+    },
+    {
+      "id": "block-66",
+      "title": "（3）模型解釋性需求",
+      "depth": 4
+    },
+    {
+      "id": "block-74",
+      "title": "（4）運算資源與實務部署限制",
+      "depth": 4
+    },
+    {
+      "id": "block-83",
+      "title": "（5）偏差-變異的權衡（Bias-Variance Tradeoff）",
+      "depth": 4
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "depth": 3,
+      "title": "1. 前言與章節導覽",
+      "pageIndex": 144,
+      "bbox": [
+        76.6,
+        203.11,
+        203.57,
+        218.12
+      ],
+      "id": "block-2"
+    },
+    {
+      "type": "paragraph",
+      "depth": 4,
+      "text": "在機器學習專案的實務推動過程中，選擇適合任務的模型與設定適當的模型架構，是模型表現與產出符合關鍵因素。模型選擇與架構設計不僅需考量資料規模、特徵性質與任務類型，還必須平衡模型複雜度、運算資源限制，以及實務應用場景中對模型解釋性的需求。",
+      "pageIndex": 144,
+      "bbox": [
+        76.6,
+        230.3,
+        518.26,
+        317.54
+      ],
+      "indentFirstLine": true,
+      "id": "block-3"
+    },
+    {
+      "type": "paragraph",
+      "depth": 4,
+      "text": "隨著機器學習演算法的發展日益成熟，從簡單的線性模型、樹模型，到深度學習的複雜神經網路，模型架構的選擇範圍變得更廣、更靈活，但也更具挑戰性。",
+      "pageIndex": 144,
+      "bbox": [
+        76.6,
+        330.29,
+        521.88,
+        367.58
+      ],
+      "indentFirstLine": true,
+      "id": "block-4"
+    },
+    {
+      "type": "heading",
+      "depth": 3,
+      "title": "2. 模型選擇的原則與考量因素",
+      "pageIndex": 144,
+      "bbox": [
+        76.6,
+        403.06,
+        274.0,
+        418.07
+      ],
+      "id": "block-5"
+    },
+    {
+      "type": "paragraph",
+      "depth": 4,
+      "text": "模型選擇（Model Selection）在機器學習建模流程中，直接決定了後續訓練成效、泛化能力，以及模型部署後的可用性與效益。正確且適當的模型選擇，需兼顧多個考量因素，包括資料的特性、任務需求、模型的解釋性，以及運算資源與部署限制。",
+      "pageIndex": 144,
+      "bbox": [
+        76.6,
+        429.29,
+        518.01,
+        517.6
+      ],
+      "indentFirstLine": true,
+      "id": "block-6"
+    },
+    {
+      "type": "paragraph",
+      "depth": 4,
+      "text": "以下分別介紹模型選擇過程中，幾項常見考量因素與相關原則。",
+      "pageIndex": 144,
+      "bbox": [
+        101.8,
+        529.27,
+        457.68,
+        542.56
+      ],
+      "indentFirstLine": true,
+      "id": "block-7"
+    },
+    {
+      "type": "heading",
+      "depth": 4,
+      "title": "（1）任務類型與模型特性配對",
+      "pageIndex": 144,
+      "bbox": [
+        70.24,
+        579.31,
+        243.43,
+        592.6
+      ],
+      "id": "block-8"
+    },
+    {
+      "type": "paragraph",
+      "depth": 5,
+      "text": "模型選擇應根據任務的輸出型態、資料特徵與業務目標進行判斷。以下說明不同任務類型下的模型配適原則：",
+      "pageIndex": 144,
+      "bbox": [
+        76.6,
+        605.35,
+        517.93,
+        642.55
+      ],
+      "indentFirstLine": true,
+      "id": "block-9"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "分類任務（Classification）：",
+      "pageIndex": 144,
+      "bbox": [
+        102.16,
+        654.18,
+        274.39,
+        667.63
+      ],
+      "id": "block-10"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "目標：",
+      "pageIndex": 144,
+      "bbox": [
+        120.52,
+        679.14,
+        176.92,
+        692.59
+      ],
+      "id": "block-11"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "預測資料所屬的離散類別。",
+      "pageIndex": 144,
+      "bbox": [
+        136.12,
+        704.1,
+        304.51,
+        717.55
+      ],
+      "id": "block-12"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "常見情境：",
+      "pageIndex": 144,
+      "bbox": [
+        120.52,
+        729.18,
+        202.15,
+        742.63
+      ],
+      "id": "block-13"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "垃圾郵件偵測、疾病診斷、客戶流失預測。",
+      "pageIndex": 144,
+      "bbox": [
+        136.12,
+        754.13,
+        392.73,
+        767.58
+      ],
+      "id": "block-14"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "常用模型：",
+      "pageIndex": 145,
+      "bbox": [
+        120.52,
+        100.66,
+        202.15,
+        114.11
+      ],
+      "id": "block-15"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "決策樹、隨機森林：具解釋性，適用於特徵混合且分佈複雜的資料。",
+      "pageIndex": 145,
+      "bbox": [
+        136.12,
+        125.62,
+        521.88,
+        139.07
+      ],
+      "id": "block-16"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "支援向量機（SVM）：適合邊界清晰、高維小樣本的分類問題。",
+      "pageIndex": 145,
+      "bbox": [
+        136.12,
+        150.7,
+        501.6,
+        164.15
+      ],
+      "id": "block-17"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "神經網路（Neural Network）：當特徵具高度非線性或為影像、語音等資料類型，模型預測結果佳。",
+      "pageIndex": 145,
+      "bbox": [
+        136.12,
+        175.66,
+        518.06,
+        214.07
+      ],
+      "id": "block-18"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "迴歸任務（Regression）：",
+      "pageIndex": 145,
+      "bbox": [
+        102.16,
+        225.7,
+        260.47,
+        239.15
+      ],
+      "id": "block-19"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "目標：",
+      "pageIndex": 145,
+      "bbox": [
+        120.52,
+        250.69,
+        176.92,
+        264.14
+      ],
+      "id": "block-20"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "預測一個連續數值輸出。",
+      "pageIndex": 145,
+      "bbox": [
+        136.12,
+        275.65,
+        291.91,
+        289.1
+      ],
+      "id": "block-21"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "常見情境：",
+      "pageIndex": 145,
+      "bbox": [
+        120.52,
+        300.73,
+        202.15,
+        314.18
+      ],
+      "id": "block-22"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "房價預測、能源消耗預測、業績估算。",
+      "pageIndex": 145,
+      "bbox": [
+        136.12,
+        325.69,
+        367.53,
+        339.14
+      ],
+      "id": "block-23"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "常用模型：",
+      "pageIndex": 145,
+      "bbox": [
+        120.52,
+        350.65,
+        202.15,
+        364.1
+      ],
+      "id": "block-24"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "線性迴歸（Linear Regression）：簡單且高解釋性，適合線性趨勢明顯的資料。",
+      "pageIndex": 145,
+      "bbox": [
+        136.12,
+        375.73,
+        518.19,
+        414.14
+      ],
+      "id": "block-25"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "決策樹迴歸、隨機森林迴歸：對於非線性與特徵交互效果有良好處理能力。",
+      "pageIndex": 145,
+      "bbox": [
+        136.12,
+        425.65,
+        518.32,
+        464.2
+      ],
+      "id": "block-26"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "神經網路：適合處理大規模、高維度或非線性強烈的資料情境。",
+      "pageIndex": 145,
+      "bbox": [
+        136.12,
+        475.71,
+        506.16,
+        489.16
+      ],
+      "id": "block-27"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "非監督學習任務（Unsupervised Learning）：",
+      "pageIndex": 145,
+      "bbox": [
+        102.16,
+        500.67,
+        360.57,
+        514.12
+      ],
+      "id": "block-28"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "目標：",
+      "pageIndex": 145,
+      "bbox": [
+        120.52,
+        525.75,
+        176.92,
+        539.2
+      ],
+      "id": "block-29"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "從未標註資料中發掘潛在結構或壓縮表示。",
+      "pageIndex": 145,
+      "bbox": [
+        136.12,
+        550.71,
+        392.73,
+        564.16
+      ],
+      "id": "block-30"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "任務類型與建議模型：",
+      "pageIndex": 145,
+      "bbox": [
+        120.52,
+        575.67,
+        265.15,
+        589.12
+      ],
+      "id": "block-31"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "聚類（Clustering）",
+      "pageIndex": 145,
+      "bbox": [
+        136.12,
+        600.75,
+        256.75,
+        614.2
+      ],
+      "id": "block-32"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "目標：將資料自動分組，使群內相似、群間差異大。",
+      "pageIndex": 145,
+      "bbox": [
+        150.28,
+        625.74,
+        460.2,
+        639.19
+      ],
+      "id": "block-33"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "常用模型：",
+      "pageIndex": 145,
+      "bbox": [
+        150.28,
+        650.7,
+        233.35,
+        664.15
+      ],
+      "id": "block-34"
+    },
+    {
+      "type": "paragraph",
+      "depth": 5,
+      "text": "K-means：資料呈球狀且群數已知時效果良好。",
+      "pageIndex": 145,
+      "bbox": [
+        167.32,
+        675.78,
+        441.33,
+        689.23
+      ],
+      "indentFirstLine": true,
+      "id": "block-35"
+    },
+    {
+      "type": "paragraph",
+      "depth": 5,
+      "text": "DBSCAN：適合有噪聲或群大小不均的資料。",
+      "pageIndex": 145,
+      "bbox": [
+        167.32,
+        700.74,
+        433.77,
+        714.19
+      ],
+      "indentFirstLine": true,
+      "id": "block-36"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "降維（Dimensionality Reduction）",
+      "pageIndex": 145,
+      "bbox": [
+        136.12,
+        725.7,
+        337.29,
+        739.15
+      ],
+      "id": "block-37"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "目標：",
+      "pageIndex": 145,
+      "bbox": [
+        150.28,
+        750.77,
+        208.15,
+        764.22
+      ],
+      "id": "block-38"
+    },
+    {
+      "type": "paragraph",
+      "depth": 5,
+      "text": "將高維資料轉換為低維表示，保留主要資訊結構。",
+      "pageIndex": 146,
+      "bbox": [
+        167.32,
+        100.66,
+        458.88,
+        114.11
+      ],
+      "indentFirstLine": false,
+      "id": "block-39"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "常用模型：",
+      "pageIndex": 146,
+      "bbox": [
+        150.28,
+        125.62,
+        233.35,
+        139.07
+      ],
+      "id": "block-40"
+    },
+    {
+      "type": "paragraph",
+      "depth": 5,
+      "text": "PCA（主成分分析）：保留最大變異方向，具解釋性。",
+      "pageIndex": 146,
+      "bbox": [
+        167.32,
+        150.7,
+        476.88,
+        164.15
+      ],
+      "indentFirstLine": false,
+      "id": "block-41"
+    },
+    {
+      "type": "paragraph",
+      "depth": 5,
+      "text": "自編碼器（Autoencoder）：適合非線性降維與結構重建需求。",
+      "pageIndex": 146,
+      "bbox": [
+        167.32,
+        175.66,
+        517.8,
+        189.11
+      ],
+      "indentFirstLine": false,
+      "id": "block-42"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "序列與時間序列任務（Sequential / Time-series）",
+      "pageIndex": 146,
+      "bbox": [
+        102.16,
+        200.62,
+        384.09,
+        214.07
+      ],
+      "id": "block-43"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "目標：",
+      "pageIndex": 146,
+      "bbox": [
+        120.52,
+        225.7,
+        176.92,
+        239.15
+      ],
+      "id": "block-44"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "根據資料序列預測未來或決策行為。",
+      "pageIndex": 146,
+      "bbox": [
+        136.12,
+        250.69,
+        354.93,
+        264.14
+      ],
+      "id": "block-45"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "常見情境：",
+      "pageIndex": 146,
+      "bbox": [
+        120.52,
+        275.65,
+        202.15,
+        289.1
+      ],
+      "id": "block-46"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "股價預測、感測器數據監控、語音辨識。",
+      "pageIndex": 146,
+      "bbox": [
+        136.12,
+        300.73,
+        380.13,
+        314.18
+      ],
+      "id": "block-47"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "常用模型：",
+      "pageIndex": 146,
+      "bbox": [
+        120.52,
+        325.69,
+        202.15,
+        339.14
+      ],
+      "id": "block-48"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "RNN / LSTM / GRU：",
+      "pageIndex": 146,
+      "bbox": [
+        136.12,
+        350.65,
+        272.11,
+        364.1
+      ],
+      "id": "block-49"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "適合處理長序列記憶與依賴關係。",
+      "pageIndex": 146,
+      "bbox": [
+        150.28,
+        375.73,
+        359.37,
+        389.18
+      ],
+      "id": "block-50"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "時序卷積網路（Temporal Convolutional Network, TCN）：",
+      "pageIndex": 146,
+      "bbox": [
+        136.12,
+        400.69,
+        463.2,
+        414.14
+      ],
+      "id": "block-51"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "對長期依賴具有穩定性。",
+      "pageIndex": 146,
+      "bbox": [
+        150.28,
+        425.65,
+        308.95,
+        439.1
+      ],
+      "id": "block-52"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "ARIMA 等統計模型：",
+      "pageIndex": 146,
+      "bbox": [
+        136.12,
+        450.75,
+        273.55,
+        464.2
+      ],
+      "id": "block-53"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "○",
+      "text": "適合短期、週期性明顯且資料量不大之應用。",
+      "pageIndex": 146,
+      "bbox": [
+        150.28,
+        475.71,
+        422.37,
+        489.16
+      ],
+      "id": "block-54"
+    },
+    {
+      "type": "heading",
+      "depth": 4,
+      "title": "（2）資料規模與模型選擇",
+      "pageIndex": 146,
+      "bbox": [
+        70.24,
+        525.91,
+        218.23,
+        539.2
+      ],
+      "id": "block-55"
+    },
+    {
+      "type": "paragraph",
+      "depth": 5,
+      "text": "資料量不僅影響模型訓練的可行性，更牽動模型選擇的策略方向。不同資料規模下，模型在表現力、穩定性與訓練效率之間需做出平衡。",
+      "pageIndex": 146,
+      "bbox": [
+        76.6,
+        551.95,
+        517.93,
+        589.12
+      ],
+      "indentFirstLine": false,
+      "id": "block-56"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "小型資料集（數百至數千筆樣本）",
+      "pageIndex": 146,
+      "bbox": [
+        102.16,
+        600.75,
+        311.23,
+        614.2
+      ],
+      "id": "block-57"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "當樣本有限時，選擇結構簡單、參數數量少的模型能有效降低過擬合風險。例如線性迴歸、邏輯迴歸、決策樹或正則化模型（如 Lasso、Ridge） 為常見選項。",
+      "pageIndex": 146,
+      "bbox": [
+        120.52,
+        625.74,
+        524.64,
+        689.23
+      ],
+      "id": "block-58"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "此時資料前處理與特徵工程的重要性提高，需以較強的先驗假設支撐模型效果。",
+      "pageIndex": 146,
+      "bbox": [
+        76.6,
+        700.74,
+        517.85,
+        755.82
+      ],
+      "id": "block-59"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "中型資料集（數千至數十萬筆樣本）",
+      "pageIndex": 147,
+      "bbox": [
+        102.16,
+        100.66,
+        323.85,
+        114.11
+      ],
+      "id": "block-60"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "此區間提供模型一定的學習能力與泛化基礎，能夠支持較高表現力的模型如隨機森林、梯度提升機（XGBoost、LightGBM）等。",
+      "pageIndex": 147,
+      "bbox": [
+        120.52,
+        125.62,
+        517.85,
+        164.15
+      ],
+      "id": "block-61"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "可進一步嘗試模型集成與超參數優化，提升預測效能。同時，計算資源與訓練時間，會成為實務上必須考量的限制因素。",
+      "pageIndex": 147,
+      "bbox": [
+        120.52,
+        175.66,
+        518.2,
+        214.07
+      ],
+      "id": "block-62"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "大型資料集（百萬級以上樣本）",
+      "pageIndex": 147,
+      "bbox": [
+        102.16,
+        225.7,
+        298.63,
+        239.15
+      ],
+      "id": "block-63"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "大規模資料能發揮深度模型的表現潛力，特別是在非結構化資料（如影像、語音、文字）處理上，深度神經網路成為主要選擇。",
+      "pageIndex": 147,
+      "bbox": [
+        120.52,
+        250.69,
+        518.23,
+        289.1
+      ],
+      "id": "block-64"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "大型資料訓練也對運算能力、分散式架構支援、模型調校效率有更高要求。此時應選擇具擴展性且可配合GPU/多機訓練的架構設計。",
+      "pageIndex": 147,
+      "bbox": [
+        120.52,
+        300.73,
+        518.2,
+        339.14
+      ],
+      "id": "block-65"
+    },
+    {
+      "type": "heading",
+      "depth": 4,
+      "title": "（3）模型解釋性需求",
+      "pageIndex": 147,
+      "bbox": [
+        70.24,
+        375.89,
+        193.03,
+        389.18
+      ],
+      "id": "block-66"
+    },
+    {
+      "type": "paragraph",
+      "depth": 5,
+      "text": "模型的可解釋性決定了其在特定領域的適用性，特別是在醫療、金融、法遵等需追溯模型決策邏輯的情境下，更是不可或缺。",
+      "pageIndex": 147,
+      "bbox": [
+        76.6,
+        401.93,
+        517.93,
+        439.1
+      ],
+      "indentFirstLine": false,
+      "id": "block-67"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "高解釋性模型",
+      "pageIndex": 147,
+      "bbox": [
+        102.16,
+        450.75,
+        197.83,
+        464.2
+      ],
+      "id": "block-68"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "線性迴歸（Linear Regression）、邏輯迴歸（Logistic Regression）與淺層決策樹（Shallow Decision Tree）等模型具備結構簡單、邏輯可視化的特性。其決策過程明確，變數對預測結果的影響可透過係數、分割規則等方式直接解釋，便於使用者進行結果溝通與審查。",
+      "pageIndex": 147,
+      "bbox": [
+        120.52,
+        475.71,
+        518.37,
+        564.16
+      ],
+      "id": "block-69"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "此類模型常被應用於對可解釋性有明確要求的場域，如醫療診斷、信貸評分與法規監管等情境。",
+      "pageIndex": 147,
+      "bbox": [
+        120.52,
+        575.67,
+        518.32,
+        614.2
+      ],
+      "id": "block-70"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "低解釋性模型",
+      "pageIndex": 147,
+      "bbox": [
+        102.16,
+        625.74,
+        197.83,
+        639.19
+      ],
+      "id": "block-71"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "隨機森林（Random Forest）、梯度提升樹（Gradient Boosting Trees）與深度神經網路（Deep Neural Networks）等模型雖具備高度預測能力，但其結構高度非線性且包含大量參數，使得模型的決策過程不易直觀理解。",
+      "pageIndex": 147,
+      "bbox": [
+        120.52,
+        650.7,
+        518.4,
+        739.15
+      ],
+      "id": "block-72"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "在醫療、金融或法規敏感等高風險應用場景中，建議搭配模型可解釋性技術使用，例如SHAP（SHapley Additive exPlanations）、LIME（Local Interpretable Model-Agnostic Explanations）或偏依圖（Partial Dependence Plot），以輔助理解模型對特徵的依賴關係與輸出邏輯，進而提升模型透明度與可信度。",
+      "pageIndex": 148,
+      "bbox": [
+        120.52,
+        100.66,
+        521.82,
+        214.07
+      ],
+      "id": "block-73"
+    },
+    {
+      "type": "heading",
+      "depth": 4,
+      "title": "（4）運算資源與實務部署限制",
+      "pageIndex": 148,
+      "bbox": [
+        70.24,
+        250.85,
+        243.43,
+        264.14
+      ],
+      "id": "block-74"
+    },
+    {
+      "type": "paragraph",
+      "depth": 5,
+      "text": "實務應用中，模型部署往往受限於資源環境與即時反應需求。選擇模型時，除理論效能外，也應考量部署現實與維運成本。",
+      "pageIndex": 148,
+      "bbox": [
+        76.6,
+        276.89,
+        518.23,
+        314.18
+      ],
+      "indentFirstLine": false,
+      "id": "block-75"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "資源受限場景（如IoT、手機App、邊緣裝置）",
+      "pageIndex": 148,
+      "bbox": [
+        102.16,
+        325.69,
+        382.53,
+        339.14
+      ],
+      "id": "block-76"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "適合選用模型結構簡單、參數少、推論快速的演算法，例如簡單決策樹、邏輯迴歸或經壓縮後的小型神經網路。亦可採用模型剪枝或量化等技術進行模型瘦身。",
+      "pageIndex": 148,
+      "bbox": [
+        120.52,
+        350.65,
+        521.32,
+        414.14
+      ],
+      "id": "block-77"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "資源充足場景（如雲端部署、資料中心）",
+      "pageIndex": 148,
+      "bbox": [
+        102.16,
+        425.65,
+        349.05,
+        439.1
+      ],
+      "id": "block-78"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "可使用高效能深度模型、模型集成策略，充分發揮硬體計算能力。同時能支援較複雜的資料前處理與後處理流程。",
+      "pageIndex": 148,
+      "bbox": [
+        120.52,
+        450.75,
+        518.2,
+        489.16
+      ],
+      "id": "block-79"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "即時推論需求",
+      "pageIndex": 148,
+      "bbox": [
+        102.16,
+        500.67,
+        197.83,
+        514.12
+      ],
+      "id": "block-80"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "在必須秒級或毫秒級回應的任務中（如金融交易、推薦系統），須優先考量模型的推論延遲與效能表現。可搭配caching、模型蒸餾（knowledge distillation）等技術提升即時表現。",
+      "pageIndex": 148,
+      "bbox": [
+        120.52,
+        525.75,
+        521.77,
+        589.12
+      ],
+      "id": "block-81"
+    },
+    {
+      "type": "paragraph",
+      "depth": 5,
+      "text": "模型選擇與部署應同步規劃，避免訓練完成後才發現模型無法實際上線執行。",
+      "pageIndex": 148,
+      "bbox": [
+        76.6,
+        609.07,
+        521.88,
+        638.95
+      ],
+      "indentFirstLine": false,
+      "id": "block-82"
+    },
+    {
+      "type": "heading",
+      "depth": 4,
+      "title": "（5）偏差-變異的權衡（Bias-Variance Tradeoff）",
+      "pageIndex": 149,
+      "bbox": [
+        70.24,
+        100.82,
+        347.97,
+        114.11
+      ],
+      "id": "block-83"
+    },
+    {
+      "type": "paragraph",
+      "depth": 5,
+      "text": "模型選擇的核心原則之一是權衡偏差（bias）與變異（variance），兩者之間存在固有的取捨關係：",
+      "pageIndex": 149,
+      "bbox": [
+        76.6,
+        402.65,
+        518.2,
+        440.9
+      ],
+      "indentFirstLine": false,
+      "id": "block-84"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "偏差（Bias）：",
+      "pageIndex": 149,
+      "bbox": [
+        102.16,
+        452.43,
+        201.43,
+        465.88
+      ],
+      "id": "block-85"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "指模型對資料結構的擬合能力不足，無法有效捕捉資料中的主要趨勢，導致系統性誤差偏高（欠擬合）。",
+      "pageIndex": 149,
+      "bbox": [
+        120.52,
+        477.51,
+        521.44,
+        515.92
+      ],
+      "id": "block-86"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "變異（Variance）：",
+      "pageIndex": 149,
+      "bbox": [
+        102.16,
+        527.43,
+        223.27,
+        540.88
+      ],
+      "id": "block-87"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "指模型對訓練資料的細微差異或雜訊過於敏感，導致模型在不同資料集上的表現差異大、泛化能力差（過擬合）。",
+      "pageIndex": 149,
+      "bbox": [
+        120.52,
+        552.51,
+        517.85,
+        590.92
+      ],
+      "id": "block-88"
+    },
+    {
+      "type": "paragraph",
+      "depth": 5,
+      "text": "模型複雜度的提升通常伴隨偏差的降低與變異的提高，因此模型選擇應在二者之間取得適當平衡：",
+      "pageIndex": 149,
+      "bbox": [
+        76.6,
+        611.83,
+        517.93,
+        649.15
+      ],
+      "indentFirstLine": false,
+      "id": "block-89"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "低複雜度模型（如線性迴歸）：",
+      "pageIndex": 149,
+      "bbox": [
+        102.16,
+        660.66,
+        292.39,
+        674.11
+      ],
+      "id": "block-90"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "偏差較高、變異較低，穩定且具解釋性，但無法處理複雜關係。",
+      "pageIndex": 149,
+      "bbox": [
+        120.52,
+        685.62,
+        492.0,
+        699.07
+      ],
+      "id": "block-91"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "高複雜度模型（如深度神經網路）：",
+      "pageIndex": 149,
+      "bbox": [
+        102.16,
+        710.7,
+        317.59,
+        724.15
+      ],
+      "id": "block-92"
+    },
+    {
+      "type": "list_item",
+      "depth": 6,
+      "marker": "◦",
+      "text": "偏差低、變異高，可擬合複雜模式，但需更多資料或額外的正則化方法以控制變異。",
+      "pageIndex": 149,
+      "bbox": [
+        120.52,
+        735.66,
+        517.91,
+        774.06
+      ],
+      "id": "block-93"
+    }
+  ]
+}

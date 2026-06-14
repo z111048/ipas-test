@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { resourceLevels, resourceStats, type ResourceNavItem } from '../data/resourceRegistry'
+import { learningArticleIndex } from '../data/articleLoaders'
 import StatBox from '../components/shared/StatBox'
 
 function statusLabel(status?: ResourceNavItem['status']) {
@@ -58,6 +59,7 @@ export default function HomePage() {
   const juniorPracticeTo = resourceLevels[0].subjects[0]?.practiceTo
   const middleGuideTo = resourceLevels[1].subjects[0]?.guideTo
   const firstExamTo = resourceLevels[0].exams[0]?.to
+  const firstArticleTo = learningArticleIndex.articlesById[learningArticleIndex.flatArticleIds[0]]?.route ?? '/articles'
 
   return (
     <div className="page-shell">
@@ -74,6 +76,7 @@ export default function HomePage() {
               {juniorPracticeTo && (
                 <Link to={juniorPracticeTo} className="btn-primary">開始初級章節練習</Link>
               )}
+              <Link to={firstArticleTo} className="btn-outline">主題文章學習</Link>
               {middleGuideTo && (
                 <Link to={middleGuideTo} className="btn-outline">中級學習指引</Link>
               )}
@@ -85,6 +88,7 @@ export default function HomePage() {
           <div className="flex shrink-0 flex-wrap gap-2 lg:flex-col lg:items-end">
             <span className="pill">官方資料對齊</span>
             <span className="pill pill-muted">初級 / 中級雙軌</span>
+            <span className="pill pill-muted">{learningArticleIndex.pathCount} 條主題路徑</span>
           </div>
         </div>
       </div>
@@ -92,6 +96,8 @@ export default function HomePage() {
       <div className="flex gap-3 flex-wrap mb-6">
         <StatBox value={resourceStats.junior.subjects + resourceStats.middle.subjects} label="考試科目" />
         <StatBox value={resourceStats.junior.chapters + resourceStats.middle.chapters} label="章節單元" />
+        <StatBox value={learningArticleIndex.articleCount} label="主題文章" />
+        <StatBox value={learningArticleIndex.pathCount} label="學習路徑" />
         <StatBox value={totalPractice} label="章節練習題" />
         <StatBox value={totalOfficial} label="官方試題 / 樣題" />
       </div>
@@ -180,7 +186,7 @@ export default function HomePage() {
             {
               step: '01',
               title: '確認科目與範圍',
-              desc: '依級別選定要準備的科目，閱讀對應章節的官方學習指引，建立整體架構與評鑑重點。',
+              desc: '依級別選定要準備的科目，先讀主題式文章建立架構，再回到官方學習指引對照原始範圍。',
             },
             {
               step: '02',

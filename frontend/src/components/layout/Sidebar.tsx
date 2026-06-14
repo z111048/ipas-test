@@ -97,6 +97,14 @@ function SubjectBlock({
         </NavLink>
       )}
 
+      <NavLink
+        to={`/articles?subject=${subject.id}`}
+        className={() => navItemClass(false)}
+        onClick={onClose}
+      >
+        主題文章
+      </NavLink>
+
       {/* 練習 */}
       {subject.practiceTo && (
         <SidebarLink
@@ -215,6 +223,13 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
             onClick={onClose}
           >
             首頁
+          </NavLink>
+          <NavLink
+            to="/articles"
+            className={({ isActive }) => navItemClass(isActive)}
+            onClick={onClose}
+          >
+            主題文章
           </NavLink>
         </div>
 

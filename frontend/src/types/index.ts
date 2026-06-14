@@ -260,6 +260,87 @@ export interface GuideOutlinesData {
   guides: Record<string, GuideOutlineSubject>
 }
 
+export type LearningArticleLevelId = 'junior' | 'middle'
+
+export interface LearningArticleSource {
+  guideKey: string
+  nodeId: string
+  contentRef: string
+  sourceContentRef?: string
+  sourcePageRange?: [number, number] | null
+  pdf?: string
+}
+
+export interface LearningArticleSection {
+  id: string
+  title: string
+  depth: number
+}
+
+export interface LearningArticleMeta {
+  id: string
+  levelId: LearningArticleLevelId
+  levelLabel: string
+  subjectId: string
+  subjectTitle: string
+  subjectShortTitle: string
+  title: string
+  order: number
+  globalOrder: number
+  route: string
+  guideRoute: string
+  practiceRoute: string
+  pathIds: string[]
+  subtopics: string[]
+  excerpt: string
+  wordCount: number
+  readingMinutes: number
+  sectionCount: number
+  source: LearningArticleSource
+}
+
+export interface LearningArticle extends LearningArticleMeta {
+  sections: LearningArticleSection[]
+  blocks: GuideBlock[]
+}
+
+export interface LearningArticleSubjectIndex {
+  id: string
+  title: string
+  shortTitle: string
+  articleIds: string[]
+}
+
+export interface LearningArticleLevelIndex {
+  id: LearningArticleLevelId
+  label: string
+  articleIds: string[]
+  subjects: LearningArticleSubjectIndex[]
+}
+
+export interface LearningPath {
+  id: string
+  title: string
+  description: string
+  articleIds: string[]
+  articleCount: number
+  levelIds: LearningArticleLevelId[]
+  estimatedMinutes: number
+  route: string
+  startingArticleId: string
+}
+
+export interface LearningArticleIndex {
+  generatedAt: string
+  articleCount: number
+  pathCount: number
+  levels: Record<LearningArticleLevelId, LearningArticleLevelIndex>
+  learningPaths: LearningPath[]
+  pathsById: Record<string, LearningPath>
+  flatArticleIds: string[]
+  articlesById: Record<string, LearningArticleMeta>
+}
+
 export interface ResourceQuestionSummary {
   available: boolean
   total: number

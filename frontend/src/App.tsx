@@ -11,6 +11,8 @@ const ExamPage = lazy(() => import('./pages/ExamPage'))
 const GuidePage = lazy(() => import('./pages/GuidePage'))
 const ImageGalleryPage = lazy(() => import('./pages/ImageGalleryPage'))
 const GlossaryPage = lazy(() => import('./pages/GlossaryPage'))
+const LearningArticlesPage = lazy(() => import('./pages/LearningArticlesPage'))
+const LearningArticlePage = lazy(() => import('./pages/LearningArticlePage'))
 
 function AppShell() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -33,6 +35,8 @@ function AppShell() {
               <Route path="/practice/:subjectId/:chapterId/:practiceSet" element={<PracticePage />} />
               <Route path="/exam/:examKey" element={<ExamPage />} />
               <Route path="/guide/:subjectId/:chapterId" element={<GuidePage />} />
+              <Route path="/articles" element={<LearningArticlesPage />} />
+              <Route path="/articles/:articleId" element={<LearningArticlePage />} />
               <Route path="/images" element={<ImageGalleryPage />} />
               <Route path="/glossary" element={<GlossaryPage />} />
             </Routes>

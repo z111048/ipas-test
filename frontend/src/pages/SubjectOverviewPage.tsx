@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import guideOutlinesRaw from '../generated/guideOutlines.json'
 import { resourceLevels, resourceSummary } from '../data/resourceRegistry'
+import { articleMeta } from '../data/articleLoaders'
 import type { GuideOutlinesData } from '../types'
 import ProgressBar from '../components/shared/ProgressBar'
 import GuideOutlineTree from '../components/guide/GuideOutlineTree'
@@ -81,6 +82,7 @@ export default function SubjectOverviewPage() {
           const pageRange = ch.page_range
             ? `PDF 第 ${ch.page_range[0] + 1}–${ch.page_range[1] + 1} 頁`
             : null
+          const article = articleMeta(ch.id)
           return (
             <div key={ch.id} className="surface p-5">
               <h3 className="text-primary font-semibold mb-1 leading-snug">{ch.title}</h3>
@@ -93,6 +95,14 @@ export default function SubjectOverviewPage() {
                 ))}
               </div>
               <div className="flex flex-wrap gap-2">
+                {article && (
+                  <Link
+                    to={article.route}
+                    className="btn-primary"
+                  >
+                    主題文章
+                  </Link>
+                )}
                 <Link
                   to={`/guide/${subjectData.id}/${ch.id}`}
                   className="btn-outline"
