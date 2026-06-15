@@ -1,15 +1,22 @@
-import { useEffect, useMemo, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import remarkMath from 'remark-math'
+import rehypeRaw from 'rehype-raw'
+import rehypeKatex from 'rehype-katex'
 import guideImagesRaw from '../generated/guideImages.json'
 import juniorTocRaw from '@data/toc_manifest.json'
 import middleTocRaw from '@data-mid/toc_manifest.json'
 import { resourceSummary } from '../data/resourceRegistry'
-import type { GuideImageAsset, GuideImagesData, TocManifest } from '../types'
+import type { GuideContent, GuideImageAsset, GuideImagesData, TocManifest } from '../types'
 import { publicAsset } from '../utils/assets'
 
 const guideImages = guideImagesRaw as unknown as GuideImagesData
 const juniorToc = juniorTocRaw as unknown as TocManifest
 const middleToc = middleTocRaw as unknown as TocManifest
+
+const guideContentModules = import.meta.glob<{ default: GuideContent }>('../generated/guideContent/*/*.json')
 
 interface ChapterMeta {
   title: string
@@ -57,6 +64,119 @@ function headingTrail(image: GuideImageAsset) {
   return path.slice(0, -1).join(' › ')
 }
 
+function normalizeHeading(text: string) {
+  return text
+    .replace(/^[#＃\s]+/, '')
+    .replace(/^\d+(?:[.\-]\d+)*\s*/, '')
+    .replace(/[\s　]/g, '')
+    .replace(/[：:]+$/, '')
+    .toLowerCase()
+}
+
+/** Slice the markdown section under the heading matching the image's concept title. */
+function extractSection(content: string, rawTitle: string): string | null {
+  const target = normalizeHeading(rawTitle)
+  if (!target) return null
+  const lines = content.split('\n')
+  let startIdx = -1
+  let startLevel = 0
+  for (let i = 0; i < lines.length; i += 1) {
+    const match = lines[i].match(/^(#{1,6})\s+(.*)$/)
+    if (!match) continue
+    const heading = normalizeHeading(match[2])
+    if (!heading) continue
+    const fuzzy = target.length >= 3 && (heading.includes(target) || target.includes(heading))
+    if (heading === target || fuzzy) {
+      startIdx = i
+      startLevel = match[1].length
+      break
+    }
+  }
+  if (startIdx === -1) return null
+  const out = [lines[startIdx]]
+  for (let i = startIdx + 1; i < lines.length; i += 1) {
+    const match = lines[i].match(/^(#{1,6})\s+/)
+    if (match && match[1].length <= startLevel) break
+    out.push(lines[i])
+  }
+  return out.join('\n').trim() || null
+}
+
+/** Fallback bite-sized intro: the chapter lead text before the first sub-heading. */
+function chapterIntro(content: string, limit = 360): string {
+  const lines = content.split('\n')
+  const body: string[] = []
+  let started = false
+  for (const line of lines) {
+    const isHeading = /^#{1,6}\s+/.test(line)
+    if (!started) {
+      if (/^#\s+/.test(line)) {
+        started = true
+        continue
+      }
+      if (line.trim()) started = true
+    }
+    if (started && isHeading) break
+    if (started) body.push(line)
+  }
+  const text = body.join('\n').trim()
+  if (text.length <= limit) return text
+  return `${text.slice(0, limit).replace(/\s+\S*$/, '')}…`
+}
+
+const markdownComponents = {
+  h1: ({ children }: { children?: ReactNode }) => (
+    <h3 className="mb-2 text-base font-semibold text-primary break-words">{children}</h3>
+  ),
+  h2: ({ children }: { children?: ReactNode }) => (
+    <h3 className="mt-3 mb-1.5 text-base font-semibold text-primary break-words">{children}</h3>
+  ),
+  h3: ({ children }: { children?: ReactNode }) => (
+    <h4 className="mt-3 mb-1 text-[0.95rem] font-semibold text-accent break-words">{children}</h4>
+  ),
+  h4: ({ children }: { children?: ReactNode }) => (
+    <h5 className="mt-2.5 mb-1 text-[0.9rem] font-semibold text-primary break-words">{children}</h5>
+  ),
+  h5: ({ children }: { children?: ReactNode }) => (
+    <h6 className="mt-2 mb-1 text-[0.86rem] font-semibold text-app-text break-words">{children}</h6>
+  ),
+  h6: ({ children }: { children?: ReactNode }) => (
+    <h6 className="mt-2 mb-1 text-[0.84rem] font-semibold text-text-light break-words">{children}</h6>
+  ),
+  p: ({ children }: { children?: ReactNode }) => (
+    <p className="mb-2.5 break-words leading-7">{children}</p>
+  ),
+  ul: ({ children }: { children?: ReactNode }) => (
+    <ul className="mb-2.5 list-disc list-outside space-y-1 pl-5">{children}</ul>
+  ),
+  ol: ({ children }: { children?: ReactNode }) => (
+    <ol className="mb-2.5 list-decimal list-outside space-y-1 pl-5">{children}</ol>
+  ),
+  li: ({ children }: { children?: ReactNode }) => (
+    <li className="break-words leading-7">{children}</li>
+  ),
+  table: ({ children }: { children?: ReactNode }) => (
+    <div className="my-3 overflow-x-auto">
+      <table className="table-soft text-[0.82rem]">{children}</table>
+    </div>
+  ),
+  td: ({ children }: { children?: ReactNode }) => (
+    <td className="whitespace-pre-line break-words leading-6">{children}</td>
+  ),
+  th: ({ children }: { children?: ReactNode }) => (
+    <th className="whitespace-pre-line break-words">{children}</th>
+  ),
+  code: ({ children }: { children?: ReactNode }) => (
+    <code className="break-words rounded bg-[#eef2f7] px-1 py-0.5 text-[0.82rem]">{children}</code>
+  ),
+}
+
+interface SectionState {
+  loading: boolean
+  markdown: string
+  isIntro: boolean
+}
+
 export default function VisualCardsPage() {
   const [searchParams] = useSearchParams()
   const queryString = searchParams.toString()
@@ -66,12 +186,56 @@ export default function VisualCardsPage() {
   const [keyword, setKeyword] = useState('')
   const [visibleGroups, setVisibleGroups] = useState(PAGE_STEP)
   const [active, setActive] = useState<GuideImageAsset | null>(null)
+  const [section, setSection] = useState<SectionState>({ loading: false, markdown: '', isIntro: false })
 
   useEffect(() => {
     setLevel(searchParams.get('level') ?? '初級')
     setSubjectId(searchParams.get('subject') ?? 'all')
     setChapterId(searchParams.get('chapter') ?? 'all')
   }, [queryString])
+
+  // Lazy-load the chapter content and slice out the section for the opened card.
+  useEffect(() => {
+    if (!active) {
+      setSection({ loading: false, markdown: '', isIntro: false })
+      return
+    }
+    let cancelled = false
+    setSection({ loading: true, markdown: '', isIntro: false })
+    const moduleKey = `../generated/guideContent/${active.level}-${active.guideKey}/${active.sourceNodeId}.json`
+    const loader = guideContentModules[moduleKey]
+    if (!loader) {
+      setSection({ loading: false, markdown: '', isIntro: false })
+      return
+    }
+    loader()
+      .then((module) => {
+        if (cancelled) return
+        const content = module.default?.content ?? ''
+        const matched = extractSection(content, active.title)
+        if (matched) {
+          setSection({ loading: false, markdown: matched, isIntro: false })
+        } else {
+          setSection({ loading: false, markdown: chapterIntro(content), isIntro: true })
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setSection({ loading: false, markdown: '', isIntro: false })
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [active])
+
+  // Lock body scroll while the reader modal is open.
+  useEffect(() => {
+    if (!active) return
+    const previous = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = previous
+    }
+  }, [active])
 
   const total = guideImages.images.length
 
@@ -249,15 +413,15 @@ export default function VisualCardsPage() {
         {shownGroups.map((group) => (
           <section key={group.chapterId}>
             <div className="mb-3 flex items-end justify-between gap-3 border-b border-border pb-2">
-              <div>
+              <div className="min-w-0">
                 <div className="text-[0.72rem] uppercase tracking-wider text-text-light">
                   {group.meta.level} · {group.meta.subjectShort}
                 </div>
-                <h2 className="text-[1.05rem] font-semibold text-primary">{group.meta.title}</h2>
+                <h2 className="break-words text-[1.05rem] font-semibold text-primary">{group.meta.title}</h2>
               </div>
               <span className="pill shrink-0">{group.images.length} 張</span>
             </div>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 sm:justify-items-stretch xl:grid-cols-3">
               {group.images.map((image) => (
                 <VisualCard key={image.id} image={image} onOpen={() => setActive(image)} />
               ))}
@@ -289,13 +453,13 @@ export default function VisualCardsPage() {
           >
             <div className="flex items-start justify-between gap-3 border-b border-border p-4">
               <div className="min-w-0">
-                <div className="truncate font-semibold text-primary">{active.title}</div>
-                <div className="text-[0.8rem] text-text-light">
+                <div className="break-words text-[0.95rem] font-semibold leading-snug text-primary">{active.title}</div>
+                <div className="mt-0.5 break-words text-[0.8rem] text-text-light">
                   {chapterMeta[active.sourceNodeId]?.level} · {chapterMeta[active.sourceNodeId]?.subjectShort} ·{' '}
                   {chapterMeta[active.sourceNodeId]?.title}
                 </div>
                 {headingTrail(active) && (
-                  <div className="mt-0.5 text-[0.76rem] text-text-light">{headingTrail(active)}</div>
+                  <div className="mt-0.5 break-words text-[0.76rem] text-text-light">{headingTrail(active)}</div>
                 )}
               </div>
               <button
@@ -306,8 +470,50 @@ export default function VisualCardsPage() {
                 關閉
               </button>
             </div>
-            <div className="overflow-auto bg-[#f5f7fa] p-4">
-              <img src={publicAsset(active.src)} alt={active.title} className="mx-auto h-auto max-w-full bg-white" />
+
+            <div className="min-h-0 flex-1 overflow-y-auto">
+              <div className="flex items-center justify-center bg-[#f5f7fa] p-4">
+                <img
+                  src={publicAsset(active.src)}
+                  alt={active.title}
+                  className="mx-auto max-h-[42vh] w-auto max-w-full bg-white object-contain"
+                />
+              </div>
+
+              <div className="p-4 sm:p-5">
+                <div className="mb-2 flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+                  <span className="text-[0.8rem] font-semibold text-primary">
+                    {section.isIntro ? '本章重點摘要' : '本段章節內容'}
+                  </span>
+                </div>
+
+                {section.loading ? (
+                  <div className="py-4 text-[0.85rem] text-text-light">章節內容載入中…</div>
+                ) : section.markdown ? (
+                  <div className="prose prose-sm max-w-none break-words text-[0.86rem] leading-7 text-app-text">
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm, remarkMath]}
+                      rehypePlugins={[rehypeRaw, rehypeKatex]}
+                      components={markdownComponents}
+                    >
+                      {section.markdown}
+                    </ReactMarkdown>
+                  </div>
+                ) : (
+                  <div className="py-2 text-[0.85rem] text-text-light">此圖卡目前沒有對應的章節文字，可前往完整章節閱讀。</div>
+                )}
+
+                <div className="mt-4 border-t border-border pt-3">
+                  <Link
+                    to={`/guide/${active.subjectId}/${active.sourceNodeId}`}
+                    onClick={() => setActive(null)}
+                    className="btn-outline"
+                  >
+                    前往完整章節 →
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -323,7 +529,7 @@ function VisualCard({ image, onOpen }: { image: GuideImageAsset; onOpen: () => v
     <button
       type="button"
       onClick={onOpen}
-      className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent hover:shadow-md"
+      className="group flex w-full max-w-sm flex-col overflow-hidden rounded-xl border border-border bg-card text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent hover:shadow-md sm:max-w-none"
     >
       <div className="flex h-48 items-center justify-center overflow-hidden bg-[#f5f7fa] p-2">
         {failed ? (
@@ -340,7 +546,7 @@ function VisualCard({ image, onOpen }: { image: GuideImageAsset; onOpen: () => v
       </div>
       <div className="border-t border-border p-3">
         {trail && <div className="mb-0.5 truncate text-[0.72rem] text-text-light">{trail}</div>}
-        <div className="line-clamp-2 text-[0.86rem] font-medium leading-snug text-primary">{image.title}</div>
+        <div className="line-clamp-2 break-words text-[0.86rem] font-medium leading-snug text-primary">{image.title}</div>
       </div>
     </button>
   )
