@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { resourceLevels, resourceStats, type ResourceNavItem } from '../data/resourceRegistry'
+import { resourceLevels, resourceStats, resourceSummary, type ResourceNavItem } from '../data/resourceRegistry'
 import { learningArticleIndex } from '../data/articleLoaders'
 import StatBox from '../components/shared/StatBox'
 
@@ -55,6 +55,7 @@ function ResourceLink({ item }: { item: ResourceNavItem }) {
 export default function HomePage() {
   const totalPractice = resourceStats.junior.practiceQuestions + resourceStats.middle.practiceQuestions
   const totalOfficial = resourceStats.junior.officialQuestions + resourceStats.middle.officialQuestions
+  const totalVisuals = resourceSummary.visuals?.total ?? 0
 
   const juniorPracticeTo = resourceLevels[0].subjects[0]?.practiceTo
   const middleGuideTo = resourceLevels[1].subjects[0]?.guideTo
@@ -70,13 +71,14 @@ export default function HomePage() {
             <div className="eyebrow mb-2">經濟部 iPAS 產業人才能力鑑定</div>
             <h1 className="text-[1.7rem] leading-tight font-bold text-primary mb-2">AI 應用規劃師備考平台</h1>
             <p className="text-[0.95rem] leading-7 text-text-light">
-              整合初級與中級的官方學習指引、歷屆公告試題與 AI 模擬練習，依科目章節對齊評鑑範圍，提供一站式系統化備考路徑。
+              整合初級與中級的官方學習指引、歷屆公告試題與章節模擬練習，逐章對齊 iPAS 評鑑範圍，把分散的 PDF 教材重組成可循序漸進的一站式備考路徑。
             </p>
             <div className="mt-4 flex flex-wrap gap-2.5">
               {juniorPracticeTo && (
                 <Link to={juniorPracticeTo} className="btn-primary">開始初級章節練習</Link>
               )}
               <Link to={firstArticleTo} className="btn-outline">主題文章學習</Link>
+              <Link to="/visuals" className="btn-outline">概念圖卡速覽</Link>
               {middleGuideTo && (
                 <Link to={middleGuideTo} className="btn-outline">中級學習指引</Link>
               )}
@@ -100,6 +102,51 @@ export default function HomePage() {
         <StatBox value={learningArticleIndex.pathCount} label="學習路徑" />
         <StatBox value={totalPractice} label="章節練習題" />
         <StatBox value={totalOfficial} label="官方試題 / 樣題" />
+        {totalVisuals > 0 && <StatBox value={totalVisuals} label="概念圖卡" />}
+      </div>
+
+      <div className="surface p-5 mb-6">
+        <div className="eyebrow mb-1">Why this platform</div>
+        <h2 className="section-title mb-1.5">為什麼用這個平台備考</h2>
+        <p className="text-[0.86rem] leading-6 text-text-light mb-4 max-w-3xl">
+          官方教材分散在多份 PDF，準備起來零散又費時。這裡把所有素材依評鑑範圍重新組織，讓你照著走就好。
+        </p>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            {
+              title: '逐章對齊官方範圍',
+              desc: '依 iPAS 官方學習指引與簡章評鑑範圍切分章節，每個考點都能對回原始出處，不漏不混。',
+            },
+            {
+              title: '初級・中級雙軌完整',
+              desc: `一站涵蓋兩個級別共 ${resourceStats.junior.subjects + resourceStats.middle.subjects} 科、${resourceStats.junior.chapters + resourceStats.middle.chapters} 個章節，從入門到進階都在同一平台。`,
+            },
+            {
+              title: '歷屆真題＋官方樣題',
+              desc: `收錄 ${totalOfficial} 題多梯次公告試題與官方樣題，附逐題詳解與選項分析，作答完立即檢討。`,
+            },
+            {
+              title: '主題文章重組教材',
+              desc: '把厚重 PDF 重寫成可獨立閱讀的主題文章，並以跨章學習路徑串起基礎、資料、模型到落地治理。',
+            },
+            {
+              title: '概念圖卡視覺記憶',
+              desc: `${totalVisuals} 張重點圖卡依章節編排，零碎時間少量多餐，把抽象概念變成看得懂的畫面。`,
+            },
+            {
+              title: '中英術語即時對照',
+              desc: '中級關鍵字整理彙整中英文定義與案例，專有名詞一次查清楚，考場上不再卡關。',
+            },
+          ].map((feature) => (
+            <div key={feature.title} className="surface-compact p-4">
+              <div className="mb-1.5 flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+                <h3 className="font-semibold text-primary">{feature.title}</h3>
+              </div>
+              <p className="text-[0.83rem] leading-6 text-text-light">{feature.desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 mb-6">
@@ -191,7 +238,7 @@ export default function HomePage() {
             {
               step: '02',
               title: '章節練習鞏固概念',
-              desc: '透過 AI 模擬章節練習題反覆檢測熟悉度；中級可搭配關鍵字整理快速複習中英文術語。',
+              desc: '透過章節模擬練習題反覆檢測熟悉度；中級可搭配關鍵字整理快速複習中英文術語。',
             },
             {
               step: '03',

@@ -365,8 +365,14 @@ export interface ResourceLevelSummary {
   exams: Record<string, ResourceExamSummary>
 }
 
+export interface VisualsSummary {
+  total: number
+  byLevel: Record<string, number>
+}
+
 export interface ResourceSummaryData {
   levels: Record<'junior' | 'middle', ResourceLevelSummary>
+  visuals?: VisualsSummary
 }
 
 export type UserAnswers = Record<number, 'A' | 'B' | 'C' | 'D'>

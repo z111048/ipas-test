@@ -120,7 +120,7 @@ function SubjectBlock({
       )}
       {subject.codex100PracticeTo && (
         <SidebarLink
-          item={{ label: 'Codex 100 題', to: subject.codex100PracticeTo, status: 'available', detail: subject.codex100PracticeDetail }}
+          item={{ label: '精選 100 題', to: subject.codex100PracticeTo, status: 'available', detail: subject.codex100PracticeDetail }}
           onClose={onClose}
         />
       )}
@@ -230,6 +230,13 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
             onClick={onClose}
           >
             主題文章
+          </NavLink>
+          <NavLink
+            to="/visuals"
+            className={({ isActive }) => navItemClass(isActive)}
+            onClick={onClose}
+          >
+            概念圖卡
           </NavLink>
         </div>
 

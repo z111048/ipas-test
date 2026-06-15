@@ -10,6 +10,7 @@ const PracticePage = lazy(() => import('./pages/PracticePage'))
 const ExamPage = lazy(() => import('./pages/ExamPage'))
 const GuidePage = lazy(() => import('./pages/GuidePage'))
 const ImageGalleryPage = lazy(() => import('./pages/ImageGalleryPage'))
+const VisualCardsPage = lazy(() => import('./pages/VisualCardsPage'))
 const GlossaryPage = lazy(() => import('./pages/GlossaryPage'))
 const LearningArticlesPage = lazy(() => import('./pages/LearningArticlesPage'))
 const LearningArticlePage = lazy(() => import('./pages/LearningArticlePage'))
@@ -37,6 +38,7 @@ function AppShell() {
               <Route path="/guide/:subjectId/:chapterId" element={<GuidePage />} />
               <Route path="/articles" element={<LearningArticlesPage />} />
               <Route path="/articles/:articleId" element={<LearningArticlePage />} />
+              <Route path="/visuals" element={<VisualCardsPage />} />
               <Route path="/images" element={<ImageGalleryPage />} />
               <Route path="/glossary" element={<GlossaryPage />} />
             </Routes>

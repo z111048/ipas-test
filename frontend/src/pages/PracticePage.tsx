@@ -24,7 +24,7 @@ export default function PracticePage() {
   const originalChapterCount = chapterId ? summary?.ai?.chapterCounts[chapterId] ?? 0 : 0
   const guideExerciseChapterCount = chapterId ? summary?.guide?.chapterCounts[chapterId] ?? 0 : 0
   const codex100ChapterCount = chapterId ? summary?.codex100?.chapterCounts[chapterId] ?? 0 : 0
-  const setLabel = isCodex100 ? 'Codex 100 題' : isGuideExercise ? '學習指引練習' : 'AI 舊版練習'
+  const setLabel = isCodex100 ? '精選 100 題' : isGuideExercise ? '學習指引練習' : '章節練習'
   const selectableChapters = subjectData?.chapters.filter((item) => (activeSummary?.chapterCounts[item.id] ?? 0) > 0) ?? []
 
   useEffect(() => {
@@ -99,11 +99,11 @@ export default function PracticePage() {
           <div className="eyebrow mb-2">Practice</div>
           <h1 className="text-2xl font-bold text-primary mb-1">章節練習題待建立</h1>
           <div className="text-text-light">
-          {subject?.label ?? subjectId} 的 AI 模擬章節練習題尚未入庫。
+          {subject?.label ?? subjectId} 的章節練習題尚未入庫。
           </div>
         </div>
         <div className="alert-warning mb-5">
-          目前中級可先使用學習指引與公告試題；後續完成 AI 模擬題後，此入口會自動改為可練習。
+          目前中級可先使用學習指引與公告試題；章節練習題建置後，此入口會自動改為可練習。
         </div>
         <div className="flex flex-wrap gap-2">
           {subject?.guideTo && (
@@ -153,7 +153,7 @@ export default function PracticePage() {
                 : 'border-border text-text-light hover:border-accent hover:text-accent'
             }`}
           >
-            AI 舊版練習（{originalChapterCount} 題）
+            章節練習（{originalChapterCount} 題）
           </Link>
         )}
         {guideExerciseChapterCount > 0 && (
@@ -177,7 +177,7 @@ export default function PracticePage() {
                 : 'border-border text-text-light hover:border-[#5b7c2a] hover:text-[#5b7c2a]'
             }`}
           >
-            Codex 100 題（{codex100ChapterCount} 題）
+            精選 100 題（{codex100ChapterCount} 題）
           </Link>
         )}
       </div>

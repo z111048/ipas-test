@@ -96,8 +96,22 @@ def summarize_exam(path: Path) -> dict[str, Any]:
     return {"available": total > 0, "total": total}
 
 
+def summarize_visuals() -> dict[str, Any]:
+    """Count concept-card images per level from generated guideImages.json."""
+    path = FRONTEND_GENERATED / "guideImages.json"
+    if not path.exists():
+        return {"total": 0, "byLevel": {}}
+    data = read_json(path)
+    images = data.get("images", [])
+    by_level: dict[str, int] = {}
+    for image in images:
+        level = image.get("level") or "其他"
+        by_level[level] = by_level.get(level, 0) + 1
+    return {"total": len(images), "byLevel": by_level}
+
+
 def build_summary() -> dict[str, Any]:
-    output: dict[str, Any] = {"levels": {}}
+    output: dict[str, Any] = {"levels": {}, "visuals": summarize_visuals()}
     for level_id, config in LEVELS.items():
         data_dir = config["data_dir"]
         subjects: dict[str, Any] = {}

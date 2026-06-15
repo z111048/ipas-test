@@ -62,7 +62,7 @@ export default function SubjectOverviewPage() {
 
       {!hasPractice && (
         <div className="alert-warning mb-5">
-          章節練習題尚未建立；目前可先使用學習指引與公告試題，完成 AI 模擬題後此區會自動顯示題數。
+          章節練習題尚未建立；目前可先使用學習指引與公告試題，章節練習題建置後此區會自動顯示題數。
         </div>
       )}
 
@@ -114,7 +114,7 @@ export default function SubjectOverviewPage() {
                     to={`/practice/${subjectData.id}/${ch.id}`}
                     className="btn-outline"
                   >
-                    AI 舊版練習
+                    章節練習
                   </Link>
                 ) : (
                   <span className="btn-muted">
@@ -134,7 +134,7 @@ export default function SubjectOverviewPage() {
                     to={`/practice/${subjectData.id}/${ch.id}/codex100`}
                     className="btn-success"
                   >
-                    Codex 100 題
+                    精選 100 題
                   </Link>
                 )}
               </div>
@@ -183,7 +183,7 @@ export default function SubjectOverviewPage() {
 
       {codex100Summary && (
         <div className="surface p-5">
-          <h2 className="section-title mb-4">Codex 100 題狀態</h2>
+          <h2 className="section-title mb-4">精選 100 題狀態</h2>
           <div className="space-y-3">
             {subjectData.chapters.map((ch, index) => {
               const n = codex100Counts[index]

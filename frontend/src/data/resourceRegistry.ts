@@ -79,7 +79,7 @@ function subjectResources(toc: TocManifest, level: 'junior' | 'middle'): Subject
       codex100PracticeTo: hasCodex100Questions && codex100Summary?.firstChapterId ? `/practice/${subject.id}/${codex100Summary.firstChapterId}/codex100` : undefined,
       practiceStatus: hasPracticeQuestions ? 'available' : 'pending',
       practiceLabel: hasPracticeQuestions ? '章節練習' : '章節練習待建立',
-      practiceDetail: isJunior ? 'AI 模擬章節練習題' : '原有 AI 模擬章節練習題',
+      practiceDetail: '章節模擬練習題',
       guideExercisePracticeDetail: hasGuideExerciseQuestions ? `${guideSummary?.total ?? 0} 題，從學習指引 PDF 內嵌練習抽取` : undefined,
       codex100PracticeDetail: hasCodex100Questions ? `${codex100Summary?.total ?? 0} 題，依章節平均分配` : undefined,
       examTo: isJunior ? `/exam/jr_1152_s${index + 1}` : `/exam/mid_1141_s${index + 1}`,
