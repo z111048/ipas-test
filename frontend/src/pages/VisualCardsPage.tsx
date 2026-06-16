@@ -73,6 +73,43 @@ function normalizeHeading(text: string) {
     .toLowerCase()
 }
 
+const SECTION_CHAR_CAP = 1600
+
+/**
+ * Guide markdown appends per-chapter practice questions + answer keys as raw
+ * text (no heading) at the end. Drop everything from the first multiple-choice
+ * block onward so card sections never bleed into 練習題.
+ */
+function stripPractice(content: string): string {
+  const lines = content.split('\n')
+  for (let i = 0; i < lines.length; i += 1) {
+    const line = lines[i]
+    const optionCluster =
+      line.includes('（A）') && line.includes('（B）') && (line.includes('（C）') || line.includes('（D）'))
+    const answerKey = /\bAns\s*[（(]/.test(line)
+    if (optionCluster || answerKey) {
+      // Walk back to the question stem ("1. ……") that introduces this block.
+      let cut = i
+      for (let j = i; j >= 0 && i - j < 12; j -= 1) {
+        if (/^\s*\d+\s*[.、]/.test(lines[j])) {
+          cut = j
+          break
+        }
+        if (lines[j].trim() === '') cut = j
+      }
+      return lines.slice(0, cut).join('\n').trimEnd()
+    }
+  }
+  return content
+}
+
+function capSection(text: string): string {
+  if (text.length <= SECTION_CHAR_CAP) return text
+  const slice = text.slice(0, SECTION_CHAR_CAP)
+  const lastBreak = slice.lastIndexOf('\n')
+  return `${(lastBreak > SECTION_CHAR_CAP * 0.6 ? slice.slice(0, lastBreak) : slice).trimEnd()}\n\n……（更多內容請見完整章節）`
+}
+
 /** Slice the markdown section under the heading matching the image's concept title. */
 function extractSection(content: string, rawTitle: string): string | null {
   const target = normalizeHeading(rawTitle)
@@ -93,13 +130,17 @@ function extractSection(content: string, rawTitle: string): string | null {
     }
   }
   if (startIdx === -1) return null
+  // A chapter-top H1 match would otherwise swallow the whole chapter — for it,
+  // stop at the very next heading so the card shows just the intro.
+  const stopAt = startLevel === 1 ? 6 : startLevel
   const out = [lines[startIdx]]
   for (let i = startIdx + 1; i < lines.length; i += 1) {
     const match = lines[i].match(/^(#{1,6})\s+/)
-    if (match && match[1].length <= startLevel) break
+    if (match && match[1].length <= stopAt) break
     out.push(lines[i])
   }
-  return out.join('\n').trim() || null
+  const section = out.join('\n').trim()
+  return section ? capSection(section) : null
 }
 
 /** Fallback bite-sized intro: the chapter lead text before the first sub-heading. */
@@ -211,7 +252,7 @@ export default function VisualCardsPage() {
     loader()
       .then((module) => {
         if (cancelled) return
-        const content = module.default?.content ?? ''
+        const content = stripPractice(module.default?.content ?? '')
         const matched = extractSection(content, active.title)
         if (matched) {
           setSection({ loading: false, markdown: matched, isIntro: false })
@@ -293,6 +334,27 @@ export default function VisualCardsPage() {
   }, [level, subjectId, chapterId, keyword])
 
   const matchedCount = useMemo(() => groups.reduce((sum, group) => sum + group.images.length, 0), [groups])
+
+  // Flat order across all filtered chapters, for prev/next navigation in the reader.
+  const flatImages = useMemo(() => groups.flatMap((group) => group.images), [groups])
+  const activeIndex = active ? flatImages.findIndex((image) => image.id === active.id) : -1
+  const goRelative = (delta: number) => {
+    if (activeIndex === -1) return
+    const next = flatImages[activeIndex + delta]
+    if (next) setActive(next)
+  }
+
+  // Keyboard: Esc closes, ←/→ switch cards.
+  useEffect(() => {
+    if (!active) return
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setActive(null)
+      else if (event.key === 'ArrowLeft') goRelative(-1)
+      else if (event.key === 'ArrowRight') goRelative(1)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [active, activeIndex, flatImages])
 
   useEffect(() => {
     setVisibleGroups(PAGE_STEP)
@@ -444,14 +506,14 @@ export default function VisualCardsPage() {
 
       {active && (
         <div
-          className="fixed inset-0 z-[80] flex items-center justify-center bg-black/70 p-4"
+          className="fixed inset-0 z-[120] flex items-stretch justify-center bg-black/70 sm:items-center sm:p-4"
           onClick={() => setActive(null)}
         >
           <div
-            className="flex max-h-[92vh] w-full max-w-4xl flex-col overflow-hidden rounded-xl bg-card"
+            className="flex h-full max-h-full w-full flex-col overflow-hidden rounded-none bg-card sm:h-auto sm:max-h-[92vh] sm:max-w-4xl sm:rounded-xl"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="flex items-start justify-between gap-3 border-b border-border p-4">
+            <div className="flex items-start justify-between gap-3 border-b border-border p-3 sm:p-4">
               <div className="min-w-0">
                 <div className="break-words text-[0.95rem] font-semibold leading-snug text-primary">{active.title}</div>
                 <div className="mt-0.5 break-words text-[0.8rem] text-text-light">
@@ -465,18 +527,19 @@ export default function VisualCardsPage() {
               <button
                 type="button"
                 onClick={() => setActive(null)}
-                className="shrink-0 rounded-lg border border-border px-3 py-1 text-sm hover:border-accent"
+                aria-label="關閉"
+                className="shrink-0 rounded-lg border border-border px-3 py-1.5 text-sm hover:border-accent"
               >
-                關閉
+                關閉 ✕
               </button>
             </div>
 
-            <div className="min-h-0 flex-1 overflow-y-auto">
+            <div key={active.id} className="min-h-0 flex-1 overflow-y-auto">
               <div className="flex items-center justify-center bg-[#f5f7fa] p-4">
                 <img
                   src={publicAsset(active.src)}
                   alt={active.title}
-                  className="mx-auto max-h-[42vh] w-auto max-w-full bg-white object-contain"
+                  className="mx-auto max-h-[38vh] w-auto max-w-full bg-white object-contain sm:max-h-[42vh]"
                 />
               </div>
 
@@ -514,6 +577,29 @@ export default function VisualCardsPage() {
                   </Link>
                 </div>
               </div>
+            </div>
+
+            {/* 快速切換上一張／下一張 */}
+            <div className="flex items-center justify-between gap-3 border-t border-border bg-card p-3">
+              <button
+                type="button"
+                onClick={() => goRelative(-1)}
+                disabled={activeIndex <= 0}
+                className="rounded-lg border border-border px-3 py-2 text-sm transition-colors enabled:hover:border-accent enabled:hover:text-accent disabled:opacity-40"
+              >
+                ‹ 上一張
+              </button>
+              <span className="shrink-0 text-[0.78rem] tabular-nums text-text-light">
+                {activeIndex >= 0 ? activeIndex + 1 : 0} / {flatImages.length}
+              </span>
+              <button
+                type="button"
+                onClick={() => goRelative(1)}
+                disabled={activeIndex === -1 || activeIndex >= flatImages.length - 1}
+                className="rounded-lg border border-border px-3 py-2 text-sm transition-colors enabled:hover:border-accent enabled:hover:text-accent disabled:opacity-40"
+              >
+                下一張 ›
+              </button>
             </div>
           </div>
         </div>
