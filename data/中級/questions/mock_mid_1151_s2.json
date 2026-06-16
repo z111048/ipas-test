@@ -934,10 +934,10 @@
       "id": "mid_1151_s2_q49",
       "question": "在進行機器學習建模前，資料分析師已完成資料前處理（包含遺漏值處理與特徵標準 化），並準備建立分類模型。 已知資料流程如下： 1. 將資料區分為訓練集與測試集 2. 建立羅吉斯迴歸（Logistic Regression）模型 3. 使用訓練資料進行模型擬合（fit） 請問下列哪一組 Pandas / Scikit-learn程式碼流程最為正確？",
       "options": {
-        "A": "",
-        "B": "",
-        "C": "",
-        "D": ""
+        "A": "見下方選項 A 程式碼",
+        "B": "見下方選項 B 程式碼",
+        "C": "見下方選項 C 程式碼",
+        "D": "見下方選項 D 程式碼"
       },
       "answer": "B",
       "explanation": "正確答案為(B)。",
@@ -947,23 +947,25 @@
         "page_number": 16
       },
       "context": "請根據下方資訊回答第48~50 題。",
-      "images": [
+      "context_blocks": [
         {
-          "type": "image",
-          "src": "/pdf-assets/中級/mid_1151_s2/page_016/image_05_01.png",
-          "alt": "mid_1151_s2 第 17 頁圖片 image_05_01",
-          "page_index": 16,
-          "page_number": 17,
-          "bbox": [
-            108.2,
-            380.2,
-            533.35,
-            425.25
-          ],
-          "placement": "option",
-          "option": "D",
-          "markdown_language": "python",
-          "markdown_title": "選項 A 程式碼",
+          "title": "選項 A 程式碼",
+          "language": "python",
+          "markdown": "X_train, X_test, y_train, y_test = train_test_split(X_norm, y, train_size=0.2, random_state=123)\nlog_reg = LogisticRegression(solver=\"liblinear\")\nlog_reg.fit(X_train, y_train)"
+        },
+        {
+          "title": "選項 B 程式碼",
+          "language": "python",
+          "markdown": "X_train, X_test, y_train, y_test = train_test_split(X_norm, y, train_size=0.2, random_state=123)\nlog_reg = LogisticRegression(solver=\"lbfgs\")\nlog_reg.fit(X_train, y_train)"
+        },
+        {
+          "title": "選項 C 程式碼",
+          "language": "python",
+          "markdown": "X_train, X_test, y_train, y_test = train_test_split(y, X_norm, train_size=0.2, random_state=123)\nlog_reg = LogisticRegression(solver=\"liblinear\")\nlog_reg.fit(X_train, y_train)"
+        },
+        {
+          "title": "選項 D 程式碼",
+          "language": "python",
           "markdown": "X_train, X_test, y_train, y_test = train_test_split(y, X_norm, train_size=0.2, random_state=123)\nlog_reg = LogisticRegression(solver=\"lbfgs\")\nlog_reg.fit(X_train, y_train)"
         }
       ]

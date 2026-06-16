@@ -860,6 +860,44 @@ def annotate_exam2_group_images(question: dict[str, Any]) -> bool:
     return changed
 
 
+MID_1151_S2_Q49_CODES = {
+    'A': 'X_train, X_test, y_train, y_test = train_test_split(X_norm, y, train_size=0.2, random_state=123)\nlog_reg = LogisticRegression(solver="liblinear")\nlog_reg.fit(X_train, y_train)',
+    'B': 'X_train, X_test, y_train, y_test = train_test_split(X_norm, y, train_size=0.2, random_state=123)\nlog_reg = LogisticRegression(solver="lbfgs")\nlog_reg.fit(X_train, y_train)',
+    'C': 'X_train, X_test, y_train, y_test = train_test_split(y, X_norm, train_size=0.2, random_state=123)\nlog_reg = LogisticRegression(solver="liblinear")\nlog_reg.fit(X_train, y_train)',
+    'D': 'X_train, X_test, y_train, y_test = train_test_split(y, X_norm, train_size=0.2, random_state=123)\nlog_reg = LogisticRegression(solver="lbfgs")\nlog_reg.fit(X_train, y_train)',
+}
+
+
+def annotate_mid1151s2_q49(question: dict[str, Any]) -> bool:
+    """Q49 has 4 code-image options that PDF table parser cannot extract as text.
+    Use context_blocks to display all 4 options as highlighted code above the question.
+    """
+    if question.get('id') != 'mid_1151_s2_q49':
+        return False
+    changed = False
+    expected_options = {k: f'見下方選項 {k} 程式碼' for k in 'ABCD'}
+    if question.get('options') != expected_options:
+        question['options'] = expected_options
+        changed = True
+    expected_blocks = [
+        {'title': f'選項 {k} 程式碼', 'language': 'python', 'markdown': code}
+        for k, code in MID_1151_S2_Q49_CODES.items()
+    ]
+    if question.get('context_blocks') != expected_blocks:
+        question['context_blocks'] = expected_blocks
+        changed = True
+    # Remove stale option images (code shown via context_blocks)
+    images = question.get('images')
+    if isinstance(images, list):
+        clean = [img for img in images if img.get('placement') != 'option']
+        if clean != images:
+            question['images'] = clean or None
+            if not clean:
+                question.pop('images', None)
+            changed = True
+    return changed
+
+
 MID_1151_S3_Q50_SRC = '/pdf-assets/中級/mid_1151_s3/page_017/image_02_01.png'
 
 
@@ -888,6 +926,8 @@ def annotate_question_images(path: Path) -> int:
         if annotate_context_blocks(question):
             changed += 1
         if is_middle_exam2 and annotate_exam2_group_images(question):
+            changed += 1
+        if annotate_mid1151s2_q49(question):
             changed += 1
         if annotate_mid1151s3_q50(question):
             changed += 1
