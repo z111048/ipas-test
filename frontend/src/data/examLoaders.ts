@@ -15,6 +15,9 @@ const examLoaders: Record<string, () => Promise<JsonModule>> = {
   mid_1141_s1: () => import('@data-mid/questions/mock_mid_1141_s1.json'),
   mid_1141_s2: () => import('@data-mid/questions/mock_mid_1141_s2.json'),
   mid_1141_s3: () => import('@data-mid/questions/mock_mid_1141_s3.json'),
+  mid_1151_s1: () => import('@data-mid/questions/mock_mid_1151_s1.json'),
+  mid_1151_s2: () => import('@data-mid/questions/mock_mid_1151_s2.json'),
+  mid_1151_s3: () => import('@data-mid/questions/mock_mid_1151_s3.json'),
   midSample: () => import('@data-mid/questions/sample_exam.json'),
 }
 

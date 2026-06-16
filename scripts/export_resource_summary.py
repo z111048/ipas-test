@@ -22,7 +22,7 @@ LEVELS = {
         "level": "中級",
         "data_dir": ROOT / "data" / "中級",
         "subject_ids": ["mid-s1", "mid-s2", "mid-s3"],
-        "exam_keys": ["mid_1141_s1", "mid_1141_s2", "mid_1141_s3"],
+        "exam_keys": ["mid_1141_s1", "mid_1141_s2", "mid_1141_s3", "mid_1151_s1", "mid_1151_s2", "mid_1151_s3"],
         "sample_key": "midSample",
     },
 }
@@ -47,6 +47,9 @@ EXAM_FILES = {
         "mid_1141_s1": "mock_mid_1141_s1.json",
         "mid_1141_s2": "mock_mid_1141_s2.json",
         "mid_1141_s3": "mock_mid_1141_s3.json",
+        "mid_1151_s1": "mock_mid_1151_s1.json",
+        "mid_1151_s2": "mock_mid_1151_s2.json",
+        "mid_1151_s3": "mock_mid_1151_s3.json",
         "midSample": "sample_exam.json",
     },
 }

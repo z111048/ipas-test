@@ -1,0 +1,1317 @@
+{
+  "exam": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+  "total": 50,
+  "time_limit": "90分鐘",
+  "passing_score": 60,
+  "questions": [
+    {
+      "id": "mid_1151_s3_q1",
+      "question": "某量化投資團隊需估算某投資組合未來 30 日的風險值。由於衍生性金融商品的 定價模型過於複雜，無法以解析解直接求得，工程師因此採用隨機模擬方式，產 生大量市場情境模擬並估計損失分布。此方法屬於下列哪一種技術框架？",
+      "options": {
+        "A": "馬可夫鏈（Markov Chain）：以狀態轉移機率描述系統演變的隨機過程",
+        "B": "梯度下降最佳化（Gradient Descent）：透過迭代更新參數以最小化損失函數",
+        "C": "蒙地卡羅方法（Monte Carlo Method）：透過大量隨機抽樣近似機率分布或數值 結果",
+        "D": "貝氏推論（Bayesian Inference）：結合先驗分布與資料更新後驗機率"
+      },
+      "answer": "C",
+      "explanation": "正確答案為(C)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 0,
+        "page_number": 1
+      }
+    },
+    {
+      "id": "mid_1151_s3_q2",
+      "question": "某工程師在建立房價預測模型時，訓練資料中存在少數豪宅（成交價超過一般物 件10倍以上）。若工程師希望模型對這些極端高價物件的預測誤差更敏感，並在 訓練時產生較大的梯度更新影響，應優先選擇下列哪種損失函數？",
+      "options": {
+        "A": "平均絕對誤差（MAE）：對誤差進行線性懲罰，對離群值較不敏感，梯度近似 固定",
+        "B": "Huber 損失（Huber Loss）：小誤差採平方懲罰，大誤差轉為線性懲罰，以降低 離群值影響",
+        "C": "均方誤差（MSE）：對誤差進行平方處理，使大誤差產生更大的懲罰與梯度",
+        "D": "交叉熵損失（Cross-Entropy Loss）：用於分類問題的機率分布差異衡量"
+      },
+      "answer": "C",
+      "explanation": "正確答案為(C)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 0,
+        "page_number": 1
+      }
+    },
+    {
+      "id": "mid_1151_s3_q3",
+      "question": "某工程師在撰寫 Transformer 的 Attention 層時，需手動驗證矩陣維度是否相容。 輸入矩陣 Q已攤平成形狀為(1, 10)，Query投影權重矩陣 W 形狀為(10, 64)。執 Q 行Q x W 後輸出的形狀為何？ Q",
+      "options": {
+        "A": "(1, 64)",
+        "B": "(10, 10)",
+        "C": "(64, 1)",
+        "D": "維度不相容，無法相乘"
+      },
+      "answer": "A",
+      "explanation": "正確答案為(A)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 0,
+        "page_number": 1
+      }
+    },
+    {
+      "id": "mid_1151_s3_q4",
+      "question": "某 AI 團隊同時開發多個影像辨識系統，並在訓練流程中統一加入資料擴增策略 （包含隨機水平翻轉）以提升模型泛化能力。實驗後發現，部分任務的測試表現 明顯下降。下列哪一項任務最可能因該資料擴增策略引入語意錯誤（Semantic Inconsistency），使同一樣本在翻轉後對應不同類別標籤，進而影響模型學習？",
+      "options": {
+        "A": "寵物監控中的貓狗分類",
+        "B": "車輛辨識中的車型分類",
+        "C": "手寫數字辨識",
+        "D": "道路場景中的行人偵測"
+      },
+      "answer": "C",
+      "explanation": "正確答案為(C)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 0,
+        "page_number": 1
+      }
+    },
+    {
+      "id": "mid_1151_s3_q5",
+      "question": "某工程師完成多元線性迴歸模型後，繪製殘差圖（Residual Plot），發現殘差隨預 測值增大而呈現擴散現象（右側明顯比左側分散）。此現象最可能代表什麼問題？",
+      "options": {
+        "A": "殘差之間存在關聯",
+        "B": "特徵之間高度相關",
+        "C": "殘差變異數不一致",
+        "D": "殘差不符合常態分布"
+      },
+      "answer": "C",
+      "explanation": "正確答案為(C)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 0,
+        "page_number": 1
+      }
+    },
+    {
+      "id": "mid_1151_s3_q6",
+      "question": "某資料科學家欲對 512維詞嵌入向量（共 10萬筆）進行視覺化以探索群集結構， 同時另一工程師需將 200 個製程特徵降維後作為 XGBoost 的輸入特徵。關於 t- SNE與 PCA 選型，下列敘述何者最正確？",
+      "options": {
+        "A": "t-SNE 保留全局線性結構，適合作為 XGBoost 的降維前處理",
+        "B": "t-SNE 保留局部鄰域結構，適合視覺化；但不保留全局結構，不適合作為模型 輸入特徵",
+        "C": "PCA 為非線性降維方法，能保留複雜流形結構",
+        "D": "t-SNE 與PCA 皆可直接對新資料進行線性外推"
+      },
+      "answer": "B",
+      "explanation": "正確答案為(B)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 1,
+        "page_number": 2
+      }
+    },
+    {
+      "id": "mid_1151_s3_q7",
+      "question": "某金融團隊建立信貸風險模型，特徵工程後共產生 200個變數，其中「月收入」、 「年收入」、「季收入」三者高度相關。模型上線後業務單位反映：每次重新訓練 後，模型輸出的重要特徵清單在這些高度相關特徵間反覆變動，難以向審查單位 解釋。請問下列何者為造成此現象最可能的原因？",
+      "options": {
+        "A": "模型使用 L2 正則化，導致所有特徵係數被壓縮至接近零，重要性難以區分",
+        "B": "模型使用 L1正則化，面對高度相關特徵時隨機保留其中之一，導致每次訓練 保留的特徵不穩定",
+        "C": "模型未使用任何正則化，過擬合導致係數每次收斂至不同極值",
+        "D": "特徵數量過多導致梯度消失，應優先進行 PCA 降維再套用正則化"
+      },
+      "answer": "B",
+      "explanation": "正確答案為(B)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 1,
+        "page_number": 2
+      }
+    },
+    {
+      "id": "mid_1151_s3_q8",
+      "question": "某深度學習工程師訓練 ResNet 時，發現模型在前幾個 Epoch驗證損失快速下降， 但從第 15 個 Epoch 起驗證損失開始上升，而訓練損失持續下降。工程師將學習 率調高後，訓練損失反而開始明顯震盪。學習率過大最直接導致下列哪種現象？",
+      "options": {
+        "A": "梯度消失（Gradient Vanishing）：梯度在反向傳播中逐層縮小趨近於零，底層 無法學習",
+        "B": "損失函數震盪或發散（Oscillation / Divergence）：每次更新步伐過大，參數在 最優點兩側反覆跳越，無法穩定收斂",
+        "C": "過擬合（Overfitting）：模型記憶訓練資料的雜訊，泛化能力下降",
+        "D": "死亡 ReLU（Dying ReLU）：大量神經元輸出永久為零，停止參與梯度更新"
+      },
+      "answer": "B",
+      "explanation": "正確答案為(B)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 1,
+        "page_number": 2
+      }
+    },
+    {
+      "id": "mid_1151_s3_q9",
+      "question": "某工程師訓練深度神經網路時發現損失函數震盪嚴重且收斂速度慢，改用 Adam 優化器後訓練變得穩定且收斂更快。下列何者為 Adam 能改善此問題的主要原 因？",
+      "options": {
+        "A": "同時結合一階動量（Momentum）與自適應學習率（Adaptive Learning Rate）， 為每個參數調整更新步長",
+        "B": "強制所有參數使用相同學習率（Learning Rate），避免梯度差異造成不穩定",
+        "C": "透過批次正規化（Batch Normalization）重新分布輸入資料",
+        "D": "將梯度裁剪為固定範圍以避免梯度爆炸（Gradient Explosion）"
+      },
+      "answer": "A",
+      "explanation": "正確答案為(A)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 1,
+        "page_number": 2
+      }
+    },
+    {
+      "id": "mid_1151_s3_q10",
+      "question": "某工程師同時開發兩個模型：一個預測使用者「隔日 App使用時長（分鐘）」，另 一個預測使用者「隔日是否流失（是/否）」。關於上述兩個任務，他應分別選擇哪 種適當的損失函數？",
+      "options": {
+        "A": "使用時長預測：均方誤差（MSE）；流失預測：二元交叉熵（Binary Cross- Entropy）",
+        "B": "使用時長預測：交叉熵損失（Cross-Entropy）；流失預測：均方誤差（MSE）",
+        "C": "使用時長預測：Hinge 損失（Hinge Loss）；流失預測：MAE（平均絕對誤差）",
+        "D": "兩個任務均使用交叉熵損失，因為兩者的輸出都有不確定性"
+      },
+      "answer": "A",
+      "explanation": "正確答案為(A)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 2,
+        "page_number": 3
+      }
+    },
+    {
+      "id": "mid_1151_s3_q11",
+      "question": "某工程師在 A100 GPU 叢集上訓練大型語言模型，觀察到以下現象：全批次梯度 下降時 GPU 利用率達 100%，但每次更新耗時 45 秒；隨機梯度下降（SGD）每 次更新僅需 0.01秒，但梯度極不穩定、訓練曲線震盪劇烈。為兼顧梯度穩定性與 GPU吞吐量（Throughput），應採用下列哪種策略？",
+      "options": {
+        "A": "全批次梯度下降（Full-batch GD）：使用完整資料集計算梯度，更新穩定但每 次更新耗時長",
+        "B": "隨機梯度下降（SGD）：每次只用一個樣本，速度快但梯度雜訊大，收斂不穩 定",
+        "C": "第二階梯度法（Newton's Method）：利用 Hessian 矩陣精確估計曲率，大幅減 少更新次數",
+        "D": "小批次梯度下降（Mini-batch GD）：以適當批次大小（如 256-2048）平衡梯度 估計穩定性與GPU平行效率，是深度學習的業界標準"
+      },
+      "answer": "D",
+      "explanation": "正確答案為(D)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 2,
+        "page_number": 3
+      }
+    },
+    {
+      "id": "mid_1151_s3_q12",
+      "question": "某醫院導入肺癌篩檢模型，資料集中正常病例佔 99%、肺癌陽性僅佔 1%。模型 上線後，系統報告整體準確率（Accuracy）為 99.1%。醫師對此數字感到疑慮， 認為不足以評估臨床價值，在漏診風險上可能存在重大問題。請問在此情境下， 僅以Accuracy 作為評估指標最嚴重的缺陷為何？",
+      "options": {
+        "A": "Accuracy 對類別不平衡不敏感，可能無法反映模型對肺癌陽性的偵測能力",
+        "B": "Accuracy 的計算不包含模型對邊界樣本的分類結果，容易遺漏困難樣本",
+        "C": "Accuracy 無法處理多分類問題，在二元分類下需改用 AUC",
+        "D": "Accuracy 無法揭示模型的收斂速度，因此不適合用來選擇最終模型"
+      },
+      "answer": "A",
+      "explanation": "正確答案為(A)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 2,
+        "page_number": 3
+      }
+    },
+    {
+      "id": "mid_1151_s3_q13",
+      "question": "某工程師訓練文本情感分類模型，訓練集 F1=0.96、驗證集 F1=0.71，落差明顯， 顯示模型出現過擬合。下列哪一種策略能最直接從降低模型複雜度的角度緩解過 擬合？",
+      "options": {
+        "A": "增加訓練 Epoch 數至200，讓模型充分學習訓練資料的所有細節",
+        "B": "引入更多原始文本特徵（包括原始 URL、HTML 標籤），增加特徵多樣性",
+        "C": "對Embedding 層與全連結層加入 L2權重衰減（Weight Decay），懲罰參數值",
+        "D": "移除驗證集並將其併入訓練集，以增加模型可見的訓練樣本數"
+      },
+      "answer": "C",
+      "explanation": "正確答案為(C)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 2,
+        "page_number": 3
+      }
+    },
+    {
+      "id": "mid_1151_s3_q14",
+      "question": "某電商平台使用樸素貝氏分類器（Naive Bayes Classifier）建立垃圾郵件過濾模型。 訓練集準確率（Accuracy）達 92%，但上線後發現，包含「限時優惠、立即下單 享折扣」等關鍵字的正常促銷郵件，常被誤判為垃圾信。經分析發現，這些詞彙 在訓練資料中多出現在垃圾郵件中，導致其類別條件機率偏高。請問造成此現象 的最主要原因與較適當的改善方式為何？",
+      "options": {
+        "A": "應禁用 Naive Bayes，改用其他更先進演算法",
+        "B": "模型過擬合於訓練資料，應增加 Epoch數以提升泛化能力",
+        "C": "類別條件機率受訓練資料分布影響，導致促銷關鍵字被視為垃圾信特徵，應重 新平衡資料或調整先驗機率",
+        "D": "模型未進行特徵標準化（Feature Scaling），導致分類邊界偏移，應先進行正規 化處理"
+      },
+      "answer": "C",
+      "explanation": "正確答案為(C)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 3,
+        "page_number": 4
+      }
+    },
+    {
+      "id": "mid_1151_s3_q15",
+      "question": "某資料科學家將客戶資料進行分群，使用 K-means（K=5）後發現部分群集呈現 半月形（非凸）結構，且資料中存在少數離群值（Outliers）。他同時觀察到每次 執行結果略有不同。下列敘述何者最完整且準確地反映 K-means 在此情境中的已 知限制？",
+      "options": {
+        "A": "K-means 無法處理維度超過 10的資料，在高維空間中距離計算失效",
+        "B": "K-means 假設群集為高斯分佈，無法處理任何非球形群集",
+        "C": "K-means 對 K值敏感，但初始化不影響最終結果（演算法保證全局最優）",
+        "D": "K-means 需預先指定 K；以歐氏距離為基礎，難以處理非凸群集；對初始化與 離群值敏感"
+      },
+      "answer": "D",
+      "explanation": "正確答案為(D)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 3,
+        "page_number": 4
+      }
+    },
+    {
+      "id": "mid_1151_s3_q16",
+      "question": "某資料科學家在信用評分任務中使用 XGBoost 建立模型，發現模型在訓練集表現 良好但驗證集出現過擬合跡象。他檢視其模型設計，發現 XGBoost 在目標函數 （Objective Function）中引入額外的正則化機制以控制模型複雜度。相較於傳統 梯度提升決策樹（GBDT），XGBoost 在其核心目標函數中加入了下列哪一種關鍵 設計，使其具備更強的防過擬合能力？",
+      "options": {
+        "A": "加入樹的複雜度懲罰項（包含深度、葉節點數量與葉節點權重的 L2 正則化）",
+        "B": "加入動態學習率（Dynamic Learning Rate）的強制衰減機制",
+        "C": "加入卷積運算（Convolution）以萃取特徵間的空間關係",
+        "D": "強制所有決策樹深度為 1（Decision Stumps）"
+      },
+      "answer": "A",
+      "explanation": "正確答案為(A)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 3,
+        "page_number": 4
+      }
+    },
+    {
+      "id": "mid_1151_s3_q17",
+      "question": "某醫療新創團隊將原有 3層CNN升級為16層架構以提升 CT影像腫瘤偵測率， 但發現訓練損失反而高於 3層版本且收斂困難。工程師懷疑是網路深度造成的訓 練問題，下列診斷與對策何者最正確？",
+      "options": {
+        "A": "網路層數增加導致參數量過多，應減少每層卷積濾波器（Filters）數量以降低 模型複雜度",
+        "B": "深層網路可能出現梯度消失問題，導致淺層權重難以更新；應採用 ResNet 的 殘差連接（Skip Connection）以改善梯度傳遞",
+        "C": "16層模型對 CT影像而言仍過淺，應進一步增加網路深度以學習更高階特徵",
+        "D": "問題可能來自激活函數（Activation Function），將 ReLU改為Sigmoid 可改善 梯度傳遞問題"
+      },
+      "answer": "B",
+      "explanation": "正確答案為(B)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 4,
+        "page_number": 5
+      }
+    },
+    {
+      "id": "mid_1151_s3_q18",
+      "question": "某工程師設計用於醫療 X 光影像分類的 CNN，發現卷積層後直接接全連結層導 致參數量高達 5,000 萬，訓練速度極慢。為降低模型參數量與計算成本，他在卷 積層後加入池化層（Pooling Layer）。下列何者為池化層在此設計中最主要解決的 問題？",
+      "options": {
+        "A": "降低特徵圖空間維度，減少參數與計算量",
+        "B": "提供非線性表達能力，以提升模型學習複雜度",
+        "C": "改善梯度消失問題，以強化反向傳播穩定性",
+        "D": "提升模型泛化能力而不影響特徵維度"
+      },
+      "answer": "A",
+      "explanation": "正確答案為(A)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 4,
+        "page_number": 5
+      }
+    },
+    {
+      "id": "mid_1151_s3_q19",
+      "question": "某團隊開發合約文件審查系統，需比對合約首頁的定義條款與第 20 頁的責任條 款是否一致。工程師初版採用雙向長短期記憶（Bidirectional LSTM），但發現長 文件的跨段落語義關聯捕捉效果不佳，且訓練時間隨文件長度明顯增加。改用 Transformer架構後問題獲得改善，下列何者為最主要的原因？",
+      "options": {
+        "A": "Transformer 參數量比 LSTM 少，因此訓練速度更快、不易過擬合",
+        "B": "Transformer 內建位置編碼，使模型天生理解文件的章節結構與段落順序",
+        "C": "LSTM 無法處理超過512個 token的輸入，Transformer無此硬性限制",
+        "D": "Transformer 的 Self-Attention 可讓任意 token 直接建立關聯，不受距離限制， 且運算可平行化"
+      },
+      "answer": "D",
+      "explanation": "正確答案為(D)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 4,
+        "page_number": 5
+      }
+    },
+    {
+      "id": "mid_1151_s3_q20",
+      "question": "工程師在 PyTorch 中建構貓、狗、鳥三分類 CNN，並使用交叉熵損失函數 （CrossEntropyLoss）作為訓練目標。由於此損失函數在內部已包含 Softmax 計 算，輸出層的設計需特別注意。請問輸出層的激活函數（Activation Function）與 輸出維度應如何設定？",
+      "options": {
+        "A": "使用 ReLU 作為激活函數，輸出維度設為 1，直接輸出單一數值作為預測結 果",
+        "B": "使用 Sigmoid 作為激活函數，輸出維度設為 3，使每個類別獨立輸出 0到1的 機率",
+        "C": "不使用任何激活函數，直接輸出未經正規化的 logits，輸出維度設為 3 對應三 個類別",
+        "D": "使用 Softmax 作為激活函數，輸出維度設為 3，輸出為已正規化的機率分布"
+      },
+      "answer": "C",
+      "explanation": "正確答案為(C)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 4,
+        "page_number": 5
+      }
+    },
+    {
+      "id": "mid_1151_s3_q21",
+      "question": "某工程師將一個大型預訓練模型部署至資源受限的行動裝置，發現模型體積過大 且推論效率不足。為降低模型大小並提升推論速度，他將原本 32-bit 浮點數權重 轉換為8-bit 整數。在不重新訓練模型的前提下，請問此過程稱為何？",
+      "options": {
+        "A": "知識蒸餾（Knowledge Distillation）",
+        "B": "權重剪枝（Pruning）",
+        "C": "張量分解（Tensor Decomposition）",
+        "D": "模型量化（Quantization）"
+      },
+      "answer": "D",
+      "explanation": "正確答案為(D)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 5,
+        "page_number": 6
+      }
+    },
+    {
+      "id": "mid_1151_s3_q22",
+      "question": "某工程師建置企業內部知識問答的 RAG 系統，上線後發現部分問題檢索結果與 查詢語意不符。分析後確認問題出在向量搜尋的語意匹配不準確。於檢索階段， 採取下列哪種方法最能直接改善此問題？",
+      "options": {
+        "A": "將切片大小（Chunk Size）由 512tokens縮小至128tokens，以提升檢索精細度",
+        "B": "調整向量相似度閾值（Similarity Threshold），以過濾低相關檢索結果",
+        "C": "採用混合搜尋（Hybrid Search）：結合語意向量搜尋與關鍵字搜尋（BM25）， 並以RRF（Reciprocal Rank Fusion）融合排序",
+        "D": "將檢索結果隨機洗牌（Shuffle）後回傳給LLM，避免位置偏誤（Position Bias）"
+      },
+      "answer": "C",
+      "explanation": "正確答案為(C)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 5,
+        "page_number": 6
+      }
+    },
+    {
+      "id": "mid_1151_s3_q23",
+      "question": "某團隊開發法律文件生成系統，需根據合約前半段內容自動生成後半段條款。工 程師分別使用 BERT與GPT-2 進行微調，但發現 BERT 的生成效果明顯較差，且 即使增加訓練資料也無法改善。下列何者為最主要原因？",
+      "options": {
+        "A": "BERT 缺乏法律領域知識，因此生成能力較差",
+        "B": "BERT 的分詞方式影響語意理解，導致生成效果不佳",
+        "C": "BERT 模型規模較小，因此生成能力不足",
+        "D": "BERT 無法根據前文逐步生成後續文字，較不適合此類任務"
+      },
+      "answer": "D",
+      "explanation": "正確答案為(D)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 5,
+        "page_number": 6
+      }
+    },
+    {
+      "id": "mid_1151_s3_q24",
+      "question": "某推薦系統工程師處理商品類別特徵，該特徵包含約 3,000 個不同商品項目，每 一種商品或其規格皆視為一個獨立類別。請問在高基數（High Cardinality）的情 境下，下列哪一種編碼方式最容易造成維度爆炸問題？",
+      "options": {
+        "A": "目標編碼（Target Encoding）",
+        "B": "標籤編碼（Label Encoding）",
+        "C": "Embedding 層（Categorical Embedding）",
+        "D": "One-Hot編碼（One-Hot Encoding）"
+      },
+      "answer": "D",
+      "explanation": "正確答案為(D)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 5,
+        "page_number": 6
+      }
+    },
+    {
+      "id": "mid_1151_s3_q25",
+      "question": "某工程師建立房價預測模型，輸入特徵包含屋齡與距捷運站距離（公尺）。他發現 距捷運站距離分布嚴重右偏，經對數（Log）轉換後模型表現明顯改善；但將同樣 轉換套用於屋齡後，模型表現反而下降。下列何者為最可能的原因？",
+      "options": {
+        "A": "屋齡與房價若呈線性關係，Log轉換反而破壞此結構",
+        "B": "Log轉換會壓縮所有特徵的變異數，導致模型失去鑑別能力",
+        "C": "Log轉換不適用於有單位的連續變數，應改用 Box-Cox",
+        "D": "兩特徵須套用相同轉換，否則尺度不一致導致梯度不穩定"
+      },
+      "answer": "A",
+      "explanation": "正確答案為(A)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 6,
+        "page_number": 7
+      }
+    },
+    {
+      "id": "mid_1151_s3_q26",
+      "question": "在時間序列資料的特徵工程中，工程師常使用滑動窗口（Sliding Window）方法， 將過去多個時間點的觀測值組合為模型輸入。下列何者為此方法的主要目的？",
+      "options": {
+        "A": "資料增強",
+        "B": "去除資料雜訊",
+        "C": "降低特徵維度",
+        "D": "建立滯後特徵"
+      },
+      "answer": "D",
+      "explanation": "正確答案為(D)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 6,
+        "page_number": 7
+      }
+    },
+    {
+      "id": "mid_1151_s3_q27",
+      "question": "某工程師建立零售商品銷量預測模型，初期以第 1 至 52 週資料作為訓練集、第 53 週作為測試集（固定時間切分）。半年後重新評估，發現模型對最新資料（如 第 80 週）的預測明顯衰退，推測為時間演進導致行為模式改變。若重新設計驗 證策略，應採用下列哪種方法，使每次訓練皆基於最新時間區間資料？",
+      "options": {
+        "A": "K-fold 交叉驗證（K-fold Cross-Validation）",
+        "B": "分層 K-fold（Stratified K-fold）",
+        "C": "滾動窗口驗證（Rolling Window Validation / Time Series Split）",
+        "D": "留一驗證法（Leave-One-Out Cross-Validation）"
+      },
+      "answer": "C",
+      "explanation": "正確答案為(C)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 6,
+        "page_number": 7
+      }
+    },
+    {
+      "id": "mid_1151_s3_q28",
+      "question": "某房仲平台要預測物件成交價，資料集含 50 個特徵，其中部分特徵與房價呈非 線性關係，且業務單位要求模型須能提供整體特徵重要性以供稽核。下列哪一種 模型選擇策略最符合需求？",
+      "options": {
+        "A": "使用羅吉斯迴歸（Logistic Regression），透過線性係數解釋特徵影響，但無法 有效建模非線性關係",
+        "B": "使用隨機森林迴歸（Random Forest Regression），可處理非線性關係，並提供 整體特徵重要性（Feature Importance）作為解釋依據",
+        "C": "用K-means 分群（K-means Clustering）後分別建立迴歸模型，以提升預測準確 度並間接提升可解釋性",
+        "D": "使用支持向量迴歸（Support Vector Regression, SVR），透過核函數（Kernel Function）捕捉非線性關係，並以支持向量解釋模型決策"
+      },
+      "answer": "B",
+      "explanation": "正確答案為(B)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 6,
+        "page_number": 7
+      }
+    },
+    {
+      "id": "mid_1151_s3_q29",
+      "question": "某工廠設備監測系統需偵測馬達軸承的異常振動，但過去僅記錄了大量正常運作 的振動時序資料，缺乏任何已確認故障的標註樣本。請問下列何種任務範疇最符 合此情境下的異常偵測需求？",
+      "options": {
+        "A": "監督式二元分類（Supervised Binary Classification）",
+        "B": "非監督或半監督異常偵測（Unsupervised / Semi-supervised Anomaly Detection）",
+        "C": "強化學習（Reinforcement Learning）",
+        "D": "自監督學習（Self-supervised Learning）"
+      },
+      "answer": "B",
+      "explanation": "正確答案為(B)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 6,
+        "page_number": 7
+      }
+    },
+    {
+      "id": "mid_1151_s3_q30",
+      "question": "某信用風險模型：訓練AUC=0.97、驗證AUC=0.72、少數違約樣本預測波動極大 及不同K-fold切分結果差異明顯。下列何者為最可能的問題？",
+      "options": {
+        "A": "高偏差",
+        "B": "高變異",
+        "C": "過擬合",
+        "D": "資料漂移"
+      },
+      "answer": "B",
+      "explanation": "正確答案為(B)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 7,
+        "page_number": 8
+      }
+    },
+    {
+      "id": "mid_1151_s3_q31",
+      "question": "某倉儲自動化公司以強化學習（Reinforcement Learning, RL）訓練機器手臂進行 揀貨，獎勵函數設計為「每成功抓取一個貨品得+1 分」。部署後發現機器手臂學 會反覆放開再抓取同一物品，以累積分數，但實際完成任務的效率極低。請問此 現象的核心問題為何？應如何修正獎勵設計？",
+      "options": {
+        "A": "獎勵塑形（Reward Shaping）：將獎勵改為「成功完成一次揀貨任務」而非單次 抓取行為",
+        "B": "策略退化（Policy Degradation）：降低學習率以穩定訓練",
+        "C": "信用分配問題（Credit Assignment Problem）：引入優勢函數（Advantage Function）",
+        "D": "災難性遺忘（Catastrophic Forgetting）：加入經驗回放（Replay Buffer）"
+      },
+      "answer": "A",
+      "explanation": "正確答案為(A)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 7,
+        "page_number": 8
+      }
+    },
+    {
+      "id": "mid_1151_s3_q32",
+      "question": "某詐欺偵測模型需同時具備高精確率（Precision），以避免誤凍結正常帳號，並維 持高召回率（Recall）表現，以確保不放過任何詐欺行為。然而工程師發現兩者之 間存在取捨關係（Precision-Recall Tradeoff）。在此情境下，F1-score最能反映何種 特性？",
+      "options": {
+        "A": "F1-score = (Precision + Recall) / 2，為算術平均",
+        "B": "F1-score為Precision 的加權平均",
+        "C": "F1-score僅適用於類別平衡資料",
+        "D": "F1-score = 2 × (Precision×Recall)/(Precision+Recall)，為調和平均，對較小值敏 感"
+      },
+      "answer": "D",
+      "explanation": "正確答案為(D)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 7,
+        "page_number": 8
+      }
+    },
+    {
+      "id": "mid_1151_s3_q33",
+      "question": "某工程師的多元線性迴歸模型包含 150個特徵，其中許多特徵高度相關（如「建 坪」與「總面積」）。他同時希望控制過擬合且保留所有特徵的解釋能力，不讓任 何特徵係數歸零，下列哪一項正則化方案最適當？",
+      "options": {
+        "A": "Lasso 迴歸（L1 正則化）：透過絕對值懲罰使部分係數歸零，具有特徵選擇效 果",
+        "B": "Ridge 迴歸（L2 正則化）：透過平方懲罰縮小所有係數，在共線性下穩定估計 且不歸零",
+        "C": "Elastic Net（L1+L2）：結合稀疏性與穩定性，但部分係數仍可能被壓為 0",
+        "D": "無正則化的 OLS 迴歸：不控制過擬合，在共線性下係數估計不穩定"
+      },
+      "answer": "B",
+      "explanation": "正確答案為(B)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 7,
+        "page_number": 8
+      }
+    },
+    {
+      "id": "mid_1151_s3_q34",
+      "question": "某工程師使用 XGBoost 模型進行調參，需對以下超參數進行網格搜尋（Grid Search）：learning_rate（3 個候選值）、max_depth（4 個）、n_estimators（5 個）、 subsample（3 個）、colsample_bytree（3 個）。每組參數組合皆需完整進行 5-Fold 交叉驗證。請問總共需要訓練幾個模型？",
+      "options": {
+        "A": "3 + 4 + 5 + 3 + 3 = 18 個",
+        "B": "5 × 5 = 25個",
+        "C": "max(3,4,5,3,3) × 5 = 25 個",
+        "D": "3 × 4 × 5 × 3 × 3 × 5 = 2,700 個"
+      },
+      "answer": "D",
+      "explanation": "正確答案為(D)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 8,
+        "page_number": 9
+      }
+    },
+    {
+      "id": "mid_1151_s3_q35",
+      "question": "某團隊使用 LoRA微調大型語言模型進行法律摘要任務，發現模型在複雜條款的 摘要上常出現內容遺漏，但 GPU 顯存已接近上限。下列哪種調整方式最能在不 明顯增加記憶體使用的前提下改善模型表現？",
+      "options": {
+        "A": "提高 LoRA rank 以增強模型表達能力",
+        "B": "改用完整微調（Full Fine-tuning）以學習更多細節",
+        "C": "降低 LoRA rank以釋放記憶體並增加 Batch Size",
+        "D": "降低 LoRA rank 但套用到更多層，保持 trainable總參數不變"
+      },
+      "answer": "D",
+      "explanation": "正確答案為(D)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 8,
+        "page_number": 9
+      }
+    },
+    {
+      "id": "mid_1151_s3_q36",
+      "question": "某金融機構的 AI 信用評分模型需上傳至第三方雲端服務商進行推論。法務部門 要求：在不解密資料的前提下，由單一雲端服務商直接對加密資料進行模型運算。 下列哪種隱私保護技術最符合此需求？",
+      "options": {
+        "A": "聯邦學習（Federated Learning）",
+        "B": "同態加密（Homomorphic Encryption）",
+        "C": "差分隱私（Differential Privacy）",
+        "D": "安全多方計算（Secure Multi-Party Computation, MPC）"
+      },
+      "answer": "B",
+      "explanation": "正確答案為(B)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 8,
+        "page_number": 9
+      }
+    },
+    {
+      "id": "mid_1151_s3_q37",
+      "question": "某銀行導入 AI 貸款審核系統，監管要求每筆被拒絕的申請須提供可理解的拒絕 原因。技術主管評估以下方案，哪一種最能實現個別預測的局部可解釋性（Local Explainability）？",
+      "options": {
+        "A": "SHAP（SHapley Additive exPlanations）值：計算每個特徵對單筆預測的貢獻",
+        "B": "全域特徵重要性（Global Feature Importance）：說明整體特徵影響，無法解釋 單一個案",
+        "C": "Grad-CAM（Gradient-weighted Class Activation Mapping）：以熱力圖解釋影像 模型",
+        "D": "混淆矩陣（Confusion Matrix）：呈現整體分類表現"
+      },
+      "answer": "A",
+      "explanation": "正確答案為(A)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 8,
+        "page_number": 9
+      }
+    },
+    {
+      "id": "mid_1151_s3_q38",
+      "question": "某公司導入 AI 履歷篩選系統，用於自動決定是否進入面試。模型對男性應徵者 的面試通過率為 55%，對女性應徵者為 30%。在其他條件不變的情況下，工程師 需評估模型是否符合統計均等（Statistical Parity）的公平性定義。下列何者最正 確？",
+      "options": {
+        "A": "符合統計均等，因為模型未使用性別作為輸入特徵",
+        "B": "符合統計均等，因為兩個族群皆有部分應徵者被錄取",
+        "C": "不符合統計均等，因為不同群體的正向決策比例（通過率）存在明顯差異",
+        "D": "不符合統計均等，因為女性族群的預測準確率較低"
+      },
+      "answer": "C",
+      "explanation": "正確答案為(C)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 9,
+        "page_number": 10
+      }
+    },
+    {
+      "id": "mid_1151_s3_q39",
+      "question": "某銀行信貸模型上線後稽核發現，女性申請者中「實際具有還款能力卻被模型拒 絕」的比例顯著高於男性，但法務限制不允許在推論階段使用性別欄位調整輸出。 下列去偏策略何者在此限制下仍可執行？",
+      "options": {
+        "A": "訓練中（In-processing）：在損失函數加入公平性懲罰項，降低不同群體的錯誤 拒絕比例差異",
+        "B": "前處理（Pre-processing）：僅於訓練資料進行重新採樣，無法直接修正既有模 型在推論階段的偏誤",
+        "C": "後處理（Post-processing）：依性別分組調整決策門檻，使不同群體的錯誤拒絕 比例一致",
+        "D": "改用人口統計均等指標（Demographic Parity），錯誤拒絕比例差異將自動消失"
+      },
+      "answer": "A",
+      "explanation": "正確答案為(A)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 9,
+        "page_number": 10
+      }
+    },
+    {
+      "id": "mid_1151_s3_q40",
+      "question": "分析師準備建立一個能將手寫數字圖片（28x28像素展平為 784維度）分為 0~9共 10個類別的多層感知機（MLP），且標籤已轉為 One-Hot編碼（One-Hot Encoding）。 為符合 10 個類別的單標籤分類需求，下圖中的程式碼中",
+      "options": {
+        "A": "sigmoid，mean_squared_error",
+        "B": "softmax，categorical_crossentropy",
+        "C": "relu，binary_crossentropy",
+        "D": "tanh，sparse_categorical_crossentropy"
+      },
+      "answer": "B",
+      "explanation": "正確答案為(B)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 10,
+        "page_number": 11
+      },
+      "images": [
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_010/image_02_01.png",
+          "alt": "mid_1151_s3 第 11 頁圖片 image_02_01",
+          "page_index": 10,
+          "page_number": 11,
+          "bbox": [
+            115.35,
+            208.1,
+            451.05,
+            372.35
+          ],
+          "placement": "question",
+          "markdown_language": "python",
+          "markdown_title": "Python 程式碼（含填空）",
+          "markdown": "from tensorflow.keras import Sequential\nfrom tensorflow.keras.layers import Dense\n\nmodel = Sequential([\n    Dense(64, activation='relu', input_shape=(784,)),\n    Dense(10, activation='___(A)___')\n])\nmodel.compile(loss='___(B)___', optimizer='adam')"
+        }
+      ]
+    },
+    {
+      "id": "mid_1151_s3_q41",
+      "question": "工程師使用 PyTorch 建立OCR 訓練pipeline，並對手寫字母資料集套用下圖程式進 行資料增強（Transform）。模型在訓練過程中顯示驗證損失（Validation Loss）持續 下降，但實際部署後，系統在辨識「b/d/p/q」類字母錯誤率異常偏高。下列何者為 最可能的根本原因？",
+      "options": {
+        "A": "RandomRotation(15)角度過大導致特徵變形，應降至 5度以內",
+        "B": "RandomHorizontalFlip 破壞字母方向語義，使模型以 50%機率學到鏡像錯誤標 籤",
+        "C": "ColorJitter改變筆畫灰階，導致邊緣偵測特徵失真",
+        "D": "ToTensor( )應放在所有幾何變換之前才能保持座標對應正確 下圖為使用 ResNet 進行遷移學習（Transfer Learning）的Python 程式片段。請回答 第42~43 題。"
+      },
+      "answer": "B",
+      "explanation": "正確答案為(B)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 10,
+        "page_number": 11
+      },
+      "images": [
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_010/image_03_01.png",
+          "alt": "mid_1151_s3 第 11 頁圖片 image_03_01",
+          "page_index": 10,
+          "page_number": 11,
+          "bbox": [
+            115.35,
+            541.38,
+            476.84,
+            764.38
+          ],
+          "placement": "question",
+          "markdown_language": "python",
+          "markdown_title": "PyTorch 資料增強程式碼",
+          "markdown": "import torchvision.transforms as transforms\n\ntransform = transforms.Compose([\n    transforms.RandomHorizontalFlip(p=0.5),\n    transforms.RandomRotation(15),\n    transforms.ColorJitter(brightness=0.3),\n    transforms.ToTensor(),\n])"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_011/image_02_01.png",
+          "alt": "mid_1151_s3 第 12 頁圖片 image_02_01",
+          "page_index": 11,
+          "page_number": 12,
+          "bbox": [
+            115.35,
+            255.86,
+            531.85,
+            445.6
+          ],
+          "placement": "option",
+          "option": "D",
+          "markdown_language": "python",
+          "markdown_title": "PyTorch 遷移學習程式碼（含填空）",
+          "markdown": "import torch\nimport torch.nn as nn\nimport torchvision\n\nmodel = torchvision.models.resnet50(pretrained=True)\nfor param in model.parameters():\n    param.requires_grad = False  # 行(A)\n\nmodel.fc = nn.Linear(2048, 2)\noptimizer = torch.optim.Adam(model.fc.parameters(), lr=1e-4)"
+        }
+      ]
+    },
+    {
+      "id": "mid_1151_s3_q42",
+      "question": "觀察程式中行",
+      "options": {
+        "A": "全面微調（Full Fine-Tuning）",
+        "B": "零樣本學習（Zero-shot Learning）",
+        "C": "特徵萃取（Feature Extraction）",
+        "D": "知識蒸餾（Knowledge Distillation）"
+      },
+      "answer": "C",
+      "explanation": "正確答案為(C)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 11,
+        "page_number": 12
+      }
+    },
+    {
+      "id": "mid_1151_s3_q43",
+      "question": "在進行遷移學習微調（Fine-Tuning）時，通常會將優化器的學習率（Learning Rate） 設得非常小（如 1e-4），下列何者為主要的原因？",
+      "options": {
+        "A": "為了避免記憶體耗盡（OOM）",
+        "B": "為了加速模型整體的收斂時間",
+        "C": "為了讓損失函數強制歸零",
+        "D": "為了避免更新步伐過大，破壞預訓練模型原本已學好的良好特徵表示 請依據下方資訊"
+      },
+      "answer": "D",
+      "explanation": "正確答案為(D)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 11,
+        "page_number": 12
+      }
+    },
+    {
+      "id": "mid_1151_s3_q44",
+      "question": "研究人員撰寫的程式中（下圖），先用整體資料進行 LDA（Linear Discriminant Analysis）降維，接著再用KNN（K-Nearest Neighbors）進行分類，並用交叉驗證 來評估準確率。請問下列敘述何者正確？",
+      "options": {
+        "A": "此寫法完全正確，因為先以整體資料進行 LDA降維，再以交叉驗證測試 KNN， 是標準流程",
+        "B": "此寫法存在資料洩漏（Data Leakage）問題，應將 LDA納入交叉驗證流程中一 併進行",
+        "C": "雖然流程不夠嚴謹，但結果仍然能夠代表模型真實的泛化能力",
+        "D": "如果只想驗證 KNN 的分類效果，可以直接跳過 LDA步驟，以簡化流程"
+      },
+      "answer": "B",
+      "explanation": "正確答案為(B)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 12,
+        "page_number": 13
+      },
+      "context": "題目 答案 請依據下方資訊回答第44~45 題。 Iris 是UCI Dataset 上的一組經典資料集，常被用來教學與測試分類模型。 這份資料包含三種類型的鳶尾花（Iris setosa、Iris versicolor、Iris virginica），每個類 別各有50 筆資料。 每筆資料包含四個特徵：花萼長度、花萼寬度、花瓣長度、花瓣寬度。 研究人員希望透過機器學習模型，根據花朵的形態特徵，自動判斷該花屬於哪一種 類型。在本次任務中，研究人員希望比較不同分類模型的表現。他們首先嘗試用線 性判別分析（LDA）進行降維，接著使用K 最近鄰（KNN）分類器來做分類預測， 並使用交叉驗證（Cross Validation）評估模型的準確率。",
+      "images": [
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_013/image_02_01.png",
+          "alt": "mid_1151_s3 第 14 頁圖片 image_02_01",
+          "page_index": 13,
+          "page_number": 14,
+          "bbox": [
+            115.35,
+            111.23,
+            488.84,
+            254.03
+          ],
+          "placement": "question",
+          "markdown_language": "python",
+          "markdown_title": "LDA + KNN 交叉驗證程式碼",
+          "markdown": "from sklearn.model_selection import cross_val_score\nfrom sklearn.neighbors import KNeighborsClassifier\nfrom sklearn.discriminant_analysis import LinearDiscriminantAnalysis\n\nlda = LinearDiscriminantAnalysis()\nX_new = lda.fit_transform(X, y)\n\nmodel = KNeighborsClassifier(n_neighbors=3)\nscores = cross_val_score(model, X_new, y, cv=5, scoring=\"accuracy\")\nscores.mean()\n\n0.9733333333333334"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_012/image_02_01.png",
+          "alt": "mid_1151_s3 第 13 頁第 44~45 題共用附圖",
+          "page_index": 12,
+          "page_number": 13,
+          "bbox": [
+            115.35,
+            282.68,
+            530.65,
+            379.78
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "Iris 資料載入程式碼",
+          "markdown": "from ucimlrepo import fetch_ucirepo\n\n# 線上載入資料\niris = fetch_ucirepo(id=53)\n\n# 讀取資料的輸入欄位與預測目標欄位\nX = iris.data.features\ny = iris.data.targets['class']"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_012/image_04_01.png",
+          "alt": "mid_1151_s3 第 13 頁第 44~45 題共用附圖",
+          "page_index": 12,
+          "page_number": 13,
+          "bbox": [
+            115.35,
+            424.63,
+            530.65,
+            532.28
+          ],
+          "placement": "context"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_012/image_05_01.png",
+          "alt": "mid_1151_s3 第 13 頁第 44~45 題共用附圖",
+          "page_index": 12,
+          "page_number": 13,
+          "bbox": [
+            115.35,
+            537.28,
+            530.65,
+            640.78
+          ],
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "y.head() 輸出",
+          "markdown": "# 預測目標欄位的概況\ny.head()\n\n0    Iris-setosa\n1    Iris-setosa\n2    Iris-setosa\n3    Iris-setosa\n4    Iris-setosa\nName: class, dtype: object"
+        }
+      ]
+    },
+    {
+      "id": "mid_1151_s3_q45",
+      "question": "研究人員在程式（下圖）中使用 cross_val_score進行交叉驗證，但目前尚未設定 cv 參數。 他們希望確保在每次資料分割時，訓練集與測試集的類別比例與原始資料一致，以 免影響模型的準確率估計。目前有以下幾段候選程式碼可供選擇。請問為了確保在 交叉驗證時每個分割中的類別比例與原始資料一致，上面哪幾段程式碼插入在原 始程式中[#填入程式碼]的部分比較合適？",
+      "options": {
+        "A": "程式碼 B、程式碼C、程式碼 D",
+        "B": "程式碼 A、程式碼C",
+        "C": "程式碼 A、程式碼B、程式碼 D",
+        "D": "程式碼 C、程式碼 D 請依據下方資訊"
+      },
+      "answer": "A",
+      "explanation": "正確答案為(A)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 13,
+        "page_number": 14
+      },
+      "context": "題目 答案 請依據下方資訊回答第44~45 題。 Iris 是UCI Dataset 上的一組經典資料集，常被用來教學與測試分類模型。 這份資料包含三種類型的鳶尾花（Iris setosa、Iris versicolor、Iris virginica），每個類 別各有50 筆資料。 每筆資料包含四個特徵：花萼長度、花萼寬度、花瓣長度、花瓣寬度。 研究人員希望透過機器學習模型，根據花朵的形態特徵，自動判斷該花屬於哪一種 類型。在本次任務中，研究人員希望比較不同分類模型的表現。他們首先嘗試用線 性判別分析（LDA）進行降維，接著使用K 最近鄰（KNN）分類器來做分類預測， 並使用交叉驗證（Cross Validation）評估模型的準確率。",
+      "images": [
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_013/image_03_01.png",
+          "alt": "mid_1151_s3 第 14 頁圖片 image_03_01",
+          "page_index": 13,
+          "page_number": 14,
+          "bbox": [
+            115.35,
+            418.01,
+            488.78,
+            544.26
+          ],
+          "placement": "question",
+          "markdown_language": "python",
+          "markdown_title": "KNN 交叉驗證程式碼（含填空）",
+          "markdown": "from sklearn.model_selection import cross_val_score\nfrom sklearn.neighbors import KNeighborsClassifier\nfrom sklearn.discriminant_analysis import LinearDiscriminantAnalysis\n\nmodel = KNeighborsClassifier(n_neighbors=3)\n\n# 填入程式碼\n\nscores = cross_val_score(model, X, y, cv=cv, scoring=\"accuracy\")\nscores.mean()"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_013/image_04_01.png",
+          "alt": "mid_1151_s3 第 14 頁圖片 image_04_01",
+          "page_index": 13,
+          "page_number": 14,
+          "bbox": [
+            115.35,
+            635.53,
+            455.47,
+            706.83
+          ],
+          "placement": "question"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_012/image_02_01.png",
+          "alt": "mid_1151_s3 第 13 頁第 44~45 題共用附圖",
+          "page_index": 12,
+          "page_number": 13,
+          "bbox": [
+            115.35,
+            282.68,
+            530.65,
+            379.78
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "Iris 資料載入程式碼",
+          "markdown": "from ucimlrepo import fetch_ucirepo\n\n# 線上載入資料\niris = fetch_ucirepo(id=53)\n\n# 讀取資料的輸入欄位與預測目標欄位\nX = iris.data.features\ny = iris.data.targets['class']"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_012/image_04_01.png",
+          "alt": "mid_1151_s3 第 13 頁第 44~45 題共用附圖",
+          "page_index": 12,
+          "page_number": 13,
+          "bbox": [
+            115.35,
+            424.63,
+            530.65,
+            532.28
+          ],
+          "placement": "context"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_012/image_05_01.png",
+          "alt": "mid_1151_s3 第 13 頁第 44~45 題共用附圖",
+          "page_index": 12,
+          "page_number": 13,
+          "bbox": [
+            115.35,
+            537.28,
+            530.65,
+            640.78
+          ],
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "y.head() 輸出",
+          "markdown": "# 預測目標欄位的概況\ny.head()\n\n0    Iris-setosa\n1    Iris-setosa\n2    Iris-setosa\n3    Iris-setosa\n4    Iris-setosa\nName: class, dtype: object"
+        }
+      ]
+    },
+    {
+      "id": "mid_1151_s3_q46",
+      "question": "參考下圖資料處理，下列哪一項描述組合正確？",
+      "options": {
+        "A": "描述A、描述C、描述 F",
+        "B": "描述B、描述D、描述E、描述 F",
+        "C": "描述B、描述C、描述E、描述 F",
+        "D": "描述A、描述B、描述 D、描述 E、描述F"
+      },
+      "answer": "B",
+      "explanation": "正確答案為(B)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 14,
+        "page_number": 15
+      },
+      "context": "題目 答案 請依據下方資訊回答第46~48 題。 使用CIFAR-10 資料集以建立卷積神經網路（CNN），進行彩色影像之分類與辨識 分析。CIFAR-10 為一常用之影像分類基準資料集，內容包含10 個類別，共計60000 張彩色影像，其中訓練集含50000 張影像，測試集則含10000 張影像。每張影像解 析度為32 × 32 像素，並具有三個通道（channel），分別對應紅、綠、藍三原色。 以下程式碼片段示範資料載入與處理流程。 下圖顯示資料集的第1 筆部分資料。",
+      "images": [
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_014/image_02_01.png",
+          "alt": "mid_1151_s3 第 15 頁第 46~48 題共用附圖",
+          "page_index": 14,
+          "page_number": 15,
+          "bbox": [
+            115.35,
+            226.43,
+            498.43,
+            304.18
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "TensorFlow CIFAR-10 資料載入",
+          "markdown": "import tensorflow as tf\nfrom tensorflow.keras import datasets, layers, models\nimport matplotlib.pyplot as plt\n\n(x_train, y_train), (x_test, y_test) = datasets.cifar10.load_data()"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_014/image_03_01.png",
+          "alt": "mid_1151_s3 第 15 頁第 46~48 題共用附圖",
+          "page_index": 14,
+          "page_number": 15,
+          "bbox": [
+            115.35,
+            332.55,
+            296.85,
+            529.47
+          ],
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "x_train[0] 陣列輸出",
+          "markdown": ">>> x_train[0]\narray([[[ 59,  62,  63],\n        [ 43,  46,  45],\n        [ 50,  48,  43],\n        ...,\n        [158, 132, 108],\n        [152, 125, 102],\n        [148, 124, 103]],\n\n       [[ 16,  20,  20],\n        [  0,   0,   0],\n        [ 18,   8,   0],\n        ..."
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_014/image_05_01.png",
+          "alt": "mid_1151_s3 第 15 頁第 46~48 題共用附圖",
+          "page_index": 14,
+          "page_number": 15,
+          "bbox": [
+            115.35,
+            614.73,
+            455.32,
+            674.08
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "資料正規化與標籤編碼",
+          "markdown": "x_train, x_test = x_train / 255.0, x_test / 255.0\ny_train = tf.keras.utils.to_categorical(y_train, 10)\ny_test = tf.keras.utils.to_categorical(y_test, 10)"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_014/image_06_01.png",
+          "alt": "mid_1151_s3 第 15 頁第 46~48 題共用附圖",
+          "page_index": 14,
+          "page_number": 15,
+          "bbox": [
+            115.35,
+            684.23,
+            455.47,
+            788.78
+          ],
+          "placement": "context"
+        }
+      ]
+    },
+    {
+      "id": "mid_1151_s3_q47",
+      "question": "參考下圖建立模型結果，下列哪一項描述組合正確？",
+      "options": {
+        "A": "描述A、描述C",
+        "B": "描述C、描述E、描述F",
+        "C": "描述A、描述D、描述 E",
+        "D": "描述D、描述E、描述 F"
+      },
+      "answer": "B",
+      "explanation": "正確答案為(B)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 15,
+        "page_number": 16
+      },
+      "context": "題目 答案 請依據下方資訊回答第46~48 題。 使用CIFAR-10 資料集以建立卷積神經網路（CNN），進行彩色影像之分類與辨識 分析。CIFAR-10 為一常用之影像分類基準資料集，內容包含10 個類別，共計60000 張彩色影像，其中訓練集含50000 張影像，測試集則含10000 張影像。每張影像解 析度為32 × 32 像素，並具有三個通道（channel），分別對應紅、綠、藍三原色。 以下程式碼片段示範資料載入與處理流程。 下圖顯示資料集的第1 筆部分資料。",
+      "images": [
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_015/image_03_01.png",
+          "alt": "mid_1151_s3 第 16 頁圖片 image_03_01",
+          "page_index": 15,
+          "page_number": 16,
+          "bbox": [
+            115.35,
+            579.91,
+            540.5,
+            685.55
+          ],
+          "placement": "question"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_014/image_02_01.png",
+          "alt": "mid_1151_s3 第 15 頁第 46~48 題共用附圖",
+          "page_index": 14,
+          "page_number": 15,
+          "bbox": [
+            115.35,
+            226.43,
+            498.43,
+            304.18
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "TensorFlow CIFAR-10 資料載入",
+          "markdown": "import tensorflow as tf\nfrom tensorflow.keras import datasets, layers, models\nimport matplotlib.pyplot as plt\n\n(x_train, y_train), (x_test, y_test) = datasets.cifar10.load_data()"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_014/image_03_01.png",
+          "alt": "mid_1151_s3 第 15 頁第 46~48 題共用附圖",
+          "page_index": 14,
+          "page_number": 15,
+          "bbox": [
+            115.35,
+            332.55,
+            296.85,
+            529.47
+          ],
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "x_train[0] 陣列輸出",
+          "markdown": ">>> x_train[0]\narray([[[ 59,  62,  63],\n        [ 43,  46,  45],\n        [ 50,  48,  43],\n        ...,\n        [158, 132, 108],\n        [152, 125, 102],\n        [148, 124, 103]],\n\n       [[ 16,  20,  20],\n        [  0,   0,   0],\n        [ 18,   8,   0],\n        ..."
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_014/image_05_01.png",
+          "alt": "mid_1151_s3 第 15 頁第 46~48 題共用附圖",
+          "page_index": 14,
+          "page_number": 15,
+          "bbox": [
+            115.35,
+            614.73,
+            455.32,
+            674.08
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "資料正規化與標籤編碼",
+          "markdown": "x_train, x_test = x_train / 255.0, x_test / 255.0\ny_train = tf.keras.utils.to_categorical(y_train, 10)\ny_test = tf.keras.utils.to_categorical(y_test, 10)"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_014/image_06_01.png",
+          "alt": "mid_1151_s3 第 15 頁第 46~48 題共用附圖",
+          "page_index": 14,
+          "page_number": 15,
+          "bbox": [
+            115.35,
+            684.23,
+            455.47,
+            788.78
+          ],
+          "placement": "context"
+        }
+      ]
+    },
+    {
+      "id": "mid_1151_s3_q48",
+      "question": "參考下圖繪圖結果，當Epochs=6 時，訓練曲線值(0.81)明顯大於驗證曲線值(0.72)， 下列何者為最可能的原因？",
+      "options": {
+        "A": "學習率（Learning Rate）太低",
+        "B": "批次大小（Batch Size）設定太大",
+        "C": "模型低度擬合（Underfitting）",
+        "D": "模型過擬合（Overfitting） 某人工智慧團隊正在開發一套自動光學檢測（Automated Optical Inspection, AOI） 系統，目標是透過機械手臂上的相機，自動辨識晶圓表面是否存在「劃傷（Scratch）」 或「污點（Spot）」等瑕疵。目前系統開發面臨以下挑戰： ● 資料極度不平衡，正常晶圓影像約佔 99%，有瑕疵影像僅佔 1%。 ● 輸入影像品質不一致，包含不同解析度，且部分影像因機械手臂震動而出現模 糊。 ● 在"
+      },
+      "answer": "D",
+      "explanation": "正確答案為(D)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 15,
+        "page_number": 16
+      },
+      "context": "題目 答案 請依據下方資訊回答第46~48 題。 使用CIFAR-10 資料集以建立卷積神經網路（CNN），進行彩色影像之分類與辨識 分析。CIFAR-10 為一常用之影像分類基準資料集，內容包含10 個類別，共計60000 張彩色影像，其中訓練集含50000 張影像，測試集則含10000 張影像。每張影像解 析度為32 × 32 像素，並具有三個通道（channel），分別對應紅、綠、藍三原色。 以下程式碼片段示範資料載入與處理流程。 下圖顯示資料集的第1 筆部分資料。",
+      "images": [
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_016/image_02_01.png",
+          "alt": "mid_1151_s3 第 17 頁圖片 image_02_01",
+          "page_index": 16,
+          "page_number": 17,
+          "bbox": [
+            115.35,
+            138.03,
+            443.65,
+            395.37
+          ],
+          "placement": "question"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_014/image_02_01.png",
+          "alt": "mid_1151_s3 第 15 頁第 46~48 題共用附圖",
+          "page_index": 14,
+          "page_number": 15,
+          "bbox": [
+            115.35,
+            226.43,
+            498.43,
+            304.18
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "TensorFlow CIFAR-10 資料載入",
+          "markdown": "import tensorflow as tf\nfrom tensorflow.keras import datasets, layers, models\nimport matplotlib.pyplot as plt\n\n(x_train, y_train), (x_test, y_test) = datasets.cifar10.load_data()"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_014/image_03_01.png",
+          "alt": "mid_1151_s3 第 15 頁第 46~48 題共用附圖",
+          "page_index": 14,
+          "page_number": 15,
+          "bbox": [
+            115.35,
+            332.55,
+            296.85,
+            529.47
+          ],
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "x_train[0] 陣列輸出",
+          "markdown": ">>> x_train[0]\narray([[[ 59,  62,  63],\n        [ 43,  46,  45],\n        [ 50,  48,  43],\n        ...,\n        [158, 132, 108],\n        [152, 125, 102],\n        [148, 124, 103]],\n\n       [[ 16,  20,  20],\n        [  0,   0,   0],\n        [ 18,   8,   0],\n        ..."
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_014/image_05_01.png",
+          "alt": "mid_1151_s3 第 15 頁第 46~48 題共用附圖",
+          "page_index": 14,
+          "page_number": 15,
+          "bbox": [
+            115.35,
+            614.73,
+            455.32,
+            674.08
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "資料正規化與標籤編碼",
+          "markdown": "x_train, x_test = x_train / 255.0, x_test / 255.0\ny_train = tf.keras.utils.to_categorical(y_train, 10)\ny_test = tf.keras.utils.to_categorical(y_test, 10)"
+        },
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_014/image_06_01.png",
+          "alt": "mid_1151_s3 第 15 頁第 46~48 題共用附圖",
+          "page_index": 14,
+          "page_number": 15,
+          "bbox": [
+            115.35,
+            684.23,
+            455.47,
+            788.78
+          ],
+          "placement": "context"
+        }
+      ]
+    },
+    {
+      "id": "mid_1151_s3_q49",
+      "question": "若團隊需要建立一個超過50層的深層神經網路，以捕捉晶圓表面細微的劃傷特徵， 但又擔心傳統深層網路常見的梯度消失（Vanishing Gradient）問題，則下列哪一種 經典架構最適合優先考慮？",
+      "options": {
+        "A": "VGG（Visual Geometry Group）：透過重複堆疊3×3卷積層與池化層來維持梯度 穩定",
+        "B": "GoogLeNet：透過 Inception 模塊並行使用不同大小的卷積核，以避免深層網路 的梯度問題",
+        "C": "ResNet（Residual Network）：透過殘差連接（Residual Connection / Skip Connection），使梯度能跨層傳遞並降低深層訓練困難",
+        "D": "Vision Transformer（ViT）：完全捨棄卷積，因此不會出現任何深層模型的訓練 問題"
+      },
+      "answer": "C",
+      "explanation": "正確答案為(C)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 16,
+        "page_number": 17
+      },
+      "context": "某人工智慧團隊正在開發一套自動光學檢測（Automated Optical Inspection, AOI） 系統，目標是透過機械手臂上的相機，自動辨識晶圓表面是否存在「劃傷（Scratch）」 或「污點（Spot）」等瑕疵。目前系統開發面臨以下挑戰： ● 資料極度不平衡，正常晶圓影像約佔99%，有瑕疵影像僅佔1%。 ● 輸入影像品質不一致，包含不同解析度，且部分影像因機械手臂震動而出現模 糊。 ● 在使用深層卷積神經網路（CNN）訓練時，Loss 曲線震盪劇烈，甚至偶爾出現 數值溢出（NaN）情形。 請根據上述情境，回答第49~50 題。"
+    },
+    {
+      "id": "mid_1151_s3_q50",
+      "question": "為了修復訓練過程中 Loss 突然變成 NaN的問題，工程師考慮在 PyTorch 訓練迴圈 中加入梯度裁剪（Gradient Clipping）機制，例如 torch.nn.utils.clip_grad_norm_。若 要正確加入梯度裁剪，最適合插入於哪個位置？其主要作用為何？",
+      "options": {
+        "A": "插入於位置 3與位置4之間；用以限制 Loss 數值大小，避免梯度消失",
+        "B": "插入於位置 4與位置5之間；用以限制梯度範數過大，避免更新步幅失控導致 數值不穩",
+        "C": "插入於位置 5之後；用以將更新後的權重強制壓縮回正常範圍",
+        "D": "插入於位置 1與位置2之間；用以對輸入影像進行批次標準化"
+      },
+      "answer": "B",
+      "explanation": "正確答案為(B)。",
+      "source": "mid_1151_s3",
+      "source_ref": {
+        "page_index": 17,
+        "page_number": 18
+      },
+      "context": "某人工智慧團隊正在開發一套自動光學檢測（Automated Optical Inspection, AOI） 系統，目標是透過機械手臂上的相機，自動辨識晶圓表面是否存在「劃傷（Scratch）」 或「污點（Spot）」等瑕疵。目前系統開發面臨以下挑戰： ● 資料極度不平衡，正常晶圓影像約佔99%，有瑕疵影像僅佔1%。 ● 輸入影像品質不一致，包含不同解析度，且部分影像因機械手臂震動而出現模 糊。 ● 在使用深層卷積神經網路（CNN）訓練時，Loss 曲線震盪劇烈，甚至偶爾出現 數值溢出（NaN）情形。 請根據上述情境，回答第49~50 題。",
+      "images": [
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_017/image_02_01.png",
+          "alt": "mid_1151_s3 第 18 頁 PyTorch 訓練迴圈程式碼",
+          "page_index": 17,
+          "page_number": 18,
+          "bbox": [
+            369,
+            187,
+            477,
+            917
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "PyTorch 訓練迴圈（含填空）",
+          "markdown": "for images, labels in train_loader:\n    optimizer.zero_grad()          # 位置 1\n    outputs = model(images)        # 位置 2\n    loss = criterion(outputs, labels) # 位置 3\n    loss.backward()                # 位置 4\n    optimizer.step()               # 位置 5"
+        }
+      ]
+    }
+  ]
+}

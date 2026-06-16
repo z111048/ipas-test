@@ -449,6 +449,225 @@ y = data["HighValue"]
 y_pred = model.predict(X_test)
 print("Predictions:", y_pred[:5])""",
     },
+    # 115年第一次 中級 科目二
+    '/pdf-assets/中級/mid_1151_s2/page_011/image_02_01.png': {
+        'markdown_language': 'python',
+        'markdown_title': 'Python 程式碼',
+        'markdown': """def process_record(record, tags=[]):
+    tags.append("checked")
+    record['tags'] = tags
+    return record
+
+row1 = process_record({"id": 1})
+row2 = process_record({"id": 2})""",
+    },
+    '/pdf-assets/中級/mid_1151_s2/page_011/image_03_01.png': {
+        'markdown_language': 'text',
+        'markdown_title': 'KNN 虛擬程式碼',
+        'markdown': """Input:
+  - train_data: 訓練資料集，每筆包含特徵和標籤
+  - test_point: 要預測的資料點
+  - X: 要考慮的最近鄰個數
+
+Output:
+  - 預測的分類標籤
+
+Algorithm:
+1. 初始化一個空列表 distances
+2. 對於每個訓練資料集的樣本 sample：
+   a. 計算 sample 與 test_point 的距離 distance
+   b. 把 (distance, sample) 加到 distances 中
+3. 按照距離對 distances 升序排序
+4. 取出 X 個距離最小的項目，記錄它們的標籤
+5. 統計這 X 個標籤中出現次數最多的那個標籤
+6. 返回該標籤作為 test_point 的預測結果""",
+    },
+    '/pdf-assets/中級/mid_1151_s2/page_012/image_02_01.png': {
+        'markdown_language': 'python',
+        'markdown_title': 'Python 程式碼',
+        'markdown': """import pandas as pd
+
+df = pd.read_csv('driver_daily_stats.csv')
+print(df['daily_earnings'].describe()[['mean', '50%', 'max']])""",
+    },
+    '/pdf-assets/中級/mid_1151_s2/page_013/image_02_01.png': {
+        'markdown_language': 'text',
+        'markdown_title': '分類報告',
+        'markdown': """              precision    recall  f1-score
+
+           0       1.00      1.00      1.00
+           1       1.00      1.00      1.00
+
+    accuracy                           1.00
+   macro avg       1.00      1.00      1.00
+weighted avg       1.00      1.00      1.00""",
+    },
+    '/pdf-assets/中級/mid_1151_s2/page_016/image_05_01.png': {
+        'markdown_language': 'python',
+        'markdown_title': '選項 A 程式碼',
+        'markdown': """X_train, X_test, y_train, y_test = train_test_split(y, X_norm, train_size=0.2, random_state=123)
+log_reg = LogisticRegression(solver="lbfgs")
+log_reg.fit(X_train, y_train)""",
+    },
+    '/pdf-assets/中級/mid_1151_s2/page_016/mid_1151_s2_q50_visual_p016.png': {
+        'markdown_language': 'text',
+        'markdown_title': '模型評估程式碼與輸出',
+        'markdown': """>>> y_pred = log_reg.predict(X_test)
+>>> cm = confusion_matrix(y_test, y_pred)
+>>> f1 = f1_score(y_test, y_pred, average="weighted")
+>>> print(cm)
+[[13  0  0]
+ [ 0  6  0]
+ [ 0  1 10]]
+>>> print("F1-score (Weighted):", f1)
+F1-score (Weighted): 0.9671550671550672
+>>> print("Classification Report:\\n", classification_report(y_test, y_pred, target_names=target_names))
+Classification Report:
+              precision    recall  f1-score  support
+      setosa       1.00      1.00      1.00       13
+  versicolor       0.86      1.00      0.92        6
+   virginica       1.00      0.91      0.95       11
+    accuracy                           0.97       30
+   macro avg       0.95      0.97      0.96       30
+weighted avg       0.97      0.97      0.97       30""",
+    },
+    # 115年第一次 中級 科目三
+    '/pdf-assets/中級/mid_1151_s3/page_010/image_02_01.png': {
+        'markdown_language': 'python',
+        'markdown_title': 'Python 程式碼（含填空）',
+        'markdown': """from tensorflow.keras import Sequential
+from tensorflow.keras.layers import Dense
+
+model = Sequential([
+    Dense(64, activation='relu', input_shape=(784,)),
+    Dense(10, activation='___(A)___')
+])
+model.compile(loss='___(B)___', optimizer='adam')""",
+    },
+    '/pdf-assets/中級/mid_1151_s3/page_010/image_03_01.png': {
+        'markdown_language': 'python',
+        'markdown_title': 'PyTorch 資料增強程式碼',
+        'markdown': """import torchvision.transforms as transforms
+
+transform = transforms.Compose([
+    transforms.RandomHorizontalFlip(p=0.5),
+    transforms.RandomRotation(15),
+    transforms.ColorJitter(brightness=0.3),
+    transforms.ToTensor(),
+])""",
+    },
+    '/pdf-assets/中級/mid_1151_s3/page_011/image_02_01.png': {
+        'markdown_language': 'python',
+        'markdown_title': 'PyTorch 遷移學習程式碼（含填空）',
+        'markdown': """import torch
+import torch.nn as nn
+import torchvision
+
+model = torchvision.models.resnet50(pretrained=True)
+for param in model.parameters():
+    param.requires_grad = False  # 行(A)
+
+model.fc = nn.Linear(2048, 2)
+optimizer = torch.optim.Adam(model.fc.parameters(), lr=1e-4)""",
+    },
+    '/pdf-assets/中級/mid_1151_s3/page_012/image_02_01.png': {
+        'markdown_language': 'python',
+        'markdown_title': 'Iris 資料載入程式碼',
+        'markdown': """from ucimlrepo import fetch_ucirepo
+
+# 線上載入資料
+iris = fetch_ucirepo(id=53)
+
+# 讀取資料的輸入欄位與預測目標欄位
+X = iris.data.features
+y = iris.data.targets['class']""",
+    },
+    '/pdf-assets/中級/mid_1151_s3/page_012/image_05_01.png': {
+        'markdown_language': 'text',
+        'markdown_title': 'y.head() 輸出',
+        'markdown': """# 預測目標欄位的概況
+y.head()
+
+0    Iris-setosa
+1    Iris-setosa
+2    Iris-setosa
+3    Iris-setosa
+4    Iris-setosa
+Name: class, dtype: object""",
+    },
+    '/pdf-assets/中級/mid_1151_s3/page_013/image_02_01.png': {
+        'markdown_language': 'python',
+        'markdown_title': 'LDA + KNN 交叉驗證程式碼',
+        'markdown': """from sklearn.model_selection import cross_val_score
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+
+lda = LinearDiscriminantAnalysis()
+X_new = lda.fit_transform(X, y)
+
+model = KNeighborsClassifier(n_neighbors=3)
+scores = cross_val_score(model, X_new, y, cv=5, scoring="accuracy")
+scores.mean()
+
+0.9733333333333334""",
+    },
+    '/pdf-assets/中級/mid_1151_s3/page_013/image_03_01.png': {
+        'markdown_language': 'python',
+        'markdown_title': 'KNN 交叉驗證程式碼（含填空）',
+        'markdown': """from sklearn.model_selection import cross_val_score
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+
+model = KNeighborsClassifier(n_neighbors=3)
+
+# 填入程式碼
+
+scores = cross_val_score(model, X, y, cv=cv, scoring="accuracy")
+scores.mean()""",
+    },
+    '/pdf-assets/中級/mid_1151_s3/page_014/image_02_01.png': {
+        'markdown_language': 'python',
+        'markdown_title': 'TensorFlow CIFAR-10 資料載入',
+        'markdown': """import tensorflow as tf
+from tensorflow.keras import datasets, layers, models
+import matplotlib.pyplot as plt
+
+(x_train, y_train), (x_test, y_test) = datasets.cifar10.load_data()""",
+    },
+    '/pdf-assets/中級/mid_1151_s3/page_014/image_03_01.png': {
+        'markdown_language': 'text',
+        'markdown_title': 'x_train[0] 陣列輸出',
+        'markdown': """>>> x_train[0]
+array([[[ 59,  62,  63],
+        [ 43,  46,  45],
+        [ 50,  48,  43],
+        ...,
+        [158, 132, 108],
+        [152, 125, 102],
+        [148, 124, 103]],
+
+       [[ 16,  20,  20],
+        [  0,   0,   0],
+        [ 18,   8,   0],
+        ...""",
+    },
+    '/pdf-assets/中級/mid_1151_s3/page_014/image_05_01.png': {
+        'markdown_language': 'python',
+        'markdown_title': '資料正規化與標籤編碼',
+        'markdown': """x_train, x_test = x_train / 255.0, x_test / 255.0
+y_train = tf.keras.utils.to_categorical(y_train, 10)
+y_test = tf.keras.utils.to_categorical(y_test, 10)""",
+    },
+    '/pdf-assets/中級/mid_1151_s3/page_017/image_02_01.png': {
+        'markdown_language': 'python',
+        'markdown_title': 'PyTorch 訓練迴圈（含填空）',
+        'markdown': """for images, labels in train_loader:
+    optimizer.zero_grad()          # 位置 1
+    outputs = model(images)        # 位置 2
+    loss = criterion(outputs, labels) # 位置 3
+    loss.backward()                # 位置 4
+    optimizer.step()               # 位置 5""",
+    },
 }
 
 
@@ -641,6 +860,25 @@ def annotate_exam2_group_images(question: dict[str, Any]) -> bool:
     return changed
 
 
+MID_1151_S3_Q50_SRC = '/pdf-assets/中級/mid_1151_s3/page_017/image_02_01.png'
+
+
+def annotate_mid1151s3_q50(question: dict[str, Any]) -> bool:
+    if question.get('id') != 'mid_1151_s3_q50':
+        return False
+    images = question.setdefault('images', [])
+    if not isinstance(images, list):
+        return False
+    return add_unique_image(images, image_payload(
+        MID_1151_S3_Q50_SRC,
+        'mid_1151_s3 第 18 頁 PyTorch 訓練迴圈程式碼',
+        17,
+        18,
+        [369, 187, 477, 917],
+        'context',
+    ), 0)
+
+
 def annotate_question_images(path: Path) -> int:
     data: dict[str, Any] = json.loads(path.read_text(encoding='utf-8'))
     changed = 0
@@ -650,6 +888,8 @@ def annotate_question_images(path: Path) -> int:
         if annotate_context_blocks(question):
             changed += 1
         if is_middle_exam2 and annotate_exam2_group_images(question):
+            changed += 1
+        if annotate_mid1151s3_q50(question):
             changed += 1
         if not is_middle_exam2 and isinstance(question.get('images'), list):
             before = len(question['images'])
@@ -678,12 +918,22 @@ def annotate_question_images(path: Path) -> int:
     return changed
 
 
+EXAM_FILES = {
+    '初級': {'sample_exam.json'},
+    '中級': {
+        'mock_exam1.json', 'mock_exam2.json', 'mock_exam3.json', 'sample_exam.json',
+        'mock_mid_1141_s1.json', 'mock_mid_1141_s2.json', 'mock_mid_1141_s3.json',
+        'mock_mid_1151_s1.json', 'mock_mid_1151_s2.json', 'mock_mid_1151_s3.json',
+    },
+}
+
+
 def main() -> None:
     total = 0
     for level in ('初級', '中級'):
         questions_dir = BASE / 'data' / level / 'questions'
         for path in sorted(questions_dir.glob('*.json')):
-            if path.name not in {'mock_exam1.json', 'mock_exam2.json', 'mock_exam3.json', 'sample_exam.json'}:
+            if path.name not in EXAM_FILES.get(level, set()):
                 continue
             changed = annotate_question_images(path)
             if changed:

@@ -56,6 +56,18 @@ OFFICIAL_EXAMS_BY_LEVEL: dict[str, dict[str, dict[str, str]]] = {
             "question_file": "mock_mid_1141_s3.json",
             "label": "科目三 公告試題（114年第二梯次）",
         },
+        "mid_1151_s1": {
+            "question_file": "mock_mid_1151_s1.json",
+            "label": "科目一 公告試題（115年第一次）",
+        },
+        "mid_1151_s2": {
+            "question_file": "mock_mid_1151_s2.json",
+            "label": "科目二 公告試題（115年第一次）",
+        },
+        "mid_1151_s3": {
+            "question_file": "mock_mid_1151_s3.json",
+            "label": "科目三 公告試題（115年第一次）",
+        },
     },
 }
 

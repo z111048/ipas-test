@@ -25,6 +25,9 @@ EXAM_TITLES_BY_LEVEL: dict[str, dict[str, str]] = {
         'mid_1141_s1': '中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）',
         'mid_1141_s2': '中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）',
         'mid_1141_s3': '中級科目三 公告試題：機器學習技術與應用（114年第二梯次）',
+        'mid_1151_s1': '中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）',
+        'mid_1151_s2': '中級科目二 公告試題：大數據處理分析與應用（115年第一次）',
+        'mid_1151_s3': '中級科目三 公告試題：機器學習技術與應用（115年第一次）',
         'sample': '中級考試樣題（114年9月版）',
     },
 }
@@ -92,6 +95,8 @@ def parse_question_cell(
     # Remove embedded question number (e.g. "\n1.\n" or "1.")
     text = re.sub(r'\n\d+[\.\．]\n', '\n', text)
     text = re.sub(r'^\d+[\.\．]\s*', '', text)
+    # Normalize option markers: (A「) or (A）→ (A)
+    text = re.sub(r'\(([A-D])[「」）]?\)', r'(\1)', text)
 
     # Extract options
     opts = {}

@@ -626,7 +626,7 @@ function VisualCard({ image, onOpen }: { image: GuideImageAsset; onOpen: () => v
             alt={image.title}
             loading="lazy"
             onError={() => setFailed(true)}
-            className="max-h-full max-w-full object-contain transition-transform duration-200 group-hover:scale-[1.02]"
+            className="h-full w-full object-contain transition-transform duration-200 group-hover:scale-[1.02]"
           />
         )}
       </div>

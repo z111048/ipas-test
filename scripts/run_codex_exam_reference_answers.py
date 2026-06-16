@@ -38,6 +38,9 @@ EXAM_FILES_BY_LEVEL: dict[str, dict[str, str]] = {
         'mid_1141_s1': 'mock_mid_1141_s1.json',
         'mid_1141_s2': 'mock_mid_1141_s2.json',
         'mid_1141_s3': 'mock_mid_1141_s3.json',
+        'mid_1151_s1': 'mock_mid_1151_s1.json',
+        'mid_1151_s2': 'mock_mid_1151_s2.json',
+        'mid_1151_s3': 'mock_mid_1151_s3.json',
         'sample': 'sample_exam.json',
     },
 }
@@ -59,6 +62,7 @@ EXAM_GUIDE_KEYS_BY_LEVEL: dict[str, dict[str, list[str]]] = {
     },
     '中級': {
         'mid_1141_s1': ['guide1'], 'mid_1141_s2': ['guide2'], 'mid_1141_s3': ['guide3'],
+        'mid_1151_s1': ['guide1'], 'mid_1151_s2': ['guide2'], 'mid_1151_s3': ['guide3'],
         'sample': ['guide1', 'guide2', 'guide3'],
     },
 }
