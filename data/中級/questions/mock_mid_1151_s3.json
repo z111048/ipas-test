@@ -855,7 +855,10 @@
             530.65,
             532.28
           ],
-          "placement": "context"
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "X.head() — Iris 特徵欄位前五筆",
+          "markdown": "X.head()\n\n   sepal.length  sepal.width  petal.length  petal.width\n0           5.1          3.5           1.4          0.2\n1           4.9          3.0           1.4          0.2\n2           4.7          3.2           1.3          0.2\n3           4.6          3.1           1.5          0.2\n4           5.0          3.6           1.4          0.2"
         },
         {
           "type": "image",
@@ -923,7 +926,10 @@
             455.47,
             706.83
           ],
-          "placement": "question"
+          "placement": "question",
+          "markdown_language": "python",
+          "markdown_title": "Q45 交叉驗證可選程式碼",
+          "markdown": "程式碼 A : cv = KFold(n_splits=5, shuffle=True)\n程式碼 B : cv = StratifiedKFold(n_splits=5, shuffle=True)\n程式碼 C : cv = 5\n程式碼 D : cv = RepeatedStratifiedKFold(n_splits=5, n_repeats=2)"
         },
         {
           "type": "image",
@@ -954,7 +960,10 @@
             530.65,
             532.28
           ],
-          "placement": "context"
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "X.head() — Iris 特徵欄位前五筆",
+          "markdown": "X.head()\n\n   sepal.length  sepal.width  petal.length  petal.width\n0           5.1          3.5           1.4          0.2\n1           4.9          3.0           1.4          0.2\n2           4.7          3.2           1.3          0.2\n3           4.6          3.1           1.5          0.2\n4           5.0          3.6           1.4          0.2"
         },
         {
           "type": "image",
@@ -977,7 +986,7 @@
     },
     {
       "id": "mid_1151_s3_q46",
-      "question": "參考下圖資料處理，下列哪一項描述組合正確？",
+      "question": "參考下圖資料處理，下列哪一項描述組合正確？\n描述A：x_train, x_test 將影像範圍壓縮到 0~31 範圍\n描述B：x_train, x_test 資料轉換可以增加模型的泛化能力（避免像素值過大導致梯度爆炸）\n描述C：x_train, x_test 資料轉換結果相當於 z-score 標準化\n描述D：資料轉換目的是避免梯度爆炸或梯度消失\n描述E：y_train 將 label 轉換為獨熱編碼（One-hot Encoding）\n描述F：y_train 適合輸出層使用 softmax 函數",
       "options": {
         "A": "描述A、描述C、描述 F",
         "B": "描述B、描述D、描述E、描述 F",
@@ -1056,13 +1065,16 @@
             455.47,
             788.78
           ],
-          "placement": "context"
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "y_train[0] 輸出",
+          "markdown": ">>> y_train[0]\narray([6], dtype=uint8)"
         }
       ]
     },
     {
       "id": "mid_1151_s3_q47",
-      "question": "參考下圖建立模型結果，下列哪一項描述組合正確？",
+      "question": "參考下圖建立模型結果，下列哪一項描述組合正確？\n描述A：區塊1 layers.Input(shape=(32, 32, 3)) 主要目的是進行資料標準化\n描述B：區塊1 layers.Conv2D(32, kernel_size=(3,3), padding=\"same\", activation=\"relu\") 考慮輸入為(32,32,3)，則輸出 shape 為(32,32,3)\n描述C：區塊1 layers.BatchNormalization() 放在 Conv2D 之後可以減少梯度消失或爆炸\n描述D：區塊2 layers.Dropout(0.25) 可以隨機將 25% 神經元輸出設定為 1\n描述E：區塊3 layers.Dropout(0.25) 可以減少過度擬合（Overfitting）\n描述F：區塊4 Flatten 層的作用是將 3D 特徵圖展開為平面 1D 向量",
       "options": {
         "A": "描述A、描述C",
         "B": "描述C、描述E、描述F",
@@ -1090,7 +1102,10 @@
             540.5,
             685.55
           ],
-          "placement": "question"
+          "placement": "question",
+          "markdown_language": "python",
+          "markdown_title": "Keras CNN 模型定義（Q47）",
+          "markdown": "model = models.Sequential([\n    # 區塊 1\n    layers.Input(shape=(32, 32, 3)),\n    layers.Conv2D(32, kernel_size=(3,3), padding=\"same\", activation=\"relu\"),\n    layers.BatchNormalization(),\n    layers.Conv2D(32, (3,3), activation='relu', padding='same'),\n    layers.BatchNormalization(),\n    layers.MaxPooling2D((2,2)),\n    layers.Dropout(0.25),\n\n    # 區塊 2\n    layers.Conv2D(64, (3,3), activation='relu', padding='same'),\n    layers.BatchNormalization(),\n    layers.Conv2D(64, (3,3), activation='relu', padding='same'),\n    layers.BatchNormalization(),\n    layers.MaxPooling2D((2,2)),\n    layers.Dropout(0.25),\n\n    # 區塊 3\n    layers.Conv2D(128, (3,3), activation='relu', padding='same'),\n    layers.BatchNormalization(),\n    layers.Conv2D(128, (3,3), activation='relu', padding='same'),\n    layers.BatchNormalization(),\n    layers.MaxPooling2D((2,2)),\n    layers.Dropout(0.25),\n\n    # 區塊 4\n    layers.Flatten(),\n    layers.Dense(256, activation='relu'),\n    layers.BatchNormalization(),\n    layers.Dropout(0.5),\n    layers.Dense(10, activation='softmax')\n])"
         },
         {
           "type": "image",
@@ -1155,7 +1170,10 @@
             455.47,
             788.78
           ],
-          "placement": "context"
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "y_train[0] 輸出",
+          "markdown": ">>> y_train[0]\narray([6], dtype=uint8)"
         }
       ]
     },
@@ -1166,7 +1184,7 @@
         "A": "學習率（Learning Rate）太低",
         "B": "批次大小（Batch Size）設定太大",
         "C": "模型低度擬合（Underfitting）",
-        "D": "模型過擬合（Overfitting） 某人工智慧團隊正在開發一套自動光學檢測（Automated Optical Inspection, AOI） 系統，目標是透過機械手臂上的相機，自動辨識晶圓表面是否存在「劃傷（Scratch）」 或「污點（Spot）」等瑕疵。目前系統開發面臨以下挑戰： ● 資料極度不平衡，正常晶圓影像約佔 99%，有瑕疵影像僅佔 1%。 ● 輸入影像品質不一致，包含不同解析度，且部分影像因機械手臂震動而出現模 糊。 ● 在"
+        "D": "模型過擬合（Overfitting）"
       },
       "answer": "D",
       "explanation": "正確答案為(D)。",
@@ -1254,7 +1272,10 @@
             455.47,
             788.78
           ],
-          "placement": "context"
+          "placement": "context",
+          "markdown_language": "text",
+          "markdown_title": "y_train[0] 輸出",
+          "markdown": ">>> y_train[0]\narray([6], dtype=uint8)"
         }
       ]
     },

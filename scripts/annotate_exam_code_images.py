@@ -658,6 +658,69 @@ array([[[ 59,  62,  63],
 y_train = tf.keras.utils.to_categorical(y_train, 10)
 y_test = tf.keras.utils.to_categorical(y_test, 10)""",
     },
+    '/pdf-assets/中級/mid_1151_s3/page_012/image_04_01.png': {
+        'markdown_language': 'text',
+        'markdown_title': 'X.head() — Iris 特徵欄位前五筆',
+        'markdown': """X.head()
+
+   sepal.length  sepal.width  petal.length  petal.width
+0           5.1          3.5           1.4          0.2
+1           4.9          3.0           1.4          0.2
+2           4.7          3.2           1.3          0.2
+3           4.6          3.1           1.5          0.2
+4           5.0          3.6           1.4          0.2""",
+    },
+    '/pdf-assets/中級/mid_1151_s3/page_013/image_04_01.png': {
+        'markdown_language': 'python',
+        'markdown_title': 'Q45 交叉驗證可選程式碼',
+        'markdown': """程式碼 A : cv = KFold(n_splits=5, shuffle=True)
+程式碼 B : cv = StratifiedKFold(n_splits=5, shuffle=True)
+程式碼 C : cv = 5
+程式碼 D : cv = RepeatedStratifiedKFold(n_splits=5, n_repeats=2)""",
+    },
+    '/pdf-assets/中級/mid_1151_s3/page_014/image_06_01.png': {
+        'markdown_language': 'text',
+        'markdown_title': 'y_train[0] 輸出',
+        'markdown': """>>> y_train[0]
+array([6], dtype=uint8)""",
+    },
+    '/pdf-assets/中級/mid_1151_s3/page_015/image_03_01.png': {
+        'markdown_language': 'python',
+        'markdown_title': 'Keras CNN 模型定義（Q47）',
+        'markdown': """model = models.Sequential([
+    # 區塊 1
+    layers.Input(shape=(32, 32, 3)),
+    layers.Conv2D(32, kernel_size=(3,3), padding="same", activation="relu"),
+    layers.BatchNormalization(),
+    layers.Conv2D(32, (3,3), activation='relu', padding='same'),
+    layers.BatchNormalization(),
+    layers.MaxPooling2D((2,2)),
+    layers.Dropout(0.25),
+
+    # 區塊 2
+    layers.Conv2D(64, (3,3), activation='relu', padding='same'),
+    layers.BatchNormalization(),
+    layers.Conv2D(64, (3,3), activation='relu', padding='same'),
+    layers.BatchNormalization(),
+    layers.MaxPooling2D((2,2)),
+    layers.Dropout(0.25),
+
+    # 區塊 3
+    layers.Conv2D(128, (3,3), activation='relu', padding='same'),
+    layers.BatchNormalization(),
+    layers.Conv2D(128, (3,3), activation='relu', padding='same'),
+    layers.BatchNormalization(),
+    layers.MaxPooling2D((2,2)),
+    layers.Dropout(0.25),
+
+    # 區塊 4
+    layers.Flatten(),
+    layers.Dense(256, activation='relu'),
+    layers.BatchNormalization(),
+    layers.Dropout(0.5),
+    layers.Dense(10, activation='softmax')
+])""",
+    },
     '/pdf-assets/中級/mid_1151_s3/page_017/image_02_01.png': {
         'markdown_language': 'python',
         'markdown_title': 'PyTorch 訓練迴圈（含填空）',
