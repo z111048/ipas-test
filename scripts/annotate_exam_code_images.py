@@ -450,6 +450,16 @@ y_pred = model.predict(X_test)
 print("Predictions:", y_pred[:5])""",
     },
     # 115年第一次 中級 科目二
+    '/pdf-assets/中級/mid_1151_s2/page_000/mid_1151_s2_q2_visual_p000.png': {
+        'markdown_language': 'text',
+        'markdown_title': '吉尼不純度公式',
+        'markdown': 'G = 1 - Σᵢ₌₁ᵏ pᵢ²\n\n其中 pᵢ 為第 i 類樣本在節點中所占的比例，k 為類別總數',
+    },
+    '/pdf-assets/中級/mid_1151_s2/page_001/mid_1151_s2_q8_visual_p001.png': {
+        'markdown_language': 'text',
+        'markdown_title': 'Z 檢定統計量公式',
+        'markdown': 'Z = (x̄ - μ₀) / (σ / √n)\n\n其中 x̄ 為樣本平均數、μ₀ 為虛無假說均值、σ 為母體標準差、n 為樣本數',
+    },
     '/pdf-assets/中級/mid_1151_s2/page_011/image_02_01.png': {
         'markdown_language': 'python',
         'markdown_title': 'Python 程式碼',
@@ -923,6 +933,105 @@ def annotate_exam2_group_images(question: dict[str, Any]) -> bool:
     return changed
 
 
+MID_1151_S2_IRIS_CONTEXT_BLOCK: dict[str, str] = {
+    'title': 'Iris 資料載入（第 48~50 題共用）',
+    'language': 'python',
+    'markdown': (
+        'from sklearn.datasets import load_iris\n'
+        'from sklearn.preprocessing import StandardScaler\n'
+        'from sklearn.model_selection import train_test_split\n'
+        'from sklearn.linear_model import LogisticRegression\n'
+        'from sklearn.metrics import confusion_matrix, f1_score, classification_report\n\n'
+        'iris = load_iris()\n'
+        'X, y = iris.data, iris.target\n'
+        'feature_names = iris.feature_names\n'
+        "target_names = iris.target_names\n\n"
+        '>>> print(X[0:5])\n'
+        '[[5.1 3.5 1.4 0.2]\n'
+        ' [4.9 3.  1.4 0.2]\n'
+        ' [4.7 3.2 1.3 0.2]\n'
+        ' [4.6 3.1 1.5 0.2]\n'
+        ' [5.  3.6 1.4 0.2]]\n'
+        '>>> print(y[0:5])\n'
+        '[0 0 0 0 0]\n'
+        '>>> print(feature_names)\n'
+        "['sepal length (cm)', 'sepal width (cm)', 'petal length (cm)', 'petal width (cm)']\n"
+        '>>> print(target_names)\n'
+        "['setosa' 'versicolor' 'virginica']"
+    ),
+}
+
+MID_1151_S2_Q41_CODE = (
+    'import pandas as pd\n\n'
+    "df = pd.read_csv('driver_daily_stats.csv')\n"
+    "print(df['daily_earnings'].describe()[['mean', '50%', 'max']])"
+)
+
+MID_1151_S2_Q41_OUTPUT = (
+    'mean    223.411306\n'
+    '50%     128.552462\n'
+    'max    4500.000000\n'
+    'Name: daily_earnings, dtype: float64'
+)
+
+_Q41_TEXT_OLD = '（Pandas 2以上版本）： 輸出結果如下： ● mean：223.411306 ● 50%：128.552462 ● max：4500.000000 若'
+_Q41_TEXT_NEW = '（Pandas 2以上版本，程式碼與輸出見下方）。若'
+
+
+def annotate_mid1151s2_q41(question: dict[str, Any]) -> bool:
+    if question.get('id') != 'mid_1151_s2_q41':
+        return False
+    changed = False
+
+    q_text = question.get('question', '')
+    if _Q41_TEXT_OLD in q_text:
+        question['question'] = q_text.replace(_Q41_TEXT_OLD, _Q41_TEXT_NEW)
+        changed = True
+
+    expected_blocks = [
+        {'title': 'Python 程式碼', 'language': 'python', 'markdown': MID_1151_S2_Q41_CODE},
+        {'title': '執行結果', 'language': 'text', 'markdown': MID_1151_S2_Q41_OUTPUT},
+    ]
+    if question.get('context_blocks') != expected_blocks:
+        question['context_blocks'] = expected_blocks
+        changed = True
+
+    images = question.setdefault('images', [])
+    if isinstance(images, list):
+        src = '/pdf-assets/中級/mid_1151_s2/page_012/image_02_01.png'
+        if add_unique_image(images, image_payload(
+            src, 'mid_1151_s2 第 13 頁 pandas describe 程式碼', 12, 13,
+            [108.2, 444.28, 488.21, 523.73],
+        ), 0):
+            changed = True
+    return changed
+
+
+def annotate_mid1151s2_q43(question: dict[str, Any]) -> bool:
+    if question.get('id') != 'mid_1151_s2_q43':
+        return False
+    images = question.setdefault('images', [])
+    if not isinstance(images, list):
+        return False
+    src = '/pdf-assets/中級/mid_1151_s2/page_013/image_02_01.png'
+    return add_unique_image(images, image_payload(
+        src, 'mid_1151_s2 第 14 頁 分類報告', 13, 14,
+        [108.2, 375.43, 347.45, 478.18],
+    ), 0)
+
+
+def annotate_mid1151s2_iris_group(question: dict[str, Any]) -> bool:
+    """Add iris dataset loading context to Q48 and Q50 (Q49 handled separately)."""
+    qid = question.get('id', '')
+    if qid not in {'mid_1151_s2_q48', 'mid_1151_s2_q50'}:
+        return False
+    expected_blocks = [MID_1151_S2_IRIS_CONTEXT_BLOCK]
+    if question.get('context_blocks') != expected_blocks:
+        question['context_blocks'] = expected_blocks
+        return True
+    return False
+
+
 MID_1151_S2_Q49_CODES = {
     'A': 'X_train, X_test, y_train, y_test = train_test_split(X_norm, y, train_size=0.2, random_state=123)\nlog_reg = LogisticRegression(solver="liblinear")\nlog_reg.fit(X_train, y_train)',
     'B': 'X_train, X_test, y_train, y_test = train_test_split(X_norm, y, train_size=0.2, random_state=123)\nlog_reg = LogisticRegression(solver="lbfgs")\nlog_reg.fit(X_train, y_train)',
@@ -942,7 +1051,7 @@ def annotate_mid1151s2_q49(question: dict[str, Any]) -> bool:
     if question.get('options') != expected_options:
         question['options'] = expected_options
         changed = True
-    expected_blocks = [
+    expected_blocks = [MID_1151_S2_IRIS_CONTEXT_BLOCK] + [
         {'title': f'選項 {k} 程式碼', 'language': 'python', 'markdown': code}
         for k, code in MID_1151_S2_Q49_CODES.items()
     ]
@@ -989,6 +1098,12 @@ def annotate_question_images(path: Path) -> int:
         if annotate_context_blocks(question):
             changed += 1
         if is_middle_exam2 and annotate_exam2_group_images(question):
+            changed += 1
+        if annotate_mid1151s2_q41(question):
+            changed += 1
+        if annotate_mid1151s2_q43(question):
+            changed += 1
+        if annotate_mid1151s2_iris_group(question):
             changed += 1
         if annotate_mid1151s2_q49(question):
             changed += 1
