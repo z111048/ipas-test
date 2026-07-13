@@ -30,7 +30,7 @@ function ResourceLink({ item }: { item: ResourceNavItem }) {
     </>
   )
 
-  const className = 'group block surface-compact px-4 py-3 no-underline transition-colors hover:border-accent hover:bg-[#f8fbff]'
+  const className = 'group block surface-compact surface-hover px-4 py-3 no-underline hover:bg-[#f8fbff]'
   if (item.externalUrl) {
     return (
       <a href={item.externalUrl} target="_blank" rel="noreferrer" className={className}>
@@ -64,33 +64,47 @@ export default function HomePage() {
 
   return (
     <div className="page-shell">
-      <div className="page-header mb-5 overflow-hidden relative">
-        <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-accent/5 blur-2xl" aria-hidden="true" />
-        <div className="relative flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+      <div className="hero-panel mb-5 px-5 py-7 md:px-8 md:py-9">
+        <div className="hero-grid" aria-hidden="true" />
+        <div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
-            <div className="eyebrow mb-2">經濟部 iPAS 產業人才能力鑑定</div>
-            <h1 className="text-[1.7rem] leading-tight font-bold text-primary mb-2">AI 應用規劃師備考平台</h1>
-            <p className="text-[0.95rem] leading-7 text-text-light">
-              整合初級與中級的官方學習指引、歷屆公告試題與章節模擬練習，逐章對齊 iPAS 評鑑範圍，把分散的 PDF 教材重組成可循序漸進的一站式備考路徑。
+            <div className="mb-3 flex flex-wrap gap-2">
+              <span className="hero-chip">經濟部 iPAS 產業人才能力鑑定</span>
+              <span className="hero-chip">初級・中級雙軌</span>
+            </div>
+            <h1 className="mb-3 text-[1.9rem] leading-[1.25] font-black tracking-tight text-white md:text-[2.35rem]">
+              AI 應用規劃師
+              <span className="inline-block text-[#8fb8ff]">備考平台</span>
+            </h1>
+            <p className="max-w-2xl text-[0.95rem] leading-7 text-white/75 md:text-base md:leading-8">
+              整合初級與中級的官方學習指引、歷屆公告試題與章節模擬練習，逐章對齊 iPAS
+              評鑑範圍，把分散的 PDF 教材重組成循序漸進的一站式備考路徑。
             </p>
-            <div className="mt-4 flex flex-wrap gap-2.5">
+            <div className="mt-5 flex flex-wrap gap-2.5">
               {juniorPracticeTo && (
-                <Link to={juniorPracticeTo} className="btn-primary">開始初級章節練習</Link>
+                <Link to={juniorPracticeTo} className="btn-hero">開始章節練習</Link>
               )}
-              <Link to={firstArticleTo} className="btn-outline">主題文章學習</Link>
-              <Link to="/visuals" className="btn-outline">概念圖卡速覽</Link>
+              <Link to={firstArticleTo} className="btn-hero-ghost">主題文章學習</Link>
+              <Link to="/visuals" className="btn-hero-ghost">概念圖卡速覽</Link>
               {middleGuideTo && (
-                <Link to={middleGuideTo} className="btn-outline">中級學習指引</Link>
+                <Link to={middleGuideTo} className="btn-hero-ghost">中級學習指引</Link>
               )}
               {firstExamTo && (
-                <Link to={firstExamTo} className="btn-muted">歷屆公告試題</Link>
+                <Link to={firstExamTo} className="btn-hero-ghost">歷屆公告試題</Link>
               )}
             </div>
           </div>
-          <div className="flex shrink-0 flex-wrap gap-2 lg:flex-col lg:items-end">
-            <span className="pill">官方資料對齊</span>
-            <span className="pill pill-muted">初級 / 中級雙軌</span>
-            <span className="pill pill-muted">{learningArticleIndex.pathCount} 條主題路徑</span>
+          <div className="relative flex shrink-0 gap-5 border-t border-white/15 pt-4 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-6 lg:flex-col lg:gap-3">
+            {[
+              { value: totalOfficial, label: '官方試題／樣題' },
+              { value: totalPractice, label: '章節練習題' },
+              { value: learningArticleIndex.articleCount, label: '主題文章' },
+            ].map((s) => (
+              <div key={s.label}>
+                <div className="text-[1.6rem] font-black leading-none tabular-nums text-white">{s.value}</div>
+                <div className="mt-1 text-[0.74rem] font-medium text-white/60">{s.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -98,10 +112,7 @@ export default function HomePage() {
       <div className="flex gap-3 flex-wrap mb-6">
         <StatBox value={resourceStats.junior.subjects + resourceStats.middle.subjects} label="考試科目" />
         <StatBox value={resourceStats.junior.chapters + resourceStats.middle.chapters} label="章節單元" />
-        <StatBox value={learningArticleIndex.articleCount} label="主題文章" />
         <StatBox value={learningArticleIndex.pathCount} label="學習路徑" />
-        <StatBox value={totalPractice} label="章節練習題" />
-        <StatBox value={totalOfficial} label="官方試題 / 樣題" />
         {totalVisuals > 0 && <StatBox value={totalVisuals} label="概念圖卡" />}
       </div>
 
@@ -138,7 +149,7 @@ export default function HomePage() {
               desc: '中級關鍵字整理彙整中英文定義與案例，專有名詞一次查清楚，考場上不再卡關。',
             },
           ].map((feature) => (
-            <div key={feature.title} className="surface-compact p-4">
+            <div key={feature.title} className="surface-compact surface-hover p-4">
               <div className="mb-1.5 flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
                 <h3 className="font-semibold text-primary">{feature.title}</h3>
