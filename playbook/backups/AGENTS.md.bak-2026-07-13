@@ -1,9 +1,5 @@
 # Repository Guidelines
 
-> ⚠️ 本檔內容較舊，僅供 Codex CLI 讀取。權威版本：`CLAUDE.md`（不變量與路由）＋
-> `playbook/pipeline-reference.md`（pipeline 細節）。兩者衝突時以 playbook 為準。
-> 更新腳本行為時改 playbook，不要改這裡。
-
 ## Project Structure & Module Organization
 
 This repository is a content-generation workspace for the iPAS AI exam study materials. Source PDFs live under `data/<等級>/pdfs/`. Scripts are in `scripts/`. Generated artifacts go under `data/<等級>/` and are gitignored.
@@ -52,7 +48,7 @@ This project uses `uv` for dependency management. Run `uv sync` after cloning to
 - `python3 scripts/clean_pdf_page_text.py --level 初級 --all`: clean page starts/ends, mark page continuation, and rebuild per-PDF hierarchy outlines.
 - `python3 scripts/codex_review_pdf_pages.py --level 初級 --key guide1 --page 7 --force`: review one cleaned page with Codex CLI in read-only sandbox; use `--all --limit N` to run in batches across PDFs.
 - `python3 scripts/build_guide_tree.py --level 初級 --all`: build validated guide tree/block artifacts and warnings from cleaned page outputs.
-- `python3 scripts/export_guide_outline_data.py --all-levels --use-guide-tree`（⚠️ 必帶 `--all-levels`，否則中級 guideContent 會被 rmtree 永久刪除；跑完補回 s1c4 修正，見 playbook/pipeline-reference.md §10）: refresh frontend guide outline metadata and split guide content imports from validated guide tree artifacts. Omit `--use-guide-tree` only when intentionally using the legacy inline hierarchy path.
+- `python3 scripts/export_guide_outline_data.py --use-guide-tree`: refresh frontend guide outline metadata and split guide content imports from validated guide tree artifacts. Omit `--use-guide-tree` only when intentionally using the legacy inline hierarchy path.
 - `python3 scripts/export_guide_embedded_exercises.py --level 初級`: extract learning-guide embedded chapter exercises into independent `*_guide_exercises.json` files.
 - `python3 scripts/export_question_generation_data.py --level 中級`: refresh question-generation guide seeds and empty/preserved chapter-question files for a level.
 - `python3 scripts/build_pdf_outline.py --level 初級 --all`: rebuild reviewable PDF hierarchy outlines from the page extraction.
