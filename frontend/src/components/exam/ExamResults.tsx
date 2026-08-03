@@ -20,6 +20,38 @@ function imageAspectRatio(image: QuestionImage) {
   return `${width} / ${height}`
 }
 
+function ScoreRing({ score, pass }: { score: number; pass: boolean }) {
+  const radius = 54
+  const stroke = 12
+  const circumference = 2 * Math.PI * radius
+  const offset = circumference * (1 - Math.min(Math.max(score, 0), 100) / 100)
+  const color = pass ? '#15803d' : '#dc2626'
+
+  return (
+    <div className="relative mx-auto h-32 w-32">
+      <svg viewBox="0 0 128 128" className="h-32 w-32 -rotate-90">
+        <circle cx="64" cy="64" r={radius} fill="none" stroke="#e2e8f0" strokeWidth={stroke} />
+        <circle
+          cx="64"
+          cy="64"
+          r={radius}
+          fill="none"
+          stroke={color}
+          strokeWidth={stroke}
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          strokeLinecap="round"
+          style={{ transition: 'stroke-dashoffset 0.6s ease' }}
+        />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className={`text-3xl font-bold tabular-nums ${pass ? 'text-success' : 'text-error'}`}>{score}</span>
+        <span className="text-[0.7rem] text-text-light">分</span>
+      </div>
+    </div>
+  )
+}
+
 type ExamReferenceModule = { default: unknown }
 
 const answerOptions = ['A', 'B', 'C', 'D'] as const
@@ -195,15 +227,28 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
     )
   }
 
+  const wrongIndices = examData.questions
+    .map((q, i) => ({ q, i }))
+    .filter(({ q, i }) => userAnswers[i] && userAnswers[i] !== q.answer)
+    .map(({ i }) => i)
+
+  const jumpToQuestion = (i: number) => {
+    document.getElementById(`result-q-${i}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
   return (
     <div className="page-shell">
       <div className="page-header text-center mb-6">
         <div className="eyebrow mb-2">{examData.exam}</div>
-        <div className={`text-5xl font-bold mb-2 tabular-nums ${pass ? 'text-success' : 'text-error'}`}>
-          {score} 分
+        <ScoreRing score={score} pass={pass} />
+        <div
+          className={`mt-3 inline-block rounded-full px-4 py-1 text-[0.85rem] font-semibold ${
+            pass ? 'bg-[#eafaf1] text-success' : 'bg-[#fdf2f2] text-error'
+          }`}
+        >
+          {pass ? '已達及格標準' : '尚未達及格標準'}
         </div>
-        <div className="text-base font-semibold mb-6 text-app-text">{pass ? '已達及格標準' : '尚未達及格標準'}</div>
-        <div className="flex gap-3 flex-wrap justify-center mb-6">
+        <div className="flex gap-3 flex-wrap justify-center my-6">
           <StatBox value={correct} label="答對" valueColor="text-success" />
           <StatBox value={wrong} label="答錯" valueColor="text-error" />
           <StatBox value={skipped} label="未答" valueColor="text-text-light" />
@@ -215,6 +260,25 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
           height="h-3"
         />
         <div className="text-[0.8rem] text-text-light mt-2">及格線：{examData.passing_score} 分</div>
+
+        {wrongIndices.length > 0 && (
+          <div className="mt-6 text-left">
+            <div className="mb-2 text-center text-[0.8rem] font-semibold text-text-light">錯題快速跳轉</div>
+            <div className="flex flex-wrap justify-center gap-2">
+              {wrongIndices.map((i) => (
+                <button
+                  key={i}
+                  type="button"
+                  className="rounded-full border border-error/40 bg-[#fdf2f2] px-3 py-1 text-[0.78rem] font-semibold text-error transition-colors hover:bg-error hover:text-white cursor-pointer"
+                  onClick={() => jumpToQuestion(i)}
+                >
+                  第 {i + 1} 題
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         <button
           className="btn-outline mt-6 cursor-pointer bg-transparent"
           onClick={onRetry}
@@ -235,7 +299,8 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
         return (
           <div
             key={q.id}
-            className={`surface p-5 mb-3 ${
+            id={`result-q-${i}`}
+            className={`surface p-5 mb-3 scroll-mt-4 ${
               isCorrect ? 'border-success/30' : isSkipped ? 'border-border' : 'border-error/30'
             }`}
           >

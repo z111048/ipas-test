@@ -1,9 +1,26 @@
 import { Link, useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { resourceLevels, resourceSummary } from '../data/resourceRegistry'
 import { loadSubjectQuestions } from '../data/questionLoaders'
 import type { SubjectQuestions } from '../types'
 import QuestionCard from '../components/practice/QuestionCard'
+
+type AnswerMap = Record<string, 'A' | 'B' | 'C' | 'D'>
+
+function practiceStorageKey(subjectId?: string, chapterId?: string, practiceSet?: string) {
+  return `ipas:practice:${subjectId ?? ''}:${chapterId ?? ''}:${practiceSet ?? 'chapter'}`
+}
+
+function isTypingTarget(target: EventTarget | null) {
+  if (!(target instanceof HTMLElement)) return false
+  const tag = target.tagName
+  if (tag === 'TEXTAREA') return true
+  if (tag === 'INPUT') {
+    const type = (target as HTMLInputElement).type
+    return type !== 'radio' && type !== 'checkbox'
+  }
+  return target.isContentEditable
+}
 
 export default function PracticePage() {
   const { subjectId, chapterId, practiceSet } = useParams<{ subjectId: string; chapterId: string; practiceSet?: string }>()
@@ -12,6 +29,10 @@ export default function PracticePage() {
   const [data, setData] = useState<SubjectQuestions | undefined>()
   const [loading, setLoading] = useState(false)
   const [loadError, setLoadError] = useState<string | null>(null)
+  const [answers, setAnswers] = useState<AnswerMap>({})
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [showRestoreBanner, setShowRestoreBanner] = useState(false)
+  const questionRefs = useRef<Array<HTMLElement | null>>([])
   const chapter = data?.chapters.find((c) => c.id === chapterId)
   const practiceSetSuffix = isCodex100 ? '/codex100' : isGuideExercise ? '/guide' : ''
   const chapterRoute = (targetChapterId: string) =>
@@ -53,6 +74,109 @@ export default function PracticePage() {
       active = false
     }
   }, [subjectId, practiceSet])
+
+  // 進度還原：切換章節/題組時，讀取 localStorage 中的作答紀錄
+  useEffect(() => {
+    setActiveIndex(0)
+    questionRefs.current = []
+    if (!subjectId || !chapterId) {
+      setAnswers({})
+      setShowRestoreBanner(false)
+      return
+    }
+    const key = practiceStorageKey(subjectId, chapterId, practiceSet)
+    try {
+      const raw = window.localStorage.getItem(key)
+      if (raw) {
+        const parsed = JSON.parse(raw) as AnswerMap
+        if (parsed && Object.keys(parsed).length > 0) {
+          setAnswers(parsed)
+          setShowRestoreBanner(true)
+          return
+        }
+      }
+    } catch {
+      // localStorage 不可用（例如無痕模式）時忽略
+    }
+    setAnswers({})
+    setShowRestoreBanner(false)
+  }, [subjectId, chapterId, practiceSet])
+
+  // 進度保存：作答狀態變更時寫回 localStorage
+  useEffect(() => {
+    if (!subjectId || !chapterId) return
+    const key = practiceStorageKey(subjectId, chapterId, practiceSet)
+    try {
+      if (Object.keys(answers).length > 0) {
+        window.localStorage.setItem(key, JSON.stringify(answers))
+      } else {
+        window.localStorage.removeItem(key)
+      }
+    } catch {
+      // 忽略儲存失敗（例如容量已滿）
+    }
+  }, [answers, subjectId, chapterId, practiceSet])
+
+  const goTo = (idx: number) => {
+    const total = chapter?.questions.length ?? 0
+    if (total === 0) return
+    const clamped = Math.max(0, Math.min(idx, total - 1))
+    setActiveIndex(clamped)
+    questionRefs.current[clamped]?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
+
+  const handleRestart = () => {
+    setAnswers({})
+    setShowRestoreBanner(false)
+    if (subjectId && chapterId) {
+      try {
+        window.localStorage.removeItem(practiceStorageKey(subjectId, chapterId, practiceSet))
+      } catch {
+        // ignore
+      }
+    }
+  }
+
+  // 鍵盤操作：1-4 選答，←/→ 切換上下題
+  useEffect(() => {
+    if (!chapter || chapter.questions.length === 0) return
+    const handler = (event: KeyboardEvent) => {
+      if (isTypingTarget(event.target)) return
+      if (['1', '2', '3', '4'].includes(event.key)) {
+        const q = chapter.questions[activeIndex]
+        if (q && !answers[q.id]) {
+          const optKey = (['A', 'B', 'C', 'D'] as const)[Number(event.key) - 1]
+          setAnswers((prev) => ({ ...prev, [q.id]: optKey }))
+        }
+        event.preventDefault()
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault()
+        goTo(activeIndex + 1)
+      } else if (event.key === 'ArrowLeft') {
+        event.preventDefault()
+        goTo(activeIndex - 1)
+      }
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [chapter, activeIndex, answers])
+
+  // 捲動時追蹤目前題號（供鍵盤切題與行動裝置底部列使用）
+  useEffect(() => {
+    if (!chapter || chapter.questions.length === 0) return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting)
+        if (visible.length === 0) return
+        const closest = visible.reduce((a, b) => (a.intersectionRatio > b.intersectionRatio ? a : b))
+        const idx = Number((closest.target as HTMLElement).dataset.qIndex)
+        if (!Number.isNaN(idx)) setActiveIndex(idx)
+      },
+      { threshold: [0.3, 0.6, 0.9], rootMargin: '-96px 0px -35% 0px' },
+    )
+    questionRefs.current.forEach((el) => el && observer.observe(el))
+    return () => observer.disconnect()
+  }, [chapter])
 
   if (loading) {
     return <div className="page-shell text-text-light p-4">題目載入中...</div>
@@ -132,7 +256,7 @@ export default function PracticePage() {
   }
 
   return (
-    <div className="page-shell">
+    <div className="page-shell pb-24 sm:pb-4">
       <div className="page-header mb-5">
         <div className="eyebrow mb-2">Practice</div>
         <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
@@ -142,7 +266,16 @@ export default function PracticePage() {
           </div>
           <span className="pill">共 {chapter.questions.length} 題</span>
         </div>
+        <p className="mt-2 text-[0.72rem] text-text-light">鍵盤：1–4 選答，←→ 切換上下題</p>
       </div>
+      {showRestoreBanner && (
+        <div className="alert-warning mb-5 flex flex-wrap items-center justify-between gap-3">
+          <span>已為您自動恢復上次的練習進度。</span>
+          <button className="btn-outline shrink-0" onClick={handleRestart}>
+            重新開始
+          </button>
+        </div>
+      )}
       <div className="flex flex-wrap gap-2 mb-5">
         {originalChapterCount > 0 && (
           <Link
@@ -207,8 +340,38 @@ export default function PracticePage() {
       )}
       <div>
         {chapter.questions.map((q, i) => (
-          <QuestionCard key={q.id} question={q} index={i} />
+          <QuestionCard
+            key={q.id}
+            question={q}
+            index={i}
+            selected={answers[q.id] ?? null}
+            onSelect={(key) => setAnswers((prev) => ({ ...prev, [q.id]: key }))}
+            isActive={i === activeIndex}
+            registerRef={(el) => {
+              questionRefs.current[i] = el
+            }}
+          />
         ))}
+      </div>
+
+      <div className="fixed inset-x-0 bottom-0 z-30 flex items-center justify-between gap-2 border-t border-border bg-white/95 px-4 py-3 shadow-[0_-2px_10px_rgba(0,0,0,0.08)] backdrop-blur sm:hidden">
+        <button
+          className="btn-outline flex-1 disabled:opacity-40"
+          onClick={() => goTo(activeIndex - 1)}
+          disabled={activeIndex === 0}
+        >
+          ← 上一題
+        </button>
+        <span className="shrink-0 whitespace-nowrap text-[0.78rem] text-text-light">
+          {activeIndex + 1} / {chapter.questions.length}
+        </span>
+        <button
+          className="btn-outline flex-1 disabled:opacity-40"
+          onClick={() => goTo(activeIndex + 1)}
+          disabled={activeIndex === chapter.questions.length - 1}
+        >
+          下一題 →
+        </button>
       </div>
     </div>
   )

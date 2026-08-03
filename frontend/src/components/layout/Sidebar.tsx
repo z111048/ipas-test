@@ -1,5 +1,5 @@
-import { memo, useEffect, useMemo, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { memo, useEffect, useMemo, useRef, useState } from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
 import { galleryRoute, resourceLevels, type ResourceNavItem, type SubjectResource } from '../../data/resourceRegistry'
 
 const STORAGE_KEY = 'ipas-sidebar-expanded-v3'
@@ -177,10 +177,35 @@ function loadExpandedState() {
 
 function Sidebar({ isOpen, onClose }: SidebarProps) {
   const [expanded, setExpanded] = useState<Record<string, boolean>>(() => loadExpandedState())
+  const location = useLocation()
+  const navRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(expanded))
   }, [expanded])
+
+  // 進入某科目相關頁面（科目總覽／章節練習／學習指引）時，自動展開該科目所屬的級別區塊
+  const activeSubjectId = useMemo(() => {
+    const match = location.pathname.match(/^\/(?:subject|practice|guide)\/([^/]+)/)
+    return match?.[1]
+  }, [location.pathname])
+
+  useEffect(() => {
+    if (!activeSubjectId) return
+    const level = resourceLevels.find((lvl) => lvl.subjects.some((s) => s.id === activeSubjectId))
+    if (!level) return
+    const levelId = `level-${level.id}`
+    setExpanded((current) => (current[levelId] ? current : { ...current, [levelId]: true }))
+  }, [activeSubjectId])
+
+  // 展開狀態或路由變化後，將目前作用中的連結捲動到可視範圍內
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      const activeEl = navRef.current?.querySelector('[aria-current="page"]')
+      activeEl?.scrollIntoView({ block: 'nearest' })
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [location.pathname, expanded])
 
   const defaults = useMemo(
     () => ({
@@ -213,7 +238,7 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
       `}
     >
-      <div className="h-full overflow-y-auto overflow-x-hidden pb-8 overscroll-contain scrollbar-sidebar border-r border-slate-950/20">
+      <div ref={navRef} className="h-full overflow-y-auto overflow-x-hidden pb-8 overscroll-contain scrollbar-sidebar border-r border-slate-950/20">
         {/* 首頁 */}
         <div className="pt-2 pb-1">
           <NavLink

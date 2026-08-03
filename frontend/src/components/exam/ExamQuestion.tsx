@@ -6,6 +6,8 @@ import CodeSnippet from './CodeSnippet'
 interface ExamQuestionProps {
   question: Question
   index: number
+  isActive?: boolean
+  registerRef?: (el: HTMLElement | null) => void
 }
 
 function imageAspectRatio(image: QuestionImage) {
@@ -18,7 +20,7 @@ function imageAspectRatio(image: QuestionImage) {
   return `${width} / ${height}`
 }
 
-export default function ExamQuestion({ question, index }: ExamQuestionProps) {
+export default function ExamQuestion({ question, index, isActive, registerRef }: ExamQuestionProps) {
   const selected = useExamStore((s) => s.userAnswers[index])
   const selectAnswer = useExamStore((s) => s.selectAnswer)
   const contextImages = question.images?.filter((image) => image.placement === 'context') ?? []
@@ -60,7 +62,11 @@ export default function ExamQuestion({ question, index }: ExamQuestionProps) {
   }
 
   return (
-    <article className="surface p-5 mb-4">
+    <article
+      ref={registerRef}
+      data-q-index={index}
+      className={`surface p-5 mb-4 transition-shadow duration-150 ${isActive ? 'ring-2 ring-accent/50' : ''}`}
+    >
       <div className="eyebrow mb-2">
         第 {index + 1} 題
       </div>
@@ -117,7 +123,7 @@ export default function ExamQuestion({ question, index }: ExamQuestionProps) {
         {(['A', 'B', 'C', 'D'] as const).map((key) => (
           <label
             key={key}
-            className={`flex items-start gap-3 px-4 py-3 rounded-lg border cursor-pointer transition-colors text-[0.9rem] ${
+            className={`flex min-h-[44px] items-start gap-3 px-4 py-3 rounded-lg border cursor-pointer transition-colors text-[0.9rem] has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent ${
               selected === key
                 ? 'bg-[#eff6ff] border-accent text-primary'
                 : 'bg-white border-border hover:bg-[#f8fbff] hover:border-accent/60'

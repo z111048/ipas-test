@@ -41,19 +41,20 @@ function PathCard({ path, selected }: { path: LearningPath; selected: boolean })
   return (
     <Link
       to={pageLink({ pathId: path.id })}
-      className={`group surface p-4 no-underline transition-colors hover:border-accent hover:bg-[#f8fbff] ${
-        selected ? 'border-accent bg-[#f8fbff]' : ''
+      className={`surface-hover group surface flex h-full flex-col p-4 no-underline hover:border-accent hover:bg-[#f8fbff] ${
+        selected ? 'border-accent bg-[#f8fbff] ring-1 ring-accent' : ''
       }`}
     >
       <div className="mb-2 flex flex-wrap items-center gap-2">
         <span className="pill">{levels}</span>
         <span className="pill pill-muted">{path.articleCount} 篇</span>
         <span className="pill pill-muted">{path.estimatedMinutes} 分鐘</span>
+        {selected && <span className="pill bg-accent text-white">目前檢視</span>}
       </div>
       <h2 className="text-[1rem] font-bold leading-snug text-primary group-hover:text-accent">
         {path.title}
       </h2>
-      <p className="mt-2 text-[0.84rem] leading-6 text-text-light">
+      <p className="mt-2 flex-1 text-[0.84rem] leading-6 text-text-light">
         {path.description}
       </p>
       {firstArticle && (
@@ -71,7 +72,10 @@ function ArticleCard({ article, activePathId }: { article: LearningArticleMeta; 
     : '來源頁碼已對齊'
 
   return (
-    <Link to={articleRoute(article, activePathId)} className="group surface p-4 no-underline transition-colors hover:border-accent hover:bg-[#f8fbff]">
+    <Link
+      to={articleRoute(article, activePathId)}
+      className="surface-hover group surface flex h-full flex-col p-4 no-underline hover:border-accent hover:bg-[#f8fbff]"
+    >
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div className="min-w-0">
           <div className="mb-1 flex flex-wrap items-center gap-2">
@@ -93,7 +97,7 @@ function ArticleCard({ article, activePathId }: { article: LearningArticleMeta; 
           <span className="pill pill-muted">{article.sectionCount} 節</span>
         </div>
       </div>
-      <div className="mt-3 flex flex-wrap gap-1.5">
+      <div className="mt-3 flex flex-1 flex-wrap content-start gap-1.5">
         {article.subtopics.slice(0, 4).map((subtopic) => (
           <span key={subtopic} className="rounded-md border border-border bg-white px-2 py-1 text-[0.72rem] font-semibold leading-5 text-text-light">
             {subtopic}
@@ -183,7 +187,7 @@ export default function LearningArticlesPage() {
         <div className="flex flex-wrap gap-2">
           <Link
             to={pageLink({ levelId: selectedLevel, pathId: selectedPathId })}
-            className={`btn-muted ${!selectedSubject ? 'border-accent text-accent' : ''}`}
+            className={`btn-muted ${!selectedSubject ? 'border-accent bg-accent text-white' : 'text-text-light hover:border-accent hover:text-accent'}`}
           >
             全部科目
           </Link>
@@ -191,7 +195,11 @@ export default function LearningArticlesPage() {
             <Link
               key={`${subject.levelId}:${subject.id}`}
               to={pageLink({ levelId: subject.levelId, subjectId: subject.id, pathId: selectedPathId })}
-              className={`btn-muted ${selectedSubject === subject.id ? 'border-accent text-accent' : ''}`}
+              className={`btn-muted ${
+                selectedSubject === subject.id
+                  ? 'border-accent bg-accent text-white'
+                  : 'text-text-light hover:border-accent hover:text-accent'
+              }`}
               title={subject.title}
             >
               {subject.levelLabel} {subject.shortTitle}

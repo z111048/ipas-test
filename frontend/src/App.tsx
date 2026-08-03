@@ -16,6 +16,21 @@ const GlossaryPage = lazy(() => import('./pages/GlossaryPage'))
 const LearningArticlesPage = lazy(() => import('./pages/LearningArticlesPage'))
 const LearningArticlePage = lazy(() => import('./pages/LearningArticlePage'))
 
+function PageSkeleton() {
+  return (
+    <div className="page-shell w-full animate-pulse" aria-hidden="true">
+      <div className="mb-5 h-40 rounded-xl bg-slate-200/70 md:h-48" />
+      <div className="mb-6 flex flex-wrap gap-3">
+        <div className="h-20 min-w-[112px] flex-1 rounded-xl bg-slate-200/70" />
+        <div className="h-20 min-w-[112px] flex-1 rounded-xl bg-slate-200/70" />
+        <div className="h-20 min-w-[112px] flex-1 rounded-xl bg-slate-200/70" />
+      </div>
+      <div className="mb-6 h-56 rounded-xl bg-slate-200/70" />
+      <div className="h-56 rounded-xl bg-slate-200/70" />
+    </div>
+  )
+}
+
 function AppShell() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const location = useLocation()
@@ -25,16 +40,25 @@ function AppShell() {
 
   useEffect(() => {
     mainRef.current?.scrollTo({ top: 0 })
+    mainRef.current?.focus()
   }, [location.pathname])
 
   return (
     <div className="flex flex-col min-h-screen bg-app-bg text-app-text">
+      <a href="#main-content" className="skip-link">
+        跳至主要內容
+      </a>
       <Header onMenuClick={() => setSidebarOpen((o) => !o)} />
       <Overlay isOpen={sidebarOpen} onClick={() => setSidebarOpen(false)} />
       <div className="flex overflow-hidden h-[calc(100vh-3.5rem)]">
         <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-        <main ref={mainRef} className={`app-scroll-stable flex-1 min-h-0 ${mainOverflow} ${isGuideRoute ? '' : 'flex flex-col'} px-4 py-4 md:px-6 md:py-6 min-w-0`}>
-          <Suspense fallback={<div className="text-text-light p-4">頁面載入中...</div>}>
+        <main
+          id="main-content"
+          tabIndex={-1}
+          ref={mainRef}
+          className={`app-scroll-stable flex-1 min-h-0 ${mainOverflow} ${isGuideRoute ? '' : 'flex flex-col'} px-4 py-4 md:px-6 md:py-6 min-w-0 focus:outline-none`}
+        >
+          <Suspense fallback={<PageSkeleton />}>
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/subject/:subjectId" element={<SubjectOverviewPage />} />

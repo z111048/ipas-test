@@ -127,31 +127,43 @@ export default function HomePage() {
             {
               title: '逐章對齊官方範圍',
               desc: '依 iPAS 官方學習指引與簡章評鑑範圍切分章節，每個考點都能對回原始出處，不漏不混。',
+              icon: '🗂️',
+              tone: 'bg-[#e8f0ff] text-accent',
             },
             {
               title: '初級・中級雙軌完整',
               desc: `一站涵蓋兩個級別共 ${resourceStats.junior.subjects + resourceStats.middle.subjects} 科、${resourceStats.junior.chapters + resourceStats.middle.chapters} 個章節，從入門到進階都在同一平台。`,
+              icon: '🧭',
+              tone: 'bg-[#eef2ff] text-[#4338ca]',
             },
             {
               title: '歷屆真題＋官方樣題',
               desc: `收錄 ${totalOfficial} 題多梯次公告試題與官方樣題，附逐題詳解與選項分析，作答完立即檢討。`,
+              icon: '📝',
+              tone: 'bg-[#fef3e8] text-[#9a5c17]',
             },
             {
               title: '主題文章重組教材',
               desc: '把厚重 PDF 重寫成可獨立閱讀的主題文章，並以跨章學習路徑串起基礎、資料、模型到落地治理。',
+              icon: '📖',
+              tone: 'bg-[#e8f5ee] text-success',
             },
             {
               title: '概念圖卡視覺記憶',
               desc: `${totalVisuals} 張重點圖卡依章節編排，零碎時間少量多餐，把抽象概念變成看得懂的畫面。`,
+              icon: '🎴',
+              tone: 'bg-[#fdeef5] text-[#b3407a]',
             },
             {
               title: '中英術語即時對照',
               desc: '中級關鍵字整理彙整中英文定義與案例，專有名詞一次查清楚，考場上不再卡關。',
+              icon: '🔤',
+              tone: 'bg-[#eafaf6] text-[#0e7c66]',
             },
           ].map((feature) => (
             <div key={feature.title} className="surface-compact surface-hover p-4">
               <div className="mb-1.5 flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+                <span className={`feature-icon ${feature.tone}`} aria-hidden="true">{feature.icon}</span>
                 <h3 className="font-semibold text-primary">{feature.title}</h3>
               </div>
               <p className="text-[0.83rem] leading-6 text-text-light">{feature.desc}</p>

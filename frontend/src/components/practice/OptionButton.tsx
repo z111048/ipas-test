@@ -7,7 +7,8 @@ interface OptionButtonProps {
 }
 
 export default function OptionButton({ optKey, value, state, disabled, onClick }: OptionButtonProps) {
-  const base = 'w-full text-left px-4 py-3 rounded-lg border text-[0.9rem] leading-relaxed transition-all duration-150 cursor-pointer'
+  const base =
+    'w-full min-h-[44px] flex items-start gap-2 text-left px-4 py-3 rounded-lg border text-[0.9rem] leading-relaxed transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2'
   const stateClass =
     state === 'correct'
       ? 'bg-[#ecfdf3] border-success text-success font-semibold'
@@ -17,11 +18,20 @@ export default function OptionButton({ optKey, value, state, disabled, onClick }
 
   return (
     <button
+      type="button"
       className={`${base} ${stateClass} ${disabled ? 'cursor-default' : ''}`}
       onClick={onClick}
       disabled={disabled}
     >
-      <strong>({optKey})</strong> {value}
+      <span className="min-w-0 flex-1">
+        <strong>({optKey})</strong> {value}
+      </span>
+      {state === 'correct' && (
+        <span aria-hidden="true" className="shrink-0 font-bold text-success">✓</span>
+      )}
+      {state === 'wrong' && (
+        <span aria-hidden="true" className="shrink-0 font-bold text-error">✗</span>
+      )}
     </button>
   )
 }

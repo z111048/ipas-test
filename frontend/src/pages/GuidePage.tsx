@@ -14,6 +14,7 @@ import { GUIDE_NOTICES } from '../constants/guideNotices'
 import GuideOutlineTree from '../components/guide/GuideOutlineTree'
 import ColabSection from '../components/guide/ColabSection'
 import { publicAsset } from '../utils/assets'
+import { useScrollProgress, ReadingProgressBar, BackToTopButton } from '../components/shared/ReadingProgress'
 
 const guideOutlines = guideOutlinesRaw as unknown as GuideOutlinesData
 const guideImages = guideImagesRaw as unknown as GuideImagesData
@@ -406,6 +407,8 @@ export default function GuidePage() {
   const [colabNotebook, setColabNotebook] = useState<ColabNotebook | null>(null)
   const [showDrawer, setShowDrawer] = useState(false)
   const contentScrollRef = useRef<HTMLDivElement | null>(null)
+  const [activeHeadingId, setActiveHeadingId] = useState<string | null>(null)
+  const { progress: readingProgress, showBackToTop, scrollToTop } = useScrollProgress(() => contentScrollRef.current)
 
   useEffect(() => {
     if (contentScrollRef.current) contentScrollRef.current.scrollTop = 0
@@ -479,6 +482,30 @@ export default function GuidePage() {
       .catch(() => {/* silently ignore missing notebooks */})
     return () => { cancelled = true }
   }, [chapter, outlineGuide])
+
+  // Scroll-spy: highlight the "本節階層" entry matching the heading nearest
+  // the top of the visible content, so the in-page nav tracks reading position.
+  useEffect(() => {
+    const container = contentScrollRef.current
+    if (!container || !content) return
+    const headingEls = Array.from(
+      container.querySelectorAll<HTMLElement>('[data-guide-block-id][data-guide-anchor]'),
+    )
+    if (headingEls.length === 0) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting)
+        if (visible.length === 0) return
+        const topmost = visible.reduce((a, b) => (a.boundingClientRect.top < b.boundingClientRect.top ? a : b))
+        const id = topmost.target.getAttribute('data-guide-block-id')
+        if (id) setActiveHeadingId(id)
+      },
+      { root: container, rootMargin: '0px 0px -70% 0px', threshold: [0, 1] },
+    )
+    headingEls.forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
+  }, [content, chapterId])
 
   const breadcrumb = useMemo(() => {
     if (!outlineGuide || !chapter) return []
@@ -668,8 +695,13 @@ export default function GuidePage() {
                       key={`${heading.id}-${heading.title}`}
                       type="button"
                       onClick={() => scrollToContentBlock(heading.id, heading.anchor)}
-                      className="block w-full rounded-md px-2 py-1 text-left text-[0.78rem] leading-5 text-primary no-underline hover:bg-[#f8fbff] hover:text-accent"
-                      style={{ paddingLeft: `${Math.max(0, heading.level - 3) * 0.85}rem` }}
+                      aria-current={activeHeadingId === heading.id ? 'true' : undefined}
+                      className={`block w-full rounded-md border-l-2 px-2 py-1 text-left text-[0.78rem] leading-5 no-underline transition-colors ${
+                        activeHeadingId === heading.id
+                          ? 'border-l-accent bg-[#f0f7ff] font-semibold text-accent'
+                          : 'border-l-transparent text-primary hover:bg-[#f8fbff] hover:text-accent'
+                      }`}
+                      style={{ paddingLeft: `${Math.max(0, heading.level - 3) * 0.85 + 0.5}rem` }}
                     >
                       {heading.title}
                     </button>
@@ -681,6 +713,9 @@ export default function GuidePage() {
         </aside>
 
         <div ref={contentScrollRef} className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden pr-1 app-scroll-stable pb-14 xl:pb-0">
+          <div className="sticky top-0 z-10 -mt-0 mb-3 bg-app-bg/90 px-0 py-1 backdrop-blur-sm">
+            <ReadingProgressBar progress={readingProgress} />
+          </div>
           {contentError && (
             <div className="rounded-lg border border-red-200 bg-red-50 p-4 mb-4 text-sm text-red-700">
               無法載入學習指引內容：{contentError}
@@ -812,6 +847,12 @@ export default function GuidePage() {
         </div>
       </div>
 
+      <BackToTopButton
+        show={showBackToTop}
+        onClick={scrollToTop}
+        className="bottom-20 right-4 xl:bottom-8 xl:right-8"
+      />
+
       {/* ── Mobile bottom chapter navigation bar ──────────────────────── */}
       <div className="xl:hidden fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-border shadow-[0_-2px_10px_rgba(0,0,0,0.07)]">
         <div className="flex items-stretch h-14">
@@ -919,7 +960,12 @@ export default function GuidePage() {
                       setShowDrawer(false)
                       requestAnimationFrame(() => scrollToContentBlock(heading.id, heading.anchor))
                     }}
-                    className="block w-full rounded-md px-2 py-1.5 text-left text-[0.82rem] leading-5 text-primary hover:bg-[#f8fbff] hover:text-accent active:bg-[#f0f7ff]"
+                    aria-current={activeHeadingId === heading.id ? 'true' : undefined}
+                    className={`block w-full rounded-md border-l-2 px-2 py-1.5 text-left text-[0.82rem] leading-5 transition-colors ${
+                      activeHeadingId === heading.id
+                        ? 'border-l-accent bg-[#f0f7ff] font-semibold text-accent'
+                        : 'border-l-transparent text-primary hover:bg-[#f8fbff] hover:text-accent active:bg-[#f0f7ff]'
+                    }`}
                     style={{ paddingLeft: `${0.5 + Math.max(0, heading.level - 3) * 0.85}rem` }}
                   >
                     {heading.title}

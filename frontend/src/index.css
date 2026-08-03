@@ -443,3 +443,48 @@ button:focus-visible {
     margin-left: var(--guide-indent-tablet, 0);
   }
 }
+
+/* Skip-to-content link: visually hidden until keyboard focus (App.tsx AppShell) */
+.skip-link {
+  position: absolute;
+  top: -3rem;
+  left: 0.75rem;
+  z-index: 200;
+  border-radius: 0.375rem;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: top 150ms ease;
+}
+
+.skip-link:focus-visible,
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+/* Respect OS-level reduced-motion preference: disable non-essential animation/transition/scroll-behavior globally */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* HomePage feature card icon badges (HomePage.tsx "為什麼用這個平台備考" grid) */
+.feature-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}

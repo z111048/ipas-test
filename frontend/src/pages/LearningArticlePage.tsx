@@ -1,11 +1,12 @@
 import { Link, useParams, useSearchParams } from 'react-router-dom'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type React from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
 import { articleMeta, articleNeighbors, articlePaths, loadLearningArticle, learningArticleIndex } from '../data/articleLoaders'
 import type { GuideBlock, GuideFormula, LearningArticle } from '../types'
+import { useScrollProgress, ReadingProgressBar, BackToTopButton } from '../components/shared/ReadingProgress'
 
 function articleHeadingDomId(blockId: string) {
   return `article-heading-${blockId}`
@@ -219,8 +220,13 @@ export default function LearningArticlePage() {
   const [article, setArticle] = useState<LearningArticle | undefined>()
   const [loading, setLoading] = useState(false)
   const [loadError, setLoadError] = useState<string | null>(null)
+  const pageRef = useRef<HTMLDivElement | null>(null)
+  const { progress: readingProgress, showBackToTop, scrollToTop } = useScrollProgress(
+    () => pageRef.current?.closest('main') ?? window,
+  )
 
   useEffect(() => {
+    pageRef.current?.closest('main')?.scrollTo({ top: 0 })
     window.scrollTo(0, 0)
   }, [articleId])
 
@@ -277,7 +283,11 @@ export default function LearningArticlePage() {
     : '來源頁碼已對齊'
 
   return (
-    <div className="page-shell">
+    <div className="page-shell" ref={pageRef}>
+      <div className="sticky top-0 z-10 mb-3 bg-app-bg/90 py-1 backdrop-blur-sm">
+        <ReadingProgressBar progress={readingProgress} />
+      </div>
+      <BackToTopButton show={showBackToTop} onClick={scrollToTop} className="bottom-8 right-4 md:right-8" />
       <div className="page-header mb-5">
         <div className="eyebrow mb-2">Learning article</div>
         <div className="flex flex-col gap-3 xl:flex-row xl:items-end xl:justify-between">

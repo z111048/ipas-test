@@ -121,6 +121,26 @@ export default function ImageGalleryPage() {
     }
   }, [gallery, selectedKey, selectedLevel])
 
+  const activeIndex = active ? filtered.findIndex((item) => item.id === active.id) : -1
+  const goRelative = (delta: number) => {
+    if (activeIndex === -1) return
+    const next = filtered[activeIndex + delta]
+    if (next) setActive(next)
+  }
+
+  // Keyboard: Esc closes the lightbox, ←/→ step through the filtered results.
+  useEffect(() => {
+    if (!active) return
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setActive(null)
+      else if (event.key === 'ArrowLeft') goRelative(-1)
+      else if (event.key === 'ArrowRight') goRelative(1)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active, activeIndex, filtered])
+
   return (
     <div>
       <div className="text-2xl font-bold text-primary mb-1">PDF 圖片與表格檢視</div>
@@ -214,7 +234,7 @@ export default function ImageGalleryPage() {
             key={item.id}
             type="button"
             onClick={() => setActive(item)}
-            className="text-left bg-card rounded-xl shadow-sm border border-border overflow-hidden hover:border-accent hover:shadow-md transition-all"
+            className="text-left bg-card rounded-xl shadow-sm border border-border overflow-hidden transition-all hover:-translate-y-0.5 hover:border-accent hover:shadow-md"
           >
             <div className="h-52 bg-[#f5f7fa] flex items-center justify-center overflow-hidden">
               <AssetPreview item={item} />
@@ -251,13 +271,18 @@ export default function ImageGalleryPage() {
                   {active.page_label ? ` / ${active.page_label}` : ''} · bbox [{active.bbox.join(', ')}]
                 </div>
               </div>
-              <button
-                type="button"
-                onClick={() => setActive(null)}
-                className="rounded-lg border border-border px-3 py-1 text-sm hover:border-accent"
-              >
-                關閉
-              </button>
+              <div className="flex shrink-0 items-center gap-2">
+                <span className="text-[0.78rem] tabular-nums text-text-light">
+                  {activeIndex >= 0 ? activeIndex + 1 : 0} / {filtered.length}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setActive(null)}
+                  className="rounded-lg border border-border px-3 py-1 text-sm hover:border-accent"
+                >
+                  關閉 (Esc)
+                </button>
+              </div>
             </div>
             <div className="p-4 overflow-auto bg-[#f5f7fa]">
               <img
@@ -265,6 +290,24 @@ export default function ImageGalleryPage() {
                 alt={active.id}
                 className="mx-auto max-w-full h-auto bg-white"
               />
+            </div>
+            <div className="flex items-center justify-between gap-3 border-t border-border p-3">
+              <button
+                type="button"
+                onClick={() => goRelative(-1)}
+                disabled={activeIndex <= 0}
+                className="rounded-lg border border-border px-3 py-2 text-sm transition-colors enabled:hover:border-accent enabled:hover:text-accent disabled:opacity-40"
+              >
+                ‹ 上一項
+              </button>
+              <button
+                type="button"
+                onClick={() => goRelative(1)}
+                disabled={activeIndex === -1 || activeIndex >= filtered.length - 1}
+                className="rounded-lg border border-border px-3 py-2 text-sm transition-colors enabled:hover:border-accent enabled:hover:text-accent disabled:opacity-40"
+              >
+                下一項 ›
+              </button>
             </div>
           </div>
         </div>
