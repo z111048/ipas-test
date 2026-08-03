@@ -128,6 +128,7 @@ export default function PracticePage() {
   const handleRestart = () => {
     setAnswers({})
     setShowRestoreBanner(false)
+    goTo(0)
     if (subjectId && chapterId) {
       try {
         window.localStorage.removeItem(practiceStorageKey(subjectId, chapterId, practiceSet))

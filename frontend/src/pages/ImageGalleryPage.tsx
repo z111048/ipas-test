@@ -132,6 +132,13 @@ export default function ImageGalleryPage() {
   useEffect(() => {
     if (!active) return
     const onKey = (event: KeyboardEvent) => {
+      const target = event.target
+      if (
+        target instanceof HTMLElement &&
+        (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)
+      ) {
+        return
+      }
       if (event.key === 'Escape') setActive(null)
       else if (event.key === 'ArrowLeft') goRelative(-1)
       else if (event.key === 'ArrowRight') goRelative(1)

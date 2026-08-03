@@ -45,7 +45,16 @@ function AppShell() {
 
   return (
     <div className="flex flex-col min-h-screen bg-app-bg text-app-text">
-      <a href="#main-content" className="skip-link">
+      <a
+        href="#main-content"
+        className="skip-link"
+        onClick={(event) => {
+          // HashRouter owns the URL fragment — a native #main-content jump
+          // would be routed as a navigation to /main-content.
+          event.preventDefault()
+          mainRef.current?.focus()
+        }}
+      >
         跳至主要內容
       </a>
       <Header onMenuClick={() => setSidebarOpen((o) => !o)} />
