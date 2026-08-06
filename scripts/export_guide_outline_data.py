@@ -479,8 +479,7 @@ def collect_formula_blocks(value: Any) -> list[dict]:
     return formulas
 
 
-def load_audit_formula_pages(level: str, key: str) -> dict[int, list[dict]]:
-    cache_dir = BASE / 'data' / level / 'audit_cache' / key
+def _load_formula_cache(cache_dir: Path) -> dict[int, list[dict]]:
     if not cache_dir.exists():
         return {}
 
@@ -493,6 +492,32 @@ def load_audit_formula_pages(level: str, key: str) -> dict[int, list[dict]]:
         formulas = collect_formula_blocks(load_json(path))
         if formulas:
             pages[page_index] = formulas
+    return pages
+
+
+def load_audit_formula_pages(level: str, key: str) -> dict[int, list[dict]]:
+    """公式來源有兩處，合併後回傳。
+
+    `audit_cache/` 是舊的 Gemini 審核產物；`ocr_formulas/` 是 guide_ocr 抽出來的
+    （scripts/merge_guide_ocr.py 產生），數量與正確性都遠勝——OCR 版經 KaTeX 與
+    MathJax 雙引擎驗過零解析錯誤。同頁兩邊都有時 OCR 版排前面，`enrich_guide_blocks`
+    的比對會優先採用它；重複的 latex 去掉。
+    """
+    audit = _load_formula_cache(BASE / 'data' / level / 'audit_cache' / key)
+    ocr = _load_formula_cache(BASE / 'data' / level / 'ocr_formulas' / key)
+
+    pages: dict[int, list[dict]] = {}
+    for page_index in set(audit) | set(ocr):
+        merged: list[dict] = []
+        seen: set[str] = set()
+        for formula in [*ocr.get(page_index, []), *audit.get(page_index, [])]:
+            latex = str(formula.get('latex') or '').strip()
+            if not latex or latex in seen:
+                continue
+            seen.add(latex)
+            merged.append(formula)
+        if merged:
+            pages[page_index] = merged
     return pages
 
 
@@ -733,10 +758,12 @@ def enrich_guide_blocks(blocks: list[dict], audit_formulas_by_page: dict[int, li
 
     for page_blocks in text_blocks_by_page.values():
         for block in page_blocks:
-            page_index = block.get('pageIndex')
-            page_has_audit_formula = isinstance(page_index, int) and page_index in audit_formulas_by_page
+            # 規則表是最後一道保險：專門認得文字層攤平公式後的亂碼（「算術平均= 𝑥1 + 𝑥2 …」）。
+            # 原本還多一個「整頁都沒有快取公式才啟用」的頁級條件，但那太寬——
+            # 同一頁只要有任何一個公式進了快取，整頁其他區塊就拿不到規則表的救援。
+            # 逐區塊的 `not block.get('formulas')` 已經足以避免重複附加。
             rule_formula = high_confidence_formula_for_text(block.get('text') or '')
-            if rule_formula and not block.get('formulas') and not page_has_audit_formula:
+            if rule_formula and not block.get('formulas'):
                 add_formula_to_block(block, rule_formula)
 
     for block in enriched:
@@ -2112,6 +2139,61 @@ def format_markdown(title: str, raw_content: str) -> str:
     return re.sub(r'(?<=[\u4e00-\u9fff])[ \t]+(?=[\u4e00-\u9fff])', '', normalized)
 
 
+# PDF 文字層把公式攤成「數學斜體碼點（U+1D400–U+1D7FF）＋運算符號」的連續片段，
+# 例如「算術平均= 𝑥1 + 𝑥2 + ⋯+ 𝑥𝑛 𝑛」。至少要含兩個數學斜體碼點才算，
+# 否則會把「x 軸」這種普通敘述也吃掉。
+FLATTENED_MATH_RUN = re.compile(
+    r'(?:[\U0001D400-\U0001D7FF][\U0001D400-\U0001D7FF\s0-9a-zA-Z_^(){}\[\],.=+\-*/|∑∏√∫≤≥≠≈±×÷⋯…−]*)'
+    r'[\U0001D400-\U0001D7FF][\U0001D400-\U0001D7FF\s0-9a-zA-Z_^(){}\[\],.=+\-*/|∑∏√∫≤≥≠≈±×÷⋯…−]*'
+)
+
+
+def inject_formulas_into_markdown(markdown: str, blocks: list[dict]) -> str:
+    """把 content 裡被文字層攤平的公式亂碼換成 $$latex$$。
+
+    為什麼需要這步：`content` 由 render_positioned_items 直接串接文字層字串產生，
+    公式在 PDF 文字層裡是一堆數學斜體碼點（「算術平均= 𝑥1 + 𝑥2 + ⋯+ 𝑥𝑛 𝑛」），
+    直接呈現給讀者是不能看的。`blocks` 那一路已經有 enrich_guide_blocks 掛上 LaTeX，
+    但 `content` 這一路沒有對應處理——歷史上是靠人工 patch 補的
+    （commit 3710342「patch LaTeX formulas」，98 處），重跑 export 就會全部消失。
+
+    這裡改成自動化：凡是 enrich 判定為 formulaOnly（整個區塊就是一條公式）且掛上了
+    LaTeX 的區塊，就在 content 中把它的原文換成公式。只換 formulaOnly 的區塊，
+    夾雜敘述的段落不動，避免把正文吃掉。
+    """
+    def render(formula: dict) -> str:
+        latex = str(formula.get('latex') or '').strip()
+        if not latex:
+            return ''
+        return f'$${latex}$$' if formula.get('display', True) else f'${latex}$'
+
+    replacements: list[tuple[str, str]] = []
+    for block in blocks:
+        formulas = [f for f in (block.get('formulas') or []) if render(f)]
+        text = (block.get('text') or '').strip()
+        if not formulas or len(text) < 4:
+            continue
+
+        if block.get('formulaOnly'):
+            # 整個區塊就是一條公式，整段換掉
+            replacements.append((text, '\n\n'.join(render(f) for f in formulas)))
+            continue
+
+        # 夾雜敘述的段落：只換掉裡面被攤平的那一段，敘述文字保留。
+        # 逐段對應該區塊掛上的公式，數量不足就停手（寧可少換也不要錯位）。
+        runs = [m.group(0).strip() for m in FLATTENED_MATH_RUN.finditer(text)]
+        for run, formula in zip(runs, formulas):
+            if len(run) >= 4:
+                replacements.append((run, render(formula)))
+
+    # 長的先換，避免短字串先命中而切斷長字串
+    for text, rendered in sorted(replacements, key=lambda pair: -len(pair[0])):
+        # 文字層與 content 之間可能有空白差異，用寬鬆的空白比對
+        pattern = re.compile(r'[ \t]*'.join(re.escape(part) for part in text.split()))
+        markdown = pattern.sub(lambda _m: rendered, markdown)
+    return markdown
+
+
 def slugify_heading(text: str, index: int) -> str:
     slug = re.sub(r'\s+', '-', normalize(text).lower())
     slug = re.sub(r'[^0-9a-z\u4e00-\u9fff\-]+', '', slug)
@@ -2235,6 +2317,7 @@ def build_nodes(
         if blocks is None:
             blocks = post_process_guide_blocks(current_id, raw_node.get('title') or '', page_blocks(level, key, start_page, end_page))
         blocks = enrich_guide_blocks(blocks, audit_formulas_by_page or {})
+        markdown_content = inject_formulas_into_markdown(markdown_content, blocks)
         write_json(content_dir / content_key / content_ref, {
             'id': current_id,
             'title': raw_node.get('title') or '',

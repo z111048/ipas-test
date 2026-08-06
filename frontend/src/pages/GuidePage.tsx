@@ -122,6 +122,24 @@ function cssEscape(value: string) {
   return value.replace(/["\\]/g, '\\$&')
 }
 
+// 表格儲存格可能夾帶 $...$ 數學式（來源是學習指引 OCR 的 <table>，例如 $\mu_1 \neq \mu_2$）。
+// 沒有 $ 的儲存格走純文字，維持 whitespace-pre-line 的換行行為；有 $ 的才過 KaTeX，
+// 避免對每一格都跑一次 markdown 解析。
+function GuideTableCell({ text }: { text: string }) {
+  if (!text.includes('$')) return <>{text}</>
+  return (
+    <ReactMarkdown
+      remarkPlugins={[remarkMath]}
+      rehypePlugins={[rehypeKatex]}
+      components={{
+        p: ({ children }) => <span className="whitespace-pre-line">{children}</span>,
+      }}
+    >
+      {text}
+    </ReactMarkdown>
+  )
+}
+
 function GuideHtmlTable({ rows, html }: { rows?: string[][]; html?: string }) {
   if (html) {
     return (
@@ -140,7 +158,7 @@ function GuideHtmlTable({ rows, html }: { rows?: string[][]; html?: string }) {
           <tr>
             {header.map((cell, index) => (
               <th key={index} scope="col" className="whitespace-pre-line">
-                {cell}
+                <GuideTableCell text={cell} />
               </th>
             ))}
           </tr>
@@ -150,7 +168,7 @@ function GuideHtmlTable({ rows, html }: { rows?: string[][]; html?: string }) {
             <tr key={rowIndex}>
               {row.map((cell, cellIndex) => (
                 <td key={cellIndex} className="leading-6 whitespace-pre-line">
-                  {cell}
+                  <GuideTableCell text={cell} />
                 </td>
               ))}
             </tr>

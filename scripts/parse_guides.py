@@ -366,7 +366,11 @@ def _page_label(pdf_path: Path, idx: int) -> str:
 
 
 def _page_asset_path(level: str, key: str, idx: int) -> str:
-    return f'/guide-pages/{level}/{key}/page_{idx:03d}.png'
+    # 用 pdf-assets 慣例（與 export_guide_outline_data.py 的 source_pages 一致）。
+    # 舊的 /guide-pages/ 慣例由 render_guide_page_images.py 產出，但只鋪過初級、
+    # 前端也從未引用（guideContent 與 pdfGallery 都指向 pdf-assets），
+    # 中級照舊慣例重建會導致 verify_data_alignment 報 490 筆缺圖。
+    return f'/pdf-assets/{level}/{key}/page_{idx:03d}/page.png'
 
 
 def load_chapter_pages_vision(
