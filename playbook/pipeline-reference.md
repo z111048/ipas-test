@@ -75,6 +75,32 @@ python3 scripts/render_guide_page_images.py --level 初級 --all
 # → frontend/public/guide-pages/{level}/{key}/
 ```
 
+## §1b 學習指引完整階層樹
+
+```bash
+python3 scripts/export_guide_hierarchy.py                    # → frontend/src/generated/guideHierarchy.json
+python3 scripts/export_guide_hierarchy.py --print-tree s1    # 印出來目視檢查（s1/s2/mid-s1/mid-s2/mid-s3）
+```
+
+現有資料裡階層是斷成兩段的：`guideOutlines.json` 只到「節」（64 節點），節以下的標題
+散在各章的 `blocks[]` 與 `headings[]`，彼此沒有父子關係。本腳本把兩段接成一棵樹
+（**1,207 節點**：23 章 + 41 節 + 1,143 標題，最深 6 層），並用 `guide_ocr` 補回
+Track A 漏抓的 `N.` 層（74 個）。
+
+只讀既有產物、不改任何來源，可隨時重跑；跑在 `export_guide_outline_data.py` 之後。
+
+三個實作重點（改動前先讀，都是踩過的坑）：
+- **章不能與其下的節重複收標題**。章的 `pageRange` 涵蓋所有節、content 也是節的聯集，
+  有子節點的章只保留「子節點頁範圍沒涵蓋到」的標題。
+- **`blocks` 與 `headings[]` 互補，缺一不可**。初級 s1c1 的 blocks 只到 A. 層（缺 a. 層），
+  中級 mid-s2c8 的 `headings[]` 整個是空的。以項目多的那邊當主幹，另一邊補頁碼。
+- **補回的標題不能只按頁碼插入**。同一頁常有多個標題，只看頁碼會把「3. 資料處理與分析」
+  插到同頁但實際在它前面的「E. 專家系統」之前，讓 E. 變成它的子項。同頁內要用
+  guide_ocr 該頁的標題順序決定先後。
+
+節以下的節點是既有章節頁的錨點（`href = {route}#{anchor}`），**前端路由完全不用動**。
+目前前端尚未消費這份檔案。
+
 ## §2 Guide 品質審核（PDF 更新後執行）
 
 ```bash
