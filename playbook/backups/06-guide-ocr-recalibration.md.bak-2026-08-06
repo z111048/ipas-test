@@ -1,0 +1,147 @@
+<!-- 2026-08-02: 新增。學習指引高精度 OCR 重新校正的任務計畫（一次性文件，完工後移入 playbook/backups/）。 -->
+
+# 06 — 學習指引 OCR 重新校正（任務計畫）
+
+**狀態**：待開工（2026-08-02 建立，尚未動工）
+**性質**：一次性專案計畫，不是常規制度。完工後移到 `playbook/backups/`，把學到的規則寫回
+`pipeline-reference.md`。
+
+**目標**：用高精度 OCR 工具取代現行 Gemini 2.5 Flash vision，重新解析 5 份學習指引共 706 頁，
+提升 `guideContent` 的文字保真度（表格、公式、圖說、程式碼），讓下游出題品質跟著上去。
+
+---
+
+## §1 標的清單（2026-08-02 盤點）
+
+| key | 級別 | 檔名關鍵字 | 頁數 | 章節數 | 現有 page_*.json |
+|---|---|---|---|---|---|
+| guide1 | 初級 | 科目1_人工智慧基礎概論 | 71 | 4 | 71 ✅ |
+| guide2 | 初級 | 科目2_生成式AI應用與規劃 | 62 | 3 | 62 ✅ |
+| guide1 | 中級 | 科目1人工智慧技術應用規劃 | 168 | 9 | 168 ✅ |
+| guide2 | 中級 | 科目2大數據處理分析與應用 | 182 | 13 | 182 ✅ |
+| guide3 | 中級 | 科目3機器學習技術與應用 | 223 | 12 | 223 ✅ |
+| | | **合計** | **706** | **41** | 706 |
+
+PDF 位置：`data/{level}/pdfs/`。每個 cache 目錄另有 `page_index.json` 與 `summary.json`
+兩個非頁面檔（新 OCR 若不產出這兩檔，先確認 `parse_guides.py` 不依賴它們——目前的
+`load_chapter_pages_vision` 只 glob `page_*.json` 並跳過 `page_index.json`）。
+
+**必須一起處理**：`data/中級/pdfs/AI應用規劃師(中級)_學習指引勘誤表_1150410_*.pdf`（7 頁，
+已抽取為 `data/中級/extracted/errata.json`）。新 OCR 完成後，勘誤內容要套用或至少標註，
+否則校正得再準也是準確重現了錯誤原文。
+
+---
+
+## §2 關鍵介面契約（這決定了工作量有多小）
+
+下游**完全不需要改**，只要新 OCR 產出同格式的檔案落在同位置：
+
+```
+data/{level}/pages_cache/{key}/page_NNN.json
+```
+
+每檔的 JSON 欄位（見 `scripts/parse_guides.py:372` `load_chapter_pages_vision`）：
+
+| 欄位 | 型別 | 用途 | 是否必要 |
+|---|---|---|---|
+| `idx` | int | 0-based 頁序，組裝時用來對齊 PDF 頁 | **必要** |
+| `markdown` | str | 該頁正文 Markdown | **必要** |
+| `headings` | list | 該頁偵測到的標題 | 必要（可空陣列） |
+| `type` | str | 頁面類型（正文/練習頁等） | 必要 |
+| `usage` | obj | token 用量計費紀錄 | 可省（僅記帳用） |
+
+`parse_guides.py` 的偵測邏輯是：`pages_cache/{key}/` 存在 → 走 vision mode；不存在 → 退回
+regex mode。所以**只要能寫出這個格式，換任何 OCR 工具都不必動 parse_guides 以後的任何一支腳本**。
+
+→ 開工第一步不是選工具，是寫一支 `scripts/ocr_extract.py`（或改寫
+`pdf_vision_extract.py` 加 `--engine`），把新工具的輸出轉成上表格式。
+
+現行實作參考：`scripts/pdf_vision_extract.py`
+（`MODEL = gemini-2.5-flash`、`page_to_png_bytes(scale=2.0)` ≈ 144 dpi）。
+渲染解析度偏低是現行品質瓶頸之一，新工具若吃圖片，scale 建議先試 3.0–4.0。
+
+---
+
+## §3 待你決定（沉澱用，開工前填掉）
+
+這幾題沒答案就不要動手，答案會改變整個做法：
+
+1. **選哪套 OCR？** 待填 ____________
+   - 決策要點：中文直排/橫排混排、繁體字準確率、數學公式、表格結構、程式碼區塊、
+     圖片內文字（本教材圖說很多）。
+   - 本機跑（無 API 費、可重跑、吃 GPU/WSL2 環境）vs 雲端 API（有費用、要估 706 頁成本）。
+2. **輸出格式**：工具原生輸出是 Markdown / HTML / 帶座標的 JSON？
+   帶座標的資訊要不要保留（可用於前端原頁對照，但目前 schema 沒欄位吃它）。
+3. **標題偵測誰做？** 現行 `headings` 由 vision 模型判斷。新工具若不給標題語意，
+   得靠字級/粗體/版面推斷，或補一道 LLM pass。這會影響 `guide_tree` 與章節切分正確性。
+4. **範圍**：5 份全做，還是先做中級科目3（223 頁，最長最難，最有代表性）當 pilot？
+5. **舊快取怎麼辦**：`pages_cache/` 是 gitignored（刪了救不回，重建花錢）。
+   建議先整包備份到 `data/{level}/pages_cache_gemini_backup/` 再開跑，
+   便於逐頁 A/B 比對品質。備份約 3.2 MB，成本可忽略。
+
+---
+
+## §4 執行步驟（決定完之後照這個順序）
+
+### 階段 0 — 建立基線（不動任何資料）
+```bash
+python3 scripts/verify_data_alignment.py --level 初級
+python3 scripts/verify_data_alignment.py --level 中級
+cd frontend && npm run build     # 確認零 TS 錯誤
+```
+- 兩者現在若已有 warn/fail，**先記錄下來**，否則之後分不清是舊問題還是新 OCR 造成的。
+- 備份舊快取（見 §3.5）。
+- 中級 `data/中級/guide/subject{1,2,3}_guide.json.bak`（6/8–6/9 的 supplement 產物）
+  先跟現版 diff 一次，確認裡面有沒有刻意策展、不能被重跑沖掉的內容。
+
+### 階段 1 — 轉接層 + Pilot（單科）
+1. 寫 `scripts/ocr_extract.py`，輸出符合 §2 schema。
+2. 先跑 10 頁（挑含表格、公式、程式碼、圖說的頁），與備份的舊快取逐頁對照。
+3. 品質不達標就回到 §3.1 換工具，不要硬著頭皮跑完 706 頁。
+4. 達標後跑完整一科 → `parse_guides.py --level X --subject N` → 目視檢查章節 JSON。
+
+### 階段 2 — 全量重跑
+1. 5 份全跑 OCR。
+2. `parse_guides.py`（逐級別逐科）。
+3. `render_guide_page_images.py --level X --all`（原頁截圖，若 PDF 沒換其實可跳過）。
+4. 中級勘誤表內容套用（§1）。
+
+### 階段 3 — 下游重建（順序不可調換）
+```bash
+uv run python3 scripts/export_guide_outline_data.py --all-levels   # ⚠ 見下方警告
+# 跑完立刻補回 s1c4 的兩個手動 heading 修正（腳本在 pipeline-reference.md §10）
+```
+接著依 `pipeline-reference.md` §1–§2 重建 `frontend/src/generated/guideContent/`，
+再視情況重跑 §2 的品質審核（audit → compare → supplement → LLM review）。
+
+### 階段 4 — 驗收
+- [ ] `verify_data_alignment.py` 初級＋中級皆通過（或不劣於階段 0 基線）
+- [ ] `cd frontend && npm run build` 零 TS 錯誤
+- [ ] 41 章節在前端 GuidePage 全部可開、無空章節、無破圖
+- [ ] 抽驗 10 頁：表格結構、公式、程式碼區塊比舊版好而非壞
+- [ ] s1c4 兩個手動修正確實還在
+- [ ] `guide_exercises` / 章節練習題引用的講義片段仍能對上（引文若對不上要重跑對齊）
+
+---
+
+## §5 風險與不可逆點
+
+1. **`export_guide_outline_data.py` 不帶 `--all-levels` → 中級 `guideContent/` 被 rmtree 永久刪除。**
+   （CLAUDE.md 不變量 3）
+2. **`pages_cache/` 是 gitignored**：不先備份就 `--force` 重跑，舊的 Gemini 結果永遠拿不回來，
+   之後想 A/B 只能重付一次錢。
+3. **s1c4 手動修正每次重跑都會被沖掉**，必補。
+4. **下游連動廣**：guideContent → 章節練習題 → 精選 100 題的引文對齊，
+   都可能因為講義文字變動而失準。階段 4 最後一條驗收就是在擋這個。
+5. **中級 guide JSON 的 `.bak`**：裡面若有人工策展內容，全量重跑會覆蓋。階段 0 先 diff。
+
+---
+
+## §6 現況備忘（開工時可直接引用）
+
+- 其他資源已齊備、無須動：歷屆試題 12 份、官方樣題 2 份、簡章 1 份。
+- 題庫產物：初級 13 檔、中級 16 檔，本次不主動重生成，只在階段 4 驗收引文對齊。
+- 前端 `frontend/src/generated/` 約 21 MB，其中 `guideContent/` 8.5 MB 是 GuidePage 真正讀的來源，
+  **不是** `data/*/guide/*.json`（雙軌，改一邊不影響另一邊）。
+- 未追蹤目錄 `data/中級/exam_pages_cache/` 與本任務無關，是考題 vision 快取。
+- 資料 pipeline 最後活動：2026-06-16。
