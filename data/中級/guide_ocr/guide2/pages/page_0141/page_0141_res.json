@@ -1,0 +1,766 @@
+{
+    "input_path": "input/ipas中級_科目2_大數據處理分析與應用_imgs/page_0141.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第六章 大數據在人工智慧之應用",
+            "block_bbox": [
+                1356,
+                208,
+                2078,
+                260
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    1356.0,
+                    208.0
+                ],
+                [
+                    2078.0,
+                    208.0
+                ],
+                [
+                    2078.0,
+                    260.0
+                ],
+                [
+                    1356.0,
+                    260.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "首先，在資料處理階段，由於訓練資料無法一次性載入記憶體，需採用分批載入（Mini-Batch Loading）方式分段處理資料，或事先進行資料取樣（Sampling），以提升處理效率與實作靈活性。在儲存架構上，則需配合分散式儲存系統（如HDFS）與支援列式壓縮的資料格式（如Parquet）進行資料儲存與取用，以減少I/O負擔並提升可擴展性。",
+            "block_bbox": [
+                293,
+                403,
+                2083,
+                864
+            ],
+            "block_id": 1,
+            "block_order": 1,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    293.0,
+                    403.0
+                ],
+                [
+                    2083.0,
+                    403.0
+                ],
+                [
+                    2083.0,
+                    864.0
+                ],
+                [
+                    293.0,
+                    864.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "接著，在模型訓練階段，演算法與運算架構必須具備良好的可擴展性，支援跨節點並行計算。常見方法包括：",
+            "block_bbox": [
+                296,
+                903,
+                2080,
+                1063
+            ],
+            "block_id": 2,
+            "block_order": 2,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    296.0,
+                    903.0
+                ],
+                [
+                    2080.0,
+                    903.0
+                ],
+                [
+                    2080.0,
+                    1063.0
+                ],
+                [
+                    296.0,
+                    1063.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "使用 Spark MLlib 在分散式記憶體架構下執行迴歸、分類等模型。",
+            "block_bbox": [
+                399,
+                1104,
+                1913,
+                1163
+            ],
+            "block_id": 3,
+            "block_order": 3,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    399.0,
+                    1104.0
+                ],
+                [
+                    1913.0,
+                    1104.0
+                ],
+                [
+                    1913.0,
+                    1163.0
+                ],
+                [
+                    399.0,
+                    1163.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "採用 Horovod 進行多 GPU 或多節點同步訓練，提升深度學習效率。",
+            "block_bbox": [
+                399,
+                1203,
+                1957,
+                1263
+            ],
+            "block_id": 4,
+            "block_order": 4,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    399.0,
+                    1203.0
+                ],
+                [
+                    1957.0,
+                    1203.0
+                ],
+                [
+                    1957.0,
+                    1263.0
+                ],
+                [
+                    399.0,
+                    1263.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "應用 TensorFlow MultiWorker Strategy 實現模型在多主機間的平行訓練與容錯調整。",
+            "block_bbox": [
+                399,
+                1304,
+                2079,
+                1461
+            ],
+            "block_id": 5,
+            "block_order": 5,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    399.0,
+                    1304.0
+                ],
+                [
+                    2079.0,
+                    1304.0
+                ],
+                [
+                    2079.0,
+                    1461.0
+                ],
+                [
+                    399.0,
+                    1461.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "此外，資料量大也使得訓練與驗證過程耗時增加，因此在模型評估階段，需調整傳統的靜態指標評估方式，改為支援分批累積計算的機制。例如，透過Streaming Confusion Matrix、滑動窗口式 AUC（Streaming AUC）等方式動態累計模型預測結果，有效支援長時間或多階段訓練流程中的持續性評估需求。",
+            "block_bbox": [
+                294,
+                1504,
+                2081,
+                1867
+            ],
+            "block_id": 6,
+            "block_order": 6,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    294.0,
+                    1504.0
+                ],
+                [
+                    2081.0,
+                    1504.0
+                ],
+                [
+                    2081.0,
+                    1867.0
+                ],
+                [
+                    294.0,
+                    1867.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "整體而言，面對龐大的資料規模，不僅需強化資料處理與模型訓練的分散式能力，更需重構整體工作流程，使其具備可維運、可監控、可調整的彈性架構。這也成為大數據時代下，企業導入AI須特別重視的基礎設計核心。",
+            "block_bbox": [
+                295,
+                1905,
+                2076,
+                2168
+            ],
+            "block_id": 7,
+            "block_order": 7,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    1905.0
+                ],
+                [
+                    2076.0,
+                    1905.0
+                ],
+                [
+                    2076.0,
+                    2168.0
+                ],
+                [
+                    295.0,
+                    2168.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "（2）資料型態多樣（Variety）",
+            "block_bbox": [
+                297,
+                2303,
+                951,
+                2363
+            ],
+            "block_id": 8,
+            "block_order": 8,
+            "group_id": 8,
+            "block_polygon_points": [
+                [
+                    297.0,
+                    2303.0
+                ],
+                [
+                    951.0,
+                    2303.0
+                ],
+                [
+                    951.0,
+                    2363.0
+                ],
+                [
+                    297.0,
+                    2363.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "隨著數位裝置與應用情境的多樣化，現今的大數據資料已不再侷限於結構化表格形式。來自社群平台的文字與貼文、影像監控錄影、穿戴式裝置的感測數據、網站行為紀錄（Log）與 JSON、XML 等半結構化格式，使資料型態呈現高度異質化與非結構化特性，對機器學習流程造成顯著影響。",
+            "block_bbox": [
+                295,
+                2406,
+                2080,
+                2767
+            ],
+            "block_id": 9,
+            "block_order": 9,
+            "group_id": 9,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    2406.0
+                ],
+                [
+                    2080.0,
+                    2406.0
+                ],
+                [
+                    2080.0,
+                    2767.0
+                ],
+                [
+                    295.0,
+                    2767.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "在特徵工程階段，單一資料來源已無法滿足模型建構需求，需導入多模態資料處理技術，將文字、影像、影音等不同型態的資料轉化為可學習的數值特徵。例如：",
+            "block_bbox": [
+                295,
+                2805,
+                2076,
+                3064
+            ],
+            "block_id": 10,
+            "block_order": 10,
+            "group_id": 10,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    2805.0
+                ],
+                [
+                    2076.0,
+                    2805.0
+                ],
+                [
+                    2076.0,
+                    3064.0
+                ],
+                [
+                    295.0,
+                    3064.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "6-3",
+            "block_bbox": [
+                2124,
+                3190,
+                2198,
+                3231
+            ],
+            "block_id": 11,
+            "block_order": null,
+            "group_id": 11,
+            "block_polygon_points": [
+                [
+                    2124.0,
+                    3190.0
+                ],
+                [
+                    2198.0,
+                    3190.0
+                ],
+                [
+                    2198.0,
+                    3231.0
+                ],
+                [
+                    2124.0,
+                    3231.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.8571614623069763,
+                "coordinate": [
+                    1356,
+                    208,
+                    2078,
+                    260
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        1356.0,
+                        208.0
+                    ],
+                    [
+                        2078.0,
+                        208.0
+                    ],
+                    [
+                        2078.0,
+                        260.0
+                    ],
+                    [
+                        1356.0,
+                        260.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9561008214950562,
+                "coordinate": [
+                    293,
+                    403,
+                    2083,
+                    864
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        293.0,
+                        403.0
+                    ],
+                    [
+                        2083.0,
+                        403.0
+                    ],
+                    [
+                        2083.0,
+                        864.0
+                    ],
+                    [
+                        293.0,
+                        864.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9288730621337891,
+                "coordinate": [
+                    296,
+                    903,
+                    2080,
+                    1063
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        296.0,
+                        903.0
+                    ],
+                    [
+                        2080.0,
+                        903.0
+                    ],
+                    [
+                        2080.0,
+                        1063.0
+                    ],
+                    [
+                        296.0,
+                        1063.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8374031186103821,
+                "coordinate": [
+                    399,
+                    1104,
+                    1913,
+                    1163
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        399.0,
+                        1104.0
+                    ],
+                    [
+                        1913.0,
+                        1104.0
+                    ],
+                    [
+                        1913.0,
+                        1163.0
+                    ],
+                    [
+                        399.0,
+                        1163.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8486618995666504,
+                "coordinate": [
+                    399,
+                    1203,
+                    1957,
+                    1263
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        399.0,
+                        1203.0
+                    ],
+                    [
+                        1957.0,
+                        1203.0
+                    ],
+                    [
+                        1957.0,
+                        1263.0
+                    ],
+                    [
+                        399.0,
+                        1263.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9253236651420593,
+                "coordinate": [
+                    399,
+                    1304,
+                    2079,
+                    1461
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        399.0,
+                        1304.0
+                    ],
+                    [
+                        2079.0,
+                        1304.0
+                    ],
+                    [
+                        2079.0,
+                        1461.0
+                    ],
+                    [
+                        399.0,
+                        1461.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9531102180480957,
+                "coordinate": [
+                    294,
+                    1504,
+                    2081,
+                    1867
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        294.0,
+                        1504.0
+                    ],
+                    [
+                        2081.0,
+                        1504.0
+                    ],
+                    [
+                        2081.0,
+                        1867.0
+                    ],
+                    [
+                        294.0,
+                        1867.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9475672245025635,
+                "coordinate": [
+                    295,
+                    1905,
+                    2076,
+                    2168
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        295.0,
+                        1905.0
+                    ],
+                    [
+                        2076.0,
+                        1905.0
+                    ],
+                    [
+                        2076.0,
+                        2168.0
+                    ],
+                    [
+                        295.0,
+                        2168.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.854189395904541,
+                "coordinate": [
+                    297,
+                    2303,
+                    951,
+                    2363
+                ],
+                "order": 8,
+                "polygon_points": [
+                    [
+                        297.0,
+                        2303.0
+                    ],
+                    [
+                        951.0,
+                        2303.0
+                    ],
+                    [
+                        951.0,
+                        2363.0
+                    ],
+                    [
+                        297.0,
+                        2363.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.957935631275177,
+                "coordinate": [
+                    295,
+                    2406,
+                    2080,
+                    2767
+                ],
+                "order": 9,
+                "polygon_points": [
+                    [
+                        295.0,
+                        2406.0
+                    ],
+                    [
+                        2080.0,
+                        2406.0
+                    ],
+                    [
+                        2080.0,
+                        2767.0
+                    ],
+                    [
+                        295.0,
+                        2767.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9377849102020264,
+                "coordinate": [
+                    295,
+                    2805,
+                    2076,
+                    3064
+                ],
+                "order": 10,
+                "polygon_points": [
+                    [
+                        295.0,
+                        2805.0
+                    ],
+                    [
+                        2076.0,
+                        2805.0
+                    ],
+                    [
+                        2076.0,
+                        3064.0
+                    ],
+                    [
+                        295.0,
+                        3064.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.7349128127098083,
+                "coordinate": [
+                    2124,
+                    3190,
+                    2198,
+                    3231
+                ],
+                "order": 11,
+                "polygon_points": [
+                    [
+                        2124.0,
+                        3190.0
+                    ],
+                    [
+                        2198.0,
+                        3190.0
+                    ],
+                    [
+                        2198.0,
+                        3231.0
+                    ],
+                    [
+                        2124.0,
+                        3231.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

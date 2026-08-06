@@ -1,0 +1,644 @@
+{
+    "input_path": "input/ipas初級_科目1_人工智慧基礎概論_imgs/page_0044.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第三章 人工智慧基礎概論",
+            "block_bbox": [
+                295,
+                209,
+                898,
+                261
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    209.0
+                ],
+                [
+                    898.0,
+                    209.0
+                ],
+                [
+                    898.0,
+                    261.0
+                ],
+                [
+                    295.0,
+                    261.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "（Action），策略可以是隨機的（Exploration）或基於學習經驗的（Exploitation）。",
+            "block_bbox": [
+                368,
+                404,
+                2075,
+                463
+            ],
+            "block_id": 1,
+            "block_order": 1,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    368.0,
+                    404.0
+                ],
+                [
+                    2075.0,
+                    404.0
+                ],
+                [
+                    2075.0,
+                    463.0
+                ],
+                [
+                    368.0,
+                    463.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "• 執行行動（Action Execution）：代理（Agent）在環境中執行行動，環境根據該行動返回新的狀態（Next State）和獎勵（Reward）。",
+            "block_bbox": [
+                300,
+                503,
+                2079,
+                664
+            ],
+            "block_id": 2,
+            "block_order": 2,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    300.0,
+                    503.0
+                ],
+                [
+                    2079.0,
+                    503.0
+                ],
+                [
+                    2079.0,
+                    664.0
+                ],
+                [
+                    300.0,
+                    664.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "更新策略（Policy Update）：代理（Agent）基於行動結果，更新其決策策略，以最大化未來的累積獎勵（Cumulative Reward）。",
+            "block_bbox": [
+                301,
+                704,
+                2082,
+                864
+            ],
+            "block_id": 3,
+            "block_order": 3,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    301.0,
+                    704.0
+                ],
+                [
+                    2082.0,
+                    704.0
+                ],
+                [
+                    2082.0,
+                    864.0
+                ],
+                [
+                    301.0,
+                    864.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "C. 常見的強化學習方法如 Q-Learning、Deep Q-Learning 等：",
+            "block_bbox": [
+                295,
+                1005,
+                1686,
+                1063
+            ],
+            "block_id": 4,
+            "block_order": 4,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    1005.0
+                ],
+                [
+                    1686.0,
+                    1005.0
+                ],
+                [
+                    1686.0,
+                    1063.0
+                ],
+                [
+                    295.0,
+                    1063.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "Q-Learning 是一種透過試錯學習（Trial-and-Error）找到最佳決策的強化學習方法。它的核心目標是讓 AI 學習每個行動的長期價值（Q 值），進而選擇能獲得最大獎勵的最佳行動。在 Q-Learning 過程中，AI 會探索環境，根據當前狀態（State）選擇行動（Action），並獲得獎勵（Reward）。隨著學習的深入，AI 會不斷更新 Q 值，最終形成最佳決策策略。例如，在遊戲 AI 中，Q-Learning 能幫助 AI 學習如何選擇最有利的下一步，以獲得更高分數或提高勝率。",
+            "block_bbox": [
+                296,
+                1105,
+                2085,
+                1669
+            ],
+            "block_id": 5,
+            "block_order": 5,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    296.0,
+                    1105.0
+                ],
+                [
+                    2085.0,
+                    1105.0
+                ],
+                [
+                    2085.0,
+                    1669.0
+                ],
+                [
+                    296.0,
+                    1669.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "Deep Q-Learning 是 Q-Learning 的延伸，結合深度學習（Deep Learning）來解決 Q-Learning 在高維度環境中的限制。傳統的 Q-Learning 需要將所有狀態與行動的組合存入 Q 表（Q-Table），但當狀態空間過大時，這種方法變得不可行。為了解決這個問題，Deep Q-Learning 採用深度神經網路（Deep Neural Networks, DNN）來近似 Q 值，而不是直接儲存 Q 表。在 Deep Q-Network（DQN）中，神經網路的輸入是環境的當前狀態（State），輸出則是每個可能行動（Action）的 Q 值，AI 會選擇 Q 值最高的行動來執行。為了穩定學習過程，DQN 引入了經驗回放（Experience Replay）和目標網路（Target Network）等技術，以減少神經網路的震盪與過擬合。",
+            "block_bbox": [
+                295,
+                1704,
+                2085,
+                2566
+            ],
+            "block_id": 6,
+            "block_order": 6,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    1704.0
+                ],
+                [
+                    2085.0,
+                    1704.0
+                ],
+                [
+                    2085.0,
+                    2566.0
+                ],
+                [
+                    295.0,
+                    2566.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "D. 強化學習的應用範例：",
+            "block_bbox": [
+                298,
+                2704,
+                876,
+                2762
+            ],
+            "block_id": 7,
+            "block_order": 7,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    298.0,
+                    2704.0
+                ],
+                [
+                    876.0,
+                    2704.0
+                ],
+                [
+                    876.0,
+                    2762.0
+                ],
+                [
+                    298.0,
+                    2762.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "強化學習在多個領域發揮關鍵作用，其中在遊戲領域的應用尤為突出。例如AlphaGo結合深度學習與強化學習技術，透過自我對弈不斷優化策略，最終擊敗多位世界頂尖棋手，展現了強大的策略推理能力。此外，在Atari遊戲中，透過",
+            "block_bbox": [
+                295,
+                2805,
+                2082,
+                3067
+            ],
+            "block_id": 8,
+            "block_order": 8,
+            "group_id": 8,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    2805.0
+                ],
+                [
+                    2082.0,
+                    2805.0
+                ],
+                [
+                    2082.0,
+                    3067.0
+                ],
+                [
+                    295.0,
+                    3067.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "3-38",
+            "block_bbox": [
+                184,
+                3189,
+                282,
+                3231
+            ],
+            "block_id": 9,
+            "block_order": null,
+            "group_id": 9,
+            "block_polygon_points": [
+                [
+                    184.0,
+                    3189.0
+                ],
+                [
+                    282.0,
+                    3189.0
+                ],
+                [
+                    282.0,
+                    3231.0
+                ],
+                [
+                    184.0,
+                    3231.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.8629412651062012,
+                "coordinate": [
+                    295,
+                    209,
+                    898,
+                    261
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        295.0,
+                        209.0
+                    ],
+                    [
+                        898.0,
+                        209.0
+                    ],
+                    [
+                        898.0,
+                        261.0
+                    ],
+                    [
+                        295.0,
+                        261.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8101677298545837,
+                "coordinate": [
+                    368,
+                    404,
+                    2075,
+                    463
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        368.0,
+                        404.0
+                    ],
+                    [
+                        2075.0,
+                        404.0
+                    ],
+                    [
+                        2075.0,
+                        463.0
+                    ],
+                    [
+                        368.0,
+                        463.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9061446785926819,
+                "coordinate": [
+                    300,
+                    503,
+                    2079,
+                    664
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        300.0,
+                        503.0
+                    ],
+                    [
+                        2079.0,
+                        503.0
+                    ],
+                    [
+                        2079.0,
+                        664.0
+                    ],
+                    [
+                        300.0,
+                        664.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9108765125274658,
+                "coordinate": [
+                    301,
+                    704,
+                    2082,
+                    864
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        301.0,
+                        704.0
+                    ],
+                    [
+                        2082.0,
+                        704.0
+                    ],
+                    [
+                        2082.0,
+                        864.0
+                    ],
+                    [
+                        301.0,
+                        864.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.863264262676239,
+                "coordinate": [
+                    295,
+                    1005,
+                    1686,
+                    1063
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        295.0,
+                        1005.0
+                    ],
+                    [
+                        1686.0,
+                        1005.0
+                    ],
+                    [
+                        1686.0,
+                        1063.0
+                    ],
+                    [
+                        295.0,
+                        1063.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.960155725479126,
+                "coordinate": [
+                    296,
+                    1105,
+                    2085,
+                    1669
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        296.0,
+                        1105.0
+                    ],
+                    [
+                        2085.0,
+                        1105.0
+                    ],
+                    [
+                        2085.0,
+                        1669.0
+                    ],
+                    [
+                        296.0,
+                        1669.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9677785634994507,
+                "coordinate": [
+                    295,
+                    1704,
+                    2085,
+                    2566
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        295.0,
+                        1704.0
+                    ],
+                    [
+                        2085.0,
+                        1704.0
+                    ],
+                    [
+                        2085.0,
+                        2566.0
+                    ],
+                    [
+                        295.0,
+                        2566.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8598852753639221,
+                "coordinate": [
+                    298,
+                    2704,
+                    876,
+                    2762
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        298.0,
+                        2704.0
+                    ],
+                    [
+                        876.0,
+                        2704.0
+                    ],
+                    [
+                        876.0,
+                        2762.0
+                    ],
+                    [
+                        298.0,
+                        2762.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9531679153442383,
+                "coordinate": [
+                    295,
+                    2805,
+                    2082,
+                    3067
+                ],
+                "order": 8,
+                "polygon_points": [
+                    [
+                        295.0,
+                        2805.0
+                    ],
+                    [
+                        2082.0,
+                        2805.0
+                    ],
+                    [
+                        2082.0,
+                        3067.0
+                    ],
+                    [
+                        295.0,
+                        3067.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.752634584903717,
+                "coordinate": [
+                    184,
+                    3189,
+                    282,
+                    3231
+                ],
+                "order": 9,
+                "polygon_points": [
+                    [
+                        184.0,
+                        3189.0
+                    ],
+                    [
+                        282.0,
+                        3189.0
+                    ],
+                    [
+                        282.0,
+                        3231.0
+                    ],
+                    [
+                        184.0,
+                        3231.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

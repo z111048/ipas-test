@@ -1,0 +1,1010 @@
+{
+    "input_path": "input/ipas中級_科目3_機器學習技術與應用_imgs/page_0151.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第五章 機器學習建模與參數調校",
+            "block_bbox": [
+                1356,
+                207,
+                2081,
+                261
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    1356.0,
+                    207.0
+                ],
+                [
+                    2081.0,
+                    207.0
+                ],
+                [
+                    2081.0,
+                    261.0
+                ],
+                [
+                    1356.0,
+                    261.0
+                ]
+            ]
+        },
+        {
+            "block_label": "header_image",
+            "block_content": "",
+            "block_bbox": [
+                301,
+                359,
+                454,
+                501
+            ],
+            "block_id": 1,
+            "block_order": null,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    301.0,
+                    359.0
+                ],
+                [
+                    454.0,
+                    359.0
+                ],
+                [
+                    454.0,
+                    501.0
+                ],
+                [
+                    301.0,
+                    501.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "重點掃瞄",
+            "block_bbox": [
+                469,
+                396,
+                743,
+                472
+            ],
+            "block_id": 2,
+            "block_order": 1,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    469.0,
+                    396.0
+                ],
+                [
+                    743.0,
+                    396.0
+                ],
+                [
+                    743.0,
+                    472.0
+                ],
+                [
+                    469.0,
+                    472.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "5.3 模型訓練、評估與驗證",
+            "block_bbox": [
+                339,
+                614,
+                1195,
+                693
+            ],
+            "block_id": 3,
+            "block_order": 2,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    339.0,
+                    614.0
+                ],
+                [
+                    1195.0,
+                    614.0
+                ],
+                [
+                    1195.0,
+                    693.0
+                ],
+                [
+                    339.0,
+                    693.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "1. 前言與章節導覽",
+            "block_bbox": [
+                299,
+                809,
+                782,
+                876
+            ],
+            "block_id": 4,
+            "block_order": 3,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    299.0,
+                    809.0
+                ],
+                [
+                    782.0,
+                    809.0
+                ],
+                [
+                    782.0,
+                    876.0
+                ],
+                [
+                    299.0,
+                    876.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "在機器學習開發流程中，即便選擇了合適的模型架構與演算法，若訓練過程未能有效執行、評估方法不嚴謹，仍可能導致模型在實際應用中表現不佳，甚至產生錯誤決策。",
+            "block_bbox": [
+                294,
+                917,
+                2081,
+                1178
+            ],
+            "block_id": 5,
+            "block_order": 4,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    294.0,
+                    917.0
+                ],
+                [
+                    2081.0,
+                    917.0
+                ],
+                [
+                    2081.0,
+                    1178.0
+                ],
+                [
+                    294.0,
+                    1178.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "本節聚焦於模型訓練過程中的核心技術與方法，包括訓練資料的使用方式、模型學習策略的選擇、效能評估指標的設計，以及模型穩定性與泛化能力的檢驗流程。同時也強調透過視覺化輔助進行結果理解與分析，協助使用者掌握模型學習行為與預測邏輯。",
+            "block_bbox": [
+                294,
+                1218,
+                2080,
+                1582
+            ],
+            "block_id": 6,
+            "block_order": 5,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    294.0,
+                    1218.0
+                ],
+                [
+                    2080.0,
+                    1218.0
+                ],
+                [
+                    2080.0,
+                    1582.0
+                ],
+                [
+                    294.0,
+                    1582.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "2. 模型訓練流程與策略",
+            "block_bbox": [
+                297,
+                1710,
+                892,
+                1775
+            ],
+            "block_id": 7,
+            "block_order": 6,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    297.0,
+                    1710.0
+                ],
+                [
+                    892.0,
+                    1710.0
+                ],
+                [
+                    892.0,
+                    1775.0
+                ],
+                [
+                    297.0,
+                    1775.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "模型訓練是構建機器學習系統中關鍵的運作環節，負責依據資料調整模型參數，使其能有效對應輸入與預測目標之間的關係。適當的訓練策略不僅有助於加速收斂過程，也能提升模型在未見資料上的泛化能力，降低過擬合風險。本節將說明模型訓練的主要流程與實務常用策略，並解析其對整體模型效能的影響。",
+            "block_bbox": [
+                294,
+                1816,
+                2082,
+                2183
+            ],
+            "block_id": 8,
+            "block_order": 7,
+            "group_id": 8,
+            "block_polygon_points": [
+                [
+                    294.0,
+                    1816.0
+                ],
+                [
+                    2082.0,
+                    1816.0
+                ],
+                [
+                    2082.0,
+                    2183.0
+                ],
+                [
+                    294.0,
+                    2183.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "（1）資料分割與準備",
+            "block_bbox": [
+                296,
+                2316,
+                768,
+                2379
+            ],
+            "block_id": 9,
+            "block_order": 8,
+            "group_id": 9,
+            "block_polygon_points": [
+                [
+                    296.0,
+                    2316.0
+                ],
+                [
+                    768.0,
+                    2316.0
+                ],
+                [
+                    768.0,
+                    2379.0
+                ],
+                [
+                    296.0,
+                    2379.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "為評估模型在未見資料上的表現，常需將原始資料集依功能目的劃分為以下部分：",
+            "block_bbox": [
+                296,
+                2417,
+                2078,
+                2574
+            ],
+            "block_id": 10,
+            "block_order": 9,
+            "group_id": 10,
+            "block_polygon_points": [
+                [
+                    296.0,
+                    2417.0
+                ],
+                [
+                    2078.0,
+                    2417.0
+                ],
+                [
+                    2078.0,
+                    2574.0
+                ],
+                [
+                    296.0,
+                    2574.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "• 訓練集（Training Set）：",
+            "block_bbox": [
+                400,
+                2615,
+                997,
+                2677
+            ],
+            "block_id": 11,
+            "block_order": 10,
+            "group_id": 11,
+            "block_polygon_points": [
+                [
+                    400.0,
+                    2615.0
+                ],
+                [
+                    997.0,
+                    2615.0
+                ],
+                [
+                    997.0,
+                    2677.0
+                ],
+                [
+                    400.0,
+                    2677.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "♦用於模型參數的學習與內部結構調整，是整個學習流程的基礎。",
+            "block_bbox": [
+                473,
+                2716,
+                1947,
+                2776
+            ],
+            "block_id": 12,
+            "block_order": 11,
+            "group_id": 12,
+            "block_polygon_points": [
+                [
+                    473.0,
+                    2716.0
+                ],
+                [
+                    1947.0,
+                    2716.0
+                ],
+                [
+                    1947.0,
+                    2776.0
+                ],
+                [
+                    473.0,
+                    2776.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "• 驗證集（Validation Set）：",
+            "block_bbox": [
+                402,
+                2815,
+                1030,
+                2874
+            ],
+            "block_id": 13,
+            "block_order": 12,
+            "group_id": 13,
+            "block_polygon_points": [
+                [
+                    402.0,
+                    2815.0
+                ],
+                [
+                    1030.0,
+                    2815.0
+                ],
+                [
+                    1030.0,
+                    2874.0
+                ],
+                [
+                    402.0,
+                    2874.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "作為調整超參數（如學習率、正則化係數）與監控訓練過程的依據，用以觀察模型的泛化能力。",
+            "block_bbox": [
+                476,
+                2916,
+                2077,
+                3078
+            ],
+            "block_id": 14,
+            "block_order": 13,
+            "group_id": 14,
+            "block_polygon_points": [
+                [
+                    476.0,
+                    2916.0
+                ],
+                [
+                    2077.0,
+                    2916.0
+                ],
+                [
+                    2077.0,
+                    3078.0
+                ],
+                [
+                    476.0,
+                    3078.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "5-17",
+            "block_bbox": [
+                2100,
+                3188,
+                2198,
+                3232
+            ],
+            "block_id": 15,
+            "block_order": null,
+            "group_id": 15,
+            "block_polygon_points": [
+                [
+                    2100.0,
+                    3188.0
+                ],
+                [
+                    2198.0,
+                    3188.0
+                ],
+                [
+                    2198.0,
+                    3232.0
+                ],
+                [
+                    2100.0,
+                    3232.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.8656061291694641,
+                "coordinate": [
+                    1356,
+                    207,
+                    2081,
+                    261
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        1356.0,
+                        207.0
+                    ],
+                    [
+                        2081.0,
+                        207.0
+                    ],
+                    [
+                        2081.0,
+                        261.0
+                    ],
+                    [
+                        1356.0,
+                        261.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 13,
+                "label": "header_image",
+                "score": 0.6011847257614136,
+                "coordinate": [
+                    301,
+                    359,
+                    454,
+                    501
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        301.0,
+                        359.0
+                    ],
+                    [
+                        454.0,
+                        359.0
+                    ],
+                    [
+                        454.0,
+                        501.0
+                    ],
+                    [
+                        301.0,
+                        501.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8675882816314697,
+                "coordinate": [
+                    469,
+                    396,
+                    743,
+                    472
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        469.0,
+                        396.0
+                    ],
+                    [
+                        743.0,
+                        396.0
+                    ],
+                    [
+                        743.0,
+                        472.0
+                    ],
+                    [
+                        469.0,
+                        472.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8579259514808655,
+                "coordinate": [
+                    339,
+                    614,
+                    1195,
+                    693
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        339.0,
+                        614.0
+                    ],
+                    [
+                        1195.0,
+                        614.0
+                    ],
+                    [
+                        1195.0,
+                        693.0
+                    ],
+                    [
+                        339.0,
+                        693.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8668119311332703,
+                "coordinate": [
+                    299,
+                    809,
+                    782,
+                    876
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        299.0,
+                        809.0
+                    ],
+                    [
+                        782.0,
+                        809.0
+                    ],
+                    [
+                        782.0,
+                        876.0
+                    ],
+                    [
+                        299.0,
+                        876.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.941020131111145,
+                "coordinate": [
+                    294,
+                    917,
+                    2081,
+                    1178
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        294.0,
+                        917.0
+                    ],
+                    [
+                        2081.0,
+                        917.0
+                    ],
+                    [
+                        2081.0,
+                        1178.0
+                    ],
+                    [
+                        294.0,
+                        1178.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9504778981208801,
+                "coordinate": [
+                    294,
+                    1218,
+                    2080,
+                    1582
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        294.0,
+                        1218.0
+                    ],
+                    [
+                        2080.0,
+                        1218.0
+                    ],
+                    [
+                        2080.0,
+                        1582.0
+                    ],
+                    [
+                        294.0,
+                        1582.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8572090268135071,
+                "coordinate": [
+                    297,
+                    1710,
+                    892,
+                    1775
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        297.0,
+                        1710.0
+                    ],
+                    [
+                        892.0,
+                        1710.0
+                    ],
+                    [
+                        892.0,
+                        1775.0
+                    ],
+                    [
+                        297.0,
+                        1775.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.956436276435852,
+                "coordinate": [
+                    294,
+                    1816,
+                    2082,
+                    2183
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        294.0,
+                        1816.0
+                    ],
+                    [
+                        2082.0,
+                        1816.0
+                    ],
+                    [
+                        2082.0,
+                        2183.0
+                    ],
+                    [
+                        294.0,
+                        2183.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.845763087272644,
+                "coordinate": [
+                    296,
+                    2316,
+                    768,
+                    2379
+                ],
+                "order": 8,
+                "polygon_points": [
+                    [
+                        296.0,
+                        2316.0
+                    ],
+                    [
+                        768.0,
+                        2316.0
+                    ],
+                    [
+                        768.0,
+                        2379.0
+                    ],
+                    [
+                        296.0,
+                        2379.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.929595947265625,
+                "coordinate": [
+                    296,
+                    2417,
+                    2078,
+                    2574
+                ],
+                "order": 9,
+                "polygon_points": [
+                    [
+                        296.0,
+                        2417.0
+                    ],
+                    [
+                        2078.0,
+                        2417.0
+                    ],
+                    [
+                        2078.0,
+                        2574.0
+                    ],
+                    [
+                        296.0,
+                        2574.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8476556539535522,
+                "coordinate": [
+                    400,
+                    2615,
+                    997,
+                    2677
+                ],
+                "order": 10,
+                "polygon_points": [
+                    [
+                        400.0,
+                        2615.0
+                    ],
+                    [
+                        997.0,
+                        2615.0
+                    ],
+                    [
+                        997.0,
+                        2677.0
+                    ],
+                    [
+                        400.0,
+                        2677.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8801857829093933,
+                "coordinate": [
+                    473,
+                    2716,
+                    1947,
+                    2776
+                ],
+                "order": 11,
+                "polygon_points": [
+                    [
+                        473.0,
+                        2716.0
+                    ],
+                    [
+                        1947.0,
+                        2716.0
+                    ],
+                    [
+                        1947.0,
+                        2776.0
+                    ],
+                    [
+                        473.0,
+                        2776.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.782606303691864,
+                "coordinate": [
+                    402,
+                    2815,
+                    1030,
+                    2874
+                ],
+                "order": 12,
+                "polygon_points": [
+                    [
+                        402.0,
+                        2815.0
+                    ],
+                    [
+                        1030.0,
+                        2815.0
+                    ],
+                    [
+                        1030.0,
+                        2874.0
+                    ],
+                    [
+                        402.0,
+                        2874.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.916118860244751,
+                "coordinate": [
+                    476,
+                    2916,
+                    2077,
+                    3078
+                ],
+                "order": 13,
+                "polygon_points": [
+                    [
+                        476.0,
+                        2916.0
+                    ],
+                    [
+                        2077.0,
+                        2916.0
+                    ],
+                    [
+                        2077.0,
+                        3078.0
+                    ],
+                    [
+                        476.0,
+                        3078.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.7533305287361145,
+                "coordinate": [
+                    2100,
+                    3188,
+                    2198,
+                    3232
+                ],
+                "order": 14,
+                "polygon_points": [
+                    [
+                        2100.0,
+                        3188.0
+                    ],
+                    [
+                        2198.0,
+                        3188.0
+                    ],
+                    [
+                        2198.0,
+                        3232.0
+                    ],
+                    [
+                        2100.0,
+                        3232.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

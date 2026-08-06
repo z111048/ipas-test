@@ -1,0 +1,1315 @@
+{
+  "input_path": "input/ipas中級_科目2_大數據處理分析與應用_imgs/page_0079.png",
+  "page_index": null,
+  "page_count": null,
+  "width": 2382,
+  "height": 3368,
+  "model_settings": {
+    "use_doc_preprocessor": false,
+    "use_layout_detection": true,
+    "use_chart_recognition": false,
+    "use_seal_recognition": false,
+    "use_ocr_for_image_block": false,
+    "format_block_content": false,
+    "merge_layout_blocks": true,
+    "markdown_ignore_labels": [
+      "number",
+      "footnote",
+      "header",
+      "header_image",
+      "footer",
+      "footer_image",
+      "aside_text"
+    ],
+    "return_layout_polygon_points": true
+  },
+  "parsing_res_list": [
+    {
+      "block_label": "header",
+      "block_content": "第四章 大數據處理技術",
+      "block_bbox": [
+        295,
+        208,
+        857,
+        261
+      ],
+      "block_id": 0,
+      "block_order": null,
+      "group_id": 0,
+      "block_polygon_points": [
+        [
+          295.0,
+          208.0
+        ],
+        [
+          857.0,
+          208.0
+        ],
+        [
+          857.0,
+          261.0
+        ],
+        [
+          295.0,
+          261.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "（1）特徵選擇方法（Feature Selection）",
+      "block_bbox": [
+        295,
+        402,
+        1166,
+        464
+      ],
+      "block_id": 1,
+      "block_order": 1,
+      "group_id": 1,
+      "block_polygon_points": [
+        [
+          295.0,
+          402.0
+        ],
+        [
+          1166.0,
+          402.0
+        ],
+        [
+          1166.0,
+          464.0
+        ],
+        [
+          295.0,
+          464.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "面對大量特徵時，若直接進行建模可能導致模型複雜度提升、運算時間延長，甚至造成過度擬合的情況。特徵選擇透過系統化的方法保留最具價值的特徵，進而提高模型效能與解釋性。特徵選擇常見方法包含：",
+      "block_bbox": [
+        296,
+        502,
+        2079,
+        765
+      ],
+      "block_id": 2,
+      "block_order": 2,
+      "group_id": 2,
+      "block_polygon_points": [
+        [
+          296.0,
+          502.0
+        ],
+        [
+          2079.0,
+          502.0
+        ],
+        [
+          2079.0,
+          765.0
+        ],
+        [
+          296.0,
+          765.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "- Filter 方法（過濾法）",
+      "block_bbox": [
+        401,
+        801,
+        935,
+        862
+      ],
+      "block_id": 3,
+      "block_order": 3,
+      "group_id": 3,
+      "block_polygon_points": [
+        [
+          401.0,
+          801.0
+        ],
+        [
+          935.0,
+          801.0
+        ],
+        [
+          935.0,
+          862.0
+        ],
+        [
+          401.0,
+          862.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "◆ 透過統計量或相關係數，獨立於模型之外快速篩選重要特徵。",
+      "block_bbox": [
+        473,
+        901,
+        1896,
+        964
+      ],
+      "block_id": 4,
+      "block_order": 4,
+      "group_id": 4,
+      "block_polygon_points": [
+        [
+          473.0,
+          901.0
+        ],
+        [
+          1896.0,
+          901.0
+        ],
+        [
+          1896.0,
+          964.0
+        ],
+        [
+          473.0,
+          964.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "常用統計方法包括：皮爾森相關係數、卡方檢定（Chi-square Test）、ANOVA 檢定。",
+      "block_bbox": [
+        474,
+        1003,
+        2065,
+        1159
+      ],
+      "block_id": 5,
+      "block_order": 5,
+      "group_id": 5,
+      "block_polygon_points": [
+        [
+          474.0,
+          1003.0
+        ],
+        [
+          2065.0,
+          1003.0
+        ],
+        [
+          2065.0,
+          1159.0
+        ],
+        [
+          474.0,
+          1159.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "優點：速度快、不依賴特定模型。",
+      "block_bbox": [
+        477,
+        1201,
+        1294,
+        1263
+      ],
+      "block_id": 6,
+      "block_order": 6,
+      "group_id": 6,
+      "block_polygon_points": [
+        [
+          477.0,
+          1201.0
+        ],
+        [
+          1294.0,
+          1201.0
+        ],
+        [
+          1294.0,
+          1263.0
+        ],
+        [
+          477.0,
+          1263.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "限制：無法考慮特徵間交互作用。",
+      "block_bbox": [
+        476,
+        1302,
+        1292,
+        1363
+      ],
+      "block_id": 7,
+      "block_order": 7,
+      "group_id": 7,
+      "block_polygon_points": [
+        [
+          476.0,
+          1302.0
+        ],
+        [
+          1292.0,
+          1302.0
+        ],
+        [
+          1292.0,
+          1363.0
+        ],
+        [
+          476.0,
+          1363.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "Wrapper 方法（包裝法）",
+      "block_bbox": [
+        404,
+        1402,
+        996,
+        1463
+      ],
+      "block_id": 8,
+      "block_order": 8,
+      "group_id": 8,
+      "block_polygon_points": [
+        [
+          404.0,
+          1402.0
+        ],
+        [
+          996.0,
+          1402.0
+        ],
+        [
+          996.0,
+          1463.0
+        ],
+        [
+          404.0,
+          1463.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "使用模型表現（如準確率、F1-score）作為標準，透過遞迴特徵消除（Recursive Feature Elimination, RFE）或前向/後向選擇進行特徵篩選。",
+      "block_bbox": [
+        479,
+        1502,
+        2080,
+        1665
+      ],
+      "block_id": 9,
+      "block_order": 9,
+      "group_id": 9,
+      "block_polygon_points": [
+        [
+          479.0,
+          1502.0
+        ],
+        [
+          2080.0,
+          1502.0
+        ],
+        [
+          2080.0,
+          1665.0
+        ],
+        [
+          479.0,
+          1665.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "優點：精確考量特徵互動效果。",
+      "block_bbox": [
+        477,
+        1701,
+        1242,
+        1764
+      ],
+      "block_id": 10,
+      "block_order": 10,
+      "group_id": 10,
+      "block_polygon_points": [
+        [
+          477.0,
+          1701.0
+        ],
+        [
+          1242.0,
+          1701.0
+        ],
+        [
+          1242.0,
+          1764.0
+        ],
+        [
+          477.0,
+          1764.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "限制：計算成本高，可能過度擬合。",
+      "block_bbox": [
+        476,
+        1803,
+        1344,
+        1865
+      ],
+      "block_id": 11,
+      "block_order": 11,
+      "group_id": 11,
+      "block_polygon_points": [
+        [
+          476.0,
+          1803.0
+        ],
+        [
+          1344.0,
+          1803.0
+        ],
+        [
+          1344.0,
+          1865.0
+        ],
+        [
+          476.0,
+          1865.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "Embedded 方法（嵌入法）",
+      "block_bbox": [
+        403,
+        1902,
+        1039,
+        1964
+      ],
+      "block_id": 12,
+      "block_order": 12,
+      "group_id": 12,
+      "block_polygon_points": [
+        [
+          403.0,
+          1902.0
+        ],
+        [
+          1039.0,
+          1902.0
+        ],
+        [
+          1039.0,
+          1964.0
+        ],
+        [
+          403.0,
+          1964.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "在模型訓練過程中內建特徵選擇機制，例如決策樹模型的重要性分析或 Lasso、Ridge 等正則化方法。",
+      "block_bbox": [
+        474,
+        2002,
+        2077,
+        2164
+      ],
+      "block_id": 13,
+      "block_order": 13,
+      "group_id": 13,
+      "block_polygon_points": [
+        [
+          474.0,
+          2002.0
+        ],
+        [
+          2077.0,
+          2002.0
+        ],
+        [
+          2077.0,
+          2164.0
+        ],
+        [
+          474.0,
+          2164.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "優點：在建模過程中同時完成特徵選擇。",
+      "block_bbox": [
+        475,
+        2202,
+        1444,
+        2262
+      ],
+      "block_id": 14,
+      "block_order": 14,
+      "group_id": 14,
+      "block_polygon_points": [
+        [
+          475.0,
+          2202.0
+        ],
+        [
+          1444.0,
+          2202.0
+        ],
+        [
+          1444.0,
+          2262.0
+        ],
+        [
+          475.0,
+          2262.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "限制：需特定模型或算法支援，結果可能受模型超參數影響。",
+      "block_bbox": [
+        475,
+        2302,
+        1895,
+        2364
+      ],
+      "block_id": 15,
+      "block_order": 15,
+      "group_id": 15,
+      "block_polygon_points": [
+        [
+          475.0,
+          2302.0
+        ],
+        [
+          1895.0,
+          2302.0
+        ],
+        [
+          1895.0,
+          2364.0
+        ],
+        [
+          475.0,
+          2364.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "（2）特徵衍生與聚合技巧（Feature Generation & Aggregation）",
+      "block_bbox": [
+        296,
+        2503,
+        1698,
+        2565
+      ],
+      "block_id": 16,
+      "block_order": 16,
+      "group_id": 16,
+      "block_polygon_points": [
+        [
+          296.0,
+          2503.0
+        ],
+        [
+          1698.0,
+          2503.0
+        ],
+        [
+          1698.0,
+          2565.0
+        ],
+        [
+          296.0,
+          2565.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "透過特徵衍生與聚合，可進一步從原始資料中萃取出對模型更具價值的資訊，提升模型對資針的理解能力與預測效能。常見特徵衍生方法：",
+      "block_bbox": [
+        296,
+        2603,
+        2075,
+        2766
+      ],
+      "block_id": 17,
+      "block_order": 17,
+      "group_id": 17,
+      "block_polygon_points": [
+        [
+          296.0,
+          2603.0
+        ],
+        [
+          2075.0,
+          2603.0
+        ],
+        [
+          2075.0,
+          2766.0
+        ],
+        [
+          296.0,
+          2766.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "• 交互特徵（Interaction Features）",
+      "block_bbox": [
+        401,
+        2804,
+        1167,
+        2863
+      ],
+      "block_id": 18,
+      "block_order": 18,
+      "group_id": 18,
+      "block_polygon_points": [
+        [
+          401.0,
+          2804.0
+        ],
+        [
+          1167.0,
+          2804.0
+        ],
+        [
+          1167.0,
+          2863.0
+        ],
+        [
+          401.0,
+          2863.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "透過特徵間的數學運算（如乘積、除法）產生新特徵，捕捉特徵間非線性關係。",
+      "block_bbox": [
+        473,
+        2902,
+        2082,
+        3063
+      ],
+      "block_id": 19,
+      "block_order": 19,
+      "group_id": 19,
+      "block_polygon_points": [
+        [
+          473.0,
+          2902.0
+        ],
+        [
+          2082.0,
+          2902.0
+        ],
+        [
+          2082.0,
+          3063.0
+        ],
+        [
+          473.0,
+          3063.0
+        ]
+      ]
+    },
+    {
+      "block_label": "number",
+      "block_content": "4-24",
+      "block_bbox": [
+        183,
+        3190,
+        283,
+        3231
+      ],
+      "block_id": 20,
+      "block_order": null,
+      "group_id": 20,
+      "block_polygon_points": [
+        [
+          183.0,
+          3190.0
+        ],
+        [
+          283.0,
+          3190.0
+        ],
+        [
+          283.0,
+          3231.0
+        ],
+        [
+          183.0,
+          3231.0
+        ]
+      ]
+    }
+  ],
+  "layout_det_res": {
+    "input_path": null,
+    "page_index": null,
+    "boxes": [
+      {
+        "cls_id": 12,
+        "label": "header",
+        "score": 0.8599370121955872,
+        "coordinate": [
+          295,
+          208,
+          857,
+          261
+        ],
+        "order": null,
+        "polygon_points": [
+          [
+            295.0,
+            208.0
+          ],
+          [
+            857.0,
+            208.0
+          ],
+          [
+            857.0,
+            261.0
+          ],
+          [
+            295.0,
+            261.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8601961731910706,
+        "coordinate": [
+          295,
+          402,
+          1166,
+          464
+        ],
+        "order": 1,
+        "polygon_points": [
+          [
+            295.0,
+            402.0
+          ],
+          [
+            1166.0,
+            402.0
+          ],
+          [
+            1166.0,
+            464.0
+          ],
+          [
+            295.0,
+            464.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9482117295265198,
+        "coordinate": [
+          296,
+          502,
+          2079,
+          765
+        ],
+        "order": 2,
+        "polygon_points": [
+          [
+            296.0,
+            502.0
+          ],
+          [
+            2079.0,
+            502.0
+          ],
+          [
+            2079.0,
+            765.0
+          ],
+          [
+            296.0,
+            765.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.7218891978263855,
+        "coordinate": [
+          401,
+          801,
+          935,
+          862
+        ],
+        "order": 3,
+        "polygon_points": [
+          [
+            401.0,
+            801.0
+          ],
+          [
+            935.0,
+            801.0
+          ],
+          [
+            935.0,
+            862.0
+          ],
+          [
+            401.0,
+            862.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8465310335159302,
+        "coordinate": [
+          473,
+          901,
+          1896,
+          964
+        ],
+        "order": 4,
+        "polygon_points": [
+          [
+            473.0,
+            901.0
+          ],
+          [
+            1896.0,
+            901.0
+          ],
+          [
+            1896.0,
+            964.0
+          ],
+          [
+            473.0,
+            964.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9133187532424927,
+        "coordinate": [
+          474,
+          1003,
+          2065,
+          1159
+        ],
+        "order": 5,
+        "polygon_points": [
+          [
+            474.0,
+            1003.0
+          ],
+          [
+            2065.0,
+            1003.0
+          ],
+          [
+            2065.0,
+            1159.0
+          ],
+          [
+            474.0,
+            1159.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8430975079536438,
+        "coordinate": [
+          477,
+          1201,
+          1294,
+          1263
+        ],
+        "order": 6,
+        "polygon_points": [
+          [
+            477.0,
+            1201.0
+          ],
+          [
+            1294.0,
+            1201.0
+          ],
+          [
+            1294.0,
+            1263.0
+          ],
+          [
+            477.0,
+            1263.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8397749066352844,
+        "coordinate": [
+          476,
+          1302,
+          1292,
+          1363
+        ],
+        "order": 7,
+        "polygon_points": [
+          [
+            476.0,
+            1302.0
+          ],
+          [
+            1292.0,
+            1302.0
+          ],
+          [
+            1292.0,
+            1363.0
+          ],
+          [
+            476.0,
+            1363.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.7597482800483704,
+        "coordinate": [
+          404,
+          1402,
+          996,
+          1463
+        ],
+        "order": 8,
+        "polygon_points": [
+          [
+            404.0,
+            1402.0
+          ],
+          [
+            996.0,
+            1402.0
+          ],
+          [
+            996.0,
+            1463.0
+          ],
+          [
+            404.0,
+            1463.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.7927855253219604,
+        "coordinate": [
+          479,
+          1502,
+          2080,
+          1665
+        ],
+        "order": 9,
+        "polygon_points": [
+          [
+            479.0,
+            1502.0
+          ],
+          [
+            2080.0,
+            1502.0
+          ],
+          [
+            2080.0,
+            1665.0
+          ],
+          [
+            479.0,
+            1665.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.7711712718009949,
+        "coordinate": [
+          477,
+          1701,
+          1242,
+          1764
+        ],
+        "order": 10,
+        "polygon_points": [
+          [
+            477.0,
+            1701.0
+          ],
+          [
+            1242.0,
+            1701.0
+          ],
+          [
+            1242.0,
+            1764.0
+          ],
+          [
+            477.0,
+            1764.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8074392080307007,
+        "coordinate": [
+          476,
+          1803,
+          1344,
+          1865
+        ],
+        "order": 11,
+        "polygon_points": [
+          [
+            476.0,
+            1803.0
+          ],
+          [
+            1344.0,
+            1803.0
+          ],
+          [
+            1344.0,
+            1865.0
+          ],
+          [
+            476.0,
+            1865.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.7371595501899719,
+        "coordinate": [
+          403,
+          1902,
+          1039,
+          1964
+        ],
+        "order": 12,
+        "polygon_points": [
+          [
+            403.0,
+            1902.0
+          ],
+          [
+            1039.0,
+            1902.0
+          ],
+          [
+            1039.0,
+            1964.0
+          ],
+          [
+            403.0,
+            1964.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.91302090883255,
+        "coordinate": [
+          474,
+          2002,
+          2077,
+          2164
+        ],
+        "order": 13,
+        "polygon_points": [
+          [
+            474.0,
+            2002.0
+          ],
+          [
+            2077.0,
+            2002.0
+          ],
+          [
+            2077.0,
+            2164.0
+          ],
+          [
+            474.0,
+            2164.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8510417342185974,
+        "coordinate": [
+          475,
+          2202,
+          1444,
+          2262
+        ],
+        "order": 14,
+        "polygon_points": [
+          [
+            475.0,
+            2202.0
+          ],
+          [
+            1444.0,
+            2202.0
+          ],
+          [
+            1444.0,
+            2262.0
+          ],
+          [
+            475.0,
+            2262.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8485897183418274,
+        "coordinate": [
+          475,
+          2302,
+          1895,
+          2364
+        ],
+        "order": 15,
+        "polygon_points": [
+          [
+            475.0,
+            2302.0
+          ],
+          [
+            1895.0,
+            2302.0
+          ],
+          [
+            1895.0,
+            2364.0
+          ],
+          [
+            475.0,
+            2364.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8498988747596741,
+        "coordinate": [
+          296,
+          2503,
+          1698,
+          2565
+        ],
+        "order": 16,
+        "polygon_points": [
+          [
+            296.0,
+            2503.0
+          ],
+          [
+            1698.0,
+            2503.0
+          ],
+          [
+            1698.0,
+            2565.0
+          ],
+          [
+            296.0,
+            2565.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9290697574615479,
+        "coordinate": [
+          296,
+          2603,
+          2075,
+          2766
+        ],
+        "order": 17,
+        "polygon_points": [
+          [
+            296.0,
+            2603.0
+          ],
+          [
+            2075.0,
+            2603.0
+          ],
+          [
+            2075.0,
+            2766.0
+          ],
+          [
+            296.0,
+            2766.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.7981138825416565,
+        "coordinate": [
+          401,
+          2804,
+          1167,
+          2863
+        ],
+        "order": 18,
+        "polygon_points": [
+          [
+            401.0,
+            2804.0
+          ],
+          [
+            1167.0,
+            2804.0
+          ],
+          [
+            1167.0,
+            2863.0
+          ],
+          [
+            401.0,
+            2863.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9112220406532288,
+        "coordinate": [
+          473,
+          2902,
+          2082,
+          3063
+        ],
+        "order": 19,
+        "polygon_points": [
+          [
+            473.0,
+            2902.0
+          ],
+          [
+            2082.0,
+            2902.0
+          ],
+          [
+            2082.0,
+            3063.0
+          ],
+          [
+            473.0,
+            3063.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 16,
+        "label": "number",
+        "score": 0.7526885867118835,
+        "coordinate": [
+          183,
+          3190,
+          283,
+          3231
+        ],
+        "order": 20,
+        "polygon_points": [
+          [
+            183.0,
+            3190.0
+          ],
+          [
+            283.0,
+            3190.0
+          ],
+          [
+            283.0,
+            3231.0
+          ],
+          [
+            183.0,
+            3231.0
+          ]
+        ]
+      }
+    ]
+  }
+}

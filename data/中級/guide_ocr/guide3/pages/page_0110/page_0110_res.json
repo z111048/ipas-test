@@ -1,0 +1,1254 @@
+{
+  "input_path": "input/ipas中級_科目3_機器學習技術與應用_imgs/page_0110.png",
+  "page_index": null,
+  "page_count": null,
+  "width": 2382,
+  "height": 3368,
+  "model_settings": {
+    "use_doc_preprocessor": false,
+    "use_layout_detection": true,
+    "use_chart_recognition": false,
+    "use_seal_recognition": false,
+    "use_ocr_for_image_block": false,
+    "format_block_content": false,
+    "merge_layout_blocks": true,
+    "markdown_ignore_labels": [
+      "number",
+      "footnote",
+      "header",
+      "header_image",
+      "footer",
+      "footer_image",
+      "aside_text"
+    ],
+    "return_layout_polygon_points": true
+  },
+  "parsing_res_list": [
+    {
+      "block_label": "header",
+      "block_content": "第四章 機器學習與深度學習",
+      "block_bbox": [
+        294,
+        207,
+        936,
+        261
+      ],
+      "block_id": 0,
+      "block_order": null,
+      "group_id": 0,
+      "block_polygon_points": [
+        [
+          294.0,
+          207.0
+        ],
+        [
+          936.0,
+          207.0
+        ],
+        [
+          936.0,
+          261.0
+        ],
+        [
+          294.0,
+          261.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "■ 將每個層與其所有前一層的特徵映射連接起來，實現了特徵的極大重用，進一步緩解了梯度消失，並減少了參數數量。",
+      "block_bbox": [
+        533,
+        401,
+        2080,
+        559
+      ],
+      "block_id": 1,
+      "block_order": 1,
+      "group_id": 1,
+      "block_polygon_points": [
+        [
+          533.0,
+          401.0
+        ],
+        [
+          2080.0,
+          401.0
+        ],
+        [
+          2080.0,
+          559.0
+        ],
+        [
+          533.0,
+          559.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "MobileNet / EfficientNet :",
+      "block_bbox": [
+        478,
+        596,
+        1096,
+        654
+      ],
+      "block_id": 2,
+      "block_order": 2,
+      "group_id": 2,
+      "block_polygon_points": [
+        [
+          478.0,
+          596.0
+        ],
+        [
+          1096.0,
+          596.0
+        ],
+        [
+          1096.0,
+          654.0
+        ],
+        [
+          478.0,
+          654.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "這兩類網路著重於模型效率，設計輕量級架構（如 MobileNet 的深度可分離卷積）或自動搜索最佳網路縮放比例（如 EfficientNet），旨在實現模型在移動設備和資源受限環境下的高效部署。",
+      "block_bbox": [
+        534,
+        696,
+        2082,
+        954
+      ],
+      "block_id": 3,
+      "block_order": 3,
+      "group_id": 3,
+      "block_polygon_points": [
+        [
+          534.0,
+          696.0
+        ],
+        [
+          2082.0,
+          696.0
+        ],
+        [
+          2082.0,
+          954.0
+        ],
+        [
+          534.0,
+          954.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "（3）遞迴神經網路（Recurrent Neural Network, RNN）",
+      "block_bbox": [
+        295,
+        1091,
+        1509,
+        1150
+      ],
+      "block_id": 4,
+      "block_order": 4,
+      "group_id": 4,
+      "block_polygon_points": [
+        [
+          295.0,
+          1091.0
+        ],
+        [
+          1509.0,
+          1091.0
+        ],
+        [
+          1509.0,
+          1150.0
+        ],
+        [
+          295.0,
+          1150.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "定義",
+      "block_bbox": [
+        400,
+        1191,
+        585,
+        1250
+      ],
+      "block_id": 5,
+      "block_order": 5,
+      "group_id": 5,
+      "block_polygon_points": [
+        [
+          400.0,
+          1191.0
+        ],
+        [
+          585.0,
+          1191.0
+        ],
+        [
+          585.0,
+          1250.0
+        ],
+        [
+          400.0,
+          1250.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "♦ 遞迴神經網路是一種專門設計用於處理可變長度序列輸入數據（Sequential Data）的深度學習模型。",
+      "block_bbox": [
+        475,
+        1290,
+        2080,
+        1454
+      ],
+      "block_id": 6,
+      "block_order": 6,
+      "group_id": 6,
+      "block_polygon_points": [
+        [
+          475.0,
+          1290.0
+        ],
+        [
+          2080.0,
+          1290.0
+        ],
+        [
+          2080.0,
+          1454.0
+        ],
+        [
+          475.0,
+          1454.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "與傳統的前饋神經網路（如 MLP 或 CNN）不同，RNN 具有內部「記憶」機制，使其能夠捕捉數據中的時間依賴性和上下文資訊。",
+      "block_bbox": [
+        475,
+        1490,
+        2080,
+        1655
+      ],
+      "block_id": 7,
+      "block_order": 7,
+      "group_id": 7,
+      "block_polygon_points": [
+        [
+          475.0,
+          1490.0
+        ],
+        [
+          2080.0,
+          1490.0
+        ],
+        [
+          2080.0,
+          1655.0
+        ],
+        [
+          475.0,
+          1655.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "RNN 的核心特點是神經元之間存在循環連接（Recurrent Connections），允許資訊在網路內部持續流動，使得當前時間步的輸出不僅依賴於當前輸入，還依賴於過去時間步的計算結果（即「記憶」）。",
+      "block_bbox": [
+        475,
+        1690,
+        2079,
+        1956
+      ],
+      "block_id": 8,
+      "block_order": 8,
+      "group_id": 8,
+      "block_polygon_points": [
+        [
+          475.0,
+          1690.0
+        ],
+        [
+          2079.0,
+          1690.0
+        ],
+        [
+          2079.0,
+          1956.0
+        ],
+        [
+          475.0,
+          1956.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "模型結構",
+      "block_bbox": [
+        403,
+        1990,
+        686,
+        2050
+      ],
+      "block_id": 9,
+      "block_order": 9,
+      "group_id": 9,
+      "block_polygon_points": [
+        [
+          403.0,
+          1990.0
+        ],
+        [
+          686.0,
+          1990.0
+        ],
+        [
+          686.0,
+          2050.0
+        ],
+        [
+          403.0,
+          2050.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "RNN 的基本單元可以被想像成一個帶有迴圈的神經元。",
+      "block_bbox": [
+        476,
+        2093,
+        1761,
+        2151
+      ],
+      "block_id": 10,
+      "block_order": 10,
+      "group_id": 10,
+      "block_polygon_points": [
+        [
+          476.0,
+          2093.0
+        ],
+        [
+          1761.0,
+          2093.0
+        ],
+        [
+          1761.0,
+          2151.0
+        ],
+        [
+          476.0,
+          2151.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "在每個時間步（t）：",
+      "block_bbox": [
+        532,
+        2191,
+        974,
+        2248
+      ],
+      "block_id": 11,
+      "block_order": 11,
+      "group_id": 11,
+      "block_polygon_points": [
+        [
+          532.0,
+          2191.0
+        ],
+        [
+          974.0,
+          2191.0
+        ],
+        [
+          974.0,
+          2248.0
+        ],
+        [
+          532.0,
+          2248.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "a. 輸入（X_{t}）:",
+      "block_bbox": [
+        531,
+        2292,
+        869,
+        2347
+      ],
+      "block_id": 12,
+      "block_order": 12,
+      "group_id": 12,
+      "block_polygon_points": [
+        [
+          531.0,
+          2292.0
+        ],
+        [
+          869.0,
+          2292.0
+        ],
+        [
+          869.0,
+          2347.0
+        ],
+        [
+          531.0,
+          2347.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "接收當前時間步的輸入數據。",
+      "block_bbox": [
+        593,
+        2393,
+        1316,
+        2449
+      ],
+      "block_id": 13,
+      "block_order": 13,
+      "group_id": 13,
+      "block_polygon_points": [
+        [
+          593.0,
+          2393.0
+        ],
+        [
+          1316.0,
+          2393.0
+        ],
+        [
+          1316.0,
+          2449.0
+        ],
+        [
+          593.0,
+          2449.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "例如句子中的一個詞語。",
+      "block_bbox": [
+        592,
+        2493,
+        1216,
+        2550
+      ],
+      "block_id": 14,
+      "block_order": 14,
+      "group_id": 14,
+      "block_polygon_points": [
+        [
+          592.0,
+          2493.0
+        ],
+        [
+          1216.0,
+          2493.0
+        ],
+        [
+          1216.0,
+          2550.0
+        ],
+        [
+          592.0,
+          2550.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "b. 隠藏狀態（Ht）:",
+      "block_bbox": [
+        529,
+        2590,
+        976,
+        2648
+      ],
+      "block_id": 15,
+      "block_order": 15,
+      "group_id": 15,
+      "block_polygon_points": [
+        [
+          529.0,
+          2590.0
+        ],
+        [
+          976.0,
+          2590.0
+        ],
+        [
+          976.0,
+          2648.0
+        ],
+        [
+          529.0,
+          2648.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "○ RNN 的「記憶」所在，由兩個部分共同計算得出：",
+      "block_bbox": [
+        589,
+        2693,
+        1785,
+        2751
+      ],
+      "block_id": 16,
+      "block_order": 16,
+      "group_id": 16,
+      "block_polygon_points": [
+        [
+          589.0,
+          2693.0
+        ],
+        [
+          1785.0,
+          2693.0
+        ],
+        [
+          1785.0,
+          2751.0
+        ],
+        [
+          589.0,
+          2751.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "• 當前輸入時間步的隱藏狀態（X $ _{t} $）",
+      "block_bbox": [
+        661,
+        2793,
+        1447,
+        2850
+      ],
+      "block_id": 17,
+      "block_order": 17,
+      "group_id": 17,
+      "block_polygon_points": [
+        [
+          661.0,
+          2793.0
+        ],
+        [
+          1447.0,
+          2793.0
+        ],
+        [
+          1447.0,
+          2850.0
+        ],
+        [
+          661.0,
+          2850.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "• 上一個時間步的隱藏狀態（H_{t-1})",
+      "block_bbox": [
+        660,
+        2890,
+        1425,
+        2950
+      ],
+      "block_id": 18,
+      "block_order": 18,
+      "group_id": 18,
+      "block_polygon_points": [
+        [
+          660.0,
+          2890.0
+        ],
+        [
+          1425.0,
+          2890.0
+        ],
+        [
+          1425.0,
+          2950.0
+        ],
+        [
+          660.0,
+          2950.0
+        ]
+      ]
+    },
+    {
+      "block_label": "number",
+      "block_content": "4-72",
+      "block_bbox": [
+        183,
+        3190,
+        283,
+        3231
+      ],
+      "block_id": 19,
+      "block_order": null,
+      "group_id": 19,
+      "block_polygon_points": [
+        [
+          183.0,
+          3190.0
+        ],
+        [
+          283.0,
+          3190.0
+        ],
+        [
+          283.0,
+          3231.0
+        ],
+        [
+          183.0,
+          3231.0
+        ]
+      ]
+    }
+  ],
+  "layout_det_res": {
+    "input_path": null,
+    "page_index": null,
+    "boxes": [
+      {
+        "cls_id": 12,
+        "label": "header",
+        "score": 0.8645125031471252,
+        "coordinate": [
+          294,
+          207,
+          936,
+          261
+        ],
+        "order": null,
+        "polygon_points": [
+          [
+            294.0,
+            207.0
+          ],
+          [
+            936.0,
+            207.0
+          ],
+          [
+            936.0,
+            261.0
+          ],
+          [
+            294.0,
+            261.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9299396276473999,
+        "coordinate": [
+          533,
+          401,
+          2080,
+          559
+        ],
+        "order": 1,
+        "polygon_points": [
+          [
+            533.0,
+            401.0
+          ],
+          [
+            2080.0,
+            401.0
+          ],
+          [
+            2080.0,
+            559.0
+          ],
+          [
+            533.0,
+            559.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.6761581301689148,
+        "coordinate": [
+          478,
+          596,
+          1096,
+          654
+        ],
+        "order": 2,
+        "polygon_points": [
+          [
+            478.0,
+            596.0
+          ],
+          [
+            1096.0,
+            596.0
+          ],
+          [
+            1096.0,
+            654.0
+          ],
+          [
+            478.0,
+            654.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9369011521339417,
+        "coordinate": [
+          534,
+          696,
+          2082,
+          954
+        ],
+        "order": 3,
+        "polygon_points": [
+          [
+            534.0,
+            696.0
+          ],
+          [
+            2082.0,
+            696.0
+          ],
+          [
+            2082.0,
+            954.0
+          ],
+          [
+            534.0,
+            954.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8743976354598999,
+        "coordinate": [
+          295,
+          1091,
+          1509,
+          1150
+        ],
+        "order": 4,
+        "polygon_points": [
+          [
+            295.0,
+            1091.0
+          ],
+          [
+            1509.0,
+            1091.0
+          ],
+          [
+            1509.0,
+            1150.0
+          ],
+          [
+            295.0,
+            1150.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.7889864444732666,
+        "coordinate": [
+          400,
+          1191,
+          585,
+          1250
+        ],
+        "order": 5,
+        "polygon_points": [
+          [
+            400.0,
+            1191.0
+          ],
+          [
+            585.0,
+            1191.0
+          ],
+          [
+            585.0,
+            1250.0
+          ],
+          [
+            400.0,
+            1250.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9208466410636902,
+        "coordinate": [
+          475,
+          1290,
+          2080,
+          1454
+        ],
+        "order": 6,
+        "polygon_points": [
+          [
+            475.0,
+            1290.0
+          ],
+          [
+            2080.0,
+            1290.0
+          ],
+          [
+            2080.0,
+            1454.0
+          ],
+          [
+            475.0,
+            1454.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9166742563247681,
+        "coordinate": [
+          475,
+          1490,
+          2080,
+          1655
+        ],
+        "order": 7,
+        "polygon_points": [
+          [
+            475.0,
+            1490.0
+          ],
+          [
+            2080.0,
+            1490.0
+          ],
+          [
+            2080.0,
+            1655.0
+          ],
+          [
+            475.0,
+            1655.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9381467700004578,
+        "coordinate": [
+          475,
+          1690,
+          2079,
+          1956
+        ],
+        "order": 8,
+        "polygon_points": [
+          [
+            475.0,
+            1690.0
+          ],
+          [
+            2079.0,
+            1690.0
+          ],
+          [
+            2079.0,
+            1956.0
+          ],
+          [
+            475.0,
+            1956.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.7190084457397461,
+        "coordinate": [
+          403,
+          1990,
+          686,
+          2050
+        ],
+        "order": 9,
+        "polygon_points": [
+          [
+            403.0,
+            1990.0
+          ],
+          [
+            686.0,
+            1990.0
+          ],
+          [
+            686.0,
+            2050.0
+          ],
+          [
+            403.0,
+            2050.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8312253952026367,
+        "coordinate": [
+          476,
+          2093,
+          1761,
+          2151
+        ],
+        "order": 10,
+        "polygon_points": [
+          [
+            476.0,
+            2093.0
+          ],
+          [
+            1761.0,
+            2093.0
+          ],
+          [
+            1761.0,
+            2151.0
+          ],
+          [
+            476.0,
+            2151.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8196753859519958,
+        "coordinate": [
+          532,
+          2191,
+          974,
+          2248
+        ],
+        "order": 11,
+        "polygon_points": [
+          [
+            532.0,
+            2191.0
+          ],
+          [
+            974.0,
+            2191.0
+          ],
+          [
+            974.0,
+            2248.0
+          ],
+          [
+            532.0,
+            2248.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8359357118606567,
+        "coordinate": [
+          531,
+          2292,
+          869,
+          2347
+        ],
+        "order": 12,
+        "polygon_points": [
+          [
+            531.0,
+            2292.0
+          ],
+          [
+            869.0,
+            2292.0
+          ],
+          [
+            869.0,
+            2347.0
+          ],
+          [
+            531.0,
+            2347.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.859702467918396,
+        "coordinate": [
+          593,
+          2393,
+          1316,
+          2449
+        ],
+        "order": 13,
+        "polygon_points": [
+          [
+            593.0,
+            2393.0
+          ],
+          [
+            1316.0,
+            2393.0
+          ],
+          [
+            1316.0,
+            2449.0
+          ],
+          [
+            593.0,
+            2449.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8579198122024536,
+        "coordinate": [
+          592,
+          2493,
+          1216,
+          2550
+        ],
+        "order": 14,
+        "polygon_points": [
+          [
+            592.0,
+            2493.0
+          ],
+          [
+            1216.0,
+            2493.0
+          ],
+          [
+            1216.0,
+            2550.0
+          ],
+          [
+            592.0,
+            2550.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8506777286529541,
+        "coordinate": [
+          529,
+          2590,
+          976,
+          2648
+        ],
+        "order": 15,
+        "polygon_points": [
+          [
+            529.0,
+            2590.0
+          ],
+          [
+            976.0,
+            2590.0
+          ],
+          [
+            976.0,
+            2648.0
+          ],
+          [
+            529.0,
+            2648.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8636506199836731,
+        "coordinate": [
+          589,
+          2693,
+          1785,
+          2751
+        ],
+        "order": 16,
+        "polygon_points": [
+          [
+            589.0,
+            2693.0
+          ],
+          [
+            1785.0,
+            2693.0
+          ],
+          [
+            1785.0,
+            2751.0
+          ],
+          [
+            589.0,
+            2751.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8481981754302979,
+        "coordinate": [
+          661,
+          2793,
+          1447,
+          2850
+        ],
+        "order": 17,
+        "polygon_points": [
+          [
+            661.0,
+            2793.0
+          ],
+          [
+            1447.0,
+            2793.0
+          ],
+          [
+            1447.0,
+            2850.0
+          ],
+          [
+            661.0,
+            2850.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8399726152420044,
+        "coordinate": [
+          660,
+          2890,
+          1425,
+          2950
+        ],
+        "order": 18,
+        "polygon_points": [
+          [
+            660.0,
+            2890.0
+          ],
+          [
+            1425.0,
+            2890.0
+          ],
+          [
+            1425.0,
+            2950.0
+          ],
+          [
+            660.0,
+            2950.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 16,
+        "label": "number",
+        "score": 0.7481107711791992,
+        "coordinate": [
+          183,
+          3190,
+          283,
+          3231
+        ],
+        "order": 19,
+        "polygon_points": [
+          [
+            183.0,
+            3190.0
+          ],
+          [
+            283.0,
+            3190.0
+          ],
+          [
+            283.0,
+            3231.0
+          ],
+          [
+            183.0,
+            3231.0
+          ]
+        ]
+      }
+    ]
+  }
+}

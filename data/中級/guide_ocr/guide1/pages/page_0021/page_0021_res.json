@@ -1,0 +1,644 @@
+{
+  "input_path": "input/ipas中級_科目1_人工智慧技術應用規劃_imgs/page_0021.png",
+  "page_index": null,
+  "page_count": null,
+  "width": 2382,
+  "height": 3368,
+  "model_settings": {
+    "use_doc_preprocessor": false,
+    "use_layout_detection": true,
+    "use_chart_recognition": false,
+    "use_seal_recognition": false,
+    "use_ocr_for_image_block": false,
+    "format_block_content": false,
+    "merge_layout_blocks": true,
+    "markdown_ignore_labels": [
+      "number",
+      "footnote",
+      "header",
+      "header_image",
+      "footer",
+      "footer_image",
+      "aside_text"
+    ],
+    "return_layout_polygon_points": true
+  },
+  "parsing_res_list": [
+    {
+      "block_label": "header",
+      "block_content": "第三章 AI 相關技術應用",
+      "block_bbox": [
+        296,
+        209,
+        867,
+        260
+      ],
+      "block_id": 0,
+      "block_order": null,
+      "group_id": 0,
+      "block_polygon_points": [
+        [
+          296.0,
+          209.0
+        ],
+        [
+          867.0,
+          209.0
+        ],
+        [
+          867.0,
+          260.0
+        ],
+        [
+          296.0,
+          260.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "非語境型表示（Non-contextual Representation）：非語境型表示是指每個詞彙的向量在所有語境中保持不變，無論該詞的上下文如何變化。這些方法忽略了語境，無法捕捉詞彙的語意變化，因此無法處理同詞異義或多義詞問題。像Word2Vec 和 GloVe 等詞嵌入方法就是非語境型表示的典型應用。這些方法會為每個詞彙生成一個固定的向量，並不考慮語境的影響。示例如：",
+      "block_bbox": [
+        300,
+        402,
+        2083,
+        866
+      ],
+      "block_id": 1,
+      "block_order": 1,
+      "group_id": 1,
+      "block_polygon_points": [
+        [
+          300.0,
+          402.0
+        ],
+        [
+          2083.0,
+          402.0
+        ],
+        [
+          2083.0,
+          866.0
+        ],
+        [
+          300.0,
+          866.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "在 Word2Vec 模型中，無論\"bank\"是指金融機構還是河岸，bank 的向量都是相同的。",
+      "block_bbox": [
+        358,
+        903,
+        2082,
+        1059
+      ],
+      "block_id": 2,
+      "block_order": 2,
+      "group_id": 2,
+      "block_polygon_points": [
+        [
+          358.0,
+          903.0
+        ],
+        [
+          2082.0,
+          903.0
+        ],
+        [
+          2082.0,
+          1059.0
+        ],
+        [
+          358.0,
+          1059.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "B. 分布式表示與非分布式表示",
+      "block_bbox": [
+        297,
+        1203,
+        995,
+        1262
+      ],
+      "block_id": 3,
+      "block_order": 3,
+      "group_id": 3,
+      "block_polygon_points": [
+        [
+          297.0,
+          1203.0
+        ],
+        [
+          995.0,
+          1203.0
+        ],
+        [
+          995.0,
+          1262.0
+        ],
+        [
+          297.0,
+          1262.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "- 分布式表示（Distributed Representation）：「分布式」指的是每個詞的向量表示並非孤立存在的，而是根據語料庫中其他詞彙的關聯進行學習。在此方法下，詞彙的語意是透過它們之間的相對位置來表示，語意相近的詞會被映射到向量空間中的相近位置。使得語意相似的詞彙能夠進行有效的比較和運算，並捕捉語意上的關聯。示例如：",
+      "block_bbox": [
+        298,
+        1303,
+        2082,
+        1767
+      ],
+      "block_id": 4,
+      "block_order": 4,
+      "group_id": 4,
+      "block_polygon_points": [
+        [
+          298.0,
+          1303.0
+        ],
+        [
+          2082.0,
+          1303.0
+        ],
+        [
+          2082.0,
+          1767.0
+        ],
+        [
+          298.0,
+          1767.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "Word2Vec 會學習語料庫中詞彙之間的語境關係。以句子「The dog is running」和「The cat is sleeping」為例。 \"dog\"和\"cat\"都會與\"is\"，\"running\"，\"sleeping\"這樣的詞彙出現。在這樣的上下文中，\"dog\"和\"cat\"出現的語境是相似的，因此它們在向量空間中的位置會比較接近。",
+      "block_bbox": [
+        348,
+        1804,
+        2085,
+        2166
+      ],
+      "block_id": 5,
+      "block_order": 5,
+      "group_id": 5,
+      "block_polygon_points": [
+        [
+          348.0,
+          1804.0
+        ],
+        [
+          2085.0,
+          1804.0
+        ],
+        [
+          2085.0,
+          2166.0
+        ],
+        [
+          348.0,
+          2166.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "非分布式表示（Non-distributed Representation）：非分布式表示方法則是將每個詞彙映射到一個獨立的、固定的向量。這些向量無法表達詞彙之間的語意關聯，無法進行語意推理。最典型的應用就是 One-hot Encoding，每個詞彙都被表示為一個高維度的向量，其中只有對應的詞位為 1，其餘位置為 0。這種表示方法的缺點是無法捕捉語意上的相似性，也無法處理詞彙之間的關聯。",
+      "block_bbox": [
+        298,
+        2203,
+        2084,
+        2667
+      ],
+      "block_id": 6,
+      "block_order": 6,
+      "group_id": 6,
+      "block_polygon_points": [
+        [
+          298.0,
+          2203.0
+        ],
+        [
+          2084.0,
+          2203.0
+        ],
+        [
+          2084.0,
+          2667.0
+        ],
+        [
+          298.0,
+          2667.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "C. 詞嵌入（Word Embedding）",
+      "block_bbox": [
+        297,
+        2804,
+        998,
+        2863
+      ],
+      "block_id": 7,
+      "block_order": 7,
+      "group_id": 7,
+      "block_polygon_points": [
+        [
+          297.0,
+          2804.0
+        ],
+        [
+          998.0,
+          2804.0
+        ],
+        [
+          998.0,
+          2863.0
+        ],
+        [
+          297.0,
+          2863.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "詞嵌入是一種將每個詞彙轉換為數字向量的技術，這些向量包含了詞彙的語意資訊。詞嵌入的目的在於將詞彙轉換為數值向量，使其能被機器學習模型接收，",
+      "block_bbox": [
+        299,
+        2903,
+        2079,
+        3066
+      ],
+      "block_id": 8,
+      "block_order": 8,
+      "group_id": 8,
+      "block_polygon_points": [
+        [
+          299.0,
+          2903.0
+        ],
+        [
+          2079.0,
+          2903.0
+        ],
+        [
+          2079.0,
+          3066.0
+        ],
+        [
+          299.0,
+          3066.0
+        ]
+      ]
+    },
+    {
+      "block_label": "number",
+      "block_content": "3-14",
+      "block_bbox": [
+        183,
+        3189,
+        283,
+        3232
+      ],
+      "block_id": 9,
+      "block_order": null,
+      "group_id": 9,
+      "block_polygon_points": [
+        [
+          183.0,
+          3189.0
+        ],
+        [
+          283.0,
+          3189.0
+        ],
+        [
+          283.0,
+          3232.0
+        ],
+        [
+          183.0,
+          3232.0
+        ]
+      ]
+    }
+  ],
+  "layout_det_res": {
+    "input_path": null,
+    "page_index": null,
+    "boxes": [
+      {
+        "cls_id": 12,
+        "label": "header",
+        "score": 0.8548990488052368,
+        "coordinate": [
+          296,
+          209,
+          867,
+          260
+        ],
+        "order": null,
+        "polygon_points": [
+          [
+            296.0,
+            209.0
+          ],
+          [
+            867.0,
+            209.0
+          ],
+          [
+            867.0,
+            260.0
+          ],
+          [
+            296.0,
+            260.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9562558531761169,
+        "coordinate": [
+          300,
+          402,
+          2083,
+          866
+        ],
+        "order": 1,
+        "polygon_points": [
+          [
+            300.0,
+            402.0
+          ],
+          [
+            2083.0,
+            402.0
+          ],
+          [
+            2083.0,
+            866.0
+          ],
+          [
+            300.0,
+            866.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9172967076301575,
+        "coordinate": [
+          358,
+          903,
+          2082,
+          1059
+        ],
+        "order": 2,
+        "polygon_points": [
+          [
+            358.0,
+            903.0
+          ],
+          [
+            2082.0,
+            903.0
+          ],
+          [
+            2082.0,
+            1059.0
+          ],
+          [
+            358.0,
+            1059.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8620694279670715,
+        "coordinate": [
+          297,
+          1203,
+          995,
+          1262
+        ],
+        "order": 3,
+        "polygon_points": [
+          [
+            297.0,
+            1203.0
+          ],
+          [
+            995.0,
+            1203.0
+          ],
+          [
+            995.0,
+            1262.0
+          ],
+          [
+            297.0,
+            1262.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9531790018081665,
+        "coordinate": [
+          298,
+          1303,
+          2082,
+          1767
+        ],
+        "order": 4,
+        "polygon_points": [
+          [
+            298.0,
+            1303.0
+          ],
+          [
+            2082.0,
+            1303.0
+          ],
+          [
+            2082.0,
+            1767.0
+          ],
+          [
+            298.0,
+            1767.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.947584867477417,
+        "coordinate": [
+          348,
+          1804,
+          2085,
+          2166
+        ],
+        "order": 5,
+        "polygon_points": [
+          [
+            348.0,
+            1804.0
+          ],
+          [
+            2085.0,
+            1804.0
+          ],
+          [
+            2085.0,
+            2166.0
+          ],
+          [
+            348.0,
+            2166.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9610088467597961,
+        "coordinate": [
+          298,
+          2203,
+          2084,
+          2667
+        ],
+        "order": 6,
+        "polygon_points": [
+          [
+            298.0,
+            2203.0
+          ],
+          [
+            2084.0,
+            2203.0
+          ],
+          [
+            2084.0,
+            2667.0
+          ],
+          [
+            298.0,
+            2667.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8582010269165039,
+        "coordinate": [
+          297,
+          2804,
+          998,
+          2863
+        ],
+        "order": 7,
+        "polygon_points": [
+          [
+            297.0,
+            2804.0
+          ],
+          [
+            998.0,
+            2804.0
+          ],
+          [
+            998.0,
+            2863.0
+          ],
+          [
+            297.0,
+            2863.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9283684492111206,
+        "coordinate": [
+          299,
+          2903,
+          2079,
+          3066
+        ],
+        "order": 8,
+        "polygon_points": [
+          [
+            299.0,
+            2903.0
+          ],
+          [
+            2079.0,
+            2903.0
+          ],
+          [
+            2079.0,
+            3066.0
+          ],
+          [
+            299.0,
+            3066.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 16,
+        "label": "number",
+        "score": 0.7611953020095825,
+        "coordinate": [
+          183,
+          3189,
+          283,
+          3232
+        ],
+        "order": 9,
+        "polygon_points": [
+          [
+            183.0,
+            3189.0
+          ],
+          [
+            283.0,
+            3189.0
+          ],
+          [
+            283.0,
+            3232.0
+          ],
+          [
+            183.0,
+            3232.0
+          ]
+        ]
+      }
+    ]
+  }
+}

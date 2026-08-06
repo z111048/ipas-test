@@ -1,0 +1,644 @@
+{
+    "input_path": "input/ipas中級_科目2_大數據處理分析與應用_imgs/page_0031.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第三章 機率統計基礎",
+            "block_bbox": [
+                296,
+                209,
+                817,
+                260
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    296.0,
+                    209.0
+                ],
+                [
+                    817.0,
+                    209.0
+                ],
+                [
+                    817.0,
+                    260.0
+                ],
+                [
+                    296.0,
+                    260.0
+                ]
+            ]
+        },
+        {
+            "block_label": "table",
+            "block_content": "<table><tr><td>項目</td><td>參數估計</td><td>統計假設檢定</td></tr><tr><td>目的</td><td>推測母體參數的「值」或「區間」</td><td>驗證某個關於母體參數的「主張」是否成立</td></tr><tr><td>重點問題</td><td>這個母體參數大約是多少？（例如：平均收入是多少？）</td><td>我們是否有足夠證據拒絕一個假設？（例如：新藥是否有效？）</td></tr><tr><td>輸出結果</td><td>提供點估計值（如平均數）與信賴區間（如 95% CI）</td><td>提供 p 值、檢定統計量，並根據顯著水準決定是否拒絕虛無假設</td></tr><tr><td>依據</td><td>基於樣本資料，計算出母體參數的估計值</td><td>基於假設前提與樣本結果，進行推論判斷</td></tr><tr><td>例子</td><td>根據樣本估計出平均體重為 68 公斤，95%信賴區間為[66, 70]</td><td>假設新運動課程能降低體重（對立假設），檢定結果 p=0.03，小於 0.05，拒絕虛無零假設，接受對立假設，認為有效</td></tr></table>",
+            "block_bbox": [
+                303,
+                361,
+                2072,
+                1347
+            ],
+            "block_id": 1,
+            "block_order": null,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    303.0,
+                    361.0
+                ],
+                [
+                    2072.0,
+                    361.0
+                ],
+                [
+                    2072.0,
+                    1347.0
+                ],
+                [
+                    303.0,
+                    1347.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "（1）參數估計",
+            "block_bbox": [
+                297,
+                1491,
+                612,
+                1556
+            ],
+            "block_id": 2,
+            "block_order": 1,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    297.0,
+                    1491.0
+                ],
+                [
+                    612.0,
+                    1491.0
+                ],
+                [
+                    612.0,
+                    1556.0
+                ],
+                [
+                    297.0,
+                    1556.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "參數估計是指根據樣本資料，對母體的數值特徵進行推測，例如平均值（mean）、變異數（variance）、比例（proportion）等常見統計參數。",
+            "block_bbox": [
+                317,
+                1593,
+                2079,
+                1753
+            ],
+            "block_id": 3,
+            "block_order": 2,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    317.0,
+                    1593.0
+                ],
+                [
+                    2079.0,
+                    1593.0
+                ],
+                [
+                    2079.0,
+                    1753.0
+                ],
+                [
+                    317.0,
+                    1753.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "主要方法可分為兩類：點估計與區間估計：",
+            "block_bbox": [
+                401,
+                1792,
+                1355,
+                1854
+            ],
+            "block_id": 4,
+            "block_order": 3,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    401.0,
+                    1792.0
+                ],
+                [
+                    1355.0,
+                    1792.0
+                ],
+                [
+                    1355.0,
+                    1854.0
+                ],
+                [
+                    401.0,
+                    1854.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "- 點估計（Point Estimation）",
+            "block_bbox": [
+                402,
+                1892,
+                1064,
+                1955
+            ],
+            "block_id": 5,
+            "block_order": 4,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    402.0,
+                    1892.0
+                ],
+                [
+                    1064.0,
+                    1892.0
+                ],
+                [
+                    1064.0,
+                    1955.0
+                ],
+                [
+                    402.0,
+                    1955.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "是以樣本資料計算出一個單一數值（統計量），作為對母體參數的最佳估計。例如，以樣本平均數作為母體平均數的點估計，是最常見的做法之一。然而，點估計無法反映估計的不確定性，因此在許多實務分析中會搭配區間估計進行。",
+            "block_bbox": [
+                463,
+                1993,
+                2083,
+                2355
+            ],
+            "block_id": 6,
+            "block_order": 5,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    463.0,
+                    1993.0
+                ],
+                [
+                    2083.0,
+                    1993.0
+                ],
+                [
+                    2083.0,
+                    2355.0
+                ],
+                [
+                    463.0,
+                    2355.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "區間估計（Interval Estimation）：",
+            "block_bbox": [
+                403,
+                2392,
+                1186,
+                2454
+            ],
+            "block_id": 7,
+            "block_order": 6,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    403.0,
+                    2392.0
+                ],
+                [
+                    1186.0,
+                    2392.0
+                ],
+                [
+                    1186.0,
+                    2454.0
+                ],
+                [
+                    403.0,
+                    2454.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "進一步提供一個數值範圍，表示我們對母體參數所在區間的信心程度。這個範圍稱為信賴區間（Confidence Interval）。以95%信賴區間為例，其意義並非母體參數有95%的機率落在某一特定區間內，而是指：若以相同方式重複進行大量抽樣並對每個樣本建立信賴區間，則預期這些區間中約有95%會包含母體的真實參數值。",
+            "block_bbox": [
+                462,
+                2493,
+                2084,
+                2956
+            ],
+            "block_id": 8,
+            "block_order": 7,
+            "group_id": 8,
+            "block_polygon_points": [
+                [
+                    462.0,
+                    2493.0
+                ],
+                [
+                    2084.0,
+                    2493.0
+                ],
+                [
+                    2084.0,
+                    2956.0
+                ],
+                [
+                    462.0,
+                    2956.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "3-24",
+            "block_bbox": [
+                183,
+                3189,
+                283,
+                3232
+            ],
+            "block_id": 9,
+            "block_order": null,
+            "group_id": 9,
+            "block_polygon_points": [
+                [
+                    183.0,
+                    3189.0
+                ],
+                [
+                    283.0,
+                    3189.0
+                ],
+                [
+                    283.0,
+                    3232.0
+                ],
+                [
+                    183.0,
+                    3232.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.8367605209350586,
+                "coordinate": [
+                    296,
+                    209,
+                    817,
+                    260
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        296.0,
+                        209.0
+                    ],
+                    [
+                        817.0,
+                        209.0
+                    ],
+                    [
+                        817.0,
+                        260.0
+                    ],
+                    [
+                        296.0,
+                        260.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 21,
+                "label": "table",
+                "score": 0.9761835932731628,
+                "coordinate": [
+                    303,
+                    361,
+                    2072,
+                    1347
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        303.0,
+                        361.0
+                    ],
+                    [
+                        2072.0,
+                        361.0
+                    ],
+                    [
+                        2072.0,
+                        1347.0
+                    ],
+                    [
+                        303.0,
+                        1347.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8574733138084412,
+                "coordinate": [
+                    297,
+                    1491,
+                    612,
+                    1556
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        297.0,
+                        1491.0
+                    ],
+                    [
+                        612.0,
+                        1491.0
+                    ],
+                    [
+                        612.0,
+                        1556.0
+                    ],
+                    [
+                        297.0,
+                        1556.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8982027173042297,
+                "coordinate": [
+                    317,
+                    1593,
+                    2079,
+                    1753
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        317.0,
+                        1593.0
+                    ],
+                    [
+                        2079.0,
+                        1593.0
+                    ],
+                    [
+                        2079.0,
+                        1753.0
+                    ],
+                    [
+                        317.0,
+                        1753.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.7155007719993591,
+                "coordinate": [
+                    401,
+                    1792,
+                    1355,
+                    1854
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        401.0,
+                        1792.0
+                    ],
+                    [
+                        1355.0,
+                        1792.0
+                    ],
+                    [
+                        1355.0,
+                        1854.0
+                    ],
+                    [
+                        401.0,
+                        1854.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.4206947684288025,
+                "coordinate": [
+                    402,
+                    1892,
+                    1064,
+                    1955
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        402.0,
+                        1892.0
+                    ],
+                    [
+                        1064.0,
+                        1892.0
+                    ],
+                    [
+                        1064.0,
+                        1955.0
+                    ],
+                    [
+                        402.0,
+                        1955.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9427224397659302,
+                "coordinate": [
+                    463,
+                    1993,
+                    2083,
+                    2355
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        463.0,
+                        1993.0
+                    ],
+                    [
+                        2083.0,
+                        1993.0
+                    ],
+                    [
+                        2083.0,
+                        2355.0
+                    ],
+                    [
+                        463.0,
+                        2355.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.4874534606933594,
+                "coordinate": [
+                    403,
+                    2392,
+                    1186,
+                    2454
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        403.0,
+                        2392.0
+                    ],
+                    [
+                        1186.0,
+                        2392.0
+                    ],
+                    [
+                        1186.0,
+                        2454.0
+                    ],
+                    [
+                        403.0,
+                        2454.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9550626873970032,
+                "coordinate": [
+                    462,
+                    2493,
+                    2084,
+                    2956
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        462.0,
+                        2493.0
+                    ],
+                    [
+                        2084.0,
+                        2493.0
+                    ],
+                    [
+                        2084.0,
+                        2956.0
+                    ],
+                    [
+                        462.0,
+                        2956.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.7513638138771057,
+                "coordinate": [
+                    183,
+                    3189,
+                    283,
+                    3232
+                ],
+                "order": 8,
+                "polygon_points": [
+                    [
+                        183.0,
+                        3189.0
+                    ],
+                    [
+                        283.0,
+                        3189.0
+                    ],
+                    [
+                        283.0,
+                        3232.0
+                    ],
+                    [
+                        183.0,
+                        3232.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

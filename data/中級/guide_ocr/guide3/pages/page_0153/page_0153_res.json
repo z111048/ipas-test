@@ -1,0 +1,1315 @@
+{
+  "input_path": "input/ipas中級_科目3_機器學習技術與應用_imgs/page_0153.png",
+  "page_index": null,
+  "page_count": null,
+  "width": 2382,
+  "height": 3368,
+  "model_settings": {
+    "use_doc_preprocessor": false,
+    "use_layout_detection": true,
+    "use_chart_recognition": false,
+    "use_seal_recognition": false,
+    "use_ocr_for_image_block": false,
+    "format_block_content": false,
+    "merge_layout_blocks": true,
+    "markdown_ignore_labels": [
+      "number",
+      "footnote",
+      "header",
+      "header_image",
+      "footer",
+      "footer_image",
+      "aside_text"
+    ],
+    "return_layout_polygon_points": true
+  },
+  "parsing_res_list": [
+    {
+      "block_label": "header",
+      "block_content": "第五章 機器學習建模與參數調校",
+      "block_bbox": [
+        1356,
+        207,
+        2081,
+        261
+      ],
+      "block_id": 0,
+      "block_order": null,
+      "group_id": 0,
+      "block_polygon_points": [
+        [
+          1356.0,
+          207.0
+        ],
+        [
+          2081.0,
+          207.0
+        ],
+        [
+          2081.0,
+          261.0
+        ],
+        [
+          1356.0,
+          261.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "小批次訓練（Mini-batch SGD）：",
+      "block_bbox": [
+        402,
+        401,
+        1185,
+        463
+      ],
+      "block_id": 1,
+      "block_order": 1,
+      "group_id": 1,
+      "block_polygon_points": [
+        [
+          402.0,
+          401.0
+        ],
+        [
+          1185.0,
+          401.0
+        ],
+        [
+          1185.0,
+          463.0
+        ],
+        [
+          402.0,
+          463.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "每次使用固定筆數樣本進行更新，兼具全量與隨機策略優點，是目前深度學習最常用的方法。",
+      "block_bbox": [
+        473,
+        502,
+        2079,
+        664
+      ],
+      "block_id": 2,
+      "block_order": 2,
+      "group_id": 2,
+      "block_polygon_points": [
+        [
+          473.0,
+          502.0
+        ],
+        [
+          2079.0,
+          502.0
+        ],
+        [
+          2079.0,
+          664.0
+        ],
+        [
+          473.0,
+          664.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "Mini-batch 的大小會影響梯度估計的準確性與訓練速度，選擇上需視GPU記憶體與任務特性進行調整。",
+      "block_bbox": [
+        475,
+        701,
+        2079,
+        864
+      ],
+      "block_id": 3,
+      "block_order": 3,
+      "group_id": 3,
+      "block_polygon_points": [
+        [
+          475.0,
+          701.0
+        ],
+        [
+          2079.0,
+          701.0
+        ],
+        [
+          2079.0,
+          864.0
+        ],
+        [
+          475.0,
+          864.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "（3）學習率調整",
+      "block_bbox": [
+        296,
+        1002,
+        669,
+        1064
+      ],
+      "block_id": 4,
+      "block_order": 4,
+      "group_id": 4,
+      "block_polygon_points": [
+        [
+          296.0,
+          1002.0
+        ],
+        [
+          669.0,
+          1002.0
+        ],
+        [
+          669.0,
+          1064.0
+        ],
+        [
+          296.0,
+          1064.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "學習率（Learning Rate）控制模型每次更新的步伐，是訓練過程中重要的超參數之一。常見策略如下：",
+      "block_bbox": [
+        295,
+        1102,
+        2079,
+        1264
+      ],
+      "block_id": 5,
+      "block_order": 5,
+      "group_id": 5,
+      "block_polygon_points": [
+        [
+          295.0,
+          1102.0
+        ],
+        [
+          2079.0,
+          1102.0
+        ],
+        [
+          2079.0,
+          1264.0
+        ],
+        [
+          295.0,
+          1264.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "固定學習率（Constant Rate）：",
+      "block_bbox": [
+        400,
+        1302,
+        1129,
+        1364
+      ],
+      "block_id": 6,
+      "block_order": 6,
+      "group_id": 6,
+      "block_polygon_points": [
+        [
+          400.0,
+          1302.0
+        ],
+        [
+          1129.0,
+          1302.0
+        ],
+        [
+          1129.0,
+          1364.0
+        ],
+        [
+          400.0,
+          1364.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "設定單一值，適用於簡單任務，但在收斂後期可能難以進一步提升效能。",
+      "block_bbox": [
+        470,
+        1404,
+        2079,
+        1563
+      ],
+      "block_id": 7,
+      "block_order": 7,
+      "group_id": 7,
+      "block_polygon_points": [
+        [
+          470.0,
+          1404.0
+        ],
+        [
+          2079.0,
+          1404.0
+        ],
+        [
+          2079.0,
+          1563.0
+        ],
+        [
+          470.0,
+          1563.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "● 遞減學習率（Step Decay / Exponential Decay）：",
+      "block_bbox": [
+        400,
+        1602,
+        1502,
+        1663
+      ],
+      "block_id": 8,
+      "block_order": 8,
+      "group_id": 8,
+      "block_polygon_points": [
+        [
+          400.0,
+          1602.0
+        ],
+        [
+          1502.0,
+          1602.0
+        ],
+        [
+          1502.0,
+          1663.0
+        ],
+        [
+          400.0,
+          1663.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "根據訓練次數或驗證集表現，定期降低學習率，有助於穩定收斂。",
+      "block_bbox": [
+        476,
+        1703,
+        1997,
+        1762
+      ],
+      "block_id": 9,
+      "block_order": 9,
+      "group_id": 9,
+      "block_polygon_points": [
+        [
+          476.0,
+          1703.0
+        ],
+        [
+          1997.0,
+          1703.0
+        ],
+        [
+          1997.0,
+          1762.0
+        ],
+        [
+          476.0,
+          1762.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "動態調整：",
+      "block_bbox": [
+        402,
+        1804,
+        720,
+        1860
+      ],
+      "block_id": 10,
+      "block_order": 10,
+      "group_id": 10,
+      "block_polygon_points": [
+        [
+          402.0,
+          1804.0
+        ],
+        [
+          720.0,
+          1804.0
+        ],
+        [
+          720.0,
+          1860.0
+        ],
+        [
+          402.0,
+          1860.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "當驗證效能停滯時自動調降學習率，可精細控制學習節奏。",
+      "block_bbox": [
+        476,
+        1903,
+        1844,
+        1963
+      ],
+      "block_id": 11,
+      "block_order": 11,
+      "group_id": 11,
+      "block_polygon_points": [
+        [
+          476.0,
+          1903.0
+        ],
+        [
+          1844.0,
+          1903.0
+        ],
+        [
+          1844.0,
+          1963.0
+        ],
+        [
+          476.0,
+          1963.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "◆ 如 Pytorch 內的 ReduceLROnPlateau。",
+      "block_bbox": [
+        477,
+        2002,
+        1359,
+        2063
+      ],
+      "block_id": 12,
+      "block_order": 12,
+      "group_id": 12,
+      "block_polygon_points": [
+        [
+          477.0,
+          2002.0
+        ],
+        [
+          1359.0,
+          2002.0
+        ],
+        [
+          1359.0,
+          2063.0
+        ],
+        [
+          477.0,
+          2063.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "預熱策略：訓練初期使用較低學習率，逐漸升高，有助於避免初期梯度爆炸，常見於 Transformer 類模型。",
+      "block_bbox": [
+        399,
+        2103,
+        2078,
+        2263
+      ],
+      "block_id": 13,
+      "block_order": 13,
+      "group_id": 13,
+      "block_polygon_points": [
+        [
+          399.0,
+          2103.0
+        ],
+        [
+          2078.0,
+          2103.0
+        ],
+        [
+          2078.0,
+          2263.0
+        ],
+        [
+          399.0,
+          2263.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "（4）早停策略與訓練終止準則",
+      "block_bbox": [
+        296,
+        2402,
+        968,
+        2464
+      ],
+      "block_id": 14,
+      "block_order": 14,
+      "group_id": 14,
+      "block_polygon_points": [
+        [
+          296.0,
+          2402.0
+        ],
+        [
+          968.0,
+          2402.0
+        ],
+        [
+          968.0,
+          2464.0
+        ],
+        [
+          296.0,
+          2464.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "若訓練過久，模型可能過擬合訓練資料。Early Stopping 是透過監控驗證集效能，判斷訓練何時應中止：",
+      "block_bbox": [
+        297,
+        2503,
+        2082,
+        2663
+      ],
+      "block_id": 15,
+      "block_order": 15,
+      "group_id": 15,
+      "block_polygon_points": [
+        [
+          297.0,
+          2503.0
+        ],
+        [
+          2082.0,
+          2503.0
+        ],
+        [
+          2082.0,
+          2663.0
+        ],
+        [
+          297.0,
+          2663.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "設定容忍次數（Patience）：",
+      "block_bbox": [
+        400,
+        2703,
+        1069,
+        2762
+      ],
+      "block_id": 16,
+      "block_order": 16,
+      "group_id": 16,
+      "block_polygon_points": [
+        [
+          400.0,
+          2703.0
+        ],
+        [
+          1069.0,
+          2703.0
+        ],
+        [
+          1069.0,
+          2762.0
+        ],
+        [
+          400.0,
+          2762.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "◆ 驗證指標若在連續 N 次迭代內無明顯改善，則終止訓練。",
+      "block_bbox": [
+        475,
+        2804,
+        1807,
+        2863
+      ],
+      "block_id": 17,
+      "block_order": 17,
+      "group_id": 17,
+      "block_polygon_points": [
+        [
+          475.0,
+          2804.0
+        ],
+        [
+          1807.0,
+          2804.0
+        ],
+        [
+          1807.0,
+          2863.0
+        ],
+        [
+          475.0,
+          2863.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "● 設定最小改善幅度（Minimum Delta）：",
+      "block_bbox": [
+        400,
+        2902,
+        1320,
+        2962
+      ],
+      "block_id": 18,
+      "block_order": 18,
+      "group_id": 18,
+      "block_polygon_points": [
+        [
+          400.0,
+          2902.0
+        ],
+        [
+          1320.0,
+          2902.0
+        ],
+        [
+          1320.0,
+          2962.0
+        ],
+        [
+          400.0,
+          2962.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "效能提升若小於閾值，亦可視為無效進步。",
+      "block_bbox": [
+        474,
+        3002,
+        1494,
+        3063
+      ],
+      "block_id": 19,
+      "block_order": 19,
+      "group_id": 19,
+      "block_polygon_points": [
+        [
+          474.0,
+          3002.0
+        ],
+        [
+          1494.0,
+          3002.0
+        ],
+        [
+          1494.0,
+          3063.0
+        ],
+        [
+          474.0,
+          3063.0
+        ]
+      ]
+    },
+    {
+      "block_label": "number",
+      "block_content": "5-19",
+      "block_bbox": [
+        2101,
+        3188,
+        2198,
+        3232
+      ],
+      "block_id": 20,
+      "block_order": null,
+      "group_id": 20,
+      "block_polygon_points": [
+        [
+          2101.0,
+          3188.0
+        ],
+        [
+          2198.0,
+          3188.0
+        ],
+        [
+          2198.0,
+          3232.0
+        ],
+        [
+          2101.0,
+          3232.0
+        ]
+      ]
+    }
+  ],
+  "layout_det_res": {
+    "input_path": null,
+    "page_index": null,
+    "boxes": [
+      {
+        "cls_id": 12,
+        "label": "header",
+        "score": 0.8705766201019287,
+        "coordinate": [
+          1356,
+          207,
+          2081,
+          261
+        ],
+        "order": null,
+        "polygon_points": [
+          [
+            1356.0,
+            207.0
+          ],
+          [
+            2081.0,
+            207.0
+          ],
+          [
+            2081.0,
+            261.0
+          ],
+          [
+            1356.0,
+            261.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8302178382873535,
+        "coordinate": [
+          402,
+          401,
+          1185,
+          463
+        ],
+        "order": 1,
+        "polygon_points": [
+          [
+            402.0,
+            401.0
+          ],
+          [
+            1185.0,
+            401.0
+          ],
+          [
+            1185.0,
+            463.0
+          ],
+          [
+            402.0,
+            463.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9265701174736023,
+        "coordinate": [
+          473,
+          502,
+          2079,
+          664
+        ],
+        "order": 2,
+        "polygon_points": [
+          [
+            473.0,
+            502.0
+          ],
+          [
+            2079.0,
+            502.0
+          ],
+          [
+            2079.0,
+            664.0
+          ],
+          [
+            473.0,
+            664.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.917316198348999,
+        "coordinate": [
+          475,
+          701,
+          2079,
+          864
+        ],
+        "order": 3,
+        "polygon_points": [
+          [
+            475.0,
+            701.0
+          ],
+          [
+            2079.0,
+            701.0
+          ],
+          [
+            2079.0,
+            864.0
+          ],
+          [
+            475.0,
+            864.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8603947758674622,
+        "coordinate": [
+          296,
+          1002,
+          669,
+          1064
+        ],
+        "order": 4,
+        "polygon_points": [
+          [
+            296.0,
+            1002.0
+          ],
+          [
+            669.0,
+            1002.0
+          ],
+          [
+            669.0,
+            1064.0
+          ],
+          [
+            296.0,
+            1064.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9270924925804138,
+        "coordinate": [
+          295,
+          1102,
+          2079,
+          1264
+        ],
+        "order": 5,
+        "polygon_points": [
+          [
+            295.0,
+            1102.0
+          ],
+          [
+            2079.0,
+            1102.0
+          ],
+          [
+            2079.0,
+            1264.0
+          ],
+          [
+            295.0,
+            1264.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8323823809623718,
+        "coordinate": [
+          400,
+          1302,
+          1129,
+          1364
+        ],
+        "order": 6,
+        "polygon_points": [
+          [
+            400.0,
+            1302.0
+          ],
+          [
+            1129.0,
+            1302.0
+          ],
+          [
+            1129.0,
+            1364.0
+          ],
+          [
+            400.0,
+            1364.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8950632810592651,
+        "coordinate": [
+          470,
+          1404,
+          2079,
+          1563
+        ],
+        "order": 7,
+        "polygon_points": [
+          [
+            470.0,
+            1404.0
+          ],
+          [
+            2079.0,
+            1404.0
+          ],
+          [
+            2079.0,
+            1563.0
+          ],
+          [
+            470.0,
+            1563.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8200534582138062,
+        "coordinate": [
+          400,
+          1602,
+          1502,
+          1663
+        ],
+        "order": 8,
+        "polygon_points": [
+          [
+            400.0,
+            1602.0
+          ],
+          [
+            1502.0,
+            1602.0
+          ],
+          [
+            1502.0,
+            1663.0
+          ],
+          [
+            400.0,
+            1663.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8147633671760559,
+        "coordinate": [
+          476,
+          1703,
+          1997,
+          1762
+        ],
+        "order": 9,
+        "polygon_points": [
+          [
+            476.0,
+            1703.0
+          ],
+          [
+            1997.0,
+            1703.0
+          ],
+          [
+            1997.0,
+            1762.0
+          ],
+          [
+            476.0,
+            1762.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8077812790870667,
+        "coordinate": [
+          402,
+          1804,
+          720,
+          1860
+        ],
+        "order": 10,
+        "polygon_points": [
+          [
+            402.0,
+            1804.0
+          ],
+          [
+            720.0,
+            1804.0
+          ],
+          [
+            720.0,
+            1860.0
+          ],
+          [
+            402.0,
+            1860.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8160702586174011,
+        "coordinate": [
+          476,
+          1903,
+          1844,
+          1963
+        ],
+        "order": 11,
+        "polygon_points": [
+          [
+            476.0,
+            1903.0
+          ],
+          [
+            1844.0,
+            1903.0
+          ],
+          [
+            1844.0,
+            1963.0
+          ],
+          [
+            476.0,
+            1963.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.818871796131134,
+        "coordinate": [
+          477,
+          2002,
+          1359,
+          2063
+        ],
+        "order": 12,
+        "polygon_points": [
+          [
+            477.0,
+            2002.0
+          ],
+          [
+            1359.0,
+            2002.0
+          ],
+          [
+            1359.0,
+            2063.0
+          ],
+          [
+            477.0,
+            2063.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9247521758079529,
+        "coordinate": [
+          399,
+          2103,
+          2078,
+          2263
+        ],
+        "order": 13,
+        "polygon_points": [
+          [
+            399.0,
+            2103.0
+          ],
+          [
+            2078.0,
+            2103.0
+          ],
+          [
+            2078.0,
+            2263.0
+          ],
+          [
+            399.0,
+            2263.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8674941658973694,
+        "coordinate": [
+          296,
+          2402,
+          968,
+          2464
+        ],
+        "order": 14,
+        "polygon_points": [
+          [
+            296.0,
+            2402.0
+          ],
+          [
+            968.0,
+            2402.0
+          ],
+          [
+            968.0,
+            2464.0
+          ],
+          [
+            296.0,
+            2464.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9376983046531677,
+        "coordinate": [
+          297,
+          2503,
+          2082,
+          2663
+        ],
+        "order": 15,
+        "polygon_points": [
+          [
+            297.0,
+            2503.0
+          ],
+          [
+            2082.0,
+            2503.0
+          ],
+          [
+            2082.0,
+            2663.0
+          ],
+          [
+            297.0,
+            2663.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.858943521976471,
+        "coordinate": [
+          400,
+          2703,
+          1069,
+          2762
+        ],
+        "order": 16,
+        "polygon_points": [
+          [
+            400.0,
+            2703.0
+          ],
+          [
+            1069.0,
+            2703.0
+          ],
+          [
+            1069.0,
+            2762.0
+          ],
+          [
+            400.0,
+            2762.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8677190542221069,
+        "coordinate": [
+          475,
+          2804,
+          1807,
+          2863
+        ],
+        "order": 17,
+        "polygon_points": [
+          [
+            475.0,
+            2804.0
+          ],
+          [
+            1807.0,
+            2804.0
+          ],
+          [
+            1807.0,
+            2863.0
+          ],
+          [
+            475.0,
+            2863.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8609800934791565,
+        "coordinate": [
+          400,
+          2902,
+          1320,
+          2962
+        ],
+        "order": 18,
+        "polygon_points": [
+          [
+            400.0,
+            2902.0
+          ],
+          [
+            1320.0,
+            2902.0
+          ],
+          [
+            1320.0,
+            2962.0
+          ],
+          [
+            400.0,
+            2962.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8597878813743591,
+        "coordinate": [
+          474,
+          3002,
+          1494,
+          3063
+        ],
+        "order": 19,
+        "polygon_points": [
+          [
+            474.0,
+            3002.0
+          ],
+          [
+            1494.0,
+            3002.0
+          ],
+          [
+            1494.0,
+            3063.0
+          ],
+          [
+            474.0,
+            3063.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 16,
+        "label": "number",
+        "score": 0.7636938691139221,
+        "coordinate": [
+          2101,
+          3188,
+          2198,
+          3232
+        ],
+        "order": 20,
+        "polygon_points": [
+          [
+            2101.0,
+            3188.0
+          ],
+          [
+            2198.0,
+            3188.0
+          ],
+          [
+            2198.0,
+            3232.0
+          ],
+          [
+            2101.0,
+            3232.0
+          ]
+        ]
+      }
+    ]
+  }
+}

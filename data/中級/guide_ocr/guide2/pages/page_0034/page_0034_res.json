@@ -1,0 +1,705 @@
+{
+    "input_path": "input/ipas中級_科目2_大數據處理分析與應用_imgs/page_0034.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第三章 機率統計基礎",
+            "block_bbox": [
+                1560,
+                208,
+                2079,
+                260
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    1560.0,
+                    208.0
+                ],
+                [
+                    2079.0,
+                    208.0
+                ],
+                [
+                    2079.0,
+                    260.0
+                ],
+                [
+                    1560.0,
+                    260.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "分析比例可用卡方檢定（Chi-Square test）",
+            "block_bbox": [
+                403,
+                404,
+                1375,
+                462
+            ],
+            "block_id": 1,
+            "block_order": 1,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    403.0,
+                    404.0
+                ],
+                [
+                    1375.0,
+                    404.0
+                ],
+                [
+                    1375.0,
+                    462.0
+                ],
+                [
+                    403.0,
+                    462.0
+                ]
+            ]
+        },
+        {
+            "block_label": "table",
+            "block_content": "<table><tr><td>想比較的問題</td><td>資料型態與情境</td><td>建議檢定方法</td><td>備註</td></tr><tr><td>一組數值資料是否與某個理論值不同？</td><td>一組連續變數（如身高、成績）</td><td>單樣本 t 檢定</td><td>假設母體為常態分佈</td></tr><tr><td>兩組不同人的平均數是否不同？</td><td>兩組獨立樣本（如男性 vs 女性）</td><td>獨立樣本 t 檢定</td><td>需檢查變異數是否相等</td></tr><tr><td>同一批人前後變化是否顯著？</td><td>配對樣本（如治療前後血壓）</td><td>配對樣本 t 檢定</td><td>比較「差值」是否為 0</td></tr><tr><td>兩組比例是否有差異？</td><td>類別資料（如成功率、贊成率）</td><td>比例 Z 檢定或卡方檢定</td><td>樣本夠大時可用 Z 檢定</td></tr><tr><td>三組以上的平均是否不同？</td><td>三組以上獨立樣本</td><td>單因子變異數分析（ANOVA）</td><td>需滿足常態與變異數齊一性</td></tr><tr><td>類別變數間是否有關聯？</td><td>交叉表資料（如地區 x 性別）</td><td>卡方獨立性檢定</td><td>每格期望次數應足夠（&gt;5）</td></tr><tr><td>兩個連續變數是否有線性關係？</td><td>連續變數（如身高與體重）</td><td>皮爾森相關係數檢定</td><td>需符合雙變數常</td></tr></table>",
+            "block_bbox": [
+                303,
+                559,
+                2078,
+                1812
+            ],
+            "block_id": 2,
+            "block_order": null,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    303.0,
+                    559.0
+                ],
+                [
+                    2078.0,
+                    559.0
+                ],
+                [
+                    2078.0,
+                    1812.0
+                ],
+                [
+                    303.0,
+                    1812.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "（3）決定顯著水準 a",
+            "block_bbox": [
+                297,
+                1956,
+                762,
+                2013
+            ],
+            "block_id": 3,
+            "block_order": 2,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    297.0,
+                    1956.0
+                ],
+                [
+                    762.0,
+                    1956.0
+                ],
+                [
+                    762.0,
+                    2013.0
+                ],
+                [
+                    297.0,
+                    2013.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "在進行假設檢定之前，研究者需預先設定一個可接受的錯誤機率上限，稱為顯著水準（ $ \\alpha $）。顯著水準代表在虛無假設為真的前提下，仍可能因樣本隨機波動而錯誤地拒絕該假設的機率，也就是型一錯誤（Type I Error）發生的上限。",
+            "block_bbox": [
+                295,
+                2055,
+                2081,
+                2317
+            ],
+            "block_id": 4,
+            "block_order": 3,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    2055.0
+                ],
+                [
+                    2081.0,
+                    2055.0
+                ],
+                [
+                    2081.0,
+                    2317.0
+                ],
+                [
+                    295.0,
+                    2317.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "顯著水準通常根據研究目的與風險容忍程度來決定，常見如下：",
+            "block_bbox": [
+                394,
+                2355,
+                1810,
+                2414
+            ],
+            "block_id": 5,
+            "block_order": 4,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    394.0,
+                    2355.0
+                ],
+                [
+                    1810.0,
+                    2355.0
+                ],
+                [
+                    1810.0,
+                    2414.0
+                ],
+                [
+                    394.0,
+                    2414.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": " $ α = 0.05 $",
+            "block_bbox": [
+                402,
+                2457,
+                687,
+                2508
+            ],
+            "block_id": 6,
+            "block_order": 5,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    402.0,
+                    2457.0
+                ],
+                [
+                    687.0,
+                    2457.0
+                ],
+                [
+                    687.0,
+                    2508.0
+                ],
+                [
+                    402.0,
+                    2508.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "代表在虛無假設為真的情況下，最多容許5%的檢定結果出現錯誤拒絕的情形，是應用最普遍的標準。",
+            "block_bbox": [
+                466,
+                2554,
+                2080,
+                2714
+            ],
+            "block_id": 7,
+            "block_order": 6,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    466.0,
+                    2554.0
+                ],
+                [
+                    2080.0,
+                    2554.0
+                ],
+                [
+                    2080.0,
+                    2714.0
+                ],
+                [
+                    466.0,
+                    2714.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": " $ \\alpha=0.01 $",
+            "block_bbox": [
+                402,
+                2758,
+                685,
+                2808
+            ],
+            "block_id": 8,
+            "block_order": 7,
+            "group_id": 8,
+            "block_polygon_points": [
+                [
+                    402.0,
+                    2758.0
+                ],
+                [
+                    685.0,
+                    2758.0
+                ],
+                [
+                    685.0,
+                    2808.0
+                ],
+                [
+                    402.0,
+                    2808.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "代表容許的錯誤更嚴格僅為1%，適用於錯誤代價極高的情境，例如藥物療效、安全風險或高金額決策。",
+            "block_bbox": [
+                466,
+                2855,
+                2080,
+                3015
+            ],
+            "block_id": 9,
+            "block_order": 8,
+            "group_id": 9,
+            "block_polygon_points": [
+                [
+                    466.0,
+                    2855.0
+                ],
+                [
+                    2080.0,
+                    2855.0
+                ],
+                [
+                    2080.0,
+                    3015.0
+                ],
+                [
+                    466.0,
+                    3015.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "3-27",
+            "block_bbox": [
+                2100,
+                3190,
+                2196,
+                3231
+            ],
+            "block_id": 10,
+            "block_order": null,
+            "group_id": 10,
+            "block_polygon_points": [
+                [
+                    2100.0,
+                    3190.0
+                ],
+                [
+                    2196.0,
+                    3190.0
+                ],
+                [
+                    2196.0,
+                    3231.0
+                ],
+                [
+                    2100.0,
+                    3231.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.8412994146347046,
+                "coordinate": [
+                    1560,
+                    208,
+                    2079,
+                    260
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        1560.0,
+                        208.0
+                    ],
+                    [
+                        2079.0,
+                        208.0
+                    ],
+                    [
+                        2079.0,
+                        260.0
+                    ],
+                    [
+                        1560.0,
+                        260.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.7401365041732788,
+                "coordinate": [
+                    403,
+                    404,
+                    1375,
+                    462
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        403.0,
+                        404.0
+                    ],
+                    [
+                        1375.0,
+                        404.0
+                    ],
+                    [
+                        1375.0,
+                        462.0
+                    ],
+                    [
+                        403.0,
+                        462.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 21,
+                "label": "table",
+                "score": 0.9774502515792847,
+                "coordinate": [
+                    303,
+                    559,
+                    2078,
+                    1812
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        303.0,
+                        559.0
+                    ],
+                    [
+                        2078.0,
+                        559.0
+                    ],
+                    [
+                        2078.0,
+                        1812.0
+                    ],
+                    [
+                        303.0,
+                        1812.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.843308687210083,
+                "coordinate": [
+                    297,
+                    1956,
+                    762,
+                    2013
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        297.0,
+                        1956.0
+                    ],
+                    [
+                        762.0,
+                        1956.0
+                    ],
+                    [
+                        762.0,
+                        2013.0
+                    ],
+                    [
+                        297.0,
+                        2013.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9436159729957581,
+                "coordinate": [
+                    295,
+                    2055,
+                    2081,
+                    2317
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        295.0,
+                        2055.0
+                    ],
+                    [
+                        2081.0,
+                        2055.0
+                    ],
+                    [
+                        2081.0,
+                        2317.0
+                    ],
+                    [
+                        295.0,
+                        2317.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.843993604183197,
+                "coordinate": [
+                    394,
+                    2355,
+                    1810,
+                    2414
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        394.0,
+                        2355.0
+                    ],
+                    [
+                        1810.0,
+                        2355.0
+                    ],
+                    [
+                        1810.0,
+                        2414.0
+                    ],
+                    [
+                        394.0,
+                        2414.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.5802611112594604,
+                "coordinate": [
+                    402,
+                    2457,
+                    687,
+                    2508
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        402.0,
+                        2457.0
+                    ],
+                    [
+                        687.0,
+                        2457.0
+                    ],
+                    [
+                        687.0,
+                        2508.0
+                    ],
+                    [
+                        402.0,
+                        2508.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9317558407783508,
+                "coordinate": [
+                    466,
+                    2554,
+                    2080,
+                    2714
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        466.0,
+                        2554.0
+                    ],
+                    [
+                        2080.0,
+                        2554.0
+                    ],
+                    [
+                        2080.0,
+                        2714.0
+                    ],
+                    [
+                        466.0,
+                        2714.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.6122344136238098,
+                "coordinate": [
+                    402,
+                    2758,
+                    685,
+                    2808
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        402.0,
+                        2758.0
+                    ],
+                    [
+                        685.0,
+                        2758.0
+                    ],
+                    [
+                        685.0,
+                        2808.0
+                    ],
+                    [
+                        402.0,
+                        2808.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9298447966575623,
+                "coordinate": [
+                    466,
+                    2855,
+                    2080,
+                    3015
+                ],
+                "order": 8,
+                "polygon_points": [
+                    [
+                        466.0,
+                        2855.0
+                    ],
+                    [
+                        2080.0,
+                        2855.0
+                    ],
+                    [
+                        2080.0,
+                        3015.0
+                    ],
+                    [
+                        466.0,
+                        3015.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.7578849792480469,
+                "coordinate": [
+                    2100,
+                    3190,
+                    2196,
+                    3231
+                ],
+                "order": 9,
+                "polygon_points": [
+                    [
+                        2100.0,
+                        3190.0
+                    ],
+                    [
+                        2196.0,
+                        3190.0
+                    ],
+                    [
+                        2196.0,
+                        3231.0
+                    ],
+                    [
+                        2100.0,
+                        3231.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

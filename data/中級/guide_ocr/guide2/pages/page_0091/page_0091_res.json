@@ -1,0 +1,888 @@
+{
+    "input_path": "input/ipas中級_科目2_大數據處理分析與應用_imgs/page_0091.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第五章 大數據分析方法與工具",
+            "block_bbox": [
+                1398,
+                208,
+                2078,
+                260
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    1398.0,
+                    208.0
+                ],
+                [
+                    2078.0,
+                    208.0
+                ],
+                [
+                    2078.0,
+                    260.0
+                ],
+                [
+                    1398.0,
+                    260.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "（2）長尾分佈與資料偏態造成的統計失真",
+            "block_bbox": [
+                294,
+                402,
+                1225,
+                464
+            ],
+            "block_id": 1,
+            "block_order": 1,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    294.0,
+                    402.0
+                ],
+                [
+                    1225.0,
+                    402.0
+                ],
+                [
+                    1225.0,
+                    464.0
+                ],
+                [
+                    294.0,
+                    464.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "大數據中常見極度偏態分佈或長尾結構，使得平均數等傳統指標無法準確反映資料中心趨勢。例如，收入、消費金額、商品銷售量等指標受極端值影響顯著，若不搭配中位數或分位數進行判讀，可能導致決策誤判。",
+            "block_bbox": [
+                292,
+                504,
+                2080,
+                767
+            ],
+            "block_id": 2,
+            "block_order": 2,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    292.0,
+                    504.0
+                ],
+                [
+                    2080.0,
+                    504.0
+                ],
+                [
+                    2080.0,
+                    767.0
+                ],
+                [
+                    292.0,
+                    767.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "（3）多型態資料難以統一計算與解釋",
+            "block_bbox": [
+                294,
+                902,
+                1125,
+                964
+            ],
+            "block_id": 3,
+            "block_order": 3,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    294.0,
+                    902.0
+                ],
+                [
+                    1125.0,
+                    902.0
+                ],
+                [
+                    1125.0,
+                    964.0
+                ],
+                [
+                    294.0,
+                    964.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "資料來源涵蓋文字、圖片、影音、感測器訊號與半結構化紀錄（如 JSON、Log），這些資料不具明確數值欄位，難以直接套用平均、變異數等統計運算。",
+            "block_bbox": [
+                292,
+                1003,
+                2067,
+                1167
+            ],
+            "block_id": 4,
+            "block_order": 4,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    292.0,
+                    1003.0
+                ],
+                [
+                    2067.0,
+                    1003.0
+                ],
+                [
+                    2067.0,
+                    1167.0
+                ],
+                [
+                    292.0,
+                    1167.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "（4）離群值掩蓋與偵測敏感度下降",
+            "block_bbox": [
+                294,
+                1302,
+                1071,
+                1365
+            ],
+            "block_id": 5,
+            "block_order": 5,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    294.0,
+                    1302.0
+                ],
+                [
+                    1071.0,
+                    1302.0
+                ],
+                [
+                    1071.0,
+                    1365.0
+                ],
+                [
+                    294.0,
+                    1365.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "在大數據環境中，極少數異常事件（如系統異常、詐欺行為）雖具高度重要性，卻因資料量龐大而被稀釋，導致統計彙總指標對異常變化的反應變得遲鈍甚至無感。例如，在數千萬筆交易資料中，詐欺行為僅佔0.01%，即使其金額異常偏高，對整體平均值與變異數的影響也極為有限，不易被傳統統計量偵測出來。",
+            "block_bbox": [
+                293,
+                1403,
+                2082,
+                1767
+            ],
+            "block_id": 6,
+            "block_order": 6,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    293.0,
+                    1403.0
+                ],
+                [
+                    2082.0,
+                    1403.0
+                ],
+                [
+                    2082.0,
+                    1767.0
+                ],
+                [
+                    293.0,
+                    1767.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "（5）資料動態變化與時間敏感性",
+            "block_bbox": [
+                295,
+                1902,
+                1023,
+                1964
+            ],
+            "block_id": 7,
+            "block_order": 7,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    1902.0
+                ],
+                [
+                    1023.0,
+                    1902.0
+                ],
+                [
+                    1023.0,
+                    1964.0
+                ],
+                [
+                    295.0,
+                    1964.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "大數據環境中，資料經常來自即時串流（Streaming Data），敘述統計的「即時更新性」變得關鍵。靜態描述僅適用於固定時間點的快照，無法反映變化趨勢或即時異常。",
+            "block_bbox": [
+                293,
+                2003,
+                2083,
+                2263
+            ],
+            "block_id": 8,
+            "block_order": 8,
+            "group_id": 8,
+            "block_polygon_points": [
+                [
+                    293.0,
+                    2003.0
+                ],
+                [
+                    2083.0,
+                    2003.0
+                ],
+                [
+                    2083.0,
+                    2263.0
+                ],
+                [
+                    293.0,
+                    2263.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "3. 大數據下統計推論的挑戰與限制",
+            "block_bbox": [
+                295,
+                2397,
+                1174,
+                2464
+            ],
+            "block_id": 9,
+            "block_order": 9,
+            "group_id": 9,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    2397.0
+                ],
+                [
+                    1174.0,
+                    2397.0
+                ],
+                [
+                    1174.0,
+                    2464.0
+                ],
+                [
+                    295.0,
+                    2464.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "在大數據環境中，資料量大並不等於推論更容易。相反地，傳統統計推論的許多理論基礎（如隨機抽樣、獨立觀測、固定母體）在實務中往往無法成立。以下列出大數據情境中常見的統計推論限制與風險：",
+            "block_bbox": [
+                295,
+                2505,
+                2084,
+                2768
+            ],
+            "block_id": 10,
+            "block_order": 10,
+            "group_id": 10,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    2505.0
+                ],
+                [
+                    2084.0,
+                    2505.0
+                ],
+                [
+                    2084.0,
+                    2768.0
+                ],
+                [
+                    295.0,
+                    2768.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "（1）樣本非隨機，偏誤被放大",
+            "block_bbox": [
+                294,
+                2902,
+                971,
+                2966
+            ],
+            "block_id": 11,
+            "block_order": 11,
+            "group_id": 11,
+            "block_polygon_points": [
+                [
+                    294.0,
+                    2902.0
+                ],
+                [
+                    971.0,
+                    2902.0
+                ],
+                [
+                    971.0,
+                    2966.0
+                ],
+                [
+                    294.0,
+                    2966.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "統計推論的核心假設之一是樣本必須具備隨機性，才能對母體進行合理推估。",
+            "block_bbox": [
+                394,
+                3003,
+                2080,
+                3066
+            ],
+            "block_id": 12,
+            "block_order": 12,
+            "group_id": 12,
+            "block_polygon_points": [
+                [
+                    394.0,
+                    3003.0
+                ],
+                [
+                    2080.0,
+                    3003.0
+                ],
+                [
+                    2080.0,
+                    3066.0
+                ],
+                [
+                    394.0,
+                    3066.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "5-3",
+            "block_bbox": [
+                2123,
+                3189,
+                2199,
+                3231
+            ],
+            "block_id": 13,
+            "block_order": null,
+            "group_id": 13,
+            "block_polygon_points": [
+                [
+                    2123.0,
+                    3189.0
+                ],
+                [
+                    2199.0,
+                    3189.0
+                ],
+                [
+                    2199.0,
+                    3231.0
+                ],
+                [
+                    2123.0,
+                    3231.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.839221179485321,
+                "coordinate": [
+                    1398,
+                    208,
+                    2078,
+                    260
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        1398.0,
+                        208.0
+                    ],
+                    [
+                        2078.0,
+                        208.0
+                    ],
+                    [
+                        2078.0,
+                        260.0
+                    ],
+                    [
+                        1398.0,
+                        260.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8874070048332214,
+                "coordinate": [
+                    294,
+                    402,
+                    1225,
+                    464
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        294.0,
+                        402.0
+                    ],
+                    [
+                        1225.0,
+                        402.0
+                    ],
+                    [
+                        1225.0,
+                        464.0
+                    ],
+                    [
+                        294.0,
+                        464.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9453973174095154,
+                "coordinate": [
+                    292,
+                    504,
+                    2080,
+                    767
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        292.0,
+                        504.0
+                    ],
+                    [
+                        2080.0,
+                        504.0
+                    ],
+                    [
+                        2080.0,
+                        767.0
+                    ],
+                    [
+                        292.0,
+                        767.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8754384517669678,
+                "coordinate": [
+                    294,
+                    902,
+                    1125,
+                    964
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        294.0,
+                        902.0
+                    ],
+                    [
+                        1125.0,
+                        902.0
+                    ],
+                    [
+                        1125.0,
+                        964.0
+                    ],
+                    [
+                        294.0,
+                        964.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9266126751899719,
+                "coordinate": [
+                    292,
+                    1003,
+                    2067,
+                    1167
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        292.0,
+                        1003.0
+                    ],
+                    [
+                        2067.0,
+                        1003.0
+                    ],
+                    [
+                        2067.0,
+                        1167.0
+                    ],
+                    [
+                        292.0,
+                        1167.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8668065667152405,
+                "coordinate": [
+                    294,
+                    1302,
+                    1071,
+                    1365
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        294.0,
+                        1302.0
+                    ],
+                    [
+                        1071.0,
+                        1302.0
+                    ],
+                    [
+                        1071.0,
+                        1365.0
+                    ],
+                    [
+                        294.0,
+                        1365.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9505370259284973,
+                "coordinate": [
+                    293,
+                    1403,
+                    2082,
+                    1767
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        293.0,
+                        1403.0
+                    ],
+                    [
+                        2082.0,
+                        1403.0
+                    ],
+                    [
+                        2082.0,
+                        1767.0
+                    ],
+                    [
+                        293.0,
+                        1767.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.847513735294342,
+                "coordinate": [
+                    295,
+                    1902,
+                    1023,
+                    1964
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        295.0,
+                        1902.0
+                    ],
+                    [
+                        1023.0,
+                        1902.0
+                    ],
+                    [
+                        1023.0,
+                        1964.0
+                    ],
+                    [
+                        295.0,
+                        1964.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.942396879196167,
+                "coordinate": [
+                    293,
+                    2003,
+                    2083,
+                    2263
+                ],
+                "order": 8,
+                "polygon_points": [
+                    [
+                        293.0,
+                        2003.0
+                    ],
+                    [
+                        2083.0,
+                        2003.0
+                    ],
+                    [
+                        2083.0,
+                        2263.0
+                    ],
+                    [
+                        293.0,
+                        2263.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8739641904830933,
+                "coordinate": [
+                    295,
+                    2397,
+                    1174,
+                    2464
+                ],
+                "order": 9,
+                "polygon_points": [
+                    [
+                        295.0,
+                        2397.0
+                    ],
+                    [
+                        1174.0,
+                        2397.0
+                    ],
+                    [
+                        1174.0,
+                        2464.0
+                    ],
+                    [
+                        295.0,
+                        2464.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.951682448387146,
+                "coordinate": [
+                    295,
+                    2505,
+                    2084,
+                    2768
+                ],
+                "order": 10,
+                "polygon_points": [
+                    [
+                        295.0,
+                        2505.0
+                    ],
+                    [
+                        2084.0,
+                        2505.0
+                    ],
+                    [
+                        2084.0,
+                        2768.0
+                    ],
+                    [
+                        295.0,
+                        2768.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8648871779441833,
+                "coordinate": [
+                    294,
+                    2902,
+                    971,
+                    2966
+                ],
+                "order": 11,
+                "polygon_points": [
+                    [
+                        294.0,
+                        2902.0
+                    ],
+                    [
+                        971.0,
+                        2902.0
+                    ],
+                    [
+                        971.0,
+                        2966.0
+                    ],
+                    [
+                        294.0,
+                        2966.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.853871762752533,
+                "coordinate": [
+                    394,
+                    3003,
+                    2080,
+                    3066
+                ],
+                "order": 12,
+                "polygon_points": [
+                    [
+                        394.0,
+                        3003.0
+                    ],
+                    [
+                        2080.0,
+                        3003.0
+                    ],
+                    [
+                        2080.0,
+                        3066.0
+                    ],
+                    [
+                        394.0,
+                        3066.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.7383875846862793,
+                "coordinate": [
+                    2123,
+                    3189,
+                    2199,
+                    3231
+                ],
+                "order": 13,
+                "polygon_points": [
+                    [
+                        2123.0,
+                        3189.0
+                    ],
+                    [
+                        2199.0,
+                        3189.0
+                    ],
+                    [
+                        2199.0,
+                        3231.0
+                    ],
+                    [
+                        2123.0,
+                        3231.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

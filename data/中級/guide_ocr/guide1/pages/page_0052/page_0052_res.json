@@ -1,0 +1,522 @@
+{
+    "input_path": "input/ipas中級_科目1_人工智慧技術應用規劃_imgs/page_0052.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第三章 AI 相關技術應用",
+            "block_bbox": [
+                1505,
+                208,
+                2078,
+                260
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    1505.0,
+                    208.0
+                ],
+                [
+                    2078.0,
+                    208.0
+                ],
+                [
+                    2078.0,
+                    260.0
+                ],
+                [
+                    1505.0,
+                    260.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "此階段的關鍵變化不僅是視覺的「理解」，還包括跨模態語意融合與創造性輸出的能力，將電腦視覺推向了內容生成、互動體驗以及決策輔助的新層次。",
+            "block_bbox": [
+                296,
+                403,
+                2080,
+                567
+            ],
+            "block_id": 1,
+            "block_order": 1,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    296.0,
+                    403.0
+                ],
+                [
+                    2080.0,
+                    403.0
+                ],
+                [
+                    2080.0,
+                    567.0
+                ],
+                [
+                    296.0,
+                    567.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "3. 影像標註與資料前處理",
+            "block_bbox": [
+                294,
+                696,
+                951,
+                762
+            ],
+            "block_id": 2,
+            "block_order": 2,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    294.0,
+                    696.0
+                ],
+                [
+                    951.0,
+                    696.0
+                ],
+                [
+                    951.0,
+                    762.0
+                ],
+                [
+                    294.0,
+                    762.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "在電腦視覺任務中，資料品質直接影響模型的訓練效果與最終效能。影像標註（Image Annotation）和資料前處理（Data Preprocessing）是模型開發流程中至關重要的階段，尤其在監督式學習任務中，準確的標註與妥善處理資料能有效提升模型泛化能力與穩定性。",
+            "block_bbox": [
+                294,
+                802,
+                2084,
+                1168
+            ],
+            "block_id": 3,
+            "block_order": 3,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    294.0,
+                    802.0
+                ],
+                [
+                    2084.0,
+                    802.0
+                ],
+                [
+                    2084.0,
+                    1168.0
+                ],
+                [
+                    294.0,
+                    1168.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "（1）影像標註（Image Annotation）",
+            "block_bbox": [
+                295,
+                1301,
+                1080,
+                1365
+            ],
+            "block_id": 4,
+            "block_order": 4,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    1301.0
+                ],
+                [
+                    1080.0,
+                    1301.0
+                ],
+                [
+                    1080.0,
+                    1365.0
+                ],
+                [
+                    295.0,
+                    1365.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "影像標註是指對圖像中的物件、區域或屬性進行人工或自動的資料標註，這些標註將作為機器學習模型訓練時的標準答案（Ground Truth）。正確的標註對於訓練高效且準確的模型至關重要。影像標註通常依照任務的類型及需求，採用不同的標註方法。以下是常見的標註方式及其相關應用：",
+            "block_bbox": [
+                296,
+                1403,
+                2084,
+                1769
+            ],
+            "block_id": 5,
+            "block_order": 5,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    296.0,
+                    1403.0
+                ],
+                [
+                    2084.0,
+                    1403.0
+                ],
+                [
+                    2084.0,
+                    1769.0
+                ],
+                [
+                    296.0,
+                    1769.0
+                ]
+            ]
+        },
+        {
+            "block_label": "table",
+            "block_content": "<table><tr><td>任務類型</td><td>標註方式</td><td>說明</td><td>工具範例</td></tr><tr><td>影像分類（Image Classification）</td><td>類別標籤（Label）</td><td>為整張影像標記單一類別</td><td>LabelImg、Label Studio</td></tr><tr><td>物件偵測（Object Detection）</td><td>邊界框（Bounding Box）</td><td>標示物件位置與類別</td><td>CVAT、Roboflow</td></tr><tr><td>語意分割（Semantic Segmentation）</td><td>每個像素分割標籤</td><td>影像每一像素皆對應類別</td><td>LabelMe、SuperAnnotate</td></tr><tr><td>實例分割（Instance Segmentation）</td><td>像素遮罩 + 實例 ID</td><td>區分同類型的多個物件</td><td>VGG Image Annotator</td></tr><tr><td>關鍵點標注（Keypoint Annotation）</td><td>身體節點或特定點位座標</td><td>常用於人體姿態估計</td><td>COCO Annotator</td></tr><tr><td>文字辨識（OCR）</td><td>區塊框選 + 文字內容</td><td>每段文字框選並輸入正確字串</td><td>Tesseract Trainer、LabelImg OCR 模式</td></tr></table>",
+            "block_bbox": [
+                305,
+                1862,
+                2074,
+                2872
+            ],
+            "block_id": 6,
+            "block_order": null,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    305.0,
+                    1862.0
+                ],
+                [
+                    2074.0,
+                    1862.0
+                ],
+                [
+                    2074.0,
+                    2872.0
+                ],
+                [
+                    305.0,
+                    2872.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "3-45",
+            "block_bbox": [
+                2100,
+                3189,
+                2199,
+                3232
+            ],
+            "block_id": 7,
+            "block_order": null,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    2100.0,
+                    3189.0
+                ],
+                [
+                    2199.0,
+                    3189.0
+                ],
+                [
+                    2199.0,
+                    3232.0
+                ],
+                [
+                    2100.0,
+                    3232.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.8454270362854004,
+                "coordinate": [
+                    1505,
+                    208,
+                    2078,
+                    260
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        1505.0,
+                        208.0
+                    ],
+                    [
+                        2078.0,
+                        208.0
+                    ],
+                    [
+                        2078.0,
+                        260.0
+                    ],
+                    [
+                        1505.0,
+                        260.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9293477535247803,
+                "coordinate": [
+                    296,
+                    403,
+                    2080,
+                    567
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        296.0,
+                        403.0
+                    ],
+                    [
+                        2080.0,
+                        403.0
+                    ],
+                    [
+                        2080.0,
+                        567.0
+                    ],
+                    [
+                        296.0,
+                        567.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8707037568092346,
+                "coordinate": [
+                    294,
+                    696,
+                    951,
+                    762
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        294.0,
+                        696.0
+                    ],
+                    [
+                        951.0,
+                        696.0
+                    ],
+                    [
+                        951.0,
+                        762.0
+                    ],
+                    [
+                        294.0,
+                        762.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.951158344745636,
+                "coordinate": [
+                    294,
+                    802,
+                    2084,
+                    1168
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        294.0,
+                        802.0
+                    ],
+                    [
+                        2084.0,
+                        802.0
+                    ],
+                    [
+                        2084.0,
+                        1168.0
+                    ],
+                    [
+                        294.0,
+                        1168.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8582791686058044,
+                "coordinate": [
+                    295,
+                    1301,
+                    1080,
+                    1365
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        295.0,
+                        1301.0
+                    ],
+                    [
+                        1080.0,
+                        1301.0
+                    ],
+                    [
+                        1080.0,
+                        1365.0
+                    ],
+                    [
+                        295.0,
+                        1365.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9503723382949829,
+                "coordinate": [
+                    296,
+                    1403,
+                    2084,
+                    1769
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        296.0,
+                        1403.0
+                    ],
+                    [
+                        2084.0,
+                        1403.0
+                    ],
+                    [
+                        2084.0,
+                        1769.0
+                    ],
+                    [
+                        296.0,
+                        1769.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 21,
+                "label": "table",
+                "score": 0.9779971241950989,
+                "coordinate": [
+                    305,
+                    1862,
+                    2074,
+                    2872
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        305.0,
+                        1862.0
+                    ],
+                    [
+                        2074.0,
+                        1862.0
+                    ],
+                    [
+                        2074.0,
+                        2872.0
+                    ],
+                    [
+                        305.0,
+                        2872.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.7366815805435181,
+                "coordinate": [
+                    2100,
+                    3189,
+                    2199,
+                    3232
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        2100.0,
+                        3189.0
+                    ],
+                    [
+                        2199.0,
+                        3189.0
+                    ],
+                    [
+                        2199.0,
+                        3232.0
+                    ],
+                    [
+                        2100.0,
+                        3232.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

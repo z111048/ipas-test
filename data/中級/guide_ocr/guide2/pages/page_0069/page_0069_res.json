@@ -1,0 +1,1010 @@
+{
+  "input_path": "input/ipas中級_科目2_大數據處理分析與應用_imgs/page_0069.png",
+  "page_index": null,
+  "page_count": null,
+  "width": 2382,
+  "height": 3368,
+  "model_settings": {
+    "use_doc_preprocessor": false,
+    "use_layout_detection": true,
+    "use_chart_recognition": false,
+    "use_seal_recognition": false,
+    "use_ocr_for_image_block": false,
+    "format_block_content": false,
+    "merge_layout_blocks": true,
+    "markdown_ignore_labels": [
+      "number",
+      "footnote",
+      "header",
+      "header_image",
+      "footer",
+      "footer_image",
+      "aside_text"
+    ],
+    "return_layout_polygon_points": true
+  },
+  "parsing_res_list": [
+    {
+      "block_label": "header",
+      "block_content": "第四章 大數據處理技術",
+      "block_bbox": [
+        295,
+        208,
+        857,
+        261
+      ],
+      "block_id": 0,
+      "block_order": null,
+      "group_id": 0,
+      "block_polygon_points": [
+        [
+          295.0,
+          208.0
+        ],
+        [
+          857.0,
+          208.0
+        ],
+        [
+          857.0,
+          261.0
+        ],
+        [
+          295.0,
+          261.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "例如，以「年月」作為分區鍵時，針對特定時間範圍的查詢將僅存取對應區塊，顯著提升效能，特別適用於時間序列資料與週期性報表分析。",
+      "block_bbox": [
+        475,
+        401,
+        2079,
+        566
+      ],
+      "block_id": 1,
+      "block_order": 1,
+      "group_id": 1,
+      "block_polygon_points": [
+        [
+          475.0,
+          401.0
+        ],
+        [
+          2079.0,
+          401.0
+        ],
+        [
+          2079.0,
+          566.0
+        ],
+        [
+          475.0,
+          566.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "壓縮技術（Compression）",
+      "block_bbox": [
+        404,
+        601,
+        1027,
+        663
+      ],
+      "block_id": 2,
+      "block_order": 2,
+      "group_id": 2,
+      "block_polygon_points": [
+        [
+          404.0,
+          601.0
+        ],
+        [
+          1027.0,
+          601.0
+        ],
+        [
+          1027.0,
+          663.0
+        ],
+        [
+          404.0,
+          663.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "結合列式儲存格式（如 Parquet、ORC）與壓縮演算法（如 Snappy、ZSTD），可有效降低磁碟使用量與 I/O 傳輸成本。",
+      "block_bbox": [
+        476,
+        702,
+        2067,
+        864
+      ],
+      "block_id": 3,
+      "block_order": 3,
+      "group_id": 3,
+      "block_polygon_points": [
+        [
+          476.0,
+          702.0
+        ],
+        [
+          2067.0,
+          702.0
+        ],
+        [
+          2067.0,
+          864.0
+        ],
+        [
+          476.0,
+          864.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "此方式特別適合讀取頻率高但資料更新頻率較低的分析型情境，例如行為紀錄、設備監測數據等。",
+      "block_bbox": [
+        473,
+        902,
+        2079,
+        1063
+      ],
+      "block_id": 4,
+      "block_order": 4,
+      "group_id": 4,
+      "block_polygon_points": [
+        [
+          473.0,
+          902.0
+        ],
+        [
+          2079.0,
+          902.0
+        ],
+        [
+          2079.0,
+          1063.0
+        ],
+        [
+          473.0,
+          1063.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "儲存分層（Storage Tiering）",
+      "block_bbox": [
+        403,
+        1102,
+        1074,
+        1165
+      ],
+      "block_id": 5,
+      "block_order": 5,
+      "group_id": 5,
+      "block_polygon_points": [
+        [
+          403.0,
+          1102.0
+        ],
+        [
+          1074.0,
+          1102.0
+        ],
+        [
+          1074.0,
+          1165.0
+        ],
+        [
+          403.0,
+          1165.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "依照資料熱度將資料分類為「熱資料」與「冷資料」，分別儲存在 SSD、HDD 或雲端儲存等不同媒介。透過動態調整資料儲存層級，能在兼顧查詢效能與儲存成本之間取得最佳平衡。",
+      "block_bbox": [
+        475,
+        1201,
+        2081,
+        1465
+      ],
+      "block_id": 6,
+      "block_order": 6,
+      "group_id": 6,
+      "block_polygon_points": [
+        [
+          475.0,
+          1201.0
+        ],
+        [
+          2081.0,
+          1201.0
+        ],
+        [
+          2081.0,
+          1465.0
+        ],
+        [
+          475.0,
+          1465.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "欄位裁剪與投影（Column Pruning）",
+      "block_bbox": [
+        403,
+        1501,
+        1245,
+        1565
+      ],
+      "block_id": 7,
+      "block_order": 7,
+      "group_id": 7,
+      "block_polygon_points": [
+        [
+          403.0,
+          1501.0
+        ],
+        [
+          1245.0,
+          1501.0
+        ],
+        [
+          1245.0,
+          1565.0
+        ],
+        [
+          403.0,
+          1565.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "在查詢時僅載入必要欄位，避免掃描整個資料表，特別適用於列式儲存格式。",
+      "block_bbox": [
+        476,
+        1602,
+        2076,
+        1766
+      ],
+      "block_id": 8,
+      "block_order": 8,
+      "group_id": 8,
+      "block_polygon_points": [
+        [
+          476.0,
+          1602.0
+        ],
+        [
+          2076.0,
+          1602.0
+        ],
+        [
+          2076.0,
+          1766.0
+        ],
+        [
+          476.0,
+          1766.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "◆ 大幅減少讀取量，提升查詢效率，亦有助於節省運算資源。",
+      "block_bbox": [
+        476,
+        1804,
+        1844,
+        1866
+      ],
+      "block_id": 9,
+      "block_order": 9,
+      "group_id": 9,
+      "block_polygon_points": [
+        [
+          476.0,
+          1804.0
+        ],
+        [
+          1844.0,
+          1804.0
+        ],
+        [
+          1844.0,
+          1866.0
+        ],
+        [
+          476.0,
+          1866.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "（2）查詢管理與加速技術",
+      "block_bbox": [
+        296,
+        2001,
+        868,
+        2064
+      ],
+      "block_id": 10,
+      "block_order": 10,
+      "group_id": 10,
+      "block_polygon_points": [
+        [
+          296.0,
+          2001.0
+        ],
+        [
+          868.0,
+          2001.0
+        ],
+        [
+          868.0,
+          2064.0
+        ],
+        [
+          296.0,
+          2064.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "預計算與物化檢視（Materialized View）",
+      "block_bbox": [
+        401,
+        2103,
+        1335,
+        2164
+      ],
+      "block_id": 11,
+      "block_order": 11,
+      "group_id": 11,
+      "block_polygon_points": [
+        [
+          401.0,
+          2103.0
+        ],
+        [
+          1335.0,
+          2103.0
+        ],
+        [
+          1335.0,
+          2164.0
+        ],
+        [
+          401.0,
+          2164.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "針對重複性查詢（如日報表、排行榜等），可透過預先計算並快取結果的方式降低即時計算負擔，加快回應速度。適合用於 BI 報表、儀表板等需要高查詢效率的情境。",
+      "block_bbox": [
+        471,
+        2204,
+        2083,
+        2464
+      ],
+      "block_id": 12,
+      "block_order": 12,
+      "group_id": 12,
+      "block_polygon_points": [
+        [
+          471.0,
+          2204.0
+        ],
+        [
+          2083.0,
+          2204.0
+        ],
+        [
+          2083.0,
+          2464.0
+        ],
+        [
+          471.0,
+          2464.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "• 索引建構（Indexing）",
+      "block_bbox": [
+        403,
+        2503,
+        940,
+        2564
+      ],
+      "block_id": 13,
+      "block_order": 13,
+      "group_id": 13,
+      "block_polygon_points": [
+        [
+          403.0,
+          2503.0
+        ],
+        [
+          940.0,
+          2503.0
+        ],
+        [
+          940.0,
+          2564.0
+        ],
+        [
+          403.0,
+          2564.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "在 NoSQL 或文件型資料庫中，可建置倒排索引（Inverted Index）、文字索引（Text Index）等，以加快條件查詢的速度。此策略對搜尋欄位範圍大、查詢條件多樣的應用尤其關鍵。",
+      "block_bbox": [
+        472,
+        2603,
+        2083,
+        2866
+      ],
+      "block_id": 14,
+      "block_order": 14,
+      "group_id": 14,
+      "block_polygon_points": [
+        [
+          472.0,
+          2603.0
+        ],
+        [
+          2083.0,
+          2603.0
+        ],
+        [
+          2083.0,
+          2866.0
+        ],
+        [
+          472.0,
+          2866.0
+        ]
+      ]
+    },
+    {
+      "block_label": "number",
+      "block_content": "4-14",
+      "block_bbox": [
+        183,
+        3189,
+        283,
+        3232
+      ],
+      "block_id": 15,
+      "block_order": null,
+      "group_id": 15,
+      "block_polygon_points": [
+        [
+          183.0,
+          3189.0
+        ],
+        [
+          283.0,
+          3189.0
+        ],
+        [
+          283.0,
+          3232.0
+        ],
+        [
+          183.0,
+          3232.0
+        ]
+      ]
+    }
+  ],
+  "layout_det_res": {
+    "input_path": null,
+    "page_index": null,
+    "boxes": [
+      {
+        "cls_id": 12,
+        "label": "header",
+        "score": 0.8524294495582581,
+        "coordinate": [
+          295,
+          208,
+          857,
+          261
+        ],
+        "order": null,
+        "polygon_points": [
+          [
+            295.0,
+            208.0
+          ],
+          [
+            857.0,
+            208.0
+          ],
+          [
+            857.0,
+            261.0
+          ],
+          [
+            295.0,
+            261.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9215429425239563,
+        "coordinate": [
+          475,
+          401,
+          2079,
+          566
+        ],
+        "order": 1,
+        "polygon_points": [
+          [
+            475.0,
+            401.0
+          ],
+          [
+            2079.0,
+            401.0
+          ],
+          [
+            2079.0,
+            566.0
+          ],
+          [
+            475.0,
+            566.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.6931926012039185,
+        "coordinate": [
+          404,
+          601,
+          1027,
+          663
+        ],
+        "order": 2,
+        "polygon_points": [
+          [
+            404.0,
+            601.0
+          ],
+          [
+            1027.0,
+            601.0
+          ],
+          [
+            1027.0,
+            663.0
+          ],
+          [
+            404.0,
+            663.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9170308113098145,
+        "coordinate": [
+          476,
+          702,
+          2067,
+          864
+        ],
+        "order": 3,
+        "polygon_points": [
+          [
+            476.0,
+            702.0
+          ],
+          [
+            2067.0,
+            702.0
+          ],
+          [
+            2067.0,
+            864.0
+          ],
+          [
+            476.0,
+            864.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9188221096992493,
+        "coordinate": [
+          473,
+          902,
+          2079,
+          1063
+        ],
+        "order": 4,
+        "polygon_points": [
+          [
+            473.0,
+            902.0
+          ],
+          [
+            2079.0,
+            902.0
+          ],
+          [
+            2079.0,
+            1063.0
+          ],
+          [
+            473.0,
+            1063.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.6344118118286133,
+        "coordinate": [
+          403,
+          1102,
+          1074,
+          1165
+        ],
+        "order": 5,
+        "polygon_points": [
+          [
+            403.0,
+            1102.0
+          ],
+          [
+            1074.0,
+            1102.0
+          ],
+          [
+            1074.0,
+            1165.0
+          ],
+          [
+            403.0,
+            1165.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9330609440803528,
+        "coordinate": [
+          475,
+          1201,
+          2081,
+          1465
+        ],
+        "order": 6,
+        "polygon_points": [
+          [
+            475.0,
+            1201.0
+          ],
+          [
+            2081.0,
+            1201.0
+          ],
+          [
+            2081.0,
+            1465.0
+          ],
+          [
+            475.0,
+            1465.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.5062651038169861,
+        "coordinate": [
+          403,
+          1501,
+          1245,
+          1565
+        ],
+        "order": 7,
+        "polygon_points": [
+          [
+            403.0,
+            1501.0
+          ],
+          [
+            1245.0,
+            1501.0
+          ],
+          [
+            1245.0,
+            1565.0
+          ],
+          [
+            403.0,
+            1565.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8402231335639954,
+        "coordinate": [
+          476,
+          1602,
+          2076,
+          1766
+        ],
+        "order": 8,
+        "polygon_points": [
+          [
+            476.0,
+            1602.0
+          ],
+          [
+            2076.0,
+            1602.0
+          ],
+          [
+            2076.0,
+            1766.0
+          ],
+          [
+            476.0,
+            1766.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.7186930179595947,
+        "coordinate": [
+          476,
+          1804,
+          1844,
+          1866
+        ],
+        "order": 9,
+        "polygon_points": [
+          [
+            476.0,
+            1804.0
+          ],
+          [
+            1844.0,
+            1804.0
+          ],
+          [
+            1844.0,
+            1866.0
+          ],
+          [
+            476.0,
+            1866.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8548122048377991,
+        "coordinate": [
+          296,
+          2001,
+          868,
+          2064
+        ],
+        "order": 10,
+        "polygon_points": [
+          [
+            296.0,
+            2001.0
+          ],
+          [
+            868.0,
+            2001.0
+          ],
+          [
+            868.0,
+            2064.0
+          ],
+          [
+            296.0,
+            2064.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.7689263820648193,
+        "coordinate": [
+          401,
+          2103,
+          1335,
+          2164
+        ],
+        "order": 11,
+        "polygon_points": [
+          [
+            401.0,
+            2103.0
+          ],
+          [
+            1335.0,
+            2103.0
+          ],
+          [
+            1335.0,
+            2164.0
+          ],
+          [
+            401.0,
+            2164.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9429039359092712,
+        "coordinate": [
+          471,
+          2204,
+          2083,
+          2464
+        ],
+        "order": 12,
+        "polygon_points": [
+          [
+            471.0,
+            2204.0
+          ],
+          [
+            2083.0,
+            2204.0
+          ],
+          [
+            2083.0,
+            2464.0
+          ],
+          [
+            471.0,
+            2464.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.7173638939857483,
+        "coordinate": [
+          403,
+          2503,
+          940,
+          2564
+        ],
+        "order": 13,
+        "polygon_points": [
+          [
+            403.0,
+            2503.0
+          ],
+          [
+            940.0,
+            2503.0
+          ],
+          [
+            940.0,
+            2564.0
+          ],
+          [
+            403.0,
+            2564.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9398190975189209,
+        "coordinate": [
+          472,
+          2603,
+          2083,
+          2866
+        ],
+        "order": 14,
+        "polygon_points": [
+          [
+            472.0,
+            2603.0
+          ],
+          [
+            2083.0,
+            2603.0
+          ],
+          [
+            2083.0,
+            2866.0
+          ],
+          [
+            472.0,
+            2866.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 16,
+        "label": "number",
+        "score": 0.7319240570068359,
+        "coordinate": [
+          183,
+          3189,
+          283,
+          3232
+        ],
+        "order": 15,
+        "polygon_points": [
+          [
+            183.0,
+            3189.0
+          ],
+          [
+            283.0,
+            3189.0
+          ],
+          [
+            283.0,
+            3232.0
+          ],
+          [
+            183.0,
+            3232.0
+          ]
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,979 @@
+{
+    "input_path": "input/ipas中級_科目1_人工智慧技術應用規劃_imgs/page_0027.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第三章 AI 相關技術應用",
+            "block_bbox": [
+                295,
+                208,
+                867,
+                260
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    208.0
+                ],
+                [
+                    867.0,
+                    208.0
+                ],
+                [
+                    867.0,
+                    260.0
+                ],
+                [
+                    295.0,
+                    260.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "限制",
+            "block_bbox": [
+                357,
+                402,
+                527,
+                463
+            ],
+            "block_id": 1,
+            "block_order": 1,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    357.0,
+                    402.0
+                ],
+                [
+                    527.0,
+                    402.0
+                ],
+                [
+                    527.0,
+                    463.0
+                ],
+                [
+                    357.0,
+                    463.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "靜態詞向量：這些模型生成的是靜態的詞向量，即每個詞在所有語境中都有一個固定的向量表示。這意味著它們無法處理語境的變化。例如，Word2Vec 和 GloVe 無法區分「bank」在不同語境中的意圖（如金融機構 vs. 河岸）。",
+            "block_bbox": [
+                419,
+                501,
+                2082,
+                861
+            ],
+            "block_id": 2,
+            "block_order": 2,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    419.0,
+                    501.0
+                ],
+                [
+                    2082.0,
+                    501.0
+                ],
+                [
+                    2082.0,
+                    861.0
+                ],
+                [
+                    419.0,
+                    861.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "無法處理多義詞：由於詞向量是靜態的，這些模型無法有效處理同詞異義的情況。",
+            "block_bbox": [
+                417,
+                901,
+                2079,
+                1062
+            ],
+            "block_id": 3,
+            "block_order": 3,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    417.0,
+                    901.0
+                ],
+                [
+                    2079.0,
+                    901.0
+                ],
+                [
+                    2079.0,
+                    1062.0
+                ],
+                [
+                    417.0,
+                    1062.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "■ 對低頻詞的表現較差：儘 FastText 改進了對 OOV（Out-of-Vocabulary）詞彙的處理，但對於訓練語料中較少出現的低頻詞，這些方法的表現仍然會受到一定限制。",
+            "block_bbox": [
+                417,
+                1101,
+                2080,
+                1362
+            ],
+            "block_id": 4,
+            "block_order": 4,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    417.0,
+                    1101.0
+                ],
+                [
+                    2080.0,
+                    1101.0
+                ],
+                [
+                    2080.0,
+                    1362.0
+                ],
+                [
+                    417.0,
+                    1362.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "高維度與稀疏問題：某些方法，特別是 GloVe，會生成較高維度的詞向量，在某些情況下可能會面臨維度過高或數據稀疏的問題。",
+            "block_bbox": [
+                416,
+                1402,
+                2075,
+                1565
+            ],
+            "block_id": 5,
+            "block_order": 5,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    416.0,
+                    1402.0
+                ],
+                [
+                    2075.0,
+                    1402.0
+                ],
+                [
+                    2075.0,
+                    1565.0
+                ],
+                [
+                    416.0,
+                    1565.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "Word2Vec 是由 Google 團隊於 2013 年提出的詞嵌入演算法，目的是將單詞轉換為具有語意意義的向量。透過神經網路模型訓練，每個詞會被表示成一個實數向量，向量間的空間關係反映了詞彙的語意關係。",
+            "block_bbox": [
+                372,
+                1697,
+                2080,
+                1965
+            ],
+            "block_id": 6,
+            "block_order": 6,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    372.0,
+                    1697.0
+                ],
+                [
+                    2080.0,
+                    1697.0
+                ],
+                [
+                    2080.0,
+                    1965.0
+                ],
+                [
+                    372.0,
+                    1965.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "Word2Vec 是基於神經網路的詞嵌入方法，有兩種主要架構、通過 CBOW（Continuous Bag of Words）和 Skip-gram 兩種模型來學習詞彙和上下文之間的關係：",
+            "block_bbox": [
+                405,
+                2004,
+                2084,
+                2265
+            ],
+            "block_id": 7,
+            "block_order": 7,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    405.0,
+                    2004.0
+                ],
+                [
+                    2084.0,
+                    2004.0
+                ],
+                [
+                    2084.0,
+                    2265.0
+                ],
+                [
+                    405.0,
+                    2265.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "CBOW (Continuous Bag of Words):",
+            "block_bbox": [
+                417,
+                2304,
+                1266,
+                2360
+            ],
+            "block_id": 8,
+            "block_order": 8,
+            "group_id": 8,
+            "block_polygon_points": [
+                [
+                    417.0,
+                    2304.0
+                ],
+                [
+                    1266.0,
+                    2304.0
+                ],
+                [
+                    1266.0,
+                    2360.0
+                ],
+                [
+                    417.0,
+                    2360.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "○ 以給定上下文（周圍詞彙）來預測中心詞。",
+            "block_bbox": [
+                475,
+                2405,
+                1494,
+                2462
+            ],
+            "block_id": 9,
+            "block_order": 9,
+            "group_id": 9,
+            "block_polygon_points": [
+                [
+                    475.0,
+                    2405.0
+                ],
+                [
+                    1494.0,
+                    2405.0
+                ],
+                [
+                    1494.0,
+                    2462.0
+                ],
+                [
+                    475.0,
+                    2462.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "訓練速度較快，適合小型語料。",
+            "block_bbox": [
+                475,
+                2504,
+                1244,
+                2564
+            ],
+            "block_id": 10,
+            "block_order": 10,
+            "group_id": 10,
+            "block_polygon_points": [
+                [
+                    475.0,
+                    2504.0
+                ],
+                [
+                    1244.0,
+                    2504.0
+                ],
+                [
+                    1244.0,
+                    2564.0
+                ],
+                [
+                    475.0,
+                    2564.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "○ 示例：假設有句子「The cat sits on the mat」，如果我們選擇「sits」作為中心詞，那麼上下文就是「The」、「cat」、「on」、「the」、「mat」。CBOW 模型的目標是根據這些上下文詞彙來預測中心詞\"sits\"。",
+            "block_bbox": [
+                472,
+                2603,
+                2080,
+                2863
+            ],
+            "block_id": 11,
+            "block_order": 11,
+            "group_id": 11,
+            "block_polygon_points": [
+                [
+                    472.0,
+                    2603.0
+                ],
+                [
+                    2080.0,
+                    2603.0
+                ],
+                [
+                    2080.0,
+                    2863.0
+                ],
+                [
+                    472.0,
+                    2863.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "· 上下文（Context）：The, cat, on, the, mat",
+            "block_bbox": [
+                542,
+                2905,
+                1474,
+                2962
+            ],
+            "block_id": 12,
+            "block_order": 12,
+            "group_id": 12,
+            "block_polygon_points": [
+                [
+                    542.0,
+                    2905.0
+                ],
+                [
+                    1474.0,
+                    2905.0
+                ],
+                [
+                    1474.0,
+                    2962.0
+                ],
+                [
+                    542.0,
+                    2962.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "• 預測中心詞（Center Word）：sits",
+            "block_bbox": [
+                543,
+                3004,
+                1310,
+                3062
+            ],
+            "block_id": 13,
+            "block_order": 13,
+            "group_id": 13,
+            "block_polygon_points": [
+                [
+                    543.0,
+                    3004.0
+                ],
+                [
+                    1310.0,
+                    3004.0
+                ],
+                [
+                    1310.0,
+                    3062.0
+                ],
+                [
+                    543.0,
+                    3062.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "3-20",
+            "block_bbox": [
+                184,
+                3189,
+                283,
+                3231
+            ],
+            "block_id": 14,
+            "block_order": null,
+            "group_id": 14,
+            "block_polygon_points": [
+                [
+                    184.0,
+                    3189.0
+                ],
+                [
+                    283.0,
+                    3189.0
+                ],
+                [
+                    283.0,
+                    3231.0
+                ],
+                [
+                    184.0,
+                    3231.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.8515363335609436,
+                "coordinate": [
+                    295,
+                    208,
+                    867,
+                    260
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        295.0,
+                        208.0
+                    ],
+                    [
+                        867.0,
+                        208.0
+                    ],
+                    [
+                        867.0,
+                        260.0
+                    ],
+                    [
+                        295.0,
+                        260.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.6624498963356018,
+                "coordinate": [
+                    357,
+                    402,
+                    527,
+                    463
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        357.0,
+                        402.0
+                    ],
+                    [
+                        527.0,
+                        402.0
+                    ],
+                    [
+                        527.0,
+                        463.0
+                    ],
+                    [
+                        357.0,
+                        463.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9488966464996338,
+                "coordinate": [
+                    419,
+                    501,
+                    2082,
+                    861
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        419.0,
+                        501.0
+                    ],
+                    [
+                        2082.0,
+                        501.0
+                    ],
+                    [
+                        2082.0,
+                        861.0
+                    ],
+                    [
+                        419.0,
+                        861.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9140499234199524,
+                "coordinate": [
+                    417,
+                    901,
+                    2079,
+                    1062
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        417.0,
+                        901.0
+                    ],
+                    [
+                        2079.0,
+                        901.0
+                    ],
+                    [
+                        2079.0,
+                        1062.0
+                    ],
+                    [
+                        417.0,
+                        1062.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9405011534690857,
+                "coordinate": [
+                    417,
+                    1101,
+                    2080,
+                    1362
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        417.0,
+                        1101.0
+                    ],
+                    [
+                        2080.0,
+                        1101.0
+                    ],
+                    [
+                        2080.0,
+                        1362.0
+                    ],
+                    [
+                        417.0,
+                        1362.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9179423451423645,
+                "coordinate": [
+                    416,
+                    1402,
+                    2075,
+                    1565
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        416.0,
+                        1402.0
+                    ],
+                    [
+                        2075.0,
+                        1402.0
+                    ],
+                    [
+                        2075.0,
+                        1565.0
+                    ],
+                    [
+                        416.0,
+                        1565.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.846498429775238,
+                "coordinate": [
+                    372,
+                    1697,
+                    2080,
+                    1965
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        372.0,
+                        1697.0
+                    ],
+                    [
+                        2080.0,
+                        1697.0
+                    ],
+                    [
+                        2080.0,
+                        1965.0
+                    ],
+                    [
+                        372.0,
+                        1965.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.836370587348938,
+                "coordinate": [
+                    405,
+                    2004,
+                    2084,
+                    2265
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        405.0,
+                        2004.0
+                    ],
+                    [
+                        2084.0,
+                        2004.0
+                    ],
+                    [
+                        2084.0,
+                        2265.0
+                    ],
+                    [
+                        405.0,
+                        2265.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8337607979774475,
+                "coordinate": [
+                    417,
+                    2304,
+                    1266,
+                    2360
+                ],
+                "order": 8,
+                "polygon_points": [
+                    [
+                        417.0,
+                        2304.0
+                    ],
+                    [
+                        1266.0,
+                        2304.0
+                    ],
+                    [
+                        1266.0,
+                        2360.0
+                    ],
+                    [
+                        417.0,
+                        2360.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8593084812164307,
+                "coordinate": [
+                    475,
+                    2405,
+                    1494,
+                    2462
+                ],
+                "order": 9,
+                "polygon_points": [
+                    [
+                        475.0,
+                        2405.0
+                    ],
+                    [
+                        1494.0,
+                        2405.0
+                    ],
+                    [
+                        1494.0,
+                        2462.0
+                    ],
+                    [
+                        475.0,
+                        2462.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8440505266189575,
+                "coordinate": [
+                    475,
+                    2504,
+                    1244,
+                    2564
+                ],
+                "order": 10,
+                "polygon_points": [
+                    [
+                        475.0,
+                        2504.0
+                    ],
+                    [
+                        1244.0,
+                        2504.0
+                    ],
+                    [
+                        1244.0,
+                        2564.0
+                    ],
+                    [
+                        475.0,
+                        2564.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9338578581809998,
+                "coordinate": [
+                    472,
+                    2603,
+                    2080,
+                    2863
+                ],
+                "order": 11,
+                "polygon_points": [
+                    [
+                        472.0,
+                        2603.0
+                    ],
+                    [
+                        2080.0,
+                        2603.0
+                    ],
+                    [
+                        2080.0,
+                        2863.0
+                    ],
+                    [
+                        472.0,
+                        2863.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 15,
+                "label": "inline_formula",
+                "score": 0.47111013531684875,
+                "coordinate": [
+                    1135,
+                    2702,
+                    1896,
+                    2762
+                ],
+                "order": 12,
+                "polygon_points": [
+                    [
+                        1135.0,
+                        2702.0
+                    ],
+                    [
+                        1896.0,
+                        2702.0
+                    ],
+                    [
+                        1896.0,
+                        2762.0
+                    ],
+                    [
+                        1135.0,
+                        2762.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8269459009170532,
+                "coordinate": [
+                    542,
+                    2905,
+                    1474,
+                    2962
+                ],
+                "order": 13,
+                "polygon_points": [
+                    [
+                        542.0,
+                        2905.0
+                    ],
+                    [
+                        1474.0,
+                        2905.0
+                    ],
+                    [
+                        1474.0,
+                        2962.0
+                    ],
+                    [
+                        542.0,
+                        2962.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8201422691345215,
+                "coordinate": [
+                    543,
+                    3004,
+                    1310,
+                    3062
+                ],
+                "order": 14,
+                "polygon_points": [
+                    [
+                        543.0,
+                        3004.0
+                    ],
+                    [
+                        1310.0,
+                        3004.0
+                    ],
+                    [
+                        1310.0,
+                        3062.0
+                    ],
+                    [
+                        543.0,
+                        3062.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.7613317966461182,
+                "coordinate": [
+                    184,
+                    3189,
+                    283,
+                    3231
+                ],
+                "order": 15,
+                "polygon_points": [
+                    [
+                        184.0,
+                        3189.0
+                    ],
+                    [
+                        283.0,
+                        3189.0
+                    ],
+                    [
+                        283.0,
+                        3231.0
+                    ],
+                    [
+                        184.0,
+                        3231.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

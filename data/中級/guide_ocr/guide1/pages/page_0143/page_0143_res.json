@@ -1,0 +1,949 @@
+{
+  "input_path": "input/ipas中級_科目1_人工智慧技術應用規劃_imgs/page_0143.png",
+  "page_index": null,
+  "page_count": null,
+  "width": 2382,
+  "height": 3368,
+  "model_settings": {
+    "use_doc_preprocessor": false,
+    "use_layout_detection": true,
+    "use_chart_recognition": false,
+    "use_seal_recognition": false,
+    "use_ocr_for_image_block": false,
+    "format_block_content": false,
+    "merge_layout_blocks": true,
+    "markdown_ignore_labels": [
+      "number",
+      "footnote",
+      "header",
+      "header_image",
+      "footer",
+      "footer_image",
+      "aside_text"
+    ],
+    "return_layout_polygon_points": true
+  },
+  "parsing_res_list": [
+    {
+      "block_label": "header",
+      "block_content": "第五章 AI技術應用與系統部署",
+      "block_bbox": [
+        295,
+        208,
+        988,
+        260
+      ],
+      "block_id": 0,
+      "block_order": null,
+      "group_id": 0,
+      "block_polygon_points": [
+        [
+          295.0,
+          208.0
+        ],
+        [
+          988.0,
+          208.0
+        ],
+        [
+          988.0,
+          260.0
+        ],
+        [
+          295.0,
+          260.0
+        ]
+      ]
+    },
+    {
+      "block_label": "image",
+      "block_content": "",
+      "block_bbox": [
+        301,
+        360,
+        453,
+        501
+      ],
+      "block_id": 1,
+      "block_order": null,
+      "group_id": 1,
+      "block_polygon_points": [
+        [
+          301.0,
+          360.0
+        ],
+        [
+          453.0,
+          360.0
+        ],
+        [
+          453.0,
+          501.0
+        ],
+        [
+          301.0,
+          501.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "重點掃瞄",
+      "block_bbox": [
+        470,
+        398,
+        741,
+        471
+      ],
+      "block_id": 2,
+      "block_order": 1,
+      "group_id": 2,
+      "block_polygon_points": [
+        [
+          470.0,
+          398.0
+        ],
+        [
+          741.0,
+          398.0
+        ],
+        [
+          741.0,
+          471.0
+        ],
+        [
+          470.0,
+          471.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "5.1 數據準備與模型選擇",
+      "block_bbox": [
+        341,
+        615,
+        1128,
+        692
+      ],
+      "block_id": 3,
+      "block_order": 2,
+      "group_id": 3,
+      "block_polygon_points": [
+        [
+          341.0,
+          615.0
+        ],
+        [
+          1128.0,
+          615.0
+        ],
+        [
+          1128.0,
+          692.0
+        ],
+        [
+          341.0,
+          692.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "1. 前言與章節導覽",
+      "block_bbox": [
+        299,
+        810,
+        780,
+        876
+      ],
+      "block_id": 4,
+      "block_order": 3,
+      "group_id": 4,
+      "block_polygon_points": [
+        [
+          299.0,
+          810.0
+        ],
+        [
+          780.0,
+          810.0
+        ],
+        [
+          780.0,
+          876.0
+        ],
+        [
+          299.0,
+          876.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "在人工智慧（AI）的實際導入過程中，「資料」的準備與處理往往是成敗的關鍵。業界經常引用一句話：「垃圾進，垃圾出（Garbage In, Garbage Out, GIGO）」，即明確指出了資料品質直接影響AI模型的可靠性與準確度。因此，在完成前期AI導入規劃後，下一步必須聚焦在如何有效地準備資料，並根據業務情境、問題類型與資料特性，選擇最適合的模型架構，以達成業務價值目標。本節將資料準備與模型選擇分為三步驟進行介紹。",
+      "block_bbox": [
+        296,
+        916,
+        2084,
+        1481
+      ],
+      "block_id": 5,
+      "block_order": 4,
+      "group_id": 5,
+      "block_polygon_points": [
+        [
+          296.0,
+          916.0
+        ],
+        [
+          2084.0,
+          916.0
+        ],
+        [
+          2084.0,
+          1481.0
+        ],
+        [
+          296.0,
+          1481.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "2. 資料收集與清理",
+      "block_bbox": [
+        297,
+        1608,
+        777,
+        1676
+      ],
+      "block_id": 6,
+      "block_order": 5,
+      "group_id": 6,
+      "block_polygon_points": [
+        [
+          297.0,
+          1608.0
+        ],
+        [
+          777.0,
+          1608.0
+        ],
+        [
+          777.0,
+          1676.0
+        ],
+        [
+          297.0,
+          1676.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "在 AI 導入流程中，資料品質直接決定了模型的表現和效能。資料不僅是 AI 模型的基礎，更是能否準確推理與預測的關鍵。為了確保 AI系統能夠穩定並有效地運行，建立系統化的「資料收集與清理」流程將對整體專案的成功至關重要。",
+      "block_bbox": [
+        297,
+        1716,
+        2086,
+        1981
+      ],
+      "block_id": 7,
+      "block_order": 6,
+      "group_id": 7,
+      "block_polygon_points": [
+        [
+          297.0,
+          1716.0
+        ],
+        [
+          2086.0,
+          1716.0
+        ],
+        [
+          2086.0,
+          1981.0
+        ],
+        [
+          297.0,
+          1981.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "A. 資料來源與收集",
+      "block_bbox": [
+        298,
+        2116,
+        741,
+        2176
+      ],
+      "block_id": 8,
+      "block_order": 7,
+      "group_id": 8,
+      "block_polygon_points": [
+        [
+          298.0,
+          2116.0
+        ],
+        [
+          741.0,
+          2116.0
+        ],
+        [
+          741.0,
+          2176.0
+        ],
+        [
+          298.0,
+          2176.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "資料來源可分為內部資料與外部資料，不同來源的資料會有不同的存取方式、資料結構以及法規限制。以下示例幾種常見的資訊來源：",
+      "block_bbox": [
+        297,
+        2217,
+        2075,
+        2378
+      ],
+      "block_id": 9,
+      "block_order": 8,
+      "group_id": 9,
+      "block_polygon_points": [
+        [
+          297.0,
+          2217.0
+        ],
+        [
+          2075.0,
+          2217.0
+        ],
+        [
+          2075.0,
+          2378.0
+        ],
+        [
+          297.0,
+          2378.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "內部資料來源：",
+      "block_bbox": [
+        301,
+        2417,
+        705,
+        2477
+      ],
+      "block_id": 10,
+      "block_order": 9,
+      "group_id": 10,
+      "block_polygon_points": [
+        [
+          301.0,
+          2417.0
+        ],
+        [
+          705.0,
+          2417.0
+        ],
+        [
+          705.0,
+          2477.0
+        ],
+        [
+          301.0,
+          2477.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "◆ ERP（Enterprise Resource Planning）：這類資料包括銷售、庫存、採購、財務等企業內部核心業務系統的資料，通常是公司營運的基礎資料來源。",
+      "block_bbox": [
+        358,
+        2517,
+        2077,
+        2679
+      ],
+      "block_id": 11,
+      "block_order": 10,
+      "group_id": 11,
+      "block_polygon_points": [
+        [
+          358.0,
+          2517.0
+        ],
+        [
+          2077.0,
+          2517.0
+        ],
+        [
+          2077.0,
+          2679.0
+        ],
+        [
+          358.0,
+          2679.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "CRM（Customer Relationship Management）：包含顧客互動紀錄、服務歷程與回饋等，這些資料可用於進行客戶分群與行為預測。",
+      "block_bbox": [
+        357,
+        2717,
+        2080,
+        2878
+      ],
+      "block_id": 12,
+      "block_order": 11,
+      "group_id": 12,
+      "block_polygon_points": [
+        [
+          357.0,
+          2717.0
+        ],
+        [
+          2080.0,
+          2717.0
+        ],
+        [
+          2080.0,
+          2878.0
+        ],
+        [
+          357.0,
+          2878.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "機台資料（Machine Data）：來自生產機台、設備與工廠自動化系統的資料，涵蓋運轉狀態、操作參數、故障紀錄與維護歷程等。製造業可利用這些資料",
+      "block_bbox": [
+        358,
+        2917,
+        2077,
+        3079
+      ],
+      "block_id": 13,
+      "block_order": 12,
+      "group_id": 13,
+      "block_polygon_points": [
+        [
+          358.0,
+          2917.0
+        ],
+        [
+          2077.0,
+          2917.0
+        ],
+        [
+          2077.0,
+          3079.0
+        ],
+        [
+          358.0,
+          3079.0
+        ]
+      ]
+    },
+    {
+      "block_label": "number",
+      "block_content": "5-2",
+      "block_bbox": [
+        184,
+        3189,
+        258,
+        3231
+      ],
+      "block_id": 14,
+      "block_order": null,
+      "group_id": 14,
+      "block_polygon_points": [
+        [
+          184.0,
+          3189.0
+        ],
+        [
+          258.0,
+          3189.0
+        ],
+        [
+          258.0,
+          3231.0
+        ],
+        [
+          184.0,
+          3231.0
+        ]
+      ]
+    }
+  ],
+  "layout_det_res": {
+    "input_path": null,
+    "page_index": null,
+    "boxes": [
+      {
+        "cls_id": 12,
+        "label": "header",
+        "score": 0.866966724395752,
+        "coordinate": [
+          295,
+          208,
+          988,
+          260
+        ],
+        "order": null,
+        "polygon_points": [
+          [
+            295.0,
+            208.0
+          ],
+          [
+            988.0,
+            208.0
+          ],
+          [
+            988.0,
+            260.0
+          ],
+          [
+            295.0,
+            260.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 14,
+        "label": "image",
+        "score": 0.8130084872245789,
+        "coordinate": [
+          301,
+          360,
+          453,
+          501
+        ],
+        "order": null,
+        "polygon_points": [
+          [
+            301.0,
+            360.0
+          ],
+          [
+            453.0,
+            360.0
+          ],
+          [
+            453.0,
+            501.0
+          ],
+          [
+            301.0,
+            501.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8595811128616333,
+        "coordinate": [
+          470,
+          398,
+          741,
+          471
+        ],
+        "order": 1,
+        "polygon_points": [
+          [
+            470.0,
+            398.0
+          ],
+          [
+            741.0,
+            398.0
+          ],
+          [
+            741.0,
+            471.0
+          ],
+          [
+            470.0,
+            471.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8595309853553772,
+        "coordinate": [
+          341,
+          615,
+          1128,
+          692
+        ],
+        "order": 2,
+        "polygon_points": [
+          [
+            341.0,
+            615.0
+          ],
+          [
+            1128.0,
+            615.0
+          ],
+          [
+            1128.0,
+            692.0
+          ],
+          [
+            341.0,
+            692.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8708206415176392,
+        "coordinate": [
+          299,
+          810,
+          780,
+          876
+        ],
+        "order": 3,
+        "polygon_points": [
+          [
+            299.0,
+            810.0
+          ],
+          [
+            780.0,
+            810.0
+          ],
+          [
+            780.0,
+            876.0
+          ],
+          [
+            299.0,
+            876.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9608393311500549,
+        "coordinate": [
+          296,
+          916,
+          2084,
+          1481
+        ],
+        "order": 4,
+        "polygon_points": [
+          [
+            296.0,
+            916.0
+          ],
+          [
+            2084.0,
+            916.0
+          ],
+          [
+            2084.0,
+            1481.0
+          ],
+          [
+            296.0,
+            1481.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8574289083480835,
+        "coordinate": [
+          297,
+          1608,
+          777,
+          1676
+        ],
+        "order": 5,
+        "polygon_points": [
+          [
+            297.0,
+            1608.0
+          ],
+          [
+            777.0,
+            1608.0
+          ],
+          [
+            777.0,
+            1676.0
+          ],
+          [
+            297.0,
+            1676.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9398066401481628,
+        "coordinate": [
+          297,
+          1716,
+          2086,
+          1981
+        ],
+        "order": 6,
+        "polygon_points": [
+          [
+            297.0,
+            1716.0
+          ],
+          [
+            2086.0,
+            1716.0
+          ],
+          [
+            2086.0,
+            1981.0
+          ],
+          [
+            297.0,
+            1981.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8401605486869812,
+        "coordinate": [
+          298,
+          2116,
+          741,
+          2176
+        ],
+        "order": 7,
+        "polygon_points": [
+          [
+            298.0,
+            2116.0
+          ],
+          [
+            741.0,
+            2116.0
+          ],
+          [
+            741.0,
+            2176.0
+          ],
+          [
+            298.0,
+            2176.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9219481348991394,
+        "coordinate": [
+          297,
+          2217,
+          2075,
+          2378
+        ],
+        "order": 8,
+        "polygon_points": [
+          [
+            297.0,
+            2217.0
+          ],
+          [
+            2075.0,
+            2217.0
+          ],
+          [
+            2075.0,
+            2378.0
+          ],
+          [
+            297.0,
+            2378.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.7183340191841125,
+        "coordinate": [
+          301,
+          2417,
+          705,
+          2477
+        ],
+        "order": 9,
+        "polygon_points": [
+          [
+            301.0,
+            2417.0
+          ],
+          [
+            705.0,
+            2417.0
+          ],
+          [
+            705.0,
+            2477.0
+          ],
+          [
+            301.0,
+            2477.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9259251952171326,
+        "coordinate": [
+          358,
+          2517,
+          2077,
+          2679
+        ],
+        "order": 10,
+        "polygon_points": [
+          [
+            358.0,
+            2517.0
+          ],
+          [
+            2077.0,
+            2517.0
+          ],
+          [
+            2077.0,
+            2679.0
+          ],
+          [
+            358.0,
+            2679.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.92878258228302,
+        "coordinate": [
+          357,
+          2717,
+          2080,
+          2878
+        ],
+        "order": 11,
+        "polygon_points": [
+          [
+            357.0,
+            2717.0
+          ],
+          [
+            2080.0,
+            2717.0
+          ],
+          [
+            2080.0,
+            2878.0
+          ],
+          [
+            357.0,
+            2878.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.930199384689331,
+        "coordinate": [
+          358,
+          2917,
+          2077,
+          3079
+        ],
+        "order": 12,
+        "polygon_points": [
+          [
+            358.0,
+            2917.0
+          ],
+          [
+            2077.0,
+            2917.0
+          ],
+          [
+            2077.0,
+            3079.0
+          ],
+          [
+            358.0,
+            3079.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 16,
+        "label": "number",
+        "score": 0.7349848747253418,
+        "coordinate": [
+          184,
+          3189,
+          258,
+          3231
+        ],
+        "order": 13,
+        "polygon_points": [
+          [
+            184.0,
+            3189.0
+          ],
+          [
+            258.0,
+            3189.0
+          ],
+          [
+            258.0,
+            3231.0
+          ],
+          [
+            184.0,
+            3231.0
+          ]
+        ]
+      }
+    ]
+  }
+}

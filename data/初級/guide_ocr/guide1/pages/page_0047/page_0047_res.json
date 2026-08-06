@@ -1,0 +1,827 @@
+{
+    "input_path": "input/ipas初級_科目1_人工智慧基礎概論_imgs/page_0047.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第三章 人工智慧基礎概論",
+            "block_bbox": [
+                1478,
+                207,
+                2082,
+                261
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    1478.0,
+                    207.0
+                ],
+                [
+                    2082.0,
+                    207.0
+                ],
+                [
+                    2082.0,
+                    261.0
+                ],
+                [
+                    1478.0,
+                    261.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "b. 降維技術：主要針對高維度數據，透過線性變換降低特徵空間的維度，同時保留數據的重要訊息。常用方法包括主成分分析（PCA），它透過提取數據的主成分，將冗餘特徵壓縮到低維空間。",
+            "block_bbox": [
+                296,
+                403,
+                2083,
+                666
+            ],
+            "block_id": 1,
+            "block_order": 1,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    296.0,
+                    403.0
+                ],
+                [
+                    2083.0,
+                    403.0
+                ],
+                [
+                    2083.0,
+                    666.0
+                ],
+                [
+                    296.0,
+                    666.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "（2）模型訓練",
+            "block_bbox": [
+                296,
+                801,
+                620,
+                863
+            ],
+            "block_id": 2,
+            "block_order": 2,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    296.0,
+                    801.0
+                ],
+                [
+                    620.0,
+                    801.0
+                ],
+                [
+                    620.0,
+                    863.0
+                ],
+                [
+                    296.0,
+                    863.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "模型訓練是機器學習過程的核心階段，其目標是透過學習輸入特徵與輸出結果之間的映射關係，找出最優的模型參數。模型訓練通常涉及損失函數的設置、優化演算法的選擇以及避免過擬合的策略。",
+            "block_bbox": [
+                295,
+                903,
+                2076,
+                1168
+            ],
+            "block_id": 3,
+            "block_order": 3,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    903.0
+                ],
+                [
+                    2076.0,
+                    903.0
+                ],
+                [
+                    2076.0,
+                    1168.0
+                ],
+                [
+                    295.0,
+                    1168.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "A. 損失函數",
+            "block_bbox": [
+                296,
+                1303,
+                591,
+                1364
+            ],
+            "block_id": 4,
+            "block_order": 4,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    296.0,
+                    1303.0
+                ],
+                [
+                    591.0,
+                    1303.0
+                ],
+                [
+                    591.0,
+                    1364.0
+                ],
+                [
+                    296.0,
+                    1364.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "損失函數（Loss Function）是一種用來衡量模型預測值與實際目標之間差異的函數。透過損失函數的計算，模型可以得知自身的損失（Loss，代表不準確度），損失值越高，表示模型預測結果與實際值的誤差越大，反之則表示模型越準確。因此，損失函數可以視為評估模型好壞的指標。",
+            "block_bbox": [
+                293,
+                1403,
+                2077,
+                1768
+            ],
+            "block_id": 5,
+            "block_order": 5,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    293.0,
+                    1403.0
+                ],
+                [
+                    2077.0,
+                    1403.0
+                ],
+                [
+                    2077.0,
+                    1768.0
+                ],
+                [
+                    293.0,
+                    1768.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "在模型訓練過程中，系統會不斷計算損失，並透過優化器（Optimizer）使用梯度下降（Gradient Descent）等方法來最小化損失，藉此降低模型的誤差，以達到最佳化的目的。常見的損失函數包括：",
+            "block_bbox": [
+                295,
+                1803,
+                2082,
+                2067
+            ],
+            "block_id": 6,
+            "block_order": 6,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    1803.0
+                ],
+                [
+                    2082.0,
+                    1803.0
+                ],
+                [
+                    2082.0,
+                    2067.0
+                ],
+                [
+                    295.0,
+                    2067.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "a. 均方誤差（Mean Squared Error, MSE）：用於迴歸任務，計算預測值與真實值之間平方誤差的平均值。",
+            "block_bbox": [
+                297,
+                2102,
+                2083,
+                2262
+            ],
+            "block_id": 7,
+            "block_order": 7,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    297.0,
+                    2102.0
+                ],
+                [
+                    2083.0,
+                    2102.0
+                ],
+                [
+                    2083.0,
+                    2262.0
+                ],
+                [
+                    297.0,
+                    2262.0
+                ]
+            ]
+        },
+        {
+            "block_label": "display_formula",
+            "block_content": " $$ MSE=\\frac{1}{n}\\sum_{i=1}^{n}(y_{i}-\\hat{y}_{i})^{2} $$ ",
+            "block_bbox": [
+                920,
+                2302,
+                1458,
+                2427
+            ],
+            "block_id": 8,
+            "block_order": 8,
+            "group_id": 8,
+            "block_polygon_points": [
+                [
+                    920.0,
+                    2302.0
+                ],
+                [
+                    1458.0,
+                    2302.0
+                ],
+                [
+                    1458.0,
+                    2427.0
+                ],
+                [
+                    920.0,
+                    2427.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "b. 交叉熵損失（Cross-Entropy Loss）：用於分類任務，衡量預測概率分佈與真實分佈之間的差異。",
+            "block_bbox": [
+                296,
+                2467,
+                2080,
+                2628
+            ],
+            "block_id": 9,
+            "block_order": 9,
+            "group_id": 9,
+            "block_polygon_points": [
+                [
+                    296.0,
+                    2467.0
+                ],
+                [
+                    2080.0,
+                    2467.0
+                ],
+                [
+                    2080.0,
+                    2628.0
+                ],
+                [
+                    296.0,
+                    2628.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "B. 優化演算法",
+            "block_bbox": [
+                299,
+                2767,
+                643,
+                2825
+            ],
+            "block_id": 10,
+            "block_order": 10,
+            "group_id": 10,
+            "block_polygon_points": [
+                [
+                    299.0,
+                    2767.0
+                ],
+                [
+                    643.0,
+                    2767.0
+                ],
+                [
+                    643.0,
+                    2825.0
+                ],
+                [
+                    299.0,
+                    2825.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "模型的訓練過程透過優化演算法調整參數，以最小化損失函數的值。最常見的優化演算法是梯度下降法及其變種：",
+            "block_bbox": [
+                295,
+                2866,
+                2080,
+                3029
+            ],
+            "block_id": 11,
+            "block_order": 11,
+            "group_id": 11,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    2866.0
+                ],
+                [
+                    2080.0,
+                    2866.0
+                ],
+                [
+                    2080.0,
+                    3029.0
+                ],
+                [
+                    295.0,
+                    3029.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "3-41",
+            "block_bbox": [
+                2100,
+                3189,
+                2195,
+                3232
+            ],
+            "block_id": 12,
+            "block_order": null,
+            "group_id": 12,
+            "block_polygon_points": [
+                [
+                    2100.0,
+                    3189.0
+                ],
+                [
+                    2195.0,
+                    3189.0
+                ],
+                [
+                    2195.0,
+                    3232.0
+                ],
+                [
+                    2100.0,
+                    3232.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.8464242219924927,
+                "coordinate": [
+                    1478,
+                    207,
+                    2082,
+                    261
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        1478.0,
+                        207.0
+                    ],
+                    [
+                        2082.0,
+                        207.0
+                    ],
+                    [
+                        2082.0,
+                        261.0
+                    ],
+                    [
+                        1478.0,
+                        261.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9413127899169922,
+                "coordinate": [
+                    296,
+                    403,
+                    2083,
+                    666
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        296.0,
+                        403.0
+                    ],
+                    [
+                        2083.0,
+                        403.0
+                    ],
+                    [
+                        2083.0,
+                        666.0
+                    ],
+                    [
+                        296.0,
+                        666.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8482286334037781,
+                "coordinate": [
+                    296,
+                    801,
+                    620,
+                    863
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        296.0,
+                        801.0
+                    ],
+                    [
+                        620.0,
+                        801.0
+                    ],
+                    [
+                        620.0,
+                        863.0
+                    ],
+                    [
+                        296.0,
+                        863.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9422034621238708,
+                "coordinate": [
+                    295,
+                    903,
+                    2076,
+                    1168
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        295.0,
+                        903.0
+                    ],
+                    [
+                        2076.0,
+                        903.0
+                    ],
+                    [
+                        2076.0,
+                        1168.0
+                    ],
+                    [
+                        295.0,
+                        1168.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8571146726608276,
+                "coordinate": [
+                    296,
+                    1303,
+                    591,
+                    1364
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        296.0,
+                        1303.0
+                    ],
+                    [
+                        591.0,
+                        1303.0
+                    ],
+                    [
+                        591.0,
+                        1364.0
+                    ],
+                    [
+                        296.0,
+                        1364.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9510438442230225,
+                "coordinate": [
+                    293,
+                    1403,
+                    2077,
+                    1768
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        293.0,
+                        1403.0
+                    ],
+                    [
+                        2077.0,
+                        1403.0
+                    ],
+                    [
+                        2077.0,
+                        1768.0
+                    ],
+                    [
+                        293.0,
+                        1768.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9204492568969727,
+                "coordinate": [
+                    295,
+                    1803,
+                    2082,
+                    2067
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        295.0,
+                        1803.0
+                    ],
+                    [
+                        2082.0,
+                        1803.0
+                    ],
+                    [
+                        2082.0,
+                        2067.0
+                    ],
+                    [
+                        295.0,
+                        2067.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9000373482704163,
+                "coordinate": [
+                    297,
+                    2102,
+                    2083,
+                    2262
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        297.0,
+                        2102.0
+                    ],
+                    [
+                        2083.0,
+                        2102.0
+                    ],
+                    [
+                        2083.0,
+                        2262.0
+                    ],
+                    [
+                        297.0,
+                        2262.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 5,
+                "label": "display_formula",
+                "score": 0.9109115600585938,
+                "coordinate": [
+                    920,
+                    2302,
+                    1458,
+                    2427
+                ],
+                "order": 8,
+                "polygon_points": [
+                    [
+                        920.0,
+                        2302.0
+                    ],
+                    [
+                        1458.0,
+                        2302.0
+                    ],
+                    [
+                        1458.0,
+                        2427.0
+                    ],
+                    [
+                        920.0,
+                        2427.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9234482645988464,
+                "coordinate": [
+                    296,
+                    2467,
+                    2080,
+                    2628
+                ],
+                "order": 9,
+                "polygon_points": [
+                    [
+                        296.0,
+                        2467.0
+                    ],
+                    [
+                        2080.0,
+                        2467.0
+                    ],
+                    [
+                        2080.0,
+                        2628.0
+                    ],
+                    [
+                        296.0,
+                        2628.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8405090570449829,
+                "coordinate": [
+                    299,
+                    2767,
+                    643,
+                    2825
+                ],
+                "order": 10,
+                "polygon_points": [
+                    [
+                        299.0,
+                        2767.0
+                    ],
+                    [
+                        643.0,
+                        2767.0
+                    ],
+                    [
+                        643.0,
+                        2825.0
+                    ],
+                    [
+                        299.0,
+                        2825.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9227011203765869,
+                "coordinate": [
+                    295,
+                    2866,
+                    2080,
+                    3029
+                ],
+                "order": 11,
+                "polygon_points": [
+                    [
+                        295.0,
+                        2866.0
+                    ],
+                    [
+                        2080.0,
+                        2866.0
+                    ],
+                    [
+                        2080.0,
+                        3029.0
+                    ],
+                    [
+                        295.0,
+                        3029.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.7242192029953003,
+                "coordinate": [
+                    2100,
+                    3189,
+                    2195,
+                    3232
+                ],
+                "order": 12,
+                "polygon_points": [
+                    [
+                        2100.0,
+                        3189.0
+                    ],
+                    [
+                        2195.0,
+                        3189.0
+                    ],
+                    [
+                        2195.0,
+                        3232.0
+                    ],
+                    [
+                        2100.0,
+                        3232.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,1101 @@
+{
+  "input_path": "input/ipas初級_科目1_人工智慧基礎概論_imgs/page_0046.png",
+  "page_index": null,
+  "page_count": null,
+  "width": 2382,
+  "height": 3368,
+  "model_settings": {
+    "use_doc_preprocessor": false,
+    "use_layout_detection": true,
+    "use_chart_recognition": false,
+    "use_seal_recognition": false,
+    "use_ocr_for_image_block": false,
+    "format_block_content": false,
+    "merge_layout_blocks": true,
+    "markdown_ignore_labels": [
+      "number",
+      "footnote",
+      "header",
+      "header_image",
+      "footer",
+      "footer_image",
+      "aside_text"
+    ],
+    "return_layout_polygon_points": true
+  },
+  "parsing_res_list": [
+    {
+      "block_label": "header",
+      "block_content": "第三章 人工智慧基礎概論",
+      "block_bbox": [
+        294,
+        208,
+        898,
+        261
+      ],
+      "block_id": 0,
+      "block_order": null,
+      "group_id": 0,
+      "block_polygon_points": [
+        [
+          294.0,
+          208.0
+        ],
+        [
+          898.0,
+          208.0
+        ],
+        [
+          898.0,
+          261.0
+        ],
+        [
+          294.0,
+          261.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "異常值（Outliers）可能來自數據錄入錯誤或極端事件，例如在股票交易數據中突然出現異常高額的交易量。常見的處理方式包括：",
+      "block_bbox": [
+        298,
+        402,
+        2082,
+        565
+      ],
+      "block_id": 1,
+      "block_order": 1,
+      "group_id": 1,
+      "block_polygon_points": [
+        [
+          298.0,
+          402.0
+        ],
+        [
+          2082.0,
+          402.0
+        ],
+        [
+          2082.0,
+          565.0
+        ],
+        [
+          298.0,
+          565.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "四分位距法：判斷數據是否超出正常範圍，並對異常值進行修正或剔除。",
+      "block_bbox": [
+        297,
+        602,
+        1958,
+        663
+      ],
+      "block_id": 2,
+      "block_order": 2,
+      "group_id": 2,
+      "block_polygon_points": [
+        [
+          297.0,
+          602.0
+        ],
+        [
+          1958.0,
+          602.0
+        ],
+        [
+          1958.0,
+          663.0
+        ],
+        [
+          297.0,
+          663.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "標準差法：對距離平均值超過多個標準差的數據進行檢測和處理。",
+      "block_bbox": [
+        298,
+        702,
+        1809,
+        765
+      ],
+      "block_id": 3,
+      "block_order": 3,
+      "group_id": 3,
+      "block_polygon_points": [
+        [
+          298.0,
+          702.0
+        ],
+        [
+          1809.0,
+          702.0
+        ],
+        [
+          1809.0,
+          765.0
+        ],
+        [
+          298.0,
+          765.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "B. 數據標準化",
+      "block_bbox": [
+        296,
+        902,
+        642,
+        962
+      ],
+      "block_id": 4,
+      "block_order": 4,
+      "group_id": 4,
+      "block_polygon_points": [
+        [
+          296.0,
+          902.0
+        ],
+        [
+          642.0,
+          902.0
+        ],
+        [
+          642.0,
+          962.0
+        ],
+        [
+          296.0,
+          962.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "數據標準化旨在將不同量級的數據轉換到統一的範圍，從而消除特徵間的尺度差異，提升模型的學習效果。常用的方法包括：",
+      "block_bbox": [
+        294,
+        1003,
+        2080,
+        1165
+      ],
+      "block_id": 5,
+      "block_order": 5,
+      "group_id": 5,
+      "block_polygon_points": [
+        [
+          294.0,
+          1003.0
+        ],
+        [
+          2080.0,
+          1003.0
+        ],
+        [
+          2080.0,
+          1165.0
+        ],
+        [
+          294.0,
+          1165.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "a. 最小-最大標準化（Min-Max Scaling）：將數據映射到 0 到 1 的區間，公式如下：",
+      "block_bbox": [
+        291,
+        1203,
+        2081,
+        1264
+      ],
+      "block_id": 6,
+      "block_order": 6,
+      "group_id": 6,
+      "block_polygon_points": [
+        [
+          291.0,
+          1203.0
+        ],
+        [
+          2081.0,
+          1203.0
+        ],
+        [
+          2081.0,
+          1264.0
+        ],
+        [
+          291.0,
+          1264.0
+        ]
+      ]
+    },
+    {
+      "block_label": "display_formula",
+      "block_content": " $$ X_{scaled}=\\frac{X-X_{min}}{X_{man}-X_{min}} $$ ",
+      "block_bbox": [
+        939,
+        1299,
+        1438,
+        1429
+      ],
+      "block_id": 7,
+      "block_order": 7,
+      "group_id": 7,
+      "block_polygon_points": [
+        [
+          939.0,
+          1299.0
+        ],
+        [
+          1438.0,
+          1299.0
+        ],
+        [
+          1438.0,
+          1429.0
+        ],
+        [
+          939.0,
+          1429.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "b. Z-score 標準化：將數據轉換為均值為 0、標準差為 1 的分佈，公式如下：",
+      "block_bbox": [
+        296,
+        1466,
+        1964,
+        1524
+      ],
+      "block_id": 8,
+      "block_order": 8,
+      "group_id": 8,
+      "block_polygon_points": [
+        [
+          296.0,
+          1466.0
+        ],
+        [
+          1964.0,
+          1466.0
+        ],
+        [
+          1964.0,
+          1524.0
+        ],
+        [
+          296.0,
+          1524.0
+        ]
+      ]
+    },
+    {
+      "block_label": "display_formula",
+      "block_content": " $$ X_{scaled}=\\frac{X-\\mu}{\\sigma} $$ ",
+      "block_bbox": [
+        1016,
+        1567,
+        1366,
+        1689
+      ],
+      "block_id": 9,
+      "block_order": 9,
+      "group_id": 9,
+      "block_polygon_points": [
+        [
+          1016.0,
+          1567.0
+        ],
+        [
+          1366.0,
+          1567.0
+        ],
+        [
+          1366.0,
+          1689.0
+        ],
+        [
+          1016.0,
+          1689.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "這些標準化技術在應對數據分佈不均或特徵範圍差異較大的情況下尤為重要，特別是在使用梯度下降等對特徵尺度敏感的演算法時。",
+      "block_bbox": [
+        293,
+        1729,
+        2080,
+        1891
+      ],
+      "block_id": 10,
+      "block_order": 10,
+      "group_id": 10,
+      "block_polygon_points": [
+        [
+          293.0,
+          1729.0
+        ],
+        [
+          2080.0,
+          1729.0
+        ],
+        [
+          2080.0,
+          1891.0
+        ],
+        [
+          293.0,
+          1891.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "C. 特徵選擇與降維",
+      "block_bbox": [
+        296,
+        2029,
+        744,
+        2089
+      ],
+      "block_id": 11,
+      "block_order": 11,
+      "group_id": 11,
+      "block_polygon_points": [
+        [
+          296.0,
+          2029.0
+        ],
+        [
+          744.0,
+          2029.0
+        ],
+        [
+          744.0,
+          2089.0
+        ],
+        [
+          296.0,
+          2089.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "特徵選擇和降維是數據處理的關鍵步驟，旨在提升模型的效率並減少計算負擔。a. 特徵選擇：根據特徵對預測結果的影響力，篩選出最具代表性的特徵，常見方法包括：",
+      "block_bbox": [
+        295,
+        2131,
+        2076,
+        2394
+      ],
+      "block_id": 12,
+      "block_order": 12,
+      "group_id": 12,
+      "block_polygon_points": [
+        [
+          295.0,
+          2131.0
+        ],
+        [
+          2076.0,
+          2131.0
+        ],
+        [
+          2076.0,
+          2394.0
+        ],
+        [
+          295.0,
+          2394.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "過濾法（Filter Methods）：使用相關性或統計量篩選特徵，如皮爾遜（Pearson）相關係數。",
+      "block_bbox": [
+        350,
+        2429,
+        2082,
+        2590
+      ],
+      "block_id": 13,
+      "block_order": 13,
+      "group_id": 13,
+      "block_polygon_points": [
+        [
+          350.0,
+          2429.0
+        ],
+        [
+          2082.0,
+          2429.0
+        ],
+        [
+          2082.0,
+          2590.0
+        ],
+        [
+          350.0,
+          2590.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "- 包裝法（Wrapper Methods）：透過模型效能指標評估特徵組合的效果，例如遞迴特徵消除（Recursive Feature Elimination, RFE）。",
+      "block_bbox": [
+        349,
+        2630,
+        2081,
+        2791
+      ],
+      "block_id": 14,
+      "block_order": 14,
+      "group_id": 14,
+      "block_polygon_points": [
+        [
+          349.0,
+          2630.0
+        ],
+        [
+          2081.0,
+          2630.0
+        ],
+        [
+          2081.0,
+          2791.0
+        ],
+        [
+          349.0,
+          2791.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "- 嵌入法（Embedded Methods）：利用模型內置的機制（如 LASSO 正則化）自動進行特徵篩選。",
+      "block_bbox": [
+        349,
+        2829,
+        2081,
+        2990
+      ],
+      "block_id": 15,
+      "block_order": 15,
+      "group_id": 15,
+      "block_polygon_points": [
+        [
+          349.0,
+          2829.0
+        ],
+        [
+          2081.0,
+          2829.0
+        ],
+        [
+          2081.0,
+          2990.0
+        ],
+        [
+          349.0,
+          2990.0
+        ]
+      ]
+    },
+    {
+      "block_label": "number",
+      "block_content": "3-40",
+      "block_bbox": [
+        183,
+        3188,
+        283,
+        3231
+      ],
+      "block_id": 16,
+      "block_order": null,
+      "group_id": 16,
+      "block_polygon_points": [
+        [
+          183.0,
+          3188.0
+        ],
+        [
+          283.0,
+          3188.0
+        ],
+        [
+          283.0,
+          3231.0
+        ],
+        [
+          183.0,
+          3231.0
+        ]
+      ]
+    }
+  ],
+  "layout_det_res": {
+    "input_path": null,
+    "page_index": null,
+    "boxes": [
+      {
+        "cls_id": 12,
+        "label": "header",
+        "score": 0.869388222694397,
+        "coordinate": [
+          294,
+          208,
+          898,
+          261
+        ],
+        "order": null,
+        "polygon_points": [
+          [
+            294.0,
+            208.0
+          ],
+          [
+            898.0,
+            208.0
+          ],
+          [
+            898.0,
+            261.0
+          ],
+          [
+            294.0,
+            261.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9377694129943848,
+        "coordinate": [
+          298,
+          402,
+          2082,
+          565
+        ],
+        "order": 1,
+        "polygon_points": [
+          [
+            298.0,
+            402.0
+          ],
+          [
+            2082.0,
+            402.0
+          ],
+          [
+            2082.0,
+            565.0
+          ],
+          [
+            298.0,
+            565.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8517851829528809,
+        "coordinate": [
+          297,
+          602,
+          1958,
+          663
+        ],
+        "order": 2,
+        "polygon_points": [
+          [
+            297.0,
+            602.0
+          ],
+          [
+            1958.0,
+            602.0
+          ],
+          [
+            1958.0,
+            663.0
+          ],
+          [
+            297.0,
+            663.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8454848527908325,
+        "coordinate": [
+          298,
+          702,
+          1809,
+          765
+        ],
+        "order": 3,
+        "polygon_points": [
+          [
+            298.0,
+            702.0
+          ],
+          [
+            1809.0,
+            702.0
+          ],
+          [
+            1809.0,
+            765.0
+          ],
+          [
+            298.0,
+            765.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8626036047935486,
+        "coordinate": [
+          296,
+          902,
+          642,
+          962
+        ],
+        "order": 4,
+        "polygon_points": [
+          [
+            296.0,
+            902.0
+          ],
+          [
+            642.0,
+            902.0
+          ],
+          [
+            642.0,
+            962.0
+          ],
+          [
+            296.0,
+            962.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9219716787338257,
+        "coordinate": [
+          294,
+          1003,
+          2080,
+          1165
+        ],
+        "order": 5,
+        "polygon_points": [
+          [
+            294.0,
+            1003.0
+          ],
+          [
+            2080.0,
+            1003.0
+          ],
+          [
+            2080.0,
+            1165.0
+          ],
+          [
+            294.0,
+            1165.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8419497609138489,
+        "coordinate": [
+          291,
+          1203,
+          2081,
+          1264
+        ],
+        "order": 6,
+        "polygon_points": [
+          [
+            291.0,
+            1203.0
+          ],
+          [
+            2081.0,
+            1203.0
+          ],
+          [
+            2081.0,
+            1264.0
+          ],
+          [
+            291.0,
+            1264.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 5,
+        "label": "display_formula",
+        "score": 0.9402346611022949,
+        "coordinate": [
+          939,
+          1299,
+          1438,
+          1429
+        ],
+        "order": 7,
+        "polygon_points": [
+          [
+            939.0,
+            1299.0
+          ],
+          [
+            1438.0,
+            1299.0
+          ],
+          [
+            1438.0,
+            1429.0
+          ],
+          [
+            939.0,
+            1429.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8361079096794128,
+        "coordinate": [
+          296,
+          1466,
+          1964,
+          1524
+        ],
+        "order": 8,
+        "polygon_points": [
+          [
+            296.0,
+            1466.0
+          ],
+          [
+            1964.0,
+            1466.0
+          ],
+          [
+            1964.0,
+            1524.0
+          ],
+          [
+            296.0,
+            1524.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 5,
+        "label": "display_formula",
+        "score": 0.9010657072067261,
+        "coordinate": [
+          1016,
+          1567,
+          1366,
+          1689
+        ],
+        "order": 9,
+        "polygon_points": [
+          [
+            1016.0,
+            1567.0
+          ],
+          [
+            1366.0,
+            1567.0
+          ],
+          [
+            1366.0,
+            1689.0
+          ],
+          [
+            1016.0,
+            1689.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9141398668289185,
+        "coordinate": [
+          293,
+          1729,
+          2080,
+          1891
+        ],
+        "order": 10,
+        "polygon_points": [
+          [
+            293.0,
+            1729.0
+          ],
+          [
+            2080.0,
+            1729.0
+          ],
+          [
+            2080.0,
+            1891.0
+          ],
+          [
+            293.0,
+            1891.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8575771450996399,
+        "coordinate": [
+          296,
+          2029,
+          744,
+          2089
+        ],
+        "order": 11,
+        "polygon_points": [
+          [
+            296.0,
+            2029.0
+          ],
+          [
+            744.0,
+            2029.0
+          ],
+          [
+            744.0,
+            2089.0
+          ],
+          [
+            296.0,
+            2089.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.3001422584056854,
+        "coordinate": [
+          351,
+          2128,
+          2075,
+          2191
+        ],
+        "order": 12,
+        "polygon_points": [
+          [
+            351.0,
+            2128.0
+          ],
+          [
+            2075.0,
+            2128.0
+          ],
+          [
+            2075.0,
+            2191.0
+          ],
+          [
+            351.0,
+            2191.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.4489036202430725,
+        "coordinate": [
+          295,
+          2131,
+          2076,
+          2394
+        ],
+        "order": 13,
+        "polygon_points": [
+          [
+            295.0,
+            2131.0
+          ],
+          [
+            2076.0,
+            2131.0
+          ],
+          [
+            2076.0,
+            2394.0
+          ],
+          [
+            295.0,
+            2394.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9189723134040833,
+        "coordinate": [
+          350,
+          2429,
+          2082,
+          2590
+        ],
+        "order": 14,
+        "polygon_points": [
+          [
+            350.0,
+            2429.0
+          ],
+          [
+            2082.0,
+            2429.0
+          ],
+          [
+            2082.0,
+            2590.0
+          ],
+          [
+            350.0,
+            2590.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9246194362640381,
+        "coordinate": [
+          349,
+          2630,
+          2081,
+          2791
+        ],
+        "order": 15,
+        "polygon_points": [
+          [
+            349.0,
+            2630.0
+          ],
+          [
+            2081.0,
+            2630.0
+          ],
+          [
+            2081.0,
+            2791.0
+          ],
+          [
+            349.0,
+            2791.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9164931774139404,
+        "coordinate": [
+          349,
+          2829,
+          2081,
+          2990
+        ],
+        "order": 16,
+        "polygon_points": [
+          [
+            349.0,
+            2829.0
+          ],
+          [
+            2081.0,
+            2829.0
+          ],
+          [
+            2081.0,
+            2990.0
+          ],
+          [
+            349.0,
+            2990.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 16,
+        "label": "number",
+        "score": 0.7555477619171143,
+        "coordinate": [
+          183,
+          3188,
+          283,
+          3231
+        ],
+        "order": 17,
+        "polygon_points": [
+          [
+            183.0,
+            3188.0
+          ],
+          [
+            283.0,
+            3188.0
+          ],
+          [
+            283.0,
+            3231.0
+          ],
+          [
+            183.0,
+            3231.0
+          ]
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,610 @@
+{
+    "input_path": "input/ipas初級_科目1_人工智慧基礎概論_imgs/page_0033.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第三章 人工智慧基礎概論",
+            "block_bbox": [
+                1480,
+                208,
+                2081,
+                260
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    1480.0,
+                    208.0
+                ],
+                [
+                    2081.0,
+                    208.0
+                ],
+                [
+                    2081.0,
+                    260.0
+                ],
+                [
+                    1480.0,
+                    260.0
+                ]
+            ]
+        },
+        {
+            "block_label": "table",
+            "block_content": "<table><tr><td>名稱</td><td colspan=\"3\">說明</td></tr><tr><td>接受域\\n(acceptance region)\\n拒絕域\\n(rejection region)</td><td colspan=\"3\">• 接受域：使虛無假設被接受之集合。\\n• 拒絕域：使虛無假設被拒絕之集合。</td></tr><tr><td rowspan=\"5\">檢定 (test)</td><td colspan=\"3\">• 決定一檢定，即表決定拒絕域及接受域。\\n• 對一檢定，以 C 為拒絕域，即拒絕 H0，若且為若  $ \\chi \\in C $。\\n• 統計檢定之可能結果：</td></tr><tr><td>$ H_0 $為真</td><td colspan=\"2\">$ H_0 $為假</td></tr><tr><td>接受  $ H_0 $</td><td>正確</td><td>Type II 錯誤 ( $ \\beta $)</td></tr><tr><td>拒絕  $ H_0 $</td><td>Type II 錯誤 ( $ \\alpha $)</td><td>正確</td></tr><tr><td colspan=\"3\">$ \\alpha=P $ (拒絕  $ H_0 $ |  $ H_0 $為真)\\n $ \\beta=P $ (接受  $ H_0 $ |  $ H_a $為真)</td></tr><tr><td>顯著水準\\n(significance level)</td><td colspan=\"3\">•  $ \\alpha $ 稱為顯著水準，又稱為檢定大小。\\n•  $ \\alpha $ 之值常取成 0.1，0.05 或 0.01 等。</td></tr><tr><td>檢定統計量\\n(test statistic)</td><td colspan=\"3\">• 樣本 X 的一個實值函數，以 T=T (X) 表之。利用 T 來決定是否接受 H0。</td></tr><tr><td>p 值\\n(p-value)</td><td colspan=\"3\">• 在 H0 為真之下，檢定統計量會落在比觀測值至少同樣極端的區域之機率。\\n• p 值又稱觀測大小。\\n• 若所得之觀測值得 p 值夠小，小於  $ \\alpha $，則拒絕虛無假設。</td></tr></table>",
+            "block_bbox": [
+                301,
+                358,
+                2078,
+                2083
+            ],
+            "block_id": 1,
+            "block_order": null,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    301.0,
+                    358.0
+                ],
+                [
+                    2078.0,
+                    358.0
+                ],
+                [
+                    2078.0,
+                    2083.0
+                ],
+                [
+                    301.0,
+                    2083.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "探索式資料分析",
+            "block_bbox": [
+                299,
+                2226,
+                717,
+                2285
+            ],
+            "block_id": 2,
+            "block_order": 1,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    299.0,
+                    2226.0
+                ],
+                [
+                    717.0,
+                    2226.0
+                ],
+                [
+                    717.0,
+                    2285.0
+                ],
+                [
+                    299.0,
+                    2285.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "根據分析目的，資料分析可大致分為兩類：探索性資料分析（Exploratory Data Analysis, EDA）和驗證性資料分析（Confirmatory Data Analysis, CDA）。",
+            "block_bbox": [
+                296,
+                2327,
+                2081,
+                2487
+            ],
+            "block_id": 3,
+            "block_order": 2,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    296.0,
+                    2327.0
+                ],
+                [
+                    2081.0,
+                    2327.0
+                ],
+                [
+                    2081.0,
+                    2487.0
+                ],
+                [
+                    296.0,
+                    2487.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "每個資料集都具有其獨特的特徵，因此在進行資料分析之前，我們需要先對資料進行深入的探索。探索性資料分析正如其名，強調的是一種靈活且開放的探索過程，透過探索性資料分析，我們可以從資料中發現潛在的模式、關係和異常值，這些發現將為後續的深入分析提供重要的線索，通常在研究初期，對資料特徵尚不熟悉的情況下進行，為後續更深入的分析奠定基礎。",
+            "block_bbox": [
+                292,
+                2527,
+                2082,
+                2991
+            ],
+            "block_id": 4,
+            "block_order": 3,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    292.0,
+                    2527.0
+                ],
+                [
+                    2082.0,
+                    2527.0
+                ],
+                [
+                    2082.0,
+                    2991.0
+                ],
+                [
+                    292.0,
+                    2991.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "3-27",
+            "block_bbox": [
+                2100,
+                3189,
+                2196,
+                3231
+            ],
+            "block_id": 5,
+            "block_order": null,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    2100.0,
+                    3189.0
+                ],
+                [
+                    2196.0,
+                    3189.0
+                ],
+                [
+                    2196.0,
+                    3231.0
+                ],
+                [
+                    2100.0,
+                    3231.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.8398951888084412,
+                "coordinate": [
+                    1480,
+                    208,
+                    2081,
+                    260
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        1480.0,
+                        208.0
+                    ],
+                    [
+                        2081.0,
+                        208.0
+                    ],
+                    [
+                        2081.0,
+                        260.0
+                    ],
+                    [
+                        1480.0,
+                        260.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 21,
+                "label": "table",
+                "score": 0.9789977669715881,
+                "coordinate": [
+                    301,
+                    358,
+                    2078,
+                    2083
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        301.0,
+                        358.0
+                    ],
+                    [
+                        2078.0,
+                        358.0
+                    ],
+                    [
+                        2078.0,
+                        2083.0
+                    ],
+                    [
+                        301.0,
+                        2083.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 15,
+                "label": "inline_formula",
+                "score": 0.4950949251651764,
+                "coordinate": [
+                    1819,
+                    861,
+                    1926,
+                    913
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        1819.0,
+                        861.0
+                    ],
+                    [
+                        1926.0,
+                        861.0
+                    ],
+                    [
+                        1926.0,
+                        913.0
+                    ],
+                    [
+                        1819.0,
+                        913.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 15,
+                "label": "inline_formula",
+                "score": 0.42298197746276855,
+                "coordinate": [
+                    1267,
+                    1028,
+                    1325,
+                    1079
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        1267.0,
+                        1028.0
+                    ],
+                    [
+                        1325.0,
+                        1028.0
+                    ],
+                    [
+                        1325.0,
+                        1079.0
+                    ],
+                    [
+                        1267.0,
+                        1079.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 15,
+                "label": "inline_formula",
+                "score": 0.39757657051086426,
+                "coordinate": [
+                    1702,
+                    1029,
+                    1761,
+                    1077
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        1702.0,
+                        1029.0
+                    ],
+                    [
+                        1761.0,
+                        1029.0
+                    ],
+                    [
+                        1761.0,
+                        1077.0
+                    ],
+                    [
+                        1702.0,
+                        1077.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 15,
+                "label": "inline_formula",
+                "score": 0.536327600479126,
+                "coordinate": [
+                    1007,
+                    1116,
+                    1064,
+                    1167
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        1007.0,
+                        1116.0
+                    ],
+                    [
+                        1064.0,
+                        1116.0
+                    ],
+                    [
+                        1064.0,
+                        1167.0
+                    ],
+                    [
+                        1007.0,
+                        1167.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 15,
+                "label": "inline_formula",
+                "score": 0.4347890615463257,
+                "coordinate": [
+                    1007,
+                    1204,
+                    1067,
+                    1256
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        1007.0,
+                        1204.0
+                    ],
+                    [
+                        1067.0,
+                        1204.0
+                    ],
+                    [
+                        1067.0,
+                        1256.0
+                    ],
+                    [
+                        1007.0,
+                        1256.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 15,
+                "label": "inline_formula",
+                "score": 0.4733926057815552,
+                "coordinate": [
+                    1037,
+                    1293,
+                    1104,
+                    1345
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        1037.0,
+                        1293.0
+                    ],
+                    [
+                        1104.0,
+                        1293.0
+                    ],
+                    [
+                        1104.0,
+                        1345.0
+                    ],
+                    [
+                        1037.0,
+                        1345.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 15,
+                "label": "inline_formula",
+                "score": 0.3860766291618347,
+                "coordinate": [
+                    1039,
+                    1370,
+                    1098,
+                    1420
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        1039.0,
+                        1370.0
+                    ],
+                    [
+                        1098.0,
+                        1370.0
+                    ],
+                    [
+                        1098.0,
+                        1420.0
+                    ],
+                    [
+                        1039.0,
+                        1420.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8516317009925842,
+                "coordinate": [
+                    299,
+                    2226,
+                    717,
+                    2285
+                ],
+                "order": 8,
+                "polygon_points": [
+                    [
+                        299.0,
+                        2226.0
+                    ],
+                    [
+                        717.0,
+                        2226.0
+                    ],
+                    [
+                        717.0,
+                        2285.0
+                    ],
+                    [
+                        299.0,
+                        2285.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9260070323944092,
+                "coordinate": [
+                    296,
+                    2327,
+                    2081,
+                    2487
+                ],
+                "order": 9,
+                "polygon_points": [
+                    [
+                        296.0,
+                        2327.0
+                    ],
+                    [
+                        2081.0,
+                        2327.0
+                    ],
+                    [
+                        2081.0,
+                        2487.0
+                    ],
+                    [
+                        296.0,
+                        2487.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9600852131843567,
+                "coordinate": [
+                    292,
+                    2527,
+                    2082,
+                    2991
+                ],
+                "order": 10,
+                "polygon_points": [
+                    [
+                        292.0,
+                        2527.0
+                    ],
+                    [
+                        2082.0,
+                        2527.0
+                    ],
+                    [
+                        2082.0,
+                        2991.0
+                    ],
+                    [
+                        292.0,
+                        2991.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.7499254941940308,
+                "coordinate": [
+                    2100,
+                    3189,
+                    2196,
+                    3231
+                ],
+                "order": 11,
+                "polygon_points": [
+                    [
+                        2100.0,
+                        3189.0
+                    ],
+                    [
+                        2196.0,
+                        3189.0
+                    ],
+                    [
+                        2196.0,
+                        3231.0
+                    ],
+                    [
+                        2100.0,
+                        3231.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

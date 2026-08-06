@@ -1,0 +1,888 @@
+{
+    "input_path": "input/ipas中級_科目2_大數據處理分析與應用_imgs/page_0070.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第四章 大數據處理技術",
+            "block_bbox": [
+                1517,
+                207,
+                2080,
+                261
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    1517.0,
+                    207.0
+                ],
+                [
+                    2080.0,
+                    207.0
+                ],
+                [
+                    2080.0,
+                    261.0
+                ],
+                [
+                    1517.0,
+                    261.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "• 查詢引擎優化（Query Optimization）",
+            "block_bbox": [
+                400,
+                401,
+                1269,
+                465
+            ],
+            "block_id": 1,
+            "block_order": 1,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    400.0,
+                    401.0
+                ],
+                [
+                    1269.0,
+                    401.0
+                ],
+                [
+                    1269.0,
+                    465.0
+                ],
+                [
+                    400.0,
+                    465.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "如 Spark 的 Catalyst Optimizer 或 Presto 的 CBO (Cost-Based Optimizer，成本導向最佳化器）等可自動進行查詢計畫的最佳化調整。",
+            "block_bbox": [
+                472,
+                503,
+                2074,
+                666
+            ],
+            "block_id": 2,
+            "block_order": 2,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    472.0,
+                    503.0
+                ],
+                [
+                    2074.0,
+                    503.0
+                ],
+                [
+                    2074.0,
+                    666.0
+                ],
+                [
+                    472.0,
+                    666.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "資源管控與查詢隔離（Query Throttling）",
+            "block_bbox": [
+                401,
+                701,
+                1358,
+                765
+            ],
+            "block_id": 3,
+            "block_order": 3,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    401.0,
+                    701.0
+                ],
+                [
+                    1358.0,
+                    701.0
+                ],
+                [
+                    1358.0,
+                    765.0
+                ],
+                [
+                    401.0,
+                    765.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "透過查詢優先順序設定與資源限制管理，避免個別查詢消耗過多資源而影響整體系統效能。",
+            "block_bbox": [
+                473,
+                802,
+                2080,
+                965
+            ],
+            "block_id": 4,
+            "block_order": 4,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    473.0,
+                    802.0
+                ],
+                [
+                    2080.0,
+                    802.0
+                ],
+                [
+                    2080.0,
+                    965.0
+                ],
+                [
+                    473.0,
+                    965.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "此技術常用於多用戶共享環境，如 Databricks、AWS Athena、BigQuery 等雲端分析平台中，確保公平性與穩定性。",
+            "block_bbox": [
+                471,
+                1002,
+                2084,
+                1166
+            ],
+            "block_id": 5,
+            "block_order": 5,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    471.0,
+                    1002.0
+                ],
+                [
+                    2084.0,
+                    1002.0
+                ],
+                [
+                    2084.0,
+                    1166.0
+                ],
+                [
+                    471.0,
+                    1166.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "5. 資料一致性、版本控制與治理機制",
+            "block_bbox": [
+                294,
+                1295,
+                1230,
+                1362
+            ],
+            "block_id": 6,
+            "block_order": 6,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    294.0,
+                    1295.0
+                ],
+                [
+                    1230.0,
+                    1295.0
+                ],
+                [
+                    1230.0,
+                    1362.0
+                ],
+                [
+                    294.0,
+                    1362.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "在大數據平台中，資料來源多元、更新頻繁，若無完善的資料一致性與版本管理設計，將導致數據混亂、模型誤判與合規風險。因此，資料治理機制需涵蓋從資料版本控管、存取追蹤到全生命週期管理。",
+            "block_bbox": [
+                295,
+                1403,
+                2081,
+                1668
+            ],
+            "block_id": 7,
+            "block_order": 7,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    1403.0
+                ],
+                [
+                    2081.0,
+                    1403.0
+                ],
+                [
+                    2081.0,
+                    1668.0
+                ],
+                [
+                    295.0,
+                    1668.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "（1）資料一致性機制",
+            "block_bbox": [
+                295,
+                1802,
+                768,
+                1867
+            ],
+            "block_id": 8,
+            "block_order": 8,
+            "group_id": 8,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    1802.0
+                ],
+                [
+                    768.0,
+                    1802.0
+                ],
+                [
+                    768.0,
+                    1867.0
+                ],
+                [
+                    295.0,
+                    1867.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "在分散式資料平台與資料湖倉架構中，資料的一致性保障是確保分析準確性、系統穩定性與資料可信度的核心基礎。隨著資料來源多樣化、寫入頻率提升，以及多用戶同時操作的情境普及，傳統的單一資料一致性模型已難以應對現代化需求。",
+            "block_bbox": [
+                294,
+                1904,
+                2083,
+                2262
+            ],
+            "block_id": 9,
+            "block_order": 9,
+            "group_id": 9,
+            "block_polygon_points": [
+                [
+                    294.0,
+                    1904.0
+                ],
+                [
+                    2083.0,
+                    1904.0
+                ],
+                [
+                    2083.0,
+                    2262.0
+                ],
+                [
+                    294.0,
+                    2262.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "為了在高擴展性與高可用性之間取得平衡，資料平台需根據應用情境選擇適當的一致性策略，包括嚴格同步的「強一致性」、容許延遲的「最終一致性」、以及針對寫入順序與併發控制的補強機制。透過這些策略設計，企業才能同時達成資料正確、讀寫效率與系統穩定的三重目標。",
+            "block_bbox": [
+                297,
+                2301,
+                2082,
+                2667
+            ],
+            "block_id": 10,
+            "block_order": 10,
+            "group_id": 10,
+            "block_polygon_points": [
+                [
+                    297.0,
+                    2301.0
+                ],
+                [
+                    2082.0,
+                    2301.0
+                ],
+                [
+                    2082.0,
+                    2667.0
+                ],
+                [
+                    297.0,
+                    2667.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "• 強一致性（Strong Consistency）",
+            "block_bbox": [
+                398,
+                2703,
+                1156,
+                2765
+            ],
+            "block_id": 11,
+            "block_order": 11,
+            "group_id": 11,
+            "block_polygon_points": [
+                [
+                    398.0,
+                    2703.0
+                ],
+                [
+                    1156.0,
+                    2703.0
+                ],
+                [
+                    1156.0,
+                    2765.0
+                ],
+                [
+                    398.0,
+                    2765.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "強一致性確保資料在寫入後，所有讀取請求都能即時取得最新狀態，適用於交易型應用（如金融交易、帳務處理等）。",
+            "block_bbox": [
+                472,
+                2804,
+                2082,
+                2964
+            ],
+            "block_id": 12,
+            "block_order": 12,
+            "group_id": 12,
+            "block_polygon_points": [
+                [
+                    472.0,
+                    2804.0
+                ],
+                [
+                    2082.0,
+                    2804.0
+                ],
+                [
+                    2082.0,
+                    2964.0
+                ],
+                [
+                    472.0,
+                    2964.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "4-15",
+            "block_bbox": [
+                2099,
+                3188,
+                2200,
+                3232
+            ],
+            "block_id": 13,
+            "block_order": null,
+            "group_id": 13,
+            "block_polygon_points": [
+                [
+                    2099.0,
+                    3188.0
+                ],
+                [
+                    2200.0,
+                    3188.0
+                ],
+                [
+                    2200.0,
+                    3232.0
+                ],
+                [
+                    2099.0,
+                    3232.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.8531200289726257,
+                "coordinate": [
+                    1517,
+                    207,
+                    2080,
+                    261
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        1517.0,
+                        207.0
+                    ],
+                    [
+                        2080.0,
+                        207.0
+                    ],
+                    [
+                        2080.0,
+                        261.0
+                    ],
+                    [
+                        1517.0,
+                        261.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.7365860939025879,
+                "coordinate": [
+                    400,
+                    401,
+                    1269,
+                    465
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        400.0,
+                        401.0
+                    ],
+                    [
+                        1269.0,
+                        401.0
+                    ],
+                    [
+                        1269.0,
+                        465.0
+                    ],
+                    [
+                        400.0,
+                        465.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9146068692207336,
+                "coordinate": [
+                    472,
+                    503,
+                    2074,
+                    666
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        472.0,
+                        503.0
+                    ],
+                    [
+                        2074.0,
+                        503.0
+                    ],
+                    [
+                        2074.0,
+                        666.0
+                    ],
+                    [
+                        472.0,
+                        666.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8118004202842712,
+                "coordinate": [
+                    401,
+                    701,
+                    1358,
+                    765
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        401.0,
+                        701.0
+                    ],
+                    [
+                        1358.0,
+                        701.0
+                    ],
+                    [
+                        1358.0,
+                        765.0
+                    ],
+                    [
+                        401.0,
+                        765.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9168558716773987,
+                "coordinate": [
+                    473,
+                    802,
+                    2080,
+                    965
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        473.0,
+                        802.0
+                    ],
+                    [
+                        2080.0,
+                        802.0
+                    ],
+                    [
+                        2080.0,
+                        965.0
+                    ],
+                    [
+                        473.0,
+                        965.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9194449186325073,
+                "coordinate": [
+                    471,
+                    1002,
+                    2084,
+                    1166
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        471.0,
+                        1002.0
+                    ],
+                    [
+                        2084.0,
+                        1002.0
+                    ],
+                    [
+                        2084.0,
+                        1166.0
+                    ],
+                    [
+                        471.0,
+                        1166.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.872545063495636,
+                "coordinate": [
+                    294,
+                    1295,
+                    1230,
+                    1362
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        294.0,
+                        1295.0
+                    ],
+                    [
+                        1230.0,
+                        1295.0
+                    ],
+                    [
+                        1230.0,
+                        1362.0
+                    ],
+                    [
+                        294.0,
+                        1362.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9415683150291443,
+                "coordinate": [
+                    295,
+                    1403,
+                    2081,
+                    1668
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        295.0,
+                        1403.0
+                    ],
+                    [
+                        2081.0,
+                        1403.0
+                    ],
+                    [
+                        2081.0,
+                        1668.0
+                    ],
+                    [
+                        295.0,
+                        1668.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8450565934181213,
+                "coordinate": [
+                    295,
+                    1802,
+                    768,
+                    1867
+                ],
+                "order": 8,
+                "polygon_points": [
+                    [
+                        295.0,
+                        1802.0
+                    ],
+                    [
+                        768.0,
+                        1802.0
+                    ],
+                    [
+                        768.0,
+                        1867.0
+                    ],
+                    [
+                        295.0,
+                        1867.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9509822726249695,
+                "coordinate": [
+                    294,
+                    1904,
+                    2083,
+                    2262
+                ],
+                "order": 9,
+                "polygon_points": [
+                    [
+                        294.0,
+                        1904.0
+                    ],
+                    [
+                        2083.0,
+                        1904.0
+                    ],
+                    [
+                        2083.0,
+                        2262.0
+                    ],
+                    [
+                        294.0,
+                        2262.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9578195810317993,
+                "coordinate": [
+                    297,
+                    2301,
+                    2082,
+                    2667
+                ],
+                "order": 10,
+                "polygon_points": [
+                    [
+                        297.0,
+                        2301.0
+                    ],
+                    [
+                        2082.0,
+                        2301.0
+                    ],
+                    [
+                        2082.0,
+                        2667.0
+                    ],
+                    [
+                        297.0,
+                        2667.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.5453924536705017,
+                "coordinate": [
+                    398,
+                    2703,
+                    1156,
+                    2765
+                ],
+                "order": 11,
+                "polygon_points": [
+                    [
+                        398.0,
+                        2703.0
+                    ],
+                    [
+                        1156.0,
+                        2703.0
+                    ],
+                    [
+                        1156.0,
+                        2765.0
+                    ],
+                    [
+                        398.0,
+                        2765.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9208338856697083,
+                "coordinate": [
+                    472,
+                    2804,
+                    2082,
+                    2964
+                ],
+                "order": 12,
+                "polygon_points": [
+                    [
+                        472.0,
+                        2804.0
+                    ],
+                    [
+                        2082.0,
+                        2804.0
+                    ],
+                    [
+                        2082.0,
+                        2964.0
+                    ],
+                    [
+                        472.0,
+                        2964.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.7481497526168823,
+                "coordinate": [
+                    2099,
+                    3188,
+                    2200,
+                    3232
+                ],
+                "order": 13,
+                "polygon_points": [
+                    [
+                        2099.0,
+                        3188.0
+                    ],
+                    [
+                        2200.0,
+                        3188.0
+                    ],
+                    [
+                        2200.0,
+                        3232.0
+                    ],
+                    [
+                        2099.0,
+                        3232.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

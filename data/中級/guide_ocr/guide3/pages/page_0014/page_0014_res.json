@@ -1,0 +1,583 @@
+{
+    "input_path": "input/ipas中級_科目3_機器學習技術與應用_imgs/page_0014.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第三章 機器學習基礎數學",
+            "block_bbox": [
+                1478,
+                207,
+                2079,
+                260
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    1478.0,
+                    207.0
+                ],
+                [
+                    2079.0,
+                    207.0
+                ],
+                [
+                    2079.0,
+                    260.0
+                ],
+                [
+                    1478.0,
+                    260.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "型的表現差異是否具有統計意義等。這些問題皆屬於統計推論（Statistical Inference）的範疇，而假設檢定（Hypothesis Testing）則是其中最常用的工具之一。",
+            "block_bbox": [
+                296,
+                402,
+                2083,
+                565
+            ],
+            "block_id": 1,
+            "block_order": 1,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    296.0,
+                    402.0
+                ],
+                [
+                    2083.0,
+                    402.0
+                ],
+                [
+                    2083.0,
+                    565.0
+                ],
+                [
+                    296.0,
+                    565.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "（1）統計推論",
+            "block_bbox": [
+                296,
+                702,
+                616,
+                763
+            ],
+            "block_id": 2,
+            "block_order": 2,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    296.0,
+                    702.0
+                ],
+                [
+                    616.0,
+                    702.0
+                ],
+                [
+                    616.0,
+                    763.0
+                ],
+                [
+                    296.0,
+                    763.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "統計推論的核心任務，是利用樣本資料對母體參數或模型行為進行估計與判斷，並量化不確定性。透過統計方法，我們可以推斷模型訓練的結果是否穩定、資料特徵之間是否存在顯著差異、以及模型選擇是否具有合理依據。",
+            "block_bbox": [
+                294,
+                802,
+                2075,
+                1060
+            ],
+            "block_id": 3,
+            "block_order": 3,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    294.0,
+                    802.0
+                ],
+                [
+                    2075.0,
+                    802.0
+                ],
+                [
+                    2075.0,
+                    1060.0
+                ],
+                [
+                    294.0,
+                    1060.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "統計推論可概略分為兩大核心分支：參數估計（Parameter Estimation）與假設檢定（Hypothesis Testing），兩者雖然目的不同，但均依賴機率模型作為推論依據，並對樣本中的不確定性進行量化處理。",
+            "block_bbox": [
+                296,
+                1097,
+                2079,
+                1352
+            ],
+            "block_id": 4,
+            "block_order": 4,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    296.0,
+                    1097.0
+                ],
+                [
+                    2079.0,
+                    1097.0
+                ],
+                [
+                    2079.0,
+                    1352.0
+                ],
+                [
+                    296.0,
+                    1352.0
+                ]
+            ]
+        },
+        {
+            "block_label": "table",
+            "block_content": "<table><tr><td>項目</td><td>參數估計</td><td>統計假設檢定</td></tr><tr><td>目的</td><td>推測母體參數的「值」或「區間」</td><td>驗證某個關於母體參數的「主張」是否成立</td></tr><tr><td>重點問題</td><td>這個母體參數大約是多少？（例如：平均收入是多少？）</td><td>我們是否有足夠證據拒絕一個假設？（例如：新藥是否有效？）</td></tr><tr><td>輸出結果</td><td>提供點估計值（如平均數）與信賴區間（如 95% CI）</td><td>提供 p 值、檢定統計量，並根據顯著水準決定是否拒絕虛無假設</td></tr><tr><td>依據</td><td>基於樣本資料，計算出母體參數的估計值</td><td>基於假設前提與樣本結果，進行推論判斷</td></tr><tr><td>例子</td><td>根據樣本估計出平均體重為 68 公斤，95%信賴區間為[66, 70]</td><td>假設新運動課程能降低體重，檢定結果 p=0.03，小於設定的  $ \\alpha $ 值 0.05。\\n因此拒絕虛無零假設，認為有效</td></tr></table>",
+            "block_bbox": [
+                308,
+                1380,
+                2071,
+                2268
+            ],
+            "block_id": 5,
+            "block_order": null,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    308.0,
+                    1380.0
+                ],
+                [
+                    2071.0,
+                    1380.0
+                ],
+                [
+                    2071.0,
+                    2268.0
+                ],
+                [
+                    308.0,
+                    2268.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "（2）假設檢定",
+            "block_bbox": [
+                297,
+                2362,
+                617,
+                2421
+            ],
+            "block_id": 6,
+            "block_order": 5,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    297.0,
+                    2362.0
+                ],
+                [
+                    617.0,
+                    2362.0
+                ],
+                [
+                    617.0,
+                    2421.0
+                ],
+                [
+                    297.0,
+                    2421.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "假設檢定是一種以機率模型為基礎的推論方法，用於檢視樣本資料是否提供足夠證據來拒絕某一原先的假設。整體流程包含：\nA. 設定虛無假設（或稱零假設）與對立假設\nB. 選擇適當的檢定方法與檢定統計量\nC. 決定顯著水準\nD. 計算檢定統計量與 p 值\nE．比較顯著水準（ $ \\alpha $）並進行決策",
+            "block_bbox": [
+                293,
+                2460,
+                2075,
+                3113
+            ],
+            "block_id": 7,
+            "block_order": 6,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    293.0,
+                    2460.0
+                ],
+                [
+                    2075.0,
+                    2460.0
+                ],
+                [
+                    2075.0,
+                    3113.0
+                ],
+                [
+                    293.0,
+                    3113.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "3-7",
+            "block_bbox": [
+                2124,
+                3189,
+                2198,
+                3231
+            ],
+            "block_id": 8,
+            "block_order": null,
+            "group_id": 8,
+            "block_polygon_points": [
+                [
+                    2124.0,
+                    3189.0
+                ],
+                [
+                    2198.0,
+                    3189.0
+                ],
+                [
+                    2198.0,
+                    3231.0
+                ],
+                [
+                    2124.0,
+                    3231.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.8647842407226562,
+                "coordinate": [
+                    1478,
+                    207,
+                    2079,
+                    260
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        1478.0,
+                        207.0
+                    ],
+                    [
+                        2079.0,
+                        207.0
+                    ],
+                    [
+                        2079.0,
+                        260.0
+                    ],
+                    [
+                        1478.0,
+                        260.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9306642413139343,
+                "coordinate": [
+                    296,
+                    402,
+                    2083,
+                    565
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        296.0,
+                        402.0
+                    ],
+                    [
+                        2083.0,
+                        402.0
+                    ],
+                    [
+                        2083.0,
+                        565.0
+                    ],
+                    [
+                        296.0,
+                        565.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8494970798492432,
+                "coordinate": [
+                    296,
+                    702,
+                    616,
+                    763
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        296.0,
+                        702.0
+                    ],
+                    [
+                        616.0,
+                        702.0
+                    ],
+                    [
+                        616.0,
+                        763.0
+                    ],
+                    [
+                        296.0,
+                        763.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.946245551109314,
+                "coordinate": [
+                    294,
+                    802,
+                    2075,
+                    1060
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        294.0,
+                        802.0
+                    ],
+                    [
+                        2075.0,
+                        802.0
+                    ],
+                    [
+                        2075.0,
+                        1060.0
+                    ],
+                    [
+                        294.0,
+                        1060.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9481885433197021,
+                "coordinate": [
+                    296,
+                    1097,
+                    2079,
+                    1352
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        296.0,
+                        1097.0
+                    ],
+                    [
+                        2079.0,
+                        1097.0
+                    ],
+                    [
+                        2079.0,
+                        1352.0
+                    ],
+                    [
+                        296.0,
+                        1352.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 21,
+                "label": "table",
+                "score": 0.9798098802566528,
+                "coordinate": [
+                    308,
+                    1380,
+                    2071,
+                    2268
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        308.0,
+                        1380.0
+                    ],
+                    [
+                        2071.0,
+                        1380.0
+                    ],
+                    [
+                        2071.0,
+                        2268.0
+                    ],
+                    [
+                        308.0,
+                        2268.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8374589085578918,
+                "coordinate": [
+                    297,
+                    2362,
+                    617,
+                    2421
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        297.0,
+                        2362.0
+                    ],
+                    [
+                        617.0,
+                        2362.0
+                    ],
+                    [
+                        617.0,
+                        2421.0
+                    ],
+                    [
+                        297.0,
+                        2421.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9583950042724609,
+                "coordinate": [
+                    293,
+                    2460,
+                    2075,
+                    3113
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        293.0,
+                        2460.0
+                    ],
+                    [
+                        2075.0,
+                        2460.0
+                    ],
+                    [
+                        2075.0,
+                        3113.0
+                    ],
+                    [
+                        293.0,
+                        3113.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.7271987795829773,
+                "coordinate": [
+                    2124,
+                    3189,
+                    2198,
+                    3231
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        2124.0,
+                        3189.0
+                    ],
+                    [
+                        2198.0,
+                        3189.0
+                    ],
+                    [
+                        2198.0,
+                        3231.0
+                    ],
+                    [
+                        2124.0,
+                        3231.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,644 @@
+{
+    "input_path": "input/ipas中級_科目1_人工智慧技術應用規劃_imgs/page_0019.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第三章 AI相關技術應用",
+            "block_bbox": [
+                295,
+                209,
+                868,
+                260
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    209.0
+                ],
+                [
+                    868.0,
+                    209.0
+                ],
+                [
+                    868.0,
+                    260.0
+                ],
+                [
+                    295.0,
+                    260.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "仍需保留這些詞，以維持語句完整性與語氣自然流暢。",
+            "block_bbox": [
+                295,
+                403,
+                1509,
+                464
+            ],
+            "block_id": 1,
+            "block_order": 1,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    403.0
+                ],
+                [
+                    1509.0,
+                    403.0
+                ],
+                [
+                    1509.0,
+                    464.0
+                ],
+                [
+                    295.0,
+                    464.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "示例：在句子「我在學習人工智慧」中，停用詞可能會移除「在」和「我」，只保留「學習」、「人工智慧」，從而降低資料維度並提升關鍵詞比重。然而，在對話生成的情境中，若去掉「我」或「在」會使句子不自然，失去語境的完整性。",
+            "block_bbox": [
+                295,
+                503,
+                2080,
+                767
+            ],
+            "block_id": 2,
+            "block_order": 2,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    503.0
+                ],
+                [
+                    2080.0,
+                    503.0
+                ],
+                [
+                    2080.0,
+                    767.0
+                ],
+                [
+                    295.0,
+                    767.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "4. NLP 關鍵技術與常用模型",
+            "block_bbox": [
+                295,
+                896,
+                1017,
+                960
+            ],
+            "block_id": 3,
+            "block_order": 3,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    896.0
+                ],
+                [
+                    1017.0,
+                    896.0
+                ],
+                [
+                    1017.0,
+                    960.0
+                ],
+                [
+                    295.0,
+                    960.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "（1）NLP 關鍵技術發展",
+            "block_bbox": [
+                295,
+                1003,
+                831,
+                1064
+            ],
+            "block_id": 4,
+            "block_order": 4,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    1003.0
+                ],
+                [
+                    831.0,
+                    1003.0
+                ],
+                [
+                    831.0,
+                    1064.0
+                ],
+                [
+                    295.0,
+                    1064.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "當完成分詞、詞性標注、詞形還原等前處理步驟後，雖然語料已具備基本的結構，但仍無法直接被模型理解（大多數模型與演算法無法直接處理文字或句子，只能運算數字）。因此，在進入任何模型（如分類器、翻譯系統、生成器）之前，文字必須先轉換為向量（Vector）或張量（Tensor）的形式，這個過程稱為「詞彙向量化」（Word Vectorization）或「文字表示學習」（Representation Learning）。",
+            "block_bbox": [
+                295,
+                1104,
+                2081,
+                1567
+            ],
+            "block_id": 5,
+            "block_order": 5,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    1104.0
+                ],
+                [
+                    2081.0,
+                    1104.0
+                ],
+                [
+                    2081.0,
+                    1567.0
+                ],
+                [
+                    295.0,
+                    1567.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "詞彙向量化能將語言中的單詞或句子轉換為數字，這樣機器學習模型才能對其進行計算與處理。文字與語意之間的關聯會被轉化為數字型態，這不僅是資料格式上的處理，更是讓模型能夠理解語言上下文與語意的關鍵。換句話說，向量的品質將直接影響模型在理解文本、分類、生成語句等任務中的表現。",
+            "block_bbox": [
+                295,
+                1602,
+                2082,
+                1968
+            ],
+            "block_id": 6,
+            "block_order": 6,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    1602.0
+                ],
+                [
+                    2082.0,
+                    1602.0
+                ],
+                [
+                    2082.0,
+                    1968.0
+                ],
+                [
+                    295.0,
+                    1968.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "文字表示技術從早期的統計方法（如：tf-idf），逐步演進至分布式向量（如：Word2Vec），再發展到上下文敏感的動態詞向量（如：BERT Embeddings），每個階段都在試圖讓「詞的數學表示」更貼近語言的真實語意。以下表格提供 NLP 技術的比較概覽：",
+            "block_bbox": [
+                295,
+                2004,
+                2085,
+                2365
+            ],
+            "block_id": 7,
+            "block_order": 7,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    2004.0
+                ],
+                [
+                    2085.0,
+                    2004.0
+                ],
+                [
+                    2085.0,
+                    2365.0
+                ],
+                [
+                    295.0,
+                    2365.0
+                ]
+            ]
+        },
+        {
+            "block_label": "table",
+            "block_content": "<table><tr><td>表示類型</td><td>技術代表</td><td>分布特性</td><td>語境特性</td><td>優點</td><td>限制</td></tr><tr><td>純離散表示</td><td>One-hot\\nEncoding、Bag of Words</td><td>非分布式</td><td>非語境型</td><td>結構簡單、\\n容易實作、\\n適合入門教學與傳統機器學習</td><td>向量稀疏、\\n無語意、維度高</td></tr><tr><td>統計型表示</td><td>TF-IDF</td><td>非分布式</td><td>非語境型</td><td>能反詞彙重要性、實作簡單、效果</td><td>忽略上下文與語序、無法處理同詞</td></tr></table>",
+            "block_bbox": [
+                303,
+                2460,
+                2077,
+                3113
+            ],
+            "block_id": 8,
+            "block_order": null,
+            "group_id": 8,
+            "block_polygon_points": [
+                [
+                    303.0,
+                    2460.0
+                ],
+                [
+                    2077.0,
+                    2460.0
+                ],
+                [
+                    2077.0,
+                    3113.0
+                ],
+                [
+                    303.0,
+                    3113.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "3-12",
+            "block_bbox": [
+                183,
+                3189,
+                283,
+                3231
+            ],
+            "block_id": 9,
+            "block_order": null,
+            "group_id": 9,
+            "block_polygon_points": [
+                [
+                    183.0,
+                    3189.0
+                ],
+                [
+                    283.0,
+                    3189.0
+                ],
+                [
+                    283.0,
+                    3231.0
+                ],
+                [
+                    183.0,
+                    3231.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.8611593246459961,
+                "coordinate": [
+                    295,
+                    209,
+                    868,
+                    260
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        295.0,
+                        209.0
+                    ],
+                    [
+                        868.0,
+                        209.0
+                    ],
+                    [
+                        868.0,
+                        260.0
+                    ],
+                    [
+                        295.0,
+                        260.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8563984036445618,
+                "coordinate": [
+                    295,
+                    403,
+                    1509,
+                    464
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        295.0,
+                        403.0
+                    ],
+                    [
+                        1509.0,
+                        403.0
+                    ],
+                    [
+                        1509.0,
+                        464.0
+                    ],
+                    [
+                        295.0,
+                        464.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.942718505859375,
+                "coordinate": [
+                    295,
+                    503,
+                    2080,
+                    767
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        295.0,
+                        503.0
+                    ],
+                    [
+                        2080.0,
+                        503.0
+                    ],
+                    [
+                        2080.0,
+                        767.0
+                    ],
+                    [
+                        295.0,
+                        767.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8777698874473572,
+                "coordinate": [
+                    295,
+                    896,
+                    1017,
+                    960
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        295.0,
+                        896.0
+                    ],
+                    [
+                        1017.0,
+                        896.0
+                    ],
+                    [
+                        1017.0,
+                        960.0
+                    ],
+                    [
+                        295.0,
+                        960.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8555456399917603,
+                "coordinate": [
+                    295,
+                    1003,
+                    831,
+                    1064
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        295.0,
+                        1003.0
+                    ],
+                    [
+                        831.0,
+                        1003.0
+                    ],
+                    [
+                        831.0,
+                        1064.0
+                    ],
+                    [
+                        295.0,
+                        1064.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9574136734008789,
+                "coordinate": [
+                    295,
+                    1104,
+                    2081,
+                    1567
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        295.0,
+                        1104.0
+                    ],
+                    [
+                        2081.0,
+                        1104.0
+                    ],
+                    [
+                        2081.0,
+                        1567.0
+                    ],
+                    [
+                        295.0,
+                        1567.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9549688696861267,
+                "coordinate": [
+                    295,
+                    1602,
+                    2082,
+                    1968
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        295.0,
+                        1602.0
+                    ],
+                    [
+                        2082.0,
+                        1602.0
+                    ],
+                    [
+                        2082.0,
+                        1968.0
+                    ],
+                    [
+                        295.0,
+                        1968.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9552680253982544,
+                "coordinate": [
+                    295,
+                    2004,
+                    2085,
+                    2365
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        295.0,
+                        2004.0
+                    ],
+                    [
+                        2085.0,
+                        2004.0
+                    ],
+                    [
+                        2085.0,
+                        2365.0
+                    ],
+                    [
+                        295.0,
+                        2365.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 21,
+                "label": "table",
+                "score": 0.970449686050415,
+                "coordinate": [
+                    303,
+                    2460,
+                    2077,
+                    3113
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        303.0,
+                        2460.0
+                    ],
+                    [
+                        2077.0,
+                        2460.0
+                    ],
+                    [
+                        2077.0,
+                        3113.0
+                    ],
+                    [
+                        303.0,
+                        3113.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.7616731524467468,
+                "coordinate": [
+                    183,
+                    3189,
+                    283,
+                    3231
+                ],
+                "order": 8,
+                "polygon_points": [
+                    [
+                        183.0,
+                        3189.0
+                    ],
+                    [
+                        283.0,
+                        3189.0
+                    ],
+                    [
+                        283.0,
+                        3231.0
+                    ],
+                    [
+                        183.0,
+                        3231.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

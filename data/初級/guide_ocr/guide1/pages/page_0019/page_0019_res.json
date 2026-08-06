@@ -1,0 +1,705 @@
+{
+    "input_path": "input/ipas初級_科目1_人工智慧基礎概論_imgs/page_0019.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第三章 人工智慧基礎概論",
+            "block_bbox": [
+                1478,
+                209,
+                2081,
+                260
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    1478.0,
+                    209.0
+                ],
+                [
+                    2081.0,
+                    209.0
+                ],
+                [
+                    2081.0,
+                    260.0
+                ],
+                [
+                    1478.0,
+                    260.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "資料量愈大且經過完整的資料處理，模型的效果通常會更好。",
+            "block_bbox": [
+                296,
+                404,
+                1660,
+                463
+            ],
+            "block_id": 1,
+            "block_order": 1,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    296.0,
+                    404.0
+                ],
+                [
+                    1660.0,
+                    404.0
+                ],
+                [
+                    1660.0,
+                    463.0
+                ],
+                [
+                    296.0,
+                    463.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "簡述機器學習的步驟包含：(1) 準備訓練資料：包含資料的蒐集、過濾雜訊及前處理；(2) 訓練模型：將前項準備好的訓練資料輸入演算法中，並適度調整參數，使模型儘量符合資料之模式或分佈；(3) 測試及評估模型：測試並評估該模型的效能，並反覆訓練之；經多次調校仍不佳時，或許選用其他模型再重覆前述流程。",
+            "block_bbox": [
+                296,
+                504,
+                2085,
+                963
+            ],
+            "block_id": 2,
+            "block_order": 2,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    296.0,
+                    504.0
+                ],
+                [
+                    2085.0,
+                    504.0
+                ],
+                [
+                    2085.0,
+                    963.0
+                ],
+                [
+                    296.0,
+                    963.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "依訓練方式，有以下幾種學習方法：",
+            "block_bbox": [
+                395,
+                1004,
+                1203,
+                1062
+            ],
+            "block_id": 3,
+            "block_order": 3,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    395.0,
+                    1004.0
+                ],
+                [
+                    1203.0,
+                    1004.0
+                ],
+                [
+                    1203.0,
+                    1062.0
+                ],
+                [
+                    395.0,
+                    1062.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "（1）監督式學習（Supervised learning）",
+            "block_bbox": [
+                295,
+                1202,
+                1175,
+                1264
+            ],
+            "block_id": 4,
+            "block_order": 4,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    1202.0
+                ],
+                [
+                    1175.0,
+                    1202.0
+                ],
+                [
+                    1175.0,
+                    1264.0
+                ],
+                [
+                    295.0,
+                    1264.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "監督式學習主要應用於分類（Classification）與迴歸（Regression）任務，透過帶有標記（Labeled Data）的訓練數據來訓練模型，使其學習輸入特徵與對應標記之間的關聯性。在訓練過程中，模型不斷調整內部參數，以提高對未知數據的預測準確度，從而實現對未見數據的有效分類或數值預測。分類模型目標為「如何將輸入數據分配至不同類別」，例如垃圾郵件過濾（辨別郵件是否為垃圾郵件）、影像識別（辨識圖片中的物件類別）。迴歸模型目標為「學習輸入變數與連續數值之間的映射關係」，例如房價預測（根據房屋特徵預測價格）、銷售額預測（根據市場數據預測未來銷售）。",
+            "block_bbox": [
+                294,
+                1303,
+                2083,
+                2070
+            ],
+            "block_id": 5,
+            "block_order": 5,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    294.0,
+                    1303.0
+                ],
+                [
+                    2083.0,
+                    1303.0
+                ],
+                [
+                    2083.0,
+                    2070.0
+                ],
+                [
+                    294.0,
+                    2070.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "(2) 非監督式學習（Unsupervised Learning）",
+            "block_bbox": [
+                294,
+                2203,
+                1299,
+                2265
+            ],
+            "block_id": 6,
+            "block_order": 6,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    294.0,
+                    2203.0
+                ],
+                [
+                    1299.0,
+                    2203.0
+                ],
+                [
+                    1299.0,
+                    2265.0
+                ],
+                [
+                    294.0,
+                    2265.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "不同於監督式學習，無需使用事先標記好的訓練數據。演算法會自動從未標記的數據中發掘潛在的模式、結構或分群（Clustering），進而揭示數據內部的關聯性和特徵。非監督式學習常用於資料探索、特徵提取和數據降維等任務，廣泛應用於市場區隔分析、異常偵測、推薦系統和影像壓縮等領域。",
+            "block_bbox": [
+                292,
+                2305,
+                2083,
+                2667
+            ],
+            "block_id": 7,
+            "block_order": 7,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    292.0,
+                    2305.0
+                ],
+                [
+                    2083.0,
+                    2305.0
+                ],
+                [
+                    2083.0,
+                    2667.0
+                ],
+                [
+                    292.0,
+                    2667.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "（3）強化學習（Reinforcement Learning, RL）",
+            "block_bbox": [
+                295,
+                2803,
+                1318,
+                2864
+            ],
+            "block_id": 8,
+            "block_order": 8,
+            "group_id": 8,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    2803.0
+                ],
+                [
+                    1318.0,
+                    2803.0
+                ],
+                [
+                    1318.0,
+                    2864.0
+                ],
+                [
+                    295.0,
+                    2864.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "強化學習不同於監督式學習和非監督式學習，是一種基於「回饋（反饋）機制」的學習方法，透過評分機制與獎勵措施的制定，讓人工智慧進行自我評估並",
+            "block_bbox": [
+                296,
+                2903,
+                2083,
+                3067
+            ],
+            "block_id": 9,
+            "block_order": 9,
+            "group_id": 9,
+            "block_polygon_points": [
+                [
+                    296.0,
+                    2903.0
+                ],
+                [
+                    2083.0,
+                    2903.0
+                ],
+                [
+                    2083.0,
+                    3067.0
+                ],
+                [
+                    296.0,
+                    3067.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "3-13",
+            "block_bbox": [
+                2099,
+                3190,
+                2200,
+                3231
+            ],
+            "block_id": 10,
+            "block_order": null,
+            "group_id": 10,
+            "block_polygon_points": [
+                [
+                    2099.0,
+                    3190.0
+                ],
+                [
+                    2200.0,
+                    3190.0
+                ],
+                [
+                    2200.0,
+                    3231.0
+                ],
+                [
+                    2099.0,
+                    3231.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.8426527380943298,
+                "coordinate": [
+                    1478,
+                    209,
+                    2081,
+                    260
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        1478.0,
+                        209.0
+                    ],
+                    [
+                        2081.0,
+                        209.0
+                    ],
+                    [
+                        2081.0,
+                        260.0
+                    ],
+                    [
+                        1478.0,
+                        260.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8370887637138367,
+                "coordinate": [
+                    296,
+                    404,
+                    1660,
+                    463
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        296.0,
+                        404.0
+                    ],
+                    [
+                        1660.0,
+                        404.0
+                    ],
+                    [
+                        1660.0,
+                        463.0
+                    ],
+                    [
+                        296.0,
+                        463.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9581862092018127,
+                "coordinate": [
+                    296,
+                    504,
+                    2085,
+                    963
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        296.0,
+                        504.0
+                    ],
+                    [
+                        2085.0,
+                        504.0
+                    ],
+                    [
+                        2085.0,
+                        963.0
+                    ],
+                    [
+                        296.0,
+                        963.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8317471742630005,
+                "coordinate": [
+                    395,
+                    1004,
+                    1203,
+                    1062
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        395.0,
+                        1004.0
+                    ],
+                    [
+                        1203.0,
+                        1004.0
+                    ],
+                    [
+                        1203.0,
+                        1062.0
+                    ],
+                    [
+                        395.0,
+                        1062.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8762969970703125,
+                "coordinate": [
+                    295,
+                    1202,
+                    1175,
+                    1264
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        295.0,
+                        1202.0
+                    ],
+                    [
+                        1175.0,
+                        1202.0
+                    ],
+                    [
+                        1175.0,
+                        1264.0
+                    ],
+                    [
+                        295.0,
+                        1264.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.963754415512085,
+                "coordinate": [
+                    294,
+                    1303,
+                    2083,
+                    2070
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        294.0,
+                        1303.0
+                    ],
+                    [
+                        2083.0,
+                        1303.0
+                    ],
+                    [
+                        2083.0,
+                        2070.0
+                    ],
+                    [
+                        294.0,
+                        2070.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8512235283851624,
+                "coordinate": [
+                    294,
+                    2203,
+                    1299,
+                    2265
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        294.0,
+                        2203.0
+                    ],
+                    [
+                        1299.0,
+                        2203.0
+                    ],
+                    [
+                        1299.0,
+                        2265.0
+                    ],
+                    [
+                        294.0,
+                        2265.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9556424021720886,
+                "coordinate": [
+                    292,
+                    2305,
+                    2083,
+                    2667
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        292.0,
+                        2305.0
+                    ],
+                    [
+                        2083.0,
+                        2305.0
+                    ],
+                    [
+                        2083.0,
+                        2667.0
+                    ],
+                    [
+                        292.0,
+                        2667.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8694962859153748,
+                "coordinate": [
+                    295,
+                    2803,
+                    1318,
+                    2864
+                ],
+                "order": 8,
+                "polygon_points": [
+                    [
+                        295.0,
+                        2803.0
+                    ],
+                    [
+                        1318.0,
+                        2803.0
+                    ],
+                    [
+                        1318.0,
+                        2864.0
+                    ],
+                    [
+                        295.0,
+                        2864.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9266239404678345,
+                "coordinate": [
+                    296,
+                    2903,
+                    2083,
+                    3067
+                ],
+                "order": 9,
+                "polygon_points": [
+                    [
+                        296.0,
+                        2903.0
+                    ],
+                    [
+                        2083.0,
+                        2903.0
+                    ],
+                    [
+                        2083.0,
+                        3067.0
+                    ],
+                    [
+                        296.0,
+                        3067.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.7533895373344421,
+                "coordinate": [
+                    2099,
+                    3190,
+                    2200,
+                    3231
+                ],
+                "order": 10,
+                "polygon_points": [
+                    [
+                        2099.0,
+                        3190.0
+                    ],
+                    [
+                        2200.0,
+                        3190.0
+                    ],
+                    [
+                        2200.0,
+                        3231.0
+                    ],
+                    [
+                        2099.0,
+                        3231.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,156 @@
+{
+  "input_path": "input/ipas初級_學習指引勘誤表_imgs/page_0002.png",
+  "page_index": null,
+  "page_count": null,
+  "width": 3368,
+  "height": 2382,
+  "model_settings": {
+    "use_doc_preprocessor": false,
+    "use_layout_detection": true,
+    "use_chart_recognition": false,
+    "use_seal_recognition": false,
+    "use_ocr_for_image_block": false,
+    "format_block_content": false,
+    "merge_layout_blocks": true,
+    "markdown_ignore_labels": [
+      "number",
+      "footnote",
+      "header",
+      "header_image",
+      "footer",
+      "footer_image",
+      "aside_text"
+    ],
+    "return_layout_polygon_points": true
+  },
+  "parsing_res_list": [
+    {
+      "block_label": "table",
+      "block_content": "<table><tr><td>頁碼</td><td>行數/段落</td><td>原內容</td><td>更正後內容</td></tr><tr><td>3-31</td><td>第3題答案修正及解析</td><td>答案：(B) 可結合其他方法，使用上較為彈性</td><td>答案：(A) 原理相對其他集群法較為複雜解析：K-means 的原理相對簡單，主要透過反覆分配點到最近中心、並更新中心點來最小化平方誤差和，並非複雜方法。K-means 常與 PCA（降維）、Elbow method（選 k 值）等方法結合，具有一定彈性。對於球形且大小密度接近的群體，K-means 表現良好。</td></tr><tr><td>3-32</td><td>第7題題目、部分答案敘述及解析說明</td><td>當我們進行一次假設檢定，得到的 p 值為 0.03，顯著性水準設定為 0.05，以下哪一個敘述是正確的？(A) 我們有 97% 的信心拒絕虛無假設(B) 我們有 95% 的信心拒絕虛無假設(C) 我們無法拒絕虛無假設(D) 我們有 5% 的機率犯型一錯誤答案：(B) 我們有 95% 的信心拒絕虛無假設。</td><td>當我們進行一次假設檢定，得到的 p 值為 0.03，而我們事先設定的顯著性水準為 0.05。以下哪一個敘述最合乎統計檢定的意義？(A) 我們有 97% 的信心拒絕虛無假設(B) 我們在 95% 的信心水準下拒絕虛無假設(C) 我們無法拒絕虛無假設(D) 我們犯型一錯誤的機率為 5%答案：(B) 我們在 95% 的信心水準下拒絕虛無假設。解析：顯著性水準設定為 0.05 表示，我們容許最多 5% 的機率犯型一錯誤（即 Type-I Error），並非代表實際犯錯的機率是 5%。</td></tr></table>",
+      "block_bbox": [
+        291,
+        218,
+        3076,
+        1864
+      ],
+      "block_id": 0,
+      "block_order": null,
+      "group_id": 0,
+      "block_polygon_points": [
+        [
+          291.0,
+          218.0
+        ],
+        [
+          3076.0,
+          218.0
+        ],
+        [
+          3076.0,
+          1864.0
+        ],
+        [
+          291.0,
+          1864.0
+        ]
+      ]
+    },
+    {
+      "block_label": "number",
+      "block_content": "2",
+      "block_bbox": [
+        1665,
+        2142,
+        1704,
+        2181
+      ],
+      "block_id": 1,
+      "block_order": null,
+      "group_id": 1,
+      "block_polygon_points": [
+        [
+          1665.0,
+          2142.0
+        ],
+        [
+          1703.0,
+          2142.0
+        ],
+        [
+          1703.0,
+          2180.0
+        ],
+        [
+          1665.0,
+          2180.0
+        ]
+      ]
+    }
+  ],
+  "layout_det_res": {
+    "input_path": null,
+    "page_index": null,
+    "boxes": [
+      {
+        "cls_id": 21,
+        "label": "table",
+        "score": 0.980966329574585,
+        "coordinate": [
+          291,
+          218,
+          3076,
+          1864
+        ],
+        "order": null,
+        "polygon_points": [
+          [
+            291.0,
+            218.0
+          ],
+          [
+            3076.0,
+            218.0
+          ],
+          [
+            3076.0,
+            1864.0
+          ],
+          [
+            291.0,
+            1864.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 16,
+        "label": "number",
+        "score": 0.682458758354187,
+        "coordinate": [
+          1665,
+          2142,
+          1704,
+          2181
+        ],
+        "order": 1,
+        "polygon_points": [
+          [
+            1665.0,
+            2142.0
+          ],
+          [
+            1703.0,
+            2142.0
+          ],
+          [
+            1703.0,
+            2180.0
+          ],
+          [
+            1665.0,
+            2180.0
+          ]
+        ]
+      }
+    ]
+  }
+}

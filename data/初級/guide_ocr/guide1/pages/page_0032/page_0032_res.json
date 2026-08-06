@@ -1,0 +1,461 @@
+{
+    "input_path": "input/ipas初級_科目1_人工智慧基礎概論_imgs/page_0032.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第三章 人工智慧基礎概論",
+            "block_bbox": [
+                295,
+                207,
+                899,
+                261
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    207.0
+                ],
+                [
+                    899.0,
+                    207.0
+                ],
+                [
+                    899.0,
+                    261.0
+                ],
+                [
+                    295.0,
+                    261.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "Models）能幫助我們刻畫抽樣變異的特性，進而對母體參數做出推斷。透過機率模型，我們可以建立起一個框架，用來量化統計估計值的不確定性，並進一步進行區間估計和假設檢定等統計推斷。",
+            "block_bbox": [
+                293,
+                401,
+                2082,
+                668
+            ],
+            "block_id": 1,
+            "block_order": 1,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    293.0,
+                    401.0
+                ],
+                [
+                    2082.0,
+                    401.0
+                ],
+                [
+                    2082.0,
+                    668.0
+                ],
+                [
+                    293.0,
+                    668.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "常見的統計方法可做以下分類：",
+            "block_bbox": [
+                402,
+                767,
+                1102,
+                829
+            ],
+            "block_id": 2,
+            "block_order": 2,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    402.0,
+                    767.0
+                ],
+                [
+                    1102.0,
+                    767.0
+                ],
+                [
+                    1102.0,
+                    829.0
+                ],
+                [
+                    402.0,
+                    829.0
+                ]
+            ]
+        },
+        {
+            "block_label": "table",
+            "block_content": "<table><tr><td></td><td>類別變數</td><td>連續變數</td></tr><tr><td>無因果關係</td><td>• 敘述性統計\\n• 複選題分析\\n• （多重）交叉分析\\n• 卡方檢定</td><td>• 主成份分析\\n• 因素分析\\n• 集群分析\\n• （偏）相關分析</td></tr><tr><td>有因果關係</td><td>• 二元羅吉斯迴歸\\n• 區別分析</td><td>• 偏相關分析\\n• 迴歸分析\\n• （多變量）變異數分析\\n• 偏最小平方迴歸</td></tr></table>",
+            "block_bbox": [
+                302,
+                859,
+                2073,
+                1577
+            ],
+            "block_id": 3,
+            "block_order": null,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    302.0,
+                    859.0
+                ],
+                [
+                    2073.0,
+                    859.0
+                ],
+                [
+                    2073.0,
+                    1577.0
+                ],
+                [
+                    302.0,
+                    1577.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "假說檢定名詞介紹：",
+            "block_bbox": [
+                399,
+                1686,
+                849,
+                1747
+            ],
+            "block_id": 4,
+            "block_order": 3,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    399.0,
+                    1686.0
+                ],
+                [
+                    849.0,
+                    1686.0
+                ],
+                [
+                    849.0,
+                    1747.0
+                ],
+                [
+                    399.0,
+                    1747.0
+                ]
+            ]
+        },
+        {
+            "block_label": "table",
+            "block_content": "<table><tr><td>名稱</td><td>說明</td></tr><tr><td>假說檢定之流程</td><td>猜想（假定）→蒐集資料→檢定作決策（接受或拒絕猜想）</td></tr><tr><td>統計假設\\n( hypothesis )</td><td>指對母體分佈的陳述或推測，即關於母體特性的一種假設性敘述（statement）。統計假設主要包含以下部分：\\n• 虛無假設（null hypothesis）：以符號 H0 表之，表示不存在顯著效果或差異，通常作為檢定的基準假設。\\n• 對立假設（alternative hypothesis）：以符號 Ha（或 H1, K）表之，與虛無假設相對，表示存在顯著效果或差異。\\n統計假設可進一步分類為：\\n• 簡單假設（Simple Hypothesis）：完全確定母體分佈的所有參數。\\n• 複合假設（Composite Hypothesis）：僅對母體分佈的部分參數作出假設</td></tr><tr><td>統計推論\\n( statistical inference )</td><td>導致接受或拒絕之統計假設的步驟，就是統計推論之主要工作。</td></tr><tr><td>假設檢定\\n( testing hypothesis )</td><td>基於母體之一組隨機樣本 X，以決定兩個假設（H0, Ha）中何者該拒絕。</td></tr></table>",
+            "block_bbox": [
+                302,
+                1775,
+                2076,
+                3093
+            ],
+            "block_id": 5,
+            "block_order": null,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    302.0,
+                    1775.0
+                ],
+                [
+                    2076.0,
+                    1775.0
+                ],
+                [
+                    2076.0,
+                    3093.0
+                ],
+                [
+                    302.0,
+                    3093.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "3-26",
+            "block_bbox": [
+                183,
+                3189,
+                283,
+                3232
+            ],
+            "block_id": 6,
+            "block_order": null,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    183.0,
+                    3189.0
+                ],
+                [
+                    283.0,
+                    3189.0
+                ],
+                [
+                    283.0,
+                    3232.0
+                ],
+                [
+                    183.0,
+                    3232.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.8641440868377686,
+                "coordinate": [
+                    295,
+                    207,
+                    899,
+                    261
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        295.0,
+                        207.0
+                    ],
+                    [
+                        899.0,
+                        207.0
+                    ],
+                    [
+                        899.0,
+                        261.0
+                    ],
+                    [
+                        295.0,
+                        261.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9505333304405212,
+                "coordinate": [
+                    293,
+                    401,
+                    2082,
+                    668
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        293.0,
+                        401.0
+                    ],
+                    [
+                        2082.0,
+                        401.0
+                    ],
+                    [
+                        2082.0,
+                        668.0
+                    ],
+                    [
+                        293.0,
+                        668.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.585749089717865,
+                "coordinate": [
+                    402,
+                    767,
+                    1102,
+                    829
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        402.0,
+                        767.0
+                    ],
+                    [
+                        1102.0,
+                        767.0
+                    ],
+                    [
+                        1102.0,
+                        829.0
+                    ],
+                    [
+                        402.0,
+                        829.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 21,
+                "label": "table",
+                "score": 0.9685714244842529,
+                "coordinate": [
+                    302,
+                    859,
+                    2073,
+                    1577
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        302.0,
+                        859.0
+                    ],
+                    [
+                        2073.0,
+                        859.0
+                    ],
+                    [
+                        2073.0,
+                        1577.0
+                    ],
+                    [
+                        302.0,
+                        1577.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8046768307685852,
+                "coordinate": [
+                    399,
+                    1686,
+                    849,
+                    1747
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        399.0,
+                        1686.0
+                    ],
+                    [
+                        849.0,
+                        1686.0
+                    ],
+                    [
+                        849.0,
+                        1747.0
+                    ],
+                    [
+                        399.0,
+                        1747.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 21,
+                "label": "table",
+                "score": 0.9822900891304016,
+                "coordinate": [
+                    302,
+                    1775,
+                    2076,
+                    3093
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        302.0,
+                        1775.0
+                    ],
+                    [
+                        2076.0,
+                        1775.0
+                    ],
+                    [
+                        2076.0,
+                        3093.0
+                    ],
+                    [
+                        302.0,
+                        3093.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.7836365699768066,
+                "coordinate": [
+                    183,
+                    3189,
+                    283,
+                    3232
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        183.0,
+                        3189.0
+                    ],
+                    [
+                        283.0,
+                        3189.0
+                    ],
+                    [
+                        283.0,
+                        3232.0
+                    ],
+                    [
+                        183.0,
+                        3232.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

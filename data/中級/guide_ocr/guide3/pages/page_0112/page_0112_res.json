@@ -1,0 +1,1376 @@
+{
+    "input_path": "input/ipas中級_科目3_機器學習技術與應用_imgs/page_0112.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第四章 機器學習與深度學習",
+            "block_bbox": [
+                294,
+                206,
+                937,
+                262
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    294.0,
+                    206.0
+                ],
+                [
+                    937.0,
+                    206.0
+                ],
+                [
+                    937.0,
+                    262.0
+                ],
+                [
+                    294.0,
+                    262.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "接著像訓練普通的前饋深度網路一樣，從最後一個時間步的損失開始，利用鏈式法則，將梯度沿著時間軸反向傳播，逐一計算並更新所有共享的權重參數。這使得 RNN 能夠學習如何利用過去的資訊來影響當前的預測。",
+            "block_bbox": [
+                532,
+                399,
+                2085,
+                765
+            ],
+            "block_id": 1,
+            "block_order": 1,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    532.0,
+                    399.0
+                ],
+                [
+                    2085.0,
+                    399.0
+                ],
+                [
+                    2085.0,
+                    765.0
+                ],
+                [
+                    532.0,
+                    765.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "優點",
+            "block_bbox": [
+                401,
+                800,
+                584,
+                863
+            ],
+            "block_id": 2,
+            "block_order": 2,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    401.0,
+                    800.0
+                ],
+                [
+                    584.0,
+                    800.0
+                ],
+                [
+                    584.0,
+                    863.0
+                ],
+                [
+                    401.0,
+                    863.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "處理序列數據：",
+            "block_bbox": [
+                474,
+                901,
+                889,
+                964
+            ],
+            "block_id": 3,
+            "block_order": 3,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    474.0,
+                    901.0
+                ],
+                [
+                    889.0,
+                    901.0
+                ],
+                [
+                    889.0,
+                    964.0
+                ],
+                [
+                    474.0,
+                    964.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "■ 能夠有效捕捉序列數據中的時間依賴性和上下文資訊，這是 MLP 或 CNN 難以做到的。",
+            "block_bbox": [
+                533,
+                1001,
+                2082,
+                1163
+            ],
+            "block_id": 4,
+            "block_order": 4,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    533.0,
+                    1001.0
+                ],
+                [
+                    2082.0,
+                    1001.0
+                ],
+                [
+                    2082.0,
+                    1163.0
+                ],
+                [
+                    533.0,
+                    1163.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "權重共享：",
+            "block_bbox": [
+                476,
+                1198,
+                788,
+                1266
+            ],
+            "block_id": 5,
+            "block_order": 5,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    476.0,
+                    1198.0
+                ],
+                [
+                    788.0,
+                    1198.0
+                ],
+                [
+                    788.0,
+                    1266.0
+                ],
+                [
+                    476.0,
+                    1266.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "跨時間步共享權重，減少了參數數量。",
+            "block_bbox": [
+                534,
+                1299,
+                1450,
+                1365
+            ],
+            "block_id": 6,
+            "block_order": 6,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    534.0,
+                    1299.0
+                ],
+                [
+                    1450.0,
+                    1299.0
+                ],
+                [
+                    1450.0,
+                    1365.0
+                ],
+                [
+                    534.0,
+                    1365.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "處理可變長度序列：",
+            "block_bbox": [
+                474,
+                1400,
+                988,
+                1466
+            ],
+            "block_id": 7,
+            "block_order": 7,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    474.0,
+                    1400.0
+                ],
+                [
+                    988.0,
+                    1400.0
+                ],
+                [
+                    988.0,
+                    1466.0
+                ],
+                [
+                    474.0,
+                    1466.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "能夠處理不同長度的輸入序列。",
+            "block_bbox": [
+                535,
+                1499,
+                1293,
+                1566
+            ],
+            "block_id": 8,
+            "block_order": 8,
+            "group_id": 8,
+            "block_polygon_points": [
+                [
+                    535.0,
+                    1499.0
+                ],
+                [
+                    1293.0,
+                    1499.0
+                ],
+                [
+                    1293.0,
+                    1566.0
+                ],
+                [
+                    535.0,
+                    1566.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "缺點與限制",
+            "block_bbox": [
+                402,
+                1598,
+                736,
+                1665
+            ],
+            "block_id": 9,
+            "block_order": 9,
+            "group_id": 9,
+            "block_polygon_points": [
+                [
+                    402.0,
+                    1598.0
+                ],
+                [
+                    736.0,
+                    1598.0
+                ],
+                [
+                    736.0,
+                    1665.0
+                ],
+                [
+                    402.0,
+                    1665.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "長期依賴問題：",
+            "block_bbox": [
+                474,
+                1699,
+                882,
+                1762
+            ],
+            "block_id": 10,
+            "block_order": 10,
+            "group_id": 10,
+            "block_polygon_points": [
+                [
+                    474.0,
+                    1699.0
+                ],
+                [
+                    882.0,
+                    1699.0
+                ],
+                [
+                    882.0,
+                    1762.0
+                ],
+                [
+                    474.0,
+                    1762.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "梯度消失（Vanishing Gradient Problem）：",
+            "block_bbox": [
+                533,
+                1801,
+                1494,
+                1867
+            ],
+            "block_id": 11,
+            "block_order": 11,
+            "group_id": 11,
+            "block_polygon_points": [
+                [
+                    533.0,
+                    1801.0
+                ],
+                [
+                    1494.0,
+                    1801.0
+                ],
+                [
+                    1494.0,
+                    1867.0
+                ],
+                [
+                    533.0,
+                    1867.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "在處理很長的序列時，梯度在反向傳播過程中會呈指數級衰減，導致網路難以學習到遠距離的依賴關係（即「記憶」太短）。",
+            "block_bbox": [
+                591,
+                1901,
+                2071,
+                2066
+            ],
+            "block_id": 12,
+            "block_order": 12,
+            "group_id": 12,
+            "block_polygon_points": [
+                [
+                    591.0,
+                    1901.0
+                ],
+                [
+                    2071.0,
+                    1901.0
+                ],
+                [
+                    2071.0,
+                    2066.0
+                ],
+                [
+                    591.0,
+                    2066.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "■ 梯度爆炸（Exploding Gradient Problem）：",
+            "block_bbox": [
+                535,
+                2100,
+                1507,
+                2167
+            ],
+            "block_id": 13,
+            "block_order": 13,
+            "group_id": 13,
+            "block_polygon_points": [
+                [
+                    535.0,
+                    2100.0
+                ],
+                [
+                    1507.0,
+                    2100.0
+                ],
+                [
+                    1507.0,
+                    2167.0
+                ],
+                [
+                    535.0,
+                    2167.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "○ 相反地，梯度也可能呈指數級增長，導致訓練不穩定。",
+            "block_bbox": [
+                588,
+                2201,
+                1870,
+                2266
+            ],
+            "block_id": 14,
+            "block_order": 14,
+            "group_id": 14,
+            "block_polygon_points": [
+                [
+                    588.0,
+                    2201.0
+                ],
+                [
+                    1870.0,
+                    2201.0
+                ],
+                [
+                    1870.0,
+                    2266.0
+                ],
+                [
+                    588.0,
+                    2266.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "◆ 訓練速度慢：",
+            "block_bbox": [
+                476,
+                2299,
+                837,
+                2364
+            ],
+            "block_id": 15,
+            "block_order": 15,
+            "group_id": 15,
+            "block_polygon_points": [
+                [
+                    476.0,
+                    2299.0
+                ],
+                [
+                    837.0,
+                    2299.0
+                ],
+                [
+                    837.0,
+                    2364.0
+                ],
+                [
+                    476.0,
+                    2364.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "由於其序列性，RNN的計算本質上是串行的，難以進行高效的平行計算，導致訓練速度相對較慢。",
+            "block_bbox": [
+                534,
+                2402,
+                2080,
+                2566
+            ],
+            "block_id": 16,
+            "block_order": 16,
+            "group_id": 16,
+            "block_polygon_points": [
+                [
+                    534.0,
+                    2402.0
+                ],
+                [
+                    2080.0,
+                    2402.0
+                ],
+                [
+                    2080.0,
+                    2566.0
+                ],
+                [
+                    534.0,
+                    2566.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "難以捕捉超長距離依賴：",
+            "block_bbox": [
+                475,
+                2600,
+                1091,
+                2665
+            ],
+            "block_id": 17,
+            "block_order": 17,
+            "group_id": 17,
+            "block_polygon_points": [
+                [
+                    475.0,
+                    2600.0
+                ],
+                [
+                    1091.0,
+                    2600.0
+                ],
+                [
+                    1091.0,
+                    2665.0
+                ],
+                [
+                    475.0,
+                    2665.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "■ 儘管有記憶機制，但對於非常長的序列，學習和保持長期依賴仍然是一個挑戰。",
+            "block_bbox": [
+                535,
+                2702,
+                2080,
+                2865
+            ],
+            "block_id": 18,
+            "block_order": 18,
+            "group_id": 18,
+            "block_polygon_points": [
+                [
+                    535.0,
+                    2702.0
+                ],
+                [
+                    2080.0,
+                    2702.0
+                ],
+                [
+                    2080.0,
+                    2865.0
+                ],
+                [
+                    535.0,
+                    2865.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "適用情境",
+            "block_bbox": [
+                402,
+                2901,
+                688,
+                2965
+            ],
+            "block_id": 19,
+            "block_order": 19,
+            "group_id": 19,
+            "block_polygon_points": [
+                [
+                    402.0,
+                    2901.0
+                ],
+                [
+                    688.0,
+                    2901.0
+                ],
+                [
+                    688.0,
+                    2965.0
+                ],
+                [
+                    402.0,
+                    2965.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "自然語言處理（NLP）：",
+            "block_bbox": [
+                472,
+                3001,
+                1059,
+                3066
+            ],
+            "block_id": 20,
+            "block_order": 20,
+            "group_id": 20,
+            "block_polygon_points": [
+                [
+                    472.0,
+                    3001.0
+                ],
+                [
+                    1059.0,
+                    3001.0
+                ],
+                [
+                    1059.0,
+                    3066.0
+                ],
+                [
+                    472.0,
+                    3066.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "4-74",
+            "block_bbox": [
+                183,
+                3189,
+                283,
+                3232
+            ],
+            "block_id": 21,
+            "block_order": null,
+            "group_id": 21,
+            "block_polygon_points": [
+                [
+                    183.0,
+                    3189.0
+                ],
+                [
+                    283.0,
+                    3189.0
+                ],
+                [
+                    283.0,
+                    3232.0
+                ],
+                [
+                    183.0,
+                    3232.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.8500843048095703,
+                "coordinate": [
+                    294,
+                    206,
+                    937,
+                    262
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        294.0,
+                        206.0
+                    ],
+                    [
+                        937.0,
+                        206.0
+                    ],
+                    [
+                        937.0,
+                        262.0
+                    ],
+                    [
+                        294.0,
+                        262.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9463425278663635,
+                "coordinate": [
+                    532,
+                    399,
+                    2085,
+                    765
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        532.0,
+                        399.0
+                    ],
+                    [
+                        2085.0,
+                        399.0
+                    ],
+                    [
+                        2085.0,
+                        765.0
+                    ],
+                    [
+                        532.0,
+                        765.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.6106054782867432,
+                "coordinate": [
+                    401,
+                    800,
+                    584,
+                    863
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        401.0,
+                        800.0
+                    ],
+                    [
+                        584.0,
+                        800.0
+                    ],
+                    [
+                        584.0,
+                        863.0
+                    ],
+                    [
+                        401.0,
+                        863.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.6485927700996399,
+                "coordinate": [
+                    474,
+                    901,
+                    889,
+                    964
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        474.0,
+                        901.0
+                    ],
+                    [
+                        889.0,
+                        901.0
+                    ],
+                    [
+                        889.0,
+                        964.0
+                    ],
+                    [
+                        474.0,
+                        964.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8920470476150513,
+                "coordinate": [
+                    533,
+                    1001,
+                    2082,
+                    1163
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        533.0,
+                        1001.0
+                    ],
+                    [
+                        2082.0,
+                        1001.0
+                    ],
+                    [
+                        2082.0,
+                        1163.0
+                    ],
+                    [
+                        533.0,
+                        1163.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.4729337692260742,
+                "coordinate": [
+                    476,
+                    1198,
+                    788,
+                    1266
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        476.0,
+                        1198.0
+                    ],
+                    [
+                        788.0,
+                        1198.0
+                    ],
+                    [
+                        788.0,
+                        1266.0
+                    ],
+                    [
+                        476.0,
+                        1266.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.7554273009300232,
+                "coordinate": [
+                    534,
+                    1299,
+                    1450,
+                    1365
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        534.0,
+                        1299.0
+                    ],
+                    [
+                        1450.0,
+                        1299.0
+                    ],
+                    [
+                        1450.0,
+                        1365.0
+                    ],
+                    [
+                        534.0,
+                        1365.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.628078043460846,
+                "coordinate": [
+                    474,
+                    1400,
+                    988,
+                    1466
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        474.0,
+                        1400.0
+                    ],
+                    [
+                        988.0,
+                        1400.0
+                    ],
+                    [
+                        988.0,
+                        1466.0
+                    ],
+                    [
+                        474.0,
+                        1466.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.7717268466949463,
+                "coordinate": [
+                    535,
+                    1499,
+                    1293,
+                    1566
+                ],
+                "order": 8,
+                "polygon_points": [
+                    [
+                        535.0,
+                        1499.0
+                    ],
+                    [
+                        1293.0,
+                        1499.0
+                    ],
+                    [
+                        1293.0,
+                        1566.0
+                    ],
+                    [
+                        535.0,
+                        1566.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.5972497463226318,
+                "coordinate": [
+                    402,
+                    1598,
+                    736,
+                    1665
+                ],
+                "order": 9,
+                "polygon_points": [
+                    [
+                        402.0,
+                        1598.0
+                    ],
+                    [
+                        736.0,
+                        1598.0
+                    ],
+                    [
+                        736.0,
+                        1665.0
+                    ],
+                    [
+                        402.0,
+                        1665.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.45064184069633484,
+                "coordinate": [
+                    474,
+                    1699,
+                    882,
+                    1762
+                ],
+                "order": 10,
+                "polygon_points": [
+                    [
+                        474.0,
+                        1699.0
+                    ],
+                    [
+                        882.0,
+                        1699.0
+                    ],
+                    [
+                        882.0,
+                        1762.0
+                    ],
+                    [
+                        474.0,
+                        1762.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.7868274450302124,
+                "coordinate": [
+                    533,
+                    1801,
+                    1494,
+                    1867
+                ],
+                "order": 11,
+                "polygon_points": [
+                    [
+                        533.0,
+                        1801.0
+                    ],
+                    [
+                        1494.0,
+                        1801.0
+                    ],
+                    [
+                        1494.0,
+                        1867.0
+                    ],
+                    [
+                        533.0,
+                        1867.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8796719312667847,
+                "coordinate": [
+                    591,
+                    1901,
+                    2071,
+                    2066
+                ],
+                "order": 12,
+                "polygon_points": [
+                    [
+                        591.0,
+                        1901.0
+                    ],
+                    [
+                        2071.0,
+                        1901.0
+                    ],
+                    [
+                        2071.0,
+                        2066.0
+                    ],
+                    [
+                        591.0,
+                        2066.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.6477806568145752,
+                "coordinate": [
+                    535,
+                    2100,
+                    1507,
+                    2167
+                ],
+                "order": 13,
+                "polygon_points": [
+                    [
+                        535.0,
+                        2100.0
+                    ],
+                    [
+                        1507.0,
+                        2100.0
+                    ],
+                    [
+                        1507.0,
+                        2167.0
+                    ],
+                    [
+                        535.0,
+                        2167.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.641836404800415,
+                "coordinate": [
+                    588,
+                    2201,
+                    1870,
+                    2266
+                ],
+                "order": 14,
+                "polygon_points": [
+                    [
+                        588.0,
+                        2201.0
+                    ],
+                    [
+                        1870.0,
+                        2201.0
+                    ],
+                    [
+                        1870.0,
+                        2266.0
+                    ],
+                    [
+                        588.0,
+                        2266.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.550081193447113,
+                "coordinate": [
+                    476,
+                    2299,
+                    837,
+                    2364
+                ],
+                "order": 15,
+                "polygon_points": [
+                    [
+                        476.0,
+                        2299.0
+                    ],
+                    [
+                        837.0,
+                        2299.0
+                    ],
+                    [
+                        837.0,
+                        2364.0
+                    ],
+                    [
+                        476.0,
+                        2364.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9048192501068115,
+                "coordinate": [
+                    534,
+                    2402,
+                    2080,
+                    2566
+                ],
+                "order": 16,
+                "polygon_points": [
+                    [
+                        534.0,
+                        2402.0
+                    ],
+                    [
+                        2080.0,
+                        2402.0
+                    ],
+                    [
+                        2080.0,
+                        2566.0
+                    ],
+                    [
+                        534.0,
+                        2566.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.7599924206733704,
+                "coordinate": [
+                    475,
+                    2600,
+                    1091,
+                    2665
+                ],
+                "order": 17,
+                "polygon_points": [
+                    [
+                        475.0,
+                        2600.0
+                    ],
+                    [
+                        1091.0,
+                        2600.0
+                    ],
+                    [
+                        1091.0,
+                        2665.0
+                    ],
+                    [
+                        475.0,
+                        2665.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9040077328681946,
+                "coordinate": [
+                    535,
+                    2702,
+                    2080,
+                    2865
+                ],
+                "order": 18,
+                "polygon_points": [
+                    [
+                        535.0,
+                        2702.0
+                    ],
+                    [
+                        2080.0,
+                        2702.0
+                    ],
+                    [
+                        2080.0,
+                        2865.0
+                    ],
+                    [
+                        535.0,
+                        2865.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.6327628493309021,
+                "coordinate": [
+                    402,
+                    2901,
+                    688,
+                    2965
+                ],
+                "order": 19,
+                "polygon_points": [
+                    [
+                        402.0,
+                        2901.0
+                    ],
+                    [
+                        688.0,
+                        2901.0
+                    ],
+                    [
+                        688.0,
+                        2965.0
+                    ],
+                    [
+                        402.0,
+                        2965.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.7744162082672119,
+                "coordinate": [
+                    472,
+                    3001,
+                    1059,
+                    3066
+                ],
+                "order": 20,
+                "polygon_points": [
+                    [
+                        472.0,
+                        3001.0
+                    ],
+                    [
+                        1059.0,
+                        3001.0
+                    ],
+                    [
+                        1059.0,
+                        3066.0
+                    ],
+                    [
+                        472.0,
+                        3066.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.7194855809211731,
+                "coordinate": [
+                    183,
+                    3189,
+                    283,
+                    3232
+                ],
+                "order": 21,
+                "polygon_points": [
+                    [
+                        183.0,
+                        3189.0
+                    ],
+                    [
+                        283.0,
+                        3189.0
+                    ],
+                    [
+                        283.0,
+                        3232.0
+                    ],
+                    [
+                        183.0,
+                        3232.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

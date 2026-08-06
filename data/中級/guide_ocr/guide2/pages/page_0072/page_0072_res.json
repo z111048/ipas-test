@@ -1,0 +1,949 @@
+{
+  "input_path": "input/ipas中級_科目2_大數據處理分析與應用_imgs/page_0072.png",
+  "page_index": null,
+  "page_count": null,
+  "width": 2382,
+  "height": 3368,
+  "model_settings": {
+    "use_doc_preprocessor": false,
+    "use_layout_detection": true,
+    "use_chart_recognition": false,
+    "use_seal_recognition": false,
+    "use_ocr_for_image_block": false,
+    "format_block_content": false,
+    "merge_layout_blocks": true,
+    "markdown_ignore_labels": [
+      "number",
+      "footnote",
+      "header",
+      "header_image",
+      "footer",
+      "footer_image",
+      "aside_text"
+    ],
+    "return_layout_polygon_points": true
+  },
+  "parsing_res_list": [
+    {
+      "block_label": "header",
+      "block_content": "第四章 大數據處理技術",
+      "block_bbox": [
+        1518,
+        208,
+        2080,
+        261
+      ],
+      "block_id": 0,
+      "block_order": null,
+      "group_id": 0,
+      "block_polygon_points": [
+        [
+          1518.0,
+          208.0
+        ],
+        [
+          2080.0,
+          208.0
+        ],
+        [
+          2080.0,
+          261.0
+        ],
+        [
+          1518.0,
+          261.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "- 寫入順序控制與鎖定機制",
+      "block_bbox": [
+        401,
+        402,
+        1038,
+        464
+      ],
+      "block_id": 1,
+      "block_order": 1,
+      "group_id": 1,
+      "block_polygon_points": [
+        [
+          401.0,
+          402.0
+        ],
+        [
+          1038.0,
+          402.0
+        ],
+        [
+          1038.0,
+          464.0
+        ],
+        [
+          401.0,
+          464.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "在多資料來源同時進行寫入的情境下，需導入版本控制、時間戳記或寫入排程等機制，以避免覆寫衝突與資料交錯錯誤。",
+      "block_bbox": [
+        473,
+        502,
+        2079,
+        666
+      ],
+      "block_id": 2,
+      "block_order": 2,
+      "group_id": 2,
+      "block_polygon_points": [
+        [
+          473.0,
+          502.0
+        ],
+        [
+          2079.0,
+          502.0
+        ],
+        [
+          2079.0,
+          666.0
+        ],
+        [
+          473.0,
+          666.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "例如：設定單一寫入者原則、使用分區層級鎖定機制，確保資料一致性與完整性。",
+      "block_bbox": [
+        474,
+        702,
+        2081,
+        862
+      ],
+      "block_id": 3,
+      "block_order": 3,
+      "group_id": 3,
+      "block_polygon_points": [
+        [
+          474.0,
+          702.0
+        ],
+        [
+          2081.0,
+          702.0
+        ],
+        [
+          2081.0,
+          862.0
+        ],
+        [
+          474.0,
+          862.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "（2）資料版本控制",
+      "block_bbox": [
+        297,
+        1002,
+        718,
+        1064
+      ],
+      "block_id": 4,
+      "block_order": 4,
+      "group_id": 4,
+      "block_polygon_points": [
+        [
+          297.0,
+          1002.0
+        ],
+        [
+          718.0,
+          1002.0
+        ],
+        [
+          718.0,
+          1064.0
+        ],
+        [
+          297.0,
+          1064.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "在資料湖倉與大規模資料平台的架構中，資料版本控制不再只是備份管理的附加功能，而是保障資料品質、支援分析回溯與確保模型可重現性的核心機制。隨著資料來源日益多元且變動頻繁，如何有效追蹤資料的歷史異動、復原錯誤寫入、並在不同時間點還原一致的資料狀態，已成為資料治理中不可或缺的一環。",
+      "block_bbox": [
+        295,
+        1103,
+        2080,
+        1467
+      ],
+      "block_id": 5,
+      "block_order": 5,
+      "group_id": 5,
+      "block_polygon_points": [
+        [
+          295.0,
+          1103.0
+        ],
+        [
+          2080.0,
+          1103.0
+        ],
+        [
+          2080.0,
+          1467.0
+        ],
+        [
+          295.0,
+          1467.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "版本標記與變更紀錄",
+      "block_bbox": [
+        400,
+        1502,
+        938,
+        1564
+      ],
+      "block_id": 6,
+      "block_order": 6,
+      "group_id": 6,
+      "block_polygon_points": [
+        [
+          400.0,
+          1502.0
+        ],
+        [
+          938.0,
+          1502.0
+        ],
+        [
+          938.0,
+          1564.0
+        ],
+        [
+          400.0,
+          1564.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "透過為每次資料匯入或修改操作賦予版本標籤（如 v1、v2），建立資料歷史記錄與追溯能力。",
+      "block_bbox": [
+        474,
+        1602,
+        2074,
+        1763
+      ],
+      "block_id": 7,
+      "block_order": 7,
+      "group_id": 7,
+      "block_polygon_points": [
+        [
+          474.0,
+          1602.0
+        ],
+        [
+          2074.0,
+          1602.0
+        ],
+        [
+          2074.0,
+          1763.0
+        ],
+        [
+          474.0,
+          1763.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "Delta Lake 的 Time Travel 功能與 Apache Hudi 的 Incremental Query 機制，能支援查詢過往任一版本狀態，實現資料變更透明化。",
+      "block_bbox": [
+        472,
+        1803,
+        2081,
+        1966
+      ],
+      "block_id": 8,
+      "block_order": 8,
+      "group_id": 8,
+      "block_polygon_points": [
+        [
+          472.0,
+          1803.0
+        ],
+        [
+          2081.0,
+          1803.0
+        ],
+        [
+          2081.0,
+          1966.0
+        ],
+        [
+          472.0,
+          1966.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "資料快照與版本回溯能力",
+      "block_bbox": [
+        401,
+        2002,
+        1035,
+        2064
+      ],
+      "block_id": 9,
+      "block_order": 9,
+      "group_id": 9,
+      "block_polygon_points": [
+        [
+          401.0,
+          2002.0
+        ],
+        [
+          1035.0,
+          2002.0
+        ],
+        [
+          1035.0,
+          2064.0
+        ],
+        [
+          401.0,
+          2064.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "透過定期建立資料快照，可支援誤寫復原、資料還原及模型再訓練等需求。",
+      "block_bbox": [
+        475,
+        2103,
+        2078,
+        2259
+      ],
+      "block_id": 10,
+      "block_order": 10,
+      "group_id": 10,
+      "block_polygon_points": [
+        [
+          475.0,
+          2103.0
+        ],
+        [
+          2078.0,
+          2103.0
+        ],
+        [
+          2078.0,
+          2259.0
+        ],
+        [
+          475.0,
+          2259.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "此機制對於需要資料重現性的人工智慧應用尤其關鍵，有助於提升模型訓練的可追溯性與一致性，並確保實驗結果具備可驗證性與可複製性（reproducibility）。",
+      "block_bbox": [
+        475,
+        2303,
+        2080,
+        2567
+      ],
+      "block_id": 11,
+      "block_order": 11,
+      "group_id": 11,
+      "block_polygon_points": [
+        [
+          475.0,
+          2303.0
+        ],
+        [
+          2080.0,
+          2303.0
+        ],
+        [
+          2080.0,
+          2567.0
+        ],
+        [
+          475.0,
+          2567.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "（3）資料治理與存取控管",
+      "block_bbox": [
+        297,
+        2703,
+        868,
+        2765
+      ],
+      "block_id": 12,
+      "block_order": 12,
+      "group_id": 12,
+      "block_polygon_points": [
+        [
+          297.0,
+          2703.0
+        ],
+        [
+          868.0,
+          2703.0
+        ],
+        [
+          868.0,
+          2765.0
+        ],
+        [
+          297.0,
+          2765.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "在大數據環境中，資料治理與存取控管是確保資料安全性、可用性與合規性的關鍵機制。此部分涵蓋元資料管理、權限設定與稽核機制三大核心面向，以下分別說明：",
+      "block_bbox": [
+        295,
+        2804,
+        2083,
+        3066
+      ],
+      "block_id": 13,
+      "block_order": 13,
+      "group_id": 13,
+      "block_polygon_points": [
+        [
+          295.0,
+          2804.0
+        ],
+        [
+          2083.0,
+          2804.0
+        ],
+        [
+          2083.0,
+          3066.0
+        ],
+        [
+          295.0,
+          3066.0
+        ]
+      ]
+    },
+    {
+      "block_label": "number",
+      "block_content": "4-17",
+      "block_bbox": [
+        2099,
+        3189,
+        2198,
+        3232
+      ],
+      "block_id": 14,
+      "block_order": null,
+      "group_id": 14,
+      "block_polygon_points": [
+        [
+          2099.0,
+          3189.0
+        ],
+        [
+          2198.0,
+          3189.0
+        ],
+        [
+          2198.0,
+          3232.0
+        ],
+        [
+          2099.0,
+          3232.0
+        ]
+      ]
+    }
+  ],
+  "layout_det_res": {
+    "input_path": null,
+    "page_index": null,
+    "boxes": [
+      {
+        "cls_id": 12,
+        "label": "header",
+        "score": 0.8493712544441223,
+        "coordinate": [
+          1518,
+          208,
+          2080,
+          261
+        ],
+        "order": null,
+        "polygon_points": [
+          [
+            1518.0,
+            208.0
+          ],
+          [
+            2080.0,
+            208.0
+          ],
+          [
+            2080.0,
+            261.0
+          ],
+          [
+            1518.0,
+            261.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.47008612751960754,
+        "coordinate": [
+          401,
+          402,
+          1038,
+          464
+        ],
+        "order": 1,
+        "polygon_points": [
+          [
+            401.0,
+            402.0
+          ],
+          [
+            1038.0,
+            402.0
+          ],
+          [
+            1038.0,
+            464.0
+          ],
+          [
+            401.0,
+            464.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9250174760818481,
+        "coordinate": [
+          473,
+          502,
+          2079,
+          666
+        ],
+        "order": 2,
+        "polygon_points": [
+          [
+            473.0,
+            502.0
+          ],
+          [
+            2079.0,
+            502.0
+          ],
+          [
+            2079.0,
+            666.0
+          ],
+          [
+            473.0,
+            666.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9203067421913147,
+        "coordinate": [
+          474,
+          702,
+          2081,
+          862
+        ],
+        "order": 3,
+        "polygon_points": [
+          [
+            474.0,
+            702.0
+          ],
+          [
+            2081.0,
+            702.0
+          ],
+          [
+            2081.0,
+            862.0
+          ],
+          [
+            474.0,
+            862.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8595393300056458,
+        "coordinate": [
+          297,
+          1002,
+          718,
+          1064
+        ],
+        "order": 4,
+        "polygon_points": [
+          [
+            297.0,
+            1002.0
+          ],
+          [
+            718.0,
+            1002.0
+          ],
+          [
+            718.0,
+            1064.0
+          ],
+          [
+            297.0,
+            1064.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9554482102394104,
+        "coordinate": [
+          295,
+          1103,
+          2080,
+          1467
+        ],
+        "order": 5,
+        "polygon_points": [
+          [
+            295.0,
+            1103.0
+          ],
+          [
+            2080.0,
+            1103.0
+          ],
+          [
+            2080.0,
+            1467.0
+          ],
+          [
+            295.0,
+            1467.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.5045151710510254,
+        "coordinate": [
+          400,
+          1502,
+          938,
+          1564
+        ],
+        "order": 6,
+        "polygon_points": [
+          [
+            400.0,
+            1502.0
+          ],
+          [
+            938.0,
+            1502.0
+          ],
+          [
+            938.0,
+            1564.0
+          ],
+          [
+            400.0,
+            1564.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9095150232315063,
+        "coordinate": [
+          474,
+          1602,
+          2074,
+          1763
+        ],
+        "order": 7,
+        "polygon_points": [
+          [
+            474.0,
+            1602.0
+          ],
+          [
+            2074.0,
+            1602.0
+          ],
+          [
+            2074.0,
+            1763.0
+          ],
+          [
+            474.0,
+            1763.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9164267778396606,
+        "coordinate": [
+          472,
+          1803,
+          2081,
+          1966
+        ],
+        "order": 8,
+        "polygon_points": [
+          [
+            472.0,
+            1803.0
+          ],
+          [
+            2081.0,
+            1803.0
+          ],
+          [
+            2081.0,
+            1966.0
+          ],
+          [
+            472.0,
+            1966.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.7949058413505554,
+        "coordinate": [
+          401,
+          2002,
+          1035,
+          2064
+        ],
+        "order": 9,
+        "polygon_points": [
+          [
+            401.0,
+            2002.0
+          ],
+          [
+            1035.0,
+            2002.0
+          ],
+          [
+            1035.0,
+            2064.0
+          ],
+          [
+            401.0,
+            2064.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9275799989700317,
+        "coordinate": [
+          475,
+          2103,
+          2078,
+          2259
+        ],
+        "order": 10,
+        "polygon_points": [
+          [
+            475.0,
+            2103.0
+          ],
+          [
+            2078.0,
+            2103.0
+          ],
+          [
+            2078.0,
+            2259.0
+          ],
+          [
+            475.0,
+            2259.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.947945773601532,
+        "coordinate": [
+          475,
+          2303,
+          2080,
+          2567
+        ],
+        "order": 11,
+        "polygon_points": [
+          [
+            475.0,
+            2303.0
+          ],
+          [
+            2080.0,
+            2303.0
+          ],
+          [
+            2080.0,
+            2567.0
+          ],
+          [
+            475.0,
+            2567.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8646667003631592,
+        "coordinate": [
+          297,
+          2703,
+          868,
+          2765
+        ],
+        "order": 12,
+        "polygon_points": [
+          [
+            297.0,
+            2703.0
+          ],
+          [
+            868.0,
+            2703.0
+          ],
+          [
+            868.0,
+            2765.0
+          ],
+          [
+            297.0,
+            2765.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9448588490486145,
+        "coordinate": [
+          295,
+          2804,
+          2083,
+          3066
+        ],
+        "order": 13,
+        "polygon_points": [
+          [
+            295.0,
+            2804.0
+          ],
+          [
+            2083.0,
+            2804.0
+          ],
+          [
+            2083.0,
+            3066.0
+          ],
+          [
+            295.0,
+            3066.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 16,
+        "label": "number",
+        "score": 0.749519944190979,
+        "coordinate": [
+          2099,
+          3189,
+          2198,
+          3232
+        ],
+        "order": 14,
+        "polygon_points": [
+          [
+            2099.0,
+            3189.0
+          ],
+          [
+            2198.0,
+            3189.0
+          ],
+          [
+            2198.0,
+            3232.0
+          ],
+          [
+            2099.0,
+            3232.0
+          ]
+        ]
+      }
+    ]
+  }
+}

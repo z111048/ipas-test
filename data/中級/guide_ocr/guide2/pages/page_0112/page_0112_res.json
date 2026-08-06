@@ -1,0 +1,1132 @@
+{
+    "input_path": "input/ipas中級_科目2_大數據處理分析與應用_imgs/page_0112.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第五章 大數據分析方法與工具",
+            "block_bbox": [
+                294,
+                207,
+                977,
+                261
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    294.0,
+                    207.0
+                ],
+                [
+                    977.0,
+                    207.0
+                ],
+                [
+                    977.0,
+                    261.0
+                ],
+                [
+                    294.0,
+                    261.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "面資料：如行政區域、土地使用區，描述範圍或邊界。",
+            "block_bbox": [
+                533,
+                401,
+                1802,
+                465
+            ],
+            "block_id": 1,
+            "block_order": 1,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    533.0,
+                    401.0
+                ],
+                [
+                    1802.0,
+                    401.0
+                ],
+                [
+                    1802.0,
+                    465.0
+                ],
+                [
+                    533.0,
+                    465.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "空間異質性：",
+            "block_bbox": [
+                474,
+                500,
+                838,
+                564
+            ],
+            "block_id": 2,
+            "block_order": 2,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    474.0,
+                    500.0
+                ],
+                [
+                    838.0,
+                    500.0
+                ],
+                [
+                    838.0,
+                    564.0
+                ],
+                [
+                    474.0,
+                    564.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "■ 不同地理區域的資料特性（如人口密度、消費行為）可能顯著不同，無法用單一模型概括。",
+            "block_bbox": [
+                534,
+                602,
+                2077,
+                765
+            ],
+            "block_id": 3,
+            "block_order": 3,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    534.0,
+                    602.0
+                ],
+                [
+                    2077.0,
+                    602.0
+                ],
+                [
+                    2077.0,
+                    765.0
+                ],
+                [
+                    534.0,
+                    765.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "挑戰：空間異質性可能導致傳統統計模型（假設獨立性）失效，需採用空間專屬方法如地理加權迴歸（Geographically Weighted Regression, GWR）。",
+            "block_bbox": [
+                535,
+                800,
+                2084,
+                1062
+            ],
+            "block_id": 4,
+            "block_order": 4,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    535.0,
+                    800.0
+                ],
+                [
+                    2084.0,
+                    800.0
+                ],
+                [
+                    2084.0,
+                    1062.0
+                ],
+                [
+                    535.0,
+                    1062.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "鄰近關係重要：",
+            "block_bbox": [
+                478,
+                1101,
+                887,
+                1164
+            ],
+            "block_id": 5,
+            "block_order": 5,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    478.0,
+                    1101.0
+                ],
+                [
+                    887.0,
+                    1101.0
+                ],
+                [
+                    887.0,
+                    1164.0
+                ],
+                [
+                    478.0,
+                    1164.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "空間上的距離和鄰接關係影響變數間關聯，例如鄰近商店的銷售額可能相互影響，違反獨立性假設。",
+            "block_bbox": [
+                536,
+                1201,
+                2081,
+                1363
+            ],
+            "block_id": 6,
+            "block_order": 6,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    536.0,
+                    1201.0
+                ],
+                [
+                    2081.0,
+                    1201.0
+                ],
+                [
+                    2081.0,
+                    1363.0
+                ],
+                [
+                    536.0,
+                    1363.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "挑戰：需考慮空間自相關（Spatial Autocorrelation），避免系統性誤差。",
+            "block_bbox": [
+                528,
+                1402,
+                2079,
+                1467
+            ],
+            "block_id": 7,
+            "block_order": 7,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    528.0,
+                    1402.0
+                ],
+                [
+                    2079.0,
+                    1402.0
+                ],
+                [
+                    2079.0,
+                    1467.0
+                ],
+                [
+                    528.0,
+                    1467.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "資料規模龐大：",
+            "block_bbox": [
+                478,
+                1502,
+                889,
+                1563
+            ],
+            "block_id": 8,
+            "block_order": 8,
+            "group_id": 8,
+            "block_polygon_points": [
+                [
+                    478.0,
+                    1502.0
+                ],
+                [
+                    889.0,
+                    1502.0
+                ],
+                [
+                    889.0,
+                    1563.0
+                ],
+                [
+                    478.0,
+                    1563.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "高頻 GPS 數據、連續感測器輸出（如空氣品質監測）產生億級資料點，計算和儲存成本高。",
+            "block_bbox": [
+                528,
+                1600,
+                2074,
+                1767
+            ],
+            "block_id": 9,
+            "block_order": 9,
+            "group_id": 9,
+            "block_polygon_points": [
+                [
+                    528.0,
+                    1600.0
+                ],
+                [
+                    2074.0,
+                    1600.0
+                ],
+                [
+                    2074.0,
+                    1767.0
+                ],
+                [
+                    528.0,
+                    1767.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "挑戰：需分散式平台（如 Apache Sedona）處理大規模數據，確保效率並避免資料失焦。",
+            "block_bbox": [
+                526,
+                1802,
+                2079,
+                1964
+            ],
+            "block_id": 10,
+            "block_order": 10,
+            "group_id": 10,
+            "block_polygon_points": [
+                [
+                    526.0,
+                    1802.0
+                ],
+                [
+                    2079.0,
+                    1802.0
+                ],
+                [
+                    2079.0,
+                    1964.0
+                ],
+                [
+                    526.0,
+                    1964.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "常見地理空間分析方法",
+            "block_bbox": [
+                402,
+                2002,
+                987,
+                2064
+            ],
+            "block_id": 11,
+            "block_order": 11,
+            "group_id": 11,
+            "block_polygon_points": [
+                [
+                    402.0,
+                    2002.0
+                ],
+                [
+                    987.0,
+                    2002.0
+                ],
+                [
+                    987.0,
+                    2064.0
+                ],
+                [
+                    402.0,
+                    2064.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "地理空間分析方法專為處理空間數據設計，涵蓋熱點識別、聚類、迴歸和插值等多種技術，適用於大規模數據分析。",
+            "block_bbox": [
+                465,
+                2103,
+                2081,
+                2264
+            ],
+            "block_id": 12,
+            "block_order": 12,
+            "group_id": 12,
+            "block_polygon_points": [
+                [
+                    465.0,
+                    2103.0
+                ],
+                [
+                    2081.0,
+                    2103.0
+                ],
+                [
+                    2081.0,
+                    2264.0
+                ],
+                [
+                    465.0,
+                    2264.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "♦ 熱點分析（Hotspot Detection）：",
+            "block_bbox": [
+                477,
+                2301,
+                1235,
+                2364
+            ],
+            "block_id": 13,
+            "block_order": 13,
+            "group_id": 13,
+            "block_polygon_points": [
+                [
+                    477.0,
+                    2301.0
+                ],
+                [
+                    1235.0,
+                    2301.0
+                ],
+                [
+                    1235.0,
+                    2364.0
+                ],
+                [
+                    477.0,
+                    2364.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "識別地理空間中事件密集的區域，如高犯罪率區或高銷售熱區。常見方法：",
+            "block_bbox": [
+                536,
+                2404,
+                2079,
+                2562
+            ],
+            "block_id": 14,
+            "block_order": 14,
+            "group_id": 14,
+            "block_polygon_points": [
+                [
+                    536.0,
+                    2404.0
+                ],
+                [
+                    2079.0,
+                    2404.0
+                ],
+                [
+                    2079.0,
+                    2562.0
+                ],
+                [
+                    536.0,
+                    2562.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "Kernel Density Estimation (KDE): 估計事件密度的平滑分佈，生成熱圖。",
+            "block_bbox": [
+                593,
+                2603,
+                2080,
+                2762
+            ],
+            "block_id": 15,
+            "block_order": 15,
+            "group_id": 15,
+            "block_polygon_points": [
+                [
+                    593.0,
+                    2603.0
+                ],
+                [
+                    2080.0,
+                    2603.0
+                ],
+                [
+                    2080.0,
+                    2762.0
+                ],
+                [
+                    593.0,
+                    2762.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "○ Getis-Ord Gi $ ^{*} $：檢測局部空間自相關，識別統計顯著的熱點/冷點。",
+            "block_bbox": [
+                593,
+                2803,
+                2080,
+                2864
+            ],
+            "block_id": 16,
+            "block_order": 16,
+            "group_id": 16,
+            "block_polygon_points": [
+                [
+                    593.0,
+                    2803.0
+                ],
+                [
+                    2080.0,
+                    2803.0
+                ],
+                [
+                    2080.0,
+                    2864.0
+                ],
+                [
+                    593.0,
+                    2864.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "5-24",
+            "block_bbox": [
+                184,
+                3189,
+                282,
+                3232
+            ],
+            "block_id": 17,
+            "block_order": null,
+            "group_id": 17,
+            "block_polygon_points": [
+                [
+                    184.0,
+                    3189.0
+                ],
+                [
+                    282.0,
+                    3189.0
+                ],
+                [
+                    282.0,
+                    3232.0
+                ],
+                [
+                    184.0,
+                    3232.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.8469859957695007,
+                "coordinate": [
+                    294,
+                    207,
+                    977,
+                    261
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        294.0,
+                        207.0
+                    ],
+                    [
+                        977.0,
+                        207.0
+                    ],
+                    [
+                        977.0,
+                        261.0
+                    ],
+                    [
+                        294.0,
+                        261.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8291319608688354,
+                "coordinate": [
+                    533,
+                    401,
+                    1802,
+                    465
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        533.0,
+                        401.0
+                    ],
+                    [
+                        1802.0,
+                        401.0
+                    ],
+                    [
+                        1802.0,
+                        465.0
+                    ],
+                    [
+                        533.0,
+                        465.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.5086865425109863,
+                "coordinate": [
+                    474,
+                    500,
+                    838,
+                    564
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        474.0,
+                        500.0
+                    ],
+                    [
+                        838.0,
+                        500.0
+                    ],
+                    [
+                        838.0,
+                        564.0
+                    ],
+                    [
+                        474.0,
+                        564.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9211773872375488,
+                "coordinate": [
+                    534,
+                    602,
+                    2077,
+                    765
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        534.0,
+                        602.0
+                    ],
+                    [
+                        2077.0,
+                        602.0
+                    ],
+                    [
+                        2077.0,
+                        765.0
+                    ],
+                    [
+                        534.0,
+                        765.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9367486834526062,
+                "coordinate": [
+                    535,
+                    800,
+                    2084,
+                    1062
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        535.0,
+                        800.0
+                    ],
+                    [
+                        2084.0,
+                        800.0
+                    ],
+                    [
+                        2084.0,
+                        1062.0
+                    ],
+                    [
+                        535.0,
+                        1062.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.44588518142700195,
+                "coordinate": [
+                    478,
+                    1101,
+                    887,
+                    1164
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        478.0,
+                        1101.0
+                    ],
+                    [
+                        887.0,
+                        1101.0
+                    ],
+                    [
+                        887.0,
+                        1164.0
+                    ],
+                    [
+                        478.0,
+                        1164.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9178395867347717,
+                "coordinate": [
+                    536,
+                    1201,
+                    2081,
+                    1363
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        536.0,
+                        1201.0
+                    ],
+                    [
+                        2081.0,
+                        1201.0
+                    ],
+                    [
+                        2081.0,
+                        1363.0
+                    ],
+                    [
+                        536.0,
+                        1363.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.7777895331382751,
+                "coordinate": [
+                    528,
+                    1402,
+                    2079,
+                    1467
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        528.0,
+                        1402.0
+                    ],
+                    [
+                        2079.0,
+                        1402.0
+                    ],
+                    [
+                        2079.0,
+                        1467.0
+                    ],
+                    [
+                        528.0,
+                        1467.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.6253545880317688,
+                "coordinate": [
+                    478,
+                    1502,
+                    889,
+                    1563
+                ],
+                "order": 8,
+                "polygon_points": [
+                    [
+                        478.0,
+                        1502.0
+                    ],
+                    [
+                        889.0,
+                        1502.0
+                    ],
+                    [
+                        889.0,
+                        1563.0
+                    ],
+                    [
+                        478.0,
+                        1563.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8911140561103821,
+                "coordinate": [
+                    528,
+                    1600,
+                    2074,
+                    1767
+                ],
+                "order": 9,
+                "polygon_points": [
+                    [
+                        528.0,
+                        1600.0
+                    ],
+                    [
+                        2074.0,
+                        1600.0
+                    ],
+                    [
+                        2074.0,
+                        1767.0
+                    ],
+                    [
+                        528.0,
+                        1767.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8883652091026306,
+                "coordinate": [
+                    526,
+                    1802,
+                    2079,
+                    1964
+                ],
+                "order": 10,
+                "polygon_points": [
+                    [
+                        526.0,
+                        1802.0
+                    ],
+                    [
+                        2079.0,
+                        1802.0
+                    ],
+                    [
+                        2079.0,
+                        1964.0
+                    ],
+                    [
+                        526.0,
+                        1964.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.7589036226272583,
+                "coordinate": [
+                    402,
+                    2002,
+                    987,
+                    2064
+                ],
+                "order": 11,
+                "polygon_points": [
+                    [
+                        402.0,
+                        2002.0
+                    ],
+                    [
+                        987.0,
+                        2002.0
+                    ],
+                    [
+                        987.0,
+                        2064.0
+                    ],
+                    [
+                        402.0,
+                        2064.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9138532280921936,
+                "coordinate": [
+                    465,
+                    2103,
+                    2081,
+                    2264
+                ],
+                "order": 12,
+                "polygon_points": [
+                    [
+                        465.0,
+                        2103.0
+                    ],
+                    [
+                        2081.0,
+                        2103.0
+                    ],
+                    [
+                        2081.0,
+                        2264.0
+                    ],
+                    [
+                        465.0,
+                        2264.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.48847058415412903,
+                "coordinate": [
+                    477,
+                    2301,
+                    1235,
+                    2364
+                ],
+                "order": 13,
+                "polygon_points": [
+                    [
+                        477.0,
+                        2301.0
+                    ],
+                    [
+                        1235.0,
+                        2301.0
+                    ],
+                    [
+                        1235.0,
+                        2364.0
+                    ],
+                    [
+                        477.0,
+                        2364.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9107571244239807,
+                "coordinate": [
+                    536,
+                    2404,
+                    2079,
+                    2562
+                ],
+                "order": 14,
+                "polygon_points": [
+                    [
+                        536.0,
+                        2404.0
+                    ],
+                    [
+                        2079.0,
+                        2404.0
+                    ],
+                    [
+                        2079.0,
+                        2562.0
+                    ],
+                    [
+                        536.0,
+                        2562.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9117313623428345,
+                "coordinate": [
+                    593,
+                    2603,
+                    2080,
+                    2762
+                ],
+                "order": 15,
+                "polygon_points": [
+                    [
+                        593.0,
+                        2603.0
+                    ],
+                    [
+                        2080.0,
+                        2603.0
+                    ],
+                    [
+                        2080.0,
+                        2762.0
+                    ],
+                    [
+                        593.0,
+                        2762.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8257563710212708,
+                "coordinate": [
+                    593,
+                    2803,
+                    2080,
+                    2864
+                ],
+                "order": 16,
+                "polygon_points": [
+                    [
+                        593.0,
+                        2803.0
+                    ],
+                    [
+                        2080.0,
+                        2803.0
+                    ],
+                    [
+                        2080.0,
+                        2864.0
+                    ],
+                    [
+                        593.0,
+                        2864.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.7514685988426208,
+                "coordinate": [
+                    184,
+                    3189,
+                    282,
+                    3232
+                ],
+                "order": 17,
+                "polygon_points": [
+                    [
+                        184.0,
+                        3189.0
+                    ],
+                    [
+                        282.0,
+                        3189.0
+                    ],
+                    [
+                        282.0,
+                        3232.0
+                    ],
+                    [
+                        184.0,
+                        3232.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

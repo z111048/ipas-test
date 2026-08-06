@@ -1,0 +1,1010 @@
+{
+    "input_path": "input/ipas中級_科目1_人工智慧技術應用規劃_imgs/page_0058.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第三章 AI 相關技術應用",
+            "block_bbox": [
+                1507,
+                208,
+                2077,
+                260
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    1507.0,
+                    208.0
+                ],
+                [
+                    2077.0,
+                    208.0
+                ],
+                [
+                    2077.0,
+                    260.0
+                ],
+                [
+                    1507.0,
+                    260.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "- FCN 是一種深度學習模型，將傳統的卷積神經網路（CNN）應用於整張影像中，並通過上採樣層（Upsampling Layer）將低解析度的特徵圖還原為與原始影像相同大小。這樣能夠實現像素級別的分類，對於語意分割任務具有很好的效果。FCN 的優勢在於其端到端訓練的能力和靈活性。",
+            "block_bbox": [
+                357,
+                402,
+                2082,
+                767
+            ],
+            "block_id": 1,
+            "block_order": 1,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    357.0,
+                    402.0
+                ],
+                [
+                    2082.0,
+                    402.0
+                ],
+                [
+                    2082.0,
+                    767.0
+                ],
+                [
+                    357.0,
+                    767.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "U-Net",
+            "block_bbox": [
+                359,
+                809,
+                555,
+                862
+            ],
+            "block_id": 2,
+            "block_order": 2,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    359.0,
+                    809.0
+                ],
+                [
+                    555.0,
+                    809.0
+                ],
+                [
+                    555.0,
+                    862.0
+                ],
+                [
+                    359.0,
+                    862.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "U-Net 是專為醫療影像分割而設計的模型，特別適用於處理不平衡的資料集。它具有對稱的編碼器（Encoder）和解碼器（Decoder）結構，編碼器負責提取特徵，而解碼器則負責逐步恢復影像的細節。U-Net 的最大特點是跳躍連接（Skip Connections），這使得它能夠有效地從高解析度的特徵中恢復細節，進而提高分割精準度。",
+            "block_bbox": [
+                389,
+                902,
+                2082,
+                1366
+            ],
+            "block_id": 3,
+            "block_order": 3,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    389.0,
+                    902.0
+                ],
+                [
+                    2082.0,
+                    902.0
+                ],
+                [
+                    2082.0,
+                    1366.0
+                ],
+                [
+                    389.0,
+                    1366.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "Mask R-CNN",
+            "block_bbox": [
+                358,
+                1409,
+                707,
+                1465
+            ],
+            "block_id": 4,
+            "block_order": 4,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    358.0,
+                    1409.0
+                ],
+                [
+                    707.0,
+                    1409.0
+                ],
+                [
+                    707.0,
+                    1465.0
+                ],
+                [
+                    358.0,
+                    1465.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "Mask R-CNN 是基於 Faster R-CNN 的一個擴展，結合了物體檢測和像素級的分割功能。它通過引入一個額外的分支，來預測每個物體的二進制遮罩（mask），從而實現實例分割。Mask R-CNN 不僅能夠檢測出影像中的物體，還能夠準確地標註每個物體的邊界，對於具有複雜背景的情境尤其有效。",
+            "block_bbox": [
+                399,
+                1501,
+                2078,
+                1868
+            ],
+            "block_id": 5,
+            "block_order": 5,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    399.0,
+                    1501.0
+                ],
+                [
+                    2078.0,
+                    1501.0
+                ],
+                [
+                    2078.0,
+                    1868.0
+                ],
+                [
+                    399.0,
+                    1868.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "準確度指標",
+            "block_bbox": [
+                302,
+                1903,
+                623,
+                1963
+            ],
+            "block_id": 6,
+            "block_order": 6,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    302.0,
+                    1903.0
+                ],
+                [
+                    623.0,
+                    1903.0
+                ],
+                [
+                    623.0,
+                    1963.0
+                ],
+                [
+                    302.0,
+                    1963.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "◆ IOU (Intersection over Union)",
+            "block_bbox": [
+                358,
+                2003,
+                1074,
+                2062
+            ],
+            "block_id": 7,
+            "block_order": 7,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    358.0,
+                    2003.0
+                ],
+                [
+                    1074.0,
+                    2003.0
+                ],
+                [
+                    1074.0,
+                    2062.0
+                ],
+                [
+                    358.0,
+                    2062.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "■ IOU 是衡量預測分割區域與真實標籤區域之間重疊程度的指標，常用於圖像分割任務中，尤其在處理邊界模糊或物體重疊的情況下具有高度可靠性。其計算方式為：",
+            "block_bbox": [
+                416,
+                2105,
+                2081,
+                2364
+            ],
+            "block_id": 8,
+            "block_order": 8,
+            "group_id": 8,
+            "block_polygon_points": [
+                [
+                    416.0,
+                    2105.0
+                ],
+                [
+                    2081.0,
+                    2105.0
+                ],
+                [
+                    2081.0,
+                    2364.0
+                ],
+                [
+                    416.0,
+                    2364.0
+                ]
+            ]
+        },
+        {
+            "block_label": "display_formula",
+            "block_content": " $$ IOU=\\frac{Area_{Intersection}}{Area_{union}} $$ ",
+            "block_bbox": [
+                467,
+                2406,
+                882,
+                2530
+            ],
+            "block_id": 9,
+            "block_order": 9,
+            "group_id": 9,
+            "block_polygon_points": [
+                [
+                    467.0,
+                    2406.0
+                ],
+                [
+                    882.0,
+                    2406.0
+                ],
+                [
+                    882.0,
+                    2530.0
+                ],
+                [
+                    467.0,
+                    2530.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "指標值範圍",
+            "block_bbox": [
+                419,
+                2566,
+                733,
+                2625
+            ],
+            "block_id": 10,
+            "block_order": 10,
+            "group_id": 10,
+            "block_polygon_points": [
+                [
+                    419.0,
+                    2566.0
+                ],
+                [
+                    733.0,
+                    2566.0
+                ],
+                [
+                    733.0,
+                    2625.0
+                ],
+                [
+                    419.0,
+                    2625.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "○從0到1，越接近1表示預測的分割結果越準確。",
+            "block_bbox": [
+                475,
+                2668,
+                1631,
+                2726
+            ],
+            "block_id": 11,
+            "block_order": 11,
+            "group_id": 11,
+            "block_polygon_points": [
+                [
+                    475.0,
+                    2668.0
+                ],
+                [
+                    1631.0,
+                    2668.0
+                ],
+                [
+                    1631.0,
+                    2726.0
+                ],
+                [
+                    475.0,
+                    2726.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "☐ 通常在物體檢測中，IOU 值大於 0.5 或 0.7 通常會被視為成功的預測。",
+            "block_bbox": [
+                474,
+                2768,
+                2073,
+                2826
+            ],
+            "block_id": 12,
+            "block_order": 12,
+            "group_id": 12,
+            "block_polygon_points": [
+                [
+                    474.0,
+                    2768.0
+                ],
+                [
+                    2073.0,
+                    2768.0
+                ],
+                [
+                    2073.0,
+                    2826.0
+                ],
+                [
+                    474.0,
+                    2826.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "示例：",
+            "block_bbox": [
+                417,
+                2867,
+                618,
+                2923
+            ],
+            "block_id": 13,
+            "block_order": 13,
+            "group_id": 13,
+            "block_polygon_points": [
+                [
+                    417.0,
+                    2867.0
+                ],
+                [
+                    618.0,
+                    2867.0
+                ],
+                [
+                    618.0,
+                    2923.0
+                ],
+                [
+                    417.0,
+                    2923.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "○ 假設我們有一張影像，其中真實物體的標註區域（Ground Truth）是",
+            "block_bbox": [
+                474,
+                2967,
+                2030,
+                3028
+            ],
+            "block_id": 14,
+            "block_order": 14,
+            "group_id": 14,
+            "block_polygon_points": [
+                [
+                    474.0,
+                    2967.0
+                ],
+                [
+                    2030.0,
+                    2967.0
+                ],
+                [
+                    2030.0,
+                    3028.0
+                ],
+                [
+                    474.0,
+                    3028.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "3-51",
+            "block_bbox": [
+                2101,
+                3189,
+                2193,
+                3232
+            ],
+            "block_id": 15,
+            "block_order": null,
+            "group_id": 15,
+            "block_polygon_points": [
+                [
+                    2101.0,
+                    3189.0
+                ],
+                [
+                    2193.0,
+                    3189.0
+                ],
+                [
+                    2193.0,
+                    3232.0
+                ],
+                [
+                    2101.0,
+                    3232.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.8355075120925903,
+                "coordinate": [
+                    1507,
+                    208,
+                    2077,
+                    260
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        1507.0,
+                        208.0
+                    ],
+                    [
+                        2077.0,
+                        208.0
+                    ],
+                    [
+                        2077.0,
+                        260.0
+                    ],
+                    [
+                        1507.0,
+                        260.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9476461410522461,
+                "coordinate": [
+                    357,
+                    402,
+                    2082,
+                    767
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        357.0,
+                        402.0
+                    ],
+                    [
+                        2082.0,
+                        402.0
+                    ],
+                    [
+                        2082.0,
+                        767.0
+                    ],
+                    [
+                        357.0,
+                        767.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.3987472951412201,
+                "coordinate": [
+                    359,
+                    809,
+                    555,
+                    862
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        359.0,
+                        809.0
+                    ],
+                    [
+                        555.0,
+                        809.0
+                    ],
+                    [
+                        555.0,
+                        862.0
+                    ],
+                    [
+                        359.0,
+                        862.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9450449347496033,
+                "coordinate": [
+                    389,
+                    902,
+                    2082,
+                    1366
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        389.0,
+                        902.0
+                    ],
+                    [
+                        2082.0,
+                        902.0
+                    ],
+                    [
+                        2082.0,
+                        1366.0
+                    ],
+                    [
+                        389.0,
+                        1366.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.4672562777996063,
+                "coordinate": [
+                    358,
+                    1409,
+                    707,
+                    1465
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        358.0,
+                        1409.0
+                    ],
+                    [
+                        707.0,
+                        1409.0
+                    ],
+                    [
+                        707.0,
+                        1465.0
+                    ],
+                    [
+                        358.0,
+                        1465.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9209715723991394,
+                "coordinate": [
+                    399,
+                    1501,
+                    2078,
+                    1868
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        399.0,
+                        1501.0
+                    ],
+                    [
+                        2078.0,
+                        1501.0
+                    ],
+                    [
+                        2078.0,
+                        1868.0
+                    ],
+                    [
+                        399.0,
+                        1868.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.43386584520339966,
+                "coordinate": [
+                    302,
+                    1903,
+                    623,
+                    1963
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        302.0,
+                        1903.0
+                    ],
+                    [
+                        623.0,
+                        1903.0
+                    ],
+                    [
+                        623.0,
+                        1963.0
+                    ],
+                    [
+                        302.0,
+                        1963.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.5745262503623962,
+                "coordinate": [
+                    358,
+                    2003,
+                    1074,
+                    2062
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        358.0,
+                        2003.0
+                    ],
+                    [
+                        1074.0,
+                        2003.0
+                    ],
+                    [
+                        1074.0,
+                        2062.0
+                    ],
+                    [
+                        358.0,
+                        2062.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9356579780578613,
+                "coordinate": [
+                    416,
+                    2105,
+                    2081,
+                    2364
+                ],
+                "order": 8,
+                "polygon_points": [
+                    [
+                        416.0,
+                        2105.0
+                    ],
+                    [
+                        2081.0,
+                        2105.0
+                    ],
+                    [
+                        2081.0,
+                        2364.0
+                    ],
+                    [
+                        416.0,
+                        2364.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 5,
+                "label": "display_formula",
+                "score": 0.8537377715110779,
+                "coordinate": [
+                    467,
+                    2406,
+                    882,
+                    2530
+                ],
+                "order": 9,
+                "polygon_points": [
+                    [
+                        467.0,
+                        2406.0
+                    ],
+                    [
+                        882.0,
+                        2406.0
+                    ],
+                    [
+                        882.0,
+                        2530.0
+                    ],
+                    [
+                        467.0,
+                        2530.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.5720494985580444,
+                "coordinate": [
+                    419,
+                    2566,
+                    733,
+                    2625
+                ],
+                "order": 10,
+                "polygon_points": [
+                    [
+                        419.0,
+                        2566.0
+                    ],
+                    [
+                        733.0,
+                        2566.0
+                    ],
+                    [
+                        733.0,
+                        2625.0
+                    ],
+                    [
+                        419.0,
+                        2625.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.858747661113739,
+                "coordinate": [
+                    475,
+                    2668,
+                    1631,
+                    2726
+                ],
+                "order": 11,
+                "polygon_points": [
+                    [
+                        475.0,
+                        2668.0
+                    ],
+                    [
+                        1631.0,
+                        2668.0
+                    ],
+                    [
+                        1631.0,
+                        2726.0
+                    ],
+                    [
+                        475.0,
+                        2726.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8477598428726196,
+                "coordinate": [
+                    474,
+                    2768,
+                    2073,
+                    2826
+                ],
+                "order": 12,
+                "polygon_points": [
+                    [
+                        474.0,
+                        2768.0
+                    ],
+                    [
+                        2073.0,
+                        2768.0
+                    ],
+                    [
+                        2073.0,
+                        2826.0
+                    ],
+                    [
+                        474.0,
+                        2826.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.6385918855667114,
+                "coordinate": [
+                    417,
+                    2867,
+                    618,
+                    2923
+                ],
+                "order": 13,
+                "polygon_points": [
+                    [
+                        417.0,
+                        2867.0
+                    ],
+                    [
+                        618.0,
+                        2867.0
+                    ],
+                    [
+                        618.0,
+                        2923.0
+                    ],
+                    [
+                        417.0,
+                        2923.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.832324743270874,
+                "coordinate": [
+                    474,
+                    2967,
+                    2030,
+                    3028
+                ],
+                "order": 14,
+                "polygon_points": [
+                    [
+                        474.0,
+                        2967.0
+                    ],
+                    [
+                        2030.0,
+                        2967.0
+                    ],
+                    [
+                        2030.0,
+                        3028.0
+                    ],
+                    [
+                        474.0,
+                        3028.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.7387841939926147,
+                "coordinate": [
+                    2101,
+                    3189,
+                    2193,
+                    3232
+                ],
+                "order": 15,
+                "polygon_points": [
+                    [
+                        2101.0,
+                        3189.0
+                    ],
+                    [
+                        2193.0,
+                        3189.0
+                    ],
+                    [
+                        2193.0,
+                        3232.0
+                    ],
+                    [
+                        2101.0,
+                        3232.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

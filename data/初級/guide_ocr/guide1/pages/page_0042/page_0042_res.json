@@ -1,0 +1,522 @@
+{
+    "input_path": "input/ipas初級_科目1_人工智慧基礎概論_imgs/page_0042.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第三章 人工智慧基礎概論",
+            "block_bbox": [
+                294,
+                209,
+                899,
+                261
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    294.0,
+                    209.0
+                ],
+                [
+                    899.0,
+                    209.0
+                ],
+                [
+                    899.0,
+                    261.0
+                ],
+                [
+                    294.0,
+                    261.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "（1）監督式學習（Supervised Learning）",
+            "block_bbox": [
+                293,
+                403,
+                1192,
+                464
+            ],
+            "block_id": 1,
+            "block_order": 1,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    293.0,
+                    403.0
+                ],
+                [
+                    1192.0,
+                    403.0
+                ],
+                [
+                    1192.0,
+                    464.0
+                ],
+                [
+                    293.0,
+                    464.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "監督式學習是機器學習中最常見的一種方法，以「有標記的數據」為基礎，目標在於學習輸入與輸出之間的映射關係。這種方法需要數據集中的每個樣本都包含明確的輸入特徵與對應的標記，模型的訓練過程即是在這些標記的指導下，透過學習歷史數據來建立一個預測規則。監督式學習的應用範疇極為廣泛，無論是在醫療診斷、金融預測，還是在電子商務的推薦系統中，都發揮著重要作用。",
+            "block_bbox": [
+                293,
+                504,
+                2082,
+                968
+            ],
+            "block_id": 2,
+            "block_order": 2,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    293.0,
+                    504.0
+                ],
+                [
+                    2082.0,
+                    504.0
+                ],
+                [
+                    2082.0,
+                    968.0
+                ],
+                [
+                    293.0,
+                    968.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "在監督式學習中，迴歸和分類是最主要的兩種任務：關於迴歸任務，線性迴歸是經典的基礎演算法，透過擬合數據來預測連續型結果，例如在房價預測的場景中，線性迴歸模型會根據房屋面積、地理位置等特徵進行分析，找出價格變化的規律，進而預測新房屋的售價；而在分類任務中，支援向量機（Support Vector Machine, SVM）是一個常用的工具，特別適合解決二元分類問題。SVM 透過建立一個最佳的分類邊界（超平面），將數據劃分為不同的類別，這一方法被廣泛應用於醫療領域。例如，透過分析醫學影像，SVM 能夠協助醫生識別腫瘤是良性還是惡性，提高診斷的準確性。此外，神經網路（Neural Networks）也是監督式學習的重要模型，它模仿人腦神經元的運作方式，能夠處理高度非線性和複雜的數據。例如，在語音辨識中，神經網路能將音訊訊號轉換為對應的文字，並且在大量數據訓練下不斷提升辨識精準度。",
+            "block_bbox": [
+                293,
+                1002,
+                2084,
+                2072
+            ],
+            "block_id": 3,
+            "block_order": 3,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    293.0,
+                    1002.0
+                ],
+                [
+                    2084.0,
+                    1002.0
+                ],
+                [
+                    2084.0,
+                    2072.0
+                ],
+                [
+                    293.0,
+                    2072.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "（2）非監督式學習（Unsupervised Learning）",
+            "block_bbox": [
+                294,
+                2204,
+                1299,
+                2265
+            ],
+            "block_id": 4,
+            "block_order": 4,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    294.0,
+                    2204.0
+                ],
+                [
+                    1299.0,
+                    2204.0
+                ],
+                [
+                    1299.0,
+                    2265.0
+                ],
+                [
+                    294.0,
+                    2265.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "與監督式學習不同，非監督式學習並不依賴有標記的數據，而是透過分析數據的內在結構來尋找潛在的模式或規律。在這種情境下，數據並未被標記，模型的任務是自行辨識數據間的相似性或關聯性。非監督式學習的核心目標包括「聚類」和「降維」，在資料探勘、基因分析以及市場區隔等領域中具有顯著的應用價值。",
+            "block_bbox": [
+                291,
+                2304,
+                2083,
+                2760
+            ],
+            "block_id": 5,
+            "block_order": 5,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    291.0,
+                    2304.0
+                ],
+                [
+                    2083.0,
+                    2304.0
+                ],
+                [
+                    2083.0,
+                    2760.0
+                ],
+                [
+                    291.0,
+                    2760.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "在聚類任務中，K 均值聚類（K-Means Clustering）是一個廣泛使用的演算法，它將數據分為若干個不同的群組，每個群組內的數據具有高度的相似性。舉例來說，在市場區隔的場景中，企業可以利用 K 均值聚類分析客戶的購買行為，將消",
+            "block_bbox": [
+                295,
+                2804,
+                2082,
+                3067
+            ],
+            "block_id": 6,
+            "block_order": 6,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    2804.0
+                ],
+                [
+                    2082.0,
+                    2804.0
+                ],
+                [
+                    2082.0,
+                    3067.0
+                ],
+                [
+                    295.0,
+                    3067.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "3-36",
+            "block_bbox": [
+                182,
+                3189,
+                284,
+                3232
+            ],
+            "block_id": 7,
+            "block_order": null,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    182.0,
+                    3189.0
+                ],
+                [
+                    284.0,
+                    3189.0
+                ],
+                [
+                    284.0,
+                    3232.0
+                ],
+                [
+                    182.0,
+                    3232.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.8493494987487793,
+                "coordinate": [
+                    294,
+                    209,
+                    899,
+                    261
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        294.0,
+                        209.0
+                    ],
+                    [
+                        899.0,
+                        209.0
+                    ],
+                    [
+                        899.0,
+                        261.0
+                    ],
+                    [
+                        294.0,
+                        261.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8751448392868042,
+                "coordinate": [
+                    293,
+                    403,
+                    1192,
+                    464
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        293.0,
+                        403.0
+                    ],
+                    [
+                        1192.0,
+                        403.0
+                    ],
+                    [
+                        1192.0,
+                        464.0
+                    ],
+                    [
+                        293.0,
+                        464.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9531090259552002,
+                "coordinate": [
+                    293,
+                    504,
+                    2082,
+                    968
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        293.0,
+                        504.0
+                    ],
+                    [
+                        2082.0,
+                        504.0
+                    ],
+                    [
+                        2082.0,
+                        968.0
+                    ],
+                    [
+                        293.0,
+                        968.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9685843586921692,
+                "coordinate": [
+                    293,
+                    1002,
+                    2084,
+                    2072
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        293.0,
+                        1002.0
+                    ],
+                    [
+                        2084.0,
+                        1002.0
+                    ],
+                    [
+                        2084.0,
+                        2072.0
+                    ],
+                    [
+                        293.0,
+                        2072.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8508291840553284,
+                "coordinate": [
+                    294,
+                    2204,
+                    1299,
+                    2265
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        294.0,
+                        2204.0
+                    ],
+                    [
+                        1299.0,
+                        2204.0
+                    ],
+                    [
+                        1299.0,
+                        2265.0
+                    ],
+                    [
+                        294.0,
+                        2265.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9542969465255737,
+                "coordinate": [
+                    291,
+                    2304,
+                    2083,
+                    2760
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        291.0,
+                        2304.0
+                    ],
+                    [
+                        2083.0,
+                        2304.0
+                    ],
+                    [
+                        2083.0,
+                        2760.0
+                    ],
+                    [
+                        291.0,
+                        2760.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9468374848365784,
+                "coordinate": [
+                    295,
+                    2804,
+                    2082,
+                    3067
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        295.0,
+                        2804.0
+                    ],
+                    [
+                        2082.0,
+                        2804.0
+                    ],
+                    [
+                        2082.0,
+                        3067.0
+                    ],
+                    [
+                        295.0,
+                        3067.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.7628050446510315,
+                "coordinate": [
+                    182,
+                    3189,
+                    284,
+                    3232
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        182.0,
+                        3189.0
+                    ],
+                    [
+                        284.0,
+                        3189.0
+                    ],
+                    [
+                        284.0,
+                        3232.0
+                    ],
+                    [
+                        182.0,
+                        3232.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

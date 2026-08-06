@@ -1,0 +1,1132 @@
+{
+  "input_path": "input/ipas中級_科目3_機器學習技術與應用_imgs/page_0096.png",
+  "page_index": null,
+  "page_count": null,
+  "width": 2382,
+  "height": 3368,
+  "model_settings": {
+    "use_doc_preprocessor": false,
+    "use_layout_detection": true,
+    "use_chart_recognition": false,
+    "use_seal_recognition": false,
+    "use_ocr_for_image_block": false,
+    "format_block_content": false,
+    "merge_layout_blocks": true,
+    "markdown_ignore_labels": [
+      "number",
+      "footnote",
+      "header",
+      "header_image",
+      "footer",
+      "footer_image",
+      "aside_text"
+    ],
+    "return_layout_polygon_points": true
+  },
+  "parsing_res_list": [
+    {
+      "block_label": "header",
+      "block_content": "第四章 機器學習與深度學習",
+      "block_bbox": [
+        295,
+        207,
+        936,
+        262
+      ],
+      "block_id": 0,
+      "block_order": null,
+      "group_id": 0,
+      "block_polygon_points": [
+        [
+          295.0,
+          207.0
+        ],
+        [
+          936.0,
+          207.0
+        ],
+        [
+          936.0,
+          262.0
+        ],
+        [
+          295.0,
+          262.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "• 壓縮輸出範圍（Compress Output Range）",
+      "block_bbox": [
+        400,
+        403,
+        1358,
+        463
+      ],
+      "block_id": 1,
+      "block_order": 1,
+      "group_id": 1,
+      "block_polygon_points": [
+        [
+          400.0,
+          403.0
+        ],
+        [
+          1358.0,
+          403.0
+        ],
+        [
+          1358.0,
+          463.0
+        ],
+        [
+          400.0,
+          463.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "某些激活函數（如 Sigmoid 和 Tanh）能將神經元的輸出值壓縮到一個特定的範圍內（如[0,1]或[-1,1]）。這有助於：",
+      "block_bbox": [
+        473,
+        503,
+        2079,
+        665
+      ],
+      "block_id": 2,
+      "block_order": 2,
+      "group_id": 2,
+      "block_polygon_points": [
+        [
+          473.0,
+          503.0
+        ],
+        [
+          2079.0,
+          503.0
+        ],
+        [
+          2079.0,
+          665.0
+        ],
+        [
+          473.0,
+          665.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "■ 穩定訓練：",
+      "block_bbox": [
+        536,
+        704,
+        844,
+        762
+      ],
+      "block_id": 3,
+      "block_order": 3,
+      "group_id": 3,
+      "block_polygon_points": [
+        [
+          536.0,
+          704.0
+        ],
+        [
+          844.0,
+          704.0
+        ],
+        [
+          844.0,
+          762.0
+        ],
+        [
+          536.0,
+          762.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "○ 避免數值在網路傳播過程中過大或過小，進而導致梯度爆炸或梯度消失問題。",
+      "block_bbox": [
+        592,
+        802,
+        2079,
+        961
+      ],
+      "block_id": 4,
+      "block_order": 4,
+      "group_id": 4,
+      "block_polygon_points": [
+        [
+          592.0,
+          802.0
+        ],
+        [
+          2079.0,
+          802.0
+        ],
+        [
+          2079.0,
+          961.0
+        ],
+        [
+          592.0,
+          961.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "■ 解釋性：",
+      "block_bbox": [
+        537,
+        1003,
+        792,
+        1060
+      ],
+      "block_id": 5,
+      "block_order": 5,
+      "group_id": 5,
+      "block_polygon_points": [
+        [
+          537.0,
+          1003.0
+        ],
+        [
+          792.0,
+          1003.0
+        ],
+        [
+          792.0,
+          1060.0
+        ],
+        [
+          537.0,
+          1060.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "在輸出層，壓縮後的範圍有時可直接解釋為機率。",
+      "block_bbox": [
+        594,
+        1104,
+        1768,
+        1163
+      ],
+      "block_id": 6,
+      "block_order": 6,
+      "group_id": 6,
+      "block_polygon_points": [
+        [
+          594.0,
+          1104.0
+        ],
+        [
+          1768.0,
+          1104.0
+        ],
+        [
+          1768.0,
+          1163.0
+        ],
+        [
+          594.0,
+          1163.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "（3）前向傳播與反向傳播原理",
+      "block_bbox": [
+        297,
+        1302,
+        968,
+        1364
+      ],
+      "block_id": 7,
+      "block_order": 7,
+      "group_id": 7,
+      "block_polygon_points": [
+        [
+          297.0,
+          1302.0
+        ],
+        [
+          968.0,
+          1302.0
+        ],
+        [
+          968.0,
+          1364.0
+        ],
+        [
+          297.0,
+          1364.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "神經網路的學習過程，就像人類學習新技能一樣，是一個不斷嘗試、犯錯、然後從錯誤中汲取經驗並改進的循環。在這個循環中，前向傳播（Forward Propagation）和反向傳播（Backpropagation）是兩個核心且密不可分的步驟，共同驅動著模型從數據中提取知識並提升預測能力。前向傳播產生預測，反向傳播負責修正誤差，兩者合力使神經網路具備自我學習能力，是深度學習的核心。",
+      "block_bbox": [
+        293,
+        1402,
+        2083,
+        1868
+      ],
+      "block_id": 8,
+      "block_order": 8,
+      "group_id": 8,
+      "block_polygon_points": [
+        [
+          293.0,
+          1402.0
+        ],
+        [
+          2083.0,
+          1402.0
+        ],
+        [
+          2083.0,
+          1868.0
+        ],
+        [
+          293.0,
+          1868.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "● 前向傳播（Forward Propagation）",
+      "block_bbox": [
+        401,
+        1904,
+        1189,
+        1965
+      ],
+      "block_id": 9,
+      "block_order": 9,
+      "group_id": 9,
+      "block_polygon_points": [
+        [
+          401.0,
+          1904.0
+        ],
+        [
+          1189.0,
+          1904.0
+        ],
+        [
+          1189.0,
+          1965.0
+        ],
+        [
+          401.0,
+          1965.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "目標描述：",
+      "block_bbox": [
+        475,
+        2003,
+        786,
+        2061
+      ],
+      "block_id": 10,
+      "block_order": 10,
+      "group_id": 10,
+      "block_polygon_points": [
+        [
+          475.0,
+          2003.0
+        ],
+        [
+          786.0,
+          2003.0
+        ],
+        [
+          786.0,
+          2061.0
+        ],
+        [
+          475.0,
+          2061.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "■ 前向傳播  $ \\rightarrow $ 做預測。",
+      "block_bbox": [
+        535,
+        2103,
+        1098,
+        2163
+      ],
+      "block_id": 11,
+      "block_order": 11,
+      "group_id": 11,
+      "block_polygon_points": [
+        [
+          535.0,
+          2103.0
+        ],
+        [
+          1098.0,
+          2103.0
+        ],
+        [
+          1098.0,
+          2163.0
+        ],
+        [
+          535.0,
+          2163.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "把輸入數據依序送進每一層神經網路，經過計算後，產生模型的預測結果。",
+      "block_bbox": [
+        535,
+        2204,
+        2079,
+        2359
+      ],
+      "block_id": 12,
+      "block_order": 12,
+      "group_id": 12,
+      "block_polygon_points": [
+        [
+          535.0,
+          2204.0
+        ],
+        [
+          2079.0,
+          2204.0
+        ],
+        [
+          2079.0,
+          2359.0
+        ],
+        [
+          535.0,
+          2359.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "■就像把數據「往前推」到輸出層，看看模型對這筆資料怎麼判斷。",
+      "block_bbox": [
+        534,
+        2403,
+        2055,
+        2464
+      ],
+      "block_id": 13,
+      "block_order": 13,
+      "group_id": 13,
+      "block_polygon_points": [
+        [
+          534.0,
+          2403.0
+        ],
+        [
+          2055.0,
+          2403.0
+        ],
+        [
+          2055.0,
+          2464.0
+        ],
+        [
+          534.0,
+          2464.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "定義：",
+      "block_bbox": [
+        477,
+        2504,
+        687,
+        2561
+      ],
+      "block_id": 14,
+      "block_order": 14,
+      "group_id": 14,
+      "block_polygon_points": [
+        [
+          477.0,
+          2504.0
+        ],
+        [
+          687.0,
+          2504.0
+        ],
+        [
+          687.0,
+          2561.0
+        ],
+        [
+          477.0,
+          2561.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "■ 前向傳播是神經網路進行預測的運算過程。",
+      "block_bbox": [
+        536,
+        2604,
+        1551,
+        2661
+      ],
+      "block_id": 15,
+      "block_order": 15,
+      "group_id": 15,
+      "block_polygon_points": [
+        [
+          536.0,
+          2604.0
+        ],
+        [
+          1551.0,
+          2604.0
+        ],
+        [
+          1551.0,
+          2661.0
+        ],
+        [
+          536.0,
+          2661.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "運作原理：前向傳播是神經網路進行預測的過程，模擬了資訊從輸入端流向輸出端的路徑。",
+      "block_bbox": [
+        473,
+        2703,
+        2079,
+        2865
+      ],
+      "block_id": 16,
+      "block_order": 16,
+      "group_id": 16,
+      "block_polygon_points": [
+        [
+          473.0,
+          2703.0
+        ],
+        [
+          2079.0,
+          2703.0
+        ],
+        [
+          2079.0,
+          2865.0
+        ],
+        [
+          473.0,
+          2865.0
+        ]
+      ]
+    },
+    {
+      "block_label": "number",
+      "block_content": "4-58",
+      "block_bbox": [
+        183,
+        3189,
+        282,
+        3231
+      ],
+      "block_id": 17,
+      "block_order": null,
+      "group_id": 17,
+      "block_polygon_points": [
+        [
+          183.0,
+          3189.0
+        ],
+        [
+          282.0,
+          3189.0
+        ],
+        [
+          282.0,
+          3231.0
+        ],
+        [
+          183.0,
+          3231.0
+        ]
+      ]
+    }
+  ],
+  "layout_det_res": {
+    "input_path": null,
+    "page_index": null,
+    "boxes": [
+      {
+        "cls_id": 12,
+        "label": "header",
+        "score": 0.8605849742889404,
+        "coordinate": [
+          295,
+          207,
+          936,
+          262
+        ],
+        "order": null,
+        "polygon_points": [
+          [
+            295.0,
+            207.0
+          ],
+          [
+            936.0,
+            207.0
+          ],
+          [
+            936.0,
+            262.0
+          ],
+          [
+            295.0,
+            262.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.7609339952468872,
+        "coordinate": [
+          400,
+          403,
+          1358,
+          463
+        ],
+        "order": 1,
+        "polygon_points": [
+          [
+            400.0,
+            403.0
+          ],
+          [
+            1358.0,
+            403.0
+          ],
+          [
+            1358.0,
+            463.0
+          ],
+          [
+            400.0,
+            463.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9260076880455017,
+        "coordinate": [
+          473,
+          503,
+          2079,
+          665
+        ],
+        "order": 2,
+        "polygon_points": [
+          [
+            473.0,
+            503.0
+          ],
+          [
+            2079.0,
+            503.0
+          ],
+          [
+            2079.0,
+            665.0
+          ],
+          [
+            473.0,
+            665.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8053977489471436,
+        "coordinate": [
+          536,
+          704,
+          844,
+          762
+        ],
+        "order": 3,
+        "polygon_points": [
+          [
+            536.0,
+            704.0
+          ],
+          [
+            844.0,
+            704.0
+          ],
+          [
+            844.0,
+            762.0
+          ],
+          [
+            536.0,
+            762.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9160057902336121,
+        "coordinate": [
+          592,
+          802,
+          2079,
+          961
+        ],
+        "order": 4,
+        "polygon_points": [
+          [
+            592.0,
+            802.0
+          ],
+          [
+            2079.0,
+            802.0
+          ],
+          [
+            2079.0,
+            961.0
+          ],
+          [
+            592.0,
+            961.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.7887868881225586,
+        "coordinate": [
+          537,
+          1003,
+          792,
+          1060
+        ],
+        "order": 5,
+        "polygon_points": [
+          [
+            537.0,
+            1003.0
+          ],
+          [
+            792.0,
+            1003.0
+          ],
+          [
+            792.0,
+            1060.0
+          ],
+          [
+            537.0,
+            1060.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8452156186103821,
+        "coordinate": [
+          594,
+          1104,
+          1768,
+          1163
+        ],
+        "order": 6,
+        "polygon_points": [
+          [
+            594.0,
+            1104.0
+          ],
+          [
+            1768.0,
+            1104.0
+          ],
+          [
+            1768.0,
+            1163.0
+          ],
+          [
+            594.0,
+            1163.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.861808717250824,
+        "coordinate": [
+          297,
+          1302,
+          968,
+          1364
+        ],
+        "order": 7,
+        "polygon_points": [
+          [
+            297.0,
+            1302.0
+          ],
+          [
+            968.0,
+            1302.0
+          ],
+          [
+            968.0,
+            1364.0
+          ],
+          [
+            297.0,
+            1364.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9586549997329712,
+        "coordinate": [
+          293,
+          1402,
+          2083,
+          1868
+        ],
+        "order": 8,
+        "polygon_points": [
+          [
+            293.0,
+            1402.0
+          ],
+          [
+            2083.0,
+            1402.0
+          ],
+          [
+            2083.0,
+            1868.0
+          ],
+          [
+            293.0,
+            1868.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.5317877531051636,
+        "coordinate": [
+          401,
+          1904,
+          1189,
+          1965
+        ],
+        "order": 9,
+        "polygon_points": [
+          [
+            401.0,
+            1904.0
+          ],
+          [
+            1189.0,
+            1904.0
+          ],
+          [
+            1189.0,
+            1965.0
+          ],
+          [
+            401.0,
+            1965.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8224272131919861,
+        "coordinate": [
+          475,
+          2003,
+          786,
+          2061
+        ],
+        "order": 10,
+        "polygon_points": [
+          [
+            475.0,
+            2003.0
+          ],
+          [
+            786.0,
+            2003.0
+          ],
+          [
+            786.0,
+            2061.0
+          ],
+          [
+            475.0,
+            2061.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8306994438171387,
+        "coordinate": [
+          535,
+          2103,
+          1098,
+          2163
+        ],
+        "order": 11,
+        "polygon_points": [
+          [
+            535.0,
+            2103.0
+          ],
+          [
+            1098.0,
+            2103.0
+          ],
+          [
+            1098.0,
+            2163.0
+          ],
+          [
+            535.0,
+            2163.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9214974641799927,
+        "coordinate": [
+          535,
+          2204,
+          2079,
+          2359
+        ],
+        "order": 12,
+        "polygon_points": [
+          [
+            535.0,
+            2204.0
+          ],
+          [
+            2079.0,
+            2204.0
+          ],
+          [
+            2079.0,
+            2359.0
+          ],
+          [
+            535.0,
+            2359.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8680194616317749,
+        "coordinate": [
+          534,
+          2403,
+          2055,
+          2464
+        ],
+        "order": 13,
+        "polygon_points": [
+          [
+            534.0,
+            2403.0
+          ],
+          [
+            2055.0,
+            2403.0
+          ],
+          [
+            2055.0,
+            2464.0
+          ],
+          [
+            534.0,
+            2464.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.795691967010498,
+        "coordinate": [
+          477,
+          2504,
+          687,
+          2561
+        ],
+        "order": 14,
+        "polygon_points": [
+          [
+            477.0,
+            2504.0
+          ],
+          [
+            687.0,
+            2504.0
+          ],
+          [
+            687.0,
+            2561.0
+          ],
+          [
+            477.0,
+            2561.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8535590767860413,
+        "coordinate": [
+          536,
+          2604,
+          1551,
+          2661
+        ],
+        "order": 15,
+        "polygon_points": [
+          [
+            536.0,
+            2604.0
+          ],
+          [
+            1551.0,
+            2604.0
+          ],
+          [
+            1551.0,
+            2661.0
+          ],
+          [
+            536.0,
+            2661.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9283498525619507,
+        "coordinate": [
+          473,
+          2703,
+          2079,
+          2865
+        ],
+        "order": 16,
+        "polygon_points": [
+          [
+            473.0,
+            2703.0
+          ],
+          [
+            2079.0,
+            2703.0
+          ],
+          [
+            2079.0,
+            2865.0
+          ],
+          [
+            473.0,
+            2865.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 16,
+        "label": "number",
+        "score": 0.7576388120651245,
+        "coordinate": [
+          183,
+          3189,
+          282,
+          3231
+        ],
+        "order": 17,
+        "polygon_points": [
+          [
+            183.0,
+            3189.0
+          ],
+          [
+            282.0,
+            3189.0
+          ],
+          [
+            282.0,
+            3231.0
+          ],
+          [
+            183.0,
+            3231.0
+          ]
+        ]
+      }
+    ]
+  }
+}

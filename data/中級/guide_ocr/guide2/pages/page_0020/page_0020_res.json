@@ -1,0 +1,949 @@
+{
+  "input_path": "input/ipas中級_科目2_大數據處理分析與應用_imgs/page_0020.png",
+  "page_index": null,
+  "page_count": null,
+  "width": 2382,
+  "height": 3368,
+  "model_settings": {
+    "use_doc_preprocessor": false,
+    "use_layout_detection": true,
+    "use_chart_recognition": false,
+    "use_seal_recognition": false,
+    "use_ocr_for_image_block": false,
+    "format_block_content": false,
+    "merge_layout_blocks": true,
+    "markdown_ignore_labels": [
+      "number",
+      "footnote",
+      "header",
+      "header_image",
+      "footer",
+      "footer_image",
+      "aside_text"
+    ],
+    "return_layout_polygon_points": true
+  },
+  "parsing_res_list": [
+    {
+      "block_label": "header_image",
+      "block_content": "",
+      "block_bbox": [
+        301,
+        359,
+        453,
+        500
+      ],
+      "block_id": 0,
+      "block_order": null,
+      "group_id": 0,
+      "block_polygon_points": [
+        [
+          301.0,
+          359.0
+        ],
+        [
+          453.0,
+          359.0
+        ],
+        [
+          453.0,
+          500.0
+        ],
+        [
+          301.0,
+          500.0
+        ]
+      ]
+    },
+    {
+      "block_label": "header",
+      "block_content": "第三章 機率統計基礎",
+      "block_bbox": [
+        1559,
+        207,
+        2079,
+        260
+      ],
+      "block_id": 1,
+      "block_order": null,
+      "group_id": 1,
+      "block_polygon_points": [
+        [
+          1559.0,
+          207.0
+        ],
+        [
+          2079.0,
+          207.0
+        ],
+        [
+          2079.0,
+          260.0
+        ],
+        [
+          1559.0,
+          260.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "重點掃瞄",
+      "block_bbox": [
+        469,
+        396,
+        742,
+        471
+      ],
+      "block_id": 2,
+      "block_order": 1,
+      "group_id": 2,
+      "block_polygon_points": [
+        [
+          469.0,
+          396.0
+        ],
+        [
+          742.0,
+          396.0
+        ],
+        [
+          742.0,
+          471.0
+        ],
+        [
+          469.0,
+          471.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "3.2 機率分佈與資料分佈模型",
+      "block_bbox": [
+        337,
+        615,
+        1260,
+        692
+      ],
+      "block_id": 3,
+      "block_order": 2,
+      "group_id": 3,
+      "block_polygon_points": [
+        [
+          337.0,
+          615.0
+        ],
+        [
+          1260.0,
+          615.0
+        ],
+        [
+          1260.0,
+          692.0
+        ],
+        [
+          337.0,
+          692.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "1. 前言與章節導覽",
+      "block_bbox": [
+        299,
+        809,
+        782,
+        876
+      ],
+      "block_id": 4,
+      "block_order": 3,
+      "group_id": 4,
+      "block_polygon_points": [
+        [
+          299.0,
+          809.0
+        ],
+        [
+          782.0,
+          809.0
+        ],
+        [
+          782.0,
+          876.0
+        ],
+        [
+          299.0,
+          876.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "在大數據分析中，我們不僅需要從「敘述性統計」層面掌握資料的集中趨勢與離散度，也需對資料背後的機率特徵與分佈模型有更深入的理解。若能辨識資料屬於何種理論分佈（例如常態分佈、二項分佈、Poisson 等），便能在後續推論與假設檢定時做更精準的模型選擇，也利於機器學習演算法或特徵工程優化。本節即聚焦在常見機率分佈，介紹離散型分佈、連續型分佈的基礎概念。",
+      "block_bbox": [
+        294,
+        916,
+        2082,
+        1382
+      ],
+      "block_id": 5,
+      "block_order": 4,
+      "group_id": 5,
+      "block_polygon_points": [
+        [
+          294.0,
+          916.0
+        ],
+        [
+          2082.0,
+          916.0
+        ],
+        [
+          2082.0,
+          1382.0
+        ],
+        [
+          294.0,
+          1382.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "2. 機率分佈簡介",
+      "block_bbox": [
+        295,
+        1509,
+        721,
+        1576
+      ],
+      "block_id": 6,
+      "block_order": 5,
+      "group_id": 6,
+      "block_polygon_points": [
+        [
+          295.0,
+          1509.0
+        ],
+        [
+          721.0,
+          1509.0
+        ],
+        [
+          721.0,
+          1576.0
+        ],
+        [
+          295.0,
+          1576.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "機率分佈（Probability Distribution）是描述隨機變數的所有可能值及其相應機率的數學函數。在統計學與機率論中，機率分佈是用來表示一個隨機實驗結果的所有可能性及其發生的機率。可以應用於幫助我們理解和預測隨機現象，並用來計算風險、優化資源配置等。",
+      "block_bbox": [
+        294,
+        1616,
+        2082,
+        1980
+      ],
+      "block_id": 7,
+      "block_order": 6,
+      "group_id": 7,
+      "block_polygon_points": [
+        [
+          294.0,
+          1616.0
+        ],
+        [
+          2082.0,
+          1616.0
+        ],
+        [
+          2082.0,
+          1980.0
+        ],
+        [
+          294.0,
+          1980.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "（1）機率分布的兩個重要數值",
+      "block_bbox": [
+        295,
+        2115,
+        970,
+        2178
+      ],
+      "block_id": 8,
+      "block_order": 7,
+      "group_id": 8,
+      "block_polygon_points": [
+        [
+          295.0,
+          2115.0
+        ],
+        [
+          970.0,
+          2115.0
+        ],
+        [
+          970.0,
+          2178.0
+        ],
+        [
+          295.0,
+          2178.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "機率分佈的兩個重要數值，期望值（Expected Value）與變異數（Variance），是統計學中衡量隨機變數性質的關鍵指標。",
+      "block_bbox": [
+        296,
+        2216,
+        2070,
+        2378
+      ],
+      "block_id": 9,
+      "block_order": 8,
+      "group_id": 9,
+      "block_polygon_points": [
+        [
+          296.0,
+          2216.0
+        ],
+        [
+          2070.0,
+          2216.0
+        ],
+        [
+          2070.0,
+          2378.0
+        ],
+        [
+          296.0,
+          2378.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "- 期望值（Expected Value, E(X)）",
+      "block_bbox": [
+        402,
+        2416,
+        1191,
+        2478
+      ],
+      "block_id": 10,
+      "block_order": 9,
+      "group_id": 10,
+      "block_polygon_points": [
+        [
+          402.0,
+          2416.0
+        ],
+        [
+          1191.0,
+          2416.0
+        ],
+        [
+          1191.0,
+          2478.0
+        ],
+        [
+          402.0,
+          2478.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "期望值是一個隨機變數的加權平均值，它描述的是該隨機變數在多次試驗中可能出現的平均結果。期望值在統計學中有時被稱為「數學期望」，代表了隨機變數的長期平均或中心位置。",
+      "block_bbox": [
+        475,
+        2516,
+        2079,
+        2778
+      ],
+      "block_id": 11,
+      "block_order": 10,
+      "group_id": 11,
+      "block_polygon_points": [
+        [
+          475.0,
+          2516.0
+        ],
+        [
+          2079.0,
+          2516.0
+        ],
+        [
+          2079.0,
+          2778.0
+        ],
+        [
+          475.0,
+          2778.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "♦ 對於離散型隨機變數 X，期望值的計算公式為：",
+      "block_bbox": [
+        476,
+        2816,
+        1594,
+        2876
+      ],
+      "block_id": 12,
+      "block_order": 11,
+      "group_id": 12,
+      "block_polygon_points": [
+        [
+          476.0,
+          2816.0
+        ],
+        [
+          1594.0,
+          2816.0
+        ],
+        [
+          1594.0,
+          2876.0
+        ],
+        [
+          476.0,
+          2876.0
+        ]
+      ]
+    },
+    {
+      "block_label": "display_formula",
+      "block_content": " $$ E(X)=\\sum_{i=1}^{n}x_{i}P(x_{i}) $$ ",
+      "block_bbox": [
+        533,
+        2928,
+        934,
+        3093
+      ],
+      "block_id": 13,
+      "block_order": 12,
+      "group_id": 13,
+      "block_polygon_points": [
+        [
+          533.0,
+          2928.0
+        ],
+        [
+          934.0,
+          2928.0
+        ],
+        [
+          934.0,
+          3093.0
+        ],
+        [
+          533.0,
+          3093.0
+        ]
+      ]
+    },
+    {
+      "block_label": "number",
+      "block_content": "3-13",
+      "block_bbox": [
+        2100,
+        3189,
+        2198,
+        3232
+      ],
+      "block_id": 14,
+      "block_order": null,
+      "group_id": 14,
+      "block_polygon_points": [
+        [
+          2100.0,
+          3189.0
+        ],
+        [
+          2198.0,
+          3189.0
+        ],
+        [
+          2198.0,
+          3232.0
+        ],
+        [
+          2100.0,
+          3232.0
+        ]
+      ]
+    }
+  ],
+  "layout_det_res": {
+    "input_path": null,
+    "page_index": null,
+    "boxes": [
+      {
+        "cls_id": 13,
+        "label": "header_image",
+        "score": 0.7111325263977051,
+        "coordinate": [
+          301,
+          359,
+          453,
+          500
+        ],
+        "order": null,
+        "polygon_points": [
+          [
+            301.0,
+            359.0
+          ],
+          [
+            453.0,
+            359.0
+          ],
+          [
+            453.0,
+            500.0
+          ],
+          [
+            301.0,
+            500.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 12,
+        "label": "header",
+        "score": 0.8529139161109924,
+        "coordinate": [
+          1559,
+          207,
+          2079,
+          260
+        ],
+        "order": null,
+        "polygon_points": [
+          [
+            1559.0,
+            207.0
+          ],
+          [
+            2079.0,
+            207.0
+          ],
+          [
+            2079.0,
+            260.0
+          ],
+          [
+            1559.0,
+            260.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8617467880249023,
+        "coordinate": [
+          469,
+          396,
+          742,
+          471
+        ],
+        "order": 1,
+        "polygon_points": [
+          [
+            469.0,
+            396.0
+          ],
+          [
+            742.0,
+            396.0
+          ],
+          [
+            742.0,
+            471.0
+          ],
+          [
+            469.0,
+            471.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8681434392929077,
+        "coordinate": [
+          337,
+          615,
+          1260,
+          692
+        ],
+        "order": 2,
+        "polygon_points": [
+          [
+            337.0,
+            615.0
+          ],
+          [
+            1260.0,
+            615.0
+          ],
+          [
+            1260.0,
+            692.0
+          ],
+          [
+            337.0,
+            692.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8715829849243164,
+        "coordinate": [
+          299,
+          809,
+          782,
+          876
+        ],
+        "order": 3,
+        "polygon_points": [
+          [
+            299.0,
+            809.0
+          ],
+          [
+            782.0,
+            809.0
+          ],
+          [
+            782.0,
+            876.0
+          ],
+          [
+            299.0,
+            876.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9600716829299927,
+        "coordinate": [
+          294,
+          916,
+          2082,
+          1382
+        ],
+        "order": 4,
+        "polygon_points": [
+          [
+            294.0,
+            916.0
+          ],
+          [
+            2082.0,
+            916.0
+          ],
+          [
+            2082.0,
+            1382.0
+          ],
+          [
+            294.0,
+            1382.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8631002902984619,
+        "coordinate": [
+          295,
+          1509,
+          721,
+          1576
+        ],
+        "order": 5,
+        "polygon_points": [
+          [
+            295.0,
+            1509.0
+          ],
+          [
+            721.0,
+            1509.0
+          ],
+          [
+            721.0,
+            1576.0
+          ],
+          [
+            295.0,
+            1576.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9533840417861938,
+        "coordinate": [
+          294,
+          1616,
+          2082,
+          1980
+        ],
+        "order": 6,
+        "polygon_points": [
+          [
+            294.0,
+            1616.0
+          ],
+          [
+            2082.0,
+            1616.0
+          ],
+          [
+            2082.0,
+            1980.0
+          ],
+          [
+            294.0,
+            1980.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8560817241668701,
+        "coordinate": [
+          295,
+          2115,
+          970,
+          2178
+        ],
+        "order": 7,
+        "polygon_points": [
+          [
+            295.0,
+            2115.0
+          ],
+          [
+            970.0,
+            2115.0
+          ],
+          [
+            970.0,
+            2178.0
+          ],
+          [
+            295.0,
+            2178.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9214909076690674,
+        "coordinate": [
+          296,
+          2216,
+          2070,
+          2378
+        ],
+        "order": 8,
+        "polygon_points": [
+          [
+            296.0,
+            2216.0
+          ],
+          [
+            2070.0,
+            2216.0
+          ],
+          [
+            2070.0,
+            2378.0
+          ],
+          [
+            296.0,
+            2378.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.7563520073890686,
+        "coordinate": [
+          402,
+          2416,
+          1191,
+          2478
+        ],
+        "order": 9,
+        "polygon_points": [
+          [
+            402.0,
+            2416.0
+          ],
+          [
+            1191.0,
+            2416.0
+          ],
+          [
+            1191.0,
+            2478.0
+          ],
+          [
+            402.0,
+            2478.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9514309763908386,
+        "coordinate": [
+          475,
+          2516,
+          2079,
+          2778
+        ],
+        "order": 10,
+        "polygon_points": [
+          [
+            475.0,
+            2516.0
+          ],
+          [
+            2079.0,
+            2516.0
+          ],
+          [
+            2079.0,
+            2778.0
+          ],
+          [
+            475.0,
+            2778.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8713886737823486,
+        "coordinate": [
+          476,
+          2816,
+          1594,
+          2876
+        ],
+        "order": 11,
+        "polygon_points": [
+          [
+            476.0,
+            2816.0
+          ],
+          [
+            1594.0,
+            2816.0
+          ],
+          [
+            1594.0,
+            2876.0
+          ],
+          [
+            476.0,
+            2876.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 5,
+        "label": "display_formula",
+        "score": 0.9247105717658997,
+        "coordinate": [
+          533,
+          2928,
+          934,
+          3093
+        ],
+        "order": 12,
+        "polygon_points": [
+          [
+            533.0,
+            2928.0
+          ],
+          [
+            934.0,
+            2928.0
+          ],
+          [
+            934.0,
+            3093.0
+          ],
+          [
+            533.0,
+            3093.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 16,
+        "label": "number",
+        "score": 0.7287655472755432,
+        "coordinate": [
+          2100,
+          3189,
+          2198,
+          3232
+        ],
+        "order": 13,
+        "polygon_points": [
+          [
+            2100.0,
+            3189.0
+          ],
+          [
+            2198.0,
+            3189.0
+          ],
+          [
+            2198.0,
+            3232.0
+          ],
+          [
+            2100.0,
+            3232.0
+          ]
+        ]
+      }
+    ]
+  }
+}

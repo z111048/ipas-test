@@ -1,0 +1,1010 @@
+{
+    "input_path": "input/ipas中級_科目3_機器學習技術與應用_imgs/page_0128.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第四章 機器學習與深度學習",
+            "block_bbox": [
+                295,
+                207,
+                935,
+                261
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    207.0
+                ],
+                [
+                    935.0,
+                    207.0
+                ],
+                [
+                    935.0,
+                    261.0
+                ],
+                [
+                    295.0,
+                    261.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "(1) TensorFlow 與 Keras",
+            "block_bbox": [
+                295,
+                401,
+                874,
+                461
+            ],
+            "block_id": 1,
+            "block_order": 1,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    401.0
+                ],
+                [
+                    874.0,
+                    401.0
+                ],
+                [
+                    874.0,
+                    461.0
+                ],
+                [
+                    295.0,
+                    461.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "• TensorFlow",
+            "block_bbox": [
+                403,
+                505,
+                724,
+                560
+            ],
+            "block_id": 2,
+            "block_order": 2,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    403.0,
+                    505.0
+                ],
+                [
+                    724.0,
+                    505.0
+                ],
+                [
+                    724.0,
+                    560.0
+                ],
+                [
+                    403.0,
+                    560.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "◆ TensorFlow 是由 Google 開發並維護的開源機器學習框架，自 2015 年發布以來，迅速成為業界和學術界應用最廣泛的深度學習框架之一。TensorFlow 提供了一套全面、靈活的工具、函式庫和社群資源，用於建構和部署各種機器學習模型。",
+            "block_bbox": [
+                476,
+                596,
+                2083,
+                954
+            ],
+            "block_id": 3,
+            "block_order": 3,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    476.0,
+                    596.0
+                ],
+                [
+                    2083.0,
+                    596.0
+                ],
+                [
+                    2083.0,
+                    954.0
+                ],
+                [
+                    476.0,
+                    954.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "核心特性",
+            "block_bbox": [
+                476,
+                991,
+                754,
+                1050
+            ],
+            "block_id": 4,
+            "block_order": 4,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    476.0,
+                    991.0
+                ],
+                [
+                    754.0,
+                    991.0
+                ],
+                [
+                    754.0,
+                    1050.0
+                ],
+                [
+                    476.0,
+                    1050.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "計算圖（Computation Graph）：",
+            "block_bbox": [
+                536,
+                1090,
+                1271,
+                1151
+            ],
+            "block_id": 5,
+            "block_order": 5,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    536.0,
+                    1090.0
+                ],
+                [
+                    1271.0,
+                    1090.0
+                ],
+                [
+                    1271.0,
+                    1151.0
+                ],
+                [
+                    536.0,
+                    1151.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "TensorFlow 早期版本主要基於靜態計算圖，先定義好運算結構，再執行數據流。這提供了優化的潛力，但有時會降低開發彈性。近年來，TensorFlow 2.x 已轉向即時執行（Eager Execution），允許像 Python 那樣直觀地即時運行操作，極大地提升了開發和調試的便利性。",
+            "block_bbox": [
+                596,
+                1191,
+                2084,
+                1653
+            ],
+            "block_id": 6,
+            "block_order": 6,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    596.0,
+                    1191.0
+                ],
+                [
+                    2084.0,
+                    1191.0
+                ],
+                [
+                    2084.0,
+                    1653.0
+                ],
+                [
+                    596.0,
+                    1653.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "跨平台部署：",
+            "block_bbox": [
+                538,
+                1690,
+                895,
+                1751
+            ],
+            "block_id": 7,
+            "block_order": 7,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    538.0,
+                    1690.0
+                ],
+                [
+                    895.0,
+                    1690.0
+                ],
+                [
+                    895.0,
+                    1751.0
+                ],
+                [
+                    538.0,
+                    1751.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "○ 支援多種平台部署，包括 CPU、GPU、TPU（Google 自研的張量處理單元）、行動裝置（TensorFlow Lite）、物聯網設備（TensorFlow Lite Micro）和網頁（TensorFlow.js）。",
+            "block_bbox": [
+                594,
+                1791,
+                2083,
+                2050
+            ],
+            "block_id": 8,
+            "block_order": 8,
+            "group_id": 8,
+            "block_polygon_points": [
+                [
+                    594.0,
+                    1791.0
+                ],
+                [
+                    2083.0,
+                    1791.0
+                ],
+                [
+                    2083.0,
+                    2050.0
+                ],
+                [
+                    594.0,
+                    2050.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "生產級部署：",
+            "block_bbox": [
+                536,
+                2091,
+                895,
+                2151
+            ],
+            "block_id": 9,
+            "block_order": 9,
+            "group_id": 9,
+            "block_polygon_points": [
+                [
+                    536.0,
+                    2091.0
+                ],
+                [
+                    895.0,
+                    2091.0
+                ],
+                [
+                    895.0,
+                    2151.0
+                ],
+                [
+                    536.0,
+                    2151.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "擁有豐富生態系統支援生產環境的部署，如 TensorFlow Extended （TFX）用於機器學習管道管理，以及 TensorFlow Serving 用於模型服務。",
+            "block_bbox": [
+                591,
+                2192,
+                2082,
+                2450
+            ],
+            "block_id": 10,
+            "block_order": 10,
+            "group_id": 10,
+            "block_polygon_points": [
+                [
+                    591.0,
+                    2192.0
+                ],
+                [
+                    2082.0,
+                    2192.0
+                ],
+                [
+                    2082.0,
+                    2450.0
+                ],
+                [
+                    591.0,
+                    2450.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "• Keras",
+            "block_bbox": [
+                403,
+                2500,
+                605,
+                2551
+            ],
+            "block_id": 11,
+            "block_order": 11,
+            "group_id": 11,
+            "block_polygon_points": [
+                [
+                    403.0,
+                    2500.0
+                ],
+                [
+                    605.0,
+                    2500.0
+                ],
+                [
+                    605.0,
+                    2551.0
+                ],
+                [
+                    403.0,
+                    2551.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "♦ Keras 是一個高階神經網路 API，以使用者友善、模組化且易於擴展為設計宗旨。自 TensorFlow 2.0 起，Keras 已被完全整合為 TensorFlow 的官方高階 API，成為其核心組成部分（tf.keras）。",
+            "block_bbox": [
+                474,
+                2591,
+                2082,
+                2854
+            ],
+            "block_id": 12,
+            "block_order": 12,
+            "group_id": 12,
+            "block_polygon_points": [
+                [
+                    474.0,
+                    2591.0
+                ],
+                [
+                    2082.0,
+                    2591.0
+                ],
+                [
+                    2082.0,
+                    2854.0
+                ],
+                [
+                    474.0,
+                    2854.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "核心特性：",
+            "block_bbox": [
+                478,
+                2891,
+                788,
+                2949
+            ],
+            "block_id": 13,
+            "block_order": 13,
+            "group_id": 13,
+            "block_polygon_points": [
+                [
+                    478.0,
+                    2891.0
+                ],
+                [
+                    788.0,
+                    2891.0
+                ],
+                [
+                    788.0,
+                    2949.0
+                ],
+                [
+                    478.0,
+                    2949.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "極簡主義：",
+            "block_bbox": [
+                536,
+                2991,
+                843,
+                3050
+            ],
+            "block_id": 14,
+            "block_order": 14,
+            "group_id": 14,
+            "block_polygon_points": [
+                [
+                    536.0,
+                    2991.0
+                ],
+                [
+                    843.0,
+                    2991.0
+                ],
+                [
+                    843.0,
+                    3050.0
+                ],
+                [
+                    536.0,
+                    3050.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "4-90",
+            "block_bbox": [
+                184,
+                3190,
+                282,
+                3231
+            ],
+            "block_id": 15,
+            "block_order": null,
+            "group_id": 15,
+            "block_polygon_points": [
+                [
+                    184.0,
+                    3190.0
+                ],
+                [
+                    282.0,
+                    3190.0
+                ],
+                [
+                    282.0,
+                    3231.0
+                ],
+                [
+                    184.0,
+                    3231.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.8618242740631104,
+                "coordinate": [
+                    295,
+                    207,
+                    935,
+                    261
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        295.0,
+                        207.0
+                    ],
+                    [
+                        935.0,
+                        207.0
+                    ],
+                    [
+                        935.0,
+                        261.0
+                    ],
+                    [
+                        295.0,
+                        261.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8481549620628357,
+                "coordinate": [
+                    295,
+                    401,
+                    874,
+                    461
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        295.0,
+                        401.0
+                    ],
+                    [
+                        874.0,
+                        401.0
+                    ],
+                    [
+                        874.0,
+                        461.0
+                    ],
+                    [
+                        295.0,
+                        461.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.593578577041626,
+                "coordinate": [
+                    403,
+                    505,
+                    724,
+                    560
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        403.0,
+                        505.0
+                    ],
+                    [
+                        724.0,
+                        505.0
+                    ],
+                    [
+                        724.0,
+                        560.0
+                    ],
+                    [
+                        403.0,
+                        560.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9473087191581726,
+                "coordinate": [
+                    476,
+                    596,
+                    2083,
+                    954
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        476.0,
+                        596.0
+                    ],
+                    [
+                        2083.0,
+                        596.0
+                    ],
+                    [
+                        2083.0,
+                        954.0
+                    ],
+                    [
+                        476.0,
+                        954.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.7364883422851562,
+                "coordinate": [
+                    476,
+                    991,
+                    754,
+                    1050
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        476.0,
+                        991.0
+                    ],
+                    [
+                        754.0,
+                        991.0
+                    ],
+                    [
+                        754.0,
+                        1050.0
+                    ],
+                    [
+                        476.0,
+                        1050.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8166829347610474,
+                "coordinate": [
+                    536,
+                    1090,
+                    1271,
+                    1151
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        536.0,
+                        1090.0
+                    ],
+                    [
+                        1271.0,
+                        1090.0
+                    ],
+                    [
+                        1271.0,
+                        1151.0
+                    ],
+                    [
+                        536.0,
+                        1151.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9445673227310181,
+                "coordinate": [
+                    596,
+                    1191,
+                    2084,
+                    1653
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        596.0,
+                        1191.0
+                    ],
+                    [
+                        2084.0,
+                        1191.0
+                    ],
+                    [
+                        2084.0,
+                        1653.0
+                    ],
+                    [
+                        596.0,
+                        1653.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.6140913963317871,
+                "coordinate": [
+                    538,
+                    1690,
+                    895,
+                    1751
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        538.0,
+                        1690.0
+                    ],
+                    [
+                        895.0,
+                        1690.0
+                    ],
+                    [
+                        895.0,
+                        1751.0
+                    ],
+                    [
+                        538.0,
+                        1751.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9301071763038635,
+                "coordinate": [
+                    594,
+                    1791,
+                    2083,
+                    2050
+                ],
+                "order": 8,
+                "polygon_points": [
+                    [
+                        594.0,
+                        1791.0
+                    ],
+                    [
+                        2083.0,
+                        1791.0
+                    ],
+                    [
+                        2083.0,
+                        2050.0
+                    ],
+                    [
+                        594.0,
+                        2050.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.775992214679718,
+                "coordinate": [
+                    536,
+                    2091,
+                    895,
+                    2151
+                ],
+                "order": 9,
+                "polygon_points": [
+                    [
+                        536.0,
+                        2091.0
+                    ],
+                    [
+                        895.0,
+                        2091.0
+                    ],
+                    [
+                        895.0,
+                        2151.0
+                    ],
+                    [
+                        536.0,
+                        2151.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9425778388977051,
+                "coordinate": [
+                    591,
+                    2192,
+                    2082,
+                    2450
+                ],
+                "order": 10,
+                "polygon_points": [
+                    [
+                        591.0,
+                        2192.0
+                    ],
+                    [
+                        2082.0,
+                        2192.0
+                    ],
+                    [
+                        2082.0,
+                        2450.0
+                    ],
+                    [
+                        591.0,
+                        2450.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.5036714673042297,
+                "coordinate": [
+                    403,
+                    2500,
+                    605,
+                    2551
+                ],
+                "order": 11,
+                "polygon_points": [
+                    [
+                        403.0,
+                        2500.0
+                    ],
+                    [
+                        605.0,
+                        2500.0
+                    ],
+                    [
+                        605.0,
+                        2551.0
+                    ],
+                    [
+                        403.0,
+                        2551.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.947530210018158,
+                "coordinate": [
+                    474,
+                    2591,
+                    2082,
+                    2854
+                ],
+                "order": 12,
+                "polygon_points": [
+                    [
+                        474.0,
+                        2591.0
+                    ],
+                    [
+                        2082.0,
+                        2591.0
+                    ],
+                    [
+                        2082.0,
+                        2854.0
+                    ],
+                    [
+                        474.0,
+                        2854.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.754944920539856,
+                "coordinate": [
+                    478,
+                    2891,
+                    788,
+                    2949
+                ],
+                "order": 13,
+                "polygon_points": [
+                    [
+                        478.0,
+                        2891.0
+                    ],
+                    [
+                        788.0,
+                        2891.0
+                    ],
+                    [
+                        788.0,
+                        2949.0
+                    ],
+                    [
+                        478.0,
+                        2949.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.7310934662818909,
+                "coordinate": [
+                    536,
+                    2991,
+                    843,
+                    3050
+                ],
+                "order": 14,
+                "polygon_points": [
+                    [
+                        536.0,
+                        2991.0
+                    ],
+                    [
+                        843.0,
+                        2991.0
+                    ],
+                    [
+                        843.0,
+                        3050.0
+                    ],
+                    [
+                        536.0,
+                        3050.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.7355525493621826,
+                "coordinate": [
+                    184,
+                    3190,
+                    282,
+                    3231
+                ],
+                "order": 15,
+                "polygon_points": [
+                    [
+                        184.0,
+                        3190.0
+                    ],
+                    [
+                        282.0,
+                        3190.0
+                    ],
+                    [
+                        282.0,
+                        3231.0
+                    ],
+                    [
+                        184.0,
+                        3231.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

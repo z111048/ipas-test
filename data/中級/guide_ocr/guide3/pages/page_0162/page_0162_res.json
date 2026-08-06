@@ -1,0 +1,1254 @@
+{
+    "input_path": "input/ipas中級_科目3_機器學習技術與應用_imgs/page_0162.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第五章 機器學習建模與參數調校",
+            "block_bbox": [
+                294,
+                208,
+                1020,
+                261
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    294.0,
+                    208.0
+                ],
+                [
+                    1020.0,
+                    208.0
+                ],
+                [
+                    1020.0,
+                    261.0
+                ],
+                [
+                    294.0,
+                    261.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "◆ 可作為分類任務交叉驗證的預設方式。",
+            "block_bbox": [
+                474,
+                403,
+                1392,
+                463
+            ],
+            "block_id": 1,
+            "block_order": 1,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    474.0,
+                    403.0
+                ],
+                [
+                    1392.0,
+                    403.0
+                ],
+                [
+                    1392.0,
+                    463.0
+                ],
+                [
+                    474.0,
+                    463.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "(3) LOOCV",
+            "block_bbox": [
+                296,
+                603,
+                597,
+                661
+            ],
+            "block_id": 2,
+            "block_order": 2,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    296.0,
+                    603.0
+                ],
+                [
+                    597.0,
+                    603.0
+                ],
+                [
+                    597.0,
+                    661.0
+                ],
+                [
+                    296.0,
+                    661.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "LOOCV（Leave-One-Out Cross-Validation）是 K-fold 的極端形式。K 等於樣本數 n，每次僅留下一筆樣本作為驗證、其餘 n-1 筆資料訓練模型，總共進行 n 次評估。",
+            "block_bbox": [
+                295,
+                704,
+                2083,
+                960
+            ],
+            "block_id": 3,
+            "block_order": 3,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    295.0,
+                    704.0
+                ],
+                [
+                    2083.0,
+                    704.0
+                ],
+                [
+                    2083.0,
+                    960.0
+                ],
+                [
+                    295.0,
+                    960.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "過程：",
+            "block_bbox": [
+                400,
+                1002,
+                618,
+                1059
+            ],
+            "block_id": 4,
+            "block_order": 4,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    400.0,
+                    1002.0
+                ],
+                [
+                    618.0,
+                    1002.0
+                ],
+                [
+                    618.0,
+                    1059.0
+                ],
+                [
+                    400.0,
+                    1059.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "◆ 資料集中每次僅留下1筆資料作為驗證集，其餘所有資料用於訓練，重複進行n次（n為樣本數）。",
+            "block_bbox": [
+                475,
+                1103,
+                2065,
+                1263
+            ],
+            "block_id": 5,
+            "block_order": 5,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    475.0,
+                    1103.0
+                ],
+                [
+                    2065.0,
+                    1103.0
+                ],
+                [
+                    2065.0,
+                    1263.0
+                ],
+                [
+                    475.0,
+                    1263.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "特點：",
+            "block_bbox": [
+                402,
+                1302,
+                616,
+                1361
+            ],
+            "block_id": 6,
+            "block_order": 6,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    402.0,
+                    1302.0
+                ],
+                [
+                    616.0,
+                    1302.0
+                ],
+                [
+                    616.0,
+                    1361.0
+                ],
+                [
+                    402.0,
+                    1361.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "評估偏差最小，適合樣本珍貴或不可浪費的情境。",
+            "block_bbox": [
+                475,
+                1404,
+                1645,
+                1464
+            ],
+            "block_id": 7,
+            "block_order": 7,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    475.0,
+                    1404.0
+                ],
+                [
+                    1645.0,
+                    1404.0
+                ],
+                [
+                    1645.0,
+                    1464.0
+                ],
+                [
+                    475.0,
+                    1464.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "◆ 因需訓練 n 次模型，計算成本極高，對模型複雜度與硬體要求較高。",
+            "block_bbox": [
+                476,
+                1504,
+                2048,
+                1562
+            ],
+            "block_id": 8,
+            "block_order": 8,
+            "group_id": 8,
+            "block_polygon_points": [
+                [
+                    476.0,
+                    1504.0
+                ],
+                [
+                    2048.0,
+                    1504.0
+                ],
+                [
+                    2048.0,
+                    1562.0
+                ],
+                [
+                    476.0,
+                    1562.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "◆ 敏感於訓練集的微小變動，模型表現波動較大。",
+            "block_bbox": [
+                478,
+                1603,
+                1597,
+                1661
+            ],
+            "block_id": 9,
+            "block_order": 9,
+            "group_id": 9,
+            "block_polygon_points": [
+                [
+                    478.0,
+                    1603.0
+                ],
+                [
+                    1597.0,
+                    1603.0
+                ],
+                [
+                    1597.0,
+                    1661.0
+                ],
+                [
+                    478.0,
+                    1661.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "適用場景：",
+            "block_bbox": [
+                403,
+                1704,
+                718,
+                1759
+            ],
+            "block_id": 10,
+            "block_order": 10,
+            "group_id": 10,
+            "block_polygon_points": [
+                [
+                    403.0,
+                    1704.0
+                ],
+                [
+                    718.0,
+                    1704.0
+                ],
+                [
+                    718.0,
+                    1759.0
+                ],
+                [
+                    403.0,
+                    1759.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "樣本數極小但資料珍貴（如臨床研究、稀有病資料）。",
+            "block_bbox": [
+                475,
+                1805,
+                1723,
+                1864
+            ],
+            "block_id": 11,
+            "block_order": 11,
+            "group_id": 11,
+            "block_polygon_points": [
+                [
+                    475.0,
+                    1805.0
+                ],
+                [
+                    1723.0,
+                    1805.0
+                ],
+                [
+                    1723.0,
+                    1864.0
+                ],
+                [
+                    475.0,
+                    1864.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "為提高模型評估的穩定性與可信度，重複 K-fold 在每次驗證前隨機劃分資料，以捕捉樣本劃分隨機性的影響。",
+            "block_bbox": [
+                475,
+                1903,
+                2079,
+                2062
+            ],
+            "block_id": 12,
+            "block_order": 12,
+            "group_id": 12,
+            "block_polygon_points": [
+                [
+                    475.0,
+                    1903.0
+                ],
+                [
+                    2079.0,
+                    1903.0
+                ],
+                [
+                    2079.0,
+                    2062.0
+                ],
+                [
+                    475.0,
+                    2062.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "學術研究中需最大化資料利用與精準驗證。",
+            "block_bbox": [
+                477,
+                2104,
+                1497,
+                2164
+            ],
+            "block_id": 13,
+            "block_order": 13,
+            "group_id": 13,
+            "block_polygon_points": [
+                [
+                    477.0,
+                    2104.0
+                ],
+                [
+                    1497.0,
+                    2104.0
+                ],
+                [
+                    1497.0,
+                    2164.0
+                ],
+                [
+                    477.0,
+                    2164.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "適用於須個別樣本可信度高的模型精度檢查。",
+            "block_bbox": [
+                475,
+                2203,
+                1543,
+                2262
+            ],
+            "block_id": 14,
+            "block_order": 14,
+            "group_id": 14,
+            "block_polygon_points": [
+                [
+                    475.0,
+                    2203.0
+                ],
+                [
+                    1543.0,
+                    2203.0
+                ],
+                [
+                    1543.0,
+                    2262.0
+                ],
+                [
+                    475.0,
+                    2262.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "(4) Repeated K-fold",
+            "block_bbox": [
+                297,
+                2405,
+                770,
+                2462
+            ],
+            "block_id": 15,
+            "block_order": 15,
+            "group_id": 15,
+            "block_polygon_points": [
+                [
+                    297.0,
+                    2405.0
+                ],
+                [
+                    770.0,
+                    2405.0
+                ],
+                [
+                    770.0,
+                    2462.0
+                ],
+                [
+                    297.0,
+                    2462.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "重複 K-fold (Repeated K-fold Cross-Validation) 是在標準 K-fold 基礎上進行多次隨機重劃，反覆交叉驗證以取得多組評估結果，再計算平均與變異數，提升模型穩定性觀察。",
+            "block_bbox": [
+                297,
+                2503,
+                2082,
+                2763
+            ],
+            "block_id": 16,
+            "block_order": 16,
+            "group_id": 16,
+            "block_polygon_points": [
+                [
+                    297.0,
+                    2503.0
+                ],
+                [
+                    2082.0,
+                    2503.0
+                ],
+                [
+                    2082.0,
+                    2763.0
+                ],
+                [
+                    297.0,
+                    2763.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "過程：",
+            "block_bbox": [
+                400,
+                2803,
+                618,
+                2861
+            ],
+            "block_id": 17,
+            "block_order": 17,
+            "group_id": 17,
+            "block_polygon_points": [
+                [
+                    400.0,
+                    2803.0
+                ],
+                [
+                    618.0,
+                    2803.0
+                ],
+                [
+                    618.0,
+                    2861.0
+                ],
+                [
+                    400.0,
+                    2861.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "執行多輪 K-fold 驗證（如 10-fold $ \\times $5 次），每輪隨機重分 fold，計算所有輪的平均與變異。",
+            "block_bbox": [
+                471,
+                2902,
+                2080,
+                3064
+            ],
+            "block_id": 18,
+            "block_order": 18,
+            "group_id": 18,
+            "block_polygon_points": [
+                [
+                    471.0,
+                    2902.0
+                ],
+                [
+                    2080.0,
+                    2902.0
+                ],
+                [
+                    2080.0,
+                    3064.0
+                ],
+                [
+                    471.0,
+                    3064.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "5-28",
+            "block_bbox": [
+                184,
+                3189,
+                282,
+                3231
+            ],
+            "block_id": 19,
+            "block_order": null,
+            "group_id": 19,
+            "block_polygon_points": [
+                [
+                    184.0,
+                    3189.0
+                ],
+                [
+                    282.0,
+                    3189.0
+                ],
+                [
+                    282.0,
+                    3231.0
+                ],
+                [
+                    184.0,
+                    3231.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.8704004287719727,
+                "coordinate": [
+                    294,
+                    208,
+                    1020,
+                    261
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        294.0,
+                        208.0
+                    ],
+                    [
+                        1020.0,
+                        208.0
+                    ],
+                    [
+                        1020.0,
+                        261.0
+                    ],
+                    [
+                        294.0,
+                        261.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8480329513549805,
+                "coordinate": [
+                    474,
+                    403,
+                    1392,
+                    463
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        474.0,
+                        403.0
+                    ],
+                    [
+                        1392.0,
+                        403.0
+                    ],
+                    [
+                        1392.0,
+                        463.0
+                    ],
+                    [
+                        474.0,
+                        463.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8225692510604858,
+                "coordinate": [
+                    296,
+                    603,
+                    597,
+                    661
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        296.0,
+                        603.0
+                    ],
+                    [
+                        597.0,
+                        603.0
+                    ],
+                    [
+                        597.0,
+                        661.0
+                    ],
+                    [
+                        296.0,
+                        661.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9437626600265503,
+                "coordinate": [
+                    295,
+                    704,
+                    2083,
+                    960
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        295.0,
+                        704.0
+                    ],
+                    [
+                        2083.0,
+                        704.0
+                    ],
+                    [
+                        2083.0,
+                        960.0
+                    ],
+                    [
+                        295.0,
+                        960.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.7278674244880676,
+                "coordinate": [
+                    400,
+                    1002,
+                    618,
+                    1059
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        400.0,
+                        1002.0
+                    ],
+                    [
+                        618.0,
+                        1002.0
+                    ],
+                    [
+                        618.0,
+                        1059.0
+                    ],
+                    [
+                        400.0,
+                        1059.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9235853552818298,
+                "coordinate": [
+                    475,
+                    1103,
+                    2065,
+                    1263
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        475.0,
+                        1103.0
+                    ],
+                    [
+                        2065.0,
+                        1103.0
+                    ],
+                    [
+                        2065.0,
+                        1263.0
+                    ],
+                    [
+                        475.0,
+                        1263.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.7949360609054565,
+                "coordinate": [
+                    402,
+                    1302,
+                    616,
+                    1361
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        402.0,
+                        1302.0
+                    ],
+                    [
+                        616.0,
+                        1302.0
+                    ],
+                    [
+                        616.0,
+                        1361.0
+                    ],
+                    [
+                        402.0,
+                        1361.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8374255299568176,
+                "coordinate": [
+                    475,
+                    1404,
+                    1645,
+                    1464
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        475.0,
+                        1404.0
+                    ],
+                    [
+                        1645.0,
+                        1404.0
+                    ],
+                    [
+                        1645.0,
+                        1464.0
+                    ],
+                    [
+                        475.0,
+                        1464.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8192064166069031,
+                "coordinate": [
+                    476,
+                    1504,
+                    2048,
+                    1562
+                ],
+                "order": 8,
+                "polygon_points": [
+                    [
+                        476.0,
+                        1504.0
+                    ],
+                    [
+                        2048.0,
+                        1504.0
+                    ],
+                    [
+                        2048.0,
+                        1562.0
+                    ],
+                    [
+                        476.0,
+                        1562.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8186841011047363,
+                "coordinate": [
+                    478,
+                    1603,
+                    1597,
+                    1661
+                ],
+                "order": 9,
+                "polygon_points": [
+                    [
+                        478.0,
+                        1603.0
+                    ],
+                    [
+                        1597.0,
+                        1603.0
+                    ],
+                    [
+                        1597.0,
+                        1661.0
+                    ],
+                    [
+                        478.0,
+                        1661.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.7487582564353943,
+                "coordinate": [
+                    403,
+                    1704,
+                    718,
+                    1759
+                ],
+                "order": 10,
+                "polygon_points": [
+                    [
+                        403.0,
+                        1704.0
+                    ],
+                    [
+                        718.0,
+                        1704.0
+                    ],
+                    [
+                        718.0,
+                        1759.0
+                    ],
+                    [
+                        403.0,
+                        1759.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.838354766368866,
+                "coordinate": [
+                    475,
+                    1805,
+                    1723,
+                    1864
+                ],
+                "order": 11,
+                "polygon_points": [
+                    [
+                        475.0,
+                        1805.0
+                    ],
+                    [
+                        1723.0,
+                        1805.0
+                    ],
+                    [
+                        1723.0,
+                        1864.0
+                    ],
+                    [
+                        475.0,
+                        1864.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9098072052001953,
+                "coordinate": [
+                    475,
+                    1903,
+                    2079,
+                    2062
+                ],
+                "order": 12,
+                "polygon_points": [
+                    [
+                        475.0,
+                        1903.0
+                    ],
+                    [
+                        2079.0,
+                        1903.0
+                    ],
+                    [
+                        2079.0,
+                        2062.0
+                    ],
+                    [
+                        475.0,
+                        2062.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8421820402145386,
+                "coordinate": [
+                    477,
+                    2104,
+                    1497,
+                    2164
+                ],
+                "order": 13,
+                "polygon_points": [
+                    [
+                        477.0,
+                        2104.0
+                    ],
+                    [
+                        1497.0,
+                        2104.0
+                    ],
+                    [
+                        1497.0,
+                        2164.0
+                    ],
+                    [
+                        477.0,
+                        2164.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8363798260688782,
+                "coordinate": [
+                    475,
+                    2203,
+                    1543,
+                    2262
+                ],
+                "order": 14,
+                "polygon_points": [
+                    [
+                        475.0,
+                        2203.0
+                    ],
+                    [
+                        1543.0,
+                        2203.0
+                    ],
+                    [
+                        1543.0,
+                        2262.0
+                    ],
+                    [
+                        475.0,
+                        2262.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8552367091178894,
+                "coordinate": [
+                    297,
+                    2405,
+                    770,
+                    2462
+                ],
+                "order": 15,
+                "polygon_points": [
+                    [
+                        297.0,
+                        2405.0
+                    ],
+                    [
+                        770.0,
+                        2405.0
+                    ],
+                    [
+                        770.0,
+                        2462.0
+                    ],
+                    [
+                        297.0,
+                        2462.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9539610743522644,
+                "coordinate": [
+                    297,
+                    2503,
+                    2082,
+                    2763
+                ],
+                "order": 16,
+                "polygon_points": [
+                    [
+                        297.0,
+                        2503.0
+                    ],
+                    [
+                        2082.0,
+                        2503.0
+                    ],
+                    [
+                        2082.0,
+                        2763.0
+                    ],
+                    [
+                        297.0,
+                        2763.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.797673761844635,
+                "coordinate": [
+                    400,
+                    2803,
+                    618,
+                    2861
+                ],
+                "order": 17,
+                "polygon_points": [
+                    [
+                        400.0,
+                        2803.0
+                    ],
+                    [
+                        618.0,
+                        2803.0
+                    ],
+                    [
+                        618.0,
+                        2861.0
+                    ],
+                    [
+                        400.0,
+                        2861.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9263446927070618,
+                "coordinate": [
+                    471,
+                    2902,
+                    2080,
+                    3064
+                ],
+                "order": 18,
+                "polygon_points": [
+                    [
+                        471.0,
+                        2902.0
+                    ],
+                    [
+                        2080.0,
+                        2902.0
+                    ],
+                    [
+                        2080.0,
+                        3064.0
+                    ],
+                    [
+                        471.0,
+                        3064.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.763518750667572,
+                "coordinate": [
+                    184,
+                    3189,
+                    282,
+                    3231
+                ],
+                "order": 19,
+                "polygon_points": [
+                    [
+                        184.0,
+                        3189.0
+                    ],
+                    [
+                        282.0,
+                        3189.0
+                    ],
+                    [
+                        282.0,
+                        3231.0
+                    ],
+                    [
+                        184.0,
+                        3231.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

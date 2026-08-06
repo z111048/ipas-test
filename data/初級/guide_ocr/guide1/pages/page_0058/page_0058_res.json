@@ -1,0 +1,766 @@
+{
+  "input_path": "input/ipas初級_科目1_人工智慧基礎概論_imgs/page_0058.png",
+  "page_index": null,
+  "page_count": null,
+  "width": 2382,
+  "height": 3368,
+  "model_settings": {
+    "use_doc_preprocessor": false,
+    "use_layout_detection": true,
+    "use_chart_recognition": false,
+    "use_seal_recognition": false,
+    "use_ocr_for_image_block": false,
+    "format_block_content": false,
+    "merge_layout_blocks": true,
+    "markdown_ignore_labels": [
+      "number",
+      "footnote",
+      "header",
+      "header_image",
+      "footer",
+      "footer_image",
+      "aside_text"
+    ],
+    "return_layout_polygon_points": true
+  },
+  "parsing_res_list": [
+    {
+      "block_label": "header",
+      "block_content": "第三章 人工智慧基礎概論",
+      "block_bbox": [
+        294,
+        209,
+        899,
+        261
+      ],
+      "block_id": 0,
+      "block_order": null,
+      "group_id": 0,
+      "block_polygon_points": [
+        [
+          294.0,
+          209.0
+        ],
+        [
+          899.0,
+          209.0
+        ],
+        [
+          899.0,
+          261.0
+        ],
+        [
+          294.0,
+          261.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "b. 自動駕駛：神經網路透過處理多模態數據，如影像、雷達等，實現環境感知與決策。",
+      "block_bbox": [
+        495,
+        403,
+        2082,
+        562
+      ],
+      "block_id": 1,
+      "block_order": 1,
+      "group_id": 1,
+      "block_polygon_points": [
+        [
+          495.0,
+          403.0
+        ],
+        [
+          2082.0,
+          403.0
+        ],
+        [
+          2082.0,
+          562.0
+        ],
+        [
+          495.0,
+          562.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "c. 圖像辨識：在醫學領域中，神經網路可識別 MRI 和 CT 影像中的異常病變。",
+      "block_bbox": [
+        496,
+        603,
+        2082,
+        760
+      ],
+      "block_id": 2,
+      "block_order": 2,
+      "group_id": 2,
+      "block_polygon_points": [
+        [
+          496.0,
+          603.0
+        ],
+        [
+          2082.0,
+          603.0
+        ],
+        [
+          2082.0,
+          760.0
+        ],
+        [
+          496.0,
+          760.0
+        ]
+      ]
+    },
+    {
+      "block_label": "paragraph_title",
+      "block_content": "（2）生成式 AI 的原理與應用",
+      "block_bbox": [
+        295,
+        903,
+        951,
+        963
+      ],
+      "block_id": 3,
+      "block_order": 3,
+      "group_id": 3,
+      "block_polygon_points": [
+        [
+          295.0,
+          903.0
+        ],
+        [
+          951.0,
+          903.0
+        ],
+        [
+          951.0,
+          963.0
+        ],
+        [
+          295.0,
+          963.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "生成式 AI（Generative AI）是一種透過學習數據的聯合分佈 P（x,y）或邊際分佈 P（x）來生成新數據樣本的人工智慧方法。不同於鑑別式 AI 僅專注於數據分類或預測，生成式 AI 的目標是模擬真實數據分佈，並從中創建具有真實感且多樣化的新樣本。生成式 AI 透過模型訓練掌握輸入數據的特徵，能夠在無標記數據或數據稀缺的情況下有效地增強數據集，拓展人工智慧的應用範疇。",
+      "block_bbox": [
+        294,
+        1003,
+        2084,
+        1467
+      ],
+      "block_id": 4,
+      "block_order": 4,
+      "group_id": 4,
+      "block_polygon_points": [
+        [
+          294.0,
+          1003.0
+        ],
+        [
+          2084.0,
+          1003.0
+        ],
+        [
+          2084.0,
+          1467.0
+        ],
+        [
+          294.0,
+          1467.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "生成式 AI 的訓練過程通常涉及複雜的概率模型和大量計算資源，透過迭代優化的方式逐步生成與真實數據分佈接近的樣本。這些模型在高維數據（如圖像、語音、文本）上表現出色，為影像處理、文本創作、醫療數據增強等場景提供了強大的工具。隨著技術的進步，生成式 AI 在藝術創作、虛擬現實、醫療診斷和科學模擬等領域展現了巨大的潛力。常見模型與技術：",
+      "block_bbox": [
+        295,
+        1502,
+        2082,
+        1969
+      ],
+      "block_id": 5,
+      "block_order": 5,
+      "group_id": 5,
+      "block_polygon_points": [
+        [
+          295.0,
+          1502.0
+        ],
+        [
+          2082.0,
+          1502.0
+        ],
+        [
+          2082.0,
+          1969.0
+        ],
+        [
+          295.0,
+          1969.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "（1）生成對抗網路（Generative Adversarial Networks, GAN）是生成式 AI 中最具代表性的模型之一，由生成器（Generator）和鑑別器（Discriminator）兩個神經網路組成，透過彼此之間的對抗學習來生成高品質的新數據。",
+      "block_bbox": [
+        296,
+        2001,
+        2082,
+        2265
+      ],
+      "block_id": 6,
+      "block_order": 6,
+      "group_id": 6,
+      "block_polygon_points": [
+        [
+          296.0,
+          2001.0
+        ],
+        [
+          2082.0,
+          2001.0
+        ],
+        [
+          2082.0,
+          2265.0
+        ],
+        [
+          296.0,
+          2265.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "A. 原理：",
+      "block_bbox": [
+        420,
+        2303,
+        645,
+        2361
+      ],
+      "block_id": 7,
+      "block_order": 7,
+      "group_id": 7,
+      "block_polygon_points": [
+        [
+          420.0,
+          2303.0
+        ],
+        [
+          645.0,
+          2303.0
+        ],
+        [
+          645.0,
+          2361.0
+        ],
+        [
+          420.0,
+          2361.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "a. 生成器的目標是學習真實數據分佈，並基於隨機雜訊輸入產生接近真實的數據樣本。",
+      "block_bbox": [
+        496,
+        2403,
+        2082,
+        2561
+      ],
+      "block_id": 8,
+      "block_order": 8,
+      "group_id": 8,
+      "block_polygon_points": [
+        [
+          496.0,
+          2403.0
+        ],
+        [
+          2082.0,
+          2403.0
+        ],
+        [
+          2082.0,
+          2561.0
+        ],
+        [
+          496.0,
+          2561.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "b. 鑑別器的目標是區分真實數據與生成數據，並給出真實度的判斷。",
+      "block_bbox": [
+        498,
+        2603,
+        2017,
+        2663
+      ],
+      "block_id": 9,
+      "block_order": 9,
+      "group_id": 9,
+      "block_polygon_points": [
+        [
+          498.0,
+          2603.0
+        ],
+        [
+          2017.0,
+          2603.0
+        ],
+        [
+          2017.0,
+          2663.0
+        ],
+        [
+          498.0,
+          2663.0
+        ]
+      ]
+    },
+    {
+      "block_label": "text",
+      "block_content": "c. 在訓練過程中，生成器不斷生成數據來“欺騙”鑑別器，而鑑別器則努力提高區分真假數據的能力。透過這種動態的對抗過程，生成器逐漸學會生成高品質的數據。",
+      "block_bbox": [
+        496,
+        2704,
+        2081,
+        2964
+      ],
+      "block_id": 10,
+      "block_order": 10,
+      "group_id": 10,
+      "block_polygon_points": [
+        [
+          496.0,
+          2704.0
+        ],
+        [
+          2081.0,
+          2704.0
+        ],
+        [
+          2081.0,
+          2964.0
+        ],
+        [
+          496.0,
+          2964.0
+        ]
+      ]
+    },
+    {
+      "block_label": "number",
+      "block_content": "3-52",
+      "block_bbox": [
+        183,
+        3189,
+        283,
+        3231
+      ],
+      "block_id": 11,
+      "block_order": null,
+      "group_id": 11,
+      "block_polygon_points": [
+        [
+          183.0,
+          3189.0
+        ],
+        [
+          283.0,
+          3189.0
+        ],
+        [
+          283.0,
+          3231.0
+        ],
+        [
+          183.0,
+          3231.0
+        ]
+      ]
+    }
+  ],
+  "layout_det_res": {
+    "input_path": null,
+    "page_index": null,
+    "boxes": [
+      {
+        "cls_id": 12,
+        "label": "header",
+        "score": 0.8486863970756531,
+        "coordinate": [
+          294,
+          209,
+          899,
+          261
+        ],
+        "order": null,
+        "polygon_points": [
+          [
+            294.0,
+            209.0
+          ],
+          [
+            899.0,
+            209.0
+          ],
+          [
+            899.0,
+            261.0
+          ],
+          [
+            294.0,
+            261.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9001588225364685,
+        "coordinate": [
+          495,
+          403,
+          2082,
+          562
+        ],
+        "order": 1,
+        "polygon_points": [
+          [
+            495.0,
+            403.0
+          ],
+          [
+            2082.0,
+            403.0
+          ],
+          [
+            2082.0,
+            562.0
+          ],
+          [
+            495.0,
+            562.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.890872061252594,
+        "coordinate": [
+          496,
+          603,
+          2082,
+          760
+        ],
+        "order": 2,
+        "polygon_points": [
+          [
+            496.0,
+            603.0
+          ],
+          [
+            2082.0,
+            603.0
+          ],
+          [
+            2082.0,
+            760.0
+          ],
+          [
+            496.0,
+            760.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 17,
+        "label": "paragraph_title",
+        "score": 0.8597849607467651,
+        "coordinate": [
+          295,
+          903,
+          951,
+          963
+        ],
+        "order": 3,
+        "polygon_points": [
+          [
+            295.0,
+            903.0
+          ],
+          [
+            951.0,
+            903.0
+          ],
+          [
+            951.0,
+            963.0
+          ],
+          [
+            295.0,
+            963.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.958202064037323,
+        "coordinate": [
+          294,
+          1003,
+          2084,
+          1467
+        ],
+        "order": 4,
+        "polygon_points": [
+          [
+            294.0,
+            1003.0
+          ],
+          [
+            2084.0,
+            1003.0
+          ],
+          [
+            2084.0,
+            1467.0
+          ],
+          [
+            294.0,
+            1467.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.9555740356445312,
+        "coordinate": [
+          295,
+          1502,
+          2082,
+          1969
+        ],
+        "order": 5,
+        "polygon_points": [
+          [
+            295.0,
+            1502.0
+          ],
+          [
+            2082.0,
+            1502.0
+          ],
+          [
+            2082.0,
+            1969.0
+          ],
+          [
+            295.0,
+            1969.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.8753647208213806,
+        "coordinate": [
+          296,
+          2001,
+          2082,
+          2265
+        ],
+        "order": 6,
+        "polygon_points": [
+          [
+            296.0,
+            2001.0
+          ],
+          [
+            2082.0,
+            2001.0
+          ],
+          [
+            2082.0,
+            2265.0
+          ],
+          [
+            296.0,
+            2265.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.4782406687736511,
+        "coordinate": [
+          420,
+          2303,
+          645,
+          2361
+        ],
+        "order": 7,
+        "polygon_points": [
+          [
+            420.0,
+            2303.0
+          ],
+          [
+            645.0,
+            2303.0
+          ],
+          [
+            645.0,
+            2361.0
+          ],
+          [
+            420.0,
+            2361.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.715584397315979,
+        "coordinate": [
+          496,
+          2403,
+          2082,
+          2561
+        ],
+        "order": 8,
+        "polygon_points": [
+          [
+            496.0,
+            2403.0
+          ],
+          [
+            2082.0,
+            2403.0
+          ],
+          [
+            2082.0,
+            2561.0
+          ],
+          [
+            496.0,
+            2561.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.6426147222518921,
+        "coordinate": [
+          498,
+          2603,
+          2017,
+          2663
+        ],
+        "order": 9,
+        "polygon_points": [
+          [
+            498.0,
+            2603.0
+          ],
+          [
+            2017.0,
+            2603.0
+          ],
+          [
+            2017.0,
+            2663.0
+          ],
+          [
+            498.0,
+            2663.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 22,
+        "label": "text",
+        "score": 0.745181679725647,
+        "coordinate": [
+          496,
+          2704,
+          2081,
+          2964
+        ],
+        "order": 10,
+        "polygon_points": [
+          [
+            496.0,
+            2704.0
+          ],
+          [
+            2081.0,
+            2704.0
+          ],
+          [
+            2081.0,
+            2964.0
+          ],
+          [
+            496.0,
+            2964.0
+          ]
+        ]
+      },
+      {
+        "cls_id": 16,
+        "label": "number",
+        "score": 0.734347403049469,
+        "coordinate": [
+          183,
+          3189,
+          283,
+          3231
+        ],
+        "order": 11,
+        "polygon_points": [
+          [
+            183.0,
+            3189.0
+          ],
+          [
+            283.0,
+            3189.0
+          ],
+          [
+            283.0,
+            3231.0
+          ],
+          [
+            183.0,
+            3231.0
+          ]
+        ]
+      }
+    ]
+  }
+}

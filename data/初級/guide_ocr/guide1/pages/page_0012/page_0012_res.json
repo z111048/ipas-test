@@ -1,0 +1,1010 @@
+{
+    "input_path": "input/ipas初級_科目1_人工智慧基礎概論_imgs/page_0012.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2382,
+    "height": 3368,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "header",
+            "block_content": "第三章 人工智慧基礎概論",
+            "block_bbox": [
+                294,
+                209,
+                898,
+                261
+            ],
+            "block_id": 0,
+            "block_order": null,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    294.0,
+                    209.0
+                ],
+                [
+                    898.0,
+                    209.0
+                ],
+                [
+                    898.0,
+                    261.0
+                ],
+                [
+                    294.0,
+                    261.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "A. 遺缺值（Missing Value）處理",
+            "block_bbox": [
+                297,
+                403,
+                1045,
+                463
+            ],
+            "block_id": 1,
+            "block_order": 1,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    297.0,
+                    403.0
+                ],
+                [
+                    1045.0,
+                    403.0
+                ],
+                [
+                    1045.0,
+                    463.0
+                ],
+                [
+                    297.0,
+                    463.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "遺缺值是指數據中某些欄位沒有記錄有效數據，需根據業務需求選擇適當的處理方式：",
+            "block_bbox": [
+                297,
+                504,
+                2079,
+                663
+            ],
+            "block_id": 2,
+            "block_order": 2,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    297.0,
+                    504.0
+                ],
+                [
+                    2079.0,
+                    504.0
+                ],
+                [
+                    2079.0,
+                    663.0
+                ],
+                [
+                    297.0,
+                    663.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "填補遺缺值：使用統計方法填補（例如平均值、中位數、眾數等），或是利用插補法（Interpolation）或預測模型填補遺缺值（如基於迴歸分析預測等）。",
+            "block_bbox": [
+                300,
+                704,
+                2080,
+                867
+            ],
+            "block_id": 3,
+            "block_order": 3,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    300.0,
+                    704.0
+                ],
+                [
+                    2080.0,
+                    704.0
+                ],
+                [
+                    2080.0,
+                    867.0
+                ],
+                [
+                    300.0,
+                    867.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "刪除記錄：如果遺缺值占比高或數據不可修復，可直接刪除相關記錄（需謹慎評估刪除對樣本代表性的影響）。",
+            "block_bbox": [
+                301,
+                902,
+                2079,
+                1063
+            ],
+            "block_id": 4,
+            "block_order": 4,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    301.0,
+                    902.0
+                ],
+                [
+                    2079.0,
+                    902.0
+                ],
+                [
+                    2079.0,
+                    1063.0
+                ],
+                [
+                    301.0,
+                    1063.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "B. 重複值（Duplicate Value）處理",
+            "block_bbox": [
+                297,
+                1203,
+                1085,
+                1263
+            ],
+            "block_id": 5,
+            "block_order": 5,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    297.0,
+                    1203.0
+                ],
+                [
+                    1085.0,
+                    1203.0
+                ],
+                [
+                    1085.0,
+                    1263.0
+                ],
+                [
+                    297.0,
+                    1263.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "重複值是指數據中存在相同內容的記錄，可能因多次導入資料或錯誤記錄而產生。",
+            "block_bbox": [
+                298,
+                1304,
+                2078,
+                1465
+            ],
+            "block_id": 6,
+            "block_order": 6,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    298.0,
+                    1304.0
+                ],
+                [
+                    2078.0,
+                    1304.0
+                ],
+                [
+                    2078.0,
+                    1465.0
+                ],
+                [
+                    298.0,
+                    1465.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "• 識別重複值：透過檢查主鍵、唯一識別碼或關鍵欄位，確認是否存在重複記錄。",
+            "block_bbox": [
+                298,
+                1503,
+                2076,
+                1564
+            ],
+            "block_id": 7,
+            "block_order": 7,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    298.0,
+                    1503.0
+                ],
+                [
+                    2076.0,
+                    1503.0
+                ],
+                [
+                    2076.0,
+                    1564.0
+                ],
+                [
+                    298.0,
+                    1564.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "• 刪除重複值：保留一份正確的記錄，刪除其他重複項。",
+            "block_bbox": [
+                298,
+                1603,
+                1555,
+                1665
+            ],
+            "block_id": 8,
+            "block_order": 8,
+            "group_id": 8,
+            "block_polygon_points": [
+                [
+                    298.0,
+                    1603.0
+                ],
+                [
+                    1555.0,
+                    1603.0
+                ],
+                [
+                    1555.0,
+                    1665.0
+                ],
+                [
+                    298.0,
+                    1665.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "C. 錯誤值（Error/Invalid Value）處理",
+            "block_bbox": [
+                297,
+                1804,
+                1170,
+                1863
+            ],
+            "block_id": 9,
+            "block_order": 9,
+            "group_id": 9,
+            "block_polygon_points": [
+                [
+                    297.0,
+                    1804.0
+                ],
+                [
+                    1170.0,
+                    1804.0
+                ],
+                [
+                    1170.0,
+                    1863.0
+                ],
+                [
+                    297.0,
+                    1863.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "指數據中的值不符合合理範圍或存在明顯錯誤。",
+            "block_bbox": [
+                398,
+                1904,
+                1455,
+                1963
+            ],
+            "block_id": 10,
+            "block_order": 10,
+            "group_id": 10,
+            "block_polygon_points": [
+                [
+                    398.0,
+                    1904.0
+                ],
+                [
+                    1455.0,
+                    1904.0
+                ],
+                [
+                    1455.0,
+                    1963.0
+                ],
+                [
+                    398.0,
+                    1963.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "檢測並修正明顯的錯誤值（例如超出合理範圍的數值、拼寫錯誤等），例如：年齡出現負數（如-5歲）、錯誤的拼寫（如Taiwan被記錄為Taiwwn）。",
+            "block_bbox": [
+                299,
+                2002,
+                2078,
+                2167
+            ],
+            "block_id": 11,
+            "block_order": 11,
+            "group_id": 11,
+            "block_polygon_points": [
+                [
+                    299.0,
+                    2002.0
+                ],
+                [
+                    2078.0,
+                    2002.0
+                ],
+                [
+                    2078.0,
+                    2167.0
+                ],
+                [
+                    299.0,
+                    2167.0
+                ]
+            ]
+        },
+        {
+            "block_label": "paragraph_title",
+            "block_content": "D. 離群值（Outlier Value）處理",
+            "block_bbox": [
+                298,
+                2303,
+                1032,
+                2362
+            ],
+            "block_id": 12,
+            "block_order": 12,
+            "group_id": 12,
+            "block_polygon_points": [
+                [
+                    298.0,
+                    2303.0
+                ],
+                [
+                    1032.0,
+                    2303.0
+                ],
+                [
+                    1032.0,
+                    2362.0
+                ],
+                [
+                    298.0,
+                    2362.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "指數據中遠離大多數其他數據點的異常值，通常可能是有意義的數據而非錯誤值。",
+            "block_bbox": [
+                296,
+                2405,
+                2078,
+                2561
+            ],
+            "block_id": 13,
+            "block_order": 13,
+            "group_id": 13,
+            "block_polygon_points": [
+                [
+                    296.0,
+                    2405.0
+                ],
+                [
+                    2078.0,
+                    2405.0
+                ],
+                [
+                    2078.0,
+                    2561.0
+                ],
+                [
+                    296.0,
+                    2561.0
+                ]
+            ]
+        },
+        {
+            "block_label": "text",
+            "block_content": "離群值是數據集中明顯偏離其他數據點的異常值，可能反映數據的異常情況，也可能是雜訊或錯誤。在處理離群值時，需要根據業務需求和分析目標採取適當策略。",
+            "block_bbox": [
+                301,
+                2603,
+                2079,
+                2863
+            ],
+            "block_id": 14,
+            "block_order": 14,
+            "group_id": 14,
+            "block_polygon_points": [
+                [
+                    301.0,
+                    2603.0
+                ],
+                [
+                    2079.0,
+                    2603.0
+                ],
+                [
+                    2079.0,
+                    2863.0
+                ],
+                [
+                    301.0,
+                    2863.0
+                ]
+            ]
+        },
+        {
+            "block_label": "number",
+            "block_content": "3-6",
+            "block_bbox": [
+                183,
+                3189,
+                260,
+                3232
+            ],
+            "block_id": 15,
+            "block_order": null,
+            "group_id": 15,
+            "block_polygon_points": [
+                [
+                    183.0,
+                    3189.0
+                ],
+                [
+                    260.0,
+                    3189.0
+                ],
+                [
+                    260.0,
+                    3232.0
+                ],
+                [
+                    183.0,
+                    3232.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 12,
+                "label": "header",
+                "score": 0.8600814342498779,
+                "coordinate": [
+                    294,
+                    209,
+                    898,
+                    261
+                ],
+                "order": null,
+                "polygon_points": [
+                    [
+                        294.0,
+                        209.0
+                    ],
+                    [
+                        898.0,
+                        209.0
+                    ],
+                    [
+                        898.0,
+                        261.0
+                    ],
+                    [
+                        294.0,
+                        261.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8693304061889648,
+                "coordinate": [
+                    297,
+                    403,
+                    1045,
+                    463
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        297.0,
+                        403.0
+                    ],
+                    [
+                        1045.0,
+                        403.0
+                    ],
+                    [
+                        1045.0,
+                        463.0
+                    ],
+                    [
+                        297.0,
+                        463.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9241303205490112,
+                "coordinate": [
+                    297,
+                    504,
+                    2079,
+                    663
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        297.0,
+                        504.0
+                    ],
+                    [
+                        2079.0,
+                        504.0
+                    ],
+                    [
+                        2079.0,
+                        663.0
+                    ],
+                    [
+                        297.0,
+                        663.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9228798747062683,
+                "coordinate": [
+                    300,
+                    704,
+                    2080,
+                    867
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        300.0,
+                        704.0
+                    ],
+                    [
+                        2080.0,
+                        704.0
+                    ],
+                    [
+                        2080.0,
+                        867.0
+                    ],
+                    [
+                        300.0,
+                        867.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9196702241897583,
+                "coordinate": [
+                    301,
+                    902,
+                    2079,
+                    1063
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        301.0,
+                        902.0
+                    ],
+                    [
+                        2079.0,
+                        902.0
+                    ],
+                    [
+                        2079.0,
+                        1063.0
+                    ],
+                    [
+                        301.0,
+                        1063.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8640539050102234,
+                "coordinate": [
+                    297,
+                    1203,
+                    1085,
+                    1263
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        297.0,
+                        1203.0
+                    ],
+                    [
+                        1085.0,
+                        1203.0
+                    ],
+                    [
+                        1085.0,
+                        1263.0
+                    ],
+                    [
+                        297.0,
+                        1263.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.912850022315979,
+                "coordinate": [
+                    298,
+                    1304,
+                    2078,
+                    1465
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        298.0,
+                        1304.0
+                    ],
+                    [
+                        2078.0,
+                        1304.0
+                    ],
+                    [
+                        2078.0,
+                        1465.0
+                    ],
+                    [
+                        298.0,
+                        1465.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8228613138198853,
+                "coordinate": [
+                    298,
+                    1503,
+                    2076,
+                    1564
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        298.0,
+                        1503.0
+                    ],
+                    [
+                        2076.0,
+                        1503.0
+                    ],
+                    [
+                        2076.0,
+                        1564.0
+                    ],
+                    [
+                        298.0,
+                        1564.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8117236495018005,
+                "coordinate": [
+                    298,
+                    1603,
+                    1555,
+                    1665
+                ],
+                "order": 8,
+                "polygon_points": [
+                    [
+                        298.0,
+                        1603.0
+                    ],
+                    [
+                        1555.0,
+                        1603.0
+                    ],
+                    [
+                        1555.0,
+                        1665.0
+                    ],
+                    [
+                        298.0,
+                        1665.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8315017819404602,
+                "coordinate": [
+                    297,
+                    1804,
+                    1170,
+                    1863
+                ],
+                "order": 9,
+                "polygon_points": [
+                    [
+                        297.0,
+                        1804.0
+                    ],
+                    [
+                        1170.0,
+                        1804.0
+                    ],
+                    [
+                        1170.0,
+                        1863.0
+                    ],
+                    [
+                        297.0,
+                        1863.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8198485374450684,
+                "coordinate": [
+                    398,
+                    1904,
+                    1455,
+                    1963
+                ],
+                "order": 10,
+                "polygon_points": [
+                    [
+                        398.0,
+                        1904.0
+                    ],
+                    [
+                        1455.0,
+                        1904.0
+                    ],
+                    [
+                        1455.0,
+                        1963.0
+                    ],
+                    [
+                        398.0,
+                        1963.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9227651357650757,
+                "coordinate": [
+                    299,
+                    2002,
+                    2078,
+                    2167
+                ],
+                "order": 11,
+                "polygon_points": [
+                    [
+                        299.0,
+                        2002.0
+                    ],
+                    [
+                        2078.0,
+                        2002.0
+                    ],
+                    [
+                        2078.0,
+                        2167.0
+                    ],
+                    [
+                        299.0,
+                        2167.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.8412735462188721,
+                "coordinate": [
+                    298,
+                    2303,
+                    1032,
+                    2362
+                ],
+                "order": 12,
+                "polygon_points": [
+                    [
+                        298.0,
+                        2303.0
+                    ],
+                    [
+                        1032.0,
+                        2303.0
+                    ],
+                    [
+                        1032.0,
+                        2362.0
+                    ],
+                    [
+                        298.0,
+                        2362.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.920258104801178,
+                "coordinate": [
+                    296,
+                    2405,
+                    2078,
+                    2561
+                ],
+                "order": 13,
+                "polygon_points": [
+                    [
+                        296.0,
+                        2405.0
+                    ],
+                    [
+                        2078.0,
+                        2405.0
+                    ],
+                    [
+                        2078.0,
+                        2561.0
+                    ],
+                    [
+                        296.0,
+                        2561.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9442740678787231,
+                "coordinate": [
+                    301,
+                    2603,
+                    2079,
+                    2863
+                ],
+                "order": 14,
+                "polygon_points": [
+                    [
+                        301.0,
+                        2603.0
+                    ],
+                    [
+                        2079.0,
+                        2603.0
+                    ],
+                    [
+                        2079.0,
+                        2863.0
+                    ],
+                    [
+                        301.0,
+                        2863.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.7401624917984009,
+                "coordinate": [
+                    183,
+                    3189,
+                    260,
+                    3232
+                ],
+                "order": 15,
+                "polygon_points": [
+                    [
+                        183.0,
+                        3189.0
+                    ],
+                    [
+                        260.0,
+                        3189.0
+                    ],
+                    [
+                        260.0,
+                        3232.0
+                    ],
+                    [
+                        183.0,
+                        3232.0
+                    ]
+                ]
+            }
+        ]
+    }
+}
