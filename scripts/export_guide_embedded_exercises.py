@@ -44,11 +44,43 @@ def chapter_for_page(subject: dict[str, Any], page: int) -> dict[str, Any] | Non
     return None
 
 
-def read_page_lines(page_path: Path) -> list[tuple[int, str]]:
-    page = page_index(page_path)
+def page_lines(page_path: Path) -> list[str]:
     data = load_json(page_path)
     text = data.get('cleaned_text') or ''
-    return [(page, line.strip()) for line in text.splitlines() if line.strip()]
+    return [line.strip() for line in text.splitlines() if line.strip()]
+
+
+def collect_running_headers(page_paths: list[Path]) -> set[str]:
+    """找出頁眉（重複出現在多頁首行的章名）。
+
+    題塊跨頁時，下一頁的頁眉會被當成選項內文吃進去（例如選項 D 變成
+    「迭代次數第三章 人工智慧基礎概論」）。頁眉不寫死，靠出現頻率認。
+    """
+    counts: dict[str, int] = {}
+    for path in page_paths:
+        lines = page_lines(path)
+        if lines:
+            counts[lines[0]] = counts.get(lines[0], 0) + 1
+    threshold = max(3, len(page_paths) // 20)
+    return {line for line, count in counts.items()
+            if count >= threshold and len(line) <= 40}
+
+
+def read_page_lines(page_path: Path, headers: set[str] | None = None) -> list[tuple[int, str]]:
+    page = page_index(page_path)
+    lines = page_lines(page_path)
+    if headers and lines and lines[0] in headers:
+        lines = lines[1:]          # 只剝首行，避免誤刪正文裡同名的標題
+    return [(page, line) for line in lines]
+
+
+def continues_to_next(page_path: Path) -> bool:
+    """這一頁的內容是否接續到下一頁（clean_pdf_page_text.py 判定的）。
+
+    最後一題的解析沒有結束標記，會一路吃到下一頁的新章正文；本頁沒有續接
+    時就在頁尾收束，可擋掉這種尾端污染。
+    """
+    return bool(load_json(page_path).get('continues_to_next'))
 
 
 def parse_question_block(lines: list[str]) -> tuple[str, dict[str, str]] | None:
@@ -70,7 +102,8 @@ def parse_question_block(lines: list[str]) -> tuple[str, dict[str, str]] | None:
     return question, options
 
 
-def parse_questions(page_paths: list[Path], subject: dict[str, Any]) -> list[dict[str, Any]]:
+def parse_questions(page_paths: list[Path], subject: dict[str, Any],
+                    headers: set[str]) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
     current: dict[str, Any] | None = None
 
@@ -94,7 +127,7 @@ def parse_questions(page_paths: list[Path], subject: dict[str, Any]) -> list[dic
         current = None
 
     for page_path in page_paths:
-        for page, line in read_page_lines(page_path):
+        for page, line in read_page_lines(page_path, headers):
             answer_match = ANSWER_RE.match(line)
             question_match = QUESTION_RE.match(line)
             if answer_match:
@@ -109,11 +142,16 @@ def parse_questions(page_paths: list[Path], subject: dict[str, Any]) -> list[dic
                 }
             elif current:
                 current['lines'].append(line)
+        # 題目區塊只在四個選項都齊了才於頁尾收束；沒齊表示選項真的跨頁，
+        # 這時提前收束會整題掉題（中級 mid-s3c6gq010 就是這種）。
+        if current and parse_question_block(current['lines']):
+            flush()
     flush()
     return records
 
 
-def parse_answers(page_paths: list[Path], subject: dict[str, Any]) -> list[dict[str, Any]]:
+def parse_answers(page_paths: list[Path], subject: dict[str, Any],
+                  headers: set[str]) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
     current: dict[str, Any] | None = None
 
@@ -136,7 +174,7 @@ def parse_answers(page_paths: list[Path], subject: dict[str, Any]) -> list[dict[
         current = None
 
     for page_path in page_paths:
-        for page, line in read_page_lines(page_path):
+        for page, line in read_page_lines(page_path, headers):
             answer_match = ANSWER_RE.match(line)
             question_match = QUESTION_RE.match(line)
             if answer_match:
@@ -154,6 +192,8 @@ def parse_answers(page_paths: list[Path], subject: dict[str, Any]) -> list[dict[
                 continue
             if current:
                 current['explanation'].append(line)
+        if not continues_to_next(page_path):
+            flush()
     flush()
     return records
 
@@ -223,8 +263,9 @@ def export_level(level: str) -> None:
         if not pages_dir.exists():
             continue
         page_paths = sorted(pages_dir.glob('page_*.json'), key=page_index)
-        questions = parse_questions(page_paths, subject)
-        answers = parse_answers(page_paths, subject)
+        headers = collect_running_headers(page_paths)
+        questions = parse_questions(page_paths, subject, headers)
+        answers = parse_answers(page_paths, subject, headers)
         merged = merge_records(questions, answers, subject)
         payload = {
             'level': level,

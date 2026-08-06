@@ -255,10 +255,19 @@ def check_guide_exercises(level: str) -> dict[str, Any]:
                     return 0.0
                 return sum(len(p) * coverage(p, text) for p in parts) / weight
 
+            def score_from(corpus: dict[int, str], index: int) -> float:
+                # 題目常跨頁（選項 C/D 印在下一頁），單頁比會低估；先比單頁，
+                # 不滿分再補比「本頁＋下一頁」。
+                score = score_against(corpus.get(index, ''))
+                if score < EXACT and corpus.get(index + 1):
+                    score = max(score, score_against(
+                        corpus.get(index, '') + '\n' + corpus[index + 1]))
+                return score
+
             def best_over(corpus: dict[int, str]) -> tuple[float, int | None]:
                 best, best_index = 0.0, None
-                for index, text in corpus.items():
-                    score = score_against(text)
+                for index in corpus:
+                    score = score_from(corpus, index)
                     if score > best:
                         best, best_index = score, index
                     if best >= 0.999:
@@ -268,13 +277,22 @@ def check_guide_exercises(level: str) -> dict[str, Any]:
             at_page = 0.0
             best_page = None
             if isinstance(cited, int):
-                for offset in range(-PAGE_WINDOW, PAGE_WINDOW + 1):
-                    score = score_against(pages.get(cited + offset, ''))
+                # 依 |offset| 由小到大，讓引用頁本身優先勝出；否則跨頁串接會讓
+                # 前一頁也拿到滿分，整批被誤標成「頁碼偏移」。
+                for offset in sorted(range(-PAGE_WINDOW, PAGE_WINDOW + 1), key=abs):
+                    score = score_from(pages, cited + offset)
                     if score > at_page:
                         at_page, best_page = score, cited + offset
+                    if at_page >= EXACT:
+                        break
 
-            whole_score, whole_page = best_over(pages)
-            old_score, _ = best_over(old_pages)
+            # 引用頁已命中就不必再掃全書（掃全書是這支腳本的主要成本）。
+            if at_page >= EXACT:
+                whole_score, whole_page = at_page, best_page
+            else:
+                whole_score, whole_page = best_over(pages)
+            old_at_page = score_from(old_pages, cited) if isinstance(cited, int) else 0.0
+            old_score = old_at_page if old_at_page >= EXACT else best_over(old_pages)[0]
 
             record = {
                 'file': path.name,
