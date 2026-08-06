@@ -126,6 +126,34 @@ uv run python3 scripts/audit_chapters.py --level 初級 --all [--subject 1] [--c
 
 ## §3 考題 pipeline
 
+### ⚠️ `data/{level}/guide/subject{N}_guide.json` 有兩個生產者
+
+`parse_guides.py`（Track B，內容來自 pages_cache／OCR）與
+`export_question_generation_data.py`（內容來自 guideContent，也就是 Track A）
+**都會寫同一個檔案，互相覆寫**。跑錯順序會把 OCR 版的講義換成 page_clean 版，
+公式與表格品質差很多。動到出題資料前先確認現在檔案裡是哪一版
+（OCR 版的公式是 `$...$` LaTeX，數量約 358 個）。
+
+### 小節粒度出題（2026-08-06 新增）
+
+```bash
+python3 scripts/export_guide_sections.py [--target-chars 3000]
+# → data/{level}/guide_sections/subject{N}.json（sections 細切片 + chunks 出題區塊）
+uv run python3 scripts/generate_questions.py --level 初級 --subject 1 --by-section --count 3
+```
+
+為什麼要這個：`generate_questions.py` 把章節內容截到 `MAX_CONTENT_CHARS = 4000` 才餵給
+模型，但一章動輒上萬字——實測 **41 章有 39 章被截斷，整份講義只有 40% 進得了出題流程**，
+最長的 mid-s1c1（36,918 字）只看得到 11%。切成小節區塊後共 370 塊、中位數 889 字，
+覆蓋率 100%，只有 7 塊超過 4000 字。
+
+`--count` 的語意會改變：不帶 `--by-section` 是「每章幾題」，帶了是「每個區塊幾題」。
+初級科目1 有 37 個區塊，`--count 3` 就是 111 題，注意 API 花費。
+產出的題目會帶 `section_id` / `section_title` 標記來源小節。
+
+`export_guide_sections.py` 讀的是**當下**的 `guide/subject{N}_guide.json`，
+所以上面那個「兩個生產者」的問題會直接傳導過來——重跑 parse_guides 後要一併重跑它。
+
 ```bash
 uv run python3 scripts/extract_pdfs.py --level 初級      # PDFs → data/初級/extracted/*.{txt,json}
 uv run python3 scripts/gemini_exam_vision_extract.py --level 中級 --key exam2 [--dry-run]

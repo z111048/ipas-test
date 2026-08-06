@@ -61,15 +61,20 @@ FREQ_GUIDE = (
 )
 
 
-def build_generate_prompt(chapter: dict, analysis: dict, count: int, level: str = '初級') -> str:
-    content = chapter['content'][:MAX_CONTENT_CHARS]
+def build_generate_prompt(chapter: dict, analysis: dict, count: int, level: str = '初級',
+                          section: dict | None = None) -> str:
+    # section 模式下，content 換成該小節區塊的全文。章節模式會把上萬字的章節截到
+    # MAX_CONTENT_CHARS，實測 41 章有 39 章被截、整份講義只有 40% 進得了出題流程；
+    # 小節區塊中位數不到 1000 字，整章都覆蓋得到。
+    source = section or chapter
+    content = source['content'][:MAX_CONTENT_CHARS]
     subtopics = '、'.join(chapter['subtopics'])
     q_types = '\n'.join(f'  - {t}' for t in QUESTION_TYPES)
     common_topics = '、'.join(analysis.get('common_topics', [])[:8])
 
     return f"""你是一位 iPAS {level} AI 應用規劃師認證考試的命題專家。
 
-請根據以下學習指引內容，為「{chapter['title']}」章節出 {count} 道四選一選擇題。
+請根據以下學習指引內容，為「{chapter['title']}」{'章節' if section is None else f'的「{section["title"]}」小節'}出 {count} 道四選一選擇題。
 
 ## 章節重點子主題
 {subtopics}
@@ -77,7 +82,7 @@ def build_generate_prompt(chapter: dict, analysis: dict, count: int, level: str 
 ## 常見高頻考題主題（請優先覆蓋）
 {common_topics}
 
-## 指引原文（前 {MAX_CONTENT_CHARS} 字元）
+## 指引原文{'（前 %d 字元）' % MAX_CONTENT_CHARS if section is None else f'（小節「{section["title"]}」全文）'}
 {content}
 
 ## 出題要求
@@ -147,6 +152,15 @@ def load_analysis(subject_num: int, data_dir: Path) -> dict:
     return {}
 
 
+def load_section_chunks(level: str, subject_num: int) -> dict[str, list[dict]]:
+    """回傳 {章節 id: [出題區塊, ...]}，由 scripts/export_guide_sections.py 產生。"""
+    path = BASE / 'data' / level / 'guide_sections' / f'subject{subject_num}.json'
+    if not path.exists():
+        return {}
+    data = json.loads(path.read_text(encoding='utf-8'))
+    return {c['id']: c.get('chunks', []) for c in data.get('chapters', [])}
+
+
 def generate_for_subject(
     client: anthropic.Anthropic,
     subject_num: int,
@@ -156,6 +170,7 @@ def generate_for_subject(
     questions_dir: Path,
     data_dir: Path,
     level: str = '初級',
+    by_section: bool = False,
 ):
     guide_path = guide_dir / f'subject{subject_num}_guide.json'
     if not guide_path.exists():
@@ -172,47 +187,59 @@ def generate_for_subject(
     # Build a set of existing chapter ids for easy lookup
     chapter_map = {ch['id']: ch for ch in subject_data.get('chapters', [])}
 
+    section_chunks = load_section_chunks(level, subject_num) if by_section else {}
+
     for chapter in guide['chapters']:
         ch_id = chapter['id']
-        print(f"\nGenerating {count} questions for {ch_id} ({chapter['title']})...")
+        # 逐小節出題時，一章拆成多個區塊各出一輪；沒有區塊資料就退回整章模式
+        targets = [(chunk, count) for chunk in section_chunks.get(ch_id, [])] or [(None, count)]
+        if by_section and not section_chunks.get(ch_id):
+            print(f"  [warn] {ch_id} 沒有小節區塊資料，退回整章模式")
 
-        prompt = build_generate_prompt(chapter, analysis, count, level)
+        for section, section_count in targets:
+            label = f"{ch_id} ({chapter['title']})" if section is None else f"{ch_id} › {section['title']}"
+            print(f"\nGenerating {section_count} questions for {label}...")
 
-        if dry_run:
-            print("--- PROMPT (dry-run) ---")
-            print(prompt[:800], '...')
-            print("--- END ---")
-            continue
+            prompt = build_generate_prompt(chapter, analysis, section_count, level, section)
 
-        try:
-            raw = call_claude(client, prompt)
-            new_questions = parse_json_response(raw)
-        except Exception as e:
-            print(f"  ERROR: {e}")
-            continue
+            if dry_run:
+                print("--- PROMPT (dry-run) ---")
+                print(prompt[:800], '...')
+                print("--- END ---")
+                continue
 
-        if not isinstance(new_questions, list):
-            print(f"  ERROR: expected list, got {type(new_questions)}")
-            continue
+            try:
+                raw = call_claude(client, prompt)
+                new_questions = parse_json_response(raw)
+            except Exception as e:
+                print(f"  ERROR: {e}")
+                continue
 
-        # Assign ids and source
-        existing = chapter_map.get(ch_id, {})
-        existing_count = len(existing.get('questions', []))
-        for i, q in enumerate(new_questions, existing_count + 1):
-            q['id'] = f'{ch_id}q{i}_gen'
-            q.setdefault('source', 'generated')
+            if not isinstance(new_questions, list):
+                print(f"  ERROR: expected list, got {type(new_questions)}")
+                continue
 
-        # Append to existing chapter or create new chapter entry
-        if ch_id in chapter_map:
-            chapter_map[ch_id].setdefault('questions', []).extend(new_questions)
-        else:
-            chapter_map[ch_id] = {
-                'id': ch_id,
-                'title': chapter['title'],
-                'questions': new_questions,
-            }
+            # Assign ids and source
+            existing = chapter_map.get(ch_id, {})
+            existing_count = len(existing.get('questions', []))
+            for i, q in enumerate(new_questions, existing_count + 1):
+                q['id'] = f'{ch_id}q{i}_gen'
+                q.setdefault('source', 'generated')
+                if section is not None:
+                    q.setdefault('section_id', section['id'])
+                    q.setdefault('section_title', section['title'])
 
-        print(f"  Added {len(new_questions)} questions to {ch_id}")
+            # Append to existing chapter or create new chapter entry
+            if ch_id in chapter_map:
+                chapter_map[ch_id].setdefault('questions', []).extend(new_questions)
+            else:
+                chapter_map[ch_id] = {
+                    'id': ch_id,
+                    'title': chapter['title'],
+                    'questions': new_questions,
+                }
+
+            print(f"  Added {len(new_questions)} questions to {ch_id}")
 
     if dry_run:
         return
@@ -286,7 +313,12 @@ def main():
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('--subject', type=int, help='Generate new questions for subject N')
     group.add_argument('--enrich', action='store_true', help='Add card fields to existing questions')
-    parser.add_argument('--count', type=int, default=5, help='Questions per chapter (default: 5)')
+    parser.add_argument('--count', type=int, default=5,
+                        help='每章出幾題；加了 --by-section 則是「每個小節區塊」幾題（預設 5）')
+    parser.add_argument('--by-section', action='store_true',
+                        help='逐小節區塊出題而不是逐章。整章模式會把內容截到 %d 字，'
+                             '實測 41 章有 39 章被截、整份講義只有 40%%%% 進得了出題流程。'
+                             '需要先跑 scripts/export_guide_sections.py' % MAX_CONTENT_CHARS)
     parser.add_argument('--dry-run', action='store_true', help='Print prompts without calling API')
     args = parser.parse_args()
 
@@ -298,7 +330,7 @@ def main():
 
     if args.subject:
         generate_for_subject(client, args.subject, args.count, args.dry_run,
-                             guide_dir, questions_dir, data_dir, args.level)
+                             guide_dir, questions_dir, data_dir, args.level, by_section=args.by_section)
     elif args.enrich:
         enrich_cards(client, args.dry_run, questions_dir)
 
