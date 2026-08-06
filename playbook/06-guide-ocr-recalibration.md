@@ -420,3 +420,77 @@ Gemini 版抓得到。全書 35 頁屬於這種（`ocr_extract.py` 的報告會�
 2. `extract_pdfs.py` 的 `REFERENCE_PDFS_BY_LEVEL` 仍缺 `'初級': {'errata': ...}` 條目。
 3. 題庫引文對齊未驗（依使用者決定不重出題）。
 4. 五個備份目錄未追蹤也未 gitignore。
+
+---
+
+## §11 交接（2026-08-06 收工）
+
+**分支 `guide-ocr-recalibration`，9 個 commit，工作區乾淨，尚未 push、尚未合回 main。**
+
+驗證狀態：`verify_data_alignment` 兩級通過、`npm run build` 零 TS 錯誤、
+s1c4 手動修正在位、勘誤抽驗 7 項全部「新版出現、舊字零殘留」、
+`apply_errata.py` 連跑兩次結果完全一致（冪等）。
+
+### 這輪完成了什麼
+
+| commit | 內容 |
+|---|---|
+| `cdadbbc` | 716 頁 OCR 納入為 SSOT（`data/{level}/guide_ocr/`，33 MB） |
+| `9568bc7` | 兩軌轉接層（`ocr_extract.py` / `merge_guide_ocr.py`）＋ s1c4 修正腳本化 |
+| `4157aff` | 勘誤表解析與套用 |
+| `97a38fd` | 重建講義資料與 guideContent |
+| `ca9125b` | 文件 |
+| `cd0856f` | **完整階層樹**（`guideHierarchy.json`，1,207 節點、最深 6 層） |
+| `4fba648` | 側欄改用階層樹，修掉章頁面的空連結 |
+| `35a034b` | **出題改小節粒度**（370 區塊，解決「整份講義只有 40% 進得了出題流程」） |
+| `a29a997` | 勘誤人工校對，28 筆中 26 筆已套用 |
+
+### ⚠️ 重跑時的硬性順序（最容易踩）
+
+勘誤是**疊加層**，套在兩軌的轉接產物上；重跑轉接層會把勘誤沖掉。完整順序：
+
+```bash
+# Track B（出題）
+python3 scripts/ocr_extract.py
+# Track A（前端閱讀頁）— 會先備份 page_extract 到 page_extract_before_ocr_merge/
+python3 scripts/merge_guide_ocr.py
+# 勘誤（自動 + 人工覆寫），冪等
+python3 scripts/apply_errata.py
+# 下游
+uv run python3 scripts/parse_guides.py --level 初級   # 中級同樣跑一次
+python3 scripts/clean_pdf_page_text.py --level {lv} --key {key}   # 逐 key
+uv run python3 scripts/export_guide_outline_data.py --all-levels  # ⚠ 必帶 --all-levels
+python3 scripts/apply_manual_guide_fixes.py                        # ⚠ 緊接著跑
+python3 scripts/export_guide_hierarchy.py
+python3 scripts/export_guide_sections.py
+python3 scripts/verify_data_alignment.py --level 初級 / 中級
+cd frontend && npm run build
+```
+
+要從乾淨狀態重跑 `merge_guide_ocr.py`，得先把 `page_extract_before_ocr_merge/`
+複製回 `page_extract/`——那支腳本只在備份不存在時才備份，直接重跑會疊在已合併的結果上。
+
+### 待接工作（依價值排序）
+
+1. **驗證題庫引文對齊**（唯一還沒做的驗收項）。講義文字這輪大幅變動（公式、表格、
+   勘誤、練習題不再混進正文），`guide_exercises` 與精選 100 題引用的講義片段可能對不上。
+   先寫個比對腳本量規模，再決定要不要重跑對齊。**這是合回 main 前該做的。**
+2. **決定要不要用 `--by-section` 重出題庫**。基礎設施好了但沒跑過，需要 `ANTHROPIC_API_KEY`
+   且量不小（初級科目1 光是 `--count 3` 就 111 題）。使用者這輪明確說先不重出。
+3. **剩下 2 筆勘誤**（理由見 `pipeline-reference.md` §3，兩筆都需要看原始 PDF 才能決定）。
+4. **`extract_pdfs.py` 的 `REFERENCE_PDFS_BY_LEVEL` 仍缺 `'初級': {'errata': ...}`**。
+5. **`guideContent` 的 `content` 欄位公式涵蓋只到約六成**（見 `pipeline-reference.md` §10 修正 3）。
+   `content` 不是閱讀頁的渲染來源（GuidePage 走 `blocks`），但概念圖卡頁與兩支 export 會讀。
+6. **前端還沒用到階層樹的其他可能**：完整目錄頁、麵包屑。資料都在 `guideHierarchy.json`，
+   節以下是既有章節頁的錨點，路由不用動。
+7. 四個備份目錄（含 193 MB 的 `page_extract_before_ocr_merge/`）已 gitignore，
+   確認無誤後可刪；其中兩個備份的是 tracked 檔案，git 歷史本來就有。
+
+### 這輪學到、寫進制度的三件事
+
+- `data/{level}/guide/subject{N}_guide.json` **有兩個生產者**互相覆寫
+  （`parse_guides.py` 寫 OCR 版、`export_question_generation_data.py` 寫 guideContent 版）。
+- 重跑 `export_guide_outline_data.py` 會沖掉手工補的東西。s1c4 已腳本化；
+  2026-06-10 手工補的 98 處 `$$` 公式已改為自動產生但只涵蓋約六成。
+- 比對中文 PDF 文字一定要**兩邊都 NFKC 正規化**（全形標點、CJK 相容字「數」是 U+F969），
+  而且**替換要映射回原字串**。只正規化其中一邊會全部落空——這輪踩了兩次。
