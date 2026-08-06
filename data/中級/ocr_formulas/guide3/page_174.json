@@ -1,0 +1,44 @@
+{
+  "blocks": [
+    {
+      "type": "formula",
+      "latex": "$ m_{t}=\\boldsymbol{\\beta}_{1}\\cdot\\boldsymbol{m}_{t-1}+(1-\\beta_{1})\\cdot\\nabla_{\\theta}L(\\theta_{t}) $",
+      "display": true
+    },
+    {
+      "type": "formula",
+      "latex": "$ v_{t}=\\boldsymbol{\\beta}_{2}\\cdot\\boldsymbol{v}_{t-1}+\\left(1-\\boldsymbol{\\beta}_{2}\\right)\\cdot\\left(\\nabla_{\\theta}L(\\theta_{t})\\right)^{2} $",
+      "display": true
+    },
+    {
+      "type": "formula",
+      "latex": "$ \\widehat{m}_{t}=\\frac{m_{t}}{1-\\beta_{1}^{t}} $",
+      "display": true
+    },
+    {
+      "type": "formula",
+      "latex": "$ \\widehat{v}_{t}=\\frac{v_{t}}{1-\\beta_{2}^{t}} $",
+      "display": true
+    },
+    {
+      "type": "formula",
+      "latex": "$ \\theta_{t+1}=\\theta_{t}-\\frac{\\eta\\cdot\\widehat{m}_{t}}{\\sqrt{\\widehat{v}_{t}}+\\epsilon} $",
+      "display": true
+    },
+    {
+      "type": "formula",
+      "latex": "\\beta_{1}",
+      "display": false
+    },
+    {
+      "type": "formula",
+      "latex": "\\beta_{2}",
+      "display": false
+    },
+    {
+      "type": "formula",
+      "latex": "\\epsilon",
+      "display": false
+    }
+  ]
+}

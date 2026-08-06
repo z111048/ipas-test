@@ -1,0 +1,39 @@
+{
+  "blocks": [
+    {
+      "type": "formula",
+      "latex": "$ v_{t+1}=\\gamma\\cdot v_{t}+\\eta\\cdot\\nabla_{\\theta}L(\\theta_{t}) $",
+      "display": true
+    },
+    {
+      "type": "formula",
+      "latex": "$ \\theta_{t+1}=\\theta_{t}-v_{t+1} $",
+      "display": true
+    },
+    {
+      "type": "formula",
+      "latex": "v_{t}",
+      "display": false
+    },
+    {
+      "type": "formula",
+      "latex": "\\gamma",
+      "display": false
+    },
+    {
+      "type": "formula",
+      "latex": "G_{t}=G_{t-1}+\\nabla_{\\theta}L(\\theta_{t})^{2}",
+      "display": false
+    },
+    {
+      "type": "formula",
+      "latex": "$ \\theta_{t+1}=\\theta_{t}-\\frac{\\eta}{\\sqrt{G_{t}+\\epsilon}}\\cdot\\nabla_{\\theta}L(\\theta_{t}) $",
+      "display": true
+    },
+    {
+      "type": "formula",
+      "latex": "\\epsilon",
+      "display": false
+    }
+  ]
+}
