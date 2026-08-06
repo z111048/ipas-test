@@ -7,8 +7,10 @@ import remarkMath from 'remark-math'
 import rehypeRaw from 'rehype-raw'
 import rehypeKatex from 'rehype-katex'
 import guideOutlinesRaw from '../generated/guideOutlines.json'
+import guideHierarchyRaw from '../generated/guideHierarchy.json'
 import guideImagesRaw from '../generated/guideImages.json'
 import guideExamAnnotationsIndexRaw from '../generated/guideExamAnnotations/index.json'
+import type { GuideHierarchyData } from '../types'
 import type { ColabNotebook, GuideBlock, GuideContent, GuideExamAnnotation, GuideExamAnnotationsChapterData, GuideExamAnnotationsIndexData, GuideFormula, GuideImageAsset, GuideImagesData, GuideOutlineNode, GuideOutlinesData } from '../types'
 import { GUIDE_NOTICES } from '../constants/guideNotices'
 import GuideOutlineTree from '../components/guide/GuideOutlineTree'
@@ -17,6 +19,7 @@ import { publicAsset } from '../utils/assets'
 import { useScrollProgress, ReadingProgressBar, BackToTopButton } from '../components/shared/ReadingProgress'
 
 const guideOutlines = guideOutlinesRaw as unknown as GuideOutlinesData
+const guideHierarchy = guideHierarchyRaw as unknown as GuideHierarchyData
 const guideImages = guideImagesRaw as unknown as GuideImagesData
 const guideExamAnnotationsIndex = guideExamAnnotationsIndexRaw as unknown as GuideExamAnnotationsIndexData
 const guideContentModules = import.meta.glob<{ default: GuideContent }>('../generated/guideContent/*/*.json')
@@ -137,6 +140,49 @@ function GuideTableCell({ text }: { text: string }) {
     >
       {text}
     </ReactMarkdown>
+  )
+}
+
+type GuideHeadingNavEntry = { id: string; anchor?: string; level: number; title: string }
+
+// 「本節階層」的單一項目。來自 guide_ocr 補回的標題在頁面上沒有對應區塊（id 為空），
+// 捲不過去，所以渲染成不可點的分組標籤——它們仍然是真實的結構，用來分組下層項目。
+function GuideHeadingNavItem({
+  heading, active, compact, onSelect,
+}: {
+  heading: GuideHeadingNavEntry
+  active: boolean
+  compact?: boolean
+  onSelect: (blockId: string, anchor?: string) => void
+}) {
+  const indent = `${0.5 + Math.max(0, heading.level - 3) * 0.85}rem`
+  const size = compact ? 'px-2 py-1.5 text-[0.82rem]' : 'px-2 py-1 text-[0.78rem]'
+
+  if (!heading.id) {
+    return (
+      <div
+        className={`block w-full border-l-2 border-l-transparent text-left leading-5 text-text-light ${size}`}
+        style={{ paddingLeft: indent }}
+      >
+        {heading.title}
+      </div>
+    )
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={() => onSelect(heading.id, heading.anchor)}
+      aria-current={active ? 'true' : undefined}
+      className={`block w-full rounded-md border-l-2 text-left leading-5 no-underline transition-colors ${size} ${
+        active
+          ? 'border-l-accent bg-[#f0f7ff] font-semibold text-accent'
+          : 'border-l-transparent text-primary hover:bg-[#f8fbff] hover:text-accent'
+      }`}
+      style={{ paddingLeft: indent }}
+    >
+      {heading.title}
+    </button>
   )
 }
 
@@ -557,7 +603,40 @@ export default function GuidePage() {
     : isMarkdown ? [] : normalizedBody.split(/\n{2,}/).filter((p) => p.trim())
   const notice = chapterId ? GUIDE_NOTICES[chapterId] : undefined
   const sourcePages = content?.sourcePages ?? []
-  const contentHeadings = hasBlocks
+  // 「本節階層」優先用完整階層樹（guideHierarchy.json）——它是巢狀的，
+  // 而且補回了 blocks 缺漏的層級（初級 s1c1 的 blocks 完全沒有「1. 人工智慧的應用領域」
+  // 這一層）。階層樹沒有資料時退回原本的 blocks 邏輯。
+  //
+  // 由 guide_ocr 補回的標題在頁面上沒有對應的 DOM 區塊，捲不過去，
+  // 所以 id 給空字串，渲染端據此顯示成不可點的分組標籤。
+  const hierarchyGuide = subjectId ? guideHierarchy.guides[subjectId] : undefined
+  const hierarchyHeadings = (() => {
+    if (!hierarchyGuide?.nodesById[chapter.id]) return []
+    const blockIdByAnchor = new Map<string, string>()
+    for (const block of contentBlocks) {
+      if (block.anchor && block.id) blockIdByAnchor.set(block.anchor, block.id)
+    }
+    const out: { id: string; anchor?: string; level: number; title: string }[] = []
+    const walk = (nodeId: string) => {
+      for (const childId of hierarchyGuide.nodesById[nodeId]?.childIds ?? []) {
+        const node = hierarchyGuide.nodesById[childId]
+        if (!node || node.kind !== 'heading') continue
+        out.push({
+          id: (node.anchor && blockIdByAnchor.get(node.anchor)) ?? '',
+          anchor: node.anchor ?? undefined,
+          level: node.headingLevel ?? node.depth,
+          title: node.title,
+        })
+        walk(childId)
+      }
+    }
+    walk(chapter.id)
+    return out
+  })()
+
+  const contentHeadings = hierarchyHeadings.length > 0
+    ? hierarchyHeadings
+    : hasBlocks
     ? contentBlocks
       .filter((block) => block.type === 'heading' && block.depth >= 3 && block.depth <= 5 && block.id && block.title)
       .map((block) => ({ id: block.id, anchor: block.anchor, level: block.depth, title: block.title ?? '' }))
@@ -708,21 +787,13 @@ export default function GuidePage() {
               <div className="mt-5 border-t border-border pt-4">
                 <div className="section-title mb-3">本節階層</div>
                 <div className="space-y-1">
-                  {contentHeadings.map((heading) => (
-                    <button
-                      key={`${heading.id}-${heading.title}`}
-                      type="button"
-                      onClick={() => scrollToContentBlock(heading.id, heading.anchor)}
-                      aria-current={activeHeadingId === heading.id ? 'true' : undefined}
-                      className={`block w-full rounded-md border-l-2 px-2 py-1 text-left text-[0.78rem] leading-5 no-underline transition-colors ${
-                        activeHeadingId === heading.id
-                          ? 'border-l-accent bg-[#f0f7ff] font-semibold text-accent'
-                          : 'border-l-transparent text-primary hover:bg-[#f8fbff] hover:text-accent'
-                      }`}
-                      style={{ paddingLeft: `${Math.max(0, heading.level - 3) * 0.85 + 0.5}rem` }}
-                    >
-                      {heading.title}
-                    </button>
+                  {contentHeadings.map((heading, index) => (
+                    <GuideHeadingNavItem
+                      key={`${heading.id || heading.anchor || index}-${heading.title}`}
+                      heading={heading}
+                      active={Boolean(heading.id) && activeHeadingId === heading.id}
+                      onSelect={scrollToContentBlock}
+                    />
                   ))}
                 </div>
               </div>
@@ -970,24 +1041,17 @@ export default function GuidePage() {
             <div className="mt-5 border-t border-border pt-4">
               <div className="section-title mb-3">本節階層</div>
               <div className="space-y-0.5">
-                {contentHeadings.map((heading) => (
-                  <button
-                    key={`${heading.id}-${heading.title}`}
-                    type="button"
-                    onClick={() => {
+                {contentHeadings.map((heading, index) => (
+                  <GuideHeadingNavItem
+                    key={`${heading.id || heading.anchor || index}-${heading.title}`}
+                    heading={heading}
+                    active={Boolean(heading.id) && activeHeadingId === heading.id}
+                    compact
+                    onSelect={(blockId, anchor) => {
                       setShowDrawer(false)
-                      requestAnimationFrame(() => scrollToContentBlock(heading.id, heading.anchor))
+                      requestAnimationFrame(() => scrollToContentBlock(blockId, anchor))
                     }}
-                    aria-current={activeHeadingId === heading.id ? 'true' : undefined}
-                    className={`block w-full rounded-md border-l-2 px-2 py-1.5 text-left text-[0.82rem] leading-5 transition-colors ${
-                      activeHeadingId === heading.id
-                        ? 'border-l-accent bg-[#f0f7ff] font-semibold text-accent'
-                        : 'border-l-transparent text-primary hover:bg-[#f8fbff] hover:text-accent active:bg-[#f0f7ff]'
-                    }`}
-                    style={{ paddingLeft: `${0.5 + Math.max(0, heading.level - 3) * 0.85}rem` }}
-                  >
-                    {heading.title}
-                  </button>
+                  />
                 ))}
               </div>
             </div>

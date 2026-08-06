@@ -35,9 +35,13 @@ heading block 帶 `pageIndex`，outline 節點帶 `pageRange`，所以每個標�
     {"guides": {<subjectId>: {"rootIds": [...], "nodesById": {...}, "flat": [...]}}}
 
 每個節點：
-    id / parentId / depth / kind(subject|chapter|section|heading) / title
-    route（章節頁）/ anchor（節以下才有）/ href（route + #anchor）
-    page / pageRange / childIds
+    id / parentId / depth / kind(chapter|section|heading) / title / page / childIds
+    route、pageRange 只有章/節節點有；標題節點沿用所屬章節的 route，範圍就是 page 本身。
+    anchor 只有標題節點有，連結是 `{所屬章節 route}#{anchor}`。
+    recovered=true 表示這個標題是從 guide_ocr 補回的，頁面上沒有對應區塊、捲不過去。
+
+輸出刻意不縮排也不留可推導欄位——前端會把整份打進 GuidePage 的 chunk
+（860 KB → 439 KB，gzip 87 KB → 68 KB）。
 
 本腳本只讀既有產物、不改任何來源資料，可以隨時重跑。
 """
@@ -387,6 +391,7 @@ def build_guide(subject_id: str, guide: dict) -> dict:
                 'pageRange': [heading['page'], heading['page']] if heading['page'] else None,
                 'childIds': [],
                 'headingLevel': heading['depth'],
+                'recovered': bool(heading.get('recovered')),
             }
             out_nodes[parent_id]['childIds'].append(node_id)
             stack.append((heading['depth'], node_id))
@@ -442,9 +447,25 @@ def main() -> None:
                   + (f'  p{node["page"]}' if node['page'] else ''))
         return
 
+    # 前端會把整份 JSON 打進 GuidePage 的 chunk，所以把可推導或恆為 null 的欄位拿掉：
+    #   href   = route + '#' + anchor
+    #   route（標題節點）= 所屬章節節點的 route
+    #   pageRange（標題節點）= [page, page]
+    # 需要這些欄位的消費端自己組回來即可。indent 也拿掉（縮排佔了近三成體積）。
+    for guide in guides.values():
+        for node in guide['nodesById'].values():
+            node.pop('href', None)
+            if node['kind'] == 'heading':
+                node.pop('route', None)
+                node.pop('pageRange', None)
+            if node.get('number') is None:
+                node.pop('number', None)
+            if not node.get('recovered'):
+                node.pop('recovered', None)
+
     OUT_PATH.write_text(
         json.dumps({'levels': outlines.get('levels'), 'guides': guides},
-                   ensure_ascii=False, indent=2),
+                   ensure_ascii=False, separators=(',', ':')),
         encoding='utf-8')
     total = sum(g['stats']['total'] for g in guides.values())
     print(f'寫入 {OUT_PATH.relative_to(BASE)}（{total} 節點）')

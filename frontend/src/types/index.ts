@@ -435,3 +435,41 @@ export interface ColabNotebook {
   status?: 'pass' | 'warn'
   cells: ColabCell[]
 }
+
+/**
+ * 學習指引的完整階層樹（frontend/src/generated/guideHierarchy.json）。
+ * 由 scripts/export_guide_hierarchy.py 把 guideOutlines 的章/節與各章內部的標題
+ * 接成一棵樹。節以下的節點是既有章節頁裡的錨點，不是獨立路由。
+ */
+export interface GuideHierarchyNode {
+  id: string
+  parentId: string | null
+  depth: number
+  kind: 'chapter' | 'section' | 'heading'
+  title: string
+  /** 只有章/節節點有；標題節點沿用所屬章節的 route */
+  route?: string | null
+  /** 節以下才有；對應章節頁裡 heading 區塊的 anchor */
+  anchor: string | null
+  page: number | null
+  /** 只有章/節節點有；標題節點的範圍就是 page 本身 */
+  pageRange?: [number, number] | null
+  childIds: string[]
+  /** heading 節點在原書的標題層級（節=2、N.=3、（N）=4、A.=5、a.=6） */
+  headingLevel?: number
+  /** 由 guide_ocr 補回、頁面上沒有對應區塊的標題 */
+  recovered?: boolean
+}
+
+export interface GuideHierarchyGuide {
+  level: string
+  subjectId: string
+  key: string
+  rootIds: string[]
+  nodesById: Record<string, GuideHierarchyNode>
+  flat: string[]
+}
+
+export interface GuideHierarchyData {
+  guides: Record<string, GuideHierarchyGuide>
+}
