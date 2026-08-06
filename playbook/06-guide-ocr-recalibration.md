@@ -4,7 +4,7 @@
 
 # 06 — 學習指引 OCR 重新校正（任務計畫）
 
-**狀態**：**OCR 與校正已完成（2026-08-06）；轉接回本專案的工作尚未開始** — 見 §7。
+**狀態**：**階段 0–2 完成（2026-08-06）；階段 3 刻意未跑，勘誤表未套用** — 見 §8。
 成果在另一個專案：`/home/james/projects/paddleocr-test/output/ipas*_ocr/`，
 完整交接文件 `paddleocr-test/HANDOFF_ipas學習指引_2026-08-06.md`。
 **性質**：一次性專案計畫，不是常規制度。完工後移到 `playbook/backups/`，把學到的規則寫回
@@ -209,3 +209,214 @@ uv run python3 scripts/export_guide_outline_data.py --all-levels   # ⚠ 見下�
 > 分布 0 次），照 auto 規則改成「分布」會偏離原稿。規則：PDF 有文字層時，一律先用
 > 文字層查原稿實際印什麼再決定；簡繁校正也用同一原則（工具見 `paddleocr-test/scripts/
 > verify_simplified_against_pdf.py`，替換字取自原稿而非 opencc 轉換表）。
+
+---
+
+## §8 轉接執行紀錄（2026-08-06，接在 §7 之後）
+
+### 一個推翻 §2 前提的事實：guideContent 不是從 pages_cache 來的
+
+`data/{level}/guide/` 與前端 `guideContent/` 是**兩條來源不同的軌**，§2 的「介面契約」只涵蓋前者：
+
+| | Track A（前端 GuidePage 讀的） | Track B（出題用） |
+|---|---|---|
+| 來源 | `data/{level}/page_clean/{key}/pages/*.json`（`clean_pdf_page_text.py`，PDF **文字層** + bbox） | `data/{level}/pages_cache/{key}/*.json`（本次換成 PaddleOCR） |
+| 產物 | `export_guide_outline_data.py` → `frontend/src/generated/guideContent/` | `parse_guides.py` → `data/{level}/guide/subject*_guide.json` |
+| 消費者 | GuidePage | `generate_questions` / codex 出題與審核 prompts / colab / audit |
+
+所以換掉 `pages_cache/` **只提升出題品質，前端閱讀頁一個字都不會變**。
+`export_guide_outline_data.py --all-levels`（§4 階段 3）這次**刻意沒跑**：它的輸入 `page_clean/`
+本次完全沒動，跑了是 no-op，卻要冒 §5.1 的 rmtree 風險與 s1c4 手動修正被沖掉的成本。
+未來若要讓前端也吃到新 OCR，那是另一件事——得改 Track A 的來源，不是重跑 export。
+
+### 已完成
+
+1. **階段 0 基線**：兩級 `verify_data_alignment` 皆 passed（初級 2 科 7 章、中級 3 科 34 章）、
+   `npm run build` 零 TS 錯誤。舊快取備份在 `data/{level}/pages_cache_gemini_backup/`（711 檔 3.2 MB），
+   guide JSON 備份在 `data/{level}/guide_before_ocr_backup/`。
+   中級 `.bak` diff 過：各科僅 1–3 章有差異，是 supplement 的清理，無不可重生的人工策展。
+   **這些備份目錄未 tracked 也未 gitignored**，`git add .` 會誤收，刪了也救不回——要處理。
+2. **轉接層 `scripts/ocr_extract.py`**（新增）：706 頁全數轉入 `pages_cache/`。
+3. **`parse_guides.py` 兩級重跑**：41 章全部走 vision mode、全部有內容。
+
+### 標題規則（§3.3 決策定案：方案 C）
+
+決策前查證到的關鍵事實：**`pages_cache` 的 `headings` 欄位下游沒有任何人讀**
+（`load_chapter_pages_vision` 只用 `idx`/`markdown`/`type`；章節切分靠 SSOT manifest + PDF 頁碼標）。
+真正有下游影響的是 **markdown 正文裡的 `#` 標記**——它會進 `guide/subject*.json` 的 content，
+成為出題與審核 prompt 的輸入。所以規則以正文標記為主，headings 欄位順帶產出。
+
+規則是**不對稱**的（用全 716 頁實測校準）：
+
+- 已有 `#` 的行 → 信任它是標題，只重算層級。PaddleOCR 的層級會亂（把 `3.1` 標成 `###`、
+  把 `（1）` 標成 `##`），改為 `第X章`/`N.N`→2、`一、`/`N.`→3、`（N）`→4、`a.`→5。
+- 沒有 `#` 的行 → **只有 `a.`/`A.` 型且 ≤40 字且無句末標點才提升**。實測 plain 的
+  `第X章`、`N.N` 全部是目錄行（`..... 3-3`），plain 的 `（N）` 全部是正文段落（最短也超過 40 字），
+  plain 的 `N.` 幾乎全是練習頁題號——一律不提升。
+
+已知取捨：**沒有前綴的純文字標題抓不到**（如「獨立樣本 t 檢定（Independent-samples t-test）」），
+Gemini 版抓得到。全書 35 頁屬於這種（`ocr_extract.py` 的報告會列出來）。寧可漏抓不要誤判。
+
+### 其他必須知道的處理
+
+- **`type` 沿用備份的 Gemini 快取**（按 idx 對應），讓本次只改動 markdown 文字一個變數，
+  章節組裝行為與舊版相同。同時跑一套規則判定當交叉檢查：716 頁只有 10 頁不一致，全在
+  前後襯頁（目錄尾、參考書目），採 Gemini 判定。
+- **插圖標籤剝除**：PaddleOCR 輸出 `<img src="imgs/...">` 114 個，指向 paddleocr-test 的本機檔，
+  搬過來是死連結。原圖仍在 `paddleocr-test/output/<stem>_ocr/`，日後做原頁對照再接。
+- **`parse_guides.py` 的 `_page_asset_path` 改用 `/pdf-assets/` 慣例**（原為 `/guide-pages/`）。
+  原因：`/guide-pages/` 只鋪過初級（13 MB），中級沒有，重建後 verify 報 490 筆缺圖；
+  而 `/pdf-assets/` 兩級齊全（初級 173 + 中級 690 張）、且是 `export_guide_outline_data.py`
+  與前端（guideContent、pdfGallery）唯一在用的慣例。**前端從不引用 `/guide-pages/`**，
+  `render_guide_page_images.py` 因此變成沒有消費者的腳本（未刪，但別再依賴）。
+
+### 品質數據（新 vs 舊，41 章合計）
+
+| | 舊（Gemini） | 新（PaddleOCR） |
+|---|---|---|
+| 字數 | 392,734 | 405,117（+3.2%） |
+| 公式 `$…$` | 33 | **358** |
+| 表格 `<table>` | 26 | 29 |
+| 標題 `##`–`######` | 1,075 | 1,362 |
+
+**舊版把「模擬考題」混進講義正文**：`mid-s3c3`、`mid-s3c12`、`mid-s2c13` 等章各掉約 20%
+字數，逐字比對後確認掉的是單一整塊練習題（例：舊 `mid-s3c3` 的 source_pages 含 24–37，
+把 practice 頁也算進去了）。新版正確排除。這是修正不是遺失——也代表舊的出題輸入
+一直被練習題污染。
+
+抽驗發現原稿 OCR 仍有錯字：初級科目1 p28 的「考**礎**解析」（應為「考題解析」）。
+
+### 待接（照順序）
+
+1. **兩份勘誤表的套用/標註**（§1、§7.4）——完全沒做。中級 `errata` 與初級新增的那份都要。
+   `extract_pdfs.py` 的 `REFERENCE_PDFS_BY_LEVEL` 還缺 `'初級': {'errata': ...}` 條目。
+2. 決定備份目錄怎麼處置（gitignore 或納管），別讓它們懸在未追蹤狀態。
+3. `guide_exercises` / 章節練習題引用的講義片段是否還對得上（§4 階段 4 最後一條，未驗）。
+4. 是否要把 Track A 也換成新 OCR ——需要改 `page_clean` 的來源，範圍比本次大。
+
+---
+
+## §9 Track A 遷移（2026-08-06，接在 §8 之後）
+
+**使用者定調**：學習指引以新 OCR 為單一真相來源，前端閱讀頁也要納入，末端產物可重做。
+
+### OCR 成果已複製進本專案
+
+`data/{level}/guide_ocr/{key}/`（初級 6.3 MB、中級 26 MB，含 errata），
+結構 `pages/page_NNNN/page_NNNN.{md,_res.json}` + `merged.md`。
+**不再依賴 paddleocr-test 專案**（`ocr_extract.py` 的來源路徑已改）。
+沒複製 `viewer_data/`、`logs/`、`progress.json`（paddleocr-test 自用）。
+
+### 為什麼 Track A 是「合併」而不是「取代」
+
+實測比對後確認 PaddleOCR **不能**取代 PDF 文字層：
+
+| | PDF 文字層 | PaddleOCR |
+|---|---|---|
+| 條列符號 | 5,803 個，三層階層乾淨（• 1769 / ◦ 2028 / ○ 2004） | 1,577 個，**流失 72.8%**，塌成 ■/◆/○/• 且不一致 |
+| 字元 | 原稿無損 | 抽驗有殘留錯字（侷→侗、考題→考礎）、異體字偏離（佈→布） |
+| 公式 | 攤平成數學斜體碼點亂碼 | **LaTeX**，KaTeX/MathJax 雙引擎驗過 |
+| 表格 | 列偵測會吃掉上下標（「H₁」） | **完整 HTML**，表頭與 rowspan 都在 |
+
+條列符號與 x 縮排是 `guideContent` 巢狀清單深度的依據，全換 OCR 會讓閱讀頁結構退化。
+所以 `scripts/merge_guide_ocr.py` 只注入 OCR 贏的那三項，一個字都不改文字層內容。
+
+### 做了什麼
+
+1. **`scripts/merge_guide_ocr.py`**（新增）：
+   - 表格：OCR 的 `<table>` 解析成 rows（含 rowspan 展開、字面 `\n` 轉真換行），
+     以 bbox IoU 比對換掉 `page_extract` 的 PDF 偵測版。**44/45 換成功**，只換不新增
+     （新增的表格沒有對應 PNG 資產，前端會 404）。座標比例逐頁算（OCR 像素 / PDF point ≈ 4.001）。
+   - 公式：抽出 417 個（682 行內 + 63 顯示式去重後）寫成
+     `data/{level}/ocr_formulas/{key}/page_NNN.json`，格式刻意做成既有
+     `collect_formula_blocks()` 吃得下的樣子，沿用 audit_cache 的注入管線。
+   - 首次執行備份 `page_extract` 到 `page_extract_before_ocr_merge/`。
+2. **`export_guide_outline_data.py`** 三處改動：
+   - `load_audit_formula_pages()` 合併 `audit_cache` 與 `ocr_formulas`（OCR 優先、去重）。
+   - 拿掉 `high_confidence_formula_for_text` 的**頁級**開關。原本「整頁都沒有快取公式才啟用」
+     太寬，一頁只要有任何公式進快取，整頁其他區塊就拿不到規則表救援——這是我加了
+     `ocr_formulas` 之後才暴露的退步，逐區塊的 `not block.get('formulas')` 已經夠。
+   - 新增 `inject_formulas_into_markdown()`，把 `content` 裡的公式亂碼換成 `$$latex$$`（見 §10 修正 3）。
+3. **`GuidePage.tsx`** 新增 `GuideTableCell`：表格儲存格原本是純文字渲染，
+   OCR 表格帶 `$\mu_1 \neq \mu_2$` 會裸露成原始碼。含 `$` 的儲存格才過 KaTeX，其餘走純文字
+   （保留 `whitespace-pre-line` 的換行）。
+4. 重建 `page_clean` → `guideContent`（`--all-levels`）→ 補回 s1c4 兩個修正。
+
+### 結果
+
+| | 舊 | 新 |
+|---|---|---|
+| guideContent 檔數 / blocks / headings | 64 / 16,997 / — | 64 / 16,998 / 完全一致 |
+| block 公式（閱讀頁實際渲染的） | 200（相異 latex 96） | **273（相異 128）** |
+| 表格儲存格 | 1,385（含 LaTeX 0） | 1,409（含 LaTeX 92） |
+
+`verify_data_alignment` 兩級通過、`npm run build` 零 TS 錯誤。
+
+### 已知未收斂
+
+`content` 欄位的公式覆蓋只做到約六成（詳見 `pipeline-reference.md` §10 修正 3）。
+`content` 不是閱讀頁渲染來源，但概念圖卡頁與兩支 export 腳本會讀。
+舊版留在 `frontend/src/generated/guideContent_before_ocr_merge/` 可隨時比對。
+
+### 待接
+
+1. **兩份勘誤表的套用/標註**——仍未做（§7.4）。`data/{level}/guide_ocr/errata/` 已有 OCR 成果，
+   `extract_pdfs.py` 的 `REFERENCE_PDFS_BY_LEVEL` 還缺 `'初級'` 條目。
+2. 題庫（章節練習題、精選 100 題）依使用者決定**先不重出**，只需驗引文是否仍對得上。
+3. 四個備份目錄（`pages_cache_gemini_backup`、`guide_before_ocr_backup`、
+   `page_extract_before_ocr_merge`、`guideContent_before_ocr_merge`）目前未追蹤也未 gitignore，
+   要決定納管或忽略。
+
+---
+
+## §10 勘誤表套用（2026-08-06，接在 §9 之後）
+
+§1 要求的「勘誤內容要套用或至少標註」——兩份都做了，操作手冊寫在
+`pipeline-reference.md` §10 修正 4，這裡只記錄決策與結果。
+
+### 三支新腳本
+
+| 腳本 | 做什麼 |
+|---|---|
+| `build_errata.py` | 勘誤表 OCR → `data/{level}/errata_corrections.json`（28 筆：初級 7、中級 21） |
+| `apply_errata.py` | 套進 `pages_cache`（Track B）與 `page_extract`（Track A） |
+| `apply_manual_guide_fixes.py` | 把 §10 修正 1、2 從「複製貼上執行」變成腳本 |
+
+### 三個關鍵決策
+
+1. **不改 `guide_ocr`**。那是 OCR 的忠實紀錄，要能對回原稿印的內容（原稿印錯也照實還原）。
+   勘誤是官方事後更正，屬於疊加層，套在兩條軌的轉接產物上。代價是重跑轉接層會沖掉勘誤，
+   所以執行順序有硬性要求（見 pipeline-reference §10 修正 4）。
+2. **用印刷頁碼限縮範圍**。勘誤表給的是「3-25」這種印刷頁碼，先用 `page_extract` 的
+   `page_label` 換成頁序，替換只在那一頁進行。「反饋→回饋」這種單字更正若全書套用會誤傷。
+3. **全有或全無**。一筆勘誤的片段沒有全部定位到就整筆不動——只改一半會產生新舊混雜的段落，
+   比不改更糟。這讓覆蓋率數字變難看，但那是誠實的數字。
+
+### 結果
+
+28 筆中：**7 筆兩軌完整套用**、5 筆只成功套用其中一軌、其餘需人工處理
+（清單 `data/{level}/errata_unresolved.json`，含 `reason` 欄位）。
+片段層級 Track B 套用 19 處、Track A 11 處。
+已驗證勘誤流到最終產物且無舊字殘留（如「個性化推薦→個人化推薦」、「即時反饋→即時回饋」）。
+
+覆蓋率有限的原因不是程式問題，是**勘誤表對「原內容」的轉錄與講義實際文字有出入**
+（標點、條列符號、斷行），以及整段改寫類的勘誤本來就難以自動定位。
+
+### 踩到的三個坑（都已修，留紀錄避免重犯）
+
+1. **只正規化「針」不正規化「草堆」**：`flexible_pattern` 把要找的片段做了 NFKC
+   （全形逗號→ASCII），卻拿去比對未正規化的原文，全部落空。改成兩邊都正規化、
+   保留索引對照再映射回原字串替換（`normalize_with_map` / `find_span`）。
+2. **片段互相覆蓋**：相鄰更正各自展開上下文後會咬到對方，先替換的把後面的比對基準改掉。
+   修法有兩層——`context_pairs` 合併重疊區段，`apply_pairs` 一次掃描定位後由**後往前**替換。
+3. **同一片段在每個 block 重複套用**：`apply_to_page_extract` 逐 block 套用時沒把已套用的
+   片段移除。
+
+### 仍待處理
+
+1. `errata_unresolved.json` 的人工處理（初級 6 筆、中級 15 筆）。其中值得優先看的是
+   **初級 3-31 第 3 題答案由 (B) 改為 (A)**——這是答案更正，錯了會直接影響作答，
+   而它目前**沒有**自動套用成功。
+2. `extract_pdfs.py` 的 `REFERENCE_PDFS_BY_LEVEL` 仍缺 `'初級': {'errata': ...}` 條目。
+3. 題庫引文對齊未驗（依使用者決定不重出題）。
+4. 五個備份目錄未追蹤也未 gitignore。

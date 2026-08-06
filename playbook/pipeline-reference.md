@@ -274,10 +274,17 @@ Pipeline 跑完後：
 預設 `--level 初級` 只重建初級 → **中級檔案永久消失**（2026-06-06 實際發生過）。
 跑完立刻 `git status frontend/src/generated/guideContent/` 確認 mid-* 目錄還在。
 
-> 執行須知：以下兩段腳本用相對路徑，**必須從 repo 根目錄 `/home/james/projects/ipas-test` 執行**。
-> 字串不匹配時會**靜默不改**（不報錯），所以補回後必須
-> `git diff --stat frontend/src/generated/guideContent/初級-guide1/s1c4.json` 確認真的有變更；
-> 若無變更，先檢查 export 是否改了原文字串，再更新本節的 fixes 對照表。
+### 修正 1、2 已經腳本化（2026-08-06）
+
+```bash
+uv run python3 scripts/export_guide_outline_data.py --all-levels
+python3 scripts/apply_manual_guide_fixes.py     # ← 緊接著跑，冪等，可重複執行
+```
+
+原本是下面兩段「複製貼上執行」的程式碼，且**字串對不上時靜默不改**，
+造成「以為補好了其實沒補」。腳本版對不上會**直接報錯中斷**（要放行加 `--no-strict`），
+對照表在 `apply_manual_guide_fixes.py` 的 `DEMOTE_HEADINGS` / `SHORTEN_HEADINGS`。
+以下兩段保留為修正內容的說明，不必再手動執行。
 
 ### 修正 1：s1c4 本節階層 heading 層級（6 個 h4 → h3）
 
@@ -335,8 +342,53 @@ for h in data.get('headings', []):
 s1c4.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
 ```
 
-觸發時機：每次執行 `export_guide_outline_data.py`（含 `--all-levels`）後，兩個腳本依序補回，
-然後 `npm run build` 驗證。
+觸發時機：每次執行 `export_guide_outline_data.py`（含 `--all-levels`）後跑
+`scripts/apply_manual_guide_fixes.py`，然後 `npm run build` 驗證。
+
+### 修正 4：官方勘誤表（2026-08-06 新增，已腳本化）
+
+官方另發佈學習指引勘誤表（初級 3 頁、中級 7 頁，PDF 在 `data/{level}/pdfs/`，
+OCR 成果在 `data/{level}/guide_ocr/errata/`）。內容是「頁碼 / 行數段落 / 原內容 / 更正後內容」
+四欄表，多數是用字更正（反饋→回饋、攝像頭→鏡頭、合同→合約、ChatGTP→ChatGPT），
+少數是整段改寫（初級 3-31 答案由 B 改為 A、中級 4-34 PDPA 整段重寫）。
+
+```bash
+python3 scripts/build_errata.py                 # 勘誤表 OCR → data/{level}/errata_corrections.json
+python3 scripts/apply_errata.py [--dry-run]     # 套進 pages_cache 與 page_extract
+```
+
+**執行順序有硬性要求**——勘誤是疊加層，套在兩條軌的轉接產物上，重跑轉接層會沖掉：
+
+```
+ocr_extract.py       → apply_errata.py → parse_guides.py                （Track B）
+merge_guide_ocr.py   → apply_errata.py → clean_pdf_page_text.py
+                                       → export_guide_outline_data.py   （Track A）
+```
+
+不改 `data/{level}/guide_ocr/`：那是 OCR 的忠實紀錄，要能對回原稿印的內容。
+
+**自動化覆蓋率有限，這是預期的**：勘誤表對「原內容」的轉錄與講義實際文字有標點、
+條列符號、斷行的差異，比對不一定成功。目前 28 筆中 7 筆兩軌都完整套用、
+5 筆只套用了其中一軌，其餘需人工處理——清單在 `data/{level}/errata_unresolved.json`。
+採**全有或全無**策略：一筆勘誤的片段沒有全部定位到就整筆不動，
+因為只改一半會產生新舊混雜的段落，比不改更糟。
+
+### 修正 3（已改為自動，留紀錄）：guideContent `content` 的 LaTeX 公式
+
+2026-06-10 的 commit `3710342`「patch LaTeX formulas」手工在 13 個章節檔的 `content`
+補了 **98 處 `$$...$$`**，把 PDF 文字層攤平的公式亂碼（「算術平均= 𝑥1 + 𝑥2 + ⋯+ 𝑥𝑛 𝑛」，
+數學斜體碼點 U+1D400–U+1D7FF）換成可渲染的 LaTeX。**那批修補沒有留在任何腳本裡**，
+重跑 export 就會全數消失——2026-08-06 重跑時才發現。
+
+2026-08-06 起 `export_guide_outline_data.py` 新增 `inject_formulas_into_markdown()`
+自動做這件事（來源是 `enrich_guide_blocks` 掛在 block 上的 LaTeX），不必再手工補。
+但**自動版只覆蓋約六成**：公式標記從人工版的 149 處增加到 259 處，殘留亂碼卻也從
+455 字元變成 860 字元——因為人工修補會把整段亂碼刪掉，自動版只換掉能對應到公式的片段。
+
+影響範圍有限：`content` **不是前端閱讀頁的渲染來源**（GuidePage 走 `blocks`，64 章全都有
+blocks，`content` 那條 markdown 分支永遠走不到）。實際讀 `content` 的是概念圖卡頁
+（`VisualCardsPage.tsx`）與 `export_learning_articles.py` / `export_question_generation_data.py`。
+要進一步收斂，方向是提高 `enrich_guide_blocks` 的公式附著率，而不是再手工 patch。
 
 ---
 
