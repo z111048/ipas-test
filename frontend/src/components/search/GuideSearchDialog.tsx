@@ -125,8 +125,8 @@ export default function GuideSearchDialog({ open, onClose }: { open: boolean; on
                         {KIND_LABEL[hit.node.k]}
                       </span>
                       <span className="truncate text-[0.9rem] font-medium text-primary">{hit.node.t}</span>
-                      {!hit.to && (
-                        <span className="shrink-0 text-[0.65rem] text-text-light">（無對應段落）</span>
+                      {hit.approximate && (
+                        <span className="shrink-0 text-[0.65rem] text-text-light">概略位置</span>
                       )}
                     </div>
                     <div className="mt-0.5 truncate text-[0.72rem] text-text-light">

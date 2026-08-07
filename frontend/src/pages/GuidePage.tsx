@@ -582,8 +582,47 @@ export default function GuidePage() {
   useEffect(() => {
     const anchor = decodeURIComponent(location.hash.replace(/^#/, ''))
     if (!anchor || !content) return
-    const frame = requestAnimationFrame(() => scrollToContentBlockRef.current?.(anchor, anchor))
-    return () => cancelAnimationFrame(frame)
+
+    // 公式（KaTeX）與圖片是載入後才撐開高度的，只捲一次會落在錯的位置——
+    // 實測目標會被推到畫面外一萬多 px。所以持續盯著內容高度，每次變動就重捲一次，
+    // 連續穩定或超過上限才停；使用者一旦自己動了就立刻停手。
+    let cancelled = false
+    let timer = 0
+    let lastHeight = -1
+    let stable = 0
+    const deadline = performance.now() + 12000
+
+    const stop = () => {
+      cancelled = true
+      window.clearTimeout(timer)
+    }
+    const tick = () => {
+      if (cancelled) return
+      const container = contentScrollRef.current
+      const height = container?.scrollHeight ?? document.documentElement.scrollHeight
+      if (height !== lastHeight) {
+        lastHeight = height
+        stable = 0
+        scrollToContentBlockRef.current?.(anchor, anchor)
+      } else {
+        stable += 1
+      }
+      if (stable < 4 && performance.now() < deadline) {
+        timer = window.setTimeout(tick, 250)
+      }
+    }
+    const frame = requestAnimationFrame(tick)
+
+    window.addEventListener('wheel', stop, { passive: true, once: true })
+    window.addEventListener('touchstart', stop, { passive: true, once: true })
+    window.addEventListener('keydown', stop, { once: true })
+    return () => {
+      cancelAnimationFrame(frame)
+      stop()
+      window.removeEventListener('wheel', stop)
+      window.removeEventListener('touchstart', stop)
+      window.removeEventListener('keydown', stop)
+    }
   }, [location.hash, content])
 
   if (!outlineGuide || !chapter) {

@@ -49,8 +49,8 @@ function OutlineNodes({
         const children = childrenOf.get(node.id) ?? []
         const isCollapsed = collapsed.has(node.id)
         const base = routeFor(node, byId)
-        // x=1 是 OCR 補回、頁面上沒有對應區塊的標題，跳過去只會停在頁頂
-        const to = node.x || !base ? undefined : node.k === 'h' && node.a ? `${base}#${node.a}` : base
+        // a 已保證對應到真的存在的區塊；x=1 表示那是最近的上層標題（近似定位）
+        const to = !base ? undefined : node.a ? `${base}#${node.a}` : base
         const weight =
           node.k === 'c' ? 'font-bold text-primary' : node.k === 's' ? 'font-semibold text-primary' : 'text-app-text'
 
@@ -75,9 +75,7 @@ function OutlineNodes({
                   {node.t}
                 </Link>
               ) : (
-                <span className={`text-[0.86rem] leading-6 text-text-light`} title="此標題在頁面上沒有對應段落">
-                  {node.t}
-                </span>
+                <span className="text-[0.86rem] leading-6 text-text-light">{node.t}</span>
               )}
               {children.length > 0 && (
                 <span className="mt-1 shrink-0 text-[0.66rem] text-text-light">{children.length}</span>

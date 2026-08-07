@@ -502,21 +502,38 @@ def write_derived_files(levels, guides: dict, outlines: dict) -> None:
                 current = nodes.get(current['parentId'] or '')
             return anchors_by_node.get(current['id'], set()) if current else set()
 
+        def real_anchor(node: dict, anchors: set) -> str | None:
+            anchor = node.get('anchor')
+            if anchor and anchor in anchors and not node.get('recovered'):
+                return anchor
+            return None
+
         search_nodes = []
         for node in (nodes[node_id] for node_id in guide['flat']):
-            anchor = node.get('anchor')
-            # anchor 必須真的對應到頁面上的區塊，否則帶著它跳過去只會停在頁頂；
-            # 這種情況就不輸出 anchor，讓消費端退回連到章節頁本身。
-            jumpable = bool(anchor) and anchor in owner_anchors(node) and not node.get('recovered')
+            anchors = owner_anchors(node)
+            # anchor 必須真的對應到頁面上的區塊，否則帶著它跳過去只會停在頁頂。
+            # 最深的 a./b. 層多半來自 headings[]、沒有區塊，正好又是搜尋最常命中的
+            # 那一層，所以自身對不上時往上找最近有區塊的祖先標題（近似定位，標 x:1），
+            # 都找不到才退回章節頁本身。實測 1,143 個標題：自身 849、近似 202、章節頁 92。
+            anchor = real_anchor(node, anchors)
+            approximate = False
+            if not anchor and node['kind'] == 'heading':
+                up = nodes.get(node['parentId'] or '')
+                while up and up['kind'] == 'heading':
+                    anchor = real_anchor(up, anchors)
+                    if anchor:
+                        approximate = True
+                        break
+                    up = nodes.get(up['parentId'] or '')
             search_nodes.append({
                 'id': node['id'],
                 'p': node['parentId'],
                 'k': node['kind'][0],          # c / s / h
                 't': node['title'],
                 **({'r': node['route']} if node.get('route') else {}),
-                **({'a': anchor} if jumpable else {}),
-                # x=1：頁面上沒有對應區塊（OCR 補回，或只存在於 headings[]）
-                **({'x': 1} if node['kind'] == 'heading' and not jumpable else {}),
+                **({'a': anchor} if anchor else {}),
+                # x=1：anchor 指的是最近的上層標題，不是這個標題本身
+                **({'x': 1} if approximate else {}),
             })
 
         search_guides[subject_id] = {

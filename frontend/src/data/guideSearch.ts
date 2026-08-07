@@ -33,8 +33,10 @@ export interface GuideSearchHit {
   level: string
   /** 由外而內的祖先標題，供結果列顯示位置 */
   path: string[]
-  /** 可跳轉的目標；OCR 補回的標題沒有對應區塊時為 undefined */
+  /** 可跳轉的目標；連章節頁都找不到時才是 undefined */
   to?: string
+  /** true = 只能定位到最近的上層標題 */
+  approximate: boolean
   score: number
 }
 
@@ -74,13 +76,9 @@ export function searchGuides(index: GuideSearchIndexData, rawQuery: string, limi
       if (position < 0) continue
 
       const base = routeFor(node)
-      // x=1 是 OCR 補回、頁面上沒有對應區塊的標題，跳過去只會停在章節頁頂端，
-      // 所以不給連結（渲染端據此顯示為不可點）。
-      const to = node.x || !base
-        ? undefined
-        : node.k === 'h' && node.a
-        ? `${base}#${node.a}`
-        : base
+      // a 已由資料層保證對應到頁面上真的存在的區塊；x=1 表示那是最近的上層標題
+      // （最深的 a./b. 層多半沒有自己的區塊）。沒有 a 就退回章節頁本身。
+      const to = !base ? undefined : node.a ? `${base}#${node.a}` : base
 
       hits.push({
         node,
@@ -89,6 +87,7 @@ export function searchGuides(index: GuideSearchIndexData, rawQuery: string, limi
         level: guide.level,
         path: pathFor(node),
         to,
+        approximate: node.x === 1,
         score: KIND_WEIGHT[node.k] * 1000 + position * 10 + Math.min(node.t.length, 99) / 100,
       })
     }

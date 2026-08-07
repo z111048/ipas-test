@@ -520,7 +520,7 @@ export interface GuideSearchNode {
   r?: string
   /** anchor，節以下才有 */
   a?: string
-  /** 1 = 由 OCR 補回、頁面上沒有對應區塊，不可跳轉 */
+  /** 1 = anchor 指的是最近的上層標題（近似定位），不是這個標題本身 */
   x?: 1
 }
 
