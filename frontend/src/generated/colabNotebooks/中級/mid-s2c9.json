@@ -2,7 +2,6 @@
   "chapter_id": "mid-s2c9",
   "chapter_title": "數據可視化工具",
   "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s2c9.ipynb",
-  "status": "warn",
   "cells": [
     {
       "type": "markdown",
@@ -16,14 +15,13 @@
     },
     {
       "type": "markdown",
-      "title": "核心概念",
       "content": "## 核心概念說明\n\n數據可視化的重點不是把資料畫成漂亮圖表，而是讓使用者更快理解資料特性、發現異常，並支援決策。\n\n常見圖表可依資料問題分成四類：\n\n1. **數值型資料分佈**：用直方圖、箱型圖或 KDE 曲線觀察集中趨勢、偏態與離群值。\n2. **變數關聯**：用散佈圖與相關係數矩陣觀察變數間是否存在正相關、負相關或共線性。\n3. **類別比較與比例**：用長條圖、堆疊長條圖或圓餅圖比較不同類別的數量、比例與貢獻。\n4. **時間序列變化**：用折線圖觀察趨勢、季節性與事件造成的變化。\n\n實務上，圖表選擇應先問三件事：\n\n- 這份資料的主要型態是數值、類別、時間，還是多變數？\n- 使用者要比較大小、看趨勢、找異常，還是探索關聯？\n- 圖表是否能避免誤導，例如過多類別、過度擁擠、顏色不清或比例難以比較？"
     },
     {
       "type": "code",
       "title": "示範：數值型資料的分佈與異常值",
       "explanation": "這段程式碼示範直方圖與箱型圖。直方圖適合觀察消費金額的整體分佈；箱型圖適合比較不同商品類別的消費金額差異與離群值。",
-      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nnp.random.seed(42)\nn = 600\ncategories = np.random.choice(['3C', '服飾', '食品', '家用品'], size=n, p=[0.28, 0.32, 0.25, 0.15])\nad_spend = np.random.gamma(shape=4, scale=120, size=n)\nstay_time = np.random.normal(loc=6, scale=2, size=n).clip(0.5, None)\npurchase_amount = 300 + ad_spend * 1.8 + stay_time * 80 + np.random.normal(0, 180, size=n)\npurchase_amount = purchase_amount.clip(50, None)\n\nsales = pd.DataFrame({'商品類別': categories, '消費金額': purchase_amount})\n\nplt.figure(figsize=(12, 4))\n\nplt.subplot(1, 2, 1)\nplt.hist(sales['消費金額'], bins=25, color='#4C78A8', edgecolor='white')\nplt.title('消費金額直方圖')\nplt.xlabel('消費金額')\nplt.ylabel('頻次')\n\nplt.subplot(1, 2, 2)\nbox_data = [sales.loc[sales['商品類別'] == c, '消費金額'] for c in ['3C', '服飾', '食品', '家用品']]\nplt.boxplot(box_data, labels=['3C', '服飾', '食品', '家用品'], patch_artist=True)\nplt.title('不同商品類別的消費金額箱型圖')\nplt.xlabel('商品類別')\nplt.ylabel('消費金額')\n\nplt.tight_layout()\nplt.show()\n\nprint('消費金額摘要統計')\ndisplay(sales.groupby('商品類別')['消費金額'].describe().round(2))"
+      "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nnp.random.seed(42)\nn = 600\ncategories = np.random.choice(['3C', '服飾', '食品', '家用品'], size=n, p=[0.28, 0.32, 0.25, 0.15])\nad_spend = np.random.gamma(shape=4, scale=120, size=n)\nstay_time = np.random.normal(loc=6, scale=2, size=n).clip(0.5, None)\npurchase_amount = 300 + ad_spend * 1.8 + stay_time * 80 + np.random.normal(0, 180, size=n)\npurchase_amount = purchase_amount.clip(50, None)\n\nsales = pd.DataFrame({'商品類別': categories, '消費金額': purchase_amount})\n\nplt.figure(figsize=(12, 4))\n\nplt.subplot(1, 2, 1)\nplt.hist(sales['消費金額'], bins=25, color='#4C78A8', edgecolor='white')\nplt.title('消費金額直方圖')\nplt.xlabel('消費金額')\nplt.ylabel('頻次')\n\nplt.subplot(1, 2, 2)\nbox_data = [sales.loc[sales['商品類別'] == c, '消費金額'] for c in ['3C', '服飾', '食品', '家用品']]\nplt.boxplot(box_data, patch_artist=True)\nplt.xticks(range(1, 5), ['3C', '服飾', '食品', '家用品'])  # 跨 matplotlib 版本安全：\n# boxplot(labels=) 於 3.9 棄用、3.11 移除，改名為 tick_labels；用 xticks 兩邊都能跑\nplt.title('不同商品類別的消費金額箱型圖')\nplt.xlabel('商品類別')\nplt.ylabel('消費金額')\n\nplt.tight_layout()\nplt.show()\n\nprint('消費金額摘要統計')\ndisplay(sales.groupby('商品類別')['消費金額'].describe().round(2))"
     },
     {
       "type": "code",
@@ -33,7 +31,6 @@
     },
     {
       "type": "markdown",
-      "title": "圖表選擇",
       "content": "## 如何選擇合適的視覺化工具\n\n在 iPAS 中級考試情境中，常見考點不是記住某個套件的語法，而是判斷「什麼資料問題適合什麼圖表」。\n\n| 分析目的 | 建議圖表 | 常見誤用 |\n|---|---|---|\n| 看數值分佈 | 直方圖、箱型圖、KDE | bins 選錯導致分佈被扭曲 |\n| 比較類別大小 | 長條圖 | 類別太多仍硬畫在同一張圖 |\n| 看部分占整體比例 | 圓餅圖、堆疊長條圖 | 類別超過 5 到 6 個仍使用圓餅圖 |\n| 看兩變數關聯 | 散佈圖、趨勢線 | 點太多且未設定透明度，造成重疊 |\n| 看多變數關係 | 相關係數矩陣、熱力圖 | 把相關解讀成因果 |\n| 看時間變化 | 折線圖 | 時間順序未排序，導致趨勢錯誤 |\n\n重要觀念：視覺化是溝通工具。圖表要能支援行動判斷，而不是只展示資料存在。"
     },
     {

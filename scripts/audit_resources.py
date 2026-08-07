@@ -30,8 +30,10 @@ from typing import Any, Iterator
 
 BASE = Path(__file__).resolve().parents[1]
 ALLOWLIST_PATH = BASE / 'data' / 'audit_allowlist.json'
+COMMITTED_REVIEW_PATH = BASE / 'data' / 'notebook_review' / 'committed_review.json'
 GENERATED = BASE / 'frontend' / 'src' / 'generated'
 LETTERS = ('A', 'B', 'C', 'D')
+COMMITTED_REVIEW: dict[str, Any] = {}
 
 # 中英夾雜：只抓「小寫英文單字被中文夾住」，例如「就能直接 conclude 所有組別」。
 # 專有名詞與縮寫（Transformer、BERT、IDF、GloVe）是正當術語，不能一起抓——
@@ -79,6 +81,8 @@ def strip_magics(source: str) -> str:
 
 
 def audit_colab(report: Report) -> None:
+    global COMMITTED_REVIEW
+    COMMITTED_REVIEW = load(COMMITTED_REVIEW_PATH) if COMMITTED_REVIEW_PATH.exists() else {}
     for level_dir in sorted((GENERATED / 'colabNotebooks').glob('*')):
         if not level_dir.is_dir():
             continue
@@ -88,6 +92,21 @@ def audit_colab(report: Report) -> None:
             ipynb = BASE / 'notebooks' / level / f'{chapter}.ipynb'
             if not ipynb.exists():
                 report.add('colab', 'FAIL', '前端有 metadata 但 notebook 檔不存在', chapter)
+                continue
+
+            # 有 committed 版本的複查報告就以它為準；flagged.json 是草稿階段的舊帳
+            fresh = COMMITTED_REVIEW.get(chapter)
+            if fresh is not None:
+                execution = fresh.get('execution', {})
+                semantic = fresh.get('semantic', {})
+                if execution.get('status') in ('error', 'timeout'):
+                    report.add('colab', 'FAIL',
+                               f'執行失敗：{execution.get("error", execution["status"])}',
+                               chapter)
+                for mismatch in semantic.get('mismatches', []):
+                    report.add('colab', 'WARN',
+                               f'cell {mismatch.get("cell")} 說明與程式碼不符：'
+                               f'{mismatch.get("claim", "")}', chapter)
                 continue
 
             flagged = (BASE / 'data' / level / 'pipeline' / 'colab_notebooks'

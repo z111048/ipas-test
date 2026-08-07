@@ -1,0 +1,555 @@
+{
+  "mid-s2c9": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 0
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": []
+    }
+  },
+  "mid-s1c1": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 1
+    },
+    "semantic": {
+      "status": "no-response"
+    }
+  },
+  "mid-s1c2": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 1
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": [
+        {
+          "cell": 7,
+          "claim": "說明宣稱「從特徵工程到影像分類」並使用「scikit-learn 的手寫數字資料集，建立一個輕量影像分類器」",
+          "actual": "程式碼實際上是在做「以 TF-IDF 模擬多模態語意檢索」，使用的是影像描述文字資料集，並非手寫數字影像分類器",
+          "severity": "high"
+        },
+        {
+          "cell": 8,
+          "claim": "說明宣稱「從特徵工程到影像分類」並使用「scikit-learn 的手寫數字資料集，建立一個輕量影像分類器」",
+          "actual": "程式碼實際上是一個「自我測驗」，要求考生實作簡化版影像分割（亮度門檻二值化），與手寫數字分類無關",
+          "severity": "high"
+        }
+      ]
+    }
+  },
+  "mid-s1c3": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 1
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": [
+        {
+          "cell": 5,
+          "claim": "說明宣稱「TF-IDF 會根據詞彙在文件中的重要程度產生向量」",
+          "actual": "程式碼使用 TfidfVectorizer(analyzer='char', ngram_range=(2, 3))，實際上是根據字元（character）而非詞彙（word/term）來產生向量",
+          "severity": "medium"
+        }
+      ]
+    }
+  },
+  "mid-s1c4": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 1
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": []
+    }
+  },
+  "mid-s1c5": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 1
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": [
+        {
+          "cell": 6,
+          "claim": "說明宣稱為成本效益分析，計算 ROI、NPV 與回收期",
+          "actual": "程式碼實際繪製組織成熟度雷達圖並列出需補強項目",
+          "severity": "high"
+        },
+        {
+          "cell": 7,
+          "claim": "說明宣稱為成本效益分析，計算 ROI、NPV 與回收期",
+          "actual": "程式碼實際為自我測驗，計算專案總分與導入建議",
+          "severity": "high"
+        }
+      ]
+    }
+  },
+  "mid-s1c6": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 1
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": []
+    }
+  },
+  "mid-s1c7": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 0
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": [
+        {
+          "cell": 6,
+          "claim": "說明宣稱示範資料漂移與模型漂移，並使用信用核准模型示範新資料分布改變對模型表現的影響",
+          "actual": "程式碼實際建立並排序 AI 風險登錄表，與說明中的資料漂移與模型漂移主題完全不符",
+          "severity": "high"
+        }
+      ]
+    }
+  },
+  "mid-s1c8": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 0
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": [
+        {
+          "cell": 1,
+          "claim": "說明宣稱建立一份包含缺失值、重複值、異常值的範例資料",
+          "actual": "程式碼建立的 raw_df 並未包含缺失值、重複值或異常值（這些是在 cell 3 中才額外注入的）",
+          "severity": "high"
+        }
+      ]
+    }
+  },
+  "mid-s1c9": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 0
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": []
+    }
+  },
+  "mid-s2c1": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 1
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": [
+        {
+          "cell": 8,
+          "claim": "說明宣稱「圖表化資料摘要」，介紹直方圖與箱形圖",
+          "actual": "程式碼為自我測驗，計算 monthly_sales 的平均數、中位數、標準差、IQR、離群值與偏度，並未繪製任何圖表",
+          "severity": "high"
+        }
+      ]
+    }
+  },
+  "mid-s2c10": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 0
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": []
+    }
+  },
+  "mid-s2c11": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 0
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": []
+    }
+  },
+  "mid-s2c12": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 1
+    },
+    "semantic": {
+      "status": "no-response"
+    }
+  },
+  "mid-s2c13": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 0
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": [
+        {
+          "cell": 6,
+          "claim": "說明宣稱計算每筆資料在準識別欄位下的群組大小，藉此判斷是否符合 k-匿名",
+          "actual": "程式碼建立一個合規資料處理檢查表，判斷資料集是否符合目的限制、資料最小化等要求，完全沒有計算 k-匿名或群組大小",
+          "severity": "high"
+        }
+      ]
+    }
+  },
+  "mid-s2c2": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 0
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": []
+    }
+  },
+  "mid-s2c3": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 1
+    },
+    "semantic": {
+      "status": "no-response"
+    }
+  },
+  "mid-s2c4": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 0
+    },
+    "semantic": {
+      "status": "no-response"
+    }
+  },
+  "mid-s2c5": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 1
+    },
+    "semantic": {
+      "status": "no-response"
+    }
+  },
+  "mid-s2c6": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 0
+    },
+    "semantic": {
+      "status": "no-response"
+    }
+  },
+  "mid-s2c7": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 0
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": [
+        {
+          "cell": 3,
+          "claim": "說明宣稱計算「95% 截尾平均」",
+          "actual": "程式碼使用 `stats.trim_mean(amounts, proportiontocut=0.05)`，每側各截去 5% 共截去 10%，實際為 90% 截尾平均",
+          "severity": "high"
+        }
+      ]
+    }
+  },
+  "mid-s2c8": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 1
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": [
+        {
+          "cell": 8,
+          "claim": "說明宣稱要同時完成7日移動平均、指數平滑與用殘差標準差找出異常流量日三件事",
+          "actual": "程式碼實際上僅讓使用者修改標準差倍數來觀察異常天數變化，並未實際計算移動平均與指數平滑",
+          "severity": "high"
+        }
+      ]
+    }
+  },
+  "mid-s3c1": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 0
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": []
+    }
+  },
+  "mid-s3c10": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 1
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": [
+        {
+          "cell": 8,
+          "claim": "說明宣稱示範「類別權重」與「特徵選擇」",
+          "actual": "程式碼為自我測驗，使用 GridSearchCV 找出最佳 C 值，與類別權重和特徵選擇無關",
+          "severity": "high"
+        }
+      ]
+    }
+  },
+  "mid-s3c11": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 0
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": [
+        {
+          "cell": 7,
+          "claim": "說明宣稱對準識別欄位做泛化，並用簡化的 k-anonymity 概念檢查再識別風險",
+          "actual": "程式碼僅定義了泛化函式但未實際套用至資料表，且未實作或執行 k-anonymity 檢查（程式碼在生成 email_hash 處中斷）",
+          "severity": "high"
+        }
+      ]
+    }
+  },
+  "mid-s3c12": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 1
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": [
+        {
+          "cell": 8,
+          "claim": "說明宣稱下面的實作示範兩種簡化方法：重新抽樣與群體門檻調整",
+          "actual": "程式碼實際上為自我測驗，要求填空計算 Disparate Impact，與重新抽樣或門檻調整無關",
+          "severity": "high"
+        }
+      ]
+    }
+  },
+  "mid-s3c2": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 1
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": []
+    }
+  },
+  "mid-s3c3": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 0
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": []
+    }
+  },
+  "mid-s3c4": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 1
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": [
+        {
+          "cell": 7,
+          "claim": "說明宣稱已放入參考答案並會輸出對應評估結果",
+          "actual": "程式碼在第二題建立 KMeans 物件後即結束，cluster_labels 被賦值為模型物件本身，未進行 fit_predict 也未輸出聚類評估結果",
+          "severity": "high"
+        }
+      ]
+    }
+  },
+  "mid-s3c5": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 0
+    },
+    "semantic": {
+      "status": "no-response"
+    }
+  },
+  "mid-s3c6": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 0
+    },
+    "semantic": {
+      "status": "no-response"
+    }
+  },
+  "mid-s3c7": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 0
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": []
+    }
+  },
+  "mid-s3c8": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 0
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": [
+        {
+          "cell": 5,
+          "claim": "說明宣稱在解讀模型比較結果，強調模型穩定性、解釋性、推論速度等實務限制",
+          "actual": "程式碼實際示範偏差與變異權衡，測試不同決策樹深度的訓練與測試準確率",
+          "severity": "high"
+        }
+      ]
+    }
+  },
+  "mid-s3c9": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 0
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": [
+        {
+          "cell": 7,
+          "claim": "說明宣稱「用 SGDClassifier 示範簡化版早停流程」",
+          "actual": "程式碼只使用 LogisticRegression 進行訓練與評估，完全沒有使用 SGDClassifier，也沒有任何早停流程的模擬實作",
+          "severity": "high"
+        }
+      ]
+    }
+  },
+  "s1c1": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 1
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": [
+        {
+          "cell": 7,
+          "claim": "說明宣稱「根據輸入提示挑選相關詞彙」",
+          "actual": "程式碼直接使用全語料詞頻最高的 common_words[:5]，並未根據 prompt 變數進行任何相關性挑選",
+          "severity": "high"
+        }
+      ]
+    }
+  },
+  "s1c2": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 1
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": []
+    }
+  },
+  "s1c3": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 1
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": [
+        {
+          "cell": 8,
+          "claim": "說明宣稱示範強化學習的多臂拉霸",
+          "actual": "程式碼是自我測驗的監督式學習流程 TODO 練習",
+          "severity": "high"
+        }
+      ]
+    }
+  },
+  "s1c4": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 0
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": []
+    }
+  },
+  "s2c1": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 1
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": []
+    }
+  },
+  "s2c2": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 0
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": [
+        {
+          "cell": 6,
+          "claim": "說明宣稱示範推理機制：溫度、Top-k 與 Nucleus Sampling",
+          "actual": "程式碼使用 TF-IDF 與餘弦相似度模擬生成式 AI 工具推薦器",
+          "severity": "high"
+        },
+        {
+          "cell": 7,
+          "claim": "說明宣稱示範推理機制：溫度、Top-k 與 Nucleus Sampling",
+          "actual": "程式碼進行市場價值與風險的視覺化比較",
+          "severity": "high"
+        }
+      ]
+    }
+  },
+  "s2c3": {
+    "execution": {
+      "status": "ok",
+      "skippedCells": 1
+    },
+    "semantic": {
+      "status": "ok",
+      "mismatches": [
+        {
+          "cell": 8,
+          "claim": "說明宣稱實際應用：建立導入路線圖，將候選 AI 應用分成立即試點、準備後導入、暫緩推動三類",
+          "actual": "程式碼實際為自我測驗，實作 ROI 計算與導入建議判斷（擴大導入/重新評估）",
+          "severity": "high"
+        }
+      ]
+    }
+  }
+}
