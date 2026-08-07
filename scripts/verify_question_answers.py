@@ -350,7 +350,8 @@ def call_claude(prompt: str, model: str | None, timeout: int,
 
 
 def call_gateway(prompt: str, model: str | None, timeout: int,
-                 images: list[Path] | None = None) -> str | None:
+                 images: list[Path] | None = None,
+                 max_tokens: int = GATEWAY_MAX_TOKENS) -> str | None:
     """LiteLLM gateway (OpenAI-compatible). Key comes from LLMSHARE_API_KEY only."""
     api_key = os.environ.get('LLMSHARE_API_KEY')
     if not api_key or not model:
@@ -364,7 +365,7 @@ def call_gateway(prompt: str, model: str | None, timeout: int,
                             'image_url': {'url': f'data:image/png;base64,{b64}'}})
     body = json.dumps({
         'model': model,
-        'max_tokens': GATEWAY_MAX_TOKENS,
+        'max_tokens': max_tokens,
         'messages': [{'role': 'user', 'content': content}],
     }).encode('utf-8')
     request = urllib.request.Request(
