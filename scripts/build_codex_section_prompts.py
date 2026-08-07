@@ -29,6 +29,16 @@ from textwrap import dedent
 
 BASE = Path('/home/james/projects/ipas-test')
 DEFAULT_RUN_DIR = 'pipeline/codex_section_prompts'
+
+# 題型固定成 enum：第一輪放任模型自由填，結果同一個概念出現「情境應用型」
+# 與「應用情境型」兩種寫法，還多出「判讀型」「概念應用型」，前端要做題型
+# 篩選會直接炸掉。
+QUESTION_TYPES = ['概念定義型', '情境應用型', '否定型', '比較分析型', '計算判讀型']
+# 正解字母逐題輪替。單批只有 2 題，靠 prompt 寫「請平均分布」沒有作用——
+# 第一輪 28 題實測 A×10、B×11、C×4、D×3，猜 A/B 就有優勢。
+ANSWER_CYCLE = ['A', 'B', 'C', 'D']
+# 難度依 20% 易 / 50% 中 / 30% 難 的目標輪替（10 題一循環）
+DIFFICULTY_CYCLE = ['中', '難', '易', '中', '中', '難', '中', '易', '中', '難']
 SUBJECT_ID = {
     ('初級', 1): 's1', ('初級', 2): 's2',
     ('中級', 1): 'mid-s1', ('中級', 2): 'mid-s2', ('中級', 3): 'mid-s3',
@@ -42,8 +52,14 @@ def load_json(path: Path):
 
 def build_prompt(level: str, subject_index: int, subject_id: str, subject_title: str,
                  chapter: dict, chunk: dict, first: int, count: int,
-                 previous_outputs: list[str]) -> str:
+                 previous_outputs: list[str], specs: list[dict]) -> str:
     last = first + count - 1
+    spec_lines = '\n'.join(
+        f"        - 第 {spec['number']:03d} 題：`type` 必須是 `{spec['type']}`、"
+        f"`difficulty` 必須是 `{spec['difficulty']}`、正確答案必須是 `{spec['answer']}`"
+        for spec in specs
+    )
+    types = '、'.join(f'`{t}`' for t in QUESTION_TYPES)
     previous_block = (
         '\n'.join(f'    - `{path}`' for path in previous_outputs)
         if previous_outputs else '    - 無，本批是此章第一批。'
@@ -81,10 +97,18 @@ def build_prompt(level: str, subject_index: int, subject_id: str, subject_title:
         - **只依據上方「本批出題範圍」的內容出題**，不要跑去用該章其他小節的材料。
           這是小節粒度出題的重點——題目要能對回這一段講義。
         - 參考官方試題的題型、語氣、選項長度與情境敘述方式，但不可抄題、不可只替換名詞。
-        - 題型混合：概念定義型、情境應用型、否定型（下列何者「不」正確）、比較分析型。
-        - 難度分布約 20% 易 / 50% 中 / 30% 難；四個選項都要合理，不要有明顯湊數的干擾項。
+        - 四個選項都要合理，不要有明顯湊數的干擾項；干擾項要是真的有人會選錯的理由。
         - 若原文含公式或表格，可據以出計算或判讀題，但不要考背誦數字。
         - 本批必須剛好產生 {count} 題，彼此的概念不可重複。
+
+        ## 本批每題的規格（必須完全照做）
+{spec_lines}
+
+        說明：
+        - `type` 只能從這五種選：{types}。不要自創名稱、不要改字序。
+        - **正確答案的字母是指定的**：請把正確內容放在指定的選項位置，其餘三個
+          位置放干擾項。這是為了讓整份題庫的答案分布平均，不是提示。
+        - 本批兩題的 `type` 已指定為不同題型，請勿混用。
 
         ## 輸出格式
         - `level` 必須是 `{level}`，`subject_id` 必須是 `{subject_id}`，
@@ -120,6 +144,7 @@ def main() -> None:
 
     batches = []
     batch_index = 0
+    question_ordinal = 0   # 全域計數，讓輪替跨批次連續而不是每批從頭
     for chapter in data['chapters']:
         if args.chapter and chapter['id'] != args.chapter:
             continue
@@ -131,9 +156,20 @@ def main() -> None:
             stem = f'{batch_index:03d}_{chapter["id"]}_q{first:03d}-{first + args.count - 1:03d}'
             prompt_path = prompts_dir / f'{stem}.prompt.md'
             output_path = results_dir / f'{stem}.json'
+            specs = []
+            for offset in range(args.count):
+                specs.append({
+                    'number': first + offset,
+                    # 題型錯開一格，同一批的兩題必定不同型
+                    'type': QUESTION_TYPES[(question_ordinal + offset) % len(QUESTION_TYPES)],
+                    'difficulty': DIFFICULTY_CYCLE[(question_ordinal + offset) % len(DIFFICULTY_CYCLE)],
+                    'answer': ANSWER_CYCLE[(question_ordinal + offset) % len(ANSWER_CYCLE)],
+                })
+            question_ordinal += args.count
+
             prompt_path.write_text(
                 build_prompt(args.level, args.subject, subject_id, subject_title,
-                             chapter, chunk, first, args.count, list(chapter_outputs)),
+                             chapter, chunk, first, args.count, list(chapter_outputs), specs),
                 encoding='utf-8')
             batches.append({
                 'batch_index': batch_index,
@@ -148,6 +184,7 @@ def main() -> None:
                 'prompt': prompt_path.relative_to(BASE).as_posix(),
                 'output': output_path.relative_to(BASE).as_posix(),
                 'previous_outputs': list(chapter_outputs),
+                'specs': specs,
             })
             chapter_outputs.append(output_path.relative_to(BASE).as_posix())
             first += args.count

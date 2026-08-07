@@ -208,23 +208,6 @@ uv run python3 scripts/generate_questions.py --level 初級 --subject 1 --by-sec
 初級科目1 有 37 個區塊，`--count 3` 就是 111 題，注意 API 花費。
 產出的題目會帶 `section_id` / `section_title` 標記來源小節。
 
-<!-- 2026-08-07: 新增 codex 小節出題線。 -->
-### codex CLI 小節出題（2026-08-07 新增，進行中）
-
-```bash
-python3 scripts/build_codex_section_prompts.py --level 中級 --subject 2 --chapter mid-s2c3 --count 2
-python3 scripts/run_codex_question_batch_generation.py --run-dir data/中級/pipeline/codex_section_prompts
-```
-
-`build_codex_section_prompts.py` 產的 `summary.json` 與
-`build_codex_question_batch_prompts.py` 同格式，所以 runner 的驗證與續跑直接複用。
-題型／難度／答案字母是**逐題硬性指派**的（寫在 `specs` 欄位）——軟性配額在單批
-2 題時無效，實測會出現 7 種題型寫法與 A/B 佔 75% 的答案分布。
-
-⚠️ **runner 只驗欄位結構與近似題，不驗答案對錯**；出題模型取自
-`~/.codex/config.toml` 全域設定，沒有 `--model` 參數。全量跑之前先讀
-`playbook/07-question-generation.md` §4。
-
 `export_guide_sections.py` 讀的是**當下**的 `guide/subject{N}_guide.json`，
 所以上面那個「兩個生產者」的問題會直接傳導過來——重跑 parse_guides 後要一併重跑它。
 
