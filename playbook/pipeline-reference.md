@@ -370,7 +370,7 @@ uv run python3 scripts/build_web.py     # production build → docs/（gitignore
   `guide_exercises` 逐字引文（對 page_clean，含跨頁串接）、章節正文新舊漂移。
   與 `page_extract_before_ocr_merge/` 舊版比，能區分「本輪造成的退化」與「舊版就這樣」。
   `--level` / `--json out.json`。跑一次兩級約 20–40 分鐘。
-- `verify_question_answers.py` — 多 CLI 盲答交叉驗證題目答案 → `<run-dir>/verification/`（見 §3）。
+- `verify_question_answers.py` — 多模型盲答交叉驗證答案（出題產物／官方考卷／已上線題庫）→ `verification/`（見 §3）。
 - `llm_review_guide_headings.py`、`question_dedupe.py`、`annotate_exam_code_images.py` — 輔助（先讀 docstring）。
 
 **前端匯出（`frontend/src/generated/` 是 committed 靜態輸入）**

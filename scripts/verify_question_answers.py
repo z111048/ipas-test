@@ -165,7 +165,11 @@ def load_questions_from_files(paths: list[Path], include_image_questions: bool
     for path in paths:
         full = path if path.is_absolute() else BASE / path
         data = load_json(full)
-        items = data['questions'] if isinstance(data, dict) else data
+        if isinstance(data, dict) and 'chapters' in data:
+            # shipped banks (subject{N}_*.json) nest questions under chapters
+            items = [q for chapter in data['chapters'] for q in chapter.get('questions', [])]
+        else:
+            items = data['questions'] if isinstance(data, dict) else data
         for question in items:
             if not isinstance(question, dict):
                 continue
