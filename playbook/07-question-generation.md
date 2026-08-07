@@ -154,6 +154,40 @@ OCR 沒把圖掛上去所以 `images` 是空的。純文字驗證器答錯它們
 現在改用文字啟發式（`FIGURE_HINT`）＋空白選項偵測，中級 341 題攔下 38 題。
 **改這支腳本時不要拿掉這個過濾**，不然偽陽性率會憑空多出十倍。
 
+### 圖片題：`--vision`（2026-08-07）
+
+```bash
+uv run python3 scripts/verify_question_answers.py --level 中級 --vision --only-figure \
+    --questions-file data/中級/questions/mock_mid_1151_s2.json ...
+# → report_vision.json / flagged_vision.json（不蓋掉純文字那份）
+```
+
+`glm-5.2`、`deepseek-v4-*` 送圖會回 400 `does not support image input`，所以 `--vision`
+自動換成 `kimi-k2.7-code` + `qwen3.5:397b` + `minimax-m3`；指定看不到圖的模型會被擋下。
+需要 PyMuPDF，**用 `uv run`**。同一個模型在文字／視覺模式的答案不互通，
+快取偵測到「這題現在有圖」會強制重問。
+
+**圖片來源決定可信度，差距 7 倍**（中級 37 題）：
+
+| 來源 | 題數 | 單票錯誤率 | flagged |
+|---|---|---|---|
+| `crop` 已裁好的題目附圖 | 21 | **3.2%** | 1 |
+| `page` 整頁 PDF 渲染 | 16 | **22.9%** | 3 |
+
+整頁渲染差是因為一頁上有多題多圖，模型得自己猜哪張圖是這題的。
+1141 三份卷從來沒跑過裁圖流程（`frontend/public/pdf-assets/中級/mid_1141_s*/` 不存在），
+只能退回整頁。報告的 `by_image_source` 會把兩者分開統計，
+**`page` 來源的 flag 是弱證據，不要當成答案可疑的依據**；要提升就得先幫那三份卷補裁圖。
+
+裁圖組唯一的 flag `sample_q7` 也是偽陽性：四格圖配對題，官方答 B（我看圖確認正確），
+兩個模型把 (b) 語義分割與 (c) 物件偵測對調——多格圖的方位判讀是已知弱點。
+
+⚠️ **試過而且更差，不要再加回來**：在整頁渲染的 prompt 裡加「本頁有多題，請只看第 N 題」，
+同一批 15 題的單票錯誤率從 31.8% 升到 37.2%（6 題投票變動，方向隨機）。
+問題不在提示寫法，在整頁掃描本身雜訊太多。
+
+初級 468 題全部沒有圖片題（`FIGURE_HINT` 命中 0），所以這條只對中級有意義。
+
 ### 兩階段設計（現在的預設）
 
 Stage 1 用三個網關模型全掃（`glm-5.2` + `deepseek-v4-pro` + `kimi-k2.7-code`，

@@ -38,6 +38,7 @@ rate against a known-good key (mid-s2c3's 28 questions are the current baseline)
 from __future__ import annotations
 
 import argparse
+import base64
 import hashlib
 import json
 import os
@@ -61,6 +62,13 @@ ESCALATION_VERIFIERS = 'codex,claude,claude:sonnet,llm:glm-5.2,llm:deepseek-v4-p
 LETTERS = ('A', 'B', 'C', 'D')
 
 GATEWAY_URL = 'https://llm-share.duotify.com/v1/chat/completions'
+# Gateway models verified to accept image input (llm-test/API_USAGE.md). glm-5.x and
+# deepseek-v4-* return 400 "does not support image input", so the text roster cannot
+# be reused for figure questions. kimi-k2.6 is excluded: it sometimes burns the whole
+# budget on reasoning and returns an empty string.
+VISION_MODELS = ('kimi-k2.7-code', 'qwen3.5:397b', 'minimax-m3',
+                 'mistral-large-3:675b', 'gemma4:31b')
+VISION_VERIFIERS = 'llm:kimi-k2.7-code,llm:qwen3.5:397b,llm:minimax-m3'
 GATEWAY_MAX_TOKENS = 2048  # reasoning models spend tokens before emitting the letter
 
 
@@ -181,6 +189,57 @@ def load_questions_from_files(paths: list[Path], include_image_questions: bool
     return questions
 
 
+def render_exam_page(level: str, source: str, page_index: int, out_dir: Path) -> Path | None:
+    """Rasterise one page of the source exam PDF (used when no crop was extracted)."""
+    out_path = out_dir / f'{source}_p{page_index:03d}.png'
+    if out_path.exists():
+        return out_path
+    try:
+        import fitz  # PyMuPDF; only needed for the fallback, run under `uv run`
+        from extract_pdfs import EXAM_PDFS_BY_LEVEL
+    except ImportError as exc:
+        print(f'WARN cannot render page ({exc}); run under `uv run python3`')
+        return None
+    name = EXAM_PDFS_BY_LEVEL.get(level, {}).get(source)
+    if not name:
+        return None
+    pdf_path = BASE / 'data' / level / 'pdfs' / name
+    if not pdf_path.exists():
+        return None
+    with fitz.open(pdf_path) as doc:
+        if page_index >= doc.page_count:
+            return None
+        pixmap = doc[page_index].get_pixmap(matrix=fitz.Matrix(2, 2))
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    pixmap.save(out_path.as_posix())
+    return out_path
+
+
+def resolve_images(question: dict[str, Any], level: str, page_dir: Path) -> list[Path]:
+    """Cropped question figure if the extractor produced one, else the whole page.
+
+    The 1141 papers have no crops at all, and several figure questions carry no
+    `images` entry — for those the page render is the only way to show the model
+    what the stem is talking about.
+    """
+    paths = []
+    for image in question.get('images') or []:
+        src = str(image.get('src', ''))
+        if src.startswith('/pdf-assets/'):
+            candidate = BASE / 'frontend' / 'public' / src.lstrip('/')
+            if candidate.exists():
+                paths.append(candidate)
+    if paths:
+        return paths
+    source = question.get('source')
+    page_index = (question.get('source_ref') or {}).get('page_index')
+    if source and page_index is not None:
+        page = render_exam_page(level, source, int(page_index), page_dir)
+        if page:
+            return [page]
+    return []
+
+
 # ---------------------------------------------------------------------------
 # Blind prompt construction
 # ---------------------------------------------------------------------------
@@ -195,7 +254,8 @@ def shuffled_order(question_id: str) -> list[str]:
     return order
 
 
-def build_prompt(question: dict[str, Any], order: list[str], level: str) -> str:
+def build_prompt(question: dict[str, Any], order: list[str], level: str,
+                 has_image: bool = False, page_render: bool = False) -> str:
     """Stem + shuffled options only — no explanation, tags, difficulty or answer."""
     options = question['options']
     lines = [
@@ -203,6 +263,12 @@ def build_prompt(question: dict[str, Any], order: list[str], level: str) -> str:
         '請只輸出你認為正確的選項字母（A、B、C 或 D），不要加任何解釋或說明。',
         '',
     ]
+    if has_image:
+        # Tried and measured worse: telling the model "this page holds several
+        # questions, look only at 第 N 題" moved the same 15 page-render questions
+        # from 31.8% to 37.2% single-vote error. Do not re-add without new evidence.
+        lines.append('題目附有圖片，請依圖片內容作答。')
+        lines.append('')
     context = question.get('context')
     if context:  # official papers put shared stems here (第 41~44 題共用情境)
         lines += [f'共用情境：{context}', '']
@@ -224,7 +290,8 @@ def extract_letter(text: str | None) -> str | None:
 # Verifier CLIs — each runs in a throwaway cwd so it cannot read the answer key
 # ---------------------------------------------------------------------------
 
-def call_codex(prompt: str, model: str | None, timeout: int) -> str | None:
+def call_codex(prompt: str, model: str | None, timeout: int,
+               images: list[Path] | None = None) -> str | None:
     with tempfile.TemporaryDirectory() as workdir:
         output_path = Path(workdir) / 'answer.json'
         cmd = ['codex', 'exec', '--cd', workdir, '--skip-git-repo-check',
@@ -246,7 +313,8 @@ def call_codex(prompt: str, model: str | None, timeout: int) -> str | None:
             return None
 
 
-def call_claude(prompt: str, model: str | None, timeout: int) -> str | None:
+def call_claude(prompt: str, model: str | None, timeout: int,
+                images: list[Path] | None = None) -> str | None:
     with tempfile.TemporaryDirectory() as workdir:
         cmd = ['claude', '--print', '--dangerously-skip-permissions', '--tools', '']
         if model:
@@ -261,15 +329,23 @@ def call_claude(prompt: str, model: str | None, timeout: int) -> str | None:
         return result.stdout.strip() or None
 
 
-def call_gateway(prompt: str, model: str | None, timeout: int) -> str | None:
+def call_gateway(prompt: str, model: str | None, timeout: int,
+                 images: list[Path] | None = None) -> str | None:
     """LiteLLM gateway (OpenAI-compatible). Key comes from LLMSHARE_API_KEY only."""
     api_key = os.environ.get('LLMSHARE_API_KEY')
     if not api_key or not model:
         return None
+    content: Any = prompt
+    if images:
+        content = [{'type': 'text', 'text': prompt}]
+        for image_path in images:
+            b64 = base64.b64encode(image_path.read_bytes()).decode()
+            content.append({'type': 'image_url',
+                            'image_url': {'url': f'data:image/png;base64,{b64}'}})
     body = json.dumps({
         'model': model,
         'max_tokens': GATEWAY_MAX_TOKENS,
-        'messages': [{'role': 'user', 'content': prompt}],
+        'messages': [{'role': 'user', 'content': content}],
     }).encode('utf-8')
     request = urllib.request.Request(
         GATEWAY_URL, data=body, method='POST',
@@ -310,10 +386,10 @@ def parse_verifiers(spec: str) -> list[tuple[str, str, str | None]]:
 
 
 def ask(verifier: tuple[str, str, str | None], prompt: str, timeout: int,
-        retries: int) -> str | None:
+        retries: int, images: list[Path] | None = None) -> str | None:
     _, tool, model = verifier
     for _ in range(retries + 1):
-        letter = extract_letter(CALLERS[tool](prompt, model, timeout))
+        letter = extract_letter(CALLERS[tool](prompt, model, timeout, images))
         if letter:
             return letter
     return None
@@ -347,7 +423,9 @@ def check_tools(verifiers: list[tuple[str, str, str | None]]) -> None:
 
 def verify_question(question: dict[str, Any], verifiers: list[tuple[str, str, str | None]],
                     level: str, timeout: int, retries: int,
-                    cached: dict[str, Any] | None = None) -> dict[str, Any]:
+                    cached: dict[str, Any] | None = None,
+                    images: list[Path] | None = None,
+                    image_source: str = 'none') -> dict[str, Any]:
     """Answer with `verifiers`, merging into any cached responses for other verifiers.
 
     Merging matters: adding a cheap gateway model later must not throw away the
@@ -356,13 +434,13 @@ def verify_question(question: dict[str, Any], verifiers: list[tuple[str, str, st
     question_id = question['id']
     order = shuffled_order(question_id)
     expected_slot = LETTERS[order.index(question['answer'])]
-    prompt = build_prompt(question, order, level)
+    prompt = build_prompt(question, order, level, bool(images))
 
     responses: dict[str, dict[str, Any]] = dict((cached or {}).get('responses', {}))
     if verifiers:
         with ThreadPoolExecutor(max_workers=len(verifiers)) as executor:
             futures = {
-                executor.submit(ask, verifier, prompt, timeout, retries): verifier[0]
+                executor.submit(ask, verifier, prompt, timeout, retries, images): verifier[0]
                 for verifier in verifiers
             }
             for future in as_completed(futures):
@@ -381,6 +459,8 @@ def verify_question(question: dict[str, Any], verifiers: list[tuple[str, str, st
         'expected': question['answer'],
         'shuffled_order': order,
         'expected_slot': expected_slot,
+        'images': [i.relative_to(BASE).as_posix() for i in (images or [])],
+        'image_source': image_source,
         'responses': responses,
     }
 
@@ -425,7 +505,13 @@ def main() -> None:
                         help='where verification/ goes (default: alongside --run-dir, or '
                              'data/{level}/pipeline/answer_verification for --questions-file)')
     parser.add_argument('--include-image-questions', action='store_true',
-                        help='keep figure-dependent questions (verifiers cannot see images)')
+                        help='keep figure-dependent questions (text verifiers cannot see images)')
+    parser.add_argument('--vision', action='store_true',
+                        help='attach the question figure (or a render of the source PDF page) '
+                             'and verify with vision-capable gateway models; implies '
+                             '--include-image-questions')
+    parser.add_argument('--only-figure', action='store_true',
+                        help='verify only the figure-dependent questions')
     parser.add_argument('--level', default='中級')
     parser.add_argument('--chapter', default=None, help='only verify one chapter_id')
     parser.add_argument('--only-flagged', action='store_true',
@@ -444,7 +530,18 @@ def main() -> None:
     args = parser.parse_args()
 
     load_env_file()
+    if args.vision:
+        args.include_image_questions = True
+        if args.verifiers == DEFAULT_VERIFIERS:
+            args.verifiers = VISION_VERIFIERS
     verifiers = parse_verifiers(args.verifiers)
+    if args.vision:
+        blind = [key for key, tool, model in verifiers
+                 if tool != 'llm' or model not in VISION_MODELS]
+        if blind:
+            raise SystemExit(
+                f'--vision needs image-capable verifiers; these cannot see images: '
+                f'{", ".join(blind)} (usable: {", ".join("llm:" + m for m in VISION_MODELS)})')
     check_tools(verifiers)
 
     run_dir = args.run_dir if args.run_dir.is_absolute() else BASE / args.run_dir
@@ -461,6 +558,9 @@ def main() -> None:
                                               args.include_image_questions)
     else:
         questions = load_questions(run_dir, args.chapter)
+    if args.only_figure:
+        questions = [q for q in questions if needs_figure(q)]
+        print(f'ONLY-FIGURE {len(questions)} figure-dependent question(s)')
     if args.only_flagged:
         flagged_path = out_dir / 'flagged.json'
         if not flagged_path.exists():
@@ -488,6 +588,8 @@ def main() -> None:
         cached = load_json(cache_path) if cache_path.exists() else None
         if cached and args.force:
             cached = None
+        if cached and args.vision and not cached.get('images'):
+            cached = None  # cached answers were text-only; an image changes the question
         done_keys = set((cached or {}).get('responses', {}))
         missing = [v for v in verifiers if v[0] not in done_keys]
         if cached and not missing:
@@ -501,10 +603,21 @@ def main() -> None:
     if partial:
         print(f'TOPUP {partial} question(s) only need the new verifier(s)')
 
+    page_dir = out_dir / 'pages'
+
     def work(item: tuple[dict[str, Any], list, dict | None]) -> dict[str, Any]:
         question, missing, cached = item
+        images = resolve_images(question, args.level, page_dir) if args.vision else None
+        if args.vision and not images:
+            print(f'WARN {question["id"]}: --vision but no figure found, asking text-only')
+        if not images:
+            image_source = 'none'
+        elif images[0].parent == page_dir:
+            image_source = 'page'   # whole-page scan: 6x the error rate of a crop
+        else:
+            image_source = 'crop'
         result = verify_question(question, missing, args.level, args.timeout,
-                                 args.retries, cached)
+                                 args.retries, cached, images, image_source)
         save_json(cache_dir / f'{question["id"]}.json', result)
         return result
 
@@ -530,6 +643,16 @@ def main() -> None:
     disagreed = [r for r in ordered if 0 < r['wrong_count'] < args.threshold]
     incomplete = [r for r in ordered if r['no_answer']]
 
+    by_image_source: dict[str, dict[str, int]] = {}
+    for r in ordered:
+        bucket = by_image_source.setdefault(r.get('image_source', 'none'),
+                                            {'total': 0, 'flagged': 0,
+                                             'wrong_votes': 0, 'votes': 0})
+        bucket['total'] += 1
+        bucket['flagged'] += r['wrong_count'] >= args.threshold
+        bucket['wrong_votes'] += r['wrong_count']
+        bucket['votes'] += len([k for k in keys if k in r['responses']])
+
     per_verifier = {
         key: sum(1 for r in ordered if key in r['wrong'])
         for key in keys
@@ -547,10 +670,12 @@ def main() -> None:
         'disagreement_only_count': len(disagreed),
         'incomplete_count': len(incomplete),
         'wrong_by_verifier': per_verifier,
+        # page-render answers are much weaker evidence than cropped figures
+        'by_image_source': by_image_source,
         'results': ordered,
     }
     # Stage 2 keeps its own files so the full sweep's report is not clobbered.
-    suffix = '_stage2' if args.only_flagged else ''
+    suffix = ('_stage2' if args.only_flagged else '') + ('_vision' if args.vision else '')
     report_path = out_dir / f'report{suffix}.json'
     flagged_path_out = out_dir / f'flagged{suffix}.json'
     save_json(report_path, report)
@@ -575,6 +700,12 @@ def main() -> None:
           f'(of which wrong-votes-agree={len(consensus_flagged)}, review these first), '
           f'below-threshold-disagreement={len(disagreed)}, no-answer={len(incomplete)}')
     print(f'Wrong by verifier: {per_verifier}')
+    if len(by_image_source) > 1 or 'none' not in by_image_source:
+        for source, bucket in sorted(by_image_source.items()):
+            rate = bucket['wrong_votes'] / bucket['votes'] if bucket['votes'] else 0
+            note = '  ← weak evidence, whole-page scan' if source == 'page' else ''
+            print(f'  image={source:5} total={bucket["total"]:3} '
+                  f'flagged={bucket["flagged"]:2} vote-error={rate:.1%}{note}')
     print(f'Report: {report_path.relative_to(BASE)}')
     print(f'Flagged: {flagged_path_out.relative_to(BASE)}')
     raise SystemExit(1 if flagged else 0)
