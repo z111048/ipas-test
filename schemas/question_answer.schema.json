@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QuestionAnswerLetter",
+  "type": "object",
+  "required": ["answer"],
+  "additionalProperties": false,
+  "properties": {
+    "answer": {"type": "string", "enum": ["A", "B", "C", "D"]}
+  }
+}

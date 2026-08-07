@@ -3,8 +3,8 @@
 
 # 07 — 小節粒度出題（進行中）
 
-**狀態：單章試跑完成並人工核對通過，全量前缺一道自動驗證。**
-下一步是「接上答案交叉驗證」，理由見 §4。
+**狀態：單章試跑完成、答案交叉驗證已接上並在單章校準過（見 §4a）。**
+全量跑之前還缺的是 §5 剩下的項目。
 
 ## §1 這條線在做什麼
 
@@ -72,16 +72,104 @@ Fisher's exact test、Mann-Whitney、變異數齊一性、效果量、中央極�
 沒有驗證就全量跑，會拿到一份不知道對錯的題庫——**那比沒有題庫更危險**，
 因為使用者會相信它。
 
-專案裡已有現成機制可接：`multi_ai_pipeline.py` 的「三 AI 答題驗證」——
-gemini／codex／claude 各自作答，2 個以上答錯就寫進 `flagged.json` 待人工處理。
-需要三個 CLI 都已認證。
+## §4a 答案交叉驗證（2026-08-07 完成）
+
+`scripts/verify_question_answers.py`，指令與輸出格式見 `pipeline-reference.md` §3。
+
+**為什麼沒有直接接 `multi_ai_pipeline.py`**：它的 `run_validation_stage` 綁在
+chapter pipeline 裡（自己出題→審核→完稿→驗證），拆不出來單獨用；而且
+**`gemini` CLI 在本機已經不能用**——`IneligibleTierError: Gemini Code Assist for
+individuals`，這個 client 被停止支援。`.env` 裡的 `GEMINI_API_KEY` /
+`ANTHROPIC_API_KEY` 是遮罩過的佔位字串（實測 400 `API_KEY_INVALID`），
+所以走 API 補第三家模型這條路現在也不通。
+
+**2026-08-07 下午補上網關驗證器**：`--verifiers llm:<model>` 走
+`llm-share.duotify.com`（OpenAI 相容，純 stdlib `urllib`，金鑰只讀
+`LLMSHARE_API_KEY`，已放進 gitignored 的 `BASE/.env`）。這條線把模型家族補回三個以上，
+而且**每題約 2 秒 vs CLI 的 30–40 秒**。§6 那句「視覺榜單不等於命題榜單」成立但方向相反——
+被那輪以「不支援視覺」排除的 `glm-5.2`、`deepseek-v4-pro` 在這個純文字任務上都是滿分。
+
+CLI 三票：`codex`、`claude`、`claude:sonnet`（`--verifiers` 可調）。
+`codex` 同時是出題者，**它答對的證據力最弱**，report 另記
+`wrong_count_excl_codex`。codex 帳號目前只准 `gpt-5.6-luna`（試過 `gpt-5.6`、
+`gpt-5.6-codex` 都被擋），換不掉。
+
+兩個防作弊設計，改腳本時不要拿掉：
+- **盲答**：prompt 只有題幹＋選項，不給 explanation／tags／difficulty；
+  每題在 `tempfile` 空目錄裡跑（codex `--sandbox read-only --cd <tmpdir>`、
+  claude `--tools ''`），碰不到 gitignored 的答案檔。
+- **選項亂序**：依 question id 決定的固定排列重排選項，答完映射回原字母。
+  出題端的答案是 A→B→C→D 硬性輪替的，不亂序等於把規律送給驗證器，
+  順便消掉位置偏誤。
+
+**校準結果（mid-s2c3 28 題，答案已人工確認全對）**：flagged 1 題，
+偽陽性率 3.6%，其餘 27 題三票全中。偽陽性是 q012——四個情境（甲乙丙丁）
+各自判型一／型二錯誤的複合題，codex 答 B、claude:sonnet 答 A、claude 答對 D。
+
+從這裡得到分流規則，已寫進報告的 `wrong_consensus` 欄位：
+**答錯的票彼此答案一致才是「標記答案可能真的錯」**，票數分散（像 q012 的 A/B）
+只代表題目難。人工裁決先看 consensus 那批。
+
+### 網關模型校準（同一組 28 題，2026-08-07）
+
+8 個候選跑完，**7 個 28/28 全對**：`glm-5.2`、`deepseek-v4-pro`、`kimi-k2.7-code`、
+`qwen3.5:397b`、`gpt-oss:120b`、`nemotron-3-ultra`、`mistral-large-3:675b`。
+唯一失手的是 `minimax-m3`（27/28，錯在 q012 那題，答 C），所以它**不進預設陣容**。
+
+有趣的是 q012 這題把 codex 和 claude:sonnet 都騙了，開源模型幾乎全對——
+驗證器的強弱跟它是不是大廠 CLI 沒什麼關係，該用校準集決定，不要憑印象挑。
+
+### 官方考卷校準（2026-08-07，這才是真正的基準）
+
+前面兩輪都是拿**自己生成的 28 題**當基準，只能證明「驗證器不會亂噴」，
+不能證明「抓得出錯的答案」。真正的基準是官方考卷——答案是權威的。
+`--questions-file` 就是為此加的：
+
+```bash
+python3 scripts/verify_question_answers.py --level 中級 --workers 8 \
+    --questions-file data/中級/questions/mock_mid_1141_s1.json ...
+# → data/{level}/pipeline/answer_verification/{report,flagged}.json
+```
+
+**771 題純文字可答的官方題**（中級 303、初級 468）跑完：
+
+| 驗證器 | 中級 303 | 初級 468 | 合計正確率 |
+|---|---|---|---|
+| `llm:glm-5.2` | 錯 1 | 錯 6 | 99.1% |
+| `llm:kimi-k2.7-code` | 錯 2 | 錯 4 | 99.2% |
+| `llm:deepseek-v4-pro` | 錯 5 | 錯 5 | 98.7% |
+
+flagged 共 6 題（0.78%），consensus 5 題。**逐題看過，沒有一題是驗證器壞掉**：
+`mid_1151_s3_q30`（高變異 vs 過擬合）、`exam2_q36`（prompt injection 防禦策略）、
+`sample_q48`（步驟排序）都是兩個答案都說得通的爭議題；
+**`sample_q21` 甚至是官方答案本身可疑**——問「何者*不是*特徵選取技術」，
+官方答 C 迴歸分析，三個模型一致答 B 主成分分析（PCA 是特徵*萃取*不是*選取*，
+逐步迴歸則確實是選取法）。這題值得列入勘誤候選，本輪沒有動任何資料。
+
+結論：consensus 這個分流欄位是有效的——它挑出來的都是「答案真的有得吵」的題。
+
+⚠️ **`images` 欄位不足以判斷圖片題**。第一輪 5 個 consensus 裡有 4 個是
+「附圖為某資料之分佈圖」「選項＝見下方選項 B 程式碼」這種**看圖才能答**的題，
+OCR 沒把圖掛上去所以 `images` 是空的。純文字驗證器答錯它們毫無意義。
+現在改用文字啟發式（`FIGURE_HINT`）＋空白選項偵測，中級 341 題攔下 38 題。
+**改這支腳本時不要拿掉這個過濾**，不然偽陽性率會憑空多出十倍。
+
+### 兩階段設計（現在的預設）
+
+Stage 1 用三個網關模型全掃（`glm-5.2` + `deepseek-v4-pro` + `kimi-k2.7-code`，
+threshold 2），Stage 2 才把 flagged 的題 `--only-flagged` 升級到
+codex + claude + claude:sonnet + 兩個網關模型、threshold 3。
+Stage 2 的輸出寫 `report_stage2.json` / `flagged_stage2.json`，不蓋掉全掃報告。
+
+五票 threshold 3 在校準集上**偽陽性 0**（q012 只有 2 票錯，壓在門檻下），
+比原本三票 threshold 2 的 3.6% 好。門檻要跟著票數走，不是固定值。
+
+全量成本從「500 題 3–4 小時」降到 **stage 1 約 20 分鐘**，
+只有真的可疑的少數題會付 CLI 的 40 秒。`answers/` 快取可續跑。
 
 ## §5 待接工作（依順序）
 
-1. **接上答案交叉驗證**（全量前的必要條件，見 §4）。
-   把 `multi_ai_pipeline.py` 的三 AI 答題驗證接進這條 codex 線，
-   或另寫一支只做「獨立作答 + 比對標記答案」的驗證腳本。
-   輸出要能標出不一致的題目供人工裁決。
+1. ~~接上答案交叉驗證~~ **已完成，見 §4a。**
 2. **修中英夾雜**。28 題裡有 1 處：第 28 題選項 D「就能直接 conclude 所有組別…」。
    在 prompt 的輸出規範加一條「不得中英夾雜，術語英文只能以括號附註」，
    或事後用正規表示式掃。

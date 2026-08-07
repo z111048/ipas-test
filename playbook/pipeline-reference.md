@@ -225,6 +225,26 @@ python3 scripts/run_codex_question_batch_generation.py --run-dir data/中級/pip
 `~/.codex/config.toml` 全域設定，沒有 `--model` 參數。全量跑之前先讀
 `playbook/07-question-generation.md` §4。
 
+<!-- 2026-08-07: 新增答案交叉驗證。 -->
+#### 答案交叉驗證（出題後必跑）—— 網關全掃（每題約 2 秒）→ flagged 才升級 CLI（約 40 秒）
+
+```bash
+# Stage 1 全掃（預設 llm:glm-5.2,llm:deepseek-v4-pro,llm:kimi-k2.7-code）
+python3 scripts/verify_question_answers.py --run-dir data/中級/pipeline/codex_section_prompts \
+    --workers 8 [--chapter mid-s2c3] [--limit N] [--force]
+# Stage 2 只重驗 stage 1 flagged 的題，加 CLI 票、門檻拉到 3
+python3 scripts/verify_question_answers.py --run-dir ... --only-flagged --threshold 3 \
+    --verifiers codex,claude,claude:sonnet,llm:glm-5.2,llm:deepseek-v4-pro
+# → <run-dir>/verification/{report,flagged}[_stage2].json、answers/<qid>.json
+# 驗證器本身的校準：改吃官方考卷（答案權威），--questions-file data/中級/questions/mock_mid_*.json
+```
+網關金鑰只讀 `LLMSHARE_API_KEY`（環境變數或 gitignored 的 `BASE/.env`）；沒金鑰時退回 CLI 三票。
+驗證器盲答（**只給題幹＋選項**；CLI 在 `tempfile` 空目錄裡跑，碰不到答案檔），達
+`--threshold` 票答錯進 `flagged.json`。選項依 question id 固定亂序、答完映射回原字母，
+避開出題端 A→B→C→D 輪替與位置偏誤。`answers/` 快取存**所有驗證器答案的聯集**、判定只算
+本次 `--verifiers`。分流看 `wrong_consensus`（答錯的票彼此一致才可能是答案真的錯）；
+771 題官方卷的校準數據與圖片題過濾，見 `playbook/07-question-generation.md` §4a。
+
 `export_guide_sections.py` 讀的是**當下**的 `guide/subject{N}_guide.json`，
 所以上面那個「兩個生產者」的問題會直接傳導過來——重跑 parse_guides 後要一併重跑它。
 
@@ -349,6 +369,7 @@ uv run python3 scripts/build_web.py     # production build → docs/（gitignore
   `guide_exercises` 逐字引文（對 page_clean，含跨頁串接）、章節正文新舊漂移。
   與 `page_extract_before_ocr_merge/` 舊版比，能區分「本輪造成的退化」與「舊版就這樣」。
   `--level` / `--json out.json`。跑一次兩級約 20–40 分鐘。
+- `verify_question_answers.py` — 多 CLI 盲答交叉驗證題目答案 → `<run-dir>/verification/`（見 §3）。
 - `llm_review_guide_headings.py`、`question_dedupe.py`、`annotate_exam_code_images.py` — 輔助工具（用前先讀 docstring）。
 
 **前端匯出（`frontend/src/generated/` 是 committed 靜態輸入）**
