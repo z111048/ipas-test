@@ -1,5 +1,5 @@
-import { Link, useParams } from 'react-router-dom'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { Link, useLocation, useParams } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
 import type React from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -11,9 +11,11 @@ import guideHierarchyRaw from '../generated/guideHierarchy.json'
 import guideImagesRaw from '../generated/guideImages.json'
 import guideExamAnnotationsIndexRaw from '../generated/guideExamAnnotations/index.json'
 import type { GuideHierarchyData } from '../types'
-import type { ColabNotebook, GuideBlock, GuideContent, GuideExamAnnotation, GuideExamAnnotationsChapterData, GuideExamAnnotationsIndexData, GuideFormula, GuideImageAsset, GuideImagesData, GuideOutlineNode, GuideOutlinesData } from '../types'
+import type { ColabNotebook, GuideBlock, GuideContent, GuideExamAnnotation, GuideExamAnnotationsChapterData, GuideExamAnnotationsIndexData, GuideFormula, GuideImageAsset, GuideImagesData, GuideOutlinesData } from '../types'
 import { GUIDE_NOTICES } from '../constants/guideNotices'
 import GuideOutlineTree from '../components/guide/GuideOutlineTree'
+import GuideBreadcrumb from '../components/guide/GuideBreadcrumb'
+import { guideBreadcrumb } from '../data/guideNav'
 import ColabSection from '../components/guide/ColabSection'
 import { publicAsset } from '../utils/assets'
 import { useScrollProgress, ReadingProgressBar, BackToTopButton } from '../components/shared/ReadingProgress'
@@ -463,6 +465,7 @@ function GuideBlocksRenderer({
 
 export default function GuidePage() {
   const { subjectId, chapterId } = useParams<{ subjectId: string; chapterId: string }>()
+  const location = useLocation()
   const outlineGuide = subjectId ? guideOutlines.guides[subjectId] : undefined
   const chapter = chapterId && outlineGuide ? outlineGuide.nodesById[chapterId] : undefined
   const [content, setContent] = useState<GuideContent | null>(null)
@@ -471,6 +474,7 @@ export default function GuidePage() {
   const [colabNotebook, setColabNotebook] = useState<ColabNotebook | null>(null)
   const [showDrawer, setShowDrawer] = useState(false)
   const contentScrollRef = useRef<HTMLDivElement | null>(null)
+  const scrollToContentBlockRef = useRef<((id: string, anchor?: string) => void) | null>(null)
   const [activeHeadingId, setActiveHeadingId] = useState<string | null>(null)
   const { progress: readingProgress, showBackToTop, scrollToTop } = useScrollProgress(() => contentScrollRef.current)
 
@@ -571,16 +575,16 @@ export default function GuidePage() {
     return () => observer.disconnect()
   }, [content, chapterId])
 
-  const breadcrumb = useMemo(() => {
-    if (!outlineGuide || !chapter) return []
-    const nodes: GuideOutlineNode[] = []
-    let current: GuideOutlineNode | undefined = chapter
-    while (current) {
-      nodes.unshift(current)
-      current = current.parentId ? outlineGuide.nodesById[current.parentId] : undefined
-    }
-    return nodes
-  }, [chapter, outlineGuide])
+  // 搜尋結果與完整目錄頁用 route#anchor 連過來。HashRouter 的網址形如
+  // #/guide/s1/s1c1#anchor，react-router 會把第二個 # 之後解析成 location.hash。
+  // 內容是非同步載入的，要等 content 到位才找得到目標區塊；
+  // scrollToContentBlock 定義在下方（提前 return 之後），所以用 ref 轉接。
+  useEffect(() => {
+    const anchor = decodeURIComponent(location.hash.replace(/^#/, ''))
+    if (!anchor || !content) return
+    const frame = requestAnimationFrame(() => scrollToContentBlockRef.current?.(anchor, anchor))
+    return () => cancelAnimationFrame(frame)
+  }, [location.hash, content])
 
   if (!outlineGuide || !chapter) {
     return <div className="page-shell text-error p-4">找不到章節：{chapterId}</div>
@@ -646,6 +650,7 @@ export default function GuidePage() {
   const childChapters = chapter.children.map((childId) => outlineGuide.nodesById[childId]).filter(Boolean)
   const hasChildChapters = childChapters.length > 0
   const pageRange = `PDF 第 ${chapter.pageRange[0]}–${chapter.pageRange[1]} 頁`
+  const breadcrumb = subjectId && chapterId ? guideBreadcrumb(subjectId, chapterId) : []
 
   // Prev/next chapters for mobile navigation bar
   const flatIds = outlineGuide.flat
@@ -654,6 +659,7 @@ export default function GuidePage() {
   const nextChapterId = currentFlatIndex < flatIds.length - 1 ? flatIds[currentFlatIndex + 1] : undefined
   const prevChapter = prevChapterId ? outlineGuide.nodesById[prevChapterId] : undefined
   const nextChapter = nextChapterId ? outlineGuide.nodesById[nextChapterId] : undefined
+
 
   const scrollToContentBlock = (id: string, anchor?: string) => {
     const container = contentScrollRef.current
@@ -682,6 +688,7 @@ export default function GuidePage() {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }
+  scrollToContentBlockRef.current = scrollToContentBlock
 
   return (
     <div className="page-shell h-full min-h-0 flex flex-col overflow-hidden">
@@ -704,21 +711,8 @@ export default function GuidePage() {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2 text-[0.8rem] text-text-light mb-2 sm:mb-4 shrink-0">
-        <Link to={`/subject/${subjectId}`} className="text-accent no-underline hover:underline">
-          {outlineGuide.subject}
-        </Link>
-        {breadcrumb.map((node) => (
-          <span key={node.id} className="flex items-center gap-2">
-            <span>/</span>
-            <Link
-              to={`/guide/${subjectId}/${node.id}`}
-              className={`no-underline hover:underline ${node.id === chapter.id ? 'text-primary font-semibold' : 'text-accent'}`}
-            >
-              {node.number ? `${node.number} ` : ''}{node.title}
-            </Link>
-          </span>
-        ))}
+      <div className="mb-2 sm:mb-4 shrink-0">
+        <GuideBreadcrumb crumbs={breadcrumb} />
       </div>
 
       {notice && (

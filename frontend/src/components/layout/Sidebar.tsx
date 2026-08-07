@@ -1,8 +1,9 @@
 import { memo, useEffect, useMemo, useRef, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { galleryRoute, resourceLevels, type ResourceNavItem, type SubjectResource } from '../../data/resourceRegistry'
+import { guideNav } from '../../data/guideNav'
 
-const STORAGE_KEY = 'ipas-sidebar-expanded-v3'
+const STORAGE_KEY = 'ipas-sidebar-expanded-v4'
 
 interface SidebarProps {
   isOpen: boolean
@@ -64,16 +65,67 @@ function SidebarLink({
   )
 }
 
+/** 學習指引底下的章／節。資料來自 guideNav.json（13 KB，只有章節兩層）。 */
+function GuideNavNodes({
+  subjectId,
+  nodeIds,
+  onClose,
+}: {
+  subjectId: string
+  nodeIds: string[]
+  onClose: () => void
+}) {
+  const guide = guideNav.guides[subjectId]
+  if (!guide) return null
+
+  return (
+    <>
+      {nodeIds.map((nodeId) => {
+        const node = guide.nodesById[nodeId]
+        if (!node?.route) return null
+        // 節（toc 的章）縮排一級；前置章沒有子節點，維持在章的層級
+        const indent = node.depth === 1 ? '1.75rem' : '2.6rem'
+        return (
+          <div key={nodeId}>
+            <NavLink
+              to={node.route}
+              className={({ isActive }) =>
+                `block py-1 pr-3 text-[0.78rem] leading-5 border-l-[3px] transition-all duration-150 no-underline ${
+                  isActive
+                    ? 'bg-white/12 border-l-accent text-white font-semibold'
+                    : 'border-l-transparent text-white/62 hover:bg-white/8 hover:text-white'
+                }`
+              }
+              style={{ paddingLeft: indent }}
+              onClick={onClose}
+            >
+              <span className="block truncate">{node.title}</span>
+            </NavLink>
+            {node.childIds.length > 0 && (
+              <GuideNavNodes subjectId={subjectId} nodeIds={node.childIds} onClose={onClose} />
+            )}
+          </div>
+        )
+      })}
+    </>
+  )
+}
+
 function SubjectBlock({
   subject,
   onClose,
+  guideOpen,
+  onToggleGuide,
 }: {
   subject: SubjectResource
   onClose: () => void
+  guideOpen: boolean
+  onToggleGuide: () => void
 }) {
   const colonIdx = subject.label.indexOf('：')
   const subjectNum = colonIdx > -1 ? subject.label.slice(0, colonIdx) : subject.label
   const subjectName = colonIdx > -1 ? subject.label.slice(colonIdx + 1) : ''
+  const navGuide = guideNav.guides[subject.id]
 
   return (
     <div className="mb-0.5">
@@ -86,15 +138,33 @@ function SubjectBlock({
         )}
       </div>
 
-      {/* 學習指引 */}
+      {/* 學習指引（可展開到章／節） */}
       {subject.guideTo && (
-        <NavLink
-          to={subject.guideTo}
-          className={({ isActive }) => navItemClass(isActive)}
-          onClick={onClose}
-        >
-          學習指引
-        </NavLink>
+        <div>
+          <div className="flex items-stretch">
+            <NavLink
+              to={subject.guideTo}
+              className={({ isActive }) => `${navItemClass(isActive)} flex-1 min-w-0 truncate`}
+              onClick={onClose}
+            >
+              學習指引
+            </NavLink>
+            {navGuide && navGuide.rootIds.length > 0 && (
+              <button
+                type="button"
+                className="px-2.5 text-white/45 hover:text-white text-[0.7rem]"
+                onClick={onToggleGuide}
+                aria-expanded={guideOpen}
+                aria-label={guideOpen ? '收合章節' : '展開章節'}
+              >
+                {guideOpen ? '▾' : '▸'}
+              </button>
+            )}
+          </div>
+          {guideOpen && navGuide && (
+            <GuideNavNodes subjectId={subject.id} nodeIds={navGuide.rootIds} onClose={onClose} />
+          )}
+        </div>
       )}
 
       <NavLink
@@ -195,8 +265,16 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
     const level = resourceLevels.find((lvl) => lvl.subjects.some((s) => s.id === activeSubjectId))
     if (!level) return
     const levelId = `level-${level.id}`
-    setExpanded((current) => (current[levelId] ? current : { ...current, [levelId]: true }))
-  }, [activeSubjectId])
+    const guideId = `guide-${activeSubjectId}`
+    const onGuidePage = location.pathname.startsWith('/guide/')
+    setExpanded((current) => {
+      const next = { ...current }
+      let changed = false
+      if (!next[levelId]) { next[levelId] = true; changed = true }
+      if (onGuidePage && !next[guideId]) { next[guideId] = true; changed = true }
+      return changed ? next : current
+    })
+  }, [activeSubjectId, location.pathname])
 
   // 展開狀態或路由變化後，將目前作用中的連結捲動到可視範圍內
   useEffect(() => {
@@ -263,6 +341,13 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
           >
             概念圖卡
           </NavLink>
+          <NavLink
+            to="/outline"
+            className={({ isActive }) => navItemClass(isActive)}
+            onClick={onClose}
+          >
+            完整目錄
+          </NavLink>
         </div>
 
         {resourceLevels.map((level) => {
@@ -301,7 +386,13 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
                 <div className="mt-1">
                   {/* Per-subject blocks */}
                   {level.subjects.map((subject) => (
-                    <SubjectBlock key={subject.id} subject={subject} onClose={onClose} />
+                    <SubjectBlock
+                      key={subject.id}
+                      subject={subject}
+                      onClose={onClose}
+                      guideOpen={isOpen_(`guide-${subject.id}`)}
+                      onToggleGuide={() => toggle(`guide-${subject.id}`)}
+                    />
                   ))}
 
                   {/* 試題庫 */}

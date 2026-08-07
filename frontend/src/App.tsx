@@ -13,8 +13,11 @@ const GuidePage = lazy(() => import('./pages/GuidePage'))
 const ImageGalleryPage = lazy(() => import('./pages/ImageGalleryPage'))
 const VisualCardsPage = lazy(() => import('./pages/VisualCardsPage'))
 const GlossaryPage = lazy(() => import('./pages/GlossaryPage'))
+const OutlinePage = lazy(() => import('./pages/OutlinePage'))
 const LearningArticlesPage = lazy(() => import('./pages/LearningArticlesPage'))
 const LearningArticlePage = lazy(() => import('./pages/LearningArticlePage'))
+// 搜尋對話框連同 204 KB 索引都不進首頁 bundle，第一次開啟才載入
+const GuideSearchDialog = lazy(() => import('./components/search/GuideSearchDialog'))
 
 function PageSkeleton() {
   return (
@@ -33,6 +36,7 @@ function PageSkeleton() {
 
 function AppShell() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
   const location = useLocation()
   const mainRef = useRef<HTMLElement>(null)
   const isGuideRoute = location.pathname.startsWith('/guide/')
@@ -42,6 +46,18 @@ function AppShell() {
     mainRef.current?.scrollTo({ top: 0 })
     mainRef.current?.focus()
   }, [location.pathname])
+
+  // Ctrl/Cmd + K 開搜尋；在輸入框裡也要能觸發，所以不排除 input 目標
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault()
+        setSearchOpen(true)
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [])
 
   return (
     <div className="flex flex-col min-h-screen bg-app-bg text-app-text">
@@ -57,7 +73,15 @@ function AppShell() {
       >
         跳至主要內容
       </a>
-      <Header onMenuClick={() => setSidebarOpen((o) => !o)} />
+      <Header
+        onMenuClick={() => setSidebarOpen((o) => !o)}
+        onSearchClick={() => setSearchOpen(true)}
+      />
+      {searchOpen && (
+        <Suspense fallback={null}>
+          <GuideSearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
+        </Suspense>
+      )}
       <Overlay isOpen={sidebarOpen} onClick={() => setSidebarOpen(false)} />
       <div className="flex overflow-hidden h-[calc(100vh-3.5rem)]">
         <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -80,6 +104,7 @@ function AppShell() {
               <Route path="/visuals" element={<VisualCardsPage />} />
               <Route path="/images" element={<ImageGalleryPage />} />
               <Route path="/glossary" element={<GlossaryPage />} />
+              <Route path="/outline" element={<OutlinePage />} />
             </Routes>
           </Suspense>
           {!isGuideRoute && (

@@ -107,7 +107,7 @@ cd frontend && npm run build
 ## §1b 學習指引完整階層樹
 
 ```bash
-python3 scripts/export_guide_hierarchy.py                    # → frontend/src/generated/guideHierarchy.json
+python3 scripts/export_guide_hierarchy.py                    # → guideHierarchy.json + guideNav.json + guideSearchIndex.json
 python3 scripts/export_guide_hierarchy.py --print-tree s1    # 印出來目視檢查（s1/s2/mid-s1/mid-s2/mid-s3）
 ```
 
@@ -128,7 +128,25 @@ Track A 漏抓的 `N.` 層（74 個）。
   guide_ocr 該頁的標題順序決定先後。
 
 節以下的節點是既有章節頁的錨點（`href = {route}#{anchor}`），**前端路由完全不用動**。
-目前前端尚未消費這份檔案。
+
+<!-- 2026-08-07: 新增兩個衍生檔與前端消費現況。 -->
+同一支腳本另外產兩個**衍生檔**，目的是不讓全站為了兩層結構背上整棵樹：
+
+| 檔案 | 內容 | 大小 | 誰在用 |
+|---|---|---|---|
+| `guideHierarchy.json` | 全部 1,207 節點 | 449 KB | GuidePage 的「本節階層」（靜態 import，進 GuidePage chunk） |
+| `guideNav.json` | 只有章/節 64 節點 | 13 KB | 側欄章節樹、GuidePage 麵包屑（靜態 import，進首頁 chunk） |
+| `guideSearchIndex.json` | 全部節點，欄位縮寫 | 195 KB | 搜尋對話框、`/outline`（**動態 import**，開啟時才載） |
+
+⚠️ **`a`（anchor）只在該 anchor 真的存在於章節頁的 `blocks[]` 時才輸出**。
+階層樹的標題有兩個來源，從 `headings[]` 來的那批只有標題文字、anchor 是 slug 推出來的，
+頁面上沒有對應 DOM——帶著 `#anchor` 連過去只會停在頁頂（實測佔全部標題約兩成）。
+這類節點標 `x:1`，消費端要退回連到章節頁本身或顯示為不可跳轉。
+目前 1,143 個標題裡可跳轉 849、不可跳轉 294（含 OCR 補回的 74 個）。
+
+前端吃 `#anchor` 的是 GuidePage 的 `location.hash` effect。**HashRouter 下網址形如
+`#/guide/s1/s1c1#anchor`**，react-router 會把第二個 `#` 之後解析成 `location.hash`；
+內容是非同步載入的，要等 `content` 到位才捲得到，所以那個 effect 依賴 `[location.hash, content]`。
 
 ## §2 Guide 品質審核（PDF 更新後執行）
 
@@ -283,7 +301,7 @@ uv run python3 scripts/build_web.py     # production build → docs/（gitignore
 - `ocr_extract.py` — Track B 轉接層：PaddleOCR-VL 逐頁 md → `pages_cache/{key}/page_NNN.json`（見 §1a）。
 - `merge_guide_ocr.py` — Track A 轉接層：OCR 內容合併進 `page_extract/`，首次執行會備份原檔（見 §1a）。
 - `build_errata.py` / `apply_errata.py` — 勘誤表 OCR → `errata_corrections.json`；套用到兩軌，冪等（見 §10 修正 4）。
-- `export_guide_hierarchy.py` — 接成完整階層樹 → `guideHierarchy.json`（見 §1b）。
+- `export_guide_hierarchy.py` — 接成完整階層樹，並產導覽用的兩個衍生檔 → `guideHierarchy.json`、`guideNav.json`、`guideSearchIndex.json`（見 §1b）。
 - `pdf_vision_extract.py` — 每頁 PNG（2x）送 Gemini Vision → `pages_cache/{key}/page_NNN.json`（{type, headings, markdown, usage}）；完成後自動生成 `page_index.json`。重跑只補 missing/failed。
 - `gemini_exam_vision_extract.py` — 考題 PDF 的 Vision OCR（獨立 schema）→ `exam_pages_cache/`。
 

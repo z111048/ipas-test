@@ -473,3 +473,66 @@ export interface GuideHierarchyGuide {
 export interface GuideHierarchyData {
   guides: Record<string, GuideHierarchyGuide>
 }
+
+/**
+ * 導覽用的精簡衍生檔，由 scripts/export_guide_hierarchy.py 一併產出。
+ * 目的是讓側欄／麵包屑不必為了兩層結構載入完整的 guideHierarchy.json（449 KB）。
+ */
+export interface GuideNavNode {
+  id: string
+  parentId: string | null
+  depth: number
+  kind: 'chapter' | 'section'
+  title: string
+  route?: string | null
+  pageRange?: [number, number] | null
+  /** 只含章/節子節點；標題層不在這份檔案裡 */
+  childIds: string[]
+}
+
+export interface GuideNavGuide {
+  level: string
+  subjectId: string
+  key: string
+  subject?: string
+  rootIds: string[]
+  nodesById: Record<string, GuideNavNode>
+}
+
+export interface GuideNavData {
+  levels?: string[]
+  guides: Record<string, GuideNavGuide>
+}
+
+/**
+ * 搜尋索引（`guideSearchIndex.json`，約 204 KB）。欄位名刻意縮短以壓體積，
+ * 只在使用者開啟搜尋或完整目錄頁時才動態載入。
+ */
+export interface GuideSearchNode {
+  id: string
+  /** parentId */
+  p: string | null
+  /** kind：c=chapter、s=section、h=heading */
+  k: 'c' | 's' | 'h'
+  /** title */
+  t: string
+  /** route，只有章/節有；標題節點沿父鏈取 */
+  r?: string
+  /** anchor，節以下才有 */
+  a?: string
+  /** 1 = 由 OCR 補回、頁面上沒有對應區塊，不可跳轉 */
+  x?: 1
+}
+
+export interface GuideSearchGuide {
+  level: string
+  subjectId: string
+  subject?: string
+  /** 依樹序排列 */
+  nodes: GuideSearchNode[]
+}
+
+export interface GuideSearchIndexData {
+  levels?: string[]
+  guides: Record<string, GuideSearchGuide>
+}

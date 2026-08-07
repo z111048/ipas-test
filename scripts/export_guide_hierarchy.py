@@ -59,6 +59,9 @@ GENERATED = BASE / 'frontend' / 'src' / 'generated'
 OUTLINES = GENERATED / 'guideOutlines.json'
 CONTENT_DIR = GENERATED / 'guideContent'
 OUT_PATH = GENERATED / 'guideHierarchy.json'
+# 導覽用的精簡衍生檔（見下方 write_derived_files 的說明）
+NAV_PATH = GENERATED / 'guideNav.json'
+SEARCH_PATH = GENERATED / 'guideSearchIndex.json'
 
 
 def load_json(path: Path):
@@ -425,6 +428,115 @@ def build_guide(subject_id: str, guide: dict) -> dict:
     }
 
 
+def real_block_anchors(outlines: dict) -> dict[str, set[str]]:
+    """每個章節頁實際存在的 block anchor。
+
+    階層樹的標題有兩個來源：guideContent 的 `blocks[]`（頁面上真的有區塊）與
+    `headings[]`（只有標題文字，anchor 是從標題 slug 推出來的）。後者在頁面上
+    沒有對應 DOM，帶著 #anchor 連過去只會停在頁頂——約佔全部標題的兩成。
+    這裡把真實存在的 anchor 收集起來，讓搜尋索引只對這些標題輸出可跳轉的 anchor。
+    """
+    by_node: dict[str, set[str]] = {}
+    for guide in outlines['guides'].values():
+        for node_id, node in guide['nodesById'].items():
+            content_ref = node.get('contentRef')
+            if not content_ref:
+                continue
+            path = CONTENT_DIR / guide['key'] / content_ref
+            if not path.exists():
+                continue
+            content = load_json(path)
+            by_node[node_id] = {
+                block['anchor'] for block in content.get('blocks', []) if block.get('anchor')
+            }
+    return by_node
+
+
+def write_derived_files(levels, guides: dict, outlines: dict) -> None:
+    """產兩份給導覽用的精簡檔，避免全站都得扛完整階層樹。
+
+    `guideHierarchy.json`（449 KB）只有 GuidePage 需要。側欄與麵包屑只用得到
+    章/節兩層（64 個節點），搜尋與目錄頁雖然要全部 1,207 個節點，但可以按需載入。
+    切成兩份的目的就是讓首頁 bundle 不必為了側欄背上整棵樹。
+
+    - `guideNav.json`     章/節，全站靜態 import
+    - `guideSearchIndex.json`  全部節點，欄位砍到只剩搜尋與目錄頁要的
+    """
+    nav_guides: dict = {}
+    search_guides: dict = {}
+    anchors_by_node = real_block_anchors(outlines)
+
+    for subject_id, guide in guides.items():
+        nodes = guide['nodesById']
+
+        nav_nodes = {
+            node_id: {
+                'id': node['id'],
+                'parentId': node['parentId'],
+                'depth': node['depth'],
+                'kind': node['kind'],
+                'title': node['title'],
+                'route': node.get('route'),
+                'pageRange': node.get('pageRange'),
+                # 只留同樣是章/節的子節點，標題層在這份檔案裡不存在
+                'childIds': [c for c in node['childIds']
+                             if nodes[c]['kind'] != 'heading'],
+            }
+            for node_id, node in nodes.items() if node['kind'] != 'heading'
+        }
+        nav_guides[subject_id] = {
+            'level': guide['level'],
+            'subjectId': subject_id,
+            'key': guide['key'],
+            'subject': guide.get('subject'),
+            'rootIds': list(guide['rootIds']),
+            'nodesById': nav_nodes,
+        }
+
+        # 搜尋結果要顯示「第三章 › 人工智慧概念 › 3. 機器學習的類型」這種路徑，
+        # 所以 parentId 要留；route 只有章/節有，標題節點由消費端沿父鏈取。
+        def owner_anchors(node: dict) -> set:
+            """往上找到所屬的章/節，取它頁面上實際有的 anchor。"""
+            current = node
+            while current and current['kind'] == 'heading':
+                current = nodes.get(current['parentId'] or '')
+            return anchors_by_node.get(current['id'], set()) if current else set()
+
+        search_nodes = []
+        for node in (nodes[node_id] for node_id in guide['flat']):
+            anchor = node.get('anchor')
+            # anchor 必須真的對應到頁面上的區塊，否則帶著它跳過去只會停在頁頂；
+            # 這種情況就不輸出 anchor，讓消費端退回連到章節頁本身。
+            jumpable = bool(anchor) and anchor in owner_anchors(node) and not node.get('recovered')
+            search_nodes.append({
+                'id': node['id'],
+                'p': node['parentId'],
+                'k': node['kind'][0],          # c / s / h
+                't': node['title'],
+                **({'r': node['route']} if node.get('route') else {}),
+                **({'a': anchor} if jumpable else {}),
+                # x=1：頁面上沒有對應區塊（OCR 補回，或只存在於 headings[]）
+                **({'x': 1} if node['kind'] == 'heading' and not jumpable else {}),
+            })
+
+        search_guides[subject_id] = {
+            'level': guide['level'],
+            'subjectId': subject_id,
+            'subject': guide.get('subject'),
+            'nodes': search_nodes,
+        }
+
+    for path, payload, label in (
+        (NAV_PATH, {'levels': levels, 'guides': nav_guides}, '章/節'),
+        (SEARCH_PATH, {'levels': levels, 'guides': search_guides}, '全節點'),
+    ):
+        path.write_text(json.dumps(payload, ensure_ascii=False, separators=(',', ':')),
+                        encoding='utf-8')
+        size = path.stat().st_size
+        count = sum(len(g.get('nodesById') or g.get('nodes')) for g in payload['guides'].values())
+        print(f'寫入 {path.relative_to(BASE)}（{label} {count} 節點，{size / 1024:.0f} KB）')
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -469,6 +581,7 @@ def main() -> None:
         encoding='utf-8')
     total = sum(g['stats']['total'] for g in guides.values())
     print(f'寫入 {OUT_PATH.relative_to(BASE)}（{total} 節點）')
+    write_derived_files(outlines.get('levels'), guides, outlines)
     for subject_id, guide in guides.items():
         s = guide['stats']
         print(f'  {subject_id:<8} 共 {s["total"]:>4}（章節 {s["outline"]}、標題 {s["headings"]}）'
