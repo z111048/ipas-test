@@ -189,38 +189,30 @@ def load_questions_from_files(paths: list[Path], include_image_questions: bool
     return questions
 
 
-def render_exam_page(level: str, source: str, page_index: int, out_dir: Path) -> Path | None:
-    """Rasterise one page of the source exam PDF (used when no crop was extracted)."""
-    out_path = out_dir / f'{source}_p{page_index:03d}.png'
-    if out_path.exists():
-        return out_path
-    try:
-        import fitz  # PyMuPDF; only needed for the fallback, run under `uv run`
-        from extract_pdfs import EXAM_PDFS_BY_LEVEL
-    except ImportError as exc:
-        print(f'WARN cannot render page ({exc}); run under `uv run python3`')
-        return None
-    name = EXAM_PDFS_BY_LEVEL.get(level, {}).get(source)
-    if not name:
-        return None
-    pdf_path = BASE / 'data' / level / 'pdfs' / name
-    if not pdf_path.exists():
-        return None
-    with fitz.open(pdf_path) as doc:
-        if page_index >= doc.page_count:
-            return None
-        pixmap = doc[page_index].get_pixmap(matrix=fitz.Matrix(2, 2))
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    pixmap.save(out_path.as_posix())
-    return out_path
+# The 114年第二梯次 papers were extracted before the mid_* naming, so their crops
+# live under exam1/2/3. Their questions carry no `images` field, which is why they
+# first looked crop-less.
+ASSET_KEY_ALIASES = {'mid_1141_s1': 'exam1', 'mid_1141_s2': 'exam2', 'mid_1141_s3': 'exam3'}
+
+# Fraction of `table_01.png` to shave off the left edge: that strip is the printed
+# 答案 column. Measured on exam2/page_010 and exam3/page_014 — 11% clears the answer
+# letters and leaves the question-number column and all code blocks intact.
+TABLE_ANSWER_COLUMN_FRACTION = 0.13
+# Options name a code block in two shapes: "程式碼B" and "見下方選項 B 程式碼".
+CODE_OPTION = re.compile(r'程式碼')
 
 
-def resolve_images(question: dict[str, Any], level: str, page_dir: Path) -> list[Path]:
-    """Cropped question figure if the extractor produced one, else the whole page.
+def resolve_images(question: dict[str, Any], level: str,
+                   allow_table_crops: bool = False,
+                   cache_dir: Path | None = None) -> list[Path]:
+    """Figure crops only — never `page.png` or `table_*.png`.
 
-    The 1141 papers have no crops at all, and several figure questions carry no
-    `images` entry — for those the page render is the only way to show the model
-    what the stem is talking about.
+    ⚠️ These are 公告試題 PDFs: the official answer is printed in the left column of
+    every question table, so a whole-page image hands the verifier the answer key.
+    Measured on 16 page-render questions, the models echoed the printed letter 66%
+    of the time (chance is 25%); the option shuffle is the only reason that showed up
+    as errors instead of silent false agreement. Crops of the figure itself are clean
+    (19%, i.e. chance).
     """
     paths = []
     for image in question.get('images') or []:
@@ -231,13 +223,37 @@ def resolve_images(question: dict[str, Any], level: str, page_dir: Path) -> list
                 paths.append(candidate)
     if paths:
         return paths
+
     source = question.get('source')
     page_index = (question.get('source_ref') or {}).get('page_index')
-    if source and page_index is not None:
-        page = render_exam_page(level, source, int(page_index), page_dir)
-        if page:
-            return [page]
-    return []
+    if not source or page_index is None:
+        return []
+    asset_key = ASSET_KEY_ALIASES.get(source, source)
+    page_dir = (BASE / 'frontend' / 'public' / 'pdf-assets' / level / asset_key
+                / f'page_{int(page_index):03d}')
+    crops = sorted(page_dir.glob('image_*.png'))
+    if crops or not allow_table_crops:
+        return crops
+    # Code-block questions ("(A)程式碼A") keep their code inside the page table, which
+    # also holds the answer column — usable only with that column cropped off.
+    table = page_dir / 'table_01.png'
+    if not table.exists() or not CODE_OPTION.search(' '.join(question.get('options', {}).values())):
+        return []
+    return [crop_answer_column(table, cache_dir)]
+
+
+def crop_answer_column(table_path: Path, cache_dir: Path) -> Path:
+    """Copy of a page table with the printed answer column shaved off the left."""
+    out_path = cache_dir / f'{table_path.parent.parent.name}_{table_path.parent.name}_nocol.png'
+    if out_path.exists():
+        return out_path
+    from PIL import Image  # only needed on this path; run under `uv run`
+    with Image.open(table_path) as img:
+        width, height = img.size
+        cropped = img.crop((int(width * TABLE_ANSWER_COLUMN_FRACTION), 0, width, height))
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    cropped.save(out_path)
+    return out_path
 
 
 # ---------------------------------------------------------------------------
@@ -510,6 +526,10 @@ def main() -> None:
                         help='attach the question figure (or a render of the source PDF page) '
                              'and verify with vision-capable gateway models; implies '
                              '--include-image-questions')
+    parser.add_argument('--allow-table-crops', action='store_true',
+                        help='for code-block questions, send the page table with the printed '
+                             'answer column cropped off (needs Pillow; check the reported '
+                             'answer_echo_rate afterwards)')
     parser.add_argument('--only-figure', action='store_true',
                         help='verify only the figure-dependent questions')
     parser.add_argument('--level', default='中級')
@@ -561,6 +581,16 @@ def main() -> None:
     if args.only_figure:
         questions = [q for q in questions if needs_figure(q)]
         print(f'ONLY-FIGURE {len(questions)} figure-dependent question(s)')
+    if args.vision:
+        with_crop = [q for q in questions
+                     if resolve_images(q, args.level, args.allow_table_crops, out_dir / 'crops')]
+        missing_crop = len(questions) - len(with_crop)
+        if missing_crop:
+            # Asking about a figure nobody can see is not evidence about the answer,
+            # and the only fallback (the whole page) leaks the printed answer column.
+            print(f'SKIP {missing_crop} question(s) with no figure crop — '
+                  f'run the exam crop extraction for those papers first')
+        questions = with_crop
     if args.only_flagged:
         flagged_path = out_dir / 'flagged.json'
         if not flagged_path.exists():
@@ -590,6 +620,9 @@ def main() -> None:
             cached = None
         if cached and args.vision and not cached.get('images'):
             cached = None  # cached answers were text-only; an image changes the question
+        if cached and any(not (BASE / i).exists() for i in cached.get('images', [])):
+            cached = None  # the image it was answered from is gone (e.g. the removed
+                           # whole-page renders) — that verdict is no longer reproducible
         done_keys = set((cached or {}).get('responses', {}))
         missing = [v for v in verifiers if v[0] not in done_keys]
         if cached and not missing:
@@ -603,21 +636,13 @@ def main() -> None:
     if partial:
         print(f'TOPUP {partial} question(s) only need the new verifier(s)')
 
-    page_dir = out_dir / 'pages'
-
     def work(item: tuple[dict[str, Any], list, dict | None]) -> dict[str, Any]:
         question, missing, cached = item
-        images = resolve_images(question, args.level, page_dir) if args.vision else None
-        if args.vision and not images:
-            print(f'WARN {question["id"]}: --vision but no figure found, asking text-only')
-        if not images:
-            image_source = 'none'
-        elif images[0].parent == page_dir:
-            image_source = 'page'   # whole-page scan: 6x the error rate of a crop
-        else:
-            image_source = 'crop'
+        images = (resolve_images(question, args.level, args.allow_table_crops, out_dir / 'crops')
+                  if args.vision else None)
         result = verify_question(question, missing, args.level, args.timeout,
-                                 args.retries, cached, images, image_source)
+                                 args.retries, cached, images,
+                                 'crop' if images else 'none')
         save_json(cache_dir / f'{question["id"]}.json', result)
         return result
 
@@ -653,6 +678,18 @@ def main() -> None:
         bucket['wrong_votes'] += r['wrong_count']
         bucket['votes'] += len([k for k in keys if k in r['responses']])
 
+    # Leak guard: a verifier that can see the printed answer key echoes the ORIGINAL
+    # answer letter, which the option shuffle turns into a wrong slot. Chance is 25%;
+    # the page-render experiment hit 66% before the whole-page fallback was removed.
+    echo = votes = 0
+    for r in ordered:
+        for key in keys:
+            response = r['responses'].get(key)
+            if response and response['slot']:
+                votes += 1
+                echo += response['slot'] == r['expected']
+    echo_rate = echo / votes if votes else 0.0
+
     per_verifier = {
         key: sum(1 for r in ordered if key in r['wrong'])
         for key in keys
@@ -670,6 +707,7 @@ def main() -> None:
         'disagreement_only_count': len(disagreed),
         'incomplete_count': len(incomplete),
         'wrong_by_verifier': per_verifier,
+        'answer_echo_rate': round(echo_rate, 3),
         # page-render answers are much weaker evidence than cropped figures
         'by_image_source': by_image_source,
         'results': ordered,
@@ -700,6 +738,11 @@ def main() -> None:
           f'(of which wrong-votes-agree={len(consensus_flagged)}, review these first), '
           f'below-threshold-disagreement={len(disagreed)}, no-answer={len(incomplete)}')
     print(f'Wrong by verifier: {per_verifier}')
+    if echo_rate > 0.4:
+        print(f'⚠️  answer_echo_rate={echo_rate:.0%} (chance 25%) — verifiers appear to be '
+              f'reading the printed answer key; check what images are being sent')
+    elif args.vision:
+        print(f'answer_echo_rate={echo_rate:.0%} (chance 25%, no leak detected)')
     if len(by_image_source) > 1 or 'none' not in by_image_source:
         for source, bucket in sorted(by_image_source.items()):
             rate = bucket['wrong_votes'] / bucket['votes'] if bucket['votes'] else 0
