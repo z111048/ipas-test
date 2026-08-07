@@ -348,6 +348,13 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
           >
             完整目錄
           </NavLink>
+          <NavLink
+            to="/mindmap"
+            className={({ isActive }) => navItemClass(isActive)}
+            onClick={onClose}
+          >
+            章節熱度圖
+          </NavLink>
         </div>
 
         {resourceLevels.map((level) => {

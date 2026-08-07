@@ -536,3 +536,54 @@ export interface GuideSearchIndexData {
   levels?: string[]
   guides: Record<string, GuideSearchGuide>
 }
+
+/**
+ * 心智圖資料（`guideMindmap/{subjectId}.json`，每份 1–4 KB）。
+ * 由 `scripts/export_guide_mindmap.py` 從 guideNav 與考古題標註衍生。
+ */
+export interface GuideMindmapNode {
+  /** id */
+  i: string
+  /** parentId */
+  p: string | null
+  /** title */
+  t: string
+  /** depth（1 起算） */
+  d: number
+  /** kind：chapter / section */
+  k: string
+  /** route，可直接連過去 */
+  r: string | null
+  /** 章節字數 */
+  c: number | null
+  /** 命中此章節的相異考古題數；null = 這層還沒有資料，不是 0 */
+  q: number | null
+  /** 密度：每千字題數 */
+  y: number | null
+  /** 子樹中最熱節點的題數（取 max，不可相加） */
+  Q: number
+  /** 熱度百分位（0–1），null 同 q */
+  h: number | null
+}
+
+export interface GuideMindmapData {
+  subjectId: string
+  level: string
+  subject: string
+  guideKey: string
+  rootIds: string[]
+  scoredNodes: number
+  nodes: GuideMindmapNode[]
+}
+
+export interface GuideMindmapIndex {
+  levels: string[]
+  guides: {
+    subjectId: string
+    level: string
+    subject: string
+    nodes: number
+    scoredNodes: number
+    topChapter: { id: string; title: string; questions: number } | null
+  }[]
+}

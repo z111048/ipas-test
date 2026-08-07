@@ -348,6 +348,7 @@ uv run python3 scripts/build_web.py     # production build → docs/（gitignore
 - `ocr_extract.py` — Track B 轉接層：PaddleOCR-VL 逐頁 md → `pages_cache/{key}/page_NNN.json`（見 §1a）。
 - `merge_guide_ocr.py` — Track A 轉接層：OCR 內容合併進 `page_extract/`，首次執行會備份原檔（見 §1a）。
 - `build_errata.py` / `apply_errata.py` — 勘誤表 OCR → `errata_corrections.json`；套用到兩軌，冪等（見 §10 修正 4）。
+- `export_guide_mindmap.py` — guideNav ＋ 考古題標註 → `guideMindmap/{subjectId}.json`（前端 `/mindmap` 章節熱度圖）。只讀 committed 產物、無 API 花費、可隨時重跑。⚠️ 各章題數**不可相加**（一題常引用多章：905 vs 實際 450 題）。
 - `export_guide_hierarchy.py` — 接成完整階層樹，並產導覽用的兩個衍生檔 → `guideHierarchy.json`、`guideNav.json`、`guideSearchIndex.json`（見 §1b）。
 - `pdf_vision_extract.py` — 每頁 PNG（2x）送 Gemini Vision → `pages_cache/{key}/page_NNN.json`（{type, headings, markdown, usage}）；完成後自動生成 `page_index.json`。重跑只補 missing/failed。
 - `gemini_exam_vision_extract.py` — 考題 PDF 的 Vision OCR（獨立 schema）→ `exam_pages_cache/`。
@@ -370,7 +371,7 @@ uv run python3 scripts/build_web.py     # production build → docs/（gitignore
   與 `page_extract_before_ocr_merge/` 舊版比，能區分「本輪造成的退化」與「舊版就這樣」。
   `--level` / `--json out.json`。跑一次兩級約 20–40 分鐘。
 - `verify_question_answers.py` — 多 CLI 盲答交叉驗證題目答案 → `<run-dir>/verification/`（見 §3）。
-- `llm_review_guide_headings.py`、`question_dedupe.py`、`annotate_exam_code_images.py` — 輔助工具（用前先讀 docstring）。
+- `llm_review_guide_headings.py`、`question_dedupe.py`、`annotate_exam_code_images.py` — 輔助（先讀 docstring）。
 
 **前端匯出（`frontend/src/generated/` 是 committed 靜態輸入）**
 - `export_guide_outline_data.py` — ⚠️ 見 §10。page_clean/guide_tree → `guideOutlines.json` + 分拆 per-node `guideContent/{key}/`（前端 GuidePage 讀的是這個，**不是** `data/*/guide/*.json`）。
