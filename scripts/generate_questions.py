@@ -171,6 +171,7 @@ def generate_for_subject(
     data_dir: Path,
     level: str = '初級',
     by_section: bool = False,
+    only_chapter: str | None = None,
 ):
     guide_path = guide_dir / f'subject{subject_num}_guide.json'
     if not guide_path.exists():
@@ -189,7 +190,13 @@ def generate_for_subject(
 
     section_chunks = load_section_chunks(level, subject_num) if by_section else {}
 
-    for chapter in guide['chapters']:
+    chapters = guide['chapters']
+    if only_chapter:
+        chapters = [ch for ch in chapters if ch['id'] == only_chapter]
+        if not chapters:
+            sys.exit(f"章節不存在於 {guide_path.name}：{only_chapter}")
+
+    for chapter in chapters:
         ch_id = chapter['id']
         # 逐小節出題時，一章拆成多個區塊各出一輪；沒有區塊資料就退回整章模式
         targets = [(chunk, count) for chunk in section_chunks.get(ch_id, [])] or [(None, count)]
@@ -315,6 +322,7 @@ def main():
     group.add_argument('--enrich', action='store_true', help='Add card fields to existing questions')
     parser.add_argument('--count', type=int, default=5,
                         help='每章出幾題；加了 --by-section 則是「每個小節區塊」幾題（預設 5）')
+    parser.add_argument('--chapter', help='只出這一章（如 mid-s2c3）；小量試跑用')
     parser.add_argument('--by-section', action='store_true',
                         help='逐小節區塊出題而不是逐章。整章模式會把內容截到 %d 字，'
                              '實測 41 章有 39 章被截、整份講義只有 40%%%% 進得了出題流程。'
@@ -330,7 +338,8 @@ def main():
 
     if args.subject:
         generate_for_subject(client, args.subject, args.count, args.dry_run,
-                             guide_dir, questions_dir, data_dir, args.level, by_section=args.by_section)
+                             guide_dir, questions_dir, data_dir, args.level,
+                             by_section=args.by_section, only_chapter=args.chapter)
     elif args.enrich:
         enrich_cards(client, args.dry_run, questions_dir)
 

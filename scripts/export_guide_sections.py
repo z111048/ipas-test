@@ -226,7 +226,32 @@ def build_chunks(sections: list[dict], target_chars: int) -> list[dict]:
     return chunks
 
 
-def export_level(level: str, subjects: tuple[int, ...], target_chars: int) -> None:
+def merge_small_chunks(chunks: list[dict], target_chars: int, min_chars: int) -> list[dict]:
+    """把過短的區塊併進相鄰區塊。
+
+    上面的切分只會往下拆、不會回頭合併，於是留下一堆只有標題沒有內文的碎塊
+    （實測 372 個區塊裡有 94 個不到 300 字，最短的只有 17 字）。這種區塊
+    出不了題，但每一個都要花一次 API 呼叫，所以在這裡往後併——保留第一個
+    區塊的 id／標題／錨點當進入點，內容依序接起來。
+    """
+    merged: list[dict] = []
+    for chunk in chunks:
+        if merged and len(merged[-1]['content']) < min_chars:
+            previous = merged[-1]
+            combined = f"{previous['content']}\n\n{chunk['content']}".strip()
+            # 併起來若會超過上限，寧可留著短的，也不要製造超過 4000 字的區塊
+            # （generate_questions.py 會截斷）
+            if len(combined) <= target_chars:
+                previous['content'] = combined
+                previous['sectionCount'] += chunk['sectionCount']
+                previous['mergedTitles'] = previous.get('mergedTitles', []) + [chunk['title']]
+                continue
+        merged.append(dict(chunk))
+    return merged
+
+
+def export_level(level: str, subjects: tuple[int, ...], target_chars: int,
+                 min_chars: int) -> None:
     hierarchy = load_json(HIERARCHY)['guides']
     out_dir = BASE / 'data' / level / 'guide_sections'
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -253,7 +278,8 @@ def export_level(level: str, subjects: tuple[int, ...], target_chars: int) -> No
             sliced, unlocated = slice_chapter(chapter, sections)
             total_sections += len(sliced)
             total_unlocated += unlocated
-            chunks = build_chunks(sliced, target_chars)
+            chunks = merge_small_chunks(build_chunks(sliced, target_chars),
+                                        target_chars, min_chars)
             out_chapters.append({
                 'id': chapter['id'],
                 'title': chapter['title'],
@@ -284,10 +310,12 @@ def main() -> None:
     ap.add_argument('--level', choices=['初級', '中級'], help='預設兩級都跑')
     ap.add_argument('--target-chars', type=int, default=3000,
                     help='出題區塊的目標大小（預設 3000，generate_questions 上限是 4000）')
+    ap.add_argument('--min-chars', type=int, default=300,
+                    help='低於這個字數的區塊往後併（出不了題卻要花一次 API 呼叫）')
     args = ap.parse_args()
 
     for level in ([args.level] if args.level else ['初級', '中級']):
-        export_level(level, (1, 2, 3), args.target_chars)
+        export_level(level, (1, 2, 3), args.target_chars, args.min_chars)
 
 
 if __name__ == '__main__':
