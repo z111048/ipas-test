@@ -40,8 +40,11 @@ BASE = Path(__file__).resolve().parents[1]
 REFERENCE_DIR = BASE / 'frontend' / 'src' / 'generated' / 'examReferenceAnswers'
 VOCAB_PATH = BASE / 'data' / 'topics' / 'topics.json'
 OUT_PATH = BASE / 'data' / 'topics' / 'question_topics.json'
+VERIFY_CACHE = BASE / 'data' / 'topics' / '_verify_cache.json'
 MAX_TOPICS = 3
 BATCH_SIZE = 12
+# 驗收一題要評 1~3 個標籤，輸出量是指派的三倍，批要更小才不會被 max_tokens 截掉
+VERIFY_BATCH_SIZE = 6
 
 
 def load_json(path: Path) -> Any:
@@ -105,6 +108,26 @@ def alias_quality(topics: list[dict]) -> dict[str, Any]:
     return {'lookupEntries': len(lookup), 'ambiguousEntries': len(ambiguous),
             'canonicalNameUsedAsAlias': len(clashes),
             'clashes': sorted(clashes, key=lambda c: c['name'])}
+
+
+def resolve_ids(returned: dict[str, Any], expected: set[str]) -> dict[str, Any]:
+    """把模型回的題號對回我們的 key。
+
+    我們的 key 是 `{考卷}:{題號}`，但 sample 卷的題號本身就叫 `sample_q27`，
+    模型看到 `sample:sample_q27` 會自動把它縮成 `sample_q27` 回來——對不上就被
+    靜默丟掉，46 個判定因此蒸發，而且看起來只是「這批沒評完」。
+    只在**這一批的範圍內**做尾綴比對，跨卷同名（exam1_q1 同時存在於初級與中級）
+    才不會亂配；配到兩個以上就不配。
+    """
+    out: dict[str, Any] = {}
+    for raw_id, value in returned.items():
+        if raw_id in expected:
+            out[raw_id] = value
+            continue
+        candidates = [k for k in expected if k.split(':', 1)[-1] == raw_id]
+        if len(candidates) == 1:
+            out[candidates[0]] = value
+    return out
 
 
 def build_prompt(names: list[str], items: list[tuple[str, str, list[str]]]) -> str:
@@ -213,24 +236,41 @@ def verify_all(args, questions: dict[str, dict]) -> None:
 
     load_env_file()
     model = args.models.split(',')[0].strip()
-    verdicts: dict[str, dict[str, str]] = {}
-    failed = []
-    for start in range(0, len(items), BATCH_SIZE):
-        batch = items[start:start + BATCH_SIZE]
-        raw = None
+    # 驗收結果落快取，重跑只補沒評到的。93 批裡 8 批被 gateway 抽風打掉，
+    # 整份丟掉重跑等於把 85 批的結果也扔了；嚴格（不完整就不寫出）與可續跑
+    # 是兩回事，兩個都要。
+    cache: dict[str, dict[str, str]] = load_json(VERIFY_CACHE) if VERIFY_CACHE.exists() else {}
+    verdicts: dict[str, dict[str, str]] = dict(cache)
+    todo = [item for item in items if item[0] not in verdicts]
+    if cache:
+        print(f'  快取已有 {len(cache)} 題，本輪只需評 {len(todo)} 題')
+    items_to_run, items = todo, items
+    incomplete = []
+    # ⚠ 驗收批要比指派批小。第一版沿用 BATCH_SIZE=12（一批最多 36 個標籤要評），
+    # 模型「有回應」但只評了一部分，326 個標籤（29%）變成「未評」卻照樣寫檔——
+    # 批次回了一半就當成功，正是這條線一再踩的坑。現在**逐批檢查每一題都有評到**。
+    batch_size = max(1, VERIFY_BATCH_SIZE)
+    for start in range(0, len(items_to_run), batch_size):
+        batch = items_to_run[start:start + batch_size]
+        want = {qid for qid, _, _ in batch}
+        got: dict[str, dict[str, str]] = {}
         for _ in range(args.retries + 1):
             raw = call_gateway(build_verify_prompt(batch), model,
                                args.timeout, None, args.max_tokens)
-            if parse_reviews(raw):
+            got = resolve_ids(parse_reviews(raw), want)
+            missing = want - set(got)
+            if got and not missing:
                 break
-        got = parse_reviews(raw)
-        if not got:
-            failed.append(start // BATCH_SIZE + 1)
-            continue
+        missing = want - set(got)
+        if missing:
+            incomplete.append((start // batch_size + 1, sorted(missing)))
         verdicts.update(got)
-    if failed:
-        raise SystemExit(f'FAIL {len(failed)} 批沒有結果（批 {"、".join(map(str, failed))}），'
-                         '不產出部分驗收結果')
+        VERIFY_CACHE.write_text(json.dumps(verdicts, ensure_ascii=False), encoding='utf-8')
+    if incomplete:
+        detail = '、'.join(f'批{n}缺{len(m)}題' for n, m in incomplete[:6])
+        raise SystemExit(f'FAIL {len(incomplete)} 批沒有評完（{detail}），不產出部分驗收結果。'
+                         f'已評的結果留在 {VERIFY_CACHE.relative_to(BASE)}，'
+                         f'直接重跑同一個指令會只補沒評到的那些')
 
     tally = Counter()
     for key in keys:
@@ -289,7 +329,7 @@ def verify_sample(args, questions: dict[str, dict]) -> None:
                                args.timeout, None, args.max_tokens)
             if parse_reviews(raw):
                 break
-        got = parse_reviews(raw)
+        got = resolve_ids(parse_reviews(raw), {qid for qid, _, _ in batch})
         if not got:
             raise SystemExit(f'FAIL 抽驗批 {start // BATCH_SIZE + 1} 沒有結果，不產出部分數字')
         verdicts.update(got)
@@ -384,7 +424,7 @@ def main() -> None:
                     break
                 reason = '空回應' if not raw else f'回應無法解析（{len(raw)} 字，可能被截斷）'
                 print(f'  {model} 批 {start // BATCH_SIZE + 1} 第 {attempt} 次{reason}，重試中')
-            result = parse_assignments(raw)
+            result = resolve_ids(parse_assignments(raw), {qid for qid, _, _ in batch})
             if not result:
                 failed.append(start // BATCH_SIZE + 1)
                 continue
