@@ -2,7 +2,6 @@
   "chapter_id": "mid-s1c2",
   "chapter_title": "電腦視覺技術與應用",
   "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s1c2.ipynb",
-  "status": "warn",
   "cells": [
     {
       "type": "markdown",
@@ -16,7 +15,6 @@
     },
     {
       "type": "markdown",
-      "title": "核心概念",
       "content": "## 核心概念說明\n\n電腦視覺的核心目標，是讓電腦能從影像或影片中擷取有意義的資訊，進而進行辨識、分析與決策。\n\n常見任務包含：\n\n| 任務 | 目的 | 範例 |\n|---|---|---|\n| 影像分類 | 判斷整張影像屬於哪一類 | 判斷圖片是貓、狗或商品類別 |\n| 物件偵測 | 找出物件類別與位置 | 以邊界框標示行人與車輛 |\n| 語意分割 | 將每個像素分類 | 分辨道路、天空、車輛、建築 |\n| 實例分割 | 同時區分類別與不同個體 | 分辨畫面中每一台車 |\n| 影像生成 | 產生或轉換影像 | 文字生成圖片、風格轉換 |\n\n技術演進可簡化為三個階段：\n\n1. **特徵工程時期**：人工設計邊緣、角點、紋理、顏色等特徵。\n2. **深度學習時期**：CNN 自動從資料中學習影像特徵。\n3. **多模態與生成式 AI 時期**：模型能結合文字與影像，進行跨模態理解與生成。\n\n接下來會用簡化程式示範這些概念。"
     },
     {
@@ -33,7 +31,6 @@
     },
     {
       "type": "markdown",
-      "title": "從特徵到分類",
       "content": "## 從特徵工程到影像分類\n\n在深度學習普及前，常見流程是：\n\n1. 將影像轉成可計算的數值。\n2. 設計特徵，例如邊緣強度、亮度分布、紋理統計。\n3. 將特徵輸入分類器，例如 SVM、KNN、Logistic Regression。\n\n深度學習的 CNN 則把「特徵萃取」與「分類」整合在模型中，讓模型自動學習局部圖案、形狀與高階語意。\n\n本練習使用 scikit-learn 的手寫數字資料集，建立一個輕量影像分類器，模擬影像分類任務的基本流程。"
     },
     {
@@ -43,16 +40,24 @@
       "content": "import numpy as np\nimport matplotlib.pyplot as plt\nfrom sklearn.datasets import load_digits\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score, confusion_matrix\n\nX, y = load_digits(return_X_y=True)\nimages = X.reshape(-1, 8, 8)\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.25, random_state=42, stratify=y\n)\n\nmodel = LogisticRegression(max_iter=3000)\nmodel.fit(X_train, y_train)\ny_pred = model.predict(X_test)\naccuracy = accuracy_score(y_test, y_pred)\n\nprint('測試資料筆數:', len(y_test))\nprint('分類準確率:', round(float(accuracy), 4))\nprint('混淆矩陣:')\nprint(confusion_matrix(y_test, y_pred))\n\nsample_indices = np.arange(8)\nfig, axes = plt.subplots(1, 8, figsize=(12, 2))\nfor ax, idx in zip(axes, sample_indices):\n    ax.imshow(X_test[idx].reshape(8, 8), cmap='gray')\n    ax.set_title(f'預測:{y_pred[idx]}')\n    ax.axis('off')\nplt.tight_layout()\nplt.show()"
     },
     {
+      "type": "markdown",
+      "content": "## 跨模態語意檢索的輕量替代\n\n影像分類讓模型判斷影像屬於哪一類；跨模態檢索則要讓「文字」與「影像」互相比對。真正的 CLIP 會把兩種模態投影到同一個語意空間，本練習改用影像描述文字與 TF-IDF 建立輕量替代示範，理解跨模態檢索的核心概念。"
+    },
+    {
       "type": "code",
       "title": "示範：以 TF-IDF 模擬多模態語意檢索",
       "explanation": "真正的 CLIP 會把影像與文字轉成同一語意空間中的向量。這裡用影像描述文字與 TF-IDF 建立輕量替代示範，理解跨模態檢索的核心概念。",
       "content": "import pandas as pd\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.metrics.pairwise import cosine_similarity\n\nimage_catalog = pd.DataFrame({\n    'image_id': ['img_001', 'img_002', 'img_003', 'img_004', 'img_005'],\n    'caption': [\n        '道路上有車輛與行人，適合自動駕駛場景理解',\n        '醫療影像顯示肺部區域，可用於疾病輔助診斷',\n        '工廠產線上的零件表面瑕疵檢測',\n        '商店貨架上的商品分類與庫存辨識',\n        '文字生成圖片與創意設計風格轉換'\n    ]\n})\n\nquery = '智慧製造 檢查 零件 瑕疵'\ntexts = image_catalog['caption'].tolist() + [query]\n\nvectorizer = TfidfVectorizer(analyzer='char', ngram_range=(2, 4))\nvectors = vectorizer.fit_transform(texts)\nscores = cosine_similarity(vectors[-1], vectors[:-1]).ravel()\n\nresult = image_catalog.copy()\nresult['similarity'] = scores\nresult = result.sort_values('similarity', ascending=False)\n\nprint('查詢文字:', query)\nprint(result)\nprint('\\n最相近的影像 ID:', result.iloc[0]['image_id'])"
     },
     {
+      "type": "markdown",
+      "content": "## 🧪 自我測驗\n\n請完成下方 TODO 填空，實作簡化版影像分割：以亮度門檻把像素分成前景與背景，並計算前景比例。"
+    },
+    {
       "type": "code",
       "title": "🧪 自我測驗",
-      "explanation": "請完成下方 TODO 填空，實作簡化版影像分割：將亮度高於門檻的像素標為前景，並計算前景比例。",
-      "content": "import numpy as np\nimport matplotlib.pyplot as plt\n\nimage = np.array([\n    [0.1, 0.2, 0.2, 0.1, 0.0],\n    [0.1, 0.8, 0.9, 0.7, 0.1],\n    [0.2, 0.9, 1.0, 0.8, 0.2],\n    [0.1, 0.7, 0.8, 0.6, 0.1],\n    [0.0, 0.1, 0.2, 0.1, 0.0]\n])\n\n# TODO 1: 設定分割門檻，讓亮度大於等於 0.6 的像素成為前景\nthreshold = 0.6\n\n# TODO 2: 產生前景遮罩，前景為 True，背景為 False\nforeground_mask = image >= threshold\n\n# TODO 3: 計算前景像素比例\nforeground_ratio = foreground_mask.mean()\n\n# Expected: threshold = 0.6\n# Expected: foreground_ratio 約為 0.32\nprint('分割門檻:', threshold)\nprint('前景像素數:', int(foreground_mask.sum()))\nprint('全部像素數:', foreground_mask.size)\nprint('前景比例:', round(float(foreground_ratio), 2))\n\nfig, axes = plt.subplots(1, 2, figsize=(7, 3))\naxes[0].imshow(image, cmap='gray', vmin=0, vmax=1)\naxes[0].set_title('原始灰階影像')\naxes[0].axis('off')\n\naxes[1].imshow(foreground_mask, cmap='gray', vmin=0, vmax=1)\naxes[1].set_title('分割遮罩')\naxes[1].axis('off')\n\nplt.tight_layout()\nplt.show()"
+      "explanation": "請完成下方 TODO 填空，實作簡化版影像分割：將亮度達到門檻（>=）的像素標為前景，並計算前景比例。",
+      "content": "import numpy as np\nimport matplotlib.pyplot as plt\n\nimage = np.array([\n    [0.1, 0.2, 0.2, 0.1, 0.0],\n    [0.1, 0.8, 0.9, 0.7, 0.1],\n    [0.2, 0.9, 1.0, 0.8, 0.2],\n    [0.1, 0.7, 0.8, 0.6, 0.1],\n    [0.0, 0.1, 0.2, 0.1, 0.0]\n])\n\n# TODO 1: 設定分割門檻，讓亮度大於等於 0.6 的像素成為前景\nthreshold = 0.6\n\n# TODO 2: 產生前景遮罩，前景為 True，背景為 False\nforeground_mask = image >= threshold\n\n# TODO 3: 計算前景像素比例\nforeground_ratio = foreground_mask.mean()\n\n# Expected: threshold = 0.6\n# Expected: foreground_ratio 約為 0.36（門檻用 >=，0.6 本身也算前景）\nprint('分割門檻:', threshold)\nprint('前景像素數:', int(foreground_mask.sum()))\nprint('全部像素數:', foreground_mask.size)\nprint('前景比例:', round(float(foreground_ratio), 2))\n\nfig, axes = plt.subplots(1, 2, figsize=(7, 3))\naxes[0].imshow(image, cmap='gray', vmin=0, vmax=1)\naxes[0].set_title('原始灰階影像')\naxes[0].axis('off')\n\naxes[1].imshow(foreground_mask, cmap='gray', vmin=0, vmax=1)\naxes[1].set_title('分割遮罩')\naxes[1].axis('off')\n\nplt.tight_layout()\nplt.show()"
     }
   ]
 }

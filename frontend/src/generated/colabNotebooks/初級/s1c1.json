@@ -2,7 +2,6 @@
   "chapter_id": "s1c1",
   "chapter_title": "人工智慧概念",
   "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/初級/s1c1.ipynb",
-  "status": "warn",
   "cells": [
     {
       "type": "markdown",
@@ -16,7 +15,6 @@
     },
     {
       "type": "markdown",
-      "title": "核心概念",
       "content": "## 核心概念說明\n\n人工智慧是一種讓機器模擬人類智慧的技術，使電腦能夠執行學習、推理、分類、預測、感知與內容產生等任務。\n\n依照功能目的，可以將常見 AI 應用分為三類：\n\n| 類型 | 主要目的 | 例子 |\n|---|---|---|\n| 分析型 AI | 從資料中找出模式與洞察 | 客戶分群、銷售分析、異常偵測 |\n| 預測型 AI | 根據歷史資料預測未來結果 | 銷售預測、信用風險評估、設備故障預測 |\n| 生成型 AI | 根據提示產生文字、圖片、語音或影片等內容 | 文章草稿、客服回覆、簡報大綱 |\n\n在實務上，AI 專案通常不會一開始就訓練模型，而是先處理資料。資料品質會直接影響 AI 系統的可靠性，因此資料蒐集、資料清洗與資料轉換是 AI 應用規劃中的重要基礎。"
     },
     {
@@ -27,7 +25,6 @@
     },
     {
       "type": "markdown",
-      "title": "資料處理流程",
       "content": "## 資料處理與分析流程\n\nAI 專案常見的資料準備流程包含：\n\n1. **資料蒐集**：取得結構化、半結構化或非結構化資料，例如資料庫表格、JSON、CSV、圖片、音訊或文字。\n2. **資料清洗**：處理遺缺值、重複值、錯誤值與離群值，提升資料品質。\n3. **資料轉換**：將資料轉成適合分析或模型使用的格式，例如文字轉數值、類別轉編碼、數值正規化。\n4. **資料分析或建模**：依照任務選擇分析、預測或生成方法。\n\n在 iPAS 考試情境中，應特別注意 AI 不只是模型本身，還包含資料、演算法、應用開發與實際導入場景。"
     },
     {
@@ -37,16 +34,28 @@
       "content": "import pandas as pd\nimport numpy as np\n\nraw_data = pd.DataFrame({\n    'user_id': [1, 2, 2, 3, 4, 5],\n    'age': [25, np.nan, np.nan, -3, 45, 31],\n    'industry': ['醫療', '金融', '金融', '製造', '交通', '娛樂'],\n    'uses_ai': ['yes', 'no', 'no', 'yes', 'yes', 'no']\n})\n\nprint('原始資料：')\nprint(raw_data)\n\ncleaned = raw_data.drop_duplicates(subset=['user_id']).copy()\ncleaned.loc[cleaned['age'] < 0, 'age'] = np.nan\ncleaned['age'] = cleaned['age'].fillna(cleaned['age'].median())\ncleaned['uses_ai_binary'] = cleaned['uses_ai'].map({'yes': 1, 'no': 0})\nindustry_encoded = pd.get_dummies(cleaned['industry'], prefix='industry')\ncleaned = pd.concat([cleaned, industry_encoded], axis=1)\n\nprint('\\n清洗與轉換後資料：')\nprint(cleaned)\nprint('\\n平均年齡：', round(cleaned['age'].mean(), 1))\nprint('AI 使用比例：', round(cleaned['uses_ai_binary'].mean(), 2))"
     },
     {
+      "type": "markdown",
+      "content": "## 預測型 AI 的簡易模型\n\n以下用線性迴歸示範預測型 AI：從歷史廣告投入與銷售量的關係，估計未來預算下的銷售量。"
+    },
+    {
       "type": "code",
       "title": "實際應用：預測型 AI 的簡易模型",
       "explanation": "這段程式碼使用線性迴歸示範預測型 AI 的概念：根據歷史廣告投入預測銷售量。",
       "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.linear_model import LinearRegression\n\nad_budget = np.array([10, 20, 30, 40, 50, 60, 70, 80]).reshape(-1, 1)\nsales = np.array([22, 28, 35, 41, 48, 55, 61, 68])\n\nmodel = LinearRegression()\nmodel.fit(ad_budget, sales)\n\nfuture_budget = np.array([[90], [100]])\npredicted_sales = model.predict(future_budget)\n\nprint('模型斜率：', round(model.coef_[0], 2))\nprint('模型截距：', round(model.intercept_, 2))\nfor budget, pred in zip(future_budget.flatten(), predicted_sales):\n    print(f'廣告預算 {budget} 萬元，預測銷售量約 {pred:.1f} 單位')\n\nplt.scatter(ad_budget, sales, label='歷史資料')\nplt.plot(ad_budget, model.predict(ad_budget), color='red', label='預測趨勢線')\nplt.scatter(future_budget, predicted_sales, color='green', label='未來預測')\nplt.title('預測型 AI：廣告預算與銷售量')\nplt.xlabel('廣告預算（萬元）')\nplt.ylabel('銷售量')\nplt.legend()\nplt.show()"
     },
     {
+      "type": "markdown",
+      "content": "## 生成型 AI 的輕量示範\n\n生成型 AI 會依照提示詞產生新內容。以下不使用大型語言模型，改用詞頻統計做輕量示範：先依提示詞挑出語料中相關的句子，再從中取出關鍵詞組成一段簡短回覆。"
+    },
+    {
       "type": "code",
       "title": "示範：生成型 AI 的輕量文字概念",
-      "explanation": "這段程式碼不用大型語言模型，而是用詞頻統計示範生成型 AI 的核心概念：根據輸入提示挑選相關詞彙並產生簡短文字。",
-      "content": "import re\nfrom collections import Counter\n\ncorpus = [\n    '人工智慧 可以 協助 醫療 診斷 與 影像 分析',\n    '人工智慧 可以 協助 金融 風險 評估 與 詐欺 偵測',\n    '人工智慧 可以 協助 製造 品質 檢測 與 預測性 維護',\n    '生成型 AI 可以 根據 提示 產生 文字 圖像 與 摘要'\n]\n\nall_words = []\nfor sentence in corpus:\n    all_words.extend(sentence.split())\n\nword_counts = Counter(all_words)\ncommon_words = [word for word, count in word_counts.most_common(8)]\n\nprompt = '請說明人工智慧在企業中的用途'\ngenerated = '、'.join(common_words[:5])\n\nprint('提示詞：', prompt)\nprint('根據教材語料產生的關鍵概念：', generated)\nprint('簡短生成結果：人工智慧可用於' + generated + '等任務，協助企業提升效率與決策品質。')"
+      "explanation": "這段程式碼不用大型語言模型，而是用詞頻統計示範生成型 AI 的核心概念：\n先依輸入提示挑出相關語料，再從中取出關鍵詞產生簡短文字。",
+      "content": "from collections import Counter\n\ncorpus = [\n    '人工智慧 可以 協助 醫療 診斷 與 影像 分析',\n    '人工智慧 可以 協助 金融 風險 評估 與 詐欺 偵測',\n    '人工智慧 可以 協助 製造 品質 檢測 與 預測性 維護',\n    '生成型 AI 可以 根據 提示 產生 文字 圖像 與 摘要'\n]\n\nprompt = '請說明人工智慧在企業中的用途'\n\n# 用「提示詞與句子的共同字元數」當作相關度，模擬檢索步驟；真實模型會改用語意向量比對。\ndef relevance(sentence, prompt):\n    return len(set(sentence.replace(' ', '')) & set(prompt))\n\nranked = sorted(corpus, key=lambda sentence: relevance(sentence, prompt), reverse=True)\nrelated_sentences = [s for s in ranked if relevance(s, prompt) > 0][:3]\n\nrelated_words = []\nfor sentence in related_sentences:\n    related_words.extend(sentence.split())\n\n# 略過連接性質的詞，以及提示詞裡已經出現過的詞，留下最能代表主題的關鍵詞\nfunction_words = {'可以', '協助', '與', '根據'}\nkeywords = [\n    word for word, _ in Counter(related_words).most_common()\n    if word not in function_words and word not in prompt\n][:5]\ngenerated = '、'.join(keywords)\n\nprint('提示詞：', prompt)\nprint('挑出的相關語料：')\nfor sentence in related_sentences:\n    print(' -', sentence)\nprint('根據相關語料產生的關鍵概念：', generated)\nprint('簡短生成結果：人工智慧可用於' + generated + '等任務，協助企業提升效率與決策品質。')"
+    },
+    {
+      "type": "markdown",
+      "content": "## 🧪 自我測驗\n\n請完成下方 TODO 填空，實作資料清洗（去重、錯誤值轉缺失、缺失值填補）與 AI 類型分類。"
     },
     {
       "type": "code",

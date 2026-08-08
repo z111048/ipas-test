@@ -2,7 +2,6 @@
   "chapter_id": "mid-s2c5",
   "chapter_title": "數據儲存與管理",
   "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s2c5.ipynb",
-  "status": "warn",
   "cells": [
     {
       "type": "markdown",
@@ -16,7 +15,6 @@
     },
     {
       "type": "markdown",
-      "title": "核心概念",
       "content": "## 核心概念說明\n\n在大數據與 AI 應用中，資料儲存與管理的重點不只是把資料放起來，而是要讓資料能穩定、快速、安全地被取用。\n\n常見資料型態包含：\n\n- **結構化資料**：有固定欄位與資料型別，例如訂單表、會員資料表。\n- **半結構化資料**：有標記或階層，但欄位不一定固定，例如 JSON、XML。\n- **非結構化資料**：沒有明確表格結構，例如圖片、影片、PDF、客服對話。\n\n常見儲存設計包含：\n\n- **RDBMS**：適合結構穩定、需要 SQL 與交易一致性的資料。\n- **文件型 NoSQL**：適合欄位彈性高的 JSON 類資料。\n- **物件儲存或 HDFS**：適合大量檔案與非結構化資料。\n- **資料湖**：保留原始資料，讀取時再套用結構，也就是 schema-on-read。"
     },
     {
@@ -27,7 +25,6 @@
     },
     {
       "type": "markdown",
-      "title": "分散式儲存",
       "content": "## 分散式儲存與資料湖\n\n分散式儲存會把資料切成多個區塊，分散到不同節點，並透過副本或冗餘機制降低單一節點故障造成的風險。\n\n重要觀念：\n\n- **切分 Data Chunks**：把大資料拆成小區塊。\n- **副本 Replication**：同一份資料放在多個節點。\n- **容錯 Fault Tolerance**：節點失效時仍可讀到資料。\n- **資料本地性 Data Locality**：盡量讓運算靠近資料，降低傳輸成本。\n\n資料湖則常用於整合多來源、多格式的原始資料。它不要求資料在寫入時就完全結構化，而是在讀取分析時再套用欄位結構。"
     },
     {
@@ -38,7 +35,6 @@
     },
     {
       "type": "markdown",
-      "title": "效能優化",
       "content": "## 儲存效能優化與查詢管理\n\n資料量變大後，查詢慢通常不是因為 Python 或 SQL 本身，而是因為掃描了太多不必要的資料。\n\n常見策略：\n\n- **分區儲存 Partitioning**：依月份、地區、設備類型等欄位切分資料，查詢時只掃描相關分區。\n- **欄位裁剪 Column Pruning**：只讀取需要的欄位，減少 I/O。\n- **壓縮 Compression**：降低儲存空間與傳輸量，常搭配 Parquet、ORC 等列式格式。\n- **儲存分層 Storage Tiering**：熱資料放高速儲存，冷資料放低成本儲存。\n\n以下用小型 pandas 資料模擬這些概念。"
     },
     {
@@ -46,6 +42,10 @@
       "title": "實際應用：分區查詢、欄位裁剪與壓縮估算",
       "explanation": "這段程式碼建立模擬交易資料，比較全表掃描與分區查詢的掃描量，並估算欄位裁剪與壓縮帶來的資料量差異。",
       "content": "import numpy as np\nimport pandas as pd\n\nnp.random.seed(10)\nn = 5000\ndf = pd.DataFrame({\n    'month': np.random.choice(['2026-01', '2026-02', '2026-03', '2026-04'], size=n, p=[0.2, 0.25, 0.25, 0.3]),\n    'region': np.random.choice(['北部', '中部', '南部', '東部'], size=n),\n    'customer_id': np.random.randint(1000, 2000, size=n),\n    'amount': np.random.gamma(shape=2.0, scale=600.0, size=n).round(0),\n    'event_text': np.random.choice(['click', 'view', 'purchase', 'refund'], size=n)\n})\n\nquery_month = '2026-03'\nfull_scan_rows = len(df)\npartition_scan_rows = len(df[df['month'] == query_month])\nscan_reduction = 1 - partition_scan_rows / full_scan_rows\n\nall_columns_memory = df.memory_usage(deep=True).sum()\nneeded_columns = ['month', 'amount']\npruned_memory = df[needed_columns].memory_usage(deep=True).sum()\ncolumn_reduction = 1 - pruned_memory / all_columns_memory\n\ncompression_ratio = 0.35\nestimated_compressed_size = int(pruned_memory * compression_ratio)\n\nsummary = pd.DataFrame({\n    'metric': ['全表掃描列數', '分區掃描列數', '分區減少掃描比例', '全欄位記憶體bytes', '欄位裁剪後bytes', '欄位裁剪減少比例', '估計壓縮後bytes'],\n    'value': [full_scan_rows, partition_scan_rows, round(scan_reduction, 3), all_columns_memory, pruned_memory, round(column_reduction, 3), estimated_compressed_size]\n})\nprint(summary)\n\nmonthly_amount = df[df['month'] == query_month].groupby('region')['amount'].sum().sort_values(ascending=False)\nprint('\\n2026-03 各區銷售額：')\nprint(monthly_amount)"
+    },
+    {
+      "type": "markdown",
+      "content": "## 🧪 自我測驗\n\n請完成下方 TODO 填空，實作分區查詢與欄位裁剪：只讀取目標月份的分區、只保留需要的欄位，再計算該分區的平均延遲，並確認輸出符合 Expected 註解。"
     },
     {
       "type": "code",

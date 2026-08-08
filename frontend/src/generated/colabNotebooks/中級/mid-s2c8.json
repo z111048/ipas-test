@@ -2,7 +2,6 @@
   "chapter_id": "mid-s2c8",
   "chapter_title": "常見的大數據分析方法",
   "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s2c8.ipynb",
-  "status": "warn",
   "cells": [
     {
       "type": "markdown",
@@ -16,7 +15,6 @@
     },
     {
       "type": "markdown",
-      "title": "核心概念",
       "content": "## 核心概念說明\n\n在大數據環境中，資料量可能大到無法一次全部載入記憶體，或資料會以串流方式持續進來。因此分析方法常需要在「速度、記憶體、精確度」之間取捨。\n\n### 近似描述性統計\n\n傳統描述性統計會精確計算平均數、中位數、分位數與變異數；但在大規模或串流資料中，完整排序或保留全部歷史資料可能成本過高。近似統計的目標不是完全精準，而是在可接受誤差內快速得到足以支援決策的摘要。\n\n常見方法包括：\n\n- 近似分位數：用抽樣或 sketch 估計中位數、90th percentile、99th percentile。\n- Histogram Sketch：用有限區間近似資料分布，適合快速觀察偏態與集中區間。\n- Count-Min Sketch：用小型計數表估計項目頻率，適合串流熱門項目偵測。\n- Online Mean / Variance：逐筆更新平均與變異數，不需保存所有歷史資料。"
     },
     {
@@ -27,7 +25,6 @@
     },
     {
       "type": "markdown",
-      "title": "頻率估計與時序分析",
       "content": "## 頻率估計與時序分析\n\n### Count-Min Sketch 的想法\n\nCount-Min Sketch 適合用於估計大量串流資料中各項目的出現頻率。它不保存每個項目的完整紀錄，而是使用多列計數表與多個雜湊函數來更新計數。查詢某個項目的頻率時，取多列估計值的最小值，降低雜湊碰撞造成的高估影響。\n\n### 時序分析的想法\n\n時序資料具有時間順序，例如每日流量、感測器讀值、股價與用電量。常見入門方法包括：\n\n- 移動平均：平滑短期波動，觀察長期趨勢。\n- 指數平滑：讓近期資料有較高權重，適合快速追蹤變化。\n- 異常偵測：比較實際值與平滑基準，找出明顯偏離的時間點。\n\n在真實平台中，這些方法可進一步結合 Spark Streaming、BigQuery 查詢或資料庫內建函數，支援更大規模與近即時的分析。"
     },
     {
@@ -38,7 +35,6 @@
     },
     {
       "type": "markdown",
-      "title": "實務任務",
       "content": "## 實際應用任務\n\n接下來要模擬一個網站流量監控任務。你需要同時完成三件事：\n\n1. 用 7 日移動平均觀察長期趨勢。\n2. 用指數平滑讓近期資料有較高權重。\n3. 用殘差的標準差找出可能異常流量日。\n\n這類分析可用於電商促銷監控、資安流量預警、智慧製造設備訊號檢查，以及公共服務量能調度。"
     },
     {
@@ -46,6 +42,10 @@
       "title": "實際應用：網站流量平滑與異常偵測",
       "explanation": "計算 7 日移動平均與指數平滑，並用殘差標準差標記異常流量日。",
       "content": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\n# 若尚未執行環境設定 cell，先建立同樣的模擬網站流量資料\nif \"traffic_df\" not in globals():\n    np.random.seed(42)\n    n_days = 120\n    dates = pd.date_range(\"2026-01-01\", periods=n_days, freq=\"D\")\n    trend = np.linspace(1000, 1600, n_days)\n    weekly = 180 * np.sin(2 * np.pi * np.arange(n_days) / 7)\n    noise = np.random.normal(0, 80, n_days)\n    traffic = trend + weekly + noise\n    traffic_df = pd.DataFrame({\"date\": dates, \"visits\": traffic})\n\nanalysis_df = traffic_df.copy()\nanalysis_df[\"moving_avg_7\"] = analysis_df[\"visits\"].rolling(window=7, min_periods=1).mean()\nanalysis_df[\"exp_smooth\"] = analysis_df[\"visits\"].ewm(alpha=0.30, adjust=False).mean()\n\n# 用實際值與指數平滑基準的差距作為殘差，超過 2 倍標準差視為可能異常\nanalysis_df[\"residual\"] = analysis_df[\"visits\"] - analysis_df[\"exp_smooth\"]\nresidual_std = analysis_df[\"residual\"].std()\nthreshold = 2 * residual_std\nanalysis_df[\"is_anomaly\"] = analysis_df[\"residual\"].abs() > threshold\n\nanomalies = analysis_df[analysis_df[\"is_anomaly\"]]\nprint(f\"殘差標準差: {residual_std:.2f}\")\nprint(f\"異常門檻: ±{threshold:.2f}\")\nprint(f\"偵測到可能異常天數: {len(anomalies)}\")\n\nif len(anomalies) > 0:\n    print(anomalies[[\"date\", \"visits\", \"exp_smooth\", \"residual\"]].round(2))\nelse:\n    print(\"本次模擬資料未偵測到超過門檻的異常日。\")\n\nplt.figure(figsize=(10, 5))\nplt.plot(analysis_df[\"date\"], analysis_df[\"visits\"], label=\"daily visits\", color=\"#4E79A7\", alpha=0.65)\nplt.plot(analysis_df[\"date\"], analysis_df[\"moving_avg_7\"], label=\"7-day moving average\", color=\"#F28E2B\", linewidth=2)\nplt.plot(analysis_df[\"date\"], analysis_df[\"exp_smooth\"], label=\"exponential smoothing\", color=\"#59A14F\", linewidth=2)\nplt.scatter(anomalies[\"date\"], anomalies[\"visits\"], color=\"red\", label=\"possible anomaly\", zorder=5)\nplt.title(\"網站流量平滑與異常偵測\")\nplt.xlabel(\"日期\")\nplt.ylabel(\"拜訪次數\")\nplt.legend()\nplt.xticks(rotation=30)\nplt.tight_layout()\nplt.show()"
+    },
+    {
+      "type": "markdown",
+      "content": "## 🧪 自我測驗\n\n請調整下方的標準差倍數，觀察異常門檻放寬或收緊時，被標記的異常流量日數量如何變化。"
     },
     {
       "type": "code",

@@ -2,7 +2,6 @@
   "chapter_id": "mid-s2c6",
   "chapter_title": "數據處理技術與工具",
   "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s2c6.ipynb",
-  "status": "warn",
   "cells": [
     {
       "type": "markdown",
@@ -16,7 +15,6 @@
     },
     {
       "type": "markdown",
-      "title": "核心概念",
       "content": "## 核心概念說明\n\n資料清理完成後，資料通常仍不能直接用於模型訓練。常見原因包括欄位型別不正確、類別欄位無法被演算法直接處理、數值尺度差異太大，以及原始欄位尚未充分表達商業或分析意義。\n\n本章實作會依序示範四類常見處理：\n\n1. **資料型別轉換與欄位整理**：將字串年齡轉成整數、將日期轉成 datetime、重新命名欄位。\n2. **分箱與編碼**：將連續數值轉成區間標籤，並將類別欄位轉成模型可讀的數值欄位。\n3. **標準化與正規化**：讓不同尺度的數值欄位落在可比較的範圍。\n4. **特徵工程**：透過衍生、聚合與選擇，保留更有預測價值的欄位。\n\n實務上，所有會「學習資料分佈」的轉換器，例如 StandardScaler、OneHotEncoder、SelectKBest，應只在訓練資料上 fit，再套用到驗證或測試資料，避免資料洩漏。"
     },
     {
@@ -33,13 +31,12 @@
     },
     {
       "type": "markdown",
-      "title": "特徵工程提醒",
       "content": "## 特徵工程提醒\n\n特徵工程不是把欄位變多就好，而是要讓模型更容易學到有意義的訊號。\n\n常見策略包含：\n\n- **交互特徵**：例如 `monthly_orders × avg_order_value` 可代表每月消費力。\n- **時間特徵**：例如註冊月份、距今天數、是否週末。\n- **聚合特徵**：例如每位顧客三個月平均交易額、每個城市平均轉換率。\n- **特徵選擇**：使用統計方法或模型重要性保留較有價值的欄位。\n\n需要特別注意的是，若特徵使用了目標變數或未來資訊，就可能造成資料洩漏。例如用全部資料計算每個城市的平均轉換率，再拿來預測同一批資料，會讓模型看到不該提前知道的答案。"
     },
     {
       "type": "code",
       "title": "實際應用：建立前處理與特徵工程流程",
-      "explanation": "這段程式碼把型別轉換、分箱、編碼、縮放、特徵衍生與特徵選擇串成一個小型表格式資料處理流程。",
+      "explanation": "這段程式碼把特徵衍生、分箱、類別編碼、數值縮放與特徵選擇串成一個小型表格式資料處理流程。",
       "content": "import numpy as np\nimport pandas as pd\nfrom sklearn.preprocessing import OneHotEncoder, StandardScaler, RobustScaler\nfrom sklearn.feature_selection import SelectKBest, f_classif\n\nnp.random.seed(42)\n\ndf = pd.DataFrame({\n    \"age\": [25, 41, 33, 58, 29, 46, 39, 52],\n    \"income\": [52000, 88000, 61000, 120000, 45000, 97000, 73000, 110000],\n    \"city\": [\"台北\", \"台中\", \"高雄\", \"台北\", \"其他\", \"台中\", \"台南\", \"高雄\"],\n    \"member_level\": [\"Basic\", \"VIP\", \"Premium\", \"VIP\", \"Basic\", \"Premium\", \"Basic\", \"VIP\"],\n    \"monthly_orders\": [2, 8, 4, 10, 1, 6, 3, 9],\n    \"avg_order_value\": [650, 1800, 1200, 2200, 500, 1600, 900, 2100],\n    \"converted\": [0, 1, 0, 1, 0, 1, 0, 1]\n})\n\n# 特徵衍生：建立每月預估消費金額\ndf[\"monthly_spend\"] = df[\"monthly_orders\"] * df[\"avg_order_value\"]\n\n# 分箱：把年齡轉成語意較容易理解的群組\ndf[\"age_group\"] = pd.cut(df[\"age\"], bins=[0, 30, 45, 60], labels=[\"青年\", \"壯年\", \"熟齡\"])\n\n# 順序類別編碼\nlevel_order = {\"Basic\": 0, \"Premium\": 1, \"VIP\": 2}\ndf[\"member_level_code\"] = df[\"member_level\"].map(level_order)\n\n# 無序類別 One-hot Encoding\nencoder = OneHotEncoder(sparse_output=False, handle_unknown=\"ignore\")\nencoded = encoder.fit_transform(df[[\"city\", \"age_group\"]])\nencoded_columns = encoder.get_feature_names_out([\"city\", \"age_group\"])\nencoded_df = pd.DataFrame(encoded, columns=encoded_columns, index=df.index)\n\n# 數值欄位縮放：讓不同單位的欄位可以放在同一個特徵矩陣中比較\nnumeric_columns = [\n    \"age\",\n    \"income\",\n    \"monthly_orders\",\n    \"avg_order_value\",\n    \"monthly_spend\",\n    \"member_level_code\"\n]\nscaler = StandardScaler()\nscaled_values = scaler.fit_transform(df[numeric_columns])\nscaled_columns = [f\"scaled_{col}\" for col in numeric_columns]\nscaled_df = pd.DataFrame(scaled_values, columns=scaled_columns, index=df.index)\n\n# 組合模型可使用的特徵矩陣\nX = pd.concat([scaled_df, encoded_df], axis=1)\ny = df[\"converted\"]\n\n# 特徵選擇：挑出與目標變數較相關的前 k 個特徵\nk = min(5, X.shape[1])\nselector = SelectKBest(score_func=f_classif, k=k)\nX_selected = selector.fit_transform(X, y)\nselected_features = X.columns[selector.get_support()].tolist()\n\nselected_df = pd.DataFrame(X_selected, columns=selected_features, index=df.index)\n\nprint(\"原始特徵矩陣形狀：\", X.shape)\nprint(\"選出特徵矩陣形狀：\", selected_df.shape)\nprint(\"被選出的特徵：\")\nprint(selected_features)\nprint(\"\\n前處理後資料預覽：\")\nprint(selected_df.round(3))"
     }
   ]

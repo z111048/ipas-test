@@ -2,7 +2,6 @@
   "chapter_id": "mid-s3c12",
   "chapter_title": "演算法偏見與公平性",
   "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s3c12.ipynb",
-  "status": "warn",
   "cells": [
     {
       "type": "markdown",
@@ -16,7 +15,6 @@
     },
     {
       "type": "markdown",
-      "title": "核心概念",
       "content": "## 核心概念說明\n\n演算法偏見通常不是單一原因造成，而是資料、模型目標與部署情境共同作用的結果。\n\n### 1. 資料偏見\n\n資料若沒有充分代表所有群體，模型就可能學到偏頗規則。例如訓練資料過度集中在特定年齡、收入、地區或性別群體，會造成來源偏誤；若資料本身包含歷史刻板印象，則可能形成內容偏誤；若標註者的判斷不一致，也可能形成製程偏誤。\n\n### 2. 模型偏見\n\n即使資料看似合理，模型也可能因為只追求整體準確率，而犧牲少數群體的表現。常見情況包括目標函數偏誤、演算法偏見、正規化導致少數群體特徵被簡化等。\n\n### 3. 常見公平性指標\n\n- Demographic Parity：不同群體獲得正向預測的比例是否接近。\n- Equal Opportunity：在真實正例中，不同群體被正確預測為正向的比例是否接近。\n- Equalized Odds：不同群體的 TPR 與 FPR 是否都接近。\n- Disparate Impact：弱勢群體正向結果比例是否至少達參照群體的 80%。"
     },
     {
@@ -27,7 +25,6 @@
     },
     {
       "type": "markdown",
-      "title": "公平性指標",
       "content": "## 公平性指標的實作重點\n\n在公平性分析中，我們通常會同時觀察模型效能與群體差異。\n\n- 正向預測率：模型預測為核准的比例，可用於 Demographic Parity。\n- TPR：真實應核准者中，被模型正確核准的比例，可用於 Equal Opportunity。\n- FPR：真實不應核准者中，被模型錯誤核准的比例，是 Equalized Odds 的一部分。\n- Disparate Impact：B 群體正向預測率除以 A 群體正向預測率，若低於 0.8，通常代表需要進一步檢視是否存在不利影響。\n\n注意：公平性指標沒有唯一最佳答案。不同應用場景會重視不同的公平性定義，例如醫療篩檢可能更重視 Equal Opportunity，招聘或入學機會可能更重視 Demographic Parity。"
     },
     {
@@ -38,7 +35,6 @@
     },
     {
       "type": "markdown",
-      "title": "降低偏見方法",
       "content": "## 降低演算法偏見的方法\n\n當模型呈現群體差異時，可以從不同階段介入：\n\n### 1. 資料前處理\n\n在訓練前調整資料，例如重新抽樣、補足少數群體樣本、移除或泛化敏感特徵。優點是容易導入既有流程；限制是可能無法處理模型訓練時產生的偏見。\n\n### 2. 模型內處理\n\n在訓練過程加入公平性約束，讓模型同時考量準確率與公平性。優點是可直接影響學習目標；限制是實作較複雜，也可能犧牲部分效能。\n\n### 3. 結果後處理\n\n模型訓練完成後，調整不同群體的決策門檻，讓重要公平性指標更接近。優點是不用重新訓練模型；限制是需要謹慎評估合規性與業務合理性。\n\n下面的實作示範兩種簡化方法：重新抽樣與群體門檻調整。"
     },
     {
@@ -46,6 +42,10 @@
       "title": "實際應用：重新抽樣與門檻調整",
       "explanation": "這段程式碼示範兩種常見去偏思路：先用重新抽樣平衡訓練資料，再用群體門檻調整改善正向預測率差異。",
       "content": "import numpy as np\nimport pandas as pd\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import accuracy_score\nfrom sklearn.utils import resample\n\nnp.random.seed(42)\nn = 1200\ngroup = np.random.binomial(1, 0.45, n)\nage = np.random.normal(38, 9, n).clip(20, 65)\nincome = np.where(group == 0, np.random.normal(72, 18, n), np.random.normal(58, 16, n)).clip(20, 130)\ncredit_score = np.where(group == 0, np.random.normal(680, 55, n), np.random.normal(650, 60, n)).clip(450, 850)\ndebt_ratio = np.random.beta(2, 5, n)\ntrue_score = 0.035 * income + 0.009 * (credit_score - 600) - 2.2 * debt_ratio + 0.01 * (age - 35)\nqualified = np.random.binomial(1, 1 / (1 + np.exp(-true_score + 2.3)))\nhistorical_score = true_score - 0.55 * group\napproved = np.random.binomial(1, 1 / (1 + np.exp(-historical_score + 2.3)))\n\ndf = pd.DataFrame({\n    'group': group,\n    'age': age,\n    'income': income,\n    'credit_score': credit_score,\n    'debt_ratio': debt_ratio,\n    'qualified': qualified,\n    'approved': approved\n})\n\nX = df[['age', 'income', 'credit_score', 'debt_ratio', 'group']]\ny = df['approved']\nX_train, X_test, y_train, y_test, q_train, q_test = train_test_split(\n    X, y, df['qualified'], test_size=0.3, random_state=7, stratify=df['group']\n)\n\ntrain_df = X_train.copy()\ntrain_df['approved'] = y_train.values\n\n# 重新抽樣：讓 A、B 群體在訓練資料中的筆數接近\ntrain_a = train_df[train_df['group'] == 0]\ntrain_b = train_df[train_df['group'] == 1]\ntarget_size = max(len(train_a), len(train_b))\ntrain_a_bal = resample(train_a, replace=True, n_samples=target_size, random_state=1)\ntrain_b_bal = resample(train_b, replace=True, n_samples=target_size, random_state=1)\ntrain_balanced = pd.concat([train_a_bal, train_b_bal], axis=0)\n\nmodel = LogisticRegression(max_iter=1000)\nmodel.fit(train_balanced[['age', 'income', 'credit_score', 'debt_ratio', 'group']], train_balanced['approved'])\n\nproba = model.predict_proba(X_test)[:, 1]\n\n# 後處理：B 群體使用略低門檻，觀察正向率與 DI 是否改善\npred_default = (proba >= 0.50).astype(int)\npred_adjusted = np.where((X_test['group'].values == 1) & (proba >= 0.43), 1, (proba >= 0.50).astype(int))\n\ndef fairness_table(pred, name):\n    temp = X_test.copy()\n    temp['prediction'] = pred\n    temp['qualified'] = q_test.values\n    rows = []\n    for g, label in [(0, 'A群體'), (1, 'B群體')]:\n        part = temp[temp['group'] == g]\n        rows.append({\n            '方案': name,\n            '群體': label,\n            '正向預測率': part['prediction'].mean(),\n            'TPR': part.loc[part['qualified'] == 1, 'prediction'].mean(),\n            'FPR': part.loc[part['qualified'] == 0, 'prediction'].mean()\n        })\n    return pd.DataFrame(rows)\n\ndef disparate_impact(table):\n    a = table.loc[table['群體'] == 'A群體', '正向預測率'].iloc[0]\n    b = table.loc[table['群體'] == 'B群體', '正向預測率'].iloc[0]\n    return b / a\n\nt1 = fairness_table(pred_default, '重新抽樣')\nt2 = fairness_table(pred_adjusted, '重新抽樣＋門檻調整')\nreport = pd.concat([t1, t2], ignore_index=True)\n\ndisplay(report.round(3))\nprint('重新抽樣 DI：', round(disparate_impact(t1), 3))\nprint('重新抽樣＋門檻調整 DI：', round(disparate_impact(t2), 3))\nprint('重新抽樣準確率：', round(accuracy_score(y_test, pred_default), 3))\nprint('門檻調整後準確率：', round(accuracy_score(y_test, pred_adjusted), 3))"
+    },
+    {
+      "type": "markdown",
+      "content": "## 🧪 自我測驗\n\n請完成下方 TODO 填空，計算兩個群體的正向預測率與 Disparate Impact，並依 80% Rule 判斷是否通過。"
     },
     {
       "type": "code",

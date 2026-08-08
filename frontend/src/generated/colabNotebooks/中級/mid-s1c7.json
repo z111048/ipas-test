@@ -2,7 +2,6 @@
   "chapter_id": "mid-s1c7",
   "chapter_title": "AI風險管理",
   "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s1c7.ipynb",
-  "status": "warn",
   "cells": [
     {
       "type": "markdown",
@@ -16,7 +15,6 @@
     },
     {
       "type": "markdown",
-      "title": "核心概念",
       "content": "## 核心概念說明\n\nAI 風險管理不是模型上線後才補做的文件工作，而是從規劃、資料蒐集、模型訓練、測試、部署到維運都要持續進行的治理流程。\n\n本章可將 AI 風險分為五大類：\n\n| 風險類型 | 說明 | 常見例子 |\n|---|---|---|\n| 資料品質風險 | 資料缺失、錯誤、不具代表性或標註錯誤 | 缺失值、資料偏頗、不正確標註 |\n| 模型穩定性風險 | 模型在環境變化後表現下降 | 模型漂移、資料漂移、概念漂移、過擬合 |\n| 組織人力風險 | 導入 AI 時跨部門協作與技能不足 | 角色不清、技能短缺、變革抵制 |\n| 法規合規風險 | 個資、隱私、產業規範未被遵守 | GDPR、台灣個資法、HIPAA、PCI-DSS |\n| 侵權風險 | 未授權使用第三方資料、模型、程式碼或演算法 | 訓練資料侵權、開源授權違規 |\n\n接下來的實作會用簡化資料模擬企業導入 AI 信用風險模型時，如何檢查資料偏誤、模型漂移與合規風險。"
     },
     {
@@ -27,7 +25,6 @@
     },
     {
       "type": "markdown",
-      "title": "資料漂移與模型漂移",
       "content": "## 資料漂移與模型漂移\n\nAI 系統上線後，外部環境可能改變，例如客戶行為、經濟條件、設備狀態或資料來源格式改變。這會造成輸入資料分布與訓練期間不同，稱為資料漂移。\n\n若模型因資料或概念變化而預測準確度下降，則可能出現模型漂移。實務上可透過以下方式監控：\n\n- 定期比較訓練資料與近期資料的分布差異。\n- 追蹤模型準確率、召回率、錯誤率等指標。\n- 設定警戒門檻，超過門檻時啟動重訓、人工審查或風險通報。\n\n以下範例用簡化的信用核准模型示範：當新資料的收入分布與負債比例改變後，模型表現可能下降。"
     },
     {
@@ -35,6 +32,10 @@
       "title": "示範：模型穩定性與資料漂移監控",
       "explanation": "這段程式碼訓練一個簡單分類模型，接著用分布已改變的新資料測試，觀察模型準確率下降與資料漂移指標。",
       "content": "import numpy as np\nimport pandas as pd\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score\nfrom scipy.stats import entropy\n\nnp.random.seed(7)\n\n# 訓練期間資料\nn_train = 500\ntrain_income = np.random.normal(65000, 12000, n_train)\ntrain_debt = np.random.beta(2, 5, n_train)\ntrain_y = ((train_income / 100000 - train_debt) > 0.25).astype(int)\ntrain_X = pd.DataFrame({'income': train_income, 'debt_ratio': train_debt})\n\n# 上線後資料：收入下降、負債比例提高，模擬環境改變\nn_new = 300\nnew_income = np.random.normal(54000, 14000, n_new)\nnew_debt = np.random.beta(3, 4, n_new)\nnew_y = ((new_income / 100000 - new_debt) > 0.25).astype(int)\nnew_X = pd.DataFrame({'income': new_income, 'debt_ratio': new_debt})\n\nmodel = LogisticRegression()\nmodel.fit(train_X, train_y)\n\ntrain_acc = accuracy_score(train_y, model.predict(train_X))\nnew_acc = accuracy_score(new_y, model.predict(new_X))\n\n# 使用直方圖機率分布與 KL divergence 作為簡化漂移指標\nbins = np.linspace(20000, 100000, 12)\ntrain_hist, _ = np.histogram(train_income, bins=bins, density=True)\nnew_hist, _ = np.histogram(new_income, bins=bins, density=True)\ntrain_hist = train_hist + 1e-9\nnew_hist = new_hist + 1e-9\nkl_divergence = entropy(new_hist, train_hist)\n\nprint(f'訓練資料準確率：{train_acc:.3f}')\nprint(f'上線後新資料準確率：{new_acc:.3f}')\nprint(f'收入分布 KL divergence：{kl_divergence:.3f}')\n\nif new_acc < train_acc - 0.08:\n    print('警示：模型表現明顯下降，可能存在模型漂移。')\nif kl_divergence > 0.15:\n    print('警示：輸入資料分布明顯改變，可能存在資料漂移。')"
+    },
+    {
+      "type": "markdown",
+      "content": "## AI 風險登錄表\n\n漂移只是眾多風險之一。實務上會用風險登錄表把資料品質、公平性、模型穩定性、法規遵循等風險一起列管，以「風險分數 = 發生機率 × 衝擊程度」排序，決定優先處理順序。"
     },
     {
       "type": "code",

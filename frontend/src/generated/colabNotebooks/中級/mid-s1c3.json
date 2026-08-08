@@ -2,7 +2,6 @@
   "chapter_id": "mid-s1c3",
   "chapter_title": "生成式AI技術與應用",
   "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s1c3.ipynb",
-  "status": "pass",
   "cells": [
     {
       "type": "markdown",
@@ -16,7 +15,6 @@
     },
     {
       "type": "markdown",
-      "title": "核心概念",
       "content": "## 核心概念說明\n\n生成式 AI 的重點是「根據輸入產生新內容」，例如文字、圖像、語音、影片或程式碼。相對地，鑑別式 AI 的重點是「判斷輸入屬於哪一類」，例如垃圾郵件分類、影像辨識或疾病預測。\n\n在真實的大型語言模型中，系統會使用大量資料與深度神經網路學習語意結構。本 Notebook 不使用大型模型，而是用 TF-IDF、餘弦相似度與 n-gram 這些輕量方法，模擬生成式 AI 背後幾個重要概念：\n\n- 文字可以被轉成數值特徵。\n- 相似的輸入可以找到相近的知識片段。\n- 模型可以根據既有語料產生新的句子。\n- 部署後需要監控輸入資料是否改變。\n- 異常時需要有版本回退或預設邏輯。"
     },
     {
@@ -27,8 +25,7 @@
     },
     {
       "type": "markdown",
-      "title": "輕量語意示範",
-      "content": "## 用 TF-IDF 模擬語意檢索\n\n大型語言模型通常會把文字轉成向量表示，讓模型可以比較語意相近程度。本練習使用較輕量的 TF-IDF 取代真正的 Embedding。\n\nTF-IDF 會根據詞彙在文件中的重要程度產生向量，再用餘弦相似度找出最接近使用者問題的知識片段。這不是完整的生成式 AI，但可以模擬許多 AI 應用中的「檢索增強生成」前置步驟。"
+      "content": "## 用 TF-IDF 模擬語意檢索\n\n大型語言模型通常會把文字轉成向量表示，讓模型可以比較語意相近程度。本練習使用較輕量的 TF-IDF 取代真正的 Embedding。\n\nTF-IDF 會依照「詞彙在單一文件出現的頻率」與「該詞彙在所有文件中的稀有程度」計算權重。中文沒有空白可以斷詞，因此下方程式碼把分析單位設成字元（`analyzer='char'`、`ngram_range=(2, 3)`），改用連續 2～3 個字的字元組合取代詞彙，再用餘弦相似度找出最接近使用者問題的知識片段。這不是完整的生成式 AI，但可以模擬許多 AI 應用中的「檢索增強生成」前置步驟。"
     },
     {
       "type": "code",
@@ -38,8 +35,7 @@
     },
     {
       "type": "markdown",
-      "title": "生成與維運風險",
-      "content": "## 從文字生成到部署風險\n\n生成式 AI 應用不只要能產生內容，也要能穩定部署與維運。考試常見風險包括：\n\n- 資源需求高：大型模型可能需要 GPU、TPU 或大量記憶體。\n- 批次處理延遲：即時服務若延遲過高，會影響使用者體驗。\n- 版本管理困難：不同模型版本可能產生不同答案。\n- 資料漂移：輸入資料分佈改變後，模型表現可能下降。\n- 回退機制不足：新版本異常時，服務需要能回到穩定版本。\n\n以下用簡單的 n-gram 文字生成與資料漂移偵測，模擬生成式 AI 應用的核心思維。"
+      "content": "## 從文字生成到部署風險\n\n生成式 AI 應用不只要能產生內容，也要能穩定部署與維運。考試常見風險包括：\n\n- 資源需求高：大型模型可能需要 GPU、TPU 或大量記憶體。\n- 批次處理延遲：即時服務若延遲過高，會影響使用者體驗。\n- 版本管理困難：不同模型版本可能產生不同答案。\n- 資料漂移：輸入資料分佈改變後，模型表現可能下降。\n- 回退機制不足：新版本異常時，服務需要能回到穩定版本。\n\n以下先用簡單的 n-gram 模擬文字生成，理解生成式模型如何依既有語料產生新內容。"
     },
     {
       "type": "code",
@@ -48,10 +44,18 @@
       "content": "import re\nimport numpy as np\nfrom collections import defaultdict, Counter\n\nnp.random.seed(7)\n\ncorpus = [\n    '生成式 AI 可以 產生 文字 內容',\n    '生成式 AI 可以 產生 圖像 內容',\n    '大型 語言 模型 可以 回答 問題',\n    '提示 工程 可以 改善 生成 品質',\n    '模型 部署 需要 監控 延遲 與 成本',\n    '資料 漂移 可能 造成 模型 表現 下降'\n]\n\ntransitions = defaultdict(Counter)\nfor sentence in corpus:\n    tokens = sentence.split()\n    for current_word, next_word in zip(tokens[:-1], tokens[1:]):\n        transitions[current_word][next_word] += 1\n\ndef generate_text(start_word, max_words=8):\n    words = [start_word]\n    current = start_word\n    for _ in range(max_words - 1):\n        if current not in transitions:\n            break\n        candidates = list(transitions[current].keys())\n        counts = np.array(list(transitions[current].values()), dtype=float)\n        probs = counts / counts.sum()\n        current = np.random.choice(candidates, p=probs)\n        words.append(current)\n    return ' '.join(words)\n\nfor start in ['生成式', '模型', '資料']:\n    print(start, '=>', generate_text(start))"
     },
     {
+      "type": "markdown",
+      "content": "## 資料漂移偵測與模型回退\n\n生成內容之外，上線後的監控同樣是考點。以下模擬 AI 服務的監控流程：用 Jensen-Shannon 距離比較新資料與訓練資料的分佈差異，差異過大就回退到穩定的模型版本。"
+    },
+    {
       "type": "code",
       "title": "實際應用：資料漂移偵測與模型回退",
       "explanation": "這段程式碼模擬 AI 服務上線後的監控流程：若新資料分佈與訓練資料差異過大，就回退到穩定模型版本。",
       "content": "import numpy as np\nimport pandas as pd\nfrom scipy.spatial.distance import jensenshannon\n\nnp.random.seed(11)\n\n# 模擬訓練時的輸入資料：大多是一般亮度影像\ntrain_brightness = np.random.normal(loc=120, scale=20, size=1000)\n\n# 模擬上線後的新資料：場域變暗，可能代表攝影機角度、光照或設備狀態改變\nproduction_brightness = np.random.normal(loc=80, scale=25, size=1000)\n\nbins = np.linspace(0, 255, 21)\ntrain_hist, _ = np.histogram(train_brightness, bins=bins, density=True)\nprod_hist, _ = np.histogram(production_brightness, bins=bins, density=True)\n\ntrain_hist = train_hist + 1e-8\nprod_hist = prod_hist + 1e-8\n\ndrift_score = jensenshannon(train_hist, prod_hist)\nthreshold = 0.18\n\nactive_model = 'model_v2_candidate'\nstable_model = 'model_v1_stable'\n\nif drift_score > threshold:\n    decision = '偵測到資料漂移，啟動回退機制'\n    active_model = stable_model\nelse:\n    decision = '資料分佈穩定，維持目前模型'\n\nsummary = pd.DataFrame({\n    '監控項目': ['資料漂移分數', '門檻值', '系統決策', '目前使用模型'],\n    '結果': [round(float(drift_score), 3), threshold, decision, active_model]\n})\n\nprint(summary.to_string(index=False))\n\nplt.figure(figsize=(8, 4))\nplt.hist(train_brightness, bins=bins, alpha=0.6, label='訓練資料亮度')\nplt.hist(production_brightness, bins=bins, alpha=0.6, label='上線資料亮度')\nplt.title('影像亮度分佈監控')\nplt.xlabel('亮度')\nplt.ylabel('數量')\nplt.legend()\nplt.show()"
+    },
+    {
+      "type": "markdown",
+      "content": "## 🧪 自我測驗\n\n請完成下方 TODO 填空，依延遲、資料漂移與錯誤率三項監控指標，判斷生成式 AI 服務是否應該回退模型。"
     },
     {
       "type": "code",

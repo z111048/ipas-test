@@ -39,6 +39,8 @@ from verify_question_answers import call_gateway, load_env_file  # noqa: E402
 BASE = Path(__file__).resolve().parents[1]
 OUT_DIR = BASE / 'data' / 'notebook_review'
 DEFAULT_MODEL = 'glm-5.2'
+# 目前最長的 code cell 約 3,300 字；留餘裕讓語意審核看到完整程式碼。
+CELL_CHAR_LIMIT = 6000
 
 
 def load(path: Path) -> Any:
@@ -141,9 +143,19 @@ def semantic_check(path: Path, model: str, timeout: int) -> dict[str, Any]:
     blocks = []
     for index, source, markdown in code_cells(notebook):
         explanation = markdown.strip()[:600]
-        blocks.append(f'### cell {index}\n說明：{explanation}\n```python\n{source[:1500]}\n```')
-    prompt = SEMANTIC_PROMPT.format(title=path.stem, body='\n\n'.join(blocks)[:24000])
-    raw = call_gateway(prompt, model, timeout, None, 4000)
+        # 截斷必須看得見：第一版截在 1500 字，模型看到半截程式碼就回報「程式碼中斷」
+        # 「未執行 fit_predict」等假瑕疵（mid-s3c4/s3c9/s3c11 三筆誤報都是這樣來的）。
+        body = source if len(source) <= CELL_CHAR_LIMIT else (
+            source[:CELL_CHAR_LIMIT] + f'\n# …（本 cell 尚有 {len(source) - CELL_CHAR_LIMIT} '
+            '字未顯示，請勿據此判斷程式碼未完成）')
+        blocks.append(f'### cell {index}\n說明：{explanation}\n```python\n{body}\n```')
+    prompt = SEMANTIC_PROMPT.format(title=path.stem, body='\n\n'.join(blocks))
+    # gateway 會間歇性回空內容（推理模型把預算花在 reasoning_content）。單次呼叫失敗
+    # 就記成 no-response，一輪下來有 9 本沒審到，而摘要看起來像全部通過。
+    for _ in range(3):
+        raw = call_gateway(prompt, model, timeout, None, 4000)
+        if raw:
+            break
     if not raw:
         return {'status': 'no-response'}
     text = raw.strip()
@@ -203,7 +215,11 @@ def main() -> None:
                 outcome = future.result()
                 results.setdefault(path.stem, {})['semantic'] = outcome
                 bad = outcome.get('mismatches', [])
-                mark = 'WARN' if bad else ('OK  ' if outcome['status'] == 'ok' else '????')
+                if outcome['status'] != 'ok':
+                    # 「沒審成」不可以印成「0 處不符」——那正是把失敗讀成通過。
+                    print(f"???? 語意 {path.stem:12} 未取得結果（{outcome['status']}）")
+                    continue
+                mark = 'WARN' if bad else 'OK  '
                 first = f"cell {bad[0]['cell']}: {bad[0].get('claim','')}" if bad else ''
                 print(f'{mark} 語意 {path.stem:12} {len(bad)} 處不符 {first[:70]}')
 
@@ -213,8 +229,11 @@ def main() -> None:
     exec_fail = [k for k, v in results.items()
                  if v.get('execution', {}).get('status') in ('error', 'timeout')]
     sem_fail = [k for k, v in results.items() if v.get('semantic', {}).get('mismatches')]
+    sem_missing = [k for k, v in results.items()
+                   if v.get('semantic', {}).get('status') not in (None, 'ok')]
     print(f'\n執行失敗 {len(exec_fail)}：{", ".join(exec_fail) or "無"}')
     print(f'說明與程式碼不符 {len(sem_fail)}：{", ".join(sem_fail) or "無"}')
+    print(f'語意審核未完成 {len(sem_missing)}：{", ".join(sem_missing) or "無"}（未完成 ≠ 通過，需重跑）')
     print(f'報告 → {out_path.relative_to(BASE)}')
     raise SystemExit(1 if exec_fail else 0)
 

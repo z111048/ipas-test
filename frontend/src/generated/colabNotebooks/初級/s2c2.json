@@ -2,7 +2,6 @@
   "chapter_id": "s2c2",
   "chapter_title": "生成式AI應用領域與工具使用",
   "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/初級/s2c2.ipynb",
-  "status": "warn",
   "cells": [
     {
       "type": "markdown",
@@ -16,7 +15,6 @@
     },
     {
       "type": "markdown",
-      "title": "核心概念",
       "content": "## 核心概念說明\n\n生成式 AI 的重點不是只判斷資料屬於哪一類，而是根據訓練資料的模式產生新的文字、圖像、音訊、程式碼或其他內容。\n\n在大型語言模型中，常見流程可簡化為：\n\n1. **資料處理**：清洗文字、移除雜訊、切分成 token。\n2. **向量化表示**：將文字轉成數值向量，方便模型計算相似度或語意關係。\n3. **模型推理**：根據目前上下文，估計下一個 token 或輸出內容。\n4. **取樣策略**：使用溫度參數、Top-k 或 Nucleus Sampling 控制輸出的保守或創意程度。\n5. **應用整合**：將模型能力放進教育、醫療、客服、開發、創作等工作流程。\n\n本 Notebook 不使用大型模型，而是用 TF-IDF、機率分布與簡化取樣來理解生成式 AI 的核心概念。"
     },
     {
@@ -27,7 +25,6 @@
     },
     {
       "type": "markdown",
-      "title": "推理與取樣",
       "content": "## 推理機制：溫度、Top-k 與 Nucleus Sampling\n\n生成式 AI 產生內容時，通常不是永遠選擇機率最高的答案。若永遠選最大值，輸出會穩定但可能缺乏變化；若加入取樣，輸出會更有多樣性。\n\n常見控制方式包括：\n\n- **Temperature**：控制隨機性。數值低時較保守，數值高時較有創意。\n- **Top-k Sampling**：只從機率最高的前 k 個候選中取樣。\n- **Nucleus Sampling**：只保留累積機率達到門檻 p 的候選，例如 0.9。\n\n這些方法常用於文字生成、摘要、對話、程式碼生成與創意內容產生。"
     },
     {
@@ -37,10 +34,18 @@
       "content": "import numpy as np\nimport pandas as pd\n\nnp.random.seed(7)\n\ncandidates = np.array([\"教材\", \"摘要\", \"圖像\", \"程式碼\", \"報告\", \"影片\", \"音樂\"])\nbase_logits = np.array([3.0, 2.5, 2.1, 1.8, 1.4, 1.0, 0.7])\n\ndef softmax(x):\n    x = x - np.max(x)\n    exp_x = np.exp(x)\n    return exp_x / exp_x.sum()\n\ndef sample_with_temperature_and_topk(logits, temperature=1.0, top_k=3, n=10):\n    adjusted = logits / temperature\n    probs = softmax(adjusted)\n    top_indices = np.argsort(probs)[-top_k:][::-1]\n    top_probs = probs[top_indices]\n    top_probs = top_probs / top_probs.sum()\n    sampled = np.random.choice(candidates[top_indices], size=n, p=top_probs)\n    return sampled, pd.DataFrame({\n        \"候選詞\": candidates[top_indices],\n        \"重新正規化後機率\": top_probs\n    })\n\nfor temp in [0.5, 1.0, 1.8]:\n    sampled, table = sample_with_temperature_and_topk(base_logits, temperature=temp, top_k=4, n=8)\n    print(f\"\\nTemperature = {temp}\")\n    print(table.round(3))\n    print(\"生成結果：\", \"、\".join(sampled))"
     },
     {
+      "type": "markdown",
+      "content": "## 實際應用：生成式 AI 工具推薦\n\n了解取樣機制後，接著看應用端。以下用 TF-IDF 與餘弦相似度做一個簡化的工具推薦器：使用者描述需求後，系統找出最相近的應用領域。"
+    },
+    {
       "type": "code",
       "title": "實際應用：生成式 AI 工具推薦器",
       "explanation": "這段程式碼使用 TF-IDF 與餘弦相似度，模擬一個簡化的 AI 工具推薦器；使用者輸入需求後，系統會推薦最相關的應用領域。",
       "content": "import pandas as pd\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.metrics.pairwise import cosine_similarity\n\ncases = pd.DataFrame({\n    \"工具類型\": [\"教育生成工具\", \"醫療摘要工具\", \"金融分析工具\", \"法律文件工具\", \"創意內容工具\", \"程式開發工具\", \"客服問答工具\"],\n    \"描述\": [\n        \"教材 學習 測驗 課程摘要 練習題 個人化\",\n        \"臨床報告摘要 醫療影像說明 診斷 醫療\",\n        \"投資建議 風險分析 市場報告 金融\",\n        \"契約草稿 法規檢索 文件審閱 法律\",\n        \"文案 圖像 腳本 音樂 創意內容\",\n        \"程式碼 測試案例 技術文件 除錯建議\",\n        \"客服回覆 知識庫問答 使用者情緒分析\"\n    ]\n})\n\nuser_need = \"課程摘要 學生練習題 教材 學習\"\n\nvectorizer = TfidfVectorizer(token_pattern=r\"(?u)\\b\\w+\\b\")\nall_texts = list(cases[\"描述\"]) + [user_need]\nvectors = vectorizer.fit_transform(all_texts)\n\nsimilarities = cosine_similarity(vectors[-1], vectors[:-1]).flatten()\ncases[\"相似度\"] = similarities\nrecommendation = cases.sort_values(\"相似度\", ascending=False)\n\nprint(\"使用者需求：\", user_need)\nprint(\"\\n推薦結果：\")\nprint(recommendation[[\"工具類型\", \"相似度\"]].round(3))"
+    },
+    {
+      "type": "markdown",
+      "content": "## 市場價值與風險比較\n\n導入生成式 AI 時，價值與風險要一起看。以下建立簡化的市場影響評估表，用長條圖比較各領域的預估價值分數與風險分數，並計算淨機會分數。"
     },
     {
       "type": "code",

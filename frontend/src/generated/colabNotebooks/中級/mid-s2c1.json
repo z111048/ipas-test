@@ -2,7 +2,6 @@
   "chapter_id": "mid-s2c1",
   "chapter_title": "敘述性統計與資料摘要技術",
   "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s2c1.ipynb",
-  "status": "warn",
   "cells": [
     {
       "type": "markdown",
@@ -16,7 +15,6 @@
     },
     {
       "type": "markdown",
-      "title": "核心概念",
       "content": "## 核心概念說明\n\n敘述性統計的目的，是在不進行母體推論的前提下，快速整理並理解現有資料。\n\n常見分析面向包括：\n\n1. **集中趨勢**：描述資料中心位置，例如平均數、中位數、眾數。\n2. **離散量度**：描述資料分散程度，例如變異數、標準差、全距、四分位距。\n3. **分佈形狀**：描述資料是否偏斜、尾端是否厚重，例如偏度與峰度。\n\n在實務資料分析中，平均數雖然直覺，但容易受到極端值影響；中位數與四分位距通常較能反映含離群值資料的典型狀況。"
     },
     {
@@ -27,7 +25,6 @@
     },
     {
       "type": "markdown",
-      "title": "離群值影響",
       "content": "## 平均數與中位數的差異\n\n當資料中出現極端值時，平均數會被拉高或拉低；中位數則只看排序後的中間位置，因此較不容易受到極端值影響。\n\n例如薪資、房價、交易金額等資料常出現長尾分佈，這時只看平均數可能會誤判多數人的實際狀況。實務上常會同時觀察平均數、中位數、標準差與四分位距。"
     },
     {
@@ -38,7 +35,6 @@
     },
     {
       "type": "markdown",
-      "title": "視覺化摘要",
       "content": "## 圖表化資料摘要\n\n表格統計量能提供精確數值，但圖表能更快呈現分佈特徵。\n\n常用圖表包括：\n\n1. **直方圖**：觀察資料集中在哪些區間、是否偏斜或多峰。\n2. **箱形圖**：觀察中位數、Q1、Q3、IQR、鬚與離群值。\n\n箱形圖中的離群值通常以 `Q1 - 1.5 × IQR` 與 `Q3 + 1.5 × IQR` 作為判斷邊界。"
     },
     {
@@ -46,6 +42,10 @@
       "title": "實際應用：直方圖、箱形圖與離群值偵測",
       "explanation": "這段程式碼使用直方圖與箱形圖呈現資料分佈，並用 IQR 規則找出可能的離群值。",
       "content": "import numpy as np\nimport matplotlib.pyplot as plt\n\nscores = np.array([62, 68, 70, 71, 73, 75, 78, 80, 82, 85, 88, 90, 92, 95, 100, 160])\n\nq1 = np.percentile(scores, 25)\nq3 = np.percentile(scores, 75)\niqr = q3 - q1\nlower_bound = q1 - 1.5 * iqr\nupper_bound = q3 + 1.5 * iqr\noutliers = scores[(scores < lower_bound) | (scores > upper_bound)]\n\nprint('Q1：', q1)\nprint('Q3：', q3)\nprint('IQR：', iqr)\nprint('離群值下界：', lower_bound)\nprint('離群值上界：', upper_bound)\nprint('偵測到的離群值：', outliers)\n\nplt.figure(figsize=(10, 4))\n\nplt.subplot(1, 2, 1)\nplt.hist(scores, bins=8, edgecolor='black')\nplt.title('Histogram of Scores')\nplt.xlabel('Score')\nplt.ylabel('Frequency')\n\nplt.subplot(1, 2, 2)\nplt.boxplot(scores, vert=True)\nplt.title('Box Plot of Scores')\nplt.ylabel('Score')\n\nplt.tight_layout()\nplt.show()"
+    },
+    {
+      "type": "markdown",
+      "content": "## 🧪 自我測驗\n\n請完成下方 TODO 填空，計算集中趨勢（平均數、中位數）、離散程度（標準差、IQR）與離群值邊界，並用偏度判斷資料是否右偏。"
     },
     {
       "type": "code",

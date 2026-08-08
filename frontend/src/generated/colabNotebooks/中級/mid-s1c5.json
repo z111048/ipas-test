@@ -2,7 +2,6 @@
   "chapter_id": "mid-s1c5",
   "chapter_title": "AI導入評估",
   "colab_url": "https://colab.research.google.com/github/z111048/ipas-test/blob/main/notebooks/中級/mid-s1c5.ipynb",
-  "status": "warn",
   "cells": [
     {
       "type": "markdown",
@@ -16,7 +15,6 @@
     },
     {
       "type": "markdown",
-      "title": "核心概念",
       "content": "## 核心概念說明\n\nAI 導入評估的重點，不是先問「能不能使用 AI」，而是先判斷「是否值得導入 AI」。一個成熟的評估流程通常包含四個面向：\n\n- **業務需求**：是否存在明確痛點？是否能改善 KPI，例如效率、準確率、回應速度或成本？\n- **技術可行性**：資料品質、系統整合、IT 基礎設施與 AI 技術路線是否足以支撐導入？\n- **財務效益**：投入成本是否合理？ROI、NPV 與回收期是否符合組織期待？\n- **組織成熟度**：資料治理、跨部門協作、人才能力、預算與責任單位是否到位？\n\n本 Notebook 會用簡化的量化模型示範如何把這些概念轉成可比較的分數。"
     },
     {
@@ -27,7 +25,6 @@
     },
     {
       "type": "markdown",
-      "title": "財務評估",
       "content": "## 成本效益分析\n\nAI 導入通常需要模型開發、資料清洗、系統整合、授權費、教育訓練與維運成本。因此只看技術可行性不足以決策，還需要檢查財務合理性。\n\n常見指標包括：\n\n- **ROI 投資報酬率**：衡量每投入一單位成本可帶來多少回報。\n- **NPV 淨現值**：將未來現金流折現後，判斷專案是否創造正向價值。\n- **Payback Period 回收期**：估計需要多久才能回收初期投資。\n\n若 ROI 高、NPV 為正、回收期短，通常代表專案較適合優先試點。"
     },
     {
@@ -37,16 +34,24 @@
       "content": "import numpy as np\n\ninitial_investment = 1_200_000\nannual_benefits = np.array([450_000, 600_000, 750_000, 850_000])\nannual_operating_costs = np.array([150_000, 180_000, 200_000, 220_000])\ndiscount_rate = 0.08\n\nnet_cash_flows = annual_benefits - annual_operating_costs\ntotal_return = net_cash_flows.sum()\nroi = (total_return - initial_investment) / initial_investment * 100\nnpv = sum(cash / ((1 + discount_rate) ** year) for year, cash in enumerate(net_cash_flows, start=1)) - initial_investment\npayback_period = initial_investment / net_cash_flows.mean()\n\nprint(f\"每年淨現金流：{net_cash_flows}\")\nprint(f\"ROI：{roi:.2f}%\")\nprint(f\"NPV：{npv:,.0f} 元\")\nprint(f\"回收期：約 {payback_period:.2f} 年\")"
     },
     {
+      "type": "markdown",
+      "content": "## 組織成熟度盤點\n\n財務指標之外，導入前還要確認組織條件是否到位。以下用雷達圖盤點數位成熟度、資料治理、團隊能力、跨部門協作與預算支持五個面向，找出需要優先補強的項目。"
+    },
+    {
       "type": "code",
       "title": "實際應用：組織成熟度雷達圖",
       "explanation": "這段程式碼將數位成熟度、資料治理、團隊能力、跨部門協作與預算支持視覺化，協助判斷導入條件是否均衡。",
       "content": "import numpy as np\nimport matplotlib.pyplot as plt\n\nlabels = [\"數位成熟度\", \"資料治理\", \"團隊能力\", \"跨部門協作\", \"預算支持\"]\nscores = np.array([7, 6, 5, 8, 6])\n\nangles = np.linspace(0, 2 * np.pi, len(labels), endpoint=False)\nscores_closed = np.concatenate([scores, [scores[0]]])\nangles_closed = np.concatenate([angles, [angles[0]]])\n\nplt.figure(figsize=(6, 6))\nax = plt.subplot(111, polar=True)\nax.plot(angles_closed, scores_closed, marker=\"o\")\nax.fill(angles_closed, scores_closed, alpha=0.2)\nax.set_xticks(angles)\nax.set_xticklabels(labels)\nax.set_ylim(0, 10)\nax.set_title(\"AI 導入組織成熟度盤點\")\nplt.show()\n\nweak_items = [label for label, score in zip(labels, scores) if score < 6]\nprint(\"需優先補強項目：\", weak_items)"
     },
     {
+      "type": "markdown",
+      "content": "## 🧪 自我測驗\n\n請完成下方 TODO 填空，調整需求、技術、效益與風險的權重與導入門檻，計算專案總分並判斷是否列為優先試點。"
+    },
+    {
       "type": "code",
       "title": "🧪 自我測驗",
       "explanation": "請完成下方 TODO 填空，實作 AI 導入專案的簡易評估邏輯。",
-      "content": "import pandas as pd\n\ncases = pd.DataFrame({\n    \"專案\": [\"智慧客服\", \"文件自動分類\", \"高風險生成式問答\"],\n    \"需求分數\": [9, 7, 8],\n    \"技術分數\": [8, 7, 5],\n    \"效益分數\": [8, 6, 7],\n    \"風險分數\": [4, 3, 8]\n})\n\n# TODO: 調整下列權重，讓模型同時考慮需求、技術、效益與風險\nneed_weight = 0.30\ntech_weight = 0.25\nbenefit_weight = 0.30\nrisk_weight = 0.15\n\ncases[\"總分\"] = (\n    cases[\"需求分數\"] * need_weight +\n    cases[\"技術分數\"] * tech_weight +\n    cases[\"效益分數\"] * benefit_weight -\n    cases[\"風險分數\"] * risk_weight\n)\n\n# TODO: 設定導入門檻，總分達門檻者標示為「優先試點」，否則標示為「暫緩」\nthreshold = 5.5\ncases[\"建議\"] = cases[\"總分\"].apply(lambda score: \"優先試點\" if score >= threshold else \"暫緩\")\n\nprint(cases[[\"專案\", \"總分\", \"建議\"]])\n\n# Expected: 智慧客服與文件自動分類較可能被列為優先試點；高風險生成式問答會因風險較高而分數下降。"
+      "content": "import pandas as pd\n\ncases = pd.DataFrame({\n    \"專案\": [\"智慧客服\", \"文件自動分類\", \"高風險生成式問答\"],\n    \"需求分數\": [9, 7, 8],\n    \"技術分數\": [8, 7, 5],\n    \"效益分數\": [8, 6, 7],\n    \"風險分數\": [4, 3, 8]\n})\n\n# TODO: 調整下列權重，讓模型同時考慮需求、技術、效益與風險\nneed_weight = 0.30\ntech_weight = 0.25\nbenefit_weight = 0.30\nrisk_weight = 0.15\n\ncases[\"總分\"] = (\n    cases[\"需求分數\"] * need_weight +\n    cases[\"技術分數\"] * tech_weight +\n    cases[\"效益分數\"] * benefit_weight -\n    cases[\"風險分數\"] * risk_weight\n)\n\n# TODO: 設定導入門檻，總分達門檻者標示為「優先試點」，否則標示為「暫緩」\nthreshold = 5.5\ncases[\"建議\"] = cases[\"總分\"].apply(lambda score: \"優先試點\" if score >= threshold else \"暫緩\")\n\nprint(cases[[\"專案\", \"總分\", \"建議\"]])\n\n# Expected: 只有智慧客服（總分 6.5）達到 5.5 門檻，列為「優先試點」；\n# 文件自動分類總分 5.2、高風險生成式問答因風險扣分後總分 4.55，兩者皆為「暫緩」。"
     }
   ]
 }
