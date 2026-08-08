@@ -4,7 +4,6 @@
 import argparse
 import json
 import re
-import shutil
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
@@ -15,7 +14,6 @@ PROMPT_CACHE = BASE / 'build' / 'image_prompts.json'
 GENERATION_LOG = BASE / 'build' / 'image_generation_log.jsonl'
 DEFAULT_UNITS_FILE = BASE / 'data' / '初級' / 'image_units' / 'all_image_units.json'
 OUTPUT_SIZE = (1792, 1024)
-SESSION_RE = re.compile(r'session id:\s*([0-9a-f\-]{30,})', re.IGNORECASE)
 DEFAULT_STYLE = (
     'clean flat-vector editorial infographic illustration for the iPAS AI study platform; '
     'off-white background, deep navy and slate foundation, blue accent, restrained amber '
@@ -129,46 +127,40 @@ def last_lines(output: str, count: int = 12) -> str:
     return '\n'.join(lines[-count:])
 
 
-def run_codex_image(prompt: str, timeout: int = 180) -> tuple[str, str]:
-    if not shutil.which('codex'):
-        raise RuntimeError('找不到 Codex CLI，請先安裝並登入 codex。')
+def run_codex_image(prompt: str, timeout: int = 620) -> tuple[str, str]:
+    """保留舊介面（回傳「產物路徑」）以免呼叫端全改；實際走 codex-imggen 服務。"""
+    from imggen_client import generate as imggen_generate
 
-    completed = subprocess.run(
-        ['codex', 'exec', '--skip-git-repo-check', prompt],
-        cwd=BASE,
-        text=True,
-        capture_output=True,
-        timeout=timeout,
-        check=False,
-    )
-    output = f'{completed.stdout}\n{completed.stderr}'
-    if completed.returncode != 0:
-        raise RuntimeError(
-            f'Codex CLI failed with exit code {completed.returncode}:\n{last_lines(output)}'
-        )
-
-    match = SESSION_RE.search(output)
-    if not match:
-        raise RuntimeError(f'解析不到 session id，Codex output 最後幾行：\n{last_lines(output)}')
-    return match.group(1), output
+    data = imggen_generate(prompt, size=f'{OUTPUT_SIZE[0]}x{OUTPUT_SIZE[1]}',
+                           fmt='png', timeout=timeout)
+    scratch = BASE / 'build' / 'imggen_raw'
+    scratch.mkdir(parents=True, exist_ok=True)
+    raw = scratch / f'{abs(hash(prompt)) % 10**12}.png'
+    raw.write_bytes(data)
+    return raw.as_posix(), ''
 
 
-def copy_to_output(session_id: str, out_path: Path, quality: int = 92) -> Path:
+def copy_to_output(raw_png: str, out_path: Path, quality: int = 92) -> Path:
+    """把服務回傳的 PNG 正規化成前端要的 WebP 尺寸。
+
+    2026-08-08 改走 codex-imggen（`imggen_client.py`）。原本是直接 `codex exec` 再去
+    scrape `~/.codex/generated_images/<session>/`，**檔名慣例隨 codex-cli 版本變**
+    （0.146 起 `ig_*.png` → `exec-<uuid>.png`），圖產出來了腳本卻報「找不到 PNG」。
+    服務直接回傳 bytes，沒有目錄與檔名可壞，session 垃圾也留在容器裡。
+    """
     try:
         from PIL import Image, ImageOps
     except ImportError as exc:
         raise RuntimeError('找不到 Pillow，無法轉 WebP。請執行：uv sync 或 uv add pillow') from exc
 
-    session_dir = Path.home() / '.codex' / 'generated_images' / session_id
-    png_paths = sorted(session_dir.glob('ig_*.png'))
-    if not png_paths:
-        raise FileNotFoundError(f'找不到 Codex 產圖 PNG：{session_dir}/ig_*.png')
-
+    source = Path(raw_png)
+    if not source.exists():
+        raise FileNotFoundError(f'找不到產圖 PNG：{source}')
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    with Image.open(png_paths[0]) as img:
+    with Image.open(source) as img:
         normalized = ImageOps.fit(img.convert('RGB'), OUTPUT_SIZE, method=Image.Resampling.LANCZOS)
         normalized.save(out_path, 'WEBP', quality=quality)
-    return png_paths[0]
+    return source
 
 
 def selected_images(name: str | None) -> list[dict[str, str]]:
@@ -215,18 +207,57 @@ def selected_unit_images(units_file: Path, name: str | None, offset: int, limit:
     return [image_from_unit(unit) for unit in units]
 
 
-def generate_one(image: dict[str, str], prompt: str, out_path: Path, max_retries: int, timeout: int) -> bool:
+def verify_text(image: dict[str, str], out_path: Path, timeout: int) -> dict:
+    """產圖後檢查圖上的中文文字。
+
+    2026-08-08 加上：原本的重試只處理技術失敗（timeout、抓不到 session id），
+    **從不因文字品質重試**——抽 30 張發現約三分之一的標題字形變形、4 張有真缺陷
+    （非中文詞、截斷、術語與考綱不符），卻全部照樣進站。偵測不到就等於沒有偵測。
+    ⚠️ `error`（codex 沒回應）**不算 pass**，否則又回到「檢查不出來就放過」。
+    """
+    from verify_generated_images import check_one
+
+    context = {
+        'level': image.get('level', ''),
+        'sourceNodeId': image.get('sourceNodeId', ''),
+        'headingPath': image.get('headingPath') or [],
+        'title': image.get('name', ''),
+    }
+    return check_one(out_path, context, timeout=timeout)
+
+
+def generate_one(image: dict[str, str], prompt: str, out_path: Path, max_retries: int,
+                 timeout: int, verify: bool = True) -> bool:
+    from verify_generated_images import problems_as_instructions
+
+    feedback = ''
     for attempt in range(1, max_retries + 2):
         try:
-            session_id, _ = run_codex_image(prompt, timeout=timeout)
-            source_png = copy_to_output(session_id, out_path)
+            raw_png, _ = run_codex_image(prompt + feedback, timeout=timeout)
+            source_png = copy_to_output(raw_png, out_path)
+            if verify:
+                result = verify_text(image, out_path, timeout)
+                if result['verdict'] != 'pass':
+                    kinds = ','.join(sorted({p['kind'] for p in result['problems']})) \
+                        or result['verdict']
+                    append_generation_log({
+                        'name': image['name'],
+                        'output': image['output'],
+                        'status': 'text_check_failed',
+                        'attempt': attempt,
+                        'verdict': result['verdict'],
+                        'problems': result['problems'],
+                    })
+                    print(f'TEXT {image["name"]} attempt {attempt}: 文字檢查不過（{kinds}）')
+                    feedback = problems_as_instructions(result['problems'])
+                    continue
             append_generation_log({
                 'name': image['name'],
                 'output': image['output'],
                 'status': 'ok',
                 'prompt_kind': 'primary',
                 'attempt': attempt,
-                'session_id': session_id,
+                'source_png': str(raw_png),
                 'source_png': str(source_png),
                 'out_path': str(out_path),
                 'prompt': prompt,
@@ -253,15 +284,15 @@ def generate_one(image: dict[str, str], prompt: str, out_path: Path, max_retries
         print(f'FALLBACK {image["name"]}: retrying with compact prompt')
         for attempt in range(1, 4):
             try:
-                session_id, _ = run_codex_image(fallback_prompt, timeout=timeout)
-                source_png = copy_to_output(session_id, out_path)
+                raw_png, _ = run_codex_image(fallback_prompt, timeout=timeout)
+                source_png = copy_to_output(raw_png, out_path)
                 append_generation_log({
                     'name': image['name'],
                     'output': image['output'],
                     'status': 'ok',
                     'prompt_kind': 'fallback',
                     'attempt': attempt,
-                    'session_id': session_id,
+                    'source_png': str(raw_png),
                     'source_png': str(source_png),
                     'out_path': str(out_path),
                     'prompt': fallback_prompt,
@@ -294,6 +325,8 @@ def generate_one(image: dict[str, str], prompt: str, out_path: Path, max_retries
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--dry-run', action='store_true', help='只印出 prompt，不呼叫 Codex CLI')
+    parser.add_argument('--no-verify', action='store_true',
+                        help='跳過產圖後的中文文字檢查（不建議：偵測不到就等於沒有偵測）')
     parser.add_argument('--name', help='只產生指定圖片 name')
     parser.add_argument('--units-file', type=Path, help=f'從 image units JSON 讀取批次清單（預設範例清單不使用）')
     parser.add_argument('--limit', type=int, help='搭配 --units-file，只處理幾張圖片')
@@ -349,7 +382,8 @@ def main() -> None:
             continue
 
         cache_changed = update_prompt_cache(image, prompt, cache) or cache_changed
-        if generate_one(image, prompt, out_path, args.max_retries, args.timeout):
+        if generate_one(image, prompt, out_path, args.max_retries, args.timeout,
+                        verify=not args.no_verify):
             stats['ok'] += 1
         else:
             stats['failed'] += 1

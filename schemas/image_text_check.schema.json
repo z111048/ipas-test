@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "概念圖卡文字檢查",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["readableText", "problems", "verdict"],
+  "properties": {
+    "readableText": {
+      "type": "array",
+      "description": "圖中所有看得到的文字，逐條照抄你實際看到的字（不要修正錯字）",
+      "items": {"type": "string"}
+    },
+    "problems": {
+      "type": "array",
+      "description": "有問題的文字。沒有問題就給空陣列",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["text", "kind", "note"],
+        "properties": {
+          "text": {"type": "string", "description": "有問題的那串文字，照抄"},
+          "kind": {
+            "type": "string",
+            "enum": ["garbled", "nonword", "truncated", "terminology", "wrong"],
+            "description": "garbled=字形錯亂或不成字；nonword=筆畫正確但不是中文詞；truncated=被截斷；terminology=與官方用詞不符；wrong=內容講錯"
+          },
+          "note": {"type": "string", "description": "一句話說明，terminology 要寫出應該用哪個詞"}
+        }
+      }
+    },
+    "verdict": {
+      "type": "string",
+      "enum": ["pass", "fail"],
+      "description": "只要有一個 kind 是 garbled/nonword/truncated/terminology/wrong 就是 fail"
+    }
+  }
+}

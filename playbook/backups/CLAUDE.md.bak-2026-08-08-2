@@ -66,9 +66,6 @@ API 金鑰：`GEMINI_API_KEY`（vision）、`ANTHROPIC_API_KEY`（出題/審核�
   **>50KB 禁止整檔 Read**，用 `jq`/`grep` 切片或派 subagent（門檻與規則見 `playbook/01-dispatch.md` §0）。
 - 前端 alias：`@data` → `data/初級/`、`@data-mid` → `data/中級/`。前端 GuidePage 讀的是
   `frontend/src/generated/guideContent/`，**不是** `data/*/guide/*.json`（雙軌，改一邊不影響另一邊）。
-- **產圖依賴另一個 repo 的容器**：`~/projects/codex-imggen`（`docker compose up -d`，
-  `localhost:8090`）。一律經 `scripts/imggen_client.py`，不要直接 `codex exec` 產圖
-  （產物檔名慣例隨 codex-cli 版本變，會靜默壞掉）。詳見 `playbook/pipeline-reference.md`。
 
 ## Coding style / Commit
 

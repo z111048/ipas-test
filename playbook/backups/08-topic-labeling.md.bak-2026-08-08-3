@@ -343,41 +343,6 @@ python3 scripts/review_committed_notebooks.py --python <有 pandas/sklearn 的�
    `guide1-s1c3-img-017`（「優化演算」截斷缺「法」）、`guide1-s1c4-img-018`
    （用「判別式AI」，但初級 s1c4 官方章名是**鑑別式AI**——術語與考綱不一致）。
 
-   **2026-08-08 決定：重生，但在生成後加閘門。**
-
-   ```bash
-   python3 scripts/verify_generated_images.py --sample 30   # 或 --all / --ids a,b
-   python3 scripts/regenerate_flagged_images.py --from-review --attempts 3
-   ```
-
-   `verify_generated_images.py` 用 `codex exec --image` 讀回圖上每一串中文並逐條判定
-   （garbled／nonword／truncated／terminology／wrong）。**先驗閘門本身**（§6a 的規則）：
-   拿人工判過的 4 張已知缺陷 ＋ 3 張已知乾淨去跑，**4/4 全抓到、類型與說明都對
-   （含「判別式AI → 鑑別式AI」這種術語不符）、3/3 乾淨全放行**。
-   官方用詞清單從 `toc_manifest.json`（SSOT）＋ `topics.json` 組出來，不另建第三份。
-
-   **產圖走 `codex-imggen` 服務**（`~/projects/codex-imggen`，`imggen_client.py`），
-   不再直接 `codex exec`。除了不把垃圾留在 host，關鍵是它有 **`/edit` 圖生圖**——
-   抽 30 張的結論是版面與內容本來就好、壞的只有幾個字，所以修圖卡應該
-   **拿現有那張當參考、只改錯字**，而不是從頭重抽（重抽連版面一起換掉：
-   `guide1-s1c4-img-018` 就是這樣，術語修好了但整張版面變了）。
-
-   `regenerate_flagged_images.py` 的三條保護，少一條就會出事：
-   - **回饋比重試次數有用**：每輪把上一輪的問題寫進 prompt，不是原封不動再抽一次籤。
-   - **所有嘗試都沒過就還原備份**（`build/image_backup/`）。影像模型的中文渲染有隨機性，
-     不設這條就會靜靜地把好圖換成壞圖，而且沒有前後對照根本看不出來。
-   - **`error` 不算 pass**：codex 沒回應時當失敗重試，不要因為「沒抓到問題」就放行。
-
-   `generate_images.py` 也接上了同一個檢查——**未來每一次產圖都過閘門**，
-   不過就帶著問題回饋重試（`--no-verify` 可跳過，不建議）。
-
-   > 教訓 2026-08-08：**外部 CLI 的產物路徑會變，而且壞掉時看起來像別的錯**。
-   > `generate_images.py` 只認 `~/.codex/generated_images/<session>/ig_*.png`，
-   > 但 codex-cli 0.146 起改叫 `exec-<uuid>.png`——圖其實產出來了，腳本卻報
-   > 「找不到 Codex 產圖 PNG」，然後照著重試邏輯重試三次、全部失敗。
-   > 規則：讀外部工具產物**不要綁死檔名**（取目錄裡最新的那個），
-   > 而且「工具明明成功卻抓不到輸出」要先去看那個目錄，不要先懷疑工具壞了。
-
    > 教訓 2026-08-08：**「重生」不見得能修「生成器本身的極限」**。
    > `generate_images.py` 的 prompt 已經明寫 must contain visible, correctly written
    > Traditional Chinese text／no random letters，字形問題照樣出現——這是影像模型的
@@ -385,17 +350,5 @@ python3 scripts/review_committed_notebooks.py --python <有 pandas/sklearn 的�
    > 有些變壞，而且沒有前後對照就看不出來。要根治得**換方案**（HTML/SVG 模板 ＋
    > 真字型渲染：文字 100% 正確、可重現、重算免費、能進 git diff），不是換 prompt。
    > 判斷順序：先問「這個缺陷屬於生成器的能力範圍嗎」，再決定重生或換管線。
-   > **加閘門鎖住了下限，鎖不住上限**——實測（2026-08-08）：4 張必修的修好 3 張，
-   > `guide3-mid-s3c3-img-016` 的「驗證停升」「步時上限」共試 7 次全滅、原圖已還原。
-   > 每輪檢查器都給出精確建議（「步數上限」），模型仍寫不出來，那就是真的極限。
-   >
-   > 讓 `img-009` 從「3 次全滅」變成「第 2 次通過」的不是多試幾次，而是改指令：
-   > **從「給建議」改成「一字不改照用建議的詞」**，並加上「不要過度斷言」
-   > ——它原本一直卡在「不受離散程度影響」被判 `wrong`（中位數是「較不受」影響）。
-   > 閘門抓到的正是我人工抽樣時沒挑出來的那一層。
-   >
-   > ⚠️ 另一個自己踩的坑：重生腳本一度直接寫服務回傳的 bytes，
-   > 那張就變成 727 張裡唯一的 1659×948（其餘 1792×1024）。
-   > **`size` 對 gpt-image-2 只是提示**（USAGE.md 明講），寫檔前一定要 `ImageOps.fit`。
 7. **正規化標註結構**：現有 `guideExamAnnotations` 是反正規化的（同一題的題幹被複製
    平均 13 次），加上生成題與概念標籤後會膨脹。拆成 `questionIndex` + 邊表 + `topics`。
