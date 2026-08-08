@@ -135,6 +135,12 @@ def build_prompt(level: str, subject_index: int, subject_id: str, subject_title:
 
 MINDMAP_DIR = BASE / 'frontend' / 'src' / 'generated' / 'guideMindmap'
 # 一個區塊最多出幾題：太短的區塊硬塞題目只會逼模型重複或掰題。
+# 2026-08-08 決定**維持 400 不調低**：初級兩科各以 100 題為目標時分別只排得出
+# 67 與 58 題，短少全部集中在 s1c3（考 114 題、講義 8,194 字）與 s2c3
+# （考 127 題、講義 15,087 字）。調低這個數字能讓題數變好看，但那是拿同一段
+# 材料多出題，會退回「題目很多但重複」的老問題。短少改為明確回報，
+# 並把「這兩章教材相對考試權重不足」當成獨立的內容工作
+# （data/baselines/2026-08-08_教材熱度落差.json、playbook/08 §7）。
 CHARS_PER_QUESTION = 400
 
 
