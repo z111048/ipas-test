@@ -133,13 +133,82 @@ def build_prompt(level: str, subject_index: int, subject_id: str, subject_title:
         ''')
 
 
+MINDMAP_DIR = BASE / 'frontend' / 'src' / 'generated' / 'guideMindmap'
+# 一個區塊最多出幾題：太短的區塊硬塞題目只會逼模型重複或掰題。
+CHARS_PER_QUESTION = 400
+
+
+def heat_quota(subject_id: str, chapters: list[dict],
+               total: int) -> tuple[dict[str, list[int]], dict[str, int]]:
+    """依考古題熱度分配每個區塊的出題數 → {chapter_id: [每個區塊幾題]}。
+
+    07 的原始配額是「每個區塊固定 2 題」，跟實際考試分布無關：初級 s1c3
+    考了 114 題、s1c2 只考 10 題，但兩章的區塊數差不多，出題量就差不多。
+    這裡改成先按章節的考古題數分配章配額，再按區塊長度分到各區塊。
+
+    章權重用 guideMindmap 的 `q`（該章被官方題引用的題數）。⚠️ 各章題數
+    不可相加當母數——一題常引用多章，逐章加總會超過實際題數；這裡只當
+    **相對權重**用，不宣稱是題數比例。
+    """
+    path = MINDMAP_DIR / f'{subject_id}.json'
+    if not path.exists():
+        raise SystemExit(f'找不到 {path.relative_to(BASE)}——先跑 export_guide_mindmap.py')
+    heat = {n['i']: (n.get('q') or 0) for n in load_json(path)['nodes']}
+
+    missing = [c['id'] for c in chapters if c['id'] not in heat]
+    if missing:
+        raise SystemExit(f'FAIL 這些章節不在熱度圖裡，配額無法計算：{"、".join(missing)}')
+
+    weights = {c['id']: heat[c['id']] for c in chapters}
+    if not sum(weights.values()):
+        raise SystemExit('FAIL 這一科所有章節的考古題熱度都是 0，無法加權')
+
+    # 章配額：按熱度比例，熱度 >0 的章至少 1 題（考過就不能完全不出）
+    pool = sum(weights.values())
+    chapter_quota = {cid: (max(1, round(total * w / pool)) if w else 0)
+                     for cid, w in weights.items()}
+
+    quota: dict[str, list[int]] = {}
+    for chapter in chapters:
+        chunks = chapter['chunks']
+        want = chapter_quota[chapter['id']]
+        caps = [max(1, len(c['content']) // CHARS_PER_QUESTION) for c in chunks]
+        if not chunks:
+            quota[chapter['id']] = []
+            continue
+        if want == 0:
+            quota[chapter['id']] = [0] * len(chunks)
+            continue
+        # 章配額按區塊長度分配，再逐題補到最接近的區塊，並受 caps 上限
+        chars = [len(c['content']) for c in chunks]
+        base = [min(caps[i], max(0, round(want * chars[i] / sum(chars)))) for i in range(len(chunks))]
+        while sum(base) < want:
+            room = [i for i in range(len(chunks)) if base[i] < caps[i]]
+            if not room:
+                break
+            i = max(room, key=lambda i: chars[i] / (base[i] + 1))
+            base[i] += 1
+        while sum(base) > want:
+            spare = [i for i in range(len(chunks)) if base[i] > 0]
+            i = min(spare, key=lambda i: chars[i] / base[i])
+            base[i] -= 1
+        quota[chapter['id']] = base
+    # 回傳「原本想要的章配額」，讓呼叫端能把被篇幅擋掉的量講出來。
+    # 靜默縮水會讓人以為配額照跑了——這條線最常見的失敗樣態。
+    return quota, chapter_quota
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--level', choices=['初級', '中級'], default='中級')
     parser.add_argument('--subject', type=int, required=True)
     parser.add_argument('--chapter', help='只出這一章（如 mid-s2c3）；省略＝整科')
-    parser.add_argument('--count', type=int, default=2, help='每個小節區塊出幾題')
+    parser.add_argument('--count', type=int, default=2,
+                        help='每個小節區塊出幾題（均勻配額；用 --heat-total 改成熱度加權）')
+    parser.add_argument('--heat-total', type=int, default=None,
+                        help='改用考古題熱度配額，指定整科總題數（§7-4）')
+    parser.add_argument('--dry-run', action='store_true', help='只印配額表，不寫 prompt')
     parser.add_argument('--run-dir', default=None)
     args = parser.parse_args()
 
@@ -154,22 +223,59 @@ def main() -> None:
     prompts_dir.mkdir(parents=True, exist_ok=True)
     results_dir.mkdir(parents=True, exist_ok=True)
 
+    selected = [c for c in data['chapters']
+                if not args.chapter or c['id'] == args.chapter]
+    if not selected:
+        raise SystemExit(f'找不到章節 {args.chapter}')
+
+    quota = wanted = None
+    if args.heat_total:
+        # ⚠ 配額一定要對「整科」算完再篩章節。只拿被選中的章去算，
+        # --chapter s1c2 --heat-total 100 會把整科 100 題全給那一章
+        # （實測拿到 14 題，它應得的是 4 題）。
+        quota, wanted = heat_quota(subject_id, data['chapters'], args.heat_total)
+        scope = '整科' if not args.chapter else f'整科計算，只輸出 {args.chapter}'
+        print(f'熱度配額（目標 {args.heat_total} 題，{scope}）：')
+        capped = []
+        for chapter in selected:
+            counts = quota[chapter['id']]
+            got, want = sum(counts), wanted[chapter['id']]
+            flag = ''
+            if got < want:
+                capped.append((chapter['id'], want, got))
+                flag = f'  ⚠ 想要 {want} 題，講義篇幅只夠 {got}'
+            print(f"  {chapter['id']:10} {chapter['title'][:20]:22} "
+                  f"{got:>3} 題 / {len(counts)} 區塊  {counts}{flag}")
+        allocated = sum(sum(quota[c['id']]) for c in selected)
+        print(f'  合計 {allocated} 題'
+              f'（均勻配額會是 {sum(len(c["chunks"]) for c in selected) * args.count} 題）')
+        if capped:
+            short = sum(w - g for _, w, g in capped)
+            print(f'  ⚠ 短少 {short} 題：{len(capped)} 章的講義篇幅撐不起它的考古題熱度'
+                  f'（上限 1 題／{CHARS_PER_QUESTION} 字）。'
+                  f'要補足請調低 CHARS_PER_QUESTION 或接受這個上限——'
+                  f'硬塞只會逼模型重複出題。')
+        print()
+        if args.dry_run:
+            return
+
     batches = []
     batch_index = 0
     question_ordinal = 0   # 全域計數，讓輪替跨批次連續而不是每批從頭
-    for chapter in data['chapters']:
-        if args.chapter and chapter['id'] != args.chapter:
-            continue
+    for chapter in selected:
         # 題號在同一章內連續累加，前批輸出會被下一批當成「避免重複」的輸入
         first = 1
         chapter_outputs: list[str] = []
-        for chunk in chapter['chunks']:
+        for chunk_index, chunk in enumerate(chapter['chunks']):
+            count = quota[chapter['id']][chunk_index] if quota else args.count
+            if count <= 0:
+                continue
             batch_index += 1
-            stem = f'{batch_index:03d}_{chapter["id"]}_q{first:03d}-{first + args.count - 1:03d}'
+            stem = f'{batch_index:03d}_{chapter["id"]}_q{first:03d}-{first + count - 1:03d}'
             prompt_path = prompts_dir / f'{stem}.prompt.md'
             output_path = results_dir / f'{stem}.json'
             specs = []
-            for offset in range(args.count):
+            for offset in range(count):
                 specs.append({
                     'number': first + offset,
                     # 題型錯開一格，同一批的兩題必定不同型
@@ -177,11 +283,11 @@ def main() -> None:
                     'difficulty': DIFFICULTY_CYCLE[(question_ordinal + offset) % len(DIFFICULTY_CYCLE)],
                     'answer': ANSWER_CYCLE[(question_ordinal + offset) % len(ANSWER_CYCLE)],
                 })
-            question_ordinal += args.count
+            question_ordinal += count
 
             prompt_path.write_text(
                 build_prompt(args.level, args.subject, subject_id, subject_title,
-                             chapter, chunk, first, args.count, list(chapter_outputs), specs),
+                             chapter, chunk, first, count, list(chapter_outputs), specs),
                 encoding='utf-8')
             batches.append({
                 'batch_index': batch_index,
@@ -192,14 +298,14 @@ def main() -> None:
                 'section_title': chunk['title'],
                 'section_chars': len(chunk['content']),
                 'first_question': first,
-                'count': args.count,
+                'count': count,
                 'prompt': prompt_path.relative_to(BASE).as_posix(),
                 'output': output_path.relative_to(BASE).as_posix(),
                 'previous_outputs': list(chapter_outputs),
                 'specs': specs,
             })
             chapter_outputs.append(output_path.relative_to(BASE).as_posix())
-            first += args.count
+            first += count
 
     summary = {
         'level': args.level,
