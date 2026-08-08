@@ -111,8 +111,9 @@ def validate_file(path: Path) -> list[str]:
             for field in ('concept', 'mnemonic', 'confusion'):
                 if not isinstance(card.get(field), str) or not card[field].strip():
                     errors.append(f'{prefix}.card.{field} is required')
-            if card.get('frequency') not in {'高', '中', '低'}:
-                errors.append(f'{prefix}.card.frequency must be 高/中/低')
+            # frequency 於 2026-08-08 移除（與該章實際考古題數秩相關 −0.173）
+            if 'frequency' in card:
+                errors.append(f'{prefix}.card.frequency was removed 2026-08-08')
 
     valid_questions = [question for question in questions if isinstance(question, dict)]
     for left_index, right_index, ratio, left, right in find_similar_question_pairs(valid_questions):

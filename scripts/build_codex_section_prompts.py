@@ -128,7 +128,8 @@ def build_prompt(level: str, subject_index: int, subject_id: str, subject_title:
           `target_count` 必須是 {count}。
         - 每題 `id` 依序為 `{chapter['id']}q{first:03d}_codex100` 到 `{chapter['id']}q{last:03d}_codex100`。
         - 每題都要有 `source_refs`（指出依據的小節標題）與 `card`
-          （`concept`／`mnemonic`／`confusion`／`frequency` 四個欄位都必填）。
+          （`concept`／`mnemonic`／`confusion` 三個欄位都必填；
+          **不要寫 `frequency`**——2026-08-08 移除，圖卡改查該章實際考古題數）。
         - 中文書寫，術語可附英文縮寫（如 RAG、LLM）。
         ''')
 

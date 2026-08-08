@@ -262,8 +262,7 @@ QUESTION_SCHEMA = """{
   "card": {
     "concept": "核心概念摘要（1-2 句）",
     "mnemonic": "記憶口訣或聯想技巧（簡短易記）",
-    "confusion": "最常見的混淆點與辨別方式",
-    "frequency": "高/中/低"
+    "confusion": "最常見的混淆點與辨別方式"
   },
   "difficulty": "易/中/難",
   "type": "概念定義型",
@@ -298,8 +297,8 @@ def build_creator_prompt(chapter: dict, templates: list[str], count: int, level:
 - 難度分布：20% 易 / 50% 中 / 30% 難
 - 全程使用繁體中文；技術術語可附英文縮寫（如 RAG、LLM、HITL）
 - 附上解說（explanation）2-4 句，說明正確答案及其他選項錯誤原因
-- 附上完整 card 欄位（concept / mnemonic / confusion / frequency）
-  frequency 說明：高 = 過去考試出現 3 次以上，中 = 1-2 次，低 = 未出現但重要
+- 附上完整 card 欄位（concept / mnemonic / confusion）
+  ⚠️ 不要寫 frequency——2026-08-08 移除，圖卡改查該章實際考古題數
 
 ## 輸出格式（純 JSON 陣列，不附任何說明文字）
 [
@@ -356,7 +355,7 @@ def build_finalizer_prompt(chapter: dict, draft_questions: list, review: dict) -
 ## 完稿規則
 - 針對審核標注 pass: false 或有 issues 的題目，依 suggested_fix 修改
 - 若某題答案正確性評分 ≤ 2，直接刪除，不保留
-- 確保所有題目的 card 欄位完整（concept / mnemonic / confusion / frequency）
+- 確保所有題目的 card 欄位完整（concept / mnemonic / confusion）
 - 輸出純 JSON 陣列（不附任何說明文字），格式與草稿相同
 - 不要加入 id 欄位（由程式自動指派）
 

@@ -43,10 +43,9 @@
             "original_number": 1
           },
           "card": {
-            "concept": "機率密度函數（PDF）",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：機率密度函數（PDF）用於描述連續型隨機變數於某個取值範圍內的機率分佈。與離散型隨機變數不同，連續變數在單一點的機率為零，PDF 通常透過積分計算區間內的機率，而PMF 則用於離散型變數。累積分佈函數（CDF）則是累計機率的工具，而非直接描述機率密度。",
-            "frequency": "中"
+            "concept": "連續變數的區間機率以密度曲線表達，單點機率為零。",
+            "mnemonic": "連續看面積，離散看點值。",
+            "confusion": "PDF 描述連續分布的密度；PMF 列出離散取值的機率。"
           }
         },
         {
@@ -74,10 +73,9 @@
             "original_number": 2
           },
           "card": {
-            "concept": "0 或1",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：伯努利分佈是典型的二元分佈，僅有兩種可能結果，通常以0 和1 表示，例如成功與失敗、點擊與未點擊。此分佈是多數二元分類模型（如邏輯迴歸）的理論基礎。",
-            "frequency": "中"
+            "concept": "伯努利分佈描述一次只有成功或失敗的二元試驗。",
+            "mnemonic": "伯努利像一次擲硬幣：不是 0，就是 1。",
+            "confusion": "伯努利只有一次二元結果；二項分佈統計多次試驗的成功次數。"
           }
         },
         {
@@ -105,10 +103,9 @@
             "original_number": 3
           },
           "card": {
-            "concept": "特徵值分解（Eigenvalue Decomposition）",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：PCA 透過對協方差矩陣進行特徵值分解，找出最大變異方向，並以此降低維度並保留最重要的資訊。這能讓資料投影到較少的維度上，同時盡可能維持原始資料的變異。",
-            "frequency": "中"
+            "concept": "PCA 以協方差結構找出變異最大的正交方向，作為降維主軸。",
+            "mnemonic": "特徵值排大小，最大者帶你找主軸。",
+            "confusion": "特徵值分解拆矩陣找方向；奇異值分解拆資料矩陣，適用範圍更廣。"
           }
         },
         {
@@ -136,10 +133,9 @@
             "original_number": 4
           },
           "card": {
-            "concept": "主成分分析（PCA）",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：PCA 是常用的維度簡化工具，透過線性變換找出資料中變異最大的方向，將原始高維度資料投影到較少維度上，達到資料壓縮與特徵提取的效果。",
-            "frequency": "中"
+            "concept": "PCA 將資料投影到少數高變異方向，以壓縮特徵並保留資訊。",
+            "mnemonic": "先找最會變的軸，再把資料投影上去。",
+            "confusion": "PCA 著重保留變異；t-SNE 著重保留局部鄰近關係。"
           }
         },
         {
@@ -167,10 +163,9 @@
             "original_number": 5
           },
           "card": {
-            "concept": "損失函數對參數的偏微分",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：梯度是損失函數相對於模型參數的導數，能指引參數應往哪個方向調整以減少損失。梯度越大，表示調整幅度應越大，以快速降低誤差。",
-            "frequency": "中"
+            "concept": "梯度描述損失對各參數的變化率，提供更新方向與幅度依據。",
+            "mnemonic": "梯度指方向，大小看步幅。",
+            "confusion": "梯度是損失的變化率；學習率是更新時採用的步長。"
           }
         },
         {
@@ -198,10 +193,9 @@
             "original_number": 6
           },
           "card": {
-            "concept": "拒絕虛無假設時所容許的型一錯誤機率",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：顯著水準（α）是研究者事先設定的風險上限，代表當虛無假設為真時，錯誤拒絕該假設的容忍機率。常見設定為0.05，意即容許5%的型一錯誤。",
-            "frequency": "中"
+            "concept": "顯著水準是檢定前設定的第一類錯誤風險門檻。",
+            "mnemonic": "α先畫紅線，誤拒真虛無不可超過它。",
+            "confusion": "型一錯誤是實際發生的誤拒；顯著水準是事前允許的上限。"
           }
         },
         {
@@ -229,10 +223,9 @@
             "original_number": 7
           },
           "card": {
-            "concept": "中位數",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：平均數會受極端值拉動而偏離中心位置。中位數則是將資料排序後取中間值，不會受到少數極端值的嚴重影響，因此在偏態分佈或極端值存在時，常用中位數描述資料集中趨勢。",
-            "frequency": "中"
+            "concept": "中位數以排序後的中間位置代表中心，對極端值較穩健。",
+            "mnemonic": "資料先排隊，中間那位不怕兩端亂跑。",
+            "confusion": "平均數使用總和除以筆數；中位數取排序後中央位置。"
           }
         },
         {
@@ -260,10 +253,9 @@
             "original_number": 8
           },
           "card": {
-            "concept": "Adagrad",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：Adagrad 根據各參數歷史梯度平方和，調整每個參數的學習率。對變動較少的參數保留較高學習率，而對變動大的參數降低學習率，特別適合處理稀疏特徵資料。",
-            "frequency": "中"
+            "concept": "Adagrad 依各參數累積梯度平方調整個別學習率。",
+            "mnemonic": "梯度走得多，步子就變小；走得少，步子保留大。",
+            "confusion": "Adagrad 累積平方梯度縮放步長；Momentum 累積方向動量加速前進。"
           }
         },
         {
@@ -291,10 +283,9 @@
             "original_number": 9
           },
           "card": {
-            "concept": "梯度裁剪（Gradient Clipping）",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：梯度爆炸會導致權重變動過大甚至溢出，影響模型穩定性。梯度裁剪能限制梯度的最大值，防止數值爆炸，特別適用於深度神經網路或RNN 訓練。",
-            "frequency": "中"
+            "concept": "梯度爆炸時限制更新訊號的幅度，避免權重數值失控。",
+            "mnemonic": "梯度太大先踩煞車，不讓更新衝出軌道。",
+            "confusion": "梯度爆炸使更新值過大；梯度消失使更新值過小。"
           }
         },
         {
@@ -322,10 +313,9 @@
             "original_number": 10
           },
           "card": {
-            "concept": "伯努利分佈",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：邏輯迴歸假設目標變數為二元型態（如0 或1），服從伯努利分佈，並透過sigmoid 函數將預測值映射至機率區間[0, 1]，以完成二元分類。",
-            "frequency": "中"
+            "concept": "二元分類以事件發生機率建模，輸出介於 0 與 1 的預測值。",
+            "mnemonic": "二元結果先用 0、1 表示，再把分數轉成機率。",
+            "confusion": "伯努利分佈描述單次二元結果；二項分佈描述多次成功次數。"
           }
         }
       ]
@@ -369,10 +359,9 @@
             "original_number": 1
           },
           "card": {
-            "concept": "非監督式學習（Unsupervised Learning）",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：非監督式學習（Unsupervised Learning）不依賴標註資料，主要目的是從資料中發現潛在結構、模式或分佈，例如分群（Clustering ）、降維（Dimensionality Reduction）等技術，是探索性資料分析的重要工具。",
-            "frequency": "中"
+            "concept": "從未標註資料中找出群組、結構與分布的探索方法。",
+            "mnemonic": "沒有標籤，就自己找規律、分群與結構。",
+            "confusion": "非監督式學習沒有標籤；監督式學習以標籤學習輸入與答案的對應。"
           }
         },
         {
@@ -400,10 +389,9 @@
             "original_number": 2
           },
           "card": {
-            "concept": "迴歸（Regression）",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：迴歸（Regression）是預測連續數值的任務，如房價預測、氣溫預測等，與分類不同，分類是用來預測離散類別結果。",
-            "frequency": "中"
+            "concept": "以已知資料學習並預測房價、氣溫等連續數值。",
+            "mnemonic": "分類分種類，迴歸估數字。",
+            "confusion": "迴歸預測連續數值；分類預測離散類別。"
           }
         },
         {
@@ -431,10 +419,9 @@
             "original_number": 3
           },
           "card": {
-            "concept": "卷積神經網路（Convolutional Neural Network, CNN）",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：卷積神經網路（CNN）透過卷積層偵測局部特徵，尤其擅長處理影像、語音等有空間或時間結構的資料，是深度學習中重要的基礎架構之一。",
-            "frequency": "中"
+            "concept": "利用卷積運算擷取影像或其他結構化資料中的局部特徵。",
+            "mnemonic": "卷積像小視窗，逐區掃出局部特徵。",
+            "confusion": "CNN擅長局部空間特徵；RNN著重序列前後的時間依賴。"
           }
         },
         {
@@ -462,10 +449,9 @@
             "original_number": 4
           },
           "card": {
-            "concept": "Support Vector Regression",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：當支援向量機（SVM）應用於連續數值的預測問題時，稱為支援向量迴歸（Support Vector Regression, SVR）。SVR 與傳統SVM 不同，目標是尋找一條最佳超平面，使大多數資料點落在預設的誤差範圍內。",
-            "frequency": "中"
+            "concept": "將支援向量方法用於預測連續數值的迴歸模型。",
+            "mnemonic": "SVM做分類，改猜連續數字就是SVR。",
+            "confusion": "SVR預測連續值；SVM分類不同類別或尋找分類邊界。"
           }
         },
         {
@@ -493,10 +479,9 @@
             "original_number": 5
           },
           "card": {
-            "concept": "過擬合（Overfitting）",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：過擬合（Overfitting）是指模型在訓練資料上表現極好，卻無法在未知新資料上維持預測效能，通常是因為模型過於複雜，學習到不具代表性的噪聲。",
-            "frequency": "中"
+            "concept": "模型把訓練資料的偶然雜訊也當成規律，因而難以適應新資料。",
+            "mnemonic": "訓練考滿分，新題卻失分，就是過度學習。",
+            "confusion": "過擬合連訓練雜訊；欠擬合連主要規律也學不好。"
           }
         },
         {
@@ -524,10 +509,9 @@
             "original_number": 6
           },
           "card": {
-            "concept": "激活函數（Activation Function）",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：激活函數（Activation Function）如ReLU、Sigmoid 等，為神經網路帶來非線性能力，若沒有激活函數，多層網路仍只是線性變換，無法表現複雜的關係。",
-            "frequency": "中"
+            "concept": "在神經元輸出中加入非線性轉換，使多層網路能表達複雜關係。",
+            "mnemonic": "沒有激活，多層相加仍像一條直線。",
+            "confusion": "激活函數改變輸出形狀；損失函數衡量預測與目標的差距。"
           }
         },
         {
@@ -555,10 +539,9 @@
             "original_number": 7
           },
           "card": {
-            "concept": "正則化（Regularization）",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：正則化（Regularization）透過在損失函數中加入L1 或L2 懲罰項，限制模型權重的大小，減少模型過度擬合訓練資料，提升泛化能力。",
-            "frequency": "中"
+            "concept": "在訓練目標中限制模型複雜度，以提升對未知資料的泛化能力。",
+            "mnemonic": "正則化替模型踩煞車，避免只背熟訓練資料。",
+            "confusion": "正則化限制模型複雜度；資料增強則直接增加或變化訓練樣本。"
           }
         },
         {
@@ -586,10 +569,9 @@
             "original_number": 8
           },
           "card": {
-            "concept": "損失函數（Loss Function）",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：損失函數（Loss Function）用來衡量模型預測值與實際值的差距，是指引優化器調整參數方向的重要依據。常見如均方誤差（MSE）、交叉熵損失（Cross-Entropy Loss）等。",
-            "frequency": "中"
+            "concept": "量化模型預測與真實目標的差距，作為參數更新的依據。",
+            "mnemonic": "先算差多少，再依差距調整模型。",
+            "confusion": "損失函數衡量誤差；激活函數負責提供非線性表達能力。"
           }
         },
         {
@@ -617,10 +599,9 @@
             "original_number": 9
           },
           "card": {
-            "concept": "注意力機制（Attention）",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：Transformer 模型核心在於注意力機制（Attention），透過計算序列中各元素間的關聯權重，捕捉長距離依賴，徹底取代傳統RNN 的循環架構，大幅提升計算效率與表現。",
-            "frequency": "中"
+            "concept": "依序列元素彼此的關聯程度分配權重，以掌握遠近位置的依賴。",
+            "mnemonic": "注意力會挑重點，讓相關位置彼此看見。",
+            "confusion": "注意力直接連結不同位置；池化則縮減表示的空間或序列尺寸。"
           }
         },
         {
@@ -648,10 +629,9 @@
             "original_number": 10
           },
           "card": {
-            "concept": "基尼不純度（Gini Impurity）",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：基尼不純度（Gini Impurity）衡量節點內樣本的不純度，數值越低表示節點內樣本越集中於單一類別，是決策樹演算法常用的分裂判斷依據，尤其在分類任務中扮演重要角色。",
-            "frequency": "中"
+            "concept": "評估分類節點中類別混雜程度，協助決策樹選擇分裂方式。",
+            "mnemonic": "基尼越低越純，分裂後類別越集中。",
+            "confusion": "基尼不純度評估分類混雜；均方根誤差衡量數值預測偏差。"
           }
         }
       ]
@@ -700,10 +680,9 @@
             "original_number": 1
           },
           "card": {
-            "concept": "預測模型填補（Predictive Imputation）",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：預測模型填補是利用其他特徵變數訓練模型，如迴歸或分類器，預測缺失值的位置或值，特別適用於特徵之間關聯性高的情況。相對於簡單的刪除或均值填補，模型補值能更好地捕捉數據內在關聯性，降低資訊流失。",
-            "frequency": "中"
+            "concept": "用其他特徵建立預測關係，估算資料中的缺失值。",
+            "mnemonic": "缺哪格，先看其他欄能不能推回來。",
+            "confusion": "刪除法是移除資料；均值填補是用整體平均替代。"
           }
         },
         {
@@ -731,10 +710,9 @@
             "original_number": 2
           },
           "card": {
-            "concept": "四分位距法（IQR）",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：四分位距法是常見的統計方法，透過計算資料的第一與第三四分位數（Q1 與Q3），並判定距離超過IQR（四分位距）1.5 倍以上的數據點為異常。這種方法直觀且適用於大多數數值型資料的初步檢查。",
-            "frequency": "中"
+            "concept": "以四分位數描述數值分布，找出偏離主要範圍的觀測值。",
+            "mnemonic": "Q1到Q3是盒身，超出鬚外要留意。",
+            "confusion": "IQR依統計範圍判斷；Isolation Forest以隔離難易找異常。"
           }
         },
         {
@@ -762,10 +740,9 @@
             "original_number": 3
           },
           "card": {
-            "concept": "Embedded 方法",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：Embedded 方法會在模型訓練過程中同步進行特徵挑選。例如決策樹模型會產生特徵重要性（Feature Importance），或像Lasso、Ridge 透過正則化直接控制特徵權重，實現同時建模與特徵選擇的目標。",
-            "frequency": "中"
+            "concept": "把特徵挑選納入模型學習，訓練與選擇同步完成。",
+            "mnemonic": "Embedded夾在模型裡，邊學邊挑特徵。",
+            "confusion": "Filter先看資料特性；Wrapper反覆試特徵子集；Embedded隨訓練選。"
           }
         },
         {
@@ -793,10 +770,9 @@
             "original_number": 4
           },
           "card": {
-            "concept": "對數轉換（Log Transform）",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：對數轉換可有效降低右偏分佈的極端值影響，使資料分佈更接近常態。常用於收入、銷售額等具極端高值的變數。平方根轉換則較適用於中度偏態資料。",
-            "frequency": "中"
+            "concept": "用非線性尺度壓縮高值，讓右尾影響減弱、分布較對稱。",
+            "mnemonic": "右偏長尾取對數，高值被壓得更溫和。",
+            "confusion": "對數轉換壓縮幅度較強；平方根轉換壓縮較溫和。"
           }
         },
         {
@@ -824,10 +800,9 @@
             "original_number": 5
           },
           "card": {
-            "concept": "過擬合",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：過擬合發生在模型學習了太多訓練集的細節與雜訊，導致在未見過的測試資料上表現不佳。常見解決方案包括使用正則化、降低模型複雜度或早停策略（Early Stopping）。",
-            "frequency": "中"
+            "concept": "模型過度記住訓練資料細節，因而泛化到新資料失準。",
+            "mnemonic": "訓練考滿分、陌生題失分，就是過擬合。",
+            "confusion": "過擬合是訓練好測試差；欠擬合是訓練與測試都差。"
           }
         },
         {
@@ -855,10 +830,9 @@
             "original_number": 6
           },
           "card": {
-            "concept": "LOOCV",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：LOOCV（Leave-One-Out Cross-Validation）是K-fold 的極端形式，當K等於樣本數n 時，每次只留一筆做驗證。此方法能最大化資料利用，但計算成本極高，不適用於大樣本情境。",
-            "frequency": "中"
+            "concept": "反覆以單筆資料驗證、其餘資料訓練，評估模型泛化能力。",
+            "mnemonic": "一筆留外考，其餘全拿來學。",
+            "confusion": "LOOCV每次留一筆；K-fold每次留一整折。"
           }
         },
         {
@@ -886,10 +860,9 @@
             "original_number": 7
           },
           "card": {
-            "concept": "Dropout",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：Dropout 透過隨機將神經元暫時設為零，迫使模型在每次訓練都以不同的「子網路」進行學習，有效降低模型對特定神經元的過度依賴，減少過擬合風險。",
-            "frequency": "中"
+            "concept": "訓練時隨機停用部分神經元，降低神經元間的過度依賴。",
+            "mnemonic": "每次隨機熄幾盞燈，模型不能只靠固定幾盞。",
+            "confusion": "Dropout隨機停用神經元；Early Stopping提早停止訓練。"
           }
         },
         {
@@ -917,10 +890,9 @@
             "original_number": 8
           },
           "card": {
-            "concept": "將大型模型的知識轉移至小型模型",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：Knowledge Distillation 是利用大型、高性能的教師模型，將其知識以軟標籤（soft labels）的形式傳遞給小型學生模型，讓學生模型在參數較少的情況下，仍維持接近的預測能力。",
-            "frequency": "中"
+            "concept": "以教師模型的預測訊息指導較小的學生模型，兼顧效能與效率。",
+            "mnemonic": "大老師傳訣竅，小學生少參數也學會。",
+            "confusion": "知識蒸餾轉移預測知識；剪枝直接移除不重要結構。"
           }
         },
         {
@@ -948,10 +920,9 @@
             "original_number": 9
           },
           "card": {
-            "concept": "Adagrad",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：Adagrad 能針對每個參數調整不同的學習率，累積梯度平方和後，自動減小常被更新參數的學習步伐。適合處理特徵稀疏的場景，如文字分析，但學習率會不斷衰減至極小值，需留意訓練是否停滯。",
-            "frequency": "中"
+            "concept": "依各參數歷史梯度調整步長，讓稀疏特徵的更新更有效率。",
+            "mnemonic": "少出現的特徵要大步，常出現的特徵慢慢走。",
+            "confusion": "Adagrad依參數累積梯度調步長；SGD使用共同的基礎學習率。"
           }
         },
         {
@@ -979,10 +950,9 @@
             "original_number": 10
           },
           "card": {
-            "concept": "類別變數具有高基數（High Cardinality）",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：One-hot Encoding 會為每個不同類別產生獨立欄位，若類別數過多，會導致特徵維度爆炸，增加記憶體使用與模型訓練的負擔，尤其在資料量大時更明顯。",
-            "frequency": "中"
+            "concept": "類別數過多時，每類新增欄位會使特徵維度快速膨脹。",
+            "mnemonic": "一類一欄，類別越多，欄位越爆。",
+            "confusion": "低基數只增加少量欄位；高基數會造成維度與資源負擔。"
           }
         }
       ]
@@ -1021,10 +991,9 @@
             "original_number": 1
           },
           "card": {
-            "concept": "姓名、電子郵件地址、身分證字號",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：「直接識別個人身份資訊（PII）」是指無需透過其他資訊輔助，單獨即可明確辨識出特定個人的資料。（A）出生日期、郵遞區號和職業等資訊單獨無法直接識別特定個人，通常需要結合其他資訊才能達到識別效果，屬於準識別資訊（Quasi-Identifiers）。（B）網站Cookie ID、IP 位址和地理定位資訊雖然屬於識別符號，且在特定情境下可被追溯或結合其他資訊後具有識別性，但其本身通常不被視為單獨可直接指向特定個人的PII。通常被歸類為間接識別資訊。（C）姓名、電子郵件地址和身分證字號是典型的直接識別資訊，這些資訊單獨就能指向一個特定且唯一的人。（D）網路行為模式、匿名化統計數據和加密後的密碼雜湊值均屬於非直接識別資訊。匿名化數據已去除識別性，加密雜湊值雖然源於個人密碼但已不可逆地處理，網路行為模式本身也不直接指向個人。",
-            "frequency": "中"
+            "concept": "直接識別資訊可單獨指向特定個人，和準識別、間接識別資訊相對。",
+            "mnemonic": "姓名、信箱、證號，單獨就能找到人。",
+            "confusion": "直接識別可獨立定位個人；準識別需和其他資料組合。"
           }
         },
         {
@@ -1052,10 +1021,9 @@
             "original_number": 2
           },
           "card": {
-            "concept": "強化匿名化技術",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：即便進行匿名化，外部資料比對仍可能造成再識別風險，因此須強化匿名化措施或限制資料使用情境，才能降低風險。",
-            "frequency": "中"
+            "concept": "隨機擾動是在數值資料中加入隨機誤差，降低個體可辨識性。",
+            "mnemonic": "數字加點亂，真值不全露。",
+            "confusion": "擾動改變數值但保留趨勢；遮蔽則直接隱去部分內容。"
           }
         },
         {
@@ -1083,10 +1051,9 @@
             "original_number": 3
           },
           "card": {
-            "concept": "結果門檻調整",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：結果門檻調整（Threshold Adjustment）屬於模型後處理方式，透過改變不同群體的決策門檻，以平衡模型在不同群體間的預測公平性。",
-            "frequency": "中"
+            "concept": "以後處理方式為不同群體設定決策閾值，改善預測公平性。",
+            "mnemonic": "先出分數，後調門檻；不同群體分開看。",
+            "confusion": "門檻調整改變決策規則；資料泛化則降低資料精細度。"
           }
         },
         {
@@ -1114,10 +1081,9 @@
             "original_number": 4
           },
           "card": {
-            "concept": "Equal Opportunity",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：Equal Opportunity 著重在實際應獲得正向結果的個案，在不同群體間應具有相同的被正確預測機率，尤其適用於醫療、社會福利等情境。",
-            "frequency": "中"
+            "concept": "Equal Opportunity要求各群體真正例的正確正向判定機會相等。",
+            "mnemonic": "該通過的人，都有同樣過關率。",
+            "confusion": "Equal Opportunity比較真正例率；Demographic Parity比較整體正向率。"
           }
         },
         {
@@ -1145,10 +1111,9 @@
             "original_number": 5
           },
           "card": {
-            "concept": "對抗式去偏模型（Adversarial Fairness）",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：對抗式去偏透過訓練一個對抗網路，迫使主模型無法預測敏感屬性，從而降低模型對敏感特徵的依賴，是常見的公平性處理技術。",
-            "frequency": "中"
+            "concept": "對抗式去偏在訓練中抑制模型利用敏感特徵，屬模型內部去偏。",
+            "mnemonic": "主模型想預測，對抗者就拆穿敏感線索。",
+            "confusion": "對抗式去偏改訓練目標；門檻調整只改輸出判定規則。"
           }
         },
         {
@@ -1176,10 +1141,9 @@
             "original_number": 6
           },
           "card": {
-            "concept": "類別重加權（Class Weighting）",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：類別重加權能在模型訓練時賦予少數類別更高權重，提升模型對少數群體的辨識能力，是處理不平衡資料常見的方法。",
-            "frequency": "中"
+            "concept": "類別重加權提高少數群體樣本的訓練權重，改善資料不平衡。",
+            "mnemonic": "少數樣本少，就讓每筆聲音變大。",
+            "confusion": "重加權保留資料但改影響力；SMOTE則合成新樣本。"
           }
         },
         {
@@ -1207,10 +1171,9 @@
             "original_number": 7
           },
           "card": {
-            "concept": "機率分佈差異造成的識別風險",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：T-Closeness 要求群組內敏感屬性的分佈，需與全體資料集分佈相近，以防止透過分佈偏差推測個人特徵，是進階的隱私保護技術。",
-            "frequency": "中"
+            "concept": "T-Closeness讓群組內敏感屬性分布接近全體，降低分布推測風險。",
+            "mnemonic": "群組分布別露餡，和全體分布要接近。",
+            "confusion": "T-Closeness約束分布距離；K-Anonymity要求有足夠相似者。"
           }
         },
         {
@@ -1238,10 +1201,9 @@
             "original_number": 8
           },
           "card": {
-            "concept": "公平性審查委員會",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：公平性審查委員會匯集法務、技術、產品與倫理等部門，負責評估AI系統的偏見風險，是企業治理AI 公平性的重要機制。",
-            "frequency": "中"
+            "concept": "公平性審查委員會以跨部門協作，持續檢視AI偏見與公平風險。",
+            "mnemonic": "法務、技術、產品、倫理一起把關。",
+            "confusion": "審查委員會負責治理決策；抽樣團隊只負責選取資料。"
           }
         },
         {
@@ -1269,10 +1231,9 @@
             "original_number": 9
           },
           "card": {
-            "concept": "SMOTE",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：SMOTE（Synthetic Minority Over-sampling Technique）透過合成新樣本，擴增少數類別資料，有助於平衡類別分佈，降低過擬合及模型偏誤風險。",
-            "frequency": "中"
+            "concept": "SMOTE以鄰近少數樣本合成新資料，平衡分布並降低過擬合。",
+            "mnemonic": "少數樣本找鄰居，插值生出新夥伴。",
+            "confusion": "SMOTE合成資料；類別重加權不新增資料，只調整權重。"
           }
         },
         {
@@ -1300,10 +1261,9 @@
             "original_number": 10
           },
           "card": {
-            "concept": "知識蒸餾（Knowledge Distillation）",
-            "mnemonic": "依學習指引原題複習",
-            "confusion": "解析：知識蒸餾是用於模型壓縮與加速的技術，並非基礎隱私保護技術。隱私保護常用技術包括遮蔽、泛化及分桶，用來降低個資識別風險。",
-            "frequency": "中"
+            "concept": "隱私技術改變或隱去資料呈現；知識蒸餾則著重模型壓縮。",
+            "mnemonic": "遮蔽、泛化、分桶保個資；蒸餾是瘦身模型。",
+            "confusion": "隱私技術保護資料；知識蒸餾轉移模型能力以縮小模型。"
           }
         }
       ]

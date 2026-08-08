@@ -91,7 +91,7 @@ export default function QuestionCard({ question, index, selected, onSelect, isAc
           >
             {cardOpen ? '收起解說圖卡' : '查看解說圖卡'}
           </button>
-          {cardOpen && <CardPanel card={question.card} />}
+          {cardOpen && <CardPanel card={question.card} questionId={question.id} />}
         </>
       )}
     </article>

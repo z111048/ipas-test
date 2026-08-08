@@ -2,7 +2,12 @@ export interface QuestionCard {
   concept: string
   mnemonic: string
   confusion: string
-  frequency: '高' | '中' | '低'
+  /**
+   * ⚠️ 2026-08-08 移除 `frequency`（高／中／低）。量測顯示它與唯一的客觀依據
+   * （該章實際考古題數）秩相關 −0.173，方向是反的、判別力接近零。
+   * 圖卡第四格改成查 `guideMindmap` 的章節考題數（見 `data/chapterExamStats.ts`）。
+   * `audit_resources.py` 有閘門擋它復活。
+   */
 }
 
 export interface QuestionImage {

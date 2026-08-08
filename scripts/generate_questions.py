@@ -37,8 +37,7 @@ QUESTION_SCHEMA = """{
   "card": {
     "concept": "核心概念摘要（1-2 句，直接點出最重要知識點）",
     "mnemonic": "記憶口訣或聯想技巧（簡短易記）",
-    "confusion": "最常見的混淆點（與哪個概念容易搞混，以及辨別方式）",
-    "frequency": "高"
+    "confusion": "最常見的混淆點（與哪個概念容易搞混，以及辨別方式）"
   },
   "difficulty": "中",
   "type": "概念定義型",
@@ -53,12 +52,6 @@ QUESTION_TYPES = [
 ]
 
 DIFFICULTY_DIST = '難度分布：20% 易 / 50% 中 / 30% 難'
-
-FREQ_GUIDE = (
-    '高 = 過去考試出現 3 次以上，'
-    '中 = 出現 1-2 次，'
-    '低 = 未出現但屬重要概念'
-)
 
 
 def build_generate_prompt(chapter: dict, analysis: dict, count: int, level: str = '初級',
@@ -96,7 +89,6 @@ def build_generate_prompt(chapter: dict, analysis: dict, count: int, level: str 
 - concept：1-2 句核心知識點，適合快速複習
 - mnemonic：讓人記憶深刻的口訣/聯想技巧
 - confusion：最常見的混淆點與辨別方式
-- frequency：{FREQ_GUIDE}
 
 ## 輸出格式
 請輸出純 JSON 陣列（不加任何說明文字），格式如下：
@@ -119,8 +111,7 @@ def build_enrich_prompt(question: dict) -> str:
 {{
   "concept": "核心概念摘要（1-2 句）",
   "mnemonic": "記憶口訣或聯想技巧",
-  "confusion": "最常見的混淆點與辨別方式",
-  "frequency": "高/中/低"
+  "confusion": "最常見的混淆點與辨別方式"
 }}"""
 
 

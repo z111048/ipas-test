@@ -5,7 +5,7 @@
     concept    這題考什麼觀念——錯了會把使用者導向錯的複習方向
     confusion  易混淆點——**寫錯等於直接教錯**，風險最高
     mnemonic   記憶法——主觀，但不得包含錯誤陳述
-    frequency  高/中/低——可與考古題熱度交叉檢查，不必靠抽樣
+    （frequency 已於 2026-08-08 移除：與該章實際考古題數秩相關 −0.173）
 
 `audit_resources.py` 只檢查這四個欄位非空，內容正確性從未驗過（689 題 × 4 欄位）。
 本腳本只負責**抽樣與出工作表**，判定由人／模型逐筆填 `verdict`，因此：
@@ -31,7 +31,7 @@ from typing import Any, Iterator
 
 BASE = Path(__file__).resolve().parents[1]
 OUT_PATH = BASE / 'data' / 'audit' / 'card_sample_review.json'
-CARD_FIELDS = ('concept', 'mnemonic', 'confusion', 'frequency')
+CARD_FIELDS = ('concept', 'mnemonic', 'confusion')
 
 
 def walk(data: Any) -> Iterator[dict]:

@@ -115,8 +115,7 @@ def build_prompt(subject: dict, chapter: dict, count: int, output_path: Path) ->
           "card": {{
             "concept": "核心概念摘要",
             "mnemonic": "記憶口訣或聯想",
-            "confusion": "常見混淆點",
-            "frequency": "高"
+            "confusion": "常見混淆點"
           }}
         }}
       ]

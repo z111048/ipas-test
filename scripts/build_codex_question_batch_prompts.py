@@ -147,8 +147,7 @@ def build_prompt(
           "card": {{
             "concept": "核心概念摘要",
             "mnemonic": "記憶口訣或聯想",
-            "confusion": "常見混淆點",
-            "frequency": "高"
+            "confusion": "常見混淆點"
           }}
         }}
       ]

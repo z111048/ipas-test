@@ -45,7 +45,6 @@ ALLOWED_INLINE = re.compile(r'[（(][^）)]*[）)]')
 TECHNICAL_INLINE = re.compile(
     r'\b(datetime|epoch|epochs|patience|bins|fold|folds|batch|dropout|token|tokens|'
     r'pandas|numpy|seaborn|matplotlib|timestamp|pipeline|prompt|prompts)\b')
-CARD_FREQUENCY = ('高', '中', '低')
 # card.mnemonic 的佔位字串：生成流程沒真的寫記憶法時填的話
 CARD_PLACEHOLDERS = ('依學習指引原題複習',)
 # 學習指引 PDF 的前導章節（s1pdf-c1、mid-s2pdf-c3…），不是考綱章節
@@ -223,16 +222,16 @@ def audit_questions(report: Report) -> None:
 
             card = question.get('card')
             if card is not None and isinstance(card, dict):
-                for field in ('concept', 'mnemonic', 'confusion', 'frequency'):
+                for field in ('concept', 'mnemonic', 'confusion'):
                     if field in card and not str(card[field]).strip():
                         report.add('questions', 'FAIL', f'card.{field} 是空的', label)
 
-                # 只驗非空擋不住值域錯誤：曾有 2 題把 difficulty 的「易／難」寫進
-                # frequency，前端 FreqBar 遇到非法值 `?? 1` 靜默顯示成「低」。
-                frequency = str(card.get('frequency', '')).strip()
-                if frequency and frequency not in CARD_FREQUENCY:
+                # 2026-08-08 移除 card.frequency：量測顯示它與該章實際考古題數
+                # 秩相關 −0.173（方向是反的），圖卡第四格改查章節考題數。
+                # 這條擋它復活——出題腳本若又寫回來，會是「看起來有依據」的假資訊。
+                if 'frequency' in card:
                     report.add('questions', 'FAIL',
-                               f'card.frequency={frequency!r} 不在 高/中/低', label)
+                               'card.frequency 已於 2026-08-08 移除，不應再出現', label)
 
                 # confusion 是「常見混淆」，複製解析等於那一格沒有內容
                 explanation = normalize_text(question.get('explanation'))

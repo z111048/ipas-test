@@ -70,6 +70,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--dry-run', action='store_true')
+    parser.add_argument('--drop-frequency', action='store_true',
+                        help='移除 card.frequency（2026-08-08 決定：這欄沒有事實依據，'
+                             '圖卡第四格改查章節考題數）')
     args = parser.parse_args()
 
     heat = chapter_heat()
@@ -97,6 +100,12 @@ def main() -> None:
                     fixes.append(f'{qid}: card.confusion 切掉參考書目附件')
                     dirty = True
 
+                if args.drop_frequency:
+                    if 'frequency' in card:
+                        card.pop('frequency')
+                        dirty = True
+                    continue
+
                 current = str(card.get('frequency') or '').strip()
                 if current not in VALID_FREQUENCY:
                     replacement = frequency_from_heat(qid, heat)
@@ -115,6 +124,10 @@ def main() -> None:
         elif dirty:
             changed_files += 1
 
+    if args.drop_frequency:
+        print(f'移除 card.frequency：{changed_files} 個檔案'
+              + ('（dry-run，未寫入）' if args.dry_run else ''))
+        return
     for line in fixes:
         print(('[dry-run] ' if args.dry_run else '') + line)
     print(f'\n{len(fixes)} 處修正，{changed_files} 個檔案'

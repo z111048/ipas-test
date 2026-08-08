@@ -112,11 +112,12 @@ def validate(path: Path) -> list[str]:
         if not isinstance(card, dict):
             errors.append(f'{where} missing card')
         else:
-            for key in ['concept', 'mnemonic', 'confusion', 'frequency']:
+            for key in ['concept', 'mnemonic', 'confusion']:
                 if not isinstance(card.get(key), str) or not card[key].strip():
                     errors.append(f'{where} missing card.{key}')
-            if card.get('frequency') not in {'高', '中', '低'}:
-                errors.append(f'{where} invalid card.frequency: {card.get("frequency")!r}')
+            # frequency 於 2026-08-08 移除（見 08-topic-labeling.md §7-6）
+            if 'frequency' in card:
+                errors.append(f'{where} card.frequency was removed 2026-08-08')
 
     questions_by_chapter: dict[str, list[dict[str, Any]]] = {}
     for question in questions:

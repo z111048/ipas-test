@@ -232,12 +232,12 @@ def merge_records(questions: list[dict[str, Any]], answers: list[dict[str, Any]]
                 'answer_page': answer['page'],
                 'original_number': question['number'],
             },
-            'card': {
-                'concept': answer['answer_text'] or question['options'][answer['answer']],
-                'mnemonic': '依學習指引原題複習',
-                'confusion': answer['explanation'],
-                'frequency': '中',
-            },
+            # 這裡刻意**不產生 `card`**。舊版塞的是佔位內容——concept 抄答案選項、
+            # mnemonic 寫死「依學習指引原題複習」、confusion 直接複製 explanation
+            # ——179 題全部如此，前端卻把它顯示成「常見混淆」與「記憶口訣」。
+            # 真正的 card 由 build_codex_card_prompts.py → run_codex_card_generation.py
+            # → apply_codex_card_fields.py 產生；`export_level` 會保留既有的，
+            # 所以重跑這支腳本不會蓋掉已重生的內容。見 08-topic-labeling.md §7-6。
         })
 
     return {
@@ -251,6 +251,27 @@ def merge_records(questions: list[dict[str, Any]], answers: list[dict[str, Any]]
         ],
         'unmatched_questions': unmatched,
     }
+
+
+def carry_over_cards(out_path: Path, chapters: list[dict[str, Any]]) -> int:
+    """把已 committed 的 `card` 依 id 帶回新產出，避免重跑抹掉重生過的圖卡內容。"""
+    if not out_path.exists():
+        return 0
+    existing: dict[str, Any] = {}
+    for chapter in load_json(out_path).get('chapters') or []:
+        for question in chapter.get('questions') or []:
+            if isinstance(question.get('card'), dict) and question.get('id'):
+                existing[str(question['id'])] = question['card']
+    kept = 0
+    for chapter in chapters:
+        for question in chapter.get('questions') or []:
+            card = existing.get(str(question.get('id')))
+            if card is not None:
+                question['card'] = card
+                kept += 1
+    if kept:
+        print(f'  carried over {kept} existing cards')
+    return kept
 
 
 def export_level(level: str) -> None:
@@ -267,6 +288,10 @@ def export_level(level: str) -> None:
         questions = parse_questions(page_paths, subject, headers)
         answers = parse_answers(page_paths, subject, headers)
         merged = merge_records(questions, answers, subject)
+        subject_number = key.replace('guide', '')
+        out_path = (BASE / 'data' / level / 'questions'
+                    / f'subject{subject_number}_guide_exercises.json')
+        carry_over_cards(out_path, merged['chapters'])
         payload = {
             'level': level,
             'subject': subject['subject'],
@@ -274,8 +299,6 @@ def export_level(level: str) -> None:
             'description': '從學習指引 PDF 內嵌章節練習題抽取',
             'chapters': merged['chapters'],
         }
-        subject_number = key.replace('guide', '')
-        out_path = BASE / 'data' / level / 'questions' / f'subject{subject_number}_guide_exercises.json'
         write_json(out_path, payload)
         total = sum(len(chapter['questions']) for chapter in payload['chapters'])
         print(f'Wrote {out_path.relative_to(BASE)}: {total} questions')

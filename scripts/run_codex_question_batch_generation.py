@@ -86,7 +86,7 @@ def validate_batch(path: Path, batch: dict) -> list[str]:
         if not isinstance(card, dict):
             errors.append(f'{prefix}.card is required')
         else:
-            for field in ('concept', 'mnemonic', 'confusion', 'frequency'):
+            for field in ('concept', 'mnemonic', 'confusion'):
                 if not isinstance(card.get(field), str) or not card[field].strip():
                     errors.append(f'{prefix}.card.{field} is required')
 
