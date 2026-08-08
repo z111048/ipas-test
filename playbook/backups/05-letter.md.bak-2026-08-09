@@ -72,22 +72,16 @@ git 救不回。兩個具體行動：
 （只算「正確」），`countLoose` 不上前端。
 
 **已收尾（2026-08-08 續）**：§7-6 全部驗完並修完——689 題 card 抽樣驗收、179 題圖卡內容
-用 codex CLI 重生、`card.frequency` 整欄移除（改查該章實際考古題數）、727 張概念圖卡抽
-30 張逐張看過並補上產圖後的文字閘門。**產圖已改走 `~/projects/codex-imggen` 服務，
-不要再直接 `codex exec`**（見 CLAUDE.md 環境備忘與 `pipeline-reference`）。
-四個分支（`data-governance` / `topic-heat-frontend` / `card-audit` / `image-text-gate`）
-都已 ff-only 併回 main 並 push。
+用 codex CLI 重生、`card.frequency` 整欄移除（改查該章實際考古題數）、727 張概念圖卡抽 30 張
+逐張看過。兩個分支都已 ff-only 併回 main 並 push。
 
 **下一步（依序）**：
 1. §7-5 補教材：s1c3（考 114 題／講義 8,194 字）與 s2c3（考 127 題／15,087 字）
    相對考試權重嚴重不足，是內容問題不是 pipeline 問題。**使用者尚未定調作法**
    （篇幅、取材依據、對外文案界線），要做之前先問。
 2. ⑤ 依熱度配額重生初級題目（配額、切塊、避免抄官方題的 prompt 都已就緒）。
-3. ~~概念圖卡的中文字形~~ **✅ 已處理到極限**：4 張必修修好 3 張，
-   `guide3-mid-s3c3-img-016`（「驗證停升」「步時上限」）試 7 次全滅、原圖已還原。
-   產圖後已有文字閘門（`verify_generated_images.py`），未來每次產圖都會過。
-   剩下那張與「約三分之一字形變形」要根治得換 **HTML/SVG ＋ 真字型渲染**，
-   是獨立一輪的工作，使用者尚未點頭。
+3. 概念圖卡的中文字形：4 張有真文字缺陷要單獨重生；要根治得換成
+   HTML/SVG ＋ 真字型渲染（見 `08` §7-6 的教訓，重生同一支腳本不會解決）。
 
 **使用者已決定（2026-08-08）**：
 - `guideContent_before_ocr_merge/`（8.5 MB、gitignored）**保留不刪**。
