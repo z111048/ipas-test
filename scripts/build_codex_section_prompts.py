@@ -64,6 +64,18 @@ def build_prompt(level: str, subject_index: int, subject_id: str, subject_title:
         '\n'.join(f'    - `{path}`' for path in previous_outputs)
         if previous_outputs else '    - 無，本批是此章第一批。'
     )
+    # 官方題庫要逐檔列出、而且只列真的存在的檔。舊版寫死 `mock_exam1.json`，
+    # 中級根本沒有那個檔名（中級是 mock_mid_*），等於「避免與官方題重複」這條
+    # 從來沒生效——2026-08-08 在初級抓到兩題生成題與官方題一字不差就是這樣來的。
+    official_paths = sorted(
+        p.relative_to(BASE).as_posix()
+        for p in (BASE / 'data' / level / 'questions').glob('*.json')
+        if p.name.startswith(('mock_', 'sample_'))
+    )
+    official_block = (
+        '\n'.join(f'    - `{path}`' for path in official_paths)
+        if official_paths else '    - 查無官方題庫檔案，請回報而不要繼續出題。'
+    )
     return dedent(f'''\
         你是 iPAS「AI 應用規劃師（{level}）」命題專家。請在 Codex CLI 的 read-only sandbox 內工作。
 
@@ -87,8 +99,8 @@ def build_prompt(level: str, subject_index: int, subject_id: str, subject_title:
         ```
 
         ## 參考資料（可讀，用來抓題型與避免重複）
-        - 官方公告試題解析：`data/{level}/questions/mock_exam1.json`
-        - 官方考試樣題解析：`data/{level}/questions/sample_exam.json`
+        - 官方歷屆與樣張試題（**出題前必讀，題幹不得與其中任何一題相同或近似**）：
+{official_block}
         - 既有章節題（避免重複）：`data/{level}/questions/subject{subject_index}_questions.json`
         - 同章前批 Codex 輸出（若檔案存在，必讀並避免重複）：
 {previous_block}
