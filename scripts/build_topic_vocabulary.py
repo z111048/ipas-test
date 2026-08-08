@@ -355,6 +355,97 @@ def score_against_baseline(accepted: list[dict[str, str]]) -> dict[str, Any]:
             'missed': sorted(missed), 'extra': sorted(extra)}
 
 
+FINAL_PATH = BASE / 'data' / 'topics' / 'topics.json'
+
+
+def apply_merge_pairs() -> None:
+    """把已勾選的合併配對套進詞彙表，產出定案版 topics.json。
+
+    合併鍵只用**正式名稱**，別名只做累積（08 §6：拿別名當合併鍵等於取傳遞閉包，
+    一條爛連結讓「欠擬合」吞掉 133 個別名）。每一次合併都印出來。
+    草稿 topics_draft.json 不動——定案版是另一個檔，隨時可以重來。
+    """
+    draft = json.loads(OUT_PATH.read_text(encoding='utf-8'))
+    decisions = json.loads(PAIRS_PATH.read_text(encoding='utf-8'))
+
+    by_name = {normalise(t['name']): t for t in draft['topics']}
+    if len(by_name) != len(draft['topics']):
+        raise SystemExit('FAIL 草稿裡有同名概念，先處理再套用')
+
+    merges: list[tuple[str, list[str], str]] = [
+        (p['keep'], [p['drop']], p.get('reason', '')) for p in decisions.get('accepted', [])
+    ] + [
+        (g['keep'], g['drop'], g.get('reason', ''))
+        for g in decisions.get('humanDecision', {}).get('groups', [])
+    ]
+
+    missing = [n for keep, drops, _ in merges for n in [keep, *drops]
+               if normalise(n) not in by_name]
+    if missing:
+        raise SystemExit(f'FAIL 這些名稱不在詞彙表裡，不套用：{"、".join(sorted(set(missing)))}')
+
+    # 兩份來源可能鏈狀重疊：模型說「聚類→群聚分析」，人工決定說
+    # 「群聚分析、聚類→分群演算法」。先把每個 drop 解析到最終保留名，
+    # 只有解析結果不同才是真衝突。
+    edge: dict[str, str] = {}
+    for keep, drops, _ in merges:
+        for drop in drops:
+            edge[normalise(drop)] = normalise(keep)
+
+    def resolve(name: str, seen: tuple[str, ...] = ()) -> str:
+        if name in seen:
+            raise SystemExit(f'FAIL 合併成環：{" → ".join(seen + (name,))}')
+        return resolve(edge[name], seen + (name,)) if name in edge else name
+
+    final: dict[str, str] = {}
+    for keep, drops, _ in merges:
+        for drop in drops:
+            key, root = normalise(drop), resolve(normalise(keep))
+            if key in final and final[key] != root:
+                raise SystemExit(f'FAIL「{drop}」被指派給兩個不同的保留名'
+                                 f'（{by_name[final[key]]["name"]} / {by_name[root]["name"]}）')
+            final[key] = root
+
+    dropped: set[str] = set()
+    for key, root in final.items():
+        if key not in dropped:
+            target, source = by_name[root], by_name[key]
+            drop, keep = source['name'], target['name']
+            print(f'  合併「{drop}」→「{keep}」')
+            for alias in [source['name'], *source.get('aliases', [])]:
+                if alias != target['name'] and alias not in target['aliases']:
+                    target['aliases'].append(alias)
+            for subject in source.get('subjects', []):
+                if subject not in target['subjects']:
+                    target['subjects'].append(subject)
+            dropped.add(key)
+
+    topics = sorted((t for k, t in by_name.items() if k not in dropped),
+                    key=lambda t: (t['parent'], t['name']))
+    before, after = len(draft['topics']), len(topics)
+    # 檢查「有沒有字串消失」而不是總數：兩個被合併的概念常共用別名，
+    # 去重後總數本來就會變少（過擬合／過擬合與泛化 就少了 200 多筆）。
+    def strings(items: list[dict]) -> set[str]:
+        return {t['name'] for t in items} | {a for t in items for a in t.get('aliases', [])}
+    lost = strings(draft['topics']) - strings(topics)
+    if lost:
+        raise SystemExit(f'FAIL 這些名稱／別名整個消失了：{"、".join(sorted(lost)[:10])}')
+    alias_before = sum(len(t.get('aliases', [])) for t in draft['topics'])
+    alias_after = sum(len(t.get('aliases', [])) for t in topics)
+
+    FINAL_PATH.write_text(json.dumps({
+        **{k: v for k, v in draft.items() if k != 'topics'},
+        'status': 'signed-off',
+        'signedOff': decisions.get('humanDecision', {}).get('date'),
+        'mergedFrom': str(OUT_PATH.relative_to(BASE)),
+        'mergeDecisions': str(PAIRS_PATH.relative_to(BASE)),
+        'topics': topics,
+    }, ensure_ascii=False, indent=2), encoding='utf-8')
+    print(f'\n概念 {before} → {after}（併掉 {len(dropped)}），'
+          f'別名 {alias_before} → {alias_after}')
+    print(f'→ {FINAL_PATH.relative_to(BASE)}')
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -369,6 +460,8 @@ def main() -> None:
     parser.add_argument('--consolidate', action='store_true',
                         help='對既有草稿再跑一次統整（合併同義大類與重複概念）')
     parser.add_argument('--show', action='store_true', help='print the existing draft')
+    parser.add_argument('--apply-pairs', action='store_true',
+                        help='把已勾選的合併配對套進詞彙表 → data/topics/topics.json')
     parser.add_argument('--dedupe-pairs', action='store_true',
                         help='語意去重：只輸出合併配對清單（§7-1），不動詞彙表本身')
     args = parser.parse_args()
@@ -382,6 +475,10 @@ def main() -> None:
             print(f'\n## {parent}（{len(names)}）')
             print('   ' + '、'.join(names))
         print(f'\n合計 {len(draft["topics"])} 個概念，{len(by_parent)} 個大類')
+        return
+
+    if args.apply_pairs:
+        apply_merge_pairs()
         return
 
     load_env_file()
