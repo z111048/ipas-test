@@ -16,7 +16,11 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from export_guide_outline_data import slugify_heading  # noqa: E402
 
 BASE = Path('/home/james/projects/ipas-test')
 S1C4 = BASE / 'frontend/src/generated/guideContent/初級-guide1/s1c4.json'
@@ -45,6 +49,62 @@ SHORTEN_HEADINGS = {
     '（2） 變分自編碼器（Variational Autoencoders, VAE）是一種基於概率生成模型的': '變分自編碼器（VAE）',
     '（3） 擴散模型（Diffusion Models）是一種基於逐步添加與去除雜訊的數據生成方': '擴散模型（Diffusion Models）',
 }
+
+
+# 修正 5：s1c2「假說檢定名詞介紹：」升為 h3（2026-08-08）
+# 這章在 PDF 裡只有這一個次級標題，而且它緊貼表格上緣（y 421.6–434.9 vs 表格起點
+# 426.3），一度被 export 的表格重疊過濾整行刪掉——那個內容遺失已在
+# export_guide_outline_data.py 修掉，但標題判定仍走編號式 regex，認不得無編號標題。
+# 全語料套用 OCR 標題約半數是雜訊（見該檔 ocr_heading_levels 註解），所以這裡逐條指定。
+S1C2 = BASE / 'frontend/src/generated/guideContent/初級-guide1/s1c2.json'
+PROMOTE_HEADINGS = {'s1c2': ('假說檢定名詞介紹：', 3)}
+
+
+def apply_s1c2(strict: bool) -> list[str]:
+    if not S1C2.exists():
+        raise SystemExit(f'找不到 {S1C2.relative_to(BASE)}——先跑 export_guide_outline_data.py --all-levels')
+    data = json.loads(S1C2.read_text(encoding='utf-8'))
+    title, level = PROMOTE_HEADINGS['s1c2']
+    marker = '#' * level
+    notes: list[str] = []
+
+    content = data['content']
+    if f'\n{marker} {title}\n' in content:
+        promoted = 0                      # 已是修正後狀態
+    elif f'\n{title}\n' in content:
+        content = content.replace(f'\n{title}\n', f'\n{marker} {title}\n', 1)
+        data['content'] = content
+        promoted = 1
+    else:
+        notes.append(f'修正5 在 s1c2 找不到「{title}」——export 可能又把它刪掉了')
+        promoted = 0
+
+    # anchor 必須跟匯出腳本用同一套 slug：export_guide_hierarchy 會跳過沒有 anchor 的
+    # heading block，headings[] 也是拿 id 當 anchor 用。少了它就補了等於沒補。
+    anchor = slugify_heading(title, 1)
+
+    titles = {h.get('title') for h in data.get('headings', [])}
+    if title not in titles and f'{marker} {title}' in data['content']:
+        data.setdefault('headings', []).append(
+            {'id': anchor, 'level': level, 'title': title})
+
+    for block in data.get('blocks', []):
+        if block.get('type') != 'heading' and str(block.get('text', '')).strip() == title:
+            block['type'] = 'heading'
+            block['depth'] = level
+            block['title'] = title
+            block['anchor'] = anchor
+            block.pop('text', None)
+
+    S1C2.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
+    print(f's1c2: 標題升階 {promoted} 處、headings 共 {len(data.get("headings", []))} 個')
+
+    if notes and strict:
+        for note in notes:
+            print(f'  ⚠ {note}')
+        raise SystemExit('手動修正有對不上的項目——不要當作補好了，請先查明')
+    return notes
+
 
 
 def apply_s1c4(strict: bool) -> list[str]:
@@ -100,6 +160,7 @@ def main() -> None:
                     help='對不上時只警告不中斷（預設中斷）')
     args = ap.parse_args()
     apply_s1c4(strict=not args.no_strict)
+    apply_s1c2(strict=not args.no_strict)
 
 
 if __name__ == '__main__':

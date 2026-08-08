@@ -152,6 +152,23 @@ def slice_chapter(chapter: dict, sections: list[dict]) -> tuple[list[dict], int]
     return out, unlocated
 
 
+def split_by_paragraph(body: str, target_chars: int) -> list[str]:
+    """依空行切段，貪婪塞滿到 target_chars。單一段落本身超長就自己成一塊
+    （寧可有一塊過大，也不要把句子從中間切斷）。"""
+    pieces: list[str] = []
+    current: list[str] = []
+    size = 0
+    for paragraph in (p.strip() for p in re.split(r'\n\s*\n', body) if p.strip()):
+        if current and size + len(paragraph) > target_chars:
+            pieces.append('\n\n'.join(current))
+            current, size = [], 0
+        current.append(paragraph)
+        size += len(paragraph)
+    if current:
+        pieces.append('\n\n'.join(current))
+    return pieces or [body]
+
+
 def build_chunks(sections: list[dict], target_chars: int) -> list[dict]:
     """把小節合併成適合出題的區塊。
 
@@ -182,6 +199,23 @@ def build_chunks(sections: list[dict], target_chars: int) -> list[dict]:
             return
         head = sections[start]
         if len(body) <= target_chars or end - start <= 1:
+            # 沒有子標題可拆、又超過 target 的情況：整章都定位不到標題時，全部文字
+            # 會落進單一個「章首」小節（s1c2 就是這樣變成 1 塊 5,965 字），小節粒度
+            # 出題對這種章節等於失效——退回 07 想解決的「整章一塊」原始問題。
+            # 沒有標題可依循時就依段落切，至少讓每塊落在 target 附近。
+            if len(body) > target_chars:
+                for order, piece in enumerate(split_by_paragraph(body, target_chars), 1):
+                    chunks.append({
+                        'id': f'{head["id"]}#p{order}',
+                        'title': f'{head["title"]}（第 {order} 段）',
+                        'level': head['level'],
+                        'page': head['page'],
+                        'anchor': head['anchor'],
+                        'sectionCount': end - start,
+                        'splitBy': 'paragraph',
+                        'content': piece,
+                    })
+                return
             chunks.append({
                 'id': head['id'],
                 'title': head['title'],

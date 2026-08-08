@@ -4,6 +4,7 @@
 import json
 import re
 import shutil
+import unicodedata
 from html import escape
 from pathlib import Path
 from typing import Any
@@ -74,6 +75,48 @@ def page_blocks(level: str, key: str, start_page: int, end_page: int) -> list[di
         page = load_json(pages_dir / f'page_{page_index:03d}.json')
         items.extend(positioned_page_items(level, key, page_index, page))
     return build_content_blocks(merge_split_tables(items))
+
+
+def normalize_heading_key(text: str) -> str:
+    """比對 OCR 標題用的正規化鍵：去空白、統一全半形。"""
+    return re.sub(r'\s+', '', unicodedata.normalize('NFKC', text)).strip()
+
+
+def ocr_page_heading_keys(level: str, key: str, page_index: int) -> set[str]:
+    """單頁的 OCR 標題（正規化鍵）。pages_cache 不存在時回空集合。"""
+    return set(ocr_heading_levels(level, key, page_index + 1, page_index + 1))
+
+
+def ocr_heading_levels(level: str, key: str, start_page: int, end_page: int) -> dict[str, int]:
+    """從 pages_cache 取 OCR 已判定的標題 → {正規化標題: markdown 層級}。
+
+    只拿來救「被表格 bbox 吃掉的整行文字」（見 positioned_page_items），
+    **不拿來判定標題層級**。量過：OCR 的標題標記在這份語料上約半數是雜訊
+    （`• 分布式詞嵌入`、`○ 應用示例：`、重複三次的 `處理機制：`、
+    斷句的 `響包括：`），全語料套用會讓 25 章的章節導覽變差，得不償失。
+    標題判定仍以 markdown_heading_for_line 的編號式 regex 為準。
+
+    pages_cache 是 gitignored，不存在時回空 dict——行為與舊版完全相同。
+    """
+    cache_dir = BASE / 'data' / level / 'pages_cache' / key
+    if not cache_dir.is_dir():
+        return {}
+    found: dict[str, int] = {}
+    for page_number in range(start_page, end_page + 1):
+        page_path = cache_dir / f'page_{page_number - 1:03d}.json'
+        if not page_path.exists():
+            continue
+        for heading in load_json(page_path).get('headings') or []:
+            title = str(heading.get('title') or '').strip()
+            depth = heading.get('level')
+            if not title or not isinstance(depth, int) or not 2 <= depth <= 6:
+                continue
+            # 練習題答案（「8. $\underline{Ans (C)}$」）被 OCR 標成 heading，
+            # 它們不是章節標題；長句也不是。
+            if len(title) > 40 or 'Ans' in title or '$' in title:
+                continue
+            found.setdefault(normalize_heading_key(title), depth)
+    return found
 
 
 def markdown_heading_for_line(line: str, root_title: str) -> str | None:
@@ -1960,6 +2003,11 @@ def positioned_page_items(level: str, key: str, page_index: int, cleaned_page: d
 
     extracted = load_json(extract_path)
     tables = extracted.get('tables') or []
+    # 表格重疊判定用「block 中心點 + pad 8」，緊貼表格上緣的標題會被整行刪掉：
+    # s1c2 的「假說檢定名詞介紹：」（y 421.6–434.9）就這樣消失在 table_02
+    # （y 起 426.3）裡。OCR 已判定是標題的行不因為擦邊就丟——量過，兩級合計
+    # 只有這 1 個 block 受影響，不會動到表格內文。
+    rescued = ocr_page_heading_keys(level, key, page_index)
 
     page_height = float(extracted.get('height') or 0)
     table_bboxes = [table.get('bbox') or [] for table in tables if len(table.get('bbox') or []) == 4]
@@ -1973,7 +2021,8 @@ def positioned_page_items(level: str, key: str, page_index: int, cleaned_page: d
         text = clean_table_cell(block.get('text') or '')
         if not text:
             continue
-        if any(block_overlaps_table(block, table_bbox) for table_bbox in table_bboxes):
+        if normalize_heading_key(text) not in rescued and \
+                any(block_overlaps_table(block, table_bbox) for table_bbox in table_bboxes):
             continue
         text_items.append({
             'type': 'text',
