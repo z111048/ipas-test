@@ -1,0 +1,5331 @@
+{
+  "source": {
+    "assignments": "data/topics/question_topics.json",
+    "vocabulary": "data/topics/topics.json",
+    "annotations": "frontend/src/generated/guideExamAnnotations"
+  },
+  "countingRule": "只算 verdict=正確 的標籤；countLoose 另含「過廣」供比較",
+  "warning": "各章題數不可相加——一題常引用多章，chapters 是分布不是份額",
+  "verdictTally": {
+    "正確": 813,
+    "錯誤": 33,
+    "過廣": 243
+  },
+  "questionCount": 558,
+  "questionsWithoutChapter": 108,
+  "topicCount": 172,
+  "labelCount": 813,
+  "labelCountLoose": 1056,
+  "topics": [
+    {
+      "name": "生成式AI",
+      "parent": "生成式AI與應用",
+      "count": 22,
+      "countLoose": 32,
+      "chapterCount": 7,
+      "chapters": [
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 6,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 6,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 6,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 4,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c1",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "評估指標",
+      "parent": "模型訓練與評估",
+      "count": 19,
+      "countLoose": 21,
+      "chapterCount": 14,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 6,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 4,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "mid-s3c9",
+          "count": 4,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3pdf-c4",
+          "count": 3,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s3pdf-c5",
+          "count": 2,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "s1c2",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c9",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c4",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s3c10",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c4",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c3",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "檢索增強生成",
+      "parent": "生成式AI與應用",
+      "count": 19,
+      "countLoose": 20,
+      "chapterCount": 9,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 13,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 12,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 3,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c1",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c1",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "模型可解釋性",
+      "parent": "AI專案與治理",
+      "count": 18,
+      "countLoose": 19,
+      "chapterCount": 12,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 14,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 7,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 4,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 4,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s3c4",
+          "count": 2,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3pdf-c5",
+          "count": 2,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "s1c2",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "mid-s3pdf-c3",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c5",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c9",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "偏見與公平性",
+      "parent": "AI專案與治理",
+      "count": 17,
+      "countLoose": 19,
+      "chapterCount": 11,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 8,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 4,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 4,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c2",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c7",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c1",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s3pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3pdf-c6",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c12",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "代理式AI",
+      "parent": "代理式AI與自動化",
+      "count": 17,
+      "countLoose": 17,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 17,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 5,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 3,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c1",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "資料隱私保護",
+      "parent": "AI專案與治理",
+      "count": 15,
+      "countLoose": 21,
+      "chapterCount": 8,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 8,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 4,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c1",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s2c13",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c6",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "低代碼無代碼開發",
+      "parent": "生成式AI與應用",
+      "count": 14,
+      "countLoose": 15,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "s2c1",
+          "count": 7,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 6,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "過擬合與泛化",
+      "parent": "模型訓練與評估",
+      "count": 13,
+      "countLoose": 16,
+      "chapterCount": 18,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "mid-s3c9",
+          "count": 2,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3pdf-c4",
+          "count": 2,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3pdf-c5",
+          "count": 2,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "mid-s1c8",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c9",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c7",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c1",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s2c10",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c11",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s3pdf-c3",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c6",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "低程式碼平台",
+      "parent": "AI專案與治理",
+      "count": 12,
+      "countLoose": 12,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s2c1",
+          "count": 9,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 8,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 4,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "分類模型",
+      "parent": "統計與機器學習基礎",
+      "count": 12,
+      "countLoose": 17,
+      "chapterCount": 6,
+      "chapters": [
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 4,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s3c4",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c3",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c1",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "監督式學習",
+      "parent": "統計與機器學習基礎",
+      "count": 12,
+      "countLoose": 22,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 6,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 5,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "系統整合與API",
+      "parent": "AI專案與治理",
+      "count": 11,
+      "countLoose": 15,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 9,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c1",
+          "count": 6,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 5,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "提示工程",
+      "parent": "生成式AI與應用",
+      "count": 11,
+      "countLoose": 16,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 8,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 6,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 5,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c1",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "迴歸分析",
+      "parent": "統計與機器學習基礎",
+      "count": 11,
+      "countLoose": 13,
+      "chapterCount": 9,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 4,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c2",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s3pdf-c4",
+          "count": 2,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c9",
+          "count": 2,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s2pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c6",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c7",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s3pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "非監督式學習",
+      "parent": "統計與機器學習基礎",
+      "count": 11,
+      "countLoose": 14,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 8,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 8,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "類別不平衡",
+      "parent": "資料工程與處理",
+      "count": 10,
+      "countLoose": 10,
+      "chapterCount": 9,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 4,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s2c10",
+          "count": 3,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c11",
+          "count": 3,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s3c9",
+          "count": 2,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s2pdf-c6",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s3c10",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "業務流程整合",
+      "parent": "AI專案與治理",
+      "count": 9,
+      "countLoose": 13,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 7,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 3,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c1",
+          "count": 3,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "資料漂移",
+      "parent": "AI專案與治理",
+      "count": 9,
+      "countLoose": 10,
+      "chapterCount": 9,
+      "chapters": [
+        {
+          "nodeId": "mid-s1c7",
+          "count": 4,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 3,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "mid-s1pdf-c4",
+          "count": 3,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 2,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c9",
+          "count": 2,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c3",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s3pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c9",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "正則化",
+      "parent": "模型訓練與評估",
+      "count": 9,
+      "countLoose": 9,
+      "chapterCount": 10,
+      "chapters": [
+        {
+          "nodeId": "mid-s3pdf-c4",
+          "count": 3,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3pdf-c5",
+          "count": 3,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c10",
+          "count": 3,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s3c3",
+          "count": 2,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c6",
+          "count": 2,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c8",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "分群演算法",
+      "parent": "統計與機器學習基礎",
+      "count": 9,
+      "countLoose": 13,
+      "chapterCount": 7,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 4,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s2pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c6",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s3pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c5",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "強化學習",
+      "parent": "統計與機器學習基礎",
+      "count": 9,
+      "countLoose": 9,
+      "chapterCount": 5,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 6,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 4,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "異常偵測",
+      "parent": "統計與機器學習基礎",
+      "count": 9,
+      "countLoose": 9,
+      "chapterCount": 10,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 7,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 4,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 4,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c7",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c3",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s2c11",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "資料標準化",
+      "parent": "資料工程與處理",
+      "count": 9,
+      "countLoose": 10,
+      "chapterCount": 10,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c8",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s3pdf-c3",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c3",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c7",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "降維方法",
+      "parent": "資料工程與處理",
+      "count": 9,
+      "countLoose": 9,
+      "chapterCount": 9,
+      "chapters": [
+        {
+          "nodeId": "mid-s1c8",
+          "count": 2,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s3pdf-c5",
+          "count": 2,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s2pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c6",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s3pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c5",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c4",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c2",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "AI法規遵循",
+      "parent": "AI專案與治理",
+      "count": 8,
+      "countLoose": 11,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 6,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "效能優化",
+      "parent": "模型訓練與評估",
+      "count": 8,
+      "countLoose": 11,
+      "chapterCount": 10,
+      "chapters": [
+        {
+          "nodeId": "s1c1",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c1",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c8",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c9",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "大型語言模型",
+      "parent": "生成式AI與應用",
+      "count": 8,
+      "countLoose": 12,
+      "chapterCount": 7,
+      "chapters": [
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 5,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 4,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 3,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "特徵選擇",
+      "parent": "統計與機器學習基礎",
+      "count": 8,
+      "countLoose": 9,
+      "chapterCount": 13,
+      "chapters": [
+        {
+          "nodeId": "mid-s3pdf-c5",
+          "count": 4,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s3c10",
+          "count": 2,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3pdf-c4",
+          "count": 2,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c8",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s3c3",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c4",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c9",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c6",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c5",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "鑑別式AI",
+      "parent": "統計與機器學習基礎",
+      "count": 8,
+      "countLoose": 9,
+      "chapterCount": 5,
+      "chapters": [
+        {
+          "nodeId": "s1c4",
+          "count": 4,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "AI應用場景評估",
+      "parent": "AI專案與治理",
+      "count": 7,
+      "countLoose": 11,
+      "chapterCount": 7,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 5,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 3,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 3,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "mid-s3c4",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3pdf-c3",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c5",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "AI治理與倫理",
+      "parent": "AI專案與治理",
+      "count": 7,
+      "countLoose": 12,
+      "chapterCount": 5,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "AI風險管理",
+      "parent": "AI專案與治理",
+      "count": 7,
+      "countLoose": 12,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 4,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c1",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "隱私強化技術",
+      "parent": "AI專案與治理",
+      "count": 7,
+      "countLoose": 10,
+      "chapterCount": 8,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 3,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c13",
+          "count": 2,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s3c11",
+          "count": 2,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s2c10",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c6",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c6",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s3c2",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3pdf-c6",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "交叉驗證",
+      "parent": "模型訓練與評估",
+      "count": 7,
+      "countLoose": 10,
+      "chapterCount": 12,
+      "chapters": [
+        {
+          "nodeId": "mid-s3c9",
+          "count": 4,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3pdf-c5",
+          "count": 2,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s1c8",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c9",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c7",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s2c10",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c11",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c6",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s3pdf-c3",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c4",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "模型微調",
+      "parent": "模型訓練與評估",
+      "count": 7,
+      "countLoose": 7,
+      "chapterCount": 5,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 4,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 3,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "少樣本提示",
+      "parent": "生成式AI與應用",
+      "count": 7,
+      "countLoose": 7,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 5,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 5,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 3,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c1",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "影像生成",
+      "parent": "生成式AI與應用",
+      "count": 7,
+      "countLoose": 8,
+      "chapterCount": 7,
+      "chapters": [
+        {
+          "nodeId": "s1c4",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "mid-s1c2",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c3",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "Transformer架構",
+      "parent": "統計與機器學習基礎",
+      "count": 7,
+      "countLoose": 9,
+      "chapterCount": 8,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "mid-s1c1",
+          "count": 2,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c8",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "變分自編碼器",
+      "parent": "統計與機器學習基礎",
+      "count": 7,
+      "countLoose": 7,
+      "chapterCount": 9,
+      "chapters": [
+        {
+          "nodeId": "s1c4",
+          "count": 4,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 4,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 2,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c4",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c3",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c3",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c9",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "類別特徵編碼",
+      "parent": "資料工程與處理",
+      "count": 7,
+      "countLoose": 7,
+      "chapterCount": 8,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s2c6",
+          "count": 3,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s2pdf-c4",
+          "count": 2,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c8",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "AI幻覺與真實性風險",
+      "parent": "AI專案與治理",
+      "count": 6,
+      "countLoose": 6,
+      "chapterCount": 5,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 3,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "成本效益分析",
+      "parent": "AI專案與治理",
+      "count": 6,
+      "countLoose": 7,
+      "chapterCount": 5,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 4,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "部署架構",
+      "parent": "AI專案與治理",
+      "count": 6,
+      "countLoose": 7,
+      "chapterCount": 8,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 4,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c1",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "mid-s1c9",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "即時資料處理",
+      "parent": "MLOps與系統部署",
+      "count": 6,
+      "countLoose": 7,
+      "chapterCount": 8,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s2c4",
+          "count": 2,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c6",
+          "count": 2,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c8",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c10",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "模型推論",
+      "parent": "模型訓練與評估",
+      "count": 6,
+      "countLoose": 6,
+      "chapterCount": 6,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "模型監控",
+      "parent": "模型訓練與評估",
+      "count": 6,
+      "countLoose": 7,
+      "chapterCount": 5,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 3,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "mid-s1c9",
+          "count": 2,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c7",
+          "count": 2,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "類別敏感評估",
+      "parent": "模型訓練與評估",
+      "count": 6,
+      "countLoose": 7,
+      "chapterCount": 10,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s3c9",
+          "count": 2,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c9",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c4",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s2c10",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c11",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c6",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s3pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c10",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "應用場景規劃",
+      "parent": "生成式AI與應用",
+      "count": 6,
+      "countLoose": 13,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 4,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 3,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "注意力機制",
+      "parent": "生成式AI與應用",
+      "count": 6,
+      "countLoose": 6,
+      "chapterCount": 9,
+      "chapters": [
+        {
+          "nodeId": "s1c1",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c1",
+          "count": 2,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "mid-s1pdf-c3",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c8",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s3c6",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "生成內容審查",
+      "parent": "生成式AI與應用",
+      "count": 6,
+      "countLoose": 8,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 4,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "偏態與長尾分佈",
+      "parent": "統計與機器學習基礎",
+      "count": 6,
+      "countLoose": 6,
+      "chapterCount": 10,
+      "chapters": [
+        {
+          "nodeId": "s1c2",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s2c7",
+          "count": 2,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c3",
+          "count": 2,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s2c9",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c1",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c6",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "卷積神經網路",
+      "parent": "統計與機器學習基礎",
+      "count": 6,
+      "countLoose": 11,
+      "chapterCount": 5,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s3pdf-c4",
+          "count": 2,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s3c6",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "生成對抗網路",
+      "parent": "統計與機器學習基礎",
+      "count": 6,
+      "countLoose": 6,
+      "chapterCount": 8,
+      "chapters": [
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 3,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c3",
+          "count": 2,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c8",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c4",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c3",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c9",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "特徵工程",
+      "parent": "資料工程與處理",
+      "count": 6,
+      "countLoose": 9,
+      "chapterCount": 6,
+      "chapters": [
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c8",
+          "count": 2,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 2,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c2",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "特徵縮放",
+      "parent": "資料工程與處理",
+      "count": 6,
+      "countLoose": 7,
+      "chapterCount": 9,
+      "chapters": [
+        {
+          "nodeId": "mid-s2c6",
+          "count": 3,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c4",
+          "count": 2,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s3pdf-c5",
+          "count": 2,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s2c1",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s3pdf-c3",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c3",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c7",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "資料品質",
+      "parent": "資料工程與處理",
+      "count": 6,
+      "countLoose": 12,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 5,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c1",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "資料清理",
+      "parent": "資料工程與處理",
+      "count": 6,
+      "countLoose": 10,
+      "chapterCount": 7,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s2pdf-c4",
+          "count": 2,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s2c7",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c6",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "概念驗證",
+      "parent": "AI專案與治理",
+      "count": 5,
+      "countLoose": 6,
+      "chapterCount": 5,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 3,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c5",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c6",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "多模態融合",
+      "parent": "特定領域AI技術",
+      "count": 5,
+      "countLoose": 5,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c4",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c3",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "程式碼輔助生成",
+      "parent": "生成式AI與應用",
+      "count": 5,
+      "countLoose": 5,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 4,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c1",
+          "count": 3,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "循環神經網路",
+      "parent": "統計與機器學習基礎",
+      "count": 5,
+      "countLoose": 5,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s1c1",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s3c4",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c8",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "擴散模型",
+      "parent": "統計與機器學習基礎",
+      "count": 5,
+      "countLoose": 5,
+      "chapterCount": 7,
+      "chapters": [
+        {
+          "nodeId": "mid-s1pdf-c3",
+          "count": 2,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "mid-s1c2",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c4",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c3",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "激活函數",
+      "parent": "統計與機器學習基礎",
+      "count": 5,
+      "countLoose": 5,
+      "chapterCount": 6,
+      "chapters": [
+        {
+          "nodeId": "s1c4",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s3pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c6",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "資料前處理",
+      "parent": "資料工程與處理",
+      "count": 5,
+      "countLoose": 8,
+      "chapterCount": 5,
+      "chapters": [
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "離群值處理",
+      "parent": "資料工程與處理",
+      "count": 5,
+      "countLoose": 5,
+      "chapterCount": 8,
+      "chapters": [
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c2",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s2pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c1",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c6",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s3pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c5",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "影子IT治理",
+      "parent": "AI專案與治理",
+      "count": 4,
+      "countLoose": 4,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 3,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c1",
+          "count": 3,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "提示詞攻擊防護",
+      "parent": "AI專案與治理",
+      "count": 4,
+      "countLoose": 5,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 4,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "系統安全與稽核",
+      "parent": "AI專案與治理",
+      "count": 4,
+      "countLoose": 6,
+      "chapterCount": 6,
+      "chapters": [
+        {
+          "nodeId": "s2c1",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c9",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s3c11",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "資料匿名化",
+      "parent": "AI專案與治理",
+      "count": 4,
+      "countLoose": 6,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "任務分解",
+      "parent": "代理式AI與自動化",
+      "count": 4,
+      "countLoose": 4,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 4,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "工具呼叫",
+      "parent": "代理式AI與自動化",
+      "count": 4,
+      "countLoose": 4,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 3,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 3,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c1",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "模型上下文協定",
+      "parent": "代理式AI與自動化",
+      "count": 4,
+      "countLoose": 4,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c1",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "超參數調整",
+      "parent": "模型訓練與評估",
+      "count": 4,
+      "countLoose": 6,
+      "chapterCount": 7,
+      "chapters": [
+        {
+          "nodeId": "mid-s1c7",
+          "count": 3,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c8",
+          "count": 2,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c9",
+          "count": 2,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c6",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s3pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c10",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "NLP應用",
+      "parent": "特定領域AI技術",
+      "count": 4,
+      "countLoose": 5,
+      "chapterCount": 1,
+      "chapters": [
+        {
+          "nodeId": "mid-s1c1",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "影像辨識任務",
+      "parent": "特定領域AI技術",
+      "count": 4,
+      "countLoose": 4,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "情感分析",
+      "parent": "特定領域AI技術",
+      "count": 4,
+      "countLoose": 5,
+      "chapterCount": 5,
+      "chapters": [
+        {
+          "nodeId": "mid-s1c1",
+          "count": 2,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c7",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "資料增強",
+      "parent": "特定領域AI技術",
+      "count": 4,
+      "countLoose": 4,
+      "chapterCount": 6,
+      "chapters": [
+        {
+          "nodeId": "mid-s1c1",
+          "count": 2,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c7",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "上下文工程",
+      "parent": "生成式AI與應用",
+      "count": 4,
+      "countLoose": 6,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 4,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "多模態AI",
+      "parent": "生成式AI與應用",
+      "count": 4,
+      "countLoose": 7,
+      "chapterCount": 5,
+      "chapters": [
+        {
+          "nodeId": "mid-s1c4",
+          "count": 2,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c3",
+          "count": 2,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "多模態生成",
+      "parent": "生成式AI與應用",
+      "count": 4,
+      "countLoose": 5,
+      "chapterCount": 5,
+      "chapters": [
+        {
+          "nodeId": "s2c2",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "mid-s1c2",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c4",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c3",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "知識庫整合",
+      "parent": "生成式AI與應用",
+      "count": 4,
+      "countLoose": 4,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 4,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "自迴歸生成",
+      "parent": "生成式AI與應用",
+      "count": 4,
+      "countLoose": 4,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "支援向量機",
+      "parent": "統計與機器學習基礎",
+      "count": 4,
+      "countLoose": 4,
+      "chapterCount": 5,
+      "chapters": [
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c8",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s3pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "敘述統計",
+      "parent": "統計與機器學習基礎",
+      "count": 4,
+      "countLoose": 8,
+      "chapterCount": 6,
+      "chapters": [
+        {
+          "nodeId": "mid-s2pdf-c3",
+          "count": 2,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c7",
+          "count": 2,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c2",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s2c8",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c1",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "時間序列預測",
+      "parent": "統計與機器學習基礎",
+      "count": 4,
+      "countLoose": 6,
+      "chapterCount": 5,
+      "chapters": [
+        {
+          "nodeId": "s1c1",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s3c4",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c8",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "自然語言處理",
+      "parent": "統計與機器學習基礎",
+      "count": 4,
+      "countLoose": 6,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "領域應用",
+      "parent": "統計與機器學習基礎",
+      "count": 4,
+      "countLoose": 5,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "串流處理",
+      "parent": "資料工程與處理",
+      "count": 4,
+      "countLoose": 5,
+      "chapterCount": 7,
+      "chapters": [
+        {
+          "nodeId": "mid-s2c4",
+          "count": 2,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c6",
+          "count": 2,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c11",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c8",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c10",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "資料型態",
+      "parent": "資料工程與處理",
+      "count": 4,
+      "countLoose": 6,
+      "chapterCount": 5,
+      "chapters": [
+        {
+          "nodeId": "s1c1",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s2pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c7",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "遺漏值處理",
+      "parent": "資料工程與處理",
+      "count": 4,
+      "countLoose": 5,
+      "chapterCount": 5,
+      "chapters": [
+        {
+          "nodeId": "mid-s2pdf-c4",
+          "count": 3,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c7",
+          "count": 2,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s2c6",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "AI基礎設施評估",
+      "parent": "AI專案與治理",
+      "count": 3,
+      "countLoose": 4,
+      "chapterCount": 1,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "AI專案導入評估",
+      "parent": "AI專案與治理",
+      "count": 3,
+      "countLoose": 5,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c1",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "人類參與迴圈",
+      "parent": "AI專案與治理",
+      "count": 3,
+      "countLoose": 3,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "資料隱私法規",
+      "parent": "AI專案與治理",
+      "count": 3,
+      "countLoose": 3,
+      "chapterCount": 1,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "系統資源調度",
+      "parent": "MLOps與系統部署",
+      "count": 3,
+      "countLoose": 3,
+      "chapterCount": 5,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2c1",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "優化演算法",
+      "parent": "模型訓練與評估",
+      "count": 3,
+      "countLoose": 4,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s3pdf-c3",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c3",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "模型訓練資源",
+      "parent": "模型訓練與評估",
+      "count": 3,
+      "countLoose": 5,
+      "chapterCount": 5,
+      "chapters": [
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c7",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c1",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "模型評估",
+      "parent": "模型訓練與評估",
+      "count": 3,
+      "countLoose": 4,
+      "chapterCount": 1,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "資料切分",
+      "parent": "模型訓練與評估",
+      "count": 3,
+      "countLoose": 3,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s3pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c9",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "影像分割",
+      "parent": "特定領域AI技術",
+      "count": 3,
+      "countLoose": 3,
+      "chapterCount": 5,
+      "chapters": [
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c2",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c3",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "物件偵測",
+      "parent": "特定領域AI技術",
+      "count": 3,
+      "countLoose": 3,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c2",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "AI客服應用",
+      "parent": "生成式AI與應用",
+      "count": 3,
+      "countLoose": 8,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c1",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "向量檢索",
+      "parent": "生成式AI與應用",
+      "count": 3,
+      "countLoose": 3,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "mid-s1c1",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "思維鏈提示",
+      "parent": "生成式AI與應用",
+      "count": 3,
+      "countLoose": 3,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 3,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c2",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "零樣本學習",
+      "parent": "生成式AI與應用",
+      "count": 3,
+      "countLoose": 3,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s2c2",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "mid-s1c4",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c3",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "多重共線性",
+      "parent": "統計與機器學習基礎",
+      "count": 3,
+      "countLoose": 3,
+      "chapterCount": 6,
+      "chapters": [
+        {
+          "nodeId": "mid-s1c8",
+          "count": 2,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s3c4",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c9",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "決策樹模型",
+      "parent": "統計與機器學習基礎",
+      "count": 3,
+      "countLoose": 3,
+      "chapterCount": 7,
+      "chapters": [
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s2pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c6",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s3pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c6",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c5",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "深度學習",
+      "parent": "統計與機器學習基礎",
+      "count": 3,
+      "countLoose": 4,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "相關分析",
+      "parent": "統計與機器學習基礎",
+      "count": 3,
+      "countLoose": 3,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "mid-s2c9",
+          "count": 2,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s2pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c3",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "神經網路基礎",
+      "parent": "統計與機器學習基礎",
+      "count": 3,
+      "countLoose": 7,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s1c4",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "電腦視覺",
+      "parent": "統計與機器學習基礎",
+      "count": 3,
+      "countLoose": 5,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s1c1",
+          "count": 3,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c4",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "大數據概念",
+      "parent": "資料工程與處理",
+      "count": 3,
+      "countLoose": 6,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "數值型資料視覺化",
+      "parent": "資料工程與處理",
+      "count": 3,
+      "countLoose": 4,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s2c9",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c7",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "異常值偵測",
+      "parent": "資料工程與處理",
+      "count": 3,
+      "countLoose": 5,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "mid-s2c8",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "類別型資料視覺化",
+      "parent": "資料工程與處理",
+      "count": 3,
+      "countLoose": 3,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "mid-s2c9",
+          "count": 3,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c5",
+          "count": 2,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c7",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "內容溯源",
+      "parent": "AI專案與治理",
+      "count": 2,
+      "countLoose": 2,
+      "chapterCount": 1,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "對抗性攻擊",
+      "parent": "AI專案與治理",
+      "count": 2,
+      "countLoose": 4,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "mid-s1c9",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c7",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "智慧財產權",
+      "parent": "AI專案與治理",
+      "count": 2,
+      "countLoose": 2,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "mid-s1c5",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c3",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c1",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "容器編排",
+      "parent": "MLOps與系統部署",
+      "count": 2,
+      "countLoose": 2,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "mid-s1c9",
+          "count": 2,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "模型部署",
+      "parent": "MLOps與系統部署",
+      "count": 2,
+      "countLoose": 3,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "mid-s1c9",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "模型壓縮",
+      "parent": "模型訓練與評估",
+      "count": 2,
+      "countLoose": 2,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "知識蒸餾",
+      "parent": "模型訓練與評估",
+      "count": 2,
+      "countLoose": 2,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c1",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "資料洩漏",
+      "parent": "模型訓練與評估",
+      "count": 2,
+      "countLoose": 2,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c9",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c7",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "迴歸模型假設",
+      "parent": "模型訓練與評估",
+      "count": 2,
+      "countLoose": 2,
+      "chapterCount": 7,
+      "chapters": [
+        {
+          "nodeId": "mid-s2c6",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c3",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c3",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s3pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c2",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c5",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "文本切分",
+      "parent": "生成式AI與應用",
+      "count": 2,
+      "countLoose": 2,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 2,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c1",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "決策樹與集成學習",
+      "parent": "生成式AI與應用",
+      "count": 2,
+      "countLoose": 2,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s3pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c3",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "半監督式學習",
+      "parent": "統計與機器學習基礎",
+      "count": 2,
+      "countLoose": 2,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 2,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "機器學習概論",
+      "parent": "統計與機器學習基礎",
+      "count": 2,
+      "countLoose": 7,
+      "chapterCount": 1,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "機率分佈",
+      "parent": "統計與機器學習基礎",
+      "count": 2,
+      "countLoose": 7,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "mid-s3pdf-c3",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c1",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "線性代數與運算",
+      "parent": "統計與機器學習基礎",
+      "count": 2,
+      "countLoose": 2,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "mid-s3pdf-c3",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c2",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "遷移學習",
+      "parent": "統計與機器學習基礎",
+      "count": 2,
+      "countLoose": 2,
+      "chapterCount": 5,
+      "chapters": [
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c1",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "mid-s3pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c6",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "資料庫交易",
+      "parent": "資料工程與處理",
+      "count": 2,
+      "countLoose": 2,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "mid-s2c5",
+          "count": 2,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "MLOps",
+      "parent": "MLOps與系統部署",
+      "count": 1,
+      "countLoose": 4,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "mid-s1c9",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c7",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "持續整合",
+      "parent": "MLOps與系統部署",
+      "count": 1,
+      "countLoose": 1,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "mid-s1c9",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "模型版本控管",
+      "parent": "MLOps與系統部署",
+      "count": 1,
+      "countLoose": 1,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "mid-s1c9",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "參數高效微調",
+      "parent": "模型訓練與評估",
+      "count": 1,
+      "countLoose": 1,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "s2pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "梯度下降",
+      "parent": "模型訓練與評估",
+      "count": 1,
+      "countLoose": 3,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "模型優化",
+      "parent": "模型訓練與評估",
+      "count": 1,
+      "countLoose": 2,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "s1pdf-c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "CNN模型演進",
+      "parent": "特定領域AI技術",
+      "count": 1,
+      "countLoose": 1,
+      "chapterCount": 0,
+      "chapters": []
+    },
+    {
+      "name": "交並比",
+      "parent": "特定領域AI技術",
+      "count": 1,
+      "countLoose": 1,
+      "chapterCount": 1,
+      "chapters": [
+        {
+          "nodeId": "mid-s1c2",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "命名實體辨識",
+      "parent": "特定領域AI技術",
+      "count": 1,
+      "countLoose": 1,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "s1c4",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "詞嵌入",
+      "parent": "特定領域AI技術",
+      "count": 1,
+      "countLoose": 3,
+      "chapterCount": 0,
+      "chapters": []
+    },
+    {
+      "name": "詞頻-逆文件頻率",
+      "parent": "特定領域AI技術",
+      "count": 1,
+      "countLoose": 1,
+      "chapterCount": 1,
+      "chapters": [
+        {
+          "nodeId": "mid-s1c1",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "ReAct提示",
+      "parent": "生成式AI與應用",
+      "count": 1,
+      "countLoose": 1,
+      "chapterCount": 1,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "標記化",
+      "parent": "生成式AI與應用",
+      "count": 1,
+      "countLoose": 2,
+      "chapterCount": 0,
+      "chapters": []
+    },
+    {
+      "name": "假設檢定",
+      "parent": "統計與機器學習基礎",
+      "count": 1,
+      "countLoose": 3,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "mid-s2c3",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c3",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "多任務學習",
+      "parent": "統計與機器學習基礎",
+      "count": 1,
+      "countLoose": 1,
+      "chapterCount": 1,
+      "chapters": [
+        {
+          "nodeId": "mid-s1c1",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "序列模型",
+      "parent": "統計與機器學習基礎",
+      "count": 1,
+      "countLoose": 2,
+      "chapterCount": 1,
+      "chapters": [
+        {
+          "nodeId": "mid-s1c1",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "模型訓練機制",
+      "parent": "統計與機器學習基礎",
+      "count": 1,
+      "countLoose": 3,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "s2c1",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        },
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "機率與統計",
+      "parent": "統計與機器學習基礎",
+      "count": 1,
+      "countLoose": 5,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "mid-s3pdf-c3",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c1",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "池化層",
+      "parent": "統計與機器學習基礎",
+      "count": 1,
+      "countLoose": 1,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "mid-s1c8",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1c2",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "關聯規則學習",
+      "parent": "統計與機器學習基礎",
+      "count": 1,
+      "countLoose": 1,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "mid-s2c9",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c7",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "分散式資料處理",
+      "parent": "資料工程與處理",
+      "count": 1,
+      "countLoose": 2,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "mid-s2pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c10",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c12",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c6",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "半結構化資料",
+      "parent": "資料工程與處理",
+      "count": 1,
+      "countLoose": 1,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "mid-s1c8",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        },
+        {
+          "nodeId": "mid-s1pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "圖形資料庫",
+      "parent": "資料工程與處理",
+      "count": 1,
+      "countLoose": 2,
+      "chapterCount": 3,
+      "chapters": [
+        {
+          "nodeId": "mid-s2c4",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c5",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "多模態資料處理",
+      "parent": "資料工程與處理",
+      "count": 1,
+      "countLoose": 1,
+      "chapterCount": 4,
+      "chapters": [
+        {
+          "nodeId": "mid-s2pdf-c4",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c10",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2c12",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c6",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "多變數視覺化",
+      "parent": "資料工程與處理",
+      "count": 1,
+      "countLoose": 1,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "mid-s2c9",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c5",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "探索性資料分析",
+      "parent": "資料工程與處理",
+      "count": 1,
+      "countLoose": 1,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "s1c3",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        },
+        {
+          "nodeId": "s1c2",
+          "count": 1,
+          "guideKey": "初級-guide1"
+        }
+      ]
+    },
+    {
+      "name": "模型記憶風險",
+      "parent": "資料工程與處理",
+      "count": 1,
+      "countLoose": 1,
+      "chapterCount": 1,
+      "chapters": [
+        {
+          "nodeId": "s2c3",
+          "count": 1,
+          "guideKey": "初級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "統計量分析",
+      "parent": "資料工程與處理",
+      "count": 1,
+      "countLoose": 5,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "mid-s2c1",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        },
+        {
+          "nodeId": "mid-s2pdf-c3",
+          "count": 1,
+          "guideKey": "中級-guide2"
+        }
+      ]
+    },
+    {
+      "name": "資料標註",
+      "parent": "資料工程與處理",
+      "count": 1,
+      "countLoose": 2,
+      "chapterCount": 2,
+      "chapters": [
+        {
+          "nodeId": "mid-s3pdf-c6",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        },
+        {
+          "nodeId": "mid-s3c12",
+          "count": 1,
+          "guideKey": "中級-guide3"
+        }
+      ]
+    },
+    {
+      "name": "AI幻覺與內容審核",
+      "parent": "AI專案與治理",
+      "count": 0,
+      "countLoose": 1,
+      "chapterCount": 0,
+      "chapters": []
+    },
+    {
+      "name": "模型穩定性",
+      "parent": "AI專案與治理",
+      "count": 0,
+      "countLoose": 1,
+      "chapterCount": 0,
+      "chapters": []
+    },
+    {
+      "name": "分散式運算",
+      "parent": "MLOps與系統部署",
+      "count": 0,
+      "countLoose": 1,
+      "chapterCount": 0,
+      "chapters": []
+    },
+    {
+      "name": "文字分類",
+      "parent": "特定領域AI技術",
+      "count": 0,
+      "countLoose": 1,
+      "chapterCount": 0,
+      "chapters": []
+    },
+    {
+      "name": "文字預處理",
+      "parent": "特定領域AI技術",
+      "count": 0,
+      "countLoose": 1,
+      "chapterCount": 0,
+      "chapters": []
+    },
+    {
+      "name": "統計語言模型",
+      "parent": "特定領域AI技術",
+      "count": 0,
+      "countLoose": 1,
+      "chapterCount": 0,
+      "chapters": []
+    },
+    {
+      "name": "預訓練語言模型",
+      "parent": "特定領域AI技術",
+      "count": 0,
+      "countLoose": 2,
+      "chapterCount": 0,
+      "chapters": []
+    },
+    {
+      "name": "機器學習演算法",
+      "parent": "統計與機器學習基礎",
+      "count": 0,
+      "countLoose": 1,
+      "chapterCount": 0,
+      "chapters": []
+    },
+    {
+      "name": "神經網路訓練",
+      "parent": "統計與機器學習基礎",
+      "count": 0,
+      "countLoose": 5,
+      "chapterCount": 0,
+      "chapters": []
+    },
+    {
+      "name": "自監督式學習",
+      "parent": "統計與機器學習基礎",
+      "count": 0,
+      "countLoose": 1,
+      "chapterCount": 0,
+      "chapters": []
+    }
+  ]
+}
