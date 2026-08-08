@@ -40,6 +40,8 @@ COMMITTED_REVIEW: dict[str, Any] = {}
 # 早期版本用 [a-zA-Z]{3,} 產生 483 個誤判，等於沒有這條檢查。
 MIXED_SCRIPT = re.compile(r'[一-鿿]\s*[a-z]{4,}\s*[一-鿿]')
 ALLOWED_INLINE = re.compile(r'[（(][^）)]*[）)]')
+# 學習指引 PDF 的前導章節（s1pdf-c1、mid-s2pdf-c3…），不是考綱章節
+PREFACE_ID = re.compile(r'pdf-c\d+$')
 
 
 class Report:
@@ -148,6 +150,10 @@ def audit_colab(report: Report) -> None:
 
 def audit_questions(report: Report) -> None:
     seen_ids: dict[str, str] = {}
+    # 題幹內容的跨檔重複。只查 id 唯一性是不夠的：mock_exam1/2 與 mock_jr_1141_s1/s2
+    # 的 100 題完全相同，但 id 不同（exam1_q1 vs jr_1141_s1_q1），舊版閘門照不到，
+    # 於是同一份考卷在站上存在兩份、其中一份還沒有官方詳解。
+    seen_stems: dict[str, str] = {}
     for path in sorted(BASE.glob('data/*/questions/*.json')):
         rel = path.relative_to(BASE).as_posix()
         for question in iter_questions(load(path)):
@@ -159,6 +165,19 @@ def audit_questions(report: Report) -> None:
                 report.add('questions', 'WARN', f'id 與 {seen_ids[qid]} 重複', label)
             if qid:
                 seen_ids.setdefault(qid, rel)
+
+            stem = re.sub(r'\s+', '', str(question.get('question', '')))
+            if len(stem) >= 20:
+                first = seen_stems.get(stem)
+                if first and first != rel:
+                    # 講義內嵌習題與官方樣張同題是預期的（兩邊都是官方內容，只是來源
+                    # 不同），降成 INFO；其餘跨檔重複才是要處理的。
+                    pair = {Path(first).name, Path(rel).name}
+                    expected = (any(n.endswith('_guide_exercises.json') for n in pair)
+                                and any(n.startswith(('mock_', 'sample_')) for n in pair))
+                    report.add('questions', 'INFO' if expected else 'WARN',
+                               f'題幹與 {first} 完全重複', label)
+                seen_stems.setdefault(stem, rel)
 
             if question.get('answer') not in LETTERS:
                 report.add('questions', 'FAIL', 'answer 不是 A/B/C/D', label)
@@ -296,10 +315,121 @@ def audit_glossary(report: Report) -> None:
     report.add('glossary', 'INFO', f'檢查 {count} 個詞條', '')
 
 
+def audit_guide(report: Report) -> None:
+    """講義本文。佔前端資源最大宗（8.6MB）卻一直沒有任何閘門覆蓋。
+
+    只查確定性的東西：空章節、SSOT 對得上、OCR 破字、頁面圖檔存在。
+    內容正確性靠 verify_question_guide_alignment.py 的引文命中率，不在這裡做。
+    """
+    root = GENERATED / 'guideContent'
+    if not root.exists():
+        return
+    # SSOT：章節 id 只能來自 toc_manifest（CLAUDE.md 不變量 1）
+    known: set[str] = set()
+    for manifest in BASE.glob('data/*/toc_manifest.json'):
+        for subject in load(manifest).get('subjects', []):
+            for chapter in subject.get('chapters', []):
+                if isinstance(chapter, dict) and chapter.get('id'):
+                    known.add(str(chapter['id']))
+
+    # 前端章節導覽的第一順位來源
+    hierarchy_children: dict[str, list] = {}
+    hierarchy_path = GENERATED / 'guideHierarchy.json'
+    if hierarchy_path.exists():
+        for guide in load(hierarchy_path).get('guides', {}).values():
+            for node_id, node in (guide.get('nodesById') or {}).items():
+                if node.get('childIds'):
+                    hierarchy_children[node_id] = node['childIds']
+
+    chapters = short = 0
+    for path in sorted(root.glob('*/*.json')):
+        rel = path.relative_to(BASE).as_posix()
+        data = load(path)
+        chapters += 1
+        chapter_id = str(data.get('id', ''))
+        label = f'{rel}:{chapter_id or "?"}'
+        content = str(data.get('content', ''))
+
+        # `*pdf-cN` 是學習指引 PDF 的前導章節（「第一章 考試科目與評鑑內容」之類），
+        # 不是考綱章節：本來就不在 toc_manifest、本來就短、本來就沒有次級標題。
+        # 不排除掉的話它們會產生 23 筆假 SSOT 警告，把真訊號蓋掉。
+        preface = bool(PREFACE_ID.search(chapter_id))
+
+        if chapter_id != path.stem:
+            report.add('guide', 'FAIL', f'id 與檔名不符（檔名 {path.stem}）', label)
+        if known and chapter_id and chapter_id not in known and not preface:
+            report.add('guide', 'WARN', 'id 不在 toc_manifest（SSOT）裡', label)
+        if not content.strip():
+            report.add('guide', 'FAIL', 'content 是空的', label)
+        elif len(content) < 500 and not preface:
+            short += 1
+            report.add('guide', 'WARN', f'content 只有 {len(content)} 字，疑似抽取失敗', label)
+        if data.get('contentFormat') != 'markdown':
+            report.add('guide', 'WARN',
+                       f'contentFormat 是 {data.get("contentFormat")!r}，前端假設 markdown', label)
+        # U+FFFD 是 OCR/編碼失敗留下的替換字元，會直接印在使用者眼前
+        broken = content.count('�')
+        if broken:
+            report.add('guide', 'FAIL', f'content 有 {broken} 個無法解碼字元（U+FFFD）', label)
+        # 章節導覽不是只看 headings。GuidePage 的順序是
+        # guideHierarchy → blocks 的 heading 區塊 → headings[]，
+        # 前面任一層有東西，導覽就不是空的。第一版只查 headings，對 mid-s2c8
+        # 誤報「導覽會是空的」——它的 hierarchy 其實有 7 個子節點。
+        if not preface and chapter_id and not (
+                hierarchy_children.get(chapter_id)
+                or any(b.get('type') == 'heading' for b in data.get('blocks') or [])
+                or data.get('headings')):
+            report.add('guide', 'WARN', '章節導覽三層來源都是空的'
+                       f'（hierarchy／blocks／headings；共 {len(data.get("blocks") or [])} 個 block）',
+                       label)
+
+    missing_images = 0
+    for path in sorted(root.glob('*/*.json')):
+        for src in _iter_image_srcs(load(path)):
+            if not (BASE / 'frontend' / 'public' / src.lstrip('/')).exists():
+                missing_images += 1
+                if missing_images <= 5:
+                    report.add('guide', 'FAIL', f'頁面圖檔不存在：{src}',
+                               path.relative_to(BASE).as_posix())
+    if missing_images > 5:
+        report.add('guide', 'FAIL', f'另有 {missing_images - 5} 個頁面圖檔不存在', '')
+    report.add('guide', 'INFO',
+               f'檢查 {chapters} 章，過短 {short} 章，缺圖 {missing_images} 個', '')
+
+
+def audit_articles(report: Report) -> None:
+    """學習文章。3 篇，先前完全沒有閘門。"""
+    index_path = GENERATED / 'learningArticles' / 'index.json'
+    if not index_path.exists():
+        return
+    index = load(index_path)
+    by_id = index.get('articlesById', {})
+    count = 0
+    for article_id, meta in by_id.items() if isinstance(by_id, dict) else []:
+        count += 1
+        label = f'learningArticles:{article_id}'
+        if not str(meta.get('title', '')).strip():
+            report.add('articles', 'FAIL', '標題是空的', label)
+        body = meta.get('content') or meta.get('sections') or meta.get('body')
+        if not body:
+            matches = list((GENERATED / 'learningArticles').glob(f'*/{article_id}.json'))
+            if not matches:
+                report.add('articles', 'FAIL', 'index 有這篇，但找不到對應檔案', label)
+            elif not str(load(matches[0])).strip():
+                report.add('articles', 'FAIL', '內容是空的', label)
+    declared = index.get('articleCount')
+    if isinstance(declared, int) and declared != count:
+        report.add('articles', 'FAIL',
+                   f'index 宣告 {declared} 篇，實際 {count} 篇', 'learningArticles:index')
+    report.add('articles', 'INFO', f'檢查 {count} 篇文章', '')
+
+
 CHECKS = {
     'colab': audit_colab,
     'questions': audit_questions,
     'referenceAnswers': audit_reference_answers,
+    'guide': audit_guide,
+    'articles': audit_articles,
     'images': audit_images,
     'glossary': audit_glossary,
 }
