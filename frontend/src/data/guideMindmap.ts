@@ -20,6 +20,12 @@ export function loadMindmapIndex(): Promise<GuideMindmapIndex> {
   return indexPending
 }
 
+/** 全部科目（5 份、合計約 15 KB）。概念熱度的章節分布跨科目，需要整份查表。 */
+export async function loadAllMindmaps(): Promise<GuideMindmapData[]> {
+  const index = await loadMindmapIndex()
+  return Promise.all(index.guides.map((guide) => loadMindmap(guide.subjectId)))
+}
+
 export function loadMindmap(subjectId: string): Promise<GuideMindmapData> {
   const hit = cache.get(subjectId)
   if (hit) return Promise.resolve(hit)

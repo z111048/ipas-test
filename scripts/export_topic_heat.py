@@ -17,11 +17,18 @@
 
 ⚠️ 與章節熱度同一條規則：**各章題數不可相加**。一題常引用多章，逐章加總會
 超過實際題數；`chapters` 是分布，不是可加總的份額。
+
+⚠️ 同一份內容有兩套章節層級：官方大綱章（`*pdf-c{n}`）與學習指引章（其餘），
+標註兩邊各記一次，所以「散落章數」若照 `chapterCount` 直接用會虛胖。實測
+162 個有題目的概念裡 135 個兩套都有，平均散落章數 4.7 → 只算指引章 3.2（-32%），
+而且**沒有任何概念只落在大綱章**（0 個），拆開不會讓概念歸零。因此另出
+`guideChapterCount`／`outlineChapterCount`，前端的「散落 N 章」用指引章那個。
 """
 
 from __future__ import annotations
 
 import json
+import re
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
@@ -34,9 +41,17 @@ ANNOTATION_DIR = GENERATED / 'guideExamAnnotations'
 OUT_PATH = GENERATED / 'topicHeat.json'
 
 
+OUTLINE_NODE = re.compile(r'pdf-c\d+$')
+
+
 def load(path: Path) -> Any:
     with path.open(encoding='utf-8') as f:
         return json.load(f)
+
+
+def chapter_kind(node_id: str) -> str:
+    """官方大綱章 vs 學習指引章——同一份內容的兩套層級，散落章數只該算一邊。"""
+    return 'outline' if OUTLINE_NODE.search(node_id) else 'guide'
 
 
 def main() -> None:
@@ -91,7 +106,9 @@ def main() -> None:
     for key, topics in strict.items():
         for topic in topics:
             counts[topic] += 1
-            for node_id in chapters.get(key, ()):
+            # sorted()：chapters 的值是 set，直接迭代會讓同票章節的順序隨
+            # PYTHONHASHSEED 變動，這份 committed 產物每次重跑都會無故 diff。
+            for node_id in sorted(chapters.get(key, ())):
                 per_chapter[topic][node_id] += 1
 
     rows = []
@@ -99,15 +116,20 @@ def main() -> None:
         if not counts_loose[name]:
             continue
         spread = per_chapter.get(name, Counter())
+        kinds = Counter(chapter_kind(node) for node in spread)
         rows.append({
             'name': name,
             'parent': topic.get('parent', ''),
             'count': counts[name],
             'countLoose': counts_loose[name],
             'chapterCount': len(spread),
+            'guideChapterCount': kinds['guide'],
+            'outlineChapterCount': kinds['outline'],
             'chapters': [{'nodeId': node, 'count': n,
+                          'kind': chapter_kind(node),
                           'guideKey': chapter_titles.get(node, {}).get('guideKey', '')}
-                         for node, n in spread.most_common()],
+                         for node, n in sorted(spread.items(),
+                                               key=lambda kv: (-kv[1], kv[0]))],
         })
 
     payload = {
@@ -129,9 +151,10 @@ def main() -> None:
     OUT_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding='utf-8')
     print(f'概念 {len(rows)} 個｜標籤 {payload["labelCount"]}'
           f'（寬鬆 {payload["labelCountLoose"]}）｜對不到章節的題目 {unmapped}')
-    print('前 8 名（題數／散落章數）：')
+    print('前 8 名（題數／散落指引章數，括號為含大綱章的總數）：')
     for row in rows[:8]:
-        print(f'   {row["name"]:20} {row["count"]:>3} 題 / {row["chapterCount"]} 章')
+        print(f'   {row["name"]:20} {row["count"]:>3} 題 / '
+              f'{row["guideChapterCount"]} 章（{row["chapterCount"]}）')
     print(f'→ {OUT_PATH.relative_to(BASE)}')
 
 

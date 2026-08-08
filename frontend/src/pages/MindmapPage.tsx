@@ -1,8 +1,12 @@
-import { useEffect, useMemo, useState } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { loadMindmap, loadMindmapIndex } from '../data/guideMindmap'
 import type { GuideMindmapData, GuideMindmapIndex, GuideMindmapNode } from '../types'
 
+const TopicHeatPanel = lazy(() => import('../components/guide/TopicHeatPanel'))
+
+/** 兩個軸：章節（哪一章考得多）與概念（哪個觀念反覆出現）。 */
+type Axis = 'chapter' | 'topic'
 type Metric = 'questions' | 'density'
 
 const ROW = 46
@@ -72,6 +76,7 @@ export default function MindmapPage() {
   const [subjectId, setSubjectId] = useState<string | null>(null)
   const [data, setData] = useState<GuideMindmapData | null>(null)
   const [metric, setMetric] = useState<Metric>('questions')
+  const [axis, setAxis] = useState<Axis>('chapter')
 
   useEffect(() => {
     loadMindmapIndex().then((loaded) => {
@@ -108,11 +113,90 @@ export default function MindmapPage() {
 
   return (
     <div className="mx-auto w-full max-w-6xl">
-      <h1 className="text-2xl font-bold text-primary">章節熱度圖</h1>
+      <h1 className="text-2xl font-bold text-primary">
+        {axis === 'chapter' ? '章節熱度圖' : '概念熱度'}
+      </h1>
       <p className="mt-2 text-sm text-text-light">
-        以歷屆試題實際命中的章節統計，節點越大代表該章考得越多。點擊節點可直接前往該章。
+        {axis === 'chapter'
+          ? '以歷屆試題實際命中的章節統計，節點越大代表該章考得越多。點擊節點可直接前往該章。'
+          : '以歷屆試題實際考到的觀念統計，看哪個觀念反覆出現、又散落在哪幾章。'}
       </p>
 
+      <div
+        className="mt-4 inline-flex rounded border border-border p-0.5 text-sm"
+        role="tablist"
+        aria-label="熱度統計軸"
+      >
+        {(
+          [
+            ['chapter', '按章節'],
+            ['topic', '按概念'],
+          ] as [Axis, string][]
+        ).map(([value, label]) => (
+          <button
+            key={value}
+            type="button"
+            role="tab"
+            aria-selected={axis === value}
+            onClick={() => setAxis(value)}
+            className={`rounded px-3 py-1.5 ${
+              axis === value ? 'bg-accent text-white' : 'text-text-light'
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {axis === 'topic' ? (
+        <Suspense fallback={<p className="mt-8 text-sm text-text-light">載入中…</p>}>
+          <TopicHeatPanel />
+        </Suspense>
+      ) : (
+        <ChapterHeatView
+          index={index}
+          subjectId={subjectId}
+          setSubjectId={setSubjectId}
+          data={data}
+          view={view}
+          peak={peak}
+          ranking={ranking}
+          metric={metric}
+          setMetric={setMetric}
+          navigate={navigate}
+        />
+      )}
+    </div>
+  )
+}
+
+interface ChapterHeatViewProps {
+  index: GuideMindmapIndex | null
+  subjectId: string | null
+  setSubjectId: (id: string) => void
+  data: GuideMindmapData | null
+  view: ReturnType<typeof layout> | null
+  peak: number
+  ranking: GuideMindmapNode[]
+  metric: Metric
+  setMetric: (metric: Metric) => void
+  navigate: (to: string) => void
+}
+
+function ChapterHeatView({
+  index,
+  subjectId,
+  setSubjectId,
+  data,
+  view,
+  peak,
+  ranking,
+  metric,
+  setMetric,
+  navigate,
+}: ChapterHeatViewProps) {
+  return (
+    <>
       <div className="mt-4 flex flex-wrap items-center gap-2">
         {index?.guides.map((guide) => (
           <button
@@ -254,6 +338,6 @@ export default function MindmapPage() {
           </div>
         </>
       )}
-    </div>
+    </>
   )
 }

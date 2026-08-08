@@ -366,7 +366,6 @@ uv run python3 scripts/build_web.py     # production build → docs/（gitignore
 - `merge_guide_ocr.py` — Track A 轉接層：OCR 內容合併進 `page_extract/`，首次執行會備份原檔（見 §1a）。
 - `build_errata.py` / `apply_errata.py` — 勘誤表 OCR → `errata_corrections.json`；套用到兩軌，冪等（見 §10 修正 4）。
 - `export_guide_mindmap.py` — guideNav ＋ 考古題標註 → `guideMindmap/{subjectId}.json`（前端 `/mindmap` 章節熱度圖）。只讀 committed 產物、無 API 花費、可隨時重跑。⚠️ 各章題數**不可相加**（一題常引用多章：905 vs 實際 450 題）。
-- `export_topic_heat.py` — 概念標註 ＋ 詞彙表 ＋ 考古題標註 → `topicHeat.json`（前端 `/mindmap` 概念軸）。只讀 committed 產物、無 API 花費、可隨時重跑、輸出確定性（跨 `PYTHONHASHSEED` 位元相同）。⚠️ 採計只算 `verdict=正確`；「散落章數」用 `guideChapterCount`，**不是** `chapterCount`（後者把大綱章與指引章各記一次，虛胖 32%）。細節見 `08-topic-labeling.md` §7-3。
 - `export_guide_hierarchy.py` — 接成完整階層樹，並產導覽用的兩個衍生檔 → `guideHierarchy.json`、`guideNav.json`、`guideSearchIndex.json`（見 §1b）。
 - `pdf_vision_extract.py` — 每頁 PNG（2x）送 Gemini Vision → `pages_cache/{key}/page_NNN.json`（{type, headings, markdown, usage}）；完成後自動生成 `page_index.json`。重跑只補 missing/failed。
 - `gemini_exam_vision_extract.py` — 考題 PDF 的 Vision OCR（獨立 schema）→ `exam_pages_cache/`。

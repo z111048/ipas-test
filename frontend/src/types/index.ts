@@ -587,3 +587,47 @@ export interface GuideMindmapIndex {
     topChapter: { id: string; title: string; questions: number } | null
   }[]
 }
+
+/**
+ * 概念熱度（`topicHeat.json`，約 116 KB，動態載入）。
+ * 由 `scripts/export_topic_heat.py` 從概念標註與考古題章節標註衍生。
+ */
+export interface TopicHeatChapter {
+  /** 對應 guideMindmap 節點的 id */
+  nodeId: string
+  /** 命中此章節的題數；⚠ 同一概念的各章數字不可相加 */
+  count: number
+  /** guide = 學習指引章、outline = 官方大綱章；同一份內容的兩套層級 */
+  kind: 'guide' | 'outline'
+  guideKey: string
+}
+
+export interface TopicHeatTopic {
+  name: string
+  /** 所屬大類 */
+  parent: string
+  /** 嚴格採計（只算判定正確的標籤）的題數 */
+  count: number
+  /** 寬鬆採計（另含判定過廣的標籤）。僅供資料層比較，前端不採用 */
+  countLoose: number
+  /** 散落章數（含兩套層級）；0 = 該概念的題目都沒有章節標註，不是「不屬於任何章」 */
+  chapterCount: number
+  /** 只算學習指引章。「散落 N 章」用這個——`chapterCount` 會被兩套層級重複計入而虛胖 */
+  guideChapterCount: number
+  outlineChapterCount: number
+  chapters: TopicHeatChapter[]
+}
+
+export interface TopicHeatData {
+  source: Record<string, string>
+  countingRule: string
+  warning: string
+  verdictTally: Record<string, number> | null
+  questionCount: number
+  /** 有概念標籤但對不到章節的題數（章節標註只建在 9 份考卷上，屬預期） */
+  questionsWithoutChapter: number
+  topicCount: number
+  labelCount: number
+  labelCountLoose: number
+  topics: TopicHeatTopic[]
+}

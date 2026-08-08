@@ -353,7 +353,7 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
             className={({ isActive }) => navItemClass(isActive)}
             onClick={onClose}
           >
-            章節熱度圖
+            考點熱度圖
           </NavLink>
         </div>
 
