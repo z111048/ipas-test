@@ -1,0 +1,48 @@
+{
+  "date": "2026-08-08",
+  "scope": "§7-6 概念圖卡抽樣驗收（母體 727 張，抽 30 張，seed 20260808，依 level-guideKey 分層）",
+  "population": 727,
+  "sample": 30,
+  "generator": "scripts/generate_images.py — Codex 影像生成，1792x1024 → webp",
+  "tally": {
+    "內容正確": 30,
+    "內容錯誤": 0,
+    "文字缺陷（必修）": 4,
+    "字形明顯變形但可讀": 10,
+    "乾淨": 16
+  },
+  "mustFix": [
+    {
+      "id": "guide3-mid-s3c3-img-016",
+      "problem": "「驗證停升」「步時上限」兩個都不是中文詞",
+      "guess": "原意應為「驗證不再提升」與「步數／時間上限」"
+    },
+    {
+      "id": "guide2-mid-s2c1-img-009",
+      "problem": "「不示離散」非自然中文；「偶數取均」的 9／10 平均沒算完（框內只有等號）"
+    },
+    {
+      "id": "guide1-s1c3-img-017",
+      "problem": "標籤「優化演算」截斷，缺「法」"
+    },
+    {
+      "id": "guide1-s1c4-img-018",
+      "problem": "用「判別式AI」，但初級 s1c4 官方章名是「鑑別式AI」——術語與考綱不一致"
+    }
+  ],
+  "glyphDegraded": [
+    "guide1-mid-s1c7-img-011",
+    "guide2-mid-s2c7-img-008",
+    "guide1-s1c1-img-038",
+    "guide2-mid-s2c9-img-003",
+    "guide1-mid-s1c7-img-006",
+    "guide2-mid-s2c2-img-007",
+    "guide1-mid-s1c9-img-009",
+    "guide3-mid-s3c10-img-004",
+    "guide3-mid-s3c9-img-001",
+    "guide2-mid-s2c1-img-007"
+  ],
+  "keyFinding": "內容 0 錯——概念、對比、公式、圖示語意全部正確，沒有一張會教錯。唯一的系統性問題是中文字形：約 1/3 的標題或標籤有明顯變形（可讀但不精緻），4/30 有真的文字缺陷（非詞、截斷、術語不一致）。",
+  "whyRegenerationWontFix": "generate_images.py 的 prompt 已經明寫「must contain visible, correctly written Traditional Chinese text」「no random letters」，字形問題仍然出現——這是影像生成模型的中文渲染極限，不是文案沒交代。用同一支腳本重生只會重新抽一次籤：有些變好、有些變壞，且沒有前後對照就看不出來。",
+  "recommendation": "必修的 4 張單獨重生並逐張看過即可（成本極低）。若要根治字形，改用「HTML/SVG 模板 + 真字型渲染」產圖：文字 100% 正確、可重現、重算免費、可進 git diff；Codex CLI 適合寫模板與內容 JSON。這是換方案，不是換 prompt。"
+}
