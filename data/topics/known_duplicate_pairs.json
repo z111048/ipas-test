@@ -1,0 +1,41 @@
+{
+  "status": "manual-baseline",
+  "created": "2026-08-08",
+  "purpose": "人工逐條看過 topics_draft.json 的 204 個概念後標出的重複／過度切分配對。用途是驗收 §7-1 語意去重的輸出：去重跑完，這裡的配對應該幾乎都出現在合併清單裡；漏掉太多代表去重太保守，出現大量不在此列的合併則要逐條看是不是誤殺。不是要直接拿去合併的清單。",
+  "note": "canonical 是建議保留的名稱，僅為建議；同一組內若語意其實有別（見 keepSeparate），不要合併。",
+  "groups": [
+    {"canonical": "卷積神經網路", "duplicates": ["捲積神經網路"], "reason": "同詞異譯"},
+    {"canonical": "循環神經網路", "duplicates": ["遞迴神經網路"], "reason": "RNN 的兩種中譯"},
+    {"canonical": "敘述統計", "duplicates": ["敘述性統計"], "reason": "同詞"},
+    {"canonical": "分群演算法", "duplicates": ["群聚分析", "聚類"], "reason": "clustering 的三種中譯"},
+    {"canonical": "超參數調校", "duplicates": ["超參數調整"], "reason": "同詞"},
+    {"canonical": "Transformer架構", "duplicates": ["Transformer模型"], "reason": "同一概念"},
+    {"canonical": "模型可解釋性", "duplicates": ["模型解釋性", "模型透明度與可解釋性"], "reason": "同一概念的三種寫法"},
+    {"canonical": "資料隱私保護", "duplicates": ["資料隱私與保護", "資料隱私與安全"], "reason": "同一概念的三種寫法"},
+    {"canonical": "AI治理與倫理", "duplicates": ["負責任AI與倫理", "AI倫理與可解釋性"], "reason": "治理／倫理重複切分；可解釋性應併到模型可解釋性"},
+    {"canonical": "AI法規遵循", "duplicates": ["AI治理與合規", "資料治理與合規"], "reason": "合規面重複"},
+    {"canonical": "AI幻覺與內容審核", "duplicates": ["AI幻覺與真實性風險"], "reason": "同一風險"},
+    {"canonical": "資料清理", "duplicates": ["資料清洗與ETL", "資料前處理"], "reason": "同一階段的三種說法；若要保留 ETL 應獨立為工程概念"},
+    {"canonical": "資料集切分", "duplicates": ["資料切分"], "reason": "同詞"},
+    {"canonical": "降維方法", "duplicates": ["降維與PCA"], "reason": "PCA 是方法之一，不該與上位概念並列"},
+    {"canonical": "類別特徵編碼", "duplicates": ["類別變數編碼"], "reason": "同詞"},
+    {"canonical": "特徵縮放", "duplicates": ["資料標準化"], "reason": "標準化是縮放的一種；別名合併即可"},
+    {"canonical": "離群值處理", "duplicates": ["異常值偵測"], "reason": "同一資料清理動作"},
+    {"canonical": "模型評估", "duplicates": ["評估指標"], "reason": "指標是評估的內容；兩者皆 30/40 個別名，是最大的兩坨"},
+    {"canonical": "模型監控", "duplicates": ["模型維運與監控"], "reason": "同一概念"},
+    {"canonical": "模型微調", "duplicates": ["微調"], "reason": "同詞（參數高效微調 PEFT 應保留為獨立概念）"},
+    {"canonical": "過擬合與泛化", "duplicates": ["過擬合", "泛化能力", "模型擬合程度"], "reason": "同一組概念被切成四個"},
+    {"canonical": "正則化", "duplicates": ["正則化與泛化"], "reason": "後者是前者與泛化的複合，重複"},
+    {"canonical": "生成式AI", "duplicates": ["生成式模型"], "reason": "同一概念"},
+    {"canonical": "詞嵌入", "duplicates": ["詞彙向量化"], "reason": "同一技術"},
+    {"canonical": "監督式學習", "duplicates": ["監督式任務"], "reason": "同詞"},
+    {"canonical": "機器學習概論", "duplicates": ["機器學習任務", "機器學習流程"], "reason": "都是空泛的上位詞，應併或刪"},
+    {"canonical": "機率與統計", "duplicates": ["機率分佈"], "reason": "需人工判斷：機率分佈可保留為獨立概念，機率與統計過於空泛"},
+    {"canonical": "異常偵測", "duplicates": [], "reason": "與「異常值偵測」不同（模型任務 vs 資料清理），標出來避免被誤併", "keepSeparate": ["異常值偵測"]},
+    {"canonical": "多模態AI", "duplicates": [], "reason": "與多模態生成／融合／資料處理是不同層次，需人工逐一判斷，勿一次合併", "keepSeparate": ["多模態生成", "多模態融合", "多模態資料處理"]},
+    {"canonical": "模型優化", "duplicates": [], "reason": "與「效能優化」可能一是模型品質、一是推論效能，需人工判斷", "keepSeparate": ["效能優化"]}
+  ],
+  "misfiled": [
+    {"topic": "決策樹與集成學習", "currentParent": "生成式AI與應用", "shouldBe": "統計與機器學習基礎"}
+  ]
+}

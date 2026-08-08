@@ -1,0 +1,129 @@
+{
+  "date": "2026-08-08",
+  "level": "初級",
+  "purpose": "重生前的對照組。任何一次講義／題庫重生後重跑同樣指標，數字只准變好；變差就是退化，不是「風格不同」。",
+  "metricA_引文對齊": {
+    "source": "scripts/verify_question_guide_alignment.py --level 初級",
+    "detail": "data/baselines/2026-08-08_alignment_初級.json",
+    "chapterIdBroken": 0,
+    "guideExercisesHit": "69/69",
+    "ocrRegression": 0,
+    "contentDriftMean": 0.944,
+    "chaptersBelow0.5": 0
+  },
+  "metricA2_官方題詳解覆蓋": {
+    "officialQuestions": {
+      "mock_exam1": 50,
+      "mock_exam2": 50,
+      "mock_jr_1141_s1": 50,
+      "mock_jr_1141_s2": 50,
+      "mock_jr_1151_s1": 50,
+      "mock_jr_1151_s2": 50,
+      "mock_jr_1152_s1": 50,
+      "mock_jr_1152_s2": 50,
+      "sample_exam": 68
+    },
+    "officialTotal": 468,
+    "referenceAnswers": {
+      "jr_1141_s1": 50,
+      "jr_1141_s2": 50,
+      "jr_1151_s1": 50,
+      "jr_1151_s2": 50,
+      "jr_1152_s1": 50,
+      "jr_1152_s2": 50,
+      "sample": 68
+    },
+    "referenceTotal": 368,
+    "note": "mock_exam1/mock_exam2 共 100 題無詳解，因為它們是 mock_jr_1141_s1/s2 的完全重複（見 findings）"
+  },
+  "findings": [
+    {
+      "id": "DUP-02",
+      "severity": "medium",
+      "what": "初級與中級 sample_exam.json 共用 sample_qN 這組 id，41 筆碰撞",
+      "why": "id 沒有 level namespace",
+      "action": "重生時 id 一律帶 level 前綴"
+    },
+    {
+      "id": "GAP-01",
+      "severity": "high",
+      "what": "guideContent（8.6MB，佔前端資源最大宗）沒有任何閘門覆蓋",
+      "why": "audit_resources 只蓋 colab/questions/referenceAnswers/images/glossary",
+      "action": "補講義本文檢查"
+    },
+    {
+      "id": "GAP-02",
+      "severity": "medium",
+      "what": "frontend/src/generated/guideContent_before_ocr_merge 8.5MB、前端零引用、且是 gitignored",
+      "why": "刪了救不回，需人工確認",
+      "action": "待使用者確認後刪"
+    },
+    {
+      "id": "DUP-01",
+      "severity": "high",
+      "what": "mock_exam1/mock_exam2 的 100 題與 mock_jr_1141_s1/s2 題幹 100% 重複（舊命名遺留），且這 100 題沒有官方詳解",
+      "why": "閘門只查 id 唯一性，兩邊 id 不同（exam1_q1 vs jr_1141_s1_q1）",
+      "action": "退場；「跨檔題幹重複」已於 2026-08-08 加進 audit_resources"
+    },
+    {
+      "id": "DUP-03",
+      "severity": "high",
+      "what": "初級 subject2_questions.json 的 s2c1q1、s2c2q2（generated_by=generate_questions）與官方考題 exam2_q1、exam2_q13 一字不差，連答案都相同",
+      "why": "出題模型把講義裡的官方習題原樣抄出來，沒有任何機制擋「生成題 == 考古題」",
+      "action": "重生時把「與官方題庫比對」列為出題後的必要檢查；這兩題先移除"
+    },
+    {
+      "id": "DUP-04",
+      "severity": "low",
+      "what": "guide_exercises 與 sample_exam 有 16 題重複（初級 13、中級 3）",
+      "why": "講義內嵌官方習題本來就可能與官方樣張同題，屬預期",
+      "action": "不移除，但前端同一頁不應同時呈現兩份"
+    },
+    {
+      "id": "GAP-03",
+      "severity": "high",
+      "what": "build_codex_section_prompts.py 的 prompt 叫模型讀 data/{level}/questions/mock_exam1.json 當「避免重複」的參考，但中級沒有這個檔（中級是 mock_mid_*），初級的那個是重複檔",
+      "why": "寫死單一檔名，沒有人檢查它存不存在",
+      "action": "已改成動態列出該 level 實際存在的 mock_*/sample_* 全部官方卷，並要求出題前必讀。這是 DUP-03 的成因"
+    },
+    {
+      "id": "HEAD-01",
+      "severity": "high",
+      "what": "s1c2 與 mid-s2c8 的 guideContent headings=0（分別有 48 / 274 個 block），前端章節導覽是空的；其中 s1c2 在後端軌也只有 1 個 section／5,965 字，小節粒度出題對這章退化成「整章一塊」",
+      "why": "OCR/清洗沒認出這兩章的次級標題。切塊讀的是後端 guide JSON、導覽讀的是 frontend guideContent（CLAUDE.md 記的雙軌），所以 mid-s2c8 只壞了導覽那一軌",
+      "action": "重生講義時優先處理這兩章；出題前確認 s1c2 的 section 數已恢復",
+      "status": "resolved 2026-08-08",
+      "resolution": "根因不是標題判定，是內容遺失：positioned_page_items 的表格重疊過濾（block 中心點 + pad 8）把緊貼表格上緣的「假說檢定名詞介紹：」整行刪掉。已改為「OCR 判定是標題的行不因擦邊被刪」（量測後全語料只有這 1 個 block 受影響）。標題升階走 apply_manual_guide_fixes.py 修正 5。另外評估過「用 OCR 標題取代編號式 regex」，全語料試算約半數是雜訊（• 項目符號、斷句），會讓 25 章導覽變差換 1 章變好，放棄。mid-s2c8 的 headings=0 尚未處理（後端軌有 8 個 section，只壞前端這一軌）。 續查 mid-s2c8：它的 guideHierarchy 其實有 7 個子節點，導覽不是空的——是閘門的前提錯了。GuidePage 的導覽來源順序是 hierarchy → blocks 的 heading 區塊 → headings[]，headings 只是第三順位。閘門已改成三層都空才 WARN，改完 64 章零 WARN。",
+      "sideEffect": "export_guide_sections.py 加了段落切分 fallback：沒有標題可依循且超過 target 的區塊改依段落切。s1c2 1 塊 5,965 字 → 3 塊；連帶全語料最長區塊 中級科一 7,395→4,057、科二 4,151→3,063、科三 8,062→3,125、初級科一 5,965→3,450。"
+    }
+  ],
+  "gateChanges": [
+    {
+      "date": "2026-08-08",
+      "script": "scripts/audit_resources.py",
+      "change": "audit_questions 新增跨檔題幹重複檢查（>=20 字，正規化空白）",
+      "result": "照出 118 筆，其中 100 筆是 DUP-01、2 筆是 DUP-03"
+    },
+    {
+      "date": "2026-08-08",
+      "script": "scripts/audit_resources.py",
+      "change": "新增 audit_guide（講義本文：空章節、id vs 檔名、id vs toc_manifest SSOT、U+FFFD 破字、缺 heading、頁面圖檔存在）與 audit_articles",
+      "validation": "已做雙向驗證：對現行 64 章只回報 2 筆（皆為真）；注入 4 種已知錯誤（破字／空 content／不在 SSOT／id 與檔名不符）全部抓到",
+      "result": "照出 HEAD-01；另排除 23 筆 *pdf-c* 前導章節的假 SSOT 警告"
+    },
+    {
+      "date": "2026-08-08",
+      "script": "scripts/audit_resources.py",
+      "change": "audit_guide 的導覽檢查改為比照前端 fallback 鏈（guideHierarchy → blocks heading → headings[]），三層皆空才 WARN",
+      "why": "第一版只查 headings[]，對 mid-s2c8 誤報「章節導覽會是空的」，實際 hierarchy 有 7 個子節點",
+      "validation": "改後 64 章零 WARN；注入「三層皆空」的假章節仍抓得到"
+    },
+    {
+      "date": "2026-08-08",
+      "script": "scripts/apply_manual_guide_fixes.py",
+      "change": "修正 5 補 anchor（用 export_guide_outline_data.slugify_heading，與匯出同一套 slug）",
+      "why": "export_guide_hierarchy 會跳過沒有 anchor 的 heading block，少了它等於補了沒作用",
+      "result": "s1c2 階層子節點 1 → 2，s1 科目節點數 219 → 220，anchor 可跳轉"
+    }
+  ]
+}

@@ -312,19 +312,6 @@ python3 scripts/review_committed_notebooks.py --python <裝了 pandas/sklearn/ma
 累積執行檢查——草稿後來修過、記錄沒更新。判斷現況一律看 `committed_review.json`。
 複查用**累積執行**（cells 串接整份跑）：pipeline 自己是每 cell 獨立跑再把 NameError
 當成「依賴前一個 cell」跳過，真正未定義的變數抓不到。Colab 的 `display()` 需要墊片。
-語意審核的「說明」取的是**前一個 markdown cell**，所以「同一個 markdown 底下連放多個
-code cell」會被判成不符——多半該補小節標題，不是改程式碼。改完 `.ipynb` 記得
-`export_colab_metadata.py --level {level} --chapter {id}` 重出前端 metadata。
-
-> 教訓 2026-08-08：語意審核把 code cell 截到 1500 字才送模型，於是長 cell 被回報成
-> 「程式碼中斷」「未執行 fit_predict」——mid-s3c4/s3c9/s3c11 三筆誤報都是這樣來的。
-> 根因：截斷不可見，模型看到半截程式碼只能當它沒寫完。規則：**截斷一律在內容裡
-> 留可見標記**（現在會插一行「本 cell 尚有 N 字未顯示」），上限拉到 6000 字。
-
-> 教訓 2026-08-08：gateway 間歇性回空內容（推理模型把預算花在 reasoning_content），
-> 單次呼叫失敗就記成 `no-response`，但摘要只數 mismatches，於是 9 本沒審到卻印成
-> 「0 處不符」。根因：把「沒審成」讀成「通過」。規則：語意呼叫**重試 3 次**，
-> 摘要**單獨列一行「語意審核未完成 N」**，收工前這個數字必須是 0。
 
 前端：GuidePage 在中級章節底部自動顯示「⚗️ 實作練習」摺疊區塊。
 
@@ -481,29 +468,13 @@ Pipeline 跑完後：
 
 ```bash
 uv run python3 scripts/export_guide_outline_data.py --all-levels
-python3 scripts/apply_manual_guide_fixes.py     # ← 緊接著跑，冪等，可重複執行（修正 1、2、5）
+python3 scripts/apply_manual_guide_fixes.py     # ← 緊接著跑，冪等，可重複執行
 ```
 
 原本是下面兩段「複製貼上執行」的程式碼，且**字串對不上時靜默不改**，
 造成「以為補好了其實沒補」。腳本版對不上會**直接報錯中斷**（要放行加 `--no-strict`），
 對照表在 `apply_manual_guide_fixes.py` 的 `DEMOTE_HEADINGS` / `SHORTEN_HEADINGS`。
 以下兩段保留為修正內容的說明，不必再手動執行。
-
-### 修正 5：s1c2 標題升階（2026-08-08 新增，已腳本化）
-
-`apply_manual_guide_fixes.py` 的 `apply_s1c2`：把「假說檢定名詞介紹：」升為 h3。
-這章在 PDF 裡只有這一個次級標題，而且它**緊貼表格上緣**（y 421.6–434.9 vs 表格起點
-426.3），一度被 `positioned_page_items` 的表格重疊過濾**整行刪掉**。
-
-> 教訓 2026-08-08：表格重疊判定用「block 中心點 + pad 8」，緊貼表格邊緣的整行文字
-> 會被無聲刪除——不是排版跑掉，是內容消失。根因：把「與表格 bbox 有交集」直接當成
-> 「屬於表格內文」。規則：這類過濾要能被量測（本次量到兩級合計只有 1 個 block 受害，
-> 才敢改）；`pages_cache` 的 OCR 標題現在用來救回這種被誤刪的行。
-
-> 教訓 2026-08-08：想用 OCR 的 heading 標記取代編號式 regex 來判定標題——**全語料試算
-> 後放棄**：OCR 把 `• 分布式詞嵌入`、`○ 應用示例：`、斷句的 `響包括：` 都標成標題，
-> 約半數是雜訊，會讓 25 章的導覽變差來換 1 章變好。規則：**換掉一個啟發式之前，先在
-> 全語料上算「改善幾章 vs 惡化幾章」**，不要只看目標案例。
 
 ### 修正 1、2 的內容（說明用，不必手動執行）
 
