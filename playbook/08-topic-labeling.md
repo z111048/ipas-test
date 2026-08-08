@@ -113,13 +113,35 @@ python3 scripts/build_topic_vocabulary.py --show           # 依大類印出
 選項亂序把洩題變成錯誤率、`answer_echo_rate` 把偷看變成數字、逐條列印合併記錄把
 誤殺變成清單。設計彙總步驟時先問：**這一步錯了，會不會有人看得出來？**
 
+## §6a 審核機制（2026-08-08 建立）
+
+```bash
+python3 scripts/audit_resources.py            # Layer 1 確定性；build_web.py 會先跑，FAIL 中止 build
+python3 scripts/review_committed_notebooks.py --python <有 pandas/sklearn 的直譯器>
+```
+
+三層：**Layer 1** 確定性（不需模型金鑰，`audit_resources.py`）→ **Layer 2** 語意
+（`verify_question_answers.py` 多模型共識、notebook 語意複查）→ **Layer 3** 人工佇列。
+例外一律寫 `data/audit_allowlist.json` **並附理由**，目前 1 筆。
+
+> 教訓 2026-08-08：閘門若會誤報就會被繞過。第一版審核器誤判 483 筆中英夾雜
+> （把「Transformer 架構」當夾雜）、62 筆詞彙表（欄位假設錯）、27 筆 notebook
+> （拿草稿審核當現況）。規則：**寫閘門的力氣要有一半花在驗證閘門本身**，
+> 上線前先確認它對已知正確的資料回報乾淨、對已知錯誤的資料抓得到。
+
 ## §7 待接工作（依順序）
 
+0. **19 本 notebook 的說明與程式碼不符**（`data/notebook_review/committed_review.json`）。
+   程式碼能跑所以沒人會發現，但學生照著讀就學到錯的。抽查三筆全部成立：
+   `mid-s2c7`「95% 截尾平均」實為兩側各截 5%、`mid-s2c13` 說明講 k-匿名但程式碼是
+   合規檢查表、`mid-s1c3` 說明講詞彙但程式碼是字元 n-gram。屬內容編修，逐本改。
 1. **語意去重**：輸出限定為合併配對清單（小輸出、可逐條稽核），人工勾掉錯的後定案。
 2. **指派標籤**：561 題各 1~3 個概念，限定只能從詞彙表選，用
    `verify_question_answers.py` 的多模型共識驗收（2/3 同意才收）。約 30 分鐘。
 3. **概念熱度上前端**：熱度圖加第二個軸——哪個觀念常考、它散落在哪幾章。
 4. **熱度驅動出題配額**：把 07 的均勻配額（每區塊 2 題）改成依 `subtree` 題數加權。
    這才是「考古題方向反推章節出題」，順便把全量規模降到有意義的量。
-5. **正規化標註結構**：現有 `guideExamAnnotations` 是反正規化的（同一題的題幹被複製
+5. **其他未驗資源**：735 題的 card 欄位（`confusion` 寫錯等於教錯）、727 張概念圖卡
+   （建議先抽樣 30 張估錯誤率）、7 筆中英夾雜、1 個重複詞條。
+6. **正規化標註結構**：現有 `guideExamAnnotations` 是反正規化的（同一題的題幹被複製
    平均 13 次），加上生成題與概念標籤後會膨脹。拆成 `questionIndex` + 邊表 + `topics`。
