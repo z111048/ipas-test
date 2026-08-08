@@ -355,7 +355,6 @@ def score_against_baseline(accepted: list[dict[str, str]]) -> dict[str, Any]:
             'missed': sorted(missed), 'extra': sorted(extra)}
 
 
-FINAL_PATH = BASE / 'data' / 'topics' / 'topics.json'
 
 
 def apply_merge_pairs() -> None:
@@ -446,6 +445,124 @@ def apply_merge_pairs() -> None:
     print(f'→ {FINAL_PATH.relative_to(BASE)}')
 
 
+CLEAN_PATH = BASE / 'data' / 'topics' / 'alias_cleanup.json'
+FINAL_PATH = BASE / 'data' / 'topics' / 'topics.json'
+
+
+def clean_aliases(model: str, timeout: int, max_tokens: int, retries: int) -> None:
+    """清掉會讓標籤失準的別名，重寫 topics.json。
+
+    標籤指派靠「別名 → 概念」比對，實測精確度只有 62%、13% 是明確錯誤。
+    根因不是指派邏輯，是別名本身（08 §6：alias 是模型自由文字、品質不受控）。
+    兩類雜訊，處置不同：
+
+      A. 別名剛好是另一個概念的正式名稱（32 組）。這是**上下位關係**不是同義詞——
+         「物件偵測」是「電腦視覺」的別名，於是一題考物件偵測會同時被標上電腦視覺，
+         上位概念因此虛胖。確定性移除，不必問模型。
+      B. 一個詞同時是多個概念的別名（88 條）。無法確定性決定歸屬，交給模型從
+         候選裡挑一個，輸出小、可逐條稽核；挑不出來就整條移除（寧可少標）。
+
+    移除的別名全部記進 alias_cleanup.json，不是靜靜消失。
+    """
+    vocab = json.loads(FINAL_PATH.read_text(encoding='utf-8'))
+    topics = vocab['topics']
+    canonical = {normalise(t['name']): t['name'] for t in topics}
+
+    removed_clash: list[dict[str, str]] = []
+    for topic in topics:
+        kept = []
+        for alias in topic.get('aliases', []):
+            key = normalise(alias)
+            if key in canonical and canonical[key] != topic['name']:
+                removed_clash.append({'alias': alias, 'from': topic['name'],
+                                      'reason': f'「{canonical[key]}」本身就是一個概念'})
+            else:
+                kept.append(alias)
+        topic['aliases'] = kept
+    print(f'A 類（別名是另一個概念的正式名稱）移除 {len(removed_clash)} 條')
+
+    owners: dict[str, list[str]] = {}
+    for topic in topics:
+        for alias in topic['aliases']:
+            owners.setdefault(normalise(alias), []).append(topic['name'])
+    ambiguous = {k: v for k, v in owners.items() if len(v) > 1}
+    print(f'B 類（一詞多概念）待決 {len(ambiguous)} 條')
+
+    decisions: dict[str, str] = {}
+    if ambiguous:
+        load_env_file()
+        display = {}
+        for topic in topics:
+            for alias in topic['aliases']:
+                display.setdefault(normalise(alias), alias)
+        entries = sorted(ambiguous.items())
+        for start in range(0, len(entries), 25):
+            chunk = entries[start:start + 25]
+            listing = '\n'.join(
+                f'- 「{display[key]}」候選：{"、".join(names)}' for key, names in chunk)
+            prompt = f"""下列詞組同時被登記成多個概念的別名，請為每一個挑出**唯一最貼切**的概念。
+
+規則：
+1. `topic` 必須是該詞組候選之一，逐字照抄。
+2. 若這個詞組其實跟哪個都不夠貼切，`topic` 給空字串——寧可少標也不要標錯。
+
+只輸出 JSON：{{"picks":[{{"alias":"詞組","topic":"概念"}}]}}
+
+{listing}
+"""
+            raw = None
+            for _ in range(retries + 1):
+                raw = call_gateway(prompt, model, timeout, None, max_tokens)
+                if raw and '"picks"' in raw:
+                    break
+            text = (raw or '').strip()
+            if text.startswith('```'):
+                text = '\n'.join(text.split('\n')[1:]).rsplit('```', 1)[0]
+            begin, end = text.find('{'), text.rfind('}')
+            if begin < 0:
+                raise SystemExit('FAIL 一詞多概念的歸屬沒有結果，詞彙表保持原狀')
+            try:
+                data = json.loads(text[begin:end + 1])
+            except json.JSONDecodeError:
+                raise SystemExit('FAIL 歸屬回應無法解析，詞彙表保持原狀')
+            for row in data.get('picks') or []:
+                alias = normalise(str(row.get('alias', '')))
+                pick = str(row.get('topic', '')).strip()
+                if alias in ambiguous and pick in ambiguous[alias]:
+                    decisions[alias] = pick
+
+    removed_ambiguous: list[dict[str, str]] = []
+    for topic in topics:
+        kept = []
+        for alias in topic['aliases']:
+            key = normalise(alias)
+            if key in ambiguous and decisions.get(key) != topic['name']:
+                removed_ambiguous.append({
+                    'alias': alias, 'from': topic['name'],
+                    'reason': f'歸給「{decisions[key]}」' if key in decisions else '無法歸屬，整條移除'})
+            else:
+                kept.append(alias)
+        topic['aliases'] = kept
+    print(f'B 類移除 {len(removed_ambiguous)} 條'
+          f'（歸屬成功 {len(decisions)}／{len(ambiguous)}）')
+
+    CLEAN_PATH.write_text(json.dumps({
+        'date': '2026-08-08', 'model': model,
+        'removedBecauseCanonicalElsewhere': removed_clash,
+        'removedBecauseAmbiguous': removed_ambiguous,
+        'ambiguousDecisions': decisions,
+    }, ensure_ascii=False, indent=2), encoding='utf-8')
+
+    before = sum(len(t.get('aliases', [])) for t in json.loads(
+        FINAL_PATH.read_text(encoding='utf-8'))['topics'])
+    after = sum(len(t['aliases']) for t in topics)
+    vocab['topics'] = topics
+    vocab['aliasCleanup'] = str(CLEAN_PATH.relative_to(BASE))
+    FINAL_PATH.write_text(json.dumps(vocab, ensure_ascii=False, indent=2), encoding='utf-8')
+    print(f'別名 {before} → {after}（移除 {before - after}）')
+    print(f'→ {FINAL_PATH.relative_to(BASE)}、{CLEAN_PATH.relative_to(BASE)}')
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -460,6 +577,8 @@ def main() -> None:
     parser.add_argument('--consolidate', action='store_true',
                         help='對既有草稿再跑一次統整（合併同義大類與重複概念）')
     parser.add_argument('--show', action='store_true', help='print the existing draft')
+    parser.add_argument('--clean-aliases', action='store_true',
+                        help='清掉會讓標籤失準的別名（上下位關係、一詞多概念）')
     parser.add_argument('--apply-pairs', action='store_true',
                         help='把已勾選的合併配對套進詞彙表 → data/topics/topics.json')
     parser.add_argument('--dedupe-pairs', action='store_true',
@@ -475,6 +594,10 @@ def main() -> None:
             print(f'\n## {parent}（{len(names)}）')
             print('   ' + '、'.join(names))
         print(f'\n合計 {len(draft["topics"])} 個概念，{len(by_parent)} 個大類')
+        return
+
+    if args.clean_aliases:
+        clean_aliases(args.model, args.timeout, args.max_tokens, args.retries)
         return
 
     if args.apply_pairs:

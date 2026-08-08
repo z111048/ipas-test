@@ -362,6 +362,9 @@ def main() -> None:
     parser.add_argument('--timeout', type=int, default=300)
     parser.add_argument('--max-tokens', type=int, default=4000)
     parser.add_argument('--retries', type=int, default=2)
+    parser.add_argument('--model-all', action='store_true',
+                        help='全部題目都走模型（不用別名比對）。量測顯示模型讀詳解的'
+                             '正確率 73%，別名比對只有 60%——key_concepts 本身混了對照組概念')
     parser.add_argument('--dry-run', action='store_true', help='只做別名比對，不呼叫模型')
     parser.add_argument('--verify-all', action='store_true',
                         help='全量驗收既有指派，濾掉「錯誤」的標籤')
@@ -395,7 +398,7 @@ def main() -> None:
     pending: list[tuple[str, str, list[str]]] = []
     for key, entry in questions.items():
         phrases = [str(p) for p in (entry.get('key_concepts') or [])]
-        hits = deterministic(phrases, lookup)
+        hits = [] if args.model_all else deterministic(phrases, lookup)
         if hits:
             assigned[key] = {'topics': [h['topic'] for h in hits], 'evidence': hits}
         else:
