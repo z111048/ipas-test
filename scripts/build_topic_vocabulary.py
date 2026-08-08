@@ -222,6 +222,139 @@ def dedupe_concepts(topics: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return survivors
 
 
+PAIRS_PATH = BASE / 'data' / 'topics' / 'merge_pairs.json'
+BASELINE_PATH = BASE / 'data' / 'topics' / 'known_duplicate_pairs.json'
+
+
+def build_pairs_prompt(names: list[str]) -> str:
+    listing = '\n'.join(f'- {n}' for n in names)
+    return f"""以下是 iPAS AI 應用規劃師考試的受控概念詞彙表，共 {len(names)} 個概念。
+請找出「指同一個觀念、應該合併」的配對。
+
+規則：
+1. 只輸出配對，不要輸出整份詞彙表。
+2. `keep` 與 `drop` 都必須**逐字**出自下面的清單，不可自創或改寫。
+3. 只合併真正同義的（同詞異譯、同概念不同寫法）。**層次不同的不要合併**：
+   例如「多模態AI」與「多模態生成」是不同層次，「異常偵測」（模型任務）與
+   「異常值偵測」（資料清理）是不同工作，都不要合併。
+4. 語意相反或範圍相反的絕對不可合併（監督式／非監督式、擬合／過擬合）。
+5. `reason` 用一句話說明為什麼是同一個觀念。
+6. 不確定就不要輸出——漏掉可以人工補，合錯會靜靜產生事實錯誤。
+
+只輸出 JSON：
+{{"pairs":[{{"keep":"保留的名稱","drop":"要併掉的名稱","reason":"一句話"}}]}}
+
+概念清單：
+{listing}
+"""
+
+
+def parse_pairs(raw: str | None) -> list[dict[str, str]]:
+    if not raw:
+        return []
+    text = raw.strip()
+    if text.startswith('```'):
+        text = '\n'.join(text.split('\n')[1:]).rsplit('```', 1)[0]
+    start, end = text.find('{'), text.rfind('}')
+    if start < 0 or end < 0:
+        return []
+    try:
+        data = json.loads(text[start:end + 1])
+    except json.JSONDecodeError:
+        return []
+    pairs = data.get('pairs')
+    return pairs if isinstance(pairs, list) else []
+
+
+def validate_pairs(pairs: list[dict[str, str]], names: list[str]) -> tuple[list, list]:
+    """逐條檢查後回傳 (可採用, 已擋下)。每一條都會被印出來，誤殺要看得見。"""
+    known = {normalise(n): n for n in names}
+    accepted: list[dict[str, str]] = []
+    rejected: list[dict[str, str]] = []
+    seen: set[tuple[str, str]] = set()
+    baseline = json.loads(BASELINE_PATH.read_text(encoding='utf-8')) \
+        if BASELINE_PATH.exists() else {'groups': []}
+    keep_separate: set[frozenset] = set()
+    for group in baseline.get('groups', []):
+        for other in group.get('keepSeparate', []):
+            keep_separate.add(frozenset({normalise(group['canonical']), normalise(other)}))
+
+    for pair in pairs:
+        keep = str(pair.get('keep', '')).strip()
+        drop = str(pair.get('drop', '')).strip()
+        reason = str(pair.get('reason', '')).strip()
+        k, d = normalise(keep), normalise(drop)
+        note = None
+        if k not in known or d not in known:
+            note = '名稱不在詞彙表裡（模型自創或改寫）'
+        elif k == d:
+            note = 'keep 與 drop 是同一個'
+        elif (k, d) in seen or (d, k) in seen:
+            note = '重複的配對'
+        elif frozenset({k, d}) in keep_separate:
+            note = '人工基線標為 keepSeparate（看起來像重複但不是）'
+        elif not (safe_to_merge(k, d) or safe_to_merge(d, k)) and (k in d or d in k):
+            note = '字串包含但前綴會翻轉語意'
+        if note:
+            rejected.append({**pair, 'note': note})
+            print(f'  擋下「{drop}」→「{keep}」：{note}')
+        else:
+            seen.add((k, d))
+            accepted.append({'keep': known[k], 'drop': known[d], 'reason': reason})
+            print(f'  合併「{drop}」→「{keep}」：{reason[:40]}')
+    return accepted, rejected
+
+
+def clusters(pairs: list[tuple[str, str]]) -> dict[str, str]:
+    """union-find：回傳 {概念: 叢集代表}。比對用叢集而不是配對——
+    「分群演算法/群聚分析/聚類」用哪個當樞紐都是同一件事，不該算成漏掉。"""
+    parent: dict[str, str] = {}
+
+    def find(x: str) -> str:
+        parent.setdefault(x, x)
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    for a, b in pairs:
+        ra, rb = find(a), find(b)
+        if ra != rb:
+            parent[rb] = ra
+    return {x: find(x) for x in parent}
+
+
+def score_against_baseline(accepted: list[dict[str, str]]) -> dict[str, Any]:
+    """對照人工基線：漏太多代表太保守，基線外的新配對要逐條看。"""
+    if not BASELINE_PATH.exists():
+        return {}
+    baseline = json.loads(BASELINE_PATH.read_text(encoding='utf-8'))
+    expected_pairs, expected_groups = [], []
+    for group in baseline.get('groups', []):
+        dups = group.get('duplicates') or []
+        if not dups:
+            continue
+        canon = normalise(group['canonical'])
+        expected_groups.append({canon, *(normalise(d) for d in dups)})
+        expected_pairs += [(canon, normalise(d)) for d in dups]
+    got_pairs = [(normalise(p['keep']), normalise(p['drop'])) for p in accepted]
+    got = clusters(got_pairs)
+
+    matched, missed = [], []
+    for group in expected_groups:
+        roots = {got.get(x) for x in group if x in got}
+        if len(roots) == 1 and None not in roots and len([x for x in group if x in got]) == len(group):
+            matched.append('｜'.join(sorted(group)))
+        else:
+            missed.append('｜'.join(sorted(group)))
+    expected_flat = {frozenset(p) for p in expected_pairs}
+    extra = [f'{a}｜{b}' for a, b in got_pairs
+             if frozenset({a, b}) not in expected_flat
+             and not any({a, b} <= g for g in expected_groups)]
+    return {'baselineGroups': len(expected_groups), 'matchedGroups': len(matched),
+            'missed': sorted(missed), 'extra': sorted(extra)}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -236,6 +369,8 @@ def main() -> None:
     parser.add_argument('--consolidate', action='store_true',
                         help='對既有草稿再跑一次統整（合併同義大類與重複概念）')
     parser.add_argument('--show', action='store_true', help='print the existing draft')
+    parser.add_argument('--dedupe-pairs', action='store_true',
+                        help='語意去重：只輸出合併配對清單（§7-1），不動詞彙表本身')
     args = parser.parse_args()
 
     if args.show:
@@ -250,6 +385,75 @@ def main() -> None:
         return
 
     load_env_file()
+
+    if args.dedupe_pairs:
+        draft = json.loads(OUT_PATH.read_text(encoding='utf-8'))
+        names = [t['name'] for t in draft['topics']]
+        # 一次送 204 個概念只挖到 10 組（人工基線 29 組）——清單太長，模型只挑
+        # 最明顯的同詞異譯。改成「每個大類各問一次 + 全域再問一次」，聯集起來；
+        # 重複的配對會在 validate_pairs 被擋掉，所以多問只會提高召回不會重複合併。
+        by_parent: dict[str, list[str]] = collections.defaultdict(list)
+        for topic in draft['topics']:
+            by_parent[topic.get('parent') or '（未分類）'].append(topic['name'])
+        batches = [(f'大類：{parent}', group)
+                   for parent, group in sorted(by_parent.items()) if len(group) >= 2]
+        batches.append(('全域', names))
+        print(f'語意去重：{len(names)} 個概念，分 {len(batches)} 批送審，只要合併配對清單')
+
+        pairs: list[dict[str, str]] = []
+        failed: list[str] = []
+        for label, group in batches:
+            raw = None
+            for attempt in range(1, args.retries + 2):
+                raw = call_gateway(build_pairs_prompt(group), args.model,
+                                   args.timeout, None, args.max_tokens)
+                if parse_pairs(raw) or (raw and '"pairs"' in raw):
+                    break
+                reason = '空回應' if not raw else f'回應無法解析（{len(raw)} 字，可能被截斷）'
+                print(f'  {label} 第 {attempt} 次{reason}，重試中')
+            got = parse_pairs(raw)
+            if not got and not (raw and '"pairs"' in raw):
+                failed.append(label)
+            print(f'  {label}（{len(group)} 個概念）→ {len(got)} 組')
+            pairs += got
+        # 分組失敗只回空陣列、程式照樣合併剩下的並印出成功——是這條線踩過的坑。
+        if failed:
+            raise SystemExit(f'FAIL {len(failed)} 批沒有結果（{"、".join(failed)}），'
+                             '不產出看起來完整的部分結果')
+        if not pairs:
+            raise SystemExit('FAIL 沒有拿到任何配對，詞彙表保持原狀')
+        print()
+
+        accepted, rejected = validate_pairs(pairs, names)
+        score = score_against_baseline(accepted)
+        payload = {
+            'status': 'pending-human-review',
+            'source': str(OUT_PATH.relative_to(BASE)),
+            'model': args.model,
+            'topicCount': len(names),
+            'note': ('這是待人工勾選的合併配對清單，不是已定案的詞彙表。'
+                     '勾掉錯的之後才可以套用，套用後才能做 §7-2 標題。'),
+            'accepted': accepted,
+            'rejected': rejected,
+            'baselineScore': score,
+            # 模型不肯合、但人工基線認為該合的組。模型對複合名稱（「AI治理與倫理」
+            # vs「負責任AI與倫理」）一律保守，這正是要人來拍板的部分——留在這裡
+            # 逐條勾選，不要讓模型自己決定。
+            'pendingHumanDecision': [
+                {'group': g.split('｜'), 'decision': None} for g in score.get('missed', [])
+            ],
+        }
+        PAIRS_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2),
+                              encoding='utf-8')
+        print(f'\n模型給 {len(pairs)} 組，採用 {len(accepted)}、擋下 {len(rejected)}')
+        if score:
+            print(f'對照人工基線：{score["matchedGroups"]}/{score["baselineGroups"]} 組命中，'
+                  f'基線外的新配對 {len(score["extra"])} 組')
+            if score['missed']:
+                print(f'  漏掉（需人工判斷是模型太保守還是基線寫錯）：'
+                      f'{"、".join(score["missed"][:8])}')
+        print(f'→ {PAIRS_PATH.relative_to(BASE)}（待人工勾選）')
+        return
 
     if args.consolidate:
         draft = json.loads(OUT_PATH.read_text(encoding='utf-8'))
