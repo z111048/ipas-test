@@ -1,0 +1,83 @@
+{
+  "date": "2026-08-08",
+  "scope": "§7-6 card 欄位抽樣驗收（689 題有 card，4 欄位共 2756 個值）",
+  "population": 689,
+  "sample": {
+    "size": 40,
+    "seed": 20260808,
+    "method": "依檔案分層比例抽樣，確定性",
+    "verdict": {
+      "concept": {
+        "正確": 36,
+        "可疑": 4
+      },
+      "mnemonic": {
+        "正確": 29,
+        "錯誤": 11
+      },
+      "confusion": {
+        "正確": 30,
+        "錯誤": 10
+      },
+      "frequency": {
+        "未驗": 40
+      }
+    },
+    "note": "抽樣的 25% confusion 錯誤率與全量機械掃出的 26% 一致——抽樣其實只找到一個系統性缺陷，不是散落錯誤"
+  },
+  "systematic": {
+    "confusion 是解析的複製": {
+      "count": 179,
+      "ratio": 0.26,
+      "files": {
+        "subject1_guide_exercises.json": 70,
+        "subject2_guide_exercises.json": 69,
+        "subject3_guide_exercises.json": 40
+      },
+      "severity": "非事實錯誤，但「常見混淆」那一格等於沒有內容，且「解析：」前綴外露"
+    },
+    "mnemonic 是佔位字串": {
+      "count": 179,
+      "ratio": 0.26,
+      "text": "依學習指引原題複習"
+    },
+    "frequency 值域外": {
+      "count": 0,
+      "fixedThisRound": 2,
+      "cause": "生成時把相鄰 difficulty 的「易／難」寫進 frequency；FreqBar 遇非法值靜默顯示成「低」"
+    },
+    "解析黏上參考書目附件": {
+      "count": 0,
+      "fixedThisRound": 2,
+      "ids": [
+        "s1c4gq010",
+        "s2c3gq010"
+      ]
+    }
+  },
+  "frequencyGrounding": {
+    "distribution": {
+      "高": 345,
+      "中": 334,
+      "低": 10
+    },
+    "spearmanVsChapterHeat": -0.173,
+    "medianChapterQuestions": {
+      "高": 7,
+      "中": 10.0,
+      "低": 32.0
+    },
+    "reading": "標「低」的題落在更熱的章（中位數 33 題），標「高」的落在較冷的章（7 題）——這欄與唯一的客觀依據呈負相關，且高/中幾近各半、低只有 9 個，判別力接近零"
+  },
+  "individual": [
+    {
+      "id": "mid-s1c1q005_codex100",
+      "field": "mnemonic",
+      "problem": "把 CBOW 拆成「Context Before One Word」，實際是 Continuous Bag-of-Words"
+    }
+  ],
+  "openDecisions": [
+    "179 題 guide_exercises 的 confusion/mnemonic 要重生或前端不顯示",
+    "frequency 全欄位（689 題）要用熱度重算或前端不顯示"
+  ]
+}

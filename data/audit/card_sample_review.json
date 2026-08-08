@@ -1,0 +1,1067 @@
+{
+  "population": 689,
+  "size": 40,
+  "seed": 20260808,
+  "countingRule": "verdict 逐欄位填：正確／可疑／錯誤；confusion 錯誤即等於教錯",
+  "samples": [
+    {
+      "file": "data/中級/questions/subject1_codex100_questions.json",
+      "id": "mid-s1c8q004_codex100",
+      "question": "某資安團隊建立惡意登入偵測模型，資料中正常登入占大多數，惡意登入比例很低。若團隊只看準確率（Accuracy），模型可能因大多數樣本都判為正常而看似表現良好。此時較適合補充參考下列哪一項評估指標？",
+      "options": {
+        "A": "F1 分數，因為它綜合精確率與召回率，適合類別不平衡且兩者都重要的分類任務",
+        "B": "資料唯一性，因為它可直接衡量分類模型是否抓到少數類別",
+        "C": "PCA 主成分數，因為主成分越少代表模型分類越準確",
+        "D": "平均數填補比例，因為缺失值填補越多代表模型越能辨識惡意登入"
+      },
+      "answer": "A",
+      "explanation": "正確答案為 A。關鍵字表指出準確率是預測正確樣本占總樣本的比例，但在類別不平衡時可能掩蓋少數類別的錯誤；F1 分數是精確率與召回率的調和平均，適合兩者都重要且類別不平衡的分類任務。B 的資料唯一性屬資料品質概念，主要看重複或衝突；C 是降維相關；D 是缺失值處理比例，皆不是分類效能評估指標。",
+      "card": {
+        "concept": "類別不平衡時，Accuracy 可能被多數類別撐高；F1 同時考量精確率與召回率。",
+        "mnemonic": "「少數類別別只看準，精召都要看 F1」。",
+        "confusion": "資料品質指標如唯一性、完整性是在檢查資料；F1、Accuracy 才是分類模型表現指標。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject1_codex100_questions.json",
+      "id": "mid-s1c7q003_codex100",
+      "question": "某人資部門使用歷史招募資料訓練履歷篩選模型，但過去資料中某些性別與年齡族群錄取比例長期偏低，導致模型上線後仍傾向排除相同族群。此問題最接近下列哪一種偏見來源？",
+      "options": {
+        "A": "歷史偏見，因過去制度或社會條件中的不公平被模型繼承",
+        "B": "資料漂移，因上線後輸入資料分佈與訓練資料不同",
+        "C": "模型漂移，因模型預測準確率隨時間自然下降",
+        "D": "技能短缺風險，因團隊缺少資料科學與維護能力"
+      },
+      "answer": "A",
+      "explanation": "正確答案為(A)。教材指出歷史偏見是歷史數據反映既有社會或制度偏見，使模型繼承並可能擴大歧視；題目中的過去招募資料已含錄取比例不公平，正符合此概念。(B)資料漂移是資料分佈隨時間改變，不是歷史不公平被學入模型；(D)屬組織人力層風險，不是偏見來源。",
+      "card": {
+        "concept": "歷史偏見是訓練資料承載過去制度或社會不公平，模型因而延續歧視性結果。",
+        "mnemonic": "資料記錄過去，模型可能複製過去。",
+        "confusion": "資料分布不均是樣本比例不足；歷史偏見則是資料本身反映既有不公平。",
+        "frequency": "高"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject1_codex100_questions.json",
+      "id": "mid-s1c1q005_codex100",
+      "question": "關於 Word2Vec 的 CBOW 與 Skip-gram 架構，下列敘述何者正確？",
+      "options": {
+        "A": "CBOW 以中心詞預測周圍上下文，Skip-gram 以上下文預測中心詞",
+        "B": "CBOW 以上下文預測中心詞，Skip-gram 以中心詞預測周圍上下文",
+        "C": "CBOW 與 Skip-gram 都必須使用遮蔽語言模型才能進行雙向理解",
+        "D": "CBOW 只能處理語音資料，Skip-gram 只能處理影像資料"
+      },
+      "answer": "B",
+      "explanation": "正確答案為 B。教材指出 CBOW 是根據周圍詞彙預測中心詞，訓練速度較快；Skip-gram 則以中心詞預測周圍上下文，對低頻詞較有效。A 將兩者方向對調；C 混入 BERT 的遮蔽語言模型概念；D 與 NLP 詞嵌入任務不符。",
+      "card": {
+        "concept": "CBOW 看周圍猜中心；Skip-gram 看中心猜周圍。",
+        "mnemonic": "C-BOW：Context Before One Word；Skip：中心詞向外跳。",
+        "confusion": "常把兩者預測方向反過來；也不要把 Word2Vec 的靜態詞嵌入與 BERT 的 MLM 混用。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "錯誤",
+        "frequency": "未驗"
+      },
+      "note": "mnemonic 把 CBOW 拆成「Context Before One Word」，實際是 Continuous Bag-of-Words——記憶法本身植入錯誤字面拆解"
+    },
+    {
+      "file": "data/中級/questions/subject1_codex100_questions.json",
+      "id": "mid-s1c4q011_codex100",
+      "question": "某智慧城市專案要結合路口監視影像、交通流量感測器與空氣品質感測資料，進行壅塞預測與異常預警。若不同感測器的採樣頻率與時間戳不一致，最應優先處理的問題為何？",
+      "options": {
+        "A": "資料同步與時間對齊，避免影像事件與感測數值在融合時產生誤判",
+        "B": "將所有資料先匿名化即可，不需再處理時間序列差異",
+        "C": "改用單一攝影機資料，因為多模態系統無法處理交通預測任務",
+        "D": "提高模型參數量，使模型自行忽略不同資料來源的時間誤差"
+      },
+      "answer": "A",
+      "explanation": "正確答案為(A)。教材指出感測融合需要資料同步與特徵對齊，不同感測器的採樣頻率與時間戳若未精準對齊，會影響模型訓練品質與應用效能。(B)匿名化有助於隱私保護，但不能解決時間不一致；(D)單純提高模型參數量也無法取代資料對齊。",
+      "card": {
+        "concept": "感測資料融合前，必須處理採樣頻率、時間戳與語意一致性。",
+        "mnemonic": "先對時，再融合；時間錯，判斷就錯。",
+        "confusion": "隱私保護與模型壓縮是重要議題，但不能替代資料同步與時間對齊。",
+        "frequency": "高"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject1_codex100_questions.json",
+      "id": "mid-s1c8q009_codex100",
+      "question": "某資料科學團隊在建置信用風險模型時，發現原始資料有上百個欄位，部分欄位彼此高度相關，且並非每個欄位都對違約預測有幫助。若希望先挑出對預測結果較有用的變數，下列哪一種作法最符合本章所述的「特徵選擇」概念？",
+      "options": {
+        "A": "使用資訊增益、皮爾森相關係數或 L1 正則化評估特徵貢獻，保留較有預測價值的欄位",
+        "B": "將所有欄位轉換為圖片格式，再使用 CNN 自動判斷哪些欄位重要",
+        "C": "將所有數值欄位一律正規化到 0 到 1，即可完成特徵選擇",
+        "D": "只要欄位數量很多，就直接改用生成式模型產生更多訓練資料"
+      },
+      "answer": "A",
+      "explanation": "特徵選擇是從所有特徵中挑選對模型預測效果影響較大的變數，本章列舉資訊增益、皮爾森相關係數與 L1 正則化等方法。選項 C 的正規化是數值尺度轉換，並不會判斷欄位是否有用；選項 B 與 D 則把問題轉成影像或資料生成，並非本章所述的特徵選擇流程。",
+      "card": {
+        "concept": "特徵選擇是挑出對預測最有用的欄位；常見方法包含資訊增益、皮爾森相關係數與 L1 正則化。",
+        "mnemonic": "「選特徵，看貢獻」：不是欄位越多越好，而是留下對預測有幫助的欄位。",
+        "confusion": "正規化與標準化是尺度轉換；PCA 是降維；特徵選擇則是評估並保留有用欄位，三者目的不同。",
+        "frequency": "高"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject1_codex100_questions.json",
+      "id": "mid-s1c8q002_codex100",
+      "question": "某資料科學團隊手上有 300 個候選欄位，希望先挑出對預測結果最有用的變數，並降低冗餘特徵造成的模型複雜度。下列作法何者最符合「特徵選擇」的概念？",
+      "options": {
+        "A": "使用資訊增益、皮爾森相關係數或 L1 正則化評估特徵貢獻，保留較有用的欄位",
+        "B": "使用 PCA 將所有欄位轉換成少數主成分，完全不需要判斷單一欄位的重要性",
+        "C": "把所有數值欄位都正規化到 0 到 1，這就是完成特徵選擇",
+        "D": "將所有類別欄位改成標籤編碼，即可自動刪除低貢獻特徵"
+      },
+      "answer": "A",
+      "explanation": "正確答案為 A。教材將特徵選擇定義為從所有特徵中挑選對模型預測效果影響較大的變數，常見方法包含資訊增益、皮爾森相關係數與 L1 正則化。B 較接近降維，PCA 是將高維資料轉為低維表示，不等同於挑選原始欄位；C 是數值尺度轉換；D 是類別編碼，不能自動代表特徵選擇。",
+      "card": {
+        "concept": "特徵選擇是挑欄位；降維是改表示。前者常用資訊增益、相關係數、L1 正則化，後者常用 PCA。",
+        "mnemonic": "「選擇是挑人，降維是換隊形」：挑有用欄位不同於把資料投影到低維。",
+        "confusion": "PCA 常被誤認為特徵選擇；它保留變異並轉成主成分，但不一定保留原始欄位語意。",
+        "frequency": "高"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject1_guide_exercises.json",
+      "id": "mid-s1c4gq005",
+      "question": "若需在一張影像中辨識出多個目標並標示其位置，最適合使用何種技術？",
+      "options": {
+        "A": "影像增強",
+        "B": "影像分類",
+        "C": "目標偵測",
+        "D": "圖像生成"
+      },
+      "answer": "C",
+      "explanation": "解析：目標偵測（Object Detection）能辨識圖像中多個實體，並給出邊界框位置資訊。",
+      "card": {
+        "concept": "目標偵測",
+        "mnemonic": "依學習指引原題複習",
+        "confusion": "解析：目標偵測（Object Detection）能辨識圖像中多個實體，並給出邊界框位置資訊。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "錯誤",
+        "mnemonic": "錯誤",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject1_guide_exercises.json",
+      "id": "mid-s1c4gq001",
+      "question": "下列何者為自然語言處理（NLP）中的詞嵌入技術，能將文字轉換為向量以利機器學習處理？",
+      "options": {
+        "A": "TF-IDF",
+        "B": "Word2Vec",
+        "C": "Stop Words",
+        "D": "Bag-of-Words"
+      },
+      "answer": "B",
+      "explanation": "解析：Word2Vec 是一種詞嵌入方法，可將文字轉換為連續向量空間中具語意的表示，有利後續模型學習。",
+      "card": {
+        "concept": "Word2Vec",
+        "mnemonic": "依學習指引原題複習",
+        "confusion": "解析：Word2Vec 是一種詞嵌入方法，可將文字轉換為連續向量空間中具語意的表示，有利後續模型學習。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "錯誤",
+        "mnemonic": "錯誤",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject1_questions.json",
+      "id": "mid-s1c3q2_multi",
+      "question": "根據生成式AI 的技術演進脈絡，下列四個發展階段依時間先後排列，正確順序為何？\n① 擴散模型（Diffusion Models）與多模態生成\n② 對抗生成網路（GAN）時代\n③ Transformer 與自注意力機制崛起\n④ 變分自編碼器（VAE）初期探索",
+      "options": {
+        "A": "④ → ② → ③ → ①",
+        "B": "② → ④ → ③ → ①",
+        "C": "④ → ③ → ② → ①",
+        "D": "③ → ④ → ② → ①"
+      },
+      "answer": "A",
+      "explanation": "依據章節整理的五階段演進：VAE 初期探索（2013–2015）→ GAN 時代（2014–2020）→ Transformer 崛起（2017 年起）→ 擴散模型與多模態（2020 年起）→ 巨型模型與Agent化（2023 年起），正確順序為④②③①。選項B 將GAN 置於VAE 之前，時間有誤。選項C 將Transformer 排在GAN 之前，亦與事實不符。選項D 以Transformer 為起點，完全顛倒早期發展脈絡。",
+      "card": {
+        "concept": "生成式AI 技術演進五階段：VAE（2013）→ GAN（2014）→ Transformer（2017）→ 擴散模型（2020）→ 巨型模型/Agent（2023）。",
+        "mnemonic": "「老虎跳擴張」：老（VAE 老前輩）→ 虎（GAN 虎虎生風）→ 跳（Transformer 跳躍突破）→ 擴（擴散模型）→ 張（巨型模型張大規模）",
+        "confusion": "常混淆GAN（2014）與Transformer（2017）的先後順序，以及VAE 是否早於GAN。記住：VAE=2013，GAN=2014，兩者幾乎同期但VAE 略早。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject1_questions.json",
+      "id": "mid-s1c8q3_multi",
+      "question": "某電商企業欲建立顧客購買行為預測模型（選用邏輯迴歸作為初版模型），其資料集包含：會員等級（銀卡/金卡/白金卡）、商品類別（3C/服飾/食品等 20 類）、購買金額，以及過去 30 天的登入時間戳。下列特徵處理方式何者最為適切？",
+      "options": {
+        "A": "會員等級使用獨熱編碼（One-hot Encoding），商品類別使用標籤編碼（Label Encoding），購買金額使用標準化（Standardization），時間戳直接輸入模型",
+        "B": "會員等級使用序數編碼（Ordinal Encoding）並明確設定銀卡=1、金卡=2、白金卡=3，商品類別使用獨熱編碼（One-hot Encoding），購買金額使用正規化（Normalization），時間戳擷取星期幾與時段等週期性特徵",
+        "C": "會員等級與商品類別均使用獨熱編碼（One-hot Encoding），購買金額不做任何轉換，時間戳擷取 Unix timestamp 數值直接使用",
+        "D": "會員等級使用獨熱編碼（One-hot Encoding），商品類別使用標籤編碼（Label Encoding），購買金額使用標準化（Standardization），時間戳僅擷取月份與年份欄位"
+      },
+      "answer": "B",
+      "explanation": "會員等級（銀/金/白金）具有明確順序關係，應使用序數編碼並明確指定順序（銀卡<金卡<白金卡）以保留其序位資訊；商品類別為無序分類，應使用獨熱編碼避免模型誤解數值大小含意。邏輯迴歸對特徵尺度敏感，購買金額需正規化。時間戳應擷取星期幾、上午/下午等週期性特徵，讓模型捕捉行為的時間模式，直接輸入原始時間數值無法傳達週期性語意。選項 A 的編碼方式與有序/無序性質相反；選項 C 對金額未縮放，在邏輯迴歸中會導致梯度不平衡；選項 D 商品類別用標籤編碼會讓模型誤以為類別間有數值大小關係，且時間戳只取月份與年份無法反映顧客的週間或時段行為模式。",
+      "card": {
+        "concept": "類別特徵編碼的核心原則：有序類別用序數編碼（需明確指定順序）、無序類別用獨熱編碼；時間戳應轉換為週期性特徵而非原始數值。",
+        "mnemonic": "「有序→序數、無序→獨熱、時間→週期」；聯想：有秩序的人用號碼排隊，沒秩序的人各拿一個牌子",
+        "confusion": "最常見錯誤：將有序類別（等級、學歷）誤用獨熱編碼（喪失順序資訊），或將無序類別（城市、商品類型）誤用標籤編碼（讓模型誤以為數字大小有意義）；時間戳易被誤以為只需擷取年月即可，忽略星期與時段的週期性行為模式。",
+        "frequency": "高"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject2_codex100_questions.json",
+      "id": "mid-s2c5q004_codex100",
+      "question": "一家公司導入資料平台後，希望依「使用者所屬角色」設定資料存取權限，例如工程師、分析師與主管分別取得不同資料範圍。下列哪一種存取控制模型最符合此需求？",
+      "options": {
+        "A": "RBAC，基於角色進行存取控制",
+        "B": "ABAC，主要依使用者屬性、資料屬性與環境條件動態授權",
+        "C": "DAC，由資料擁有者自行決定誰可存取資源",
+        "D": "PBAC，根據預先定義的複合策略規則進行授權判斷"
+      },
+      "answer": "A",
+      "explanation": "正確答案為A。教材指出RBAC是Role-Based Access Control，依使用者所屬角色進行權限控管，適合部門制組織。B雖也可做細緻授權，但重點是屬性與環境條件；C是資料擁有者自主授權，不是依組織角色集中控管。",
+      "card": {
+        "concept": "RBAC依角色授權，常用於工程師、分析師、主管等角色分工明確的組織。",
+        "mnemonic": "R看Role，角色決定權限。",
+        "confusion": "RBAC看角色；ABAC看屬性與環境；DAC看資料擁有者授權。",
+        "frequency": "高"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject2_codex100_questions.json",
+      "id": "mid-s2c13q006_codex100",
+      "question": "某醫療研究資料集已達 K-匿名，但同一匿名群組內所有病患的疾病欄位幾乎相同，研究團隊擔心即使無法直接識別個人，仍可能推測其敏感疾病。下列哪一項處理最符合教材中的進階匿名化概念？",
+      "options": {
+        "A": "導入 L-多樣性，要求每個匿名群組的敏感欄位至少具有多種不同值",
+        "B": "只把病患姓名改成星號，保留年齡、地區與疾病欄位原樣",
+        "C": "改用資料標準化，讓所有數值欄位轉成平均數為 0、標準差為 1",
+        "D": "提高模型訓練週期，讓模型較不容易記住單筆資料"
+      },
+      "answer": "A",
+      "explanation": "正確答案為 A。K-匿名主要降低準識別欄位的個體識別風險，但若群組內敏感欄位缺乏差異，仍可能發生屬性推測；L-多樣性是在 K-匿名基礎上要求敏感欄位具備至少 L 種不同值。B 只是遮蔽直接識別資訊，無法處理敏感屬性推測；C 是數值前處理，不是隱私保護方法；D 也不是教材所述的匿名化控制。",
+      "card": {
+        "concept": "K-匿名處理「你是誰」的識別風險；L-多樣性進一步處理「你有什麼敏感屬性」的推測風險。",
+        "mnemonic": "K 管同群人數，L 管敏感值數。",
+        "confusion": "K-匿名不代表敏感欄位安全；若同群組敏感值太一致，仍可能被推測屬性。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject2_codex100_questions.json",
+      "id": "mid-s2c7q003_codex100",
+      "question": "研究團隊同時檢查 1,000 個廣告版本的點擊率差異，並對每個檢定都使用 α = 0.05。若未做任何修正，下列哪項判斷最合理？",
+      "options": {
+        "A": "每次檢定都控制在 5% 錯誤率，因此整體偽陽性風險仍固定為 5%。",
+        "B": "同時檢定項目變多時，整體出現偽陽性的機率會上升，應考慮 Bonferroni 修正或 FDR 控制。",
+        "C": "只要樣本數足夠大，偽陽性會被自動排除，因此不需要調整檢定門檻。",
+        "D": "多重檢定只會造成偽陰性，不會影響顯著結果的可信度。"
+      },
+      "answer": "B",
+      "explanation": "正確答案為 B。教材指出大數據分析常同時對大量變數或群體進行檢定，即使單次檢定控制 α = 0.05，整體偽陽性風險仍會大幅上升，可用 Bonferroni 修正或 FDR 控制降低風險。A 錯在把單次錯誤率等同於整體錯誤率；C 錯在樣本數大不能自動消除偽陽性；D 錯在多重檢定的主要風險之一正是顯著結果中混入偽陽性。",
+      "card": {
+        "concept": "多重檢定會累積偽陽性風險；常見控制方式包括 Bonferroni 修正與 FDR 控制。",
+        "mnemonic": "檢定越多，假陽越多；門檻要修，FDR 要控。",
+        "confusion": "常以為每次 α = 0.05 就代表整體風險也是 5%；實際上檢定次數會放大整體誤判機率。",
+        "frequency": "高"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject2_codex100_questions.json",
+      "id": "mid-s2c10q005_codex100",
+      "question": "某金融核貸模型的訓練資料中，核准案件占絕大多數，拒絕案件樣本很少。若團隊只看整體準確率，模型看似表現良好，但對少數拒絕案件辨識不佳。下列哪一項處理最符合大數據機器學習中的資料品質與偏態治理原則？",
+      "options": {
+        "A": "改用整體準確率作為唯一指標，因為樣本數越大越能抵消類別不平衡問題。",
+        "B": "刪除少數類別樣本，使訓練資料只保留主流類別，以提高模型穩定性。",
+        "C": "採用類別加權、過抽樣或欠抽樣等方法，並補充 F1-score、Balanced Accuracy 或 Macro AUC 等類別敏感指標。",
+        "D": "直接增加模型參數量，讓模型自行學會少數類別，不需調整資料分佈或評估方式。"
+      },
+      "answer": "C",
+      "explanation": "正確答案為 C。教材指出大數據資料量大不代表品質好，類別不平衡會使模型過度學習主流類別、忽略少數類別，因此可用類別加權、欠抽樣、過抽樣等方式處理，並搭配 F1-score、Balanced Accuracy、Macro AUC 等指標。A 錯在整體準確率容易被多數類別主導；B 會進一步消除少數類別訊號；D 則誤以為模型複雜度可取代資料與評估治理。",
+      "card": {
+        "concept": "大數據資料量大不等於資料品質好；類別不平衡需同時處理訓練資料分佈與評估指標。",
+        "mnemonic": "偏態處理三步：加權、重抽樣、看敏感指標。",
+        "confusion": "常把 Accuracy 當成唯一指標；在類別不平衡情境中，高 Accuracy 可能只是模型偏向多數類別。",
+        "frequency": "高"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject2_codex100_questions.json",
+      "id": "mid-s2c4q008_codex100",
+      "question": "某醫療資料表中，病患體溫欄位出現 43°C。資料工程師發現該值格式正確，但可能違反生理常識，因此需與醫療專家確認判斷規則。下列敘述何者最正確？",
+      "options": {
+        "A": "這是缺失值問題，應優先以中位數填補",
+        "B": "這是重複值問題，應使用病患 ID 保留第一筆資料",
+        "C": "這可能是邏輯錯誤或不合理資料，應依領域規則進行檢查與修正",
+        "D": "這是 API 速率限制問題，應調整資料擷取頻率"
+      },
+      "answer": "C",
+      "explanation": "正確答案為 C。教材指出邏輯錯誤或不合理資料是指資料值符合格式，但違反邏輯或領域知識，例如病患體溫 43°C，需設定規則並結合領域專家審查。A 是缺失值處理方式，但題目資料並未缺少；B 是重複值處理，與單一體溫值不合理無關；D 是資料蒐集限制，不是此處的品質問題。",
+      "card": {
+        "concept": "邏輯錯誤是格式看似正確，但內容不符合常識或領域規則的資料問題。",
+        "mnemonic": "格式對不代表內容對，領域規則要再核。",
+        "confusion": "缺失值是沒有資料；邏輯錯誤是有資料但不合理。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject2_codex100_questions.json",
+      "id": "mid-s2c12q004_codex100",
+      "question": "某金融機構想用生成式AI產生模擬詐欺交易資料，以補足罕見情境樣本不足，並用於測試風控模型在異常情況下的表現。下列哪一項作法最符合教材對生成式AI典型應用與資料治理的說明？",
+      "options": {
+        "A": "可利用合成資料增補少數或罕見情境，但仍需檢查資料品質、代表性與倫理及合法性風險",
+        "B": "合成資料完全不受資料偏誤影響，因此可直接取代所有真實交易資料",
+        "C": "只要合成資料數量足夠，就不需要確認是否符合實際詐欺情境或專業標準",
+        "D": "生成模擬資料只適用於圖像生成，不適合用於風控或感測器異常等資料增強情境"
+      },
+      "answer": "A",
+      "explanation": "正確答案為 A。教材將資料增強與模擬訓練資料列為生成式AI典型應用，可用於增補訓練資料、模擬罕見情境與強化模型魯棒性，同時仍需重視資料品質、代表性與治理。B 錯在合成資料仍可能承接或放大偏誤；C 忽略內容正確性與實際情境意義；D 錯在教材明列詐欺行為資料與感測器故障等模擬情境。",
+      "card": {
+        "concept": "生成式AI可產生合成資料來補足樣本不足、模擬罕見情境並測試模型魯棒性，但仍要受資料品質與治理控管。",
+        "mnemonic": "合成可補洞，不可免治理。",
+        "confusion": "常誤以為合成資料沒有偏誤或可完全取代真實資料；正確做法是把它作為增強與測試資料，並持續檢查品質與代表性。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject2_guide_exercises.json",
+      "id": "mid-s2c9gq008",
+      "question": "在大數據分析中，哪一種資料探勘技術可用於找出客戶購買行為中常見的組合規則？",
+      "options": {
+        "A": "關聯規則分析",
+        "B": "分類分析",
+        "C": "時間序列分析",
+        "D": "迴歸分析"
+      },
+      "answer": "A",
+      "explanation": "解析：關聯規則分析（如Apriori 演算法）可找出項目間常見組合，例如「買牛奶常搭配買麵包」。",
+      "card": {
+        "concept": "關聯規則分析",
+        "mnemonic": "依學習指引原題複習",
+        "confusion": "解析：關聯規則分析（如Apriori 演算法）可找出項目間常見組合，例如「買牛奶常搭配買麵包」。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "錯誤",
+        "mnemonic": "錯誤",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject2_guide_exercises.json",
+      "id": "mid-s2c13gq006",
+      "question": "下列哪一項技術可強化AI 模型對使用者資料的隱私保護？",
+      "options": {
+        "A": "特徵擴增（Feature Augmentation）",
+        "B": "差分隱私（Differential Privacy）",
+        "C": "貝氏分類器",
+        "D": "強化學習"
+      },
+      "answer": "B",
+      "explanation": "解析：差分隱私透過加噪機制保護個別資料不被逆推出，即使在公開模型中也難以重建原始資料。",
+      "card": {
+        "concept": "差分隱私（Differential Privacy）",
+        "mnemonic": "依學習指引原題複習",
+        "confusion": "解析：差分隱私透過加噪機制保護個別資料不被逆推出，即使在公開模型中也難以重建原始資料。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "錯誤",
+        "mnemonic": "錯誤",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject2_questions.json",
+      "id": "mid-s2c7q2_multi",
+      "question": "執行大數據 A/B 測試的統計推論時，若要避免因樣本數過大而誤判極小差異為重要效果，下列判讀方式何者最適切？",
+      "options": {
+        "A": "除了檢查 p 值是否顯著，也應同時檢視效果量與信賴區間，並評估差異是否具有實務意義。",
+        "B": "若 p 值小於 0.05，即可先判定方案具有重要改善效果，再於報告中補充平均數差異。",
+        "C": "若樣本數足夠大，可優先相信檢定結果，因為大樣本能降低隨機誤差並使微小差異更具決策價值。",
+        "D": "若新版本平均點擊率較高，即使信賴區間很寬或效果量很小，也可視為足以採用的商業改善。"
+      },
+      "answer": "A",
+      "explanation": "正確答案為 A，章節指出大樣本下不能只看 p 值，還應搭配效果量、信賴區間，並評估實務上的意義。B 錯在把統計顯著直接等同於重要改善，忽略效果大小與決策價值。C 錯在認為大樣本會使微小差異更具實務價值；實際上樣本數過大可能讓極小差異也呈現統計顯著。D 錯在只看平均點擊率高低，忽略不確定性、效果量與實務意義。",
+      "card": {
+        "concept": "大數據 A/B 測試中，p 值會因樣本數過大而過度敏感，應結合效果量、信賴區間與實務意義判讀。",
+        "mnemonic": "p 值看有無，效果量看多少，實務意義看值不值得。",
+        "confusion": "常把統計顯著誤認為實務重要；辨別方式是確認差異幅度與決策價值。",
+        "frequency": "高"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject2_questions.json",
+      "id": "mid-s2c4q2_multi",
+      "question": "處理缺失值與異常值等資料品質問題時，下列何者最符合資料清理流程的合理做法？",
+      "options": {
+        "A": "直接刪除所有可疑資料，再建立品質指標，最後判斷資料來源並進行模型訓練。",
+        "B": "先辨識資料品質問題類型，再以缺失率、唯一值比率等指標評估，並依問題選擇填補、刪除、標準化或保留等策略，完成清理後再進行後續轉換與分析準備。",
+        "C": "先產生資料視覺化報表，將所有欄位轉成文字格式並合併所有資料來源後，再檢查是否有缺失值。",
+        "D": "先套用機器學習模型，找出預測表現不佳的欄位後，刪除該欄位全部資料，再回頭檢查原始資料品質。"
+      },
+      "answer": "B",
+      "explanation": "正確答案為 B。資料清理應先辨識資料品質問題類型，並透過量化指標評估嚴重程度，再依缺失、異常、重複或不一致等問題選擇適當處理策略。A 過早刪除資料，可能移除真實但重要的異常事件。C 把格式轉換與合併放在品質檢查之前，容易掩蓋原始問題。D 將模型訓練放在資料清理之前，會使低品質資料先影響模型結果。",
+      "card": {
+        "concept": "資料清理應先辨識問題，再用量化指標評估，最後依缺失、異常、重複或不一致等類型選擇處理策略。",
+        "mnemonic": "先找病、再量測、後治療。",
+        "confusion": "常見混淆是先刪資料或先建模；正確做法是先釐清問題類型與嚴重程度，再決定處理方式。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject3_codex100_questions.json",
+      "id": "mid-s3c10q008_codex100",
+      "question": "某公司要把已訓練完成的深度學習模型部署到邊緣裝置，主要限制是模型檔案過大且推論延遲偏高。團隊考慮將 32-bit 浮點數參數轉成 8-bit 整數。下列敘述何者最正確？",
+      "options": {
+        "A": "這是量化（Quantization），可降低儲存與記憶體需求並加快運算，但可能造成準確度下降",
+        "B": "這是知識蒸餾（Knowledge Distillation），重點是把教師模型的輸出直接刪除以縮短推論時間",
+        "C": "這是非結構化剪枝（Unstructured Pruning），重點是移除整個卷積通道或層級以利硬體加速",
+        "D": "這是混合精度訓練，且不需要硬體支援，也不會有數值穩定性問題"
+      },
+      "answer": "A",
+      "explanation": "正確答案為 A。教材定義量化是將高精度參數如 32-bit 浮點數轉換為較低精度格式如 8-bit 整數，以減少模型大小並加快運算，但直接量化可能造成準確度下降，常需謹慎設計或搭配量化感知訓練。B 混淆知識蒸餾；C 混淆剪枝，且移除整個通道或層級屬於結構化剪枝；D 則錯在混合精度訓練需要硬體支援且可能有數值不穩定問題。",
+      "card": {
+        "concept": "Quantization 將 FP32 等高精度參數轉成 INT8 等低精度格式，適合模型壓縮與推論加速，但要管理準確度損失。",
+        "mnemonic": "三十二變八，模型小又快；精度要看待。",
+        "confusion": "量化是降低數值精度；剪枝是移除權重或神經元；蒸餾是教師模型傳知識給學生模型。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject3_codex100_questions.json",
+      "id": "mid-s3c8q004_codex100",
+      "question": "某資料科學團隊在新專案中先建立邏輯迴歸與淺層決策樹作為基準模型，再嘗試隨機森林與梯度提升樹。若後續複雜模型只讓驗證指標小幅提升，卻大幅增加推論延遲與解釋成本，下列判斷何者最符合章節觀點？",
+      "options": {
+        "A": "應同時比較效能、模型複雜度、解釋性與部署限制；若提升有限但成本過高，基準模型可能是較務實選擇。",
+        "B": "一定要選擇最複雜的模型，因為模型複雜度越高，偏差與變異都會同時下降。",
+        "C": "只要驗證指標有任何提升，就可忽略推論延遲與維運成本，直接部署複雜模型。",
+        "D": "基準模型只能用於資料清理階段，不能作為模型選擇時的比較依據。"
+      },
+      "answer": "A",
+      "explanation": "正確答案為 A。章節強調模型選擇需平衡模型複雜度、運算資源、部署限制與解釋性，也要處理偏差與變異的權衡。簡單模型雖可能偏差較高，但變異較低、穩定且具解釋性；複雜模型可降低偏差，但可能提高變異並增加資源與部署成本。B 錯在複雜度提升通常降低偏差但提高變異；C 忽略即時推論與部署限制；D 則低估基準模型在比較模型效益與成本上的用途。",
+      "card": {
+        "concept": "基準模型可作為比較起點；選模不只看指標增益，也要看複雜度、解釋性、延遲與部署成本是否值得。",
+        "mnemonic": "先立基準再加複雜；小幅增益要問成本值不值。",
+        "confusion": "常誤以為複雜模型必然較好；實務上若提升有限但延遲、維運或解釋成本過高，簡單模型可能更適合。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject3_codex100_questions.json",
+      "id": "mid-s3c4q002_codex100",
+      "question": "某金融公司建立貸款審核模型，希望預測申請人是否會違約；另一個團隊則要預測未來一季的貸款金額。若兩者都使用具標註資料訓練模型，下列任務配對何者正確？",
+      "options": {
+        "A": "是否違約屬於分類任務；貸款金額屬於迴歸任務",
+        "B": "是否違約屬於迴歸任務；貸款金額屬於分類任務",
+        "C": "兩者都屬於非監督式學習，因為都可由資料自動產生群組",
+        "D": "兩者都屬於強化學習，因為模型會依報酬更新策略"
+      },
+      "answer": "A",
+      "explanation": "正確答案為 A。監督式學習中，標籤若為離散類別即為分類，例如違約或未違約；標籤若為連續數值即為迴歸，例如金額預測。B 將標籤型態對應顛倒；C 錯在題目已說明使用具標註資料；D 則混入強化學習的互動與報酬機制。",
+      "card": {
+        "concept": "分類預測離散類別，迴歸預測連續數值，兩者都可屬於監督式學習。",
+        "mnemonic": "類別選分類，數字走迴歸。",
+        "confusion": "常見錯誤是只看應用領域，不看標籤型態；判斷分類或迴歸的關鍵是輸出答案的形式。",
+        "frequency": "高"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject3_codex100_questions.json",
+      "id": "mid-s3c9q003_codex100",
+      "question": "某資料科學團隊需比較多個模型在小樣本資料上的穩定性。主管要求報告不只呈現平均效能，也要能觀察不同隨機切分下的表現波動與變異範圍。依教材內容，下列哪一種驗證方法最符合此需求？",
+      "options": {
+        "A": "標準 K-fold 交叉驗證，只固定切分一次並回報 K 次平均分數",
+        "B": "Stratified K-fold，僅確保每一折類別比例接近整體資料集",
+        "C": "LOOCV，因每次只留一筆驗證，所以一定能完整呈現隨機切分變異",
+        "D": "Repeated K-fold Cross-Validation，多次隨機重分 fold 後計算平均與變異"
+      },
+      "answer": "D",
+      "explanation": "正確答案為 D。Repeated K-fold 會在標準 K-fold 基礎上進行多次隨機重劃，取得多組評估結果，可觀察模型在不同切分下的表現波動、平均與變異。A 只固定切分一次，較難反映隨機切分的影響；B 重點在維持分類比例，未必評估多次隨機切分穩定性；C 雖提高資料利用率，但計算成本高且對微小訓練集變動敏感，不是題幹要求的多輪隨機切分方法。",
+      "card": {
+        "concept": "Repeated K-fold 用多輪隨機 K-fold 產生多組分數，適合觀察模型表現的平均、變異與穩定性。",
+        "mnemonic": "重複 K 折：不只看平均，也看波動。",
+        "confusion": "Stratified K-fold 解決類別比例問題；Repeated K-fold 解決單次切分偶然性與穩定性觀察問題。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject3_codex100_questions.json",
+      "id": "mid-s3c4q008_codex100",
+      "question": "某物流公司開發倉儲機器人，機器人需根據目前位置、貨架狀態與路徑壅塞情況選擇下一步動作，並依任務完成時間取得回饋，長期目標是縮短平均取貨時間。下列關於此學習架構的敘述，何者正確？",
+      "options": {
+        "A": "這屬於強化式學習，代理人透過與環境互動取得報酬，逐步調整策略以最大化長期累積報酬",
+        "B": "這屬於監督式學習，模型只需一次性最小化標籤誤差，不需要考慮狀態、動作與回饋循環",
+        "C": "這屬於非監督式降維，主要目標是將機器人的路徑資料投影到低維空間以取代決策策略",
+        "D": "這屬於迴歸任務，應直接以交叉熵損失衡量每一步動作的連續預測誤差"
+      },
+      "answer": "A",
+      "explanation": "正確答案為 A。題目包含代理人、環境狀態、動作、回饋與長期目標，符合強化式學習的基本架構；教材指出強化式學習目標是透過互動學習決策策略並最大化長期累積報酬。B 忽略了強化式學習的互動與延遲回饋特性；C 的降維不是此任務的主要決策架構；D 混淆迴歸與分類損失，交叉熵主要用於分類任務。",
+      "card": {
+        "concept": "強化式學習：代理人根據狀態選動作，從環境取得報酬，調整策略追求長期報酬最大化。",
+        "mnemonic": "看狀態、做動作、拿報酬、改策略。",
+        "confusion": "不要把有回饋就都視為監督式學習；強化式學習的回饋常來自環境互動與長期累積效果。",
+        "frequency": "高"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject3_guide_exercises.json",
+      "id": "mid-s3c3gq005",
+      "question": "在梯度下降（Gradient Descent）中，「梯度」代表下列哪一項？",
+      "options": {
+        "A": "資料點個數",
+        "B": "模型精確度",
+        "C": "損失函數對參數的偏微分",
+        "D": "模型計算速度"
+      },
+      "answer": "C",
+      "explanation": "解析：梯度是損失函數相對於模型參數的導數，能指引參數應往哪個方向調整以減少損失。梯度越大，表示調整幅度應越大，以快速降低誤差。",
+      "card": {
+        "concept": "損失函數對參數的偏微分",
+        "mnemonic": "依學習指引原題複習",
+        "confusion": "解析：梯度是損失函數相對於模型參數的導數，能指引參數應往哪個方向調整以減少損失。梯度越大，表示調整幅度應越大，以快速降低誤差。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "錯誤",
+        "mnemonic": "錯誤",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject3_guide_exercises.json",
+      "id": "mid-s3c12gq009",
+      "question": "若企業欲降低AI 模型因少數群體樣本過少而造成的過擬合風險，可以採用哪種資料增強方法？",
+      "options": {
+        "A": "SMOTE",
+        "B": "Softmax",
+        "C": "Momentum",
+        "D": "Dropout"
+      },
+      "answer": "A",
+      "explanation": "解析：SMOTE（Synthetic Minority Over-sampling Technique）透過合成新樣本，擴增少數類別資料，有助於平衡類別分佈，降低過擬合及模型偏誤風險。",
+      "card": {
+        "concept": "SMOTE",
+        "mnemonic": "依學習指引原題複習",
+        "confusion": "解析：SMOTE（Synthetic Minority Over-sampling Technique）透過合成新樣本，擴增少數類別資料，有助於平衡類別分佈，降低過擬合及模型偏誤風險。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "錯誤",
+        "mnemonic": "錯誤",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject3_questions.json",
+      "id": "mid-s3c12q3_multi",
+      "question": "某銀行希望導入 AI 信用評分模型，但初步分析發現歷史核貸資料可能隱含族群或地區差異，且模型若只優化整體平均精度，可能犧牲少數群體的預測準確度。下列哪種做法最為適切？",
+      "options": {
+        "A": "先檢查資料代表性與歷史偏誤，依信用評估情境選擇 Disparate Impact、Equalized Odds 等指標，再搭配資料重新抽樣、特徵去偏或公平性約束訓練進行緩解。",
+        "B": "先以 Disparate Impact 檢查不同群體的核貸比例，若比例達到門檻即可採用模型，不必再比較各群體的 False Positive Rate 與 False Negative Rate。",
+        "C": "先對少數群體資料進行重新抽樣以改善訓練資料代表性，若離線驗證結果改善，即可視為完成偏見治理，不需建立部署後監測機制。",
+        "D": "以整體 AUC 為主要選模依據，並補充比較不同群體的分群 AUC；若各群體 AUC 接近，就不需再檢查核貸比例或錯誤核貸率差異。"
+      },
+      "answer": "A",
+      "explanation": "信用評估屬於敏感領域，應同時檢查資料偏見與模型偏見，並依法律合規與業務風險選擇適當公平性指標。A 同時處理資料代表性、指標評估與偏見緩解，最符合治理要求。B 只看 Disparate Impact，可能忽略錯誤率差異。C 只做資料層級緩解且缺少部署後監測，無法確認長期效果。D 雖比較分群 AUC，但仍可能忽略正向結果比例與不同群體錯誤率的不公平。",
+      "card": {
+        "concept": "信用評估中的公平性不能只看整體準確率，還需檢查不同群體的正向結果比例、正確預測率與錯誤預測率。",
+        "mnemonic": "信貸公平看三件：資料偏、指標差、模型誤。",
+        "confusion": "常見混淆是把單一公平性指標、分群 AUC 或資料再抽樣視為公平保證；實務上仍需結合情境、錯誤率分析與部署後監測。",
+        "frequency": "高"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/中級/questions/subject3_questions.json",
+      "id": "mid-s3c7q1_multi",
+      "question": "下列關於「特徵選擇（Feature Selection）」的描述，何者正確？",
+      "options": {
+        "A": "特徵選擇是從所有可用的原始特徵中，篩選出一個最佳子集的過程，以降低數據維度，同時保留足以讓模型準確預測的關鍵資訊。",
+        "B": "特徵選擇主要是透過 PCA、t-SNE 或 UMAP 將高維資料投影到低維空間，因此會產生新的低維特徵。",
+        "C": "特徵選擇的目的在於盡可能保留所有欄位，避免遺漏任何資訊，因此通常不會減少模型輸入維度。",
+        "D": "特徵選擇只適用於深度學習模型，因為傳統機器學習模型通常能自動忽略不重要的特徵。"
+      },
+      "answer": "A",
+      "explanation": "正確答案為 A，章節指出特徵選擇是從所有可用原始特徵中篩選最佳子集，以降低維度並保留關鍵預測資訊。B 混淆了特徵選擇與降維，PCA、t-SNE、UMAP 屬於降維方法，會轉換特徵空間。C 與降低維度的目的相反；D 則錯在特徵選擇並非只適用於深度學習，Filter、Wrapper、Embedded 方法皆可用於多種模型。",
+      "card": {
+        "concept": "特徵選擇是不創造新特徵，而是從既有特徵中挑出最有價值的子集，以降低維度、改善效能與解釋性。",
+        "mnemonic": "選擇是「挑欄位」，降維是「換空間」。",
+        "confusion": "常把特徵選擇與 PCA 等降維混淆；辨別重點是前者保留原始特徵子集，後者轉換成新的低維表示。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/初級/questions/subject1_guide_exercises.json",
+      "id": "s1c4gq007",
+      "question": "下列哪項是生成式AI 支援鑑別式AI 的典型案例？",
+      "options": {
+        "A": "模擬交通場景以訓練自動駕駛模型",
+        "B": "使用CNN 對腫瘤分類",
+        "C": "使用SVM 分析風險",
+        "D": "創建更好的分類演算法"
+      },
+      "answer": "A",
+      "explanation": "解析：生成式AI 通常生成模擬場景數據，支援鑑別式AI 進行模型訓練和決策。",
+      "card": {
+        "concept": "模擬交通場景以訓練自動駕駛模型",
+        "mnemonic": "依學習指引原題複習",
+        "confusion": "解析：生成式AI 通常生成模擬場景數據，支援鑑別式AI 進行模型訓練和決策。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "可疑",
+        "confusion": "錯誤",
+        "mnemonic": "錯誤",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/初級/questions/subject1_guide_exercises.json",
+      "id": "s1c1gq007",
+      "question": "生成式人工智慧最核心的能力是什麼？",
+      "options": {
+        "A": "從大量數據中學習",
+        "B": "執行複雜的數學計算",
+        "C": "生成新的、原創的內容",
+        "D": "控制機器人"
+      },
+      "answer": "C",
+      "explanation": "解析：生成式AI 的最大特徵就是能夠生成全新的文本、圖像、音樂等內容。這與傳統的AI 主要用於分析或預測已有數據不同。生成式AI 透過學習大量數據的模式，能產生出具有創造性的輸出。",
+      "card": {
+        "concept": "生成新的、原創的內容",
+        "mnemonic": "依學習指引原題複習",
+        "confusion": "解析：生成式AI 的最大特徵就是能夠生成全新的文本、圖像、音樂等內容。這與傳統的AI 主要用於分析或預測已有數據不同。生成式AI 透過學習大量數據的模式，能產生出具有創造性的輸出。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "可疑",
+        "confusion": "錯誤",
+        "mnemonic": "錯誤",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/初級/questions/subject1_questions.json",
+      "id": "s1c1q17_multi",
+      "question": "根據指引描述，下列關於「人工智慧（Artificial Intelligence, AI）」的定義，何者最為精確？",
+      "options": {
+        "A": "一種專門用於取代人類所有體力勞動的自動化機械技術",
+        "B": "一種旨在模擬人類智慧的技術，使機器能夠執行學習、推理、解決問題等任務",
+        "C": "一種僅限於處理結構化數據並進行複雜數學運算的統計軟體",
+        "D": "一種依賴特定硬體架構才能實現的電子計算機程式"
+      },
+      "answer": "B",
+      "explanation": "根據指引原文，AI 是一種模擬人類智慧的技術，目的是讓機器執行原本需要人類智慧才能完成的任務。選項 A 過於侷限於體力勞動，選項 C 和 D 則忽略了 AI 在學習與推理方面的核心特質。",
+      "card": {
+        "concept": "AI 定義核心為「模擬人類智慧」並執行學習、推理等任務。",
+        "mnemonic": "AI = 模擬人腦（學習、推理、解決問題）。",
+        "confusion": "易將 AI 誤認為單純的「自動化」或「統計運算」，其關鍵差異在於模擬智慧。",
+        "frequency": "高"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/初級/questions/subject1_questions.json",
+      "id": "s1c1q16_gen",
+      "question": "某金融機構使用 AI 模型進行貸款審核，為確保模型決策過程透明可解釋，並能向客戶說明拒貸原因，下列哪一種技術組合最符合「可解釋 AI（Explainable AI, XAI）」的需求？",
+      "options": {
+        "A": "採用 LIME（Local Interpretable Model-agnostic Explanations）或 SHAP（SHapley Additive exPlanations）分析各特徵對個別預測結果的貢獻度，提升模型透明度",
+        "B": "將模型部署於 Hadoop 分散式平台，透過提升運算速度來間接改善模型的可解釋性",
+        "C": "採用 L1 正則化（Lasso）將所有特徵的係數壓縮至完全相同的數值，使每個特徵貢獻均等，達到可解釋目的",
+        "D": "使用 RAG（Retrieval-Augmented Generation）架構從知識庫即時檢索法規條文，直接取代模型的決策邏輯"
+      },
+      "answer": "A",
+      "explanation": "LIME 透過對個別預測建立局部可解釋的線性近似模型，SHAP 則基於賽局理論（Shapley Values）量化每個特徵對預測結果的邊際貢獻，兩者都是主流的可解釋 AI 工具，可清楚說明「為何模型做出此決策」。選項 B 混淆了運算平台與可解釋性，兩者無直接關聯；選項 C 對 L1 正則化的描述錯誤，Lasso 是使部分特徵係數歸零（特徵選擇），非使係數均等；選項 D 的 RAG 架構用於知識增強生成，不能取代模型決策邏輯，且與 XAI 目標不同。",
+      "card": {
+        "concept": "可解釋 AI（XAI）的核心工具：LIME（局部線性近似，解釋單筆預測）與 SHAP（Shapley值，量化每個特徵的貢獻），兩者均為模型無關（Model-agnostic）方法。",
+        "mnemonic": "「LIME 擠一滴解釋一筆（局部）、SHAP 分蛋糕給每個特徵（貢獻分配）」—— 兩者都讓黑盒子說話。",
+        "confusion": "LIME 與 SHAP 的差異：LIME 是近似局部線性模型（速度快但近似）；SHAP 基於嚴謹的賽局理論（理論保證一致性但計算較重）。兩者都是「事後解釋（Post-hoc）」工具，不改變原模型結構。",
+        "frequency": "高"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/初級/questions/subject1_questions.json",
+      "id": "s1c1q25_multi",
+      "question": "某零售企業欲落實 AI 架構中「實際運用」層次（相對於技術底層與開發應用層），下列哪項行動不符合此層次的定義？",
+      "options": {
+        "A": "設計一套針對智慧物流的行業解決方案",
+        "B": "將推薦演算法整合進自家的電子商務 App 中",
+        "C": "自行設計並訓練新的影像辨識模型",
+        "D": "透過 AI 優化內部倉儲管理的業務流程"
+      },
+      "answer": "C",
+      "explanation": "「自行設計並訓練新的影像辨識模型」屬於「技術底層」或「開發應用」層次。實際運用層是指將技術「落地」到場景、產品或流程優化中，不涉及從頭構建模型。",
+      "card": {
+        "concept": "實際運用層強調技術的「落地」，包含解決方案、產品化與流程優化。",
+        "mnemonic": "實際運用 = 落地（解決方案、產品、優化）。",
+        "confusion": "易與「開發應用」混淆，開發應用偏向模型本身的構建與測試。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/初級/questions/subject1_questions.json",
+      "id": "s1c4q15_multi",
+      "question": "某保險公司希望開發一套系統，根據客戶的年齡、過往信用記錄與收入狀況，來預測該客戶未來「貸款違約」的機率（0 到 1 之間）。下列哪種模型最適合處理此類二元分類問題？",
+      "options": {
+        "A": "生成對抗網路 (GAN)",
+        "B": "邏輯迴歸 (Logistic Regression)",
+        "C": "擴散模型 (Diffusion Models)",
+        "D": "變分自編碼器 (VAE)"
+      },
+      "answer": "B",
+      "explanation": "邏輯迴歸是基礎的鑑別式 AI 模型，透過 Sigmoid 函數將輸出映射至 0 到 1 之間，專門用於解決二元分類與預測違約機率等任務。選項 A、C、D 皆屬於生成式模型，用於創造新數據而非分類。",
+      "card": {
+        "concept": "邏輯迴歸於二元分類的應用",
+        "mnemonic": "邏輯二元看機率",
+        "confusion": "邏輯迴歸名稱雖有「迴歸」，但主要用於「分類」。",
+        "frequency": "高"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/初級/questions/subject2_guide_exercises.json",
+      "id": "s2c2gq008",
+      "question": "使用生成式AI 生成的內容時，應採取什麼措施以確保內容品質？",
+      "options": {
+        "A": "使用內容直接進行學術報告",
+        "B": "適當標注引用來源",
+        "C": "減少人工參與的審查過程",
+        "D": "排除所有生成的資料"
+      },
+      "answer": "B",
+      "explanation": "解析：在使用生成式AI 生成的內容時，適當標注引用來源是確保內容品質的重要措施。這樣做可以避免抄襲，尊重原作者的知識產權，並提供內容的可靠性和可追溯性。直接使用生成的內容進行學術報告（選項A）可能會導致學術不端行為，而減少人工參與的審查過程（選項C）則可能降低內容的準確性和品質。完全排除所有生成的資料（選項D）則過於極端，無法充分利用AI 技術的優勢。因此，適當標注引用來源是最佳選擇。",
+      "card": {
+        "concept": "適當標注引用來源",
+        "mnemonic": "依學習指引原題複習",
+        "confusion": "解析：在使用生成式AI 生成的內容時，適當標注引用來源是確保內容品質的重要措施。這樣做可以避免抄襲，尊重原作者的知識產權，並提供內容的可靠性和可追溯性。直接使用生成的內容進行學術報告（選項A）可能會導致學術不端行為，而減少人工參與的審查過程（選項C）則可能降低內容的準確性和品質。完全排除所有生成的資料（選項D）則過於極端，無法充分利用AI 技術的優勢。因此，適當標注引用來源是最佳選擇。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "可疑",
+        "confusion": "錯誤",
+        "mnemonic": "錯誤",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/初級/questions/subject2_guide_exercises.json",
+      "id": "s2c3gq010",
+      "question": "為了確保風險管理的持續有效性，企業應如何應對風險管理策略的效果下降？",
+      "options": {
+        "A": "繼續沿用原策略",
+        "B": "停止AI 應用以防意外",
+        "C": "快速調整並進行必要改進",
+        "D": "將策略移交給外部顧問"
+      },
+      "answer": "C",
+      "explanation": "解析：當發現策略效果下降時，企業應主動調整策略並進行改進，確保風險管理的持續有效性。附件 本學習指引參考書目A-1大數據分析與資料挖礦2/e簡禎富、許嘉裕前程文化人工智慧科研發展指引科技部（現為國科會）108 年9 月版行政院及所屬機關（構）使用生成式AI 參考指引（草案）行政院金融機構運用人工智慧技術作業規範金融業務電子化委員會113 年3 月版圖解AI｜機器學習和深度學習的技術與原理株式会社アイデミー,山口達輝, 松田洋之著衛宮紘 譯碁峰精通機器學習｜使用Scikit-Learn, Keras 與TensorFlow, 2/e（Hands-on Machine Learningwith Scikit-Learn, Keras, and TensorFlow, 2/e）Aurélien Géron 著賴屹民 譯歐萊禮臺北市政府使用人工智慧作業指引臺北市政府113 年9 月版數位治理韌性、AI、規管彭芸、葉志良（主編）翰蘆圖書AI 自動化流程超Easy：不寫程式No code 也能聰明幹大事施威銘研究室旗標Cabinet Office of UK, Guidance to CivilServants on Use of Generative AIGOV.UK（Nov. 22, 2023）Generative AI GuidelinesCity of San Jose（Sept.23, 2023）Digital Transformation Agency of AustralianGovernment, Interim guidance on governmentuse of public generative Al toolsNovember 2023, AustralianGovernment Architecture（Nov. 22, 2023）",
+      "card": {
+        "concept": "快速調整並進行必要改進",
+        "mnemonic": "依學習指引原題複習",
+        "confusion": "解析：當發現策略效果下降時，企業應主動調整策略並進行改進，確保風險管理的持續有效性。附件 本學習指引參考書目A-1大數據分析與資料挖礦2/e簡禎富、許嘉裕前程文化人工智慧科研發展指引科技部（現為國科會）108 年9 月版行政院及所屬機關（構）使用生成式AI 參考指引（草案）行政院金融機構運用人工智慧技術作業規範金融業務電子化委員會113 年3 月版圖解AI｜機器學習和深度學習的技術與原理株式会社アイデミー,山口達輝, 松田洋之著衛宮紘 譯碁峰精通機器學習｜使用Scikit-Learn, Keras 與TensorFlow, 2/e（Hands-on Machine Learningwith Scikit-Learn, Keras, and TensorFlow, 2/e）Aurélien Géron 著賴屹民 譯歐萊禮臺北市政府使用人工智慧作業指引臺北市政府113 年9 月版數位治理韌性、AI、規管彭芸、葉志良（主編）翰蘆圖書AI 自動化流程超Easy：不寫程式No code 也能聰明幹大事施威銘研究室旗標Cabinet Office of UK, Guidance to CivilServants on Use of Generative AIGOV.UK（Nov. 22, 2023）Generative AI GuidelinesCity of San Jose（Sept.23, 2023）Digital Transformation Agency of AustralianGovernment, Interim guidance on governmentuse of public generative Al toolsNovember 2023, AustralianGovernment Architecture（Nov. 22, 2023）",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "可疑",
+        "confusion": "錯誤",
+        "mnemonic": "錯誤",
+        "frequency": "未驗"
+      },
+      "note": "explanation 尾端整段黏上學習指引「參考書目」附件（數百字書單），confusion 複製後一併外露；抽取缺陷，非出題缺陷"
+    },
+    {
+      "file": "data/初級/questions/subject2_questions.json",
+      "id": "s2c3q20_multi",
+      "question": "在概念驗證（POC）階段，企業最核心的目標是驗證下列何者？",
+      "options": {
+        "A": "驗證企業是否具備全球領先的市值",
+        "B": "測試模型效能、預測準確度以及與現有作業模式的融合度",
+        "C": "確保所有員工在第一天就能完全取代人工",
+        "D": "僅為了確認專案預算是否已經全部花完"
+      },
+      "answer": "B",
+      "explanation": "POC 的目的是透過小規模實驗，評估技術可行性、準確度、效率及融合度，作為後續擴大導入的依據。A 與 D 無關技術驗證，C 是錯誤的導入目標。",
+      "card": {
+        "concept": "POC (Proof of Concept) 是小規模的技術與商業價值驗證。",
+        "mnemonic": "小實驗，大決策。",
+        "confusion": "常將 POC 與正式營運（Go-live）的標準混淆。",
+        "frequency": "高"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/初級/questions/subject2_questions.json",
+      "id": "s2c2q8_gen",
+      "question": "關於提示工程（Prompt Engineering）中的「思維鏈提示」（Chain-of-Thought, CoT），下列敘述何者最正確？",
+      "options": {
+        "A": "CoT 是透過提供多個輸入輸出範例讓模型學習特定任務格式，屬於少樣本學習的一種",
+        "B": "CoT 是要求模型在回答前逐步列出推理過程，以提升複雜問題的推理準確率",
+        "C": "CoT 是指定模型扮演特定角色（如資深工程師）以獲得更專業的回應",
+        "D": "CoT 是不提供任何範例直接要求模型完成任務，適用於模型已具備足夠先驗知識的情境"
+      },
+      "answer": "B",
+      "explanation": "Chain-of-Thought（CoT）提示是引導模型在給出最終答案之前，逐步呈現推理步驟，藉此提升數學、邏輯等複雜問題的準確率。選項A描述的是Few-shot Prompting；選項C描述的是Role Prompting；選項D描述的是Zero-shot Prompting。四種技術各有適用情境，不可混用。",
+      "card": {
+        "concept": "CoT（思維鏈）要求模型「先思考、後回答」，透過逐步推理過程提升複雜任務的準確率；Zero-shot 無範例、Few-shot 給範例、Role 給角色。",
+        "mnemonic": "CoT = Chain（鏈條）of Thought（思考）→ 像偵探破案，先列推理步驟再下結論；Zero=零範例、Few=少量範例、Role=角色扮演",
+        "confusion": "最常與 Few-shot 混淆：Few-shot 提供輸入輸出範例讓模型仿效格式，CoT 則是展示推理步驟引導模型思考過程，兩者目的不同。",
+        "frequency": "高"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    },
+    {
+      "file": "data/初級/questions/subject2_questions.json",
+      "id": "s2c1q11_gen",
+      "question": "某企業在評估 No Code / Low Code 平台時，需考量平台與現有 CRM、ERP 系統的資料互通能力，以及是否能針對特定業務需求進行客製化報表設計。這主要對應平台評估六大關鍵因素中的哪一項？",
+      "options": {
+        "A": "安全性與合規性",
+        "B": "功能與擴展性",
+        "C": "技術支援與社群資源",
+        "D": "成本與效益"
+      },
+      "answer": "B",
+      "explanation": "指引在「功能與擴展性」項目中明確提及「系統整合能力」（評估與 CRM、ERP 等現有系統的整合能力）以及「高度自訂性」（提供足夠的自訂選項，如自定義報表、工作流設計等）。安全性著重資料保護與權限管理；技術支援著重服務文件與社群；成本效益著重 TCO 與 ROI，均與題目情境不符。",
+      "card": {
+        "concept": "評估 No Code / Low Code 平台的「功能與擴展性」涵蓋：系統整合能力（CRM/ERP）與高度自訂性（客製化報表、工作流）。",
+        "mnemonic": "「功能擴展 = 整合 + 客製」，記住與外部系統串接及自訂需求都屬於此類。",
+        "confusion": "常混淆：將系統整合歸類為「安全性」。辨別方式：安全性聚焦於資料加密、權限管控等保護機制；系統整合與客製化屬於「功能與擴展性」範疇。",
+        "frequency": "中"
+      },
+      "verdict": {
+        "concept": "正確",
+        "confusion": "正確",
+        "mnemonic": "正確",
+        "frequency": "未驗"
+      },
+      "note": ""
+    }
+  ],
+  "judgedBy": "Opus 5 逐筆閱讀題幹／選項／解析後判定（2026-08-08）",
+  "tally": {
+    "concept": {
+      "正確": 36,
+      "可疑": 4
+    },
+    "mnemonic": {
+      "正確": 29,
+      "錯誤": 11
+    },
+    "confusion": {
+      "正確": 30,
+      "錯誤": 10
+    },
+    "frequency": {
+      "未驗": 40
+    }
+  },
+  "judged": 40
+}

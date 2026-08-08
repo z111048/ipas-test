@@ -40,6 +40,14 @@ COMMITTED_REVIEW: dict[str, Any] = {}
 # 早期版本用 [a-zA-Z]{3,} 產生 483 個誤判，等於沒有這條檢查。
 MIXED_SCRIPT = re.compile(r'[一-鿿]\s*[a-z]{4,}\s*[一-鿿]')
 ALLOWED_INLINE = re.compile(r'[（(][^）)]*[）)]')
+# 中級教材裡本來就不翻譯的術語，全部小寫所以會被 MIXED_SCRIPT 命中。
+# 2026-08-08 逐筆確認 7 個命中全是這類正當術語——留著等於這條檢查永遠在叫。
+TECHNICAL_INLINE = re.compile(
+    r'\b(datetime|epoch|epochs|patience|bins|fold|folds|batch|dropout|token|tokens|'
+    r'pandas|numpy|seaborn|matplotlib|timestamp|pipeline|prompt|prompts)\b')
+CARD_FREQUENCY = ('高', '中', '低')
+# card.mnemonic 的佔位字串：生成流程沒真的寫記憶法時填的話
+CARD_PLACEHOLDERS = ('依學習指引原題複習',)
 # 學習指引 PDF 的前導章節（s1pdf-c1、mid-s2pdf-c3…），不是考綱章節
 PREFACE_ID = re.compile(r'pdf-c\d+$')
 
@@ -75,6 +83,12 @@ def iter_questions(payload: Any) -> Iterator[dict[str, Any]]:
 # ---------------------------------------------------------------------------
 # Colab notebooks
 # ---------------------------------------------------------------------------
+
+def normalize_text(value: Any) -> str:
+    """比對「這兩段是不是同一段話」用：去空白、去開頭的「解析：」。"""
+    text = re.sub(r'^\s*解析\s*[：:]\s*', '', str(value or ''))
+    return re.sub(r'\s+', '', text)
+
 
 def strip_magics(source: str) -> str:
     """Notebook cells legitimately contain !pip / %matplotlib, which ast cannot parse."""
@@ -201,6 +215,7 @@ def audit_questions(report: Report) -> None:
             official = Path(rel).name.startswith(('mock_', 'sample_'))
             stem = str(question.get('question', ''))
             body = ALLOWED_INLINE.sub('', stem + ''.join(str(v) for v in options.values()))
+            body = TECHNICAL_INLINE.sub('', body)
             if not official and MIXED_SCRIPT.search(body):
                 hit = MIXED_SCRIPT.search(body)
                 report.add('questions', 'WARN',
@@ -211,6 +226,20 @@ def audit_questions(report: Report) -> None:
                 for field in ('concept', 'mnemonic', 'confusion', 'frequency'):
                     if field in card and not str(card[field]).strip():
                         report.add('questions', 'FAIL', f'card.{field} 是空的', label)
+
+                # 只驗非空擋不住值域錯誤：曾有 2 題把 difficulty 的「易／難」寫進
+                # frequency，前端 FreqBar 遇到非法值 `?? 1` 靜默顯示成「低」。
+                frequency = str(card.get('frequency', '')).strip()
+                if frequency and frequency not in CARD_FREQUENCY:
+                    report.add('questions', 'FAIL',
+                               f'card.frequency={frequency!r} 不在 高/中/低', label)
+
+                # confusion 是「常見混淆」，複製解析等於那一格沒有內容
+                explanation = normalize_text(question.get('explanation'))
+                if explanation and normalize_text(card.get('confusion')) == explanation:
+                    report.add('questions', 'WARN', 'card.confusion 是解析的複製', label)
+                if str(card.get('mnemonic', '')).strip() in CARD_PLACEHOLDERS:
+                    report.add('questions', 'WARN', 'card.mnemonic 是佔位字串', label)
 
 
 # ---------------------------------------------------------------------------
@@ -295,7 +324,12 @@ def audit_glossary(report: Report) -> None:
     path = GENERATED / 'middleGlossary.json'
     if not path.exists():
         return
-    seen: set[str] = set()
+    # 去重以「科目」為界：詞彙表是分科呈現的，同一個詞在兩科各有一條釋義是正當的
+    # （「特徵工程」對科目二的資料處理與科目三的建模都相關），跨科目重複只報 INFO。
+    # 早期版本用全域 set，把這種正當重複報成 WARN，等於這條檢查永遠在叫。
+    per_subject: set[tuple[str, str]] = set()
+    global_terms: dict[str, str] = {}
+    cross = 0
     count = 0
     for subject_id, subject in load(path).get('subjects', {}).items():
         terms = subject.get('terms', subject) if isinstance(subject, dict) else subject
@@ -309,10 +343,15 @@ def audit_glossary(report: Report) -> None:
                 report.add('glossary', 'FAIL', '詞條或釋義是空的',
                            f'{subject_id}:{term or "?"}')
             key = unicodedata.normalize('NFKC', term).lower()
-            if key and key in seen:
-                report.add('glossary', 'WARN', '詞條重複', f'{subject_id}:{term}')
-            seen.add(key)
-    report.add('glossary', 'INFO', f'檢查 {count} 個詞條', '')
+            if not key:
+                continue
+            if (subject_id, key) in per_subject:
+                report.add('glossary', 'WARN', '同一科目內詞條重複', f'{subject_id}:{term}')
+            per_subject.add((subject_id, key))
+            if key in global_terms and global_terms[key] != subject_id:
+                cross += 1
+            global_terms.setdefault(key, subject_id)
+    report.add('glossary', 'INFO', f'檢查 {count} 個詞條，跨科目同名 {cross} 個', '')
 
 
 def audit_guide(report: Report) -> None:
