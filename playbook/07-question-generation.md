@@ -281,4 +281,7 @@ python3 scripts/export_generated_questions.py --run-dir data/中級/pipeline/reg
 要換模型應該針對「出題」另做一輪對比，不要直接套用那份結論。
 可複用的是 `llm_client.py`（零耦合，內建空字串重試）與網關本身
 （模型可寫死在腳本裡，解掉 §5.5 的可重現性問題）。金鑰只放環境變數
-`LLMSHARE_API_KEY`，目前未設定。
+`LLMSHARE_API_KEY`。**2026-08-09 已設定並實測有效**（網關 17 個模型，
+`glm-5.2`／`deepseek-v4-pro`／`kimi-k2.7-code` 都在），411 題的答案交叉驗證就是靠它跑的。
+⚠️ `.env` 另有 `ANTHROPIC_API_KEY`／`GEMINI_API_KEY`，兩者都非空但**這一輪沒有實測**
+——舊 session 說它們「是假的」，那個結論沒有重驗過，要用之前先自己測一次。
