@@ -28,15 +28,18 @@ def load_json(path: Path) -> Any:
         return json.load(f)
 
 
-def validate_batch(path: Path, batch: dict) -> list[str]:
+def validate_batch(path: Path, batch: dict, level: str = '中級') -> list[str]:
+    """level 由 summary.json 帶入。2026-08-09 之前硬編「中級」，
+    初級出題會 6/6 全失敗在 subject_id/level mismatch——而且錯誤訊息看起來像
+    模型不聽話，不像是我們自己只支援一個等級。"""
     data = load_json(path)
     errors: list[str] = []
     chapter_id = batch['chapter_id']
     first_question = batch['first_question']
     count = batch['count']
 
-    if data.get('level') != '中級':
-        errors.append('level must be 中級')
+    if data.get('level') != level:
+        errors.append(f'level must be {level}')
     if data.get('subject_id') != batch['subject_id']:
         errors.append('subject_id mismatch')
     if data.get('chapter_id') != chapter_id:
@@ -118,11 +121,12 @@ def previous_batches(summary: dict[str, Any], batch: dict[str, Any]) -> list[dic
     ]
 
 
-def load_previous_questions(summary: dict[str, Any], batch: dict[str, Any]) -> list[dict[str, Any]]:
+def load_previous_questions(summary: dict[str, Any], batch: dict[str, Any],
+                            level: str = '中級') -> list[dict[str, Any]]:
     questions: list[dict[str, Any]] = []
     for previous in previous_batches(summary, batch):
         path = BASE / previous['output']
-        if not path.exists() or validate_batch(path, previous):
+        if not path.exists() or validate_batch(path, previous, level):
             continue
         data = load_json(path)
         questions.extend(
@@ -197,12 +201,14 @@ def main() -> None:
     parser.add_argument('--run-dir', type=Path, default=DEFAULT_RUN_DIR)
     parser.add_argument('--start-index', type=int, default=1)
     parser.add_argument('--limit', type=int, default=None)
-    parser.add_argument('--timeout', type=int, default=180)
+    # 8 題一批在 180s 會 timeout（2026-08-09 實測），拉到 420s
+    parser.add_argument('--timeout', type=int, default=420)
     parser.add_argument('--force', action='store_true')
     args = parser.parse_args()
 
     run_dir = args.run_dir if args.run_dir.is_absolute() else BASE / args.run_dir
     summary = load_json(run_dir / 'summary.json')
+    level = summary.get('level', '中級')   # 2026-08-09：不要再假設中級
     batches = summary['batches']
     selected = batches[max(args.start_index - 1, 0):]
     if args.limit is not None:
@@ -220,8 +226,9 @@ def main() -> None:
         )
 
         if output_path.exists() and not args.force:
-            errors = validate_batch(output_path, batch)
-            errors.extend(validate_against_previous(output_path, load_previous_questions(summary, batch)))
+            errors = validate_batch(output_path, batch, level)
+            errors.extend(validate_against_previous(
+                output_path, load_previous_questions(summary, batch, level)))
             if not errors:
                 skipped += 1
                 print(f'SKIP {label}')
@@ -234,8 +241,9 @@ def main() -> None:
             print(f'WARN {label}: timeout after {args.timeout}s')
 
         if ok and output_path.exists():
-            errors = validate_batch(output_path, batch)
-            errors.extend(validate_against_previous(output_path, load_previous_questions(summary, batch)))
+            errors = validate_batch(output_path, batch, level)
+            errors.extend(validate_against_previous(
+                output_path, load_previous_questions(summary, batch, level)))
             if errors:
                 failed += 1
                 print(f'FAIL {label}: validation errors')

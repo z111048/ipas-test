@@ -224,7 +224,12 @@ def main() -> None:
     data = load_json(sections_path)
     subject_title = data.get('subject') or subject_id
 
-    run_dir = BASE / 'data' / args.level / (args.run_dir or DEFAULT_RUN_DIR)
+    # --run-dir 同時接受兩種寫法：repo 相對路徑（data/初級/pipeline/xxx）與
+    # 「相對於 data/{level}/」的短路徑（pipeline/xxx）。本檔的 help 與 runner 的
+    # --run-dir 原本語意不同（runner 吃完整路徑），照文件用會產生
+    # data/初級/data/初級/... 這種重複路徑——2026-08-09 踩過。
+    given = args.run_dir or DEFAULT_RUN_DIR
+    run_dir = BASE / given if str(given).startswith('data/') else BASE / 'data' / args.level / given
     prompts_dir = run_dir / 'prompts'
     results_dir = run_dir / 'results'
     prompts_dir.mkdir(parents=True, exist_ok=True)

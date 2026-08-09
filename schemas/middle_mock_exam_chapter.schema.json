@@ -14,15 +14,22 @@
   "properties": {
     "level": {
       "type": "string",
-      "const": "中級"
+      "enum": [
+        "初級",
+        "中級"
+      ],
+      "description": "2026-08-09：原為 const 中級，初級出題完全跑不動（模型照 schema 寫 中級，validator 再判 mismatch）"
     },
     "subject_id": {
       "type": "string",
       "enum": [
+        "s1",
+        "s2",
         "mid-s1",
         "mid-s2",
         "mid-s3"
-      ]
+      ],
+      "description": "初級 s1/s2；中級 mid-s1..3"
     },
     "chapter_id": {
       "type": "string",
