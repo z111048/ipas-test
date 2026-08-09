@@ -217,9 +217,45 @@ Stage 2 的輸出寫 `report_stage2.json` / `flagged_stage2.json`，不蓋掉全
 全量成本從「500 題 3–4 小時」降到 **stage 1 約 20 分鐘**，
 只有真的可疑的少數題會付 CLI 的 40 秒。`answers/` 快取可續跑。
 
+<!-- 2026-08-09：§5 的 2~5 全部完成，改寫本節。重生全案的做法與三個教訓寫在下方。 -->
+
 ## §5 待接工作（依順序）
 
-1. ~~接上答案交叉驗證~~ **已完成，見 §4a。**
+**✅ 2026-08-09：全案完成。** 411 題（初級 125／中級 286）全部重生並通過答案交叉驗證。
+
+```bash
+python3 scripts/build_codex_section_prompts.py --level 中級 --subject 2 \
+    --heat-total 100 --batch-target 9 --run-dir data/中級/pipeline/regen_s2
+python3 scripts/run_codex_question_batch_generation.py \
+    --run-dir data/中級/pipeline/regen_s2 --verify-answers
+python3 scripts/export_generated_questions.py --run-dir data/中級/pipeline/regen_s2
+```
+
+三個教訓：
+
+> 教訓 2026-08-09：**呼叫次數才是瓶頸，不是題數**。每次 codex 呼叫固定開銷約 108 秒、
+> 與要 1 題還是 9 題幾乎無關，而原本一個小節區塊一個 prompt——中級實測**平均每次
+> 呼叫只出 1.6 題**。加 `--batch-target`（預設 9）打包連續區塊：168 批 → 53 批，
+> 區塊原文全數保留不截斷。再加**跨科目**平行（不做科目內平行，runner 的近似題偵測
+> 要看同一章前面批次的結果）。4 小時 → 約 50 分鐘。
+> 規則：優化前先算「每次呼叫實際產出多少」，那個比值才是槓桿。
+
+> 教訓 2026-08-09：**這條線從來沒跑過初級**。schema 的 `level` 是 `const: 中級`、
+> `subject_id` 是 `enum [mid-s1..3]`，所以模型照 schema 乖乖寫了中級，再被 validator
+> 判 `subject_id mismatch`——6/6 全失敗，而錯誤訊息看起來像模型不聽話。
+> 規則：**「只支援一個等級」的假設會偽裝成模型的錯**；跨等級跑之前先 grep 硬編字串。
+
+> 教訓 2026-08-09：**題型與素材不搭會產出無效單選題**。mid-s2c6 的框架比較表被指定
+> 「計算判讀型」，模型只能自編計分規則，於是四個選項各自都成立（每個都是「某框架：
+> 它自己的正確分數」）——單選題有兩個正解。三個 verifier 全選了非標記的那個，閘門
+> 擋下來了；連兩次重生都是同一形狀，所以是素材問題不是隨機。prompt 加約束
+> （錯的選項必須**算錯**，不能只是「分數對但不是最高」）後一次通過。
+> 規則：懷疑判定器之前先把**實際送出的 prompt 印出來**看——我一度以為是自己的洗牌
+> 映射壞了，若真壞了則「411 題 0 flagged」全不可信，這個檢查非做不可。
+
+1. ~~接上答案交叉驗證~~ **已完成，見 §4a；2026-08-09 進一步接成生成閘門
+   （`verify_batch_answers.py`）：驗不過的批次算失敗、`export_generated_questions.py`
+   拒絕寫進題庫、驗不到不算過。**
 2. **修中英夾雜**。28 題裡有 1 處：第 28 題選項 D「就能直接 conclude 所有組別…」。
    在 prompt 的輸出規範加一條「不得中英夾雜，術語英文只能以括號附註」，
    或事後用正規表示式掃。

@@ -365,11 +365,14 @@ uv run python3 scripts/build_web.py     # production build → docs/（gitignore
 - `ocr_extract.py` — Track B 轉接層：PaddleOCR-VL 逐頁 md → `pages_cache/{key}/page_NNN.json`（見 §1a）。
 - `merge_guide_ocr.py` — Track A 轉接層：OCR 內容合併進 `page_extract/`，首次執行會備份原檔（見 §1a）。
 - `build_errata.py` / `apply_errata.py` — 勘誤表 OCR → `errata_corrections.json`；套用到兩軌，冪等（見 §10 修正 4）。
+- `build_codex_section_prompts.py` — 小節粒度出題 prompt。⚠️ `--heat-total` 的配額**必須對整科算完再篩章節**；`--batch-target`（預設 9）把連續區塊打包，因為每次 codex 呼叫固定開銷約 108 秒與題數無關（不打包時平均每次只出 1.6 題）；`--run-dir` 兩種寫法都吃。
 - `export_guide_mindmap.py` — guideNav ＋ 考古題標註 → `guideMindmap/{subjectId}.json`（前端 `/mindmap` 章節熱度圖）。只讀 committed 產物、無 API 花費、可隨時重跑。⚠️ 各章題數**不可相加**（一題常引用多章：905 vs 實際 450 題）。
 - `imggen_client.py` — **產圖一律走這裡**（`codex-imggen` HTTP 服務，`~/projects/codex-imggen`，`docker compose up -d`，`http://localhost:8090`）。`generate()` 文生圖、`edit()` 圖生圖、`require_service()` 開跑前健康檢查。⚠️ **不要再直接 `codex exec` 產圖**：那會把 session rollout 與原始 PNG 堆在 host `~/.codex/`、在 repo 根目錄亂丟 png，而且產物檔名慣例隨 codex-cli 版本變（2026-08-08 就因此讓 `generate_images.py` 靜默壞掉）。服務直接回傳圖片 bytes。
 - `verify_generated_images.py` — 用 `codex exec --image` 讀回概念圖卡上的中文並逐條判定（garbled／nonword／truncated／terminology／wrong）→ `data/audit/image_text_review.json`。`--sample N`／`--all`／`--ids`／`--report`；已驗過的會跳過，`--force` 重驗。官方用詞清單從 `toc_manifest.json`（SSOT）＋ `topics.json` 組出來，不另建。
 - `regenerate_flagged_images.py` — 重生 `verdict=fail` 的圖卡直到通過。⚠️ 三條保護：把上一輪的問題寫進下一輪 prompt（回饋比重試次數有用）、**所有嘗試都沒過就還原備份**（`build/image_backup/`，不用更差的圖換掉現有的）、`error` 不算 pass。
 - `generate_images.py` — 產圖後**自動跑文字檢查**，不過就帶著問題回饋重試（`--no-verify` 可跳過，不建議）。原本的重試只處理 timeout 與抓不到 session id。⚠️ 產物路徑是 `~/.codex/generated_images/<session>/`，**檔名慣例會隨 codex-cli 版本變**（舊 `ig_*.png`、0.146 起 `exec-<uuid>.png`），腳本已改成取目錄裡最新的 PNG；若又出現「找不到產圖 PNG」先去看那個目錄。
+- `export_generated_questions.py` — 把小節管線產出的題目併進 `data/{level}/questions/subject{N}_questions.json`（**2026-08-09 補上，原本完全沒有這一步**）。寫入前重驗每一批、檢查 id 與題幹唯一、**要求每批有通過的 `.verify.json`**，任一項不過整批拒寫。⚠️ 預設要求整科完整（只匯出一章會抹掉其他章），要只替換某幾章得加 `--replace-chapters`。
+- `verify_batch_answers.py` — 單批答案交叉驗證，供 runner（`--verify-answers`）與 export 當閘門。結果存輸出檔旁 `<batch>.verify.json`，可續跑可稽核；**驗不到不算過**；圖片題跳過。判準看 `wrong_consensus`（不同意者都選同一個錯答才是真的錯）。金鑰 `LLMSHARE_API_KEY` 放 `.env`（gitignored）。
 - `sample_card_review.py` — 確定性分層抽樣題目 `card` 欄位 → `data/audit/card_sample_review.json`；`--tally` 讀回判定算錯誤率。同 `--size`／`--seed` 重跑會拿到同一批題，才能改完驗同一批。
 - `fix_card_defects.py` — 修 `card.frequency` 值域外（依所在章熱度分段給值）與解析尾端黏上的「參考書目」附件。冪等，`--dry-run` 先看。
 - `export_topic_heat.py` — 概念標註 ＋ 詞彙表 ＋ 考古題標註 → `topicHeat.json`（前端 `/mindmap` 概念軸）。只讀 committed 產物、無 API 花費、可隨時重跑、輸出確定性（跨 `PYTHONHASHSEED` 位元相同）。⚠️ 採計只算 `verdict=正確`；「散落章數」用 `guideChapterCount`，**不是** `chapterCount`（後者把大綱章與指引章各記一次，虛胖 32%）。細節見 `08-topic-labeling.md` §7-3。
