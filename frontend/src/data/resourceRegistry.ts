@@ -22,12 +22,10 @@ export interface SubjectResource {
   overviewTo?: string
   practiceTo?: string
   guideExercisePracticeTo?: string
-  codex100PracticeTo?: string
   practiceStatus: ResourceStatus
   practiceLabel: string
   practiceDetail: string
   guideExercisePracticeDetail?: string
-  codex100PracticeDetail?: string
   examTo?: string
   chapters: number
 }
@@ -64,9 +62,7 @@ function subjectResources(toc: TocManifest, level: 'junior' | 'middle'): Subject
     const subjectSummary = resourceSummary.levels[level].subjects[subject.id]
     const aiSummary = subjectSummary?.ai
     const guideSummary = subjectSummary?.guide
-    const codex100Summary = subjectSummary?.codex100
     const hasPracticeQuestions = Boolean(aiSummary?.available)
-    const hasCodex100Questions = Boolean(codex100Summary?.available)
     const hasGuideExerciseQuestions = Boolean(guideSummary?.available)
     return {
       id: subject.id,
@@ -76,12 +72,10 @@ function subjectResources(toc: TocManifest, level: 'junior' | 'middle'): Subject
       overviewTo: `/subject/${subject.id}`,
       practiceTo: hasPracticeQuestions && aiSummary?.firstChapterId ? `/practice/${subject.id}/${aiSummary.firstChapterId}` : firstGuideRoute(subject.id),
       guideExercisePracticeTo: hasGuideExerciseQuestions && guideSummary?.firstChapterId ? `/practice/${subject.id}/${guideSummary.firstChapterId}/guide` : undefined,
-      codex100PracticeTo: hasCodex100Questions && codex100Summary?.firstChapterId ? `/practice/${subject.id}/${codex100Summary.firstChapterId}/codex100` : undefined,
       practiceStatus: hasPracticeQuestions ? 'available' : 'pending',
       practiceLabel: hasPracticeQuestions ? '章節練習' : '章節練習待建立',
       practiceDetail: '章節模擬練習題',
       guideExercisePracticeDetail: hasGuideExerciseQuestions ? `${guideSummary?.total ?? 0} 題，從學習指引 PDF 內嵌練習抽取` : undefined,
-      codex100PracticeDetail: hasCodex100Questions ? `${codex100Summary?.total ?? 0} 題，依章節平均分配` : undefined,
       examTo: isJunior ? `/exam/jr_1152_s${index + 1}` : `/exam/mid_1151_s${index + 1}`,
       chapters: subject.chapters.length,
     }
@@ -102,7 +96,7 @@ export const resourceStats = {
     subjects: middleToc.subjects.length,
     chapters: middleToc.subjects.reduce((total, subject) => total + subject.chapters.length, 0),
     practiceQuestions: Object.values(resourceSummary.levels.middle.subjects).reduce(
-      (total, subject) => total + (subject.ai?.total ?? 0) + (subject.guide?.total ?? 0) + (subject.codex100?.total ?? 0),
+      (total, subject) => total + (subject.ai?.total ?? 0) + (subject.guide?.total ?? 0),
       0
     ),
     officialQuestions: Object.values(resourceSummary.levels.middle.exams).reduce((total, exam) => total + exam.total, 0),

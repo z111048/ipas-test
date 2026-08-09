@@ -24,7 +24,6 @@ function isTypingTarget(target: EventTarget | null) {
 
 export default function PracticePage() {
   const { subjectId, chapterId, practiceSet } = useParams<{ subjectId: string; chapterId: string; practiceSet?: string }>()
-  const isCodex100 = practiceSet === 'codex100'
   const isGuideExercise = practiceSet === 'guide'
   const [data, setData] = useState<SubjectQuestions | undefined>()
   const [loading, setLoading] = useState(false)
@@ -34,18 +33,17 @@ export default function PracticePage() {
   const [showRestoreBanner, setShowRestoreBanner] = useState(false)
   const questionRefs = useRef<Array<HTMLElement | null>>([])
   const chapter = data?.chapters.find((c) => c.id === chapterId)
-  const practiceSetSuffix = isCodex100 ? '/codex100' : isGuideExercise ? '/guide' : ''
+  const practiceSetSuffix = isGuideExercise ? '/guide' : ''
   const chapterRoute = (targetChapterId: string) =>
     `/practice/${subjectId}/${targetChapterId}${practiceSetSuffix}`
   const level = resourceLevels.find((item) => item.subjects.some((subject) => subject.id === subjectId))
   const subject = level?.subjects.find((item) => item.id === subjectId)
   const subjectData = level?.toc.subjects.find((item) => item.id === subjectId)
   const summary = level && subjectId ? resourceSummary.levels[level.id].subjects[subjectId] : undefined
-  const activeSummary = isCodex100 ? summary?.codex100 : isGuideExercise ? summary?.guide : summary?.ai
+  const activeSummary = isGuideExercise ? summary?.guide : summary?.ai
   const originalChapterCount = chapterId ? summary?.ai?.chapterCounts[chapterId] ?? 0 : 0
   const guideExerciseChapterCount = chapterId ? summary?.guide?.chapterCounts[chapterId] ?? 0 : 0
-  const codex100ChapterCount = chapterId ? summary?.codex100?.chapterCounts[chapterId] ?? 0 : 0
-  const setLabel = isCodex100 ? '精選 100 題' : isGuideExercise ? '學習指引練習' : '章節練習'
+  const setLabel = isGuideExercise ? '學習指引練習' : '章節練習'
   const selectableChapters = subjectData?.chapters.filter((item) => (activeSummary?.chapterCounts[item.id] ?? 0) > 0) ?? []
 
   useEffect(() => {
@@ -217,7 +215,7 @@ export default function PracticePage() {
     )
   }
 
-  if (!data || (!isCodex100 && !isGuideExercise && subject?.practiceStatus === 'pending') || chapter?.questions.length === 0) {
+  if (!data || (!isGuideExercise && subject?.practiceStatus === 'pending') || chapter?.questions.length === 0) {
     return (
       <div className="page-shell">
         <div className="page-header mb-5">
@@ -282,7 +280,7 @@ export default function PracticePage() {
           <Link
             to={`/practice/${subjectId}/${chapterId}`}
             className={`btn-outline ${
-              !isCodex100 && !isGuideExercise
+              !isGuideExercise
                 ? 'border-accent bg-accent text-white'
                 : 'border-border text-text-light hover:border-accent hover:text-accent'
             }`}
@@ -300,18 +298,6 @@ export default function PracticePage() {
             }`}
           >
             學習指引練習（{guideExerciseChapterCount} 題）
-          </Link>
-        )}
-        {codex100ChapterCount > 0 && (
-          <Link
-            to={`/practice/${subjectId}/${chapterId}/codex100`}
-            className={`btn-outline ${
-              isCodex100
-                ? 'border-[#5b7c2a] bg-[#5b7c2a] text-white'
-                : 'border-border text-text-light hover:border-[#5b7c2a] hover:text-[#5b7c2a]'
-            }`}
-          >
-            精選 100 題（{codex100ChapterCount} 題）
           </Link>
         )}
       </div>

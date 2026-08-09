@@ -44,7 +44,9 @@ ALLOWED_INLINE = re.compile(r'[（(][^）)]*[）)]')
 # 2026-08-08 逐筆確認 7 個命中全是這類正當術語——留著等於這條檢查永遠在叫。
 TECHNICAL_INLINE = re.compile(
     r'\b(datetime|epoch|epochs|patience|bins|fold|folds|batch|dropout|token|tokens|'
-    r'pandas|numpy|seaborn|matplotlib|timestamp|pipeline|prompt|prompts)\b')
+    r'pandas|numpy|seaborn|matplotlib|timestamp|pipeline|prompt|prompts|'
+    # 2026-08-09 重生初級 s1 時出現：中文 ML 文獻慣例不翻譯這兩個
+    r'sigmoid|softmax|logits|logit)\b')
 # card.mnemonic 的佔位字串：生成流程沒真的寫記憶法時填的話
 CARD_PLACEHOLDERS = ('依學習指引原題複習',)
 # 學習指引 PDF 的前導章節（s1pdf-c1、mid-s2pdf-c3…），不是考綱章節

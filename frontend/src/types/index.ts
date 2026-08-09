@@ -361,7 +361,6 @@ export interface ResourceExamSummary {
 export interface ResourceSubjectSummary {
   ai?: ResourceQuestionSummary
   guide?: ResourceQuestionSummary
-  codex100?: ResourceQuestionSummary
 }
 
 export interface ResourceLevelSummary {

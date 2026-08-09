@@ -1,5 +1,4 @@
 {
-  "level": "中級",
   "subject": "中級科目一：人工智慧技術應用與規劃",
   "chapters": [
     {
@@ -7,88 +6,760 @@
       "title": "自然語言處理技術與應用",
       "questions": [
         {
-          "question": "下列關於「自然語言處理（NLP）」與其子領域的描述，何者正確？",
+          "id": "mid-s1c1q001_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "關於本節對自然語言處理（NLP）核心角色的界定，下列何者正確？",
           "options": {
-            "A": "NLU與NLG是NLP中的兩個處理階段，但只能應用於文字資料，不涵蓋語音相關技術",
-            "B": "NLP是總稱框架，涵蓋所有讓機器能理解、處理、產生語言的技術；NLU負責「理解」端，NLG負責「生成」端",
-            "C": "NLG的主要任務是辨識使用者意圖與命名實體，而NLU負責自動摘要與報告撰寫",
-            "D": "NLP的核心目標僅限於文字處理，不包含語音辨識或語音合成等語音相關技術"
+            "A": "NLP賦予機器理解、處理並生成自然語言的能力，並扮演連接人類與機器溝通的橋樑",
+            "B": "NLP以規則式語言處理技術為唯一核心，主要任務是維護固定的語法規則",
+            "C": "NLP只負責將自然語言轉換成結構化資料，不包含語言生成與人機溝通",
+            "D": "NLP主要是大數據的收集、儲存及分析技術，與機器理解語言的能力無關"
+          },
+          "answer": "A",
+          "explanation": "NLP的核心是讓機器具備理解、處理及生成自然語言的能力，因而成為人類與機器溝通的重要橋樑。規則式系統只是NLP早期的技術階段；NLP也不僅限於資料轉換或大數據處理。",
+          "difficulty": "中",
+          "type": "概念定義型",
+          "tags": [
+            "NLP",
+            "基礎概念",
+            "人機溝通",
+            "章首導覽"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "自然語言處理技術與應用（章首）"
+          },
+          "card": {
+            "concept": "自然語言處理（NLP）使機器能理解、處理與生成自然語言，是連接人類與機器溝通的核心技術。",
+            "mnemonic": "NLP三能力：理解、處理、生成；核心角色是搭起人機溝通橋樑。",
+            "confusion": "規則式方法只是NLP早期技術，不等於NLP全部；大數據的收集、儲存與分析則屬相關但另行深入介紹的數據處理範疇。"
+          }
+        },
+        {
+          "id": "mid-s1c1q002_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "某市政府導入語音客服系統，民眾說：「請告訴我本月水費，並說明是否逾期。」系統先解析語句結構、辨識使用者意圖，再將帳務資料組織成自然流暢的回覆。若依據講義中的模組分工設計，下列哪一項最正確？",
+          "options": {
+            "A": "由 NLU 將帳務資料撰寫成完整回覆，再由 NLG 辨識民眾的查詢意圖",
+            "B": "由 NLU 理解語句的語意與意圖，再由 NLG 將資料或邏輯轉換成自然語言回覆",
+            "C": "由 NLG 負責解析輸入語句的語法結構，NLU 僅負責將結果轉成特徵向量",
+            "D": "NLP 僅負責產生客服回覆，輸入語句的理解可由系統外部處理而不需 NLU"
           },
           "answer": "B",
-          "explanation": "依據指引原文，NLP是總體框架，涵蓋所有語言技術；NLU專注於「理解」輸入語言的語意與結構，NLG則專注於「產出」自然語言文字。選項A錯誤，NLU與NLG雖均屬NLP子領域且分別對應理解與生成兩個處理方向，但NLP的範疇並不限於文字，指引明確指出語音辨識與合成亦屬其中。選項C混淆了NLU與NLG的任務分工，意圖辨識、命名實體辨識（NER）屬於NLU，自動摘要、回應生成屬於NLG。選項D錯誤，指引明確指出NLP範疇包含語音辨識與合成。",
-          "card": {
-            "concept": "NLP為總稱，NLU負責「理解」（意圖辨識、NER、情感分析），NLG負責「生成」（摘要、回應、報告）；三者形成完整語言處理流程的分工結構。",
-            "mnemonic": "NLP = 大傘；NLU = 聽懂你說什麼；NLG = 回答你想聽的",
-            "confusion": "最常見混淆：將NLU的任務（情感分析、意圖辨識）誤填為NLG，或認為兩者是獨立系統而非NLP子集；另有考生誤以為NLP僅處理文字而排除語音"
-          },
-          "difficulty": "易",
-          "type": "概念定義型",
+          "explanation": "NLU 專注於理解輸入語言的語法結構與語意邏輯，並判讀使用者意圖；NLG 則將資料、知識或邏輯轉換為人類可讀且自然流暢的語句。題目中的先理解需求、再產生回覆，正是 NLU 與 NLG 的分工。NLP 是涵蓋理解、處理與生成的總體框架，不僅負責回覆生成。",
+          "difficulty": "難",
+          "type": "情境應用型",
           "tags": [
             "NLP",
             "NLU",
             "NLG",
-            "基礎概念"
+            "對話系統",
+            "理解與生成"
           ],
-          "id": "mid-s1c1q1_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
-        },
-        {
-          "question": "依據NLP技術演進脈絡，下列四個技術階段的正確時序為何？\n①預訓練語言模型（BERT、GPT）　②統計語言模型（N-gram、HMM）　③規則式方法（ELIZA、專家系統）　④深度學習模型（RNN、LSTM）",
-          "options": {
-            "A": "③ → ② → ④ → ①",
-            "B": "② → ③ → ① → ④",
-            "C": "③ → ④ → ② → ①",
-            "D": "③ → ② → ① → ④"
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "2. NLP 基礎概念與發展脈絡－（1）定義與範疇"
           },
-          "answer": "A",
-          "explanation": "指引明確列出NLP四個技術演進階段：1980s–1990s為規則式方法（③），1990s–2010為統計語言模型（②），2010–2018為深度學習模型（④），2018至今為預訓練語言模型（①），正確順序為③→②→④→①。選項B與C將統計語言模型與深度學習模型的順序對調或與規則式方法互換，均不符史實。選項D將深度學習（④）與預訓練語言模型（①）的順序對調，忽略了RNN/LSTM（2010–2018）是BERT/GPT（2018後）的技術前驅這一關鍵史實。",
           "card": {
-            "concept": "NLP技術演進四階段：規則式→統計→深度學習→預訓練語言模型，每階段均突破前一階段的核心限制。",
-            "mnemonic": "口訣「規→統→深→預」：規則靠人寫、統計靠機率、深度靠神經、預訓靠大模型",
-            "confusion": "常見錯誤：將深度學習（RNN/LSTM）與預訓練語言模型（BERT/GPT）順序對調，誤以為BERT早於LSTM；正確認知是LSTM為2010–2018年主流，BERT於2018年才出現"
-          },
-          "difficulty": "中",
-          "type": "流程步驟型",
-          "tags": [
-            "NLP演進",
-            "技術發展",
-            "BERT",
-            "GPT",
-            "規則式",
-            "統計語言模型"
-          ],
-          "id": "mid-s1c1q2_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
+            "concept": "NLP 是總體框架；NLU 負責理解輸入語言的結構、語意與意圖，NLG 負責把資料或邏輯轉成自然語言輸出。",
+            "mnemonic": "先 NLU 聽懂需求，再 NLG 說出答案；NLP 是涵蓋整體流程的大傘。",
+            "confusion": "不要把 NLU 的理解任務與 NLG 的產出任務對調，也不要將 NLP 縮減為只有文字生成。"
+          }
         },
         {
-          "question": "某電商企業希望自動分析每日數萬則用戶評論，即時偵測負面情緒並觸發客服介入流程，同時對大量非結構化語言資料進行分類標注。下列哪種技術組合最為適切？",
+          "id": "mid-s1c1q003_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "下列何者不屬於本節列出的 NLP 核心任務層次？",
           "options": {
-            "A": "採用規則式方法（Rule-based System），手工設計所有情緒詞彙辭典與語法規則，因其具備高可解釋性且不需訓練資料",
-            "B": "以TF-IDF搭配SVM進行情感分類，部署成本較低，但語意脈絡的捕捉能力有限",
-            "C": "採用預訓練語言模型（如BERT）進行微調，結合情感分析與文本分類任務，處理大規模非結構化評論資料",
-            "D": "以LSTM模型處理評論序列並進行情感分類，藉由循環神經網路捕捉文字前後文依賴"
+            "A": "理解：解析語法與語意，辨識語者的意圖、情緒與知識",
+            "B": "處理：將語言轉換為特徵向量、語法樹或標注格式",
+            "C": "影像分類：將影像判定為不同類別",
+            "D": "生成：依據情境與目標產出自然、流暢且具邏輯的文字或語音"
           },
           "answer": "C",
-          "explanation": "面對大規模非結構化評論的情感分析與分類任務，預訓練語言模型（如BERT）透過大規模語料預訓練後微調，能有效捕捉深層語意脈絡並靈活適應不同下游任務，是當前最適切的技術選擇。選項A的規則式方法擴展性差、維護成本高，面對每日數萬則多變評論無法靈活應對。選項B的TF-IDF+SVM屬統計學習方法，部署成本雖低，但TF-IDF無法捕捉詞序與語意脈絡，對複雜情感表達效果有限。選項D的LSTM雖能處理序列前後文，但在語意理解深度、大規模遷移學習能力上均不及BERT等預訓練語言模型，且需從頭訓練，資料與計算需求高。",
-          "card": {
-            "concept": "大規模情感分析與文本分類任務，當前最適解為預訓練語言模型（BERT/GPT等）微調，可兼顧語意理解深度與任務適應性。",
-            "mnemonic": "大量評論+情感+分類 = 預訓練大模型微調（BERT家族）；TF-IDF+SVM適合小規模穩定場景，LSTM雖有序列能力但不及預訓練模型",
-            "confusion": "常見混淆：認為LSTM已足夠處理情感分析而不需BERT，或誤以為TF-IDF+SVM是大規模語意理解的主流方案；關鍵差異在於預訓練語言模型具備遷移學習優勢"
-          },
-          "difficulty": "中",
-          "type": "應用情境型",
+          "explanation": "本節將 NLP 的核心任務分為理解、處理與生成三個層次。影像分類不在這三個核心任務層次之列，因此 C 正確。",
+          "difficulty": "易",
+          "type": "否定型",
           "tags": [
-            "情感分析",
-            "文本分類",
-            "BERT",
-            "預訓練語言模型",
-            "NLP應用"
+            "NLP",
+            "核心任務",
+            "理解",
+            "處理",
+            "生成"
           ],
-          "id": "mid-s1c1q3_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "2. NLP 基礎概念與發展脈絡－（1）定義與範疇"
+          },
+          "card": {
+            "concept": "NLP 核心任務可分為理解、處理、生成三層：先解析語言，再轉為可操作結構，最後產出語句。",
+            "mnemonic": "懂 → 轉 → 生：理解、處理、生成。",
+            "confusion": "影像分類屬於其他 AI 應用，不是本節列出的 NLP 三個核心任務層次；不要因其也是 AI 任務就將它列入。"
+          }
+        },
+        {
+          "id": "mid-s1c1q004_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "某團隊整理自然語言處理（NLP）四個技術階段，準備比較各階段的核心特徵與代表模型。下列哪一項判讀正確？",
+          "options": {
+            "A": "規則式方法的核心是使用大量語料訓練機率模型，代表技術包括 N-gram、HMM 與 CRF",
+            "B": "統計語言模型主要使用神經網路處理語言序列，代表模型包括 RNN、LSTM 與 GRU",
+            "C": "深度學習模型的核心是大規模語料預訓練後進行下游微調，代表模型包括 BERT、GPT 與 T5",
+            "D": "預訓練語言模型以大規模語料進行預訓練，再配合下游微調；BERT、GPT、RoBERTa 與 T5 都屬於此階段的代表模型"
+          },
+          "answer": "D",
+          "explanation": "預訓練語言模型的核心特徵是先以大規模語料進行預訓練，再針對下游任務微調，代表模型包括 BERT、GPT、RoBERTa 與 T5。A 將統計語言模型的特徵與代表技術誤置於規則式方法；B 將深度學習模型的特徵與代表模型誤置於統計語言模型；C 則將預訓練語言模型的特徵與代表模型誤置於深度學習階段。",
+          "difficulty": "中",
+          "type": "比較分析型",
+          "tags": [
+            "NLP技術演進",
+            "規則式方法",
+            "統計語言模型",
+            "深度學習",
+            "預訓練語言模型"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "（2）技術演進脈絡"
+          },
+          "card": {
+            "concept": "NLP技術演進依序包含規則式方法、統計語言模型、深度學習模型與預訓練語言模型；預訓練語言模型的關鍵是大規模語料預訓練加上下游微調。",
+            "mnemonic": "規則靠人寫、統計靠機率、深度靠神經、預訓練先學後調。",
+            "confusion": "容易將各階段的核心特徵或代表模型互相錯置，尤其要區分 RNN、LSTM、GRU 所代表的深度學習階段，以及 BERT、GPT、RoBERTa、T5 所代表的預訓練語言模型階段。"
+          }
+        },
+        {
+          "id": "mid-s1c1q005_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "一段輸入序列包含 8 個詞。依據本節對 Transformer 自注意力機制（Self-Attention）的描述，每個詞處理時都會考慮其餘 7 個詞的影響。若將「每個被處理的詞對另一個詞的影響」視為一個有方向的關聯，則整段序列共有多少個關聯？",
+          "options": {
+            "A": "8 × 7 = 56 個",
+            "B": "8 × 8 = 64 個",
+            "C": "8 × 7 ÷ 2 = 28 個",
+            "D": "8 + 7 = 15 個"
+          },
+          "answer": "A",
+          "explanation": "每個詞會考慮其餘 7 個詞，8 個詞共有 8 × 7 = 56 個有方向的詞對詞關聯；未將詞本身計入，也不能將有方向的關聯重複合併。",
+          "difficulty": "中",
+          "type": "計算判讀型",
+          "tags": [
+            "第四階段",
+            "Transformer",
+            "自注意力機制",
+            "長距離依賴"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "D. 第四階段：預訓練語言模型（2018–至今）— Transformer 的自注意力機制可使每個詞考慮序列中其他詞的影響，進行全局語境建模。"
+          },
+          "card": {
+            "concept": "自注意力機制能讓序列中的每個詞直接關注其他詞，以建模全局語境與長距離依賴。",
+            "mnemonic": "詞數 ×（詞數−1）＝每個詞關注其餘詞的有方向關聯數。",
+            "confusion": "若把詞本身也算入會得到 8×8；若將有方向關聯視為無方向配對而除以 2，則會得到 28，兩者都不符合題目定義。"
+          }
+        },
+        {
+          "id": "mid-s1c1q006_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "某團隊要在英文文本前處理中，選擇詞形還原（Lemmatization）或詞幹提取（Stemming）。為兼顧詞彙歸一化的語意一致性與處理效率，下列對兩者定義與取捨的描述何者正確？",
+          "options": {
+            "A": "詞幹提取會將單詞還原為字典形式並保留語意一致性；詞形還原則只去除詞尾變化，速度較快但準確性較低",
+            "B": "詞形還原會將單詞還原為字典形式，例如「running」還原為「run」，可保留語意一致性；詞幹提取則去除詞尾變化取得詞幹，例如「connections」轉為「connect」，速度較快但準確性較低",
+            "C": "詞形還原與詞幹提取的主要差異在於是否移除停用詞，兩者都會將單詞轉為字典形式，因此適用性相同",
+            "D": "詞形還原是以 BPE 將文字拆解為子詞，詞幹提取則是標記名詞、動詞與形容詞等語法角色"
+          },
+          "answer": "B",
+          "explanation": "詞形還原（Lemmatization）是將單詞還原為字典形式，例如「running」→「run」，並有助於保留語意一致性；詞幹提取（Stemming）則是去除詞尾變化以取得詞幹，例如「connections」→「connect」，處理速度較快但準確性低於詞形還原。A 將兩者特性對調；C 誤把兩者與停用詞移除混淆，且詞幹提取不一定得到字典形式；D 將分詞、詞性標注與這兩種技術混淆。",
+          "difficulty": "難",
+          "type": "概念定義型",
+          "tags": [
+            "NLP前處理",
+            "詞形還原",
+            "詞幹提取",
+            "Lemmatization",
+            "Stemming"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "3. NLP 前處理：詞形還原（Lemmatization）將單詞還原為字典形式，如「running」→「run」，以保留語意一致性；詞幹提取（Stemming）去除詞尾變化取得詞幹，如「connections」→「connect」，速度較快但準確性低於詞形還原。"
+          },
+          "card": {
+            "concept": "詞形還原重視字典形式與語意一致性；詞幹提取重視處理速度，可能犧牲準確性。",
+            "mnemonic": "還原找字典、提幹去詞尾；Lemmatization 重語意，Stemming 重速度。",
+            "confusion": "不要把詞幹提取誤認為一定能產生正確字典單詞，也不要將兩者與停用詞移除、分詞或詞性標注混淆。"
+          }
+        },
+        {
+          "id": "mid-s1c1q007_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "某客服團隊要建立語意分類模型。測試語料中同一詞在不同句子裡可能代表不同意思，且模型必須根據前後文判斷詞義。若優先選擇能提供適合此需求的文字表示方式，下列何者最適切？",
+          "options": {
+            "A": "One-hot Encoding，因為其向量維度高且能直接保留每個詞的上下文語意",
+            "B": "TF-IDF，因為其會依據每次出現的前後文動態改變同一詞的向量",
+            "C": "BERT Embeddings，因為其屬於動態語境型表示，能支援上下文並較佳處理同詞異義",
+            "D": "Word2Vec，因為同一詞在不同句子中會自動產生不同的詞向量"
+          },
+          "answer": "C",
+          "explanation": "BERT Embeddings 屬於語境型詞嵌入，會依據上下文產生動態表示，較能處理同詞異義。One-hot 與 TF-IDF 都是非語境型表示；Word2Vec 屬於靜態詞嵌入，同一詞通常只有一個向量。",
+          "difficulty": "中",
+          "type": "情境應用型",
+          "tags": [
+            "詞彙向量化",
+            "文字表示學習",
+            "語境型詞嵌入",
+            "BERT",
+            "同詞異義"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "（1）NLP 關鍵技術發展"
+          },
+          "card": {
+            "concept": "語境型詞嵌入會依據詞語所在上下文產生動態向量，因此較能處理同詞異義。",
+            "mnemonic": "同詞不同義，看語境選 BERT；一詞一向量則是靜態嵌入。",
+            "confusion": "Word2Vec、GloVe 與 FastText 屬靜態詞嵌入，同一詞通常只有一個向量；BERT Embeddings 才具動態語境特性。"
+          }
+        },
+        {
+          "id": "mid-s1c1q008_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "下列關於本節所述文字表示技術的敘述，何者不正確？",
+          "options": {
+            "A": "One-hot Encoding 與 Bag of Words 屬於非分布式、非語境型表示，結構簡單但向量可能稀疏且維度較高",
+            "B": "TF-IDF 能反映詞彙在文件中的重要性，但會忽略上下文與語序，對同詞異義的處理能力有限",
+            "C": "N-grams 能表示短範圍的語序與詞組共現特性，但可能面臨資料稀疏及無法捕捉長距依賴的限制",
+            "D": "TF-IDF 會依據每個詞在不同句子中的上下文，動態產生不同向量，因此能有效處理同詞異義與長距依賴"
+          },
+          "answer": "D",
+          "explanation": "TF-IDF 是統計型、非語境型表示，主要反映詞彙重要性，會忽略上下文與語序，並非依上下文動態產生向量，也無法有效捕捉長距依賴。A、B、C 的敘述符合本節表格內容。",
+          "difficulty": "易",
+          "type": "否定型",
+          "tags": [
+            "One-hot Encoding",
+            "Bag of Words",
+            "TF-IDF",
+            "N-grams",
+            "表示技術限制"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "（1）NLP 關鍵技術發展"
+          },
+          "card": {
+            "concept": "TF-IDF 是非語境型統計表示，能衡量詞彙重要性，但不處理上下文、語序與同詞異義。",
+            "mnemonic": "TF-IDF 看重要性，不看語境；N-gram 看短語序，不看長依賴。",
+            "confusion": "不要把 TF-IDF 的詞彙權重誤認為上下文動態向量；能處理同詞異義的是語境型詞嵌入。"
+          }
+        },
+        {
+          "id": "mid-s1c1q009_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "針對 N-grams 與靜態詞嵌入的特性進行比較，下列何者正確？",
+          "options": {
+            "A": "N-grams 屬有限分布性且對短範圍上下文敏感，可表示語序與詞組共現；Word2Vec、GloVe 等靜態詞嵌入則屬分布式、非語境型表示，可表達語意結構並進行向量運算",
+            "B": "N-grams 屬分布式表示，能有效捕捉長距依賴；靜態詞嵌入則屬非分布式且向量稀疏",
+            "C": "N-grams 與靜態詞嵌入都會依據完整句子的上下文，為同一詞產生不同的動態向量",
+            "D": "N-grams 主要忽略詞語共現與語序，而靜態詞嵌入主要依賴高維稀疏向量表示，兩者都不具語意結構"
+          },
+          "answer": "A",
+          "explanation": "N-grams 以有限範圍的共現資訊表示短距離上下文，能反映語序與詞組特性，但難以處理長距依賴。Word2Vec、GloVe 與 FastText 屬分布式的靜態詞嵌入，能表達語意結構並進行向量運算，但不會依不同語境動態改變同一詞的表示。",
+          "difficulty": "中",
+          "type": "比較分析型",
+          "tags": [
+            "N-grams",
+            "靜態詞嵌入",
+            "Word2Vec",
+            "GloVe",
+            "文字表示比較"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "（1）NLP 關鍵技術發展"
+          },
+          "card": {
+            "concept": "N-grams 著重短範圍語序與共現；靜態詞嵌入著重分布式語意結構與可運算向量。",
+            "mnemonic": "N-gram 看鄰近詞，詞嵌入看語意空間。",
+            "confusion": "N-grams 不是分布式詞嵌入，也無法捕捉長距依賴；Word2Vec 等靜態詞嵌入雖具語意結構，卻不是動態語境表示。"
+          }
+        },
+        {
+          "id": "mid-s1c1q010_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "某語料庫共有 1,200 篇文件。詞彙「AI」出現在 12 篇文件中，詞彙「model」出現在 300 篇文件中；在文件 d 中，「AI」出現 4 次、「model」出現 12 次，且文件 d 共包含 160 個詞。若依講義中的 TF-IDF 定義，並採用 log 以 10 為底，下列哪一項判讀正確？",
+          "options": {
+            "A": "「AI」的 TF-IDF 約為 0.05，「model」約為 0.045；但因「model」在文件 d 中的詞頻較高，所以「model」的資訊價值較高",
+            "B": "「AI」的 TF-IDF 約為 0.05，「model」約為 0.045；雖然「AI」詞頻較低，但因其出現文件較少，所以資訊價值較高",
+            "C": "「AI」的 TF-IDF 約為 0.02，「model」約為 0.024；計算時應以各詞在整體文件中的出現比例作為 TF",
+            "D": "「AI」的 TF-IDF 約為 -0.05，「model」約為 -0.045；因 IDF 應計算為 log（詞彙出現文件數／文件總數）"
+          },
+          "answer": "B",
+          "explanation": "「AI」的 TF 為 4／160＝0.025，IDF 為 log（1200／12）＝log(100)＝2，因此 TF-IDF＝0.025×2＝0.05。「model」的 TF 為 12／160＝0.075，IDF 為 log（1200／300）＝log(4)≈0.602，因此 TF-IDF 約為 0.075×0.602≈0.045。雖然「model」在文件 d 中的詞頻較高，但「AI」在整體語料庫中較罕見，故其 TF-IDF 較高。",
+          "difficulty": "難",
+          "type": "計算判讀型",
+          "tags": [
+            "詞嵌入",
+            "TF-IDF",
+            "TF",
+            "IDF",
+            "詞彙資訊價值"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "C. 詞嵌入（Word Embedding）—tf-idf 原理與示例"
+          },
+          "card": {
+            "concept": "TF-IDF 是 TF 與 IDF 的乘積，同時衡量詞彙在單一文件中的頻繁程度及其在整體語料庫中的稀有程度。",
+            "mnemonic": "TF 看文件內多不多，IDF 看全體中罕不罕；兩者相乘才是資訊價值。",
+            "confusion": "不要只看文件內詞頻；高 TF 的詞若在許多文件中都出現，IDF 低，TF-IDF 可能反而低於較罕見的詞。"
+          }
+        },
+        {
+          "id": "mid-s1c1q011_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "關於 N-grams 的定義與表示方式，下列何者正確？",
+          "options": {
+            "A": "將文件中的所有詞彙彙整並計算各詞出現次數，不考慮詞彙順序",
+            "B": "將每個詞表示為只有一個位置為 1、其餘位置為 0 的高維向量",
+            "C": "將詞序列中連續的 N 個詞或字組合成一個特徵單位；例如序列 [I, love, machine, learning] 的 bi-grams 包含 (I, love)、(love, machine) 與 (machine, learning)",
+            "D": "根據語料庫中的詞彙共現關係，將每個詞學習成包含語意資訊的固定維度向量"
+          },
+          "answer": "C",
+          "explanation": "N-grams 是從詞序列中擷取連續的 N 個詞或字，組成特徵單位，以保留詞彙順序與短期語境。A 是 Bag of Words 的特徵，B 是 One-hot Encoding，D 則是詞嵌入依據共現關係學習向量的描述。",
+          "difficulty": "中",
+          "type": "概念定義型",
+          "tags": [
+            "詞嵌入",
+            "N-grams",
+            "bi-grams",
+            "詞序",
+            "短期語境"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "C. 詞嵌入（Word Embedding）—N-grams 定義、原理與示例"
+          },
+          "card": {
+            "concept": "N-grams 將連續 N 個詞或字組成特徵單位，可保留詞彙順序、相對位置與短期語境資訊。",
+            "mnemonic": "N 代表連續幾個；bi-gram 是兩個連續詞，tri-gram 是三個連續詞。",
+            "confusion": "N-grams 著重連續詞序，不等於忽略順序的 BoW；也不會像詞嵌入那樣直接學習每個詞的語意向量。"
+          }
+        },
+        {
+          "id": "mid-s1c1q012_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "某企業將詞嵌入模型部署於客服系統，系統收到訓練語料中未曾完整出現的英文詞「nationalization」。檢查發現，訓練資料曾出現「nation」、「-al」與「-ization」等相關子詞。若希望仍能為該詞產生具語意關聯的向量，下列哪一項作法最適合？",
+          "options": {
+            "A": "採用 Word2Vec 的 CBOW，以周圍詞彙預測該未知詞，直接取得其固定詞向量",
+            "B": "採用 GloVe，利用整體語料庫的共現矩陣與矩陣分解，直接為未知詞建立向量",
+            "C": "採用 Word2Vec 的 Skip-gram，以該未知詞預測周圍詞彙，藉此改善其 OOV 表示",
+            "D": "採用 FastText，將詞切割為 n-gram 子詞，將相關子詞向量加總或平均以生成該詞向量"
+          },
+          "answer": "D",
+          "explanation": "FastText 將詞表示為子詞集合，能利用已學得的 n-gram 子詞向量加總或平均，為未曾完整見過的 OOV 詞生成向量。CBOW 與 Skip-gram 是 Word2Vec 的上下文預測架構，GloVe 則主要依據整體語料的詞語共現統計學習靜態向量，均不是本題所述的子詞組合機制。",
+          "difficulty": "難",
+          "type": "情境應用型",
+          "tags": [
+            "詞嵌入",
+            "FastText",
+            "子詞",
+            "n-gram",
+            "OOV",
+            "分布式詞嵌入"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "C. 詞嵌入（Word Embedding）—FastText 原理與 OOV 示例"
+          },
+          "card": {
+            "concept": "FastText 以 n-gram 子詞學習詞向量，即使完整詞未出現在訓練語料，也能由子詞向量組合出表示。",
+            "mnemonic": "整詞不見沒關係，拆成子詞再相加；FastText 專解 OOV。",
+            "confusion": "不要把 Word2Vec 的 CBOW／Skip-gram 上下文預測能力誤當成 OOV 詞生成機制；FastText 的關鍵是子詞表示。"
+          }
+        },
+        {
+          "id": "mid-s1c1q013_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "下列關於分布式詞嵌入與語境型詞嵌入的敘述，何者不正確？",
+          "options": {
+            "A": "Word2Vec、GloVe 與 FastText 都會依據詞語每次出現的上下文，動態產生不同向量，因此能有效區分「bank」的金融機構與河岸意義",
+            "B": "分布式詞嵌入能將語意相近的詞映射到向量空間中相近的位置，且向量可進行如「king-man+woman ≈ queen」的語意運算",
+            "C": "CBOW 是利用周圍詞彙預測中心詞；Skip-gram 則是利用中心詞預測周圍的上下文詞彙",
+            "D": "語境型詞嵌入的向量會隨上下文變化，較能處理多義詞與語意歧義，常見技術包括 ELMo、BERT 與 GPT"
+          },
+          "answer": "A",
+          "explanation": "A 不正確。Word2Vec、GloVe 與 FastText 屬於靜態詞嵌入，同一詞通常具有固定向量，無法依語境有效區分「bank」的不同意義。B、C、D 分別符合分布式詞嵌入的向量特性、Word2Vec 兩種架構，以及語境型詞嵌入的定義。",
+          "difficulty": "易",
+          "type": "否定型",
+          "tags": [
+            "分布式詞嵌入",
+            "靜態詞向量",
+            "語境型詞嵌入",
+            "Word2Vec",
+            "GloVe",
+            "FastText",
+            "多義詞"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "C. 詞嵌入（Word Embedding）—靜態詞向量限制與語境型詞嵌入"
+          },
+          "card": {
+            "concept": "Word2Vec、GloVe、FastText 是靜態詞嵌入；語境型詞嵌入則會隨上下文動態改變向量。",
+            "mnemonic": "靜態三模型：一詞一向量；語境型模型：看句子再決定向量。",
+            "confusion": "FastText 能改善 OOV 與低頻詞表示，但仍屬靜態詞嵌入，不能因此誤認為它能處理同詞異義。"
+          }
+        },
+        {
+          "id": "mid-s1c1q014_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "某團隊比較 ELMo、BERT 與 GPT 的技術特性，整理出甲、乙、丙三種模型描述：甲以 BiLSTM 為基礎，將句子的語法與語意結構納入詞向量；乙採用雙向 Transformer 編碼器，透過遮蔽語言模型與句子關聯預測進行預訓練；丙以單向 Transformer 的自迴歸預測為核心，適合搭配提示詞進行文字生成。下列哪一項模型配對正確？",
+          "options": {
+            "A": "甲為 BERT，乙為 ELMo，丙為 GPT",
+            "B": "甲為 ELMo，乙為 BERT，丙為 GPT",
+            "C": "甲為 ELMo，乙為 GPT，丙為 BERT",
+            "D": "甲為 GPT，乙為 BERT，丙為 ELMo"
+          },
+          "answer": "B",
+          "explanation": "ELMo 基於雙向 LSTM，會根據詞所在句子的語法與語意結構產生語境敏感的詞向量；BERT 採用雙向 Transformer 編碼器，並以遮蔽語言模型與句子關聯預測作為預訓練任務；GPT 則以單向 Transformer 的自迴歸預測為核心，適合文字生成、對話生成與續寫。",
+          "difficulty": "中",
+          "type": "比較分析型",
+          "tags": [
+            "詞嵌入",
+            "ELMo",
+            "BERT",
+            "GPT",
+            "語境型模型",
+            "模型比較"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "C. 詞嵌入（Word Embedding）（第 3 段）—ELMo、BERT、GPT 的技術基礎、特點與應用"
+          },
+          "card": {
+            "concept": "ELMo 以 BiLSTM 產生語境詞向量；BERT 以雙向 Transformer 理解上下文；GPT 以單向 Transformer 自迴歸生成文字。",
+            "mnemonic": "ELMo 看句意、BERT 看雙向、GPT 接著寫。",
+            "confusion": "不要將 ELMo 的 BiLSTM、BERT 的雙向 Transformer 與 GPT 的單向自迴歸 Transformer 混淆；GPT 的核心偏向生成與續寫，而 BERT 偏向上下文理解。"
+          }
+        },
+        {
+          "id": "mid-s1c1q015_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "假設只比較必須依序完成的處理步驟，忽略各步驟的運算量差異。一段輸入序列包含 12 個 token，RNN 需逐一處理每個 token，而 Transformer 的 Self-Attention 可將整段序列視為 1 個平行處理輪次。相較於 RNN，Transformer 必須依序完成的步驟數約減少多少比例？",
+          "options": {
+            "A": "8.3%",
+            "B": "50.0%",
+            "C": "91.7%",
+            "D": "1200.0%"
+          },
+          "answer": "C",
+          "explanation": "RNN 需要依序完成 12 個時間步驟，Transformer 在題設下只需 1 個平行處理輪次，因此步驟數減少 12−1=11 個；減少比例為 11/12≈91.7%。這反映 Transformer 的全平行架構相較於 RNN 更適合利用 GPU 或 TPU 加速。",
+          "difficulty": "中",
+          "type": "計算判讀型",
+          "tags": [
+            "Transformer",
+            "Self-Attention",
+            "全平行架構",
+            "RNN",
+            "計算效率"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "（2）深度學習在 NLP 中的應用（第 1 段）—Transformer 的全平行架構與 RNN 逐步處理的差異"
+          },
+          "card": {
+            "concept": "RNN 需依時間步驟逐一處理序列；Transformer 透過 Self-Attention 同時處理整段輸入，能進行平行計算。",
+            "mnemonic": "RNN 逐步走，Transformer 一起看。",
+            "confusion": "題目計算的是必須依序完成的處理步驟數，不是所有詞與詞之間的注意力關聯數；後者還需考慮詞與詞的配對數量。"
+          }
+        },
+        {
+          "id": "mid-s1c1q016_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "在機器翻譯或摘要生成等序列轉換任務中，關於 Transformer 所承襲的 Encoder-Decoder 架構，下列何者正確？",
+          "options": {
+            "A": "Encoder 逐步產生目標文字，Decoder 將輸入序列轉換為抽象語意向量",
+            "B": "Encoder 與 Decoder 分別獨立處理兩組輸入，兩者不需要傳遞語意表示",
+            "C": "Encoder 將輸入轉換為語意向量後，Decoder 只負責計算詞與詞的關聯，不負責產生文字",
+            "D": "Encoder 將輸入序列轉換為抽象語意向量，Decoder 接收該語意向量並逐步產生目標語言或文字"
+          },
+          "answer": "D",
+          "explanation": "Encoder 的職責是將輸入序列轉換為抽象的語意向量或語境表示；Decoder 接收 Encoder 的輸出，逐步產生目標語言或文字，因此 D 正確。A 顛倒了兩個模組的主要職責；B 錯在忽略 Encoder 與 Decoder 間的語意表示傳遞；C 正確描述了 Encoder 的部分功能，但錯誤地排除 Decoder 的文字生成職責。",
+          "difficulty": "難",
+          "type": "概念定義型",
+          "tags": [
+            "Transformer",
+            "Encoder-Decoder",
+            "Seq2Seq",
+            "機器翻譯",
+            "摘要生成"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "（2）深度學習在 NLP 中的應用（第 1 段）—Encoder-Decoder 架構、語意向量與序列轉換任務"
+          },
+          "card": {
+            "concept": "Encoder 負責將輸入序列轉成抽象語意向量；Decoder 接收該表示並逐步產生目標語言或文字，適合機器翻譯、摘要與文字改寫。",
+            "mnemonic": "Encoder 先編碼語意，Decoder 再解碼生成。",
+            "confusion": "不要把 Encoder 與 Decoder 的角色對調，也不要將 Decoder 限縮為注意力計算模組；在 Seq2Seq 任務中，Decoder 的核心職責是依據 Encoder 表示逐步產生輸出。"
+          }
+        },
+        {
+          "id": "mid-s1c1q017_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "某企業收到大量尚未標註類別的客服郵件，希望先分為「帳號登入」、「付款問題」與「產品諮詢」三類，且目前沒有可用的標註示例，團隊希望快速部署。使用大型語言模型時，下列哪一種方案最符合本節所述做法？",
+          "options": {
+            "A": "在 Prompt 中直接說明分類任務、候選類別與判斷要求，不提供任務示例，讓模型直接輸出分類結果",
+            "B": "先提供少量已標註客服郵件作為示例，再將新郵件交由模型分類",
+            "C": "直接以未標註郵件進行監督式微調，使模型學習三種類別",
+            "D": "不提供分類指令，只讓模型依序自迴歸生成客服郵件內容"
+          },
+          "answer": "A",
+          "explanation": "題目沒有任何標註示例，適合採用 Zero-shot Learning，以 Prompt 指定任務與候選類別，利用模型既有的語言理解能力完成分類。B 屬於 Few-shot Learning，C 需要標註資料，D 未將生成模型轉換為分類任務。",
+          "difficulty": "中",
+          "type": "情境應用型",
+          "tags": [
+            "預訓練語言模型",
+            "Prompt-based Learning",
+            "Zero-shot Learning",
+            "客服分類"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "（3）預訓練語言模型（第 1 段）—Prompt-based 方法、少樣本學習與零樣本學習"
+          },
+          "card": {
+            "concept": "Zero-shot Learning 是在沒有任何任務示例的情況下，透過 Prompt 指示模型直接完成新任務。",
+            "mnemonic": "零樣本：無例也能做，先下 Prompt 再分類。",
+            "confusion": "不要將 Zero-shot 與 Few-shot 混淆；Few-shot 需要提供少量已標註示例，Zero-shot 則完全不提供任務示例。"
+          }
+        },
+        {
+          "id": "mid-s1c1q018_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "下列關於預訓練語言模型與其應用的敘述，何者不正確？",
+          "options": {
+            "A": "預訓練階段可利用大規模語料學習通用的語法、語意與邏輯結構，再針對特定應用進行微調",
+            "B": "採用預訓練策略後，模型無法轉移至文本分類、摘要或問答等任務，每項任務都必須從零開始訓練",
+            "C": "預訓練語言模型通常具有高可轉移性與泛用性，但訓練需要大量計算資源",
+            "D": "預訓練語言模型可應用於多種自然語言處理任務，包括文本分類、語句生成、摘要與問答"
+          },
+          "answer": "B",
+          "explanation": "預訓練再微調的核心就是先取得通用語言能力，再將模型轉移至不同的特定任務，因此不必每項任務都從零開始訓練。",
+          "difficulty": "易",
+          "type": "否定型",
+          "tags": [
+            "預訓練語言模型",
+            "預訓練再微調",
+            "可轉移性",
+            "自然語言處理任務"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "（3）預訓練語言模型（第 1 段）—預訓練再微調策略、模型泛用性與應用"
+          },
+          "card": {
+            "concept": "預訓練再微調是先從大規模語料學習通用能力，再將模型適應到特定 NLP 任務。",
+            "mnemonic": "先通用、後專用：Pre-train → Fine-tune。",
+            "confusion": "預訓練模型的價值在於能力可轉移，不是每個分類、摘要或問答任務都重新從零訓練。"
+          }
+        },
+        {
+          "id": "mid-s1c1q019_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "某企業評估兩種客服對話系統：甲系統處理查詢訂單、退款申請等固定服務流程；乙系統讓使用者自由詢問產品並進行延伸討論。若比較兩者的任務目標、語境挑戰與實務治理需求，下列何者正確？",
+          "options": {
+            "A": "甲系統主要面臨長期開放式對話的一致性問題；乙系統只需依固定指令填入服務欄位即可完成任務",
+            "B": "兩種系統都只適合處理明確且固定的指令，主要差異在於回覆速度與使用介面",
+            "C": "甲系統適合處理明確任務與指令；乙系統較具對話彈性，但需面對語境理解及長期一致性挑戰，實務上宜搭配監控與人工輔助",
+            "D": "乙系統雖可進行自由對話，但因能自行維持所有語境，因此不需要監控或人工介入"
+          },
+          "answer": "C",
+          "explanation": "任務導向對話系統用於訂票、訂位、查詢等目標明確的服務，通常透過簡單指令處理需求；開放式對話系統能進行較自由、多樣的交流，但在語境理解與維持長期對話一致性方面仍有挑戰，因此實務上需要結合監控與人工輔助。A、B混淆兩類系統的特性，D錯誤地忽略開放式對話的治理需求。",
+          "difficulty": "中",
+          "type": "比較分析型",
+          "tags": [
+            "對話系統",
+            "任務導向對話",
+            "開放式對話",
+            "Chatbot",
+            "實務治理"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "5. NLP 應用情境與實務案例／對話系統（Chatbot）—任務導向對話系統與開放式對話系統的比較"
+          },
+          "card": {
+            "concept": "任務導向對話系統服務明確目標；開放式對話系統提供彈性交流，但較需處理語境理解、長期一致性與人工治理。",
+            "mnemonic": "任務導向有目標，開放式重語境；越自由，越要監控。",
+            "confusion": "不要因開放式系統能回答多種問題，就誤以為它不需要監控；講義特別指出其長期對話一致性仍具挑戰。"
+          }
+        },
+        {
+          "id": "mid-s1c1q020_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "某電商平台一週匯入2,400則文字資料。文字分類模組先判定其中10%為非商品評論，不納入後續情感分析；其餘資料經情感分析後，正面佔1/2、負面佔3/8、中立為其餘部分。企業規定所有負面評論，以及中立評論中的2/5，均送客服人工確認。請問送客服確認的資料共有多少則，占原始資料的比例為何？",
+          "options": {
+            "A": "810則，占33.75%",
+            "B": "918則，占42.5%",
+            "C": "1,026則，占42.75%",
+            "D": "918則，占38.25%"
+          },
+          "answer": "D",
+          "explanation": "先扣除非商品評論：2,400×90%=2,160則。正面為2,160×1/2=1,080則，負面為2,160×3/8=810則，因此中立為2,160−1,080−810=270則。送客服的中立評論為270×2/5=108則，加上810則負面評論，共918則；占原始資料比例為918÷2,400=38.25%，所以答案為D。A只計算負面評論；B以情感分析後的資料作分母；C的中立評論計算錯誤。",
+          "difficulty": "難",
+          "type": "計算判讀型",
+          "tags": [
+            "文字分類",
+            "情感分析",
+            "商品評論",
+            "客服分流",
+            "比例計算"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "5. NLP 應用情境與實務案例／文字分類（Text Classification）與情感分析（Sentiment Analysis）—評論分類、情緒判斷及客服處理"
+          },
+          "card": {
+            "concept": "文字分類可先依任務或資料性質分流，情感分析再將文本判定為正面、負面或中立，並可依企業規則觸發客服處理。",
+            "mnemonic": "先分流、再判情緒；負面全送，中立依規則抽送。",
+            "confusion": "計算時要區分原始資料與完成前置分類後的分母；中立數量是扣除正面與負面後的餘數，不能直接以原始總量計算。"
+          }
+        },
+        {
+          "id": "mid-s1c1q021_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "下列關於去識別化（De-identification）與匿名化（Anonymization）的敘述，何者正確？",
+          "options": {
+            "A": "去識別化可遮蔽或替換直接識別資訊，但資料仍可能透過代碼重新連結個體；匿名化則應徹底移除或破壞與特定個體的連結",
+            "B": "去識別化要求所有識別資訊永久刪除，匿名化則可保留對應代碼以便日後還原",
+            "C": "去識別化與匿名化的差異僅在於資料處理工具不同，兩者都必須保留重新辨識個體的能力",
+            "D": "只要將姓名替換為亂數代碼，就已完成匿名化，因此不必再評估資料是否可能被重新識別"
+          },
+          "answer": "A",
+          "explanation": "去識別化是遮蔽或替換可直接辨識個體的資訊，仍可能透過代碼或其他對應關係重新辨識；匿名化則是徹底移除或破壞資料與特定個體的連結。B、C、D均混淆兩者的隱私保護強度或定義。",
+          "difficulty": "中",
+          "type": "概念定義型",
+          "tags": [
+            "資料隱私",
+            "去識別化",
+            "匿名化",
+            "資料層風險"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "6. NLP 技術挑戰與風險（第 1 段）—資料去識別化與匿名化技術補充說明"
+          },
+          "card": {
+            "concept": "去識別化保留潛在重新連結可能；匿名化則使資料無法再與特定個體連結。",
+            "mnemonic": "去識別化是「遮蔽仍可能找回」；匿名化是「脫鉤不能找回」。",
+            "confusion": "代碼替換、資料遮罩通常屬去識別化，不代表已達到匿名化的不可連結程度。"
+          }
+        },
+        {
+          "id": "mid-s1c1q022_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "某客服企業建置命名實體辨識（NER）模型時，發現同一類型的人名與地名在訓練資料中常被不同標註者標記成不同類別；此外，語料主要來自單一地區的正式中文，模型在其他語言風格與地方用語上的表現明顯較差。下列哪一項處理方案最能降低此類資料層風險？",
+          "options": {
+            "A": "刪除所有標註不一致及非正式用語樣本，只保留單一地區的正式中文資料，以提高訓練資料整齊度",
+            "B": "建立標註規範並進行多重標註與審查驗證，同時檢查資料來源代表性，透過資料增強補足不同語境與語言風格",
+            "C": "直接增加模型層數與訓練回合，使模型自行學習不同標註者的判斷差異與少數語言的特徵",
+            "D": "先將所有人名與地名匿名化，再以現有語料訓練模型；只要完成隱私保護即可解決標註一致性與資料偏見問題"
+          },
+          "answer": "B",
+          "explanation": "此情境同時涉及標註不一致與資料代表性不足。應先建立一致的標註規範，透過多重標註、審查與驗證降低標註偏誤，再檢查資料來源分布並以資料增強補足不同語境。A會加深資料偏斜，C無法修正錯誤訓練訊號，D只處理隱私而未處理品質與偏見。",
+          "difficulty": "難",
+          "type": "情境應用型",
+          "tags": [
+            "標註與品質風險",
+            "資料偏見",
+            "資料代表性",
+            "命名實體辨識"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "6. NLP 技術挑戰與風險（第 1 段）—標註與品質風險"
+          },
+          "card": {
+            "concept": "標註錯誤或不一致會使模型學到矛盾訊號；資料來源偏狹則可能造成偏見與泛化能力不足。",
+            "mnemonic": "先校標註、再補代表性：多重審查＋資料增強。",
+            "confusion": "增加模型規模不能取代資料品質治理；匿名化只能降低隱私風險，無法修正標註偏誤或樣本偏斜。"
+          }
+        },
+        {
+          "id": "mid-s1c1q023_codex100",
+          "chapter_id": "mid-s1c1",
+          "chapter_title": "自然語言處理技術與應用",
+          "question": "針對生成式 NLP 模型可能產生不實、有害或偏見內容的風險，下列何者並非講義所述的適當處理機制？",
+          "options": {
+            "A": "加入事實檢查機制，確認生成文本符合真實性與準確性要求",
+            "B": "在醫療、法律等高風險領域安排人工審核，以確保生成內容品質",
+            "C": "僅建立模型版本控制與計算資源配置流程，即可取代生成內容的事實檢查與人工審核",
+            "D": "提供使用者回饋機制以快速修正問題，並加入使用前風險預告聲明"
+          },
+          "answer": "C",
+          "explanation": "版本控制與資源配置主要屬於部署與維運的處理機制，不能取代生成內容風險所需的事實檢查、人工審核與使用者風險告知。",
+          "difficulty": "易",
+          "type": "否定型",
+          "tags": [
+            "NLP技術挑戰",
+            "生成內容風險",
+            "事實檢查",
+            "人工審核"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c1",
+            "basis": "6. NLP技術挑戰與風險（第 2 段）：生成內容風險與處理機制"
+          },
+          "card": {
+            "concept": "生成式 NLP 模型可能產生幻覺、偏見或有害內容，應透過事實檢查、人工審核、回饋修正與風險聲明降低風險。",
+            "mnemonic": "生成有風險：查事實、人工審、收回饋、先告知",
+            "confusion": "版本控制、資源優化與容錯機制主要處理部署與維運風險，不能取代生成內容審查。"
+          }
         }
       ]
     },
@@ -97,87 +768,237 @@
       "title": "電腦視覺技術與應用",
       "questions": [
         {
-          "question": "下列關於「實例分割（Instance Segmentation）」的描述，何者正確？",
+          "id": "mid-s1c2q001_codex100",
+          "chapter_id": "mid-s1c2",
+          "chapter_title": "電腦視覺技術與應用",
+          "question": "某企業回顧電腦視覺技術的發展，欲比較 2012 年 AlexNet 在 ImageNet 比賽取得突破前後的主要差異。下列哪一項敘述最為正確？",
           "options": {
-            "A": "將影像中每一個像素標註為對應的語意類別，例如將所有車輛像素統一標為「車輛」類別，無需區分個別車輛。",
-            "B": "在語意標註的基礎上，進一步區分同一類別中的不同個體，例如將影像中兩台車分別獨立標註。",
-            "C": "僅偵測影像中物件是否存在，並以邊界框（Bounding Box）標示其位置，不涉及像素層級的標註。",
-            "D": "利用生成模型對影像進行風格轉換與合成，屬於生成式AI 的應用範疇，與分割任務無關。"
+            "A": "2012 年前電腦視覺主要依賴深度學習自動學習特徵；AlexNet 出現後則改以人工設計特徵為主。",
+            "B": "2012 年後電腦視覺的重點僅限於靜態影像分類，已不再拓展至自動駕駛或智慧醫療等應用。",
+            "C": "AlexNet 的突破使電腦視覺不再需要影像處理與模式辨識，因為所有任務都可直接轉換為文字處理。",
+            "D": "2012 年前電腦視覺較著重影像處理、模式辨識等跨領域方法的整合；AlexNet 在 ImageNet 顯著提升分類準確度後，促成深度學習主導的快速發展並擴大應用範圍。"
+          },
+          "answer": "D",
+          "explanation": "電腦視覺本身是整合影像處理、模式辨識、機器學習與深度學習的跨領域技術。2012 年 AlexNet 在 ImageNet 比賽中大幅提升圖像分類準確度，成為深度學習電腦視覺快速發展的重要轉折，並推動其應用至自動駕駛、智慧醫療及安防監控等領域。",
+          "difficulty": "中",
+          "type": "比較分析型",
+          "tags": [
+            "電腦視覺",
+            "發展脈絡",
+            "AlexNet",
+            "ImageNet",
+            "深度學習"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c2",
+            "basis": "2. CV 基礎概念與發展脈絡／（1）定義與範疇：電腦視覺的跨領域整合、1960年代起源，以及2012年AlexNet在ImageNet帶動深度學習與應用擴張。"
+          },
+          "card": {
+            "concept": "2012 年 AlexNet 在 ImageNet 顯著提升圖像分類準確度，是電腦視覺進入深度學習高速發展期的重要轉折。",
+            "mnemonic": "前期重整合，2012 深度學習起飛，後期應用大擴張。",
+            "confusion": "AlexNet 並未取代影像處理與模式辨識；電腦視覺仍是多種技術交叉整合的領域。"
+          }
+        },
+        {
+          "id": "mid-s1c2q002_codex100",
+          "chapter_id": "mid-s1c2",
+          "chapter_title": "電腦視覺技術與應用",
+          "question": "某研究員把下列 10 個名詞依講義內容歸入三個技術階段：Canny、SIFT、ORB、SVM、KNN、AlexNet、ResNet、CLIP、ViT、SAM。若每個名詞只計一次，屬於「早期時期：特徵工程主導」的名詞占全部名詞的比例為何？",
+          "options": {
+            "A": "50%",
+            "B": "20%",
+            "C": "30%",
+            "D": "80%"
+          },
+          "answer": "A",
+          "explanation": "早期特徵工程主導時期包含 Canny、SIFT、ORB，以及搭配手工特徵進行分類的 SVM、KNN，共 5 個名詞；全部共有 10 個，因此比例為 5 ÷ 10 = 50%。AlexNet、ResNet 屬於 CNN 深度學習階段；CLIP、ViT、SAM 屬於多模態與現代視覺模型階段。",
+          "difficulty": "中",
+          "type": "計算判讀型",
+          "tags": [
+            "技術演進",
+            "特徵工程",
+            "CNN",
+            "多模態",
+            "比例計算"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c2",
+            "basis": "（2）技術演進脈絡：早期時期的 Canny、SIFT、ORB、SVM、KNN；深度學習興起階段的 AlexNet、ResNet；多模態與生成式 AI 融合階段的 CLIP、ViT、SAM。"
+          },
+          "card": {
+            "concept": "早期電腦視覺依賴人工設計特徵，再搭配 SVM、KNN 等傳統分類器；CNN 階段改為自動學習特徵，現代階段進一步融合多模態與生成能力。",
+            "mnemonic": "手工特徵先分類，CNN 自動學，現代跨模態。",
+            "confusion": "SVM、KNN 雖是機器學習分類器，但在本節列為搭配手工特徵的早期方法；ResNet 則屬於 CNN 深度學習架構，不應歸入傳統特徵工程階段。"
+          }
+        },
+        {
+          "id": "mid-s1c2q003_codex100",
+          "chapter_id": "mid-s1c2",
+          "chapter_title": "電腦視覺技術與應用",
+          "question": "關於影像標註中的自動化標註（Auto-labeling），下列何者最符合其概念定義？",
+          "options": {
+            "A": "利用少量已標註資料與大量未標註資料共同訓練模型，以改善資料不足問題",
+            "B": "根據既有標註資料建立的模型自動產生標註結果，再由人工校對並修正錯誤，以降低人力成本並提升效率",
+            "C": "由模型主動挑選最具挑戰性的樣本，交由人工優先完成標註，以提升標註資料的價值",
+            "D": "制定統一的標註規則，使不同標註者對物件邊界與像素範圍採用一致標準"
           },
           "answer": "B",
-          "explanation": "實例分割（Instance Segmentation）除了對每個像素進行語意類別標註之外，還能區分同一類別中的不同個體，例如影像中的兩台車會被分別標註為獨立實體。選項A 描述的是語意分割（Semantic Segmentation），不區分個別實體。選項C 描述的是物件偵測（Object Detection），只輸出邊界框而非像素遮罩。選項D 與生成式AI 混淆，實例分割屬於辨識任務而非生成任務。",
-          "card": {
-            "concept": "實例分割 = 語意分割 + 個體區分；每個物件實體有獨立的像素遮罩，常用於自駕車多目標辨識與精密製造檢測。",
-            "mnemonic": "「語意」看類別、「實例」認個體——同是車，語意合一、實例分家。",
-            "confusion": "最常與語意分割混淆：語意分割將同類像素統一標註，實例分割則為每個個別物件給予獨立遮罩；另常與物件偵測混淆，後者只輸出邊界框，不做像素層級標註。"
-          },
-          "difficulty": "中",
+          "explanation": "自動化標註是利用已標註資料與模型，自動預測新的標註結果，再由人工進行校對與修正。A 是半監督式學習，C 是主動學習，D 是標註準則與一致性管理。",
+          "difficulty": "難",
           "type": "概念定義型",
           "tags": [
-            "電腦視覺",
-            "影像分割",
-            "實例分割",
-            "語意分割"
+            "影像標註",
+            "自動化標註",
+            "Auto-labeling",
+            "標註效率"
           ],
-          "id": "mid-s1c2q1_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
-        },
-        {
-          "question": "下列電腦視覺技術發展脈絡，何者最符合一般演進順序？\n①多模態與生成式AI 融合（CLIP、ViT、Stable Diffusion）\n②深度學習CNN 革命（AlexNet 於 ImageNet 競賽奪冠）\n③特徵工程主導時期（SIFT、SVM、邊緣偵測）",
-          "options": {
-            "A": "①②③",
-            "B": "③②①",
-            "C": "②③①",
-            "D": "③①②"
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c2",
+            "basis": "小節「（1）影像標註（Image Annotation）」中對自動化標註技術的說明：根據已標註資料利用模型自動標註，再由人工校對和修正錯誤。"
           },
-          "answer": "B",
-          "explanation": "電腦視覺技術演進依序為：③ 早期特徵工程時期（以 SIFT、SVM 等手工特徵為主）→ ② 深度學習 CNN 革命（以 AlexNet 在 ImageNet 競賽奪冠為重要分水嶺）→ ① 多模態與生成式 AI 融合（以 CLIP、ViT、Stable Diffusion 為代表的跨模態整合時代）。選項 C 與 D 均將 CNN 革命或多模態階段的順序前後對調，與實際歷史脈絡不符。",
           "card": {
-            "concept": "電腦視覺演進三階段：特徵工程 → CNN 深度學習 → 多模態生成式AI；AlexNet 奪下 ImageNet 冠軍是第一個重要分水嶺，CLIP/ViT/Stable Diffusion 代表進入跨模態整合時代。",
-            "mnemonic": "「手工→自動→融合」：先用手（特徵工程），再交機器（CNN），最後看圖說話（多模態）。",
-            "confusion": "常混淆 CNN 革命與多模態融合兩個階段的先後；CLIP 和 ViT 均屬多模態整合階段，而非 CNN 時期的技術。"
-          },
-          "difficulty": "易",
-          "type": "流程步驟型",
-          "tags": [
-            "電腦視覺",
-            "技術演進",
-            "CNN",
-            "AlexNet",
-            "多模態"
-          ],
-          "id": "mid-s1c2q2_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
+            "concept": "自動化標註以既有標註資料訓練或使用模型，先自動產生標註，再由人工校正。",
+            "mnemonic": "模型先標，人工後校。",
+            "confusion": "半監督式學習結合少量標註與大量未標註資料；主動學習由模型挑選具挑戰性的樣本；標註準則則是規範人工標註的一致性。"
+          }
         },
         {
-          "question": "某智慧製造廠商希望在產線上即時偵測多個工件的瑕疵位置，並精確標記每個工件的受損輪廓以利後續自動分揀，下列哪種電腦視覺做法最為適切？",
+          "id": "mid-s1c2q004_codex100",
+          "chapter_id": "mid-s1c2",
+          "chapter_title": "電腦視覺技術與應用",
+          "question": "某工廠建立瑕疵影像訓練資料集，為降低人工標註錯誤及不同標註者間的不一致，下列哪一項品質控制作法最為適當？",
           "options": {
-            "A": "採用影像分類（Image Classification）模型，對每張工件影像輸出「良品／瑕疵品」二元標籤，快速篩選異常品。",
-            "B": "採用物件偵測（Object Detection）模型（如 YOLO），以邊界框標示瑕疵區域，提供位置資訊供機械臂參考。",
-            "C": "採用實例分割（Instance Segmentation）模型，對每個工件的瑕疵區域產生獨立像素遮罩，同時區分不同瑕疵個體。",
-            "D": "採用語意分割（Semantic Segmentation）模型，將影像中所有瑕疵像素統一標註為同一類別，取得瑕疵區域的整體分布。"
+            "A": "等所有影像完成標註後，再由原標註者一次性檢查，不需進行定期審查",
+            "B": "先對影像進行翻轉、旋轉等資料擴增，將擴增後的影像數量作為標註品質的判定依據",
+            "C": "每完成10張圖片標註後進行一次品質檢查，並由兩位標註者對部分相同影像進行雙重標註，以核對結果的一致性",
+            "D": "將所有影像的像素值正規化為0至1後，直接視為已完成標註品質確認"
           },
           "answer": "C",
-          "explanation": "題目要求「精確標記每個工件的受損輪廓」且需區分多個個體，符合實例分割的核心功能：在像素層級對每個獨立個體輸出遮罩，常見應用正是精密製造檢測。選項A 的影像分類只給整張圖的類別標籤，無法定位瑕疵位置。選項B 的物件偵測雖然能定位，但邊界框精度不足以描繪受損輪廓。選項D 的語意分割雖可標註像素輪廓，但無法區分影像中不同工件各自的瑕疵個體，當多個工件同時出現時將無法分別追蹤，不符合自動分揀需求。",
-          "card": {
-            "concept": "當任務需要「定位 + 像素精確輪廓 + 多個體區分」時，實例分割是最適合的電腦視覺技術，常用於自駕、AR 與精密製造。",
-            "mnemonic": "分揀要「認人認形」——邊界框只認人（偵測），輪廓遮罩才認形（分割），還要分家才能各自追蹤（實例）。",
-            "confusion": "語意分割與實例分割均可輸出像素遮罩，但語意分割將同類像素合併標註、無法區分個體；實例分割為每個個別物件給予獨立遮罩，題目強調「多個工件分別追蹤」即為選實例分割的關鍵提示。"
-          },
+          "explanation": "講義指出，為避免標註錯誤或不一致，應定期審查標註結果並建立品質控制機制，例如每標註10張圖片後進行一次品質檢查；也可採用雙重標註，由兩位標註者對同一圖像進行標註，以確保準確性。資料擴增與像素正規化屬於影像資料前處理，不能取代標註品質審查。",
           "difficulty": "中",
-          "type": "應用情境型",
+          "type": "情境應用型",
+          "tags": [
+            "影像標註",
+            "品質控制",
+            "雙重標註",
+            "資料一致性"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c2",
+            "basis": "（1）影像標註（Image Annotation）／品質控制：定期審查標註結果，例如每10張圖片標註後進行品質檢查；並可由兩位標註者對同一圖像進行雙重標註，以確保準確性。"
+          },
+          "card": {
+            "concept": "影像標註品質控制結合定期審查與雙重標註，以降低錯誤及標註不一致。",
+            "mnemonic": "十張一檢、兩人交叉標。",
+            "confusion": "資料擴增與像素正規化是影像前處理技術，不能直接驗證標註是否正確；雙重標註則是由兩位標註者處理同一圖像以確認準確性。"
+          }
+        },
+        {
+          "id": "mid-s1c2q005_codex100",
+          "chapter_id": "mid-s1c2",
+          "chapter_title": "電腦視覺技術與應用",
+          "question": "下列關於影像分割模型與 IOU 指標的敘述，何者不正確？",
+          "options": {
+            "A": "FCN 可透過上採樣將低解析度特徵圖還原至接近原始影像大小，以進行像素級分類。",
+            "B": "U-Net 採用編碼器與解碼器的對稱結構，並利用跳躍連接恢復影像細節，適合醫療影像分割。",
+            "C": "Mask R-CNN 在 Faster R-CNN 的基礎上加入遮罩預測分支，可為各物體產生二進制遮罩以進行實例分割。",
+            "D": "IOU 越接近 0，代表預測分割區域與真實標籤區域的重疊程度越高，分割結果越準確。"
+          },
+          "answer": "D",
+          "explanation": "D 不正確。IOU 為預測區域與真實區域交集面積除以聯集面積，數值範圍為 0 到 1；越接近 1，表示兩者重疊程度越高、分割結果越準確。A、B、C 分別符合 FCN、U-Net 與 Mask R-CNN 的功能描述。",
+          "difficulty": "易",
+          "type": "否定型",
+          "tags": [
+            "影像分割",
+            "FCN",
+            "U-Net",
+            "Mask R-CNN",
+            "IOU"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c2",
+            "basis": "（3）影像分割（Image Segmentation）"
+          },
+          "card": {
+            "concept": "IOU 以預測區域與真實區域的交集除以聯集，數值越接近 1 代表重疊越高、分割越準確。",
+            "mnemonic": "IOU 看重疊：交集 ÷ 聯集，越接近一越相像。",
+            "confusion": "不要把 IOU 越接近 0 誤認為越準確；0 代表預測區域與真實區域幾乎沒有重疊。"
+          }
+        },
+        {
+          "id": "mid-s1c2q006_codex100",
+          "chapter_id": "mid-s1c2",
+          "chapter_title": "電腦視覺技術與應用",
+          "question": "某智慧工廠與零售連鎖分別規劃導入電腦視覺系統：甲系統檢查生產線產品的表面瑕疵，發現問題時立即通知操作員調整生產線；乙系統分析顧客在店內的移動路徑與停留時間，以改善店鋪布局。下列哪一項比較最為適切？",
+          "options": {
+            "A": "甲適合採用邊緣運算搭配即時回饋；乙適合進行顧客行為追蹤並產生熱點圖",
+            "B": "甲適合產生顧客移動熱點圖；乙適合採用邊緣運算即時回饋生產線瑕疵",
+            "C": "甲適合採用車牌區域檢測與字符辨識；乙適合採用人臉特徵擷取與比對",
+            "D": "甲適合採用車道線偵測與多模態融合；乙適合追蹤實體物體並疊加虛擬資訊"
+          },
+          "answer": "A",
+          "explanation": "甲屬於工業瑕疵偵測，若結合靠近資料來源的邊緣運算，可降低延遲；偵測到瑕疵後再透過即時回饋協助操作員快速調整生產線。乙屬於顧客行為追蹤，可依移動路徑與停留時間產生熱點圖，以優化店鋪布局。B 將兩種應用情境對調；C 是監控與安全中的車牌及人臉辨識流程；D 分別屬於自動駕駛及 AR 應用，均不符合題述情境。",
+          "difficulty": "中",
+          "type": "比較分析型",
+          "tags": [
+            "CV應用",
+            "工業瑕疵偵測",
+            "邊緣運算",
+            "即時回饋",
+            "顧客行為追蹤",
+            "熱點圖"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c2",
+            "basis": "（3）智慧製造與零售：工業瑕疵偵測、邊緣運算與即時回饋機制、顧客行為追蹤／熱點圖"
+          },
+          "card": {
+            "concept": "工業瑕疵偵測重視靠近資料源的快速處理與即時回饋；零售顧客行為追蹤則可利用移動路徑與停留時間產生熱點圖，支援店鋪布局優化。",
+            "mnemonic": "「產線要快回饋，零售看熱點」",
+            "confusion": "邊緣運算與即時回饋主要對應製造現場的低延遲需求；熱點圖則是顧客行為分析的結果，不是瑕疵檢測或監控辨識流程。"
+          }
+        },
+        {
+          "id": "mid-s1c2q007_codex100",
+          "chapter_id": "mid-s1c2",
+          "chapter_title": "電腦視覺技術與應用",
+          "question": "某電腦視覺醫療影像篩檢模型對甲、乙兩族群進行偏見診斷。兩族群各有400筆資料，其中實際陽性各100筆、實際陰性各300筆，模型結果如下：甲族群 TP=90、FN=10、FP=15、TN=285；乙族群 TP=72、FN=28、FP=8、TN=292。若以「召回率=TP/(TP+FN)」及「精確率=TP/(TP+FP)」判讀，下列何者最適當？",
+          "options": {
+            "A": "甲族群召回率為90%、精確率約85.7%；乙族群召回率為72%、精確率為90%，因此乙族群整體較可靠，不需要進一步進行偏見診斷。",
+            "B": "甲族群召回率為90%、精確率約85.7%；乙族群召回率為72%、精確率為90%。乙族群漏檢較多，應進一步進行偏見診斷，並考慮資料平衡或重加權等改善措施。",
+            "C": "甲族群準確率為93.75%、乙族群準確率為91%，兩者差距不到3個百分點，因此模型不存在族群偏見問題。",
+            "D": "乙族群漏檢率為8%，且其誤檢較少，故可直接推論乙族群的AUC一定高於甲族群，無須比較其他可靠度指標。"
+          },
+          "answer": "B",
+          "explanation": "甲族群召回率為90/(90+10)=90%，精確率為90/(90+15)約85.7%；乙族群召回率為72/(72+28)=72%，精確率為72/(72+8)=90%。乙族群雖然精確率較高，但召回率較低，漏檢數為28筆，高於甲族群的10筆，顯示不同族群間可能存在模型偏見或可靠度差異，應進行偏見診斷，並可透過資料平衡、過採樣、欠採樣或重加權等方式改善。C僅比較準確率，不能據此排除偏見；D將誤檢率與漏檢率混淆，且單一分類門檻下的混淆矩陣無法直接推論AUC。",
+          "difficulty": "難",
+          "type": "計算判讀型",
           "tags": [
             "電腦視覺",
-            "實例分割",
-            "智慧製造",
-            "物件偵測",
-            "應用情境"
+            "模型偏見",
+            "偏見診斷",
+            "誤檢",
+            "漏檢",
+            "精確率",
+            "召回率",
+            "資料平衡"
           ],
-          "id": "mid-s1c2q3_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c2",
+            "basis": "6. CV 技術挑戰與風險／（2）偏見（Bias）與模型可靠度／B. 模型失準對實務應用的影響、C. 提升模型公平性與可靠度的做法"
+          },
+          "card": {
+            "concept": "比較不同族群的模型表現時，不能只看整體準確率，應分別檢查精確率、召回率及誤檢與漏檢情形，並透過偏見診斷與資料平衡或重加權改善公平性。",
+            "mnemonic": "精確率看判陽性準不準，召回率看陽性抓得全不全；偏見診斷要分族群比較。",
+            "confusion": "精確率較高不代表整體較可靠；若召回率較低，可能漏掉更多真正陽性。準確率也可能掩蓋族群差異，單一門檻的混淆矩陣則不能直接代表AUC。"
+          }
         }
       ]
     },
@@ -186,89 +1007,105 @@
       "title": "生成式AI技術與應用",
       "questions": [
         {
-          "question": "下列關於「生成式AI（Generative AI）」與「鑑別式AI（Discriminative AI）」的描述，何者正確？",
+          "id": "mid-s1c3q001_codex100",
+          "chapter_id": "mid-s1c3",
+          "chapter_title": "生成式AI技術與應用",
+          "question": "某團隊規劃企業生成式 AI 導入方案，需涵蓋模型訓練、任務適配與實際系統使用。下列對生成式 AI 技術體系的描述，何者正確？",
           "options": {
-            "A": "生成式AI 的主要目標是將資料歸類或分配標籤，鑑別式AI 則專注於產生新的文本、圖像等資料樣本。",
-            "B": "生成式AI 透過學習資料的分佈特性與潛在結構，能夠產生新的文本、圖像或音訊等內容；鑑別式AI 則主要應用於分類、辨識與預測任務。",
-            "C": "GPT 與DALL·E 屬於鑑別式AI 的代表模型，ResNet 與HMM 則屬於生成式AI 的範疇。",
-            "D": "生成式AI 與鑑別式AI 的訓練方式完全相同，兩者皆以標注資料進行監督式學習。"
+            "A": "生成式 AI 僅指負責產生內容的單一模型，不包含模型訓練方式或應用調用策略。",
+            "B": "生成式 AI 技術體系只包含鑑別式模型的分類訓練，提示工程與少樣本學習不屬於其應用策略。",
+            "C": "生成式 AI 技術體系涵蓋預訓練、微調與應用調用，並可結合 LLM、擴散模型、GAN、VAE，以及提示工程與少樣本學習等策略。",
+            "D": "生成式 AI 技術體系主要是依據既有資料特徵進行分類與預測，生成新的文本、圖像或音訊並非其核心範疇。"
           },
-          "answer": "B",
-          "explanation": "根據章節內容，生成式AI 強調「創造性」，核心在於學習資料的分佈特性並產出新樣本；鑑別式AI 則學習資料特徵以進行分類或預測。選項A 將兩者定義互換，為典型誤解。選項C 混淆了代表模型歸屬，GPT 與DALL·E 均為生成式AI 模型。選項D 錯誤，生成式AI 強調學習資料分佈結構，訓練方式與鑑別式AI 本質不同。",
-          "card": {
-            "concept": "生成式AI 學習資料分佈以「產生新內容」；鑑別式AI 學習資料特徵以「分類或預測」。兩者目標、工作方式與代表模型均不同。",
-            "mnemonic": "生成＝創造新資料（如畫家作畫）；鑑別＝辨識分類（如鑑定師鑑真偽）",
-            "confusion": "常見混淆：誤以為兩類AI 訓練方式相同，或混淆代表模型。記住：GPT/GAN/VAE/Diffusion = 生成式；SVM/ResNet/決策樹 = 鑑別式。"
-          },
-          "difficulty": "易",
+          "answer": "C",
+          "explanation": "生成式 AI 不僅是單一模型，而是一整套技術體系，涵蓋預訓練、微調與應用調用，並可使用 LLM、擴散模型、GAN、VAE 等架構，以及提示工程、微調和少樣本學習等應用策略。A 將技術體系縮減為單一模型；B 將生成式 AI 誤解為鑑別式模型的分類訓練；D 則混淆了鑑別式 AI 的分類、辨識與預測目標。",
+          "difficulty": "中",
           "type": "概念定義型",
           "tags": [
             "生成式AI",
-            "鑑別式AI",
-            "基礎概念",
-            "模型分類"
+            "技術體系",
+            "預訓練",
+            "微調",
+            "提示工程",
+            "少樣本學習"
           ],
-          "id": "mid-s1c3q1_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c3",
+            "basis": "2. 生成式 AI 基礎概念與演進脈絡／（1）定義與範疇"
+          },
+          "card": {
+            "concept": "生成式 AI 是涵蓋模型架構、訓練流程與應用策略的完整技術體系，不只是單一內容生成模型。",
+            "mnemonic": "「預訓練→微調→調用」：先學通用能力，再適配任務，最後整合到應用。",
+            "confusion": "容易把生成式 AI 只理解為某個生成模型，或將提示工程、微調與少樣本學習誤認為與生成式 AI 無關；實際上它們都是該技術體系的組成或應用策略。"
+          }
         },
         {
-          "question": "根據生成式AI 的技術演進脈絡，下列四個發展階段依時間先後排列，正確順序為何？\n① 擴散模型（Diffusion Models）與多模態生成\n② 對抗生成網路（GAN）時代\n③ Transformer 與自注意力機制崛起\n④ 變分自編碼器（VAE）初期探索",
+          "id": "mid-s1c3q002_codex100",
+          "chapter_id": "mid-s1c3",
+          "chapter_title": "生成式AI技術與應用",
+          "question": "某企業規劃建置生成式 AI 平台，除希望同時支援文字、圖像與音訊等多模態內容生成外，還要求系統能依任務目標自主串接企業內部工具，完成資料查詢、流程執行與結果彙整。若依生成式 AI 的技術演進階段選擇最符合需求的技術方向，下列何者最適切？",
           "options": {
-            "A": "④ → ② → ③ → ①",
-            "B": "② → ④ → ③ → ①",
-            "C": "④ → ③ → ② → ①",
-            "D": "③ → ④ → ② → ①"
+            "A": "採用初期階段的 VAE 與 RNN，因其適合建立多模態生成能力，且生成結果模糊與訓練困難有助於控制系統風險。",
+            "B": "採用 GAN 時代的對抗訓練，因其具備高寫實性，便能同時解決多模態整合與自主工具操作需求。",
+            "C": "採用 Transformer 崛起階段的自注意力機制，因其主要強化語境建模能力，已足以取代工具整合與任務規劃機制。",
+            "D": "採用巨型模型與 Agent 化方向，結合巨型參數與工具整合，以支援多模態生成及自主、任務導向的系統運作。"
+          },
+          "answer": "D",
+          "explanation": "題目同時要求多模態內容生成，以及能依任務目標自主整合工具並執行工作，最符合 2023 年起的「巨型模型與 Agent 化」階段，其核心技術包含巨型參數與工具整合，特徵為自主性與任務導向。A 屬初期階段，具有生成模糊與訓練困難的限制；B 雖具高寫實性，但存在不穩定性，且表格未指出其具備工具整合與 Agent 化能力；C 主要強調自注意力與語境建模，發展特徵以 NLP 為主，未涵蓋自主工具操作。",
+          "difficulty": "難",
+          "type": "情境應用型",
+          "tags": [
+            "生成式AI",
+            "技術演進",
+            "巨型模型",
+            "Agent化",
+            "工具整合",
+            "多模態生成"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c3",
+            "basis": "（2）技術演進脈絡"
+          },
+          "card": {
+            "concept": "巨型模型與 Agent 化階段以巨型參數及工具整合為核心，強調系統的自主性與任務導向，適合支援複合式生成與工作流程執行。",
+            "mnemonic": "「大模型接工具，Agent 自主辦任務」：巨型參數提供能力，工具整合促成行動。",
+            "confusion": "多模態生成不等於 Agent 化；擴散與多模態階段著重高品質生成及多模態整合，而巨型模型與 Agent 化進一步強調自主決策、工具使用與任務完成。"
+          }
+        },
+        {
+          "id": "mid-s1c3q003_codex100",
+          "chapter_id": "mid-s1c3",
+          "chapter_title": "生成式AI技術與應用",
+          "question": "關於文本生成品質的評估方式，下列何者不正確？",
+          "options": {
+            "A": "BLEU 主要用於評估摘要的關鍵內容召回率，不需要比較生成文本與參考文本。",
+            "B": "BLEU 會計算生成文本與參考文本之間的 n-gram 重疊程度，並以簡短懲罰修正過短生成結果。",
+            "C": "ROUGE 專為摘要品質評估設計，重點在於生成文本對參考文本的資訊召回。",
+            "D": "人工評估可衡量生成文本的流暢性與準確性，但具有主觀性強且成本高的限制。"
           },
           "answer": "A",
-          "explanation": "依據章節整理的五階段演進：VAE 初期探索（2013–2015）→ GAN 時代（2014–2020）→ Transformer 崛起（2017 年起）→ 擴散模型與多模態（2020 年起）→ 巨型模型與Agent化（2023 年起），正確順序為④②③①。選項B 將GAN 置於VAE 之前，時間有誤。選項C 將Transformer 排在GAN 之前，亦與事實不符。選項D 以Transformer 為起點，完全顛倒早期發展脈絡。",
-          "card": {
-            "concept": "生成式AI 技術演進五階段：VAE（2013）→ GAN（2014）→ Transformer（2017）→ 擴散模型（2020）→ 巨型模型/Agent（2023）。",
-            "mnemonic": "「老虎跳擴張」：老（VAE 老前輩）→ 虎（GAN 虎虎生風）→ 跳（Transformer 跳躍突破）→ 擴（擴散模型）→ 張（巨型模型張大規模）",
-            "confusion": "常混淆GAN（2014）與Transformer（2017）的先後順序，以及VAE 是否早於GAN。記住：VAE=2013，GAN=2014，兩者幾乎同期但VAE 略早。"
-          },
-          "difficulty": "中",
-          "type": "流程步驟型",
+          "explanation": "A 不正確。BLEU 是比較生成文本與參考文本相似度的指標，主要計算 n-gram 重疊程度，並非以摘要資訊召回為核心；摘要資訊召回主要是 ROUGE 的評估重點。B、C、D 分別符合講義對 BLEU、ROUGE 與人工評估的說明。",
+          "difficulty": "易",
+          "type": "否定型",
           "tags": [
-            "技術演進",
-            "VAE",
-            "GAN",
-            "Transformer",
-            "擴散模型",
-            "發展歷程"
+            "文本生成",
+            "BLEU",
+            "ROUGE",
+            "人工評估",
+            "品質指標"
           ],
-          "id": "mid-s1c3q2_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
-        },
-        {
-          "question": "某電商平台希望根據商品的文字描述（如「白色簡約風格陶瓷馬克杯，附木質把手」）自動生成高解析度的商品展示圖像，以降低攝影成本並提升上架效率，下列哪種做法最為適切？",
-          "options": {
-            "A": "採用GAN（對抗生成網路）架構，其生成器與判別器對抗訓練可輸出高度寫實的圖像，且直接以商品文字描述作為輸入條件，精確控制圖像語義內容。",
-            "B": "採用擴散模型（Diffusion Models）結合多模態對齊技術（如CLIP），透過逐步去噪過程生成細節豐富的圖像，並以文字描述作為條件引導圖像生成。",
-            "C": "採用VAE（變分自編碼器），因其為目前圖像生成的主流技術，能從文字輸入直接產生最高品質的商品圖像。",
-            "D": "採用RNN（遞迴神經網路）進行序列生成，因其擅長處理語言序列，可將文字描述逐步轉換為對應的圖像像素。"
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c3",
+            "basis": "（1）文本生成（Text Generation）"
           },
-          "answer": "B",
-          "explanation": "擴散模型（如Stable Diffusion、DALL·E）透過逐步去噪機制生成細節豐富且品質穩定的圖像，並可結合CLIP 等多模態對齊技術，以文字描述精確引導圖像內容，是目前文字生圖（Text-to-Image）任務的最佳實踐。選項A 具有一定迷惑性——GAN 確實能生成高寫實圖像，但其訓練不穩定（容易發生Mode Collapse）且缺乏成熟的文字條件控制機制，無法可靠地依文字描述精確生成指定內容。選項C 錯誤，VAE 為2013–2015 年的早期技術，生成結果模糊，早已不是主流。選項D 錯誤，RNN 用於序列文字生成，不具備圖像生成能力。",
           "card": {
-            "concept": "文字生圖（Text-to-Image）任務的當前主流技術為擴散模型，結合多模態對齊（CLIP）實現跨模態條件生成；代表模型包括Stable Diffusion 與DALL·E。",
-            "mnemonic": "文字→圖像：「穩定擴散最穩定」— Stable Diffusion 逐步去噪，步步為營出好圖",
-            "confusion": "常見混淆：誤以為GAN 因寫實圖像能力強而最適合文字生圖任務。GAN 缺乏文字條件精確控制機制，且訓練不穩定；擴散模型在條件可控性與生成品質上均已超越GAN，成為文字生圖新主流。"
-          },
-          "difficulty": "中",
-          "type": "應用情境型",
-          "tags": [
-            "擴散模型",
-            "文字生圖",
-            "多模態",
-            "CLIP",
-            "Stable Diffusion",
-            "應用選型"
-          ],
-          "id": "mid-s1c3q3_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
+            "concept": "BLEU 著重生成文本與參考文本的 n-gram 相似度；ROUGE 著重摘要資訊召回；人工評估則衡量流暢性與準確性。",
+            "mnemonic": "「BLEU比重疊、ROUGE看召回、人評看順準」",
+            "confusion": "BLEU 與 ROUGE 都會比較生成文本和參考文本，但 BLEU 偏向詞彙或 n-gram 相似度，ROUGE 偏向摘要關鍵資訊召回；人工評估則可能受主觀性與成本影響。"
+          }
         }
       ]
     },
@@ -277,91 +1114,273 @@
       "title": "多模態人工智慧應用",
       "questions": [
         {
-          "question": "下列關於 CLIP（Contrastive Language-Image Pre-training）的描述，何者正確？",
+          "id": "mid-s1c4q001_codex100",
+          "chapter_id": "mid-s1c4",
+          "chapter_title": "多模態人工智慧應用",
+          "question": "某企業評估兩套智慧客服方案：方案甲只分析文字對話內容；方案乙同時分析語音語調、文字語意與臉部表情。依據講義對單一模態與多模態人工智慧的比較，下列何者最適切？",
           "options": {
-            "A": "CLIP 是一種生成式模型，其主要功能是根據文字描述直接合成對應圖片",
-            "B": "CLIP 透過對比學習將圖片與文字映射至同一向量空間，使語意相符的圖文對在空間中距離接近，並具備零樣本學習能力",
-            "C": "CLIP 的核心架構僅包含圖片編碼器，文字理解需依賴外部獨立的語言模型處理",
-            "D": "CLIP 必須針對每個下游任務進行微調（Fine-tuning）才能有效應用，無法直接遷移至新任務"
+            "A": "方案甲與方案乙皆屬單一模態，差別只在於使用的語言模型大小不同",
+            "B": "方案甲主要屬單一模態處理；方案乙整合多種模態，透過跨模態理解與融合，較適合複雜情境與多源資訊判斷，但仍需進行語意對齊與融合學習",
+            "C": "方案乙只要增加輸入資料種類，就不需要各模態的基礎處理能力或語意對齊機制",
+            "D": "方案甲因只處理文字，必然比方案乙更能掌握語音、影像等互補資訊，適合所有人機互動任務"
           },
           "answer": "B",
-          "explanation": "CLIP 由 OpenAI 於 2021 年提出，透過對比損失（Contrastive Loss）同時訓練圖片編碼器與文字編碼器，將兩種模態映射至相同向量空間，使語意一致的圖文對距離相近。其最大優勢是零樣本（Zero-shot）學習能力，無需針對特定任務重新訓練即可應用。選項 A 混淆了 CLIP 與 DALL·E（生成式模型）的功能；選項 C 誤解架構，CLIP 本身即包含文字編碼器；選項 D 錯誤，零樣本能力正是 CLIP 的核心優勢，不需微調。",
-          "card": {
-            "concept": "CLIP 使用對比學習讓圖片與文字共享同一語意向量空間，能直接比較圖文相似度，具備零樣本泛化能力。",
-            "mnemonic": "CLIP = 夾子，把圖片與文字「夾」在同一空間裡；Zero-shot = 不用練習就能上場。",
-            "confusion": "常將 CLIP（對齊模型）與 DALL·E（生成模型）混淆；CLIP 本身不生成圖片，但可作為 DALL·E 等生成模型的基礎。"
+          "explanation": "方案甲主要處理文字，屬於單一模態應用；方案乙同時整合語音、文字與影像等不同模態，屬於多模態人工智慧。多模態 AI 強調跨模態訊息的理解、融合、語意對齊與融合學習，因此在複雜情境、多源資訊判斷及人機互動任務中具有較高彈性與準確性。方案乙並非只需增加輸入種類，仍須具備各模態的處理能力以及模態間的語意對齊與融合機制。",
+          "difficulty": "中",
+          "type": "比較分析型",
+          "tags": [
+            "多模態人工智慧",
+            "單一模態",
+            "跨模態理解",
+            "語意對齊",
+            "融合學習",
+            "智慧客服"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c4",
+            "basis": "3.4 多模態人工智慧應用／1. 前言與章節導覽"
           },
+          "card": {
+            "concept": "單一模態 AI 聚焦一種資料型態；多模態 AI 同時處理文字、影像、語音或感測訊號，並透過語意對齊與融合學習建立跨模態理解。",
+            "mnemonic": "單模態是「各看各的」，多模態是「一起看、互相對齊、融合判斷」。",
+            "confusion": "多模態不等於單純增加輸入種類；若缺少各模態的基礎處理、語意對齊與融合學習，仍無法有效整合跨模態資訊。"
+          }
+        },
+        {
+          "id": "mid-s1c4q002_codex100",
+          "chapter_id": "mid-s1c4",
+          "chapter_title": "多模態人工智慧應用",
+          "question": "某多模態模型將影像與文字映射至相同語意空間，並以兩向量的內積作為圖文相似度，內積越大表示語意越接近。某張影像的向量為 I＝(0.8, 0.6)，三個文字描述的向量分別為 T1＝(0.8, 0.6)、T2＝(0.6, 0.8)、T3＝(−0.8, −0.6)。依據上述規則，模型應選擇哪一個文字描述與該影像配對？",
+          "options": {
+            "A": "T3，因為其向量與影像向量方向相反，能提供最具辨識性的差異",
+            "B": "T2，因為其兩個分量皆為正值，且可代表影像的主要語意特徵",
+            "C": "T1，因為 I·T1＝1.00，大於 I·T2＝0.96 與 I·T3＝−1.00",
+            "D": "無法判斷，因為影像與文字屬於不同模態，不能在同一空間進行數值比較"
+          },
+          "answer": "C",
+          "explanation": "依題設以內積判斷圖文相似度：I·T1＝0.8×0.8＋0.6×0.6＝1.00；I·T2＝0.8×0.6＋0.6×0.8＝0.96；I·T3＝0.8×(−0.8)＋0.6×(−0.6)＝−1.00。因此 T1 的內積最大，應選擇 T1。這反映跨模態表示學習將不同模態映射至共同語意空間後，模型即可比較與關聯圖文表示。",
+          "difficulty": "中",
+          "type": "計算判讀型",
+          "tags": [
+            "多模態",
+            "跨模態表示學習",
+            "共同語意空間",
+            "CLIP",
+            "圖文相似度"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c4",
+            "basis": "2. 多模態 AI 基礎概念與演進脈絡／（1）定義與範疇"
+          },
+          "card": {
+            "concept": "跨模態表示學習將影像與文字映射至相同語意空間，使模型能以向量關係比較不同模態資料的語意接近程度。",
+            "mnemonic": "先對齊到同一空間，再用相似度找最接近的圖文配對。",
+            "confusion": "不同模態原本具有不同結構與特徵表達方式，但經跨模態表示學習後才可在共同語意空間中比較；內積越大代表本題設定下的語意相似度越高。"
+          }
+        },
+        {
+          "id": "mid-s1c4q003_codex100",
+          "chapter_id": "mid-s1c4",
+          "chapter_title": "多模態人工智慧應用",
+          "question": "下列何者正確描述本節介紹的多模態模型及其主要能力？",
+          "options": {
+            "A": "BLIP／BLIP-2 主要是感測融合模型，用於整合雷達、GPS 與溫濕度資料",
+            "B": "Flamingo 主要採用遮罩預訓練的多模態自編碼器，支援多模態特徵提取與生成",
+            "C": "M3AE 由 DeepMind 發表，主要以少樣本學習快速適應新的圖文任務",
+            "D": "M3AE 是基於遮罩預訓練的多模態自編碼器，支援多模態特徵提取與生成"
+          },
+          "answer": "D",
+          "explanation": "M3AE 是基於遮罩預訓練的多模態自編碼器，主要支援多模態特徵提取與生成。BLIP／BLIP-2 著重圖文問答與生成，Flamingo 則具備少樣本學習能力。",
+          "difficulty": "難",
+          "type": "概念定義型",
+          "tags": [
+            "BLIP",
+            "BLIP-2",
+            "Flamingo",
+            "M3AE",
+            "多模態模型"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c4",
+            "basis": "3. 多模態 AI 常見模型與工具／（4）常見模型"
+          },
+          "card": {
+            "concept": "M3AE 是基於遮罩預訓練的多模態自編碼器，可用於多模態特徵提取與生成。",
+            "mnemonic": "M3AE：記住 Masked 多模態自編碼器。",
+            "confusion": "Flamingo 的重點是少樣本學習；BLIP／BLIP-2 的重點是圖文問答與生成，不要與 M3AE 的遮罩預訓練特性混淆。"
+          }
+        },
+        {
+          "id": "mid-s1c4q004_codex100",
+          "chapter_id": "mid-s1c4",
+          "chapter_title": "多模態人工智慧應用",
+          "question": "某市政府希望預測交通堵塞，系統同時取得路口監視影像、交通流量與空氣品質感測資料。各來源均可透過時間戳同步，且規劃團隊希望模型直接利用同一時段的多源資訊進行異常預警。依據本節所述感測資料多模態融合方法，下列哪項方案最適切？",
+          "options": {
+            "A": "先依時間戳同步各來源資料，再於資料層級整合影像與感測資料，採用早期融合送入統一模型",
+            "B": "分別處理影像與感測資料，完全不進行資料同步，最後僅依單一來源結果判斷交通狀況",
+            "C": "將影像與感測資料全部轉換為語音，再使用語音辨識模型完成交通堵塞預測",
+            "D": "直接拼接不同時間點的原始資料，不需處理各感測器的採樣頻率與時間戳差異"
+          },
+          "answer": "A",
+          "explanation": "題目中的影像與感測資料可透過時間戳同步，且需要直接整合同一時段的多源資訊，因此適合先完成資料同步，再在資料層級整合，採用早期融合。資料同步是感測融合的重要前提。",
+          "difficulty": "中",
+          "type": "情境應用型",
+          "tags": [
+            "感測融合",
+            "Sensor Fusion",
+            "早期融合",
+            "Early Fusion",
+            "智慧城市",
+            "資料同步"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c4",
+            "basis": "3. 多模態 AI 常見模型與工具／（3）感測資料的多模態融合／A. 應用情境"
+          },
+          "card": {
+            "concept": "感測融合可整合影像、交通流量與空氣品質等異質資料；早期融合是在資料層級整合，並須先處理資料同步與特徵對齊。",
+            "mnemonic": "先同步，再融合；資料層整合就是早期融合。",
+            "confusion": "不同感測器資料不能直接忽略時間戳或採樣頻率差異後拼接，否則可能把不同時刻的資訊錯誤配對。"
+          }
+        },
+        {
+          "id": "mid-s1c4q005_codex100",
+          "chapter_id": "mid-s1c4",
+          "chapter_title": "多模態人工智慧應用",
+          "question": "下列何者不屬於本節列舉的語音模態整合應用情境？",
+          "options": {
+            "A": "語音助理",
+            "B": "圖文檢索",
+            "C": "語音搜尋",
+            "D": "客服系統"
+          },
+          "answer": "B",
+          "explanation": "本節列舉的語音模態應用包括語音助理、語音搜尋、客服系統及跨語言互動；圖文檢索屬於圖文模態應用，並非語音模態整合情境。",
+          "difficulty": "易",
+          "type": "否定型",
+          "tags": [
+            "語音模態",
+            "語音助理",
+            "語音搜尋",
+            "客服系統",
+            "圖文檢索"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c4",
+            "basis": "3. 多模態 AI 常見模型與工具／（2）語音模態的整合與應用／D. 應用情境"
+          },
+          "card": {
+            "concept": "語音模態整合可應用於語音助理、語音搜尋、客服系統與跨語言互動。",
+            "mnemonic": "語音應用記作「助理、搜尋、客服、跨語言」。",
+            "confusion": "圖文檢索主要依賴圖片與文字之間的語意對齊，雖屬多模態應用，但不是本節列舉的語音模態情境。"
+          }
+        },
+        {
+          "id": "mid-s1c4q006_codex100",
+          "chapter_id": "mid-s1c4",
+          "chapter_title": "多模態人工智慧應用",
+          "question": "某醫療院所、零售業者與虛實整合平台分別導入多模態 AI。若比較三者的主要挑戰與評估指標，下列哪一組配對最符合講義內容？",
+          "options": {
+            "A": "醫療重視系統延遲並採用 WER；零售重視模型解釋性並採用 ROUGE；虛實整合重視顧客隱私並採用 Precision",
+            "B": "醫療重視資料隱私並採用 WER；零售重視多源資料噪聲並採用 Latency；虛實整合重視跨模態一致性並採用 ROUGE",
+            "C": "醫療重視異質資料同步並採用診斷準確率、假陽性率與 ROUGE；零售重視多源資料噪聲並採用 Precision、IOU 與情感分析 F1；虛實整合重視系統延遲並採用 Latency、WER 與姿勢辨識準確率",
+            "D": "醫療重視資料隱私並採用 IOU；零售重視即時處理需求並採用 WER；虛實整合重視運算資源需求並採用 ROUGE"
+          },
+          "answer": "C",
+          "explanation": "C 正確。醫療領域的挑戰包含資料隱私與異質資料同步性，指標包括診斷準確率、假陽性率及生成報告的 ROUGE；零售領域涉及多源資料噪聲與即時處理需求，指標包括推薦 Precision、動線分析 IOU 及情感分析 F1；虛實整合則面臨系統延遲與運算資源需求，指標包括回應 Latency、語音辨識 WER 及姿勢辨識準確率。其餘選項將不同領域的指標交叉錯置。",
+          "difficulty": "中",
+          "type": "比較分析型",
+          "tags": [
+            "多模態應用",
+            "醫療 AI",
+            "零售分析",
+            "虛實整合",
+            "評估指標",
+            "挑戰比較"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c4",
+            "basis": "4. 多模態 AI 應用情境；（1）醫療領域：診斷與決策支持；（2）零售與顧客行為分析；（3）虛實整合互動與沉浸式應用"
+          },
+          "card": {
+            "concept": "三類多模態應用的挑戰與指標不同：醫療看診斷準確率、假陽性率與報告 ROUGE；零售看推薦 Precision、動線 IOU 與情感 F1；虛實整合看 Latency、WER 與姿勢辨識準確率。",
+            "mnemonic": "醫準假報、零精交情、虛延詞姿：醫療準確與假陽性及報告，零售推薦與動線及情感，虛實延遲與語音及姿勢。",
+            "confusion": "不要因為不同領域都使用影像、文字或語音，就把指標混用；IOU 在本節對應零售動線分析，WER 對應虛實整合的語音辨識，ROUGE 對應醫療診斷報告生成。"
+          }
+        },
+        {
+          "id": "mid-s1c4q007_codex100",
+          "chapter_id": "mid-s1c4",
+          "chapter_title": "多模態人工智慧應用",
+          "question": "某團隊將含影像與語音處理功能的多模態模型部署至邊緣設備。原模型有 2.4 billion 個參數，每個參數以 16 bit 儲存；經剪枝移除 25% 的參數後，再將剩餘參數量化為 8 bit。若忽略其他額外儲存空間，且以 1 GB＝10⁹ bytes 計算，下列何者正確？",
+          "options": {
+            "A": "保留 2.1 billion 個參數，約需 2.1 GB 儲存空間",
+            "B": "保留 1.8 billion 個參數，約需 3.6 GB 儲存空間",
+            "C": "保留 2.4 billion 個參數，約需 1.2 GB 儲存空間",
+            "D": "保留 1.8 billion 個參數，約需 1.8 GB 儲存空間"
+          },
+          "answer": "D",
+          "explanation": "剪枝後的參數量為 2.4×(1−25%)＝1.8 billion。量化後每個參數使用 8 bit＝1 byte，因此儲存空間約為 1.8×10⁹ bytes＝1.8 GB。剪枝降低參數數量，量化則降低每個參數的儲存位元數，兩者效果需分別計算。",
+          "difficulty": "難",
+          "type": "計算判讀型",
+          "tags": [
+            "多模態",
+            "運算與部署",
+            "模型壓縮",
+            "剪枝",
+            "量化",
+            "邊緣部署"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c4",
+            "basis": "5. 多模態 AI 風險與未來趨勢／（2）運算與部署／B. 影響與解決策略"
+          },
+          "card": {
+            "concept": "剪枝移除部分模型參數，量化則降低參數表示所需的位元數，兩者都可減輕邊緣部署的記憶體與運算負擔。",
+            "mnemonic": "先算剩多少參數，再算每參數幾 bit。",
+            "confusion": "剪枝影響參數數量，量化影響每個參數的儲存大小；只套用其中一種效果會得到錯誤的儲存估算。"
+          }
+        },
+        {
+          "id": "mid-s1c4q008_codex100",
+          "chapter_id": "mid-s1c4",
+          "chapter_title": "多模態人工智慧應用",
+          "question": "關於多模態 AI 未來的自主學習與自我監督機制，下列何者最符合講義內容？",
+          "options": {
+            "A": "利用大規模未標註資料進行預訓練，以降低標註成本並強化跨模態對齊與泛化能力",
+            "B": "完全依賴人工逐筆標註影像、語音與文字資料，以確保模型不使用任何自動學習機制",
+            "C": "將所有模態拆分為互不共享資訊的模型，以避免跨模態資料造成訓練干擾",
+            "D": "只在模型部署後收集錯誤案例，不進行預訓練，直接由代理系統決定模型參數"
+          },
+          "answer": "A",
+          "explanation": "講義指出，隨著標註資料成本升高，自我監督學習將透過大規模未標註資料進行預訓練，強化模型的跨模態對齊與泛化能力。B、C、D 分別與降低標註依賴、共享表示及預訓練的趨勢不符。",
           "difficulty": "中",
           "type": "概念定義型",
           "tags": [
-            "CLIP",
-            "對比學習",
-            "零樣本學習",
-            "圖文對齊",
-            "多模態模型"
+            "多模態",
+            "未來趨勢",
+            "自主學習",
+            "自我監督學習",
+            "未標註資料",
+            "跨模態對齊"
           ],
-          "id": "mid-s1c4q1_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
-        },
-        {
-          "question": "在語音助理系統中，使用者說出「明天台北的天氣如何？」，多模態 AI 處理此語音指令的正確流程順序為何？",
-          "options": {
-            "A": "語音輸入 → 自然語言理解（NLU）→ 語音辨識（ASR）→ 自然語言生成（NLG）",
-            "B": "語音輸入 → 語音辨識（ASR）→ 自然語言理解（NLU）→ 任務執行與回應生成",
-            "C": "語音輸入 → 語音辨識（ASR）→ 自然語言生成（NLG）→ 意圖辨識與槽位填充 → 任務執行",
-            "D": "語音輸入 → 語音辨識（ASR）→ 語音合成（TTS）→ 自然語言理解（NLU）→ 任務執行"
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c4",
+            "basis": "5. 多模態 AI 風險與未來趨勢／（4）未來趨勢／C. 自主學習與自我監督機制"
           },
-          "answer": "B",
-          "explanation": "語音助理的標準處理流程為：語音輸入後先透過 ASR（Automatic Speech Recognition）將聲音訊號轉換為文字，再由 NLU（Natural Language Understanding）解析文字的語意與意圖（含意圖辨識與槽位填充），最後執行對應任務並生成回應。選項 A 將 NLU 排在 ASR 之前，但 NLU 必須以文字為輸入，邏輯錯誤。選項 C 將自然語言生成（NLG）誤置於意圖辨識之前，混淆了 NLG（負責生成輸出文字）與 NLU（負責理解輸入語意）的職責，且意圖辨識與槽位填充本屬 NLU 的子步驟，不應排在 NLG 之後。選項 D 將語音合成（TTS）插入 ASR 與 NLU 之間，但 TTS 應在任務執行完畢、回應產生後才將文字轉為語音輸出，不是語意理解的前置步驟。",
           "card": {
-            "concept": "語音多模態處理的核心流程：ASR 負責語音轉文字，NLU 負責語意理解（含意圖辨識與槽位填充），NLG/TTS 負責回應生成，三者有嚴格的先後依賴關係。",
-            "mnemonic": "聲音先「辨（ASR）」再「懂（NLU）」再「做（執行）」再「說（TTS）」，像人聽話回答的順序。",
-            "confusion": "常混淆 NLU 與 NLG：NLU 是「理解輸入」，NLG 是「生成輸出」；另常誤認為槽位填充（Slot Filling）是獨立步驟，實際上它是 NLU 的子任務。"
-          },
-          "difficulty": "易",
-          "type": "流程步驟型",
-          "tags": [
-            "語音辨識",
-            "ASR",
-            "NLU",
-            "NLG",
-            "語音助理",
-            "多模態流程"
-          ],
-          "id": "mid-s1c4q2_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
-        },
-        {
-          "question": "某醫院希望建置 AI 輔助診斷系統，整合患者的胸腔 X 光影像、電子病歷文字紀錄與心電圖（ECG）生理訊號，以提升心臟疾病的診斷準確率。下列哪種做法最為適切？",
-          "options": {
-            "A": "採用早期融合（Early Fusion）策略，將 X 光影像特徵、電子病歷嵌入向量與 ECG 時序特徵在輸入層直接拼接為單一向量，統一送入同一模型訓練",
-            "B": "採用晚期融合（Late Fusion）策略，分別以 CNN、BERT 與 LSTM 獨立訓練三種模態模型，最後以輸出層概率投票（Voting）決定最終診斷結果",
-            "C": "採用跨模態注意力融合架構，在中間特徵層動態對齊三種模態的語意表示，使模型能根據各模態資料品質自動調整貢獻比重，實現互補性語意融合",
-            "D": "將電子病歷文字透過 TTS 轉為語音後，再以 ASR 與 X 光影像、ECG 訊號統一轉換為文字模態，輸入單一分析模型"
-          },
-          "answer": "C",
-          "explanation": "多模態 AI 的核心優勢在於整合異質資料並實現跨模態語意互補。選項 C 的跨模態注意力融合在中間特徵層動態對齊三種模態，能根據資料品質自動調整各模態的貢獻比重，是最能發揮多模態優勢的方案。選項 A 的早期融合（直接拼接輸入）雖簡單，但忽略了各模態的結構差異（影像為空間特徵、ECG 為時序特徵、文字為語意特徵），難以有效捕捉跨模態的語意關聯。選項 B 的晚期融合（獨立訓練後投票）能保留各模態的學習優勢，但輸出層的簡單投票無法利用模態間的互補資訊，在資訊融合深度上不如跨模態注意力機制。選項 D 將文字轉語音再經 ASR 還原為文字，是完全多餘的迂迴路徑，且會引入額外的轉換誤差，不具任何技術合理性。",
-          "card": {
-            "concept": "多模態融合有早期融合（輸入層拼接）、晚期融合（輸出層投票）與中間層跨模態注意力三種主要策略，跨模態注意力能動態對齊語意並互補，適合異質性高的醫療多模態場景。",
-            "mnemonic": "早期融合=原料直接混、晚期融合=各自煮好再合盤、跨模態注意力=邊煮邊互相調味，最後一種最精緻。",
-            "confusion": "常誤認早期融合（Early Fusion）與晚期融合（Late Fusion）等同於「多模態融合」，但真正強大的多模態模型在中間特徵層進行動態語意對齊，而非僅在頭尾做拼接或投票。"
-          },
-          "difficulty": "中",
-          "type": "應用情境型",
-          "tags": [
-            "多模態融合",
-            "早期融合",
-            "晚期融合",
-            "跨模態注意力",
-            "智慧醫療",
-            "ECG",
-            "應用規劃"
-          ],
-          "id": "mid-s1c4q3_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
+            "concept": "自我監督學習利用未標註資料建立預訓練任務，減少人工標註需求，並提升多模態模型的對齊與泛化能力。",
+            "mnemonic": "無標註先預訓練，跨模態再對齊。",
+            "confusion": "自我監督學習不是完全不訓練，也不是只在部署後被動修正；核心是先利用大量未標註資料進行預訓練。"
+          }
         }
       ]
     },
@@ -370,87 +1389,104 @@
       "title": "AI導入評估",
       "questions": [
         {
-          "question": "下列關於「淨現值（NPV, Net Present Value）」的描述，何者正確？",
+          "id": "mid-s1c5q001_codex100",
+          "chapter_id": "mid-s1c5",
+          "chapter_title": "AI導入評估",
+          "question": "某連鎖零售企業評估三項 AI 導入提案，但目前只能優先投入一項。甲案為客服生成式模型，雖可改善服務缺口，但對話資料尚未統一、標註不足，且短期效益難以量化；乙案為倉儲補貨需求預測，已有完整且具代表性的歷史銷售資料與既有雲端運算資源，可先在單一倉庫試點，並以降低缺貨率及提升補貨效率作為 KPI，成功後可擴展至各倉庫；丙案為高端客戶個人化定價，預期效益高，但目前缺乏明確決策規則與可驗證的效益指標。若依據資源有限時的 AI 導入評估原則，應優先選擇哪一項？",
           "options": {
-            "A": "NPV 是將未來各期現金流以折現率折算後的總和，減去初期投資成本；若 NPV 為正，代表專案帶來的價值超過初期投入",
-            "B": "NPV 越高表示回收期越短，因此評估 AI 專案時，NPV 可完全取代回收期指標",
-            "C": "NPV 與 ROI 的計算方式相同，差異僅在於計算期間的長短",
-            "D": "NPV 計算時不需考慮折現率，直接將未來各期現金流加總後減去初期投資即可"
-          },
-          "answer": "A",
-          "explanation": "根據指引，NPV = Σ（每期現金流 /（1 + 折現率）^期數）- 初期投資，NPV 為正代表專案具有投資價值，選項 A 正確。NPV 與回收期為不同指標，NPV 高不等於回收期短（B 錯）。ROI 的公式為（投資回報 - 投資成本）/ 投資成本 × 100%，與 NPV 計算邏輯完全不同（C 錯）。NPV 的核心就是考量資金的時間價值，必須套用折現率，忽略折現率將失去 NPV 的意義（D 錯）。",
-          "card": {
-            "concept": "NPV 透過折現率將未來現金流換算為現值，再扣除初期投資；正值代表專案具備財務可行性。",
-            "mnemonic": "「N 現 P 正 V 值」—— NPV 為正 → 值得投資",
-            "confusion": "NPV 常與 ROI 混淆：ROI 衡量回報比例（百分比），NPV 衡量絕對價值（金額）；兩者應搭配使用，不可互相取代。回收期（Payback Period）則額外衡量時間，但不含時間價值。"
-          },
-          "difficulty": "中",
-          "type": "概念定義型",
-          "tags": [
-            "財務評估",
-            "NPV",
-            "ROI",
-            "成本效益",
-            "AI導入評估"
-          ],
-          "id": "mid-s1c5q1_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
-        },
-        {
-          "question": "依據 AI 導入評估框架，企業在正式規劃導入前，應依序完成哪些評估步驟？下列順序何者最為正確？",
-          "options": {
-            "A": "技術可行性初探 → 業務需求與痛點分析 → 成本與效益初步評估 → 組織成熟度盤點",
-            "B": "業務需求與痛點分析 → 技術可行性初探 → 成本與效益初步評估 → 組織成熟度盤點",
-            "C": "成本與效益初步評估 → 業務需求與痛點分析 → 技術可行性初探 → 組織成熟度盤點",
-            "D": "組織成熟度盤點 → 技術可行性初探 → 業務需求與痛點分析 → 成本與效益初步評估"
+            "A": "優先選擇甲案，因為服務缺口最大，即使資料與 IT 條件尚未成熟也應直接導入，以免錯失改善機會",
+            "B": "優先選擇乙案，因為其技術條件較成熟、效益可透過明確 KPI 快速驗證，且可先小範圍試點並擴展至多個據點",
+            "C": "優先選擇丙案，因為預期效益最高，即使目前缺乏明確 KPI，也可先導入模型再依結果補充資料",
+            "D": "三項提案平均分配資源同步開發，以避免企業過早判定單一方案的導入價值"
           },
           "answer": "B",
-          "explanation": "指引明確指出，AI 導入評估應先從「業務需求與痛點分析」出發，確認問題真實存在且值得解決；其次進行「技術可行性初探」，評估資料品質與 IT 條件是否支撐；再進行「成本與效益初步評估」，確認投資回報潛力；最後盤點「組織成熟度與導入條件」，確認執行能量。先做技術評估而跳過需求分析，容易陷入技術驅動而非業務驅動的誤區（A 錯）；先做成本評估則缺乏需求與技術基礎，方向易偏（C 錯）；先盤點組織成熟度而未釐清需求，無法針對性規劃（D 錯）。",
-          "card": {
-            "concept": "AI 導入可行性評估依序涵蓋：需求面（業務痛點）→ 技術面（可行性）→ 財務面（成本效益）→ 組織面（成熟度），由外至內、由問題至解法。",
-            "mnemonic": "「需技財組」—— 需求先行、技術跟上、財務驗證、組織收尾",
-            "confusion": "常見誤解是將「技術可行性」置於首位，以為 AI 導入是技術問題；但指引強調需求分析優先，避免「為用 AI 而用 AI」的盲目導入。"
-          },
-          "difficulty": "中",
-          "type": "流程步驟型",
+          "explanation": "資源有限時，應根據技術成熟度、效益預期與可擴展性設定優先順序。乙案已有品質較佳且可支撐模型的資料與 IT 條件，並能以明確 KPI 快速驗證效益，再透過小範圍試點逐步擴展，因此最符合優先導入原則。甲案與丙案雖有潛在需求或效益，但資料、技術條件或效益衡量尚未成熟，應先補強基礎或納入後續規劃；在資源有限下平均分配給三案，也不符合集中資源推動高可行性項目的原則。",
+          "difficulty": "難",
+          "type": "情境應用型",
           "tags": [
-            "AI導入流程",
-            "可行性評估",
-            "需求分析",
-            "評估框架"
-          ],
-          "id": "mid-s1c5q2_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
-        },
-        {
-          "question": "某中型製造業企業希望導入 AI 進行產線異常偵測，但目前各廠區資料分散於獨立系統，缺乏統一的資料治理機制，且部門間資料格式不一致。下列哪種做法最為適切？",
-          "options": {
-            "A": "先針對條件最佳的廠區進行 PoC（概念驗證），待模型上線後再逐步推展，並要求各廠自行調整資料格式以配合模型輸入規格",
-            "B": "先建立統一的資料治理架構、制定資料標準與整合機制（如 API 或 ETL），再評估 AI 導入的技術可行性與效益",
-            "C": "先導入資料湖（Data Lake）集中儲存各廠區原始資料，待資料量累積足夠後再啟動 AI 模型建置，暫不規劃資料責任與品質治理機制",
-            "D": "先採購 AI 異常偵測平台，並在合約中要求廠商協助進行資料標準化，由廠商主導跨廠的資料整合工作"
-          },
-          "answer": "B",
-          "explanation": "指引指出，若技術條件尚未成熟，應先強化資料治理架構、提升資料品質與整合能力，打好基礎再逐步導入 AI；資料治理（正確性、可追溯性、整合機制）是 AI 成功導入的必要前提，故 B 最為適切。單廠 PoC 雖是合理起點，但跳過跨廠資料標準建立、依賴各廠自行調整，後續擴展時將面臨相同整合瓶頸，問題未解（A 錯）。資料湖能集中儲存原始資料，但若未規劃資料責任、品質標準與治理機制，仍是「垃圾進垃圾出」，儲存量的增加並不等於資料可用性的提升（C 錯）。廠商可協助技術執行，但資料標準化必須由企業依業務流程主導定義，完全外包主導權易導致標準脫離實際需求，且長期難以自主維護（D 錯）。",
-          "card": {
-            "concept": "AI 模型效能高度依賴資料品質；若資料治理不完備，應先建立治理機制與整合架構，再推進 AI 導入，而非強行上線。",
-            "mnemonic": "「資料是地基，AI 是大樓」—— 地基不穩，蓋再高也會倒",
-            "confusion": "企業常以為「先跑 PoC」或「先建資料湖」就能解決資料問題；實際上若缺乏跨廠資料標準與治理責任，PoC 無法擴展，資料湖也只是原始資料的倉庫，資料整備必須先於模型建置。"
-          },
-          "difficulty": "易",
-          "type": "應用情境型",
-          "tags": [
-            "資料治理",
+            "AI導入評估",
+            "資源限制",
+            "導入優先順序",
             "技術可行性",
-            "導入條件",
-            "數位成熟度",
+            "KPI",
+            "可擴展性"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c5",
+            "basis": "2. 導入需求與可行性評估"
+          },
+          "card": {
+            "concept": "資源有限時，應優先選擇技術成熟度較高、效益可快速驗證且具跨部門或多據點擴展性的 AI 業務情境。",
+            "mnemonic": "「成熟、可驗、能擴」—— 技術成熟、效益可驗證、成果能擴展。",
+            "confusion": "不可只因痛點最大或預期效益最高就優先導入；若資料、IT 條件或 KPI 尚未成熟，應先補強基礎或延後，避免資源浪費。"
+          }
+        },
+        {
+          "id": "mid-s1c5q002_codex100",
+          "chapter_id": "mid-s1c5",
+          "chapter_title": "AI導入評估",
+          "question": "關於「組織成熟度與導入條件盤點」，下列何者不正確？",
+          "options": {
+            "A": "若組織尚無 AI、資料分析或系統整合人才，可透過培訓計畫或外部合作補足所需能力",
+            "B": "跨部門 AI 專案宜設置統一窗口與專案負責人，以整合各部門需求與進度",
+            "C": "只要 AI 技術具備可行性，預算、人力與時間可待模型上線後再補足，初期不必先行盤點",
+            "D": "提供試辦環境、測試資料或專責團隊，有助於初期驗證與降低導入風險"
+          },
+          "answer": "C",
+          "explanation": "C 不正確。AI 技術可行並不代表專案必然成功，導入前仍須盤點資金、人力與時間，並確認是否具備試辦環境、測試資料或專責團隊等條件。A、B、D 分別符合組織能力、跨部門協作與導入條件的盤點要求。",
+          "difficulty": "易",
+          "type": "否定型",
+          "tags": [
+            "組織成熟度",
+            "組織能力",
+            "跨部門協作",
+            "資源盤點",
+            "導入條件"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c5",
+            "basis": "3. 組織成熟度與導入條件盤點"
+          },
+          "card": {
+            "concept": "AI 導入前須確認組織能力、跨部門協作，以及預算、人力、時間與試辦條件是否到位。",
+            "mnemonic": "「人、協、資、試」—— 人才能力、協作機制、資源支持、試辦條件。",
+            "confusion": "常見誤解是只要技術可行就能直接上線；實際上資源與導入條件若未先確認，仍可能造成專案中斷或成效不彰。"
+          }
+        },
+        {
+          "id": "mid-s1c5q003_codex100",
+          "chapter_id": "mid-s1c5",
+          "chapter_title": "AI導入評估",
+          "question": "某企業在 AI 導入初期盤點出資料跨境傳輸、模型穩定性、組織變革與生成內容偏見等風險，專案經理希望運用「風險矩陣」與「風險等級」安排後續處理順序。下列比較何者正確？",
+          "options": {
+            "A": "風險矩陣只評估風險影響程度；風險等級則只評估發生機率，兩者不可同時使用",
+            "B": "風險矩陣主要用於確認資料是否合法；風險等級則用於判斷模型是否具備可解釋性",
+            "C": "風險矩陣是將各類風險依法律、技術與組織類別分組；風險等級則只適用於技術風險",
+            "D": "風險矩陣交叉評估風險發生可能性與影響程度，以協助分類及排序；風險等級通常以發生機率乘以影響程度形成整體嚴重程度，高風險應優先處理，必要時迴避或延後導入"
+          },
+          "answer": "D",
+          "explanation": "風險矩陣是將風險發生的可能性與影響程度交叉評估，形成二維矩陣，以進行分類與優先處理判斷；風險等級則是對風險嚴重程度的總體評分，通常以發生機率乘以影響程度表示。高風險應優先處理，必要時可迴避或延後導入。A錯誤，兩者都涉及機率與影響的判讀，且可搭配使用；B錯誤，資料合法性與模型可解釋性是特定風險議題，不是兩項工具的定義；C錯誤，風險矩陣與風險等級均可用於不同類型的 AI 導入風險。",
+          "difficulty": "中",
+          "type": "比較分析型",
+          "tags": [
+            "風險矩陣",
+            "風險等級",
+            "風險優先順序",
+            "風險緩解",
             "AI導入評估"
           ],
-          "id": "mid-s1c5q3_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c5",
+            "basis": "4. 風險與合規初探"
+          },
+          "card": {
+            "concept": "風險矩陣以可能性與影響程度交叉評估並排序風險；風險等級則通常以發生機率乘以影響程度，表示風險整體嚴重程度。",
+            "mnemonic": "「矩陣看交叉，等級看乘積；高風險先處理」",
+            "confusion": "風險矩陣不是法規檢核表，風險等級也不是只適用於技術風險；兩者可搭配使用，協助企業在導入初期集中資源處理高風險區域。"
+          }
         }
       ]
     },
@@ -459,86 +1495,134 @@
       "title": "AI導入規劃",
       "questions": [
         {
-          "question": "下列關於「工作分解結構（Work Breakdown Structure, WBS）」的描述，何者正確？",
+          "id": "mid-s1c6q001_codex100",
+          "chapter_id": "mid-s1c6",
+          "chapter_title": "AI導入規劃",
+          "question": "某企業規劃一個為期 2 個月的 AI 客服概念驗證（PoC）專案，估算工作量如下：資料收集、清理與整合需 4 人月，模型設計、訓練與優化需 2 人月，操作介面設計需 1 人月（1 人月代表 1 人全職工作 1 個月）。現有可投入人力為：1 名資料工程師全職 2 個月、1 名 AI 模型開發者全職 2 個月，以及 1 名 UI/UX 設計師每月可投入 50%。若專案必須按期啟動，下列哪一項資源配置判讀最適切？",
           "options": {
-            "A": "WBS 是以時間為橫軸、任務為縱軸的視覺化工具，主要用於呈現關鍵路徑與各任務重疊區段",
-            "B": "WBS 採用由上而下的拆解方式，將複雜任務分割為可控的子任務，並為每一子任務定義責任角色、預期成果與預估時長",
-            "C": "WBS 與甘特圖功能相同，兩者均以時間軸為核心，差異僅在於視覺呈現方式不同",
-            "D": "WBS 主要用於短衝（Sprint）結束後的回顧會議，協助團隊記錄每輪迭代的學習成果"
+            "A": "資料工程師現有投入為 2 人月，應再配置 1 名資料工程師全職 2 個月補足至 4 人月；模型開發者可完成 2 人月；UI/UX 設計師投入 50% × 2 個月可完成 1 人月。",
+            "B": "資料工程師現有投入不足的 2 人月，可由專案負責人直接承擔，因其負責跨部門協調與資源分配，不必另行配置資料工程師。",
+            "C": "以雲端平台的儲存與計算資源取代不足的資料工程人力，因為硬體與雲端資源可直接完成資料清理與整合工作。",
+            "D": "將 UI/UX 設計延後至模型上線後再處理，先由模型開發者支援介面設計，以避免提前招聘或調度人員。"
           },
-          "answer": "B",
-          "explanation": "WBS 採用由上而下的拆解方式，將複雜任務切割為可管理的子任務，每一子任務需定義責任角色、預期成果、所需資源與預估時長，以提高透明度並降低執行風險。選項A 描述的是甘特圖（Gantt Chart）的特徵，而非WBS。選項C 混淆了兩者功能，WBS 聚焦任務拆解邏輯，甘特圖聚焦時間排程。選項D 描述的是Scrum 回顧會議（Retrospective）的用途，與WBS 無關。",
-          "card": {
-            "concept": "WBS（工作分解結構）是由上而下將複雜專案拆解為可控子任務的方法，每個子任務需定義角色、成果、資源與時長。",
-            "mnemonic": "WBS＝「往下分解」：任務 → 子任務 → 細項，層層往下；甘特圖＝「往右排列」：時間軸從左到右。",
-            "confusion": "最常見混淆：WBS 與甘特圖的定義互換。辨別關鍵：WBS 強調「任務拆解邏輯與責任歸屬」，甘特圖強調「時間安排與進度視覺化」。"
-          },
-          "difficulty": "易",
-          "type": "概念定義型",
-          "tags": [
-            "WBS",
-            "任務分解",
-            "專案管理",
-            "AI導入規劃"
-          ],
-          "id": "mid-s1c6q1_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
-        },
-        {
-          "question": "根據章節內容，AI導入專案以甘特圖規劃時，下列各階段的正確執行順序為何？",
-          "options": {
-            "A": "資料準備與標註 → 問題定義與需求訪談 → 模型設計與訓練 → 驗證測試與反饋調整 → 部署與落地",
-            "B": "問題定義與需求訪談 → 模型設計與訓練 → 資料準備與標註 → 驗證測試與反饋調整 → 部署與落地",
-            "C": "問題定義與需求訪談 → 資料準備與標註 → 模型設計與訓練 → 驗證測試與反饋調整 → 部署與落地",
-            "D": "問題定義與需求訪談 → 資料準備與標註 → 驗證測試與反饋調整 → 模型設計與訓練 → 部署與落地"
-          },
-          "answer": "C",
-          "explanation": "章節明確列出甘特圖在AI導入專案中標示的標準階段順序：問題定義與需求訪談（確認目標）→ 資料準備與標註（為模型提供原料）→ 模型設計與訓練（開發核心）→ 驗證測試與反饋調整（確保品質）→ 部署與落地（整合上線）。選項A 將「資料準備」提前至「問題定義」之前，違反邏輯，無需求即無從判斷資料需求。選項B 將模型設計與訓練置於資料準備之前，不符合章節所列甘特圖階段順序，且會使模型開發缺乏資料基礎。選項D 在模型訓練前即進行驗證測試，邏輯矛盾。",
-          "card": {
-            "concept": "AI導入專案五大標準階段依序為：需求定義 → 資料準備 → 模型訓練 → 驗證測試 → 部署落地，資料是模型的前提，測試在訓練之後。",
-            "mnemonic": "口訣「定料練測部」：定義需求→料（資料）準備→練（訓練）模型→測試驗證→部署落地。",
-            "confusion": "最常見錯誤：將「驗證測試」誤置於「模型訓練」之前，或將「資料準備」誤置於「問題定義」之前。記住：有需求才知道要什麼資料，有模型才能測試。"
-          },
+          "answer": "A",
+          "explanation": "資料工程工作的需求為 4 人月，現有資料工程師只能提供 2 人月，因此需再配置 1 名資料工程師全職 2 個月補足。模型開發者可提供 2 人月，剛好符合需求；UI/UX 設計師投入 50% 持續 2 個月，計算為 1 人月，也符合需求。此配置符合依專案需求提前盤點人力，並使人員技能與任務匹配的原則。",
           "difficulty": "中",
-          "type": "流程步驟型",
-          "tags": [
-            "甘特圖",
-            "AI導入流程",
-            "專案管理",
-            "時程設計"
-          ],
-          "id": "mid-s1c6q2_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
-        },
-        {
-          "question": "某製造業企業計畫導入AI產能預測系統，原定三個月完成，但在規劃階段發現工廠感測器資料不完整、缺乏歷史紀錄，且現有IT團隊無資料工程經驗。下列哪種做法最符合章節所述的AI導入規劃核心原則？",
-          "options": {
-            "A": "維持原訂三個月時程，以現有不完整資料先訓練初版模型，再於上線後持續補充資料以修正偏差",
-            "B": "暫停整體AI導入計畫，等待感測器資料累積至少一年、並完成人才招募後，再重新啟動評估流程",
-            "C": "依據「資源盤點」與「彈性調整」原則，調整初期策略為優先完善資料收集流程並補強人力，再推進模型開發，並動態修訂整體時程",
-            "D": "直接採購市售的通用AI產能預測SaaS方案，以繞過資料整備問題，並要求廠商保證準確率達標"
-          },
-          "answer": "C",
-          "explanation": "章節明確指出，若資料品質不足，「應先投入資料整備而非急於模型開發」，此為「資源盤點」原則的核心要求；同時，「彈性調整」原則強調應動態調整時程與策略以應對技術瓶頸，而非照表操課。選項A 以劣質資料訓練模型，將導致模型效能不穩定，上線後修正成本更高。選項B 完全暫停計畫屬於過度保守，章節強調「彈性調整」而非放棄。選項D 採購通用SaaS方案無法解決企業資料缺失的根本問題，且廠商的準確率保證通常以資料品質達標為前提。",
-          "card": {
-            "concept": "AI導入規劃的「資源盤點」原則：若發現資料或人力不足，應先補強基礎，不可急於推進後續技術步驟；「彈性調整」原則：時程與策略需隨實際狀況動態修訂。",
-            "mnemonic": "「地基不穩，蓋樓必塌」——資料是AI的地基，地基（資料）不穩就先固地基，不能急著蓋樓（訓練模型）。",
-            "confusion": "常見混淆：將「暫停計畫」誤認為穩健策略。區別關鍵：彈性調整≠放棄計畫，而是重新排序任務優先序，維持推進動能。"
-          },
-          "difficulty": "難",
-          "type": "應用情境型",
+          "type": "計算判讀型",
           "tags": [
             "資源盤點",
-            "彈性調整",
-            "導入規劃原則",
-            "POC規劃",
-            "資料整備"
+            "人力資源",
+            "人月計算",
+            "技能與任務匹配"
           ],
-          "id": "mid-s1c6q3_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c6",
+            "basis": "（2）資源盤點與配置：人力資源角色職責、技能與任務匹配，以及提前招聘或內部培訓。"
+          },
+          "card": {
+            "concept": "AI 導入的人力資源配置應先將各角色可投入時間換算為人月，再與工作需求比對。",
+            "mnemonic": "先算人月，再配技能；缺口要提前補。",
+            "confusion": "專案負責人負責協調與進度管理，不能直接取代資料工程師；GPU、雲端平台等硬體或工具資源也不能補足專業人力缺口。"
+          }
+        },
+        {
+          "id": "mid-s1c6q002_codex100",
+          "chapter_id": "mid-s1c6",
+          "chapter_title": "AI導入規劃",
+          "question": "下列關於 Scrum 短衝（Sprint）核心產出的描述，何者正確？",
+          "options": {
+            "A": "Product Backlog 是本次 Sprint 已選定要完成的任務清單，Sprint Backlog 則是整個產品的需求待辦清單",
+            "B": "Increment 是每次 Sprint 結束時形成的完整、可運作且可交付的產品版本",
+            "C": "Sprint Review 屬於 Scrum 的核心產出，主要用來記錄產品開發待辦事項與優先順序",
+            "D": "Scrum Master 負責定義產品需求與優先順序，並維護 Product Backlog"
+          },
+          "answer": "B",
+          "explanation": "Increment 是 Scrum 的核心產出之一，指每次 Sprint 結束時形成的完整、可運作產品版本。A 將 Product Backlog 與 Sprint Backlog 的定義對調；Product Backlog 是整體產品開發待辦清單，Sprint Backlog 是本次 Sprint 要完成的任務清單。C 將 Sprint Review 的活動性質誤認為產出，該活動是展示成果並接受回饋。D 混淆角色職責，定義需求、排序優先順序與維護 Product Backlog 是 Product Owner 的責任，Scrum Master 則負責協助遵循 Scrum 流程、移除障礙與促進合作。",
+          "difficulty": "難",
+          "type": "概念定義型",
+          "tags": [
+            "Scrum",
+            "Sprint",
+            "Increment",
+            "核心產出",
+            "敏捷開發"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c6",
+            "basis": "（3）任務分解與時程設計：C. 短衝（Sprint）中 Scrum 的核心產出、主要角色與活動定義。"
+          },
+          "card": {
+            "concept": "Increment 是每次 Sprint 結束時產出的完整、可運作產品版本；Product Backlog 與 Sprint Backlog 則分別代表整體待辦與本輪任務清單。",
+            "mnemonic": "Backlog 列待辦，Sprint Backlog 定本輪，Increment 交成果。",
+            "confusion": "常見混淆包括把 Product Backlog 與 Sprint Backlog 對調、把 Sprint Review 當成產出，以及將 Product Owner 的需求管理職責誤歸給 Scrum Master。"
+          }
+        },
+        {
+          "id": "mid-s1c6q003_codex100",
+          "chapter_id": "mid-s1c6",
+          "chapter_title": "AI導入規劃",
+          "question": "某連鎖零售企業計畫在四個月內導入門市庫存異常預警系統。企業已有銷售與庫存資料，但現有資訊部門主要負責系統維護，缺乏資料科學與模型開發經驗；專案已編列足夠預算，且需要將模型整合至既有系統並依業務規則調整。下列哪一種 AI 導入模式最適切？",
+          "options": {
+            "A": "選用現有 Low-code／No-code 服務平台，因技術門檻低且可快速部署，並要求門市流程完全配合平台既有功能",
+            "B": "由現有資訊部門自行開發，因內部開發掌控力強且可保留技術自主性，先邊開發邊培養資料科學能力",
+            "C": "委外給專業技術公司或顧問團隊開發，利用其技術經驗加速導入，並在合約中明確約定交付範圍、時程與資料安全責任",
+            "D": "先延後導入，待企業完成資料科學家招募與 GPU 採購後，再由內部團隊負責完整開發流程"
+          },
+          "answer": "C",
+          "explanation": "企業目前缺乏資料科學與模型開發能力，但具備足夠預算且有明確時程需求，適合委外給具備成熟技術與經驗的專業團隊，以縮短開發與部署時間。同時，委外模式必須透過合約明確規範交付範圍與時程，並妥善管理資料安全風險。A 雖能快速部署且技術門檻低，但客製化與系統整合彈性可能不足；B 與 D 需要企業投入更多技術人力與硬體資源，且不符合目前的能力與時程條件。",
+          "difficulty": "中",
+          "type": "情境應用型",
+          "tags": [
+            "AI導入模式",
+            "委外開發",
+            "技術能力",
+            "專案時程",
+            "資料安全"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c6",
+            "basis": "3. AI 導入模式的選擇（E. 委外開發）"
+          },
+          "card": {
+            "concept": "企業缺乏內部 AI 技術能力但具備預算且有時程壓力時，可委外借助專業團隊加速開發；同時須管理合約範圍、時程與資料安全。",
+            "mnemonic": "缺技術、有預算、趕時程：委外開發；合約安全要顧好。",
+            "confusion": "選用商業服務雖快速且門檻低，但可能受限於客製化、長期成本與雲端資料隱私；內部開發則需要充足技術人力、硬體資源與較高初期投入。"
+          }
+        },
+        {
+          "id": "mid-s1c6q004_codex100",
+          "chapter_id": "mid-s1c6",
+          "chapter_title": "AI導入規劃",
+          "question": "下列關於 POC（概念驗證）在 AI 導入規劃中的作法，何者「不正確」？",
+          "options": {
+            "A": "聚焦單一功能或情境，以小範圍測試驗證技術與流程是否可行",
+            "B": "每輪設定可量化目標，並以技術效能、商業價值或使用者回饋評估結果",
+            "C": "採快速迭代，將每輪時間限制約 1 至 2 週，依測試結果調整方案",
+            "D": "POC 完成後即可直接全面部署，因此不必再依據測試結果評估風險或決定是否進入下一階段"
+          },
+          "answer": "D",
+          "explanation": "POC 的目的在於以最小範圍驗證技術與流程可行性，並透過評估結果辨識技術瓶頸、控制風險，再決定是否進入全面部署，因此不能在完成 POC 後不經評估就直接部署。A、B、C 均符合講義所述的 POC 作法。",
+          "difficulty": "易",
+          "type": "否定型",
+          "tags": [
+            "POC",
+            "概念驗證",
+            "快速迭代",
+            "導入成果驗證"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c6",
+            "basis": "4. 導入成果驗證與彙整；（1）利用 POC 概念驗證技術與流程可行性"
+          },
+          "card": {
+            "concept": "POC 以小範圍、短週期測試驗證技術與流程可行性，並依指標與回饋迭代調整，作為全面部署前的決策依據。",
+            "mnemonic": "小範圍先驗證，短週期快迭代，評估後再部署。",
+            "confusion": "POC 不是全面部署的替代品，也不是完成後必然直接上線；仍須根據技術效能、商業價值與使用者回饋評估風險及後續可行性。"
+          }
         }
       ]
     },
@@ -547,88 +1631,522 @@
       "title": "AI風險管理",
       "questions": [
         {
-          "question": "下列關於「資料漂移（Data Drift）」的描述，何者正確？",
+          "id": "mid-s1c7q001_codex100",
+          "chapter_id": "mid-s1c7",
+          "chapter_title": "AI風險管理",
+          "question": "某企業在 AI 專案風險盤點時發現：情境甲為系統未充分揭露個人資料用途，且未取得使用者充分同意；情境乙為開發團隊使用未經授權的第三方訓練資料。依據講義的風險分類，下列比較何者正確？",
           "options": {
-            "A": "資料漂移是指模型的預測準確度隨時間變差，通常由於訓練資料或環境變化，導致模型無法適應新的資料模式",
-            "B": "資料漂移是指模型在訓練資料上表現良好，但對未見過的測試資料無法正確預測，缺乏泛化能力",
-            "C": "資料漂移是指模型運行過程中，輸入資料的分佈發生了變化，使得模型的預測結果可能逐漸偏離原有的準確度",
-            "D": "資料漂移是指資料背後的潛在關係或模式隨時間改變，導致模型的預測不再準確"
+            "A": "情境甲屬個資與隱私保護風險，情境乙屬侵權風險；前者重點在個人資料的合法收集與使用，後者重點在第三方資料或資產的授權範圍",
+            "B": "情境甲屬侵權風險，情境乙屬個資與隱私保護風險；兩者皆只涉及資料品質問題",
+            "C": "情境甲屬技能短缺風險，情境乙屬變革抵制風險；兩者皆屬組織人力層風險",
+            "D": "情境甲屬資料漂移風險，情境乙屬模型穩定性風險；兩者皆屬技術層風險"
+          },
+          "answer": "A",
+          "explanation": "情境甲涉及資料收集與使用未符合法規，以及未取得使用者充分同意，屬於個資與隱私保護風險。情境乙涉及未經授權使用第三方訓練資料，屬於侵權風險，可能引發智慧財產權、商業秘密或著作權等法律問題。B 對調了兩種法規風險；C 將法規問題誤判為組織人力問題；D 則把法律問題誤判為技術層的漂移或模型穩定性問題。",
+          "difficulty": "中",
+          "type": "比較分析型",
+          "tags": [
+            "個資與隱私保護",
+            "侵權風險",
+            "法規風險",
+            "風險分類"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c7",
+            "basis": "2. 風險識別與法規合規／（1）風險類型與識別／C. 法規層風險"
+          },
+          "card": {
+            "concept": "個資與隱私保護風險關注個人資料是否依法收集、使用並取得充分同意；侵權風險關注第三方資料、模型、演算法或軟體是否在授權範圍內使用。",
+            "mnemonic": "「個資看同意，侵權看授權」：前者確認資料主體權益，後者確認第三方資產使用權。",
+            "confusion": "兩者都可能涉及資料，但未充分告知用途或未取得同意是個資與隱私問題；未經授權使用他人資料、模型或軟體則是侵權問題。"
+          }
+        },
+        {
+          "id": "mid-s1c7q002_codex100",
+          "chapter_id": "mid-s1c7",
+          "chapter_title": "AI風險管理",
+          "question": "某團隊將一次風險盤點記錄為下列 8 項，並規定每項只歸入一個風險來源：①訓練資料含有缺失值；②模型在訓練資料表現良好，但在未見過的測試資料上預測不佳；③業務部門與 IT 部門資訊不透明；④員工因擔心被取代而拒絕使用系統；⑤未取得使用者充分同意；⑥未即時更新產業合規標準；⑦未經授權使用第三方訓練資料；⑧模型運行期間輸入資料的分佈發生改變。若依講義分為 A 技術層、B 組織人力層、C 法規層，則 A：B：C 的項目數比例為何？",
+          "options": {
+            "A": "2：3：3",
+            "B": "3：2：3",
+            "C": "4：2：2",
+            "D": "3：3：2"
+          },
+          "answer": "B",
+          "explanation": "①資料遺漏屬資料品質風險，②訓練資料表現良好但測試資料表現不佳屬過擬合，⑧輸入資料分佈改變屬資料漂移，三者均為技術層，因此 A 有 3 項。③資訊不透明屬跨部門溝通風險，④因擔心被取代而拒用系統屬變革抵制風險，因此 B 有 2 項。⑤未取得充分同意屬個資與隱私保護風險，⑥屬產業特定監管法規風險，⑦屬侵權風險，因此 C 有 3 項，比例為 3：2：3。",
+          "difficulty": "難",
+          "type": "計算判讀型",
+          "tags": [
+            "技術層風險",
+            "組織人力層風險",
+            "法規層風險",
+            "風險識別"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c7",
+            "basis": "2. 風險識別與法規合規／（1）風險類型與識別／A. 技術層風險、B. 組織人力層風險、C. 法規層風險"
+          },
+          "card": {
+            "concept": "技術層涵蓋資料品質與模型穩定性；組織人力層涵蓋跨部門溝通、技能短缺與變革抵制；法規層涵蓋個資隱私、產業監管與侵權。",
+            "mnemonic": "「技術看資料與模型，組織看人與協作，法規看個資、產業與權利」。",
+            "confusion": "資料漂移與模型漂移不可混為一談；前者是輸入資料分佈改變，後者是模型準確度隨時間變差。未取得同意屬個資風險，未授權使用第三方資產則屬侵權風險。"
+          }
+        },
+        {
+          "id": "mid-s1c7q003_codex100",
+          "chapter_id": "mid-s1c7",
+          "chapter_title": "AI風險管理",
+          "question": "下列何者最符合「產業特定監管法規風險」的概念？",
+          "options": {
+            "A": "模型運行一段時間後，輸入資料分佈改變，使預測結果逐漸偏離原有準確度",
+            "B": "組織缺乏資料分析與模型維護人員，導致導入的 AI 系統無法有效運作",
+            "C": "醫療或金融等受監管產業的 AI 系統未符合適用的產業標準，或未即時更新合規要求，可能造成營運中斷與法律責任",
+            "D": "開發團隊未經授權使用第三方資料或開源軟體，且未遵守相關授權條款"
           },
           "answer": "C",
-          "explanation": "資料漂移（Data Drift）專指輸入資料的分佈本身發生改變，例如用戶行為模式轉變導致特徵分佈偏移。選項A描述的是模型漂移（Model Drift），強調預測準確度隨時間下降。選項B描述的是過擬合（Overfitting），問題發生在訓練階段。選項D描述的是概念漂移（Concept Drift），強調資料背後潛在關係的改變，層次比資料漂移更深。",
-          "card": {
-            "concept": "資料漂移指輸入資料分佈改變；模型漂移指預測準確度下降；概念漂移指資料背後潛在關係改變。三者層次不同，需加以區辨。",
-            "mnemonic": "「資料漂移看分佈、模型漂移看準確、概念漂移看關係」——由淺至深記憶三種漂移",
-            "confusion": "最常混淆資料漂移與概念漂移：資料漂移是輸入分佈變了，概念漂移是 X→Y 的映射關係變了；模型漂移則是這些變化累積後造成的結果指標下降"
-          },
+          "explanation": "產業特定監管法規風險是指 AI 系統未符合特定產業適用的監管要求，例如醫療產業的 HIPAA 或金融服務業的 PCI-DSS，或未即時更新合規標準，可能導致營運中斷或法律責任。A 是資料漂移，B 是技能短缺風險，D 是侵權風險。",
           "difficulty": "中",
           "type": "概念定義型",
           "tags": [
-            "資料漂移",
-            "模型漂移",
-            "概念漂移",
-            "過擬合",
-            "模型穩定性風險"
-          ],
-          "id": "mid-s1c7q1_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
-        },
-        {
-          "question": "依據AI風險管理框架的建議，風險辨識與控制策略應於AI系統全生命週期的哪個階段開始介入，並依序貫穿至哪些後續階段？下列順序何者正確？",
-          "options": {
-            "A": "模型開發完成後 → 執行風險辨識與合規評估 → 模型測試 → 部署上線 → 持續監控",
-            "B": "規劃階段納入風險辨識 → 模型開發 → 模型測試 → 模型部署 → 持續運維監控",
-            "C": "模型部署上線後 → 執行風險辨識 → 回饋修正開發 → 模型測試 → 持續監控",
-            "D": "模型測試階段 → 風險辨識 → 合規評估 → 規劃調整 → 模型部署 → 持續監控"
-          },
-          "answer": "B",
-          "explanation": "根據章節原文，「風險辨識和控制策略需要從規劃階段便開始納入，並貫穿於模型開發、測試、部署及運維的各個階段，形成完整的全生命周期風險治理體系」。AI風險管理應是前瞻性而非補救性，若等到部署後才進行風險辨識（選項A、C），可能已造成合規或技術損失。選項D將測試置於風險辨識之前，違反前期治理精神。",
-          "card": {
-            "concept": "AI風險管理必須從規劃階段前瞻性介入，貫穿開發→測試→部署→運維，形成全生命週期治理，而非部署後才補救。",
-            "mnemonic": "「規→開→測→部→維」五步全程，風險從頭管到尾",
-            "confusion": "常誤以為風險管理是部署後的補充工作；正確觀念是風險辨識必須在規劃階段就納入，AI治理是持續性而非一次性機制"
-          },
-          "difficulty": "易",
-          "type": "流程步驟型",
-          "tags": [
-            "AI風險管理",
-            "全生命週期",
-            "治理框架",
-            "風險辨識",
-            "AI Governance"
-          ],
-          "id": "mid-s1c7q2_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
-        },
-        {
-          "question": "某歐洲金融機構以AI信用評分系統全自動審核貸款申請，無任何人工介入，且評分結果直接決定核貸與否，對申請人產生重大財務影響。一位申請人提出兩項請求：①不接受純自動化信用評分決策，要求進行人工審查；②要求將其提供且依法可攜之個人資料以結構化、通用且可機器讀取格式轉移至另一服務平台。依據GDPR，下列哪種處理方式最為適切？",
-          "options": {
-            "A": "以系統技術限制為由拒絕兩項請求，因為實作成本過高",
-            "B": "接受請求①，但拒絕請求②，理由是資料轉移將損害企業競爭優勢",
-            "C": "依GDPR第22條回應請求①（資料主體有權要求人工介入，不受產生重大影響之純自動化決策拘束），並依第20條以結構化、通用且可機器讀取格式提供資料可攜，同時回應請求②",
-            "D": "要求申請人重新簽署同意書後才受理上述請求，並以30日內回覆作為唯一合規義務"
-          },
-          "answer": "C",
-          "explanation": "GDPR第22條賦予資料主體「反對自動化決策權」：當自動化處理對其產生法律效果或類似重大影響時（如信用評分決定核貸與否），資料主體有權要求人工介入，企業不得以技術成本為由拒絕。GDPR第20條「資料可攜權」則保障資料主體可要求以結構化、通用且可機器讀取格式取得並轉移其所提供、且符合自動化處理條件之個人資料，此權利不因商業競爭因素而可被限制。選項A、B均為非法拒絕。選項D混淆了「同意」的撤回機制與行使其他資料主體權利的程序——行使可攜權或反對自動化決策，不需重新取得同意。",
-          "card": {
-            "concept": "GDPR第22條（反對自動化決策）適用於對資料主體產生重大影響的純自動化決策；第20條（資料可攜）限於資料主體提供且符合特定處理基礎與自動化處理條件之個人資料，兩項權利均不得以商業或技術成本為由拒絕。",
-            "mnemonic": "GDPR權利口訣：「刪修攜反查限同最問」——刪除、修正、可攜、反對自動化、查閱、限制處理、同意、最小化、問責制",
-            "confusion": "常混淆兩點：①第22條僅適用於產生重大影響的純自動化決策（如信貸、徵才），一般個人化推薦未必符合門檻；②資料可攜權不涵蓋企業自行衍生或分析的資料，僅限資料主體提供且依特定基礎處理之原始個人資料"
-          },
-          "difficulty": "難",
-          "type": "應用情境型",
-          "tags": [
-            "GDPR",
-            "資料可攜權",
-            "反對自動化決策權",
-            "個資保護",
+            "產業特定監管法規",
+            "HIPAA",
+            "PCI-DSS",
             "法規合規"
           ],
-          "id": "mid-s1c7q3_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c7",
+            "basis": "2. 風險識別與法規合規／（1）風險類型與識別／C. 法規層風險／產業特定監管法規風險"
+          },
+          "card": {
+            "concept": "產業特定監管法規風險是指 AI 系統未遵循醫療、金融等產業適用的特殊法規或標準，可能造成營運中斷與法律責任。",
+            "mnemonic": "「進哪個產業，守哪套規範」：醫療看 HIPAA，支付卡相關服務看 PCI-DSS。",
+            "confusion": "產業監管風險不是一般個資風險，也不是侵權風險；前者重點是產業專屬監管要求，個資風險重點是個人資料保護，侵權風險重點是第三方資產授權。"
+          }
+        },
+        {
+          "id": "mid-s1c7q004_codex100",
+          "chapter_id": "mid-s1c7",
+          "chapter_title": "AI風險管理",
+          "question": "某位於歐盟境外的企業，利用 AI 系統分析歐盟居民的會員資料。資料主體要求刪除其個人資料，但企業另有法律要求必須保留部分紀錄。依據講義內容，下列處理方式何者最適切？",
+          "options": {
+            "A": "因企業位於歐盟境外，GDPR 不適用，僅需依企業所在地法規處理請求",
+            "B": "只要資料主體提出刪除要求，企業即不得援引任何例外，必須立即永久刪除全部資料",
+            "C": "資料主體曾同意資料處理，因此企業可將資料改作其他未告知用途，無須重新評估合法性",
+            "D": "GDPR 仍可能適用；企業應依第 17 條評估刪除請求，但法律要求保留資料等情況可能使刪除權不完全適用"
+          },
+          "answer": "D",
+          "explanation": "GDPR 適用於處理歐盟地區居民個資的企業，不以企業是否位於歐盟境內為限。資料主體依第 17 條享有刪除權，但法律要求保留資料或公共利益等情況，可能構成刪除權的例外。",
+          "difficulty": "難",
+          "type": "情境應用型",
+          "tags": [
+            "GDPR",
+            "刪除權",
+            "遺忘權",
+            "法規適用範圍",
+            "個資合規"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c7",
+            "basis": "（2）法規與合規性評估／A. 資料隱私與個資保護法規／GDPR 歐盟通用資料保護規則／刪除權（遺忘權）"
+          },
+          "card": {
+            "concept": "GDPR 適用範圍包含處理歐盟居民個資的企業，刪除權則可能因法律要求保留資料或公共利益而受限制。",
+            "mnemonic": "「看資料主體，不只看企業所在地；要刪除，也要查保留例外」。",
+            "confusion": "企業位於歐盟境外不代表一定不受 GDPR 規範；刪除權也不是在所有情況下都絕對適用。"
+          }
+        },
+        {
+          "id": "mid-s1c7q005_codex100",
+          "chapter_id": "mid-s1c7",
+          "chapter_title": "AI風險管理",
+          "question": "下列何者不屬於 PDPA 個人資料蒐集前的「事前告知義務」內容？",
+          "options": {
+            "A": "AI 模型的訓練迭代次數與預測準確率",
+            "B": "蒐集機關名稱，以及個人資料的蒐集目的與使用範圍",
+            "C": "個人資料的類別，以及資料利用的期間、地區、對象與方式",
+            "D": "當事人的權利及行使方式，以及不提供資料時對其權益的影響"
+          },
+          "answer": "A",
+          "explanation": "PDPA 事前告知義務包括蒐集機關名稱、蒐集目的與使用範圍、個人資料類別、利用情形、當事人權利及行使方式，以及不提供資料的影響。AI 模型的訓練迭代次數與預測準確率不在講義列明的告知事項中。",
+          "difficulty": "易",
+          "type": "否定型",
+          "tags": [
+            "PDPA",
+            "事前告知義務",
+            "個人資料保護",
+            "告知事項"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c7",
+            "basis": "（2）法規與合規性評估／A. 資料隱私與個資保護法規／PDPA 個人資料保護法／事前告知義務"
+          },
+          "card": {
+            "concept": "PDPA 要求蒐集個人資料前，明確告知蒐集者、目的、資料類別、利用方式、當事人權利及不提供資料的影響。",
+            "mnemonic": "「誰、為何、哪些、怎麼用、能主張什麼、不提供會怎樣」。",
+            "confusion": "事前告知義務著重資料蒐集與利用的透明性，不等同於揭露 AI 模型的訓練細節或效能指標。"
+          }
+        },
+        {
+          "id": "mid-s1c7q006_codex100",
+          "chapter_id": "mid-s1c7",
+          "chapter_title": "AI風險管理",
+          "question": "下列關於 GDPR、PDPA 與 CDPA 個資合規要求的比較，何者正確？",
+          "options": {
+            "A": "GDPR 僅適用於歐盟境內企業；PDPA 不要求蒐集前告知；CDPA 也不承認資料主體的查閱權",
+            "B": "GDPR 要求企業證明已落實合規措施，且高風險處理可能須進行 DPIA；PDPA 著重蒐集前事前告知；CDPA 要求透明簡明的隱私政策，並對敏感資料採取更嚴格保護",
+            "C": "GDPR 的 DPIA 適用於所有資料處理；PDPA 只需告知蒐集機關名稱；CDPA 僅規範資料可攜權而不涉及敏感資料保護",
+            "D": "GDPR 的問責制只要求企業口頭承諾合規；PDPA 不必說明資料利用期間與方式；CDPA 禁止企業提供資料主體查閱或刪除資料"
+          },
+          "answer": "B",
+          "explanation": "GDPR 的問責制要求企業證明已落實合規措施並保留必要紀錄，高風險資料處理須進行 DPIA。PDPA 強調蒐集前的事前告知義務；CDPA 則要求透明簡明的隱私政策，並對健康資訊等敏感資料採取更嚴格的保護措施。",
+          "difficulty": "中",
+          "type": "比較分析型",
+          "tags": [
+            "GDPR",
+            "PDPA",
+            "CDPA",
+            "DPIA",
+            "問責制",
+            "事前告知",
+            "敏感資料"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c7",
+            "basis": "（2）法規與合規性評估／A. 資料隱私與個資保護法規／GDPR、PDPA 與 CDPA"
+          },
+          "card": {
+            "concept": "GDPR 著重問責、資料最小化與高風險處理的 DPIA；PDPA 著重個資蒐集前的完整告知；CDPA 著重資料主體權利、透明隱私政策與敏感資料保護。",
+            "mnemonic": "「GDPR 要能證明，PDPA 要先告知，CDPA 要透明並加強保護」。",
+            "confusion": "三者都涉及個資保護，但規範焦點不同：GDPR 側重組織責任與風險評估，PDPA 側重事前告知，CDPA 側重特定州法下的權利、政策透明度及敏感資料防護。"
+          }
+        },
+        {
+          "id": "mid-s1c7q007_codex100",
+          "chapter_id": "mid-s1c7",
+          "chapter_title": "AI風險管理",
+          "question": "某電子支付服務商依 PCI-DSS 盤點八項控制措施：①防火牆設定、②資料傳輸與儲存加密、③多因素認證、④權限最小化、⑤弱點掃描、⑥滲透測試、⑦員工資料安全訓練、⑧內部稽核制度。目前已完成①②③⑤⑦，其餘尚未完成。若以這八項作為完整檢核清單，已完成比例為何？",
+          "options": {
+            "A": "37.5%",
+            "B": "50%",
+            "C": "62.5%",
+            "D": "75%"
+          },
+          "answer": "C",
+          "explanation": "八項措施中已完成五項，因此完成比例為5÷8＝62.5%。這些措施均屬講義列出的PCI-DSS相關控制要求。",
+          "difficulty": "中",
+          "type": "計算判讀型",
+          "tags": [
+            "PCI-DSS",
+            "支付卡資料安全",
+            "存取控制",
+            "安全評估",
+            "合規檢核"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c7",
+            "basis": "B. 產業專用合規規範"
+          },
+          "card": {
+            "concept": "PCI-DSS涵蓋網路安全、資料加密、嚴格存取控制、弱點掃描、滲透測試、員工訓練與內部稽核等措施。",
+            "mnemonic": "「防、密、認、權、掃、測、訓、稽」：防火牆、加密、認證、權限、掃描、測試、訓練、稽核。",
+            "confusion": "多因素認證與權限最小化都屬存取控制；弱點掃描與滲透測試則是定期安全評估，不能因同樣涉及資安而混為一談。"
+          }
+        },
+        {
+          "id": "mid-s1c7q008_codex100",
+          "chapter_id": "mid-s1c7",
+          "chapter_title": "AI風險管理",
+          "question": "某醫療AI專案依HIPAA規劃保護措施。下列何者正確呈現技術性、實體性與行政性保護措施的定義與歸類？",
+          "options": {
+            "A": "技術性保護措施主要管理伺服器與資料中心；實體性保護措施主要負責資料加密與身份驗證；行政性保護措施則只處理災難復原。",
+            "B": "技術性保護措施是員工安全意識教育與內部稽核；實體性保護措施是安全政策與程序；行政性保護措施是多因素認證與安全資料傳輸。",
+            "C": "技術性保護措施著重設備安全與資料中心管控；實體性保護措施著重風險評估與安全政策；行政性保護措施著重加密及訪問控制。",
+            "D": "技術性保護措施包括加密、身份驗證與訪問控制及安全傳輸儲存；實體性保護措施包括設備安全管控與備份災難復原；行政性保護措施包括安全政策、員工訓練與定期風險評估。"
+          },
+          "answer": "D",
+          "explanation": "HIPAA的技術性保護措施聚焦於加密、身份驗證、訪問控制及安全傳輸與儲存；實體性保護措施聚焦伺服器、資料中心等設備安全，以及備份與災難復原；行政性保護措施則包括安全政策與程序、員工培訓及定期內部風險評估。",
+          "difficulty": "難",
+          "type": "概念定義型",
+          "tags": [
+            "HIPAA",
+            "技術性保護措施",
+            "實體性保護措施",
+            "行政性保護措施",
+            "醫療AI合規"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c7",
+            "basis": "B. 產業專用合規規範"
+          },
+          "card": {
+            "concept": "HIPAA保護措施可分為技術性、實體性與行政性三類，分別對應資訊系統控制、設備與環境防護，以及組織政策與人員管理。",
+            "mnemonic": "「技術護資料、實體護設備、行政護制度與人員」。",
+            "confusion": "備份與災難復原在講義歸於實體性保護措施；定期風險評估與員工訓練則屬行政性，而非技術性控制。"
+          }
+        },
+        {
+          "id": "mid-s1c7q009_codex100",
+          "chapter_id": "mid-s1c7",
+          "chapter_title": "AI風險管理",
+          "question": "某銀行以過去十年的信用審核紀錄訓練貸款申請模型。上線前檢查發現，在其他條件相近時，某一族群的拒貸率明顯偏高；進一步追查後確認，歷史審核紀錄本身長期存在性別或種族差異。此情況最適合如何判斷？",
+          "options": {
+            "A": "屬於歷史偏見（Historical Bias），模型可能繼承並放大既有社會或制度偏見，進而產生歧視性決策",
+            "B": "屬於資料分布不均（Imbalanced Data），主要原因是該族群在訓練資料中的樣本數不足",
+            "C": "屬於標註偏見（Labeling Bias），主要原因是標註者在建置資料時對該族群抱持刻板印象",
+            "D": "屬於演算法偏見（Algorithmic Bias），主要原因是模型只優化整體準確度而忽略少數群體需求"
+          },
+          "answer": "A",
+          "explanation": "歷史審核紀錄已反映既有的性別或種族偏見，因此模型可能繼承甚至擴大這些偏見，形成歷史偏見並造成歧視性結果。B需有群體樣本不足的證據；C著重標註者主觀觀點；D著重演算法設計在整體效能與特定群體公平性間的取捨。",
+          "difficulty": "中",
+          "type": "情境應用型",
+          "tags": [
+            "歷史偏見",
+            "模型偏見",
+            "歧視性決策",
+            "公平性",
+            "信用審核"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c7",
+            "basis": "3. 偏見（Bias）與倫理（Ethics）／（1）模型偏見與歧視／A. 偏見產生來源與類型／歷史偏見（Historical Bias）"
+          },
+          "card": {
+            "concept": "歷史偏見是指歷史數據反映既有社會或制度上的偏見，使模型繼承並可能放大這些偏見，造成歧視性結果。",
+            "mnemonic": "「過去制度留痕跡，模型學到就放大」：看到歷史決策本身存在群體差異，先判斷歷史偏見。",
+            "confusion": "資料分布不均看樣本數是否不足；標註偏見看標註者的主觀觀點；演算法偏見看模型設計是否犧牲特定群體公平性；歷史偏見則看既有歷史資料是否承載社會或制度偏見。"
+          }
+        },
+        {
+          "id": "mid-s1c7q010_codex100",
+          "chapter_id": "mid-s1c7",
+          "chapter_title": "AI風險管理",
+          "question": "下列何者不符合企業落實 AI 問責性（Accountability）的作法？",
+          "options": {
+            "A": "為 AI 模型的設計、開發、部署及運營流程指定明確責任人",
+            "B": "只要模型的預測準確率達到要求，便不必指定責任人或處理模型造成的負面影響",
+            "C": "模型出現錯誤或偏差時，迅速識別問題並進行修正",
+            "D": "對 AI 決策可能對使用者、社會及環境造成的負面影響負責"
+          },
+          "answer": "B",
+          "explanation": "問責性要求企業建立清晰的治理責任體系，為模型各階段指定責任人，並對錯誤、偏差及模型造成的負面影響負責。僅以模型準確率達標為由免除責任，並不符合問責性的要求。",
+          "difficulty": "易",
+          "type": "否定型",
+          "tags": [
+            "問責性",
+            "AI倫理原則",
+            "治理責任"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c7",
+            "basis": "（2）倫理原則與框架／A. 國際 AI 倫理原則／問責性（Accountability）"
+          },
+          "card": {
+            "concept": "問責性要求企業為 AI 模型的設計、開發、部署與運營建立明確責任體系，並能處理錯誤、偏差及其負面影響。",
+            "mnemonic": "「有人負責、出錯可查、問題能改」就是問責性。",
+            "confusion": "問責性不等於只檢查模型準確率；即使技術表現良好，企業仍須對 AI 對使用者、社會與環境造成的影響負責。"
+          }
+        },
+        {
+          "id": "mid-s1c7q011_codex100",
+          "chapter_id": "mid-s1c7",
+          "chapter_title": "AI風險管理",
+          "question": "某金融企業準備向客戶說明 AI 貸款審核系統的倫理保障措施。下列關於透明度（Transparency）與可解釋性（Explainability）的比較，何者正確？",
+          "options": {
+            "A": "透明度只要求揭露程式碼；可解釋性只要求公開企業的 AI 使用政策",
+            "B": "透明度主要說明單一客戶被拒貸的個別理由；可解釋性則只需揭露模型使用哪些資料集",
+            "C": "透明度著重說明模型的運作邏輯、決策依據及可能結果；可解釋性則提供足夠且具體的資訊，使使用者理解特定決策的推理過程",
+            "D": "透明度只適用於低風險應用；可解釋性則僅適用於不涉及重大利益的決策"
+          },
+          "answer": "C",
+          "explanation": "透明度是向使用者、利益相關者及公眾說明模型如何處理資料、如何決策及可能造成的影響；可解釋性則更聚焦於讓使用者理解某項決策背後的推理過程，尤其適用於貸款等涉及重大利益的決策。",
+          "difficulty": "中",
+          "type": "比較分析型",
+          "tags": [
+            "透明度",
+            "可解釋性",
+            "AI倫理原則"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c7",
+            "basis": "（2）倫理原則與框架／A. 國際 AI 倫理原則／透明度（Transparency）與可解釋性（Explainability）"
+          },
+          "card": {
+            "concept": "透明度著重對外說明 AI 系統的運作與影響；可解釋性著重讓使用者理解特定決策的推理過程。",
+            "mnemonic": "「透明看全貌，解釋看理由」：前者說明系統如何運作，後者說明這次為何如此決策。",
+            "confusion": "透明度與可解釋性相關但不相同；只公開資料集或一般使用政策，不能取代對個別重大決策提供具體推理說明。"
+          }
+        },
+        {
+          "id": "mid-s1c7q012_codex100",
+          "chapter_id": "mid-s1c7",
+          "chapter_title": "AI風險管理",
+          "question": "某企業在模型部署前進行 AI 倫理審查，共記錄 20 項待改善事項，並依主要問題分為：透明度 4 項、可解釋性 5 項、公平性 7 項、問責性 4 項。後續已分別完成修正：透明度 3 項、可解釋性 4 項、公平性 5 項、問責性 2 項。若每項只歸入一個原則，下列何者正確？",
+          "options": {
+            "A": "尚有 4 項未完成，透明度的未完成比例最高",
+            "B": "尚有 5 項未完成，可解釋性的未完成比例最高",
+            "C": "尚有 6 項未完成，公平性的未完成比例最高",
+            "D": "尚有 6 項未完成，問責性的未完成比例最高"
+          },
+          "answer": "D",
+          "explanation": "各原則尚未完成的項目數為：透明度 4−3＝1、可解釋性 5−4＝1、公平性 7−5＝2、問責性 4−2＝2，因此合計 6 項。各類未完成比例分別為 25%、20%、約 28.6% 與 50%，最高為問責性，故選 D。",
+          "difficulty": "難",
+          "type": "計算判讀型",
+          "tags": [
+            "透明度",
+            "可解釋性",
+            "公平性",
+            "問責性",
+            "倫理審查"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c7",
+            "basis": "（2）倫理原則與框架／A. 國際 AI 倫理原則／透明度、可解釋性、公平性與問責性"
+          },
+          "card": {
+            "concept": "判讀倫理審查結果時，應先計算各原則的未完成項目，再以各原則原始項目數為分母比較未完成比例。",
+            "mnemonic": "「先減已修正，再除原總數」：未完成數不等於未完成比例。",
+            "confusion": "公平性與問責性各剩 2 項，但問責性的原始項目較少，因此未完成比例為 2／4，高於公平性的 2／7；不可只比較剩餘件數。"
+          }
+        },
+        {
+          "id": "mid-s1c7q013_codex100",
+          "chapter_id": "mid-s1c7",
+          "chapter_title": "AI風險管理",
+          "question": "下列何者最符合企業倫理委員會（Ethics Committee）的職責與組成？",
+          "options": {
+            "A": "由技術、法律、人權及風險管理等領域人員組成，定期審查 AI 專案的倫理影響並確認其符合相關原則與規範",
+            "B": "由行銷部門負責公開 AI 使用原則，並主要蒐集消費者對產品功能的偏好",
+            "C": "由模型工程師負責在部署前執行風險評估，並獨自決定所有預防措施",
+            "D": "由人資部門定期安排員工教育訓練，提升員工辨識偏見與歧視的能力"
+          },
+          "answer": "A",
+          "explanation": "倫理委員會應是跨領域組織，納入技術、法律、人權及風險管理等專業人士，主要負責定期審查 AI 專案的倫理影響，並確認專案符合內外部倫理原則與規範。B、C、D 分別較接近對外溝通、AI 審查流程及內部教育訓練的職責。",
+          "difficulty": "中",
+          "type": "概念定義型",
+          "tags": [
+            "倫理委員會",
+            "企業倫理治理",
+            "跨領域治理"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c7",
+            "basis": "（2）倫理原則與框架／B. 企業內部倫理治理框架／倫理委員會（Ethics Committee）"
+          },
+          "card": {
+            "concept": "倫理委員會是由技術、法律、人權、風險管理等專業人士組成的跨領域治理組織，負責審查 AI 專案的倫理影響。",
+            "mnemonic": "「技法人風組委會」：技術、法律、人權、風險管理共同審查。",
+            "confusion": "倫理委員會不是單一工程團隊，也不等同於 AI 審查流程、內部教育訓練或對外溝通管道；其核心是跨領域與獨立的倫理影響審查。"
+          }
+        },
+        {
+          "id": "mid-s1c7q014_codex100",
+          "chapter_id": "mid-s1c7",
+          "chapter_title": "AI風險管理",
+          "question": "某金融機構在 AI 詐欺偵測模型上線前完成風險盤點，發現資料外洩風險與模型效能下降風險。若要將盤點結果落實為完整的風險管理計畫，下列哪一項做法最適切？",
+          "options": {
+            "A": "僅記錄兩項風險名稱與模型預計上線日期，並由專案經理在發生問題後再決定處理方式",
+            "B": "列出兩項風險及其影響評分，分別訂定資料加密與模型驗證、持續監控等措施及時程，指定資安團隊與資料科學團隊負責，並設定每週向管理層回報",
+            "C": "購買 AI 系統故障保險並要求供應商簽署 SLA，即可取代內部的風險責任分工與監控回報機制",
+            "D": "直接暫停整個 AI 專案，待所有潛在風險完全消失後再重新評估，無須建立風險清單與監控指標"
+          },
+          "answer": "B",
+          "explanation": "風險管理計畫應包括風險識別與評估結果、具體的風險對應措施與時程、責任人與分工，以及監控與回報機制。B 同時涵蓋這四項內容。A 缺少具體措施、責任與持續監控；C 屬於風險轉移作法，但不能取代內部責任分工與監控；D 是迴避策略，並非完整的風險管理計畫。",
+          "difficulty": "難",
+          "type": "情境應用型",
+          "tags": [
+            "風險管理計畫",
+            "風險評估",
+            "責任分工",
+            "監控與回報"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c7",
+            "basis": "4. 風險緩解策略與工具／（1）風險控管策略／E. 風險管理計畫"
+          },
+          "card": {
+            "concept": "風險管理計畫需整合風險清單與影響評分、對應措施與時程、責任人分工，以及監控與回報機制。",
+            "mnemonic": "「列風險、訂措施、分責任、設回報」。",
+            "confusion": "保險或 SLA 只能作為風險轉移工具，不能取代企業本身的風險評估、責任分工與持續監控。"
+          }
+        },
+        {
+          "id": "mid-s1c7q015_codex100",
+          "chapter_id": "mid-s1c7",
+          "chapter_title": "AI風險管理",
+          "question": "下列何者不符合 MLOps 中「資料漂移監控」的主要作法？",
+          "options": {
+            "A": "比較新輸入資料與原始訓練資料的分佈，判斷是否出現顯著差異",
+            "B": "持續觀察促銷期間消費金額等特徵分佈的變化，必要時發出調整提示",
+            "C": "只要模型錯誤率超過設定閾值便立即發出警報，完全不檢查輸入資料的分佈變化",
+            "D": "當新資料分佈與原訓練資料差異顯著時提出警告，提示團隊調整資料或模型"
+          },
+          "answer": "C",
+          "explanation": "資料漂移監控的重點是監測新輸入資料與原訓練資料之間的分佈變化。C 僅依模型錯誤率閾值發警報，屬於效能異常警示的作法，並未直接監測資料分佈。",
+          "difficulty": "易",
+          "type": "否定型",
+          "tags": [
+            "MLOps",
+            "資料漂移監控",
+            "特徵分佈",
+            "效能異常警示"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c7",
+            "basis": "4. 風險緩解策略與工具／（2）風險監控與工具／B. 資料漂移監控"
+          },
+          "card": {
+            "concept": "資料漂移監控是比較新輸入資料與原訓練資料的分佈，及早發現資料模式改變。",
+            "mnemonic": "「資料漂移看分佈，效能警示看錯誤率」。",
+            "confusion": "錯誤率超過閾值屬效能異常警示；資料漂移監控則應直接觀察輸入特徵或資料分佈的變化。"
+          }
+        },
+        {
+          "id": "mid-s1c7q016_codex100",
+          "chapter_id": "mid-s1c7",
+          "chapter_title": "AI風險管理",
+          "question": "下列關於 AI 風險控管四種策略的比較，何者正確？",
+          "options": {
+            "A": "迴避是透過保險或委外合約將損失交由第三方承擔；轉移則是在風險過高時停止相關活動",
+            "B": "緩解是接受低衝擊風險並以日常監控因應；接受則是透過資料清洗與模型驗證降低風險發生機率",
+            "C": "迴避是在持續執行活動的同時設定準確率閾值監控；轉移則是直接取消整個專案",
+            "D": "迴避是在風險損害嚴重且難以控制時停止相關活動；轉移是以保險或合約由第三方承擔損失；緩解是主動降低風險機率或影響；接受則是對低衝擊風險監控並承擔其影響"
+          },
+          "answer": "D",
+          "explanation": "迴避是停止可能造成嚴重且難以控制損害的活動；轉移是透過保險或委外合約由第三方承擔潛在損失；緩解是採取資料清洗、模型驗證或持續監控等措施降低風險機率或影響；接受則適用於影響較低且控管成本不划算的風險，並需持續監控。",
+          "difficulty": "中",
+          "type": "比較分析型",
+          "tags": [
+            "迴避",
+            "轉移",
+            "緩解",
+            "接受",
+            "風險控管策略"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c7",
+            "basis": "4. 風險緩解策略與工具／（1）風險控管策略／A. 迴避、B. 轉移、C. 緩解、D. 接受"
+          },
+          "card": {
+            "concept": "四種策略的核心差異：迴避停止活動、轉移交由第三方承擔、緩解降低機率或影響、接受承擔低衝擊風險並監控。",
+            "mnemonic": "「迴避停、轉移分、緩解降、接受看」。",
+            "confusion": "保險與 SLA 是轉移，不是迴避；資料清洗與模型驗證是緩解，不是接受；接受也不是完全不管，而是要設定監控指標。"
+          }
         }
       ]
     },
@@ -637,88 +2155,529 @@
       "title": "數據準備與模型選擇",
       "questions": [
         {
-          "question": "下列關於「資料品質評估指標」的描述，何者正確？",
+          "id": "mid-s1c8q001_codex100",
+          "chapter_id": "mid-s1c8",
+          "chapter_title": "數據準備與模型選擇",
+          "question": "某製造企業整理 1,500 筆機台紀錄時，發現「運轉溫度」有 45 筆缺失。依講義對缺失值處理的說明，下列判讀何者正確？",
           "options": {
-            "A": "「一致性（Consistency）」是指資料欄位間的邏輯是否合理，例如年齡欄位不應為負數",
-            "B": "「完整性（Completeness）」是指資料值必須與真實世界狀況相符，不允許任何估算值",
-            "C": "「即時性（Timeliness）」主要用於確認資料是否有重複的主鍵紀錄",
-            "D": "「唯一性（Uniqueness）」是指所有數值欄位的值都必須落在合法的統計範圍內"
+            "A": "缺失率為 3%，應依資料特性考慮平均數／中位數、前後值或插值法填補",
+            "B": "缺失率為 3%，因此可直接使用 drop_duplicates() 清除這些紀錄",
+            "C": "缺失率為 30%，應以 Z-score 判定缺失值是否為異常值",
+            "D": "缺失率為 97%，通常應刪除整個運轉溫度欄位"
           },
           "answer": "A",
-          "explanation": "根據章節內容，「一致性」指的是資料欄位間的邏輯是否一致，年齡欄位不應為負數即為典型範例。「完整性」指的是資料是否缺少關鍵欄位，而非禁止估算值。「即時性」是關於資料是否最新，「唯一性」才是針對重複或衝突的主鍵欄位進行檢查。",
-          "card": {
-            "concept": "資料品質的五大評估指標：完整性、一致性、準確性、即時性、唯一性，各有明確定義範疇。",
-            "mnemonic": "「完一準即唯」→ 完整、一致、準確、即時、唯一；可聯想「完全準時唯一的好資料」",
-            "confusion": "最常混淆「唯一性」與「完整性」：唯一性針對重複主鍵，完整性針對缺失欄位；另外「準確性」與「一致性」也常互換，準確性是對應真實世界，一致性是欄位間邏輯自洽。"
-          },
-          "difficulty": "易",
-          "type": "概念定義型",
-          "tags": [
-            "資料品質",
-            "資料清理",
-            "完整性",
-            "一致性"
-          ],
-          "id": "mid-s1c8q1_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
-        },
-        {
-          "question": "依本章介紹的資料準備流程，在進行 AI 專案的資料準備時，下列步驟較合理的順序為何？\n① 使用 Z-score 或 IQR 檢測並處理異常值\n② 確認資料來源（內部 ERP/CRM 或外部開放資料）並完成收集\n③ 執行特徵工程（正規化、類別編碼、時間特徵擴增）\n④ 處理缺失值（均值填補、插值法或模型推估）",
-          "options": {
-            "A": "②→①→④→③",
-            "B": "②→④→①→③",
-            "C": "①→②→③→④",
-            "D": "④→②→①→③"
-          },
-          "answer": "B",
-          "explanation": "正確流程為：先確認並收集資料來源（②），再進行清理——優先補齊缺失值（④），接著偵測與處理異常值（①），最後才執行特徵工程（③）將乾淨資料轉換為模型可用格式。若先處理異常值再補缺失值，可能因資料不完整而影響統計基準；特徵工程必須在資料清理完成後才能確保轉換品質。",
-          "card": {
-            "concept": "資料準備的標準順序：收集→缺失值處理→異常值處理→特徵工程，清理在前、轉換在後。",
-            "mnemonic": "「收缺異特」→ 收集、缺失、異常、特徵；口訣：「收集乾淨再加工」",
-            "confusion": "缺失值處理應先於異常值處理：因為異常值統計方法（Z-score、IQR）在有缺失時會失真，必須先填補或排除缺失後再偵測異常。"
-          },
+          "explanation": "45 ÷ 1,500 = 3%，因此缺失率為 3%。講義列出的缺失值處理方法包括平均數／中位數填補、前後值填補與插值法；drop_duplicates() 用於重複值清除，Z-score 用於異常值檢測。",
           "difficulty": "中",
-          "type": "流程步驟型",
+          "type": "計算判讀型",
           "tags": [
-            "資料準備",
             "資料清理",
             "缺失值",
-            "異常值",
-            "特徵工程"
+            "缺失率",
+            "填補方法"
           ],
-          "id": "mid-s1c8q2_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c8",
+            "basis": "5.1 數據準備與模型選擇／2. 資料收集與清理／B. 清理與品質檢核／缺失值處理"
+          },
+          "card": {
+            "concept": "缺失值比例可先由缺失筆數除以總筆數計算，再依資料特性選擇平均數、中位數、前後值或插值法處理。",
+            "mnemonic": "缺失率＝缺失筆數÷總筆數；處理可記為「均中、前後、插值」。",
+            "confusion": "drop_duplicates() 是清除重複值的方法，Z-score 與 IQR 主要用於異常值檢測，不能把缺失值直接當成異常值。"
+          }
         },
         {
-          "question": "某電商企業欲建立顧客購買行為預測模型（選用邏輯迴歸作為初版模型），其資料集包含：會員等級（銀卡/金卡/白金卡）、商品類別（3C/服飾/食品等 20 類）、購買金額，以及過去 30 天的登入時間戳。下列特徵處理方式何者最為適切？",
+          "id": "mid-s1c8q002_codex100",
+          "chapter_id": "mid-s1c8",
+          "chapter_title": "數據準備與模型選擇",
+          "question": "下列關於資料清理方法與處理對象的配對，何者正確？",
           "options": {
-            "A": "會員等級使用獨熱編碼（One-hot Encoding），商品類別使用標籤編碼（Label Encoding），購買金額使用標準化（Standardization），時間戳直接輸入模型",
-            "B": "會員等級使用序數編碼（Ordinal Encoding）並明確設定銀卡=1、金卡=2、白金卡=3，商品類別使用獨熱編碼（One-hot Encoding），購買金額使用正規化（Normalization），時間戳擷取星期幾與時段等週期性特徵",
-            "C": "會員等級與商品類別均使用獨熱編碼（One-hot Encoding），購買金額不做任何轉換，時間戳擷取 Unix timestamp 數值直接使用",
-            "D": "會員等級使用獨熱編碼（One-hot Encoding），商品類別使用標籤編碼（Label Encoding），購買金額使用標準化（Standardization），時間戳僅擷取月份與年份欄位"
+            "A": "缺失值—使用 Z-score 或 IQR 篩選，以判定缺失資料是否偏離平均",
+            "B": "重複值—針對顧客編號或交易編號檢查，並可使用 drop_duplicates() 去重",
+            "C": "異常值—優先使用前向填補或後向填補，將極端數值補成鄰近值",
+            "D": "即時性—使用主鍵重複檢查，判斷資料是否符合唯一性要求"
           },
           "answer": "B",
-          "explanation": "會員等級（銀/金/白金）具有明確順序關係，應使用序數編碼並明確指定順序（銀卡<金卡<白金卡）以保留其序位資訊；商品類別為無序分類，應使用獨熱編碼避免模型誤解數值大小含意。邏輯迴歸對特徵尺度敏感，購買金額需正規化。時間戳應擷取星期幾、上午/下午等週期性特徵，讓模型捕捉行為的時間模式，直接輸入原始時間數值無法傳達週期性語意。選項 A 的編碼方式與有序/無序性質相反；選項 C 對金額未縮放，在邏輯迴歸中會導致梯度不平衡；選項 D 商品類別用標籤編碼會讓模型誤以為類別間有數值大小關係，且時間戳只取月份與年份無法反映顧客的週間或時段行為模式。",
-          "card": {
-            "concept": "類別特徵編碼的核心原則：有序類別用序數編碼（需明確指定順序）、無序類別用獨熱編碼；時間戳應轉換為週期性特徵而非原始數值。",
-            "mnemonic": "「有序→序數、無序→獨熱、時間→週期」；聯想：有秩序的人用號碼排隊，沒秩序的人各拿一個牌子",
-            "confusion": "最常見錯誤：將有序類別（等級、學歷）誤用獨熱編碼（喪失順序資訊），或將無序類別（城市、商品類型）誤用標籤編碼（讓模型誤以為數字大小有意義）；時間戳易被誤以為只需擷取年月即可，忽略星期與時段的週期性行為模式。"
-          },
+          "explanation": "重複值清除應針對顧客編號、交易編號等主鍵欄位進行檢查，並可使用 pandas 或 Spark DataFrame 的 drop_duplicates() 去重。Z-score 與 IQR 用於異常值檢測；前向／後向填補用於缺失值處理；即時性則評估資料是否為最新。",
           "difficulty": "難",
-          "type": "應用情境型",
+          "type": "概念定義型",
           "tags": [
-            "特徵工程",
-            "類別編碼",
-            "獨熱編碼",
-            "序數編碼",
-            "時間特徵",
-            "正規化"
+            "資料清理",
+            "重複值",
+            "主鍵",
+            "資料品質"
           ],
-          "id": "mid-s1c8q3_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c8",
+            "basis": "5.1 數據準備與模型選擇／2. 資料收集與清理／B. 清理與品質檢核"
+          },
+          "card": {
+            "concept": "資料清理方法必須對應正確問題：缺失值需填補或評估刪除，重複值檢查主鍵並去重，異常值則用統計方法或模型偵測。",
+            "mnemonic": "「缺失補、重複刪、異常測、即時看新舊」。",
+            "confusion": "Z-score、IQR、Isolation Forest 與 LOF 是異常值檢測工具，不是缺失值填補工具；唯一性關注重複或衝突，即時性關注資料新鮮度。"
+          }
+        },
+        {
+          "id": "mid-s1c8q003_codex100",
+          "chapter_id": "mid-s1c8",
+          "chapter_title": "數據準備與模型選擇",
+          "question": "某製造企業要建立每日更新的產線故障風險分析，除內部機台資料外，還需要氣象資訊。下列資料取得方案最符合本段講義？",
+          "options": {
+            "A": "僅以 ERP 的採購與財務資料推估氣象，不另行收集外部資料",
+            "B": "直接爬取任一氣象網站，不需檢查網站條款或資料使用合規性",
+            "C": "優先評估氣象機構的開放資料 API，並確認程式擷取與資料使用符合規範",
+            "D": "以內部 CRM 顧客互動紀錄取代氣象資料，因兩者都屬企業資料"
+          },
+          "answer": "C",
+          "explanation": "講義將氣象機構列為開放資料來源，並指出可透過程式介面自動擷取最新資料。若採用網頁爬蟲，仍須注意網站條款與資料使用合規性，因此 C 最符合情境。",
+          "difficulty": "中",
+          "type": "情境應用型",
+          "tags": [
+            "資料來源",
+            "外部資料",
+            "開放資料",
+            "API",
+            "合規"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c8",
+            "basis": "5.1 數據準備與模型選擇／2. 資料收集與清理／A. 資料來源與收集／外部資料來源"
+          },
+          "card": {
+            "concept": "外部資料可來自政府開放資料平台、氣象機構或其他資料平台；開放資料 API 有助於自動取得最新資料，但仍須確認使用規範。",
+            "mnemonic": "「外部先找 API，爬蟲必看條款」。",
+            "confusion": "ERP、CRM 與機台資料屬企業內部資料，不能因同屬企業資料就取代具有不同語意的外部氣象資料；網頁內容也不是可無條件擷取使用。"
+          }
+        },
+        {
+          "id": "mid-s1c8q004_codex100",
+          "chapter_id": "mid-s1c8",
+          "chapter_title": "數據準備與模型選擇",
+          "question": "下列何者不是本段所列的資料收集、清理與品質檢核內容？",
+          "options": {
+            "A": "以平均數／中位數或插值法處理缺失值",
+            "B": "檢查主鍵欄位重複值並進行去重",
+            "C": "以 Z-score、IQR 或 Isolation Forest 檢測異常值",
+            "D": "依訓練損失調整神經網路學習率以改善模型收斂"
+          },
+          "answer": "D",
+          "explanation": "本段列出的資料清理與品質檢核包括缺失值處理、重複值清除及異常值檢測。依訓練損失調整學習率屬模型訓練或超參數調整，不是本段列舉的資料收集、清理與品質檢核內容。",
+          "difficulty": "易",
+          "type": "否定型",
+          "tags": [
+            "資料清理",
+            "缺失值",
+            "重複值",
+            "異常值",
+            "模型訓練"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c8",
+            "basis": "5.1 數據準備與模型選擇／2. 資料收集與清理／B. 清理與品質檢核"
+          },
+          "card": {
+            "concept": "資料清理與品質檢核主要處理缺失值、重複值與異常值，目標是提升輸入資料品質。",
+            "mnemonic": "「缺、重、異」是清理三類核心問題。",
+            "confusion": "學習率調整與訓練損失監控屬模型訓練階段，不能與資料清理方法混淆。"
+          }
+        },
+        {
+          "id": "mid-s1c8q005_codex100",
+          "chapter_id": "mid-s1c8",
+          "chapter_title": "數據準備與模型選擇",
+          "question": "資料團隊比較三種特徵選擇方法，下列配對與功能說明何者正確？",
+          "options": {
+            "A": "資訊增益衡量特徵帶來的資訊量；皮爾森相關係數衡量數值特徵間的線性相關性；L1正則化可在線性模型中選擇具影響力的特徵",
+            "B": "資訊增益主要衡量數值特徵的線性關係；皮爾森相關係數衡量分類預測的不確定性；L1正則化用於產生主成分",
+            "C": "資訊增益用於填補缺失值；皮爾森相關係數用於類別編碼；L1正則化主要用於 t-SNE 與 UMAP 視覺化",
+            "D": "三種方法都會將原始特徵轉換為新的低維主成分，因此不具特徵選擇功能"
+          },
+          "answer": "A",
+          "explanation": "資訊增益用於衡量特徵在預測中帶來的資訊量；皮爾森相關係數衡量數值特徵之間的線性相關性；L1正則化則透過懲罰模型複雜度，在線性模型中選擇具影響力的特徵。其他選項混淆了特徵選擇、降維、資料填補與視覺化的用途。",
+          "difficulty": "中",
+          "type": "比較分析型",
+          "tags": [
+            "特徵選擇",
+            "資訊增益",
+            "皮爾森相關係數",
+            "L1正則化"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c8",
+            "basis": "3. 資料標註與特徵工程／B. 特徵選擇與降維／特徵選擇"
+          },
+          "card": {
+            "concept": "資訊增益、皮爾森相關係數與 L1 正則化都可協助挑選有用特徵，但衡量依據不同。",
+            "mnemonic": "「資訊看貢獻、皮爾森看線性、L1看係數歸零」。",
+            "confusion": "特徵選擇保留原有特徵中的重要欄位；PCA 則將原始資料轉換為新的主成分，兩者不是同一操作。"
+          }
+        },
+        {
+          "id": "mid-s1c8q006_codex100",
+          "chapter_id": "mid-s1c8",
+          "chapter_title": "數據準備與模型選擇",
+          "question": "某數值特徵的最小值為 10、最大值為 30、平均數為 20、標準差為 5。若其中一筆資料的數值為 25，依講義所述分別進行正規化與標準化，下列判讀何者正確？",
+          "options": {
+            "A": "正規化結果為 0.5，標準化結果為 1",
+            "B": "正規化結果為 0.75，標準化結果為 1",
+            "C": "正規化結果為 0.75，標準化結果為 5",
+            "D": "正規化與標準化結果都會落在 0 到 1 之間"
+          },
+          "answer": "B",
+          "explanation": "正規化依最小值與最大值換算，結果為（25−10）÷（30−10）＝0.75；標準化使用 Z-score，結果為（25−20）÷5＝1。標準化的結果不必落在 0 到 1 之間。",
+          "difficulty": "難",
+          "type": "計算判讀型",
+          "tags": [
+            "正規化",
+            "標準化",
+            "Normalization",
+            "Standardization",
+            "Z-score"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c8",
+            "basis": "3. 資料標註與特徵工程／A. 特徵處理流程／數值特徵轉換"
+          },
+          "card": {
+            "concept": "正規化通常以最小值與最大值將數值縮放至 0 到 1；標準化則以平均數與標準差轉換為平均數 0、標準差 1 的分布。",
+            "mnemonic": "「正規看極值，標準看平均與標差」。",
+            "confusion": "正規化的 0 到 1 範圍不能套用到標準化；標準化後的 Z-score 可能是負值或大於 1。"
+          }
+        },
+        {
+          "id": "mid-s1c8q007_codex100",
+          "chapter_id": "mid-s1c8",
+          "chapter_title": "數據準備與模型選擇",
+          "question": "下列何者最符合自動特徵工程（Auto Feature Engineering）的定義？",
+          "options": {
+            "A": "由資料科學家手動完成所有資料轉換與特徵篩選，工具只負責儲存結果",
+            "B": "只對缺失資料進行填補，不建立新特徵，也不評估特徵對模型的貢獻",
+            "C": "利用 AutoML 演算法自動建立、評估與篩選特徵，並可依資料特性及模型反饋調整特徵處理方式",
+            "D": "只更換模型架構與部署平台，完全不改變輸入資料的特徵"
+          },
+          "answer": "C",
+          "explanation": "自動特徵工程是 AutoML 的功能，能自動生成與選擇特徵、評估特徵貢獻、刪除冗餘或低貢獻特徵，並可根據資料集特性及模型訓練與驗證結果調整特徵處理。",
+          "difficulty": "中",
+          "type": "概念定義型",
+          "tags": [
+            "自動特徵工程",
+            "AutoML",
+            "特徵生成",
+            "特徵選擇"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c8",
+            "basis": "3. 資料標註與特徵工程／C. 自動特徵工程（Auto Feature Engineering）"
+          },
+          "card": {
+            "concept": "自動特徵工程透過 AutoML 自動生成、評估、選擇與調整特徵，減少手動處理的工作量。",
+            "mnemonic": "「自動生、評、選、調」。",
+            "confusion": "AutoML 不只是自動填補缺失值，也不僅是更換模型；其核心還包括特徵創建、篩選、互動檢測與模型反饋調整。"
+          }
+        },
+        {
+          "id": "mid-s1c8q008_codex100",
+          "chapter_id": "mid-s1c8",
+          "chapter_title": "數據準備與模型選擇",
+          "question": "某電商團隊以「瀏覽次數」與「優惠券使用次數」預測顧客是否購買，發現兩個特徵單獨使用時預測力有限，但兩者同時出現時可能產生額外影響。團隊希望找出此類隱藏關聯，並刪除冗餘或低貢獻特徵。下列哪一種作法最符合講義對自動特徵工程的說明？",
+          "options": {
+            "A": "只保留預測力較高的單一特徵，避免模型處理兩個特徵的組合",
+            "B": "將兩個特徵直接相加後固定輸入模型，不再進行特徵評估",
+            "C": "將所有特徵轉成標籤編碼，再以人工方式逐一檢查每個特徵",
+            "D": "使用 AutoML 自動測試特徵組合與互動作用，依模型訓練與驗證結果保留有效特徵並刪除冗餘特徵"
+          },
+          "answer": "D",
+          "explanation": "講義指出，自動特徵工程可檢測並建立特徵之間的互動作用，測試不同組合對預測結果的影響，並依模型反饋選擇最佳特徵集，同時刪除冗餘或低貢獻特徵。因此 D 最符合情境。",
+          "difficulty": "難",
+          "type": "情境應用型",
+          "tags": [
+            "AutoML",
+            "特徵組合",
+            "互動作用",
+            "模型反饋",
+            "冗餘特徵"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c8",
+            "basis": "3. 資料標註與特徵工程／C. 自動特徵工程（Auto Feature Engineering）／特徵組合與互動作用檢測"
+          },
+          "card": {
+            "concept": "AutoML 可自動測試特徵間的組合與互動作用，並根據模型表現保留有效特徵、移除冗餘或低貢獻特徵。",
+            "mnemonic": "「先組合、再驗證、留有效、刪冗餘」。",
+            "confusion": "特徵互動不等於單純相加；是否保留組合特徵必須透過模型訓練與驗證評估其預測貢獻。"
+          }
+        },
+        {
+          "id": "mid-s1c8q009_codex100",
+          "chapter_id": "mid-s1c8",
+          "chapter_title": "數據準備與模型選擇",
+          "question": "團隊正在整理迴歸模型的選擇原則，以下哪一項說法不符合本段對迴歸任務與常見演算法的說明？",
+          "options": {
+            "A": "迴歸模型通常用於預測有限個類別標籤，而非連續的實數結果",
+            "B": "線性迴歸適合應用於資料具有線性關係的情況",
+            "C": "隨機森林迴歸透過多棵決策樹的平均預測結果，降低過度擬合風險",
+            "D": "梯度提升樹透過多次迭代提升模型準確度，對複雜資料集表現良好"
+          },
+          "answer": "A",
+          "explanation": "迴歸任務的目的在於預測連續數值型結果，輸出通常是實數；預測有限個類別標籤屬於分類任務。線性迴歸、隨機森林迴歸與梯度提升樹的其餘描述皆符合講義內容。",
+          "difficulty": "易",
+          "type": "否定型",
+          "tags": [
+            "模型選擇",
+            "監督式學習",
+            "迴歸",
+            "線性迴歸",
+            "隨機森林迴歸",
+            "梯度提升樹"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c8",
+            "basis": "4. 模型選擇策略／A. 監督式學習－迴歸任務（Regression）"
+          },
+          "card": {
+            "concept": "迴歸任務用於預測連續數值結果；常見模型包括線性迴歸、決策樹迴歸、隨機森林迴歸與梯度提升樹。",
+            "mnemonic": "迴歸預測數字，分類預測類別；樹多平均防過擬合，梯度迭代求精進",
+            "confusion": "不要將迴歸與分類混淆：連續房價或銷售量適合迴歸，有限類別標籤則屬分類任務。"
+          }
+        },
+        {
+          "id": "mid-s1c8q010_codex100",
+          "chapter_id": "mid-s1c8",
+          "chapter_title": "數據準備與模型選擇",
+          "question": "某研究團隊比較兩個分類模型。模型甲依據待分類資料點附近的 K 筆訓練樣本，以鄰近樣本的多數類別進行預測；模型乙則尋找能分隔不同類別的最佳超平面。若資料具有高維度且類別邊界清晰，下列判讀何者最符合講義？",
+          "options": {
+            "A": "甲是支持向量機（SVM），乙是 K 最近鄰（KNN）；應優先考慮乙，因為 KNN 對高維度資料不敏感",
+            "B": "甲是 K 最近鄰（KNN），乙是支持向量機（SVM）；應優先考慮乙，因為 SVM 對高維資料或邊界清晰的分類問題表現良好",
+            "C": "甲是 K 最近鄰（KNN），乙是支持向量機（SVM）；應優先考慮甲，因為 KNN 特別適合高維且邊界清晰的資料",
+            "D": "甲是支持向量機（SVM），乙是 K 最近鄰（KNN）；兩者皆同樣適合，因為 KNN 也會尋找分隔類別的最佳超平面"
+          },
+          "answer": "B",
+          "explanation": "模型甲根據鄰近資料的類別進行預測，是 KNN；模型乙尋找分隔類別的最佳超平面，是 SVM。講義指出 SVM 對高維資料或邊界清晰的分類問題表現良好，而 KNN 對資料量與維度較敏感，因此 B 正確。",
+          "difficulty": "中",
+          "type": "比較分析型",
+          "tags": [
+            "監督式學習",
+            "分類任務",
+            "KNN",
+            "SVM",
+            "模型選擇"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c8",
+            "basis": "B. 監督式學習 - 分類任務（Classification）"
+          },
+          "card": {
+            "concept": "KNN 依鄰近樣本類別預測；SVM 尋找最佳超平面，對高維或邊界清晰的分類問題表現良好。",
+            "mnemonic": "鄰近投票是 KNN，最佳超平面是 SVM",
+            "confusion": "不要把 KNN 的鄰近投票與 SVM 的超平面分隔混淆；KNN 對資料量與維度較敏感。"
+          }
+        },
+        {
+          "id": "mid-s1c8q011_codex100",
+          "chapter_id": "mid-s1c8",
+          "chapter_title": "數據準備與模型選擇",
+          "question": "某垃圾郵件二元分類器採用邏輯迴歸（Logistic Regression）。系統將垃圾郵件視為正類，並約定 Sigmoid 輸出機率至少為 0.50 時判定為垃圾郵件。若郵件甲的輸出為 0.82、郵件乙的輸出為 0.37，下列判讀何者正確？",
+          "options": {
+            "A": "郵件甲判為正常郵件、郵件乙判為垃圾郵件，因為 Sigmoid 輸出越接近 0 越可能是正類",
+            "B": "兩封郵件皆判為垃圾郵件，因為 Sigmoid 輸出只是模型分數，不能用來表示機率",
+            "C": "郵件甲判為垃圾郵件、郵件乙判為正常郵件，因為 Sigmoid 將預測值轉為機率後可依門檻進行分類",
+            "D": "兩封郵件皆判為正常郵件，因為必須先將 Sigmoid 輸出再次轉換為 0 到 1 才能分類"
+          },
+          "answer": "C",
+          "explanation": "Sigmoid 函數可將邏輯迴歸的預測值轉為機率。以 0.50 為分類門檻時，郵件甲的 0.82 大於或等於門檻，判為垃圾郵件；郵件乙的 0.37 低於門檻，判為正常郵件，因此 C 正確。",
+          "difficulty": "中",
+          "type": "計算判讀型",
+          "tags": [
+            "監督式學習",
+            "分類任務",
+            "邏輯迴歸",
+            "Sigmoid",
+            "二元分類"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c8",
+            "basis": "B. 監督式學習 - 分類任務（Classification）"
+          },
+          "card": {
+            "concept": "邏輯迴歸使用 Sigmoid 將預測值轉為機率，再依分類門檻決定離散類別。",
+            "mnemonic": "先轉機率，再過門檻；高於 0.5 判正類",
+            "confusion": "Sigmoid 的輸出已是 0 到 1 的機率，不需要再次轉換；判斷正負類別還要配合指定門檻。"
+          }
+        },
+        {
+          "id": "mid-s1c8q012_codex100",
+          "chapter_id": "mid-s1c8",
+          "chapter_title": "數據準備與模型選擇",
+          "question": "下列關於非監督式學習常見方法的敘述，何者正確？",
+          "options": {
+            "A": "階層式分群須事先指定 K 值，並將資料點分配至最接近的中心點",
+            "B": "K-means 不需預先給定群集數，且能自動將離群點標示為雜訊",
+            "C": "PCA 主要建立資料的樹狀層級關係，以探索不同群集的合併順序",
+            "D": "DBSCAN 以資料密度進行分群，能發現任意形狀的群集，並將離群點標示為雜訊"
+          },
+          "answer": "D",
+          "explanation": "DBSCAN 是基於密度的分群方法，能發現任意形狀的群集，且可自動將離群點標示為雜訊，不需預先給定群集數。A 描述的是 K-means 的部分特性；B 將 K-means 與 DBSCAN 的特性混淆；C 描述的是階層式分群，PCA 則是用於降維、特徵壓縮與資料視覺化。",
+          "difficulty": "難",
+          "type": "概念定義型",
+          "tags": [
+            "非監督式學習",
+            "DBSCAN",
+            "K-means",
+            "階層式分群",
+            "PCA"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c8",
+            "basis": "C. 非監督式學習（Unsupervised Learning）"
+          },
+          "card": {
+            "concept": "DBSCAN 是基於密度的分群方法，可辨識任意形狀群集並將離群點標示為雜訊。",
+            "mnemonic": "密度找群、異常標噪；DBSCAN 不必先決定群數。",
+            "confusion": "K-means 需事先指定 K，且對初始點與異常值敏感；階層式分群建立樹狀關係；PCA 則是降維方法，三者不可與 DBSCAN 的功能混淆。"
+          }
+        },
+        {
+          "id": "mid-s1c8q013_codex100",
+          "chapter_id": "mid-s1c8",
+          "chapter_title": "數據準備與模型選擇",
+          "question": "某醫院規劃建置 AI 輔助診斷系統，輸入資料為 X 光片與 MRI 影像，系統需自動辨識可能的異常病灶，主要需求是擷取影像中的局部空間特徵。若從講義列出的深度學習演算法中選擇主要模型，何者最適合？",
+          "options": {
+            "A": "卷積神經網路（CNN），適合處理圖像資料並進行空間特徵萃取",
+            "B": "遞迴神經網路（RNN），適合記憶連續時間步驟的前一步輸出",
+            "C": "Transformer，透過自注意力機制建構文字序列中的語意關聯",
+            "D": "長短期記憶網路（LSTM），適合處理時序交易資料以預測金融風險"
+          },
+          "answer": "A",
+          "explanation": "CNN 主要用於圖像資料與空間特徵萃取，能自動辨識影像中的局部特徵，因此適合醫療影像診斷。RNN、LSTM 主要處理序列或時間序列資料，Transformer 則常用於自然語言處理與語意理解。",
+          "difficulty": "中",
+          "type": "情境應用型",
+          "tags": [
+            "深度學習",
+            "CNN",
+            "醫療影像診斷",
+            "模型選擇"
+          ],
+          "source_refs": {
+            "guide_path": "D. 深度學習（Deep Learning）",
+            "chapter_id": "mid-s1c8",
+            "basis": "D. 深度學習（Deep Learning）之常見演算法與應用情境：CNN 用於圖像資料與空間特徵萃取，醫療影像診斷可透過 CNN 辨識 X 光片或 MRI 異常病灶。"
+          },
+          "card": {
+            "concept": "依資料型態與任務特性選擇深度學習模型：影像與空間特徵優先考慮 CNN。",
+            "mnemonic": "看影像選 CNN；看序列用 RNN/LSTM；看語意關聯用 Transformer。",
+            "confusion": "RNN 與 LSTM 適合語音、文字或感測器等序列資料；Transformer 雖可處理多種資料，但本段主要強調其在 NLP 語意理解與生成任務的應用。"
+          }
+        },
+        {
+          "id": "mid-s1c8q014_codex100",
+          "chapter_id": "mid-s1c8",
+          "chapter_title": "數據準備與模型選擇",
+          "question": "下列關於本段強化式學習與其常見演算法的敘述，何者不正確？",
+          "options": {
+            "A": "強化式學習不需明確標註資料，而是透過智能體與環境互動，依據獎勵調整策略。",
+            "B": "Q-learning 使用深度神經網路近似 Q 函數，適合處理圖像等高維度感知輸入。",
+            "C": "Policy Gradient 方法直接學習由狀態到行為的機率分佈，並透過最大化期望報酬更新策略。",
+            "D": "DQN 結合深度學習與 Q-learning，能處理圖像等高維度感知輸入。"
+          },
+          "answer": "B",
+          "explanation": "B 不正確。使用深度神經網路近似 Q 函數、可處理圖像等高維度感知輸入的是 DQN；Q-learning 主要適用於離散動作空間與較小的環境。A、C、D 均符合本段講義內容。",
+          "difficulty": "易",
+          "type": "否定型",
+          "tags": [
+            "強化式學習",
+            "Q-learning",
+            "DQN",
+            "Policy Gradient",
+            "演算法辨識"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c8",
+            "basis": "E. 強化式學習（Reinforcement Learning, RL）／常見演算法"
+          },
+          "card": {
+            "concept": "Q-learning 以值函數學習狀態—行為對的 Q 值，DQN 則以深度神經網路近似 Q 函數並處理高維輸入。",
+            "mnemonic": "小而離散用 Q 表，高維影像用 DQN。",
+            "confusion": "Q-learning 與 DQN 都以 Q 函數為核心，但能處理高維圖像輸入是 DQN 的特徵，不是一般表格式 Q-learning 的典型適用情境。"
+          }
+        },
+        {
+          "id": "mid-s1c8q015_codex100",
+          "chapter_id": "mid-s1c8",
+          "chapter_title": "數據準備與模型選擇",
+          "question": "某團隊依據三種強化式學習任務特性選擇演算法：情境甲為環境較小且動作屬離散選擇；情境乙的輸入是高維度遊戲影像；情境丙希望限制每次策略更新幅度，以兼顧更新穩定性與學習效率。下列配對何者最適切？",
+          "options": {
+            "A": "情境甲採用 DQN，情境乙採用 Q-learning，情境丙採用 PPO。",
+            "B": "情境甲採用 Policy Gradient，情境乙採用 Q-learning，情境丙採用 DQN。",
+            "C": "情境甲採用 Q-learning，情境乙採用 DQN，情境丙採用 PPO。",
+            "D": "情境甲採用 PPO，情境乙採用 Policy Gradient，情境丙採用 Q-learning。"
+          },
+          "answer": "C",
+          "explanation": "C 最適切。Q-learning 適用於離散動作空間與較小的環境；DQN 使用深度神經網路近似 Q 函數，能處理遊戲影像等高維度感知輸入；PPO 的核心目標是限制策略更新幅度，在策略穩定性與學習效率之間取得平衡。",
+          "difficulty": "中",
+          "type": "比較分析型",
+          "tags": [
+            "強化式學習",
+            "Q-learning",
+            "DQN",
+            "PPO",
+            "策略選擇",
+            "演算法比較"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c8",
+            "basis": "E. 強化式學習（Reinforcement Learning, RL）／常見演算法；Proximal Policy Optimization（近端策略優化，PPO）"
+          },
+          "card": {
+            "concept": "Q-learning 適合小型離散環境，DQN 適合高維度感知輸入，PPO 著重控制策略更新幅度以提升訓練穩定性。",
+            "mnemonic": "離散小環境 Q、高維影像 DQN、穩定更新 PPO。",
+            "confusion": "Policy Gradient 是方法類型，PPO 是其改良版本；DQN 雖結合深度學習，但仍以 Q 函數為基礎，與直接學習行為機率分佈的策略梯度方法不同。"
+          }
+        },
+        {
+          "id": "mid-s1c8q016_codex100",
+          "chapter_id": "mid-s1c8",
+          "chapter_title": "數據準備與模型選擇",
+          "question": "某醫療影像團隊有 2,400 張訓練影像，其中 12.5% 因資料損毀無法使用；團隊希望針對每張缺失影像產生 4 個候選樣本，用於資料補全與模擬極端病例。團隊優先要求影像生成品質，且可接受較慢、較高運算成本的離線流程。依講義內容，下列判讀何者最正確？",
+          "options": {
+            "A": "缺失影像為 300 張，應產生 900 個候選樣本；GAN 的對抗訓練可直接保證生成影像具有最高品質。",
+            "B": "缺失影像為 240 張，應產生 960 個候選樣本；VAE 最適合生成具有銳利細節的影像。",
+            "C": "缺失影像為 300 張，應產生 1,200 個候選樣本；因擴散模型生成速度慢，不適合此離線資料補全任務。",
+            "D": "缺失影像為 300 張，應產生 1,200 個候選樣本；擴散模型雖生成速度慢且運算成本高，但在影像生成品質方面具優勢，符合此需求。"
+          },
+          "answer": "D",
+          "explanation": "缺失影像數為 2,400 × 12.5% = 300 張；每張產生 4 個候選樣本，因此共 300 × 4 = 1,200 個。講義指出擴散模型在生成圖像品質方面具明顯優勢，但缺點是生成速度慢、運算成本高；題目已說明可接受離線流程的時間與成本，因此 D 正確。",
+          "difficulty": "難",
+          "type": "計算判讀型",
+          "tags": [
+            "生成式模型",
+            "擴散模型",
+            "資料補全",
+            "資料模擬",
+            "影像生成"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c8",
+            "basis": "F. 生成式模型（Generative Models）"
+          },
+          "card": {
+            "concept": "生成式模型學習資料的機率分佈並產生相似新樣本；擴散模型透過逐步加噪與去噪生成影像，品質高但速度慢、成本高。",
+            "mnemonic": "擴散模型：品質優先，代價是慢與貴。",
+            "confusion": "VAE 生成樣本較平滑，可能缺乏銳利細節；GAN 可用於圖像生成，但訓練不穩定且可能發生模式崩潰。"
+          }
         }
       ]
     },
@@ -727,86 +2686,399 @@
       "title": "AI技術系統集成與部署",
       "questions": [
         {
-          "question": "下列關於「MLOps」的描述，何者正確？",
+          "id": "mid-s1c9q001_codex100",
+          "chapter_id": "mid-s1c9",
+          "chapter_title": "AI技術系統集成與部署",
+          "question": "下列何者最能完整說明 AI 模型部署的核心意涵？",
           "options": {
-            "A": "MLOps 是一種專門用於資料清理與特徵工程的自動化框架，目的是加速模型訓練速度",
-            "B": "MLOps 是 DevOps 在 AI 領域的延伸，強調將模型訓練、測試、部署與監控進行持續整合與自動化，確保模型在全生命週期中的一致性、效率與可追蹤性",
-            "C": "MLOps 主要負責模型的超參數調整與架構搜尋，與系統部署和監控無關",
-            "D": "MLOps 等同於 DataOps，兩者皆以資料管線管理為核心，差別僅在於所使用的工具不同"
-          },
-          "answer": "B",
-          "explanation": "MLOps（Machine Learning Operations）是將 DevOps 理念延伸至 AI 領域，涵蓋模型從開發、測試、部署到監控的全生命週期自動化管理。選項 A 錯誤，MLOps 範疇遠不止資料清理，而是涵蓋整個部署與維運流程。選項 C 錯誤，MLOps 的核心正是部署與監控，而非僅限於調參。選項 D 錯誤，MLOps 與 DataOps 雖有重疊，但前者聚焦於模型生命週期管理，後者聚焦於資料管線品質，兩者定位不同。",
-          "card": {
-            "concept": "MLOps = DevOps 延伸至 AI，自動化涵蓋模型訓練→測試→部署→監控的完整生命週期，強調一致性與可追蹤性。",
-            "mnemonic": "ML + Ops：把機器學習（ML）當作產品持續「維運」（Ops），不只訓練完就結束。",
-            "confusion": "常與 DataOps 混淆：DataOps 管資料管線品質，MLOps 管模型生命週期；兩者互補但範疇不同。"
-          },
-          "difficulty": "易",
-          "type": "概念定義型",
-          "tags": [
-            "MLOps",
-            "模型部署",
-            "持續整合",
-            "AI維運"
-          ],
-          "id": "mid-s1c9q1_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
-        },
-        {
-          "question": "在 MLOps 的 CI/CD 流程中，從「程式碼或資料發生變動」到「模型正式上線服務」，下列步驟的正確順序為何？\n① 自動部署至測試或生產環境\n② 觸發模型訓練與測試流程\n③ 進行模型準確率驗證、效能基準比較與整合測試\n④ 確認模型通過測試門檻",
-          "options": {
-            "A": "②→③→④→①",
-            "B": "③→②→①→④",
-            "C": "②→①→③→④",
-            "D": "④→②→③→①"
+            "A": "將候選模型從實驗環境導入實際營運，並以涵蓋開發、測試、上線、監控、回訓與優化的持續流程管理，因應資料變化及延遲、可用性、可說明性與合規要求",
+            "B": "完成模型訓練與性能評估後，將模型檔案複製至生產伺服器即可；上線後固定模型版本可避免更新造成系統不一致",
+            "C": "部署階段的核心是重新蒐集與清理全部資料，模型一旦訓練完成即可沿用，無須持續監控輸入資料分布",
+            "D": "AI 模型部署與傳統 IT 系統部署相同，主要確認程式碼能執行即可，模型效能與法規要求交由業務端處理"
           },
           "answer": "A",
-          "explanation": "正確流程為：資料或程式碼變動後，CI 流程先觸發模型重新訓練（②），接著執行準確率驗證、效能基準比較與整合測試（③），確認模型通過預設門檻（④），最後由 CD 流程自動部署至環境（①）。選項 B 將驗證步驟提前至訓練之前，邏輯顛倒。選項 C 在尚未驗證前即先部署，會將未知品質的模型推上環境，風險極高。選項 D 以「通過門檻」作為起點，違反流程因果順序。",
-          "card": {
-            "concept": "CI/CD 流程：變動觸發訓練 → 驗證測試 → 通過門檻 → 自動部署，確保只有達標模型才上線。",
-            "mnemonic": "「觸、訓、驗、部」：觸發→訓練→驗證→部署，缺一不可。",
-            "confusion": "常誤以為部署在驗證之前（先上線再測試）；正確觀念是驗證通過才觸發自動部署。"
-          },
+          "explanation": "A正確，AI模型部署不只是把模型上線，而是涵蓋開發、測試、部署、監控、回訓與優化的完整流程，並需因應模型漂移、延遲、可用性、可說明性及合規要求。B將部署簡化為複製模型檔案，忽略上線後的持續管理；C錯誤地認為模型可不受資料變化影響；D則忽略AI系統相較傳統IT系統具有更高的動態性與資料敏感性。",
           "difficulty": "中",
-          "type": "流程步驟型",
+          "type": "概念定義型",
           "tags": [
-            "CI/CD",
-            "MLOps",
-            "模型部署",
-            "持續部署"
+            "AI系統部署",
+            "模型生命週期",
+            "模型漂移",
+            "監控與回訓"
           ],
-          "id": "mid-s1c9q2_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c9",
+            "basis": "1. 前言與章節導覽；章首重點掃瞄「AI技術系統集成與部署」"
+          },
+          "card": {
+            "concept": "AI模型部署是涵蓋開發、測試、上線、監控、回訓與優化的完整生命週期流程，不是單次模型上線。",
+            "mnemonic": "部署六步驟：開、測、上、監、訓、優。",
+            "confusion": "常將部署誤解為把訓練完成的模型檔案放到生產環境；實際上還要持續監控資料與效能，並依漂移及營運需求更新模型。"
+          }
         },
         {
-          "question": "某醫療機構希望導入 AI 輔助診斷系統，因涉及大量病患隱私資料且受嚴格法規規範，同時需要即時回應臨床端查詢，下列哪種部署策略最為適切？",
+          "id": "mid-s1c9q002_codex100",
+          "chapter_id": "mid-s1c9",
+          "chapter_title": "AI技術系統集成與部署",
+          "question": "某零售企業希望建置即時需求預測服務。系統需整合資料倉儲中的歷史銷售資料、資料湖中的非結構化資料、倉儲 IoT 感測資料及第三方物流 API；模型部分在企業資料中心訓練，部分推論則部署於雲端與邊緣裝置。預測結果還必須回寫 ERP 以調整採購，並提供 CRM 與前端儀表板即時使用。下列哪一種系統集成方案最完整且最符合需求？",
           "options": {
-            "A": "採用合規公有雲（如符合 HIPAA 的專屬服務），對資料進行加密保存，並利用彈性擴充優勢快速上線",
-            "B": "採用私有雲部署，將模型與資料保存於機構內部可控環境，並搭配嚴格存取控管，確保符合醫療法規與資料主權要求",
-            "C": "在院內邊緣伺服器進行即時推論，將計算資源部署於院內以降低網路延遲並確保資料不離院",
-            "D": "採用開源平台將模型公開為 RESTful API，讓各院所自由呼叫，以降低建置與維運成本"
+            "A": "將所有來源資料定期匯入資料倉儲，採批次方式訓練與推論，再由人工將預測結果輸入 ERP 與 CRM，以降低整合複雜度",
+            "B": "建立涵蓋資料擷取、格式轉換、清理與入庫的資料管線，將推論服務以 RESTful API 封裝並加入容錯、快取與負載管理，同時整合 ERP、CRM 與前端應用，並以 Service Mesh 管理跨環境的資料同步、服務調用與狀態追蹤",
+            "C": "讓前端應用直接連接各資料來源並自行呼叫模型，模型結果以檔案方式分別提供給 ERP 與 CRM，跨雲部署則由各平台獨立維護",
+            "D": "將所有資料與模型集中遷移至單一公有雲平台，僅透過 Webhooks 傳送預測結果，並以資料庫帳號區分所有使用者權限"
           },
           "answer": "B",
-          "explanation": "醫療場景涉及病患隱私與嚴格法規（如個資法、HIPAA），私有雲部署可確保資料完全留存於機構內部可控環境、支援定制化合規設定，並維持對整體系統的最高掌控度，是此情境最適切的選擇。選項 A 的合規公有雲雖可滿足部分法規需求，但資料主權仍委由第三方管理，對高度敏感的醫療資料存在供應商信任風險。選項 C 的院內邊緣伺服器有助於降低延遲，但缺乏集中化的管理與合規控制能力，難以支撐完整的診斷系統維運。選項 D 將敏感醫療資料開放為公開 API，嚴重違反資安與法規要求。",
-          "card": {
-            "concept": "私有雲適用於政府、金融、醫療等對資料保護要求嚴格的領域，提供高控制性、資安可控與定制化合規能力。",
-            "mnemonic": "「敏感資料、強法規 → 私有雲」；公有雲快但資料出門，私有雲慢但資料留家。",
-            "confusion": "邊緣伺服器可降低延遲但缺乏集中合規管控；合規公有雲有助法規對應但資料主權仍在外部；需依機構風險承受度區分選擇。"
-          },
-          "difficulty": "中",
-          "type": "應用情境型",
+          "explanation": "B 同時涵蓋本節所述的主要整合面向：以資料管線整合多種資料來源，將模型封裝為 API 供應用服務即時存取，將結果導入 ERP 與 CRM，並透過 Service Mesh 管理資料中心、雲端與邊緣環境間的同步、服務調用及狀態追蹤。A 以批次與人工輸入為主，無法支援即時及自動化流程；C 缺乏統一資料管線與跨環境整合層，容易形成資訊孤島；D 雖可集中管理，但未完整處理既有企業系統整合、服務穩定性及跨環境需求，且資料庫帳號本身不足以取代完整的 API 與權限控管設計。",
+          "difficulty": "難",
+          "type": "情境應用型",
           "tags": [
-            "部署模式",
-            "私有雲",
-            "資料安全",
-            "醫療AI",
-            "法規合規"
+            "系統集成",
+            "資料管線",
+            "企業內部系統整合",
+            "RESTful API",
+            "跨雲與異質系統"
           ],
-          "id": "mid-s1c9q3_multi",
-          "source": "multi_ai_pipeline",
-          "level": "中級"
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c9",
+            "basis": "2. 系統集成；A. 資料來源與資料管線整合；B. 企業內部系統整合；C. API 與平台接軌；E. 跨雲與異質系統整合"
+          },
+          "card": {
+            "concept": "完整的 AI 系統集成需串接資料來源、資料管線、企業核心系統、API 服務，以及跨雲與邊緣環境的整合層。",
+            "mnemonic": "資料進管線、模型包 API、結果回企業、跨環境靠中樞。",
+            "confusion": "容易只處理模型推論或前端 API，而忽略資料管線、ERP/CRM 回寫及跨平台狀態同步，造成資訊孤島。"
+          }
+        },
+        {
+          "id": "mid-s1c9q003_codex100",
+          "chapter_id": "mid-s1c9",
+          "chapter_title": "AI技術系統集成與部署",
+          "question": "下列何者並非本節所述的「安全與權限控管」措施？",
+          "options": {
+            "A": "使用 OAuth2 或 JWT 進行使用者身分驗證與授權",
+            "B": "透過 API Gateway 記錄存取日誌並進行流量控管",
+            "C": "使用 Service Mesh 統一管理跨雲環境的資料同步、服務調用與狀態追蹤",
+            "D": "依不同角色設定存取權限，例如限制部分使用者進行模型重訓或調參"
+          },
+          "answer": "C",
+          "explanation": "C 屬於跨雲與異質系統整合的服務中樞設計，主要用於資料同步、服務調用與狀態追蹤，不是本節列出的安全與權限控管措施。A、B、D 分別對應身分驗證與授權、API 存取日誌與流量控管，以及角色式權限設定。",
+          "difficulty": "易",
+          "type": "否定型",
+          "tags": [
+            "安全與權限控管",
+            "OAuth2",
+            "JWT",
+            "API Gateway",
+            "Service Mesh"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c9",
+            "basis": "2. 系統集成；D. 安全與權限控管；E. 跨雲與異質系統整合"
+          },
+          "card": {
+            "concept": "安全與權限控管包括身分驗證、角色權限、API Gateway 日誌與流量控管；Service Mesh 則主要負責跨環境服務整合。",
+            "mnemonic": "驗身分、分角色、管 API；跨雲同步找 Mesh。",
+            "confusion": "Service Mesh 雖可提升服務治理與追蹤能力，但在本節分類中屬於跨雲與異質系統整合，不等同於 OAuth2/JWT 等身分與權限機制。"
+          }
+        },
+        {
+          "id": "mid-s1c9q004_codex100",
+          "chapter_id": "mid-s1c9",
+          "chapter_title": "AI技術系統集成與部署",
+          "question": "某企業將 AI 系統拆分為模型推論 API、資料處理與監控等服務，並希望各服務能獨立更新；當推論流量增加時，也只擴增模型 API 模組。下列比較分析何者正確？",
+          "options": {
+            "A": "只要採用容器化，就能自動具備微服務的錯誤隔離與依模組彈性擴展能力，不需要設計服務間 API",
+            "B": "微服務架構應將所有功能集中在單一可部署單元，以降低分散式管理複雜度並確保各模組同步更新",
+            "C": "模型服務 API 封裝本身即可完成容器編排、資源調度與故障恢復，因此不需 Kubernetes 等編排工具",
+            "D": "微服務架構可讓各服務獨立部署、更新與擴展，也有助於隔離單一模組故障；但服務間需設計標準 API，且分散式管理複雜度較高"
+          },
+          "answer": "D",
+          "explanation": "D 正確。微服務是將單一應用程式拆分為多個實作單一功能的小型服務，各服務可獨立部署、更新與擴展，單一模組失效時也較容易隔離錯誤。但服務間介接需要標準 API，並會增加分散式管理的複雜度。A 混淆了容器化與微服務的能力；B 與微服務拆分及獨立部署的特性相反；C 將模型 API 封裝與容器編排功能混為一談。",
+          "difficulty": "中",
+          "type": "比較分析型",
+          "tags": [
+            "微服務架構",
+            "模組化設計",
+            "標準 API",
+            "錯誤隔離",
+            "分散式管理"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c9",
+            "basis": "3. 系統架構設計；A. 微服務架構（Microservices Architecture）"
+          },
+          "card": {
+            "concept": "微服務將應用拆成可獨立部署、更新與擴展的小型服務，具備錯誤隔離與資源彈性，但需面對 API 標準化及分散式管理複雜度。",
+            "mnemonic": "拆小、獨立、彈性；API 要統一，分散要治理。",
+            "confusion": "微服務、容器化與模型 API 封裝不是同義詞：微服務是架構拆分方式，容器化是環境封裝，API 封裝是模型服務的呼叫介面。"
+          }
+        },
+        {
+          "id": "mid-s1c9q005_codex100",
+          "chapter_id": "mid-s1c9",
+          "chapter_title": "AI技術系統集成與部署",
+          "question": "某 AI 推論服務以負載平衡方式分配至 3 個相同容器，每個容器每秒可穩定處理 50 次請求。尖峰流量為每秒 220 次請求，系統依自動擴縮機制再增加 2 個容器，且假設請求可平均分配、沒有其他瓶頸。下列何者對此架構的判讀正確？",
+          "options": {
+            "A": "擴展後共有 5 個容器，總處理能力為每秒 250 次請求，足以承受每秒 220 次流量；負載平衡可分攤各節點請求壓力",
+            "B": "原本 3 個容器的總處理能力只有每秒 150 次，因此即使增加容器，系統仍無法處理每秒 220 次請求",
+            "C": "負載平衡只會重新分配請求，不會增加單一容器的處理能力，因此擴展後總處理能力仍為每秒 150 次",
+            "D": "只要採用多節點部署，就能保證每個容器永遠不會故障，因此不需要自動擴縮或故障恢復機制"
+          },
+          "answer": "A",
+          "explanation": "A 正確。自動擴縮後容器數量為 3＋2＝5 個，總處理能力為 5×50＝每秒 250 次請求，高於尖峰流量每秒 220 次；負載平衡則可將請求分配給多個推論節點。B 只計算擴展前容量，C 忽略了新增容器帶來的總容量增加，D 將冗餘部署誤解為能保證節點永不故障。",
+          "difficulty": "中",
+          "type": "計算判讀型",
+          "tags": [
+            "自動擴縮",
+            "負載平衡",
+            "容器化",
+            "推論流量",
+            "系統擴展"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c9",
+            "basis": "3. 系統架構設計；B. 容器化與編排（Containerization and Orchestration）；D. 可擴充與高可用性設計"
+          },
+          "card": {
+            "concept": "自動擴縮可依流量調整容器數量，負載平衡可將請求分散至多個推論節點；總處理能力可由節點數乘以單節點處理能力判讀。",
+            "mnemonic": "總容量＝節點數×單節點容量；流量不超過總容量才撐得住。",
+            "confusion": "負載平衡只負責分攤請求，不會單獨增加總容量；自動擴縮才會改變節點數量，而冗餘與容錯切換主要解決可用性問題。"
+          }
+        },
+        {
+          "id": "mid-s1c9q006_codex100",
+          "chapter_id": "mid-s1c9",
+          "chapter_title": "AI技術系統集成與部署",
+          "question": "下列何者最完整且正確地界定本節所稱的「混合部署（Hybrid Deployment）」？",
+          "options": {
+            "A": "將 AI 模型與所有資料集中部署於公有雲，利用全球節點與按量付費機制處理不同地區的服務需求",
+            "B": "結合公有雲、私有雲與邊緣架構，依不同任務選擇適合的執行位置，例如由雲端進行模型訓練、由邊緣裝置執行即時推論，並需處理同步與一致性管理",
+            "C": "在企業自建的專屬雲端環境中集中管理模型與資料，使所有運算都在內部可控的資料中心完成",
+            "D": "將模型推論全面移至靠近資料來源的 IoT、手機或車載裝置，以降低傳輸延遲與頻寬消耗"
+          },
+          "answer": "B",
+          "explanation": "B 正確。混合部署是結合公有雲、私有雲與邊緣架構，依任務特性配置執行位置，例如雲端負責模型訓練、邊緣負責即時推論，藉此兼顧計算能力、反應速度與資料保護，但也必須設計同步機制與一致性管理流程。A 描述的是公有雲部署，C 描述的是私有雲部署，D 描述的是邊緣運算。",
+          "difficulty": "難",
+          "type": "概念定義型",
+          "tags": [
+            "混合部署",
+            "公有雲",
+            "私有雲",
+            "邊緣運算",
+            "同步與一致性管理"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c9",
+            "basis": "4. 部署模式；D. 混合部署（Hybrid Deployment）"
+          },
+          "card": {
+            "concept": "混合部署會把公有雲、私有雲與邊緣架構組合起來，依不同任務選擇最適合的執行位置。",
+            "mnemonic": "雲端訓練、邊緣推論；多地協作要同步。",
+            "confusion": "混合部署不是單純把模型放在公有雲或邊緣裝置，而是依任務分工配置多種環境，並額外面對同步與一致性管理問題。"
+          }
+        },
+        {
+          "id": "mid-s1c9q007_codex100",
+          "chapter_id": "mid-s1c9",
+          "chapter_title": "AI技術系統集成與部署",
+          "question": "某 AI 新創團隊準備推出跨地區服務，初期需要短期租用大量 GPU 進行模型訓練，流量可能隨產品推廣快速變動，並希望在數週內完成部署。團隊目前沒有「資料只能留在內部環境」或「必須在裝置端完成推論」的限制。下列哪一種部署模式最適合此情境？",
+          "options": {
+            "A": "私有雲部署，先自建企業專屬雲端環境，以取得較高的控制性與安全性",
+            "B": "邊緣運算，將模型與主要運算全面放在靠近資料來源的裝置上，以避免使用雲端資源",
+            "C": "公有雲部署，利用供應商提供的彈性 GPU 資源、全球節點與按量付費方式，快速完成訓練及規模擴展",
+            "D": "混合部署，同時建置公有雲、私有雲與邊緣環境，再依任務分配模型訓練與推論工作"
+          },
+          "answer": "C",
+          "explanation": "C 正確。此團隊需要快速部署、大量 GPU 訓練資源、因應流量變動的彈性擴充，以及跨地區服務；公有雲具備部署速度快、資源彈性擴充、全球節點支援與按量付費等特性，最符合需求。A 的建置與維運成本較高，B 不符合大量雲端 GPU 訓練與跨地區擴展需求，D 雖具彈性但會增加不必要的系統整合、同步與一致性管理複雜度。",
+          "difficulty": "中",
+          "type": "情境應用型",
+          "tags": [
+            "公有雲部署",
+            "GPU 資源",
+            "彈性擴充",
+            "跨地區部署",
+            "按量付費"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c9",
+            "basis": "4. 部署模式；A. 公有雲部署（Public Cloud）"
+          },
+          "card": {
+            "concept": "公有雲由供應商提供基礎設施與運算平台，適合需要快速部署、彈性擴充、全球節點或大量 GPU 資源的情境。",
+            "mnemonic": "公有雲：快部署、可擴充、全球用、按量付費。",
+            "confusion": "若資料必須留在企業內部，應優先考慮私有雲；若核心需求是資料來源端的低延遲推論，則應考慮邊緣運算，不能只因有 AI 模型就一律選公有雲。"
+          }
+        },
+        {
+          "id": "mid-s1c9q008_codex100",
+          "chapter_id": "mid-s1c9",
+          "chapter_title": "AI技術系統集成與部署",
+          "question": "關於模型部署後的監控與回饋機制，下列何者不是本節列出的監控或自動修正內容？",
+          "options": {
+            "A": "監測模型預測分佈與訓練時期的差異，以辨識模型漂移",
+            "B": "監測輸入資料的統計特徵，如欄位分佈或異常比例是否改變",
+            "C": "當準確率下降達設定門檻時，啟動再訓練流程或替換模型版本",
+            "D": "在模型上線前以超參數搜尋決定最佳模型架構，作為部署後的主要預警機制"
+          },
+          "answer": "D",
+          "explanation": "本節列出的監控內容包括模型漂移、資料漂移，以及錯誤率、延遲、吞吐量等效能指標；當指標達到門檻時，可啟動再訓練或透過熱更新、滾動更新替換模型。超參數搜尋決定模型架構並非本節所述的部署後監控或自動修正機制。",
+          "difficulty": "易",
+          "type": "否定型",
+          "tags": [
+            "MLOps",
+            "模型監控",
+            "資料漂移",
+            "模型漂移",
+            "再訓練"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c9",
+            "basis": "5. MLOps與持續維運；B. 模型監控與回饋機制（Monitoring & Feedback）"
+          },
+          "card": {
+            "concept": "部署後監控需追蹤模型漂移、資料漂移與錯誤率、延遲、吞吐量等指標，並依門檻啟動再訓練或模型更新。",
+            "mnemonic": "漂移看資料與預測，效能看錯誤、延遲、吞吐；達門檻就重訓或更新。",
+            "confusion": "容易把模型開發階段的超參數搜尋，誤認為部署後的監控或預警機制；兩者分屬不同生命週期階段。"
+          }
+        },
+        {
+          "id": "mid-s1c9q009_codex100",
+          "chapter_id": "mid-s1c9",
+          "chapter_title": "AI技術系統集成與部署",
+          "question": "某團隊希望讓每次訓練都能追溯實驗參數、資料版本與模型成果，並可在後續重現結果。下列對 MLflow 與 DVC 的比較，何者正確？",
+          "options": {
+            "A": "MLflow 著重管理機器學習全流程，包含實驗記錄、模型訓練、部署與版本控制；DVC 則專為機器學習的版本控制設計，支援資料集與模型版本追蹤及再現性，兩者可互補",
+            "B": "MLflow 主要追蹤資料集與模型檔案版本，DVC 則負責模型部署與生產環境監控",
+            "C": "MLflow 與 DVC 都只負責上線後的錯誤率、延遲與吞吐量監控，差別只在於所使用的 Dashboard 工具",
+            "D": "MLflow 專門進行輸入資料漂移偵測，DVC 則在準確率下降達門檻時自動啟動再訓練"
+          },
+          "answer": "A",
+          "explanation": "MLflow 是管理機器學習全流程的開源平台，可記錄實驗、管理訓練、部署與版本；DVC 則是專為機器學習設計的版本控制工具，支援資料集與模型的版本追蹤及再現性。兩者分工不同但可以互補，共同提升追蹤性與可重現性。",
+          "difficulty": "中",
+          "type": "比較分析型",
+          "tags": [
+            "MLOps",
+            "MLflow",
+            "DVC",
+            "模型版本控管",
+            "可重現性"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c9",
+            "basis": "5. MLOps與持續維運；A. 持續整合與持續部署（CI/CD）；模型版本控管（Model Versioning）"
+          },
+          "card": {
+            "concept": "MLflow 著重機器學習全流程與實驗管理；DVC 著重資料集和模型的版本控制與再現性。",
+            "mnemonic": "MLflow 管全流程，DVC 管資料與模型版本。",
+            "confusion": "不要把兩者都當成部署後監控工具；錯誤率、延遲、吞吐量與漂移屬於監控機制，並非 MLflow 與 DVC 在本節的主要定位。"
+          }
+        },
+        {
+          "id": "mid-s1c9q010_codex100",
+          "chapter_id": "mid-s1c9",
+          "chapter_title": "AI技術系統集成與部署",
+          "question": "某 AI 分類服務進行 30 天、共 720 小時的生產環境觀測。期間因故障中斷 3.6 小時，其餘有效服務時間共完成 1,800,000 次推論；同期間業務轉換率由 8% 提升至 10%。若以有效服務時間計算吞吐量，下列哪一項判讀正確？",
+          "options": {
+            "A": "服務可用率為 99.5%，吞吐量約為 2.50 次/秒，轉換率提升 25 個百分點，三者皆屬系統層級指標",
+            "B": "服務可用率為 99.5%，吞吐量約為 0.70 次/秒，轉換率提升 2 個百分點，其中前兩者屬系統層級、後者屬業務層級指標",
+            "C": "服務可用率為 0.5%，吞吐量約為 0.70 次/秒，轉換率提升 2 個百分點，其中轉換率屬應用層級指標",
+            "D": "服務可用率為 100%，吞吐量約為 0.70 次/秒，轉換率提升 2 個百分點，其中吞吐量屬業務層級指標"
+          },
+          "answer": "B",
+          "explanation": "有效服務時間為 720−3.6＝716.4 小時，因此服務可用率為 716.4÷720＝99.5%。吞吐量為 1,800,000÷（716.4×3,600）≈0.70 次/秒。轉換率由 8% 升至 10%，是提升 2 個百分點，且屬業務層級指標；可用率與吞吐量則屬系統層級指標。A 將相對提升率與百分點混淆，且吞吐量計算錯誤；C 將可用率取成中斷比例，並錯置轉換率層級；D 忽略故障中斷，且錯置吞吐量層級。",
+          "difficulty": "難",
+          "type": "計算判讀型",
+          "tags": [
+            "KPI",
+            "服務可用率",
+            "吞吐量",
+            "業務指標",
+            "跨層級指標聯動"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c9",
+            "basis": "6. 成效追蹤與優化；A. 成效指標設計與回收週期建立；關鍵效能指標（KPI）設定；跨層級指標聯動"
+          },
+          "card": {
+            "concept": "系統層級 KPI 包括推論延遲、吞吐量與服務可用率；業務層級 KPI 包括轉換率、成本節省與 ROI，應跨層級聯動觀察。",
+            "mnemonic": "系統看快不快、穩不穩；業務看賺不賺、留不留。",
+            "confusion": "轉換率不是系統效能指標；可用率應計算有效服務時間占觀測時間的比例，不能把故障中斷比例當成可用率。"
+          }
+        },
+        {
+          "id": "mid-s1c9q011_codex100",
+          "chapter_id": "mid-s1c9",
+          "chapter_title": "AI技術系統集成與部署",
+          "question": "在本節所述的「跨層級指標聯動」中，採用「技術指標＋業務指標」雙軌制的主要意義為何？",
+          "options": {
+            "A": "只追蹤推論延遲、吞吐量與 GPU 記憶體使用率，避免業務因素干擾模型評估",
+            "B": "以每月重新訓練取代日常監控，使工程團隊不必持續收集使用情況與錯誤樣本",
+            "C": "同時追蹤系統或應用層級的技術表現，以及轉換率、成本節省或 ROI 等業務成果，讓工程團隊與業務部門有共同的追蹤重心",
+            "D": "只要業務層級指標提升，就可視為模型部署成功，無須再檢查服務可用率與推論效能"
+          },
+          "answer": "C",
+          "explanation": "跨層級指標聯動主張以技術指標與業務指標雙軌追蹤，既觀察系統或應用層級的效能，也確認模型是否帶來轉換率提升、成本節省或 ROI 改善，讓工程團隊與業務部門建立共同語言。A、D 都把其中一類指標排除；B 將定期回收與重新評估誤解為可取代日常監控。",
+          "difficulty": "中",
+          "type": "概念定義型",
+          "tags": [
+            "跨層級指標聯動",
+            "技術指標",
+            "業務指標",
+            "KPI",
+            "ROI"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c9",
+            "basis": "6. 成效追蹤與優化；A. 成效指標設計與回收週期建立；跨層級指標聯動"
+          },
+          "card": {
+            "concept": "跨層級指標聯動以技術指標與業務指標雙軌追蹤，將模型運作狀況與實際業務價值連結起來。",
+            "mnemonic": "技術看能不能穩定運作，業務看有沒有產生價值。",
+            "confusion": "只看準確率或延遲都不完整；技術指標達標不代表業務一定改善，業務成果提升也不能取代系統穩定性監控。"
+          }
+        },
+        {
+          "id": "mid-s1c9q012_codex100",
+          "chapter_id": "mid-s1c9",
+          "chapter_title": "AI技術系統集成與部署",
+          "question": "某零售企業部署 AI 客戶流失預測系統後，業務與行銷部門希望依預測結果調整促銷策略，客服與營運部門則持續發現模型在特定客群上的異常反應；法務與風險部門關注資料隱私、公平性與風險揭露，資訊部門負責 API 整合、權限管理與維運。然而目前各部門各自設定績效指標，客服回報無法及時傳達給模型團隊，法務僅在上線前審查，模型調整也缺乏明確決策窗口。若要改善 AI 系統的持續營運與跨部門協作，下列哪一項作法最適切？",
+          "options": {
+            "A": "由技術團隊統一負責模型調整與法務審查，各部門僅在定期會議中提供意見，並以模型準確率作為唯一共同績效指標，以降低協調成本",
+            "B": "由業務與行銷部門主導模型需求及所有績效指標，客服與營運部門自行篩選異常案例，法務在發生爭議時再介入，資訊部門則開放較寬鬆的權限以加速各部門使用",
+            "C": "成立 AI 治理委員會統籌資源分配與風險審查，並由內部 AI 產品經理協調技術與業務需求；各部門仍維持原有績效指標，模型調整則依治理委員會每月會議結果處理",
+            "D": "建立定期 AI 專案工作小組、共用的 AI 成效影響 KPI 與模型調整及資料異常的快速決策通道，同時明確分工各部門責任，設置內部 AI 協調人員，並透過治理委員會及跨部門培訓將 AI 納入日常治理"
+          },
+          "answer": "D",
+          "explanation": "D 同時涵蓋跨部門整合的三個重點：先明確界定角色與責任，由業務與行銷提供需求情境及績效指標、客服與營運回收互動案例及異常反應、法務與風險審查隱私公平性及風險揭露、資訊部門負責部署權限 API 整合與維運；再以定期工作小組、共用 KPI 及快速決策通道建立常態溝通；最後透過 AI 治理委員會、內部協調人員及跨部門培訓納入組織治理。A 將法務責任集中到技術團隊，且只以準確率作為指標，忽略跨部門共同成果；B 將部門責任割裂，並以事後法務介入及寬鬆權限取代制度化治理；C 雖包含治理委員會與協調人員，但保留各自 KPI、決策週期過慢，且未處理跨部門培訓與持續回饋機制。",
+          "difficulty": "難",
+          "type": "情境應用型",
+          "tags": [
+            "跨部門整合",
+            "部門角色與責任",
+            "常態溝通與決策",
+            "AI組織治理",
+            "共同績效指標"
+          ],
+          "source_refs": {
+            "guide_path": "data/中級/guide/subject1_guide.json",
+            "chapter_id": "mid-s1c9",
+            "basis": "7. 跨部門整合：明確部門角色與參與責任、建立常態溝通與決策機制、AI 納入組織治理流程"
+          },
+          "card": {
+            "concept": "AI 專案落地需以跨部門角色分工、共同 KPI、常態決策與治理制度連結技術和營運。",
+            "mnemonic": "分工、共KPI、快決策、納治理",
+            "confusion": "跨部門整合不只是召開會議，也不是將責任全部交給技術團隊；必須同時涵蓋各部門責任、共同成果基準、快速協調，以及治理委員會、協調人員與培訓機制。"
+          }
         }
       ]
     }

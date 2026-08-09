@@ -27,10 +27,11 @@ LEVELS = {
     },
 }
 
+# 2026-08-09：移除 codex100（對外名稱「精選 100 題」）。題庫改為每科一份
+# 熱度配額題庫（ai）＋ 學習指引抽取題（guide），不再有第二份重疊的生成題庫。
 PRACTICE_FILES = {
     "ai": "subject{n}_questions.json",
     "guide": "subject{n}_guide_exercises.json",
-    "codex100": "subject{n}_codex100_questions.json",
 }
 
 EXAM_FILES = {
@@ -125,7 +126,6 @@ def build_summary() -> dict[str, Any]:
                     data_dir / "questions" / filename.format(n=number)
                 )
                 for practice_type, filename in PRACTICE_FILES.items()
-                if practice_type != "codex100" or level_id == "middle"
             }
 
         exams = {

@@ -30,19 +30,14 @@ export default function SubjectOverviewPage() {
   const summary = resourceSummary.levels[level.id].subjects[subjectData.id]
   const questionSummary = summary?.ai
   const guideExerciseSummary = summary?.guide
-  const codex100Summary = summary?.codex100
   const practiceCounts = subjectData.chapters.map((chapter) =>
     questionSummary?.chapterCounts[chapter.id] ?? 0
   )
   const guideExerciseCounts = subjectData.chapters.map((chapter) =>
     guideExerciseSummary?.chapterCounts[chapter.id] ?? 0
   )
-  const codex100Counts = subjectData.chapters.map((chapter) =>
-    codex100Summary?.chapterCounts[chapter.id] ?? 0
-  )
   const maxPracticeQ = Math.max(...practiceCounts, 1)
   const maxGuideExerciseQ = Math.max(...guideExerciseCounts, 1)
-  const maxCodex100Q = Math.max(...codex100Counts, 1)
 
   return (
     <div className="page-shell">
@@ -129,14 +124,6 @@ export default function SubjectOverviewPage() {
                     學習指引練習
                   </Link>
                 )}
-                {codex100Counts[subjectData.chapters.findIndex((item) => item.id === ch.id)] > 0 && (
-                  <Link
-                    to={`/practice/${subjectData.id}/${ch.id}/codex100`}
-                    className="btn-success"
-                  >
-                    精選 100 題
-                  </Link>
-                )}
               </div>
             </div>
           )
@@ -181,25 +168,6 @@ export default function SubjectOverviewPage() {
         </div>
       )}
 
-      {codex100Summary && (
-        <div className="surface p-5">
-          <h2 className="section-title mb-4">精選 100 題狀態</h2>
-          <div className="space-y-3">
-            {subjectData.chapters.map((ch, index) => {
-              const n = codex100Counts[index]
-              return (
-                <div key={ch.id}>
-                  <div className="flex justify-between gap-4 text-[0.85rem] mb-1">
-                    <span>{ch.title}</span>
-                    <span className="text-[#5b7c2a] font-semibold">{n > 0 ? `${n} 題` : '待建立'}</span>
-                  </div>
-                  <ProgressBar percent={n > 0 ? (n / maxCodex100Q) * 100 : 0} />
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      )}
     </div>
   )
 }

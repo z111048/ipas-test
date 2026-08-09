@@ -28,11 +28,9 @@ PDF→MD 解析品質直接決定出題品質，前處理正確性優先於一�
 1. **SSOT**：章節定義只存在於 `build_manifest.py` 的 `GUIDES_BY_LEVEL` →
    `data/{level}/toc_manifest.json`。任何腳本或前端都不得複製章節定義、不得硬編章節陣列。
 2. **商品化文案**：前端使用者可見文案不得透露教材/題目由 AI 生成。內部變數/路由 key
-   （`summary.ai` 等）可保留。既定對外命名：「章節練習/章節模擬練習題」（≠AI 模擬）、
-   「學習指引練習」（學習指引 PDF 內嵌題抽取）、「概念圖卡」（=AI 資訊圖，頁面 `/visuals`）。
+   （`codex100`、`summary.ai` 等）可保留。既定對外命名：「精選 100 題」（≠Codex 100 題）、
+   「章節練習/章節模擬練習題」（≠AI 模擬）、「概念圖卡」（=AI 資訊圖，頁面 `/visuals`）。
    「AI 應用規劃師」（考試名）與「生成式 AI」（考綱主題）屬正當用語。
-   <!-- 2026-08-09（使用者指示）：移除「精選 100 題」。兩份生成題庫合併為每科一份
-        熱度配額題庫，`codex100` 練習集與該命名已從前端、resourceSummary 全數移除。 -->
 3. **破壞性腳本**：`export_guide_outline_data.py` 必帶 `--all-levels`（否則中級檔案被 rmtree
    永久刪除），跑完必補 s1c4 兩個手動修正（腳本在 `pipeline-reference.md` §10）。
    任何含 rmtree/`--force` 的腳本，先確認目標目錄是否 gitignored（gitignored = 刪了救不回，

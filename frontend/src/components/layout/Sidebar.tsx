@@ -188,12 +188,6 @@ function SubjectBlock({
           onClose={onClose}
         />
       )}
-      {subject.codex100PracticeTo && (
-        <SidebarLink
-          item={{ label: '精選 100 題', to: subject.codex100PracticeTo, status: 'available', detail: subject.codex100PracticeDetail }}
-          onClose={onClose}
-        />
-      )}
 
       {/* 科目總覽 */}
       <NavLink

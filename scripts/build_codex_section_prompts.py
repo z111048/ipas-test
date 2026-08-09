@@ -50,6 +50,45 @@ def load_json(path: Path):
         return json.load(f)
 
 
+def pack_chunks(chapter: dict, quota: dict | None, default_count: int,
+                batch_target: int) -> list[tuple[dict, int]]:
+    """把同一章的連續區塊打包，直到累積題數達到 `batch_target`。
+
+    為什麼要打包：每次 codex 呼叫的固定開銷約 108 秒，與要幾題幾乎無關。原本一個
+    區塊一個 prompt，中級實測**平均每次呼叫只出 1.6 題**——168 次呼叫裡絕大部分時間
+    是在付固定成本。打包到約 9 題／次（pilot 已證實一次 8 題可行）呼叫數降到約 1/5。
+
+    ⚠️ **區塊內容全數保留、不截斷**。小節粒度存在的理由就是
+    `generate_questions.py` 把章節截到 4000 字（41 章有 39 章被截）；打包只是把
+    幾個區塊的原文接起來，各自標題保留成小節標，不會回到截斷的老問題。
+    """
+    packed: list[tuple[dict, int]] = []
+    buffer: list[dict] = []
+    buffered_count = 0
+    for chunk_index, chunk in enumerate(chapter['chunks']):
+        count = quota[chapter['id']][chunk_index] if quota else default_count
+        if count <= 0:
+            continue
+        buffer.append(chunk)
+        buffered_count += count
+        if buffered_count >= batch_target:
+            packed.append((merge_chunks(buffer), buffered_count))
+            buffer, buffered_count = [], 0
+    if buffer:
+        packed.append((merge_chunks(buffer), buffered_count))
+    return packed
+
+
+def merge_chunks(chunks: list[dict]) -> dict:
+    if len(chunks) == 1:
+        return chunks[0]
+    return {
+        'id': '+'.join(c['id'] for c in chunks),
+        'title': '｜'.join(c['title'] for c in chunks),
+        'content': '\n\n'.join(f"### {c['title']}\n{c['content']}" for c in chunks),
+    }
+
+
 def build_prompt(level: str, subject_index: int, subject_id: str, subject_title: str,
                  chapter: dict, chunk: dict, first: int, count: int,
                  previous_outputs: list[str], specs: list[dict]) -> str:
@@ -111,6 +150,11 @@ def build_prompt(level: str, subject_index: int, subject_id: str, subject_title:
         - 參考官方試題的題型、語氣、選項長度與情境敘述方式，但不可抄題、不可只替換名詞。
         - 四個選項都要合理，不要有明顯湊數的干擾項；干擾項要是真的有人會選錯的理由。
         - 若原文含公式或表格，可據以出計算或判讀題，但不要考背誦數字。
+        - **只能有一個選項正確。** 特別注意「自訂計分規則再問總分」這種寫法：
+          若每個選項都是「某項目：它自己的正確分數」，那四個選項就都成立、
+          題目變成無效單選題。2026-08-09 實測連兩次踩到（mid-s2c6 的框架比較表被
+          指定「計算判讀型」，模型只能自編計分規則）。要出計分題，錯的選項必須
+          **算錯**，不能只是「分數對但不是最高」。
         - 本批必須剛好產生 {count} 題，彼此的概念不可重複。
 
         ## 本批每題的規格（必須完全照做）
@@ -216,6 +260,9 @@ def main() -> None:
     parser.add_argument('--heat-total', type=int, default=None,
                         help='改用考古題熱度配額，指定整科總題數（§7-4）')
     parser.add_argument('--dry-run', action='store_true', help='只印配額表，不寫 prompt')
+    parser.add_argument('--batch-target', type=int, default=9,
+                        help='每次 codex 呼叫的目標題數（打包連續區塊）。'
+                             '1 = 舊行為（一個區塊一次呼叫，平均只出 1.6 題）')
     parser.add_argument('--run-dir', default=None)
     args = parser.parse_args()
 
@@ -278,10 +325,7 @@ def main() -> None:
         # 題號在同一章內連續累加，前批輸出會被下一批當成「避免重複」的輸入
         first = 1
         chapter_outputs: list[str] = []
-        for chunk_index, chunk in enumerate(chapter['chunks']):
-            count = quota[chapter['id']][chunk_index] if quota else args.count
-            if count <= 0:
-                continue
+        for chunk, count in pack_chunks(chapter, quota, args.count, args.batch_target):
             batch_index += 1
             stem = f'{batch_index:03d}_{chapter["id"]}_q{first:03d}-{first + count - 1:03d}'
             prompt_path = prompts_dir / f'{stem}.prompt.md'
