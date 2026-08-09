@@ -29,6 +29,7 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from run_codex_question_batch_generation import validate_batch  # noqa: E402
+from verify_batch_answers import verify_path  # noqa: E402
 
 BASE = Path(__file__).resolve().parents[1]
 
@@ -59,6 +60,8 @@ def main() -> None:
     parser.add_argument('--run-dir', type=Path, required=True)
     parser.add_argument('--replace-chapters', help='逗號分隔；只替換這幾章並與現有題庫合併')
     parser.add_argument('--dry-run', action='store_true')
+    parser.add_argument('--skip-answer-check', action='store_true',
+                        help='跳過「必須有通過的答案驗證」這道條件（不建議）')
     args = parser.parse_args()
 
     run_dir = args.run_dir if args.run_dir.is_absolute() else BASE / args.run_dir
@@ -77,6 +80,18 @@ def main() -> None:
         if errors:
             problems.append(f'{output_path.name}: {errors[:2]}')
             continue
+        # 答案交叉驗證是進題庫的必要條件。沒驗過就不准寫——
+        # 「有驗證工具」與「驗證真的擋得住」是兩件事。
+        if not args.skip_answer_check:
+            check_path = verify_path(output_path)
+            if not check_path.exists():
+                problems.append(f'{output_path.name}: 沒有答案驗證結果'
+                                f'（跑 run_codex_question_batch_generation.py --verify-answers）')
+                continue
+            check = load_json(check_path)
+            if not check.get('ok'):
+                problems.append(f"{output_path.name}: 答案驗證 flagged {check.get('flagged')}")
+                continue
         questions.extend(load_json(output_path)['questions'])
 
     if problems:

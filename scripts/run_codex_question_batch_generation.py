@@ -12,6 +12,7 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
+from verify_batch_answers import DEFAULT_VERIFIERS, verify_batch_answers
 from question_dedupe import (
     find_similar_question_pairs,
     find_similar_question_pairs_between,
@@ -196,6 +197,22 @@ def run_codex(prompt_path: Path, output_path: Path, timeout_seconds: int) -> tup
             return output_path.exists(), True
 
 
+def answer_errors(output_path: Path, level: str, args: Any) -> list[str]:
+    """答案交叉驗證的結果轉成 validate 的錯誤字串。
+
+    沒帶 --verify-answers 就完全不做（保持舊行為）；帶了就**驗不過即失敗**。
+    """
+    if not getattr(args, 'verify_answers', False):
+        return []
+    result = verify_batch_answers(output_path, level, args.verifiers,
+                                  args.answer_threshold, timeout=args.timeout)
+    if result['ok']:
+        return []
+    consensus = result.get('flaggedConsensus') or []
+    detail = f"（其中 {consensus} 是不同意者共識，最可能真的錯）" if consensus else ''
+    return [f"answer cross-check flagged {result['flagged']}{detail}"]
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--run-dir', type=Path, default=DEFAULT_RUN_DIR)
@@ -204,6 +221,12 @@ def main() -> None:
     # 8 題一批在 180s 會 timeout（2026-08-09 實測），拉到 420s
     parser.add_argument('--timeout', type=int, default=420)
     parser.add_argument('--force', action='store_true')
+    # 答案交叉驗證接成「批次的驗證條件之一」：不過的批次算失敗、重跑會重生，
+    # export_generated_questions.py 也會拒絕寫出。稽核出來不阻擋等於沒稽核。
+    parser.add_argument('--verify-answers', action='store_true',
+                        help='每批通過 schema 驗證後再做答案交叉驗證（強烈建議）')
+    parser.add_argument('--verifiers', default=DEFAULT_VERIFIERS)
+    parser.add_argument('--answer-threshold', type=int, default=2)
     args = parser.parse_args()
 
     run_dir = args.run_dir if args.run_dir.is_absolute() else BASE / args.run_dir
@@ -229,6 +252,7 @@ def main() -> None:
             errors = validate_batch(output_path, batch, level)
             errors.extend(validate_against_previous(
                 output_path, load_previous_questions(summary, batch, level)))
+            errors.extend(answer_errors(output_path, level, args))
             if not errors:
                 skipped += 1
                 print(f'SKIP {label}')
@@ -244,6 +268,7 @@ def main() -> None:
             errors = validate_batch(output_path, batch, level)
             errors.extend(validate_against_previous(
                 output_path, load_previous_questions(summary, batch, level)))
+            errors.extend(answer_errors(output_path, level, args))
             if errors:
                 failed += 1
                 print(f'FAIL {label}: validation errors')
