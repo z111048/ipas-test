@@ -11,7 +11,7 @@
 - 跑 guide 內容 pipeline → §1；**OCR 兩軌與完整重跑順序 → §1a（動講義文字前必看）**
 - 跑品質審核 → §2、§4
 - 跑考題 pipeline → §3
-- 跑 Colab notebook → §5
+- 跑 Colab notebook → §5；**名詞解釋 → §5a**
 - 前端 build / 資料匯出 → §6
 - 某支腳本是幹嘛的 → §7 腳本目錄
 - 輸出檔案的意義與 gitignore 狀態 → §8
@@ -328,6 +328,48 @@ code cell」會被判成不符——多半該補小節標題，不是改程式�
 
 前端：GuidePage 在中級章節底部自動顯示「⚗️ 實作練習」摺疊區塊。
 
+## §5a 名詞解釋（glossary）pipeline
+
+```bash
+# 選詞＋抓來源，不打 API：看每個詞條有多少講義原文／詳解可用
+python3 scripts/build_glossary.py --level 初級 --dry-run
+# 生成（預設 --min-count 3：只收在官方考卷出現 ≥3 題的概念）
+python3 scripts/build_glossary.py --level 初級 [--min-count 3] [--limit N] [--model glm-5.2]
+# → data/{level}/pipeline/glossary/generated.json（gitignored）
+python3 scripts/build_glossary.py --level 初級 --apply
+# → frontend/src/generated/{primary,middle}Glossary.json（committed）
+
+# 閘門：三模型盲審每一條釋義（必跑）
+python3 scripts/verify_glossary_terms.py --glossary frontend/src/generated/primaryGlossary.json \
+    --out-dir data/audit/glossary_review/初級 \
+    --verifiers llm:deepseek-v4-pro,llm:kimi-k2.7-code,llm:qwen3.5:397b
+python3 scripts/verify_glossary_terms.py --term 資料標準化 ...   # 修完只重驗那一條
+python3 scripts/verify_glossary_terms.py --self-test              # 閘門自身的自測，見下
+```
+
+規則：
+
+- **選詞不靠人腦**：詞表由 `topicHeat.json` 的 `count` 決定，等於「這個概念實際被考幾題」。
+  科目歸屬取該概念在此等級各科的題數最大者；科目 id／名稱一律讀 `toc_manifest.json`（不變量 1）。
+- **取材以講義原文為主、詳解為輔**：只把「有提到這個概念的段落」餵進 prompt，不是整章。
+  比對詞用 `topics.json` 的 aliases——只比對正式名稱時，初級有 45／108 個詞完全抓不到講義段落，
+  加上別名後降到 30。抓不到的詞退回用詳解，`sources` 欄位記得住是哪一種。
+- **prompt 不可寫成「只根據片段」**：這樣會把某一題的情境當成定義（實測：代理式AI 被定義成
+  「在解決方案圖譜的候選路徑中探索」）。正確寫法是「片段決定用詞與著重點，釋義必須是通行定義」。
+- **生成模型不可出現在審核名單**：生成用 `glm-5.2`，審核名單就換成 deepseek／kimi／qwen。
+- **改完詞條要重驗**：`--term` 只重跑那一條，不必重掃整份。
+
+閘門自測（上線前必做，`--self-test`）：腳本內建 4 條故意寫錯的釋義（精確率↔召回率、
+中位數寫成平均數、過擬合寫成欠擬合、監督式寫成非監督）＋4 條原樣孿生對照，
+要求 4/4 抓到且 0 誤報才算閘門可用。
+
+> 2026-08-09 教訓：第一次自測是 0/4，我差點寫成「模型判不出概念互換」。真因是
+> `results` dict 用 `(subject, index)` 當 key，汙染版與乾淨孿生同 key，後寫的把前面蓋掉。
+> **模型答錯之前，先確認自己的迴圈沒把答案丟掉。**
+
+`audit_resources.py` 的 glossary 檢查涵蓋兩份檔案：空釋義／釋義長度 20–200 字外 → FAIL，
+沒有案例說明／同科目內重複 → WARN。**內容對不對不在 audit 判**，那是 verify 腳本的事。
+
 ## §6 前端
 
 ```bash
@@ -376,6 +418,8 @@ uv run python3 scripts/build_web.py     # production build → docs/（gitignore
 - `sample_card_review.py` — 確定性分層抽樣題目 `card` 欄位 → `data/audit/card_sample_review.json`；`--tally` 讀回判定算錯誤率。同 `--size`／`--seed` 重跑會拿到同一批題，才能改完驗同一批。
 - `fix_card_defects.py` — 修 `card.frequency` 值域外（依所在章熱度分段給值）與解析尾端黏上的「參考書目」附件。冪等，`--dry-run` 先看。
 - `export_topic_heat.py` — 概念標註 ＋ 詞彙表 ＋ 考古題標註 → `topicHeat.json`（前端 `/mindmap` 概念軸）。只讀 committed 產物、無 API 花費、可隨時重跑、輸出確定性（跨 `PYTHONHASHSEED` 位元相同）。⚠️ 採計只算 `verdict=正確`；「散落章數」用 `guideChapterCount`，**不是** `chapterCount`（後者把大綱章與指引章各記一次，虛胖 32%）。細節見 `08-topic-labeling.md` §7-3。
+- `build_glossary.py` — 名詞解釋生成（詞表由 `topicHeat.json` 熱度決定，來源＝講義原文段落＋詳解片段）→ `frontend/src/generated/{primary,middle}Glossary.json`。`--dry-run` 只看選詞與來源覆蓋、不花錢；`--apply` 才寫前端；既有詞條預設保留不覆蓋（`--regenerate` 才重寫）。生成模型不可與 `verify_glossary_terms.py` 的審核名單重疊。見 §5a。
+- `verify_glossary_terms.py` — 釋義閘門：三模型盲審每一條，`wrong` 票 ≥2 就 flagged。`--self-test` 拿 4 條故意寫錯的＋4 條乾淨孿生驗閘門本身（要 4/4 抓到、0 誤報）；`--term` 只重驗改過的那條。金鑰 `LLMSHARE_API_KEY`（`.env`，gitignored）。
 - `export_guide_hierarchy.py` — 接成完整階層樹，並產導覽用的兩個衍生檔 → `guideHierarchy.json`、`guideNav.json`、`guideSearchIndex.json`（見 §1b）。
 - `pdf_vision_extract.py` — 每頁 PNG（2x）送 Gemini Vision → `pages_cache/{key}/page_NNN.json`（{type, headings, markdown, usage}）；完成後自動生成 `page_index.json`。重跑只補 missing/failed。
 - `gemini_exam_vision_extract.py` — 考題 PDF 的 Vision OCR（獨立 schema）→ `exam_pages_cache/`。
@@ -464,6 +508,7 @@ Pipeline 跑完後：
 4. `parse_guides.py` 印出 `[vision mode]`（不是 regex mode），每章 >1000 字。
 5. `audit_chapters.py` 報告 PASS；WARN/FAIL 章節先處理再出題。
 6. `parse_exams_v2.py`：exam1/exam2 解析數 <50 是已知現象（部分 PDF 列無法機器解析），看 WARN 行與實際 JSON 總數。
+7. 動了名詞解釋後：`verify_glossary_terms.py` 兩份檔案都跑（flagged 要為 0 或逐條裁決）＋ `audit_resources.py` exit 0。
 7. 前端改動後：`cd frontend && npm run build` 零 TypeScript 錯誤（這是唯一的型別防線）。
 8. 手動 spot-check：dev server 看題目渲染、答題後 card 面板出現（card 面板沒出現先確認
    題目 JSON 是否真的有 `card` 欄位，再懷疑前端）、行動版 `☰` 抽屜有 `✏️` 練習題入口。

@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
-import glossaryRaw from '../generated/middleGlossary.json'
+import primaryRaw from '../generated/primaryGlossary.json'
+import middleRaw from '../generated/middleGlossary.json'
 
 interface GlossaryTerm {
   zh: string
@@ -16,13 +17,23 @@ interface GlossaryData {
   }>
 }
 
-const glossary = glossaryRaw as GlossaryData
-const subjectIds = Object.keys(glossary.subjects)
+const bundles: Record<string, GlossaryData> = {
+  初級: primaryRaw as GlossaryData,
+  中級: middleRaw as GlossaryData,
+}
+const levels = Object.keys(bundles)
 
 export default function GlossaryPage() {
-  const [subjectId, setSubjectId] = useState(subjectIds[0])
+  const [level, setLevel] = useState(levels[0])
+  const [subjectId, setSubjectId] = useState(Object.keys(bundles[levels[0]].subjects)[0])
   const [query, setQuery] = useState('')
-  const subject = glossary.subjects[subjectId]
+
+  const glossary = bundles[level]
+  const subjectIds = Object.keys(glossary.subjects)
+  // switching level leaves the old subject id selected for one render; fall back
+  // to the first subject of the level actually being shown
+  const activeSubjectId = subjectIds.includes(subjectId) ? subjectId : subjectIds[0]
+  const subject = glossary.subjects[activeSubjectId]
 
   const terms = useMemo(() => {
     const keyword = query.trim().toLowerCase()
@@ -35,29 +46,50 @@ export default function GlossaryPage() {
     )
   }, [query, subject])
 
+  const totalTerms = subjectIds.reduce((sum, id) => sum + glossary.subjects[id].terms.length, 0)
+
   return (
     <div>
-      <div className="text-[0.78rem] font-semibold text-accent mb-1">{glossary.level}</div>
-      <div className="text-2xl font-bold text-primary mb-1">中級關鍵字整理</div>
+      <div className="text-[0.78rem] font-semibold text-accent mb-1">名詞解釋</div>
+      <div className="text-2xl font-bold text-primary mb-1">關鍵字整理</div>
       <div className="text-text-light mb-5">
-        整理中級三個科目的中英文關鍵字、定義與案例說明。
+        依歷屆試題出現頻率整理的中英文名詞、定義與應用案例，初級與中級各自分科呈現。
       </div>
 
       <div className="bg-card rounded-xl shadow-sm border border-border p-5 mb-4">
         <div className="flex flex-col lg:flex-row lg:items-center gap-3">
           <div className="flex flex-wrap gap-2">
+            {levels.map((name) => (
+              <button
+                key={name}
+                type="button"
+                onClick={() => {
+                  setLevel(name)
+                  setSubjectId(Object.keys(bundles[name].subjects)[0])
+                }}
+                className={`px-3 py-2 rounded-lg border text-[0.85rem] cursor-pointer ${
+                  level === name
+                    ? 'border-accent bg-accent text-white'
+                    : 'border-border bg-white text-primary hover:border-accent'
+                }`}
+              >
+                {name}
+              </button>
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-2 lg:border-l lg:border-border lg:pl-3">
             {subjectIds.map((id) => (
               <button
                 key={id}
                 type="button"
                 onClick={() => setSubjectId(id)}
                 className={`px-3 py-2 rounded-lg border text-[0.85rem] cursor-pointer ${
-                  subjectId === id
+                  activeSubjectId === id
                     ? 'border-accent bg-accent text-white'
                     : 'border-border bg-white text-primary hover:border-accent'
                 }`}
               >
-                {glossary.subjects[id].subject.replace('中級', '')}
+                {glossary.subjects[id].subject.replace(/^中級/, '')}
               </button>
             ))}
           </div>
@@ -65,16 +97,16 @@ export default function GlossaryPage() {
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="搜尋中文、英文、定義或案例"
-            className="lg:ml-auto w-full lg:w-[320px] rounded-lg border border-border px-3 py-2 text-[0.88rem] outline-none focus:border-accent"
+            className="lg:ml-auto w-full lg:w-[280px] rounded-lg border border-border px-3 py-2 text-[0.88rem] outline-none focus:border-accent"
           />
         </div>
       </div>
 
       <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden">
         <div className="px-5 py-4 border-b border-border">
-          <div className="text-primary font-semibold">{subject.subject}</div>
+          <div className="text-primary font-semibold">{level}　{subject.subject}</div>
           <div className="text-[0.8rem] text-text-light mt-1">
-            共 {subject.terms.length} 個關鍵字，符合篩選 {terms.length} 個
+            本科共 {subject.terms.length} 個關鍵字（{level}合計 {totalTerms} 個），符合篩選 {terms.length} 個
           </div>
         </div>
 

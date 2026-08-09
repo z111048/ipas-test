@@ -321,8 +321,19 @@ def _iter_image_srcs(node: Any) -> Iterator[str]:
             yield from _iter_image_srcs(item)
 
 
+# 釋義字數界線：低於下限的多半是「XX 是一種 XX 技術」這種同義反覆，
+# 高於上限的是把整段講義塞進表格欄位。兩者都是可以機械判定的形狀問題；
+# 釋義「對不對」不在這裡判，那要 scripts/verify_glossary_terms.py（跨模型盲審）。
+GLOSSARY_MIN_DEFINITION = 20
+GLOSSARY_MAX_DEFINITION = 200
+
+
 def audit_glossary(report: Report) -> None:
-    path = GENERATED / 'middleGlossary.json'
+    for filename in ('primaryGlossary.json', 'middleGlossary.json'):
+        audit_glossary_file(report, GENERATED / filename)
+
+
+def audit_glossary_file(report: Report, path: Path) -> None:
     if not path.exists():
         return
     # 去重以「科目」為界：詞彙表是分科呈現的，同一個詞在兩科各有一條釋義是正當的
@@ -340,19 +351,28 @@ def audit_glossary(report: Report) -> None:
                 if isinstance(entry, dict) else ''
             definition = str(entry.get('definition', '')).strip() \
                 if isinstance(entry, dict) else ''
+            example = str(entry.get('example', '')).strip() \
+                if isinstance(entry, dict) else ''
+            label = f'{path.stem}:{subject_id}:{term or "?"}'
             if not term or not definition:
-                report.add('glossary', 'FAIL', '詞條或釋義是空的',
-                           f'{subject_id}:{term or "?"}')
+                report.add('glossary', 'FAIL', '詞條或釋義是空的', label)
+            elif not GLOSSARY_MIN_DEFINITION <= len(definition) <= GLOSSARY_MAX_DEFINITION:
+                report.add('glossary', 'FAIL',
+                           f'釋義長度 {len(definition)} 字不在 {GLOSSARY_MIN_DEFINITION}–'
+                           f'{GLOSSARY_MAX_DEFINITION} 字之間', label)
+            if term and not example:
+                report.add('glossary', 'WARN', '詞條沒有案例說明', label)
             key = unicodedata.normalize('NFKC', term).lower()
             if not key:
                 continue
             if (subject_id, key) in per_subject:
-                report.add('glossary', 'WARN', '同一科目內詞條重複', f'{subject_id}:{term}')
+                report.add('glossary', 'WARN', '同一科目內詞條重複', label)
             per_subject.add((subject_id, key))
             if key in global_terms and global_terms[key] != subject_id:
                 cross += 1
             global_terms.setdefault(key, subject_id)
-    report.add('glossary', 'INFO', f'檢查 {count} 個詞條，跨科目同名 {cross} 個', '')
+    report.add('glossary', 'INFO',
+               f'{path.stem} 檢查 {count} 個詞條，跨科目同名 {cross} 個', '')
 
 
 def audit_guide(report: Report) -> None:

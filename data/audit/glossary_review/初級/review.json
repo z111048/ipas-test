@@ -1,0 +1,3122 @@
+[
+  {
+    "subject": "s1",
+    "index": 0,
+    "zh": "AI治理與倫理",
+    "en": "AI Governance and Ethics",
+    "definition": "指透過建立管理架構與監督機制，確保人工智慧系統在應用與開發過程中符合倫理規範，具備當責性、可靠性、透明性與公平性，並落實隱私保護以管理風險。",
+    "example": "金融機構導入AI進行信用風險評估時，建立專責單位與監督機制，確保模型決策具備透明性且保護客戶隱私，以符合倫理規範。",
+    "_uid": 0,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 1,
+    "zh": "Transformer架構",
+    "en": "Transformer architecture",
+    "definition": "一種基於自注意力機制的深度學習神經網路架構，透過計算序列中各元素間的關聯來捕捉長距離依賴，是當前生成式AI大模型的核心基礎。",
+    "example": "以 GPT 系列為例，它利用 Transformer 架構自回歸地預測下一個詞元，進而生成流暢的長篇中文文章。",
+    "_uid": 1,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 2,
+    "zh": "偏態與長尾分佈",
+    "en": "Skewness and Long-tail Distribution",
+    "definition": "偏態指資料分布不對稱而使平均數偏離中位數；長尾分佈則指多數數值集中於某一端，少數極端值延伸至另一端形成長尾，兩者皆使統計與模型推估易受極端值影響。",
+    "example": "住院日數預測中，多數病人集中於數天，少數重症患者住院日數極長而形成長尾，須同時檢視整體誤差與重症子群誤差以確保模型穩健。",
+    "_uid": 2,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "minor",
+        "issue": "偏態的技術定義是分布不對稱的程度，不等同於「平均數偏離中位數」；長尾分佈強調尾部機率衰減緩慢，而非僅是數值集中於一端，兩者亦不等同於一定易受極端值影響。",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 1,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 3,
+    "zh": "偏見與公平性",
+    "en": "Bias and Fairness",
+    "definition": "指在人工智慧與機器學習中，避免模型因訓練數據不平衡或隱性偏見，而對特定群體產生歧視或不公正對待，確保系統輸出對所有使用者皆公平無偏。",
+    "example": "信貸決策系統透過資料去偏與演算法調整，確保不同性別或年齡的申請者都能獲得公正的信用評估結果。",
+    "_uid": 3,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "minor",
+        "issue": "機器學習的公平性並無單一絕對標準，且常與準確率等目標存在權衡，無法一概保證對所有使用者同時絕對公平無偏；訓練數據不平衡也僅是偏見來源之一。",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 1,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 4,
+    "zh": "優化演算法",
+    "en": "Optimization Algorithm",
+    "definition": "優化演算法是指在機器學習模型訓練過程中，透過不斷計算損失函數的梯度等資訊，逐步調整模型內部參數，以最小化預測誤差並找出最佳參數的方法。",
+    "example": "在訓練影像辨識模型時，系統利用 Adam 優化器根據損失誤差逐步更新神經網路權重，使分類準確率不斷提升。",
+    "_uid": 4,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "minor",
+        "issue": "釋義過度將優化演算法限縮為機器學習訓練中的梯度式方法，且『找出最佳參數』並不保證全域最佳，僅是降低損失的過程。",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "minor",
+        "issue": "釋義將優化演算法狹隘地限定為僅依賴「梯度」資訊，忽略了無梯度方法（如遺傳演算法、粒子群優化等）的存在。",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 2,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 5,
+    "zh": "分群演算法",
+    "en": "Clustering Algorithm",
+    "definition": "分群演算法是非監督式學習的核心技術，旨在不依賴標籤的情況下，透過分析資料間的相似性與內在結構，自動將未標記資料劃分為若干群組，使同群內具高相似性而群間具差異性。",
+    "example": "企業可分析顧客的消費行為與特徵，自動將顧客劃分為數個群組，以便進行差異化行銷與市場區隔。",
+    "_uid": 5,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 6,
+    "zh": "分類模型",
+    "en": "Classification Model",
+    "definition": "分類模型是一種監督式機器學習模型，透過學習資料特徵與離散類別之間的關係，將新的輸入樣本預測並歸屬至特定的類別標籤中。",
+    "example": "例如將患者的年齡與血壓等健康指標輸入模型，藉由輸出的機率值與門檻判斷，預測其是否罹患特定疾病以發出風險警示。",
+    "_uid": 6,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 7,
+    "zh": "即時資料處理",
+    "en": "Real-time data processing",
+    "definition": "指系統在新資料產生的同時或極短時間內完成接收、處理、分析與推論，以維持資料的最新狀態並滿足低延遲的及時反應需求，確保模型能根據最新動態迅速做出決策或判定。",
+    "example": "在製造產線上，AI系統在產品離開產線的三秒內完成影像分析與瑕疵判定，避免延遲影響製程節奏。",
+    "_uid": 7,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 8,
+    "zh": "卷積神經網路",
+    "en": "Convolutional Neural Network, CNN",
+    "definition": "卷積神經網路是一種受動物視覺皮層啟發的深度學習模型，透過卷積層進行運算以提取數據的局部特徵，特別擅長處理圖像等非結構化資料，廣泛應用於影像辨識與物件偵測等電腦視覺任務。",
+    "example": "在智慧農業中，AI系統透過分析果實的影像特徵如顏色、形狀與紋理，來判斷蘋果的成熟狀態與採收時機。",
+    "_uid": 8,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 9,
+    "zh": "多模態融合",
+    "en": "Multimodal Fusion",
+    "definition": "多模態融合是指將文字、影像、音訊等不同型態的資料進行整合與處理，使人工智慧模型能夠同時理解並跨模態對齊這些資訊，從而提升整體感知與生成能力的技術。",
+    "example": "醫療AI系統同時分析病人的X光影像與病歷文字描述，以提供更準確的診斷建議。",
+    "_uid": 9,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": null,
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 1
+  },
+  {
+    "subject": "s1",
+    "index": 10,
+    "zh": "大數據概念",
+    "en": "Big Data",
+    "definition": "大數據是指規模與複雜度大到無法以傳統資料庫技術進行擷取、管理與處理的資料集合，其核心特性涵蓋資料量大、產生與處理速度快、資料型態多樣化、真實性與價值等。",
+    "example": "城市治理平台需即時處理數萬個感測器傳回的大量車流數據、監視器影像與民眾文字陳情，這正是典型的大數據應用場景。",
+    "_uid": 10,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "minor",
+        "issue": "釋義中將「真實性 (Veracity)」與「價值 (Value)」列為核心特性雖屬常見擴展，但嚴格技術定義上 Big Data 主要指代資料本身的規模與複雜度（3V 或 4V），而非其內含的價值屬性。",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 1,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 11,
+    "zh": "強化學習",
+    "en": "Reinforcement Learning, RL",
+    "definition": "強化學習是一種機器學習方法，讓代理透過與環境互動，依據環境給予的獎勵回饋進行試錯學習，逐步更新並選擇最佳行動策略，以最大化長期的累積回報。",
+    "example": "智慧投資系統根據金融市場變化自動選擇買進或賣出，並依盈虧結果調整下一次的交易策略。",
+    "_uid": 11,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 12,
+    "zh": "影像分割",
+    "en": "Image Segmentation",
+    "definition": "影像分割是電腦視覺中的技術，透過將影像中的每個像素分類至特定群組或物件，以像素或區域層級精細區分出目標的形狀、邊界與範圍，能比物件偵測提供更精確的影像分析。",
+    "example": "在醫療影像分析中，系統利用此技術精確標示出腫瘤的實際輪廓與範圍，以輔助醫師進行診斷。",
+    "_uid": 12,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 13,
+    "zh": "影像辨識任務",
+    "en": "Image Recognition Task",
+    "definition": "影像辨識任務是指利用人工智慧技術分析非結構化的圖像資料，從中提取高層次特徵，以執行圖像分類、物件偵測或區域定位等視覺判斷的電腦視覺任務。",
+    "example": "在電子製造產線中，系統透過分析電路板外觀影像，自動辨識並標示出焊接瑕疵的區域位置。",
+    "_uid": 13,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "minor",
+        "issue": "釋義將「影像辨識」狹隘地定義為僅包含分類、偵測與定位，忽略了語意分割、實例分割等同樣屬於高層次特徵提取的關鍵任務。",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 1,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 14,
+    "zh": "循環神經網路",
+    "en": "Recurrent Neural Network, RNN",
+    "definition": "一種專為處理序列數據而設計的深度學習模型，其網路中存在循環連接，使得模型可以記憶序列中先前的資訊，並讓輸出同時取決於目前輸入與先前的上下文狀態。",
+    "example": "使用循環神經網路分析歷史班次與即時路況等隨時間變化的資料，以預測公車各站點的到站時間。",
+    "_uid": 14,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 15,
+    "zh": "情感分析",
+    "en": "Sentiment Analysis",
+    "definition": "情感分析是自然語言處理領域中的一項文本分類技術，透過演算法自動判斷文本內容所表達的情緒、意見或立場，並將其歸類為正向、負向或中立等不同傾向。",
+    "example": "企業可對大量社群媒體貼文進行情感分析，藉此掌握消費者對新產品的正負面評價與整體輿情。",
+    "_uid": 15,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "minor",
+        "issue": "釋義把「立場」列為情感分析的常規判定對象，模糊了 sentiment analysis 與 stance detection 的區別；情感分析主要關注文本的情緒極性（正向／負向／中立）或情感狀態。",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 1,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 16,
+    "zh": "擴散模型",
+    "en": "Diffusion Models",
+    "definition": "擴散模型是一種生成式人工智慧模型，其核心機制是透過在訓練階段逐步向數據添加隨機雜訊，並在生成階段從隨機雜訊中逐步去除雜訊，以還原並生成高品質且細節豐富的新數據樣本。",
+    "example": "在服裝設計應用中，系統能根據設計師輸入的風格條件，從隨機雜訊逐步去噪，生成高解析度且細節穩定的服裝草圖。",
+    "_uid": 16,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 17,
+    "zh": "支援向量機",
+    "en": "Support Vector Machine, SVM",
+    "definition": "支援向量機是一種監督式學習的鑑別式分類模型，其核心是尋找能最大化類別間隔的最佳分類邊界（超平面），並可透過核函數將線性不可分資料映射到高維特徵空間，以完成非線性分類。",
+    "example": "在醫療領域中，可透過分析醫學影像特徵，協助醫生將腫瘤識別為良性或惡性。",
+    "_uid": 17,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 18,
+    "zh": "效能優化",
+    "en": "Performance Optimization",
+    "definition": "效能優化是指透過調整模型參數、提示詞設計、模型結構精簡或系統資源配置等方式，在維持可接受輸出品質的前提下，降低計算負擔並提升整體資源使用效率與處理吞吐量的過程。",
+    "example": "透過移除大型Transformer模型中影響較小的冗餘權重，以減少模型大小並提升推理效率。",
+    "_uid": 18,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 19,
+    "zh": "敘述統計",
+    "en": "Descriptive Statistics",
+    "definition": "敘述統計是指透過整理、摘要與呈現資料的方法，以統計量數或圖表直觀描述一組數據的集中趨勢、分散程度與分布特徵，作為了解資料整體樣貌與後續推論的基礎。",
+    "example": "在分析顧客年齡資料時，使用直方圖觀察其年齡分布是否集中或呈現偏態，即屬於敘述統計的應用。",
+    "_uid": 19,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 20,
+    "zh": "數值型資料視覺化",
+    "en": "Numerical Data Visualization",
+    "definition": "數值型資料視覺化是指利用直方圖、散佈圖等圖表工具，將連續型或離散型的數值資料轉換為視覺化圖形，藉此直觀地呈現資料的分布情形、集中趨勢以及變數間的關聯性與異常值。",
+    "example": "將顧客的身高與體重數據繪製成散佈圖，以觀察兩者之間是否具有正相關或負相關的關係。",
+    "_uid": 20,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 21,
+    "zh": "時間序列預測",
+    "en": "Time Series Forecasting",
+    "definition": "時間序列預測是指利用按時間順序排列的歷史資料，分析其趨勢、季節性與時間依賴關係，並運用統計或深度學習模型來推估未來數值或狀態的技術。",
+    "example": "利用 LSTM 模型分析過去五年的每日氣溫變化，以預測未來一週的氣候走向。",
+    "_uid": 21,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 22,
+    "zh": "模型可解釋性",
+    "en": "Explainable AI, XAI",
+    "definition": "模型可解釋性是指人工智慧系統能夠以人類可理解的方式，說明其決策或預測的內部運作邏輯與依據的能力，旨在提升透明度並在高風險應用中建立使用者信任。",
+    "example": "在醫療診斷決策支援系統中，模型不僅提供疾病預測結果，還能透過視覺化呈現影響判斷的關鍵病徵，讓醫師理解並信任該診斷建議。",
+    "_uid": 22,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 23,
+    "zh": "模型微調",
+    "en": "Fine-tuning",
+    "definition": "在預訓練模型的基礎上，使用特定領域或任務相關的數據集進一步訓練並持續更新模型參數，使模型適應新資料分佈，以提升其在該特定任務上的效能與表現。",
+    "example": "將通用大型語言模型使用企業內部的客服對話紀錄進行微調，讓模型學習並固定符合公司規範的特定回覆風格與任務格式。",
+    "_uid": 23,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 24,
+    "zh": "模型推論",
+    "en": "Model Inference",
+    "definition": "模型推論是指在機器學習流程中，當模型完成訓練並部署上線後，將新的輸入資料送入模型，以產生預測結果或生成輸出的過程，通常分為批次推論與即時推論。",
+    "example": "電商平台將累積的大量用戶瀏覽紀錄集中送入推薦模型，以批次推論方式產生下一階段的個人化商品推薦清單。",
+    "_uid": 24,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 25,
+    "zh": "模型訓練資源",
+    "en": "Model Training Resources",
+    "definition": "模型訓練資源是指在機器學習或生成式人工智慧的訓練階段中，為了調整模型參數、計算損失並迭代更新，所需要的計算硬體（如GPU、TPU）、記憶體、儲存空間與電力等基礎設施支持。",
+    "example": "在訓練一個擁有 120 億參數的生成式模型時，團隊必須配置大量 GPU 組成的運算叢集，以確保有足夠的計算資源完成反覆的資料輸入與參數更新。",
+    "_uid": 25,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 26,
+    "zh": "正則化",
+    "en": "Regularization",
+    "definition": "正則化是在機器學習模型的損失函數中加入額外的懲罰項，以限制模型參數的大小或複雜度，進而降低過擬合風險並提升模型泛化能力的方法。",
+    "example": "在線性迴歸模型的損失函數中加入 L1 正則化項，可將不重要特徵的權重壓縮為零，達到特徵選擇與防止過擬合的效果。",
+    "_uid": 26,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 27,
+    "zh": "決策樹模型",
+    "en": "Decision Tree",
+    "definition": "決策樹模型是一種以樹狀結構逐層劃分特徵空間的監督式學習演算法，每個內部節點代表對某個特徵條件的測試，並透過資訊增益或吉尼係數等標準選擇最佳切分特徵，以進行分類或預測。",
+    "example": "在醫療再住院風險預測中，可利用患者的年齡、血壓與診斷類別等特徵，逐步分支以判斷其再住院的風險高低。",
+    "_uid": 27,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 28,
+    "zh": "注意力機制",
+    "en": "Attention Mechanism",
+    "definition": "注意力機制是一種神經網路運算方法，透過計算輸入序列中各元素彼此間的關聯性來分配權重，使模型能聚焦於關鍵資訊並強化上下文理解，例如在 Transformer 中比較 Token 間的關係。",
+    "example": "在機器翻譯中，注意力機制能讓模型對齊原文與譯文的詞彙，專注於當前翻譯字詞最相關的上下文。",
+    "_uid": 28,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 29,
+    "zh": "深度學習",
+    "en": "Deep Learning, DL",
+    "definition": "深度學習是機器學習的子領域，透過多層人工神經網路從大量資料中自動學習並提取深層且抽象的特徵，不需要人類專家手動設計特徵即可處理複雜任務。",
+    "example": "在電腦視覺任務中，深度學習模型能自動從數百萬張影像中學習辨識物體的特徵，無需人工標註邊緣或形狀。",
+    "_uid": 29,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 30,
+    "zh": "激活函數",
+    "en": "Activation Function",
+    "definition": "激活函數是神經網路中用於引入非線性映射的數學運算，它決定神經元的輸出值，並在反向傳播時直接影響梯度的傳遞效率與模型訓練穩定性。",
+    "example": "在深層神經網路的隱藏層中使用 ReLU 作為激活函數，可有效避免梯度消失問題並提升模型收斂速度。",
+    "_uid": 30,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 31,
+    "zh": "物件偵測",
+    "en": "Object Detection",
+    "definition": "物件偵測是電腦視覺領域的一項核心任務，旨在從數位影像或影片中同時辨識出特定物件的類別，並標示出它們在畫面中的具體位置與邊界範圍。",
+    "example": "在智慧交通系統中，透過路口監視器影像即時辨識並框出汽車、機車等車輛位置以統計車流量。",
+    "_uid": 31,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 32,
+    "zh": "特徵工程",
+    "en": "Feature Engineering",
+    "definition": "特徵工程是運用領域知識對原始資料進行提取、轉換、組合或篩選，產生具代表性的新變數，以提升機器學習模型預測準確度與學習效率的過程。",
+    "example": "將星期幾與24小時制時間組合成新的特徵，幫助模型準確預測不同時段的通勤時間。",
+    "_uid": 32,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 33,
+    "zh": "特徵縮放",
+    "en": "Feature Scaling",
+    "definition": "特徵縮放是資料前處理的一環，旨在將不同量級的特徵數據轉換到統一的範圍，消除特徵間的尺度差異，以提升機器學習模型的學習效果與收斂速度。",
+    "example": "在預測員工離職風險時，將年齡與加班時數等量級差異大的數值特徵進行縮放，可避免梯度下降時受到尺度干擾。",
+    "_uid": 33,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 34,
+    "zh": "特徵選擇",
+    "en": "Feature Selection",
+    "definition": "從原始特徵集中，根據各特徵對預測結果的影響力或相關性，篩選出最具代表性且貢獻最大的特徵子集，以降低數據維度、提升模型學習效果並避免過擬合的數據處理步驟。",
+    "example": "電商平台預測使用者是否購買商品時，從用戶的年齡、瀏覽時長、點擊次數等屬性中，透過相關性分析篩選出最能預測購買行為的關鍵特徵。",
+    "_uid": 34,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 35,
+    "zh": "生成對抗網路",
+    "en": "Generative Adversarial Networks, GAN",
+    "definition": "一種由生成器與鑑別器組成的生成式AI模型，兩者透過對抗學習機制不斷競爭，使生成器逐漸學會資料的真實分佈，進而產生高品質且具創新性的新樣本。",
+    "example": "音樂串流平台利用生成對抗網路分析大量歌曲資料，學習旋律結構與風格，進而創作出從未出現過的新旋律。",
+    "_uid": 35,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 36,
+    "zh": "異常偵測",
+    "en": "Anomaly Detection",
+    "definition": "異常偵測是從數據中識別偏離正常模式或分佈的罕見事件與樣本之技術。由於異常樣本通常稀少且難以取得標記，此技術常採用非監督式或半監督式學習建立正常行為模型，再以偏離程度判斷異常訊號。",
+    "example": "在工業物聯網的預測性維護中，透過分析設備感測器的時間序列數據，提前預警可能的故障。",
+    "_uid": 36,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 37,
+    "zh": "監督式學習",
+    "en": "Supervised Learning",
+    "definition": "監督式學習是機器學習的一種方法，利用帶有已知標籤的歷史資料來訓練模型，讓模型學習輸入與輸出間的關係，進而能對新的未知資料進行準確的預測或分類。",
+    "example": "利用過去的營運與銷售資料建立模型，以預測下一季主力商品的銷量。",
+    "_uid": 37,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 38,
+    "zh": "相關分析",
+    "en": "Correlation Analysis",
+    "definition": "相關分析是一種統計方法，用於衡量兩個或多個連續變數之間的關聯程度與方向，包含正相關、負相關或無相關，但其結果不代表變數間具有因果關係。",
+    "example": "透過相關分析檢視顧客的年齡與消費金額之間是否存在正向或負向的關聯性。",
+    "_uid": 38,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "minor",
+        "issue": "定義將相關分析限定為僅適用於連續變數，實際上部分相關方法（如 Spearman）也可用於順序或類別變數。",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 1,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 39,
+    "zh": "神經網路基礎",
+    "en": "Neural Network Fundamentals",
+    "definition": "神經網路是一種由輸入層、隱藏層與輸出層組成的機器學習模型，透過激勵函數與反向傳播機制調整權重，能學習資料間複雜的非線性映射關係並進行預測。",
+    "example": "影音串流平台利用神經網路分析使用者特徵，預測其對各類別影片的感興趣機率以進行個人化推薦。",
+    "_uid": 39,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "minor",
+        "issue": "定義將「神經網路」過度限縮為必須包含輸入層、隱藏層、輸出層並以反向傳播訓練的多層模型，實際上還有單層網路、卷積網路、遞迴網路等不同架構與訓練方式。",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 1,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 40,
+    "zh": "系統安全與稽核",
+    "en": "System Security and Audit",
+    "definition": "系統安全與稽核是透過建立管理機制與審查流程，對系統開發、權限控管及資料安全進行驗證與弱點檢測，確保應用程式上線前後的品質、合規性與安全性。",
+    "example": "在企業導入低程式碼平台時，要求各部門開發的應用程式必須通過統一的權限審查與資安弱點掃描後才能正式上線。",
+    "_uid": 40,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "minor",
+        "issue": "釋義將系統安全與稽核描述為「建立管理機制與審查流程」，但稽核的本質是獨立評估與查證，而非建立機制，可能混淆安全管理與稽核的概念。",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "minor",
+        "issue": "釋義將『稽核』過度窄化為審查與弱點檢測，忽略稽核應具備獨立、留痕、佐證的合規查核本質，而例句僅呈現上線前的權限審查與弱掃，未體現持續性稽核。",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 2,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 41,
+    "zh": "自然語言處理",
+    "en": "Natural Language Processing, NLP",
+    "definition": "自然語言處理是人工智慧與機器學習的一個重要分支，旨在讓電腦能夠理解、詮釋與生成人類日常使用的語言文字，以處理如文本分類、情感分析或語音辨識等非結構化資料。",
+    "example": "透過情感分析技術，分析大量社群媒體貼文，判斷民眾對某項公共政策議題的正向或負向態度。",
+    "_uid": 41,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "minor",
+        "issue": "語音辨識通常歸類於語音處理領域，而非直接處理語言文字，建議改用機器翻譯或問答系統等更典型的NLP任務。",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "minor",
+        "issue": "釋義中將「語音辨識」列為自然語言處理的直接應用不夠精確，因為語音辨識本質上屬於語音處理範疇，通常作為 NLP 的前置步驟而非 NLP 核心任務。",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 2,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 42,
+    "zh": "評估指標",
+    "en": "Evaluation Metrics",
+    "definition": "評估指標是用來量化機器學習模型預測結果與真實值之間誤差或表現的標準，依據不同任務類型選擇適用指標，藉此驗證模型效能並作為進一步優化模型的依據。",
+    "example": "在房價預測的迴歸任務中，透過均方誤差（MSE）衡量預測值與實際房價的誤差大小，以評估模型準確度。",
+    "_uid": 42,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 43,
+    "zh": "變分自編碼器",
+    "en": "Variational Autoencoders, VAE",
+    "definition": "變分自編碼器是一種基於機率生成模型的技術，透過編碼器將輸入資料映射至低維隱變量空間以學習潛在分佈，再由解碼器重建或生成新資料。",
+    "example": "設計公司可利用 VAE 學習既有圖像的潛在結構，進而生成具有變化且風格一致的新產品概念圖。",
+    "_uid": 43,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 44,
+    "zh": "資料切分",
+    "en": "Data Splitting",
+    "definition": "資料切分是指將原始資料集劃分為訓練集、驗證集與測試集等子集的過程，用於評估機器學習模型對未知資料的泛化能力，且切分策略需保留資料原有結構以避免失真。",
+    "example": "在建立金融詐騙偵測模型時，應依交易時間區間依序切分訓練集與測試集，避免任意打散而破壞時間序列結構。",
+    "_uid": 44,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "minor",
+        "issue": "釋義將「保留資料原有結構以避免失真」表述為資料切分的普遍要求，但這僅是特定資料情境（如時間序列、分層、群組資料）下的策略考量，並非資料切分本身的定義條件。",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 1,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 45,
+    "zh": "資料前處理",
+    "en": "Data Preprocessing",
+    "definition": "資料前處理是指將原始資料轉換為適合模型分析與訓練的高品質格式之過程，包含資料清洗、轉換、排序與文本切分等步驟，以確保資料的完整性、一致性與可用性。",
+    "example": "在建立法規問答系統前，先將長篇文件進行文本切分與清洗，去除不相關雜訊，以提升後續檢索精準度。",
+    "_uid": 45,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "minor",
+        "issue": "釋義中將「排序」列為資料前處理的通用核心步驟並不精確，排序通常僅在特定情境（如時間序列或增強序列模型）下需要，並非所有模型訓練的必要前置條件。",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 1,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 46,
+    "zh": "資料匿名化",
+    "en": "Data Anonymization",
+    "definition": "資料匿名化是指透過技術手段移除或遮蔽資料中可識別個人的直接與間接屬性，使資料主體無法被識別，以在資料處理與模型訓練過程中保護個人隱私並符合法規要求。",
+    "example": "保險公司在將客戶理賠紀錄用於訓練生成式 AI 模型前，先移除客戶姓名與身分證字號等直接識別資訊，避免模型輸出時洩漏個人身分。",
+    "_uid": 46,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": null,
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 1
+  },
+  {
+    "subject": "s1",
+    "index": 47,
+    "zh": "資料型態",
+    "en": "Data Type",
+    "definition": "資料型態是指資料在儲存與處理過程中的分類與格式特徵，決定了資料的組織結構與分析方式，通常分為結構化、半結構化與非結構化資料。",
+    "example": "在智慧城市治理平台中，需同時整合感測器的結構化數據與路口監視器的非結構化影像，考驗跨資料型態的整合能力。",
+    "_uid": 47,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "minor",
+        "issue": "釋義將 Data Type 窄化為結構化/半結構化/非結構化的分類，忽略了程式語言中更基礎的型別定義（如整數、字串等），可能造成混淆。",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": null,
+      "qwen3.5:397b": {
+        "verdict": "wrong",
+        "issue": "釋義將「資料型態 (Data Type)」誤解為「資料結構化程度」，前者指變數的種類（如整數、字串），後者才是結構化與非結構化之分。",
+        "correct_definition": "資料型態是指程式語言或資料庫中定義資料儲存格式與可執行操作的類別，例如整數、浮點數、字串或布林值。"
+      }
+    },
+    "wrong_count": 1,
+    "minor_count": 1,
+    "no_reply_count": 1
+  },
+  {
+    "subject": "s1",
+    "index": 48,
+    "zh": "資料增強",
+    "en": "Data Augmentation",
+    "definition": "資料增強是指在不收集新資料的情況下，透過對現有訓練資料進行隨機變換或輕微修改，增加資料集的多樣性，進而提升機器學習模型的泛化能力並降低過擬合風險的技術。",
+    "example": "在影像辨識任務中，對訓練集的貓咪照片進行隨機旋轉、水平翻轉或裁切，使模型能辨識不同角度的貓咪。",
+    "_uid": 48,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 49,
+    "zh": "資料標準化",
+    "en": "Data Standardization",
+    "definition": "資料標準化是將不同量級的特徵數值轉換至統一範圍的資料前處理技術，目的是消除特徵間的尺度差異，以提升機器學習模型的訓練收斂速度與學習效果。",
+    "example": "在預測員工離職風險前，先將年度績效分數與加班時數等數值特徵轉換至同一尺度，以避免量級差異影響邏輯迴歸模型的權重估計。",
+    "_uid": 49,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "minor",
+        "issue": "釋義中的「統一範圍」用詞不精確，標準化是將特徵轉換為均值為0、標準差為1的分布，而非固定數值範圍，容易與歸一化混淆。",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "wrong",
+        "issue": "釋義中的「轉換至統一範圍」描述的是正規化（normalization，如 min-max 縮放），而非資料標準化；標準化應是將特徵轉換為零均值、單位變異數（z-score）。",
+        "correct_definition": "資料標準化是將數值特徵依其平均值與標準差轉換為零均值、單位變異數（z-score）的前處理技術，使不同特徵具有可比較的尺度。"
+      },
+      "qwen3.5:397b": {
+        "verdict": "wrong",
+        "issue": "釋義將「資料標準化 (Standardization)」錯誤定義為縮放至統一範圍，這實際上是「正規化 (Normalization/Min-Max Scaling)」的定義。",
+        "correct_definition": "資料標準化是將特徵數值轉換為均值為 0、標準差為 1 的分佈，以消除量綱影響並加速模型收斂。"
+      }
+    },
+    "wrong_count": 2,
+    "minor_count": 1,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 50,
+    "zh": "資料清理",
+    "en": "Data Cleaning",
+    "definition": "資料清理是指在模型訓練或資料分析前，透過偵測並處理遺缺值、重複值、錯誤值、異常值與不一致性等問題，以提升資料品質、確保資料完整性與可靠性的前置處理步驟。",
+    "example": "在建立醫療預測模型前，先利用標準差法偵測並處理異常的收縮壓數值，以確保後續分析的準確性。",
+    "_uid": 50,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 51,
+    "zh": "迴歸分析",
+    "en": "Regression Analysis",
+    "definition": "迴歸分析是監督式學習中探討變數因果關係並預測連續型數值結果的方法，透過建立自變數與依變數間的數學模型，擬合歷史資料以推估未來趨勢或數量。",
+    "example": "透過分析房屋面積與地理位置等特徵建立線性迴歸模型，以預測新房屋的連續型售價。",
+    "_uid": 51,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "minor",
+        "issue": "釋義中「探討變數因果關係」不準確，迴歸分析主要用於探討相關關係，因果推斷需滿足嚴格假設。",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "minor",
+        "issue": "「探討變數因果關係」用詞不精確：迴歸分析只能刻畫變數間的相關/關聯關係，並不能單獨建立因果關係。",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "minor",
+        "issue": "釋義中提到「探討變數因果關係」不精確，因為迴歸分析主要用於識別相關性與預測，單憑統計模型無法直接確立因果關係。",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 3,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 52,
+    "zh": "過擬合與泛化",
+    "en": "Overfitting and Generalization",
+    "definition": "過擬合指模型過度學習訓練資料中的細節與雜訊，導致在未見過的新資料上表現不佳；泛化則指模型將學到的規律有效應用於新資料的能力。",
+    "example": "在醫療影像診斷模型訓練中，若僅使用單一醫院資料可能導致過擬合，需透過資料增強提升對其他醫院資料的泛化能力。",
+    "_uid": 52,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 53,
+    "zh": "遺漏值處理",
+    "en": "Missing Data Handling",
+    "definition": "遺漏值處理是數據清洗中的核心步驟，指針對資料集中缺失的數值，依據業務需求與資料特性，採用統計填補、插補法或預測模型等方法來填補或排除，以確保後續分析的準確性與完整性。",
+    "example": "在處理具有時間連續性的工業感測器溫度資料時，可使用前後時間點的觀測值進行線性插補，以保留趨勢並補回合理的缺漏數值。",
+    "_uid": 53,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 54,
+    "zh": "鑑別式AI",
+    "en": "Discriminative AI, DAI",
+    "definition": "鑑別式AI是人工智慧的一大分支，專注於學習數據特徵與目標標記之間的條件機率，主要用於執行分類與迴歸等預測任務的機器學習模型與技術。",
+    "example": "根據患者的年齡、血壓與BMI等特徵，預測其罹患糖尿病的機率並發出風險警示。",
+    "_uid": 54,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 55,
+    "zh": "離群值處理",
+    "en": "Outlier Handling",
+    "definition": "指在資料建模前，透過統計準則偵測與整體資料明顯偏離的數值，並結合領域知識評估其為資料錯誤或罕見事件，進而決定保留、修正、截尾或移除等處理策略的過程。",
+    "example": "在預測保險理賠金額時，先以四分位距偵測少數極端高額案件，再依業務判斷其為真實罕見事件而予以保留，或視為雜訊進行截尾。",
+    "_uid": 55,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 56,
+    "zh": "電腦視覺",
+    "en": "Computer Vision, CV",
+    "definition": "電腦視覺是人工智慧的一個分支，旨在讓電腦系統從數位影像或影片中自動學習並提取特徵，進而執行影像辨識、物件偵測與影像分割等視覺理解任務。",
+    "example": "在智慧農業中，AI 系統透過分析蘋果果實影像的顏色與紋理等視覺特徵，自動判斷果實的成熟度與採收時機。",
+    "_uid": 56,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "minor",
+        "issue": "釋義中的「自動學習並提取特徵」過度強調學習式方法，忽略了傳統電腦視覺可使用人工設計特徵與規則處理，用詞略偏窄，但不會誤導為其他概念。",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 1,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 57,
+    "zh": "非監督式學習",
+    "en": "Unsupervised Learning",
+    "definition": "非監督式學習是指在沒有預先標記答案或類別標籤的資料中，讓模型自行探索資料的內在結構、相似性或潛在模式，其核心目標包含聚類與降維等任務。",
+    "example": "企業可利用 K-Means 演算法分析客戶的購買行為並自動將其分群，以制定更精確的市場區隔行銷策略。",
+    "_uid": 57,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 58,
+    "zh": "領域應用",
+    "en": "Domain Application",
+    "definition": "將人工智慧技術與特定產業或業務場景結合，針對該領域的特定需求與問題設計解決方案，以提升效率、降低成本或創造新價值的實踐過程。",
+    "example": "在製造業中，運用 AI 演算法分析設備運行數據以提前預測並預防機器故障，即為預測性維護的領域應用。",
+    "_uid": 58,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 59,
+    "zh": "類別不平衡",
+    "en": "Class Imbalance",
+    "definition": "類別不平衡是指資料集中不同類別的樣本數量分布極度不均，導致模型在訓練時容易被多數類別主導，進而使少數類別的預測能力與召回率下降的現象。",
+    "example": "在工業物聯網的預測性維護中，正常運作的時間序列樣本占多數，而極少發生的設備異常事件即為類別不平衡問題。",
+    "_uid": 59,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 60,
+    "zh": "類別敏感評估",
+    "en": "Class-sensitive evaluation",
+    "definition": "類別敏感評估是指在分類任務中，針對特定類別（特別是少數類或高風險類）的表現進行衡量的方法，通常使用精確率、召回率或 F1 分數等指標，以避免整體準確率在類別不平衡資料中產生誤導。",
+    "example": "在瑕疵品極少的製造業品檢中，使用 F1 分數取代整體準確率來評估模型辨識少數瑕疵品的能力。",
+    "_uid": 60,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s1",
+    "index": 61,
+    "zh": "類別特徵編碼",
+    "en": "Categorical Feature Encoding",
+    "definition": "類別特徵編碼是將資料中的文字或標籤型態的類別特徵，轉換為機器學習模型能夠直接計算與處理的數值格式之資料前處理技術，避免引入不存在的排序關係。",
+    "example": "電信公司預測用戶流失時，將「客戶地區」此類別特徵以 One-hot 編碼轉換為多個 0/1 數值欄位供模型訓練。",
+    "_uid": 61,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "minor",
+        "issue": "並非所有類別特徵編碼都避免排序關係（例如標籤編碼會對名目變數賦予大小順序），應區分名目與順序變數。",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "minor",
+        "issue": "釋義中「避免引入不存在的排序關係」僅適用於部分編碼方式（如 One-hot），並非所有類別特徵編碼（如 Label Encoding）都能避免此問題，表述過於絕對。",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 2,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 0,
+    "zh": "AI基礎設施評估",
+    "en": "AI Infrastructure Assessment",
+    "definition": "AI基礎設施評估是指企業導入AI前，分析並確認所需的高效能運算資源、彈性儲存空間與雲端服務，並評估其建置與營運成本，以確保能有效支援模型訓練與推理。",
+    "example": "企業在導入生成式AI前，先盤點現有伺服器與GPU算力是否足夠，並規劃雲端資源配置與硬體升級預算。",
+    "_uid": 62,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 1,
+    "zh": "AI客服應用",
+    "en": "AI Customer Service Application",
+    "definition": "指結合自然語言處理與生成式回應模組，自動理解顧客意圖並生成客製化回覆，透過提示工程與參數調整滿足不同客群需求，以提升客服溝通效率與服務品質的應用。",
+    "example": "智慧客服系統透過少樣本提示引導模型，針對顧客的退換貨問題即時生成符合品牌語氣的專業回覆。",
+    "_uid": 63,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "minor",
+        "issue": "定義過度聚焦生成式回應與提示工程，把一般性的 AI 客服應用窄化為生成式 AI 客服，忽略了規則式、檢索式等其他常見 AI 客服技術。",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 1,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 2,
+    "zh": "AI專案導入評估",
+    "en": "AI Project Implementation Assessment",
+    "definition": "企業在導入人工智慧技術前，針對商業目標、資料準備、技術資源、總體成本及潛在風險等多面向進行全面性分析與可行性衡量的過程。",
+    "example": "企業在導入客服機器人前，先設定降低客訴處理時間的 KPI，並評估歷史資料品質、 API 成本與系統維護等總體擁有成本，再決定技術方案。",
+    "_uid": 64,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 3,
+    "zh": "AI幻覺與真實性風險",
+    "en": "AI Hallucination and Truthfulness Risk",
+    "definition": "生成式人工智慧模型在輸出時，因內部機率分布、生成參數或輸入資料不一致，而產生看似合理流暢，但實際上不準確、虛構或與事實不符之內容的風險。",
+    "example": "當使用者輸入內容矛盾的員工年資時，模型可能隨機採信其中一方，並生成看似合理卻與事實不符的人事報告。",
+    "_uid": 65,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "minor",
+        "issue": "釋義將幻覺歸因於特定原因（內部機率分布、生成參數或輸入資料不一致），而幻覺的定義應更側重於生成內容與事實或輸入不一致的現象，原因可能多樣。",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 1,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 4,
+    "zh": "AI應用場景評估",
+    "en": "AI Application Scenario Evaluation",
+    "definition": "在導入AI技術前，明確業務需求與痛點，並依據特定應用場景設立清晰且可量化的績效指標，評估模型效能與技術是否能有效解決核心問題的過程。",
+    "example": "在即時客服系統導入語音助理前，先依據即時互動需求設定延遲時間等專屬效能指標，以評估技術導入的可行性。",
+    "_uid": 66,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 5,
+    "zh": "AI法規遵循",
+    "en": "AI Regulatory Compliance",
+    "definition": "確保人工智慧系統的開發與應用過程符合現行法律規範與道德標準，涵蓋資料隱私保護、風險控管及內部審查機制，以避免技術濫用並兼顧創新發展。",
+    "example": "保險公司在導入大型語言模型處理理賠資料時，透過私有化部署與建立自動化風控機制，確保資料隱私不外洩且符合法律規範。",
+    "_uid": 67,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 6,
+    "zh": "AI風險管理",
+    "en": "AI Risk Management",
+    "definition": "AI風險管理是指在人工智慧系統的開發與應用過程中，針對模型可能產生的不準確、偏見、濫用或安全合規等潛在危害，進行識別、評估、監控與緩解的系統性流程。",
+    "example": "在醫療影像判讀應用中，團隊透過定期壓力測試與內容監控機制，確保AI輸出的診斷結論準確且符合法規，以降低病患安全與責任風險。",
+    "_uid": 68,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 7,
+    "zh": "上下文工程",
+    "en": "Context Engineering",
+    "definition": "上下文工程是指在生成式 AI 應用中，透過設計與優化提示詞、任務說明、背景資料、限制條件與範例等輸入脈絡，讓模型理解正確任務並產生符合需求輸出的方法。",
+    "example": "在客服機器人導入時，提供產品手冊與退貨政策作為背景資料，並設定回覆語氣的限制條件，以確保 AI 能準確回答顧客問題。",
+    "_uid": 69,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 8,
+    "zh": "人類參與迴圈",
+    "en": "Human-in-the-loop, HITL",
+    "definition": "在人工智慧自動化決策與運作流程中，設計人類參與監督或介入的機制，使系統能在人類持續掌握下執行任務，並於必要時由人類進行審核、修正或中止。",
+    "example": "在自動駕駛系統中，車輛可自行行駛與判斷，但人類駕駛需保持監督狀態，並可在偵測到異常時立即接管控制權。",
+    "_uid": 70,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "wrong",
+        "issue": "例句描述的是 human-on-the-loop（人在迴路外監督並接管），不是 human-in-the-loop；釋義過度強調「持續監督/掌握」，也與 HITL 的核心（人類直接參與決策或回饋）混淆。",
+        "correct_definition": "人工智慧系統在決策或學習流程中讓人類直接參與其中並提供回饋、核准或判斷，以協助模型迭代或控制關鍵決策，而非僅由人類從旁監督或事後介入。"
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 1,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 9,
+    "zh": "代理式AI",
+    "en": "Agentic AI",
+    "definition": "代理式AI是指能自主進行目標規劃與決策，並在多個候選方案中系統化探索，透過調用外部工具或API來執行實際行動以完成任務的人工智慧系統。",
+    "example": "客服代理式AI不僅能檢索知識庫回答FAQ，還能透過API連結後台系統直接幫客戶修改訂單。",
+    "_uid": 71,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 10,
+    "zh": "任務分解",
+    "en": "Task Decomposition",
+    "definition": "指將一個複雜的目標或工作，有系統地拆解為多個較小、可獨立執行且相互銜接的子任務或步驟，以便於規劃、資源分配與逐步完成，提升整體執行效率與可控性。",
+    "example": "在規劃客服AI代理時，將「處理顧客退貨請求」拆解為確認訂單、核對退貨資格與生成退貨指令等子步驟，讓模型逐步執行。",
+    "_uid": 72,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 11,
+    "zh": "低代碼無代碼開發",
+    "en": "Low-Code/No-Code Development",
+    "definition": "低代碼無代碼開發是指透過視覺化介面、拖放操作與預建模組，讓使用者無需或僅需編寫少量程式碼即可快速建置應用程式的開發方式，能大幅降低開發門檻並縮短交付時間。",
+    "example": "醫院行政人員透過低代碼平台建立跨科室申請表單，並利用少量程式碼串接 AI 模型以自動分類需求內容。",
+    "_uid": 73,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 12,
+    "zh": "低程式碼平台",
+    "en": "Low-Code Platform",
+    "definition": "低程式碼平台是一種透過視覺化介面與拖放操作來簡化應用開發的工具，同時允許使用者編寫少量程式碼以實現更高自訂性，特別適合開發具複雜邏輯、需整合既有系統與外部服務的企業級應用。",
+    "example": "企業開發人員透過該平台的視覺化介面快速建立跨部門工作流，並撰寫少量程式碼將其與現有的CRM系統進行API整合。",
+    "_uid": 74,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 13,
+    "zh": "向量檢索",
+    "en": "Vector Retrieval",
+    "definition": "將文本、圖像等資料轉換為高維向量表示，並透過計算向量間的相似度（如餘弦相似度）來找出語意最相符的資訊之檢索方法。",
+    "example": "使用者輸入文字描述搜尋商品圖片時，系統將文字與圖片轉為向量並比較相似度，以回傳最符合的商品圖。",
+    "_uid": 75,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 14,
+    "zh": "多模態AI",
+    "en": "Multimodal AI",
+    "definition": "多模態AI是指能夠同時接收、理解與整合多種不同模態資料（如文字、語音、圖像與影片等）的人工智慧系統，藉由將不同型態的資料轉換為可比較的向量表示，以實現跨模態的語意理解與應用。",
+    "example": "輸入一段文字描述，系統將其與資料庫中的圖片內容轉換為向量並比對相似度，以搜尋出最符合描述的商品圖片。",
+    "_uid": 76,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 15,
+    "zh": "多模態生成",
+    "en": "Multimodal Generation",
+    "definition": "多模態生成是指人工智慧模型能夠接收、理解並整合兩種以上的不同資料型態，讓系統在生成內容時可同時運用多種模態的特徵，實現跨模態的協同輸出。",
+    "example": "使用者輸入一段文字描述，系統便能根據文字內容自動生成符合情境的圖像或影片。",
+    "_uid": 77,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "minor",
+        "issue": "釋義強調「接收、理解並整合兩種以上的不同資料型態」，但例句僅有文字輸入，未展示多模態輸入的整合過程，可能造成概念範圍的混淆。",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "minor",
+        "issue": "釋義過度強調「接收並整合兩種以上的輸入模態」，但多模態生成也常見單一模態輸入生成另一模態（如文字生成圖片/影片），重點在於生成過程涉及跨模態或多模態內容。",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "minor",
+        "issue": "釋義將「接收多種模態輸入」列為必要條件，忽略了單模態輸入（如僅文字）生成多模態輸出（如圖 + 音）亦屬多模態生成的常見情境。",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 3,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 16,
+    "zh": "大型語言模型",
+    "en": "Large Language Model, LLM",
+    "definition": "大型語言模型是一種基於深度學習與Transformer架構的人工智能模型，透過在海量文本資料上訓練，學習語言的規則與結構，具備理解、生成及處理人類自然語言的能力，能執行多種語言相關任務。",
+    "example": "使用者輸入文章開頭後，系統能根據上下文自動接續寫出連貫且具語義深度的後續文章內容。",
+    "_uid": 78,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 17,
+    "zh": "少樣本提示",
+    "en": "Few-Shot Prompting",
+    "definition": "少樣本提示是在提示中加入少量示範範例，讓模型從中學習回答格式、語氣或任務規則，並將其套用至新問題以提升輸出精準度與穩定性的提示工程技術。",
+    "example": "在智慧客服系統中，提供兩組退換貨的對話範例給模型，使其能依照相同風格與格式回覆新的顧客諮詢。",
+    "_uid": 79,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 18,
+    "zh": "工具呼叫",
+    "en": "Tool Calling",
+    "definition": "工具呼叫是指讓生成式 AI 模型透過 API 或外掛程式介接外部系統與資料庫，不僅生成文字，更能執行實際的狀態變更或業務操作，使 AI 得以整合至企業既有流程並完成任務。",
+    "example": "客服機器人透過工具呼叫連接後台訂單系統，直接幫客戶執行修改訂單狀態的操作。",
+    "_uid": 80,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "minor",
+        "issue": "釋義未釐清 LLM 本身是產生結構化的工具呼叫請求，實際的狀態變更與外部操作是由宿主應用或工具執行，易被誤解為模型直接執行。",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 1,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 19,
+    "zh": "影像生成",
+    "en": "Image Generation",
+    "definition": "影像生成是指生成式人工智慧透過學習既有圖像資料的潛在分佈，並利用生成對抗網路或擴散模型等技術，根據輸入條件產生全新、高品質且具多樣性的圖像內容。",
+    "example": "設計師輸入文字描述的風格條件，讓擴散模型自動生成多張高解析度的服裝設計草圖。",
+    "_uid": 81,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 20,
+    "zh": "影子IT治理",
+    "en": "Shadow IT Governance",
+    "definition": "影子IT治理是指企業針對非IT部門自行採購或開發的資訊系統與應用程式，建立統一的開發規範、資料標準、權限控管與上線審核機制，以降低資安與合規風險，同時維持營運效率的管理作為。",
+    "example": "業務部門使用低程式碼平台自行開發客戶管理應用時，IT部門介入制定資料存取權限與上線審核流程，即是影子IT治理的實踐。",
+    "_uid": 82,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 21,
+    "zh": "思維鏈提示",
+    "en": "Chain-of-Thought Prompting, CoT",
+    "definition": "思維鏈提示是一種提示工程技術，要求模型將推理過程以逐步拆解的方式展開，說明判斷依據與推理脈絡，最後得出結論，藉此提升生成內容的邏輯性與可解釋性。",
+    "example": "在撰寫專案分析報告時，要求模型逐步說明判斷依據與推理過程，最後再給出結論。",
+    "_uid": 83,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 22,
+    "zh": "應用場景規劃",
+    "en": "Use Case Planning",
+    "definition": "應用場景規劃是企業導入 AI 前的評估與設計過程，需先明確定義導入目標與成功指標，再依此進行資料準備、技術選型與流程設計，將 AI 落實至具體使用情境。",
+    "example": "電商公司為降低客服成本，先設定回覆正確率 KPI，接著整理問答資料，選擇合適 AI 平台，最後設計與客服系統串接的自動回覆流程。",
+    "_uid": 84,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 23,
+    "zh": "成本效益分析",
+    "en": "Cost-Benefit Analysis, CBA",
+    "definition": "成本效益分析是一種量化評估方法，旨在比較專案或方案的總投入成本與預期產出收益，以計算投資回報率與回收週期，進而判斷其財務可行性與商業價值。",
+    "example": "在導入生成式AI翻譯系統前，企業比較每月API使用費與系統整合費等總體成本，以及節省下來的人工翻譯費用，計算出約7個月可回收成本。",
+    "_uid": 85,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "minor",
+        "issue": "釋義將 CBA 過度限縮為僅計算財務指標（ROI 與回收週期），忽略了非貨幣化效益（如用戶體驗、戰略價值）的量化與比較，這在 AI 專案評估中尤為關鍵。",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 1,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 24,
+    "zh": "提示工程",
+    "en": "Prompt Engineering",
+    "definition": "提示工程是指透過設計、優化與調整輸入給生成式AI的提示詞，引導模型精準理解使用者意圖並生成符合特定需求與格式的輸出內容的技術與方法。",
+    "example": "在醫療查詢系統中，透過在提示詞明確定義意圖分類標準與輸出格式，引導模型將醫師的自然語言準確轉換為資料庫查詢指令。",
+    "_uid": 86,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 25,
+    "zh": "提示詞攻擊防護",
+    "en": "Prompt Injection Protection",
+    "definition": "提示詞攻擊防護是指針對生成式AI系統建立的風險控管機制，透過輸入端偵測惡意指令，並在輸出端審核回應內容，以防範攻擊者操控模型者操控模型輸出、洩漏隱私或重建訓練資料。",
+    "example": "在航空AI客服系統中設置防護機制，攔截試圖誘導洩漏安檢流程的惡意提示，並審核輸出結果以避免機敏外洩。",
+    "_uid": 87,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "minor",
+        "issue": "釋義中「操控模型者操控模型輸出」有明顯贅字，語意不清；另「重建訓練資料」主要屬於訓練資料擷取或模型記憶攻擊範疇，並非提示詞注入攻擊防護的核心對象，用詞不夠精確。",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "minor",
+        "issue": "釋義中「重建訓練資料」表述不精確，提示詞攻擊主要導致隱私洩漏或指令越獄，而非直接重建整個訓練數據集。",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 2,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 26,
+    "zh": "業務流程整合",
+    "en": "Business Process Integration, BPI",
+    "definition": "業務流程整合是將企業內的應用系統、人員與技術無縫連接，確保資料與工作流在端到端流程中順暢流通，避免各環節脫節或重疊，以實現跨系統與跨部門的協作自動化與效率提升。",
+    "example": "將 AI 文件審核功能導入採購流程，並與 ERP 系統無縫串接，讓採購單自動生成、審核與歸檔，實現人員、AI 與系統間的順暢協作。",
+    "_uid": 88,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 27,
+    "zh": "概念驗證",
+    "en": "Proof of Concept, PoC",
+    "definition": "在正式全面導入前，透過小規模實驗測試，評估AI模型在真實業務環境中的預測準確度、運作效率及與現有流程的融合度，以量化指標驗證其商業價值與可行性。",
+    "example": "保險公司使用雲端AutoML平台快速建立詐欺偵測模型，以小規模歷史理賠資料測試其識別準確度，作為全面導入的決策依據。",
+    "_uid": 89,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 28,
+    "zh": "模型上下文協定",
+    "en": "Model Context Protocol, MCP",
+    "definition": "模型上下文協定是一種標準化的連接協定，讓 AI 應用程式能透過客戶端與伺服器的架構，一致地串接外部資源、工具或 API，以進行動態操作與資料存取。",
+    "example": "AI 透過 MCP 串接 GitHub 程式碼庫，自動發出查詢請求並將回傳的程式碼摘要提供給使用者。",
+    "_uid": 90,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 29,
+    "zh": "模型監控",
+    "en": "Model Monitoring",
+    "definition": "在模型部署至正式營運階段後，持續追蹤模型的效能指標與輸入資料分佈變化（如數據漂移），以確保其運作穩定性，並作為是否需要進行微調或重新訓練的決策依據。",
+    "example": "企業在 AI 助理上線後，定期檢查用戶輸入資料的分佈是否出現漂移，當模型預測準確度下降至警戒值時，便觸發重新訓練機制以適應最新環境。",
+    "_uid": 91,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 30,
+    "zh": "模型評估",
+    "en": "Model Evaluation",
+    "definition": "模型評估是指運用測試數據集、驗證基準與多層次檢驗方法，衡量人工智慧模型在特定任務上的準確度、穩定性與泛化能力之過程，藉以確保其輸出結果符合實際應用需求與整體成效。",
+    "example": "在語言模型開發中，團隊會透過獨立的測試數據集與人工檢查，評估其回答長篇問題時的完整性與準確性。",
+    "_uid": 92,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 31,
+    "zh": "檢索增強生成",
+    "en": "Retrieval-Augmented Generation, RAG",
+    "definition": "結合外部知識庫檢索與生成式模型，讓模型在生成回應前先查詢最新或特定領域的資料，藉以提升回答準確度並降低幻覺風險的技術架構。",
+    "example": "企業內部助理透過檢索每日更新的文件索引，即時回答員工最新的公司政策與內部規定，而無需重新訓練模型。",
+    "_uid": 93,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 32,
+    "zh": "生成內容審查",
+    "en": "Content Moderation",
+    "definition": "生成內容審查是指對生成式AI的輸出結果進行監控與評估的機制，旨在確保內容的準確性、安全性與合規性，以避免錯誤、幻覺或敏感資訊外洩，並在高風險應用場景中建立審核流程來降低潛在風險。",
+    "example": "在醫療機構導入生成式AI撰寫病歷摘要時，須由專業人員審查輸出內容是否具備醫療準確性且與臨床事實一致，以確保病人安全。",
+    "_uid": 94,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "minor",
+        "issue": "Content Moderation 傳統上主要指對使用者生成內容依平台規範進行審查與處置，並非專指生成式 AI 輸出的正確性、幻覺或事實查核；此釋義過度限縮且把輸出驗證/人工複審的內容也納入。",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "minor",
+        "issue": "釋義將「內容審查 (Content Moderation)」的範疇過度縮限於「生成式 AI」，忽略了該術語原本涵蓋使用者生成內容 (UGC) 及傳統數位內容的廣泛定義，且混淆了針對事實錯誤的「驗證」與針對合規安全的「審查」。",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 2,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 33,
+    "zh": "生成式AI",
+    "en": "Generative AI, GAI",
+    "definition": "生成式人工智慧是人工智慧領域的重要分支，透過學習現有訓練資料的分佈與特徵，進而創造出全新的數據內容，代表了人工智慧中數據創造的核心技術方向。",
+    "example": "企業可導入生成式AI模型，根據使用者輸入的提示詞自動撰寫行銷文案或生成產品設計圖。",
+    "_uid": 95,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 34,
+    "zh": "知識庫整合",
+    "en": "Knowledge Base Integration",
+    "definition": "指將分散、異質或跨語言的領域知識進行彙整、語意抽取與概念對齊，並結合多種資訊表示方式，以提供生成式 AI 或檢索系統符合產業需求、確保內容正確性與一致性的知識基礎。",
+    "example": "將不同國家的金融監管條文彙整為跨國合規知識庫，供 AI 查詢並生成具正確性與一致性的合規報告。",
+    "_uid": 96,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 35,
+    "zh": "程式碼輔助生成",
+    "en": "AI-assisted Code Generation",
+    "definition": "指利用生成式人工智慧模型，根據開發者的提示或程式碼上下文，自動產生新的程式碼片段或補全建議的技術，旨在提升軟體開發效率，但產出結果仍需人工審查與測試以確保準確性。",
+    "example": "開發者在程式編輯器中輸入函式註解，AI 工具便根據上下文自動補全對應的程式碼實作。",
+    "_uid": 97,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 36,
+    "zh": "系統整合與API",
+    "en": "System Integration and Application Programming Interface (API)",
+    "definition": "系統整合與API是指透過應用程式介面將生成式AI模型或新平台與既有異構系統連接，確保資料順暢流通與跨部門業務流程無縫串接的能力。",
+    "example": "在醫療查詢系統中，透過API將LLM解析後的查詢意圖傳遞給醫療資料庫，以自動取得對應的術後復健文件。",
+    "_uid": 98,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "minor",
+        "issue": "釋義將系統整合與API限定於生成式AI場景，未體現其通用性，可能造成誤解。",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "minor",
+        "issue": "釋義將「系統整合」與「API」併為單一主詞，且定義過度側重於生成式 AI 情境，忽略了 API 作為通用技術介面的本質及系統整合的多元方法。",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 2,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 37,
+    "zh": "系統資源調度",
+    "en": "System Resource Scheduling",
+    "definition": "系統資源調度是指在AI模型訓練與推論部署階段，針對運算硬體與服務實例進行分配、排程與負載平衡的機制，以最佳化硬體利用率並滿足高併發請求。",
+    "example": "當LLM API服務面臨高併發請求時，系統會自動新增模型服務實例並透過負載分散器分配流量，以避免單一節點過載。",
+    "_uid": 99,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "minor",
+        "issue": "釋義將「資源調度」過度聚焦於服務實例的擴縮容與負載平衡，忽略了底層硬體資源（如 GPU 顯存、計算核心）的細粒度分配與時間片輪轉等核心機制。",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 1,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 38,
+    "zh": "自迴歸生成",
+    "en": "Autoregressive Generation",
+    "definition": "自迴歸生成是一種生成機制，模型在輸出時根據已產生的前文作為上下文，逐步預測並生成下一個符記，持續此過程直到完成整個序列的生成。",
+    "example": "使用者輸入部落格文章開頭後，系統根據前文接續寫出自然連貫的後續內容。",
+    "_uid": 100,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 39,
+    "zh": "資料品質",
+    "en": "Data Quality",
+    "definition": "資料品質是指資料在準確性、完整性、一致性與時效性等維度上符合特定應用需求的程度，是確保生成式AI模型訓練與推論輸出可靠性的關鍵基礎。",
+    "example": "在導入客服AI前，需先清洗並整合訂單政策資料庫，確保提供給模型檢索的內容皆為最新且一致的版本，以避免產生錯誤回覆。",
+    "_uid": 101,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 40,
+    "zh": "資料漂移",
+    "en": "Data Drift",
+    "definition": "指機器學習模型部署後，輸入資料的統計分佈隨時間改變，與訓練時的資料分佈產生差異，進而導致模型預測準確度下降的現象。",
+    "example": "電商推薦系統上線半年後，因消費者偏好改變導致輸入特徵分佈變化，使得點擊率預測準確度逐漸下降。",
+    "_uid": 102,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 41,
+    "zh": "資料隱私保護",
+    "en": "Data Privacy Protection",
+    "definition": "資料隱私保護是指透過加密、匿名化、權限管理與身份驗證等技術與管理措施，防止個人資料或商業機密在傳輸、儲存與處理過程中遭未經授權存取或外洩，確保系統符合相關資料保護法規的實踐。",
+    "example": "企業為避免客戶資料外洩，選擇將大型語言模型部署於本地伺服器，並透過聯邦學習讓各部門在本地端訓練模型而不集中原始資料。",
+    "_uid": 103,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 42,
+    "zh": "資料隱私法規",
+    "en": "Data Privacy Regulations",
+    "definition": "資料隱私法規是指規範個人資料收集、處理與利用的法律框架，要求企業在處理個資時採取匿名化或去識別化技術，確保用戶知情同意，以防止資料洩露與濫用。",
+    "example": "跨國電商在導入生成式AI客服前，先對顧客歷史訂單進行資料最小化與去識別化，以符合GDPR等法規要求並避免個資外洩。",
+    "_uid": 104,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "minor",
+        "issue": "釋義把「匿名化或去識別化」說成法規對企業處理個資的普遍要求，實際上法規重視合法基礎、目的限制、資料最小化與安全保護，去識別化只是降低風險的技術手段之一，並非所有處理都須採用。",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "minor",
+        "issue": "釋義將「匿名化或去識別化」列為所有資料隱私法規的強制要求，但這並非所有法規（如 GDPR）對所有處理情境的絕對義務，而是視風險與目的而定的措施之一。",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 2,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 43,
+    "zh": "部署架構",
+    "en": "Deployment Architecture",
+    "definition": "部署架構是指將人工智慧模型或應用系統部署至實際運行環境時，所採用的基礎設施、資源配置與服務模式的整體設計，涵蓋雲端與本地端部署選擇，以及推論服務的運作方式。",
+    "example": "企業為保護客戶個資，選擇在本地伺服器自行部署大型語言模型，並採用即時推論架構以快速回應客服系統的請求。",
+    "_uid": 105,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 44,
+    "zh": "隱私強化技術",
+    "en": "Privacy-Enhancing Technologies, PETs",
+    "definition": "隱私強化技術是指一系列透過資料匿名化、去識別化或去中心化等方式，在不洩露個人敏感資訊且符合隱私法規的前提下，仍能從資料中提取價值的技術與方法。",
+    "example": "各醫院在不集中共享病患原始資料的情況下，透過聯邦學習共同訓練疾病風險預測模型。",
+    "_uid": 106,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "minor",
+        "issue": "釋義將 PETs 侷限於匿名化與去識別化等傳統方法，未涵蓋加密計算（如多方安全計算、同態加密）或差分隱私等核心技術，且「去中心化」並非所有 PETs 的必要條件。",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 1,
+    "no_reply_count": 0
+  },
+  {
+    "subject": "s2",
+    "index": 45,
+    "zh": "零樣本學習",
+    "en": "Zero-shot Learning",
+    "definition": "零樣本學習指模型在未針對特定任務提供任何範例或重新訓練的情況下，僅憑預訓練知識直接完成任務的學習或任務設定概念，強調模型在無範例時的泛化能力。",
+    "example": "直接輸入「請將以下這段英文新聞摘要翻譯成繁體中文」給大型語言模型，而不在提示中提供任何翻譯範例。",
+    "_uid": 107,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      },
+      "qwen3.5:397b": {
+        "verdict": "ok",
+        "issue": "",
+        "correct_definition": ""
+      }
+    },
+    "wrong_count": 0,
+    "minor_count": 0,
+    "no_reply_count": 0
+  }
+]

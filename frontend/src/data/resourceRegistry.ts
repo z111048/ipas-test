@@ -165,8 +165,8 @@ export const resourceLevels: LevelResource[] = [
         status: 'available',
       },
       {
-        label: '中級關鍵字整理',
-        detail: '科目一至科目三中英文定義與案例',
+        label: '關鍵字整理',
+        detail: '初級與中級分科的中英文定義與案例',
         to: '/glossary',
         status: 'available',
       },

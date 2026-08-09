@@ -1,0 +1,31 @@
+[
+  {
+    "subject": "s1",
+    "index": 49,
+    "zh": "資料標準化",
+    "en": "Data Standardization",
+    "definition": "資料標準化是將不同量級的特徵數值轉換至統一範圍的資料前處理技術，目的是消除特徵間的尺度差異，以提升機器學習模型的訓練收斂速度與學習效果。",
+    "example": "在預測員工離職風險前，先將年度績效分數與加班時數等數值特徵轉換至同一尺度，以避免量級差異影響邏輯迴歸模型的權重估計。",
+    "_uid": 49,
+    "votes": {
+      "deepseek-v4-pro": {
+        "verdict": "minor",
+        "issue": "釋義中的「統一範圍」用詞不精確，標準化是將特徵轉換為均值為0、標準差為1的分布，而非固定數值範圍，容易與歸一化混淆。",
+        "correct_definition": ""
+      },
+      "kimi-k2.7-code": {
+        "verdict": "wrong",
+        "issue": "釋義中的「轉換至統一範圍」描述的是正規化（normalization，如 min-max 縮放），而非資料標準化；標準化應是將特徵轉換為零均值、單位變異數（z-score）。",
+        "correct_definition": "資料標準化是將數值特徵依其平均值與標準差轉換為零均值、單位變異數（z-score）的前處理技術，使不同特徵具有可比較的尺度。"
+      },
+      "qwen3.5:397b": {
+        "verdict": "wrong",
+        "issue": "釋義將「資料標準化 (Standardization)」錯誤定義為縮放至統一範圍，這實際上是「正規化 (Normalization/Min-Max Scaling)」的定義。",
+        "correct_definition": "資料標準化是將特徵數值轉換為均值為 0、標準差為 1 的分佈，以消除量綱影響並加速模型收斂。"
+      }
+    },
+    "wrong_count": 2,
+    "minor_count": 1,
+    "no_reply_count": 0
+  }
+]
