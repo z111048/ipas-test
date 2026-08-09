@@ -42,6 +42,7 @@ from verify_generated_images import (
 BASE = Path(__file__).resolve().parents[1]
 UNITS_PATH = BASE / 'data' / '共用' / 'image_units_all_levels.json'
 BACKUP_DIR = BASE / 'build' / 'image_backup'
+CANDIDATE_DIR = BASE / 'build' / 'image_candidates'
 LOG_PATH = BASE / 'build' / 'image_regeneration_log.jsonl'
 # 與其餘 726 張一致（generate_images.OUTPUT_SIZE）
 OUTPUT_SIZE = (1792, 1024)
@@ -75,6 +76,18 @@ def write_normalized(data: bytes, out_path: Path, quality: int = 92) -> None:
         fitted.save(out_path, 'WEBP', quality=quality)
 
 
+def keep_candidate(out_path: Path, image_id: str, attempt: int, tag: str) -> Path:
+    """保留沒過的候選圖，讓人可以回看「這張到底可不可以接受」。
+
+    2026-08-09 加：原本沒過就直接被下一輪覆蓋、最後還原原圖，
+    於是「閘門是否過嚴」這個問題根本無法查證——判定看不到證據就只能相信它。
+    """
+    CANDIDATE_DIR.mkdir(parents=True, exist_ok=True)
+    kept = CANDIDATE_DIR / f'{image_id}-a{attempt}-{tag.replace(",", "_")}.webp'
+    shutil.copy2(out_path, kept)
+    return kept
+
+
 def edit_prompt(problems: list[dict]) -> str:
     """圖生圖用的修字指令：只動指出來的字，其餘一律不要改。"""
     lines = ['這是一張中文資訊圖。**只修正文字，其他一切保持原樣**——',
@@ -100,6 +113,8 @@ def main() -> None:
     parser.add_argument('--attempts', type=int, default=3)
     parser.add_argument('--limit', type=int)
     parser.add_argument('--timeout', type=int, default=620)
+    parser.add_argument('--infra-retries', type=int, default=4,
+                        help='服務 502／檢查器沒回應的額外重試上限（不佔內容嘗試次數）')
     parser.add_argument('--no-edit', action='store_true',
                         help='不用圖生圖，一律從頭產（版面會跟著變，不建議）')
     args = parser.parse_args()
@@ -139,13 +154,27 @@ def main() -> None:
             shutil.copy2(out_path, backup)
 
         problems = review['results'].get(image_id, {}).get('problems', [])
+        # 累積所有見過的問題：檢查器每輪只回報一個，取代式更新會讓上一輪修好的
+        # 那個標籤在下一輪沒被提到而回退——實測 img-016 就是這樣在兩個標籤間輪替。
+        seen_problems: dict[str, dict] = {p['text']: p for p in problems}
+        # /edit 的參考圖：用目前最好的候選（問題最少的），而不是每輪都回到原始備份，
+        # 否則上一輪的部分進展會被整個丟掉。
+        reference = backup
+        best_count = len(problems) or 99
         passed = False
-        for attempt in range(1, args.attempts + 1):
+        attempt = 0
+        infra_retries = 0
+        # 技術失敗（服務 502／檢查器沒回應）**不算一次內容嘗試**。
+        # 2026-08-09 實測：一輪 5 次裡 3 次是技術失敗，等於 502 白白吃掉修圖機會，
+        # 而且會讓「模型修不好」與「基礎設施不穩」混成同一個結論。
+        while attempt < args.attempts and infra_retries <= args.infra_retries:
+            attempt += 1
             # 先圖生圖（保住版面），失敗或使用者要求才退回文生圖
-            use_edit = (not args.no_edit) and backup.exists() and problems
+            use_edit = (not args.no_edit) and reference.exists() and seen_problems
             try:
                 if use_edit:
-                    data = edit(edit_prompt(problems), [backup], timeout=args.timeout)
+                    data = edit(edit_prompt(list(seen_problems.values())), [reference],
+                                timeout=args.timeout)
                     mode = 'edit'
                 else:
                     data = generate(unit['imagePrompt'] + problems_as_instructions(problems),
@@ -153,16 +182,25 @@ def main() -> None:
                     mode = 'generate'
                 write_normalized(data, out_path)
             except (ImggenError, Exception) as exc:  # noqa: B014
-                print(f'   [{index}/{len(targets)}] {image_id} 第 {attempt} 次產圖失敗：'
-                      f'{str(exc)[:80]}')
-                append_log({'id': image_id, 'attempt': attempt, 'stage': 'generate',
-                            'status': 'failed', 'error': str(exc)[:300]})
+                attempt -= 1          # 技術失敗不算一次內容嘗試
+                infra_retries += 1
+                print(f'   [{index}/{len(targets)}] {image_id} 產圖失敗（基礎設施，'
+                      f'第 {infra_retries} 次）：{str(exc)[:70]}')
+                append_log({'id': image_id, 'attempt': attempt + 1, 'stage': 'generate',
+                            'status': 'infra_failed', 'error': str(exc)[:300]})
                 continue
 
             result = check_one(out_path, record, timeout=args.timeout)
             append_log({'id': image_id, 'attempt': attempt, 'stage': 'verify',
                         'mode': mode, 'verdict': result['verdict'],
                         'problems': result['problems']})
+            if result['verdict'] == 'error':
+                attempt -= 1          # 檢查器沒回應同樣不算內容嘗試
+                infra_retries += 1
+                keep_candidate(out_path, image_id, attempt + 1, 'checker_error')
+                print(f'   [{index}/{len(targets)}] {image_id} 檢查器沒回應（基礎設施，'
+                      f'第 {infra_retries} 次）')
+                continue
             if result['verdict'] == 'pass':
                 review['results'][image_id] = result
                 print(f'OK   [{index}/{len(targets)}] {image_id}'
@@ -171,8 +209,16 @@ def main() -> None:
                 passed = True
                 break
             kinds = ','.join(sorted({p['kind'] for p in result['problems']})) or result['verdict']
-            print(f'   [{index}/{len(targets)}] {image_id} 第 {attempt} 次仍不過（{kinds}）')
-            problems = result['problems'] or problems
+            kept = keep_candidate(out_path, image_id, attempt, kinds)
+            for problem in result['problems']:
+                seen_problems[problem['text']] = problem
+            improved = ''
+            if len(result['problems']) < best_count:
+                best_count = len(result['problems'])
+                reference = kept          # 部分進展要保留下來當下一輪的起點
+                improved = '（已升級為下一輪的參考圖）'
+            print(f'   [{index}/{len(targets)}] {image_id} 第 {attempt} 次仍不過（{kinds}）'
+                  f'{improved} → {kept.relative_to(BASE)}')
 
         if not passed:
             # 沒有任何一輪通過 → 還原備份，不要用更差的圖換掉原圖
