@@ -28,6 +28,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import time
 from collections import Counter
 from pathlib import Path
 from typing import Any
@@ -40,7 +41,14 @@ BASE = Path(__file__).resolve().parents[1]
 REFERENCE_DIR = BASE / 'frontend' / 'src' / 'generated' / 'examReferenceAnswers'
 VOCAB_PATH = BASE / 'data' / 'topics' / 'topics.json'
 OUT_PATH = BASE / 'data' / 'topics' / 'question_topics.json'
+# 練習題的標籤**另外存一份**：topicHeat 的「熱度」定義是「這個概念被官方考卷考幾題」，
+# 把章節練習與指引練習混進同一份會讓熱度膨脹，而出題配額、glossary 選詞都吃那個數字。
+PRACTICE_OUT_PATH = BASE / 'data' / 'topics' / 'practice_question_topics.json'
 VERIFY_CACHE = BASE / 'data' / 'topics' / '_verify_cache.json'
+# 指派也要能續跑。2026-08-10：590 題跑到第 50 批時有 13 批被網關打成空回應，
+# 「不產出部分結果」是對的，但連同 37 批成功的也一起丟掉就不對了——
+# 嚴格（不完整就不寫出）與可續跑是兩回事，驗收那段早就有快取，這段漏了。
+ASSIGN_CACHE = BASE / 'data' / 'topics' / '_assign_cache.json'
 MAX_TOPICS = 3
 BATCH_SIZE = 12
 # 驗收一題要評 1~3 個標籤，輸出量是指派的三倍，批要更小才不會被 max_tokens 截掉
@@ -235,13 +243,34 @@ def verify_all(args, questions: dict[str, dict]) -> None:
     print(f'全量驗收 {len(items)} 題')
 
     load_env_file()
-    model = args.models.split(',')[0].strip()
+    model = (args.verify_model or args.models.split(',')[0]).strip()
+    if model in [m.strip() for m in args.models.split(',')]:
+        print(f'⚠ 驗收模型 {model} 也是出標籤的模型之一——自己驗自己，'
+              f'數字會偏樂觀。用 --verify-model 指定一個沒參與指派的模型。')
     # 驗收結果落快取，重跑只補沒評到的。93 批裡 8 批被 gateway 抽風打掉，
     # 整份丟掉重跑等於把 85 批的結果也扔了；嚴格（不完整就不寫出）與可續跑
     # 是兩回事，兩個都要。
+    def align(topics: list[str], judged: dict[str, str]) -> dict[str, str]:
+        """把模型回的概念名對回詞彙表的正式寫法。
+
+        ⚠ 模型會回「生成式 AI」而詞彙表寫「生成式AI」——差一個空白。用字串相等
+        比對，122 題會永遠對不上、永遠重試，而且會被誤讀成「模型沒評」
+        （2026-08-10 就是這樣卡住的）。normalise 是指派那段用的同一套正規化。
+        """
+        by_norm = {normalise(t): t for t in topics}
+        aligned = {}
+        for name, verdict in judged.items():
+            canonical = by_norm.get(normalise(name))
+            if canonical:
+                aligned[canonical] = verdict
+        return aligned
+
     cache: dict[str, dict[str, str]] = load_json(VERIFY_CACHE) if VERIFY_CACHE.exists() else {}
+    topics_by_qid = {qid: topics for qid, _, topics in items}
+    cache = {qid: align(topics_by_qid.get(qid, []), judged) for qid, judged in cache.items()}
     verdicts: dict[str, dict[str, str]] = dict(cache)
-    todo = [item for item in items if item[0] not in verdicts]
+    todo = [item for item in items
+            if any(t not in verdicts.get(item[0], {}) for t in item[2])]
     if cache:
         print(f'  快取已有 {len(cache)} 題，本輪只需評 {len(todo)} 題')
     items_to_run, items = todo, items
@@ -250,6 +279,17 @@ def verify_all(args, questions: dict[str, dict]) -> None:
     # 模型「有回應」但只評了一部分，326 個標籤（29%）變成「未評」卻照樣寫檔——
     # 批次回了一半就當成功，正是這條線一再踩的坑。現在**逐批檢查每一題都有評到**。
     batch_size = max(1, VERIFY_BATCH_SIZE)
+
+    def unjudged(batch, got):
+        """哪些題還沒被評完。
+
+        ⚠ 只檢查「這題有沒有回應」不夠：模型會回一題卻只評它三個標籤裡的一個，
+        剩下的靜靜變成「未評」（2026-08-10 實測 880 個標籤裡 149 個，17%）。
+        判準必須是**每一個標籤都有評價**。
+        """
+        return sorted(qid for qid, _, topics in batch
+                      if any(t not in got.get(qid, {}) for t in topics))
+
     for start in range(0, len(items_to_run), batch_size):
         batch = items_to_run[start:start + batch_size]
         want = {qid for qid, _, _ in batch}
@@ -257,19 +297,21 @@ def verify_all(args, questions: dict[str, dict]) -> None:
         for _ in range(args.retries + 1):
             raw = call_gateway(build_verify_prompt(batch), model,
                                args.timeout, None, args.max_tokens)
-            got = resolve_ids(parse_reviews(raw), want)
-            missing = want - set(got)
-            if got and not missing:
+            fresh = resolve_ids(parse_reviews(raw), want)
+            topics_of = {qid: topics for qid, _, topics in batch}
+            for qid, verdicts_for_q in fresh.items():   # 累積多次嘗試的結果
+                got.setdefault(qid, {}).update(align(topics_of.get(qid, []), verdicts_for_q))
+            if not unjudged(batch, got):
                 break
-        missing = want - set(got)
+        missing = unjudged(batch, got)
         if missing:
-            incomplete.append((start // batch_size + 1, sorted(missing)))
+            incomplete.append((start // batch_size + 1, missing))
         verdicts.update(got)
         VERIFY_CACHE.write_text(json.dumps(verdicts, ensure_ascii=False), encoding='utf-8')
     if incomplete:
         detail = '、'.join(f'批{n}缺{len(m)}題' for n, m in incomplete[:6])
         raise SystemExit(f'FAIL {len(incomplete)} 批沒有評完（{detail}），不產出部分驗收結果。'
-                         f'已評的結果留在 {VERIFY_CACHE.relative_to(BASE)}，'
+                         f'已評的結果留在 {VERIFY_CACHE}，'
                          f'直接重跑同一個指令會只補沒評到的那些')
 
     tally = Counter()
@@ -299,7 +341,10 @@ def verify_all(args, questions: dict[str, dict]) -> None:
                                                 for k, v in tally.most_common()))
     print(f'濾掉錯誤 {tally["錯誤"]} 個 → 剩 {total - tally["錯誤"]} 個；'
           f'因此變成沒有標籤的題目 {len(empty)} 題')
-    print(f'→ {OUT_PATH.relative_to(BASE)}')
+    try:
+        print(f'→ {OUT_PATH.relative_to(BASE)}')
+    except ValueError:
+        print(f'→ {OUT_PATH}')  # --out 可以指到 repo 外（試跑）
 
 
 def verify_sample(args, questions: dict[str, dict]) -> None:
@@ -354,6 +399,35 @@ def verify_sample(args, questions: dict[str, dict]) -> None:
         print(f'   {row["verdict"]}  {row["question"]}  {row["topic"]}')
 
 
+def load_practice_questions() -> dict[str, dict]:
+    """章節練習與學習指引練習（590 題）。
+
+    這些題沒有 `reference_answer`（那是官方考卷專屬的 codex 詳解），改用
+    題幹＋正解選項＋解析＋圖卡概念組出等價的判讀依據，並塞回 `reference_answer`
+    欄位，這樣指派與驗收兩段程式碼都不必分岔。
+    """
+    questions: dict[str, dict] = {}
+    for level in ('初級', '中級'):
+        pattern = BASE / 'data' / level / 'questions'
+        for path in sorted(pattern.glob('subject*_questions.json')) + \
+                sorted(pattern.glob('subject*_guide_exercises.json')):
+            data = load_json(path)
+            items = data.get('questions') or [q for c in data.get('chapters', [])
+                                              for q in c.get('questions', [])]
+            for q in items:
+                qid = q.get('id')
+                if not qid:
+                    continue
+                answer = (q.get('options') or {}).get(q.get('answer'), '')
+                concept = (q.get('card') or {}).get('concept', '')
+                summary = f"題目：{q.get('question', '')}\n正解：{answer}\n" \
+                          f"解析：{q.get('explanation', '')}"
+                if concept:
+                    summary += f"\n重點概念：{concept}"
+                questions[f'{level}-{path.stem}:{qid}'] = {'reference_answer': summary}
+    return questions
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -364,13 +438,34 @@ def main() -> None:
     parser.add_argument('--retries', type=int, default=2)
     parser.add_argument('--model-all', action='store_true',
                         help='全部題目都走模型（不用別名比對）。量測顯示模型讀詳解的'
-                             '正確率 73%，別名比對只有 60%——key_concepts 本身混了對照組概念')
+                             '正確率 73%%，別名比對只有 60%%——key_concepts 本身混了對照組概念')
     parser.add_argument('--dry-run', action='store_true', help='只做別名比對，不呼叫模型')
     parser.add_argument('--verify-all', action='store_true',
                         help='全量驗收既有指派，濾掉「錯誤」的標籤')
+    parser.add_argument('--batch-size', type=int, default=BATCH_SIZE,
+                        help=f'每次呼叫塞幾題（預設 {BATCH_SIZE}）。網關不穩時調小')
+    parser.add_argument('--source', choices=['exam', 'practice'], default='exam',
+                        help='exam＝官方考卷（讀 examReferenceAnswers，預設）；'
+                             'practice＝章節練習＋指引練習 590 題，另存一份輸出')
+    parser.add_argument('--verify-model', default='',
+                        help='驗收用的模型。留空會用 --models 的第一個，那等於讓出標籤的'
+                             '模型驗自己（2026-08-09 的舊資料就是這樣跑的），**不要沿用**')
+    parser.add_argument('--limit', type=int, default=0,
+                        help='只跑 N 題（跨考卷等距抽樣，可重現）。試跑用，務必搭配 --out')
+    parser.add_argument('--out', default='',
+                        help='輸出路徑；預設寫 data/topics/question_topics.json。'
+                             '試跑一定要指定別的路徑，否則會蓋掉正式資料')
     parser.add_argument('--verify-sample', type=int, default=0,
                         help='抽驗既有指派的精確度（給樣本數），不重跑指派')
     args = parser.parse_args()
+
+    global OUT_PATH, VERIFY_CACHE, ASSIGN_CACHE
+    if args.source == 'practice':
+        OUT_PATH = PRACTICE_OUT_PATH
+        VERIFY_CACHE = VERIFY_CACHE.with_name('_verify_cache_practice.json')
+        ASSIGN_CACHE = ASSIGN_CACHE.with_name('_assign_cache_practice.json')
+    if args.out:
+        OUT_PATH = Path(args.out)
 
     vocab = load_json(VOCAB_PATH)
     if vocab.get('status') != 'signed-off':
@@ -380,12 +475,24 @@ def main() -> None:
     valid = {normalise(n): n for n in names}
     lookup = build_lookup(topics)
 
-    questions: dict[str, dict] = {}
-    for path in sorted(REFERENCE_DIR.glob('*.json')):
-        if path.stem == 'stats':
-            continue
-        for qid, entry in load_json(path).items():
-            questions[f'{path.stem}:{qid}'] = entry
+    if args.source == 'practice':
+        questions = load_practice_questions()
+    else:
+        questions = {}
+        for path in sorted(REFERENCE_DIR.glob('*.json')):
+            if path.stem == 'stats':
+                continue
+            for qid, entry in load_json(path).items():
+                questions[f'{path.stem}:{qid}'] = entry
+
+    if args.limit and args.limit < len(questions):
+        # 等距抽樣而不是取前 N 題：sorted 的前 N 題全都落在同一份考卷上，
+        # 那量到的是那份卷的難易度，不是標註品質
+        keys = sorted(questions)
+        stride = len(keys) / args.limit
+        picked = [keys[int(i * stride)] for i in range(args.limit)]
+        questions = {k: questions[k] for k in picked}
+        print(f'--limit {args.limit}：跨 {len({k.split(":")[0] for k in picked})} 份考卷等距抽樣')
 
     if args.verify_all:
         verify_all(args, questions)
@@ -414,11 +521,18 @@ def main() -> None:
     models = [m.strip() for m in args.models.split(',') if m.strip()]
     votes: dict[str, Counter] = {key: Counter() for key, _, _ in pending}
     rejected: list[dict] = []
+    cache: dict[str, list[str]] = load_json(ASSIGN_CACHE) if ASSIGN_CACHE.exists() else {}
+    if cache:
+        print(f'  指派快取已有 {len(cache)} 筆（模型|題號），本輪只補沒跑到的')
 
     for model in models:
         failed = []
-        for start in range(0, len(pending), BATCH_SIZE):
-            batch = pending[start:start + BATCH_SIZE]
+        batch_size = max(1, args.batch_size)
+        for start in range(0, len(pending), batch_size):
+            batch = [item for item in pending[start:start + batch_size]
+                     if f'{model}|{item[0]}' not in cache]
+            if not batch:
+                continue
             raw = None
             for attempt in range(1, args.retries + 2):
                 raw = call_gateway(build_prompt(names, batch), model,
@@ -426,24 +540,28 @@ def main() -> None:
                 if parse_assignments(raw):
                     break
                 reason = '空回應' if not raw else f'回應無法解析（{len(raw)} 字，可能被截斷）'
-                print(f'  {model} 批 {start // BATCH_SIZE + 1} 第 {attempt} 次{reason}，重試中')
+                print(f'  {model} 批 {start // batch_size + 1} 第 {attempt} 次{reason}，重試中',
+                      flush=True)
+                time.sleep(5 * attempt)   # 空回應多半是網關限流，立刻重打只會再被打回
             result = resolve_ids(parse_assignments(raw), {qid for qid, _, _ in batch})
             if not result:
-                failed.append(start // BATCH_SIZE + 1)
+                failed.append(start // batch_size + 1)
                 continue
             for qid, picked in result.items():
-                if qid not in votes:
-                    continue
-                for name in picked[:MAX_TOPICS]:
-                    key = normalise(name)
-                    if key in valid:
-                        votes[qid][valid[key]] += 1
-                    else:
-                        rejected.append({'question': qid, 'model': model, 'topic': name,
-                                         'note': '不在詞彙表裡（自創或改寫）'})
+                cache[f'{model}|{qid}'] = picked[:MAX_TOPICS]
+            ASSIGN_CACHE.write_text(json.dumps(cache, ensure_ascii=False), encoding='utf-8')
+        for qid, _, _ in pending:
+            for name in cache.get(f'{model}|{qid}', []):
+                key = normalise(name)
+                if key in valid:
+                    votes[qid][valid[key]] += 1
+                else:
+                    rejected.append({'question': qid, 'model': model, 'topic': name,
+                                     'note': '不在詞彙表裡（自創或改寫）'})
         if failed:
             raise SystemExit(f'FAIL {model} 有 {len(failed)} 批沒有結果（批 '
-                             f'{"、".join(map(str, failed))}），不產出部分結果')
+                             f'{"、".join(map(str, failed))}），不產出部分結果。'
+                             f'成功的批已存進 {ASSIGN_CACHE.name}，重跑同一個指令只會補這幾批')
         print(f'  {model} 完成 {len(pending)} 題')
 
     need = 2 if len(models) >= 3 else 1
@@ -482,7 +600,10 @@ def main() -> None:
           f'指向多個概念 {quality["ambiguousEntries"]}、'
           f'「正式名稱同時是別名」{quality["canonicalNameUsedAsAlias"]} 組'
           f'（別名是模型自由文字，這是這步的精確度上限）')
-    print(f'→ {OUT_PATH.relative_to(BASE)}')
+    try:
+        print(f'→ {OUT_PATH.relative_to(BASE)}')
+    except ValueError:
+        print(f'→ {OUT_PATH}')  # --out 可以指到 repo 外（試跑）
 
 
 if __name__ == '__main__':

@@ -336,6 +336,13 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
             概念圖卡
           </NavLink>
           <NavLink
+            to="/concepts"
+            className={({ isActive }) => navItemClass(isActive)}
+            onClick={onClose}
+          >
+            概念索引
+          </NavLink>
+          <NavLink
             to="/outline"
             className={({ isActive }) => navItemClass(isActive)}
             onClick={onClose}

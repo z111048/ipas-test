@@ -15,6 +15,7 @@ const VisualCardsPage = lazy(() => import('./pages/VisualCardsPage'))
 const GlossaryPage = lazy(() => import('./pages/GlossaryPage'))
 const OutlinePage = lazy(() => import('./pages/OutlinePage'))
 const MindmapPage = lazy(() => import('./pages/MindmapPage'))
+const ConceptsPage = lazy(() => import('./pages/ConceptsPage'))
 const LearningArticlesPage = lazy(() => import('./pages/LearningArticlesPage'))
 const LearningArticlePage = lazy(() => import('./pages/LearningArticlePage'))
 // 搜尋對話框連同 204 KB 索引都不進首頁 bundle，第一次開啟才載入
@@ -107,6 +108,7 @@ function AppShell() {
               <Route path="/glossary" element={<GlossaryPage />} />
               <Route path="/outline" element={<OutlinePage />} />
               <Route path="/mindmap" element={<MindmapPage />} />
+              <Route path="/concepts" element={<ConceptsPage />} />
             </Routes>
           </Suspense>
           {!isGuideRoute && (

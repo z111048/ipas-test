@@ -1,0 +1,228 @@
+import { useEffect, useMemo, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+
+interface GlossaryRef {
+  level: string
+  subjectName: string
+  en: string
+  definition: string
+  example: string
+}
+
+interface ChapterRef {
+  nodeId: string
+  count: number
+  guideKey: string
+}
+
+interface QuestionRef {
+  id: string
+  level: string
+  source: string
+  route: string
+  stem: string
+}
+
+interface Concept {
+  name: string
+  parent: string
+  questionCount: { official: number; practice: number }
+  glossary: GlossaryRef[]
+  chapters: ChapterRef[]
+  related: { name: string; weight: number }[]
+  questions: QuestionRef[]
+}
+
+interface ConceptGraph {
+  conceptCount: number
+  questionCount: { official: number; practice: number }
+  edgeCount: number
+  concepts: Concept[]
+}
+
+export default function ConceptsPage() {
+  // 784KB：靜態 import 會把它壓進首頁 bundle，改成進頁面才載
+  const [graph, setGraph] = useState<ConceptGraph | null>(null)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [query, setQuery] = useState('')
+  const [parent, setParent] = useState('all')
+
+  useEffect(() => {
+    import('../generated/conceptGraph.json').then((module) => {
+      setGraph(module.default as unknown as ConceptGraph)
+    })
+  }, [])
+
+  const selectedName = searchParams.get('c') ?? ''
+  const concepts = graph?.concepts ?? []
+  const selected = concepts.find((c) => c.name === selectedName) ?? null
+
+  const parents = useMemo(
+    () => Array.from(new Set(concepts.map((c) => c.parent).filter(Boolean))).sort(),
+    [concepts]
+  )
+
+  const listed = useMemo(() => {
+    const keyword = query.trim().toLowerCase()
+    return concepts.filter((concept) => {
+      if (parent !== 'all' && concept.parent !== parent) return false
+      if (!keyword) return true
+      return [concept.name, concept.parent, concept.glossary[0]?.en ?? '',
+        concept.glossary[0]?.definition ?? '']
+        .join(' ').toLowerCase().includes(keyword)
+    })
+  }, [concepts, query, parent])
+
+  function select(name: string) {
+    const next = new URLSearchParams(searchParams)
+    next.set('c', name)
+    setSearchParams(next)
+  }
+
+  if (!graph) {
+    return <p className="text-sm text-text-light">載入中…</p>
+  }
+
+  return (
+    <div>
+      <div className="text-[0.78rem] font-semibold text-accent mb-1">概念索引</div>
+      <div className="text-2xl font-bold text-primary mb-1">概念、定義與考過的題目</div>
+      <div className="text-text-light mb-5">
+        {graph.conceptCount} 個概念，串起名詞定義、學習指引章節、
+        {graph.questionCount.official} 題歷屆試題與 {graph.questionCount.practice} 題練習。
+        點任一概念看它考在哪裡、和哪些概念一起出現。
+      </div>
+
+      <div className="bg-card rounded-xl shadow-sm border border-border p-5 mb-4">
+        <div className="flex flex-col lg:flex-row lg:items-center gap-3">
+          <select
+            value={parent}
+            onChange={(event) => setParent(event.target.value)}
+            className="rounded-lg border border-border px-3 py-2 text-[0.88rem] outline-none focus:border-accent"
+          >
+            <option value="all">全部分類（{concepts.length}）</option>
+            {parents.map((name) => (
+              <option key={name} value={name}>{name}</option>
+            ))}
+          </select>
+          <input
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="搜尋概念、英文或定義"
+            className="lg:ml-auto w-full lg:w-[320px] rounded-lg border border-border px-3 py-2 text-[0.88rem] outline-none focus:border-accent"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-4">
+        <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden max-h-[70vh] overflow-y-auto">
+          {listed.map((concept) => {
+            return (
+              <button
+                key={concept.name}
+                type="button"
+                onClick={() => select(concept.name)}
+                className={`w-full text-left px-4 py-2.5 border-b border-border cursor-pointer ${
+                  concept.name === selectedName ? 'bg-accent/10' : 'hover:bg-[#f7fbff]'
+                }`}
+              >
+                <div className="text-[0.9rem] font-semibold text-primary">{concept.name}</div>
+                <div className="text-[0.75rem] text-text-light">
+                  {concept.parent} · 考古題 {concept.questionCount.official}／練習 {concept.questionCount.practice}
+                </div>
+              </button>
+            )
+          })}
+          {listed.length === 0 && (
+            <div className="p-4 text-[0.85rem] text-text-light">找不到符合條件的概念。</div>
+          )}
+        </div>
+
+        <div className="bg-card rounded-xl shadow-sm border border-border p-5">
+          {!selected ? (
+            <p className="text-sm text-text-light">從左邊挑一個概念。</p>
+          ) : (
+            <>
+              <div className="text-[0.75rem] text-text-light">{selected.parent}</div>
+              <h2 className="text-xl font-bold text-primary mt-1 mb-2">{selected.name}</h2>
+
+              {selected.glossary.length > 0 ? (
+                selected.glossary.map((entry) => (
+                  <div key={`${entry.level}-${entry.subjectName}`} className="mb-3">
+                    <div className="text-[0.78rem] text-accent">
+                      {entry.level} · {entry.en}
+                    </div>
+                    <p className="leading-7 content-justify m-0">{entry.definition}</p>
+                    {entry.example && (
+                      <p className="leading-7 content-justify m-0 mt-1 text-text-light text-[0.85rem]">
+                        例：{entry.example}
+                      </p>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <p className="text-[0.85rem] text-text-light">這個概念還沒有名詞解釋。</p>
+              )}
+
+              {selected.chapters.length > 0 && (
+                <div className="mt-4">
+                  <div className="text-[0.8rem] font-semibold text-primary mb-1.5">學習指引章節</div>
+                  <div className="flex flex-wrap gap-2">
+                    {selected.chapters.map((chapter) => (
+                      <span
+                        key={chapter.nodeId}
+                        className="rounded border border-border px-2 py-1 text-[0.78rem] text-text-light"
+                      >
+                        {chapter.guideKey.split('-')[0]} {chapter.nodeId}（{chapter.count} 題）
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {selected.related.length > 0 && (
+                <div className="mt-4">
+                  <div className="text-[0.8rem] font-semibold text-primary mb-1.5">
+                    常一起出現的概念
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {selected.related.map((item) => (
+                      <button
+                        key={item.name}
+                        type="button"
+                        onClick={() => select(item.name)}
+                        className="rounded-full border border-border px-3 py-1 text-[0.8rem] text-primary hover:border-accent cursor-pointer"
+                      >
+                        {item.name}
+                        <span className="text-text-light"> ×{item.weight}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="mt-4">
+                <div className="text-[0.8rem] font-semibold text-primary mb-1.5">
+                  考過這個概念的題目（{selected.questions.length} 題）
+                </div>
+                <ul className="m-0 list-none p-0 space-y-1.5">
+                  {selected.questions.map((question) => (
+                    <li key={`${question.source}-${question.id}`} className="text-[0.85rem]">
+                      <Link to={question.route} className="no-underline text-primary hover:text-accent">
+                        <span className="text-text-light text-[0.75rem]">
+                          {question.level} · {question.source}
+                        </span>
+                        <br />
+                        {question.stem}…
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}

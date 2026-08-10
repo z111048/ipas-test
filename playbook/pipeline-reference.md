@@ -11,7 +11,7 @@
 - 跑 guide 內容 pipeline → §1；**OCR 兩軌與完整重跑順序 → §1a（動講義文字前必看）**
 - 跑品質審核 → §2、§4
 - 跑考題 pipeline → §3
-- 跑 Colab notebook → §5；**名詞解釋 → §5a**
+- 跑 Colab notebook → §5；**名詞解釋 → §5a；概念關聯圖 → §5b**
 - 前端 build / 資料匯出 → §6
 - 某支腳本是幹嘛的 → §7 腳本目錄
 - 輸出檔案的意義與 gitignore 狀態 → §8
@@ -370,6 +370,44 @@ python3 scripts/verify_glossary_terms.py --self-test              # 閘門自身
 `audit_resources.py` 的 glossary 檢查涵蓋兩份檔案：空釋義／釋義長度 20–200 字外 → FAIL，
 沒有案例說明／同科目內重複 → WARN。**內容對不對不在 audit 判**，那是 verify 腳本的事。
 
+## §5b 概念關聯圖（/concepts 概念索引）
+
+```bash
+# 練習題的概念標註（章節練習 411 ＋ 指引練習 179＝590 題；官方考卷走 --source exam）
+python3 scripts/assign_question_topics.py --source practice --models glm-5.2 --batch-size 8
+python3 scripts/assign_question_topics.py --source practice --models glm-5.2 \
+    --verify-all --verify-model qwen3.5:397b        # 驗收模型不可與指派模型相同
+# → data/topics/practice_question_topics.json（committed）
+
+# 併成前端資料（無 API 花費、可隨時重跑、輸出確定性）
+python3 scripts/export_concept_graph.py
+# → frontend/src/generated/conceptGraph.json（committed，約 780KB，前端動態 import）
+```
+
+規則：
+
+- **練習題標籤另存一份，不進 `question_topics.json`**。`topicHeat` 的熱度定義是
+  「被官方考卷考幾題」，而出題配額、名詞解釋選詞都吃那個數字；混進練習題會讓熱度失真。
+  `conceptGraph.json` 的 `questionCount` 因此分成 `official` / `practice` 兩個數字，
+  **不可相加當熱度用**。
+- 建圖只採計 `verdict=正確` 的標籤，與 `topicHeat` 同一條規則。「過廣」不算錯，
+  但上位詞會連到所有東西，圖會糊掉。
+- 指派與驗收都可續跑：`_assign_cache_practice.json` / `_verify_cache_practice.json`。
+  網關限流時整批會空回應（實測 590 題有 13/50 批被打掉），**重跑同一個指令只補缺的**。
+
+三個踩過的坑（都是「以為模型沒做到，其實是自己對不上」）：
+
+1. **驗收的完整性判準只檢查「這題有沒有回應」**——模型會回一題卻只評它三個標籤裡的
+   一個，其餘靜靜變成「未評」（880 個標籤裡 149 個）。判準必須是**每個標籤都有評價**。
+2. **概念名沒有正規化就比對**：模型回「生成式 AI」、詞彙表寫「生成式AI」，差一個空白
+   就永遠對不上、永遠重試，還會被誤讀成「模型沒評」。用 `normalise()` 對回正式寫法。
+3. **指派段原本沒有續跑快取**，13 批失敗會連坐丟掉 37 批成功的結果。
+
+> 2026-08-10 量過但**不要再做**的事：三模型 2/3 共識的標註。盲審 A/B（50 題、
+> 外部模型評）結果是舊的單模型 78% vs 共識 74%，共識**多標出來的標籤有 78% 是
+> 過廣或錯的**。單模型單票不是標籤品質的根因，重跑只會讓圖更糊。
+> 上線標籤（只採計「正確」）的外部正確率是官方考卷 85%、練習題 86%。
+
 ## §6 前端
 
 ```bash
@@ -418,6 +456,7 @@ uv run python3 scripts/build_web.py     # production build → docs/（gitignore
 - `sample_card_review.py` — 確定性分層抽樣題目 `card` 欄位 → `data/audit/card_sample_review.json`；`--tally` 讀回判定算錯誤率。同 `--size`／`--seed` 重跑會拿到同一批題，才能改完驗同一批。
 - `fix_card_defects.py` — 修 `card.frequency` 值域外（依所在章熱度分段給值）與解析尾端黏上的「參考書目」附件。冪等，`--dry-run` 先看。
 - `export_topic_heat.py` — 概念標註 ＋ 詞彙表 ＋ 考古題標註 → `topicHeat.json`（前端 `/mindmap` 概念軸）。只讀 committed 產物、無 API 花費、可隨時重跑、輸出確定性（跨 `PYTHONHASHSEED` 位元相同）。⚠️ 採計只算 `verdict=正確`；「散落章數」用 `guideChapterCount`，**不是** `chapterCount`（後者把大綱章與指引章各記一次，虛胖 32%）。細節見 `08-topic-labeling.md` §7-3。
+- `export_concept_graph.py` — 概念關聯圖：把詞彙表、兩份標註、熱度、名詞解釋、題幹併成 `conceptGraph.json`（前端 `/concepts`）。只讀 committed 產物、無 API 花費、可隨時重跑。⚠️ `questionCount` 的 official／practice 不可相加當熱度。見 §5b。
 - `build_glossary.py` — 名詞解釋生成（詞表由 `topicHeat.json` 熱度決定，來源＝講義原文段落＋詳解片段）→ `frontend/src/generated/{primary,middle}Glossary.json`。`--dry-run` 只看選詞與來源覆蓋、不花錢；`--apply` 才寫前端；既有詞條預設保留不覆蓋（`--regenerate` 才重寫）。生成模型不可與 `verify_glossary_terms.py` 的審核名單重疊。見 §5a。
 - `verify_glossary_terms.py` — 釋義閘門：三模型盲審每一條，`wrong` 票 ≥2 就 flagged。`--self-test` 拿 4 條故意寫錯的＋4 條乾淨孿生驗閘門本身（要 4/4 抓到、0 誤報）；`--term` 只重驗改過的那條。金鑰 `LLMSHARE_API_KEY`（`.env`，gitignored）。
 - `export_guide_hierarchy.py` — 接成完整階層樹，並產導覽用的兩個衍生檔 → `guideHierarchy.json`、`guideNav.json`、`guideSearchIndex.json`（見 §1b）。

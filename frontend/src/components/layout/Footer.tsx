@@ -5,6 +5,7 @@ const quickLinks = [
   { label: '主題文章', to: '/articles' },
   { label: '概念圖卡', to: '/visuals' },
   { label: '關鍵字整理', to: '/glossary' },
+  { label: '概念索引', to: '/concepts' },
   { label: '圖片與表格檢視', to: '/images' },
 ]
 

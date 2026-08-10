@@ -14,6 +14,7 @@ function sectionLabel(pathname: string): string | null {
   if (pathname.startsWith('/articles')) return '主題文章'
   if (pathname.startsWith('/visuals')) return '概念圖卡'
   if (pathname.startsWith('/glossary')) return '名詞解釋'
+  if (pathname.startsWith('/concepts')) return '概念索引'
   if (pathname.startsWith('/outline')) return '完整目錄'
   if (pathname.startsWith('/images')) return '圖片總覽'
   return null
