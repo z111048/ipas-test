@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useExamStore } from '../../store/examStore'
 import type { ExamReferenceAnswer, QuestionImage } from '../../types'
+import { referenceLoaders, referenceForQuestion } from '../../data/referenceAnswerLoaders'
 import ProgressBar from '../shared/ProgressBar'
 import StatBox from '../shared/StatBox'
 import { publicAsset } from '../../utils/assets'
@@ -52,60 +53,7 @@ function ScoreRing({ score, pass }: { score: number; pass: boolean }) {
   )
 }
 
-type ExamReferenceModule = { default: unknown }
-
 const answerOptions = ['A', 'B', 'C', 'D'] as const
-const asReferenceMap = (module: ExamReferenceModule) => module.default as Record<string, ExamReferenceAnswer>
-const referenceLoaders: Record<string, () => Promise<Record<string, ExamReferenceAnswer>>> = {
-  // 初級
-  jr_1141_s1: () => import('../../generated/examReferenceAnswers/jr_1141_s1.json').then(asReferenceMap),
-  jr_1141_s2: () => import('../../generated/examReferenceAnswers/jr_1141_s2.json').then(asReferenceMap),
-  jr_1151_s1: () => import('../../generated/examReferenceAnswers/jr_1151_s1.json').then(asReferenceMap),
-  jr_1151_s2: () => import('../../generated/examReferenceAnswers/jr_1151_s2.json').then(asReferenceMap),
-  jr_1152_s1: () => import('../../generated/examReferenceAnswers/jr_1152_s1.json').then(asReferenceMap),
-  jr_1152_s2: () => import('../../generated/examReferenceAnswers/jr_1152_s2.json').then(asReferenceMap),
-  sample: () => import('../../generated/examReferenceAnswers/sample.json').then(asReferenceMap),
-  // 中級
-  mid_1141_s1: () => import('../../generated/examReferenceAnswers/mid_1141_s1.json').then(asReferenceMap),
-  mid_1141_s2: () => import('../../generated/examReferenceAnswers/mid_1141_s2.json').then(asReferenceMap),
-  mid_1141_s3: () => import('../../generated/examReferenceAnswers/mid_1141_s3.json').then(asReferenceMap),
-  midSample: () => import('../../generated/examReferenceAnswers/midSample.json').then(asReferenceMap),
-}
-
-const legacyReferencePrefixByExam: Record<string, string> = {
-  jr_1141_s1: 'exam1',
-  jr_1141_s2: 'exam2',
-  mid_1141_s1: 'exam1',
-  mid_1141_s2: 'exam2',
-  mid_1141_s3: 'exam3',
-}
-
-function questionNumberToken(questionId: string) {
-  return questionId.match(/_q(\d+)$/)?.[1]
-}
-
-function referenceForQuestion(
-  references: Record<string, ExamReferenceAnswer>,
-  examKey: string,
-  questionId: string,
-) {
-  const direct = references[questionId]
-  if (direct) return direct
-
-  const number = questionNumberToken(questionId)
-  if (!number) return undefined
-
-  const legacyPrefix = legacyReferencePrefixByExam[examKey]
-  if (legacyPrefix) {
-    const legacy = references[`${legacyPrefix}_q${number}`]
-    if (legacy) return legacy
-  }
-
-  const suffix = `_q${number}`
-  const fallbackKeys = Object.keys(references).filter((key) => key.endsWith(suffix))
-  if (fallbackKeys.length === 1) return references[fallbackKeys[0]]
-  return undefined
-}
 
 function ReferenceAnswerBlock({ reference }: { reference: ExamReferenceAnswer }) {
   return (

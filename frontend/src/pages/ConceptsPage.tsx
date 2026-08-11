@@ -1,9 +1,11 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 // three.js 約 1MB：只有切到立體圖才載
 const ConceptGraph3D = lazy(() => import('../components/concepts/ConceptGraph3D'))
-const HEAT_STEPS = ['#86b6ef', '#5598e7', '#2a78d6', '#1c5cab', '#104281']
+const QuestionModal = lazy(() => import('../components/concepts/QuestionModal'))
+// 圖例要跟立體圖上的顏色一致：那是深色底的色階（暗→亮＝考得少→考得多）
+const HEAT_STEPS = ['#184f95', '#256abf', '#3987e5', '#6da7ec', '#b7d3f6']
 
 interface GlossaryRef {
   level: string
@@ -25,6 +27,11 @@ interface QuestionRef {
   source: string
   route: string
   stem: string
+  kind?: 'exam' | 'practice'
+  examKey?: string
+  subjectId?: string
+  chapterId?: string
+  practiceSet?: string
 }
 
 interface Concept {
@@ -51,6 +58,7 @@ export default function ConceptsPage() {
   const [query, setQuery] = useState('')
   const [parent, setParent] = useState('all')
   const [view, setView] = useState<'list' | 'graph'>('list')
+  const [openQuestion, setOpenQuestion] = useState<QuestionRef | null>(null)
   const [showWeakLinks, setShowWeakLinks] = useState(false)
 
   useEffect(() => {
@@ -272,14 +280,18 @@ export default function ConceptsPage() {
                 </div>
                 <ul className="m-0 list-none p-0 space-y-1.5">
                   {selected.questions.map((question) => (
-                    <li key={`${question.source}-${question.id}`} className="text-[0.85rem]">
-                      <Link to={question.route} className="no-underline text-primary hover:text-accent">
+                    <li key={`${question.source}-${question.id}`}>
+                      <button
+                        type="button"
+                        onClick={() => setOpenQuestion(question)}
+                        className="w-full rounded-lg border border-border px-3 py-2 text-left text-[0.85rem] hover:border-accent cursor-pointer"
+                      >
                         <span className="text-text-light text-[0.75rem]">
                           {question.level} · {question.source}
                         </span>
                         <br />
-                        {question.stem}…
-                      </Link>
+                        <span className="text-primary">{question.stem}…</span>
+                      </button>
                     </li>
                   ))}
                 </ul>
@@ -288,6 +300,12 @@ export default function ConceptsPage() {
           )}
         </div>
       </div>
+
+      {openQuestion && (
+        <Suspense fallback={null}>
+          <QuestionModal item={openQuestion} onClose={() => setOpenQuestion(null)} />
+        </Suspense>
+      )}
     </div>
   )
 }

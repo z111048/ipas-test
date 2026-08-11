@@ -107,8 +107,15 @@ def build_official_index() -> dict[str, dict[str, Any]]:
             # 舊寫法（exam1_q7），前端拿它找不到題目
             canonical = str(question.get('id', ''))
             index[f'{paper}|{qid_number}'] = {
+                # id 也要是題庫的正式 id：refs 是 {'id': 標註題號, **info}，
+                # info 覆蓋在後，所以這一行就是彈窗查得到題目的關鍵
+                'id': canonical,
                 'level': level,
                 'source': '官方考卷',
+                # kind／examKey 讓前端的題目彈窗知道要動態載哪一份題庫，
+                # 不必把 1,561 題的選項與解析全部塞進 conceptGraph.json
+                'kind': 'exam',
+                'examKey': paper,
                 'route': f'/exam/{paper}?q={canonical}',
                 'stem': str(question.get('question', ''))[:70],
             }
@@ -146,6 +153,10 @@ def build_practice_index() -> dict[str, dict[str, Any]]:
                 index[qid] = {
                     'level': level,
                     'source': '學習指引練習' if guide_set else '章節練習',
+                    'kind': 'practice',
+                    'subjectId': subject,
+                    'chapterId': chapter,
+                    'practiceSet': 'guide' if guide_set else '',
                     'route': route,
                     'stem': str(question.get('question', ''))[:70],
                 }
