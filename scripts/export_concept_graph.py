@@ -103,10 +103,13 @@ def build_official_index() -> dict[str, dict[str, Any]]:
             if match:
                 by_number[match.group(1)] = question
         for qid_number, question in by_number.items():
+            # 路由帶的是題庫裡的正式 id，不是標註檔的題號——114 年那三份標註沿用
+            # 舊寫法（exam1_q7），前端拿它找不到題目
+            canonical = str(question.get('id', ''))
             index[f'{paper}|{qid_number}'] = {
                 'level': level,
                 'source': '官方考卷',
-                'route': f'/exam/{paper}',
+                'route': f'/exam/{paper}?q={canonical}',
                 'stem': str(question.get('question', ''))[:70],
             }
     return index
@@ -138,7 +141,8 @@ def build_practice_index() -> dict[str, dict[str, Any]]:
                 if not chapter or not subject_match:
                     continue
                 subject = subject_match.group(2)
-                route = f'/practice/{subject}/{chapter}' + ('/guide' if guide_set else '')
+                route = (f'/practice/{subject}/{chapter}'
+                         + ('/guide' if guide_set else '') + f'?q={qid}')
                 index[qid] = {
                     'level': level,
                     'source': '學習指引練習' if guide_set else '章節練習',

@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { useExamStore } from '../store/examStore'
 import { useExamTimer } from '../hooks/useExamTimer'
@@ -27,6 +27,8 @@ export default function ExamPage() {
   const [loadError, setLoadError] = useState<string | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const questionRefs = useRef<Array<HTMLElement | null>>([])
+  const [searchParams] = useSearchParams()
+  const targetQuestionId = searchParams.get('q')
 
   const phase = useExamStore((s) => s.phase)
   const storeExamKey = useExamStore((s) => s.examKey)
@@ -123,8 +125,23 @@ export default function ExamPage() {
   }, [examKey, examData, storeExamKey, currentExamData, setExam])
 
   useEffect(() => {
+    // 帶 ?q= 且已經開始作答時不回頂端，讓下面的定位接手
+    if (targetQuestionId && phase === 'active') return
     window.scrollTo(0, 0)
-  }, [examKey, phase])
+  }, [examKey, phase, targetQuestionId])
+
+  // ?q=<題號>：捲到那一題。考卷是計時測驗，不會自動開始——所以定位是在使用者
+  // 按下「開始作答」、phase 變成 active 之後才發生。
+  useEffect(() => {
+    if (!targetQuestionId || phase !== 'active' || !currentExamData) return
+    const index = currentExamData.questions.findIndex((q) => q.id === targetQuestionId)
+    if (index < 0) return
+    const timer = window.setTimeout(() => {
+      setActiveIndex(index)
+      questionRefs.current[index]?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }, 120)
+    return () => window.clearTimeout(timer)
+  }, [targetQuestionId, phase, currentExamData])
 
   if (loading) {
     return <div className="page-shell text-text-light p-4">考卷載入中...</div>
@@ -142,8 +159,26 @@ export default function ExamPage() {
     return <div className="page-shell text-text-light p-4">考卷準備中...</div>
   }
 
+  // 從概念索引帶 ?q= 進來會先落在說明頁（計時測驗不會自動開始），
+  // 不說明的話那個連結看起來就像壞掉了
+  const targetIndex = targetQuestionId
+    ? examData.questions.findIndex((q) => q.id === targetQuestionId)
+    : -1
+
   if (phase === 'intro') {
-    return <ExamIntro examData={examData} onStart={startExam} />
+    return (
+      <>
+        {targetIndex >= 0 && (
+          <div className="page-shell">
+            <div className="surface mb-4 border-l-4 border-accent p-4 text-[0.88rem] text-app-text">
+              開始作答後會自動跳到<strong>第 {targetIndex + 1} 題</strong>
+              （你從概念索引點進來的那一題）。
+            </div>
+          </div>
+        )}
+        <ExamIntro examData={examData} onStart={startExam} />
+      </>
+    )
   }
 
   if (phase === 'results') {

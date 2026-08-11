@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { resourceLevels, resourceSummary } from '../data/resourceRegistry'
 import { loadSubjectQuestions } from '../data/questionLoaders'
@@ -32,6 +32,8 @@ export default function PracticePage() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [showRestoreBanner, setShowRestoreBanner] = useState(false)
   const questionRefs = useRef<Array<HTMLElement | null>>([])
+  const [searchParams] = useSearchParams()
+  const targetQuestionId = searchParams.get('q')
   const chapter = data?.chapters.find((c) => c.id === chapterId)
   const practiceSetSuffix = isGuideExercise ? '/guide' : ''
   const chapterRoute = (targetChapterId: string) =>
@@ -47,8 +49,23 @@ export default function PracticePage() {
   const selectableChapters = subjectData?.chapters.filter((item) => (activeSummary?.chapterCounts[item.id] ?? 0) > 0) ?? []
 
   useEffect(() => {
+    // 帶 ?q= 進來時不要回到頂端，否則會和下面的定位捲動打架
+    if (targetQuestionId) return
     window.scrollTo(0, 0)
-  }, [chapterId, practiceSet])
+  }, [chapterId, practiceSet, targetQuestionId])
+
+  // ?q=<題號>：捲到那一題並標成目前題（概念索引的題目連結用這個定位）
+  useEffect(() => {
+    if (!targetQuestionId || !chapter) return
+    const index = chapter.questions.findIndex((q) => q.id === targetQuestionId)
+    if (index < 0) return
+    setActiveIndex(index)
+    // 等這一輪 render 把 ref 掛上再捲，否則 questionRefs 還是空的
+    const timer = window.setTimeout(() => {
+      questionRefs.current[index]?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }, 80)
+    return () => window.clearTimeout(timer)
+  }, [targetQuestionId, chapter])
 
   useEffect(() => {
     let active = true

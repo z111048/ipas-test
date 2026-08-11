@@ -390,6 +390,10 @@ python3 scripts/export_concept_graph.py
   「被官方考卷考幾題」，而出題配額、名詞解釋選詞都吃那個數字；混進練習題會讓熱度失真。
   `conceptGraph.json` 的 `questionCount` 因此分成 `official` / `practice` 兩個數字，
   **不可相加當熱度用**。
+- 題目連結帶 `?q=<題號>` 定位：`ExamPage`／`PracticePage` 讀這個參數捲到該題並標為目前題。
+  ⚠️ 路由裡放的必須是**題庫檔裡的正式 id**，不是標註檔的題號——114 年那三份的標註沿用
+  舊寫法（`exam1_q7`），拿它去前端找不到題目。考卷是計時測驗不會自動開始，所以定位發生在
+  按下「開始作答」之後，說明頁會先提示「將跳到第 N 題」。
 - 建圖只採計 `verdict=正確` 的標籤，與 `topicHeat` 同一條規則。「過廣」不算錯，
   但上位詞會連到所有東西，圖會糊掉。
 - 指派與驗收都可續跑：`_assign_cache_practice.json` / `_verify_cache_practice.json`。
