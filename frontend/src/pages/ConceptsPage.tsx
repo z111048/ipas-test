@@ -1,5 +1,9 @@
-import { useEffect, useMemo, useState } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+
+// three.js 約 1MB：只有切到立體圖才載
+const ConceptGraph3D = lazy(() => import('../components/concepts/ConceptGraph3D'))
+const HEAT_STEPS = ['#86b6ef', '#5598e7', '#2a78d6', '#1c5cab', '#104281']
 
 interface GlossaryRef {
   level: string
@@ -46,6 +50,8 @@ export default function ConceptsPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const [query, setQuery] = useState('')
   const [parent, setParent] = useState('all')
+  const [view, setView] = useState<'list' | 'graph'>('list')
+  const [showWeakLinks, setShowWeakLinks] = useState(false)
 
   useEffect(() => {
     import('../generated/conceptGraph.json').then((module) => {
@@ -109,13 +115,72 @@ export default function ConceptsPage() {
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="搜尋概念、英文或定義"
-            className="lg:ml-auto w-full lg:w-[320px] rounded-lg border border-border px-3 py-2 text-[0.88rem] outline-none focus:border-accent"
+            className="w-full lg:w-[280px] rounded-lg border border-border px-3 py-2 text-[0.88rem] outline-none focus:border-accent"
           />
+          <div className="lg:ml-auto flex gap-2">
+            {([['list', '清單'], ['graph', '立體圖']] as [typeof view, string][]).map(
+              ([value, label]) => (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => setView(value)}
+                  className={`px-3 py-2 rounded-lg border text-[0.85rem] cursor-pointer ${
+                    view === value
+                      ? 'border-accent bg-accent text-white'
+                      : 'border-border bg-white text-primary hover:border-accent'
+                  }`}
+                >
+                  {label}
+                </button>
+              )
+            )}
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-4">
-        <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden max-h-[70vh] overflow-y-auto">
+      {view === 'graph' && (
+        <div className="mb-4">
+          <Suspense fallback={<p className="text-sm text-text-light">載入立體圖…</p>}>
+            <ConceptGraph3D
+              concepts={listed}
+              selected={selectedName}
+              minWeight={showWeakLinks ? 1 : 2}
+              onSelect={select}
+            />
+          </Suspense>
+          <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.78rem] text-text-light">
+            <span className="flex items-center gap-1">
+              考古題題數
+              {HEAT_STEPS.map((color) => (
+                <span
+                  key={color}
+                  className="inline-block h-3 w-5 rounded-[2px]"
+                  style={{ backgroundColor: color }}
+                />
+              ))}
+              <span>少 → 多</span>
+            </span>
+            <span>球體大小＝總題數（考古題＋練習）</span>
+            <span>連線＝兩個概念被標在同一題上，粗細＝次數</span>
+            <label className="flex items-center gap-1.5 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={showWeakLinks}
+                onChange={(event) => setShowWeakLinks(event.target.checked)}
+              />
+              顯示只同題出現過一次的弱關聯
+            </label>
+            <span>拖曳旋轉、滾輪縮放、點球體看內容</span>
+          </div>
+        </div>
+      )}
+
+      <div className={`grid grid-cols-1 gap-4 ${view === 'list' ? 'lg:grid-cols-[280px_1fr]' : ''}`}>
+        <div
+          className={`bg-card rounded-xl shadow-sm border border-border overflow-hidden max-h-[70vh] overflow-y-auto ${
+            view === 'graph' ? 'hidden' : ''
+          }`}
+        >
           {listed.map((concept) => {
             return (
               <button
