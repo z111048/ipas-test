@@ -59,7 +59,7 @@ export default function ConceptsPage() {
   const [parent, setParent] = useState('all')
   const [view, setView] = useState<'list' | 'graph'>('list')
   const [openQuestion, setOpenQuestion] = useState<QuestionRef | null>(null)
-  const [showWeakLinks, setShowWeakLinks] = useState(false)
+  const [strongOnly, setStrongOnly] = useState(false)
 
   useEffect(() => {
     import('../generated/conceptGraph.json').then((module) => {
@@ -152,7 +152,7 @@ export default function ConceptsPage() {
             <ConceptGraph3D
               concepts={listed}
               selected={selectedName}
-              minWeight={showWeakLinks ? 1 : 2}
+              minWeight={strongOnly ? 2 : 1}
               onSelect={select}
             />
           </Suspense>
@@ -173,10 +173,10 @@ export default function ConceptsPage() {
             <label className="flex items-center gap-1.5 cursor-pointer">
               <input
                 type="checkbox"
-                checked={showWeakLinks}
-                onChange={(event) => setShowWeakLinks(event.target.checked)}
+                checked={strongOnly}
+                onChange={(event) => setStrongOnly(event.target.checked)}
               />
-              顯示只同題出現過一次的弱關聯
+              只看強關聯（同題出現 ≥2 次）
             </label>
             <span>拖曳旋轉、滾輪縮放、點球體看內容</span>
           </div>

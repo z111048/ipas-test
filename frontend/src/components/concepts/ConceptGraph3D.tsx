@@ -33,9 +33,9 @@ const HEAT_STEPS = ['#184f95', '#256abf', '#3987e5', '#6da7ec', '#b7d3f6']
 const SURFACE = '#0e1526'
 const MUTED = '#2b3550'
 const HIGHLIGHT = '#f59e5b'
-const LINK_COLOR = 'rgba(148,168,208,0.22)'
+const LINK_COLOR = 'rgba(160,185,230,0.38)'
 const LINK_STRONG = 'rgba(245,158,91,0.85)'
-const LABEL_COLOR = '#c9d6ee'
+const LABEL_COLOR = '#dce6f7'
 
 // force-graph 會就地把 link.source/target 從字串換成節點物件，所以兩種都要能讀。
 // 只比字串的話，第一次 tick 之後所有高亮就會失效。
@@ -51,10 +51,11 @@ function heatColor(official: number, max: number): string {
 
 interface GraphHandle {
   cameraPosition: (
-    position: { x?: number; y?: number; z?: number },
+    position?: { x?: number; y?: number; z?: number },
     lookAt?: object,
     ms?: number,
-  ) => void
+  ) => { x: number; y: number; z: number }
+  zoomToFit: (ms?: number, padding?: number, nodeFilter?: (node: object) => boolean) => void
 }
 
 interface Props {
@@ -70,6 +71,8 @@ export default function ConceptGraph3D({ concepts, selected, minWeight, onSelect
   const [width, setWidth] = useState(800)
   const [hovered, setHovered] = useState<string | null>(null)
   const [spinning, setSpinning] = useState(true)
+  // 自轉半徑不能寫死：版面收斂後的實際大小差很多，寫死 420 會讓一半的球衝出畫面
+  const [orbit, setOrbit] = useState(420)
 
   useEffect(() => {
     const element = wrapper.current
@@ -83,7 +86,7 @@ export default function ConceptGraph3D({ concepts, selected, minWeight, onSelect
   // 緩慢自轉，讓靜止的圖看起來是活的；使用者一動就停，不跟操作搶控制權
   useEffect(() => {
     if (!spinning) return
-    const distance = 420
+    const distance = orbit
     let angle = 0
     const timer = window.setInterval(() => {
       angle += 0.004
@@ -94,7 +97,7 @@ export default function ConceptGraph3D({ concepts, selected, minWeight, onSelect
       })
     }, 50)
     return () => window.clearInterval(timer)
-  }, [spinning])
+  }, [spinning, orbit])
 
   const data = useMemo(() => {
     const maxOfficial = Math.max(...concepts.map((c) => c.questionCount.official), 1)
@@ -142,10 +145,42 @@ export default function ConceptGraph3D({ concepts, selected, minWeight, onSelect
   // 171 個標籤同時顯示會糊成一片：只有夠大的節點常駐標籤，其餘選到或滑過才出現
   const labelFloor = useMemo(() => {
     const totals = data.nodes.map((n) => n.total).sort((a, b) => b - a)
-    return totals[Math.min(24, totals.length - 1)] ?? 0
+    return totals[Math.min(15, totals.length - 1)] ?? 0
   }, [data.nodes])
 
+  const connected = useMemo(() => {
+    const set = new Set<string>()
+    for (const link of data.links) {
+      set.add(endId(link.source))
+      set.add(endId(link.target))
+    }
+    return set
+  }, [data.links])
+
   const stopSpin = useCallback(() => setSpinning(false), [])
+
+  // 版面收斂後讓 force-graph 自己算「剛好裝得下」的距離，再用那個距離自轉。
+  // 寫死半徑會讓一半的球衝出畫面。
+  const fitCamera = useCallback(() => {
+    // 只用「有連線的節點」算取景範圍：沒有任何關聯的概念會被斥力甩到很遠，
+    // 把它們算進去，整個主叢集會被縮成畫面中央的一小團（實測就是這樣）
+    graph.current?.zoomToFit(900, 60, (node) =>
+      connected.size === 0 || connected.has(String((node as { id?: string }).id ?? '')))
+    window.setTimeout(() => {
+      const position = graph.current?.cameraPosition()
+      if (!position) return
+      const distance = Math.hypot(position.x, position.y, position.z)
+      if (Number.isFinite(distance) && distance > 0) setOrbit(distance)
+    }, 1100)
+  }, [connected])
+
+  // ⚠️ 不能只靠 onEngineStop：力場的 tick 跟著畫格跑，沒有 GPU 加速的機器
+  // （或分頁在背景時）200 個 tick 要花一分鐘以上，那之前畫面都是沒對準的。
+  // 這裡固定 5 秒後先對一次，engine 真的停了再對一次。
+  useEffect(() => {
+    const timer = window.setTimeout(fitCamera, 5000)
+    return () => window.clearTimeout(timer)
+  }, [fitCamera, minWeight])
 
   return (
     <div
@@ -162,7 +197,7 @@ export default function ConceptGraph3D({ concepts, selected, minWeight, onSelect
         height={560}
         backgroundColor={SURFACE}
         showNavInfo={false}
-        nodeRelSize={4}
+        nodeRelSize={5}
         nodeResolution={16}
         nodeOpacity={0.95}
         nodeVal={(node) => (node as GraphNode).val}
@@ -179,10 +214,10 @@ export default function ConceptGraph3D({ concepts, selected, minWeight, onSelect
           if (!show) return null as unknown as never
           const sprite = new SpriteText(item.id)
           sprite.color = item.id === focus ? HIGHLIGHT : LABEL_COLOR
-          sprite.textHeight = item.id === focus ? 5.5 : 3.5
+          sprite.textHeight = item.id === focus ? 9 : 6
           // SpriteText 的型別宣告沒有帶到 Object3D 的 position，但執行期有
           ;(sprite as unknown as { position: { set: (x: number, y: number, z: number) => void } })
-            .position.set(0, -(Math.cbrt(item.val) * 4 + 3), 0)
+            .position.set(0, -(Math.cbrt(item.val) * 4 + 6), 0)
           return sprite as unknown as never
         }}
         linkCurvature={0.18}
@@ -209,7 +244,10 @@ export default function ConceptGraph3D({ concepts, selected, minWeight, onSelect
         }}
         onBackgroundClick={stopSpin}
         enableNodeDrag={false}
-        cooldownTicks={160}
+        cooldownTicks={200}
+        d3AlphaDecay={0.02}
+        d3VelocityDecay={0.3}
+        onEngineStop={fitCamera}
       />
       {spinning && (
         <div className="pointer-events-none absolute bottom-3 left-3 rounded-full bg-white/10 px-3 py-1 text-[0.72rem] text-white/70">
