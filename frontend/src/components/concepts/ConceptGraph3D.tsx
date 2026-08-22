@@ -18,6 +18,9 @@ interface GraphNode {
   color: string
 }
 
+// force-graph 會在 tick 時把座標直接寫回節點物件上，所以版面收斂後這些欄位才有值
+type PositionedNode = GraphNode & { x?: number; y?: number; z?: number }
+
 interface GraphLink {
   source: string
   target: string
@@ -35,6 +38,16 @@ const MUTED = '#2b3550'
 const HIGHLIGHT = '#f59e5b'
 const LINK_COLOR = 'rgba(160,185,230,0.38)'
 const LINK_STRONG = 'rgba(245,158,91,0.85)'
+// zoomToFit 只保證「當下這個角度裝得下」。圖不是球形，自轉轉到較寬的側面時，
+// 同一個距離就會切到邊（實測 22 秒與 60 秒兩張截圖分別被切在右邊與下緣）。
+// 自轉半徑因此比「剛好裝下」的距離再退 10%。
+// zoomToFit 的 padding 是像素，而畫布只有 560px 高：原本的 60px 等於上下各砍掉
+// 10.7%，核心因此只佔畫面高度 48%（實測 300×270 於 1088×560）。
+const FIT_PADDING = 16
+const GRAPH_HEIGHT = 560
+const FOV_TAN = Math.tan((50 * Math.PI) / 180 / 2)  // 3d-force-graph 的預設 fov 是 50°
+const LABEL_TARGET_PX = 14
+const SPIN_MARGIN = 1.08
 const LABEL_COLOR = '#dce6f7'
 
 // force-graph 會就地把 link.source/target 從字串換成節點物件，所以兩種都要能讀。
@@ -71,6 +84,10 @@ export default function ConceptGraph3D({ concepts, selected, minWeight, onSelect
   const [width, setWidth] = useState(800)
   const [hovered, setHovered] = useState<string | null>(null)
   const [spinning, setSpinning] = useState(true)
+  // 對焦期間必須停掉自轉：自轉每 50ms 就把相機寫回 orbit 距離，會蓋掉 zoomToFit
+  // 的動畫，於是「對焦後讀到的距離」讀到的其實是 orbit 自己——乘上留白係數就變成
+  // 每對焦一次退遠一次（實測畫面越縮越小，主叢集剩畫面中央一小團）。
+  const [fitting, setFitting] = useState(true)
   // 自轉半徑不能寫死：版面收斂後的實際大小差很多，寫死 420 會讓一半的球衝出畫面
   const [orbit, setOrbit] = useState(420)
 
@@ -85,7 +102,7 @@ export default function ConceptGraph3D({ concepts, selected, minWeight, onSelect
 
   // 緩慢自轉，讓靜止的圖看起來是活的；使用者一動就停，不跟操作搶控制權
   useEffect(() => {
-    if (!spinning) return
+    if (!spinning || fitting) return
     const distance = orbit
     let angle = 0
     const timer = window.setInterval(() => {
@@ -97,7 +114,7 @@ export default function ConceptGraph3D({ concepts, selected, minWeight, onSelect
       })
     }, 50)
     return () => window.clearInterval(timer)
-  }, [spinning, orbit])
+  }, [spinning, fitting, orbit])
 
   const data = useMemo(() => {
     const maxOfficial = Math.max(...concepts.map((c) => c.questionCount.official), 1)
@@ -142,10 +159,17 @@ export default function ConceptGraph3D({ concepts, selected, minWeight, onSelect
     return set
   }, [data.links, focus])
 
+  // 字級的單位是圖空間，不是像素：畫面上的高度 = textHeight × 畫布高 ÷ (2·距離·tan(fov/2))。
+  // 寫死數值會隨每次力場收斂出的取景距離忽大忽小（實測 575～965 都出現過），
+  // 所以反過來從距離回推：固定看起來約 14px。
+  const labelUnit = useMemo(
+    () => Math.min(28, Math.max(10, (orbit * LABEL_TARGET_PX) / (GRAPH_HEIGHT / (2 * FOV_TAN)))),
+    [orbit])
+
   // 171 個標籤同時顯示會糊成一片：只有夠大的節點常駐標籤，其餘選到或滑過才出現
   const labelFloor = useMemo(() => {
     const totals = data.nodes.map((n) => n.total).sort((a, b) => b - a)
-    return totals[Math.min(15, totals.length - 1)] ?? 0
+    return totals[Math.min(11, totals.length - 1)] ?? 0
   }, [data.nodes])
 
   const connected = useMemo(() => {
@@ -161,18 +185,44 @@ export default function ConceptGraph3D({ concepts, selected, minWeight, onSelect
 
   // 版面收斂後讓 force-graph 自己算「剛好裝得下」的距離，再用那個距離自轉。
   // 寫死半徑會讓一半的球衝出畫面。
+  //
+  // 取景只用「核心」而不是整個包圍盒：實測有連線的節點裡也有幾個被斥力甩遠的，
+  // 包圍盒被撐到 533，密集核心因此只佔畫面三分之一（zoomToFit 的 nodeFilter 本身
+  // 是有效的：946 → 766，問題出在拿什麼餵它）。這裡再砍掉離重心最遠的 10%。
   const fitCamera = useCallback(() => {
-    // 只用「有連線的節點」算取景範圍：沒有任何關聯的概念會被斥力甩到很遠，
-    // 把它們算進去，整個主叢集會被縮成畫面中央的一小團（實測就是這樣）
-    graph.current?.zoomToFit(900, 60, (node) =>
-      connected.size === 0 || connected.has(String((node as { id?: string }).id ?? '')))
+    setFitting(true)
+    const positioned = data.nodes.filter(
+      (node) => connected.size === 0 || connected.has(node.id)) as PositionedNode[]
+    const placed = positioned.filter((node) => Number.isFinite(node.x))
+    let core: Set<string> | null = null
+    if (placed.length >= 10) {
+      const centre = ['x', 'y', 'z'].map((axis) => {
+        const key = axis as 'x' | 'y' | 'z'
+        return placed.reduce((sum, node) => sum + (node[key] ?? 0), 0) / placed.length
+      })
+      const withRadius = placed.map((node) => ({
+        id: node.id,
+        r: Math.hypot((node.x ?? 0) - centre[0], (node.y ?? 0) - centre[1],
+                      (node.z ?? 0) - centre[2]),
+      }))
+      const cutoff = [...withRadius].sort((a, b) => a.r - b.r)[
+        Math.floor(withRadius.length * 0.9)].r
+      core = new Set(withRadius.filter((node) => node.r <= cutoff).map((node) => node.id))
+    }
+    graph.current?.zoomToFit(900, FIT_PADDING, (node) => {
+      const id = String((node as { id?: string }).id ?? '')
+      if (core) return core.has(id)
+      return connected.size === 0 || connected.has(id)
+    })
     window.setTimeout(() => {
       const position = graph.current?.cameraPosition()
-      if (!position) return
-      const distance = Math.hypot(position.x, position.y, position.z)
-      if (Number.isFinite(distance) && distance > 0) setOrbit(distance)
+      const distance = position
+        ? Math.hypot(position.x, position.y, position.z)
+        : Number.NaN
+      if (Number.isFinite(distance) && distance > 0) setOrbit(distance * SPIN_MARGIN)
+      setFitting(false)
     }, 1100)
-  }, [connected])
+  }, [connected, data.nodes])
 
   // ⚠️ 不能只靠 onEngineStop：力場的 tick 跟著畫格跑，沒有 GPU 加速的機器
   // （或分頁在背景時）200 個 tick 要花一分鐘以上，那之前畫面都是沒對準的。
@@ -194,7 +244,7 @@ export default function ConceptGraph3D({ concepts, selected, minWeight, onSelect
         ref={graph as never}
         graphData={data}
         width={width}
-        height={560}
+        height={GRAPH_HEIGHT}
         backgroundColor={SURFACE}
         showNavInfo={false}
         nodeRelSize={5}
@@ -214,7 +264,7 @@ export default function ConceptGraph3D({ concepts, selected, minWeight, onSelect
           if (!show) return null as unknown as never
           const sprite = new SpriteText(item.id)
           sprite.color = item.id === focus ? HIGHLIGHT : LABEL_COLOR
-          sprite.textHeight = item.id === focus ? 9 : 6
+          sprite.textHeight = item.id === focus ? labelUnit * 1.35 : labelUnit
           // SpriteText 的型別宣告沒有帶到 Object3D 的 position，但執行期有
           ;(sprite as unknown as { position: { set: (x: number, y: number, z: number) => void } })
             .position.set(0, -(Math.cbrt(item.val) * 4 + 6), 0)
