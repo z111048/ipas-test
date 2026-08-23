@@ -1,8 +1,11 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import pdfGallery from '../generated/pdfGallery.json'
 import type { PdfImageAsset, PdfImageGallery } from '../types'
 import { publicAsset } from '../utils/assets'
+import { Dialog, FilterBar, PageHeader, StatePanel } from '../components/ui'
+
+const PAGE_SIZE = 24
 
 const keyLabels: Record<string, string> = {
   guide1: '科目一學習指引',
@@ -64,7 +67,10 @@ export default function ImageGalleryPage() {
   const [selectedKey, setSelectedKey] = useState(searchParams.get('key') ?? 'all')
   const [selectedType, setSelectedType] = useState('all')
   const [pageQuery, setPageQuery] = useState('')
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const [active, setActive] = useState<PdfImageAsset | null>(null)
+  const lightboxTriggerRef = useRef<HTMLButtonElement | null>(null)
+  const lightboxCloseRef = useRef<HTMLButtonElement | null>(null)
 
   useEffect(() => {
     setSelectedLevel(searchParams.get('level') ?? 'all')
@@ -98,6 +104,12 @@ export default function ImageGalleryPage() {
       return true
     }).sort(compareAssets)
   }, [gallery, pageQuery, selectedKey, selectedLevel, selectedType])
+
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE)
+  }, [pageQuery, selectedKey, selectedLevel, selectedType])
+
+  const visibleItems = filtered.slice(0, visibleCount)
 
   const counts = useMemo(() => {
     const items = gallery.items
@@ -149,66 +161,97 @@ export default function ImageGalleryPage() {
   }, [active, activeIndex, filtered])
 
   return (
-    <div>
-      <div className="text-2xl font-bold text-primary mb-1">PDF 圖片與表格檢視</div>
-      <div className="text-text-light mb-5">
-        檢視逐頁抽取時裁切出的圖片與表格，共 {counts.total} 項
+    <div className="page-shell">
+      <PageHeader
+        className="mb-5"
+        eyebrow="PDF assets"
+        title="PDF 圖片與表格檢視"
+        description="檢視逐頁抽取時裁切出的圖片、表格與頁面截圖。"
+        meta={<span className="pill">{counts.total} 項</span>}
+      />
+
+      <FilterBar
+        className="mb-5"
+        title="篩選圖片與表格"
+        result={`顯示 ${visibleItems.length} / ${filtered.length} 項`}
+        action={(selectedLevel !== 'all' || selectedKey !== 'all' || selectedType !== 'all' || pageQuery) && (
+          <button
+            type="button"
+            onClick={() => {
+              setSelectedKey('all')
+              setSelectedLevel('all')
+              setSelectedType('all')
+              setPageQuery('')
+            }}
+            className="btn-outline min-h-11"
+          >
+            清除篩選
+          </button>
+        )}
+      >
+        <label className="text-[0.82rem] text-text-light">
+          等級
+          <select
+            value={selectedLevel}
+            onChange={(event) => {
+              setSelectedLevel(event.target.value)
+              setSelectedKey('all')
+            }}
+            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
+          >
+            <option value="all">全部等級</option>
+            {levels.map((level) => (
+              <option key={level} value={level}>{level}</option>
+            ))}
+          </select>
+        </label>
+        <label className="text-[0.82rem] text-text-light">
+          PDF
+          <select
+            value={selectedKey}
+            onChange={(event) => setSelectedKey(event.target.value)}
+            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
+          >
+            <option value="all">全部 PDF</option>
+            {keys.map((key) => (
+              <option key={key} value={key}>{keyLabels[key] ?? key}</option>
+            ))}
+          </select>
+        </label>
+        <label className="text-[0.82rem] text-text-light">
+          類型
+          <select
+            value={selectedType}
+            onChange={(event) => setSelectedType(event.target.value)}
+            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
+          >
+            <option value="all">全部</option>
+            <option value="page">頁面截圖 ({filteredCounts.page})</option>
+            <option value="image">圖片 ({filteredCounts.image})</option>
+            <option value="table">表格 ({filteredCounts.table})</option>
+          </select>
+        </label>
+        <label className="text-[0.82rem] text-text-light">
+          頁碼 / PDF 標籤
+          <input
+            value={pageQuery}
+            onChange={(event) => setPageQuery(event.target.value)}
+            placeholder="例如 31 或 3-24"
+            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
+          />
+        </label>
+      </FilterBar>
+
+      <div className="text-[0.88rem] text-text-light mb-3">
+        顯示 {visibleItems.length} / {filtered.length} 項
       </div>
 
-      <div className="bg-card rounded-xl shadow-sm border border-border p-4 mb-5">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
-          <label className="text-[0.82rem] text-text-light">
-            等級
-            <select
-              value={selectedLevel}
-              onChange={(event) => {
-                setSelectedLevel(event.target.value)
-                setSelectedKey('all')
-              }}
-              className="mt-1 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
-            >
-              <option value="all">全部等級</option>
-              {levels.map((level) => (
-                <option key={level} value={level}>{level}</option>
-              ))}
-            </select>
-          </label>
-          <label className="text-[0.82rem] text-text-light">
-            PDF
-            <select
-              value={selectedKey}
-              onChange={(event) => setSelectedKey(event.target.value)}
-              className="mt-1 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
-            >
-              <option value="all">全部 PDF</option>
-              {keys.map((key) => (
-                <option key={key} value={key}>{keyLabels[key] ?? key}</option>
-              ))}
-            </select>
-          </label>
-          <label className="text-[0.82rem] text-text-light">
-            類型
-            <select
-              value={selectedType}
-              onChange={(event) => setSelectedType(event.target.value)}
-              className="mt-1 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
-            >
-              <option value="all">全部</option>
-              <option value="page">頁面截圖 ({filteredCounts.page})</option>
-              <option value="image">圖片 ({filteredCounts.image})</option>
-              <option value="table">表格 ({filteredCounts.table})</option>
-            </select>
-          </label>
-          <label className="text-[0.82rem] text-text-light">
-            頁碼 / PDF 標籤
-            <input
-              value={pageQuery}
-              onChange={(event) => setPageQuery(event.target.value)}
-              placeholder="例如 31 或 3-24"
-              className="mt-1 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
-            />
-          </label>
-          <div className="flex items-end">
+      {filtered.length === 0 && (
+        <StatePanel
+          tone="empty"
+          title="目前篩選沒有圖片或表格"
+          className="mb-5"
+          action={(
             <button
               type="button"
               onClick={() => {
@@ -217,31 +260,26 @@ export default function ImageGalleryPage() {
                 setSelectedType('all')
                 setPageQuery('')
               }}
-              className="w-full rounded-lg border border-accent px-3 py-2 text-accent hover:bg-accent hover:text-white transition-colors"
+              className="btn-outline min-h-11"
             >
               清除篩選
             </button>
-          </div>
-        </div>
-      </div>
-
-      <div className="text-[0.88rem] text-text-light mb-3">
-        顯示 {filtered.length} 項
-      </div>
-
-      {filtered.length === 0 && (
-        <div className="rounded-lg border border-border bg-card p-6 text-center text-text-light">
+          )}
+        >
           目前篩選沒有圖片或表格。請清除篩選，或改選其他學習指引、公告試題或官方參考資料。
-        </div>
+        </StatePanel>
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-        {filtered.map((item) => (
+        {visibleItems.map((item) => (
           <button
             key={item.id}
             type="button"
-            onClick={() => setActive(item)}
-            className="text-left bg-card rounded-xl shadow-sm border border-border overflow-hidden transition-all hover:-translate-y-0.5 hover:border-accent hover:shadow-md"
+            onClick={(event) => {
+              lightboxTriggerRef.current = event.currentTarget
+              setActive(item)
+            }}
+            className="min-h-11 text-left bg-card rounded-xl shadow-sm border border-border overflow-hidden transition-all hover:-translate-y-0.5 hover:border-accent hover:shadow-md"
           >
             <div className="h-52 bg-[#f5f7fa] flex items-center justify-center overflow-hidden">
               <AssetPreview item={item} />
@@ -261,15 +299,28 @@ export default function ImageGalleryPage() {
         ))}
       </div>
 
-      {active && (
-        <div
-          className="fixed inset-0 z-[80] bg-black/70 p-4 flex items-center justify-center"
-          onClick={() => setActive(null)}
-        >
-          <div
-            className="bg-card rounded-xl max-w-6xl max-h-[92vh] w-full overflow-hidden flex flex-col"
-            onClick={(event) => event.stopPropagation()}
+      {visibleItems.length < filtered.length && (
+        <div className="mt-6 flex justify-center">
+          <button
+            type="button"
+            className="btn-outline min-h-11 min-w-40"
+            onClick={() => setVisibleCount((count) => Math.min(count + PAGE_SIZE, filtered.length))}
           >
+            載入更多（尚有 {filtered.length - visibleItems.length} 項）
+          </button>
+        </div>
+      )}
+
+      <Dialog
+        open={Boolean(active)}
+        title="PDF 圖片與表格檢視"
+        onClose={() => setActive(null)}
+        initialFocusRef={lightboxCloseRef}
+        restoreFocusRef={lightboxTriggerRef}
+        className="flex h-[100dvh] flex-col rounded-none sm:h-auto sm:max-h-[92dvh] sm:max-w-6xl sm:rounded-xl"
+      >
+        {active && (
+          <>
             <div className="p-4 border-b border-border flex items-start justify-between gap-3">
               <div>
                 <div className="font-semibold text-primary">{active.level ? `${active.level} ` : ''}{keyLabels[active.key] ?? active.key}</div>
@@ -283,15 +334,16 @@ export default function ImageGalleryPage() {
                   {activeIndex >= 0 ? activeIndex + 1 : 0} / {filtered.length}
                 </span>
                 <button
+                  ref={lightboxCloseRef}
                   type="button"
                   onClick={() => setActive(null)}
-                  className="rounded-lg border border-border px-3 py-1 text-sm hover:border-accent"
+                  className="min-h-11 rounded-lg border border-border px-3 py-2 text-sm hover:border-accent"
                 >
                   關閉 (Esc)
                 </button>
               </div>
             </div>
-            <div className="p-4 overflow-auto bg-[#f5f7fa]">
+            <div className="min-h-0 flex-1 overflow-auto bg-[#f5f7fa] p-4">
               <img
                 src={publicAsset(active.path)}
                 alt={active.id}
@@ -303,7 +355,7 @@ export default function ImageGalleryPage() {
                 type="button"
                 onClick={() => goRelative(-1)}
                 disabled={activeIndex <= 0}
-                className="rounded-lg border border-border px-3 py-2 text-sm transition-colors enabled:hover:border-accent enabled:hover:text-accent disabled:opacity-40"
+                className="min-h-11 rounded-lg border border-border px-3 py-2 text-sm transition-colors enabled:hover:border-accent enabled:hover:text-accent disabled:opacity-40"
               >
                 ‹ 上一項
               </button>
@@ -311,14 +363,14 @@ export default function ImageGalleryPage() {
                 type="button"
                 onClick={() => goRelative(1)}
                 disabled={activeIndex === -1 || activeIndex >= filtered.length - 1}
-                className="rounded-lg border border-border px-3 py-2 text-sm transition-colors enabled:hover:border-accent enabled:hover:text-accent disabled:opacity-40"
+                className="min-h-11 rounded-lg border border-border px-3 py-2 text-sm transition-colors enabled:hover:border-accent enabled:hover:text-accent disabled:opacity-40"
               >
                 下一項 ›
               </button>
             </div>
-          </div>
-        </div>
-      )}
+          </>
+        )}
+      </Dialog>
     </div>
   )
 }

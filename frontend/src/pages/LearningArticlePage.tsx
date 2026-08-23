@@ -7,6 +7,9 @@ import rehypeKatex from 'rehype-katex'
 import { articleMeta, articleNeighbors, articlePaths, loadLearningArticle, learningArticleIndex } from '../data/articleLoaders'
 import type { GuideBlock, GuideFormula, LearningArticle } from '../types'
 import { useScrollProgress, ReadingProgressBar, BackToTopButton } from '../components/shared/ReadingProgress'
+import { PageHeader, StatePanel } from '../components/ui'
+import { ReadingContent, ReadingSurface } from '../components/reading'
+import { preferredScrollBehavior } from '../utils/motion'
 
 function articleHeadingDomId(blockId: string) {
   return `article-heading-${blockId}`
@@ -205,7 +208,7 @@ function ArticleBlocks({ blocks }: { blocks: GuideBlock[] }) {
 function scrollToSection(id: string) {
   const target = document.getElementById(articleHeadingDomId(id))
   if (!target) return
-  target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  target.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' })
 }
 
 function articleRoute(article: { route: string }, pathId?: string) {
@@ -262,19 +265,43 @@ export default function LearningArticlePage() {
   )
 
   if (!meta) {
-    return <div className="page-shell text-error p-4">找不到主題文章：{articleId}</div>
+    return (
+      <div className="page-shell">
+        <StatePanel tone="error" title="找不到主題文章">
+          {articleId}
+        </StatePanel>
+      </div>
+    )
   }
 
   if (loading) {
-    return <div className="page-shell text-text-light p-4">文章載入中...</div>
+    return (
+      <div className="page-shell">
+        <StatePanel tone="loading">
+          文章載入中...
+        </StatePanel>
+      </div>
+    )
   }
 
   if (loadError) {
-    return <div className="page-shell text-error p-4">文章載入失敗：{loadError}</div>
+    return (
+      <div className="page-shell">
+        <StatePanel tone="error" title="文章載入失敗">
+          {loadError}
+        </StatePanel>
+      </div>
+    )
   }
 
   if (!article) {
-    return <div className="page-shell text-error p-4">找不到文章內容：{articleId}</div>
+    return (
+      <div className="page-shell">
+        <StatePanel tone="empty" title="找不到文章內容">
+          {articleId}
+        </StatePanel>
+      </div>
+    )
   }
 
   const level = learningArticleIndex.levels[article.levelId]
@@ -288,10 +315,12 @@ export default function LearningArticlePage() {
         <ReadingProgressBar progress={readingProgress} />
       </div>
       <BackToTopButton show={showBackToTop} onClick={scrollToTop} className="bottom-8 right-4 md:right-8" />
-      <div className="page-header mb-5">
-        <div className="eyebrow mb-2">Learning article</div>
-        <div className="flex flex-col gap-3 xl:flex-row xl:items-end xl:justify-between">
-          <div>
+      <PageHeader
+        className="mb-5"
+        eyebrow="Learning article"
+        title={article.title}
+        description={
+          <>
             <div className="mb-2 flex flex-wrap items-center gap-2">
               <Link to="/articles" className="text-[0.82rem] font-semibold text-accent no-underline hover:underline">
                 主題式文章
@@ -313,49 +342,52 @@ export default function LearningArticlePage() {
                 </>
               )}
             </div>
-            <h1 className="text-2xl font-bold leading-tight text-primary mb-2">{article.title}</h1>
-            <p className="max-w-4xl text-[0.9rem] leading-7 text-text-light">
+            <p>
               {article.excerpt}
             </p>
-          </div>
-          <div className="flex shrink-0 flex-wrap gap-2">
+          </>
+        }
+        meta={
+          <>
             <span className="pill">{article.readingMinutes} 分鐘</span>
             <span className="pill pill-muted">{article.wordCount.toLocaleString()} 字</span>
             <span className="pill pill-muted">{sourceRange}</span>
             {selectedPath && (
               <span className="pill">路徑 {selectedPathPosition}/{selectedPath.articleCount}</span>
             )}
-          </div>
-        </div>
-      </div>
+          </>
+        }
+      />
 
       <div className="mb-5 grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_280px]">
-        <article className="surface p-5 sm:p-6">
-          <div className="mb-5 rounded-lg border border-[#dbeafe] bg-[#f8fbff] p-4">
-            <div className="section-title mb-3">本篇重點</div>
-            <div className="flex flex-wrap gap-2">
-              {article.subtopics.map((subtopic) => (
-                <span key={subtopic} className="pill">
-                  {subtopic}
-                </span>
-              ))}
-            </div>
-            {selectedPath && (
-              <div className="mt-4 rounded-md border border-[#cfe0f5] bg-white px-3 py-2 text-[0.82rem] leading-6 text-text-light">
-                目前位於「<span className="font-semibold text-primary">{selectedPath.title}</span>」第 {selectedPathPosition} / {selectedPath.articleCount} 篇。
+        <ReadingSurface className="min-w-0">
+          <ReadingContent className="text-[0.92rem] leading-8 sm:text-[0.96rem]">
+            <div className="mb-5 rounded-lg border border-[#dbeafe] bg-[#f8fbff] p-4">
+              <div className="section-title mb-3">本篇重點</div>
+              <div className="flex flex-wrap gap-2">
+                {article.subtopics.map((subtopic) => (
+                  <span key={subtopic} className="pill">
+                    {subtopic}
+                  </span>
+                ))}
               </div>
-            )}
-            <div className="mt-4 flex flex-wrap gap-2">
-              <Link to={article.guideRoute} className="btn-outline">
-                對照學習指引
-              </Link>
-              <Link to={article.practiceRoute} className="btn-muted">
-                章節練習
-              </Link>
+              {selectedPath && (
+                <div className="mt-4 rounded-md border border-[#cfe0f5] bg-white px-3 py-2 text-[0.82rem] leading-6 text-text-light">
+                  目前位於「<span className="font-semibold text-primary">{selectedPath.title}</span>」第 {selectedPathPosition} / {selectedPath.articleCount} 篇。
+                </div>
+              )}
+              <div className="mt-4 flex flex-wrap gap-2">
+                <Link to={article.guideRoute} className="btn-outline">
+                  對照學習指引
+                </Link>
+                <Link to={article.practiceRoute} className="btn-muted">
+                  章節練習
+                </Link>
+              </div>
             </div>
-          </div>
-          <ArticleBlocks blocks={article.blocks} />
-        </article>
+            <ArticleBlocks blocks={article.blocks} />
+          </ReadingContent>
+        </ReadingSurface>
 
         <aside className="lg:sticky lg:top-4 lg:self-start">
           <div className="surface p-4">

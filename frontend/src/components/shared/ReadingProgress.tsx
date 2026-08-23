@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { preferredScrollBehavior } from '../../utils/motion'
 
 type ScrollHost = HTMLElement | Window
 
@@ -49,7 +50,7 @@ export function useScrollProgress(resolveHost: () => ScrollHost | null | undefin
 
   const scrollToTop = () => {
     const host = resolveHost()
-    host?.scrollTo({ top: 0, behavior: 'smooth' })
+    host?.scrollTo({ top: 0, behavior: preferredScrollBehavior() })
   }
 
   return { progress, showBackToTop, scrollToTop }
@@ -81,7 +82,7 @@ export function BackToTopButton({
       onClick={onClick}
       aria-label="回到頂部"
       tabIndex={show ? 0 : -1}
-      className={`fixed z-30 flex h-11 w-11 items-center justify-center rounded-full border border-border bg-white text-lg text-primary shadow-md transition-all duration-200 hover:border-accent hover:text-accent ${
+      className={`touch-target fixed z-30 flex h-11 w-11 items-center justify-center rounded-full border border-border bg-white text-lg text-primary shadow-md transition-all duration-200 hover:border-accent hover:text-accent ${
         show ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-3 opacity-0'
       } ${className}`}
     >

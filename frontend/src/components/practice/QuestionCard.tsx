@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import type { Question } from '../../types'
 import OptionButton from './OptionButton'
 import CardPanel from './CardPanel'
@@ -17,6 +17,7 @@ type OptionState = 'idle' | 'correct' | 'wrong'
 export default function QuestionCard({ question, index, selected, onSelect, isActive, registerRef }: QuestionCardProps) {
   const [manualReveal, setManualReveal] = useState(false)
   const [cardOpen, setCardOpen] = useState(false)
+  const resultId = useId()
   const answered = selected !== null
   const revealed = answered || manualReveal
 
@@ -36,13 +37,15 @@ export default function QuestionCard({ question, index, selected, onSelect, isAc
     ? selected === question.answer
       ? `第 ${index + 1} 題答對了，正確答案為 (${question.answer})。`
       : `第 ${index + 1} 題答錯了，正確答案為 (${question.answer})，您選擇的是 (${selected})。`
-    : ''
+    : manualReveal
+      ? `第 ${index + 1} 題已顯示答案與解析，正確答案為 (${question.answer})。`
+      : ''
 
   return (
     <article
       ref={registerRef}
       data-q-index={index}
-      className={`surface p-5 mb-4 transition-shadow duration-150 ${
+      className={`surface mb-4 p-4 transition-shadow duration-150 sm:p-5 ${
         isActive ? 'ring-2 ring-accent/50' : ''
       }`}
     >
@@ -58,17 +61,19 @@ export default function QuestionCard({ question, index, selected, onSelect, isAc
             optKey={key}
             value={question.options[key]}
             state={getState(key)}
-            disabled={selected !== null}
+            locked={selected !== null}
+            selected={selected === key}
+            describedBy={resultMessage ? resultId : undefined}
             onClick={() => handleSelect(key)}
           />
         ))}
       </div>
 
-      <div aria-live="polite" className="sr-only">{resultMessage}</div>
+      <div id={resultId} aria-live="polite" className="sr-only">{resultMessage}</div>
 
       {!revealed && (
         <button
-          className="btn-outline mt-3 cursor-pointer"
+          className="btn-outline mt-3 min-h-[44px] cursor-pointer"
           onClick={() => setManualReveal(true)}
         >
           顯示答案與解析
@@ -86,7 +91,7 @@ export default function QuestionCard({ question, index, selected, onSelect, isAc
       {revealed && question.card && (
         <>
           <button
-            className="btn-outline mt-3 cursor-pointer"
+            className="btn-outline mt-3 min-h-[44px] cursor-pointer"
             onClick={() => setCardOpen((o) => !o)}
           >
             {cardOpen ? '收起解說圖卡' : '查看解說圖卡'}

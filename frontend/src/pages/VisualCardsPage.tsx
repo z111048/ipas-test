@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -11,6 +11,7 @@ import middleTocRaw from '@data-mid/toc_manifest.json'
 import { resourceSummary } from '../data/resourceRegistry'
 import type { GuideContent, GuideImageAsset, GuideImagesData, TocManifest } from '../types'
 import { publicAsset } from '../utils/assets'
+import { Dialog, FilterBar, PageHeader, StatePanel } from '../components/ui'
 
 const guideImages = guideImagesRaw as unknown as GuideImagesData
 const juniorToc = juniorTocRaw as unknown as TocManifest
@@ -228,6 +229,8 @@ export default function VisualCardsPage() {
   const [visibleGroups, setVisibleGroups] = useState(PAGE_STEP)
   const [active, setActive] = useState<GuideImageAsset | null>(null)
   const [section, setSection] = useState<SectionState>({ loading: false, markdown: '', isIntro: false })
+  const lightboxTriggerRef = useRef<HTMLButtonElement | null>(null)
+  const lightboxCloseRef = useRef<HTMLButtonElement | null>(null)
 
   useEffect(() => {
     setLevel(searchParams.get('level') ?? '初級')
@@ -265,16 +268,6 @@ export default function VisualCardsPage() {
       })
     return () => {
       cancelled = true
-    }
-  }, [active])
-
-  // Lock body scroll while the reader modal is open.
-  useEffect(() => {
-    if (!active) return
-    const previous = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.body.style.overflow = previous
     }
   }, [active])
 
@@ -362,113 +355,113 @@ export default function VisualCardsPage() {
 
   const shownGroups = groups.slice(0, visibleGroups)
   const hasMore = visibleGroups < groups.length
+  const hasFilters = level !== '初級' || subjectId !== 'all' || chapterId !== 'all' || keyword
+  const resetFilters = () => {
+    setLevel('初級')
+    setSubjectId('all')
+    setChapterId('all')
+    setKeyword('')
+  }
 
   return (
     <div className="page-shell">
-      <div className="page-header mb-5">
-        <div className="eyebrow mb-2">Concept cards</div>
-        <h1 className="text-[1.55rem] leading-tight font-bold text-primary mb-1">概念圖卡</h1>
-        <p className="text-[0.92rem] leading-7 text-text-light max-w-3xl">
-          把學習指引的每個重點整理成一張張圖卡，依章節編排、少量多餐。零碎時間滑幾張，就能把抽象概念
-          記得更牢；點開任一張可放大細看。
-        </p>
-        <div className="mt-3 flex flex-wrap gap-2">
-          <span className="pill">共 {total} 張圖卡</span>
-          {resourceSummary.visuals?.byLevel &&
-            Object.entries(resourceSummary.visuals.byLevel).map(([lv, count]) => (
-              <span key={lv} className="pill pill-muted">
-                {lv} {count} 張
-              </span>
-            ))}
-        </div>
-      </div>
+      <PageHeader
+        className="mb-5"
+        eyebrow="Concept cards"
+        title="概念圖卡"
+        description="把學習指引的重點整理成圖卡並依章節編排；點開任一張可放大細看並回到完整章節。"
+        meta={
+          <>
+            <span className="pill">共 {total} 張圖卡</span>
+            {resourceSummary.visuals?.byLevel &&
+              Object.entries(resourceSummary.visuals.byLevel).map(([lv, count]) => (
+                <span key={lv} className="pill pill-muted">
+                  {lv} {count} 張
+                </span>
+              ))}
+          </>
+        }
+      />
 
-      <div className="surface p-4 mb-5">
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
-          <label className="text-[0.82rem] text-text-light">
-            等級
-            <select
-              value={level}
-              onChange={(event) => {
-                setLevel(event.target.value)
-                setSubjectId('all')
-                setChapterId('all')
-              }}
-              className="mt-1 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
-            >
-              <option value="all">全部等級</option>
-              <option value="初級">初級</option>
-              <option value="中級">中級</option>
-            </select>
-          </label>
-          <label className="text-[0.82rem] text-text-light">
-            科目
-            <select
-              value={subjectId}
-              onChange={(event) => {
-                setSubjectId(event.target.value)
-                setChapterId('all')
-              }}
-              className="mt-1 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
-            >
-              <option value="all">全部科目</option>
-              {subjects.map((id) => (
-                <option key={id} value={id}>
-                  {subjectMeta[id].short}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="text-[0.82rem] text-text-light">
-            章節
-            <select
-              value={chapterId}
-              onChange={(event) => setChapterId(event.target.value)}
-              className="mt-1 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
-            >
-              <option value="all">全部章節</option>
-              {chapters.map((id) => (
-                <option key={id} value={id}>
-                  {chapterMeta[id].title}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="text-[0.82rem] text-text-light">
-            關鍵字
-            <input
-              value={keyword}
-              onChange={(event) => setKeyword(event.target.value)}
-              placeholder="搜尋圖卡標題"
-              className="mt-1 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
-            />
-          </label>
-        </div>
-        <div className="mt-3 flex items-center justify-between gap-3">
-          <div className="text-[0.85rem] text-text-light">
-            篩選出 {matchedCount} 張圖卡，分布於 {groups.length} 個章節
-          </div>
-          {(level !== '初級' || subjectId !== 'all' || chapterId !== 'all' || keyword) && (
-            <button
-              type="button"
-              onClick={() => {
-                setLevel('初級')
-                setSubjectId('all')
-                setChapterId('all')
-                setKeyword('')
-              }}
-              className="rounded-lg border border-accent px-3 py-1.5 text-[0.82rem] text-accent transition-colors hover:bg-accent hover:text-white"
-            >
-              重設篩選
-            </button>
-          )}
-        </div>
-      </div>
+      <FilterBar
+        className="mb-5"
+        title="篩選圖卡"
+        result={`篩選出 ${matchedCount} 張圖卡，分布於 ${groups.length} 個章節`}
+        action={hasFilters && (
+          <button type="button" onClick={resetFilters} className="btn-outline min-h-11">
+            重設篩選
+          </button>
+        )}
+      >
+        <label className="text-[0.82rem] text-text-light">
+          等級
+          <select
+            value={level}
+            onChange={(event) => {
+              setLevel(event.target.value)
+              setSubjectId('all')
+              setChapterId('all')
+            }}
+            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
+          >
+            <option value="all">全部等級</option>
+            <option value="初級">初級</option>
+            <option value="中級">中級</option>
+          </select>
+        </label>
+        <label className="text-[0.82rem] text-text-light">
+          科目
+          <select
+            value={subjectId}
+            onChange={(event) => {
+              setSubjectId(event.target.value)
+              setChapterId('all')
+            }}
+            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
+          >
+            <option value="all">全部科目</option>
+            {subjects.map((id) => (
+              <option key={id} value={id}>
+                {subjectMeta[id].short}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="text-[0.82rem] text-text-light">
+          章節
+          <select
+            value={chapterId}
+            onChange={(event) => setChapterId(event.target.value)}
+            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
+          >
+            <option value="all">全部章節</option>
+            {chapters.map((id) => (
+              <option key={id} value={id}>
+                {chapterMeta[id].title}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="text-[0.82rem] text-text-light">
+          關鍵字
+          <input
+            value={keyword}
+            onChange={(event) => setKeyword(event.target.value)}
+            placeholder="搜尋圖卡標題"
+            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
+          />
+        </label>
+      </FilterBar>
 
       {groups.length === 0 && (
-        <div className="rounded-lg border border-border bg-card p-6 text-center text-text-light">
+        <StatePanel
+          tone="empty"
+          title="目前篩選沒有圖卡"
+          className="mb-5"
+          action={<button type="button" onClick={resetFilters} className="btn-outline min-h-11">重設篩選</button>}
+        >
           目前篩選沒有圖卡，請放寬條件或重設篩選。
-        </div>
+        </StatePanel>
       )}
 
       <div className="space-y-8">
@@ -485,7 +478,14 @@ export default function VisualCardsPage() {
             </div>
             <div className="grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 sm:justify-items-stretch xl:grid-cols-3">
               {group.images.map((image) => (
-                <VisualCard key={image.id} image={image} onOpen={() => setActive(image)} />
+                <VisualCard
+                  key={image.id}
+                  image={image}
+                  onOpen={(trigger) => {
+                    lightboxTriggerRef.current = trigger
+                    setActive(image)
+                  }}
+                />
               ))}
             </div>
           </section>
@@ -504,15 +504,16 @@ export default function VisualCardsPage() {
         </div>
       )}
 
-      {active && (
-        <div
-          className="fixed inset-0 z-[120] flex items-stretch justify-center bg-black/70 sm:items-center sm:p-4"
-          onClick={() => setActive(null)}
-        >
-          <div
-            className="flex h-full max-h-full w-full flex-col overflow-hidden rounded-none bg-card sm:h-auto sm:max-h-[92vh] sm:max-w-4xl sm:rounded-xl"
-            onClick={(event) => event.stopPropagation()}
-          >
+      <Dialog
+        open={Boolean(active)}
+        title="概念圖卡"
+        onClose={() => setActive(null)}
+        initialFocusRef={lightboxCloseRef}
+        restoreFocusRef={lightboxTriggerRef}
+        className="flex h-[100dvh] max-h-[100dvh] flex-col rounded-none sm:h-auto sm:max-h-[92dvh] sm:max-w-4xl sm:rounded-xl"
+      >
+        {active && (
+          <>
             <div className="flex items-start justify-between gap-3 border-b border-border p-3 sm:p-4">
               <div className="min-w-0">
                 <div className="break-words text-[0.95rem] font-semibold leading-snug text-primary">{active.title}</div>
@@ -525,10 +526,11 @@ export default function VisualCardsPage() {
                 )}
               </div>
               <button
+                ref={lightboxCloseRef}
                 type="button"
                 onClick={() => setActive(null)}
                 aria-label="關閉"
-                className="shrink-0 rounded-lg border border-border px-3 py-1.5 text-sm hover:border-accent"
+                className="min-h-11 shrink-0 rounded-lg border border-border px-3 py-2 text-sm hover:border-accent"
               >
                 關閉 ✕
               </button>
@@ -585,7 +587,7 @@ export default function VisualCardsPage() {
                 type="button"
                 onClick={() => goRelative(-1)}
                 disabled={activeIndex <= 0}
-                className="rounded-lg border border-border px-3 py-2 text-sm transition-colors enabled:hover:border-accent enabled:hover:text-accent disabled:opacity-40"
+                className="min-h-11 rounded-lg border border-border px-3 py-2 text-sm transition-colors enabled:hover:border-accent enabled:hover:text-accent disabled:opacity-40"
               >
                 ‹ 上一張
               </button>
@@ -596,26 +598,26 @@ export default function VisualCardsPage() {
                 type="button"
                 onClick={() => goRelative(1)}
                 disabled={activeIndex === -1 || activeIndex >= flatImages.length - 1}
-                className="rounded-lg border border-border px-3 py-2 text-sm transition-colors enabled:hover:border-accent enabled:hover:text-accent disabled:opacity-40"
+                className="min-h-11 rounded-lg border border-border px-3 py-2 text-sm transition-colors enabled:hover:border-accent enabled:hover:text-accent disabled:opacity-40"
               >
                 下一張 ›
               </button>
             </div>
-          </div>
-        </div>
-      )}
+          </>
+        )}
+      </Dialog>
     </div>
   )
 }
 
-function VisualCard({ image, onOpen }: { image: GuideImageAsset; onOpen: () => void }) {
+function VisualCard({ image, onOpen }: { image: GuideImageAsset; onOpen: (trigger: HTMLButtonElement) => void }) {
   const [failed, setFailed] = useState(false)
   const trail = headingTrail(image)
   return (
     <button
       type="button"
-      onClick={onOpen}
-      className="group flex w-full max-w-sm flex-col overflow-hidden rounded-xl border border-border bg-card text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent hover:shadow-md sm:max-w-none"
+      onClick={(event) => onOpen(event.currentTarget)}
+      className="group flex min-h-11 w-full max-w-sm flex-col overflow-hidden rounded-xl border border-border bg-card text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent hover:shadow-md sm:max-w-none"
     >
       <div className="flex h-48 items-center justify-center overflow-hidden bg-[#f5f7fa] p-2">
         {failed ? (

@@ -1,6 +1,7 @@
 import { Link, useSearchParams } from 'react-router-dom'
 import { articleList, articlesForPath, learningArticleIndex, learningPath, learningPathList } from '../data/articleLoaders'
 import type { LearningArticleLevelId, LearningArticleMeta, LearningPath } from '../types'
+import { FilterBar, PageHeader, SegmentedControl, StatePanel } from '../components/ui'
 
 const LEVEL_ORDER: LearningArticleLevelId[] = ['junior', 'middle']
 
@@ -133,21 +134,18 @@ export default function LearningArticlesPage() {
 
   return (
     <div className="page-shell">
-      <div className="page-header mb-5">
-        <div className="eyebrow mb-2">Learning articles</div>
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-primary mb-1">主題式文章</h1>
-            <p className="max-w-4xl text-[0.9rem] leading-7 text-text-light">
-              將初級與中級學習指引整理為可獨立閱讀的主題文章，並以跨章學習路徑串起基礎、資料、模型、生成式 AI、落地與治理。
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-2">
+      <PageHeader
+        className="mb-5"
+        eyebrow="Learning articles"
+        title="主題式文章"
+        description="將初級與中級學習指引整理為可獨立閱讀的主題文章，並以跨章學習路徑串起基礎、資料、模型、生成式 AI、落地與治理。"
+        meta={
+          <>
             <span className="pill">{learningArticleIndex.articleCount} 篇文章</span>
             <span className="pill pill-muted">{learningArticleIndex.pathCount} 條路徑</span>
-          </div>
-        </div>
-      </div>
+          </>
+        }
+      />
 
       <div className="mb-5">
         <div className="mb-3 flex items-center justify-between gap-3">
@@ -165,59 +163,64 @@ export default function LearningArticlesPage() {
         </div>
       </div>
 
-      <div className="surface p-4 mb-5">
-        <div className="section-title mb-3">篩選學習路徑</div>
-        <div className="mb-3 flex flex-wrap gap-2">
-          <Link
-            to={pageLink({ subjectId: selectedSubject, pathId: selectedPathId })}
-            className={`btn-outline ${!selectedLevel ? 'border-accent bg-accent text-white' : 'border-border text-text-light hover:border-accent hover:text-accent'}`}
-          >
-            全部級別
+      <FilterBar
+        className="mb-5"
+        title="篩選文章"
+        result={`顯示 ${articles.length} 篇`}
+        action={(selectedLevel || selectedSubject || selectedPath) && (
+          <Link to="/articles" className="btn-outline min-h-11">
+            清除篩選
           </Link>
-          {LEVEL_ORDER.map((levelId) => (
-            <Link
-              key={levelId}
-              to={pageLink({ levelId, pathId: selectedPathId })}
-              className={`btn-outline ${selectedLevel === levelId ? 'border-accent bg-accent text-white' : 'border-border text-text-light hover:border-accent hover:text-accent'}`}
-            >
-              {levelLabel(levelId)}
-            </Link>
-          ))}
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Link
-            to={pageLink({ levelId: selectedLevel, pathId: selectedPathId })}
-            className={`btn-muted ${!selectedSubject ? 'border-accent bg-accent text-white' : 'text-text-light hover:border-accent hover:text-accent'}`}
-          >
-            全部科目
-          </Link>
-          {visibleSubjects.map((subject) => (
-            <Link
-              key={`${subject.levelId}:${subject.id}`}
-              to={pageLink({ levelId: subject.levelId, subjectId: subject.id, pathId: selectedPathId })}
-              className={`btn-muted ${
-                selectedSubject === subject.id
-                  ? 'border-accent bg-accent text-white'
-                  : 'text-text-light hover:border-accent hover:text-accent'
-              }`}
-              title={subject.title}
-            >
-              {subject.levelLabel} {subject.shortTitle}
-            </Link>
-          ))}
-        </div>
-      </div>
+        )}
+      >
+        <SegmentedControl
+          label="級別"
+          value={selectedLevel ?? 'all'}
+          options={[
+            { value: 'all', label: '全部級別', to: pageLink({ subjectId: selectedSubject, pathId: selectedPathId }) },
+            ...LEVEL_ORDER.map((levelId) => ({
+              value: levelId,
+              label: levelLabel(levelId),
+              to: pageLink({ levelId, pathId: selectedPathId }),
+            })),
+          ]}
+        />
+        <SegmentedControl
+          label="科目"
+          value={selectedSubject ?? 'all'}
+          className="xl:col-span-3"
+          options={[
+            { value: 'all', label: '全部科目', to: pageLink({ levelId: selectedLevel, pathId: selectedPathId }) },
+            ...visibleSubjects.map((subject) => ({
+              value: subject.id,
+              label: `${subject.levelLabel} ${subject.shortTitle}`,
+              to: pageLink({ levelId: subject.levelId, subjectId: subject.id, pathId: selectedPathId }),
+              title: subject.title,
+            })),
+          ]}
+        />
+      </FilterBar>
 
       <div className="mb-3 flex items-center justify-between gap-3">
         <h2 className="section-title">{selectedPath ? selectedPath.title : '文章列表'}</h2>
         <span className="text-[0.8rem] text-text-light">顯示 {articles.length} 篇</span>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        {articles.map((article) => (
-          <ArticleCard key={article.id} article={article} activePathId={selectedPathId} />
-        ))}
-      </div>
+      {articles.length > 0 ? (
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          {articles.map((article) => (
+            <ArticleCard key={article.id} article={article} activePathId={selectedPathId} />
+          ))}
+        </div>
+      ) : (
+        <StatePanel
+          tone="empty"
+          title="沒有符合條件的文章"
+          action={<Link to="/articles" className="btn-outline min-h-11">清除篩選</Link>}
+        >
+          請放寬級別或科目條件，或改看全部文章。
+        </StatePanel>
+      )}
     </div>
   )
 }

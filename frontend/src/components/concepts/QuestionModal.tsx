@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Dialog } from '../ui'
 import { loadExamData } from '../../data/examLoaders'
 import { loadSubjectQuestions } from '../../data/questionLoaders'
 import { referenceLoaders, referenceForQuestion } from '../../data/referenceAnswerLoaders'
@@ -51,6 +52,8 @@ export default function QuestionModal({ item, onClose }: { item: QuestionRef; on
   const [reference, setReference] = useState<ExamReferenceAnswer | undefined>()
   const [revealed, setRevealed] = useState(false)
   const [picked, setPicked] = useState<string | null>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const descriptionId = useId()
 
   useEffect(() => {
     let active = true
@@ -68,41 +71,27 @@ export default function QuestionModal({ item, onClose }: { item: QuestionRef; on
     }
   }, [item])
 
-  useEffect(() => {
-    const handler = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose()
-    }
-    window.addEventListener('keydown', handler)
-    document.body.style.overflow = 'hidden'
-    return () => {
-      window.removeEventListener('keydown', handler)
-      document.body.style.overflow = ''
-    }
-  }, [onClose])
-
   const answer = question?.answer
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/45 p-0 sm:items-center sm:p-6"
-      onClick={onClose}
-      role="presentation"
+    <Dialog
+      open
+      title="題目內容"
+      descriptionId={descriptionId}
+      onClose={onClose}
+      initialFocusRef={closeButtonRef}
+      className="max-h-[88dvh] max-w-3xl p-5 sm:rounded-2xl"
     >
-      <div
-        className="max-h-[88vh] w-full max-w-3xl overflow-y-auto rounded-t-2xl bg-card p-5 shadow-2xl sm:rounded-2xl"
-        onClick={(event) => event.stopPropagation()}
-        role="dialog"
-        aria-modal="true"
-        aria-label="題目內容"
-      >
+      <div>
         <div className="mb-3 flex items-start justify-between gap-3">
-          <div className="text-[0.78rem] text-text-light">
+          <div id={descriptionId} className="text-[0.78rem] text-text-light">
             {item.level} · {item.source}
           </div>
           <button
+            ref={closeButtonRef}
             type="button"
             onClick={onClose}
-            className="rounded-md border border-border px-2 py-1 text-[0.78rem] text-text-light hover:border-accent hover:text-accent cursor-pointer"
+            className="min-h-[44px] rounded-md border border-border px-3 py-2 text-[0.78rem] text-text-light hover:border-accent hover:text-accent cursor-pointer"
           >
             關閉 Esc
           </button>
@@ -140,7 +129,7 @@ export default function QuestionModal({ item, onClose }: { item: QuestionRef; on
                     type="button"
                     disabled={show}
                     onClick={() => setPicked(key)}
-                    className={`rounded-lg border px-3 py-2 text-left text-[0.9rem] leading-7 ${tone} ${
+                    className={`min-h-[44px] rounded-lg border px-3 py-2 text-left text-[0.9rem] leading-7 ${tone} ${
                       show ? '' : 'cursor-pointer'
                     }`}
                   >
@@ -155,7 +144,7 @@ export default function QuestionModal({ item, onClose }: { item: QuestionRef; on
               <button
                 type="button"
                 onClick={() => setRevealed(true)}
-                className="mt-3 rounded-lg border border-border px-3 py-1.5 text-[0.82rem] text-text-light hover:border-accent hover:text-accent cursor-pointer"
+                className="mt-3 min-h-[44px] rounded-lg border border-border px-3 py-2 text-[0.82rem] text-text-light hover:border-accent hover:text-accent cursor-pointer"
               >
                 直接看答案
               </button>
@@ -187,6 +176,6 @@ export default function QuestionModal({ item, onClose }: { item: QuestionRef; on
           </>
         )}
       </div>
-    </div>
+    </Dialog>
   )
 }

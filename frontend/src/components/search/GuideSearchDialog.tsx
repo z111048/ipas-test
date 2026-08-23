@@ -1,17 +1,25 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { type RefObject, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Dialog } from '../ui'
 import { loadGuideSearchIndex, searchGuides, type GuideSearchHit } from '../../data/guideSearch'
 import type { GuideSearchIndexData } from '../../types'
 
 const KIND_LABEL: Record<string, string> = { c: '章', s: '節', h: '標題' }
 
-export default function GuideSearchDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
+interface GuideSearchDialogProps {
+  open: boolean
+  onClose: () => void
+  restoreFocusRef?: RefObject<HTMLElement | null>
+}
+
+export default function GuideSearchDialog({ open, onClose, restoreFocusRef }: GuideSearchDialogProps) {
   const [index, setIndex] = useState<GuideSearchIndexData | null>(null)
   const [loading, setLoading] = useState(false)
   const [query, setQuery] = useState('')
   const [activeIndex, setActiveIndex] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
   const listRef = useRef<HTMLUListElement>(null)
+  const descriptionId = 'guide-search-description'
   const navigate = useNavigate()
 
   // 索引 204 KB，開啟時才載入
@@ -22,14 +30,6 @@ export default function GuideSearchDialog({ open, onClose }: { open: boolean; on
       .then(setIndex)
       .finally(() => setLoading(false))
   }, [open, index])
-
-  useEffect(() => {
-    if (open) inputRef.current?.focus()
-    else {
-      setQuery('')
-      setActiveIndex(0)
-    }
-  }, [open])
 
   const hits = useMemo(
     () => (index && query.trim() ? searchGuides(index, query) : []),
@@ -42,8 +42,6 @@ export default function GuideSearchDialog({ open, onClose }: { open: boolean; on
     listRef.current?.querySelector('[data-active="true"]')?.scrollIntoView({ block: 'nearest' })
   }, [activeIndex, hits])
 
-  if (!open) return null
-
   const go = (hit: GuideSearchHit) => {
     if (!hit.to) return
     navigate(hit.to)
@@ -51,10 +49,6 @@ export default function GuideSearchDialog({ open, onClose }: { open: boolean; on
   }
 
   const onKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Escape') {
-      onClose()
-      return
-    }
     if (event.key === 'ArrowDown') {
       event.preventDefault()
       setActiveIndex((current) => Math.min(current + 1, hits.length - 1))
@@ -68,18 +62,17 @@ export default function GuideSearchDialog({ open, onClose }: { open: boolean; on
   }
 
   return (
-    <div
-      className="fixed inset-0 z-200 flex items-start justify-center bg-slate-950/45 px-4 pt-[8vh]"
-      onClick={onClose}
-      role="presentation"
+    <Dialog
+      open={open}
+      title="搜尋學習指引"
+      descriptionId={descriptionId}
+      onClose={onClose}
+      initialFocusRef={inputRef}
+      restoreFocusRef={restoreFocusRef}
+      mobilePosition="top"
+      className="max-h-[calc(100dvh-1rem)] rounded-2xl border border-border bg-white shadow-2xl sm:max-w-2xl"
     >
-      <div
-        className="w-full max-w-2xl overflow-hidden rounded-xl border border-border bg-white shadow-2xl"
-        onClick={(event) => event.stopPropagation()}
-        role="dialog"
-        aria-modal="true"
-        aria-label="搜尋學習指引"
-      >
+      <div>
         <div className="flex items-center gap-2 border-b border-border px-4 py-3">
           <span aria-hidden="true" className="text-text-light">🔍</span>
           <input
@@ -94,13 +87,13 @@ export default function GuideSearchDialog({ open, onClose }: { open: boolean; on
           <kbd className="hidden rounded border border-border px-1.5 py-0.5 text-[0.68rem] text-text-light sm:inline">Esc</kbd>
         </div>
 
-        <div className="max-h-[60vh] overflow-y-auto">
+        <div className="max-h-[calc(100dvh-5.5rem)] overflow-y-auto overscroll-contain">
           {loading && <p className="px-4 py-6 text-[0.85rem] text-text-light">載入索引中…</p>}
           {!loading && query.trim() && hits.length === 0 && (
             <p className="px-4 py-6 text-[0.85rem] text-text-light">找不到「{query}」</p>
           )}
           {!loading && !query.trim() && (
-            <p className="px-4 py-6 text-[0.85rem] text-text-light">
+            <p id={descriptionId} className="px-4 py-6 text-[0.85rem] text-text-light">
               可搜尋全部 5 份學習指引的章、節與內文標題。↑↓ 選擇，Enter 前往。
             </p>
           )}
@@ -116,7 +109,7 @@ export default function GuideSearchDialog({ open, onClose }: { open: boolean; on
                     disabled={!hit.to}
                     onMouseEnter={() => setActiveIndex(position)}
                     onClick={() => go(hit)}
-                    className={`block w-full px-4 py-2 text-left transition-colors ${
+                    className={`block min-h-[44px] w-full px-4 py-2 text-left transition-colors ${
                       isActive ? 'bg-[#f0f7ff]' : ''
                     } ${hit.to ? 'cursor-pointer' : 'cursor-default opacity-60'}`}
                   >
@@ -139,6 +132,6 @@ export default function GuideSearchDialog({ open, onClose }: { open: boolean; on
           </ul>
         </div>
       </div>
-    </div>
+    </Dialog>
   )
 }

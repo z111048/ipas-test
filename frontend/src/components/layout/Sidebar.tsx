@@ -1,20 +1,23 @@
-import { memo, useEffect, useMemo, useRef, useState } from 'react'
+import { memo, useEffect, useMemo, useRef, useState, type RefObject } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { galleryRoute, resourceLevels, type ResourceNavItem, type SubjectResource } from '../../data/resourceRegistry'
 import { guideNav } from '../../data/guideNav'
+import { useFocusTrap } from '../../hooks/useFocusTrap'
 
 const STORAGE_KEY = 'ipas-sidebar-expanded-v4'
 
 interface SidebarProps {
+  id: string
   isOpen: boolean
   onClose: () => void
+  restoreFocusRef?: RefObject<HTMLElement | null>
 }
 
 function navItemClass(isActive: boolean, disabled = false) {
   if (disabled) {
-    return 'block py-1.5 px-5 text-[0.83rem] border-l-[3px] border-l-transparent text-white/35 cursor-not-allowed'
+    return 'flex min-h-[44px] items-center px-5 py-2 text-[0.83rem] border-l-[3px] border-l-transparent text-white/35 cursor-not-allowed md:min-h-[40px]'
   }
-  return `block py-1.5 px-5 cursor-pointer text-[0.83rem] border-l-[3px] transition-all duration-150 no-underline ${
+  return `flex min-h-[44px] items-center px-5 py-2 cursor-pointer text-[0.83rem] border-l-[3px] transition-all duration-150 no-underline md:min-h-[40px] ${
     isActive
       ? 'bg-white/12 border-l-accent text-white font-semibold'
       : 'border-l-transparent text-white/72 hover:bg-white/8 hover:text-white'
@@ -90,7 +93,7 @@ function GuideNavNodes({
             <NavLink
               to={node.route}
               className={({ isActive }) =>
-                `block py-1 pr-3 text-[0.78rem] leading-5 border-l-[3px] transition-all duration-150 no-underline ${
+                `flex min-h-[44px] items-center py-2 pr-3 text-[0.78rem] leading-5 border-l-[3px] transition-all duration-150 no-underline md:min-h-[40px] ${
                   isActive
                     ? 'bg-white/12 border-l-accent text-white font-semibold'
                     : 'border-l-transparent text-white/62 hover:bg-white/8 hover:text-white'
@@ -152,7 +155,7 @@ function SubjectBlock({
             {navGuide && navGuide.rootIds.length > 0 && (
               <button
                 type="button"
-                className="px-2.5 text-white/45 hover:text-white text-[0.7rem]"
+                className="min-h-[44px] px-3 text-white/45 hover:text-white text-[0.7rem] md:min-h-[40px]"
                 onClick={onToggleGuide}
                 aria-expanded={guideOpen}
                 aria-label={guideOpen ? '收合章節' : '展開章節'}
@@ -218,7 +221,7 @@ function CollapsibleSection({
     <div className="mt-1">
       <button
         type="button"
-        className="w-full px-4 pt-1.5 pb-0.5 text-left text-[0.67rem] uppercase tracking-widest text-white/42 font-semibold hover:text-white/65 flex items-center gap-1"
+        className="flex min-h-[44px] w-full items-center gap-1 px-4 py-2 text-left text-[0.67rem] uppercase tracking-widest text-white/42 font-semibold hover:text-white/65 md:min-h-[40px]"
         onClick={() => onToggle(id)}
         aria-expanded={open}
       >
@@ -239,10 +242,42 @@ function loadExpandedState() {
   }
 }
 
-function Sidebar({ isOpen, onClose }: SidebarProps) {
+function useIsMobileSidebar() {
+  const [isMobile, setIsMobile] = useState(() => (
+    typeof window !== 'undefined'
+      ? window.matchMedia('(max-width: 767px)').matches
+      : false
+  ))
+
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 767px)')
+    const update = () => setIsMobile(query.matches)
+    update()
+    query.addEventListener('change', update)
+    return () => query.removeEventListener('change', update)
+  }, [])
+
+  return isMobile
+}
+
+function Sidebar({ id, isOpen, onClose, restoreFocusRef }: SidebarProps) {
   const [expanded, setExpanded] = useState<Record<string, boolean>>(() => loadExpandedState())
   const location = useLocation()
   const navRef = useRef<HTMLDivElement>(null)
+  const asideRef = useRef<HTMLElement>(null)
+  const firstLinkRef = useRef<HTMLAnchorElement>(null)
+  const isMobile = useIsMobileSidebar()
+  const modalActive = isOpen && isMobile
+  const hiddenMobileDrawer = isMobile && !isOpen
+
+  useFocusTrap({
+    active: modalActive,
+    containerRef: asideRef,
+    initialFocusRef: firstLinkRef,
+    restoreFocusRef,
+    onDismiss: onClose,
+    lockBodyScroll: true,
+  })
 
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(expanded))
@@ -303,8 +338,16 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   return (
     <aside
+      id={id}
+      ref={asideRef}
+      role={modalActive ? 'dialog' : 'navigation'}
+      aria-modal={modalActive ? 'true' : undefined}
+      aria-hidden={hiddenMobileDrawer ? 'true' : undefined}
+      aria-label="主選單"
+      inert={hiddenMobileDrawer ? true : undefined}
+      tabIndex={-1}
       className={`
-        fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-[272px] bg-[#132b43] text-white
+        sidebar-drawer fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-[272px] bg-[#132b43] text-white
         flex-shrink-0 z-50 transition-transform duration-300
         md:sticky md:top-0 md:left-auto md:h-full md:translate-x-0 md:z-auto
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
@@ -314,6 +357,7 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
         {/* 首頁 */}
         <div className="pt-2 pb-1">
           <NavLink
+            ref={firstLinkRef}
             to="/"
             end
             className={({ isActive }) => navItemClass(isActive)}
@@ -379,7 +423,7 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
               {/* Level toggle */}
               <button
                 type="button"
-                className="mx-3 w-[calc(100%-1.5rem)] rounded-md border border-white/10 bg-white/10 px-3 py-2 text-left text-[0.86rem] font-semibold text-white hover:bg-white/14 flex items-center gap-1.5"
+                className="mx-3 flex min-h-[44px] w-[calc(100%-1.5rem)] items-center gap-1.5 rounded-md border border-white/10 bg-white/10 px-3 py-2 text-left text-[0.86rem] font-semibold text-white hover:bg-white/14 md:min-h-[40px]"
                 onClick={() => toggle(levelId)}
                 aria-expanded={isLevelOpen}
               >

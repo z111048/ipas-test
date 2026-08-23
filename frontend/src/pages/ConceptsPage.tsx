@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { FilterBar, PageHeader, SegmentedControl, StatePanel } from '../components/ui'
 
 // three.js 約 1MB：只有切到立體圖才載
 const ConceptGraph3D = lazy(() => import('../components/concepts/ConceptGraph3D'))
@@ -54,6 +55,7 @@ interface ConceptGraph {
 export default function ConceptsPage() {
   // 784KB：靜態 import 會把它壓進首頁 bundle，改成進頁面才載
   const [graph, setGraph] = useState<ConceptGraph | null>(null)
+  const [loadError, setLoadError] = useState<string | null>(null)
   const [searchParams, setSearchParams] = useSearchParams()
   const [query, setQuery] = useState('')
   const [parent, setParent] = useState('all')
@@ -62,9 +64,18 @@ export default function ConceptsPage() {
   const [strongOnly, setStrongOnly] = useState(false)
 
   useEffect(() => {
-    import('../generated/conceptGraph.json').then((module) => {
-      setGraph(module.default as unknown as ConceptGraph)
-    })
+    let active = true
+    setLoadError(null)
+    import('../generated/conceptGraph.json')
+      .then((module) => {
+        if (active) setGraph(module.default as unknown as ConceptGraph)
+      })
+      .catch((error) => {
+        if (active) setLoadError(error instanceof Error ? error.message : String(error))
+      })
+    return () => {
+      active = false
+    }
   }, [])
 
   const selectedName = searchParams.get('c') ?? ''
@@ -93,69 +104,107 @@ export default function ConceptsPage() {
     setSearchParams(next)
   }
 
+  if (loadError) {
+    return (
+      <div className="page-shell">
+        <StatePanel tone="error" title="概念索引載入失敗">
+          {loadError}
+        </StatePanel>
+      </div>
+    )
+  }
+
   if (!graph) {
-    return <p className="text-sm text-text-light">載入中…</p>
+    return (
+      <div className="page-shell">
+        <StatePanel tone="loading">
+          載入概念索引中…
+        </StatePanel>
+      </div>
+    )
   }
 
   return (
-    <div>
-      <div className="text-[0.78rem] font-semibold text-accent mb-1">概念索引</div>
-      <div className="text-2xl font-bold text-primary mb-1">概念、定義與考過的題目</div>
-      <div className="text-text-light mb-5">
-        {graph.conceptCount} 個概念，串起名詞定義、學習指引章節、
-        {graph.questionCount.official} 題歷屆試題與 {graph.questionCount.practice} 題練習。
-        點任一概念看它考在哪裡、和哪些概念一起出現。
-      </div>
+    <div className="page-shell">
+      <PageHeader
+        className="mb-5"
+        eyebrow="概念索引"
+        title="概念、定義與考過的題目"
+        description={
+          <>
+            {graph.conceptCount} 個概念，串起名詞定義、學習指引章節、
+            {graph.questionCount.official} 題歷屆試題與 {graph.questionCount.practice} 題練習。
+            點任一概念看它考在哪裡、和哪些概念一起出現。
+          </>
+        }
+        meta={
+          <>
+            <span className="pill">{listed.length} 個符合條件</span>
+            <span className="pill pill-muted">{graph.edgeCount} 條關聯</span>
+          </>
+        }
+      />
 
-      <div className="bg-card rounded-xl shadow-sm border border-border p-5 mb-4">
-        <div className="flex flex-col lg:flex-row lg:items-center gap-3">
+      <FilterBar
+        className="mb-4"
+        title="概念篩選"
+        result={`${listed.length} / ${concepts.length} 個概念`}
+      >
+        <label className="block">
+          <span className="mb-1.5 block text-[0.78rem] font-semibold text-text-light">分類</span>
           <select
             value={parent}
             onChange={(event) => setParent(event.target.value)}
-            className="rounded-lg border border-border px-3 py-2 text-[0.88rem] outline-none focus:border-accent"
+            className="min-h-11 w-full rounded-lg border border-border px-3 py-2 text-[0.88rem] outline-none focus:border-accent"
           >
             <option value="all">全部分類（{concepts.length}）</option>
             {parents.map((name) => (
               <option key={name} value={name}>{name}</option>
             ))}
           </select>
+        </label>
+        <label className="block">
+          <span className="mb-1.5 block text-[0.78rem] font-semibold text-text-light">搜尋</span>
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="搜尋概念、英文或定義"
-            className="w-full lg:w-[280px] rounded-lg border border-border px-3 py-2 text-[0.88rem] outline-none focus:border-accent"
+            className="min-h-11 w-full rounded-lg border border-border px-3 py-2 text-[0.88rem] outline-none focus:border-accent"
           />
-          <div className="lg:ml-auto flex gap-2">
-            {([['list', '清單'], ['graph', '立體圖']] as [typeof view, string][]).map(
-              ([value, label]) => (
-                <button
-                  key={value}
-                  type="button"
-                  onClick={() => setView(value)}
-                  className={`px-3 py-2 rounded-lg border text-[0.85rem] cursor-pointer ${
-                    view === value
-                      ? 'border-accent bg-accent text-white'
-                      : 'border-border bg-white text-primary hover:border-accent'
-                  }`}
-                >
-                  {label}
-                </button>
-              )
-            )}
-          </div>
-        </div>
-      </div>
+        </label>
+        <SegmentedControl
+          className="md:col-span-2"
+          label="檢視模式"
+          value={view}
+          onChange={(value) => setView(value as typeof view)}
+          options={[
+            { value: 'list', label: '清單' },
+            { value: 'graph', label: '立體圖' },
+          ]}
+        />
+      </FilterBar>
 
       {view === 'graph' && (
-        <div className="mb-4">
-          <Suspense fallback={<p className="text-sm text-text-light">載入立體圖…</p>}>
-            <ConceptGraph3D
-              concepts={listed}
-              selected={selectedName}
-              minWeight={strongOnly ? 2 : 1}
-              onSelect={select}
-            />
-          </Suspense>
+        <div className="surface mb-4 overflow-hidden p-4">
+          <StatePanel tone="status" className="mb-3">
+            立體圖可拖曳旋轉、滾輪縮放、點球體看內容；手機版建議先用搜尋或分類縮小範圍。
+          </StatePanel>
+          <div className="min-h-[320px] overflow-hidden rounded-lg border border-border bg-[#081526] sm:min-h-[520px]">
+            <Suspense
+              fallback={
+                <StatePanel tone="loading" className="m-3">
+                  載入立體圖中…
+                </StatePanel>
+              }
+            >
+              <ConceptGraph3D
+                concepts={listed}
+                selected={selectedName}
+                minWeight={strongOnly ? 2 : 1}
+                onSelect={select}
+              />
+            </Suspense>
+          </div>
           <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.78rem] text-text-light">
             <span className="flex items-center gap-1">
               考古題題數
@@ -166,11 +215,11 @@ export default function ConceptsPage() {
                   style={{ backgroundColor: color }}
                 />
               ))}
-              <span>少 → 多</span>
+            <span>少 → 多</span>
             </span>
             <span>球體大小＝總題數（考古題＋練習）</span>
             <span>連線＝兩個概念被標在同一題上，粗細＝次數</span>
-            <label className="flex items-center gap-1.5 cursor-pointer">
+            <label className="flex min-h-11 items-center gap-1.5 cursor-pointer">
               <input
                 type="checkbox"
                 checked={strongOnly}
@@ -185,7 +234,7 @@ export default function ConceptsPage() {
 
       <div className={`grid grid-cols-1 gap-4 ${view === 'list' ? 'lg:grid-cols-[280px_1fr]' : ''}`}>
         <div
-          className={`bg-card rounded-xl shadow-sm border border-border overflow-hidden max-h-[70vh] overflow-y-auto ${
+          className={`bg-card rounded-xl shadow-sm border border-border overflow-hidden max-h-[70dvh] overflow-y-auto ${
             view === 'graph' ? 'hidden' : ''
           }`}
         >
@@ -195,7 +244,7 @@ export default function ConceptsPage() {
                 key={concept.name}
                 type="button"
                 onClick={() => select(concept.name)}
-                className={`w-full text-left px-4 py-2.5 border-b border-border cursor-pointer ${
+                className={`min-h-11 w-full text-left px-4 py-2.5 border-b border-border cursor-pointer ${
                   concept.name === selectedName ? 'bg-accent/10' : 'hover:bg-[#f7fbff]'
                 }`}
               >
@@ -207,13 +256,17 @@ export default function ConceptsPage() {
             )
           })}
           {listed.length === 0 && (
-            <div className="p-4 text-[0.85rem] text-text-light">找不到符合條件的概念。</div>
+            <StatePanel tone="empty" title="找不到符合條件的概念" className="m-4">
+              請調整分類或搜尋關鍵字。
+            </StatePanel>
           )}
         </div>
 
         <div className="bg-card rounded-xl shadow-sm border border-border p-5">
           {!selected ? (
-            <p className="text-sm text-text-light">從左邊挑一個概念。</p>
+            <StatePanel tone="empty">
+              從概念清單挑一個概念，或在立體圖中點選節點。
+            </StatePanel>
           ) : (
             <>
               <div className="text-[0.75rem] text-text-light">{selected.parent}</div>
@@ -264,7 +317,7 @@ export default function ConceptsPage() {
                         key={item.name}
                         type="button"
                         onClick={() => select(item.name)}
-                        className="rounded-full border border-border px-3 py-1 text-[0.8rem] text-primary hover:border-accent cursor-pointer"
+                        className="min-h-11 rounded-full border border-border px-3 py-2 text-[0.8rem] text-primary hover:border-accent cursor-pointer"
                       >
                         {item.name}
                         <span className="text-text-light"> ×{item.weight}</span>
@@ -284,7 +337,7 @@ export default function ConceptsPage() {
                       <button
                         type="button"
                         onClick={() => setOpenQuestion(question)}
-                        className="w-full rounded-lg border border-border px-3 py-2 text-left text-[0.85rem] hover:border-accent cursor-pointer"
+                        className="min-h-11 w-full rounded-lg border border-border px-3 py-2 text-left text-[0.85rem] hover:border-accent cursor-pointer"
                       >
                         <span className="text-text-light text-[0.75rem]">
                           {question.level} · {question.source}

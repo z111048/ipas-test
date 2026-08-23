@@ -5,6 +5,7 @@ import { referenceLoaders, referenceForQuestion } from '../../data/referenceAnsw
 import ProgressBar from '../shared/ProgressBar'
 import StatBox from '../shared/StatBox'
 import { publicAsset } from '../../utils/assets'
+import { preferredScrollBehavior } from '../../utils/motion'
 import CodeSnippet from './CodeSnippet'
 
 interface ExamResultsProps {
@@ -181,7 +182,7 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
     .map(({ i }) => i)
 
   const jumpToQuestion = (i: number) => {
-    document.getElementById(`result-q-${i}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    document.getElementById(`result-q-${i}`)?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' })
   }
 
   return (

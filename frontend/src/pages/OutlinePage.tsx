@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { loadGuideSearchIndex } from '../data/guideSearch'
 import { resourceLevels } from '../data/resourceRegistry'
 import type { GuideSearchIndexData, GuideSearchNode } from '../types'
+import { FilterBar, PageHeader, StatePanel } from '../components/ui'
 
 /** 由節點陣列建 parent → children 的索引；索引本身是依樹序排好的。 */
 function buildTree(nodes: GuideSearchNode[]) {
@@ -100,11 +101,23 @@ function OutlineNodes({
 
 export default function OutlinePage() {
   const [index, setIndex] = useState<GuideSearchIndexData | null>(null)
+  const [loadError, setLoadError] = useState<string | null>(null)
   const [subjectId, setSubjectId] = useState<string | null>(null)
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set())
 
   useEffect(() => {
-    loadGuideSearchIndex().then(setIndex)
+    let active = true
+    setLoadError(null)
+    loadGuideSearchIndex()
+      .then((loaded) => {
+        if (active) setIndex(loaded)
+      })
+      .catch((error) => {
+        if (active) setLoadError(error instanceof Error ? error.message : String(error))
+      })
+    return () => {
+      active = false
+    }
   }, [])
 
   const subjects = useMemo(
@@ -137,32 +150,61 @@ export default function OutlinePage() {
 
   return (
     <div className="page-shell">
-      <div className="page-header mb-5">
-        <div className="eyebrow mb-2">完整目錄</div>
-        <h1 className="mb-1 text-2xl font-bold text-primary">學習指引目錄</h1>
-        <p className="text-[0.9rem] text-text-light">
-          全部章、節與內文標題，點擊直接跳到對應段落。
-        </p>
-      </div>
+      <PageHeader
+        className="mb-5"
+        eyebrow="完整目錄"
+        title="學習指引目錄"
+        description="全部章、節與內文標題，點擊直接跳到對應段落。"
+        meta={guide && <span className="pill">{guide.nodes.length} 個項目</span>}
+      />
 
-      <div className="mb-4 flex flex-wrap gap-2">
-        {subjects.map((subject) => (
-          <button
-            key={subject.id}
-            type="button"
-            onClick={() => setSubjectId(subject.id)}
-            className={`rounded-full border px-3 py-1 text-[0.8rem] transition-colors ${
-              subject.id === activeId
-                ? 'border-accent bg-accent text-white'
-                : 'border-border bg-white text-text-light hover:text-accent'
-            }`}
-          >
-            {subject.level}・{subject.label}
-          </button>
-        ))}
-      </div>
+      <FilterBar
+        className="mb-4"
+        title="科目篩選"
+        result={index ? `${subjects.length} 個科目可瀏覽` : '目錄資料載入中'}
+        action={
+          subjects.length > 0 && (
+            <div className="flex w-full flex-col gap-2 sm:flex-row sm:flex-wrap">
+              {subjects.map((subject) => (
+                <button
+                  key={subject.id}
+                  type="button"
+                  onClick={() => setSubjectId(subject.id)}
+                  className={`min-h-11 rounded-full border px-3 py-2 text-[0.8rem] font-semibold transition-colors ${
+                    subject.id === activeId
+                      ? 'border-accent bg-accent text-white'
+                      : 'border-border bg-white text-text-light hover:text-accent'
+                  }`}
+                >
+                  {subject.level}・{subject.label}
+                </button>
+              ))}
+            </div>
+          )
+        }
+      >
+        <div className="md:col-span-2 xl:col-span-4 text-[0.86rem] leading-7 text-text-light">
+          選擇科目後會保留章節樹狀結構；標題連結仍使用原學習指引 route 與 hash anchor。
+        </div>
+      </FilterBar>
 
-      {!index && <p className="text-[0.88rem] text-text-light">載入目錄中…</p>}
+      {loadError && (
+        <StatePanel tone="error" title="目錄載入失敗" className="mb-4">
+          {loadError}
+        </StatePanel>
+      )}
+
+      {!index && !loadError && (
+        <StatePanel tone="loading" className="mb-4">
+          載入目錄中…
+        </StatePanel>
+      )}
+
+      {index && subjects.length === 0 && (
+        <StatePanel tone="empty" title="沒有可顯示的目錄" className="mb-4">
+          目前資源清單中沒有對應的學習指引目錄。
+        </StatePanel>
+      )}
 
       {guide && tree && (
         <div className="surface p-4 sm:p-5">
@@ -170,14 +212,14 @@ export default function OutlinePage() {
             <span className="pill">{guide.nodes.length} 個項目</span>
             <button
               type="button"
-              className="text-[0.78rem] text-accent hover:underline"
+              className="min-h-11 rounded-lg border border-border bg-white px-3 py-2 text-[0.78rem] font-semibold text-accent hover:border-accent"
               onClick={() => setCollapsed(new Set())}
             >
               全部展開
             </button>
             <button
               type="button"
-              className="text-[0.78rem] text-accent hover:underline"
+              className="min-h-11 rounded-lg border border-border bg-white px-3 py-2 text-[0.78rem] font-semibold text-accent hover:border-accent"
               onClick={() =>
                 setCollapsed(new Set(guide.nodes.filter((node) => node.k !== 'h').map((node) => node.id)))
               }

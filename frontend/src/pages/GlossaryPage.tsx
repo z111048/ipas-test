@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import primaryRaw from '../generated/primaryGlossary.json'
 import middleRaw from '../generated/middleGlossary.json'
+import { FilterBar, PageHeader, SegmentedControl, StatePanel } from '../components/ui'
 
 interface GlossaryTerm {
   zh: string
@@ -49,58 +50,67 @@ export default function GlossaryPage() {
   const totalTerms = subjectIds.reduce((sum, id) => sum + glossary.subjects[id].terms.length, 0)
 
   return (
-    <div>
-      <div className="text-[0.78rem] font-semibold text-accent mb-1">名詞解釋</div>
-      <div className="text-2xl font-bold text-primary mb-1">關鍵字整理</div>
-      <div className="text-text-light mb-5">
-        依歷屆試題出現頻率整理的中英文名詞、定義與應用案例，初級與中級各自分科呈現。
-      </div>
+    <div className="page-shell">
+      <PageHeader
+        className="mb-5"
+        eyebrow="名詞解釋"
+        title="關鍵字整理"
+        description="依歷屆試題出現頻率整理的中英文名詞、定義與應用案例，初級與中級各自分科呈現。"
+        meta={
+          <>
+            <span className="pill">{level}</span>
+            <span className="pill pill-muted">{totalTerms} 個關鍵字</span>
+          </>
+        }
+      />
 
-      <div className="bg-card rounded-xl shadow-sm border border-border p-5 mb-4">
-        <div className="flex flex-col lg:flex-row lg:items-center gap-3">
-          <div className="flex flex-wrap gap-2">
-            {levels.map((name) => (
-              <button
-                key={name}
-                type="button"
-                onClick={() => {
-                  setLevel(name)
-                  setSubjectId(Object.keys(bundles[name].subjects)[0])
-                }}
-                className={`px-3 py-2 rounded-lg border text-[0.85rem] cursor-pointer ${
-                  level === name
-                    ? 'border-accent bg-accent text-white'
-                    : 'border-border bg-white text-primary hover:border-accent'
-                }`}
-              >
-                {name}
-              </button>
-            ))}
-          </div>
-          <div className="flex flex-wrap gap-2 lg:border-l lg:border-border lg:pl-3">
-            {subjectIds.map((id) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => setSubjectId(id)}
-                className={`px-3 py-2 rounded-lg border text-[0.85rem] cursor-pointer ${
-                  activeSubjectId === id
-                    ? 'border-accent bg-accent text-white'
-                    : 'border-border bg-white text-primary hover:border-accent'
-                }`}
-              >
-                {glossary.subjects[id].subject.replace(/^中級/, '')}
-              </button>
-            ))}
-          </div>
+      <FilterBar
+        className="mb-4"
+        title="篩選關鍵字"
+        result={`符合篩選 ${terms.length} 個`}
+        action={(query || level !== levels[0] || activeSubjectId !== Object.keys(bundles[levels[0]].subjects)[0]) && (
+          <button
+            type="button"
+            onClick={() => {
+              setLevel(levels[0])
+              setSubjectId(Object.keys(bundles[levels[0]].subjects)[0])
+              setQuery('')
+            }}
+            className="btn-outline min-h-11"
+          >
+            清除篩選
+          </button>
+        )}
+      >
+        <SegmentedControl
+          label="級別"
+          value={level}
+          options={levels.map((name) => ({ value: name, label: name }))}
+          onChange={(name) => {
+            setLevel(name)
+            setSubjectId(Object.keys(bundles[name].subjects)[0])
+          }}
+        />
+        <SegmentedControl
+          label="科目"
+          value={activeSubjectId}
+          className="xl:col-span-2"
+          options={subjectIds.map((id) => ({
+            value: id,
+            label: glossary.subjects[id].subject.replace(/^中級/, ''),
+          }))}
+          onChange={setSubjectId}
+        />
+        <label className="text-[0.82rem] text-text-light">
+          關鍵字
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="搜尋中文、英文、定義或案例"
-            className="lg:ml-auto w-full lg:w-[280px] rounded-lg border border-border px-3 py-2 text-[0.88rem] outline-none focus:border-accent"
+            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-[0.88rem] text-app-text outline-none focus:border-accent"
           />
-        </div>
-      </div>
+        </label>
+      </FilterBar>
 
       <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden">
         <div className="px-5 py-4 border-b border-border">
@@ -134,7 +144,23 @@ export default function GlossaryPage() {
         </div>
 
         {terms.length === 0 && (
-          <div className="p-5 text-text-light text-[0.9rem]">找不到符合條件的關鍵字。</div>
+          <div className="p-5">
+            <StatePanel
+              tone="empty"
+              title="找不到符合條件的關鍵字"
+              action={(
+                <button
+                  type="button"
+                  onClick={() => setQuery('')}
+                  className="btn-outline min-h-11"
+                >
+                  清除搜尋字
+                </button>
+              )}
+            >
+              請改用其他中文、英文、定義或案例關鍵字。
+            </StatePanel>
+          </div>
         )}
       </div>
     </div>

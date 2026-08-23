@@ -1,6 +1,11 @@
 import { useLocation } from 'react-router-dom'
+import type { RefObject } from 'react'
 
 interface HeaderProps {
+  menuButtonRef?: RefObject<HTMLButtonElement | null>
+  searchButtonRef?: RefObject<HTMLButtonElement | null>
+  sidebarId: string
+  sidebarOpen: boolean
   onMenuClick: () => void
   onSearchClick: () => void
 }
@@ -20,16 +25,27 @@ function sectionLabel(pathname: string): string | null {
   return null
 }
 
-export default function Header({ onMenuClick, onSearchClick }: HeaderProps) {
+export default function Header({
+  menuButtonRef,
+  searchButtonRef,
+  sidebarId,
+  sidebarOpen,
+  onMenuClick,
+  onSearchClick,
+}: HeaderProps) {
   const location = useLocation()
   const section = sectionLabel(location.pathname)
 
   return (
-    <header className="sticky top-0 z-100 h-14 border-b border-white/10 bg-primary text-white shadow-[0_8px_24px_rgba(15,23,42,0.18)]">
+    <header className="app-header sticky top-0 z-100 min-h-14 border-b border-white/10 bg-primary text-white shadow-[0_8px_24px_rgba(15,23,42,0.18)]">
       <div className="flex h-full items-center justify-between gap-4 px-4 md:px-6">
         <button
-          className="md:hidden inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/20 bg-white/8 text-white text-lg cursor-pointer"
+          ref={menuButtonRef}
+          type="button"
+          className="touch-target md:hidden inline-flex h-11 w-11 items-center justify-center rounded-md border border-white/20 bg-white/8 text-white text-lg cursor-pointer"
           onClick={onMenuClick}
+          aria-controls={sidebarId}
+          aria-expanded={sidebarOpen}
           aria-label="選單"
         >
           ☰
@@ -47,9 +63,10 @@ export default function Header({ onMenuClick, onSearchClick }: HeaderProps) {
           </div>
         </div>
         <button
+          ref={searchButtonRef}
           type="button"
           onClick={onSearchClick}
-          className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[0.76rem] text-white/85 hover:bg-white/16"
+          className="touch-target inline-flex shrink-0 items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[0.76rem] text-white/85 hover:bg-white/16"
           aria-label="搜尋學習指引"
         >
           <span aria-hidden="true">🔍</span>

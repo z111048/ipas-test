@@ -16,7 +16,7 @@ export default function ExamIntro({ examData, onStart }: ExamIntroProps) {
           <span className="pill pill-muted">考試時間：{examData.time_limit}</span>
           <span className="pill pill-muted">及格分數：{examData.passing_score} 分</span>
         </div>
-        <button className="btn-primary min-w-[9rem] cursor-pointer border-0" onClick={onStart}>
+        <button className="btn-primary min-h-[44px] min-w-[9rem] cursor-pointer border-0" onClick={onStart}>
           開始考試
         </button>
       </div>

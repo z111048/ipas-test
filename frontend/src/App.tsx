@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Header from './components/layout/Header'
 import Sidebar from './components/layout/Sidebar'
@@ -41,8 +41,37 @@ function AppShell() {
   const [searchOpen, setSearchOpen] = useState(false)
   const location = useLocation()
   const mainRef = useRef<HTMLElement>(null)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
+  const searchButtonRef = useRef<HTMLButtonElement>(null)
+  const searchRestoreRef = useRef<HTMLElement>(null)
+  const sidebarId = 'primary-navigation'
   const isGuideRoute = location.pathname.startsWith('/guide/')
   const mainOverflow = isGuideRoute ? 'overflow-hidden' : 'overflow-y-scroll'
+  const closeSidebar = useCallback(() => setSidebarOpen(false), [])
+  const openSearch = useCallback(() => {
+    // Page-owned dialogs/drawers must remain the only active focus trap.
+    // The mobile sidebar is the one exception: replace it with search.
+    const activeModal = document.querySelector<HTMLElement>(
+      '[aria-modal="true"]:not([aria-hidden="true"])',
+    )
+    if (activeModal && activeModal.id !== sidebarId) return
+    const activeElement = document.activeElement
+    searchRestoreRef.current = activeModal?.id === sidebarId
+      ? searchButtonRef.current
+      : activeElement instanceof HTMLElement && activeElement !== document.body
+        ? activeElement
+        : searchButtonRef.current
+    setSidebarOpen(false)
+    setSearchOpen(true)
+  }, [sidebarId])
+  const toggleSidebar = useCallback(() => {
+    const activeModal = document.querySelector<HTMLElement>(
+      '[aria-modal="true"]:not([aria-hidden="true"])',
+    )
+    if (activeModal && activeModal.id !== sidebarId) return
+    setSearchOpen(false)
+    setSidebarOpen((open) => !open)
+  }, [sidebarId])
 
   useEffect(() => {
     mainRef.current?.scrollTo({ top: 0 })
@@ -54,15 +83,15 @@ function AppShell() {
     const onKeyDown = (event: KeyboardEvent) => {
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
         event.preventDefault()
-        setSearchOpen(true)
+        openSearch()
       }
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
-  }, [])
+  }, [openSearch])
 
   return (
-    <div className="flex flex-col min-h-screen bg-app-bg text-app-text">
+    <div className="app-root flex flex-col min-h-screen bg-app-bg text-app-text">
       <a
         href="#main-content"
         className="skip-link"
@@ -76,22 +105,35 @@ function AppShell() {
         跳至主要內容
       </a>
       <Header
-        onMenuClick={() => setSidebarOpen((o) => !o)}
-        onSearchClick={() => setSearchOpen(true)}
+        menuButtonRef={menuButtonRef}
+        searchButtonRef={searchButtonRef}
+        sidebarId={sidebarId}
+        sidebarOpen={sidebarOpen}
+        onMenuClick={toggleSidebar}
+        onSearchClick={openSearch}
       />
       {searchOpen && (
         <Suspense fallback={null}>
-          <GuideSearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
+          <GuideSearchDialog
+            open={searchOpen}
+            onClose={() => setSearchOpen(false)}
+            restoreFocusRef={searchRestoreRef}
+          />
         </Suspense>
       )}
-      <Overlay isOpen={sidebarOpen} onClick={() => setSidebarOpen(false)} />
-      <div className="flex overflow-hidden h-[calc(100vh-3.5rem)]">
-        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <Overlay isOpen={sidebarOpen} onClick={closeSidebar} />
+      <div className="app-frame flex overflow-hidden h-[calc(100vh-3.5rem)]">
+        <Sidebar
+          id={sidebarId}
+          isOpen={sidebarOpen}
+          onClose={closeSidebar}
+          restoreFocusRef={menuButtonRef}
+        />
         <main
           id="main-content"
           tabIndex={-1}
           ref={mainRef}
-          className={`app-scroll-stable flex-1 min-h-0 ${mainOverflow} ${isGuideRoute ? '' : 'flex flex-col'} px-4 py-4 md:px-6 md:py-6 min-w-0 focus:outline-none`}
+          className={`app-main app-scroll-stable flex-1 min-h-0 ${mainOverflow} ${isGuideRoute ? '' : 'flex flex-col'} px-4 py-4 md:px-6 md:py-6 min-w-0 focus:outline-none`}
         >
           <Suspense fallback={<PageSkeleton />}>
             <Routes>

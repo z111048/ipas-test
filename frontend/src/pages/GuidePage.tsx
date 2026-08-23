@@ -18,7 +18,10 @@ import GuideBreadcrumb from '../components/guide/GuideBreadcrumb'
 import { guideBreadcrumb } from '../data/guideNav'
 import ColabSection from '../components/guide/ColabSection'
 import { publicAsset } from '../utils/assets'
+import { preferredScrollBehavior } from '../utils/motion'
 import { useScrollProgress, ReadingProgressBar, BackToTopButton } from '../components/shared/ReadingProgress'
+import { MobileActionBar, PageHeader, StatePanel } from '../components/ui'
+import { MobileChapterDrawer, ReadingAuxiliary, ReadingContent, ReadingSurface } from '../components/reading'
 
 const guideOutlines = guideOutlinesRaw as unknown as GuideOutlinesData
 const guideHierarchy = guideHierarchyRaw as unknown as GuideHierarchyData
@@ -474,6 +477,7 @@ export default function GuidePage() {
   const [colabNotebook, setColabNotebook] = useState<ColabNotebook | null>(null)
   const [showDrawer, setShowDrawer] = useState(false)
   const contentScrollRef = useRef<HTMLDivElement | null>(null)
+  const drawerTriggerRef = useRef<HTMLButtonElement | null>(null)
   const scrollToContentBlockRef = useRef<((id: string, anchor?: string) => void) | null>(null)
   const [activeHeadingId, setActiveHeadingId] = useState<string | null>(null)
   const { progress: readingProgress, showBackToTop, scrollToTop } = useScrollProgress(() => contentScrollRef.current)
@@ -626,7 +630,13 @@ export default function GuidePage() {
   }, [location.hash, content])
 
   if (!outlineGuide || !chapter) {
-    return <div className="page-shell text-error p-4">找不到章節：{chapterId}</div>
+    return (
+      <div className="page-shell">
+        <StatePanel tone="error" title="找不到章節">
+          {chapterId}
+        </StatePanel>
+      </div>
+    )
   }
 
   const body = content?.content ?? ''
@@ -713,7 +723,7 @@ export default function GuidePage() {
     )
     if (!target) return
     if (!container) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      target.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' })
       return
     }
     const containerTop = container.getBoundingClientRect().top
@@ -721,34 +731,35 @@ export default function GuidePage() {
     const nextTop = container.scrollTop + targetTop - containerTop - 8
     container.scrollTo({
       top: nextTop,
-      behavior: 'smooth',
+      behavior: preferredScrollBehavior(),
     })
     if (Math.abs(container.scrollTop - nextTop) > 2 && container.scrollHeight <= container.clientHeight) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      target.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' })
     }
   }
   scrollToContentBlockRef.current = scrollToContentBlock
 
   return (
     <div className="page-shell h-full min-h-0 flex flex-col overflow-hidden">
-      <div className="page-header mb-2 sm:mb-4 shrink-0">
-        <div className="eyebrow mb-2 hidden sm:block">Guide</div>
-        <div className="flex flex-col gap-3 xl:flex-row xl:items-end xl:justify-between">
-          <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-primary mb-1">{chapter.title}</h1>
-            <p className="hidden sm:block text-[0.9rem] text-text-light">{outlineGuide.subject} › 學習指引原文（{content ? `共 ${body.length.toLocaleString()} 字元` : '載入中'}）</p>
-          </div>
-          <div className="hidden sm:flex flex-wrap gap-2">
+      <PageHeader
+        className="mb-2 shrink-0 sm:mb-4"
+        eyebrow={<span className="hidden sm:inline">Guide</span>}
+        title={chapter.title}
+        description={
+          <span className="hidden sm:inline">
+            {outlineGuide.subject} › 學習指引原文（{content ? `共 ${body.length.toLocaleString()} 字元` : '載入中'}）
+          </span>
+        }
+        meta={
+          <div className="hidden flex-wrap gap-2 sm:flex">
             <span className="pill">{pageRange}</span>
             <span className="pill pill-muted">{paragraphs.length} 段落</span>
             {chapterExamQuestionCount > 0 && (
-              <span className="pill">
-                歷屆試題 {chapterExamQuestionCount} 題
-              </span>
+              <span className="pill">歷屆試題 {chapterExamQuestionCount} 題</span>
             )}
           </div>
-        </div>
-      </div>
+        }
+      />
 
       <div className="mb-2 sm:mb-4 shrink-0">
         <GuideBreadcrumb crumbs={breadcrumb} />
@@ -834,27 +845,24 @@ export default function GuidePage() {
           </div>
         </aside>
 
-        <div ref={contentScrollRef} className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden pr-1 app-scroll-stable pb-14 xl:pb-0">
+        <div ref={contentScrollRef} className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden pr-1 app-scroll-stable pb-[calc(5rem+var(--app-safe-bottom))] xl:pb-0">
           <div className="sticky top-0 z-10 -mt-0 mb-3 bg-app-bg/90 px-0 py-1 backdrop-blur-sm">
             <ReadingProgressBar progress={readingProgress} />
           </div>
           {contentError && (
-            <div className="rounded-lg border border-red-200 bg-red-50 p-4 mb-4 text-sm text-red-700">
-              無法載入學習指引內容：{contentError}
-            </div>
+            <StatePanel tone="error" title="無法載入學習指引內容" className="mb-4">
+              {contentError}
+            </StatePanel>
           )}
 
           {!content && !contentError && (
-            <div className="surface p-5 mb-4 text-text-light">
+            <StatePanel tone="loading" className="mb-4">
               載入學習指引內容中...
-            </div>
+            </StatePanel>
           )}
 
           {sourcePages.length > 0 && (
-            <details className="surface p-5 mb-4">
-              <summary className="cursor-pointer text-primary font-semibold">
-                PDF 原頁截圖（{sourcePages.length} 頁）
-              </summary>
+            <ReadingAuxiliary title={`PDF 原頁截圖（${sourcePages.length} 頁）`} className="mb-4">
               <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4 mt-4">
                 {sourcePages.map((page) => (
                   <figure key={page.index} className="border border-border rounded-lg overflow-hidden bg-white">
@@ -870,11 +878,11 @@ export default function GuidePage() {
                   </figure>
                 ))}
               </div>
-            </details>
+            </ReadingAuxiliary>
           )}
 
           {hasChildChapters ? (
-            <div className="surface p-5">
+            <ReadingSurface>
               <div className="text-primary font-semibold mb-2">請選擇下層章節</div>
               <p className="text-[0.9rem] leading-7 text-text-light mb-4">
                 這一層是 PDF 的章節容器，內容已依下層章節拆開，避免把多個章節連在同一頁閱讀。
@@ -895,75 +903,77 @@ export default function GuidePage() {
                   </Link>
                 ))}
               </div>
-            </div>
+            </ReadingSurface>
           ) : (
-          <div className="surface p-4 sm:p-5">
-            {hasBlocks ? (
-              <GuideBlocksRenderer
-                blocks={contentBlocks}
-                images={chapterImages}
-                examAnnotations={examAnnotationsByBlock}
-              />
-            ) : isMarkdown ? (
-              <div className="guide-content prose prose-sm max-w-none text-[0.9rem] leading-8 text-app-text content-justify">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm, remarkMath]}
-                rehypePlugins={[rehypeRaw, rehypeKatex]}
-                components={{
-                  h2: ({ children }) => (
-                    <h2 id={headingAnchor(plainText(children))} className="scroll-mt-4 text-lg font-bold text-primary mt-6 mb-2 border-b border-border pb-1">{children}</h2>
-                  ),
-                  h3: ({ children }) => (
-                    <h3 id={headingAnchor(plainText(children))} className="scroll-mt-4 text-base font-semibold text-accent mt-4 mb-1">{children}</h3>
-                  ),
-                  h4: ({ children }) => (
-                    <h4 id={headingAnchor(plainText(children))} className="scroll-mt-4 text-[0.96rem] font-semibold text-primary mt-4 mb-1">{children}</h4>
-                  ),
-                  h5: ({ children }) => (
-                    <h5 id={headingAnchor(plainText(children))} className="scroll-mt-4 text-[0.9rem] font-semibold text-app-text mt-3 mb-1">{children}</h5>
-                  ),
-                  h6: ({ children }) => (
-                    <h6 id={headingAnchor(plainText(children))} className="scroll-mt-4 text-[0.86rem] font-semibold text-text-light mt-3 mb-1">{children}</h6>
-                  ),
-                  p: ({ children }) => (
-                    <p className="mb-3 leading-8 content-justify">{children}</p>
-                  ),
-                  ul: ({ children }) => (
-                    <ul className="list-disc list-outside pl-5 mb-3 space-y-1">{children}</ul>
-                  ),
-                  ol: ({ children }) => (
-                    <ol className="list-decimal list-outside pl-5 mb-3 space-y-1">{children}</ol>
-                  ),
-                  li: ({ children }) => (
-                    <li className="leading-7 content-justify">{children}</li>
-                  ),
-                  table: ({ children }) => (
-                    <div className="overflow-x-auto my-4">
-                      <table className="table-soft text-sm">{children}</table>
-                    </div>
-                  ),
-                  th: ({ children }) => (
-                    <th className="whitespace-pre-line">{children}</th>
-                  ),
-                  td: ({ children }) => (
-                    <td className="leading-6 whitespace-pre-line">{children}</td>
-                  ),
-                  strong: ({ children }) => (
-                    <strong className="font-semibold text-app-text">{children}</strong>
-                  ),
-                }}
-              >
-                {normalizedBody}
-              </ReactMarkdown>
-              </div>
-            ) : (
-              <div className="guide-content prose prose-sm max-w-none text-[0.9rem] leading-8 text-app-text space-y-4 content-justify">
-                {paragraphs.map((para, i) => (
-                  <p key={i}>{para}</p>
-                ))}
-              </div>
-            )}
-          </div>
+            <ReadingSurface>
+              <ReadingContent className="text-[0.9rem] leading-8 sm:text-[0.95rem]">
+                {hasBlocks ? (
+                  <GuideBlocksRenderer
+                    blocks={contentBlocks}
+                    images={chapterImages}
+                    examAnnotations={examAnnotationsByBlock}
+                  />
+                ) : isMarkdown ? (
+                  <div className="guide-content prose prose-sm max-w-none text-app-text content-justify">
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm, remarkMath]}
+                      rehypePlugins={[rehypeRaw, rehypeKatex]}
+                      components={{
+                        h2: ({ children }) => (
+                          <h2 id={headingAnchor(plainText(children))} className="scroll-mt-4 text-lg font-bold text-primary mt-6 mb-2 border-b border-border pb-1">{children}</h2>
+                        ),
+                        h3: ({ children }) => (
+                          <h3 id={headingAnchor(plainText(children))} className="scroll-mt-4 text-base font-semibold text-accent mt-4 mb-1">{children}</h3>
+                        ),
+                        h4: ({ children }) => (
+                          <h4 id={headingAnchor(plainText(children))} className="scroll-mt-4 text-[0.96rem] font-semibold text-primary mt-4 mb-1">{children}</h4>
+                        ),
+                        h5: ({ children }) => (
+                          <h5 id={headingAnchor(plainText(children))} className="scroll-mt-4 text-[0.9rem] font-semibold text-app-text mt-3 mb-1">{children}</h5>
+                        ),
+                        h6: ({ children }) => (
+                          <h6 id={headingAnchor(plainText(children))} className="scroll-mt-4 text-[0.86rem] font-semibold text-text-light mt-3 mb-1">{children}</h6>
+                        ),
+                        p: ({ children }) => (
+                          <p className="mb-3 leading-8 content-justify">{children}</p>
+                        ),
+                        ul: ({ children }) => (
+                          <ul className="list-disc list-outside pl-5 mb-3 space-y-1">{children}</ul>
+                        ),
+                        ol: ({ children }) => (
+                          <ol className="list-decimal list-outside pl-5 mb-3 space-y-1">{children}</ol>
+                        ),
+                        li: ({ children }) => (
+                          <li className="leading-7 content-justify">{children}</li>
+                        ),
+                        table: ({ children }) => (
+                          <div className="overflow-x-auto my-4">
+                            <table className="table-soft text-sm">{children}</table>
+                          </div>
+                        ),
+                        th: ({ children }) => (
+                          <th className="whitespace-pre-line">{children}</th>
+                        ),
+                        td: ({ children }) => (
+                          <td className="leading-6 whitespace-pre-line">{children}</td>
+                        ),
+                        strong: ({ children }) => (
+                          <strong className="font-semibold text-app-text">{children}</strong>
+                        ),
+                      }}
+                    >
+                      {normalizedBody}
+                    </ReactMarkdown>
+                  </div>
+                ) : (
+                  <div className="guide-content prose prose-sm max-w-none text-app-text space-y-4 content-justify">
+                    {paragraphs.map((para, i) => (
+                      <p key={i}>{para}</p>
+                    ))}
+                  </div>
+                )}
+              </ReadingContent>
+            </ReadingSurface>
           )}
           {colabNotebook && <ColabSection notebook={colabNotebook} />}
         </div>
@@ -972,17 +982,17 @@ export default function GuidePage() {
       <BackToTopButton
         show={showBackToTop}
         onClick={scrollToTop}
-        className="bottom-20 right-4 xl:bottom-8 xl:right-8"
+        className="bottom-[calc(5.75rem+var(--app-safe-bottom))] right-4 xl:bottom-8 xl:right-8"
       />
 
       {/* ── Mobile bottom chapter navigation bar ──────────────────────── */}
-      <div className="xl:hidden fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-border shadow-[0_-2px_10px_rgba(0,0,0,0.07)]">
-        <div className="flex items-stretch h-14">
+      <MobileActionBar className="xl:hidden">
+        <div className="flex h-14 w-full items-stretch">
           {/* Prev chapter */}
           {prevChapter ? (
             <Link
               to={`/guide/${subjectId}/${prevChapter.id}`}
-              className="flex items-center justify-center w-12 shrink-0 text-primary hover:bg-gray-50 active:bg-gray-100 border-r border-border"
+              className="touch-target flex items-center justify-center w-12 shrink-0 text-primary hover:bg-gray-50 active:bg-gray-100 border-r border-border"
               title={prevChapter.title}
               aria-label="上一章"
             >
@@ -996,10 +1006,13 @@ export default function GuidePage() {
 
           {/* Center: chapter info + opens drawer */}
           <button
+            ref={drawerTriggerRef}
             type="button"
-            className="flex-1 flex items-center justify-between gap-2 px-3 min-w-0 hover:bg-gray-50 active:bg-gray-100 text-left"
+            className="touch-target flex-1 flex items-center justify-between gap-2 px-3 min-w-0 hover:bg-gray-50 active:bg-gray-100 text-left"
             onClick={() => setShowDrawer(true)}
             aria-label="開啟章節目錄"
+            aria-expanded={showDrawer}
+            aria-controls="guide-mobile-chapter-drawer"
           >
             <div className="flex flex-col items-start min-w-0">
               <span className="text-[0.64rem] text-text-light leading-none truncate max-w-full">{outlineGuide.subject}</span>
@@ -1017,7 +1030,7 @@ export default function GuidePage() {
           {nextChapter ? (
             <Link
               to={`/guide/${subjectId}/${nextChapter.id}`}
-              className="flex items-center justify-center w-12 shrink-0 text-primary hover:bg-gray-50 active:bg-gray-100 border-l border-border"
+              className="touch-target flex items-center justify-center w-12 shrink-0 text-primary hover:bg-gray-50 active:bg-gray-100 border-l border-border"
               title={nextChapter.title}
               aria-label="下一章"
             >
@@ -1029,68 +1042,43 @@ export default function GuidePage() {
             </span>
           )}
         </div>
-      </div>
+      </MobileActionBar>
 
       {/* ── Mobile chapter drawer ──────────────────────────────────────── */}
-      {/* Backdrop */}
-      <div
-        className={`xl:hidden fixed inset-0 z-40 bg-black/50 transition-opacity duration-300 ${showDrawer ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-        onClick={() => setShowDrawer(false)}
-        aria-hidden="true"
-      />
-      {/* Drawer panel */}
-      <div
-        className={`xl:hidden fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-2xl shadow-2xl flex flex-col max-h-[78vh] transition-transform duration-300 ease-out ${showDrawer ? 'translate-y-0' : 'translate-y-full'}`}
-        role="dialog"
-        aria-modal="true"
-        aria-label="章節目錄"
+      <MobileChapterDrawer
+        id="guide-mobile-chapter-drawer"
+        open={showDrawer}
+        title="章節目錄"
+        onClose={() => setShowDrawer(false)}
+        restoreFocusRef={drawerTriggerRef}
       >
-        {/* Drag handle */}
-        <div className="flex justify-center pt-2.5 pb-1 shrink-0">
-          <div className="w-10 h-1 rounded-full bg-gray-200" />
-        </div>
-        {/* Drawer header */}
-        <div className="flex items-center justify-between px-4 py-2 border-b border-border shrink-0">
-          <span className="font-semibold text-primary text-sm">章節目錄</span>
-          <button
-            type="button"
-            onClick={() => setShowDrawer(false)}
-            className="text-text-light hover:text-primary p-1 -mr-1 rounded"
-            aria-label="關閉"
-          >
-            ✕
-          </button>
-        </div>
-        {/* Scrollable content */}
-        <div className="overflow-y-auto flex-1 px-4 py-3 pb-8 overscroll-contain">
-          <GuideOutlineTree
-            subjectId={subjectId ?? outlineGuide.subjectId}
-            rootIds={outlineGuide.root}
-            nodesById={outlineGuide.nodesById}
-            activeId={chapter.id}
-            onNavigate={() => setShowDrawer(false)}
-          />
-          {contentHeadings.length > 0 && (
-            <div className="mt-5 border-t border-border pt-4">
-              <div className="section-title mb-3">本節階層</div>
-              <div className="space-y-0.5">
-                {contentHeadings.map((heading, index) => (
-                  <GuideHeadingNavItem
-                    key={`${heading.id || heading.anchor || index}-${heading.title}`}
-                    heading={heading}
-                    active={Boolean(heading.id) && activeHeadingId === heading.id}
-                    compact
-                    onSelect={(blockId, anchor) => {
-                      setShowDrawer(false)
-                      requestAnimationFrame(() => scrollToContentBlock(blockId, anchor))
-                    }}
-                  />
-                ))}
-              </div>
+        <GuideOutlineTree
+          subjectId={subjectId ?? outlineGuide.subjectId}
+          rootIds={outlineGuide.root}
+          nodesById={outlineGuide.nodesById}
+          activeId={chapter.id}
+          onNavigate={() => setShowDrawer(false)}
+        />
+        {contentHeadings.length > 0 && (
+          <div className="mt-5 border-t border-border pt-4">
+            <div className="section-title mb-3">本節階層</div>
+            <div className="space-y-0.5">
+              {contentHeadings.map((heading, index) => (
+                <GuideHeadingNavItem
+                  key={`${heading.id || heading.anchor || index}-${heading.title}`}
+                  heading={heading}
+                  active={Boolean(heading.id) && activeHeadingId === heading.id}
+                  compact
+                  onSelect={(blockId, anchor) => {
+                    setShowDrawer(false)
+                    requestAnimationFrame(() => scrollToContentBlock(blockId, anchor))
+                  }}
+                />
+              ))}
             </div>
-          )}
-        </div>
-      </div>
+          </div>
+        )}
+      </MobileChapterDrawer>
     </div>
   )
 }
