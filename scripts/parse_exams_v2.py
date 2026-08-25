@@ -79,6 +79,26 @@ def trim_followup_context(text: str) -> str:
     return text[:earliest].strip(' ;；。')
 
 
+# 題組共用題幹在表格中是「答案欄空白」的獨立列。四個選項都湊齊之後，
+# 真正的跨頁續行只會是被切斷的選項尾巴（實測全題庫最長 4 字：案／CNN／泛化能力／致），
+# 而新題組的情境敘述最短也有 18 字，故以字數配合題組標記判定。
+SHARED_CONTEXT_MIN_CHARS = 12
+
+
+def starts_new_shared_context(pending_cell: str, cell: str) -> bool:
+    """判斷這一列是新題組的共用題幹，而非上一題選項的跨頁續行。
+
+    無條件併入會讓整段情境敘述被吃進最後一個選項（例：mid_1151_s2_q40 選項 D）。
+    共用題幹本身另由 build_shared_context_texts() 從 page_extract 取得，不會遺失。
+    """
+    options = set(re.findall(r'\(([A-D])\)', normalize(pending_cell)))
+    if len(options) < 4:
+        return False
+    if SHARED_QUESTION_RE.search(normalize(cell)):
+        return True
+    return len(clean_parsed_text(cell)) >= SHARED_CONTEXT_MIN_CHARS
+
+
 def parse_question_cell(
     answer: str,
     cell_text: str,
@@ -755,6 +775,8 @@ def parse_exam_json(key: str, data_dir: Path) -> list[dict]:
                     pending_cell = cell
                     pending_page_index = page_index
                 elif pending_answer and cell:
+                    if starts_new_shared_context(pending_cell, cell):
+                        continue
                     pending_cell = f'{pending_cell}\n{cell}'.strip()
                 else:
                     continue

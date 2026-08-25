@@ -258,6 +258,28 @@ python3 scripts/verify_question_answers.py --run-dir ... --only-flagged --thresh
   現行解法是靠出現頻率認頁眉（重複出現在多頁首行），不寫死章名，且只剝該頁首行。
 - **最後一題的解析會吃到下一章正文**（沒有結束標記），最誇張一筆長 18,485 字。
   現行解法是依 `clean_pdf_page_text` 判定的 `continues_to_next` 在頁尾收束。
+- **題組共用題幹曾被吃進最後一個選項**（2026-08-25 修復）。共用題幹在表格中是「答案欄空白」
+  的獨立列，`parse_exam_json` 原本無條件把它接到上一題的 `pending_cell`，導致整段情境敘述
+  併入選項 D（例：`mid_1151_s2_q40`、`mid_1151_s3_q41`／`q48`）。現由
+  `starts_new_shared_context()` 判定：四個選項齊全後，只有短碎片（實測全題庫最長 4 字）
+  才算跨頁續行，≥12 字或含「回答第X~Y題」標記者一律視為新題組題幹而不併入。
+  共用題幹本身另由 `build_shared_context_texts()` 從 page_extract 取得，不會遺失。
+  **現況：初級 7 份、中級 7 份考題全部可安全重跑，逐題冪等。**
+- **圖片內的文字任何重跑都救不回**。`mid_1151_s3_q46`／`q47` 題幹的「描述A~F」清單在 PDF 中
+  是圖片內文字，表格與頁面文字都取不到，只能人工謄寫。這類內容一律放進
+  `apply_exam_explanations.py` 的 `QUESTION_OVERRIDES`，不要直接手改 JSON——直接改的話
+  下次重跑就沒了。
+- **考題資產鍵（key）改名會讓人工校正整批變死碼**。2026-08-25 發現：中級 114-2 三份考題的
+  page_extract／pdf-assets 仍停在舊鍵 `exam1/2/3`，題號卻已改成 `mid_1141_s{n}`，於是
+  `attach_exam_images()` 找不到 `page_extract/{key}/` 而靜默回傳空、`annotate_exam_code_images.py`
+  裡所有綁 `exam3_q45` 的人工謄寫全部失效——19 題引用「附圖／程式碼」卻一張圖都沒有，
+  `mid_1141_s3_q45` 更是四個選項全空（選項本體是程式碼截圖）。**改 key 或題號時，必須同步
+  grep `scripts/annotate_exam_code_images.py` 與 `page_extract/`、`pdf-assets/` 的目錄名。**
+  `annotate_exam_code_images.py` 現在會丟掉指向不存在檔案的圖片參照並印出 `[DROP]`，
+  重跑後看到 `[DROP]` 就代表有參照沒跟上改名。
+- **`is_decorative_image()` 的高度門檻會吃掉程式碼截圖**。原本 `height < 45` 即視為裝飾圖，
+  但考題常把幾行程式碼截成「很寬很矮」的橫幅（例：中級 s3 q46 的 PCA 程式碼 283×44.1），
+  被誤刪後該題就失去唯一作答依據。現已改成「寬度 ≥ 頁寬 40% 且高度 ≥ 20 一律保留」。
 - **題目區塊只在四個選項齊全時才於頁尾收束**。無條件收束會讓「選項真的跨頁」的題整題消失
   ——中級 `mid-s3c6gq010` 就是這樣掉的，題數會從 40 變 39。重跑後先核對題數
   （初級 40+29=69、中級 30+40+40=110）。
@@ -267,7 +289,13 @@ uv run python3 scripts/extract_pdfs.py --level 初級      # PDFs → data/初�
 uv run python3 scripts/gemini_exam_vision_extract.py --level 中級 --key exam2 [--dry-run]
 # 官方考題 PDF 的 Vision OCR（題目/答案/共用題幹/圖片參照 schema），快取 data/{level}/exam_pages_cache/
 uv run python3 scripts/parse_exams_v2.py --level 初級
-# → mock_exam1.json, mock_exam2.json, sample_exam.json（subject{N}_questions.json 是人工策展，不會被覆蓋）
+# → mock_{key}.json, sample_exam.json（subject{N}_questions.json 是人工策展，不會被覆蓋）
+
+# ⚠️ parse_exams_v2 之後這兩支「人工補強層」必跑，順序不可調換，否則人工成果被制式輸出蓋掉：
+uv run python3 scripts/export_pdf_image_gallery.py --all-levels   # page_extract → public/pdf-assets（必帶 --all-levels）
+uv run python3 scripts/annotate_exam_code_images.py               # 程式碼截圖的文字謄寫、選項圖、清除失效圖片參照
+uv run python3 scripts/apply_exam_explanations.py                 # 人工解析（parse 會覆寫成「正確答案為(X)。」）
+
 python3 scripts/verify_data_alignment.py --level 初級    # 一致性檢查，必跑
 
 # 選用：Claude API 出題 / 補 card 欄位

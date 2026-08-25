@@ -15,15 +15,15 @@ from pathlib import Path
 from typing import Any
 
 BASE = Path('/home/james/projects/ipas-test')
-VGG16_CODE_SRC = '/pdf-assets/中級/exam3/page_010/vgg16_code_p010.png'
+VGG16_CODE_SRC = '/pdf-assets/中級/mid_1141_s3/page_010/image_02_01.png'
 VGG16_CODE_MARKDOWN = """from torchsummary import summary
 from torchvision import models
 model = models.vgg16(weights='IMAGENET1K_V1')
 summary(model, (3, 150, 150))"""
-GAME_PREVIEW_SRC = '/pdf-assets/中級/exam2/page_012/image_02_01.png'
-GAME_YEAR_SRC = '/pdf-assets/中級/exam2/page_013/image_01_01.png'
-MARKETING_LOAD_SRC = '/pdf-assets/中級/exam2/page_014/image_01_01.png'
-MARKETING_PREVIEW_SRC = '/pdf-assets/中級/exam2/page_015/image_01_01.png'
+GAME_PREVIEW_SRC = '/pdf-assets/中級/mid_1141_s2/page_012/image_02_01.png'
+GAME_YEAR_SRC = '/pdf-assets/中級/mid_1141_s2/page_013/image_01_01.png'
+MARKETING_LOAD_SRC = '/pdf-assets/中級/mid_1141_s2/page_014/image_01_01.png'
+MARKETING_PREVIEW_SRC = '/pdf-assets/中級/mid_1141_s2/page_015/image_01_01.png'
 
 ANNOTATIONS: dict[str, dict[str, str]] = {
     VGG16_CODE_SRC: {
@@ -67,7 +67,7 @@ data.head()
 16597    2003.0
 Name: Year, Length: 16598, dtype: float64""",
     },
-    '/pdf-assets/中級/exam2/page_010/image_01_01.png': {
+    '/pdf-assets/中級/mid_1141_s2/page_010/image_01_01.png': {
         'markdown_language': 'text',
         'markdown_title': '虛擬程式碼',
         'markdown': """Input:
@@ -89,7 +89,7 @@ Algorithm:
 3. 計算 metrics 的平均值 mean_metric
 4. 回傳 mean_metric""",
     },
-    '/pdf-assets/中級/exam2/page_011/image_01_01.png': {
+    '/pdf-assets/中級/mid_1141_s2/page_011/image_01_01.png': {
         'markdown_language': 'text',
         'markdown_title': '虛擬程式碼',
         'markdown': """Input:
@@ -113,7 +113,7 @@ Algorithm:
 
 回傳每筆資料的群組號 clusters，以及最後的群中心 centroids""",
     },
-    '/pdf-assets/中級/exam2/page_012/image_01_01.png': {
+    '/pdf-assets/中級/mid_1141_s2/page_012/image_01_01.png': {
         'markdown_language': 'python',
         'markdown_title': 'Python 程式碼',
         'markdown': """import numpy as np
@@ -122,13 +122,13 @@ from scipy.stats import poisson
 lambda_poisson = 5
 print(poisson.pmf(5, lambda_poisson))""",
     },
-    '/pdf-assets/中級/exam2/page_014/image_01_01.png': {
+    '/pdf-assets/中級/mid_1141_s2/page_014/image_01_01.png': {
         'markdown_language': 'python',
         'markdown_title': 'Python 程式碼',
         'markdown': """import pandas as pd
 df = pd.read_csv("marketing.csv")""",
     },
-    '/pdf-assets/中級/exam2/page_015/image_01_01.png': {
+    '/pdf-assets/中級/mid_1141_s2/page_015/image_01_01.png': {
         'markdown_language': 'text',
         'markdown_title': '資料預覽與描述統計',
         'markdown': """>>> df.head()
@@ -150,7 +150,7 @@ min      0.840000    0.000000    0.360000    1.920000
 75%    262.590000   43.680000   54.120000   20.880000
 max    355.680000   59.520000  136.800000   32.400000""",
     },
-    '/pdf-assets/中級/exam2/page_015/image_02_01.png': {
+    '/pdf-assets/中級/mid_1141_s2/page_015/image_02_01.png': {
         'markdown_language': 'text',
         'markdown_title': '執行結果',
         'markdown': """youtube      0
@@ -159,7 +159,7 @@ newspaper    0
 sales        0
 dtype: int64""",
     },
-    '/pdf-assets/中級/exam2/page_016/image_01_01.png': {
+    '/pdf-assets/中級/mid_1141_s2/page_016/image_01_01.png': {
         'markdown_language': 'text',
         'markdown_title': '程式碼與執行結果',
         'markdown': """from sklearn.linear_model import LinearRegression
@@ -187,13 +187,34 @@ youtube    0.0455     0.001   32.702   0.000
 facebook   0.1891     0.009   21.960   0.000
 newspaper -0.0006     0.006   -0.108   0.914""",
     },
-    '/pdf-assets/中級/exam3/page_009/exam3_q38_visual_p009.png': {
+    '/pdf-assets/中級/mid_1141_s3/page_009/image_01_01.png': {
         'markdown_language': 'python',
         'markdown_title': 'Python 程式碼',
         'markdown': """def metric(y_true, y_pred):
     return sum((y_true - y_pred) ** 2) / len(y_true)""",
     },
-    '/pdf-assets/中級/exam3/page_009/image_02_01.png': {
+    '/pdf-assets/中級/mid_1141_s3/page_014/image_02_01.png': {
+        'markdown_language': 'python',
+        'markdown_title': '製造雜訊影像',
+        'markdown': """import numpy as np
+noisy = np.random.normal(digits.data, 4)""",
+    },
+    '/pdf-assets/中級/mid_1141_s3/page_014/image_04_01.png': {
+        'markdown_language': 'python',
+        'markdown_title': 'PCA 降噪程式碼（A~E）',
+        'markdown': """from sklearn.decomposition import PCA          # 程式碼A
+pca = PCA()                                    # 程式碼B
+pca.fit(noisy)                                 # 程式碼C
+components = pca.transform(noisy)              # 程式碼D
+filtered = pca.inverse_transform(components)   # 程式碼E""",
+    },
+    '/pdf-assets/中級/mid_1141_s3/page_017/image_03_01.png': {
+        'markdown_language': 'python',
+        'markdown_title': '模型訓練與評估',
+        'markdown': """history = model.fit(X_train, y_train, validation_split=0.2, epochs=100, batch_size=10)
+loss, accuracy = model.evaluate(X_train, y_train, verbose=0)""",
+    },
+    '/pdf-assets/中級/mid_1141_s3/page_009/image_02_01.png': {
         'markdown_language': 'python',
         'markdown_title': 'Python 程式碼',
         'markdown': """def forward(x, p, training=True):
@@ -203,7 +224,7 @@ newspaper -0.0006     0.006   -0.108   0.914""",
     else:
         return x""",
     },
-    '/pdf-assets/中級/exam3/page_009/image_03_01.png': {
+    '/pdf-assets/中級/mid_1141_s3/page_009/image_03_01.png': {
         'markdown_language': 'python',
         'markdown_title': 'Python 程式碼',
         'markdown': """import numpy as np
@@ -212,7 +233,7 @@ v1 = np.array([1, 2, 3])
 v2 = np.array([4, 5, 6])
 A = np.array([[1, 2], [3, 4]])""",
     },
-    '/pdf-assets/中級/exam3/page_010/image_01_01.png': {
+    '/pdf-assets/中級/mid_1141_s3/page_010/image_01_01.png': {
         'markdown_language': 'python',
         'markdown_title': 'Python 程式碼',
         'markdown': """import numpy as np
@@ -225,7 +246,7 @@ A = (dice_rolls % 2 == 0)
 B = (dice_rolls > 3)
 A_and_B = A & B""",
     },
-    '/pdf-assets/中級/exam3/page_013/image_01_01.png': {
+    '/pdf-assets/中級/mid_1141_s3/page_013/image_01_01.png': {
         'markdown_language': 'python',
         'markdown_title': '選項 A 程式碼',
         'markdown': """import torch
@@ -236,7 +257,7 @@ for param in model.parameters():
     param.requires_grad = False
 model.classifier[6] = torch.nn.Linear(4096, 10)""",
     },
-    '/pdf-assets/中級/exam3/page_013/image_02_01.png': {
+    '/pdf-assets/中級/mid_1141_s3/page_013/image_02_01.png': {
         'markdown_language': 'python',
         'markdown_title': '選項 B 程式碼',
         'markdown': """import torch
@@ -247,7 +268,7 @@ for param in model.features.parameters():
     param.requires_grad = False
 model.classifier[6] = torch.nn.Linear(4096, 10)""",
     },
-    '/pdf-assets/中級/exam3/page_013/image_03_01.png': {
+    '/pdf-assets/中級/mid_1141_s3/page_013/image_03_01.png': {
         'markdown_language': 'python',
         'markdown_title': '選項 C 程式碼',
         'markdown': """import torch
@@ -258,7 +279,7 @@ for param in model.classifier.parameters():
     param.requires_grad = False
 model.classifier[6] = torch.nn.Linear(4096, 10)""",
     },
-    '/pdf-assets/中級/exam3/page_013/image_04_01.png': {
+    '/pdf-assets/中級/mid_1141_s3/page_013/image_04_01.png': {
         'markdown_language': 'python',
         'markdown_title': '選項 D 程式碼',
         'markdown': """import torch
@@ -268,7 +289,7 @@ model = models.vgg16(pretrained=True)
 model.requires_grad = False
 model.classifier[6] = torch.nn.Linear(4096, 10)""",
     },
-    '/pdf-assets/中級/exam3/page_014/image_05_01.png': {
+    '/pdf-assets/中級/mid_1141_s3/page_014/image_05_01.png': {
         'markdown_language': 'python',
         'markdown_title': '程式碼 A',
         'markdown': """# 程式碼 A:
@@ -281,7 +302,7 @@ cv = StratifiedKFold(n_splits=5, shuffle=True)
 scores = cross_val_score(model, X, y, cv=cv, scoring="accuracy")
 print(scores.mean())""",
     },
-    '/pdf-assets/中級/exam3/page_015/image_01_01.png': {
+    '/pdf-assets/中級/mid_1141_s3/page_015/image_01_01.png': {
         'markdown_language': 'python',
         'markdown_title': '程式碼 B',
         'markdown': """# 程式碼 B:
@@ -294,7 +315,7 @@ cv = StratifiedKFold(n_splits=5, shuffle=True)
 scores = cross_val_score(model, X, y, cv=cv, scoring="f1")
 print(scores.mean())""",
     },
-    '/pdf-assets/中級/exam3/page_015/image_02_01.png': {
+    '/pdf-assets/中級/mid_1141_s3/page_015/image_02_01.png': {
         'markdown_language': 'python',
         'markdown_title': '程式碼 C',
         'markdown': """# 程式碼 C:
@@ -306,7 +327,7 @@ model = KNeighborsClassifier(n_neighbors=3)
 scores = cross_val_score(model, X, y, cv=5, scoring="accuracy")
 print(scores.mean())""",
     },
-    '/pdf-assets/中級/exam3/page_015/image_03_01.png': {
+    '/pdf-assets/中級/mid_1141_s3/page_015/image_03_01.png': {
         'markdown_language': 'python',
         'markdown_title': '程式碼 D',
         'markdown': """# 程式碼 D:
@@ -318,7 +339,7 @@ model = KNeighborsClassifier(n_neighbors=3)
 scores = cross_val_score(model, X, y, cv=5, scoring="f1")
 print(scores.mean())""",
     },
-    '/pdf-assets/中級/exam3/page_015/image_04_01.png': {
+    '/pdf-assets/中級/mid_1141_s3/page_015/image_04_01.png': {
         'markdown_language': 'python',
         'markdown_title': 'Python 程式碼',
         'markdown': """import numpy as np
@@ -330,7 +351,7 @@ np.random.seed(123)
 df_train = pd.read_csv("titanic_train.csv")
 df_test = pd.read_csv("titanic_test.csv")""",
     },
-    '/pdf-assets/中級/exam3/page_016/image_01_01.png': {
+    '/pdf-assets/中級/mid_1141_s3/page_016/image_01_01.png': {
         'markdown_language': 'text',
         'markdown_title': 'df_train.head()',
         'markdown': """df_train.head()
@@ -342,7 +363,7 @@ df_test = pd.read_csv("titanic_test.csv")""",
 3       1    0  30.0      1      0  151.5500        True       False       False         0
 4       1    0  48.0      0      0   26.5500       False       False        True         1""",
     },
-    '/pdf-assets/中級/exam3/page_016/image_02_01.png': {
+    '/pdf-assets/中級/mid_1141_s3/page_016/image_02_01.png': {
         'markdown_language': 'text',
         'markdown_title': 'df_test.head()',
         'markdown': """df_test.head()
@@ -354,7 +375,7 @@ df_test = pd.read_csv("titanic_test.csv")""",
 3       1    1  32.0000      0      0   76.2917        True       False       False         1
 4       1    1  47.0000      1      1   52.5542       False       False        True         1""",
     },
-    '/pdf-assets/中級/exam3/page_016/image_03_01.png': {
+    '/pdf-assets/中級/mid_1141_s3/page_016/image_03_01.png': {
         'markdown_language': 'python',
         'markdown_title': 'Python 程式碼',
         'markdown': """dataset_train = df_train.values.astype("float32")
@@ -365,7 +386,7 @@ y_train = dataset_train[:, 9]
 X_test = dataset_test[:, 0:9]
 y_test = dataset_test[:, 9]""",
     },
-    '/pdf-assets/中級/exam3/page_016/image_04_01.png': {
+    '/pdf-assets/中級/mid_1141_s3/page_016/image_04_01.png': {
         'markdown_language': 'python',
         'markdown_title': 'Python 程式碼',
         'markdown': """X_train -= X_train.mean(axis=0)
@@ -373,7 +394,7 @@ X_train /= X_train.std(axis=0)
 X_test -= X_test.mean(axis=0)
 X_test /= X_test.std(axis=0)""",
     },
-    '/pdf-assets/中級/exam3/page_017/image_01_01.png': {
+    '/pdf-assets/中級/mid_1141_s3/page_017/image_01_01.png': {
         'markdown_language': 'text',
         'markdown_title': '模型程式碼與摘要',
         'markdown': """model = Sequential()
@@ -391,7 +412,7 @@ dense (Dense)       (None, 10)      空格1
 dense_1 (Dense)     (None, 10)      空格2
 dense_2 (Dense)     (None, 1)       11""",
     },
-    '/pdf-assets/中級/exam3/page_017/image_04_01.png': {
+    '/pdf-assets/中級/mid_1141_s3/page_017/image_04_01.png': {
         'markdown_language': 'python',
         'markdown_title': 'Python 程式碼',
         'markdown': """import matplotlib.pyplot as plt
@@ -776,7 +797,7 @@ def format_vgg16_block(block: str) -> str:
 
 
 def annotate_context_blocks(question: dict[str, Any]) -> bool:
-    if question.get('id') not in {'exam3_q42', 'exam3_q43', 'exam3_q44', 'exam3_q45'}:
+    if question.get('id') not in {'mid_1141_s3_q42', 'mid_1141_s3_q43', 'mid_1141_s3_q44', 'mid_1141_s3_q45'}:
         question.pop('context_blocks', None)
         return False
 
@@ -817,7 +838,7 @@ def annotate_context_blocks(question: dict[str, Any]) -> bool:
                     block['markdown'] = formatted
                     changed = True
 
-    if question.get('id') == 'exam3_q45':
+    if question.get('id') == 'mid_1141_s3_q45':
         options = question.get('options')
         expected_options = {
             'A': '見下方選項 A 程式碼',
@@ -834,10 +855,10 @@ def annotate_context_blocks(question: dict[str, Any]) -> bool:
         images.insert(0, {
             'type': 'image',
             'src': VGG16_CODE_SRC,
-            'alt': 'exam3 第 11 頁 VGG16 載入程式碼',
+            'alt': 'mid_1141_s3 第 11 頁 VGG16 載入程式碼',
             'page_index': 10,
             'page_number': 11,
-            'bbox': [120, 541.33, 413.33, 581.33],
+            'bbox': [120.38, 541.33, 413.33, 581.33],
             'placement': 'context',
             'markdown_language': 'python',
             'markdown_title': 'VGG16 載入程式碼',
@@ -882,7 +903,7 @@ def add_unique_image(images: list[dict[str, Any]], payload: dict[str, Any], inde
 
 def annotate_exam2_group_images(question: dict[str, Any]) -> bool:
     question_id = question.get('id')
-    if not isinstance(question_id, str) or not question_id.startswith('exam2_q'):
+    if not isinstance(question_id, str) or not question_id.startswith('mid_1141_s2_q'):
         return False
 
     try:
@@ -898,7 +919,7 @@ def annotate_exam2_group_images(question: dict[str, Any]) -> bool:
     if 43 <= qnum <= 47:
         changed |= add_unique_image(images, image_payload(
             GAME_PREVIEW_SRC,
-            'exam2 第 13 頁 vgsales 資料預覽',
+            'mid_1141_s2 第 13 頁 vgsales 資料預覽',
             12,
             13,
             [118.15, 584.0, 480.4, 712.05],
@@ -907,7 +928,7 @@ def annotate_exam2_group_images(question: dict[str, Any]) -> bool:
     if qnum == 43:
         changed |= add_unique_image(images, image_payload(
             GAME_YEAR_SRC,
-            "exam2 第 14 頁 data['Year'] 欄位輸出",
+            "mid_1141_s2 第 14 頁 data['Year'] 欄位輸出",
             13,
             14,
             [118.15, 132.15, 439.93, 295.7],
@@ -917,14 +938,14 @@ def annotate_exam2_group_images(question: dict[str, Any]) -> bool:
     if 48 <= qnum <= 50:
         changed |= add_unique_image(images, image_payload(
             MARKETING_LOAD_SRC,
-            'exam2 第 15 頁 marketing.csv 載入程式碼',
+            'mid_1141_s2 第 15 頁 marketing.csv 載入程式碼',
             14,
             15,
             [118.15, 639.43, 452.57, 699.03],
         ), 0)
         changed |= add_unique_image(images, image_payload(
             MARKETING_PREVIEW_SRC,
-            'exam2 第 16 頁 marketing.csv 資料預覽與描述統計',
+            'mid_1141_s2 第 16 頁 marketing.csv 資料預覽與描述統計',
             15,
             16,
             [118.15, 139.18, 487.07, 399.08],
@@ -1092,7 +1113,7 @@ def annotate_mid1151s3_q50(question: dict[str, Any]) -> bool:
 def annotate_question_images(path: Path) -> int:
     data: dict[str, Any] = json.loads(path.read_text(encoding='utf-8'))
     changed = 0
-    is_middle_exam2 = path.parts[-3:] == ('中級', 'questions', 'mock_exam2.json')
+    is_middle_exam2 = path.parts[-3:] == ('中級', 'questions', 'mock_mid_1141_s2.json')
     middle_exam2_sources = {GAME_PREVIEW_SRC, GAME_YEAR_SRC, MARKETING_LOAD_SRC, MARKETING_PREVIEW_SRC}
     for question in data.get('questions') or []:
         if annotate_context_blocks(question):
@@ -1128,6 +1149,20 @@ def annotate_question_images(path: Path) -> int:
                 if image.get(field) != value:
                     image[field] = value
                     changed += 1
+        # 防護：資產改名/重抽後可能留下指向不存在檔案的圖片參照，
+        # 前端會渲染成破圖，這裡一律清掉。
+        if isinstance(question.get('images'), list):
+            kept = [
+                image for image in question['images']
+                if (BASE / 'frontend' / 'public' / str(image.get('src', '')).lstrip('/')).exists()
+            ]
+            if len(kept) != len(question['images']):
+                for image in question['images']:
+                    if image not in kept:
+                        print(f"  [DROP] {question.get('id')}: missing asset {image.get('src')}")
+                question['images'] = kept
+                changed += 1
+
         if question.get('images') == []:
             question.pop('images')
             changed += 1
@@ -1139,7 +1174,7 @@ def annotate_question_images(path: Path) -> int:
 EXAM_FILES = {
     '初級': {'sample_exam.json'},
     '中級': {
-        'mock_exam1.json', 'mock_exam2.json', 'mock_exam3.json', 'sample_exam.json',
+        'sample_exam.json',
         'mock_mid_1141_s1.json', 'mock_mid_1141_s2.json', 'mock_mid_1141_s3.json',
         'mock_mid_1151_s1.json', 'mock_mid_1151_s2.json', 'mock_mid_1151_s3.json',
     },

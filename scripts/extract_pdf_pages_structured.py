@@ -225,6 +225,10 @@ def is_decorative_image(page: fitz.Page, rect: fitz.Rect) -> bool:
     """Skip title ornaments, tiny icons, and other low-value decorative crops."""
     area = rect.width * rect.height
     page_area = page.rect.width * page.rect.height
+    # 考題常把幾行程式碼截圖成「很寬但很矮」的橫幅；純高度門檻會誤刪這類圖，
+    # 導致題目失去唯一的作答依據。夠寬的橫幅一律保留。
+    if rect.width >= page.rect.width * 0.40 and rect.height >= 20:
+        return False
     if rect.width < 90 or rect.height < 45:
         return True
     if area < page_area * 0.018 and rect.height < 90:
