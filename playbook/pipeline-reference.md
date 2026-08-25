@@ -49,9 +49,21 @@ python3 scripts/export_guide_outline_data.py --all-levels --use-guide-tree   # �
 python3 scripts/codex_review_pdf_pages.py --level 初級 --key guide1 --page 7 --force
 python3 scripts/build_pdf_outline.py --level 初級 --all
 python3 scripts/export_pdf_image_gallery.py --level 初級 --force
+uv run python3 scripts/verify_toc_alignment.py --all-levels   # 章節邊界／標題對帳，見下方
 ```
 
 ⚠️ `export_guide_outline_data.py` 有兩個會造成資料損失的陷阱（rmtree、必補手動修正）——**見 §10**。
+
+**動過 `toc_manifest.json`（或重跑 `build_manifest.py`）後，跑 `verify_toc_alignment.py`。**
+它拿學習指引 PDF 自帶的目錄當 ground truth，檢查每一章的 `start_page`、標題、`page_range[0]`
+邊界頁，以及目錄的內部跳頁連結目標，不一致時 exit 1。
+
+為什麼目錄可信：**內文頁的章節標題在 PDF 文字層是空的**——標題被畫成圖片（這正是要跑 OCR
+的原因），但目錄頁的標題與頁碼是真文字，中級三本還帶內部跳頁連結。所以目錄是唯一可機讀的
+標題／邊界權威。限制：目錄只到章層級（3.1／3.2…），**小節標題驗證不到**。
+
+已知例外寫在腳本的 `KNOWN_EXCEPTIONS`：中級 guide3「線性代數之機器學習基礎應用」的目錄連結
+指向封面 p1，是官方 PDF 自身的缺陷（該行印的 3-9 與內文 p16 都正確），不是我們解析錯。
 
 <!-- 2026-08-07: §1 從「主路線」降為備援。實際主路線是 §1a 的 OCR 兩軌。 -->
 ## §1 Guide 內容 pipeline（Gemini Vision，**已非主路線**）
@@ -575,19 +587,23 @@ Committed 段列出的六類後綴，`subject{N}_guide.json` 本體是 tracked�
 Pipeline 跑完後：
 1. `toc_manifest.json` 存在且所有章節 `page_range` 非 null。
 2. `python3 scripts/verify_data_alignment.py --level {level}` 通過。
-3. `pdf_vision_extract.py` 後：`pages_cache/{key}/summary.json` 的 missing/error 為 0，`page_index.json` 存在。
-4. `parse_guides.py` 印出 `[vision mode]`（不是 regex mode），每章 >1000 字。
-5. `audit_chapters.py` 報告 PASS；WARN/FAIL 章節先處理再出題。
-6. `parse_exams_v2.py`：exam1/exam2 解析數 <50 是已知現象（部分 PDF 列無法機器解析），看 WARN 行與實際 JSON 總數。
-7. 動了名詞解釋後：`verify_glossary_terms.py` 兩份檔案都跑（flagged 要為 0 或逐條裁決）＋ `audit_resources.py` exit 0。
-7. 前端改動後：`cd frontend && npm run build` 零 TypeScript 錯誤（這是唯一的型別防線）。
-8. 手動 spot-check：dev server 看題目渲染、答題後 card 面板出現（card 面板沒出現先確認
+3. 動過 `toc_manifest.json` 或重跑 guide pipeline 後：
+    `uv run python3 scripts/verify_toc_alignment.py --all-levels` exit 0
+    （章節邊界／標題對帳，ground truth 是 PDF 目錄；細節與限制見 §0）。
+4. `pdf_vision_extract.py` 後：`pages_cache/{key}/summary.json` 的 missing/error 為 0，`page_index.json` 存在。
+5. `parse_guides.py` 印出 `[vision mode]`（不是 regex mode），每章 >1000 字。
+6. `audit_chapters.py` 報告 PASS；WARN/FAIL 章節先處理再出題。
+7. `parse_exams_v2.py`：每份公告試題應解析出 50 題（初級 sample 68、中級 sample 41）。
+   看 WARN 行與實際 JSON 總數；數字短少代表表格解析退化，不要當成已知現象放過。
+8. 動了名詞解釋後：`verify_glossary_terms.py` 兩份檔案都跑（flagged 要為 0 或逐條裁決）＋ `audit_resources.py` exit 0。
+9. 前端改動後：`cd frontend && npm run build` 零 TypeScript 錯誤（這是唯一的型別防線）。
+10. 手動 spot-check：dev server 看題目渲染、答題後 card 面板出現（card 面板沒出現先確認
    題目 JSON 是否真的有 `card` 欄位，再懷疑前端）、行動版 `☰` 抽屜有 `✏️` 練習題入口。
-9. 看 `logs/` 有無抽取/解析錯誤。
-10. 動過講義文字（OCR、勘誤、清洗）後：`python3 scripts/verify_question_guide_alignment.py`
+11. 看 `logs/` 有無抽取/解析錯誤。
+12. 動過講義文字（OCR、勘誤、清洗）後：`python3 scripts/verify_question_guide_alignment.py`
     ——「本輪造成的退化」要是 0，`chapter_id` 失效要是 0。2026-08-07 的基準是
     179 題 `guide_exercises` 全數在引用頁逐字命中。
-11. 未來自動測試放 `tests/test_*.py`。
+13. 未來自動測試放 `tests/test_*.py`。
 
 > 教訓 2026-08-07：比對中文 PDF 文字時只正規化其中一邊，會全部落空。根因：全形標點與
 > CJK 相容字（「數」是 U+F969）在兩邊的編碼不同。規則：**兩邊都做 NFKC**，若要把結果寫回
