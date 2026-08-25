@@ -455,9 +455,21 @@ def main() -> None:
             continue
         run_summary[key] = extract_pdf(args.level, key, pdfs[key], args.scale, args.force)
 
+    # 合併而非覆寫：單一 --key 執行過去會把整份 summary 蓋成只剩那一個 key，
+    # 讓人誤以為其他 PDF 沒抽過。
     out_path = BASE / 'data' / args.level / 'page_extract' / 'summary.json'
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(run_summary, ensure_ascii=False, indent=2), encoding='utf-8')
+    merged = {}
+    if out_path.exists():
+        try:
+            merged = json.loads(out_path.read_text(encoding='utf-8'))
+        except json.JSONDecodeError:
+            merged = {}
+    merged.update(run_summary)
+    # 目錄已不存在的 key 一併清掉，避免留下改名前的殘影
+    existing = {path.name for path in out_path.parent.iterdir() if path.is_dir()}
+    merged = {key: value for key, value in merged.items() if key in existing}
+    out_path.write_text(json.dumps(merged, ensure_ascii=False, indent=2), encoding='utf-8')
 
 
 if __name__ == '__main__':
