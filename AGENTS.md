@@ -33,7 +33,7 @@ Data pipeline scripts support `--level` (default `初級`); paths resolve to `da
 - `scripts/parse_exams_v2.py`: turns extracted content into mock-exam JSON under `data/{level}/questions/`, records original PDF page references, and attaches cropped/page image assets for image-based exam questions from `page_extract/`. Supports `--level`.
 - `scripts/generate_questions.py`: calls the Claude API to generate new questions or add `card` fields to existing ones. Requires `ANTHROPIC_API_KEY`. Supports `--level`, `--subject`, `--enrich`.
 - `scripts/multi_ai_pipeline.py`: multi-AI pipeline using Gemini (出題) → Codex (審核) → Claude (完稿) CLI tools via subprocess. Includes answer-validation stage where all three AIs answer each question; questions with 2+ wrong answers are flagged to `flagged.json`. Intermediate output goes to `data/{level}/pipeline/<run_id>/`; final questions merged into `subject{N}_questions.json`. Supports `--level`.
-- `scripts/render_guide_page_images.py`: renders source PDF pages referenced by guide JSON into `frontend/public/guide-pages/{level}/{key}/` so the site can show original page screenshots for figures, tables, and layout context. Supports `--level`, `--subject`, `--all`, `--force`.
+- ~~`scripts/render_guide_page_images.py`~~: **retired 2026-08-29.** Its output `frontend/public/guide-pages/` was never referenced by the frontend and has been deleted (89 files, 12.5 MB). The script now refuses to run. Original-page screenshots come from `pdf-assets/` via `export_pdf_image_gallery.py`.
 - `scripts/verify_data_alignment.py`: local consistency check for PDF references and app data. Compares the current `toc_manifest.json` against `build_manifest.py` + actual PDF page labels, checks guide/exam PDF references, and verifies guide/question chapter IDs and titles match the manifest. Supports `--level`.
 - `scripts/build_web.py`: thin wrapper that runs `npm run build` inside `frontend/`, outputting the React app to `docs/`.
 - `frontend/`: Vite project (React 19 + TypeScript + Tailwind CSS v4 + React Router v6 + Zustand). Source in `frontend/src/`; build config in `frontend/vite.config.ts`. JSON data is imported statically via `@data` (points to `data/初級/`) and `@data-mid` (points to `data/中級/`) at build time. Chapter navigation and overview pages read chapter metadata from `toc_manifest.json`. Guide reading pages render `GuideContent.blocks[]` first and fall back to Markdown only when blocks are absent; the “本節階層” sidebar intentionally shows only section heading depths 3–4 (`1.` and `（1）`) while the main content preserves deeper indentation. `frontend/src/generated/` and `frontend/public/` PDF assets are versioned static inputs for the site; regenerate them with the export/render scripts when PDF extraction changes.
@@ -62,7 +62,7 @@ This project uses `uv` for dependency management. Run `uv sync` after cloning to
 **Guide pipeline (Vision extraction via Gemini):**
 - Step 1: `uv run python3 scripts/pdf_vision_extract.py --level 初級 --all` — render pages to PNG, call Gemini Vision API, cache results.
 - Step 2: `uv run python3 scripts/parse_guides.py --level 初級` — assemble chapter JSON from vision cache.
-- Step 2b: `python3 scripts/render_guide_page_images.py --level 初級 --all` — render original PDF page screenshots referenced by guide JSON.
+- ~~Step 2b~~: retired 2026-08-29, see above. Do not run.
 - Step 3 (required): `uv run python3 scripts/audit_chapters.py --level 初級 --all` — LLM chapter content audit. Use `--dry-run` to preview prompts.
 
 **Exam pipeline:**

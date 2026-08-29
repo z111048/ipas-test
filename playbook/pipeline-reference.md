@@ -1,3 +1,7 @@
+<!-- 2026-08-29: render_guide_page_images.py 標記退場（產物 /guide-pages/ 經窮舉比對確認
+     前端從未引用，89 檔 13 MB 已從版控刪除）。
+     測試文件刻意不寫進本檔——本檔改動前已 728 行、超過 04-maintenance §4 的 600 行上限
+     128 行，改放 tests/README.md。備份見 backups/pipeline-reference.md.bak-2026-08-29。 -->
 # Pipeline Reference（腳本目錄與操作手冊）
 
 > 本檔是 pipeline 細節的**唯一權威來源**。CLAUDE.md 只放路由；AGENTS.md（Codex CLI 用）內容較舊，
@@ -76,7 +80,7 @@ uv run python3 scripts/pdf_vision_extract.py --level 初級 --all   # 兩科約 
 #   單科 --subject 1｜單章 --chapter mid-s1c1｜頁範圍 --page-range 10 25（1-based）
 #   --dry-run 估費用｜--force 強制重跑（覆蓋快取）
 uv run python3 scripts/parse_guides.py --level 初級 [--subject 1]  # → guide/subject{N}_guide.json
-python3 scripts/render_guide_page_images.py --level 初級 --all     # PDF 原頁截圖（前端摺疊區）
+# render_guide_page_images.py 已退場（2026-08-26）：產物 /guide-pages/ 前端從未引用，已刪除。不要再跑。
 ```
 
 `parse_guides.py` 偵測到 `pages_cache/` 走 vision mode，否則 fallback regex mode——
@@ -533,10 +537,14 @@ uv run python3 scripts/build_web.py     # production build → docs/（gitignore
 - `export_guide_outline_data.py` — ⚠️ 見 §10。page_clean/guide_tree → `guideOutlines.json` + 分拆 per-node `guideContent/{key}/`（前端 GuidePage 讀的是這個，**不是** `data/*/guide/*.json`）。
 - `export_guide_embedded_exercises.py` — 抽 guide PDF 內嵌官方習題 → `questions/subject{N}_guide_exercises.json`（與 AI 生成題分開）。
 - `export_question_generation_data.py` — 匯出出題 pipeline 的 seed（guide 內容 + 既有題目），並初始化/保留 `subject{N}_questions.json`。
-- `export_pdf_image_gallery.py` — page_extract 裁圖 → `frontend/public/pdf-assets/{level}/` + `gallery.json`（`#/images` 檢視器）。
+- `export_pdf_image_gallery.py` — page_extract 裁圖 → `frontend/public/pdf-assets/{level}/` +
+  `frontend/src/generated/pdfGallery.json`（`#/images` 檢視器）。
+  2026-08-29 起不再寫 `public/.../gallery.json`——那份三個 level 合計 589 KB，從來沒有消費者。
 - `export_resource_summary.py` — 章節/題數/覆蓋統計 + `visuals` 概念圖卡計數 → `resourceSummary.json`（首頁統計用；題目 JSON 得以 lazy load）。
 - `export_exam_reference_answers.py`、`export_colab_metadata.py`、`export_guide_images_data.py`、`export_guide_image_units.py`、`export_learning_articles.py`、`export_guide_exam_annotations.py` — 各自把後端產物轉前端 JSON；改了上游資料記得重跑對應那支。
-- `render_guide_page_images.py` — guide JSON `source_pages` 的 PDF 截圖 → `frontend/public/guide-pages/`。
+- ~~`render_guide_page_images.py`~~ — **已退場（2026-08-26）**。產物 `frontend/public/guide-pages/`（89 檔 13 MB）
+  經窮舉比對確認前端從未引用（`parse_guides.py:369-373` 註解已寫明），已從版控刪除。
+  前端讀的是 `guideContent` 與 `pdfGallery`，都指向 `pdf-assets/`。不要重跑這支。
 
 **生成（花錢/花時間）**
 - `generate_questions.py` — Claude API 出題（`--subject N`）或補 card 欄位（`--enrich`）。`--dry-run` 先看 prompt。
@@ -582,7 +590,7 @@ Committed 段列出的六類後綴，`subject{N}_guide.json` 本體是 tracked�
 }
 ```
 
-## §9 驗證清單（無自動測試，靠這份）
+## §9 驗證清單（自動的跑 `python3 tests/run_all.py`，其餘靠這份）
 
 Pipeline 跑完後：
 1. `toc_manifest.json` 存在且所有章節 `page_range` 非 null。
@@ -603,7 +611,8 @@ Pipeline 跑完後：
 12. 動過講義文字（OCR、勘誤、清洗）後：`python3 scripts/verify_question_guide_alignment.py`
     ——「本輪造成的退化」要是 0，`chapter_id` 失效要是 0。2026-08-07 的基準是
     179 題 `guide_exercises` 全數在引用頁逐字命中。
-13. 未來自動測試放 `tests/test_*.py`。
+13. 自動測試在 `tests/`（5 支，2026-08-29 新增）。**動到執行時行為就要跑**：
+    `python3 tests/run_all.py`（7 項，約 3.5 分鐘，需要 playwright）。細節見 `tests/README.md`。
 
 > 教訓 2026-08-07：比對中文 PDF 文字時只正規化其中一邊，會全部落空。根因：全形標點與
 > CJK 相容字（「數」是 U+F969）在兩邊的編碼不同。規則：**兩邊都做 NFKC**，若要把結果寫回

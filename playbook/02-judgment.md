@@ -66,7 +66,8 @@ build 只驗型別，不驗內容正確性。這不是完成，是「大概完�
 
 ## §5 品質底線怎麼驗（本 repo 專屬）
 
-- **教材內容**：與 PDF 原頁比對（`frontend/public/guide-pages/` 有截圖）。抽驗法：
+- **教材內容**：與 PDF 原頁比對（`frontend/public/pdf-assets/{level}/{key}/page_NNN/page.png` 有截圖；
+  舊的 `guide-pages/` 已於 2026-08-29 退場刪除）。抽驗法：
   每章隨機抽 2 個 heading，確認在原 PDF 同頁存在且層級一致。
 - **題目**：①答案可從教材推出（引用章節）②四個選項互斥且唯一正解 ③`card.confusion`
   真的是易混淆點不是空話 ④無 AI 工具字眼。抽驗 10% 或至少 5 題。

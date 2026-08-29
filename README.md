@@ -25,7 +25,7 @@ ipas-test/
 │   ├── generate_questions.py     # Claude API → 章節題目 + 解說圖卡
 │   ├── generate_images.py        # Codex CLI → WebP 資訊圖表 public assets
 │   ├── multi_ai_pipeline.py      # 多 AI 出題流水線（Gemini/Codex/Claude CLI）
-│   ├── render_guide_page_images.py # 學習指引 PDF 原頁截圖 → frontend/public/guide-pages/
+│   ├── render_guide_page_images.py # 已退場（2026-08-29），拒絕執行
 │   ├── verify_data_alignment.py  # 檢查 PDF / manifest / guide / questions 是否一致
 │   └── build_web.py              # 呼叫 npm run build → docs/
 ├── frontend/                     # Vite 前端專案
@@ -102,7 +102,7 @@ uv run python3 scripts/pdf_vision_extract.py --level 初級 --subject 1 # 只跑
 
 # Step 2: 組合章節 JSON
 uv run python3 scripts/parse_guides.py --level 初級                   # 組合章節 JSON
-python3 scripts/render_guide_page_images.py --level 初級 --all       # 產生網站用 PDF 原頁截圖
+# render_guide_page_images.py 已退場（2026-08-29）：產物前端從未引用，已刪。不要跑。
 
 # Step 3: 解析後 LLM 審核（確認頁面→章節對應正確）
 uv run python3 scripts/audit_chapters.py --level 初級 --all           # 兩科全審
@@ -563,7 +563,7 @@ python3 scripts/multi_ai_pipeline.py --level 初級 --subject 1 --skip-review --
 - 重新依 `build_manifest.py` 與目前 PDF 頁碼標籤計算 manifest，並與 `data/{level}/toc_manifest.json` 比對（忽略 `generated_at`）。
 - 檢查 manifest 內的學習指引 PDF 與 `extract_pdfs.py` 的考試 PDF 檔名是否存在。
 - 檢查 `subject{N}_guide.json` 與 `subject{N}_questions.json` 的章節 ID / title 是否符合 manifest，且章節題庫不是空的。
-- 檢查 guide JSON 內的 PDF 原頁截圖路徑是否存在於 `frontend/public/guide-pages/`。
+- 檢查 guide JSON 內的 PDF 原頁截圖路徑是否存在（根目錄可用 `IPAS_ASSET_ROOT` 指定，預設 `frontend/public/`）。
 
 ```bash
 python3 scripts/verify_data_alignment.py --level 初級
@@ -571,14 +571,10 @@ python3 scripts/verify_data_alignment.py --level 初級
 
 ---
 
-### `scripts/render_guide_page_images.py`
+### ~~`scripts/render_guide_page_images.py`~~（已退場，2026-08-29）
 
-將 `subject{N}_guide.json` 內的 `source_pages` 渲染成 PNG，輸出至 `frontend/public/guide-pages/{level}/{key}/`。網站學習指引頁會以可展開區塊顯示這些原頁截圖，用來保留純文字抽取會遺失的圖、表、版面與跨頁脈絡。
-
-```bash
-python3 scripts/render_guide_page_images.py --level 初級 --all
-python3 scripts/render_guide_page_images.py --level 初級 --subject 1 --force
-```
+產物 `frontend/public/guide-pages/` 經窮舉比對確認**前端從未引用**，89 檔 12.5 MB 已從版控刪除，
+腳本本身也改成拒絕執行。網站學習指引頁顯示的原頁截圖來自 `pdf-assets/`（`export_pdf_image_gallery.py` 產生）。
 
 ---
 
