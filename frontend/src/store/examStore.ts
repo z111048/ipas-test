@@ -10,7 +10,7 @@ interface ExamState {
 
   setExam: (data: ExamData, key: string) => void
   startExam: () => void
-  selectAnswer: (index: number, key: 'A' | 'B' | 'C' | 'D') => void
+  selectAnswer: (questionId: string, key: 'A' | 'B' | 'C' | 'D') => void
   submitExam: () => void
   resetExam: () => void
   tickTimer: () => void
@@ -42,9 +42,9 @@ export const useExamStore = create<ExamState>((set) => ({
     }))
   },
 
-  selectAnswer: (index, key) => {
+  selectAnswer: (questionId, key) => {
     set((s) => ({
-      userAnswers: { ...s.userAnswers, [index]: key },
+      userAnswers: { ...s.userAnswers, [questionId]: key },
     }))
   },
 

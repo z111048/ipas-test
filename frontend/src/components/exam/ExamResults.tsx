@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useExamStore } from '../../store/examStore'
 import type { ExamReferenceAnswer, QuestionImage } from '../../types'
-import { referenceLoaders, referenceForQuestion } from '../../data/referenceAnswerLoaders'
+import { loadReferenceAnswers, referenceForQuestion } from '../../data/referenceAnswerLoaders'
 import ProgressBar from '../shared/ProgressBar'
 import StatBox from '../shared/StatBox'
 import { publicAsset } from '../../utils/assets'
@@ -115,17 +115,12 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
 
   useEffect(() => {
     let active = true
-    const loader = referenceLoaders[examKey]
-    if (!loader) {
-      setReferencesByQuestion({})
-      return
-    }
-
-    loader()
-      .then((module) => {
-        if (active) setReferencesByQuestion(module)
+    loadReferenceAnswers(examKey)
+      .then((references) => {
+        if (active) setReferencesByQuestion(references ?? {})
       })
-      .catch(() => {
+      .catch((error) => {
+        console.warn(`[examReferenceAnswers] 載入失敗 ${examKey}`, error)
         if (active) setReferencesByQuestion({})
       })
 
@@ -135,9 +130,9 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
   }, [examKey])
 
   let correct = 0, wrong = 0, skipped = 0
-  examData.questions.forEach((q, i) => {
-    if (userAnswers[i] === q.answer) correct++
-    else if (userAnswers[i]) wrong++
+  examData.questions.forEach((q) => {
+    if (userAnswers[q.id] === q.answer) correct++
+    else if (userAnswers[q.id]) wrong++
     else skipped++
   })
 
@@ -178,7 +173,7 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
 
   const wrongIndices = examData.questions
     .map((q, i) => ({ q, i }))
-    .filter(({ q, i }) => userAnswers[i] && userAnswers[i] !== q.answer)
+    .filter(({ q }) => userAnswers[q.id] && userAnswers[q.id] !== q.answer)
     .map(({ i }) => i)
 
   const jumpToQuestion = (i: number) => {
@@ -238,7 +233,7 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
 
       <h2 className="section-title mb-4">詳細解析</h2>
       {examData.questions.map((q, i) => {
-        const ua = userAnswers[i]
+        const ua = userAnswers[q.id]
         const isCorrect = ua === q.answer
         const isSkipped = !ua
         const reference = referenceForQuestion(referencesByQuestion, examKey, q.id)

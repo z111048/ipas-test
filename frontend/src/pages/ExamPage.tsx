@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { Dialog, MobileActionBar, StatePanel } from '../components/ui'
 import { loadExamData } from '../data/examLoaders'
 import { useExamTimer } from '../hooks/useExamTimer'
 import { useExamStore } from '../store/examStore'
 import type { ExamData } from '../types'
-import { preferredScrollBehavior } from '../utils/motion'
 import ExamIntro from '../components/exam/ExamIntro'
 import ExamQuestion from '../components/exam/ExamQuestion'
 import ExamResults from '../components/exam/ExamResults'
@@ -54,12 +53,36 @@ export default function ExamPage() {
 
   useExamTimer(phase === 'active')
 
+  /**
+   * 移動到指定題目。**程式觸發的捲動一律用 instant，這是正確性需求不是偏好。**
+   *
+   * 這一頁把所有題目一次渲染，用下面那個 IntersectionObserver 維護 activeIndex
+   * （哪一題是「當前題」），而鍵盤 1-4 是對 activeIndex 那一題作答。
+   * 一旦用平滑捲動，動畫途中 observer 會把 activeIndex 改成畫面上當下最顯眼的題，
+   * 於是「切題後立刻按數字鍵」會答到動畫經過的那一題——在考試裡就是靜默答錯題。
+   *
+   * 試過用「捲動期間鎖住 scroll-spy」來保留平滑動畫，是錯的，實測有三個破口：
+   * (a) 這一頁捲動的是 App.tsx 的 &lt;main overflow-y-scroll&gt; 而不是 document，
+   *     而 scrollend 從元素發出時**不冒泡**，掛在 document 上的解鎖永遠不會執行；
+   * (b) Chrome 的平滑捲動時長隨距離增加（實測上限約 1534ms），任何固定 timeout
+   *     都會在長距離跳題（題號盤、jumpToFirstUnanswered、深連結）時提早過期，
+   *     原本的錯答照樣復現，只是時間窗口換了位置；
+   * (c) 鎖期間使用者自己捲走，activeIndex 不跟隨，會答到畫面外看不見的題——
+   *     這比原本的 bug 更糟，因為螢幕與作答不再一致。
+   *
+   * instant 沒有中間狀態，observer 拿到的第一批 entry 就是最終位置，
+   * 正確性是 by construction 而不是跟時序賽跑。代價是失去平滑觀感——
+   * prefers-reduced-motion 的使用者本來走的就是這條路徑。
+   */
+  const focusQuestion = useCallback((index: number) => {
+    setActiveIndex(index)
+    questionRefs.current[index]?.scrollIntoView({ behavior: 'instant', block: 'center' })
+  }, [])
+
   const goTo = (idx: number) => {
     const total = currentExamData?.questions.length ?? 0
     if (total === 0) return
-    const clamped = Math.max(0, Math.min(idx, total - 1))
-    setActiveIndex(clamped)
-    questionRefs.current[clamped]?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'center' })
+    focusQuestion(Math.max(0, Math.min(idx, total - 1)))
   }
 
   useEffect(() => {
@@ -69,7 +92,8 @@ export default function ExamPage() {
       if (['1', '2', '3', '4'].includes(event.key)) {
         event.preventDefault()
         const optKey = (['A', 'B', 'C', 'D'] as const)[Number(event.key) - 1]
-        selectAnswer(activeIndex, optKey)
+        const activeQuestionId = currentExamData.questions[activeIndex]?.id
+        if (activeQuestionId) selectAnswer(activeQuestionId, optKey)
       } else if (event.key === 'ArrowRight') {
         event.preventDefault()
         goTo(activeIndex + 1)
@@ -143,12 +167,9 @@ export default function ExamPage() {
     if (!targetQuestionId || phase !== 'active' || !currentExamData) return
     const index = currentExamData.questions.findIndex((q) => q.id === targetQuestionId)
     if (index < 0) return
-    const timer = window.setTimeout(() => {
-      setActiveIndex(index)
-      questionRefs.current[index]?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'center' })
-    }, 120)
+    const timer = window.setTimeout(() => focusQuestion(index), 120)
     return () => window.clearTimeout(timer)
-  }, [targetQuestionId, phase, currentExamData])
+  }, [targetQuestionId, phase, currentExamData, focusQuestion])
 
   useEffect(() => {
     if (phase !== 'active') {
@@ -158,19 +179,35 @@ export default function ExamPage() {
   }, [phase])
 
   if (loading) {
-    return <div className="page-shell text-text-light p-4">考卷載入中...</div>
+    return (
+      <div className="page-shell">
+        <StatePanel tone="loading">考卷載入中...</StatePanel>
+      </div>
+    )
   }
 
   if (loadError) {
-    return <div className="page-shell text-error p-4">考卷載入失敗：{loadError}</div>
+    return (
+      <div className="page-shell">
+        <StatePanel tone="error" title="考卷載入失敗">{loadError}</StatePanel>
+      </div>
+    )
   }
 
   if (!examData) {
-    return <div className="page-shell text-error p-4">找不到考試：{examKey}</div>
+    return (
+      <div className="page-shell">
+        <StatePanel tone="error" title="找不到考試">{examKey}</StatePanel>
+      </div>
+    )
   }
 
   if (examKey !== storeExamKey || currentExamData !== examData) {
-    return <div className="page-shell text-text-light p-4">考卷準備中...</div>
+    return (
+      <div className="page-shell">
+        <StatePanel tone="loading">考卷準備中...</StatePanel>
+      </div>
+    )
   }
 
   const targetIndex = targetQuestionId
@@ -200,17 +237,21 @@ export default function ExamPage() {
   const answeredCount = Object.keys(userAnswers).length
   const unansweredIndices = currentExamData.questions
     .map((_, index) => index)
-    .filter((index) => !userAnswers[index])
+    .filter((index) => !userAnswers[currentExamData.questions[index].id])
   const unansweredCount = unansweredIndices.length
-  const activeAnswered = Boolean(userAnswers[activeIndex])
-  const currentAnswer = userAnswers[activeIndex]
+  const activeQuestionId = currentExamData.questions[activeIndex]?.id
+  const activeAnswered = Boolean(activeQuestionId && userAnswers[activeQuestionId])
+  const currentAnswer = activeQuestionId ? userAnswers[activeQuestionId] : undefined
 
   const jumpToFirstUnanswered = () => {
     const nextIndex = unansweredIndices[0]
     if (typeof nextIndex !== 'number') return
     setShowPalette(false)
     setShowSubmitDialog(false)
-    goTo(nextIndex)
+    // 等題號盤（實測高 360px）與對話框卸載、版面重排完再捲。
+    // 在同一個 handler 裡直接捲，scrollIntoView 算的是還含題號盤的舊版面，
+    // 捲完位置會偏掉一整題——使用者看到的與 activeIndex 就對不起來了。
+    requestAnimationFrame(() => goTo(nextIndex))
   }
 
   const handleSubmitIntent = () => {
@@ -292,7 +333,7 @@ export default function ExamPage() {
           <div className="mt-4 grid grid-cols-5 gap-2 sm:grid-cols-7 lg:grid-cols-10">
             {currentExamData.questions.map((question, index) => {
               const isActive = index === activeIndex
-              const isAnswered = Boolean(userAnswers[index])
+              const isAnswered = Boolean(userAnswers[question.id])
               return (
                 <button
                   key={question.id}

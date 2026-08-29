@@ -21,7 +21,7 @@ function imageAspectRatio(image: QuestionImage) {
 }
 
 export default function ExamQuestion({ question, index, isActive, registerRef }: ExamQuestionProps) {
-  const selected = useExamStore((s) => s.userAnswers[index])
+  const selected = useExamStore((s) => s.userAnswers[question.id])
   const selectAnswer = useExamStore((s) => s.selectAnswer)
   const contextImages = question.images?.filter((image) => image.placement === 'context') ?? []
   const questionImages = question.images?.filter((image) => image.placement !== 'option' && image.placement !== 'context') ?? []
@@ -128,14 +128,14 @@ export default function ExamQuestion({ question, index, isActive, registerRef }:
                 ? 'bg-[#eff6ff] border-accent text-primary'
                 : 'bg-white border-border hover:bg-[#f8fbff] hover:border-accent/60'
             }`}
-            onClick={() => selectAnswer(index, key)}
+            onClick={() => selectAnswer(question.id, key)}
           >
             <input
               type="radio"
               name={`q${index}`}
               value={key}
               checked={selected === key}
-              onChange={() => selectAnswer(index, key)}
+              onChange={() => selectAnswer(question.id, key)}
               className="mt-0.5 accent-accent"
             />
             <span className="min-w-0 flex-1">

@@ -5,7 +5,6 @@ import QuestionCard from '../components/practice/QuestionCard'
 import { resourceLevels, resourceSummary } from '../data/resourceRegistry'
 import { loadSubjectQuestions } from '../data/questionLoaders'
 import type { Question, SubjectQuestions } from '../types'
-import { preferredScrollBehavior } from '../utils/motion'
 
 type AnswerMap = Record<string, 'A' | 'B' | 'C' | 'D'>
 type QuestionStatus = 'pending' | 'correct' | 'wrong'
@@ -58,6 +57,14 @@ export default function PracticePage() {
   const [showRestoreBanner, setShowRestoreBanner] = useState(false)
   const [showQuestionNav, setShowQuestionNav] = useState(true)
   const questionRefs = useRef<Array<HTMLElement | null>>([])
+  /**
+   * 剛跑完「從 storage 還原」時設為 true，讓緊接著的那一次寫入跳過。
+   *
+   * 還原 effect 與寫入 effect 在**同一個 commit** 依序執行，而寫入 effect 閉包裡的
+   * `answers` 還是還原前的舊值（換章時是上一章的、初次載入時是空物件）。
+   * 直接寫下去就是拿「我還不知道」覆蓋「已經存著的東西」。
+   */
+  const skipNextStorageWriteRef = useRef(false)
   const [searchParams] = useSearchParams()
   const targetQuestionId = searchParams.get('q')
   const chapter = data?.chapters.find((c) => c.id === chapterId)
@@ -84,7 +91,8 @@ export default function PracticePage() {
     if (index < 0) return
     setActiveIndex(index)
     const timer = window.setTimeout(() => {
-      questionRefs.current[index]?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'center' })
+      // 同 goTo：程式觸發的捲動用 instant，避免動畫途中 scroll-spy 改掉 activeIndex
+      questionRefs.current[index]?.scrollIntoView({ behavior: 'instant', block: 'center' })
     }, 80)
     return () => window.clearTimeout(timer)
   }, [targetQuestionId, chapter])
@@ -129,6 +137,7 @@ export default function PracticePage() {
         if (parsed && Object.keys(parsed).length > 0) {
           setAnswers(parsed)
           setShowRestoreBanner(true)
+          skipNextStorageWriteRef.current = true
           return
         }
       }
@@ -137,11 +146,23 @@ export default function PracticePage() {
     }
     setAnswers({})
     setShowRestoreBanner(false)
+    skipNextStorageWriteRef.current = true
   }, [subjectId, chapterId, practiceSet])
 
   useEffect(() => {
     if (!subjectId || !chapterId) return
     const key = practiceStorageKey(subjectId, chapterId, practiceSet)
+    // 跳過「還原之後緊接著那一次」的寫入——那一次的 `answers` 還是舊值。
+    //
+    // 不擋的話：初次載入時會用空物件 removeItem 掉已存的作答；換章時會把
+    // 上一章的作答寫進這一章的 key。兩者在 production 都會被下一個 render 修正回來，
+    // 但 StrictMode 雙呼叫 effect 時，removeItem 剛好夾在兩次還原之間，
+    // 第二次還原讀到空的 → dev 環境重整必定掉進度（實測如此）。
+    // 階段 6 把作答改成雲端同步（非同步載入）後，這個窗口會變成真的資料遺失。
+    if (skipNextStorageWriteRef.current) {
+      skipNextStorageWriteRef.current = false
+      return
+    }
     try {
       if (Object.keys(answers).length > 0) {
         window.localStorage.setItem(key, JSON.stringify(answers))
@@ -153,12 +174,23 @@ export default function PracticePage() {
     }
   }, [answers, subjectId, chapterId, practiceSet])
 
+  /**
+   * 移動到指定題目。**程式觸發的捲動一律用 instant，這是正確性需求不是偏好。**
+   *
+   * 與 ExamPage 同一個問題（詳細理由見 `ExamPage.tsx` 的 `focusQuestion`）：
+   * 這一頁一次渲染整章的題目，用下面的 IntersectionObserver 維護 activeIndex，
+   * 鍵盤 1-4 對 activeIndex 那一題作答。平滑捲動的動畫途中 observer 會改掉 activeIndex，
+   * 「切題後立刻按數字鍵」就會答到別題。
+   *
+   * 這一頁比考試頁更嚴重：第 215 行的 `!answers[q.id]` 讓一題只能作答一次，
+   * 所以錯答**無法覆寫**，而且會被下面的 effect 寫進 localStorage 存著。
+   */
   const goTo = (idx: number) => {
     const total = chapter?.questions.length ?? 0
     if (total === 0) return
     const clamped = Math.max(0, Math.min(idx, total - 1))
     setActiveIndex(clamped)
-    questionRefs.current[clamped]?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'center' })
+    questionRefs.current[clamped]?.scrollIntoView({ behavior: 'instant', block: 'center' })
   }
 
   const handleRestart = () => {
@@ -214,11 +246,19 @@ export default function PracticePage() {
   }, [chapter])
 
   if (loading) {
-    return <div className="page-shell text-text-light p-4">題目載入中...</div>
+    return (
+      <div className="page-shell">
+        <StatePanel tone="loading">題目載入中...</StatePanel>
+      </div>
+    )
   }
 
   if (loadError) {
-    return <div className="page-shell text-error p-4">題目載入失敗：{loadError}</div>
+    return (
+      <div className="page-shell">
+        <StatePanel tone="error" title="題目載入失敗">{loadError}</StatePanel>
+      </div>
+    )
   }
 
   if (isGuideExercise && data && chapter && chapter.questions.length === 0) {
@@ -285,7 +325,11 @@ export default function PracticePage() {
   }
 
   if (!chapter) {
-    return <div className="page-shell text-error p-4">找不到章節：{chapterId}</div>
+    return (
+      <div className="page-shell">
+        <StatePanel tone="error" title="找不到章節">{chapterId}</StatePanel>
+      </div>
+    )
   }
 
   const statuses = chapter.questions.map((question) => questionStatus(question, answers[question.id] ?? null))

@@ -379,7 +379,17 @@ export interface ResourceSummaryData {
   visuals?: VisualsSummary
 }
 
-export type UserAnswers = Record<number, 'A' | 'B' | 'C' | 'D'>
+/**
+ * 作答紀錄以 **question id** 為 key（例 `jr_1152_s1_q3`）。
+ *
+ * 2026-08-26 從陣列索引改成 id：章節練習（`PracticePage`）本來就用 id，
+ * 考試卻用索引，兩套 key 沒辦法灌進同一張作答紀錄表。改成 id 之後
+ * 兩邊一致，而且題序調整不會讓既有紀錄錯位。
+ *
+ * 注意：id 只在同一份考卷內唯一——`sample_q1` 初級與中級各有一題不同的題目，
+ * 所以落地到資料庫時主鍵要是 `(level, source_key, question_id)`。
+ */
+export type UserAnswers = Record<string, 'A' | 'B' | 'C' | 'D'>
 export type ExamPhase = 'intro' | 'active' | 'results'
 
 // TOC manifest — single source of truth for chapter definitions
