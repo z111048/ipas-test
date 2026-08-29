@@ -1,0 +1,728 @@
+# Pipeline Reference（腳本目錄與操作手冊）
+
+> 本檔是 pipeline 細節的**唯一權威來源**。CLAUDE.md 只放路由；AGENTS.md（Codex CLI 用）內容較舊，
+> 與本檔衝突時以本檔為準。更新腳本行為時**只改本檔**，不要回頭加肥 CLAUDE.md。
+> 內容繼承自 2026-07-13 之前的 CLAUDE.md（備份在 `playbook/backups/`），並修正了已驗證的過時處。
+
+## 使用方式（給接手的模型）
+
+不要整檔讀。先看下方目錄，用 Grep 跳到需要的小節。
+
+- 跑 guide 內容 pipeline → §1；**OCR 兩軌與完整重跑順序 → §1a（動講義文字前必看）**
+- 跑品質審核 → §2、§4
+- 跑考題 pipeline → §3
+- 跑 Colab notebook → §5；**名詞解釋 → §5a；概念關聯圖 → §5b**
+- 前端 build / 資料匯出 → §6
+- 某支腳本是幹嘛的 → §7 腳本目錄
+- 輸出檔案的意義與 gitignore 狀態 → §8
+- 跑完 pipeline 怎麼驗證 → §9
+- **必補的手動修正（s1c4）→ §10（最容易漏，重跑 export 後必看）**
+
+通用規則：
+- 資料 pipeline 腳本都支援 `--level`，路徑解析為 `data/{level}/`。⚠️ **預設值不一致**：
+  多數預設 `初級`，但 `supplement_guide_from_audit.py`、`generate_colab_notebooks.py`、
+  `run_codex_exam_reference_answers.py`、`export_exam_reference_answers.py`、
+  `export_colab_metadata.py`、`export_question_generation_data.py`、`llm_review_guide_headings.py`
+  預設 `中級`（2026-07-13 grep argparse 驗證）。**一律顯式帶 `--level`，不要依賴預設**——
+  尤其 `supplement_guide_from_audit.py` 會覆寫 guide JSON，跑錯等級就是資料事故。
+- `data/{level}/toc_manifest.json` 是章節定義 SSOT，由 `build_manifest.py` 生成、需提交。
+  任何地方都不得複製章節定義。
+- 多數腳本硬編 `BASE = Path('/home/james/projects/ipas-test')`（少數 export 腳本用
+  `Path(__file__).resolve().parents[1]` 相對解析），搬 repo 要逐支檢查。
+- 新增等級：① `build_manifest.py` 的 `GUIDES_BY_LEVEL` 填章節定義 ② `build_manifest.py --level 中級`。
+- 依賴：`uv sync`（Python：pdfplumber、PyMuPDF、anthropic、google-genai）；
+  `cd frontend && npm install`（Node）。
+- API 金鑰：`GEMINI_API_KEY`（vision 腳本，模型 gemini-2.5-flash，可用 `GOOGLE_MODEL` 覆蓋）、
+  `ANTHROPIC_API_KEY`（generate_questions、audit_chapters，用 claude-haiku-4-5）。
+  `multi_ai_pipeline.py` 與各 `codex_*` 腳本需要已認證的 `gemini`/`codex`/`claude` CLI。
+
+---
+
+## §0 章節目錄索引（僅章節定義或 PDF 異動時執行）
+
+```bash
+uv run python3 scripts/build_manifest.py --level 初級        # → data/初級/toc_manifest.json
+python3 scripts/extract_pdf_pages_structured.py --level 初級 --all --force
+python3 scripts/clean_pdf_page_text.py --level 初級 --all
+python3 scripts/build_guide_tree.py --level 初級 --all       # 驗證過的章節樹（AGENTS.md 路線）
+python3 scripts/export_guide_outline_data.py --all-levels --use-guide-tree   # ⚠️ 見 §10 陷阱
+python3 scripts/codex_review_pdf_pages.py --level 初級 --key guide1 --page 7 --force
+python3 scripts/build_pdf_outline.py --level 初級 --all
+python3 scripts/export_pdf_image_gallery.py --level 初級 --force
+uv run python3 scripts/verify_toc_alignment.py --all-levels   # 章節邊界／標題對帳，見下方
+```
+
+⚠️ `export_guide_outline_data.py` 有兩個會造成資料損失的陷阱（rmtree、必補手動修正）——**見 §10**。
+
+**動過 `toc_manifest.json`（或重跑 `build_manifest.py`）後，跑 `verify_toc_alignment.py`。**
+它拿學習指引 PDF 自帶的目錄當 ground truth，檢查每一章的 `start_page`、標題、`page_range[0]`
+邊界頁，以及目錄的內部跳頁連結目標，不一致時 exit 1。
+
+為什麼目錄可信：**內文頁的章節標題在 PDF 文字層是空的**——標題被畫成圖片（這正是要跑 OCR
+的原因），但目錄頁的標題與頁碼是真文字，中級三本還帶內部跳頁連結。所以目錄是唯一可機讀的
+標題／邊界權威。限制：目錄只到章層級（3.1／3.2…），**小節標題驗證不到**。
+
+已知例外寫在腳本的 `KNOWN_EXCEPTIONS`：中級 guide3「線性代數之機器學習基礎應用」的目錄連結
+指向封面 p1，是官方 PDF 自身的缺陷（該行印的 3-9 與內文 p16 都正確），不是我們解析錯。
+
+<!-- 2026-08-07: §1 從「主路線」降為備援。實際主路線是 §1a 的 OCR 兩軌。 -->
+## §1 Guide 內容 pipeline（Gemini Vision，**已非主路線**）
+
+`pages_cache/` 由 §1a 的 `ocr_extract.py` 產生。以下只在需要重建 Vision 版時才跑；
+**會覆蓋 OCR 版快取，先備份**。
+
+```bash
+uv run python3 scripts/pdf_vision_extract.py --level 初級 --all   # 兩科約 133 頁
+#   單科 --subject 1｜單章 --chapter mid-s1c1｜頁範圍 --page-range 10 25（1-based）
+#   --dry-run 估費用｜--force 強制重跑（覆蓋快取）
+uv run python3 scripts/parse_guides.py --level 初級 [--subject 1]  # → guide/subject{N}_guide.json
+python3 scripts/render_guide_page_images.py --level 初級 --all     # PDF 原頁截圖（前端摺疊區）
+```
+
+`parse_guides.py` 偵測到 `pages_cache/` 走 vision mode，否則 fallback regex mode——
+跑完要確認印出 `[vision mode]`。
+
+<!-- 2026-08-07: 新增 §1a。OCR 遷移完成，把「重跑順序」從 06 搬來這裡當常駐規則。 -->
+## §1a 高精度 OCR 兩軌（2026-08-06 起的實際主路線）
+
+716 頁學習指引已改用 PaddleOCR-VL 重新解析，成果是 `data/{level}/guide_ocr/`（33 MB，committed，
+**視為 SSOT 不要改**——那是 OCR 對原稿的忠實紀錄）。轉接層有兩支，各餵一條軌：
+
+```bash
+python3 scripts/ocr_extract.py        # Track B：→ pages_cache/  （出題線，parse_guides 讀）
+python3 scripts/merge_guide_ocr.py    # Track A：→ page_extract/（前端閱讀頁線）
+```
+
+**完整重跑順序（不可調換，每一步都有人踩過）**：
+
+```bash
+python3 scripts/ocr_extract.py
+python3 scripts/merge_guide_ocr.py                        # 會備份 page_extract → page_extract_before_ocr_merge/
+python3 scripts/apply_errata.py                           # ⚠ 勘誤是疊加層，轉接層重跑會沖掉（見 §10 修正 4）
+uv run python3 scripts/parse_guides.py --level {lv}
+python3 scripts/clean_pdf_page_text.py --level {lv} --key {key}
+uv run python3 scripts/export_guide_outline_data.py --all-levels   # ⚠ 必帶 --all-levels
+python3 scripts/apply_manual_guide_fixes.py                        # ⚠ 緊接著跑（見 §10）
+python3 scripts/export_guide_hierarchy.py
+python3 scripts/export_guide_sections.py
+python3 scripts/export_guide_embedded_exercises.py --level all      # ⚠ 必須在 apply_errata + clean 之後（見 §3）
+python3 scripts/verify_data_alignment.py --level {lv}
+cd frontend && npm run build
+```
+
+要從乾淨狀態重跑 `merge_guide_ocr.py`，得先把 `page_extract_before_ocr_merge/` 複製回
+`page_extract/`——它**只在備份不存在時才備份**，直接重跑會疊在已合併的結果上。
+
+`page_extract_before_ocr_merge/`（193 MB，gitignored）是 `verify_question_guide_alignment.py`
+的舊版基線，**先別刪**：沒有它就無法區分「本輪改動造成的退化」與「本來就這樣」。
+
+## §1b 學習指引完整階層樹
+
+```bash
+python3 scripts/export_guide_hierarchy.py                    # → guideHierarchy.json + guideNav.json + guideSearchIndex.json
+python3 scripts/export_guide_hierarchy.py --print-tree s1    # 印出來目視檢查（s1/s2/mid-s1/mid-s2/mid-s3）
+```
+
+階層原本斷成兩段：`guideOutlines.json` 只到「節」（64 節點），節以下的標題散在各章的
+`blocks[]` 與 `headings[]`，沒有父子關係。本腳本接成一棵樹（**1,207 節點**：23 章 +
+41 節 + 1,143 標題，最深 6 層），並用 `guide_ocr` 補回 Track A 漏抓的 `N.` 層（74 個）。
+只讀既有產物、可隨時重跑；跑在 `export_guide_outline_data.py` 之後。
+
+三個實作重點（改動前先讀，都是踩過的坑）：
+- **章不能與其下的節重複收標題**。章的 `pageRange` 涵蓋所有節、content 也是節的聯集，
+  有子節點的章只保留「子節點頁範圍沒涵蓋到」的標題。
+- **`blocks` 與 `headings[]` 互補，缺一不可**。初級 s1c1 的 blocks 只到 A. 層（缺 a. 層），
+  中級 mid-s2c8 的 `headings[]` 整個是空的。以項目多的那邊當主幹，另一邊補頁碼。
+- **補回的標題不能只按頁碼插入**。同一頁常有多個標題，只看頁碼會把「3. 資料處理與分析」
+  插到同頁但實際在它前面的「E. 專家系統」之前，讓 E. 變成它的子項。同頁內要用
+  guide_ocr 該頁的標題順序決定先後。
+
+節以下的節點是既有章節頁的錨點（`href = {route}#{anchor}`），**前端路由完全不用動**。
+
+<!-- 2026-08-07: 新增兩個衍生檔與前端消費現況。 -->
+同一支腳本另外產兩個**衍生檔**，目的是不讓全站為了兩層結構背上整棵樹：
+
+| 檔案 | 內容 | 大小 | 誰在用 |
+|---|---|---|---|
+| `guideHierarchy.json` | 全部 1,207 節點 | 449 KB | GuidePage 的「本節階層」（靜態 import，進 GuidePage chunk） |
+| `guideNav.json` | 只有章/節 64 節點 | 13 KB | 側欄章節樹、GuidePage 麵包屑（靜態 import，進首頁 chunk） |
+| `guideSearchIndex.json` | 全部節點，欄位縮寫 | 195 KB | 搜尋對話框、`/outline`（**動態 import**，開啟時才載） |
+
+⚠️ **`a`（anchor）只在該 anchor 真的存在於章節頁的 `blocks[]` 時才輸出**。
+階層樹的標題有兩個來源，從 `headings[]` 來的那批只有標題文字、anchor 是 slug 推出來的，
+頁面上沒有對應 DOM——帶著 `#anchor` 連過去只會停在頁頂（實測佔全部標題約兩成）。
+這類節點標 `x:1`，消費端要退回連到章節頁本身或顯示為不可跳轉。
+目前 1,143 個標題裡可跳轉 849、不可跳轉 294（含 OCR 補回的 74 個）。
+
+前端吃 `#anchor` 的是 GuidePage 的 `location.hash` effect。**HashRouter 下網址形如
+`#/guide/s1/s1c1#anchor`**（react-router 把第二個 `#` 之後當 `location.hash`）；內容非同步
+載入，要等 `content` 到位才捲得到，所以 effect 依賴 `[location.hash, content]`。
+
+⚠️ **捲一次不夠**。KaTeX 與圖片載入後才撐開高度，早算的位置會失準——實測目標被推到
+畫面外一萬多 px，重試到 2.5 秒仍差 3,463 px。現行做法：每 250 ms 檢查 `scrollHeight`，
+變動就重捲，連續 4 次不變或超過 12 秒才停，使用者一動就停手。不要退回單次捲動。
+
+`a`（anchor）採三段式定位：自身可跳（849）→ 退到最近有區塊的上層標題並標 `x:1`
+（202，前端顯示「概略位置」）→ 都沒有就連章節頁（92）。**最深的 `a.`/`b.` 層幾乎都是
+第二類**，而那正是搜尋最常命中的一層——早期版本把這些做成不可點，搜「梯度下降」
+兩筆結果全是死的。
+
+## §2 Guide 品質審核（PDF 更新後執行）
+
+```bash
+# Step A: Gemini Vision 逐頁結構審核（AUDIT_PROMPT，獨立於 pages_cache，不可互換）
+uv run python3 scripts/pdf_vision_audit.py --level 中級 --subject 1 [--page 6]
+# → data/{level}/audit_cache/{key}/page_NNN.json（gitignored）
+
+# Step B: Codex CLI 比對 audit_cache vs subject{N}_guide.json 標題結構
+python3 scripts/codex_audit_compare.py --level 中級 --subject 1 [--chapter mid-s1c1] [--dry-run]
+# → data/{level}/audit_compare/{key}/{chapter_id}.json + summary.json（gitignored）
+# status: ok / warn / fail
+
+# Step C: 補充 fail 章節（從 audit_cache 重組 Markdown 寫回 guide JSON，原檔備份為 *.bak）
+uv run python3 scripts/supplement_guide_from_audit.py --level 中級 --subject 1 [--chapter ...]
+uv run python3 scripts/supplement_guide_from_audit.py --level 中級 --all --strategy all  # 強制覆蓋 ok 章節
+uv run python3 scripts/supplement_guide_from_audit.py --level 中級 --subject 1 --source pages_cache
+
+# Step D: LLM 章節內容審核（確認 subtopics 覆蓋、無錯置）
+uv run python3 scripts/audit_chapters.py --level 初級 --all [--subject 1] [--chapter s1c1] [--dry-run]
+# → data/初級/guide/subject{N}_audit_report.json（overall_status: PASS/WARN/FAIL）
+# WARN/FAIL 章節要先處理，才能拿去出題
+```
+
+## §3 考題 pipeline
+
+### ⚠️ `data/{level}/guide/subject{N}_guide.json` 有兩個生產者
+
+`parse_guides.py`（Track B，內容來自 pages_cache／OCR）與
+`export_question_generation_data.py`（內容來自 guideContent，也就是 Track A）
+**都會寫同一個檔案，互相覆寫**。跑錯順序會把 OCR 版的講義換成 page_clean 版，
+公式與表格品質差很多。動到出題資料前先確認現在檔案裡是哪一版
+（OCR 版的公式是 `$...$` LaTeX，數量約 358 個）。
+
+### 小節粒度出題（2026-08-06 新增）
+
+```bash
+python3 scripts/export_guide_sections.py [--target-chars 3000]
+# → data/{level}/guide_sections/subject{N}.json（sections 細切片 + chunks 出題區塊）
+uv run python3 scripts/generate_questions.py --level 初級 --subject 1 --by-section --count 3
+```
+
+為什麼要這個：`generate_questions.py` 把章節內容截到 `MAX_CONTENT_CHARS = 4000` 才餵給
+模型，但一章動輒上萬字——實測 **41 章有 39 章被截斷，整份講義只有 40% 進得了出題流程**，
+最長的 mid-s1c1（36,918 字）只看得到 11%。切成小節區塊後共 370 塊、中位數 889 字，
+覆蓋率 100%，只有 7 塊超過 4000 字。
+
+`--count` 的語意會改變：不帶 `--by-section` 是「每章幾題」，帶了是「每個區塊幾題」。
+初級科目1 有 37 個區塊，`--count 3` 就是 111 題，注意 API 花費。
+產出的題目會帶 `section_id` / `section_title` 標記來源小節。
+
+<!-- 2026-08-07: 新增 codex 小節出題線。 -->
+### codex CLI 小節出題（2026-08-07 新增，進行中）
+
+```bash
+python3 scripts/build_codex_section_prompts.py --level 中級 --subject 2 --chapter mid-s2c3 --count 2
+python3 scripts/run_codex_question_batch_generation.py --run-dir data/中級/pipeline/codex_section_prompts
+```
+
+`build_codex_section_prompts.py` 產的 `summary.json` 與
+`build_codex_question_batch_prompts.py` 同格式，所以 runner 的驗證與續跑直接複用。
+題型／難度／答案字母是**逐題硬性指派**的（寫在 `specs` 欄位）——軟性配額在單批
+2 題時無效，實測會出現 7 種題型寫法與 A/B 佔 75% 的答案分布。
+
+⚠️ **runner 只驗欄位結構與近似題，不驗答案對錯**；出題模型取自
+`~/.codex/config.toml` 全域設定，沒有 `--model` 參數。全量跑之前先讀
+`playbook/07-question-generation.md` §4。
+
+<!-- 2026-08-07: 新增答案交叉驗證。 -->
+#### 答案交叉驗證（出題後必跑）—— 網關全掃（每題約 2 秒）→ flagged 才升級 CLI（約 40 秒）
+
+```bash
+# Stage 1 全掃（預設 llm:glm-5.2,llm:deepseek-v4-pro,llm:kimi-k2.7-code）
+python3 scripts/verify_question_answers.py --run-dir data/中級/pipeline/codex_section_prompts \
+    --workers 8 [--chapter mid-s2c3] [--limit N] [--force]
+# Stage 2 只重驗 stage 1 flagged 的題，加 CLI 票、門檻拉到 3
+python3 scripts/verify_question_answers.py --run-dir ... --only-flagged --threshold 3 \
+    --verifiers codex,claude,claude:sonnet,llm:glm-5.2,llm:deepseek-v4-pro
+# → <run-dir>/verification/{report,flagged}[_stage2].json、answers/<qid>.json
+# 校準吃官方卷 --questions-file data/{lv}/questions/mock_*.json｜圖片題 --vision --only-figure（uv run，見 §4a）
+```
+網關金鑰只讀 `LLMSHARE_API_KEY`（環境變數或 gitignored 的 `BASE/.env`）；沒金鑰時退回 CLI 三票。
+驗證器盲答（**只給題幹＋選項**；CLI 在 `tempfile` 空目錄裡跑，碰不到答案檔），達 `--threshold`
+票答錯進 `flagged.json`。選項依 question id 固定亂序、答完映射回原字母，
+避開出題端 A→B→C→D 輪替與位置偏誤。`answers/` 快取存**所有驗證器答案的聯集**、判定只算
+本次 `--verifiers`。分流看 `wrong_consensus`（答錯的票彼此一致才可能是答案真的錯）；
+771 題官方卷的校準數據與圖片題過濾，見 `playbook/07-question-generation.md` §4a。
+
+`export_guide_sections.py` 讀的是**當下**的 `guide/subject{N}_guide.json`，
+所以上面那個「兩個生產者」的問題會直接傳導過來——重跑 parse_guides 後要一併重跑它。
+
+<!-- 2026-08-07: 新增。抽取器的兩個尾端污染修掉後，把陷阱寫成常駐規則。 -->
+### ⚠️ `export_guide_embedded_exercises.py`（章節練習題）
+
+讀的是 `page_clean/{key}/pages/*.json` 的 `cleaned_text`，所以**必須排在 `apply_errata.py`
+與 `clean_pdf_page_text.py` 之後**——勘誤與清洗都在那一層，順序反了就吃不到勘誤。
+（2026-08-07 重跑時，兩筆初級勘誤就是這樣自動生效的：`s1c2gq003` 答案 B→A、`s1c2gq007` 題幹改寫。）
+
+改這支腳本前必讀的三件事：
+
+- **頁眉會黏進選項**。題塊跨頁時吃進下一頁頁眉，選項變成「迭代次數第三章 人工智慧基礎概論」。
+  現行解法是靠出現頻率認頁眉（重複出現在多頁首行），不寫死章名，且只剝該頁首行。
+- **最後一題的解析會吃到下一章正文**（沒有結束標記），最誇張一筆長 18,485 字。
+  現行解法是依 `clean_pdf_page_text` 判定的 `continues_to_next` 在頁尾收束。
+- **題組共用題幹曾被吃進最後一個選項**（2026-08-25 修復）。共用題幹在表格中是「答案欄空白」
+  的獨立列，`parse_exam_json` 原本無條件把它接到上一題的 `pending_cell`，導致整段情境敘述
+  併入選項 D（例：`mid_1151_s2_q40`、`mid_1151_s3_q41`／`q48`）。現由
+  `starts_new_shared_context()` 判定：四個選項齊全後，只有短碎片（實測全題庫最長 4 字）
+  才算跨頁續行，≥12 字或含「回答第X~Y題」標記者一律視為新題組題幹而不併入。
+  共用題幹本身另由 `build_shared_context_texts()` 從 page_extract 取得，不會遺失。
+  **現況：初級 7 份、中級 7 份考題全部可安全重跑，逐題冪等。**
+- **圖片內的文字任何重跑都救不回**。`mid_1151_s3_q46`／`q47` 題幹的「描述A~F」清單在 PDF 中
+  是圖片內文字，表格與頁面文字都取不到，只能人工謄寫。這類內容一律放進
+  `apply_exam_explanations.py` 的 `QUESTION_OVERRIDES`，不要直接手改 JSON——直接改的話
+  下次重跑就沒了。
+- **考題資產鍵（key）改名會讓人工校正整批變死碼**。2026-08-25 發現：中級 114-2 三份考題的
+  page_extract／pdf-assets 仍停在舊鍵 `exam1/2/3`，題號卻已改成 `mid_1141_s{n}`，於是
+  `attach_exam_images()` 找不到 `page_extract/{key}/` 而靜默回傳空、`annotate_exam_code_images.py`
+  裡所有綁 `exam3_q45` 的人工謄寫全部失效——19 題引用「附圖／程式碼」卻一張圖都沒有，
+  `mid_1141_s3_q45` 更是四個選項全空（選項本體是程式碼截圖）。**改 key 或題號時，必須同步
+  grep `scripts/annotate_exam_code_images.py` 與 `page_extract/`、`pdf-assets/` 的目錄名。**
+  `annotate_exam_code_images.py` 現在會丟掉指向不存在檔案的圖片參照並印出 `[DROP]`，
+  重跑後看到 `[DROP]` 就代表有參照沒跟上改名。
+- **`is_decorative_image()` 的高度門檻會吃掉程式碼截圖**。原本 `height < 45` 即視為裝飾圖，
+  但考題常把幾行程式碼截成「很寬很矮」的橫幅（例：中級 s3 q46 的 PCA 程式碼 283×44.1），
+  被誤刪後該題就失去唯一作答依據。現已改成「寬度 ≥ 頁寬 40% 且高度 ≥ 20 一律保留」。
+- **題目區塊只在四個選項齊全時才於頁尾收束**。無條件收束會讓「選項真的跨頁」的題整題消失
+  ——中級 `mid-s3c6gq010` 就是這樣掉的，題數會從 40 變 39。重跑後先核對題數
+  （初級 40+29=69、中級 30+40+40=110）。
+
+```bash
+uv run python3 scripts/extract_pdfs.py --level 初級      # PDFs → data/初級/extracted/*.{txt,json}
+uv run python3 scripts/gemini_exam_vision_extract.py --level 中級 --key exam2 [--dry-run]
+# 官方考題 PDF 的 Vision OCR（題目/答案/共用題幹/圖片參照 schema），快取 data/{level}/exam_pages_cache/
+uv run python3 scripts/parse_exams_v2.py --level 初級
+# → mock_{key}.json, sample_exam.json（subject{N}_questions.json 是人工策展，不會被覆蓋）
+
+# ⚠️ parse_exams_v2 之後這兩支「人工補強層」必跑，順序不可調換，否則人工成果被制式輸出蓋掉：
+uv run python3 scripts/export_pdf_image_gallery.py --all-levels   # page_extract → public/pdf-assets（必帶 --all-levels）
+uv run python3 scripts/annotate_exam_code_images.py               # 程式碼截圖的文字謄寫、選項圖、清除失效圖片參照
+uv run python3 scripts/apply_exam_explanations.py                 # 人工解析（parse 會覆寫成「正確答案為(X)。」）
+
+python3 scripts/verify_data_alignment.py --level 初級    # 一致性檢查，必跑
+
+# 選用：Claude API 出題 / 補 card 欄位
+uv run python3 scripts/generate_questions.py --level 初級 --subject 1
+uv run python3 scripts/generate_questions.py --level 初級 --enrich
+
+# 選用：多 AI pipeline（Gemini 出題 → Codex 審核 → Claude 完稿 → 三 AI 答題驗證，2+ 答錯 → flagged.json）
+python3 scripts/multi_ai_pipeline.py --level 初級 --subject 1 [--chapter s1c1] [--count 3] [--dry-run]
+# 中間產物 data/{level}/pipeline/<run_id>/（gitignored）；最終合併進 subject{N}_questions.json
+```
+
+## §4 官方考題詳解（Codex reference answers）
+
+```bash
+# BM25 式檢索 top-k guide 片段 → 寫 prompt → codex exec 產出每題 JSON（validate schema）
+python3 scripts/run_codex_exam_reference_answers.py --level 初級 --exam all [--run] [--question-id ...] [--limit N] [--force]
+# 不帶 --run 只寫 prompts。輸出 data/{level}/pipeline/exam_reference_answers/{exam_key}/outputs/
+
+# 發佈到前端
+python3 scripts/export_exam_reference_answers.py --level 初級
+# → frontend/src/generated/examReferenceAnswers/{route_key}.json（exam key → route key 映射在 ROUTES_BY_LEVEL）
+```
+
+## §5 Colab notebook pipeline（中級章節實作練習）
+
+```bash
+# Stage 1 Codex 生成草稿 → Stage 2 靜態+執行檢查（ast.parse + subprocess）→ Stage 3 Codex 審核
+python3 scripts/generate_colab_notebooks.py --level 中級 --all | --subject 2 | --chapter mid-s2c1 [--force] [--dry-run]
+# pass/warn → notebooks/中級/{chapter_id}.ipynb（committed）
+#           + frontend/src/generated/colabNotebooks/中級/{chapter_id}.json（committed）
+# fail → data/{level}/pipeline/colab_notebooks/{chapter_id}/flagged.json 需人工審查
+
+# 手動編輯 .ipynb 後重新匯出前端 metadata
+python3 scripts/export_colab_metadata.py --level 中級 [--chapter mid-s2c1]
+
+# 複查 committed 版本（⚠️ flagged.json 是草稿階段的舊帳，不是現況）
+python3 scripts/review_committed_notebooks.py --python <裝了 pandas/sklearn/matplotlib 的直譯器>
+# → data/notebook_review/committed_review.json（committed；audit_resources.py 優先採用它）
+```
+
+⚠️ **`flagged.json` 記的是草稿審核**。27 章標 fail，但 committed 版本全數通過語法與
+累積執行檢查——草稿後來修過、記錄沒更新。判斷現況一律看 `committed_review.json`。
+複查用**累積執行**（cells 串接整份跑）：pipeline 自己是每 cell 獨立跑再把 NameError
+當成「依賴前一個 cell」跳過，真正未定義的變數抓不到。Colab 的 `display()` 需要墊片。
+語意審核的「說明」取的是**前一個 markdown cell**，所以「同一個 markdown 底下連放多個
+code cell」會被判成不符——多半該補小節標題，不是改程式碼。改完 `.ipynb` 記得
+`export_colab_metadata.py --level {level} --chapter {id}` 重出前端 metadata。
+
+> 教訓 2026-08-08：語意審核把 code cell 截到 1500 字才送模型，於是長 cell 被回報成
+> 「程式碼中斷」「未執行 fit_predict」——mid-s3c4/s3c9/s3c11 三筆誤報都是這樣來的。
+> 根因：截斷不可見，模型看到半截程式碼只能當它沒寫完。規則：**截斷一律在內容裡
+> 留可見標記**（現在會插一行「本 cell 尚有 N 字未顯示」），上限拉到 6000 字。
+
+> 教訓 2026-08-08：gateway 間歇性回空內容（推理模型把預算花在 reasoning_content），
+> 單次呼叫失敗就記成 `no-response`，但摘要只數 mismatches，於是 9 本沒審到卻印成
+> 「0 處不符」。根因：把「沒審成」讀成「通過」。規則：語意呼叫**重試 3 次**，
+> 摘要**單獨列一行「語意審核未完成 N」**，收工前這個數字必須是 0。
+
+前端：GuidePage 在中級章節底部自動顯示「⚗️ 實作練習」摺疊區塊。
+
+## §5a 名詞解釋（glossary）pipeline
+
+```bash
+# 選詞＋抓來源，不打 API：看每個詞條有多少講義原文／詳解可用
+python3 scripts/build_glossary.py --level 初級 --dry-run
+# 生成（預設 --min-count 3：只收在官方考卷出現 ≥3 題的概念）
+python3 scripts/build_glossary.py --level 初級 [--min-count 3] [--limit N] [--model glm-5.2]
+# → data/{level}/pipeline/glossary/generated.json（gitignored）
+python3 scripts/build_glossary.py --level 初級 --apply
+# → frontend/src/generated/{primary,middle}Glossary.json（committed）
+
+# 閘門：三模型盲審每一條釋義（必跑）
+python3 scripts/verify_glossary_terms.py --glossary frontend/src/generated/primaryGlossary.json \
+    --out-dir data/audit/glossary_review/初級 \
+    --verifiers llm:deepseek-v4-pro,llm:kimi-k2.7-code,llm:qwen3.5:397b
+python3 scripts/verify_glossary_terms.py --term 資料標準化 ...   # 修完只重驗那一條
+python3 scripts/verify_glossary_terms.py --self-test              # 閘門自身的自測，見下
+```
+
+規則：
+
+- **選詞不靠人腦**：詞表由 `topicHeat.json` 的 `count` 決定，等於「這個概念實際被考幾題」。
+  科目歸屬取該概念在此等級各科的題數最大者；科目 id／名稱一律讀 `toc_manifest.json`（不變量 1）。
+- **取材以講義原文為主、詳解為輔**：只把「有提到這個概念的段落」餵進 prompt，不是整章。
+  比對詞用 `topics.json` 的 aliases——只比對正式名稱時，初級有 45／108 個詞完全抓不到講義段落，
+  加上別名後降到 30。抓不到的詞退回用詳解，`sources` 欄位記得住是哪一種。
+- **prompt 不可寫成「只根據片段」**：這樣會把某一題的情境當成定義（實測：代理式AI 被定義成
+  「在解決方案圖譜的候選路徑中探索」）。正確寫法是「片段決定用詞與著重點，釋義必須是通行定義」。
+- **生成模型不可出現在審核名單**：生成用 `glm-5.2`，審核名單就換成 deepseek／kimi／qwen。
+- **改完詞條要重驗**：`--term` 只重跑那一條，不必重掃整份。
+
+閘門自測（上線前必做，`--self-test`）：腳本內建 4 條故意寫錯的釋義（精確率↔召回率、
+中位數寫成平均數、過擬合寫成欠擬合、監督式寫成非監督）＋4 條原樣孿生對照，
+要求 4/4 抓到且 0 誤報才算閘門可用。
+
+> 2026-08-09 教訓：第一次自測是 0/4，我差點寫成「模型判不出概念互換」。真因是
+> `results` dict 用 `(subject, index)` 當 key，汙染版與乾淨孿生同 key，後寫的把前面蓋掉。
+> **模型答錯之前，先確認自己的迴圈沒把答案丟掉。**
+
+`audit_resources.py` 的 glossary 檢查涵蓋兩份檔案：空釋義／釋義長度 20–200 字外 → FAIL，
+沒有案例說明／同科目內重複 → WARN。**內容對不對不在 audit 判**，那是 verify 腳本的事。
+
+## §5b 概念關聯圖（/concepts 概念索引）
+
+```bash
+# 練習題的概念標註（章節練習 411 ＋ 指引練習 179＝590 題；官方考卷走 --source exam）
+python3 scripts/assign_question_topics.py --source practice --models glm-5.2 --batch-size 8
+python3 scripts/assign_question_topics.py --source practice --models glm-5.2 \
+    --verify-all --verify-model qwen3.5:397b        # 驗收模型不可與指派模型相同
+# → data/topics/practice_question_topics.json（committed）
+
+# 併成前端資料（無 API 花費、可隨時重跑、輸出確定性）
+python3 scripts/export_concept_graph.py
+# → frontend/src/generated/conceptGraph.json（committed，約 780KB，前端動態 import）
+```
+
+規則：
+
+- **練習題標籤另存一份，不進 `question_topics.json`**。`topicHeat` 的熱度定義是
+  「被官方考卷考幾題」，而出題配額、名詞解釋選詞都吃那個數字；混進練習題會讓熱度失真。
+  `conceptGraph.json` 的 `questionCount` 因此分成 `official` / `practice` 兩個數字，
+  **不可相加當熱度用**。
+- 題目連結帶 `?q=<題號>` 定位：`ExamPage`／`PracticePage` 讀這個參數捲到該題並標為目前題。
+  ⚠️ 路由裡放的必須是**題庫檔裡的正式 id**，不是標註檔的題號——114 年那三份的標註沿用
+  舊寫法（`exam1_q7`），拿它去前端找不到題目。考卷是計時測驗不會自動開始，所以定位發生在
+  按下「開始作答」之後，說明頁會先提示「將跳到第 N 題」。
+- 建圖只採計 `verdict=正確` 的標籤，與 `topicHeat` 同一條規則。「過廣」不算錯，
+  但上位詞會連到所有東西，圖會糊掉。
+- 指派與驗收都可續跑：`_assign_cache_practice.json` / `_verify_cache_practice.json`。
+  網關限流時整批會空回應（實測 590 題有 13/50 批被打掉），**重跑同一個指令只補缺的**。
+
+三個踩過的坑（都是「以為模型沒做到，其實是自己對不上」）：
+
+1. **驗收的完整性判準只檢查「這題有沒有回應」**——模型會回一題卻只評它三個標籤裡的
+   一個，其餘靜靜變成「未評」（880 個標籤裡 149 個）。判準必須是**每個標籤都有評價**。
+2. **概念名沒有正規化就比對**：模型回「生成式 AI」、詞彙表寫「生成式AI」，差一個空白
+   就永遠對不上、永遠重試，還會被誤讀成「模型沒評」。用 `normalise()` 對回正式寫法。
+3. **指派段原本沒有續跑快取**，13 批失敗會連坐丟掉 37 批成功的結果。
+
+> 2026-08-10 量過但**不要再做**的事：三模型 2/3 共識的標註。盲審 A/B（50 題、
+> 外部模型評）結果是舊的單模型 78% vs 共識 74%，共識**多標出來的標籤有 78% 是
+> 過廣或錯的**。單模型單票不是標籤品質的根因，重跑只會讓圖更糊。
+> 上線標籤（只採計「正確」）的外部正確率是官方考卷 85%、練習題 86%。
+
+## §6 前端
+
+```bash
+cd frontend && npm run dev -- --host    # dev server；WSL 下 --host 才能從 Windows 存取
+uv run python3 scripts/build_web.py     # production build → docs/（gitignored；Pages 由 GitHub Actions 建）
+```
+
+- Vite + React 19 + TypeScript + Tailwind CSS v4 + React Router v6（HashRouter，避免 Pages 404）+ Zustand。
+- alias：`@data` → `data/初級/`、`@data-mid` → `data/中級/`（vite.config.ts:24-25，已驗證存在）。
+- 所有 JSON build time 靜態匯入，無 runtime fetch。章節導覽一律從 `toc_manifest.json` 讀，
+  不得加回硬編章節陣列。
+- Guide 頁優先渲染 `GuideContent.blocks[]`（heading/paragraph/list_item/table/question/answer，
+  depth 不限），無 blocks 才 fallback Markdown。「本節階層」側欄只顯示 depth 3–4。
+- 練習題頁路由 `/practice/:subjectId/:chapterId`，行動版藏在 `☰` 抽屜——改導覽要檢查行動版。
+<!-- 2026-07-13: 形象網站改版後補充版型事實 -->
+- App shell（App.tsx）：`main` 是唯一捲動容器（body 不捲），sidebar 桌面版常駐、行動版抽屜。
+  外層 row 是 `h-[calc(100vh-3.5rem)] overflow-hidden` **且不可加回 `flex-1`**——flex-basis 會蓋掉
+  height，造成 body 捲動、sidebar 捲走（2026-07-13 修過的 bug）。路由切換時 main 自動捲回頂部。
+- 全站 Footer（`components/layout/Footer.tsx`）：guide 路由不顯示；短頁面靠 main 的
+  `flex flex-col` + footer 外層 `mt-auto` 貼底。
+- 首頁 hero 用 `index.css` 的 `.hero-panel/.hero-grid/.hero-chip/.btn-hero/.btn-hero-ghost`；
+  字體 Noto Sans TC 由 `index.html` 從 Google Fonts 載入（meta description/og 也在該檔）。
+- 概念圖卡頁 `/visuals`（`VisualCardsPage.tsx`）：browse `guideImages.json`（944KB，route-lazy），
+  開卡片時 lazy-load `guideContent/{level}-{guideKey}/{sourceNodeId}.json` 並用 `extractSection`
+  切出對應標題的 markdown（~97% 命中，fallback 章節簡介）。行動版卡片置中 + `break-words`。
+- **商品化文案規則**：見 CLAUDE.md 不變量（使用者可見文案不得透露 AI 生成）。
+
+## §7 腳本目錄（依用途分組）
+
+**SSOT / 抽取**
+- `build_manifest.py` — 章節定義 SSOT 生成器，唯一硬編 `GUIDES_BY_LEVEL` 之處；開 PDF 算 `page_range`（0-based）寫入 `toc_manifest.json`。
+- `extract_pdfs.py` — pdfplumber 為主、PyMuPDF fallback 的整檔文字/表格抽取 → `extracted/`。guide PDF 清單來自 manifest，考題 PDF 在 `EXAM_PDFS_BY_LEVEL`。
+- `extract_pdf_pages_structured.py` — 頁面忠實抽取：每頁文字 + text/image/table bbox + 裁切 PNG → `page_extract/{key}/assets/`。
+- `clean_pdf_page_text.py` — 清 header/footer/頁碼/表格標籤、標記跨頁接續、重建 per-PDF outline → `page_clean/{key}/`。
+- `ocr_extract.py` — Track B 轉接層：PaddleOCR-VL 逐頁 md → `pages_cache/{key}/page_NNN.json`（見 §1a）。
+- `merge_guide_ocr.py` — Track A 轉接層：OCR 內容合併進 `page_extract/`，首次執行會備份原檔（見 §1a）。
+- `build_errata.py` / `apply_errata.py` — 勘誤表 OCR → `errata_corrections.json`；套用到兩軌，冪等（見 §10 修正 4）。
+- `build_codex_section_prompts.py` — 小節粒度出題 prompt。⚠️ `--heat-total` 的配額**必須對整科算完再篩章節**；`--batch-target`（預設 9）把連續區塊打包，因為每次 codex 呼叫固定開銷約 108 秒與題數無關（不打包時平均每次只出 1.6 題）；`--run-dir` 兩種寫法都吃。
+- `export_guide_mindmap.py` — guideNav ＋ 考古題標註 → `guideMindmap/{subjectId}.json`（前端 `/mindmap` 章節熱度圖）。只讀 committed 產物、無 API 花費、可隨時重跑。⚠️ 各章題數**不可相加**（一題常引用多章：905 vs 實際 450 題）。
+- `imggen_client.py` — **產圖一律走這裡**（`codex-imggen` HTTP 服務，`~/projects/codex-imggen`，`docker compose up -d`，`http://localhost:8090`）。`generate()` 文生圖、`edit()` 圖生圖、`require_service()` 開跑前健康檢查。⚠️ **不要再直接 `codex exec` 產圖**：那會把 session rollout 與原始 PNG 堆在 host `~/.codex/`、在 repo 根目錄亂丟 png，而且產物檔名慣例隨 codex-cli 版本變（2026-08-08 就因此讓 `generate_images.py` 靜默壞掉）。服務直接回傳圖片 bytes。
+- `verify_generated_images.py` — 用 `codex exec --image` 讀回概念圖卡上的中文並逐條判定（garbled／nonword／truncated／terminology／wrong）→ `data/audit/image_text_review.json`。`--sample N`／`--all`／`--ids`／`--report`；已驗過的會跳過，`--force` 重驗。官方用詞清單從 `toc_manifest.json`（SSOT）＋ `topics.json` 組出來，不另建。
+- `regenerate_flagged_images.py` — 重生 `verdict=fail` 的圖卡直到通過。⚠️ 三條保護：把上一輪的問題寫進下一輪 prompt（回饋比重試次數有用）、**所有嘗試都沒過就還原備份**（`build/image_backup/`，不用更差的圖換掉現有的）、`error` 不算 pass。
+- `generate_images.py` — 產圖後**自動跑文字檢查**，不過就帶著問題回饋重試（`--no-verify` 可跳過，不建議）。原本的重試只處理 timeout 與抓不到 session id。⚠️ 產物路徑是 `~/.codex/generated_images/<session>/`，**檔名慣例會隨 codex-cli 版本變**（舊 `ig_*.png`、0.146 起 `exec-<uuid>.png`），腳本已改成取目錄裡最新的 PNG；若又出現「找不到產圖 PNG」先去看那個目錄。
+- `export_generated_questions.py` — 把小節管線產出的題目併進 `data/{level}/questions/subject{N}_questions.json`（**2026-08-09 補上，原本完全沒有這一步**）。寫入前重驗每一批、檢查 id 與題幹唯一、**要求每批有通過的 `.verify.json`**，任一項不過整批拒寫。⚠️ 預設要求整科完整（只匯出一章會抹掉其他章），要只替換某幾章得加 `--replace-chapters`。
+- `verify_batch_answers.py` — 單批答案交叉驗證，供 runner（`--verify-answers`）與 export 當閘門。結果存輸出檔旁 `<batch>.verify.json`，可續跑可稽核；**驗不到不算過**；圖片題跳過。判準看 `wrong_consensus`（不同意者都選同一個錯答才是真的錯）。金鑰 `LLMSHARE_API_KEY` 放 `.env`（gitignored）。
+- `sample_card_review.py` — 確定性分層抽樣題目 `card` 欄位 → `data/audit/card_sample_review.json`；`--tally` 讀回判定算錯誤率。同 `--size`／`--seed` 重跑會拿到同一批題，才能改完驗同一批。
+- `fix_card_defects.py` — 修 `card.frequency` 值域外（依所在章熱度分段給值）與解析尾端黏上的「參考書目」附件。冪等，`--dry-run` 先看。
+- `export_topic_heat.py` — 概念標註 ＋ 詞彙表 ＋ 考古題標註 → `topicHeat.json`（前端 `/mindmap` 概念軸）。只讀 committed 產物、無 API 花費、可隨時重跑、輸出確定性（跨 `PYTHONHASHSEED` 位元相同）。⚠️ 採計只算 `verdict=正確`；「散落章數」用 `guideChapterCount`，**不是** `chapterCount`（後者把大綱章與指引章各記一次，虛胖 32%）。細節見 `08-topic-labeling.md` §7-3。
+- `export_concept_graph.py` — 概念關聯圖：把詞彙表、兩份標註、熱度、名詞解釋、題幹併成 `conceptGraph.json`（前端 `/concepts`）。只讀 committed 產物、無 API 花費、可隨時重跑。⚠️ `questionCount` 的 official／practice 不可相加當熱度。見 §5b。
+- `build_glossary.py` — 名詞解釋生成（詞表由 `topicHeat.json` 熱度決定，來源＝講義原文段落＋詳解片段）→ `frontend/src/generated/{primary,middle}Glossary.json`。`--dry-run` 只看選詞與來源覆蓋、不花錢；`--apply` 才寫前端；既有詞條預設保留不覆蓋（`--regenerate` 才重寫）。生成模型不可與 `verify_glossary_terms.py` 的審核名單重疊。見 §5a。
+- `verify_glossary_terms.py` — 釋義閘門：三模型盲審每一條，`wrong` 票 ≥2 就 flagged。`--self-test` 拿 4 條故意寫錯的＋4 條乾淨孿生驗閘門本身（要 4/4 抓到、0 誤報）；`--term` 只重驗改過的那條。金鑰 `LLMSHARE_API_KEY`（`.env`，gitignored）。
+- `export_guide_hierarchy.py` — 接成完整階層樹，並產導覽用的兩個衍生檔 → `guideHierarchy.json`、`guideNav.json`、`guideSearchIndex.json`（見 §1b）。
+- `pdf_vision_extract.py` — 每頁 PNG（2x）送 Gemini Vision → `pages_cache/{key}/page_NNN.json`（{type, headings, markdown, usage}）；完成後自動生成 `page_index.json`。重跑只補 missing/failed。
+- `gemini_exam_vision_extract.py` — 考題 PDF 的 Vision OCR（獨立 schema）→ `exam_pages_cache/`。
+
+**組裝 / 解析**
+- `parse_guides.py` — 從 pages_cache（vision mode，優先）或 extracted（regex mode，快取 <80% 時的緊急 fallback）組章節 JSON → `guide/subject{N}_guide.json`（`content_format: 'markdown'`）。跑完確認印出 `[vision mode]`。
+- `parse_exams_v2.py` — 從 extracted JSON 解析題目/答案表（處理全形 A-D 與括號）→ `questions/mock_exam{1,2}.json, sample_exam.json`。
+- `build_guide_tree.py` — 從 page_clean 建驗證過的章節樹（heading 深度、sibling 連續性、頁範圍、內嵌習題檢查）→ `guide_tree/{key}/tree.json, blocks.json, warnings.json`（gitignored）。
+- `build_pdf_outline.py` — 從 page_extract 建可審閱的 PDF 階層 outline（有 Vision headings 用之，否則 regex）→ `outline/{key}_outline.{json,md}`。
+
+**審核**
+- `audit_chapters.py` — Claude Haiku 逐章審 subtopics 覆蓋 → `subject{N}_audit_report.json`。
+- `pdf_vision_audit.py` — 第二次 Vision pass（AUDIT_PROMPT，結構化 blocks）→ `audit_cache/`。用途是審核與增補，不是內容替換。
+- `codex_audit_compare.py` — Codex CLI 比對 audit_cache 標題結構 vs guide JSON → `audit_compare/`。
+- `supplement_guide_from_audit.py` — 用 audit_cache（或 pages_cache）重組 Markdown 補 fail 章節，原檔備 `*.bak`。
+- `codex_review_pdf_pages.py` — Codex CLI（read-only sandbox）逐頁審 cleaned pages → `codex_page_review/{key}/`。
+- `verify_data_alignment.py` — manifest vs build_manifest vs PDF 頁標 vs guide/questions 一致性檢查。
+- `verify_question_guide_alignment.py` — 唯讀。量題庫與講義的引文對齊：章節引用完整性、
+  `guide_exercises` 逐字引文（對 page_clean，含跨頁串接）、章節正文新舊漂移。
+  與 `page_extract_before_ocr_merge/` 舊版比，能區分「本輪造成的退化」與「舊版就這樣」。
+  `--level` / `--json out.json`。跑一次兩級約 20–40 分鐘。
+- `verify_question_answers.py` — 多模型盲答交叉驗證答案（出題產物／官方考卷／已上線題庫）→ `verification/`（見 §3）。
+- `audit_resources.py` — **發佈前確定性審核閘門**，`build_web.py` 會先跑它，FAIL 就中止 build；例外寫 `data/audit_allowlist.json`（要附理由）。
+- `review_committed_notebooks.py` — 複查 committed notebook（累積執行 + 語意）→ `data/notebook_review/`（見 §5）。
+- `llm_review_guide_headings.py`、`question_dedupe.py`、`annotate_exam_code_images.py` — 輔助（先讀 docstring）。
+
+**前端匯出（`frontend/src/generated/` 是 committed 靜態輸入）**
+- `export_guide_outline_data.py` — ⚠️ 見 §10。page_clean/guide_tree → `guideOutlines.json` + 分拆 per-node `guideContent/{key}/`（前端 GuidePage 讀的是這個，**不是** `data/*/guide/*.json`）。
+- `export_guide_embedded_exercises.py` — 抽 guide PDF 內嵌官方習題 → `questions/subject{N}_guide_exercises.json`（與 AI 生成題分開）。
+- `export_question_generation_data.py` — 匯出出題 pipeline 的 seed（guide 內容 + 既有題目），並初始化/保留 `subject{N}_questions.json`。
+- `export_pdf_image_gallery.py` — page_extract 裁圖 → `frontend/public/pdf-assets/{level}/` + `gallery.json`（`#/images` 檢視器）。
+- `export_resource_summary.py` — 章節/題數/覆蓋統計 + `visuals` 概念圖卡計數 → `resourceSummary.json`（首頁統計用；題目 JSON 得以 lazy load）。
+- `export_exam_reference_answers.py`、`export_colab_metadata.py`、`export_guide_images_data.py`、`export_guide_image_units.py`、`export_learning_articles.py`、`export_guide_exam_annotations.py` — 各自把後端產物轉前端 JSON；改了上游資料記得重跑對應那支。
+- `render_guide_page_images.py` — guide JSON `source_pages` 的 PDF 截圖 → `frontend/public/guide-pages/`。
+
+**生成（花錢/花時間）**
+- `generate_questions.py` — Claude API 出題（`--subject N`）或補 card 欄位（`--enrich`）。`--dry-run` 先看 prompt。
+- `multi_ai_pipeline.py` — 三 CLI（gemini/codex/claude）subprocess pipeline，含答題驗證與 flagged。
+- `generate_colab_notebooks.py` — 三階段 Colab notebook pipeline（見 §5）。
+- `generate_images.py` — Codex 圖像 API 逐 unit 生成資訊圖 → WebP → `frontend/public/images/`。
+- `run_codex_exam_reference_answers.py` — 見 §4。
+- `build_codex_*_prompts.py` / `run_codex_*_generation.py` / `merge_codex_mock_exam_outputs.py` / `validate_codex_*_output.py` / `export_codex_mock_exam_questions.py` — Codex 批次出題家族：build prompts → run → validate → merge → export。
+
+**Build**
+- `build_web.py` — 薄包裝，跑 `frontend/ && npm run build` → `docs/`。
+
+## §8 輸出檔案與 gitignore 狀態
+
+**Committed（改了要提交）**：`data/{level}/toc_manifest.json`（SSOT）、`data/{level}/questions/*.json`、
+`data/{level}/guide/subject{N}_guide.json`（tracked，`git ls-files` 已驗證；guide/ 下被忽略的只有
+`*.md`、`*.bak`、`*_nested.json`、`*_audit_report.json`、`*_flagged.json`、`*_validation_report.json`）、
+`notebooks/{level}/*.ipynb`、`frontend/src/generated/**`、`frontend/public/**`。
+
+**Gitignored（刪了救不回；vision 快取重建要花 API 錢）**：`data/*/extracted/`、`page_extract/`、
+`page_clean/`、`guide_tree/`、`codex_page_review/`、`outline/`、`pages_cache/`、`audit_cache/`、
+`audit_compare/`、`exam_pages_cache/`（未列於 .gitignore 但同性質，見 git status）、`pipeline/`、
+`analysis/`、`logs/`、`docs/`、`.claude/`、`.env`、`ref/`（`data/*/guide/` 只忽略上面
+Committed 段列出的六類後綴，`subject{N}_guide.json` 本體是 tracked）。
+
+**視為 build artifacts**：`data/{level}/questions/*.json`、`data/{level}/guide/*.json`、`docs/`。
+只有刻意策展內容時才手動編輯 JSON，且要在 commit message 說明。
+注意 `subject{1,2}_questions.json` 是人工策展，`parse_exams_v2.py` 不會覆蓋它。
+
+**guide/ 的雙軌真相**（易混淆）：
+- `data/{level}/guide/subject{N}_guide.json` — 後端章節 JSON，給 audit/compare/supplement 腳本用。
+- 前端 GuidePage 讀的是 `frontend/src/generated/guideContent/`（由 `export_guide_outline_data.py`
+  從 `page_clean/`/`guide_tree/` 生成）。**兩者來源不同，改一邊不會影響另一邊。**
+
+**題目 schema（擴充版）**：
+```json
+{
+  "id": "s1c1q1", "question": "...", "options": {"A":"...","B":"...","C":"...","D":"..."},
+  "answer": "C", "explanation": "...",
+  "card": {"concept":"...","mnemonic":"...","confusion":"...","frequency":"高/中/低"},
+  "difficulty": "易/中/難", "type": "概念定義型", "tags": ["..."],
+  "generated_by": "multi_ai_pipeline | generate_questions | manual"
+}
+```
+
+## §9 驗證清單（無自動測試，靠這份）
+
+Pipeline 跑完後：
+1. `toc_manifest.json` 存在且所有章節 `page_range` 非 null。
+2. `python3 scripts/verify_data_alignment.py --level {level}` 通過。
+3. 動過 `toc_manifest.json` 或重跑 guide pipeline 後：
+    `uv run python3 scripts/verify_toc_alignment.py --all-levels` exit 0
+    （章節邊界／標題對帳，ground truth 是 PDF 目錄；細節與限制見 §0）。
+4. `pdf_vision_extract.py` 後：`pages_cache/{key}/summary.json` 的 missing/error 為 0，`page_index.json` 存在。
+5. `parse_guides.py` 印出 `[vision mode]`（不是 regex mode），每章 >1000 字。
+6. `audit_chapters.py` 報告 PASS；WARN/FAIL 章節先處理再出題。
+7. `parse_exams_v2.py`：每份公告試題應解析出 50 題（初級 sample 68、中級 sample 41）。
+   看 WARN 行與實際 JSON 總數；數字短少代表表格解析退化，不要當成已知現象放過。
+8. 動了名詞解釋後：`verify_glossary_terms.py` 兩份檔案都跑（flagged 要為 0 或逐條裁決）＋ `audit_resources.py` exit 0。
+9. 前端改動後：`cd frontend && npm run build` 零 TypeScript 錯誤（這是唯一的型別防線）。
+10. 手動 spot-check：dev server 看題目渲染、答題後 card 面板出現（card 面板沒出現先確認
+   題目 JSON 是否真的有 `card` 欄位，再懷疑前端）、行動版 `☰` 抽屜有 `✏️` 練習題入口。
+11. 看 `logs/` 有無抽取/解析錯誤。
+12. 動過講義文字（OCR、勘誤、清洗）後：`python3 scripts/verify_question_guide_alignment.py`
+    ——「本輪造成的退化」要是 0，`chapter_id` 失效要是 0。2026-08-07 的基準是
+    179 題 `guide_exercises` 全數在引用頁逐字命中。
+13. 未來自動測試放 `tests/test_*.py`。
+
+> 教訓 2026-08-07：比對中文 PDF 文字時只正規化其中一邊，會全部落空。根因：全形標點與
+> CJK 相容字（「數」是 U+F969）在兩邊的編碼不同。規則：**兩邊都做 NFKC**，若要把結果寫回
+> 原字串還得把替換映射回去；另外**題幹與選項要分開比對**（頁面上被「（A）」隔開，
+> 串成一條用最長共同子串比會嚴重低估），**題目常跨頁**（選項 C/D 印在下一頁），
+> 單頁比對要補比「本頁＋下一頁」。
+
+## §10 已知手動修正（重跑 export 後必補回）⚠️
+
+### 前置陷阱：`export_guide_outline_data.py` 必帶 `--all-levels`
+
+腳本會先 `shutil.rmtree` 清空 `frontend/src/generated/guideContent/` 再重建。
+預設 `--level 初級` 只重建初級 → **中級檔案永久消失**（2026-06-06 實際發生過）。
+跑完立刻 `git status frontend/src/generated/guideContent/` 確認 mid-* 目錄還在。
+
+### 修正 1、2 已經腳本化（2026-08-06）
+
+```bash
+uv run python3 scripts/export_guide_outline_data.py --all-levels
+python3 scripts/apply_manual_guide_fixes.py     # ← 緊接著跑，冪等，可重複執行（修正 1、2、5）
+```
+
+原本是下面兩段「複製貼上執行」的程式碼，且**字串對不上時靜默不改**，
+造成「以為補好了其實沒補」。腳本版對不上會**直接報錯中斷**（要放行加 `--no-strict`），
+對照表在 `apply_manual_guide_fixes.py` 的 `DEMOTE_HEADINGS` / `SHORTEN_HEADINGS`。
+以下兩段保留為修正內容的說明，不必再手動執行。
+
+### 修正 5：s1c2 標題升階（2026-08-08 新增，已腳本化）
+
+`apply_manual_guide_fixes.py` 的 `apply_s1c2`：把「假說檢定名詞介紹：」升為 h3。
+這章在 PDF 裡只有這一個次級標題，而且它**緊貼表格上緣**（y 421.6–434.9 vs 表格起點
+426.3），一度被 `positioned_page_items` 的表格重疊過濾**整行刪掉**。
+
+> 教訓 2026-08-08：表格重疊判定用「block 中心點 + pad 8」，緊貼表格邊緣的整行文字
+> 會被無聲刪除——不是排版跑掉，是內容消失。根因：把「與表格 bbox 有交集」直接當成
+> 「屬於表格內文」。規則：這類過濾要能被量測（本次量到兩級合計只有 1 個 block 受害，
+> 才敢改）；`pages_cache` 的 OCR 標題現在用來救回這種被誤刪的行。
+
+> 教訓 2026-08-08：想用 OCR 的 heading 標記取代編號式 regex 來判定標題——**全語料試算
+> 後放棄**：OCR 把 `• 分布式詞嵌入`、`○ 應用示例：`、斷句的 `響包括：` 都標成標題，
+> 約半數是雜訊，會讓 25 章的導覽變差來換 1 章變好。規則：**換掉一個啟發式之前，先在
+> 全語料上算「改善幾章 vs 惡化幾章」**，不要只看目標案例。
+
+### 修正 1、2 的內容（說明用，不必手動執行）
+
+- **修正 1：s1c4 本節階層 heading 層級**（6 個 h4 → h3）。腳本對所有 `（\d+）` 開頭行
+  一律輸出 `####`，但 PDF 中同符號用於兩個嵌套層次（x 座標同為 70.2，無法自動判斷），
+  導致「本節階層」出現 `（1）→（1）` 同層。
+- **修正 2：s1c4 H4 標題截短**（在修正 1 之後執行）。H3 節下的 H4 模型條目仍帶
+  `（1）（2）…` 前綴（如「（1） 邏輯迴歸（Logistic Regression）是鑑別式AI 中最簡單…」
+  → 「邏輯迴歸（Logistic Regression）」），造成側欄同層視覺混淆。
+
+兩者的完整對照表在 `apply_manual_guide_fixes.py` 的 `DEMOTE_HEADINGS` / `SHORTEN_HEADINGS`；
+原本的手動 code block 見 `playbook/backups/pipeline-reference.md.bak-2026-08-07`。
+
+觸發時機：每次執行 `export_guide_outline_data.py`（含 `--all-levels`）後跑
+`scripts/apply_manual_guide_fixes.py`，然後 `npm run build` 驗證。
+
+### 修正 4：官方勘誤表（2026-08-06 新增，已腳本化）
+
+官方另發佈學習指引勘誤表（初級 3 頁、中級 7 頁，PDF 在 `data/{level}/pdfs/`，
+OCR 成果在 `data/{level}/guide_ocr/errata/`）。內容是「頁碼 / 行數段落 / 原內容 / 更正後內容」
+四欄表，多數是用字更正（反饋→回饋、攝像頭→鏡頭、合同→合約、ChatGTP→ChatGPT），
+少數是整段改寫（初級 3-31 答案由 B 改為 A、中級 4-34 PDPA 整段重寫）。
+
+```bash
+python3 scripts/build_errata.py                 # 勘誤表 OCR → data/{level}/errata_corrections.json
+python3 scripts/apply_errata.py [--dry-run]     # 套進 pages_cache 與 page_extract
+```
+
+**執行順序有硬性要求**——勘誤是疊加層，套在兩條軌的轉接產物上，重跑轉接層會沖掉：
+
+```
+ocr_extract.py       → apply_errata.py → parse_guides.py                （Track B）
+merge_guide_ocr.py   → apply_errata.py → clean_pdf_page_text.py
+                                       → export_guide_outline_data.py   （Track A）
+```
+
+不改 `data/{level}/guide_ocr/`：那是 OCR 的忠實紀錄，要能對回原稿印的內容。
+
+採**全有或全無**策略：一筆勘誤的片段沒有全部定位到就整筆不動，
+因為只改一半會產生新舊混雜的段落，比不改更糟。腳本是**冪等**的，可重複執行。
+
+自動比對解不了的（勘誤表對「原內容」的轉錄與講義原文有標點、條列符號、斷行的差異，
+或一筆勘誤同時要改題目頁與解析頁）寫進 `data/{level}/errata_manual.json`
+由人工指定精確的 find/replace，沿用同一套定位與冪等機制：
+
+```json
+{"key": "guide1", "page_label": "3-53", "resolves": ["3-53"],
+ "track": "A",              // 選填。標明這筆只負責哪一軌；省略＝預期兩軌都要改到
+ "note": "為什麼要人工指定",
+ "find": "…", "replace": "…"}
+```
+
+**兩軌的原文格式常常不同**（Track B 是 OCR markdown、Track A 是 PDF 文字層），
+同一處更正往往要各寫一筆並標 `track`。只改到一軌時腳本會示警——這類漏網以前是靜默的。
+
+現況與未決條目（剩 2 筆需看原始 PDF）記在 `06-guide-ocr-recalibration.md`。
+
+安全閥：純刪除（更正後文字是原文開頭）且刪掉超過 30 字的片段一律不套——
+那幾乎都是勘誤表表格 OCR 壞掉造成的，照套會刪掉整段講義。
+
+### 修正 3（已改為自動，留紀錄）：guideContent `content` 的 LaTeX 公式
+
+2026-06-10 手工補在 13 個章節檔的 98 處 `$$...$$`（把 PDF 文字層攤平的公式亂碼換成
+可渲染 LaTeX）**沒有留在任何腳本裡**，重跑 export 就全數消失。2026-08-06 起
+`export_guide_outline_data.py` 的 `inject_formulas_into_markdown()` 自動做這件事，
+**但只覆蓋約六成**（公式標記 149→259 處，殘留亂碼卻從 455 字元變成 860——人工版會刪掉
+整段亂碼，自動版只換能對應到公式的片段）。
+
+影響有限：`content` **不是閱讀頁的渲染來源**（GuidePage 走 `blocks`，64 章全有 blocks）。
+實際讀它的是概念圖卡頁與 `export_learning_articles.py` / `export_question_generation_data.py`。
+要收斂就提高 `enrich_guide_blocks` 的公式附著率，不要再手工 patch。
+
+---
+
+## 附錄：Coding style 與 commit convention
+
+- Python：4-space、`snake_case`、短 module docstring、`Path` 不用 `os.path`、
+  腳本自足、小 helper 優於深巢狀。
+- 生成 JSON 以內容命名（`mock_exam1.json`、`subject2_questions.json`）。
+- Commit：祈使句 + scope，如 `build: refresh mock exam JSON`、`parser: improve table extraction`。
