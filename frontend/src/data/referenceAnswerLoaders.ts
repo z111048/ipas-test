@@ -4,8 +4,9 @@ import type { ExamReferenceAnswer } from '../types'
 // 兩邊各寫一份的話，114 年考卷那組 legacy 題號對應遲早會有一邊漏掉。
 type ExamReferenceModule = { default: unknown }
 
-export const asReferenceMap = (module: ExamReferenceModule) => module.default as Record<string, ExamReferenceAnswer>
-export const referenceLoaders: Record<string, () => Promise<Record<string, ExamReferenceAnswer>>> = {
+const asReferenceMap = (module: ExamReferenceModule) => module.default as Record<string, ExamReferenceAnswer>
+// 唯一入口是下面的 loadReferenceAnswers()——刻意不 export，避免繞過快取
+const referenceLoaders: Record<string, () => Promise<Record<string, ExamReferenceAnswer>>> = {
   // 初級
   jr_1141_s1: () => import('../generated/examReferenceAnswers/jr_1141_s1.json').then(asReferenceMap),
   jr_1141_s2: () => import('../generated/examReferenceAnswers/jr_1141_s2.json').then(asReferenceMap),
@@ -19,6 +20,42 @@ export const referenceLoaders: Record<string, () => Promise<Record<string, ExamR
   mid_1141_s2: () => import('../generated/examReferenceAnswers/mid_1141_s2.json').then(asReferenceMap),
   mid_1141_s3: () => import('../generated/examReferenceAnswers/mid_1141_s3.json').then(asReferenceMap),
   midSample: () => import('../generated/examReferenceAnswers/midSample.json').then(asReferenceMap),
+}
+
+/**
+ * 參考詳解按考卷分檔（154–245 KB／份，全部 12 份共 2.3 MB）。
+ *
+ * 這裡的 cache/pending 兩層不是最佳化，是正確性：原本沒有任何快取，
+ * 靠的是 ESM module cache 去重——改成 runtime fetch 之後那層就不存在了，
+ * 每開一次結果頁或概念索引彈窗都會重抓一份完整詳解。
+ * `pending` 另外處理「同一份同時被兩個元件要」的 in-flight 去重。
+ */
+const cache = new Map<string, Record<string, ExamReferenceAnswer>>()
+const pending = new Map<string, Promise<Record<string, ExamReferenceAnswer> | undefined>>()
+
+export function loadReferenceAnswers(
+  examKey: string,
+): Promise<Record<string, ExamReferenceAnswer> | undefined> {
+  const hit = cache.get(examKey)
+  if (hit) return Promise.resolve(hit)
+
+  const inFlight = pending.get(examKey)
+  if (inFlight) return inFlight
+
+  const loader = referenceLoaders[examKey]
+  if (!loader) return Promise.resolve(undefined)
+
+  const promise = loader()
+    .then((references) => {
+      cache.set(examKey, references)
+      return references
+    })
+    .finally(() => {
+      // 失敗的 promise 不留在 pending，否則一次網路抖動就等於這份詳解永久失效
+      pending.delete(examKey)
+    })
+  pending.set(examKey, promise)
+  return promise
 }
 
 const legacyReferencePrefixByExam: Record<string, string> = {

@@ -6,7 +6,14 @@ type JsonModule = { default: unknown }
 export const learningArticleIndex = learningArticleIndexRaw as unknown as LearningArticleIndex
 
 const articleModules = import.meta.glob<JsonModule>('../generated/learningArticles/*/*.json')
-const cache = new Map<string, Promise<LearningArticle | undefined>>()
+
+/**
+ * 快取分兩層。原本只有一個 `Map<string, Promise<...>>`，會把**失敗的 promise 也永久留下**——
+ * build-time import 幾乎不會 reject 所以看不出來，改成 runtime fetch 之後
+ * 一次網路抖動就等於那篇文章在這個 session 裡永遠載不出來。
+ */
+const cache = new Map<string, LearningArticle | undefined>()
+const pending = new Map<string, Promise<LearningArticle | undefined>>()
 
 export function articleMeta(articleId?: string): LearningArticleMeta | undefined {
   if (!articleId) return undefined
@@ -54,18 +61,33 @@ export function articleNeighbors(articleId: string, pathId?: string) {
   }
 }
 
-export function loadLearningArticle(articleId: string) {
-  const cached = cache.get(articleId)
-  if (cached) return cached
+export function loadLearningArticle(articleId: string): Promise<LearningArticle | undefined> {
+  // `has` 而非 `get`：查不到的文章會快取成 undefined，不該每次重試
+  if (cache.has(articleId)) return Promise.resolve(cache.get(articleId))
+
+  const inFlight = pending.get(articleId)
+  if (inFlight) return inFlight
 
   const meta = articleMeta(articleId)
   if (!meta) return Promise.resolve(undefined)
 
   const moduleKey = `../generated/learningArticles/${meta.levelLabel}/${meta.source.contentRef}`
   const loader = articleModules[moduleKey]
-  const promise = loader
-    ? loader().then((module) => module.default as LearningArticle)
-    : Promise.resolve(undefined)
-  cache.set(articleId, promise)
+  if (!loader) {
+    cache.set(articleId, undefined)
+    return Promise.resolve(undefined)
+  }
+
+  const promise = loader()
+    .then((module) => {
+      const article = module.default as LearningArticle
+      cache.set(articleId, article)
+      return article
+    })
+    .finally(() => {
+      // 失敗不進 cache，只清 pending —— 下次呼叫可以重試
+      pending.delete(articleId)
+    })
+  pending.set(articleId, promise)
   return promise
 }

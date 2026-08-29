@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Dialog } from '../ui'
 import { loadExamData } from '../../data/examLoaders'
 import { loadSubjectQuestions } from '../../data/questionLoaders'
-import { referenceLoaders, referenceForQuestion } from '../../data/referenceAnswerLoaders'
+import { loadReferenceAnswers, referenceForQuestion } from '../../data/referenceAnswerLoaders'
 import type { ExamReferenceAnswer, Question } from '../../types'
 
 export interface QuestionRef {
@@ -22,7 +22,8 @@ export interface QuestionRef {
 const OPTIONS = ['A', 'B', 'C', 'D'] as const
 
 /** 題目內容不放在 conceptGraph.json 裡（1,561 題的選項與解析會讓它多好幾 MB），
- *  開彈窗才去載那一份題庫——載入器本身有快取，同一份只會抓一次。 */
+ *  開彈窗才去載那一份題庫——`loadExamData` 與 `loadReferenceAnswers` 都有
+ *  模組層快取，同一份只會抓一次。 */
 async function fetchQuestion(item: QuestionRef): Promise<{
   question?: Question
   reference?: ExamReferenceAnswer
@@ -30,7 +31,7 @@ async function fetchQuestion(item: QuestionRef): Promise<{
   if (item.kind === 'exam' && item.examKey) {
     const [exam, references] = await Promise.all([
       loadExamData(item.examKey),
-      referenceLoaders[item.examKey]?.() ?? Promise.resolve(undefined),
+      loadReferenceAnswers(item.examKey),
     ])
     const question = exam?.questions.find((q) => q.id === item.id)
     const reference = references
@@ -60,12 +61,18 @@ export default function QuestionModal({ item, onClose }: { item: QuestionRef; on
     setState('loading')
     setRevealed(false)
     setPicked(null)
-    fetchQuestion(item).then((result) => {
-      if (!active) return
-      setQuestion(result.question)
-      setReference(result.reference)
-      setState(result.question ? 'ready' : 'missing')
-    })
+    fetchQuestion(item)
+      .then((result) => {
+        if (!active) return
+        setQuestion(result.question)
+        setReference(result.reference)
+        setState(result.question ? 'ready' : 'missing')
+      })
+      // 沒有這條的話網路失敗會卡在 state='loading'，「題目載入中…」永不結束
+      .catch(() => {
+        if (!active) return
+        setState('missing')
+      })
     return () => {
       active = false
     }

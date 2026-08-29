@@ -135,6 +135,49 @@ def main() -> None:
 
     log.info(f'完成：{count} notebooks exported to {frontend_dir}')
 
+    write_index(frontend_dir.parent)
+
+
+def write_index(root: Path) -> None:
+    """重建 colabNotebooks/index.json。
+
+    這份 index 是「這一章有沒有 notebook」的唯一機讀來源。GuidePage 原本靠
+    `import.meta.glob` 的 build-time 查表判斷存在性；資料改成 runtime fetch 之後
+    那張表會消失，沒有 index 就只剩「每章都打一次 404」或「功能靜默消失」兩條路。
+
+    刻意掃「整個 colabNotebooks/ 目錄」而不是只掃這次跑的 level——
+    `--level 初級 --chapter s1c1` 這種單章重跑不能把中級從 index 裡洗掉。
+    """
+    levels: list[str] = []
+    notebooks: list[dict] = []
+    for level_dir in sorted(d for d in root.iterdir() if d.is_dir()):
+        level = level_dir.name
+        found = False
+        for path in sorted(level_dir.glob('*.json')):
+            if path.name == 'index.json':
+                continue
+            data = json.loads(path.read_text(encoding='utf-8'))
+            notebooks.append({
+                'chapterId': data.get('chapter_id', path.stem),
+                'level': level,
+                'title': data.get('chapter_title', ''),
+                'colabUrl': data.get('colab_url', ''),
+                'cells': len(data.get('cells', [])),
+            })
+            found = True
+        if found:
+            levels.append(level)
+
+    index = {
+        'levels': levels,
+        'total': len(notebooks),
+        # chapterId → 章節資訊。前端用 `chapterId in byChapter` 判斷存在性。
+        'byChapter': {n['chapterId']: n for n in notebooks},
+    }
+    out = root / 'index.json'
+    out.write_text(json.dumps(index, ensure_ascii=False, indent=2), encoding='utf-8')
+    log.info(f'✓ index.json → {out}（{len(notebooks)} 章、{len(levels)} 個 level）')
+
 
 if __name__ == '__main__':
     main()

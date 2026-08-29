@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { StatePanel } from '../ui'
 import { loadAllMindmaps } from '../../data/guideMindmap'
 import { buildChapterIndex, loadTopicHeat, type ChapterRef } from '../../data/topicHeat'
 import type { TopicHeatChapter, TopicHeatData } from '../../types'
@@ -24,14 +25,22 @@ export default function TopicHeatPanel() {
   const [category, setCategory] = useState<string>(ALL)
   const [query, setQuery] = useState('')
   const [opened, setOpened] = useState<string | null>(null)
+  const [loadError, setLoadError] = useState<string | null>(null)
 
   useEffect(() => {
     let active = true
-    Promise.all([loadTopicHeat(), loadAllMindmaps()]).then(([heat, maps]) => {
-      if (!active) return
-      setData(heat)
-      setChapters(buildChapterIndex(maps))
-    })
+    Promise.all([loadTopicHeat(), loadAllMindmaps()])
+      .then(([heat, maps]) => {
+        if (!active) return
+        setData(heat)
+        setChapters(buildChapterIndex(maps))
+      })
+      .catch(() => {
+        // build-time import 幾乎不會 reject，runtime fetch 會。沒有這條的話
+        // 網路失敗是 unhandled rejection，面板永遠停在 null 而不是顯示錯誤。
+        if (!active) return
+        setLoadError('概念熱度載入失敗，請重新整理再試。')
+      })
     return () => {
       active = false
     }
@@ -68,7 +77,8 @@ export default function TopicHeatPanel() {
   const chapterRef = (chapter: TopicHeatChapter) =>
     chapters?.get(`${chapter.guideKey}:${chapter.nodeId}`)
 
-  if (!data || !chapters) return <p className="mt-8 text-sm text-text-light">載入中…</p>
+  if (loadError) return <StatePanel tone="error" title="載入失敗" className="mt-8">{loadError}</StatePanel>
+  if (!data || !chapters) return <StatePanel tone="loading" className="mt-8">載入中…</StatePanel>
 
   return (
     <>

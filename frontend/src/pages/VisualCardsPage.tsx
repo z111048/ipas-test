@@ -263,7 +263,8 @@ export default function VisualCardsPage() {
           setSection({ loading: false, markdown: chapterIntro(content), isIntro: true })
         }
       })
-      .catch(() => {
+      .catch((error) => {
+        console.warn(`[guideContent] 載入失敗 ${moduleKey}`, error)
         if (!cancelled) setSection({ loading: false, markdown: '', isIntro: false })
       })
     return () => {

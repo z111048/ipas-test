@@ -15,6 +15,7 @@ interface GuideSearchDialogProps {
 export default function GuideSearchDialog({ open, onClose, restoreFocusRef }: GuideSearchDialogProps) {
   const [index, setIndex] = useState<GuideSearchIndexData | null>(null)
   const [loading, setLoading] = useState(false)
+  const [loadError, setLoadError] = useState<string | null>(null)
   const [query, setQuery] = useState('')
   const [activeIndex, setActiveIndex] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -26,8 +27,11 @@ export default function GuideSearchDialog({ open, onClose, restoreFocusRef }: Gu
   useEffect(() => {
     if (!open || index) return
     setLoading(true)
+    setLoadError(null)
     loadGuideSearchIndex()
       .then(setIndex)
+      // 沒有這條的話載入失敗會顯示成「查無結果」，使用者會以為是自己關鍵字打錯
+      .catch(() => setLoadError('搜尋索引載入失敗，請重新整理再試。'))
       .finally(() => setLoading(false))
   }, [open, index])
 
@@ -89,7 +93,10 @@ export default function GuideSearchDialog({ open, onClose, restoreFocusRef }: Gu
 
         <div className="max-h-[calc(100dvh-5.5rem)] overflow-y-auto overscroll-contain">
           {loading && <p className="px-4 py-6 text-[0.85rem] text-text-light">載入索引中…</p>}
-          {!loading && query.trim() && hits.length === 0 && (
+          {!loading && loadError && (
+            <p className="px-4 py-6 text-[0.85rem] text-red-700" role="alert">{loadError}</p>
+          )}
+          {!loading && !loadError && query.trim() && hits.length === 0 && (
             <p className="px-4 py-6 text-[0.85rem] text-text-light">找不到「{query}」</p>
           )}
           {!loading && !query.trim() && (

@@ -527,7 +527,10 @@ export default function GuidePage() {
       .then((module) => {
         if (!cancelled) setExamAnnotationsByBlock(module.default.blocks ?? {})
       })
-      .catch(() => {
+      .catch((error) => {
+        // 降級是對的（考題標註是附加資訊），但不要靜默：改成 runtime fetch 之後
+        // 網路失敗與「這章本來就沒有標註」會長得一模一樣，沒有這行就無從診斷。
+        console.warn(`[guideExamAnnotations] 載入失敗 ${moduleKey}`, error)
         if (!cancelled) setExamAnnotationsByBlock({})
       })
     return () => {
@@ -551,7 +554,14 @@ export default function GuidePage() {
       .then((module) => {
         if (!cancelled) setColabNotebook(module.default)
       })
-      .catch(() => {/* silently ignore missing notebooks */})
+      .catch((error) => {
+        // 同上：降級但不靜默。
+        // 註：`generated/colabNotebooks/index.json` 已由 export_colab_metadata.py 產出，
+        // 但這裡還沒改用它——存在性仍靠上面那個 build-time glob 判斷。
+        // 階段 2 把資料改成 runtime fetch 時，glob 會消失，那時才必須改讀 index.json，
+        // 否則「這章有沒有 notebook」會靜默失效（41/64 章有）。
+        console.warn(`[colabNotebook] 載入失敗 ${notebookKey}`, error)
+      })
     return () => { cancelled = true }
   }, [chapter, outlineGuide])
 
