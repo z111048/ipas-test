@@ -39,6 +39,11 @@ jobs:
         run: cd frontend && npm run build
         env:
           VITE_BASE_URL: ${{ steps.pages.outputs.base_path }}/
+          # 靜態資產（pdf-assets / images）的來源。留空 = 由本站提供（現況）。
+          # 資產搬到 Cloudflare R2 之後，在 repo 的 Variables 設 VITE_ASSET_BASE_URL
+          # （例 https://assets.example.com）即可全站切換——資料 JSON 一個字都不用改，
+          # 因為所有圖片 URL 都經過 frontend/src/utils/assets.ts 的 publicAsset()。
+          VITE_ASSET_BASE_URL: ${{ vars.VITE_ASSET_BASE_URL }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

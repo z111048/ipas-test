@@ -28,12 +28,26 @@ import unicodedata
 from pathlib import Path
 from typing import Any, Iterator
 
+from asset_paths import asset_root, local_path
+
 BASE = Path(__file__).resolve().parents[1]
 ALLOWLIST_PATH = BASE / 'data' / 'audit_allowlist.json'
 COMMITTED_REVIEW_PATH = BASE / 'data' / 'notebook_review' / 'committed_review.json'
 GENERATED = BASE / 'frontend' / 'src' / 'generated'
 LETTERS = ('A', 'B', 'C', 'D')
 COMMITTED_REVIEW: dict[str, Any] = {}
+
+
+def repo_rel(path: Path) -> str:
+    """報告用的 repo 相對路徑；不在 repo 底下就退回絕對路徑。
+
+    刻意不叫 `rel`：`audit_guide` 裡有個同名區域變數（`rel = path.relative_to(...)`），
+    叫 `rel` 會被遮蔽，讓「找不到目錄」那條 WARN 路徑丟 UnboundLocalError。
+    """
+    try:
+        return path.relative_to(BASE).as_posix()
+    except ValueError:
+        return str(path)
 
 # 中英夾雜：只抓「小寫英文單字被中文夾住」，例如「就能直接 conclude 所有組別」。
 # 專有名詞與縮寫（Transformer、BERT、IDF、GloVe）是正當術語，不能一起抓——
@@ -171,10 +185,22 @@ def audit_questions(report: Report) -> None:
     seen_stems: dict[str, str] = {}
     for path in sorted(BASE.glob('data/*/questions/*.json')):
         rel = path.relative_to(BASE).as_posix()
+        # 同一檔內的 id 唯一性要單獨查：下面那組 seen_ids 只比對「跨檔」重複
+        # （`seen_ids[qid] != rel`），同檔重複會被 setdefault 靜靜吃掉。
+        # 而前端的作答紀錄自 2026-08-26 起以 question id 為 key（types/index.ts
+        # 的 UserAnswers），同一份考卷內兩題共用 id 會讓它們共用同一個答案。
+        ids_in_file: set[str] = set()
         for question in iter_questions(load(path)):
             qid = str(question.get('id', ''))
             options = question.get('options')
             label = f'{rel}:{qid}'
+
+            if not qid:
+                report.add('questions', 'FAIL', 'id 是空的（作答紀錄以 id 為 key）', rel)
+            elif qid in ids_in_file:
+                report.add('questions', 'FAIL', '同一檔內 id 重複（兩題會共用同一個作答）', label)
+            else:
+                ids_in_file.add(qid)
 
             if qid and qid in seen_ids and seen_ids[qid] != rel:
                 report.add('questions', 'WARN', f'id 與 {seen_ids[qid]} 重複', label)
@@ -293,19 +319,26 @@ def audit_reference_answers(report: Report) -> None:
 def audit_images(report: Report) -> None:
     path = GENERATED / 'guideImages.json'
     if not path.exists():
+        report.add('images', 'WARN', '找不到 guideImages.json，這項檢查沒有跑', repo_rel(path))
         return
     data = load(path)
+    srcs = list(_iter_image_srcs(data))
+    if asset_root() is None:
+        # 資產不在本機（例如已搬到 CDN、或這是一個 fresh clone）。
+        # 誠實跳過，不要把 1900 多筆全報成缺檔——那等於這道閘門變成雜訊。
+        report.add('images', 'WARN',
+                   f'資產不在本機（IPAS_ASSET_ROOT 未指向實體檔案），{len(srcs)} 筆圖片參照未驗證', '')
+        return
     missing = 0
-    total = 0
-    for src in _iter_image_srcs(data):
-        total += 1
-        if not (BASE / 'frontend' / 'public' / src.lstrip('/')).exists():
+    for src in srcs:
+        target = local_path(src)
+        if target is None or not target.exists():
             missing += 1
             if missing <= 5:
                 report.add('images', 'FAIL', '圖片檔不存在', src)
     if missing > 5:
         report.add('images', 'FAIL', f'另有 {missing - 5} 張圖片檔不存在', '')
-    report.add('images', 'INFO', f'檢查 {total} 張圖片參照，缺 {missing} 張', '')
+    report.add('images', 'INFO', f'檢查 {len(srcs)} 張圖片參照，缺 {missing} 張', '')
 
 
 def _iter_image_srcs(node: Any) -> Iterator[str]:
@@ -335,6 +368,7 @@ def audit_glossary(report: Report) -> None:
 
 def audit_glossary_file(report: Report, path: Path) -> None:
     if not path.exists():
+        report.add('glossary', 'WARN', '找不到詞彙表檔，這項檢查沒有跑', repo_rel(path))
         return
     # 去重以「科目」為界：詞彙表是分科呈現的，同一個詞在兩科各有一條釋義是正當的
     # （「特徵工程」對科目二的資料處理與科目三的建模都相關），跨科目重複只報 INFO。
@@ -383,6 +417,7 @@ def audit_guide(report: Report) -> None:
     """
     root = GENERATED / 'guideContent'
     if not root.exists():
+        report.add('guide', 'WARN', '找不到 guideContent/ 目錄，這項檢查沒有跑', repo_rel(root))
         return
     # SSOT：章節 id 只能來自 toc_manifest（CLAUDE.md 不變量 1）
     known: set[str] = set()
@@ -444,9 +479,15 @@ def audit_guide(report: Report) -> None:
                        label)
 
     missing_images = 0
+    skip_image_check = asset_root() is None
+    if skip_image_check:
+        report.add('guide', 'WARN', '資產不在本機，guideContent 的頁面圖檔存在性未驗證', '')
     for path in sorted(root.glob('*/*.json')):
         for src in _iter_image_srcs(load(path)):
-            if not (BASE / 'frontend' / 'public' / src.lstrip('/')).exists():
+            if skip_image_check:
+                continue
+            target = local_path(src)
+            if target is None or not target.exists():
                 missing_images += 1
                 if missing_images <= 5:
                     report.add('guide', 'FAIL', f'頁面圖檔不存在：{src}',
@@ -461,6 +502,8 @@ def audit_articles(report: Report) -> None:
     """學習文章。3 篇，先前完全沒有閘門。"""
     index_path = GENERATED / 'learningArticles' / 'index.json'
     if not index_path.exists():
+        report.add('articles', 'WARN', '找不到 learningArticles/index.json，這項檢查沒有跑',
+                   repo_rel(index_path))
         return
     index = load(index_path)
     by_id = index.get('articlesById', {})

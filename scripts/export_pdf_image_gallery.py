@@ -5,6 +5,7 @@ import argparse
 import json
 import shutil
 from pathlib import Path
+from asset_paths import pdf_asset_url
 
 BASE = Path('/home/james/projects/ipas-test')
 KEY_ORDER = {
@@ -61,7 +62,7 @@ def export_gallery(level: str, force: bool, write_src_manifest: bool = True) -> 
                         'page_number': page['page_number'],
                         'page_label': page.get('page_label') or '',
                         'bbox': page_image.get('bbox', []),
-                        'path': f'/pdf-assets/{level}/{dest_rel.as_posix()}',
+                        'path': pdf_asset_url(level, dest_rel.as_posix()),
                     })
             for kind in ('images', 'tables'):
                 for asset in page.get(kind, []):
@@ -88,7 +89,7 @@ def export_gallery(level: str, force: bool, write_src_manifest: bool = True) -> 
                         'page_number': page['page_number'],
                         'page_label': page.get('page_label') or '',
                         'bbox': asset.get('bbox', []),
-                        'path': f'/pdf-assets/{level}/{dest_rel.as_posix()}',
+                        'path': pdf_asset_url(level, dest_rel.as_posix()),
                     })
 
     items.sort(key=lambda item: (
@@ -104,8 +105,9 @@ def export_gallery(level: str, force: bool, write_src_manifest: bool = True) -> 
         'items': items,
     }
     manifest_text = json.dumps(manifest, ensure_ascii=False, indent=2)
-    manifest_path = public_root / 'gallery.json'
-    manifest_path.write_text(manifest_text, encoding='utf-8')
+    # 2026-08-26：不再寫 public_root/gallery.json。前端唯一的消費者是
+    # ImageGalleryPage.tsx，讀的是下面那份 generated/pdfGallery.json；
+    # public 那份（三個 level 合計 589 KB）從來沒有人讀過，已從版控刪除。
 
     if write_src_manifest:
         src_manifest_path = BASE / 'frontend' / 'src' / 'generated' / 'pdfGallery.json'

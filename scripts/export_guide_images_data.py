@@ -5,6 +5,7 @@ import argparse
 import json
 from pathlib import Path
 from typing import Any
+from asset_paths import image_url
 
 BASE = Path('/home/james/projects/ipas-test')
 DEFAULT_LEVEL = '初級'
@@ -50,7 +51,7 @@ def export_images(units_file: Path, output: Path, public_images_dir: Path) -> di
             'title': unit.get('title'),
             'headingPath': unit.get('headingPath') or [],
             'pageNumbers': unit.get('pageNumbers') or [],
-            'src': f'/images/{image_output}',
+            'src': image_url(image_output),
             'output': image_output,
         })
 

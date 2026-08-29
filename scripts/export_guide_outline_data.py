@@ -8,6 +8,7 @@ import unicodedata
 from html import escape
 from pathlib import Path
 from typing import Any
+from asset_paths import page_asset_url
 
 BASE = Path('/home/james/projects/ipas-test')
 
@@ -2149,7 +2150,7 @@ def source_page_tables(level: str, key: str, page_index: int) -> list[dict]:
         tables.append({
             'id': table.get('id') or f'table_{len(tables) + 1:02d}',
             'bbox': table.get('bbox') or [],
-            'image': f'/pdf-assets/{level}/{key}/page_{page_index:03d}/{asset_name}',
+            'image': page_asset_url(level, key, page_index, asset_name),
             'rows': rows,
         })
     return tables
@@ -2280,7 +2281,7 @@ def source_pages(level: str, key: str, start_page: int, end_page: int) -> list[d
             'index': page_index,
             'page': page_number,
             'label': page.get('page_label') or '',
-            'image': f'/pdf-assets/{level}/{key}/page_{page_index:03d}/page.png',
+            'image': page_asset_url(level, key, page_index),
         }
         tables = source_page_tables(level, key, page_index)
         if tables:

@@ -8,6 +8,7 @@ from pathlib import Path
 from PIL import Image
 
 from extract_pdfs import EXAM_PDFS_BY_LEVEL
+from asset_paths import page_asset_url
 
 BASE = Path('/home/james/projects/ipas-test')
 
@@ -156,7 +157,7 @@ def parse_question_cell(
 
 
 def public_asset_path(level: str, key: str, page_index: int, filename: str) -> str:
-    return f'/pdf-assets/{level}/{key}/page_{page_index:03d}/{filename}'
+    return page_asset_url(level, key, page_index, filename)
 
 
 def public_asset_file(level: str, key: str, page_index: int, filename: str) -> Path:

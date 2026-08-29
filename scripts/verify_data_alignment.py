@@ -11,6 +11,8 @@ from pathlib import Path
 
 import fitz  # PyMuPDF
 
+from asset_paths import local_path
+
 BASE = Path('/home/james/projects/ipas-test')
 
 
@@ -117,11 +119,13 @@ def check_chapter_file(
                         f'invalid image path: {image}'
                     )
                     continue
-                image_path = BASE / 'frontend' / 'public' / image.lstrip('/')
-                if not image_path.exists():
+                # 資產搬到 CDN 之後本機不會有這些檔（IPAS_ASSET_ROOT= 宣告這件事）。
+                # 那時候這條檢查沒有東西可驗，跳過比報 490 筆假缺圖誠實。
+                image_path = local_path(image)
+                if image_path is not None and not image_path.exists():
                     errors.append(
                         f'{path.relative_to(BASE)} chapter {chapter["id"]} references '
-                        f'missing PDF screenshot: {image_path.relative_to(BASE)}'
+                        f'missing PDF screenshot: {image}'
                     )
         if require_questions and not chapter.get('questions'):
             errors.append(f'{path.relative_to(BASE)} chapter {chapter["id"]} has no questions')
