@@ -1,6 +1,6 @@
 {
   "exam": "中級考試樣題（114年9月版）",
-  "total": 41,
+  "total": 45,
   "time_limit": "90分鐘",
   "passing_score": 60,
   "questions": [
@@ -141,6 +141,23 @@
     },
     {
       "id": "sample_q8",
+      "question": "企業在生成式 AI 導入中，可選擇下列哪一種模型壓縮(Model Compression)技術以減少記憶體使用？",
+      "options": {
+        "A": "參數剪枝",
+        "B": "增加訓練數據量",
+        "C": "增加模型層數",
+        "D": "使用更高維數據"
+      },
+      "answer": "A",
+      "explanation": "正確答案為(A)。",
+      "source": "sample",
+      "source_ref": {
+        "page_index": 1,
+        "page_number": 2
+      }
+    },
+    {
+      "id": "sample_q9",
       "question": "供應鏈攻擊(Supply Chain Attacks)如何影響企業內部AI系統安全？",
       "options": {
         "A": "供應鏈攻擊的常見狀況，包括員工因釣魚郵件而被盜取帳號密碼",
@@ -157,7 +174,7 @@
       }
     },
     {
-      "id": "sample_q9",
+      "id": "sample_q10",
       "question": "下列何者為自然語言處理(NLP)中的詞嵌入技術，能將文字轉換為向 量以利機器學習處理？",
       "options": {
         "A": "TF-IDF",
@@ -174,7 +191,7 @@
       }
     },
     {
-      "id": "sample_q10",
+      "id": "sample_q11",
       "question": "在多模態學習中，早期融合(Early Fusion)方法的主要特徵為何？",
       "options": {
         "A": "將不同模態資料的輸出結果進行決策合併",
@@ -191,7 +208,7 @@
       }
     },
     {
-      "id": "sample_q11",
+      "id": "sample_q12",
       "question": "下列哪項技術最有助於強化醫療多模態 AI 系統在處理影像與文本數 據時的整合能力？",
       "options": {
         "A": "利用預先定義的規則產生診斷結果",
@@ -208,7 +225,7 @@
       }
     },
     {
-      "id": "sample_q12",
+      "id": "sample_q13",
       "question": "某線上音樂平台希望根據用戶的聽歌與查詢行為，將用戶劃分為不同 的類型。若事前沒有定義用戶類型，下列哪一種模型最適合用於此任 務？",
       "options": {
         "A": "邏輯迴歸(Logistic Regression)",
@@ -225,7 +242,24 @@
       }
     },
     {
-      "id": "sample_q13",
+      "id": "sample_q14",
+      "question": "在訓練模型時，若數據中出現特徵尺度差異極大(例如：年齡為 0– 100、收入為 0–1,000,000)，容易導致模型偏向特定特徵。為提升模 型效能與穩定性，以下哪一種預處理方式最能有效解決此問題？",
+      "options": {
+        "A": "移除尺度較小的欄位以避免對模型影響過低",
+        "B": "對所有特徵進行 Z-score標準化(Standardization)",
+        "C": "將特徵縮放至 0–1 區間進行最小-最大正規化(Min-Max Normalization)",
+        "D": "對所有數值欄位加上常數使其不為零"
+      },
+      "answer": "B",
+      "explanation": "正確答案為(B)。",
+      "source": "sample",
+      "source_ref": {
+        "page_index": 2,
+        "page_number": 3
+      }
+    },
+    {
+      "id": "sample_q15",
       "question": "某企業即將部署 AI模型至現有營運系統，進入系統整合測試階段。測 試工程師需確認所有模組在實際環境中能正確協同運作。下列哪項驗 證最應優先執行？",
       "options": {
         "A": "確認模型在開發機上訓練集表現是否達標",
@@ -242,7 +276,7 @@
       }
     },
     {
-      "id": "sample_q14",
+      "id": "sample_q16",
       "question": "在巨量資料分析班中，共有一年級至四年級，每個年級有50 個學生， 且學生身高呈常態分佈。下列敘述何者不正確？",
       "options": {
         "A": "要檢測一年級和二年級的平均身高是否有差異，可以利用 t檢定",
@@ -259,7 +293,7 @@
       }
     },
     {
-      "id": "sample_q15",
+      "id": "sample_q17",
       "question": "關於接受者操作特徵(ROC)曲線，下列敘述何者正確？",
       "options": {
         "A": "ROC 曲線繪製了真陽性率與假陽性率的關係",
@@ -276,7 +310,7 @@
       }
     },
     {
-      "id": "sample_q16",
+      "id": "sample_q18",
       "question": "下列何者不屬於特徵工程(Feature Engineering)？",
       "options": {
         "A": "轉換(Transformation)",
@@ -293,7 +327,7 @@
       }
     },
     {
-      "id": "sample_q17",
+      "id": "sample_q19",
       "question": "拉拉網路商城的老闆擬透過機器學習的方式，利用過往的產品銷售資 料，預測下一季的產品銷售數量，以調整現有的庫存水位。下列哪一 個類型的模型，比較適合應用在老闆期望的預測目標？",
       "options": {
         "A": "決策樹分類器(Decision Tree Classifier)",
@@ -310,7 +344,7 @@
       }
     },
     {
-      "id": "sample_q18",
+      "id": "sample_q20",
       "question": "對於低結構化的文本或圖像資料，下列哪一種特徵工程(Feature Engineering)方法最為適用？",
       "options": {
         "A": "特徵改善(Feature Improvement)",
@@ -327,7 +361,7 @@
       }
     },
     {
-      "id": "sample_q19",
+      "id": "sample_q21",
       "question": "下列哪種方法屬於非監督式學習中的降維技術？",
       "options": {
         "A": "K-均值聚類((K-means)",
@@ -344,7 +378,7 @@
       }
     },
     {
-      "id": "sample_q20",
+      "id": "sample_q22",
       "question": "異常值偵測使用 IQR(Interquartile Range)法時，下列哪一種範圍 外的數值會被視為異常？",
       "options": {
         "A": "超過 Q2 ± 2×IQR",
@@ -361,7 +395,7 @@
       }
     },
     {
-      "id": "sample_q21",
+      "id": "sample_q23",
       "question": "差分隱私(Differential Privacy)在數據應用中的目的為何？",
       "options": {
         "A": "添加隨機噪聲掩蓋個體訊息",
@@ -378,7 +412,7 @@
       }
     },
     {
-      "id": "sample_q22",
+      "id": "sample_q24",
       "question": "若使用主成分分析(PCA)將資料降維至兩個主成分，這表示哪一種情 況？",
       "options": {
         "A": "僅保留兩筆樣本資料進行模型訓練",
@@ -395,7 +429,7 @@
       }
     },
     {
-      "id": "sample_q23",
+      "id": "sample_q25",
       "question": "假設有一組成績資料呈現常態分配，平均數為70，標準差為 10，若某 位學生的成績為 90，該學生的Z分數約為多少？",
       "options": {
         "A": "0",
@@ -412,7 +446,7 @@
       }
     },
     {
-      "id": "sample_q24",
+      "id": "sample_q26",
       "question": "在AI倫理治理的背景下，「透明性(Transparency)」通常是指什麼？",
       "options": {
         "A": "AI系統的運算速度公開",
@@ -429,7 +463,7 @@
       }
     },
     {
-      "id": "sample_q25",
+      "id": "sample_q27",
       "question": "若企業希望即時監控交易異常，應選擇下列哪一類數據處理架構？",
       "options": {
         "A": "批次式資料倉儲",
@@ -446,7 +480,24 @@
       }
     },
     {
-      "id": "sample_q26",
+      "id": "sample_q28",
+      "question": "為了分析社群網路使用者之間的互動結構，應使用下列哪種分析方 法？",
+      "options": {
+        "A": "文字探勘",
+        "B": "主成分分析",
+        "C": "圖論分析",
+        "D": "分群分析"
+      },
+      "answer": "C",
+      "explanation": "正確答案為(C)。",
+      "source": "sample",
+      "source_ref": {
+        "page_index": 5,
+        "page_number": 6
+      }
+    },
+    {
+      "id": "sample_q29",
       "question": "為了加速大數據環境下的 AI 模型訓練，以下哪一項為常見技術？",
       "options": {
         "A": "早期停止(Early Stopping)",
@@ -463,7 +514,7 @@
       }
     },
     {
-      "id": "sample_q27",
+      "id": "sample_q30",
       "question": "考慮使用 CIFAR-10資料集進行資料處理，資料包括 32×32 像素的多 筆彩色照片。下列程式碼的資料處理，請選出正確的選項。",
       "options": {
         "A": "訓練集(x_train)資料集個數為 100000筆",
@@ -499,7 +550,7 @@
       ]
     },
     {
-      "id": "sample_q28",
+      "id": "sample_q31",
       "question": "在 MapReduce 計算框架中，關於 Map 和 Reduce 所負責處理資料 的問題，下列敘述何者正確？",
       "options": {
         "A": "Map：一組資料映射成另一組資料；Reduce：統合與歸納資料",
@@ -516,7 +567,7 @@
       }
     },
     {
-      "id": "sample_q29",
+      "id": "sample_q32",
       "question": "下列何種卷積神經網路(Convolution Neural Networks, CNN)是將 卷積層加寬而非加深？",
       "options": {
         "A": "R-CNN",
@@ -533,7 +584,7 @@
       }
     },
     {
-      "id": "sample_q30",
+      "id": "sample_q33",
       "question": "當模型的訓練誤差(Training Error)低、但測試誤差(Test Error)很 大時，這通常是在訓練過程中產生下列哪一種情況？",
       "options": {
         "A": "模型的泛化能力強",
@@ -550,7 +601,7 @@
       }
     },
     {
-      "id": "sample_q31",
+      "id": "sample_q34",
       "question": "下列哪一種指標通常用於評估迴歸模型的效能？",
       "options": {
         "A": "R²",
@@ -567,7 +618,7 @@
       }
     },
     {
-      "id": "sample_q32",
+      "id": "sample_q35",
       "question": "近年來，深度學習研究與應用蓬勃發展，但數據本身可能存在什麼潛 在問題？",
       "options": {
         "A": "數據標註品質鮮少被討論，但它卻直接影響模型性能",
@@ -584,7 +635,7 @@
       }
     },
     {
-      "id": "sample_q33",
+      "id": "sample_q36",
       "question": "在分類任務中，深度學習模型通常搭配哪一種輸出函數？",
       "options": {
         "A": "Tanh",
@@ -601,7 +652,7 @@
       }
     },
     {
-      "id": "sample_q34",
+      "id": "sample_q37",
       "question": "下列哪一種學習任務不適合使用監督式學習方法處理？",
       "options": {
         "A": "客戶信用風險分類",
@@ -618,7 +669,7 @@
       }
     },
     {
-      "id": "sample_q35",
+      "id": "sample_q38",
       "question": "在神經網路中，前向傳播(Forward Propagation)主要依賴下列哪一 種數學操作？",
       "options": {
         "A": "機率積分",
@@ -635,7 +686,7 @@
       }
     },
     {
-      "id": "sample_q36",
+      "id": "sample_q39",
       "question": "特徵縮放(Feature Scaling)中，下列何者為標準化(Standardization) 的主要作用？",
       "options": {
         "A": "將數據範圍限制在 0 到1且標準差-1",
@@ -652,7 +703,7 @@
       }
     },
     {
-      "id": "sample_q37",
+      "id": "sample_q40",
       "question": "關於準確率(Accuracy)的計算方式，下列何者正確？",
       "options": {
         "A": "TP/(TP+FP)",
@@ -669,7 +720,7 @@
       }
     },
     {
-      "id": "sample_q38",
+      "id": "sample_q41",
       "question": "關於損失函數(Loss Function)的主要功能，下列何者正確？",
       "options": {
         "A": "記錄模型預測歷史",
@@ -686,7 +737,7 @@
       }
     },
     {
-      "id": "sample_q39",
+      "id": "sample_q42",
       "question": "關於歐盟《一般資料保護規則(GDPR)》，所謂的被遺忘權(Right to be Forgotten)主要賦予資料主體哪一項權利？",
       "options": {
         "A": "要求平台永久備份其個資以防遺失",
@@ -703,7 +754,24 @@
       }
     },
     {
-      "id": "sample_q40",
+      "id": "sample_q43",
+      "question": "在進行模型訓練前，若針對資料中不同群體(例如分類標籤)之間樣 本數量不平衡的情況進行比例調整，此方法通常屬於下列哪一種技 術？",
+      "options": {
+        "A": "資料重抽樣",
+        "B": "特徵選擇",
+        "C": "模型正則化",
+        "D": "超參數調整"
+      },
+      "answer": "A",
+      "explanation": "正確答案為(A)。",
+      "source": "sample",
+      "source_ref": {
+        "page_index": 8,
+        "page_number": 9
+      }
+    },
+    {
+      "id": "sample_q44",
       "question": "在優化器中，哪一個方法會自動調整每個參數的學習率，特別適用於 稀疏資料？",
       "options": {
         "A": "Momentum",
@@ -720,7 +788,7 @@
       }
     },
     {
-      "id": "sample_q41",
+      "id": "sample_q45",
       "question": "某零售公司希望利用顧客的年齡與每月消費金額，預測顧客是否為高 價值顧客。提供相關資料 data.csv，包含欄位 Age、Spending、 HighValue。請將下列程式碼片段依正確順序排序，以完成模型的建立 與預測。",
       "options": {
         "A": "c → a → b → d",

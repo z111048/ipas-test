@@ -3,7 +3,7 @@
 
 輸入都是既有 committed 產物，無 API 花費、可隨時重跑：
     data/topics/question_topics.json          概念標註（已驗收，verdict 逐筆）
-    data/topics/topics.json                   受控詞彙表（174 概念 / 8 大類）
+    data/topics/topics.json                   受控詞彙表（181 概念 / 8 大類）
     frontend/src/generated/guideExamAnnotations/  官方題 → 講義章節
 輸出：
     frontend/src/generated/topicHeat.json
@@ -20,7 +20,7 @@
 
 ⚠️ 同一份內容有兩套章節層級：官方大綱章（`*pdf-c{n}`）與學習指引章（其餘），
 標註兩邊各記一次，所以「散落章數」若照 `chapterCount` 直接用會虛胖。實測
-162 個有題目的概念裡 135 個兩套都有，平均散落章數 4.7 → 只算指引章 3.2（-32%），
+169 個有 strict 題目的概念裡 138 個兩套都有，平均散落章數 4.5 → 只算指引章 3.1（約 -32%），
 而且**沒有任何概念只落在大綱章**（0 個），拆開不會讓概念歸零。因此另出
 `guideChapterCount`／`outlineChapterCount`，前端的「散落 N 章」用指引章那個。
 """

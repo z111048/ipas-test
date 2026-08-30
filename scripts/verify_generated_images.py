@@ -11,7 +11,7 @@
 
 官方用詞從既有權威來源組出來，不另建清單：
     data/{level}/toc_manifest.json   章節名稱（SSOT）
-    data/topics/topics.json          174 個定案概念名稱
+    data/topics/topics.json          181 個定案概念名稱
 
 用法：
     python3 scripts/verify_generated_images.py --sample 30      # 驗抽樣那批

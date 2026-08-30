@@ -8,10 +8,11 @@ import re
 from pathlib import Path
 from typing import Any
 
-from annotate_exam_code_images import MID_1151_S2_Q41_OUTPUT
+from annotate_exam_code_images import ANNOTATIONS, MID_1151_S2_Q41_OUTPUT
 from apply_exam_explanations import QUESTION_OVERRIDES, SOURCE_ISSUES
 from parse_exams_v2 import QUESTION_LAYOUT_REPAIRS
 from resource_catalog import exam_entries, level_entry
+from verify_exam_visual_reviews import verify as verify_visual_reviews
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -29,6 +30,31 @@ def compact_space(value: str) -> str:
 
 
 QuestionScope = tuple[str, str, str]
+
+
+def known_image_annotation_errors(
+    questions: dict[QuestionScope, dict[str, Any]],
+) -> list[str]:
+    """Return stale/missing fields for production images with known annotations."""
+    errors: list[str] = []
+    for scope, question in questions.items():
+        for image in question.get('images') or []:
+            if not isinstance(image, dict):
+                continue
+            src = image.get('src')
+            annotation = ANNOTATIONS.get(src)
+            if not annotation:
+                continue
+            stale_fields = sorted(
+                field for field, expected in annotation.items()
+                if image.get(field) != expected
+            )
+            if stale_fields:
+                errors.append(
+                    f'{"/".join(scope)}: known image annotation is stale for '
+                    f'{src}: {stale_fields}'
+                )
+    return errors
 
 
 def load_all_questions() -> tuple[dict[QuestionScope, dict[str, Any]], int, list[str]]:
@@ -59,6 +85,11 @@ def load_all_questions() -> tuple[dict[QuestionScope, dict[str, Any]], int, list
 
 def verify() -> tuple[dict[str, int], list[str]]:
     questions, total, errors = load_all_questions()
+
+    errors.extend(known_image_annotation_errors(questions))
+
+    visual_summary, visual_errors = verify_visual_reviews()
+    errors.extend(f'manual visual review: {error}' for error in visual_errors)
 
     q18 = questions.get(('中級', 'mid_1151_s2', 'mid_1151_s2_q18'), {})
     for key, expected in Q18_OPTIONS.items():
@@ -131,6 +162,9 @@ def verify() -> tuple[dict[str, int], list[str]]:
         'catalog_exams': len(exam_entries()),
         'production_questions': total,
         'source_issues_visible': issue_count,
+        'visual_reviewed_exams': visual_summary['reviewed_exams'],
+        'visual_reviewed_pages': visual_summary['reviewed_pages'],
+        'visual_reviewed_questions': visual_summary['reviewed_questions'],
         'errors': len(errors),
     }
     return summary, errors

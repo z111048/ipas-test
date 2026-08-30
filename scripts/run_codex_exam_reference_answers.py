@@ -8,6 +8,7 @@ reviewable prompts, and optionally runs Codex CLI in a read-only sandbox.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -24,6 +25,13 @@ from resource_catalog import exam_entries, exam_entry
 BASE = Path(__file__).resolve().parents[1]
 SCHEMA_PATH = BASE / 'schemas' / 'exam_reference_answer.schema.json'
 DEFAULT_RUN_ROOT = BASE / 'data' / '中級' / 'pipeline' / 'exam_reference_answers'
+PROVENANCE_SCHEMA_VERSION = 2
+QUESTION_FINGERPRINT_PREFIX = 'sha256:v2:'
+LEGACY_QUESTION_FINGERPRINT_PREFIX = 'sha256:'
+QUESTION_FINGERPRINT_PATTERN = re.compile(
+    rf'(?:{re.escape(QUESTION_FINGERPRINT_PREFIX)}|'
+    rf'{re.escape(LEGACY_QUESTION_FINGERPRINT_PREFIX)})[0-9a-f]{{64}}'
+)
 
 @dataclass
 class Chunk:
@@ -44,6 +52,270 @@ def load_json(path: Path) -> Any:
 def write_json(path: Path, data: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
+
+
+def normalize_question_content(value: Any) -> Any:
+    """Normalize JSON-compatible prompt inputs without discarding source identity."""
+    if isinstance(value, str):
+        return value.replace('\r\n', '\n').replace('\r', '\n')
+    if isinstance(value, list):
+        return [normalize_question_content(item) for item in value]
+    if isinstance(value, dict):
+        return {
+            str(key): normalize_question_content(item)
+            for key, item in value.items()
+        }
+    return value
+
+
+def legacy_question_content(question: dict[str, Any]) -> dict[str, Any]:
+    """Return the stem/options identity used by pre-v2 prompts and provenance."""
+    options = question.get('options') or {}
+    return {
+        'question': normalize_question_content(str(question.get('question') or '')),
+        'options': {
+            key: normalize_question_content(str(options.get(key) or ''))
+            for key in ('A', 'B', 'C', 'D')
+        },
+    }
+
+
+def question_content(question: dict[str, Any]) -> dict[str, Any]:
+    """Return every question field that can affect generation or retrieval.
+
+    Numeric ids are deliberately excluded so an inserted question can reindex a
+    legacy answer by content.  Source/page identity is included because it selects
+    fallback visual assets even when ``images`` is absent.
+    """
+    content = legacy_question_content(question)
+    content.update({
+        'answer': normalize_question_content(question.get('answer')),
+        'explanation': normalize_question_content(question.get('explanation')),
+        'context': normalize_question_content(question.get('context')),
+        'context_blocks': normalize_question_content(question.get('context_blocks')),
+        'images': normalize_question_content(question.get('images')),
+        'source': normalize_question_content(question.get('source')),
+        'source_ref': normalize_question_content(question.get('source_ref')),
+    })
+    return content
+
+
+def fingerprint_payload(payload: dict[str, Any], prefix: str) -> str:
+    encoded = json.dumps(
+        payload,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(',', ':'),
+    ).encode('utf-8')
+    return prefix + hashlib.sha256(encoded).hexdigest()
+
+
+def question_content_fingerprint(question: dict[str, Any]) -> str:
+    """Fingerprint complete generation input, independent of a mutable numeric id."""
+    return fingerprint_payload(question_content(question), QUESTION_FINGERPRINT_PREFIX)
+
+
+def legacy_question_content_fingerprint(question: dict[str, Any]) -> str:
+    """Compute the pre-v2 stem/options fingerprint for trusted legacy migration."""
+    return fingerprint_payload(
+        legacy_question_content(question), LEGACY_QUESTION_FINGERPRINT_PREFIX
+    )
+
+
+def legacy_question_content_from_prompt(prompt: str) -> dict[str, Any]:
+    """Recover the stem/options snapshot from a pre-v2 prompt."""
+    match = re.search(
+        r'^question: (?P<question>.*?)\noptions:\n'
+        r'A\. (?P<A>.*?)\nB\. (?P<B>.*?)\nC\. (?P<C>.*?)\nD\. (?P<D>.*?)\n'
+        r'official_answer:',
+        prompt,
+        flags=re.MULTILINE | re.DOTALL,
+    )
+    if not match:
+        raise ValueError('prompt does not contain a parseable question/options snapshot')
+    return {
+        'question': match.group('question'),
+        'options': {key: match.group(key) for key in ('A', 'B', 'C', 'D')},
+    }
+
+
+def prompt_question_fingerprint(path: Path) -> str:
+    """Read and verify the content fingerprint recorded by a generation prompt."""
+    prompt = path.read_text(encoding='utf-8')
+    snapshot_match = re.search(r'^question_content_snapshot: (\{.*\})$', prompt, re.MULTILINE)
+    if snapshot_match:
+        snapshot = json.loads(snapshot_match.group(1))
+        if not isinstance(snapshot, dict):
+            raise ValueError(f'invalid question content snapshot: {path}')
+        fingerprint = fingerprint_payload(
+            normalize_question_content(snapshot), QUESTION_FINGERPRINT_PREFIX
+        )
+    else:
+        fingerprint = legacy_question_content_fingerprint(
+            legacy_question_content_from_prompt(prompt)
+        )
+    marker = re.search(r'^question_fingerprint: (\S+)$', prompt, flags=re.MULTILINE)
+    if marker and not QUESTION_FINGERPRINT_PATTERN.fullmatch(marker.group(1)):
+        raise ValueError(f'invalid prompt question fingerprint: {path}')
+    if marker and marker.group(1) != fingerprint:
+        raise ValueError(f'prompt question fingerprint does not match its content: {path}')
+    return fingerprint
+
+
+def file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open('rb') as fh:
+        for chunk in iter(lambda: fh.read(1024 * 1024), b''):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def output_provenance_path(output_path: Path) -> Path:
+    """Keep output identity outside outputs/*.json so the exporter won't ingest it."""
+    return output_path.parent.parent / 'provenance' / output_path.name
+
+
+def write_output_provenance(
+    output_path: Path,
+    question_fingerprint: str,
+    question_id: str,
+) -> Path:
+    if not output_path.exists():
+        raise FileNotFoundError(output_path)
+    path = output_provenance_path(output_path)
+    write_json(path, {
+        'schemaVersion': PROVENANCE_SCHEMA_VERSION,
+        'questionIdAtGeneration': question_id,
+        'questionFingerprint': question_fingerprint,
+        'outputSha256': file_sha256(output_path),
+    })
+    return path
+
+
+def transcript_question_fingerprint(output_path: Path) -> str | None:
+    """Recover legacy identity when stdout proves which Codex transcript won."""
+    log_path = output_path.with_suffix('.log')
+    err_path = output_path.with_suffix('.err')
+    if not log_path.exists() or not err_path.exists():
+        return None
+    try:
+        if load_json(output_path) != json.loads(log_path.read_text(encoding='utf-8')):
+            return None
+        prompt_path = err_path
+        return prompt_question_fingerprint(prompt_path)
+    except (OSError, ValueError, json.JSONDecodeError):
+        return None
+
+
+def output_question_fingerprint(output_path: Path, prompt_path: Path) -> str | None:
+    """Resolve a generated output's content identity without trusting id/answer alone.
+
+    New outputs use a hash-bound provenance sidecar. Legacy outputs can be migrated
+    from their original prompt, but only while that prompt is no newer than the
+    output; a later prompt-only run must never relabel an older answer.
+    """
+    if not output_path.exists():
+        return None
+    provenance_path = output_provenance_path(output_path)
+    if provenance_path.exists():
+        payload = load_json(provenance_path)
+        if payload.get('schemaVersion') not in {1, PROVENANCE_SCHEMA_VERSION}:
+            raise ValueError(f'invalid provenance schema: {provenance_path}')
+        fingerprint = payload.get('questionFingerprint')
+        if not isinstance(fingerprint, str) or not QUESTION_FINGERPRINT_PATTERN.fullmatch(
+            fingerprint
+        ):
+            raise ValueError(f'invalid question fingerprint: {provenance_path}')
+        if payload.get('outputSha256') != file_sha256(output_path):
+            raise ValueError(f'output changed after provenance was recorded: {output_path}')
+        return fingerprint
+    transcript_fingerprint = transcript_question_fingerprint(output_path)
+    if transcript_fingerprint:
+        return transcript_fingerprint
+    if not prompt_path.exists():
+        return None
+    if prompt_path.stat().st_mtime_ns > output_path.stat().st_mtime_ns:
+        return None
+    return prompt_question_fingerprint(prompt_path)
+
+
+def current_question_fingerprint_index(
+    questions: list[dict[str, Any]],
+    *,
+    label: str,
+) -> dict[str, dict[str, Any] | None]:
+    """Index v2 and legacy identities; ambiguous legacy identities fail closed."""
+    result: dict[str, dict[str, Any] | None] = {}
+    for question in questions:
+        current = question_content_fingerprint(question)
+        if current in result:
+            other = result[current]
+            other_id = other.get('id') if other else '?'
+            raise ValueError(
+                f'Ambiguous current question content fingerprint in {label}: '
+                f'{other_id}, {question.get("id")}'
+            )
+        result[current] = question
+
+        legacy = legacy_question_content_fingerprint(question)
+        previous = result.get(legacy)
+        if previous is None and legacy not in result:
+            result[legacy] = question
+        elif previous is not None and previous.get('id') != question.get('id'):
+            # A legacy stem/options-only output cannot distinguish these questions.
+            result[legacy] = None
+    return result
+
+
+def targeted_rerun_collisions(
+    run_root: Path,
+    exam_key: str,
+    all_questions: list[dict[str, Any]],
+    selected: list[dict[str, Any]],
+) -> list[str]:
+    """Find same-name outputs a partial run must not overwrite.
+
+    After an insertion, ``sample_q21.json`` can still carry the content now known
+    as canonical q22.  A full-paper run eventually replaces the complete suffix;
+    a targeted run would destroy q22's only carrier and must stop before writing.
+    """
+    all_ids = {str(question.get('id')) for question in all_questions}
+    selected_ids = {str(question.get('id')) for question in selected}
+    if selected_ids == all_ids:
+        return []
+
+    index = current_question_fingerprint_index(
+        all_questions, label=f'targeted rerun {exam_key}'
+    )
+    collisions: list[str] = []
+    for question in selected:
+        qid = str(question['id'])
+        output_path = run_root / exam_key / 'outputs' / f'{qid}.json'
+        if not output_path.exists():
+            continue
+        prompt_path = run_root / exam_key / 'prompts' / f'{qid}.md'
+        try:
+            fingerprint = output_question_fingerprint(output_path, prompt_path)
+        except Exception as exc:
+            collisions.append(f'{qid}: existing output provenance is not trusted ({exc})')
+            continue
+        if fingerprint is None:
+            collisions.append(f'{qid}: existing output has no trusted content provenance')
+            continue
+        if fingerprint not in index:
+            # The old output belongs to a question no longer present in production,
+            # so replacing it cannot remove another current question's only carrier.
+            continue
+        owner = index[fingerprint]
+        if owner is None:
+            collisions.append(
+                f'{qid}: existing output has an ambiguous legacy content identity'
+            )
+        elif str(owner.get('id')) != qid:
+            collisions.append(
+                f'{qid}: existing output still carries canonical {owner.get("id")}'
+            )
+    return collisions
 
 
 def normalize_exam_key(key: str, level: str) -> str:
@@ -191,6 +463,12 @@ def retrieve_chunks(question: dict, chunks: list[Chunk], top_k: int) -> list[tup
 
 def build_prompt(level: str, exam_key: str, exam: dict, question: dict, retrieved: list[tuple[float, Chunk]]) -> str:
     options = question.get('options') or {}
+    content_snapshot = json.dumps(
+        question_content(question),
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(',', ':'),
+    )
     references = []
     for index, (score, chunk) in enumerate(retrieved, start=1):
         references.append(
@@ -217,6 +495,8 @@ level: {level}
 exam_key: {exam_key}
 exam: {exam.get('exam')}
 question_id: {question.get('id')}
+question_fingerprint: {question_content_fingerprint(question)}
+question_content_snapshot: {content_snapshot}
 question: {question.get('question')}
 options:
 A. {options.get('A')}
@@ -231,7 +511,15 @@ current_explanation: {question.get('explanation')}
 """
 
 
-def validate_output(path: Path, level: str, exam_key: str, question: dict) -> list[str]:
+def validate_output(
+    path: Path,
+    level: str,
+    exam_key: str,
+    question: dict,
+    *,
+    cached_question_fingerprint: str | None = None,
+    require_content_fingerprint: bool = False,
+) -> list[str]:
     errors = []
     try:
         data = load_json(path)
@@ -245,6 +533,12 @@ def validate_output(path: Path, level: str, exam_key: str, question: dict) -> li
         errors.append('question_id mismatch')
     if data.get('answer') != question.get('answer'):
         errors.append('answer must match official answer')
+    if require_content_fingerprint:
+        expected = question_content_fingerprint(question)
+        if cached_question_fingerprint is None:
+            errors.append('missing question content fingerprint')
+        elif cached_question_fingerprint != expected:
+            errors.append('question content fingerprint mismatch')
     if not isinstance(data.get('reference_answer'), str) or len(data['reference_answer'].strip()) < 80:
         errors.append('reference_answer too short')
     option_analysis = data.get('option_analysis')
@@ -361,10 +655,40 @@ def main() -> None:
         guide_keys = [key for key in guide_keys if (BASE / 'data' / level / 'guide_tree' / key).exists()]
         chunks = load_guide_chunks(level, guide_keys)
         exam = load_json(exam_path)
-        for question in selected_questions(exam, args.question_id, args.limit):
+        all_questions = exam.get('questions') or []
+        questions = selected_questions(exam, args.question_id, args.limit)
+        if args.run:
+            collisions = targeted_rerun_collisions(
+                run_root, exam_key, all_questions, questions
+            )
+            if collisions:
+                detail = '\n'.join(f'- {collision}' for collision in collisions)
+                raise SystemExit(
+                    'Refusing a targeted run that would overwrite a legacy answer '
+                    f'needed by another canonical question:\n{detail}\n'
+                    f'Rerun the complete {exam_key} paper without --question-id/--limit.'
+                )
+        for question in questions:
             qid = question['id']
             prompt_path = run_root / exam_key / 'prompts' / f'{qid}.md'
             output_path = run_root / exam_key / 'outputs' / f'{qid}.json'
+            current_fingerprint = question_content_fingerprint(question)
+            cached_fingerprint: str | None = None
+            provenance_error: str | None = None
+            if output_path.exists():
+                try:
+                    cached_fingerprint = output_question_fingerprint(output_path, prompt_path)
+                    if cached_fingerprint and not output_provenance_path(output_path).exists():
+                        try:
+                            generated_qid = str(load_json(output_path).get('question_id') or qid)
+                        except Exception:
+                            generated_qid = qid
+                        # Preserve legacy identity before the current prompt replaces it.
+                        write_output_provenance(
+                            output_path, cached_fingerprint, generated_qid
+                        )
+                except Exception as exc:
+                    provenance_error = str(exc)
             retrieved = retrieve_chunks(question, chunks, args.top_k)
             prompt_path.parent.mkdir(parents=True, exist_ok=True)
             prompt_path.write_text(build_prompt(level, exam_key, exam, question, retrieved), encoding='utf-8')
@@ -373,6 +697,7 @@ def main() -> None:
             item = {
                 'exam_key': exam_key,
                 'question_id': qid,
+                'question_fingerprint': current_fingerprint,
                 'prompt': prompt_path.relative_to(BASE).as_posix(),
                 'output': output_path.relative_to(BASE).as_posix(),
                 'retrieved': [
@@ -390,26 +715,48 @@ def main() -> None:
             summary['items'].append(item)
 
             if not args.run:
+                if provenance_error:
+                    print(f'WARN {exam_key}/{qid}: cannot preserve output provenance: {provenance_error}')
                 print(f'PROMPT {exam_key}/{qid}: {prompt_path.relative_to(BASE)}')
                 continue
 
             if output_path.exists() and not args.force:
-                errors = validate_output(output_path, level, exam_key, question)
+                errors = validate_output(
+                    output_path,
+                    level,
+                    exam_key,
+                    question,
+                    cached_question_fingerprint=cached_fingerprint,
+                    require_content_fingerprint=True,
+                )
+                if provenance_error:
+                    errors.append(f'invalid output provenance: {provenance_error}')
                 if not errors:
                     skipped += 1
                     print(f'SKIP {exam_key}/{qid}: valid output exists')
                     continue
 
             print(f'RUN {exam_key}/{qid}: {len(retrieved)} snippets')
+            before_output = (
+                (output_path.stat().st_mtime_ns, file_sha256(output_path))
+                if output_path.exists()
+                else None
+            )
             ok, timed_out = run_codex(prompt_path, output_path, args.timeout)
             if timed_out:
                 print(f'WARN {exam_key}/{qid}: timeout after {args.timeout}s')
             if ok and output_path.exists():
+                after_output = (output_path.stat().st_mtime_ns, file_sha256(output_path))
+                if before_output == after_output:
+                    failed += 1
+                    print(f'FAIL {exam_key}/{qid}: Codex did not refresh the stale output')
+                    continue
                 errors = validate_output(output_path, level, exam_key, question)
                 if errors:
                     failed += 1
                     print(f'FAIL {exam_key}/{qid}: ' + '; '.join(errors))
                 else:
+                    write_output_provenance(output_path, current_fingerprint, qid)
                     completed += 1
                     print(f'PASS {exam_key}/{qid}')
             else:

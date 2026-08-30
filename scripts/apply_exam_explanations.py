@@ -21,7 +21,7 @@ QUESTION_OVERRIDES: dict[str, str] = {
 }
 
 SOURCE_ISSUES: dict[tuple[str, str, str], dict[str, str]] = {
-    ('初級', 'sample', 'sample_q21'): {
+    ('初級', 'sample', 'sample_q22'): {
         'type': 'ambiguous_taxonomy',
         'official_answer': 'C',
         'note': (

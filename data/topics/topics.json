@@ -2,7 +2,7 @@
   "status": "signed-off",
   "model": "glm-5.2",
   "source": "frontend/src/generated/examReferenceAnswers key_concepts",
-  "phraseCount": 3018,
+  "phraseCount": 3034,
   "consolidated": true,
   "parentMap": {
     "AI專案導入": "AI專案與治理",
@@ -41,9 +41,24 @@
     "資料視覺化": "資料工程與處理",
     "電腦視覺": "特定領域AI技術"
   },
-  "signedOff": "2026-08-08",
+  "signedOff": "2026-08-31",
+  "manualAdditions": {
+    "source": "data/topics/manual_topic_additions.json",
+    "date": "2026-08-31",
+    "topics": [
+      "二分搜尋",
+      "人工智慧能力層級",
+      "圖論分析",
+      "感知器網路",
+      "推理模型",
+      "數據密度",
+      "演算法複雜度"
+    ],
+    "reason": "補齊官方考題清冊中可由題幹與詳解直接判定的受控詞彙缺口"
+  },
   "mergedFrom": "data/topics/topics_draft.json",
   "mergeDecisions": "data/topics/merge_pairs.json",
+  "aliasCleanup": "data/topics/alias_cleanup.json",
   "topics": [
     {
       "name": "AI基礎設施評估",
@@ -957,7 +972,8 @@
         "提升推理效率"
       ],
       "subjects": [
-        "初級科目一"
+        "初級科目一",
+        "中級樣張"
       ]
     },
     {
@@ -1686,7 +1702,8 @@
         "Self-consistency"
       ],
       "subjects": [
-        "初級科目二"
+        "初級科目二",
+        "初級樣張"
       ]
     },
     {
@@ -1702,6 +1719,20 @@
       ],
       "subjects": [
         "初級科目二"
+      ]
+    },
+    {
+      "name": "推理模型",
+      "parent": "生成式AI與應用",
+      "aliases": [
+        "Reasoning Model",
+        "多步驟邏輯推理",
+        "邏輯一致性",
+        "推理脈絡",
+        "訓練方法與模型能力特徵的區分"
+      ],
+      "subjects": [
+        "初級樣張"
       ]
     },
     {
@@ -1944,6 +1975,37 @@
       ]
     },
     {
+      "name": "二分搜尋",
+      "parent": "統計與機器學習基礎",
+      "aliases": [
+        "Binary Search",
+        "已排序陣列搜尋",
+        "中位數比較",
+        "每次排除半邊搜尋範圍",
+        "搜尋次數計算"
+      ],
+      "subjects": [
+        "初級科目一"
+      ]
+    },
+    {
+      "name": "人工智慧能力層級",
+      "parent": "統計與機器學習基礎",
+      "aliases": [
+        "弱AI",
+        "狹義AI",
+        "Narrow AI",
+        "強AI",
+        "通用人工智慧",
+        "AGI",
+        "超級人工智慧",
+        "ASI"
+      ],
+      "subjects": [
+        "初級科目一"
+      ]
+    },
+    {
       "name": "假設檢定",
       "parent": "統計與機器學習基礎",
       "aliases": [
@@ -2070,6 +2132,19 @@
       "subjects": [
         "初級科目一",
         "中級科目三",
+        "中級樣張"
+      ]
+    },
+    {
+      "name": "圖論分析",
+      "parent": "統計與機器學習基礎",
+      "aliases": [
+        "Graph Theory",
+        "社群網路分析",
+        "節點與邊的結構分析",
+        "網路拓樸分析"
+      ],
+      "subjects": [
         "中級樣張"
       ]
     },
@@ -2368,6 +2443,20 @@
       ]
     },
     {
+      "name": "演算法複雜度",
+      "parent": "統計與機器學習基礎",
+      "aliases": [
+        "時間複雜度",
+        "Big-O 表示法",
+        "成對比較",
+        "O(n²) 平方時間",
+        "資料量與運算成本"
+      ],
+      "subjects": [
+        "中級科目三"
+      ]
+    },
+    {
       "name": "激活函數",
       "parent": "統計與機器學習基礎",
       "aliases": [
@@ -2527,9 +2616,7 @@
         "矩陣求逆與特徵分解",
         "NumPy一維陣列的逐元素運算",
         "矩陣與向量是機器學習模型運算的基本單元",
-        "交集事件A∩B",
-        "時間複雜度",
-        "Big-O表示法"
+        "交集事件A∩B"
       ],
       "subjects": [
         "中級科目三"
@@ -2821,6 +2908,20 @@
       ]
     },
     {
+      "name": "感知器網路",
+      "parent": "資料工程與處理",
+      "aliases": [
+        "Sensor Network",
+        "感測器網路",
+        "多點感測",
+        "即時環境監測",
+        "設備狀態蒐集"
+      ],
+      "subjects": [
+        "初級科目一"
+      ]
+    },
+    {
       "name": "探索性資料分析",
       "parent": "資料工程與處理",
       "aliases": [
@@ -2841,8 +2942,20 @@
       "parent": "資料工程與處理",
       "aliases": [
         "對數刻度",
-        "數據密度",
         "熱力圖適合呈現矩陣數值的強弱差異"
+      ],
+      "subjects": [
+        "中級科目二"
+      ]
+    },
+    {
+      "name": "數據密度",
+      "parent": "資料工程與處理",
+      "aliases": [
+        "Data Density",
+        "Tufte 數據密度原則",
+        "單一視覺空間整合多組趨勢",
+        "高資訊量與可讀性平衡"
       ],
       "subjects": [
         "中級科目二"
@@ -2944,7 +3057,8 @@
       "subjects": [
         "初級科目一",
         "中級科目二",
-        "中級科目三"
+        "中級科目三",
+        "中級樣張"
       ]
     },
     {
@@ -3203,7 +3317,8 @@
       "subjects": [
         "初級科目一",
         "中級科目二",
-        "中級科目三"
+        "中級科目三",
+        "中級樣張"
       ]
     },
     {
@@ -3251,6 +3366,5 @@
         "中級科目二"
       ]
     }
-  ],
-  "aliasCleanup": "data/topics/alias_cleanup.json"
+  ]
 }

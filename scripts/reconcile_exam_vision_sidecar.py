@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# 2026-08-30: 樣題補題後同步 production 分母為 14 卷／715 題；coverage 仍為診斷 sidecar。
 """Build a verified overlay for the review-only exam Vision sidecar.
 
 Raw ``exam_pages_cache`` files are immutable OCR evidence and are never edited.
@@ -9,9 +10,9 @@ a future sidecar-promotion experiment.
 
 ``--promotion-gate`` additionally requires cache coverage for every catalogued
 production question. It intentionally fails while coverage is incomplete: a
-fresh checkout has 0/709 because ``exam_pages_cache`` is gitignored, while the
+fresh checkout has 0/715 because ``exam_pages_cache`` is gitignored, while the
 2026-08-30 maintainer snapshot covers three 115-year middle-level exams
-(150/709), which is diagnostic only.
+(150/715), which is diagnostic only.
 """
 
 from __future__ import annotations

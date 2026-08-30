@@ -22,6 +22,63 @@ VGG16_CODE_MARKDOWN = """from torchsummary import summary
 from torchvision import models
 model = models.vgg16(weights='IMAGENET1K_V1')
 summary(model, (3, 150, 150))"""
+VGG16_SUMMARY_MARKDOWN = """----------------------------------------------------------------
+Layer (type) Output Shape Param #
+================================================================
+Conv2d-1 [-1, 64, 150, 150] 1,792
+ReLU-2 [-1, 64, 150, 150] 0
+Conv2d-3 [-1, 64, 150, 150] 36,928
+ReLU-4 [-1, 64, 150, 150] 0
+MaxPool2d-5 [-1, 64, 75, 75] 0
+Conv2d-6 [-1, 128, 75, 75] 73,856
+ReLU-7 [-1, 128, 75, 75] 0
+Conv2d-8 [-1, 128, 75, 75] 147,584
+ReLU-9 [-1, 128, 75, 75] 0
+MaxPool2d-10 [-1, 128, 37, 37] 0
+Conv2d-11 [-1, 256, 37, 37] 295,168
+ReLU-12 [-1, 256, 37, 37] 0
+Conv2d-13 [-1, 256, 37, 37] 590,080
+ReLU-14 [-1, 256, 37, 37] 0
+Conv2d-15 [-1, 256, 37, 37] 590,080
+ReLU-16 [-1, 256, 37, 37] 0
+MaxPool2d-17 [-1, 256, 18, 18] 0
+Conv2d-18 [-1, 512, 18, 18] 1,180,160
+ReLU-19 [-1, 512, 18, 18] 0
+Conv2d-20 [-1, 512, 18, 18] 2,359,808
+ReLU-21 [-1, 512, 18, 18] 0
+Conv2d-22 [-1, 512, 18, 18] 2,359,808
+ReLU-23 [-1, 512, 18, 18] 0
+MaxPool2d-24 [-1, 512, 9, 9] 0
+Conv2d-25 [-1, 512, 9, 9] 2,359,808
+ReLU-26 [-1, 512, 9, 9] 0
+Conv2d-27 [-1, 512, 9, 9] 2,359,808
+ReLU-28 [-1, 512, 9, 9] 0
+Conv2d-29 [-1, 512, 9, 9] 2,359,808
+ReLU-30 [-1, 512, 9, 9] 0
+MaxPool2d-31 [-1, 512, 4, 4] 0
+AdaptiveAvgPool2d-32 [-1, 512, 7, 7] 0
+Linear-33 [-1, 4096] 102,764,544
+ReLU-34 [-1, 4096] 0
+Dropout-35 [-1, 4096] 0
+Linear-36 [-1, 4096] 16,781,312
+ReLU-37 [-1, 4096] 0
+Dropout-38 [-1, 4096] 0
+Linear-39 [-1, 1000] 4,097,000
+================================================================
+Total params: 138,357,544
+Trainable params: 138,357,544
+Non-trainable params: 0
+----------------------------------------------------------------
+Input size (MB): 0.26
+Forward/backward pass size (MB): 96.93
+Params size (MB): 527.79
+Estimated Total Size (MB): 624.98
+----------------------------------------------------------------"""
+MID_1151_S3_TRANSFER_SRC = '/pdf-assets/中級/mid_1151_s3/page_011/image_02_01.png'
+MID_1151_S3_TRANSFER_CONTEXT = (
+    '下圖為使用 ResNet 進行遷移學習（Transfer Learning）的 Python 程式片段。'
+    '請回答第 42~43 題。'
+)
 GAME_PREVIEW_SRC = '/pdf-assets/中級/mid_1141_s2/page_012/image_02_01.png'
 GAME_YEAR_SRC = '/pdf-assets/中級/mid_1141_s2/page_013/image_01_01.png'
 MARKETING_LOAD_SRC = '/pdf-assets/中級/mid_1141_s2/page_014/image_01_01.png'
@@ -589,7 +646,7 @@ transform = transforms.Compose([
     transforms.ToTensor(),
 ])""",
     },
-    '/pdf-assets/中級/mid_1151_s3/page_011/image_02_01.png': {
+    MID_1151_S3_TRANSFER_SRC: {
         'markdown_language': 'python',
         'markdown_title': 'PyTorch 遷移學習程式碼（含填空）',
         'markdown': """import torch
@@ -809,36 +866,22 @@ def annotate_context_blocks(question: dict[str, Any]) -> bool:
     split = split_vgg16_context(context) if isinstance(context, str) else None
 
     if split:
-        intro, block = split
-        context_blocks = [{
-            'title': 'VGG16 模型摘要',
-            'language': 'text',
-            'markdown': block,
-        }]
+        intro, _ = split
         if question.get('context') != intro:
             question['context'] = intro
             changed = True
-        if question.get('context_blocks') != context_blocks:
-            question['context_blocks'] = context_blocks
-            changed = True
-    else:
-        context_blocks = question.get('context_blocks')
-        if isinstance(context_blocks, list) and context_blocks:
-            filtered_blocks = [
-                block for block in context_blocks
-                if block.get('title') != 'VGG16 載入程式碼'
-            ]
-            if filtered_blocks != context_blocks:
-                question['context_blocks'] = filtered_blocks
-                context_blocks = filtered_blocks
-                changed = True
-            block = context_blocks[0]
-            markdown = block.get('markdown')
-            if isinstance(markdown, str):
-                formatted = format_vgg16_block(markdown)
-                if formatted != markdown:
-                    block['markdown'] = formatted
-                    changed = True
+
+    # The parser may emit only the shared-context introduction after a clean
+    # rebuild. Keep the official summary here so q42-q45 never depend on an old
+    # generated JSON file to retain the table needed to answer the questions.
+    expected_context_blocks = [{
+        'title': 'VGG16 模型摘要',
+        'language': 'text',
+        'markdown': VGG16_SUMMARY_MARKDOWN,
+    }]
+    if question.get('context_blocks') != expected_context_blocks:
+        question['context_blocks'] = expected_context_blocks
+        changed = True
 
     if question.get('id') == 'mid_1141_s3_q45':
         options = question.get('options')
@@ -1095,6 +1138,45 @@ def annotate_mid1151s2_q49(question: dict[str, Any]) -> bool:
 MID_1151_S3_Q50_SRC = '/pdf-assets/中級/mid_1151_s3/page_017/image_02_01.png'
 
 
+def annotate_mid1151s3_transfer_group(question: dict[str, Any]) -> bool:
+    """Repair the page-break association for the shared Q42-Q43 ResNet block."""
+    question_id = question.get('id')
+
+    if question_id == 'mid_1151_s3_q41':
+        images = question.get('images')
+        if not isinstance(images, list):
+            return False
+        kept = [image for image in images if image.get('src') != MID_1151_S3_TRANSFER_SRC]
+        if kept == images:
+            return False
+        if kept:
+            question['images'] = kept
+        else:
+            question.pop('images', None)
+        return True
+
+    if question_id not in {'mid_1151_s3_q42', 'mid_1151_s3_q43'}:
+        return False
+
+    changed = False
+    if question.get('context') != MID_1151_S3_TRANSFER_CONTEXT:
+        question['context'] = MID_1151_S3_TRANSFER_CONTEXT
+        changed = True
+
+    expected_images = [image_payload(
+        MID_1151_S3_TRANSFER_SRC,
+        'mid_1151_s3 第 12 頁第 42~43 題共用 ResNet 遷移學習程式碼',
+        11,
+        12,
+        [115.35, 255.86, 531.85, 445.6],
+        'context',
+    )]
+    if question.get('images') != expected_images:
+        question['images'] = expected_images
+        changed = True
+    return changed
+
+
 def annotate_mid1151s3_q50(question: dict[str, Any]) -> bool:
     if question.get('id') != 'mid_1151_s3_q50':
         return False
@@ -1128,6 +1210,8 @@ def annotate_question_images(path: Path) -> int:
         if annotate_mid1151s2_iris_group(question):
             changed += 1
         if annotate_mid1151s2_q49(question):
+            changed += 1
+        if annotate_mid1151s3_transfer_group(question):
             changed += 1
         if annotate_mid1151s3_q50(question):
             changed += 1

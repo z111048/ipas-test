@@ -223,15 +223,17 @@ def resolve_images(question: dict[str, Any], level: str,
     as errors instead of silent false agreement. Crops of the figure itself are clean
     (19%, i.e. chance).
     """
-    paths = []
+    declared_paths = []
     for image in question.get('images') or []:
         src = str(image.get('src', ''))
         if src.startswith('/pdf-assets/'):
             candidate = BASE / 'frontend' / 'public' / src.lstrip('/')
-            if candidate.exists():
-                paths.append(candidate)
-    if paths:
-        return paths
+            declared_paths.append(candidate)
+    if declared_paths:
+        # A declared visual is authoritative. Keep missing paths in the result
+        # so the manifest can fail closed; silently sending only the surviving
+        # subset (or falling back to unrelated page crops) changes the question.
+        return declared_paths
 
     source = question.get('source')
     page_index = (question.get('source_ref') or {}).get('page_index')
@@ -253,7 +255,12 @@ def resolve_images(question: dict[str, Any], level: str,
 
 def crop_answer_column(table_path: Path, cache_dir: Path) -> Path:
     """Copy of a page table with the printed answer column shaved off the left."""
-    out_path = cache_dir / f'{table_path.parent.parent.name}_{table_path.parent.name}_nocol.png'
+    source_digest = hashlib.sha256(table_path.read_bytes()).hexdigest()
+    fraction_token = f'{TABLE_ANSWER_COLUMN_FRACTION:.4f}'.replace('.', 'p')
+    out_path = cache_dir / (
+        f'{table_path.parent.parent.name}_{table_path.parent.name}_nocol_'
+        f'{fraction_token}_{source_digest}.png'
+    )
     if out_path.exists():
         return out_path
     from PIL import Image  # only needed on this path; run under `uv run`
@@ -277,6 +284,101 @@ def shuffled_order(question_id: str) -> list[str]:
     for byte in digest[:4]:
         order.append(remaining.pop(byte % len(remaining)))
     return order
+
+
+def image_path_identity(path: Path) -> str:
+    """Return a stable path label for an image actually sent to a verifier."""
+    absolute = Path(os.path.abspath(path))
+    base = Path(os.path.abspath(BASE))
+    try:
+        return absolute.relative_to(base).as_posix()
+    except ValueError:
+        return absolute.as_posix()
+
+
+def image_input_manifest(images: list[Path] | None) -> list[dict[str, Any]]:
+    """Describe the ordered visual inputs by path identity and exact bytes.
+
+    Missing or unreadable files stay in the manifest with a null digest.  That
+    makes cache validation fail closed instead of reusing a verdict whose visual
+    evidence can no longer be reproduced.
+    """
+    manifest: list[dict[str, Any]] = []
+    for image in images or []:
+        path = image if image.is_absolute() else BASE / image
+        digest = hashlib.sha256()
+        byte_length = 0
+        try:
+            with path.open('rb') as source:
+                for chunk in iter(lambda: source.read(1024 * 1024), b''):
+                    digest.update(chunk)
+                    byte_length += len(chunk)
+        except OSError:
+            manifest.append({
+                'path': image_path_identity(path),
+                'sha256': None,
+                'byteLength': None,
+            })
+            continue
+        manifest.append({
+            'path': image_path_identity(path),
+            'sha256': digest.hexdigest(),
+            'byteLength': byte_length,
+        })
+    return manifest
+
+
+def _question_fingerprint(
+    question: dict[str, Any],
+    visual_inputs: list[dict[str, Any]],
+) -> str:
+    """Hash question content together with the exact visual input manifest."""
+    payload = {
+        'schemaVersion': 2,
+        'id': question.get('id'),
+        'question': question.get('question'),
+        'options': question.get('options'),
+        'answer': question.get('answer'),
+        'context': question.get('context'),
+        'images': question.get('images'),
+        'source': question.get('source'),
+        'source_ref': question.get('source_ref'),
+        'visualInputs': visual_inputs,
+    }
+    encoded = json.dumps(
+        payload, ensure_ascii=False, sort_keys=True, separators=(',', ':'),
+    ).encode('utf-8')
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def question_fingerprint(
+    question: dict[str, Any],
+    resolved_images: list[Path] | None = None,
+) -> str:
+    """Identify the exact question input represented by a cached verdict.
+
+    IDs are not content identities: parser repairs can insert a question and
+    shift every later ID while leaving the answer letter unchanged.  Cache the
+    fields that affect the blind prompt and scoring so such a repair cannot
+    silently reuse another question's model responses.  For a Vision run the
+    ordered resolved paths and SHA-256 of every image sent to the models are
+    part of the identity as well.
+    """
+    return _question_fingerprint(question, image_input_manifest(resolved_images))
+
+
+def cache_matches_question(
+    cached: dict[str, Any],
+    question: dict[str, Any],
+    resolved_images: list[Path] | None = None,
+) -> bool:
+    """Return false for legacy, stale, or unreproducible cached verdicts."""
+    visual_inputs = image_input_manifest(resolved_images)
+    if any(item['sha256'] is None for item in visual_inputs):
+        return False
+    return cached.get('question_fingerprint') == _question_fingerprint(
+        question, visual_inputs
+    )
 
 
 def build_prompt(question: dict[str, Any], order: list[str], level: str,
@@ -460,6 +562,13 @@ def verify_question(question: dict[str, Any], verifiers: list[tuple[str, str, st
     question_id = question['id']
     order = shuffled_order(question_id)
     expected_slot = LETTERS[order.index(question['answer'])]
+    visual_inputs = image_input_manifest(images)
+    missing_inputs = [item['path'] for item in visual_inputs if item['sha256'] is None]
+    if missing_inputs:
+        raise FileNotFoundError(
+            'visual verification input is missing or unreadable: '
+            + ', '.join(missing_inputs)
+        )
     prompt = build_prompt(question, order, level, bool(images))
 
     responses: dict[str, dict[str, Any]] = dict((cached or {}).get('responses', {}))
@@ -477,15 +586,23 @@ def verify_question(question: dict[str, Any], verifiers: list[tuple[str, str, st
                     'answer': order[LETTERS.index(slot)] if slot else None,
                 }
 
+    if image_input_manifest(images) != visual_inputs:
+        raise RuntimeError(
+            'visual verification input changed while model responses were running; '
+            'discarding the result instead of caching it'
+        )
+
     return {
         'question_id': question_id,
+        'question_fingerprint': _question_fingerprint(question, visual_inputs),
         'chapter_id': question.get('chapter_id'),
         'output': question.get('_output'),
         'question_text': question['question'][:80],
         'expected': question['answer'],
         'shuffled_order': order,
         'expected_slot': expected_slot,
-        'images': [i.relative_to(BASE).as_posix() for i in (images or [])],
+        'images': [item['path'] for item in visual_inputs],
+        'image_inputs': visual_inputs,
         'image_source': image_source,
         'responses': responses,
     }
@@ -591,9 +708,20 @@ def main() -> None:
     if args.only_figure:
         questions = [q for q in questions if needs_figure(q)]
         print(f'ONLY-FIGURE {len(questions)} figure-dependent question(s)')
+    resolved_images_by_question: dict[int, list[Path]] = {}
     if args.vision:
-        with_crop = [q for q in questions
-                     if resolve_images(q, args.level, args.allow_table_crops, out_dir / 'crops')]
+        with_crop = []
+        for question in questions:
+            images = resolve_images(
+                question, args.level, args.allow_table_crops, out_dir / 'crops'
+            )
+            visual_inputs = image_input_manifest(images)
+            if images and all(item['sha256'] is not None for item in visual_inputs):
+                with_crop.append(question)
+                # Keep the exact ordered paths used for cache validation and the
+                # subsequent model call. Re-resolving after the cache check could
+                # silently select a different fallback page or crop.
+                resolved_images_by_question[id(question)] = images
         missing_crop = len(questions) - len(with_crop)
         if missing_crop:
             # Asking about a figure nobody can see is not evidence about the answer,
@@ -621,15 +749,16 @@ def main() -> None:
     print(f'Verifying {len(questions)} question(s) with {", ".join(keys)} '
           f'(threshold={args.threshold}, workers={args.workers})')
 
-    pending: list[tuple[dict[str, Any], list, dict | None]] = []
+    pending: list[tuple[dict[str, Any], list, dict | None, list[Path]]] = []
     results: dict[str, dict[str, Any]] = {}
     for question in questions:
+        images = resolved_images_by_question.get(id(question), [])
         cache_path = cache_dir / f'{question["id"]}.json'
         cached = load_json(cache_path) if cache_path.exists() else None
         if cached and args.force:
             cached = None
-        if cached and args.vision and not cached.get('images'):
-            cached = None  # cached answers were text-only; an image changes the question
+        if cached and not cache_matches_question(cached, question, images):
+            cached = None
         if cached and any(not (BASE / i).exists() for i in cached.get('images', [])):
             cached = None  # the image it was answered from is gone (e.g. the removed
                            # whole-page renders) — that verdict is no longer reproducible
@@ -638,20 +767,23 @@ def main() -> None:
         if cached and not missing:
             results[question['id']] = cached
             continue
-        pending.append((question, missing, cached))
+        pending.append((question, missing, cached, images))
 
     if results:
         print(f'CACHE {len(results)} question(s) already verified (use --force to redo)')
-    partial = sum(1 for _, missing, cached in pending if cached and len(missing) < len(verifiers))
+    partial = sum(
+        1 for _, missing, cached, _ in pending
+        if cached and len(missing) < len(verifiers)
+    )
     if partial:
         print(f'TOPUP {partial} question(s) only need the new verifier(s)')
 
-    def work(item: tuple[dict[str, Any], list, dict | None]) -> dict[str, Any]:
-        question, missing, cached = item
-        images = (resolve_images(question, args.level, args.allow_table_crops, out_dir / 'crops')
-                  if args.vision else None)
+    def work(
+        item: tuple[dict[str, Any], list, dict | None, list[Path]],
+    ) -> dict[str, Any]:
+        question, missing, cached, images = item
         result = verify_question(question, missing, args.level, args.timeout,
-                                 args.retries, cached, images,
+                                 args.retries, cached, images or None,
                                  'crop' if images else 'none')
         save_json(cache_dir / f'{question["id"]}.json', result)
         return result

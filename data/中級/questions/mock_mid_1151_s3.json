@@ -736,24 +736,6 @@
           "markdown_language": "python",
           "markdown_title": "PyTorch 資料增強程式碼",
           "markdown": "import torchvision.transforms as transforms\n\ntransform = transforms.Compose([\n    transforms.RandomHorizontalFlip(p=0.5),\n    transforms.RandomRotation(15),\n    transforms.ColorJitter(brightness=0.3),\n    transforms.ToTensor(),\n])"
-        },
-        {
-          "type": "image",
-          "src": "/pdf-assets/中級/mid_1151_s3/page_011/image_02_01.png",
-          "alt": "mid_1151_s3 第 12 頁圖片 image_02_01",
-          "page_index": 11,
-          "page_number": 12,
-          "bbox": [
-            115.35,
-            255.86,
-            531.85,
-            445.6
-          ],
-          "placement": "option",
-          "option": "D",
-          "markdown_language": "python",
-          "markdown_title": "PyTorch 遷移學習程式碼（含填空）",
-          "markdown": "import torch\nimport torch.nn as nn\nimport torchvision\n\nmodel = torchvision.models.resnet50(pretrained=True)\nfor param in model.parameters():\n    param.requires_grad = False  # 行(A)\n\nmodel.fc = nn.Linear(2048, 2)\noptimizer = torch.optim.Adam(model.fc.parameters(), lr=1e-4)"
         }
       ]
     },
@@ -772,7 +754,27 @@
       "source_ref": {
         "page_index": 11,
         "page_number": 12
-      }
+      },
+      "context": "下圖為使用 ResNet 進行遷移學習（Transfer Learning）的 Python 程式片段。請回答第 42~43 題。",
+      "images": [
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_011/image_02_01.png",
+          "alt": "mid_1151_s3 第 12 頁第 42~43 題共用 ResNet 遷移學習程式碼",
+          "page_index": 11,
+          "page_number": 12,
+          "bbox": [
+            115.35,
+            255.86,
+            531.85,
+            445.6
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "PyTorch 遷移學習程式碼（含填空）",
+          "markdown": "import torch\nimport torch.nn as nn\nimport torchvision\n\nmodel = torchvision.models.resnet50(pretrained=True)\nfor param in model.parameters():\n    param.requires_grad = False  # 行(A)\n\nmodel.fc = nn.Linear(2048, 2)\noptimizer = torch.optim.Adam(model.fc.parameters(), lr=1e-4)"
+        }
+      ]
     },
     {
       "id": "mid_1151_s3_q43",
@@ -789,7 +791,27 @@
       "source_ref": {
         "page_index": 11,
         "page_number": 12
-      }
+      },
+      "context": "下圖為使用 ResNet 進行遷移學習（Transfer Learning）的 Python 程式片段。請回答第 42~43 題。",
+      "images": [
+        {
+          "type": "image",
+          "src": "/pdf-assets/中級/mid_1151_s3/page_011/image_02_01.png",
+          "alt": "mid_1151_s3 第 12 頁第 42~43 題共用 ResNet 遷移學習程式碼",
+          "page_index": 11,
+          "page_number": 12,
+          "bbox": [
+            115.35,
+            255.86,
+            531.85,
+            445.6
+          ],
+          "placement": "context",
+          "markdown_language": "python",
+          "markdown_title": "PyTorch 遷移學習程式碼（含填空）",
+          "markdown": "import torch\nimport torch.nn as nn\nimport torchvision\n\nmodel = torchvision.models.resnet50(pretrained=True)\nfor param in model.parameters():\n    param.requires_grad = False  # 行(A)\n\nmodel.fc = nn.Linear(2048, 2)\noptimizer = torch.optim.Adam(model.fc.parameters(), lr=1e-4)"
+        }
+      ]
     },
     {
       "id": "mid_1151_s3_q44",

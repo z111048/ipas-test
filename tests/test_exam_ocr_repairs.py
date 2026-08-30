@@ -16,13 +16,209 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 
-from parse_exams_v2 import parse_exam_json, parse_question_cell, save_mock  # noqa: E402
+from parse_exams_v2 import (  # noqa: E402
+    parse_exam_json,
+    parse_question_cell,
+    parse_sample_json,
+    save_mock,
+)
 import reconcile_exam_vision_sidecar as sidecar  # noqa: E402
+import verify_question_answers as answer_verifier  # noqa: E402
 from resource_catalog import exam_entries  # noqa: E402
 from verify_exam_ocr_repairs import verify  # noqa: E402
+from verify_exam_visual_reviews import verify as verify_visual_reviews  # noqa: E402
+from verify_question_answers import (  # noqa: E402
+    cache_matches_question,
+    question_fingerprint,
+)
+from test_exam_reference_answer_cache import ExamReferenceAnswerCacheTests  # noqa: E402,F401
+from test_annotate_exam_code_images import AnnotateExamCodeImagesTests  # noqa: E402, F401
 
 
 class ExamOcrRepairTests(unittest.TestCase):
+    def test_answer_verification_cache_is_bound_to_question_content(self) -> None:
+        question = {
+            'id': 'sample_q22',
+            'question': '原題幹',
+            'options': {key: f'選項 {key}' for key in 'ABCD'},
+            'answer': 'C',
+            'source': 'sample',
+            'source_ref': {'page_index': 3, 'page_number': 4},
+        }
+        cached = {'question_fingerprint': question_fingerprint(question)}
+        self.assertTrue(cache_matches_question(cached, question))
+
+        shifted_question = {
+            **question,
+            'question': '補回跨頁題後，同一題號代表另一道題',
+        }
+        self.assertFalse(cache_matches_question(cached, shifted_question))
+
+        shifted_page = {
+            **question,
+            'source_ref': {'page_index': 4, 'page_number': 5},
+        }
+        self.assertFalse(cache_matches_question(cached, shifted_page))
+        shifted_source = {**question, 'source': 'another_exam'}
+        self.assertFalse(cache_matches_question(cached, shifted_source))
+        self.assertFalse(cache_matches_question({}, question))
+
+    def test_answer_verification_cache_tracks_explicit_image_bytes(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            image = (
+                root / 'frontend' / 'public' / 'pdf-assets' / '中級' / 'sample'
+                / 'page_000' / 'image_01_01.png'
+            )
+            image.parent.mkdir(parents=True)
+            image.write_bytes(b'first image bytes')
+            question = {
+                'id': 'sample_q1',
+                'question': '請依附圖作答。',
+                'options': {key: f'選項 {key}' for key in 'ABCD'},
+                'answer': 'A',
+                'source': 'sample',
+                'source_ref': {'page_index': 0, 'page_number': 1},
+                'images': [{
+                    'src': '/pdf-assets/中級/sample/page_000/image_01_01.png',
+                }],
+            }
+
+            with patch.object(answer_verifier, 'BASE', root):
+                images = answer_verifier.resolve_images(question, '中級')
+                result = answer_verifier.verify_question(
+                    question, [], '中級', timeout=1, retries=0, images=images,
+                )
+                self.assertTrue(
+                    answer_verifier.cache_matches_question(result, question, images)
+                )
+                self.assertEqual(
+                    result['image_inputs'][0]['path'],
+                    'frontend/public/pdf-assets/中級/sample/page_000/image_01_01.png',
+                )
+                self.assertEqual(
+                    result['image_inputs'][0]['sha256'],
+                    hashlib.sha256(b'first image bytes').hexdigest(),
+                )
+
+                # The path and question metadata are unchanged; only the exact
+                # bytes sent to the Vision model differ.
+                image.write_bytes(b'second image bytes')
+                self.assertFalse(
+                    answer_verifier.cache_matches_question(result, question, images)
+                )
+
+                image.unlink()
+                fallback = image.with_name('image_02_01.png')
+                fallback.write_bytes(b'unrelated page fallback')
+                self.assertEqual(
+                    answer_verifier.resolve_images(question, '中級'),
+                    [image],
+                    'a missing declared image must not be replaced by a page fallback',
+                )
+                self.assertFalse(
+                    answer_verifier.cache_matches_question(result, question, images)
+                )
+                with self.assertRaises(FileNotFoundError):
+                    answer_verifier.verify_question(
+                        question, [], '中級', timeout=1, retries=0, images=images,
+                    )
+
+    def test_answer_verification_cache_tracks_page_fallback_identity(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            asset_root = root / 'frontend' / 'public' / 'pdf-assets' / '中級' / 'sample'
+            for page in (0, 1):
+                image = asset_root / f'page_{page:03d}' / 'image_01_01.png'
+                image.parent.mkdir(parents=True)
+                image.write_bytes(b'identical image bytes')
+            question = {
+                'id': 'sample_q1',
+                'question': '請依該頁圖片作答。',
+                'options': {key: f'選項 {key}' for key in 'ABCD'},
+                'answer': 'A',
+                'source': 'sample',
+                'source_ref': {'page_index': 0, 'page_number': 1},
+            }
+
+            with patch.object(answer_verifier, 'BASE', root):
+                first_images = answer_verifier.resolve_images(question, '中級')
+                cached = {
+                    'question_fingerprint': answer_verifier.question_fingerprint(
+                        question, first_images
+                    ),
+                }
+                self.assertTrue(
+                    answer_verifier.cache_matches_question(
+                        cached, question, first_images
+                    )
+                )
+
+                next_page = {
+                    **question,
+                    'source_ref': {'page_index': 1, 'page_number': 2},
+                }
+                next_images = answer_verifier.resolve_images(next_page, '中級')
+                self.assertNotEqual(first_images, next_images)
+                self.assertFalse(
+                    answer_verifier.cache_matches_question(
+                        cached, next_page, next_images
+                    )
+                )
+
+    def test_answer_verification_table_crop_tracks_source_bytes(self) -> None:
+        from PIL import Image, ImageDraw
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            page_dir = (
+                root / 'frontend' / 'public' / 'pdf-assets' / '中級' / 'sample'
+                / 'page_000'
+            )
+            page_dir.mkdir(parents=True)
+            table = page_dir / 'table_01.png'
+            Image.new('RGB', (20, 10), 'white').save(table)
+            crop_dir = root / 'crops'
+            question = {
+                'id': 'sample_q1',
+                'question': '請依程式碼作答。',
+                'options': {
+                    'A': '程式碼 A',
+                    'B': '程式碼 B',
+                    'C': '程式碼 C',
+                    'D': '程式碼 D',
+                },
+                'answer': 'A',
+                'source': 'sample',
+                'source_ref': {'page_index': 0, 'page_number': 1},
+            }
+
+            with patch.object(answer_verifier, 'BASE', root):
+                first_images = answer_verifier.resolve_images(
+                    question, '中級', allow_table_crops=True, cache_dir=crop_dir,
+                )
+                cached = {
+                    'question_fingerprint': answer_verifier.question_fingerprint(
+                        question, first_images
+                    ),
+                }
+
+                # Same table path, different source bytes. The content-addressed
+                # crop path must change even if the edited pixels are discarded
+                # with the printed answer column.
+                edited = Image.new('RGB', (20, 10), 'white')
+                ImageDraw.Draw(edited).rectangle((0, 0, 1, 9), fill='black')
+                edited.save(table)
+                next_images = answer_verifier.resolve_images(
+                    question, '中級', allow_table_crops=True, cache_dir=crop_dir,
+                )
+                self.assertNotEqual(first_images, next_images)
+                self.assertFalse(
+                    answer_verifier.cache_matches_question(
+                        cached, question, next_images
+                    )
+                )
+
     def test_formula_parentheses_are_not_option_boundaries(self) -> None:
         cell = (
             '題幹\n'
@@ -57,6 +253,40 @@ class ExamOcrRepairTests(unittest.TestCase):
             self.assertEqual(payload['total'], 0)
             self.assertEqual(output.stat().st_mode & 0o777, 0o640)
             self.assertEqual(list(output_dir.glob('*.tmp')), [])
+
+    def test_sample_parser_keeps_questions_split_across_pages(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            data_dir = Path(directory)
+            extracted = data_dir / 'extracted'
+            extracted.mkdir()
+            payload = {
+                'pages': [
+                    {
+                        'page': 1,
+                        'tables': [[
+                            ['1.', None, None, 'B', None, None,
+                             '跨頁題幹？\n(A)選項甲\n(B)選項乙', None],
+                        ]],
+                    },
+                    {
+                        'page': 2,
+                        'tables': [[
+                            ['', None, None, '', None, None,
+                             '(C)選項丙\n(D)選項丁', None],
+                            ['2.', None, None, 'A', None, None,
+                             '下一題題幹？\n(A)甲\n(B)乙\n(C)丙\n(D)丁', None],
+                        ]],
+                    },
+                ],
+            }
+            (extracted / 'sample.json').write_text(
+                json.dumps(payload, ensure_ascii=False), encoding='utf-8'
+            )
+            questions = parse_sample_json(data_dir)
+
+        self.assertEqual([question['id'] for question in questions], ['sample_q1', 'sample_q2'])
+        self.assertEqual(questions[0]['options']['D'], '選項丁')
+        self.assertEqual(questions[0]['source_ref']['page_index'], 0)
 
     def test_affected_parsed_questions_are_source_faithful(self) -> None:
         def dummy_cell(number: int) -> str:
@@ -126,8 +356,18 @@ class ExamOcrRepairTests(unittest.TestCase):
         summary, errors = verify()
         self.assertEqual(errors, [], '\n'.join(errors))
         self.assertEqual(summary['catalog_exams'], 14)
-        self.assertEqual(summary['production_questions'], 709)
+        self.assertEqual(summary['production_questions'], 715)
         self.assertEqual(summary['source_issues_visible'], 2)
+        self.assertEqual(summary['visual_reviewed_exams'], 14)
+        self.assertEqual(summary['visual_reviewed_questions'], 715)
+
+    def test_every_exam_has_a_current_page_by_page_visual_review(self) -> None:
+        summary, errors = verify_visual_reviews()
+        self.assertEqual(errors, [], '\n'.join(errors))
+        self.assertEqual(summary['catalog_exams'], 14)
+        self.assertEqual(summary['reviewed_exams'], 14)
+        self.assertEqual(summary['reviewed_pages'], 199)
+        self.assertEqual(summary['reviewed_questions'], 715)
 
     def test_source_issue_explanations_have_a_results_render_path(self) -> None:
         results_component = (
@@ -142,7 +382,7 @@ class ExamOcrRepairTests(unittest.TestCase):
         middle = json.loads(
             (ROOT / 'data' / '中級' / 'questions' / 'mock_mid_1151_s2.json').read_text(encoding='utf-8')
         )
-        for payload, qid in ((junior, 'sample_q21'), (middle, 'mid_1151_s2_q49')):
+        for payload, qid in ((junior, 'sample_q22'), (middle, 'mid_1151_s2_q49')):
             question = next(question for question in payload['questions'] if question['id'] == qid)
             self.assertEqual(question['explanation'], question['source_issue']['note'])
 
@@ -153,11 +393,11 @@ class ExamOcrRepairTests(unittest.TestCase):
         after = hashlib.sha256(raw_cache.read_bytes()).hexdigest() if raw_cache.exists() else None
 
         self.assertEqual(before, after)
-        self.assertEqual(payload['summary']['production_questions'], 709)
+        self.assertEqual(payload['summary']['production_questions'], 715)
         self.assertEqual(
             payload['summary']['cached_questions']
             + payload['summary']['missing_cache_questions'],
-            709,
+            715,
         )
         self.assertEqual(payload['summary']['overlay_field_mismatches'], 0)
         self.assertFalse(payload['summary']['promotion_ready'])

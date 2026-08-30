@@ -9,7 +9,10 @@ import sys
 import tempfile
 import unittest
 from collections import Counter
+from contextlib import redirect_stdout
+from io import StringIO
 from pathlib import Path
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -28,6 +31,7 @@ from resource_catalog import (  # noqa: E402
 import build_codex_chapter_mock_prompts as chapter_prompt_builder  # noqa: E402
 import build_codex_mock_exam_prompts as exam_prompt_builder  # noqa: E402
 import build_codex_question_batch_prompts as batch_prompt_builder  # noqa: E402
+import build_topic_vocabulary as topic_vocabulary_builder  # noqa: E402
 from extract_pdf_pages_structured import pdf_map  # noqa: E402
 from annotate_exam_code_images import annotation_exam_entries  # noqa: E402
 from parse_exams_v2 import asset_key_for_exam  # noqa: E402
@@ -65,6 +69,47 @@ def asset_directory_errors(root: Path) -> list[str]:
 
 
 class ResourceCatalogTests(unittest.TestCase):
+    def test_signed_off_topic_vocabulary_rebuild_is_exact(self) -> None:
+        expected = json.loads(
+            (ROOT / "data/topics/topics.json").read_text(encoding="utf-8")
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "topics.json"
+            with (
+                patch.object(topic_vocabulary_builder, "FINAL_PATH", output),
+                redirect_stdout(StringIO()),
+            ):
+                topic_vocabulary_builder.apply_merge_pairs()
+            actual = json.loads(output.read_text(encoding="utf-8"))
+        self.assertEqual(actual, expected)
+
+    def test_every_reference_answer_has_a_signed_off_topic(self) -> None:
+        vocabulary = json.loads(
+            (ROOT / "data/topics/topics.json").read_text(encoding="utf-8")
+        )
+        assignments = json.loads(
+            (ROOT / "data/topics/question_topics.json").read_text(encoding="utf-8")
+        )
+        topic_names = [topic["name"] for topic in vocabulary["topics"]]
+        self.assertEqual(vocabulary["status"], "signed-off")
+        self.assertEqual(len(topic_names), len(set(topic_names)))
+
+        rows = assignments["assignments"]
+        self.assertEqual(assignments["questionCount"], 565)
+        self.assertEqual(assignments["assignedCount"], len(rows))
+        self.assertEqual(assignments["coverage"], 1.0)
+        self.assertEqual(assignments["unassigned"], [])
+        self.assertEqual(assignments["questionsLeftWithNoTopic"], [])
+        self.assertTrue(all(row["topics"] for row in rows.values()))
+        self.assertEqual(
+            {
+                topic
+                for row in rows.values()
+                for topic in row["topics"]
+            } - set(topic_names),
+            set(),
+        )
+
     def test_existing_frontend_routes_and_question_counts(self) -> None:
         exams = exam_entries()
         self.assertEqual(len(exams), 14)

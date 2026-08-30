@@ -789,34 +789,74 @@ def parse_exam_json(key: str, data_dir: Path) -> list[dict]:
 
 
 def parse_sample_json(data_dir: Path) -> list[dict]:
-    """Parse sample exam from JSON — has different table format."""
+    """Parse the sample exam, including questions split across PDF pages."""
     with open(data_dir / 'extracted' / 'sample.json', encoding='utf-8') as f:
         data = json.load(f)
     questions = []
+    pending_answer: str | None = None
+    pending_cell = ''
+    pending_page_index: int | None = None
+
+    def flush_pending() -> None:
+        nonlocal pending_answer, pending_cell, pending_page_index
+        if pending_answer and pending_cell.strip():
+            qnum = len(questions) + 1
+            question = parse_question_cell(
+                pending_answer, pending_cell, qnum, 'sample', pending_page_index
+            )
+            if question:
+                questions.append(question)
+            else:
+                print(
+                    f"  WARN: sample row {qnum} skipped "
+                    f"(answer={pending_answer!r}, cell={pending_cell[:40]!r})"
+                )
+        pending_answer = None
+        pending_cell = ''
+        pending_page_index = None
 
     for page in data['pages']:
         page_index = int(page.get('page', 1)) - 1
         for table in page.get('tables', []):
             for row in table:
-                if not row or len(row) < 4:
+                if not row:
                     continue
                 # Sample format: [qnum, '', '', answer, '', '', question_text, '']
                 # or: ['1.', '', '', 'B', '', '', 'question...', '']
-                # Find answer (A/B/C/D) and question text
-                answer = None
-                q_text_cell = None
-                for cell in row:
-                    s = normalize(str(cell or '').strip())
-                    if re.match(r'^[ABCD]$', s) and answer is None:
-                        answer = s
-                    elif s and len(s) > 10 and '(A)' in s and answer is not None:
-                        q_text_cell = s
+                cells = [normalize(str(cell or '').strip()) for cell in row]
+                if any(cell in ('答案', '題號', '題目', '題 目') for cell in cells):
+                    continue
 
-                if answer and q_text_cell:
-                    qnum = len(questions) + 1
-                    q = parse_question_cell(answer, q_text_cell, qnum, 'sample', page_index)
-                    if q:
-                        questions.append(q)
+                answer = None
+                answer_index = -1
+                for index, cell in enumerate(cells):
+                    if re.fullmatch(r'[A-D]', cell):
+                        answer = cell
+                        answer_index = index
+                        break
+
+                text_cells = [
+                    cell for index, cell in enumerate(cells)
+                    if index != answer_index and cell
+                ]
+                cell = max(text_cells, key=len, default='').strip()
+
+                if answer:
+                    flush_pending()
+                    pending_answer = answer
+                    pending_cell = cell
+                    pending_page_index = page_index
+                elif pending_answer and cell:
+                    # Several official sample questions continue on the next
+                    # page. Their continuation rows have no answer cell, so the
+                    # old row-at-a-time parser silently dropped all of them.
+                    present_options = set(
+                        re.findall(r'\(([A-D])\)', normalize(pending_cell))
+                    )
+                    if len(present_options) < 4:
+                        pending_cell = f'{pending_cell}\n{cell}'.strip()
+
+    flush_pending()
 
     print(f"  sample: {len(questions)} questions parsed")
     return questions

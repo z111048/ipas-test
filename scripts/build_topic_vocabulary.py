@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Condense the reference answers' free-form key_concepts into a controlled vocabulary.
 
-`examReferenceAnswers/*.json` carries `key_concepts` for 561 official questions —
-3,018 phrases in total, but they are per-question notes, not labels: 87% occur exactly
-once ("Human-over-the-loop：人類位於 AI 系統上層進行監督"). Deterministic normalisation
-(NFKC, strip bracketed English, cut after the colon) only gets 2,678 → 2,607 distinct,
+`examReferenceAnswers/*.json` carries `key_concepts` for 565 official/sample questions —
+3,034 phrases in total, but they are per-question notes, not labels: 2,489/2,685 distinct
+forms (93%) occur exactly once ("Human-over-the-loop：人類位於 AI 系統上層進行監督").
+Deterministic normalisation (NFKC, strip bracketed English, cut after the colon) only
+gets 2,685 → 2,613 distinct,
 so collapsing them is a semantic job.
 
 This script asks a gateway model to fold each subject's phrases into ~30–60 canonical
@@ -42,6 +43,9 @@ OUT_PATH = BASE / 'data' / 'topics' / 'topics_draft.json'
 # from them (consolidating an already-consolidated list compounds merges), but they
 # are 90 KB of intermediate output that would bloat the reviewable vocabulary.
 DRAFTS_PATH = BASE / 'data' / 'topics' / '_drafts_by_subject.json'
+MANUAL_TOPIC_ADDITIONS_PATH = (
+    BASE / 'data' / 'topics' / 'manual_topic_additions.json'
+)
 
 def catalog_subject_label(exam: dict[str, Any]) -> str:
     data_level = level_entry(level_id=exam['levelId'])['dataLevel']
@@ -364,6 +368,81 @@ def score_against_baseline(accepted: list[dict[str, str]]) -> dict[str, Any]:
             'missed': sorted(missed), 'extra': sorted(extra)}
 
 
+def apply_recorded_alias_cleanup(topics: list[dict[str, Any]]) -> None:
+    """Replay the committed human-reviewed alias removals without another LLM call."""
+    cleanup = json.loads(CLEAN_PATH.read_text(encoding='utf-8'))
+    by_name = {topic['name']: topic for topic in topics}
+    for field in ('removedBecauseCanonicalElsewhere', 'removedBecauseAmbiguous'):
+        records = cleanup.get(field)
+        if not isinstance(records, list):
+            raise SystemExit(f'FAIL alias cleanup 缺少 {field}')
+        for record in records:
+            topic_name = str(record.get('from') or '')
+            alias = str(record.get('alias') or '')
+            topic = by_name.get(topic_name)
+            if topic is None:
+                raise SystemExit(f'FAIL alias cleanup 找不到概念「{topic_name}」')
+            aliases = topic.get('aliases') or []
+            if alias not in aliases:
+                raise SystemExit(
+                    f'FAIL alias cleanup 在「{topic_name}」找不到別名「{alias}」'
+                )
+            aliases.remove(alias)
+
+
+def apply_manual_topic_additions(
+    topics: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Apply the signed-off post-draft vocabulary overlay deterministically."""
+    overlay = json.loads(MANUAL_TOPIC_ADDITIONS_PATH.read_text(encoding='utf-8'))
+    if overlay.get('schemaVersion') != 1:
+        raise SystemExit('FAIL manual topic additions schemaVersion 不支援')
+    additions = overlay.get('topics')
+    removals = overlay.get('removeAliases')
+    subject_additions = overlay.get('addSubjects')
+    if (
+        not isinstance(additions, list)
+        or not isinstance(removals, dict)
+        or not isinstance(subject_additions, dict)
+    ):
+        raise SystemExit('FAIL manual topic additions 結構不完整')
+
+    by_name = {topic['name']: topic for topic in topics}
+    for topic_name, aliases in removals.items():
+        topic = by_name.get(topic_name)
+        if topic is None or not isinstance(aliases, list):
+            raise SystemExit(f'FAIL manual topic alias removal 無效：「{topic_name}」')
+        for alias in aliases:
+            if alias not in topic.get('aliases', []):
+                raise SystemExit(
+                    f'FAIL manual topic alias removal 在「{topic_name}」找不到「{alias}」'
+                )
+            topic['aliases'].remove(alias)
+
+    for topic_name, subjects in subject_additions.items():
+        topic = by_name.get(topic_name)
+        if topic is None or not isinstance(subjects, list):
+            raise SystemExit(f'FAIL manual topic subject addition 無效：「{topic_name}」')
+        for subject in subjects:
+            if subject not in topic.get('subjects', []):
+                topic['subjects'].append(subject)
+
+    for addition in additions:
+        if not isinstance(addition, dict):
+            raise SystemExit('FAIL manual topic addition 必須是 object')
+        name = str(addition.get('name') or '')
+        if not name or name in by_name:
+            raise SystemExit(f'FAIL manual topic addition 名稱缺漏或重複：「{name}」')
+        for field in ('parent', 'aliases', 'subjects'):
+            if field not in addition:
+                raise SystemExit(f'FAIL manual topic addition「{name}」缺少 {field}')
+        topics.append(addition)
+        by_name[name] = addition
+
+    topics.sort(key=lambda topic: (topic['parent'], topic['name']))
+    return overlay
+
+
 
 
 def apply_merge_pairs() -> None:
@@ -439,19 +518,36 @@ def apply_merge_pairs() -> None:
     if lost:
         raise SystemExit(f'FAIL 這些名稱／別名整個消失了：{"、".join(sorted(lost)[:10])}')
     alias_before = sum(len(t.get('aliases', [])) for t in draft['topics'])
+    apply_recorded_alias_cleanup(topics)
+    manual = apply_manual_topic_additions(topics)
     alias_after = sum(len(t.get('aliases', [])) for t in topics)
 
-    FINAL_PATH.write_text(json.dumps({
+    payload = {
         **{k: v for k, v in draft.items() if k != 'topics'},
         'status': 'signed-off',
-        'signedOff': decisions.get('humanDecision', {}).get('date'),
+        'phraseCount': manual.get('phraseCount'),
+        'signedOff': manual.get('date'),
+        'manualAdditions': {
+            'source': str(MANUAL_TOPIC_ADDITIONS_PATH.relative_to(BASE)),
+            'date': manual.get('date'),
+            'topics': [topic['name'] for topic in manual['topics']],
+            'reason': manual.get('reason'),
+        },
         'mergedFrom': str(OUT_PATH.relative_to(BASE)),
         'mergeDecisions': str(PAIRS_PATH.relative_to(BASE)),
+        'aliasCleanup': str(CLEAN_PATH.relative_to(BASE)),
         'topics': topics,
-    }, ensure_ascii=False, indent=2), encoding='utf-8')
-    print(f'\n概念 {before} → {after}（併掉 {len(dropped)}），'
+    }
+    FINAL_PATH.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2) + '\n', encoding='utf-8'
+    )
+    print(f'\n概念 {before} → {len(topics)}（合併 {len(dropped)}、人工補簽 '
+          f'{len(manual["topics"])}），'
           f'別名 {alias_before} → {alias_after}')
-    print(f'→ {FINAL_PATH.relative_to(BASE)}')
+    try:
+        print(f'→ {FINAL_PATH.relative_to(BASE)}')
+    except ValueError:
+        print(f'→ {FINAL_PATH}')
 
 
 CLEAN_PATH = BASE / 'data' / 'topics' / 'alias_cleanup.json'
