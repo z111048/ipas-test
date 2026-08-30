@@ -1,4 +1,3 @@
-<!-- 2026-08-30: 同步考題 current-state 14 卷／715 題與 sidecar 715 分母；已快取 150 維持。備份：backups/06-guide-ocr-recalibration.md.bak-2026-08-30-2。 -->
 <!-- 2026-08-30（使用者授權）：同步三軌語意 gate、初級勘誤資源與嵌入練習邊界的最終收斂狀態；
      移除 2 筆未決勘誤、公式約六成與前端未使用階層樹等過時敘述。修改前備份：
      playbook/backups/06-guide-ocr-recalibration.md.bak-2026-08-30。 -->
@@ -32,9 +31,9 @@ Gemini 2.5 Flash vision。成果 `data/{level}/guide_ocr/`（33 MB，committed�
 | 引文對齊 | `guide_exercises` 179 題**全數**在引用頁逐字命中，0 退化 |
 | Track A 語意 gate | 169/169 已審 inventory ＋ 3/3 publication overlays ＋ 3/3 structure contracts，remaining 0 |
 | Track B 語意 gate | 78/78（71 OCR／抽取、2 來源數式、5 provenance），remaining 0 |
-| 考題 production gate | catalog 14 份／715 題及逐頁 direct-view SHA/inventory 通過；2 題官方來源歧義以可見註記保留 |
+| 考題 production gate | catalog 14 份／709 題通過；2 題官方來源歧義以可見註記保留 |
 | 勘誤資源 | 初級／中級勘誤皆由 resource catalog 發佈；初級 gallery 新增 8 個逐頁／表格資產 |
-| Vision sidecar | fresh checkout 0/715；2026-08-30 本機 150/715，promotion 仍阻擋 |
+| Vision sidecar | fresh checkout 0/709；2026-08-30 本機 150/709，promotion 仍阻擋 |
 | 發佈驗收 | `tests/run_all.py` 13 項；`audit_resources.py` 8 類（含三軌 `ocrSemantics`） |
 
 驗證狀態：Track A/Track B 確定性 gate、兩級 `verify_data_alignment` 與 frontend build 均納入
@@ -71,10 +70,10 @@ Gemini 2.5 Flash vision。成果 `data/{level}/guide_ocr/`（33 MB，committed�
    它是 `verify_question_guide_alignment.py` 的舊版基線，刪了就無法區分
    「本輪造成的退化」與「本來就這樣」。
 
-## 這個任務留給制度的東西（已寫進 pipeline playbook）
+## 這個任務留給制度的東西（已寫進 pipeline-reference）
 
 - §1a — OCR 兩軌與**完整重跑順序**（勘誤是疊加層、轉接層重跑會沖掉）。
 - §3 — `export_guide_embedded_exercises.py` 的邊界陷阱（頁眉黏進選項、解析吃到下一章／參考
   書目 appendix、無條件頁尾收束會掉題）及寫檔前 fail-closed 契約。
 - §9 — 中文 PDF 文字比對的教訓（兩邊都要 NFKC、題幹與選項分開比、題目常跨頁）。
-- `deterministic-publication-overlays.md` 修正 4 — 勘誤的全有或全無策略、兩軌格式不同要各寫一筆、安全閥。
+- §10 修正 4 — 勘誤的全有或全無策略、兩軌格式不同要各寫一筆、安全閥。

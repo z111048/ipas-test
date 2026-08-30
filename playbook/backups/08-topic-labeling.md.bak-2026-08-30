@@ -1,5 +1,3 @@
-<!-- 2026-08-31: 兩級樣題補回 6 道跨頁題；人工補簽 7 個題幹可直接判定的概念，清除既有標註缺口。 -->
-<!-- 2026-08-30: 兩級樣題補回 6 道跨頁題，同步官方題／詳解數與人工概念標註現況。 -->
 <!-- 2026-08-08: 新增。考古題熱度、概念標籤、心智圖這條線的設計與現況。
      出題那條線在 07；本檔是「反過來用考古題驅動出題與導覽」的那一半。 -->
 <!-- 2026-08-08 二次更新：§7-3 前端完成，改寫該節（原「前端未接」已不成立），
@@ -11,9 +9,9 @@
 
 # 08 — 考古題熱度、概念標籤與心智圖
 
-**狀態：`/mindmap`（「考點熱度圖」）章節軸與概念軸都已上線；概念詞彙表共 181 個
-（`data/topics/topics.json`，`signed-off`；原定案 174 個加 7 個人工補簽概念），565 題
-官方考古題皆有至少 1 個概念標註（模型標註精度基線見 §7-2）；出題配額已改為熱度加權（§7-4）。
+**狀態：`/mindmap`（「考點熱度圖」）章節軸與概念軸都已上線；概念詞彙表定案 174 個
+（`data/topics/topics.json`，`signed-off`），559 題官方考古題已標註並全量驗收
+（正確 75%／錯誤 3%，§7-2）；出題配額已改為熱度加權（§7-4）。
 未完：§7-5 補教材、§7-7 正規化標註結構；概念圖卡的中文字形要換產圖方案（§7-6）。**
 
 ## §1 這條線在做什麼
@@ -26,7 +24,7 @@
 | 軸 | 回答什麼 | 現況 |
 |---|---|---|
 | **位置**（章節樹） | 這題考講義哪一段 | ✅ 已有，`guideExamAnnotations` |
-| **概念**（受控詞彙） | 這題考什麼觀念 | ✅ 181 個概念已指派並驗收，前端概念軸已上線 |
+| **概念**（受控詞彙） | 這題考什麼觀念 | ✅ 174 個概念已指派並驗收，前端概念軸已上線 |
 | **熱度**（統計） | 哪裡考得多 | ✅ 章層級與概念層級都已上線，標題層不做（§4） |
 
 位置軸是樹狀的，概念軸是跨章節的圖——**硬把概念塞進樹只會讓樹變成圖**。
@@ -35,8 +33,8 @@
 
 - `frontend/src/generated/guideExamAnnotations/` — 450 題官方考古題 → 2,872 個講義區塊，
   5,973 條標註，帶 `confidence` 與 `why_relevant`。來源是 `examReferenceAnswers` 的引文。
-- `frontend/src/generated/examReferenceAnswers/` — **565 題**的詳解，每題帶
-  `citations`（有序，含 `block_ids`）與 **`key_concepts`**（概念詞組，共 3,034 個）。
+- `frontend/src/generated/examReferenceAnswers/` — **561 題**的詳解，每題帶
+  `citations`（有序，含 `block_ids`）與 **`key_concepts`**（概念詞組，共 3,018 個）。
 - `frontend/src/generated/guideNav.json`（64 節點）／`guideHierarchy.json`（1,207 節點）。
 
 ## §3 章節熱度圖（已上線）
@@ -79,14 +77,14 @@ python3 scripts/build_topic_vocabulary.py                 # 分科目收斂 → 
 python3 scripts/build_topic_vocabulary.py --consolidate    # 合併大類與重複概念
 python3 scripts/build_topic_vocabulary.py --show           # 依大類印出
 python3 scripts/build_topic_vocabulary.py --dedupe-pairs    # 語意去重 → 合併配對清單（待人工勾選）
-python3 scripts/build_topic_vocabulary.py --apply-pairs     # 合併＋重播 alias cleanup／人工補簽 → topics.json
+python3 scripts/build_topic_vocabulary.py --apply-pairs     # 套用勾選結果 → topics.json（定案版）
 ```
 
 三個檔各有角色，不要混：`topics_draft.json`（草稿，不動）→ `merge_pairs.json`
 （合併決定，含 `stillOpen` 未決項）→ `topics.json`（定案版，標題目時用這個）。
 
-`key_concepts` 不能直接當標籤：3,034 個詞組共有 2,685 種寫法，其中 **2,489 種（93%）
-只出現一次**；純字串正規化（NFKC、去括號英文、去冒號後解釋）也只降到 2,613 種。
+`key_concepts` 不能直接當標籤：3,018 個詞組裡 **87% 只出現一次**，
+純字串正規化（NFKC、去括號英文、去冒號後解釋）只能把 2,678 個相異值降到 2,607。
 收斂是語意工作，所以分科目請模型收斂，再合併統整成 **204 概念 / 8 大類**。
 
 **2026-08-08 定案：204 → 174**（併掉 30 個）。`known_duplicate_pairs.json` 是先寫好的
@@ -100,13 +98,6 @@ python3 scripts/build_topic_vocabulary.py --apply-pairs     # 合併＋重播 al
 `stillOpen` 有 5 組未決（`模型評估`/`評估指標`、`機率分佈`/`機率與統計`、
 `特徵縮放`/`資料標準化`、`異常值偵測`/`離群值處理`、兩個 AI 幻覺概念），
 要動之前先看標註分布。
-
-**2026-08-31 人工補簽：174 → 181。** 逐頁補回官方題後，另發現既有清冊有 5 題只留下
-被判錯的舊標籤。依官方題幹與已發布詳解逐題補入「二分搜尋、人工智慧能力層級、圖論分析、
-感知器網路、推理模型、數據密度、演算法複雜度」，並移除兩個升格為正式概念後會造成歧義的
-舊別名。決定記在 `data/topics/manual_topic_additions.json`；`--apply-pairs` 會先重播 committed
-`alias_cleanup.json` 再套此 overlay，並有 exact-rebuild regression。這批是可由來源直接判定的
-人工簽核，不重跑模型，也不改寫 2026-08-08 的歷史基線。
 
 ## §6 這條線踩過的坑（全是「看起來成功、實際上錯」）
 
@@ -230,31 +221,31 @@ python3 scripts/review_committed_notebooks.py --python <有 pandas/sklearn 的�
 3. ~~概念熱度~~ **✅ 2026-08-08 完成（資料層＋前端）**。`/mindmap` 現在有兩個軸
    （「按章節」／「按概念」），導覽名稱改為「考點熱度圖」。概念軸：長條＝題數、
    右欄＝散落章數，兩種排序；大類篩選與搜尋；展開列出章節分布並可點進該章。
-   `topicHeat.json`（約 148 KB）走動態 import，不進首頁 bundle。
+   `topicHeat.json`（116 KB）走動態 import，不進首頁 bundle。
 
    ```bash
    python3 scripts/export_topic_heat.py   # → frontend/src/generated/topicHeat.json
    ```
 
    只讀既有 committed 產物、無 API 花費、可隨時重跑。
-   **採計規則：只算 `verdict=正確`**（829 個標籤 / 179 個有 strict／loose 命中的概念）。兩種數字都輸出
+   **採計規則：只算 `verdict=正確`**（813 個標籤 / 172 概念）。兩種數字都輸出
    （`count` / `countLoose`），前端要改規則不必重跑。嚴格採計是量過才選的：
    寬鬆版會把空泛上位詞推上來（「機率與統計」第 80、「機器學習概論」第 56），
    嚴格版自動把它們降到 160 名外，代價只有 10 個邊緣概念消失（各 1–5 個標籤）。
 
    熱度前段（題數／散落**指引**章數）：生成式AI 22／5、評估指標 19／12、
-   檢索增強生成 19／7、偏見與公平性 18／8、模型可解釋性 18／8、代理式AI 17／3。
+   檢索增強生成 19／7、模型可解釋性 18／8、偏見與公平性 17／8、代理式AI 17／3。
    **「散落章數」才是這個軸的新資訊**——評估指標散在 12 章，代表它不屬於任何
    單一章節，是跨章節的概念；代理式AI 只在 3 章，是集中的新主題。
 
    ⚠️ 兩份產物的題號不同名：標註用考卷題號（`jr_1141_s1_q8`），概念標註的 key
    用詳解的 `referenceQuestionId`（`exam1_q8`）。只接一種會有 356/558 題對不到
    章節，而且**看起來像「標註覆蓋不足」而不是 join 寫錯**。
-   目前 115 題對不到章節，那是標註本來就只建在 9 份考卷上（450 題），屬預期。
+   目前 108 題對不到章節，那是標註本來就只建在 9 份考卷上（450 題），屬預期。
 
    ⚠️ **「散落章數」不能用 `chapterCount`**。同一份內容有兩套章節層級——官方大綱章
-   （`*pdf-c{n}`）與學習指引章——標註兩邊各記一次。169 個有 strict 題目的概念裡 138 個
-   兩套都有，平均散落章數 4.5 → 只算指引章 3.1（**虛胖約 32%**）。腳本因此另出
+   （`*pdf-c{n}`）與學習指引章——標註兩邊各記一次。162 個有題目的概念裡 135 個
+   兩套都有，平均散落章數 4.7 → 只算指引章 3.2（**虛胖 32%**）。腳本因此另出
    `guideChapterCount`／`outlineChapterCount` 與每章 `kind`，前端顯示用前者，
    展開時兩套都列但分組標明。決定拆開之前先量過「只落在大綱章的概念」＝**0 個**，
    所以拆開不會讓任何概念歸零——這個數字才是敢改的理由。

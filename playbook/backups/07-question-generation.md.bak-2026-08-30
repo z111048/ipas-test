@@ -1,5 +1,3 @@
-<!-- 2026-08-31: 將盲答與詳解 cache 升為來源／圖檔內容指紋，並加入重編號覆寫與發布完整性防線。 -->
-<!-- 2026-08-30: 樣題跨頁漏題補回後更新爭議題 ID，並記錄答案驗證 cache 的內容指紋契約。 -->
 <!-- 2026-08-07: 新增。小節粒度出題（codex CLI）的進行中任務紀錄。
      OCR 那條線已完工，見 06；本檔接手它的待接清單第 1 項。 -->
 
@@ -104,18 +102,6 @@ CLI 三票：`codex`、`claude`、`claude:sonnet`（`--verifiers` 可調）。
   出題端的答案是 A→B→C→D 硬性輪替的，不亂序等於把規律送給驗證器，
   順便消掉位置偏誤。
 
-快取不能只看 question id 或答案字母：parser 補回漏題會讓後續 ID 位移，而答案字母可能恰好
-相同。每筆 answer cache 必須帶題號、題幹、A–D、答案、共用情境、`source/source_ref`，以及
-**實際送入模型的有序圖片路徑、檔案 SHA-256 與 byte length**；缺少 v2 指紋、圖片不存在／
-讀不到、或指紋不符一律重問。表格去答案欄裁圖也以來源 table SHA 與裁切比例內容定址，
-同路徑圖片換檔不會沿用舊 verdict；模型執行期間圖片若改變，該結果直接丟棄。
-
-考卷詳解 producer 的 v2 指紋另涵蓋題幹、A–D、官方答案／既有解析、共用情境與 blocks、
-圖片 metadata、`source/source_ref`。舊 stem/options prompt 與 v1 provenance 只走明示 migration；
-targeted rerun 若同名檔仍承載重編號後另一題的唯一詳解會拒絕執行。publication overlay 每筆綁
-同一 v2 指紋；exporter 在寫前端檔前要求 published qid inventory 與 production **完全相等**，
-缺題、額外題、key collision 或 stale overlay 都 fail closed。
-
 **校準結果（mid-s2c3 28 題，答案已人工確認全對）**：flagged 1 題，
 偽陽性率 3.6%，其餘 27 題三票全中。偽陽性是 q012——四個情境（甲乙丙丁）
 各自判型一／型二錯誤的複合題，codex 答 B、claude:sonnet 答 A、claude 答對 D。
@@ -155,8 +141,8 @@ python3 scripts/verify_question_answers.py --level 中級 --workers 8 \
 
 flagged 共 6 題（0.78%），consensus 5 題。**逐題看過，沒有一題是驗證器壞掉**：
 `mid_1151_s3_q30`（高變異 vs 過擬合）、`exam2_q36`（prompt injection 防禦策略）、
-`sample_q50`（步驟排序）都是兩個答案都說得通的爭議題；
-**`sample_q22` 甚至是官方答案本身可疑**——問「何者*不是*特徵選取技術」，
+`sample_q48`（步驟排序）都是兩個答案都說得通的爭議題；
+**`sample_q21` 甚至是官方答案本身可疑**——問「何者*不是*特徵選取技術」，
 官方答 C 迴歸分析，三個模型一致答 B 主成分分析（PCA 是特徵*萃取*不是*選取*，
 逐步迴歸則確實是選取法）。這題值得列入勘誤候選，本輪沒有動任何資料。
 

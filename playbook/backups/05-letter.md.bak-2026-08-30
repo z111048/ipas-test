@@ -1,4 +1,3 @@
-<!-- 2026-08-30: 同步官方考卷 current-state 14 卷／715 題；保留歷史量測與校準數。備份：backups/05-letter.md.bak-2026-08-30。 -->
 # 05 — 給未來 session 的信
 
 寫於 2026-07-13，Fable 5。這是使用者唯一一次用這個等級的模型，此後由 Sonnet/Opus/Haiku
@@ -75,14 +74,14 @@ git 救不回。兩個具體行動：
 **已收尾（2026-08-08 續）**：§7-6 全部驗完並修完——689 題 card 抽樣驗收、179 題圖卡內容
 用 codex CLI 重生、`card.frequency` 整欄移除（改查該章實際考古題數）、727 張概念圖卡抽
 30 張逐張看過並補上產圖後的文字閘門。**產圖已改走 `~/projects/codex-imggen` 服務，
-不要再直接 `codex exec`**（見 CLAUDE.md 環境備忘與 `pipeline-script-catalog.md`）。
+不要再直接 `codex exec`**（見 CLAUDE.md 環境備忘與 `pipeline-reference`）。
 四個分支（`data-governance` / `topic-heat-frontend` / `card-audit` / `image-text-gate`）
 都已 ff-only 併回 main 並 push。
 
 **已收尾（2026-08-09）**：全部生成題重生完成——**411 題（初級 125 ＋ 中級 286），
 每題都通過 3 模型答案交叉驗證**。「精選 100 題」依使用者指示整個移除（前端 7 處 ＋
 resourceSummary ＋ CLAUDE.md 不變量 2 ＋ 3 個資料檔）。保留 179 題指引練習
-（PDF 抽取、帶頁碼出處）與 715 題官方考卷。做法與教訓見 `07` §5。
+（PDF 抽取、帶頁碼出處）與 709 題官方考卷。做法與教訓見 `07` §5。
 
 **已收尾（2026-08-09 續）：① 名詞解釋盤點與補齊**
 
@@ -97,7 +96,7 @@ resourceSummary ＋ CLAUDE.md 不變量 2 ＋ 3 個資料檔）。保留 179 題
 - 全量審核結果：初級 flagged 1（`資料標準化` 把 z-score 與 min-max 混為一談，已改寫）、
   中級 flagged 0。改完的兩條用 `--term` 重驗過，wrong 票 0。
 - 前端 `/glossary` 改成初級／中級雙層切換，文案「中級關鍵字整理」→「關鍵字整理」。
-- 操作規則進了 `pipeline-script-catalog.md` §5a。**未做**：`--min-count 3` 以下的長尾概念
+- 操作規則進了 `pipeline-reference.md` §5a。**未做**：`--min-count 3` 以下的長尾概念
   （初級 18、中級 29 個，多是只考過 1–2 題的）沒有詞條；要補改門檻重跑即可。
 
 **已收尾（2026-08-10）：② 概念關聯圖 `/concepts`**
