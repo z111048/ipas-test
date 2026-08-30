@@ -1,0 +1,96 @@
+<!-- 2026-08-29: 補上架構硬化後現況；下方 2026-07-13 診斷保留為問題來源的歷史紀錄。
+     修改前備份：backups/00-diagnosis.md.bak-2026-08-29。 -->
+# 00 — Harness 快速診斷（2026-07-13，由 Fable 5 撰寫）
+
+本檔是後面所有制度檔的依據。三個問題按「每個 session 浪費的 token × 出錯機率」排序。
+數字都是撰寫當天實測，之後若結構大改，依 `04-maintenance.md` 更新本檔。
+
+## 2026-08-29 現況（先讀）
+
+下方「證據」描述的是 2026-07-13 的事故現場，不再全部代表目前實作：README 已精簡；
+`export_guide_outline_data.py` 已有 staging、完整 content schema 驗證、原子替換與 rollback，
+單等級匯出會保留其他等級（常規操作仍依 CLAUDE.md 帶 `--all-levels`，人工修正也仍必做）；
+production Python 已改為 repo-relative 並由可攜性測試防退化；完整驗收目前是 10 項。
+最新操作規則一律以 `pipeline-reference.md` 與 `tests/README.md` 為準。
+
+---
+
+## 問題 1：CLAUDE.md 肥大且與 AGENTS.md / README 三份重疊、互相矛盾（最漏 token）
+
+**證據**：
+- 舊 CLAUDE.md：305 行 / 31KB，每個 session 開場強制載入，其中約 8 成是 47 支腳本的
+  詳細目錄與完整 pipeline 指令——多數 session 根本用不到。
+- AGENTS.md：110 行 / 17KB，內容重疊但**版本不同步**。實例：
+  - AGENTS.md 說 `export_guide_outline_data.py` 應加 `--use-guide-tree`、前端有 `@data-mid` alias、
+    guide 頁優先渲染 `blocks[]`；舊 CLAUDE.md 全部沒提。
+  - 兩份對同一支腳本的參數描述不一致（如 `export_question_generation_data.py` 的職責描述）。
+  - 模型依「碰巧載入的那份」做決定，就會做錯。
+- README.md 632 行，又是第三份部分重疊的敘述。
+
+**修法**（已在本次 session 執行）：
+1. CLAUDE.md 重寫為 <110 行：只放不變量、常用指令、路由表（見新版 CLAUDE.md）。
+2. 長內容（腳本目錄、pipeline 步驟、手動修正腳本、驗證清單）抽到
+   `playbook/pipeline-reference.md`，需要時再讀。
+3. AGENTS.md 保留給 Codex CLI 使用（`codex exec` 會讀它），但在其頂部加註
+   「權威版本見 CLAUDE.md + playbook/」。**日後更新腳本行為時只改 pipeline-reference.md，
+   不要三份都改**——改三份必然漂移。
+
+---
+
+## 問題 2：主對話直接吞大檔案（最容易失焦）
+
+**證據**：本 repo 的資料檔動輒 100KB–1MB：
+- `frontend/src/generated/guideImages.json` 944KB
+- `data/中級/questions/subject*_codex100_questions.json` 各 220–232KB
+- `data/*/guide/subject*_guide_nested.json` 240KB+
+- `data/*/exam_pages_cache/`、`pages_cache/` 每頁一個 JSON，整目錄數百檔。
+
+主對話用 Read 整檔讀進來，一次就吃掉 5–20 萬 token 的上下文，之後模型開始忘記
+最初目標、重問已答過的事、或把中間資料誤當結論。歷史 commit（exam fix 系列）
+顯示這類「逐題修資料」任務特別常見，也特別容易觸發整檔閱讀。
+
+**修法**（制度化於 `01-dispatch.md`）：
+1. **鐵則**：資料 JSON（`data/`、`frontend/src/generated/`）一律先 `ls -la` 看大小；
+   >50KB 的檔案不准整檔 Read，改用 `jq`/`grep -n` 切片，或派 subagent 讀完只回結論。
+2. 「掃 repo / 找某題在哪個檔」這類任務派 Explore agent，主對話只收檔名+行號。
+3. 修資料題時，先用 `jq '.questions[] | select(.id=="...")'` 取出單題再處理。
+
+---
+
+## 問題 3：破壞性腳本與必補手動修正沒有防呆（最容易出錯）
+
+**證據**：
+- `export_guide_outline_data.py` 會先 `shutil.rmtree(guideContent/)` 再重建；預設只跑初級,
+  忘了 `--all-levels` 就把中級檔案**永久刪除**（2026-06-06 實際發生過，記憶檔有記錄）。
+- s1c4 有兩個手動 heading 修正，每次重跑 export 後必須補回，靠人記憶容易漏。
+- `pages_cache/`、`audit_cache/`、`exam_pages_cache/` 全部 gitignored，但重建要花
+  Gemini API 錢和時間——被誤刪或 `--force` 覆蓋就是真損失。
+- 沒有自動測試；`verify_data_alignment.py` 存在但不是每次都跑。
+
+**修法**（制度化於 `pipeline-reference.md` 的 checklist 與 `02-judgment.md`）：
+1. **執行任何含 rmtree/--force/覆蓋行為的腳本前**，必查三件事：影響哪個目錄、
+   該目錄是否 gitignored（gitignored = 刪了救不回）、是否需要先 `cp -r` 備份。
+2. `export_guide_outline_data.py` 永遠帶 `--all-levels`，跑完立刻執行 s1c4 兩個補回腳本
+   （完整腳本在 `pipeline-reference.md`），然後 `git diff --stat frontend/src/generated/`
+   確認中級檔案還在。
+3. 動到 `frontend/src/` 或資料 JSON 後，必跑 `cd frontend && npm run build`（tsc 會抓型別錯）
+   與 `python3 scripts/verify_data_alignment.py --level {level}`。這兩條是本 repo 唯二的
+   自動驗證，不可省。
+
+---
+
+## 次要觀察（不進前三，但寫給未來參考）
+
+- `.claude/` 被 gitignore，所以持久制度檔不能放那裡——這就是 `playbook/` 存在的原因。
+- 2026-08-29 已把 production Python 腳本改為 `Path(__file__).resolve()` 的 repo-relative 路徑，
+  並由 `test_repo_portability.py` 掃描絕對工作站路徑與 subprocess cwd，防止搬 repo 再度失效。
+- 7 支腳本的 `--level` 預設是 `中級` 而非 `初級`（清單見 pipeline-reference.md 通用規則）——
+  「預設初級」的直覺是錯的，一律顯式帶 `--level`。
+- repo 根目錄有 `generated/`、`generated-assets/`、`generated_assets/`、`generated_images/`
+  四個相似名稱目錄（皆 gitignored），容易寫錯路徑；動它們之前先 `ls` 確認哪個才是目標。
+- WSL2 環境：dev server 要 `--host` 才能從 Windows 存取。
+
+> 教訓 2026-07-13：`pkill -f vite` 誤殺了使用者另一專案（AIATCL）在 5173 的 dev server。
+> 根因：寬鬆 pattern 殺進程，這台機器常同時跑多個專案的 dev server。
+> 規則：殺進程只用自己記下的 PID（啟動時 `echo $! > *.pid`），禁止 `pkill -f vite/node/npm`
+> 這類寬鬆 pattern；本專案 Vite 起在哪個 port 要看 dev.log（5173 被占時會自動跳號）。
