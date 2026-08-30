@@ -8,7 +8,9 @@ import json
 from pathlib import Path
 from textwrap import dedent
 
-BASE = Path('/home/james/projects/ipas-test')
+from resource_catalog import question_path
+
+BASE = Path(__file__).resolve().parents[1]
 LEVEL = '中級'
 SUBJECT_ORDER = ['mid-s1', 'mid-s3', 'mid-s2']
 SUBJECT_NUMBER = {'mid-s1': 1, 'mid-s2': 2, 'mid-s3': 3}
@@ -56,8 +58,8 @@ def build_prompt(
     subject_no = SUBJECT_NUMBER[subject_id]
     guide_path = f'data/中級/guide/subject{subject_no}_guide.json'
     current_questions_path = f'data/中級/questions/subject{subject_no}_questions.json'
-    official_exam_path = f'data/中級/questions/mock_exam{subject_no}.json'
-    sample_exam_path = 'data/中級/questions/sample_exam.json'
+    official_exam_path = question_path(LEVEL, f'mock_exam{subject_no}').relative_to(BASE).as_posix()
+    sample_exam_path = question_path(LEVEL, 'sample').relative_to(BASE).as_posix()
     glossary_path = 'frontend/src/generated/middleGlossary.json'
     chapter_json = json.dumps(chapter, ensure_ascii=False, indent=2)
     last_question = first_question + count - 1

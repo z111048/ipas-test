@@ -7,7 +7,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 DEFAULT_LEVEL = '初級'
 GUIDE_KEYS = ('guide1', 'guide2', 'guide3')
 GUIDE_KEYS_BY_LEVEL: dict[str, tuple[str, ...]] = {

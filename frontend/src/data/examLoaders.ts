@@ -1,25 +1,27 @@
 import type { ExamData } from '../types'
+import { catalogExams, type ResourceLevelId } from './resourceCatalog'
 
 type JsonModule = { default: unknown }
 
-const examLoaders: Record<string, () => Promise<JsonModule>> = {
-  // 初級 公告試題
-  jr_1141_s1: () => import('@data/questions/mock_jr_1141_s1.json'),
-  jr_1141_s2: () => import('@data/questions/mock_jr_1141_s2.json'),
-  jr_1151_s1: () => import('@data/questions/mock_jr_1151_s1.json'),
-  jr_1151_s2: () => import('@data/questions/mock_jr_1151_s2.json'),
-  jr_1152_s1: () => import('@data/questions/mock_jr_1152_s1.json'),
-  jr_1152_s2: () => import('@data/questions/mock_jr_1152_s2.json'),
-  sample: () => import('@data/questions/sample_exam.json'),
-  // 中級 公告試題
-  mid_1141_s1: () => import('@data-mid/questions/mock_mid_1141_s1.json'),
-  mid_1141_s2: () => import('@data-mid/questions/mock_mid_1141_s2.json'),
-  mid_1141_s3: () => import('@data-mid/questions/mock_mid_1141_s3.json'),
-  mid_1151_s1: () => import('@data-mid/questions/mock_mid_1151_s1.json'),
-  mid_1151_s2: () => import('@data-mid/questions/mock_mid_1151_s2.json'),
-  mid_1151_s3: () => import('@data-mid/questions/mock_mid_1151_s3.json'),
-  midSample: () => import('@data-mid/questions/sample_exam.json'),
+const questionModules: Record<ResourceLevelId, Record<string, () => Promise<JsonModule>>> = {
+  // Literal glob patterns are intentional: Vite discovers and splits every candidate
+  // at build time; the catalog only chooses which statically known loader to expose.
+  junior: import.meta.glob<JsonModule>('@data/questions/*.json'),
+  middle: import.meta.glob<JsonModule>('@data-mid/questions/*.json'),
 }
+
+function moduleFor(levelId: ResourceLevelId, questionFile: string) {
+  return Object.entries(questionModules[levelId]).find(
+    ([path]) => path.endsWith(`/${questionFile}`)
+  )?.[1]
+}
+
+const examLoaders = Object.fromEntries(
+  catalogExams.flatMap((exam) => {
+    const loader = moduleFor(exam.levelId, exam.questionFile)
+    return loader ? [[exam.routeKey, loader] as const] : []
+  })
+) as Record<string, () => Promise<JsonModule>>
 
 const cache = new Map<string, Promise<ExamData | undefined>>()
 

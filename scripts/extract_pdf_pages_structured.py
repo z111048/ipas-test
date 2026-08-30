@@ -2,7 +2,6 @@
 """Extract every PDF page with text, image/table positions, and cropped assets."""
 
 import argparse
-import ast
 import json
 import re
 import shutil
@@ -14,7 +13,9 @@ import fitz  # PyMuPDF
 import pdfplumber
 from PIL import Image, ImageChops
 
-BASE = Path('/home/james/projects/ipas-test')
+from resource_catalog import exam_entries, reference_pdf_maps
+
+BASE = Path(__file__).resolve().parents[1]
 
 
 def load_manifest(level: str) -> dict:
@@ -25,29 +26,17 @@ def load_manifest(level: str) -> dict:
         return json.load(f)
 
 
-def load_extra_pdf_maps() -> dict[str, dict[str, str]]:
-    source = (BASE / 'scripts' / 'extract_pdfs.py').read_text(encoding='utf-8')
-    module = ast.parse(source)
-    result: dict[str, dict[str, str]] = {}
-    for node in module.body:
-        if (
-            isinstance(node, ast.AnnAssign)
-            and getattr(node.target, 'id', None) in {'EXAM_PDFS_BY_LEVEL', 'REFERENCE_PDFS_BY_LEVEL'}
-        ):
-            current = ast.literal_eval(node.value)
-            for level, pdfs in current.items():
-                result.setdefault(level, {}).update(pdfs)
-    if not result:
-        raise RuntimeError('PDF maps not found in scripts/extract_pdfs.py')
-    return result
-
-
 def pdf_map(level: str) -> dict[str, str]:
     result: dict[str, str] = {}
     manifest = load_manifest(level)
     for subject in manifest.get('subjects', []):
         result[subject['key']] = subject['pdf']
-    result.update(load_extra_pdf_maps().get(level, {}))
+    for exam in exam_entries(level=level):
+        # Preserve reviewed legacy asset directories while text extraction and
+        # parsed question ids use the catalog's canonical exam key.
+        asset_key = exam.get('legacyAssetKey', exam['key'])
+        result[asset_key] = exam['pdf']
+    result.update(reference_pdf_maps().get(level, {}))
     return result
 
 
@@ -438,7 +427,10 @@ def extract_pdf(level: str, key: str, pdf_name: str, scale: float, force: bool) 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--level', default='初級', help='資料等級資料夾（預設: 初級）')
-    parser.add_argument('--key', help='只處理指定 PDF key，如 guide1/exam1/sample')
+    parser.add_argument(
+        '--key',
+        help='只處理指定資產 key，如 guide1/exam1/sample（legacyAssetKey 由 catalog 保留）',
+    )
     parser.add_argument('--all', action='store_true', help='處理所有 manifest/exam PDF')
     parser.add_argument('--scale', type=float, default=2.0, help='crop render scale')
     parser.add_argument('--force', action='store_true', help='overwrite existing page JSON/assets')

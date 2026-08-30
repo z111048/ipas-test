@@ -1,7 +1,7 @@
 {
   "id": "mid-s2c2",
   "title": "機率分佈與資料分佈模型",
-  "content": "# 機率分佈與資料分佈模型\n\n3.2\n\n1.\n\n在大數據分析中，我們不僅需要從「敘述性統計」層面掌握資料的集中趨勢與離散度，也需對資料背後的機率特徵與分佈模型有更深入的理解。若能辨識資料屬於何種理論分佈（例如常態分佈、二項分佈、Poisson 等），便能在後續推論與假設檢定時做更精準的模型選擇，也利於機器學習演算法或特徵工程優化。本節即聚焦在常見機率分佈，介紹離散型分佈、連續型分佈的基礎概念。\n\n2.\n\n機率分佈（Probability Distribution）是描述隨機變數的所有可能值及其相應機率的數學函數。在統計學與機率論中，機率分佈是用來表示一個隨機實驗結果的所有可能性及其發生的機率。可以應用於幫助我們理解和預測隨機現象，並用來計算風險、優化資源配置等。\n\n#### （1）機率分佈的兩個重要數值\n\n機率分佈的兩個重要數值，期望值（Expected Value）與變異數（Variance），是統計學中衡量隨機變數性質的關鍵指標。\n\n• 期望值（Expected Value, E（X））\n\n◦ 期望值是一個隨機變數的加權平均值，它描述的是該隨機變數在多次\n\n試驗中可能出現的平均結果。期望值在統計學中有時被稱為「數學期望」，代表了隨機變數的長期平均或中心位置。\n\n◦ 對於離散型隨機變數X，期望值的計算公式為：\n\n𝑛 𝐸(X) = ∑𝑥𝑖𝑃(𝑥𝑖)\n\n𝑖=1\n\nxi 為隨機變數X 的所有可能取值，P（xi）為對應的機率。\n\n◦ 對於連續型隨機變數X，期望值的計算公式為：\n\n∞ 𝐸(𝑋) = ∫ 𝑥𝑓(𝑥)\n\n𝑑𝑥 −∞ 其中f（x）是隨機變數X 的機率密度函數（PDF）。\n\n• 變異數（Variance, Var（X））\n\n◦ 變異數衡量的是隨機變數取值的分散程度，它反映了數據點偏離期望\n\n值的平均程度。變異數越大，表示隨機變數的取值越分散；變異數越小，表示隨機變數的取值較為集中。\n\n◦ 對於離散型隨機變數X，變異數的計算公式為：\n\n𝑛 2𝑃(𝑥𝑖)\n\nVar(𝑋) = ∑(𝑥𝑖−𝐸(𝑋))\n\n𝑖=1\n\n◦ 對於連續型隨機變數X，變異數的計算公式為：\n\n∞ 2𝑓(𝑥)\n\nVar(𝑋) = ∫ (𝑥−𝐸(𝑋))\n\n𝑑𝑥 −∞ 隨機變數偏離其期望值的程度，數值越大，表示變數變動範圍越大。\n\n◦ 標準差（Standard Deviation）：變異數的平方根，便於直觀理解資料的\n\n分佈，並且單位與原資料相同。\n\n#### （2）機率分佈的兩種類型\n\n根據隨機變數的特性，機率分佈可以分為離散型和連續型兩大類：\n\n• 離散型機率分佈（Discrete Probability Distribution）\n\n◦ 離散型隨機變數：\n\n○ 值是有限或可數的，例如擲骰子的結果（1、2、3、4、5、6）或某電\n\n商平台每日訂單數（0、1、2…）。這些變數的值通常為整數，且可能取值集合是明確的。\n\n◦ 離散型機率分佈：\n\n○ 透過機率質量函數（Probability Mass Function, PMF）描述隨機變數\n\n「每一個特定取值的機率」。\n\n○ $$$ \\sum_{x_{i}}P(X=x_{i})=1 $$$\n\n$$$ P(a\\leq X\\leq b)=\\int_{a}^{b}f(x)dx $$$\n\n○ PMF 總和等於1：\n\n∑𝑃(𝑋= 𝑥𝑖)\n\n= 1 𝑥𝑖\n\n• 連續型機率分佈（Continuous Probability Distribution）\n\n◦ 連續型隨機變數：\n\n○ 值是無限且連續的，通常用於描述測量型變數，如身高、體重、時間\n\n或溫度。這些變數不僅包含整數，還可以是任意實數，例如某病患等待時間可能為5.3 分鐘或5.31 分鐘。\n\n◦ 連續型機率分佈：\n\n○ 透過機率密度函數（Probability Density Function,PDF）描述隨機變數\n\n「於某取值範圍內的機率」。對於連續型隨機變數X，PDF 必須滿足以下條件：\n\n𝑏 𝑃(𝑎≤𝑋≤𝑏) = ∫𝑓(𝑥)\n\n𝑑𝑥 𝑎\n\n○ 其中，\n\nf（x）是隨機變數X 的機率密度函數（PDF），描述了隨機變數在區間[a, b]內的機率。\n\n#### （3）機率分佈的應用\n\n機率分佈是統計學和機率論的核心工具之一，廣泛應用於各個領域，示例應用如：\n\n• 風險管理：在金融領域，投資者可以根據資產的機率分佈來計算風險和報\n\n酬，進行資產配置和風險控制。\n\n• 品質控制：製造業使用常態分佈來描述產品的測量數據，進行品質檢查和\n\n控制。\n\n• 預測分析：根據過去的數據，利用機率分佈來預測未來事件的可能性，這\n\n在各行各業中都很常見，如銷售預測、需求預測等。\n\n3.\n\n#### （1）伯努利分佈（Bernoulli Distribution）\n\n• 定義：\n\n◦ 伯努利分佈是一種描述單次試驗中只有兩種結果（成功與失敗）的離散\n\n型分佈。它是二項分佈的特例，當試驗次數n=1 時，便可使用伯努利分佈來描述。\n\n◦ 數學公式：\n\nP (X = 1) = p，P ( X = 0) = 1 - p p 是成功的機率，X 只能取0（失敗）或1（成功）。\n\n• 期望值與變異數：\n\n$E(X) = p$\n\n• 應用示例：\n\n◦ 單個產品的品質檢測是否合格（1 = 合格，0 = 不合格）。\n\n◦ 使用者是否點擊廣告（1 = 點擊，0 = 未點擊）。\n\n• 侷限：\n\n◦ 僅適用於單次試驗的情況，無法擴展到多次試驗。\n\n#### （2）二項分佈（Binomial Distribution）\n\n• 定義：\n\n◦ 二項分佈描述的是在固定次數n 的獨立試驗中，每次試驗成功的機率\n\n為p，並記錄成功的次數X。\n\n◦ 二項分佈適用於多次獨立試驗中成功次數的計算。\n\n• 數學公式：\n\n$$$ P(X=k)=\\left(\\frac{n}{k}\\right)p^{k}(1-p)^{n-k},k=0,1,\\ldots,n $$$\n\n◦ n：表示試驗的總次數（固定的正整數）。\n\n◦ p：表示每次試驗成功的機率，範圍是0 ≦ p ≦ 1。\n\n◦ k：表示期望成功的次數，且k 是介於0 到n 之間的整數。\n\n𝑛\n\n◦ (\n\n𝑘) 二項係數，表示從n 次試驗中選出k 次成功的方式數，計算公式為：\n\n(𝑛 𝑘) = 𝑛! 𝑘! (𝑛−𝑘)!\n\n• 期望值與變異數：\n\n$E(X) = np$\n\n• 應用示例：\n\n◦ 電商投放n 則廣告，觀察成功（如點擊或購買）的次數。\n\n◦ 檢驗n 個產品中合格品的數量。\n\n• 侷限：\n\n◦ 試驗必須是獨立的，且成功機率p 固定，若任一條件不滿足，則不適\n\n用。\n\n#### （3）泊松分佈（Poisson Distribution）\n\n• 定義：泊松分佈用來描述某一事件在固定時間或空間區間內「發生次數」\n\n的機率分佈，平均發生率（速率）為𝛌。\n\n• 數學公式：\n\n$\\lambda$\n\n◦ 𝛌：事件的平均發生率（每單位時間或空間的平均次數）\n\n◦ k：事件發生的次數\n\n◦ e：自然對數的底數，約為2.71828\n\n• 期望值與變異數：\n\n$$$ E(X)=\\lambda $$$\n\n• 應用示例：\n\n◦ 事件的次數，例如客戶服務中心的來電量、網站的訪問次數。\n\n◦ 稀少事件的發生，如設備故障、車禍發生的次數。\n\n• 侷限：\n\n◦ 泊松分佈假設事件發生的平均發生速率𝛌是固定的，若發生率隨時間變\n\n化則不適用。\n\n4.\n\n#### （1）常態分佈（Normal Distribution）\n\n• 定義：\n\n◦ 常態分佈是最常見的連續型機率分佈之一，其數據呈現對稱的鐘形曲\n\n線。它由兩個參數決定：均值（μ）和標準差（σ），這兩個參數決定了分佈的中心位置和擴展範圍。\n\n◦ 常態分佈常用來描述許多自然現象中的變數行為。\n\n◦ 根據中央極限定理（Central limit theorem），當樣本量足夠大時，無論\n\n原始資料分佈為何，任一組獨立且同分佈的隨機變數，其總和或平均值的分佈都會趨近於常態分佈。\n\n• 數學公式：\n\n◦ 常態分佈的機率密度函數（PDF）為：\n\n𝑒𝑥𝑝(−(𝑥−𝜇)2 𝑓(𝑥) = 1 2𝜎2 )\n\n𝜎√2𝜋\n\n• 期望值與變異數：\n\n$E(X) = \\mu$\n\n• 應用示例：\n\n◦ 身高、體重等自然科學數據通常服從常態分佈。\n\n◦ 在金融領域，股票的價格波動、日收益等也可近似常態分佈。\n\n◦ 用於假設檢定（如t 檢定、z 檢定等）。\n\n• 侷限：\n\n◦ 若數據呈現偏態或長尾（Leptokurtic），則不適合假設常態分佈。\n\n◦ 極端值較多的情況下常態分佈不再適用。\n\n#### （2）指數分佈（Exponential Distribution）\n\n• 定義：\n\n◦ 指數分佈描述的是事件發生之間的間隔時間，適用於隨機過程中等待\n\n時間的分佈，通常用來描述「等待時間」或「生存時間」。\n\n◦ 例如，機器故障時間、電話來電間隔等都可以用指數分佈來建模。該分\n\n佈的特徵是記憶性（Memoryless），即未來的事件發生與過去的時間無關。\n\n• 數學公式：\n\n◦ 指數分佈的機率密度函數（PDF）為：\n\n$$$ f(x)=\\lambda e^{-\\lambda x},x\\geq0 $$$\n\n◦ 其中：𝛌是發生率，定義為單位時間內事件發生的平均頻率。\n\n• 期望值與變異數：\n\n$$$ Var(X)=\\sigma^{2} $$$\n\n• 應用示例：\n\n◦ 描述等待時間，如客服中心接到來電的時間間隔。\n\n◦ 機器壽命、零件故障時間等。\n\n◦ 排隊理論中的基礎模型。\n\n• 侷限：\n\n◦ 需要假設事件發生率是固定的；若隨時間變化，指數分佈將不再適用。\n\n◦ 當發生事件的速率變化時，需選擇更複雜的分佈，如Weibull 分佈。\n\n#### （3）卡方分佈（Chi-square Distribution）\n\n• 定義：\n\n◦ 卡方分佈是常態分佈的平方和，通常用於檢驗假設、測量變異數，並且\n\n與多種統計檢定（如適配度檢定、獨立性檢定、齊一性檢定）相關。\n\n◦ 卡方分佈是一個偏態分佈，且隨著自由度k 的增加，卡方分佈會趨近\n\n常態分佈。\n\n• 關於自由度（Degrees of Freedom）：\n\n◦ 定義：\n\n○ 自由度（Degrees of Freedom, df）是統計學中的一個重要概念，指的\n\n是在計算統計量時，「可以自由變動的資料點數量」。\n\n○ 在許多統計檢定和估計中，自由度的大小會影響檢定的結果、分佈\n\n的形狀及其精確度。\n\n◦ 示例：\n\n○ 例如，在計算樣本標準差時，使用了樣本平均值作為已知量，這樣就\n\n減少了一個自由度。\n\n◦ 卡方分佈中的應用：\n\n○ 自由度（k）是卡方分佈中的一個重要參數，影響卡方分佈的形狀與\n\n尾部的長度。\n\n○ 當自由度較小時，卡方分佈會有更明顯的偏態。\n\n○ 當自由度增加時，分佈會逐漸趨近常態分佈。\n\n• 數學公式：\n\n◦ 卡方分佈的機率密度函數（PDF）為：\n\n𝑘 2−1𝑒−𝑥 𝑓(𝑥) = 𝑥 2，𝑥≥0 𝑘 2Γ (𝑘 2 2)\n\n◦ 其中：k 是自由度；𝚪是伽瑪函數。\n\n• 期望值與變異數：\n\n$$$ f(x)=\\frac{x^{\\frac{k}{2}-1}e^{-\\frac{x}{2}}}{2^{\\frac{k}{2}}\\Gamma\\left(\\frac{k}{2}\\right)},x\\geq0 $$$\n\n• 應用示例：\n\n◦ 用於假設檢定，尤其是適配度檢定（Goodness of Fit）和列聯表獨立性\n\n檢定。\n\n◦ 測量樣本資料與理論分佈的差異，檢查變數間的獨立性。\n\n• 侷限：\n\n◦ 若自由度k 較小，檢定的準確度可能會受限。\n\n5.\n\n#### （1）定義\n\n• 分佈擬合（Distribution Fitting）：\n\n分佈擬合的目的是找出一個合適的數學模型（分佈），來描述我們收集到的資料。例如，當我們收集到一大堆的銷售數據，我們會想知道這些數據的分佈形態是什麼樣的。它是像鐘形一樣對稱的（如常態分佈），還是稀疏事件（如Poisson 分佈）？我們需要從不同的分佈中選擇一個，來準確描述我們的數據。\n\n我們進行分佈擬合，基本上就是選擇一個適合的分佈來代表資料的樣子，然後通過數學方法（比如最大似然估計），找出這個分佈的參數，讓它最好地貼合我們的數據。\n\n• 資料建模\n\n資料建模則是將擬合後的分佈應用到現實問題中，來進行預測、風險分析或其他決策。例如，假設我們已經確定了某些業務數據（像是網站點擊量）符合常態分佈，那麼我們就可以利用這個分佈的特性來預測未來的網站訪問量，或計算出異常情況發生的機率。\n\n在這個過程中，資料建模不僅限於描述數據的分佈，它還會將這些數學模型應用到實際的業務情境中，比如做出商業預測、風險預測，或者為機器學習模型提供更準確的數據特徵。\n\n#### （2）步驟\n\n分佈擬合的成功取決於資料特性與假設的匹配，以下為關鍵條件與考量：\n\n• 資料型態確認：\n\n◦ 需先判斷資料屬於離散型還是連續型（如交易金額）。\n\n◦ 離散型資料適用於計數變數，如某製造企業分析每日故障次數。\n\n◦ 連續型資料則適用於測量變數，例如某醫療機構分析病患等待時間。\n\n• 模型候選選擇：\n\n◦ 根據資料特性選取分佈。\n\n◦ 若資料呈現偏態或長尾（如收入資料偏度2.5），可考慮對數常態分佈\n\n或重尾分佈（如t 分佈）。\n\n◦ 若事件稀少且獨立（如每小時客服投訴），則泊松分佈較合適。例如，\n\n某金融機構分析交易頻率，發現事件稀疏，選用泊松分佈提升預測準確性。\n\n• 獨立性與固定率假設：\n\n◦ 二項分佈與泊松分佈假設試驗獨立且機率或發生率固定。\n\n◦ 例如，某零售企業分析顧客購買行為，若促銷活動改變成功率，二項分\n\n佈可能失效，需改用動態模型。實務中，需檢查資料是否滿足假設，例如使用自相關（Autocorrelation）分析確認獨立性。",
+  "content": "# 機率分佈與資料分佈模型\n\n3.2\n\n1.\n\n在大數據分析中，我們不僅需要從「敘述性統計」層面掌握資料的集中趨勢與離散度，也需對資料背後的機率特徵與分佈模型有更深入的理解。若能辨識資料屬於何種理論分佈（例如常態分佈、二項分佈、Poisson 等），便能在後續推論與假設檢定時做更精準的模型選擇，也利於機器學習演算法或特徵工程優化。本節即聚焦在常見機率分佈，介紹離散型分佈、連續型分佈的基礎概念。\n\n2.\n\n機率分佈（Probability Distribution）是描述隨機變數的所有可能值及其相應機率的數學函數。在統計學與機率論中，機率分佈是用來表示一個隨機實驗結果的所有可能性及其發生的機率。可以應用於幫助我們理解和預測隨機現象，並用來計算風險、優化資源配置等。\n\n#### （1）機率分佈的兩個重要數值\n\n機率分佈的兩個重要數值，期望值（Expected Value）與變異數（Variance），是統計學中衡量隨機變數性質的關鍵指標。\n\n• 期望值（Expected Value, E（X））\n\n◦ 期望值是一個隨機變數的加權平均值，它描述的是該隨機變數在多次\n\n試驗中可能出現的平均結果。期望值在統計學中有時被稱為「數學期望」，代表了隨機變數的長期平均或中心位置。\n\n◦ 對於離散型隨機變數X，期望值的計算公式為：\n\n𝑛 𝐸(X) = ∑𝑥𝑖𝑃(𝑥𝑖)\n\n𝑖=1\n\nxi 為隨機變數X 的所有可能取值，P（xi）為對應的機率。\n\n◦ 對於連續型隨機變數X，期望值的計算公式為：\n\n∞ 𝐸(𝑋) = ∫ 𝑥𝑓(𝑥)\n\n𝑑𝑥 −∞ 其中f（x）是隨機變數X 的機率密度函數（PDF）。\n\n• 變異數（Variance, Var（X））\n\n◦ 變異數衡量的是隨機變數取值的分散程度，它反映了數據點偏離期望\n\n值的平均程度。變異數越大，表示隨機變數的取值越分散；變異數越小，表示隨機變數的取值較為集中。\n\n◦ 對於離散型隨機變數X，變異數的計算公式為：\n\n𝑛 2𝑃(𝑥𝑖)\n\nVar(𝑋) = ∑(𝑥𝑖−𝐸(𝑋))\n\n𝑖=1\n\n◦ 對於連續型隨機變數X，變異數的計算公式為：\n\n∞ 2𝑓(𝑥)\n\nVar(𝑋) = ∫ (𝑥−𝐸(𝑋))\n\n𝑑𝑥 −∞ 隨機變數偏離其期望值的程度，數值越大，表示變數變動範圍越大。\n\n◦ 標準差（Standard Deviation）：變異數的平方根，便於直觀理解資料的\n\n分佈，並且單位與原資料相同。\n\n#### （2）機率分佈的兩種類型\n\n根據隨機變數的特性，機率分佈可以分為離散型和連續型兩大類：\n\n• 離散型機率分佈（Discrete Probability Distribution）\n\n◦ 離散型隨機變數：\n\n○ 值是有限或可數的，例如擲骰子的結果（1、2、3、4、5、6）或某電\n\n商平台每日訂單數（0、1、2…）。這些變數的值通常為整數，且可能取值集合是明確的。\n\n◦ 離散型機率分佈：\n\n○ 透過機率質量函數（Probability Mass Function, PMF）描述隨機變數\n\n「每一個特定取值的機率」。\n\n○ 例如，擲骰子時，PMF 為P（X=1）=1/6，P（X=2）=1/6，\n\n○ PMF 總和等於1：\n\n∑𝑃(𝑋= 𝑥𝑖)\n\n= 1 𝑥𝑖\n\n• 連續型機率分佈（Continuous Probability Distribution）\n\n◦ 連續型隨機變數：\n\n○ 值是無限且連續的，通常用於描述測量型變數，如身高、體重、時間\n\n或溫度。這些變數不僅包含整數，還可以是任意實數，例如某病患等待時間可能為5.3 分鐘或5.31 分鐘。\n\n◦ 連續型機率分佈：\n\n○ 透過機率密度函數（Probability Density Function,PDF）描述隨機變數\n\n「於某取值範圍內的機率」。對於連續型隨機變數X，PDF 必須滿足以下條件：\n\n𝑏 𝑃(𝑎≤𝑋≤𝑏) = ∫𝑓(𝑥)\n\n𝑑𝑥 𝑎\n\n○ 其中，\n\nf（x）是隨機變數X 的機率密度函數（PDF），描述了隨機變數在區間[a, b]內的機率。\n\n#### （3）機率分佈的應用\n\n機率分佈是統計學和機率論的核心工具之一，廣泛應用於各個領域，示例應用如：\n\n• 風險管理：在金融領域，投資者可以根據資產的機率分佈來計算風險和報\n\n酬，進行資產配置和風險控制。\n\n• 品質控制：製造業使用常態分佈來描述產品的測量數據，進行品質檢查和\n\n控制。\n\n• 預測分析：根據過去的數據，利用機率分佈來預測未來事件的可能性，這\n\n在各行各業中都很常見，如銷售預測、需求預測等。\n\n3.\n\n#### （1）伯努利分佈（Bernoulli Distribution）\n\n• 定義：\n\n◦ 伯努利分佈是一種描述單次試驗中只有兩種結果（成功與失敗）的離散\n\n型分佈。它是二項分佈的特例，當試驗次數n=1 時，便可使用伯努利分佈來描述。\n\n◦ 數學公式：\n\nP (X = 1) = p，P ( X = 0) = 1 - p p 是成功的機率，X 只能取0（失敗）或1（成功）。\n\n• 期望值與變異數：\n\n$$E(X)=p$$\n\n$$\\operatorname{Var}(X)=p(1-p)$$\n\n• 應用示例：\n\n◦ 單個產品的品質檢測是否合格（1 = 合格，0 = 不合格）。\n\n◦ 使用者是否點擊廣告（1 = 點擊，0 = 未點擊）。\n\n• 侷限：\n\n◦ 僅適用於單次試驗的情況，無法擴展到多次試驗。\n\n#### （2）二項分佈（Binomial Distribution）\n\n• 定義：\n\n◦ 二項分佈描述的是在固定次數n 的獨立試驗中，每次試驗成功的機率\n\n為p，並記錄成功的次數X。\n\n◦ 二項分佈適用於多次獨立試驗中成功次數的計算。\n\n• 數學公式：\n\n$$P(X=k)={n\\choose k}p^k(1-p)^{n-k},\\quad k=0,1,\\ldots,n$$\n\n◦ n：表示試驗的總次數（固定的正整數）。\n\n◦ p：表示每次試驗成功的機率，範圍是0 ≦ p ≦ 1。\n\n◦ k：表示期望成功的次數，且k 是介於0 到n 之間的整數。\n\n𝑛\n\n◦ (\n\n𝑘) 二項係數，表示從n 次試驗中選出k 次成功的方式數，計算公式為：\n\n$${n\\choose k}=\\frac{n!}{k!(n-k)!}$$\n\n• 期望值與變異數：\n\n$$E(X)=np$$\n\n$$\\operatorname{Var}(X)=np(1-p)$$\n\n• 應用示例：\n\n◦ 電商投放n 則廣告，觀察成功（如點擊或購買）的次數。\n\n◦ 檢驗n 個產品中合格品的數量。\n\n• 侷限：\n\n◦ 試驗必須是獨立的，且成功機率p 固定，若任一條件不滿足，則不適\n\n用。\n\n#### （3）泊松分佈（Poisson Distribution）\n\n• 定義：泊松分佈用來描述某一事件在固定時間或空間區間內「發生次數」\n\n的機率分佈，平均發生率（速率）為𝛌。\n\n• 數學公式：\n\n$$P(X=k)=\\frac{\\lambda^k e^{-\\lambda}}{k!},\\quad k=0,1,\\ldots$$\n\n◦ 𝛌：事件的平均發生率（每單位時間或空間的平均次數）\n\n◦ k：事件發生的次數\n\n◦ e：自然對數的底數，約為2.71828\n\n• 期望值與變異數：\n\n$$E(X)=\\lambda$$\n\n$$\\operatorname{Var}(X)=\\lambda$$\n\n• 應用示例：\n\n◦ 事件的次數，例如客戶服務中心的來電量、網站的訪問次數。\n\n◦ 稀少事件的發生，如設備故障、車禍發生的次數。\n\n• 侷限：\n\n◦ 泊松分佈假設事件發生的平均發生速率𝛌是固定的，若發生率隨時間變\n\n化則不適用。\n\n4.\n\n#### （1）常態分佈（Normal Distribution）\n\n• 定義：\n\n◦ 常態分佈是最常見的連續型機率分佈之一，其數據呈現對稱的鐘形曲\n\n線。它由兩個參數決定：均值（μ）和標準差（σ），這兩個參數決定了分佈的中心位置和擴展範圍。\n\n◦ 常態分佈常用來描述許多自然現象中的變數行為。\n\n◦ 根據中央極限定理（Central limit theorem），當樣本量足夠大時，無論\n\n原始資料分佈為何，任一組獨立且同分佈的隨機變數，其總和或平均值的分佈都會趨近於常態分佈。\n\n• 數學公式：\n\n◦ 常態分佈的機率密度函數（PDF）為：\n\n𝑒𝑥𝑝(−(𝑥−𝜇)2 𝑓(𝑥) = 1 2𝜎2 )\n\n𝜎√2𝜋\n\n• 期望值與變異數：\n\n$$E(X)=\\mu$$\n\n$$\\operatorname{Var}(X)=\\sigma^2$$\n\n• 應用示例：\n\n◦ 身高、體重等自然科學數據通常服從常態分佈。\n\n◦ 在金融領域，股票的價格波動、日收益等也可近似常態分佈。\n\n◦ 用於假設檢定（如t 檢定、z 檢定等）。\n\n• 侷限：\n\n◦ 若數據呈現偏態或長尾（Leptokurtic），則不適合假設常態分佈。\n\n◦ 極端值較多的情況下常態分佈不再適用。\n\n#### （2）指數分佈（Exponential Distribution）\n\n• 定義：\n\n◦ 指數分佈描述的是事件發生之間的間隔時間，適用於隨機過程中等待\n\n時間的分佈，通常用來描述「等待時間」或「生存時間」。\n\n◦ 例如，機器故障時間、電話來電間隔等都可以用指數分佈來建模。該分\n\n佈的特徵是記憶性（Memoryless），即未來的事件發生與過去的時間無關。\n\n• 數學公式：\n\n◦ 指數分佈的機率密度函數（PDF）為：\n\n$$f(x)=\\lambda e^{-\\lambda x},\\quad x\\ge0$$\n\n◦ 其中：𝛌是發生率，定義為單位時間內事件發生的平均頻率。\n\n• 期望值與變異數：\n\n$$E(X)=\\frac1\\lambda$$\n\n$$\\operatorname{Var}(X)=\\frac1{\\lambda^2}$$\n\n• 應用示例：\n\n◦ 描述等待時間，如客服中心接到來電的時間間隔。\n\n◦ 機器壽命、零件故障時間等。\n\n◦ 排隊理論中的基礎模型。\n\n• 侷限：\n\n◦ 需要假設事件發生率是固定的；若隨時間變化，指數分佈將不再適用。\n\n◦ 當發生事件的速率變化時，需選擇更複雜的分佈，如Weibull 分佈。\n\n#### （3）卡方分佈（Chi-square Distribution）\n\n• 定義：\n\n◦ 卡方分佈是常態分佈的平方和，通常用於檢驗假設、測量變異數，並且\n\n與多種統計檢定（如適配度檢定、獨立性檢定、齊一性檢定）相關。\n\n◦ 卡方分佈是一個偏態分佈，且隨著自由度k 的增加，卡方分佈會趨近\n\n常態分佈。\n\n• 關於自由度（Degrees of Freedom）：\n\n◦ 定義：\n\n○ 自由度（Degrees of Freedom, df）是統計學中的一個重要概念，指的\n\n是在計算統計量時，「可以自由變動的資料點數量」。\n\n○ 在許多統計檢定和估計中，自由度的大小會影響檢定的結果、分佈\n\n的形狀及其精確度。\n\n◦ 示例：\n\n○ 例如，在計算樣本標準差時，使用了樣本平均值作為已知量，這樣就\n\n減少了一個自由度。\n\n◦ 卡方分佈中的應用：\n\n○ 自由度（k）是卡方分佈中的一個重要參數，影響卡方分佈的形狀與\n\n尾部的長度。\n\n○ 當自由度較小時，卡方分佈會有更明顯的偏態。\n\n○ 當自由度增加時，分佈會逐漸趨近常態分佈。\n\n• 數學公式：\n\n◦ 卡方分佈的機率密度函數（PDF）為：\n\n$$f(x)=\\frac{x^{k/2-1}e^{-x/2}}{2^{k/2}\\Gamma(k/2)},\\quad x\\ge0$$\n\n◦ 其中：k 是自由度；𝚪是伽瑪函數。\n\n• 期望值與變異數：\n\n$$E(X)=k$$\n\n$$\\operatorname{Var}(X)=2k$$\n\n• 應用示例：\n\n◦ 用於假設檢定，尤其是適配度檢定（Goodness of Fit）和列聯表獨立性\n\n檢定。\n\n◦ 測量樣本資料與理論分佈的差異，檢查變數間的獨立性。\n\n• 侷限：\n\n◦ 若自由度k 較小，檢定的準確度可能會受限。\n\n5.\n\n#### （1）定義\n\n• 分佈擬合（Distribution Fitting）：\n\n分佈擬合的目的是找出一個合適的數學模型（分佈），來描述我們收集到的資料。例如，當我們收集到一大堆的銷售數據，我們會想知道這些數據的分佈形態是什麼樣的。它是像鐘形一樣對稱的（如常態分佈），還是稀疏事件（如Poisson 分佈）？我們需要從不同的分佈中選擇一個，來準確描述我們的數據。\n\n我們進行分佈擬合，基本上就是選擇一個適合的分佈來代表資料的樣子，然後通過數學方法（比如最大似然估計），找出這個分佈的參數，讓它最好地貼合我們的數據。\n\n• 資料建模\n\n資料建模則是將擬合後的分佈應用到現實問題中，來進行預測、風險分析或其他決策。例如，假設我們已經確定了某些業務數據（像是網站點擊量）符合常態分佈，那麼我們就可以利用這個分佈的特性來預測未來的網站訪問量，或計算出異常情況發生的機率。\n\n在這個過程中，資料建模不僅限於描述數據的分佈，它還會將這些數學模型應用到實際的業務情境中，比如做出商業預測、風險預測，或者為機器學習模型提供更準確的數據特徵。\n\n#### （2）步驟\n\n分佈擬合的成功取決於資料特性與假設的匹配，以下為關鍵條件與考量：\n\n• 資料型態確認：\n\n◦ 需先判斷資料屬於離散型還是連續型（如交易金額）。\n\n◦ 離散型資料適用於計數變數，如某製造企業分析每日故障次數。\n\n◦ 連續型資料則適用於測量變數，例如某醫療機構分析病患等待時間。\n\n• 模型候選選擇：\n\n◦ 根據資料特性選取分佈。\n\n◦ 若資料呈現偏態或長尾（如收入資料偏度2.5），可考慮對數常態分佈\n\n或重尾分佈（如t 分佈）。\n\n◦ 若事件稀少且獨立（如每小時客服投訴），則泊松分佈較合適。例如，\n\n某金融機構分析交易頻率，發現事件稀疏，選用泊松分佈提升預測準確性。\n\n• 獨立性與固定率假設：\n\n◦ 二項分佈與泊松分佈假設試驗獨立且機率或發生率固定。\n\n◦ 例如，某零售企業分析顧客購買行為，若促銷活動改變成功率，二項分\n\n佈可能失效，需改用動態模型。實務中，需檢查資料是否滿足假設，例如使用自相關（Autocorrelation）分析確認獨立性。",
   "contentFormat": "markdown",
   "headings": [
     {
@@ -73,7 +73,10 @@
         118.18,
         174.28
       ],
-      "id": "block-1"
+      "id": "block-1",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -87,7 +90,10 @@
         90.67,
         218.12
       ],
-      "id": "block-2"
+      "id": "block-2",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -101,7 +107,10 @@
         342.5
       ],
       "indentFirstLine": true,
-      "id": "block-3"
+      "id": "block-3",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -115,7 +124,10 @@
         90.67,
         393.11
       ],
-      "id": "block-4"
+      "id": "block-4",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -129,7 +141,10 @@
         492.52
       ],
       "indentFirstLine": true,
-      "id": "block-5"
+      "id": "block-5",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -143,7 +158,10 @@
         243.55,
         542.56
       ],
-      "id": "block-6"
+      "id": "block-6",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -157,7 +175,10 @@
         592.6
       ],
       "indentFirstLine": true,
-      "id": "block-7"
+      "id": "block-7",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -171,7 +192,10 @@
         306.19,
         617.56
       ],
-      "id": "block-8"
+      "id": "block-8",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -185,7 +209,10 @@
         517.85,
         692.59
       ],
-      "id": "block-9"
+      "id": "block-9",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -199,13 +226,16 @@
         403.29,
         717.55
       ],
-      "id": "block-10"
+      "id": "block-10",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
       "depth": 5,
       "text": "𝑛 𝐸(X) = ∑𝑥𝑖𝑃(𝑥𝑖) 𝑖=1 xi 為隨機變數X 的所有可能取值，P（xi）為對應的機率。",
-      "pageIndex": 19,
+      "pageIndex": 20,
       "bbox": [
         133.12,
         101.9,
@@ -214,16 +244,15 @@
       ],
       "indentFirstLine": true,
       "id": "block-11",
-      "formulas": [
-        {
-          "latex": "$ E(X)=\\sum_{i=1}^{n}x_{i}P(x_{i}) $",
-          "display": true
-        },
-        {
-          "latex": "E(X) = \\sum_{i=1}^{n} x_i P(x_i)",
-          "display": true
-        }
-      ]
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract",
+      "sourcePageIndexes": [
+        19,
+        20
+      ],
+      "trackARepairId": "TA-138",
+      "trackAOriginalBlockId": "block-11"
     },
     {
       "type": "list_item",
@@ -237,7 +266,10 @@
         403.29,
         139.07
       ],
-      "id": "block-12"
+      "id": "block-12",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -252,9 +284,12 @@
       ],
       "indentFirstLine": true,
       "id": "block-13",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract",
       "formulas": [
         {
-          "latex": "$ E(X)=\\int_{-\\infty}^{\\infty}x f(x)dx $",
+          "latex": "E(X)=\\int_{-\\infty}^{\\infty}x f(x)dx",
           "display": true
         }
       ]
@@ -271,7 +306,10 @@
         281.23,
         238.07
       ],
-      "id": "block-14"
+      "id": "block-14",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -285,7 +323,10 @@
         521.15,
         313.1
       ],
-      "id": "block-15"
+      "id": "block-15",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -299,7 +340,10 @@
         403.29,
         338.06
       ],
-      "id": "block-16"
+      "id": "block-16",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -314,9 +358,12 @@
       ],
       "indentFirstLine": true,
       "id": "block-17",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract",
       "formulas": [
         {
-          "latex": "$ Var(X)=\\sum_{i=1}^{n}\\left(x_{i}-E(X)\\right)^{2}P(x_{i}) $",
+          "latex": "Var(X)=\\sum_{i=1}^{n}\\left(x_{i}-E(X)\\right)^{2}P(x_{i})",
           "display": true
         }
       ],
@@ -334,7 +381,10 @@
         403.29,
         420.14
       ],
-      "id": "block-18"
+      "id": "block-18",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -349,9 +399,12 @@
       ],
       "indentFirstLine": true,
       "id": "block-19",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract",
       "formulas": [
         {
-          "latex": "$ Var(X)=\\int_{-\\infty}^{\\infty}\\left(x-E(X)\\right)^{2}f(x)dx $",
+          "latex": "Var(X)=\\int_{-\\infty}^{\\infty}\\left(x-E(X)\\right)^{2}f(x)dx",
           "display": true
         }
       ]
@@ -368,7 +421,10 @@
         518.02,
         544.0
       ],
-      "id": "block-20"
+      "id": "block-20",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -382,7 +438,10 @@
         218.35,
         594.04
       ],
-      "id": "block-21"
+      "id": "block-21",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -396,7 +455,10 @@
         619.0
       ],
       "indentFirstLine": false,
-      "id": "block-22"
+      "id": "block-22",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -410,7 +472,10 @@
         402.93,
         643.99
       ],
-      "id": "block-23"
+      "id": "block-23",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -424,7 +489,10 @@
         239.95,
         669.07
       ],
-      "id": "block-24"
+      "id": "block-24",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -438,7 +506,10 @@
         518.4,
         760.62
       ],
-      "id": "block-25"
+      "id": "block-25",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -452,7 +523,10 @@
         239.95,
         114.11
       ],
-      "id": "block-26"
+      "id": "block-26",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -466,7 +540,10 @@
         518.37,
         164.15
       ],
-      "id": "block-27"
+      "id": "block-27",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -481,17 +558,9 @@
         189.11
       ],
       "id": "block-28",
-      "formulas": [
-        {
-          "latex": "$ \\sum_{x_{i}}P(X=x_{i})=1 $",
-          "display": true
-        },
-        {
-          "latex": "$ P(a\\leq X\\leq b)=\\int_{a}^{b}f(x)dx $",
-          "display": true
-        }
-      ],
-      "formulaOnly": true
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -505,7 +574,10 @@
         253.99,
         214.07
       ],
-      "id": "block-29"
+      "id": "block-29",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -520,9 +592,12 @@
       ],
       "indentFirstLine": false,
       "id": "block-30",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract",
       "formulas": [
         {
-          "latex": "\\sum_{x_i} P(X = x_i) = 1",
+          "latex": "\\sum_{x_i}P(X=x_i)=1",
           "display": true
         }
       ],
@@ -540,7 +615,10 @@
         418.77,
         296.18
       ],
-      "id": "block-31"
+      "id": "block-31",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -554,7 +632,10 @@
         239.95,
         321.14
       ],
-      "id": "block-32"
+      "id": "block-32",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -568,7 +649,10 @@
         518.32,
         396.14
       ],
-      "id": "block-33"
+      "id": "block-33",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -582,7 +666,10 @@
         239.95,
         421.22
       ],
-      "id": "block-34"
+      "id": "block-34",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -596,7 +683,10 @@
         518.4,
         496.24
       ],
-      "id": "block-35"
+      "id": "block-35",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -611,9 +701,12 @@
       ],
       "indentFirstLine": true,
       "id": "block-36",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract",
       "formulas": [
         {
-          "latex": "P(a \\le X \\le b) = \\int_{a}^{b} f(x) dx",
+          "latex": "P(a\\le X\\le b)=\\int_a^b f(x)\\,dx",
           "display": true
         }
       ],
@@ -621,7 +714,7 @@
     },
     {
       "type": "list_item",
-      "depth": 8,
+      "depth": 7,
       "marker": "○",
       "text": "其中，f（x）是隨機變數X 的機率密度函數（PDF），描述了隨機變數在區間[a, b]內的機率。",
       "pageIndex": 21,
@@ -631,7 +724,10 @@
         518.39,
         611.92
       ],
-      "id": "block-37"
+      "id": "block-37",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -645,7 +741,10 @@
         193.15,
         661.99
       ],
-      "id": "block-38"
+      "id": "block-38",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -659,7 +758,10 @@
         712.03
       ],
       "indentFirstLine": false,
-      "id": "block-39"
+      "id": "block-39",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -673,7 +775,10 @@
         517.99,
         761.94
       ],
-      "id": "block-40"
+      "id": "block-40",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -687,7 +792,10 @@
         518.4,
         139.07
       ],
-      "id": "block-41"
+      "id": "block-41",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -701,7 +809,10 @@
         517.78,
         189.11
       ],
-      "id": "block-42"
+      "id": "block-42",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -715,7 +826,10 @@
         90.67,
         239.72
       ],
-      "id": "block-43"
+      "id": "block-43",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -729,7 +843,10 @@
         313.39,
         264.14
       ],
-      "id": "block-44"
+      "id": "block-44",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -743,7 +860,10 @@
         159.88,
         289.1
       ],
-      "id": "block-45"
+      "id": "block-45",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -757,7 +877,10 @@
         518.25,
         364.1
       ],
-      "id": "block-46"
+      "id": "block-46",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -771,7 +894,10 @@
         202.15,
         389.18
       ],
-      "id": "block-47"
+      "id": "block-47",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -786,16 +912,9 @@
       ],
       "indentFirstLine": false,
       "id": "block-48",
-      "formulas": [
-        {
-          "latex": "P(X=1)=p",
-          "display": false
-        },
-        {
-          "latex": "P(X=0)=1-p",
-          "display": false
-        }
-      ]
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -809,7 +928,10 @@
         222.91,
         464.2
       ],
-      "id": "block-49"
+      "id": "block-49",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -824,10 +946,17 @@
       ],
       "indentFirstLine": false,
       "id": "block-50",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract",
       "formulas": [
         {
-          "latex": "E(X) = p",
-          "display": false
+          "latex": "E(X)=p",
+          "display": true
+        },
+        {
+          "latex": "\\operatorname{Var}(X)=p(1-p)",
+          "display": true
         }
       ],
       "formulaOnly": true
@@ -844,7 +973,10 @@
         185.08,
         544.0
       ],
-      "id": "block-51"
+      "id": "block-51",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -858,7 +990,10 @@
         456.6,
         569.08
       ],
-      "id": "block-52"
+      "id": "block-52",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -872,7 +1007,10 @@
         406.29,
         594.04
       ],
-      "id": "block-53"
+      "id": "block-53",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -886,7 +1024,10 @@
         159.88,
         619.0
       ],
-      "id": "block-54"
+      "id": "block-54",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -900,7 +1041,10 @@
         416.37,
         644.11
       ],
-      "id": "block-55"
+      "id": "block-55",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -914,7 +1058,10 @@
         299.11,
         694.03
       ],
-      "id": "block-56"
+      "id": "block-56",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -928,7 +1075,10 @@
         159.88,
         719.11
       ],
-      "id": "block-57"
+      "id": "block-57",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -942,7 +1092,10 @@
         518.23,
         769.02
       ],
-      "id": "block-58"
+      "id": "block-58",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -956,7 +1109,10 @@
         416.37,
         114.11
       ],
-      "id": "block-59"
+      "id": "block-59",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -970,7 +1126,10 @@
         185.08,
         139.07
       ],
-      "id": "block-60"
+      "id": "block-60",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -985,9 +1144,12 @@
       ],
       "indentFirstLine": false,
       "id": "block-61",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract",
       "formulas": [
         {
-          "latex": "$ P(X=k)=\\left(\\frac{n}{k}\\right)p^{k}(1-p)^{n-k},k=0,1,\\ldots,n $",
+          "latex": "P(X=k)={n\\choose k}p^k(1-p)^{n-k},\\quad k=0,1,\\ldots,n",
           "display": true
         }
       ],
@@ -1005,7 +1167,10 @@
         366.09,
         196.67
       ],
-      "id": "block-62"
+      "id": "block-62",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1019,7 +1184,10 @@
         423.45,
         221.75
       ],
-      "id": "block-63"
+      "id": "block-63",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1033,7 +1201,10 @@
         460.56,
         246.71
       ],
-      "id": "block-64"
+      "id": "block-64",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1047,7 +1218,10 @@
         263.8
       ],
       "indentFirstLine": true,
-      "id": "block-65"
+      "id": "block-65",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1062,12 +1236,9 @@
         304.34
       ],
       "id": "block-66",
-      "formulas": [
-        {
-          "latex": "\\left(\\frac{n}{k}\\right)",
-          "display": false
-        }
-      ]
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1081,7 +1252,17 @@
         342.21
       ],
       "indentFirstLine": true,
-      "id": "block-67"
+      "id": "block-67",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract",
+      "formulas": [
+        {
+          "latex": "{n\\choose k}=\\frac{n!}{k!(n-k)!}",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -1095,7 +1276,10 @@
         222.91,
         366.74
       ],
-      "id": "block-68"
+      "id": "block-68",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1110,10 +1294,17 @@
       ],
       "indentFirstLine": false,
       "id": "block-69",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract",
       "formulas": [
         {
-          "latex": "E(X) = np",
-          "display": false
+          "latex": "E(X)=np",
+          "display": true
+        },
+        {
+          "latex": "\\operatorname{Var}(X)=np(1-p)",
+          "display": true
         }
       ],
       "formulaOnly": true
@@ -1130,7 +1321,10 @@
         185.08,
         441.74
       ],
-      "id": "block-70"
+      "id": "block-70",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1144,7 +1338,10 @@
         454.2,
         466.84
       ],
-      "id": "block-71"
+      "id": "block-71",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1158,7 +1355,10 @@
         315.55,
         491.8
       ],
-      "id": "block-72"
+      "id": "block-72",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1172,7 +1372,10 @@
         159.88,
         516.76
       ],
-      "id": "block-73"
+      "id": "block-73",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1186,7 +1389,10 @@
         518.25,
         566.8
       ],
-      "id": "block-74"
+      "id": "block-74",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1200,7 +1406,10 @@
         290.83,
         616.84
       ],
-      "id": "block-75"
+      "id": "block-75",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1214,7 +1423,10 @@
         521.76,
         666.86
       ],
-      "id": "block-76"
+      "id": "block-76",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1228,7 +1440,10 @@
         185.08,
         691.87
       ],
-      "id": "block-77"
+      "id": "block-77",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1243,10 +1458,13 @@
       ],
       "indentFirstLine": false,
       "id": "block-78",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract",
       "formulas": [
         {
-          "latex": "\\lambda",
-          "display": false
+          "latex": "P(X=k)=\\frac{\\lambda^k e^{-\\lambda}}{k!},\\quad k=0,1,\\ldots",
+          "display": true
         }
       ],
       "formulaOnly": true
@@ -1263,7 +1481,10 @@
         448.65,
         757.7
       ],
-      "id": "block-79"
+      "id": "block-79",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1277,7 +1498,10 @@
         246.31,
         114.11
       ],
-      "id": "block-80"
+      "id": "block-80",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1291,7 +1515,10 @@
         327.69,
         139.07
       ],
-      "id": "block-81"
+      "id": "block-81",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1305,7 +1532,10 @@
         222.91,
         164.15
       ],
-      "id": "block-82"
+      "id": "block-82",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1320,9 +1550,16 @@
       ],
       "indentFirstLine": false,
       "id": "block-83",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract",
       "formulas": [
         {
-          "latex": "$ E(X)=\\lambda $",
+          "latex": "E(X)=\\lambda",
+          "display": true
+        },
+        {
+          "latex": "\\operatorname{Var}(X)=\\lambda",
           "display": true
         }
       ],
@@ -1340,7 +1577,10 @@
         185.08,
         239.15
       ],
-      "id": "block-84"
+      "id": "block-84",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1354,7 +1594,10 @@
         479.4,
         264.14
       ],
-      "id": "block-85"
+      "id": "block-85",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1368,7 +1611,10 @@
         416.37,
         289.1
       ],
-      "id": "block-86"
+      "id": "block-86",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1382,7 +1628,10 @@
         159.88,
         314.18
       ],
-      "id": "block-87"
+      "id": "block-87",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1396,7 +1645,10 @@
         518.25,
         364.1
       ],
-      "id": "block-88"
+      "id": "block-88",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1410,7 +1662,10 @@
         90.67,
         414.71
       ],
-      "id": "block-89"
+      "id": "block-89",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1424,7 +1679,10 @@
         291.19,
         439.1
       ],
-      "id": "block-90"
+      "id": "block-90",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1438,7 +1696,10 @@
         159.88,
         464.2
       ],
-      "id": "block-91"
+      "id": "block-91",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1452,7 +1713,10 @@
         518.16,
         539.2
       ],
-      "id": "block-92"
+      "id": "block-92",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1466,7 +1730,10 @@
         416.37,
         564.16
       ],
-      "id": "block-93"
+      "id": "block-93",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1480,7 +1747,10 @@
         518.25,
         639.19
       ],
-      "id": "block-94"
+      "id": "block-94",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1494,7 +1764,10 @@
         185.08,
         664.15
       ],
-      "id": "block-95"
+      "id": "block-95",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1508,7 +1781,10 @@
         351.09,
         689.23
       ],
-      "id": "block-96"
+      "id": "block-96",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1523,10 +1799,13 @@
       ],
       "indentFirstLine": true,
       "id": "block-97",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract",
       "formulas": [
         {
-          "latex": "\\mu",
-          "display": false
+          "latex": "f(x)=\\frac{1}{\\sigma\\sqrt{2\\pi}}\\exp\\!\\left(-\\frac{(x-\\mu)^2}{2\\sigma^2}\\right)",
+          "display": true
         }
       ],
       "formulaOnly": true
@@ -1543,7 +1822,10 @@
         222.91,
         114.11
       ],
-      "id": "block-98"
+      "id": "block-98",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1558,10 +1840,17 @@
       ],
       "indentFirstLine": false,
       "id": "block-99",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract",
       "formulas": [
         {
-          "latex": "E(X) = \\mu",
-          "display": false
+          "latex": "E(X)=\\mu",
+          "display": true
+        },
+        {
+          "latex": "\\operatorname{Var}(X)=\\sigma^2",
+          "display": true
         }
       ],
       "formulaOnly": true
@@ -1578,7 +1867,10 @@
         185.08,
         189.11
       ],
-      "id": "block-100"
+      "id": "block-100",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1592,7 +1884,10 @@
         403.77,
         214.07
       ],
-      "id": "block-101"
+      "id": "block-101",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1606,7 +1901,10 @@
         479.4,
         239.15
       ],
-      "id": "block-102"
+      "id": "block-102",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1620,7 +1918,10 @@
         353.25,
         264.14
       ],
-      "id": "block-103"
+      "id": "block-103",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1634,7 +1935,10 @@
         159.88,
         289.1
       ],
-      "id": "block-104"
+      "id": "block-104",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1648,7 +1952,10 @@
         494.64,
         314.18
       ],
-      "id": "block-105"
+      "id": "block-105",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1662,7 +1969,10 @@
         365.97,
         339.14
       ],
-      "id": "block-106"
+      "id": "block-106",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1676,7 +1986,10 @@
         315.43,
         389.18
       ],
-      "id": "block-107"
+      "id": "block-107",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1690,7 +2003,10 @@
         159.88,
         414.14
       ],
-      "id": "block-108"
+      "id": "block-108",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1704,7 +2020,10 @@
         517.85,
         464.2
       ],
-      "id": "block-109"
+      "id": "block-109",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1718,7 +2037,10 @@
         518.25,
         539.2
       ],
-      "id": "block-110"
+      "id": "block-110",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1732,7 +2054,10 @@
         185.08,
         564.16
       ],
-      "id": "block-111"
+      "id": "block-111",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1746,7 +2071,10 @@
         351.09,
         589.12
       ],
-      "id": "block-112"
+      "id": "block-112",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1761,9 +2089,12 @@
       ],
       "indentFirstLine": true,
       "id": "block-113",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract",
       "formulas": [
         {
-          "latex": "$ f(x)=\\lambda e^{-\\lambda x},x\\geq0 $",
+          "latex": "f(x)=\\lambda e^{-\\lambda x},\\quad x\\ge0",
           "display": true
         }
       ],
@@ -1781,7 +2112,10 @@
         473.88,
         646.82
       ],
-      "id": "block-114"
+      "id": "block-114",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1795,7 +2129,10 @@
         222.91,
         671.83
       ],
-      "id": "block-115"
+      "id": "block-115",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -1810,9 +2147,16 @@
       ],
       "indentFirstLine": false,
       "id": "block-116",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract",
       "formulas": [
         {
-          "latex": "$ Var(X)=\\sigma^{2} $",
+          "latex": "E(X)=\\frac1\\lambda",
+          "display": true
+        },
+        {
+          "latex": "\\operatorname{Var}(X)=\\frac1{\\lambda^2}",
           "display": true
         }
       ],
@@ -1830,7 +2174,10 @@
         185.08,
         114.11
       ],
-      "id": "block-117"
+      "id": "block-117",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1844,7 +2191,10 @@
         416.37,
         139.07
       ],
-      "id": "block-118"
+      "id": "block-118",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1858,7 +2208,10 @@
         302.95,
         164.15
       ],
-      "id": "block-119"
+      "id": "block-119",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1872,7 +2225,10 @@
         277.75,
         189.11
       ],
-      "id": "block-120"
+      "id": "block-120",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1886,7 +2242,10 @@
         159.88,
         214.07
       ],
-      "id": "block-121"
+      "id": "block-121",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1900,7 +2259,10 @@
         521.88,
         239.15
       ],
-      "id": "block-122"
+      "id": "block-122",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1914,7 +2276,10 @@
         512.88,
         264.14
       ],
-      "id": "block-123"
+      "id": "block-123",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -1928,7 +2293,10 @@
         310.27,
         314.18
       ],
-      "id": "block-124"
+      "id": "block-124",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1942,7 +2310,10 @@
         159.88,
         339.14
       ],
-      "id": "block-125"
+      "id": "block-125",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1956,7 +2327,10 @@
         518.2,
         389.18
       ],
-      "id": "block-126"
+      "id": "block-126",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1970,7 +2344,10 @@
         518.25,
         439.1
       ],
-      "id": "block-127"
+      "id": "block-127",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1984,7 +2361,10 @@
         319.99,
         464.2
       ],
-      "id": "block-128"
+      "id": "block-128",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -1998,7 +2378,10 @@
         176.92,
         489.16
       ],
-      "id": "block-129"
+      "id": "block-129",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2012,7 +2395,10 @@
         518.19,
         539.2
       ],
-      "id": "block-130"
+      "id": "block-130",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2026,7 +2412,10 @@
         518.25,
         589.12
       ],
-      "id": "block-131"
+      "id": "block-131",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2040,7 +2429,10 @@
         176.92,
         614.2
       ],
-      "id": "block-132"
+      "id": "block-132",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2054,7 +2446,10 @@
         518.04,
         664.15
       ],
-      "id": "block-133"
+      "id": "block-133",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2068,7 +2463,10 @@
         252.55,
         689.23
       ],
-      "id": "block-134"
+      "id": "block-134",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2082,7 +2480,10 @@
         518.07,
         739.15
       ],
-      "id": "block-135"
+      "id": "block-135",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2096,7 +2497,10 @@
         418.05,
         764.22
       ],
-      "id": "block-136"
+      "id": "block-136",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2110,7 +2514,10 @@
         405.45,
         114.11
       ],
-      "id": "block-137"
+      "id": "block-137",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2124,7 +2531,10 @@
         185.08,
         139.07
       ],
-      "id": "block-138"
+      "id": "block-138",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2138,7 +2548,10 @@
         351.09,
         164.15
       ],
-      "id": "block-139"
+      "id": "block-139",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2152,7 +2565,17 @@
         216.66
       ],
       "indentFirstLine": true,
-      "id": "block-140"
+      "id": "block-140",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract",
+      "formulas": [
+        {
+          "latex": "f(x)=\\frac{x^{k/2-1}e^{-x/2}}{2^{k/2}\\Gamma(k/2)},\\quad x\\ge0",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -2166,7 +2589,10 @@
         332.13,
         238.14
       ],
-      "id": "block-141"
+      "id": "block-141",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2180,7 +2606,10 @@
         222.91,
         263.06
       ],
-      "id": "block-142"
+      "id": "block-142",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2195,9 +2624,16 @@
       ],
       "indentFirstLine": false,
       "id": "block-143",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract",
       "formulas": [
         {
-          "latex": "$ f(x)=\\frac{x^{\\frac{k}{2}-1}e^{-\\frac{x}{2}}}{2^{\\frac{k}{2}}\\Gamma\\left(\\frac{k}{2}\\right)},x\\geq0 $",
+          "latex": "E(X)=k",
+          "display": true
+        },
+        {
+          "latex": "\\operatorname{Var}(X)=2k",
           "display": true
         }
       ],
@@ -2215,7 +2651,10 @@
         185.08,
         338.06
       ],
-      "id": "block-144"
+      "id": "block-144",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2229,7 +2668,10 @@
         518.28,
         388.1
       ],
-      "id": "block-145"
+      "id": "block-145",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2243,7 +2685,10 @@
         454.2,
         413.06
       ],
-      "id": "block-146"
+      "id": "block-146",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2257,7 +2702,10 @@
         159.88,
         438.02
       ],
-      "id": "block-147"
+      "id": "block-147",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2271,7 +2719,10 @@
         391.17,
         463.12
       ],
-      "id": "block-148"
+      "id": "block-148",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2285,7 +2736,10 @@
         90.67,
         513.61
       ],
-      "id": "block-149"
+      "id": "block-149",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2299,7 +2753,10 @@
         130.0,
         538.12
       ],
-      "id": "block-150"
+      "id": "block-150",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2313,7 +2770,10 @@
         303.07,
         563.08
       ],
-      "id": "block-151"
+      "id": "block-151",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2327,7 +2787,10 @@
         688.15
       ],
       "indentFirstLine": true,
-      "id": "block-152"
+      "id": "block-152",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2341,7 +2804,10 @@
         763.14
       ],
       "indentFirstLine": true,
-      "id": "block-153"
+      "id": "block-153",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2355,7 +2821,10 @@
         518.2,
         214.07
       ],
-      "id": "block-154"
+      "id": "block-154",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2369,7 +2838,10 @@
         289.1
       ],
       "indentFirstLine": true,
-      "id": "block-155"
+      "id": "block-155",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "heading",
@@ -2383,7 +2855,10 @@
         130.0,
         339.14
       ],
-      "id": "block-156"
+      "id": "block-156",
+      "nodeId": "mid-s2c2",
+      "kind": "heading",
+      "source": "page_extract"
     },
     {
       "type": "paragraph",
@@ -2397,7 +2872,10 @@
         364.1
       ],
       "indentFirstLine": false,
-      "id": "block-157"
+      "id": "block-157",
+      "nodeId": "mid-s2c2",
+      "kind": "paragraph",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2411,7 +2889,10 @@
         210.31,
         389.18
       ],
-      "id": "block-158"
+      "id": "block-158",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2425,7 +2906,10 @@
         435.33,
         414.14
       ],
-      "id": "block-159"
+      "id": "block-159",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2439,7 +2923,10 @@
         492.0,
         439.1
       ],
-      "id": "block-160"
+      "id": "block-160",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2453,7 +2940,10 @@
         517.2,
         464.2
       ],
-      "id": "block-161"
+      "id": "block-161",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2467,7 +2957,10 @@
         210.31,
         489.16
       ],
-      "id": "block-162"
+      "id": "block-162",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2481,7 +2974,10 @@
         277.75,
         514.12
       ],
-      "id": "block-163"
+      "id": "block-163",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2495,7 +2991,10 @@
         518.26,
         564.16
       ],
-      "id": "block-164"
+      "id": "block-164",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2509,7 +3008,10 @@
         519.86,
         639.19
       ],
-      "id": "block-165"
+      "id": "block-165",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2523,7 +3025,10 @@
         248.11,
         664.15
       ],
-      "id": "block-166"
+      "id": "block-166",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2537,7 +3042,10 @@
         454.2,
         689.23
       ],
-      "id": "block-167"
+      "id": "block-167",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     },
     {
       "type": "list_item",
@@ -2551,7 +3059,10 @@
         518.05,
         764.22
       ],
-      "id": "block-168"
+      "id": "block-168",
+      "nodeId": "mid-s2c2",
+      "kind": "list_item",
+      "source": "page_extract"
     }
   ],
   "sourcePages": [

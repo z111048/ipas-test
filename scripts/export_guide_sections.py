@@ -27,18 +27,28 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import unicodedata
 from pathlib import Path
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 HIERARCHY = BASE / 'frontend' / 'src' / 'generated' / 'guideHierarchy.json'
+SCHEMA = 'guide-sections-v2'
 
 
 def load_json(path: Path):
     with path.open(encoding='utf-8') as f:
         return json.load(f)
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open('rb') as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b''):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def normalize_with_map(text: str) -> tuple[str, list[int]]:
@@ -284,9 +294,139 @@ def merge_small_chunks(chunks: list[dict], target_chars: int, min_chars: int) ->
     return merged
 
 
+def build_subject_payload(
+    level: str,
+    subject_index: int,
+    target_chars: int,
+    min_chars: int,
+) -> tuple[dict, dict]:
+    """Build one deterministic Track-B downstream payload and its stats."""
+    hierarchy = load_json(HIERARCHY)['guides']
+    guide_path = BASE / 'data' / level / 'guide' / f'subject{subject_index}_guide.json'
+    if not guide_path.exists():
+        raise FileNotFoundError(guide_path)
+    guide_data = load_json(guide_path)
+    chapters = guide_data['chapters'] if isinstance(guide_data, dict) else guide_data
+
+    # 章節 id 在哪一個科目的階層樹裡
+    guide_by_chapter = {}
+    for guide in hierarchy.values():
+        for node_id, node in guide['nodesById'].items():
+            if node.get('kind') == 'section':
+                guide_by_chapter[node_id] = guide
+
+    out_chapters = []
+    total_sections = total_unlocated = 0
+    for chapter in chapters:
+        guide = guide_by_chapter.get(chapter['id'])
+        sections = hierarchy_sections(guide, chapter['id']) if guide else []
+        sliced, unlocated = slice_chapter(chapter, sections)
+        total_sections += len(sliced)
+        total_unlocated += unlocated
+        chunks = merge_small_chunks(
+            build_chunks(sliced, target_chars), target_chars, min_chars,
+        )
+        out_chapters.append({
+            'id': chapter['id'],
+            'title': chapter['title'],
+            'charCount': len(chapter.get('content') or ''),
+            'sections': sliced,
+            'chunks': chunks,
+        })
+
+    sizes = sorted(len(chunk['content']) for chapter in out_chapters for chunk in chapter['chunks'])
+    stats = {
+        'chapters': len(out_chapters),
+        'sections': total_sections,
+        'chunks': len(sizes),
+        'medianChunkChars': sizes[len(sizes) // 2] if sizes else 0,
+        'maxChunkChars': sizes[-1] if sizes else 0,
+        'oversizedChunks': sum(1 for size in sizes if size > target_chars),
+        'unlocatedHeadings': total_unlocated,
+    }
+    payload = {
+        'schema': SCHEMA,
+        'level': level,
+        'subject': guide_data.get('subject') if isinstance(guide_data, dict) else None,
+        'sourceGuide': guide_path.relative_to(BASE).as_posix(),
+        'sourceGuideSha256': sha256_file(guide_path),
+        'parameters': {'targetChars': target_chars, 'minChars': min_chars},
+        'stats': stats,
+        'chapters': out_chapters,
+    }
+    return payload, stats
+
+
+def payload_errors(level: str, subject_index: int, payload: object) -> list[str]:
+    """Return exact-rebuild errors for one committed guide_sections payload."""
+    label = f'{level}/subject{subject_index}'
+    if not isinstance(payload, dict):
+        return [f'{label}: payload must be an object']
+    parameters = payload.get('parameters')
+    if not isinstance(parameters, dict):
+        return [f'{label}: missing parameters']
+    target_chars = parameters.get('targetChars')
+    min_chars = parameters.get('minChars')
+    if type(target_chars) is not int or target_chars <= 0 or type(min_chars) is not int or min_chars < 0:
+        return [f'{label}: invalid parameters']
+    try:
+        expected, _stats = build_subject_payload(level, subject_index, target_chars, min_chars)
+    except Exception as exc:
+        return [f'{label}: rebuild failed: {exc}']
+    if payload != expected:
+        return [f'{label}: payload differs from deterministic canonical rebuild']
+    return []
+
+
+def verify_outputs() -> tuple[dict, list[str]]:
+    """Verify every tracked section file against current Track-B canonical."""
+    errors: list[str] = []
+    files = chapters = sections = chunks = 0
+    expected_files = expected_chapters = 0
+    for level in ('初級', '中級'):
+        manifest = load_json(BASE / 'data' / level / 'toc_manifest.json')
+        expected_subjects = range(1, len(manifest.get('subjects') or []) + 1)
+        expected_files += len(manifest.get('subjects') or [])
+        expected_chapters += sum(
+            len(subject.get('chapters') or []) for subject in manifest.get('subjects') or []
+        )
+        out_dir = BASE / 'data' / level / 'guide_sections'
+        expected_names = {f'subject{index}.json' for index in expected_subjects}
+        actual_names = {path.name for path in out_dir.glob('subject*.json')} if out_dir.is_dir() else set()
+        if actual_names != expected_names:
+            errors.append(
+                f'{level}: guide_sections files differ; '
+                f'missing={sorted(expected_names - actual_names)}, extra={sorted(actual_names - expected_names)}'
+            )
+        for subject_index in expected_subjects:
+            path = out_dir / f'subject{subject_index}.json'
+            if not path.is_file():
+                continue
+            try:
+                payload = load_json(path)
+            except (OSError, json.JSONDecodeError) as exc:
+                errors.append(f'{level}/subject{subject_index}: unreadable JSON: {exc}')
+                continue
+            files += 1
+            errors.extend(payload_errors(level, subject_index, payload))
+            if isinstance(payload, dict):
+                payload_chapters = payload.get('chapters') or []
+                chapters += len(payload_chapters)
+                sections += sum(len(chapter.get('sections') or []) for chapter in payload_chapters)
+                chunks += sum(len(chapter.get('chunks') or []) for chapter in payload_chapters)
+    return {
+        'expected_files': expected_files,
+        'files': files,
+        'expected_chapters': expected_chapters,
+        'chapters': chapters,
+        'sections': sections,
+        'chunks': chunks,
+        'errors': len(errors),
+    }, errors
+
+
 def export_level(level: str, subjects: tuple[int, ...], target_chars: int,
                  min_chars: int) -> None:
-    hierarchy = load_json(HIERARCHY)['guides']
     out_dir = BASE / 'data' / level / 'guide_sections'
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -294,48 +434,24 @@ def export_level(level: str, subjects: tuple[int, ...], target_chars: int,
         guide_path = BASE / 'data' / level / 'guide' / f'subject{subject_index}_guide.json'
         if not guide_path.exists():
             continue
-        guide_data = load_json(guide_path)
-        chapters = guide_data['chapters'] if isinstance(guide_data, dict) else guide_data
-
-        # 章節 id 在哪一個科目的階層樹裡
-        guide_by_chapter = {}
-        for subject_id, guide in hierarchy.items():
-            for node_id, node in guide['nodesById'].items():
-                if node.get('kind') == 'section':
-                    guide_by_chapter[node_id] = guide
-
-        out_chapters = []
-        total_sections = total_unlocated = 0
-        for chapter in chapters:
-            guide = guide_by_chapter.get(chapter['id'])
-            sections = hierarchy_sections(guide, chapter['id']) if guide else []
-            sliced, unlocated = slice_chapter(chapter, sections)
-            total_sections += len(sliced)
-            total_unlocated += unlocated
-            chunks = merge_small_chunks(build_chunks(sliced, target_chars),
-                                        target_chars, min_chars)
-            out_chapters.append({
-                'id': chapter['id'],
-                'title': chapter['title'],
-                'charCount': len(chapter.get('content') or ''),
-                'sections': sliced,
-                'chunks': chunks,
-            })
-
-        payload = {
-            'level': level,
-            'subject': guide_data.get('subject') if isinstance(guide_data, dict) else None,
-            'chapters': out_chapters,
-        }
+        payload, stats = build_subject_payload(level, subject_index, target_chars, min_chars)
         out_path = out_dir / f'subject{subject_index}.json'
-        out_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding='utf-8')
+        staged_path = out_dir / f'.subject{subject_index}.staging.json'
+        try:
+            staged_path.write_text(
+                json.dumps(payload, ensure_ascii=False, indent=2), encoding='utf-8',
+            )
+            load_json(staged_path)
+            staged_path.replace(out_path)
+        finally:
+            if staged_path.exists():
+                staged_path.unlink()
 
-        sizes = sorted(len(k['content']) for c in out_chapters for k in c['chunks'])
-        n_chunks = len(sizes)
-        print(f'{level}/subject{subject_index}: {len(out_chapters)} 章 → {total_sections} 小節 → '
-              f'{n_chunks} 出題區塊（中位數 {sizes[n_chunks // 2] if sizes else 0} 字、'
-              f'最長 {sizes[-1] if sizes else 0}、超過 {target_chars} 字的 '
-              f'{sum(1 for x in sizes if x > target_chars)} 個、標題沒定位到 {total_unlocated} 個）')
+        print(f'{level}/subject{subject_index}: {stats["chapters"]} 章 → '
+              f'{stats["sections"]} 小節 → {stats["chunks"]} 出題區塊'
+              f'（中位數 {stats["medianChunkChars"]} 字、最長 {stats["maxChunkChars"]}、'
+              f'超過 {target_chars} 字的 {stats["oversizedChunks"]} 個、'
+              f'標題沒定位到 {stats["unlocatedHeadings"]} 個）')
 
 
 def main() -> None:

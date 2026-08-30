@@ -13,7 +13,7 @@ from typing import Any
 
 from question_dedupe import find_similar_question_pairs, question_label
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 LEVEL = '中級'
 TOTAL = 100
 

@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 if str(BASE / 'scripts') not in sys.path:
     sys.path.insert(0, str(BASE / 'scripts'))
 

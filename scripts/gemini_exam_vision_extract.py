@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
-"""Extract structured exam questions from official exam PDF pages via Gemini Vision.
+"""Audit official exam PDF pages via Gemini Vision into a review-only sidecar.
 
 This script is intentionally separate from pdf_vision_extract.py. The guide
 extractor produces Markdown and headings for study-guide pages; this extractor
 produces reviewable question records for official exam and sample exam pages.
+
+IMPORTANT: ``exam_pages_cache`` is not consumed by ``parse_exams_v2.py`` and is
+not a production question-bank input. The production parser reads
+``data/{level}/extracted/*.json`` plus ``page_extract`` image assets. Running this
+command audits OCR structure only; it does not refresh shipped exam JSON.
 
 Cache layout:
   data/{level}/exam_pages_cache/{key}/page_{idx:03d}.json
@@ -20,8 +25,8 @@ Cache layout:
   data/{level}/exam_pages_cache/{key}/summary.json
 
 Usage:
-  uv run python3 scripts/gemini_exam_vision_extract.py --level 中級 --key exam2 --dry-run
-  uv run python3 scripts/gemini_exam_vision_extract.py --level 中級 --key exam2 --page 12
+  uv run python3 scripts/gemini_exam_vision_extract.py --level 中級 --key mid_1141_s2 --dry-run
+  uv run python3 scripts/gemini_exam_vision_extract.py --level 中級 --key mid_1141_s2 --page 12
   uv run python3 scripts/gemini_exam_vision_extract.py --level 中級 --all
 
 Requires: GEMINI_API_KEY environment variable.
@@ -50,9 +55,9 @@ try:
 except ImportError:
     sys.exit('google-genai not found. Run: uv add google-genai')
 
-from extract_pdfs import EXAM_PDFS_BY_LEVEL
+from resource_catalog import exam_pdf_maps
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 MODEL = os.environ.get('GOOGLE_MODEL', 'gemini-2.5-flash')
 
 INPUT_PRICE_PER_M = 0.075
@@ -185,13 +190,14 @@ def call_exam_vision_api(client: genai.Client, img_bytes: bytes) -> dict[str, An
 
 
 def exam_pdf_map(level: str) -> dict[str, str]:
+    maps = exam_pdf_maps()
     if level == 'all':
         result: dict[str, str] = {}
-        for level_name, pdfs in EXAM_PDFS_BY_LEVEL.items():
+        for level_name, pdfs in maps.items():
             for key, pdf in pdfs.items():
                 result[f'{level_name}/{key}'] = pdf
         return result
-    return EXAM_PDFS_BY_LEVEL.get(level, {})
+    return maps.get(level, {})
 
 
 def process_exam_pdf(
@@ -330,12 +336,14 @@ def write_summary(cache_dir: Path, total_pages: int) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--level', choices=['初級', '中級'], default='初級')
-    parser.add_argument('--key', help='PDF key, e.g. exam1, exam2, exam3, sample')
+    parser.add_argument('--key', help='Catalog PDF key, e.g. mid_1141_s2 or sample')
     parser.add_argument('--all', action='store_true', help='Process all official exam PDFs for the level')
     parser.add_argument('--page', type=int, help='Process one zero-based PDF page index')
     parser.add_argument('--force', action='store_true', help='Reprocess cached pages')
     parser.add_argument('--dry-run', action='store_true', help='Estimate cost without calling Gemini')
     args = parser.parse_args()
+
+    print('NOTE: audit/sidecar only; parse_exams_v2.py does not consume exam_pages_cache.')
 
     pdfs = exam_pdf_map(args.level)
     if not pdfs:

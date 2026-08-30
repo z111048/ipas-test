@@ -51,7 +51,9 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any
 
-BASE = Path('/home/james/projects/ipas-test')
+from resource_catalog import exam_entries
+
+BASE = Path(__file__).resolve().parents[1]
 DEFAULT_RUN_DIR = BASE / 'data' / '中級' / 'pipeline' / 'codex_section_prompts'
 ANSWER_SCHEMA = BASE / 'schemas' / 'question_answer.schema.json'
 # Stage 1 default: gateway models, ~2s each. All three scored 28/28 on the
@@ -193,10 +195,13 @@ def load_questions_from_files(paths: list[Path], include_image_questions: bool
     return questions
 
 
-# The 114年第二梯次 papers were extracted before the mid_* naming, so their crops
-# live under exam1/2/3. Their questions carry no `images` field, which is why they
-# first looked crop-less.
-ASSET_KEY_ALIASES = {'mid_1141_s1': 'exam1', 'mid_1141_s2': 'exam2', 'mid_1141_s3': 'exam3'}
+# Page-asset compatibility names are catalog metadata because extraction and
+# question ids may use a newer canonical key while reviewed crops keep their path.
+ASSET_KEY_ALIASES = {
+    exam['key']: exam['legacyAssetKey']
+    for exam in exam_entries()
+    if exam.get('legacyAssetKey')
+}
 
 # Fraction of `table_01.png` to shave off the left edge: that strip is the printed
 # 答案 column. Measured on exam2/page_010 and exam3/page_014 — 11% clears the answer
@@ -428,7 +433,7 @@ def check_tools(verifiers: list[tuple[str, str, str | None]]) -> None:
             continue
         try:
             result = subprocess.run([tool, '--version'], capture_output=True,
-                                    text=True, timeout=30)
+                                    text=True, timeout=30, cwd=BASE)
         except FileNotFoundError:
             raise SystemExit(f'{tool} CLI not found in PATH')
         except subprocess.TimeoutExpired:

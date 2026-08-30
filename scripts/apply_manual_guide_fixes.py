@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
-"""補回 export_guide_outline_data.py 每次重跑都會沖掉的手動修正。
+"""驗證／遷移舊版 export 產物中的 publication hierarchy overlays。
 
 原本是 playbook/pipeline-reference.md §10 的兩段「複製貼上執行」的程式碼，
-最容易漏（漏了不會報錯，只是前端側欄階層錯亂）。改成腳本以便納入流程：
+最容易漏（漏了不會報錯，只是前端側欄階層錯亂）。現行
+``export_guide_outline_data.py`` 已在 staged candidate 內套用並驗證相同規則，
+所以標準 export 後執行本腳本應為 0 change；本腳本只保留作舊產物遷移與
+相容性驗證：
 
     uv run python3 scripts/export_guide_outline_data.py --all-levels
-    python3 scripts/apply_manual_guide_fixes.py            # ← 緊接著跑
+    python3 scripts/apply_manual_guide_fixes.py            # 可選，預期回報 0 change
 
 修正內容見各 FIX 的註解。腳本是冪等的，重複執行不會出錯；
 **字串對不上時會報錯而不是靜默跳過**——原本手動版本靜默不改的行為，
@@ -21,45 +24,26 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from export_guide_outline_data import slugify_heading  # noqa: E402
+from guide_publication_overlays import (  # noqa: E402
+    DEMOTE_HEADINGS,
+    PROMOTE_HEADINGS,
+    SHORTEN_HEADINGS,
+)
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 S1C4 = BASE / 'frontend/src/generated/guideContent/初級-guide1/s1c4.json'
 
 # 修正 1：s1c4「本節階層」heading 層級（6 個 h4 → h3）
 # 匯出腳本對所有「（\d+）」開頭的行一律輸出 ####，但 PDF 裡同一個符號用在兩個嵌套層次
 # （x 座標同為 70.2，無法自動判斷），導致「（1）→（1）」變成同層。
-DEMOTE_HEADINGS = [
-    '（1）鑑別式AI 的原理與應用',
-    '（2）生成式AI 的原理與應用',
-    '（3）鑑別式AI 與生成式AI 的技術差異',
-    '（1）整合應用的價值',
-    '（2）整合應用的技術優勢',
-    '（3）整合應用的挑戰與解決策略',
-]
-
 # 修正 2：s1c4 的 H4 標題截短。H3 節下的模型條目仍帶「（1）（2）…」前綴與整段敘述，
 # 側欄看起來會跟上一層混在一起。
-SHORTEN_HEADINGS = {
-    '（1） 邏輯迴歸（Logistic Regression）是鑑別式AI 中最簡單且最基礎的分類模型': '邏輯迴歸（Logistic Regression）',
-    '（2） 支援向量機（Support Vector Machine, SVM）是一種強大的分類模型，其核心': '支援向量機（SVM）',
-    '（3） 決策樹（Decision Tree）是一種基於樹形結構進行數據分類的模型。其透過': '決策樹（Decision Tree）',
-    '（4） 隨機森林（Random Forest）是決策樹的集成學習方法，其透過構建多棵決策': '隨機森林（Random Forest）',
-    '（5） 神經網路（Neural Networks）是一種模擬生物神經系統的非線性模型，透過': '神經網路（Neural Networks）',
-    '（1） 生成對抗網路（Generative Adversarial Networks, GAN）是生成式AI 中最具': '生成對抗網路（GAN）',
-    '（2） 變分自編碼器（Variational Autoencoders, VAE）是一種基於概率生成模型的': '變分自編碼器（VAE）',
-    '（3） 擴散模型（Diffusion Models）是一種基於逐步添加與去除雜訊的數據生成方': '擴散模型（Diffusion Models）',
-}
-
-
 # 修正 5：s1c2「假說檢定名詞介紹：」升為 h3（2026-08-08）
 # 這章在 PDF 裡只有這一個次級標題，而且它緊貼表格上緣（y 421.6–434.9 vs 表格起點
 # 426.3），一度被 export 的表格重疊過濾整行刪掉——那個內容遺失已在
 # export_guide_outline_data.py 修掉，但標題判定仍走編號式 regex，認不得無編號標題。
 # 全語料套用 OCR 標題約半數是雜訊（見該檔 ocr_heading_levels 註解），所以這裡逐條指定。
 S1C2 = BASE / 'frontend/src/generated/guideContent/初級-guide1/s1c2.json'
-PROMOTE_HEADINGS = {'s1c2': ('假說檢定名詞介紹：', 3)}
-
-
 def apply_s1c2(strict: bool) -> list[str]:
     if not S1C2.exists():
         raise SystemExit(f'找不到 {S1C2.relative_to(BASE)}——先跑 export_guide_outline_data.py --all-levels')

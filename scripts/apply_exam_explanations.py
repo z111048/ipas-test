@@ -7,15 +7,38 @@
 
 QUESTION_OVERRIDES 則收人工謄寫的題幹：有些題目的敘述清單（描述A~F）在 PDF 裡是
 圖片內的文字，表格與頁面文字都取不到，任何重跑都無法還原，只能由這裡覆蓋回去。
+SOURCE_ISSUES 保留官方題幹與答案不動，只加入機器可讀註記與成績頁可見解析，標明
+原始題目的分類或選項歧義。
 """
 import json
 from pathlib import Path
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 
 QUESTION_OVERRIDES: dict[str, str] = {
-    'mid_1151_s3_q46': '參考下圖資料處理，下列哪一項描述組合正確？\n描述A：x_train, x_test 將影像範圍壓縮到 0~31 範圍\n描述B：x_train, x_test 資料轉換可以增加模型的泛化能力（避免像素值過大導致梯度爆炸）\n描述C：x_train, x_test 資料轉換結果相當於 z-score 標準化\n描述D：資料轉換目的是避免梯度爆炸或梯度消失\n描述E：y_train 將 label 轉換為獨熱編碼（One-hot Encoding）\n描述F：y_train 適合輸出層使用 softmax 函數',
+    'mid_1151_s3_q46': '參考下圖資料處理，下列哪一項描述組合正確？\n描述A：x_train, x_test 將影像範圍壓縮到 0~31 範圍\n描述B：x_train, x_test 資料轉換可以增加模型的泛化能力\n描述C：x_train, x_test 資料轉換結果相當於 z-score 標準化\n描述D：資料轉換目的是避免梯度爆炸或梯度消失\n描述E：y_train 將 label 轉換為獨熱編碼（One-hot Encoding）\n描述F：y_train 適合輸出層使用 softmax 函數',
     'mid_1151_s3_q47': '參考下圖建立模型結果，下列哪一項描述組合正確？\n描述A：區塊1 layers.Input(shape=(32, 32, 3)) 主要目的是進行資料標準化\n描述B：區塊1 layers.Conv2D(32, kernel_size=(3,3), padding="same", activation="relu") 考慮輸入為(32,32,3)，則輸出 shape 為(32,32,3)\n描述C：區塊1 layers.BatchNormalization() 放在 Conv2D 之後可以減少梯度消失或爆炸\n描述D：區塊2 layers.Dropout(0.25) 可以隨機將 25% 神經元輸出設定為 1\n描述E：區塊3 layers.Dropout(0.25) 可以減少過度擬合（Overfitting）\n描述F：區塊4 Flatten 層的作用是將 3D 特徵圖展開為平面 1D 向量',
+}
+
+SOURCE_ISSUES: dict[tuple[str, str, str], dict[str, str]] = {
+    ('初級', 'sample', 'sample_q21'): {
+        'type': 'ambiguous_taxonomy',
+        'official_answer': 'C',
+        'note': (
+            '官方答案為(C)，本平台照錄、不改寫題幹或答案。惟本題將「特徵選取技術或方法」'
+            '合併表述；依常見機器學習術語，PCA 通常歸類為特徵擷取／降維而非特徵選取，'
+            '因此選項(B)亦存在分類歧義。'
+        ),
+    },
+    ('中級', 'mid_1151_s2', 'mid_1151_s2_q49'): {
+        'type': 'multiple_syntactically_valid_choices',
+        'official_answer': 'B',
+        'note': (
+            '官方答案為(B)，本平台照錄、不改寫題幹或答案。依題目列出的 split → 建立模型 → fit '
+            '流程，選項(A)的 liblinear 與選項(B)的 lbfgs 都可用於 Iris 羅吉斯迴歸；'
+            '原題未提供足以排除(A)的額外條件，因此答案具有歧義。'
+        ),
+    },
 }
 
 EXPLANATIONS = {
@@ -59,31 +82,78 @@ EXPLANATIONS = {
 }
 
 _ALL_IDS = set(EXPLANATIONS) | set(QUESTION_OVERRIDES)
-FILES = {
-    'mock_mid_1141_s2.json': [k for k in _ALL_IDS if k.startswith('mid_1141_s2')],
-    'mock_mid_1141_s3.json': [k for k in _ALL_IDS if k.startswith('mid_1141_s3')],
-    'mock_mid_1151_s3.json': [k for k in _ALL_IDS if k.startswith('mid_1151_s3')],
-}
+TARGETS = (
+    ('初級', 'sample', 'sample_exam.json', 'sample_'),
+    ('中級', 'mid_1141_s2', 'mock_mid_1141_s2.json', 'mid_1141_s2'),
+    ('中級', 'mid_1141_s3', 'mock_mid_1141_s3.json', 'mid_1141_s3'),
+    ('中級', 'mid_1151_s2', 'mock_mid_1151_s2.json', 'mid_1151_s2'),
+    ('中級', 'mid_1151_s3', 'mock_mid_1151_s3.json', 'mid_1151_s3'),
+)
 
-total = 0
-for filename, ids in FILES.items():
-    path = BASE / 'data' / '中級' / 'questions' / filename
+
+def apply_to_file(path: Path, ids: list[str], level: str, exam_key: str) -> int:
+    """Apply curated fields to one production JSON and return changed fields."""
     data = json.loads(path.read_text(encoding='utf-8'))
     changed = 0
+    present_ids = {question['id'] for question in data['questions']}
+    missing = sorted(set(ids) - present_ids)
+    if missing:
+        raise RuntimeError(f'{path.name} 找不到題號: {missing}')
+
     for question in data['questions']:
-        new = EXPLANATIONS.get(question['id'])
-        if new and question.get('explanation') != new:
-            question['explanation'] = new
+        qid = question['id']
+        issue = SOURCE_ISSUES.get((level, exam_key, qid))
+        new_explanation = issue['note'] if issue else EXPLANATIONS.get(qid)
+        if new_explanation and question.get('explanation') != new_explanation:
+            question['explanation'] = new_explanation
             changed += 1
-        stem = QUESTION_OVERRIDES.get(question['id'])
+        stem = QUESTION_OVERRIDES.get(qid)
         if stem and question.get('question') != stem:
             question['question'] = stem
             changed += 1
+        if issue and question.get('source_issue') != issue:
+            question['source_issue'] = issue
+            changed += 1
+
     if changed:
         path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-    missing = [i for i in ids if not any(q['id'] == i for q in data['questions'])]
-    if missing:
-        print(f'[WARN] {filename} 找不到題號: {missing}')
-    print(f'{filename}: 更新 {changed} 題')
-    total += changed
-print(f'合計 {total} 題')
+    return changed
+
+
+def main() -> None:
+    import argparse
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--level', choices=['初級', '中級'])
+    parser.add_argument('--key', action='append', dest='keys', help='只更新指定考卷 key（可重複）')
+    args = parser.parse_args()
+
+    selected = [
+        target for target in TARGETS
+        if (not args.level or target[0] == args.level)
+        and (not args.keys or target[1] in set(args.keys))
+    ]
+    if args.keys:
+        matched = {target[1] for target in selected}
+        unknown = sorted(set(args.keys) - matched)
+        if unknown:
+            parser.error(f'沒有人工補強資料的考卷 key: {", ".join(unknown)}')
+
+    total = 0
+    for level, key, filename, id_prefix in selected:
+        ids = sorted(
+            {qid for qid in _ALL_IDS if qid.startswith(id_prefix)}
+            | {
+                qid for issue_level, issue_key, qid in SOURCE_ISSUES
+                if issue_level == level and issue_key == key
+            }
+        )
+        path = BASE / 'data' / level / 'questions' / filename
+        changed = apply_to_file(path, ids, level, key)
+        print(f'{level}/{key}: 更新 {changed} 個欄位')
+        total += changed
+    print(f'合計更新 {total} 個欄位')
+
+
+if __name__ == '__main__':
+    main()

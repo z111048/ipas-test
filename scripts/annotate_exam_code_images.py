@@ -14,7 +14,9 @@ import re
 from pathlib import Path
 from typing import Any
 
-BASE = Path('/home/james/projects/ipas-test')
+from resource_catalog import exam_entries, level_entry
+
+BASE = Path(__file__).resolve().parents[1]
 VGG16_CODE_SRC = '/pdf-assets/中級/mid_1141_s3/page_010/image_02_01.png'
 VGG16_CODE_MARKDOWN = """from torchsummary import summary
 from torchvision import models
@@ -991,8 +993,7 @@ MID_1151_S2_Q41_CODE = (
 MID_1151_S2_Q41_OUTPUT = (
     'mean    223.411306\n'
     '50%     128.552462\n'
-    'max    4500.000000\n'
-    'Name: daily_earnings, dtype: float64'
+    'max    4500.000000'
 )
 
 _Q41_TEXT_OLD = '（Pandas 2以上版本）： 輸出結果如下： ● mean：223.411306 ● 50%：128.552462 ● max：4500.000000 若'
@@ -1171,27 +1172,52 @@ def annotate_question_images(path: Path) -> int:
     return changed
 
 
-EXAM_FILES = {
-    '初級': {'sample_exam.json'},
-    '中級': {
-        'sample_exam.json',
-        'mock_mid_1141_s1.json', 'mock_mid_1141_s2.json', 'mock_mid_1141_s3.json',
-        'mock_mid_1151_s1.json', 'mock_mid_1151_s2.json', 'mock_mid_1151_s3.json',
-    },
-}
+def annotation_exam_entries() -> list[dict[str, Any]]:
+    """Return catalog exams owned by this post-processing layer.
+
+    Middle-level exams use the curated code/image alternatives in this file;
+    the junior sample keeps its historical cleanup pass. Junior official exams
+    are intentionally outside this layer.
+    """
+    # This post-processing layer intentionally covers every middle-level exam
+    # plus the junior sample. File names still come only from the catalog, so a
+    # newly catalogued middle exam cannot be skipped by a stale local table.
+    return [
+        entry for entry in exam_entries()
+        if entry['levelId'] == 'middle' or entry['kind'] == 'sample'
+    ]
 
 
 def main() -> None:
+    import argparse
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--level', choices=['初級', '中級'])
+    parser.add_argument('--key', action='append', dest='keys', help='只更新指定考卷 key（可重複）')
+    args = parser.parse_args()
+
+    entries = annotation_exam_entries()
+    if args.level:
+        entries = [
+            entry for entry in entries
+            if level_entry(level_id=entry['levelId'])['dataLevel'] == args.level
+        ]
+    if args.keys:
+        selected_keys = set(args.keys)
+        known = {entry['key'] for entry in entries}
+        unknown = sorted(selected_keys - known)
+        if unknown:
+            parser.error(f'沒有圖片補強資料的考卷 key: {", ".join(unknown)}')
+        entries = [entry for entry in entries if entry['key'] in selected_keys]
+
     total = 0
-    for level in ('初級', '中級'):
-        questions_dir = BASE / 'data' / level / 'questions'
-        for path in sorted(questions_dir.glob('*.json')):
-            if path.name not in EXAM_FILES.get(level, set()):
-                continue
-            changed = annotate_question_images(path)
-            if changed:
-                print(f'Annotated {path.relative_to(BASE)} ({changed} fields)')
-                total += changed
+    for entry in entries:
+        level = level_entry(level_id=entry['levelId'])['dataLevel']
+        path = BASE / 'data' / level / 'questions' / entry['questionFile']
+        changed = annotate_question_images(path)
+        if changed:
+            print(f'Annotated {path.relative_to(BASE)} ({changed} fields)')
+            total += changed
     print(f'Done. annotated fields: {total}')
 
 

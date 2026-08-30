@@ -16,10 +16,9 @@ guideContent 走 Track A（guide_ocr → page_extract → export_guide_outline_d
 
 ## type 從哪裡來
 
-沿用備份的 Gemini 快取（pages_cache_gemini_backup/）按 idx 對應——PDF 沒換、頁數一致，
-這樣本次只改動 markdown 文字這一個變數，章節組裝行為與舊版完全相同。
-同時跑一套規則判定當交叉檢查，不一致的頁會列在報告裡（--report）供人工確認。
-沒有備份可對應時（例如新加的 errata）才落回規則判定。
+規則判定是預設值；5 個逐頁確認過的差異寫在 committed ``TYPE_OVERRIDES``。
+``pages_cache_gemini_backup/`` 是 gitignored 的歷史診斷輸入，只用來交叉檢查，絕不再決定輸出。
+因此 fresh checkout 與維護者工作站會得到相同 type，不會因有無舊 Gemini cache 改變 canonical SHA。
 
 ## 標題規則（2026-08-06 用全 716 頁實測校準，見 --report）
 
@@ -44,7 +43,7 @@ import re
 import unicodedata
 from pathlib import Path
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 
 # OCR 成果已複製進本專案，這裡是學習指引的單一真相來源。
 # 版面結構：data/{level}/guide_ocr/{key}/pages/page_NNNN/page_NNNN.{md,_res.json}
@@ -60,6 +59,17 @@ BOOKS = [
     ('中級', 'guide2', 182),
     ('中級', 'guide3', 223),
 ]
+
+# Reviewed differences between the deterministic local rule and the legacy
+# Gemini classification.  These are publication inputs, so they must be
+# committed rather than inherited from gitignored pages_cache_gemini_backup/.
+TYPE_OVERRIDES: dict[tuple[str, str, int], str] = {
+    ('初級', 'guide1', 4): 'skip',
+    ('初級', 'guide1', 69): 'skip',
+    ('初級', 'guide2', 4): 'skip',
+    ('初級', 'guide2', 60): 'skip',
+    ('中級', 'guide3', 0): 'content',
+}
 
 # --- 標題規則 ---------------------------------------------------------------
 # 目錄行：「第三章 AI 相關技術應用..... 3-1」。這種行永遠不是標題。
@@ -250,11 +260,12 @@ def convert_book(level: str, key: str, expected_pages: int, dry_run: bool) -> di
             'markdown': markdown,
             'headings': headings,
             '_gemini_headings': backup_headings.get(idx, []),
+            '_backup_type': backup_types.get(idx),
         })
 
     for e in entries:
         e['_rule_type'] = rule_based_type(e['markdown'], e['idx'])
-        e['type'] = backup_types.get(e['idx'], e['_rule_type'])
+        e['type'] = TYPE_OVERRIDES.get((level, key, e['idx']), e['_rule_type'])
 
     if not dry_run:
         out_dir.mkdir(parents=True, exist_ok=True)
@@ -291,7 +302,11 @@ def convert_book(level: str, key: str, expected_pages: int, dry_run: bool) -> di
 def report(result: dict) -> None:
     entries = result['entries']
     level, key = result['level'], result['key']
-    type_mismatch = [e for e in entries if e['type'] != e['_rule_type']]
+    type_overrides = [e for e in entries if e['type'] != e['_rule_type']]
+    stale_backup = [
+        e for e in entries
+        if e['_backup_type'] is not None and e['_backup_type'] != e['type']
+    ]
     n_head = sum(len(e['headings']) for e in entries)
     n_gemini = sum(len(e['_gemini_headings']) for e in entries)
     chars = sum(len(e['markdown']) for e in entries)
@@ -299,11 +314,12 @@ def report(result: dict) -> None:
     print(f'\n=== {level} {key}')
     print(f'  頁數 {len(entries)}  字元 {chars:,}')
     print(f'  headings: 本腳本 {n_head}  vs  Gemini 版 {n_gemini}')
-    print(f'  type 與 Gemini 不一致（已採用 Gemini 的）：{len(type_mismatch)} 頁')
-    for e in type_mismatch[:8]:
-        print(f'    idx={e["idx"]:>3} gemini={e["type"]:<8} rule={e["_rule_type"]}')
-    if len(type_mismatch) > 8:
-        print(f'    …另外 {len(type_mismatch) - 8} 頁')
+    print(f'  committed type override（相對規則）：{len(type_overrides)} 頁')
+    for e in type_overrides[:8]:
+        print(f'    idx={e["idx"]:>3} override={e["type"]:<8} rule={e["_rule_type"]}')
+    if len(type_overrides) > 8:
+        print(f'    …另外 {len(type_overrides) - 8} 頁')
+    print(f'  歷史 Gemini backup 與 deterministic type 不一致：{len(stale_backup)} 頁')
 
     # 只在 content 頁上比標題集合，practice/skip 頁不影響下游
     missing_pages = [

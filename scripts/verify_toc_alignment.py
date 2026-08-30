@@ -27,7 +27,7 @@ from pathlib import Path
 
 import fitz
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 LEVELS = ('初級', '中級')
 
 # 官方 PDF 自身的缺陷，不是我們解析錯：這條目錄連結指向封面 p1，

@@ -10,7 +10,7 @@ from pathlib import Path
 
 from validate_codex_chapter_mock_output import validate_file
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 DEFAULT_RUN_DIR = BASE / 'data' / '中級' / 'pipeline' / 'codex_chapter_mock_prompts'
 SCHEMA_PATH = BASE / 'schemas' / 'middle_mock_exam_chapter.schema.json'
 

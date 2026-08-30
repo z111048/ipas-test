@@ -4,10 +4,11 @@
 import argparse
 import json
 import shutil
+import uuid
 from pathlib import Path
 from asset_paths import pdf_asset_url
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 KEY_ORDER = {
     'guide1': 0,
     'guide2': 1,
@@ -20,11 +21,63 @@ KEY_ORDER = {
     'exam3': 8,
 }
 TYPE_ORDER = {'page': 0, 'image': 1, 'table': 2}
+LEVEL_ORDER = {'初級': 0, '中級': 1, '共用': 2}
 
 
 def load_json(path: Path) -> dict:
     with path.open(encoding='utf-8') as f:
         return json.load(f)
+
+
+def merge_gallery_manifests(existing: dict, replacements: list[dict]) -> dict:
+    """Replace selected levels while retaining every untouched level."""
+    replacement_levels = {manifest['level'] for manifest in replacements}
+    items = [
+        item
+        for item in existing.get('items', [])
+        if item.get('level') not in replacement_levels
+    ]
+    for manifest in replacements:
+        items.extend(manifest.get('items', []))
+
+    existing_levels = list(existing.get('levels') or [])
+    if not existing_levels and existing.get('level'):
+        existing_levels = [existing['level']]
+    levels = [level for level in existing_levels if level not in replacement_levels]
+    for manifest in replacements:
+        if manifest['level'] not in levels:
+            levels.append(manifest['level'])
+    present_levels = {item.get('level') for item in items if item.get('level')}
+    levels = [level for level in levels if level in present_levels or level in replacement_levels]
+    for level in sorted(present_levels - set(levels), key=lambda value: (LEVEL_ORDER.get(value, 999), value)):
+        levels.append(level)
+    levels.sort(key=lambda value: (LEVEL_ORDER.get(value, 999), value))
+
+    items.sort(key=lambda item: (
+        LEVEL_ORDER.get(item.get('level'), 999),
+        item.get('level', ''),
+        KEY_ORDER.get(item['key'], len(KEY_ORDER)),
+        TYPE_ORDER.get(item['type'], len(TYPE_ORDER)),
+        item['page_number'],
+        item['asset_id'],
+    ))
+    return {'levels': levels, 'total': len(items), 'items': items}
+
+
+def write_combined_manifest(replacements: list[dict]) -> dict:
+    """Atomically merge selected levels into the frontend gallery manifest."""
+    path = BASE / 'frontend' / 'src' / 'generated' / 'pdfGallery.json'
+    existing = load_json(path) if path.exists() else {'levels': [], 'items': []}
+    merged = merge_gallery_manifests(existing, replacements)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    staged = path.with_name(f'.{path.name}.staging-{uuid.uuid4().hex}')
+    try:
+        staged.write_text(json.dumps(merged, ensure_ascii=False, indent=2), encoding='utf-8')
+        staged.replace(path)
+    finally:
+        if staged.exists():
+            staged.unlink()
+    return merged
 
 
 def export_gallery(level: str, force: bool, write_src_manifest: bool = True) -> dict:
@@ -104,40 +157,21 @@ def export_gallery(level: str, force: bool, write_src_manifest: bool = True) -> 
         'total': len(items),
         'items': items,
     }
-    manifest_text = json.dumps(manifest, ensure_ascii=False, indent=2)
     # 2026-08-26：不再寫 public_root/gallery.json。前端唯一的消費者是
     # ImageGalleryPage.tsx，讀的是下面那份 generated/pdfGallery.json；
     # public 那份（三個 level 合計 589 KB）從來沒有人讀過，已從版控刪除。
 
     if write_src_manifest:
-        src_manifest_path = BASE / 'frontend' / 'src' / 'generated' / 'pdfGallery.json'
-        src_manifest_path.parent.mkdir(parents=True, exist_ok=True)
-        src_manifest_path.write_text(manifest_text, encoding='utf-8')
+        write_combined_manifest([manifest])
     return manifest
 
 
 def export_galleries(levels: list[str], force: bool) -> dict:
-    all_items = []
+    manifests = []
     for level in levels:
         manifest = export_gallery(level, force, write_src_manifest=False)
-        all_items.extend(manifest['items'])
-
-    all_items.sort(key=lambda item: (
-        levels.index(item['path'].split('/')[2]) if item['path'].split('/')[2] in levels else len(levels),
-        KEY_ORDER.get(item['key'], len(KEY_ORDER)),
-        TYPE_ORDER.get(item['type'], len(TYPE_ORDER)),
-        item['page_number'],
-        item['asset_id'],
-    ))
-    manifest = {
-        'levels': levels,
-        'total': len(all_items),
-        'items': all_items,
-    }
-    src_manifest_path = BASE / 'frontend' / 'src' / 'generated' / 'pdfGallery.json'
-    src_manifest_path.parent.mkdir(parents=True, exist_ok=True)
-    src_manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding='utf-8')
-    return manifest
+        manifests.append(manifest)
+    return write_combined_manifest(manifests)
 
 
 def main() -> None:

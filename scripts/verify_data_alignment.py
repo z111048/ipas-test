@@ -2,7 +2,6 @@
 """Verify that PDF references, manifest metadata, and app data stay aligned."""
 
 import argparse
-import ast
 import contextlib
 import io
 import json
@@ -12,26 +11,14 @@ from pathlib import Path
 import fitz  # PyMuPDF
 
 from asset_paths import local_path
+from resource_catalog import exam_entries
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 
 
 def load_json(path: Path) -> dict:
     with path.open(encoding='utf-8') as f:
         return json.load(f)
-
-
-def load_exam_pdf_map() -> dict[str, dict[str, str]]:
-    """Read EXAM_PDFS_BY_LEVEL from extract_pdfs.py without importing it."""
-    source = (BASE / 'scripts' / 'extract_pdfs.py').read_text(encoding='utf-8')
-    module = ast.parse(source)
-    for node in module.body:
-        if (
-            isinstance(node, ast.AnnAssign)
-            and getattr(node.target, 'id', None) == 'EXAM_PDFS_BY_LEVEL'
-        ):
-            return ast.literal_eval(node.value)
-    raise RuntimeError('EXAM_PDFS_BY_LEVEL not found in scripts/extract_pdfs.py')
 
 
 def comparable_manifest(manifest: dict) -> dict:
@@ -74,11 +61,39 @@ def check_pdf_bounds(level: str, manifest: dict, errors: list[str]) -> None:
                 )
 
 
-def check_exam_pdfs(level: str, errors: list[str]) -> None:
+def check_exam_pdfs(level: str, manifest: dict, errors: list[str]) -> None:
     pdf_dir = BASE / 'data' / level / 'pdfs'
-    for key, name in load_exam_pdf_map().get(level, {}).items():
-        if not (pdf_dir / name).exists():
-            errors.append(f'Missing exam PDF for {key}: {name}')
+    questions_dir = BASE / 'data' / level / 'questions'
+    subject_ids = {subject.get('id') for subject in manifest.get('subjects', [])}
+    guide_keys = {subject.get('key') for subject in manifest.get('subjects', [])}
+    for exam in exam_entries(level=level):
+        subject_id = exam.get('subjectId')
+        if subject_id is not None and subject_id not in subject_ids:
+            errors.append(
+                f'Catalog exam {exam["routeKey"]} subjectId {subject_id!r} '
+                f'is not in data/{level}/toc_manifest.json'
+            )
+        unknown_guide_keys = set(exam.get('guideKeys') or []) - guide_keys
+        if unknown_guide_keys:
+            errors.append(
+                f'Catalog exam {exam["routeKey"]} guideKeys {sorted(unknown_guide_keys)} '
+                f'are not in data/{level}/toc_manifest.json'
+            )
+        if not (pdf_dir / exam['pdf']).exists():
+            errors.append(f'Missing exam PDF for {exam["key"]}: {exam["pdf"]}')
+        question_path = questions_dir / exam['questionFile']
+        if not question_path.exists():
+            errors.append(f'Missing exam questions for {exam["routeKey"]}: {exam["questionFile"]}')
+            continue
+        payload = load_json(question_path)
+        total = payload.get('total')
+        if not isinstance(total, int):
+            total = len(payload.get('questions') or [])
+        if total != exam['expectedQuestions']:
+            errors.append(
+                f'{question_path.relative_to(BASE)} has {total} questions; '
+                f'catalog expects {exam["expectedQuestions"]}'
+            )
 
 
 def check_chapter_file(
@@ -158,7 +173,7 @@ def main() -> None:
     errors: list[str] = []
     compare_manifest(args.level, manifest, errors)
     check_pdf_bounds(args.level, manifest, errors)
-    check_exam_pdfs(args.level, errors)
+    check_exam_pdfs(args.level, manifest, errors)
     check_app_data(args.level, manifest, errors)
 
     if errors:

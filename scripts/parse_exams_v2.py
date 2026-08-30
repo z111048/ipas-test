@@ -3,35 +3,15 @@
 
 import json
 import re
+import tempfile
 from pathlib import Path
 
 from PIL import Image
 
-from extract_pdfs import EXAM_PDFS_BY_LEVEL
 from asset_paths import page_asset_url
+from resource_catalog import exam_entries
 
-BASE = Path('/home/james/projects/ipas-test')
-
-EXAM_TITLES_BY_LEVEL: dict[str, dict[str, str]] = {
-    '初級': {
-        'jr_1141_s1': '科目一 公告試題：人工智慧基礎概論（114年第四梯次）',
-        'jr_1141_s2': '科目二 公告試題：生成式AI應用與規劃（114年第四梯次）',
-        'jr_1151_s1': '科目一 公告試題：人工智慧基礎概論（115年第一次）',
-        'jr_1151_s2': '科目二 公告試題：生成式AI應用與規劃（115年第一次）',
-        'jr_1152_s1': '科目一 公告試題：人工智慧基礎概論（115年第二次）',
-        'jr_1152_s2': '科目二 公告試題：生成式AI應用與規劃（115年第二次）',
-        'sample': '考試樣題（114年9月版）',
-    },
-    '中級': {
-        'mid_1141_s1': '中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）',
-        'mid_1141_s2': '中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）',
-        'mid_1141_s3': '中級科目三 公告試題：機器學習技術與應用（114年第二梯次）',
-        'mid_1151_s1': '中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）',
-        'mid_1151_s2': '中級科目二 公告試題：大數據處理分析與應用（115年第一次）',
-        'mid_1151_s3': '中級科目三 公告試題：機器學習技術與應用（115年第一次）',
-        'sample': '中級考試樣題（114年9月版）',
-    },
-}
+BASE = Path(__file__).resolve().parents[1]
 
 FW_MAP = {'Ａ': 'A', 'Ｂ': 'B', 'Ｃ': 'C', 'Ｄ': 'D', '（': '(', '）': ')'}
 IMAGE_HINT_RE = re.compile(
@@ -40,6 +20,22 @@ IMAGE_HINT_RE = re.compile(
 CODE_HINT_RE = re.compile(r'附圖程式碼|參考.*程式碼|下列程式碼|哪.*程式碼|程式碼片段')
 SHARED_QUESTION_RE = re.compile(r'回答(?:以|第|後續)?\s*(\d+)\s*[~～\-至到]+\s*(\d+)\s*題')
 OPTION_ANCHOR_RE = re.compile(r'(?:^|[\s;；])\(?([A-D])\)|選項\s*([A-D])\s*[:：]')
+# Option labels normally start a line. A few compact code questions put the
+# next label after a semicolon on the same line. Requiring one of those two
+# boundaries is important: a loose ``\(([A-D])\)`` also treats formula terms
+# such as P(A), P(B|A), and line references such as 行(A) as option labels.
+OPTION_TEXT_RE = re.compile(r'(?:^|\n|[;；])[ \t]*\(([A-D])\)[ \t]*', re.MULTILINE)
+# Some subscripts are separate positioned glyphs in the PDF table. The table
+# extractor returns those glyphs later in reading order, so no delimiter rule
+# can put them back reliably. Keep the visually verified, source-faithful
+# correction here so every parser rebuild is deterministic.
+QUESTION_LAYOUT_REPAIRS = {
+    'mid_1151_s3_q3': (
+        '某工程師在撰寫 Transformer 的 Attention 層時，需手動驗證矩陣維度是否相容。'
+        '輸入矩陣 Q 已攤平成形狀為 (1, 10)，Query 投影權重矩陣 W_Q 形狀為 (10, 64)。'
+        '執行 Q × W_Q 後輸出的形狀為何？'
+    ),
+}
 FOLLOWUP_CONTEXT_MARKERS = (
     '一間',
     '一家',
@@ -119,22 +115,23 @@ def parse_question_cell(
     # Normalize option markers: (A「) or (A）→ (A)
     text = re.sub(r'\(([A-D])[「」）]?\)', r'(\1)', text)
 
-    # Extract options
+    # Extract only syntactic option labels. Mathematical P(A)/P(B) terms and
+    # references such as 行(A) are content, not boundaries.
     opts = {}
-    opt_pattern = re.compile(r'\(([A-D])\)(.*?)(?=\([A-D]\)|\Z)', re.DOTALL)
-    for m in opt_pattern.finditer(text):
-        opt_text = m.group(2).strip()
+    option_matches = list(OPTION_TEXT_RE.finditer(text))
+    for index, match in enumerate(option_matches):
+        end = option_matches[index + 1].start() if index + 1 < len(option_matches) else len(text)
+        opt_text = text[match.end():end].strip()
         opt_text = trim_followup_context(opt_text)
         opt_text = re.sub(r'[；;]\s*$', '', opt_text)
         opt_text = clean_parsed_text(opt_text)
-        opts[m.group(1)] = opt_text
+        opts[match.group(1)] = opt_text
 
     if len(opts) < 4:
         return None
 
     # Question text = everything before first option
-    q_match = re.match(r'^(.*?)(?=\([A-D]\))', text, re.DOTALL)
-    q_text = q_match.group(1).strip() if q_match else ''
+    q_text = text[:option_matches[0].start()].strip() if option_matches else ''
     q_text = clean_parsed_text(q_text)
 
     if not q_text or not opts:
@@ -148,6 +145,9 @@ def parse_question_cell(
         'explanation': f'正確答案為({answer})。',
         'source': source_key,
     }
+    repaired_text = QUESTION_LAYOUT_REPAIRS.get(question['id'])
+    if repaired_text:
+        question['question'] = repaired_text
     if page_index is not None:
         question['source_ref'] = {
             'page_index': page_index,
@@ -378,7 +378,7 @@ def is_page_noise(text: str) -> bool:
         not compact
         or '能力鑑定' in compact
         or '考試日期' in compact
-        or compact in {'答案題目', '答案', '題目', '答', '案'}
+        or compact in {'答案題目', '題目答案', '答案', '題目', '答', '案'}
         or re.match(r'^第\d+頁,?共\d+頁$', compact) is not None
     )
 
@@ -831,8 +831,25 @@ def save_mock(filename: str, title: str, questions: list[dict], questions_dir: P
         'questions': questions,
     }
     path = questions_dir / filename
-    path.write_text(json.dumps(mock, ensure_ascii=False, indent=2), encoding='utf-8')
+    payload = json.dumps(mock, ensure_ascii=False, indent=2) + '\n'
+    output_mode = path.stat().st_mode & 0o777 if path.exists() else 0o644
+    with tempfile.NamedTemporaryFile(
+        mode='w', encoding='utf-8', dir=path.parent,
+        prefix=f'.{path.name}.', suffix='.tmp', delete=False,
+    ) as handle:
+        handle.write(payload)
+        temp_path = Path(handle.name)
+    # Read back before replacement: a partial/invalid artifact must never
+    # replace the last known-good production question file.
+    json.loads(temp_path.read_text(encoding='utf-8'))
+    temp_path.chmod(output_mode)
+    temp_path.replace(path)
     print(f"Saved {path} ({len(questions)} questions)")
+
+
+def asset_key_for_exam(exam: dict) -> str:
+    """Return the reviewed page-asset directory without changing canonical ids."""
+    return str(exam.get('legacyAssetKey', exam['key']))
 
 
 def main():
@@ -840,24 +857,43 @@ def main():
     parser = argparse.ArgumentParser(description='Parse exam questions from extracted JSON')
     parser.add_argument('--level', default='初級',
                         help='資料等級資料夾（預設: 初級）')
+    parser.add_argument(
+        '--key', action='append', dest='keys',
+        help='只重建指定 catalog 考卷 key（可重複）；未指定時重建該級全部考卷',
+    )
     args = parser.parse_args()
 
     data_dir = BASE / 'data' / args.level
     questions_dir = data_dir / 'questions'
     questions_dir.mkdir(exist_ok=True)
 
-    exam_map = EXAM_PDFS_BY_LEVEL.get(args.level, {})
-    titles = EXAM_TITLES_BY_LEVEL.get(args.level, {})
-    for key in sorted(exam_map):
-        if key == 'sample':
-            qs = parse_sample_json(data_dir)
-            attach_exam_images(args.level, key, qs)
-            save_mock('sample_exam.json', titles.get(key, '考試樣題'), qs, questions_dir)
-            continue
-        questions = parse_exam_json(key, data_dir)
-        attach_exam_images(args.level, key, questions)
-        filename = f'mock_{key}.json'
-        save_mock(filename, titles.get(key, f'{args.level} {key} 模擬考試'), questions, questions_dir)
+    selected_exams = exam_entries(level=args.level)
+    if args.keys:
+        known = {exam['key'] for exam in selected_exams}
+        unknown = sorted(set(args.keys) - known)
+        if unknown:
+            parser.error(f'unknown exam key(s) for {args.level}: {", ".join(unknown)}')
+        selected = set(args.keys)
+        selected_exams = [exam for exam in selected_exams if exam['key'] in selected]
+
+    for exam in selected_exams:
+        key = exam['key']
+        # Some legacy page_extract/pdf-assets directories predate canonical exam
+        # keys. Only asset lookup keeps that compatibility name; parsed ids,
+        # sources, and extracted JSON stay canonical.
+        asset_key = asset_key_for_exam(exam)
+        if exam['kind'] == 'sample':
+            questions = parse_sample_json(data_dir)
+        else:
+            questions = parse_exam_json(key, data_dir)
+        attach_exam_images(args.level, asset_key, questions)
+        expected = int(exam['expectedQuestions'])
+        if len(questions) != expected:
+            raise RuntimeError(
+                f'{args.level}/{key}: parsed {len(questions)} questions; expected {expected}. '
+                'Refusing to replace the production JSON.'
+            )
+        save_mock(exam['questionFile'], exam['title'], questions, questions_dir)
 
     print("\nAll mock exams saved.")
 

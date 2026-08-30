@@ -22,7 +22,7 @@ import re
 from html.parser import HTMLParser
 from pathlib import Path
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 
 # 勘誤表的「科目」標題 → 本專案的 guide key
 SUBJECT_TO_KEY = {

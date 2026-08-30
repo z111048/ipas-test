@@ -23,7 +23,7 @@ try:
 except ImportError:
     sys.exit('PyMuPDF not found. Run: uv sync')
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 
 # ── Single source of truth for chapter definitions ────────────────────────────
 # This is the ONLY place in the codebase where chapter metadata is hardcoded.

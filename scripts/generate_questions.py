@@ -19,12 +19,14 @@ import json
 import sys
 from pathlib import Path
 
+from export_guide_sections import payload_errors as guide_section_payload_errors
+
 try:
     import anthropic
 except ImportError:
     sys.exit("anthropic package not found. Run: pip install anthropic")
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 
 MODEL = 'claude-sonnet-4-6'
 MAX_CONTENT_CHARS = 4000  # guide content chars fed to LLM per chapter
@@ -149,6 +151,12 @@ def load_section_chunks(level: str, subject_num: int) -> dict[str, list[dict]]:
     if not path.exists():
         return {}
     data = json.loads(path.read_text(encoding='utf-8'))
+    errors = guide_section_payload_errors(level, subject_num, data)
+    if errors:
+        raise RuntimeError(
+            f'Stale or invalid guide_sections input: {"; ".join(errors)}. '
+            'Run scripts/export_guide_sections.py before generating by section.'
+        )
     return {c['id']: c.get('chunks', []) for c in data.get('chapters', [])}
 
 

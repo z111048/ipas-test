@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Export guide/question seed files used by the question generation pipeline."""
+"""Export question seeds and a non-canonical Track A reading snapshot.
+
+The canonical ``subjectN_guide.json`` is Track B data created by
+``parse_guides.py`` (and may later be curated by Track B maintenance scripts).
+This exporter reads frontend Track A content, so it writes
+``subjectN_reading_guide.json`` instead and never overwrites the canonical file.
+"""
 
 import argparse
 import json
@@ -7,7 +13,8 @@ import re
 from pathlib import Path
 from typing import Any
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
+TRACK_A_GUIDE_FILENAME = 'subject{subject_index}_reading_guide.json'
 
 
 def load_json(path: Path) -> dict:
@@ -49,6 +56,15 @@ def guide_content_path(guide_key: str, content_ref: str) -> Path:
     return BASE / 'frontend' / 'src' / 'generated' / 'guideContent' / guide_key / content_ref
 
 
+def track_a_guide_output_path(guide_dir: Path, subject_index: int) -> Path:
+    """Return the Track A snapshot path, guarding the canonical Track B name."""
+    path = guide_dir / TRACK_A_GUIDE_FILENAME.format(subject_index=subject_index)
+    canonical = guide_dir / f'subject{subject_index}_guide.json'
+    if path == canonical:
+        raise RuntimeError('Track A exporter must not write the canonical Track B guide path')
+    return path
+
+
 def build_subject_seed(level: str, subject_index: int, manifest_subject: dict, guide_outline: dict) -> dict:
     chapters = []
     for chapter in manifest_subject.get('chapters', []):
@@ -71,6 +87,8 @@ def build_subject_seed(level: str, subject_index: int, manifest_subject: dict, g
     return {
         'level': level,
         'subject': manifest_subject['subject'],
+        'source_track': 'track_a_reading',
+        'canonical': False,
         'chapters': chapters,
     }
 
@@ -104,7 +122,7 @@ def export_level(level: str) -> None:
             raise ValueError(f'{level} subject{subject_index} missing guide outline for {subject_id}')
 
         guide_seed = build_subject_seed(level, subject_index, manifest_subject, guide_outline)
-        guide_path = guide_dir / f'subject{subject_index}_guide.json'
+        guide_path = track_a_guide_output_path(guide_dir, subject_index)
         write_json(guide_path, guide_seed)
 
         questions_path = questions_dir / f'subject{subject_index}_questions.json'
@@ -114,7 +132,9 @@ def export_level(level: str) -> None:
         total_questions = sum(len(chapter.get('questions', [])) for chapter in question_seed['chapters'])
         print(
             f'{level}/subject{subject_index}: '
-            f'{len(guide_seed["chapters"])} guide chapters, {total_questions} questions'
+            f'{len(guide_seed["chapters"])} Track A reading chapters '
+            f'({guide_path.name}; canonical Track B unchanged), '
+            f'{total_questions} questions'
         )
 
 

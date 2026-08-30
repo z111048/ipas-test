@@ -15,12 +15,7 @@ function resourceForSubject(subjectId?: string) {
     const subjectData = level.toc.subjects.find((item) => item.id === subjectId)
     if (subject && subjectData) return { level, subject, subjectData }
   }
-  const level = resourceLevels[0]
-  return {
-    level,
-    subject: level.subjects[0],
-    subjectData: level.toc.subjects[0],
-  }
+  return undefined
 }
 
 function ChapterMetric({ label, value }: { label: string; value: string }) {
@@ -42,7 +37,17 @@ function MutedAction({ children }: { children: ReactNode }) {
 
 export default function SubjectOverviewPage() {
   const { subjectId } = useParams<{ subjectId: string }>()
-  const { level, subject, subjectData } = resourceForSubject(subjectId)
+  const resource = resourceForSubject(subjectId)
+  if (!resource) {
+    return (
+      <div className="page-shell">
+        <StatePanel tone="error" title="找不到科目">
+          {subjectId}
+        </StatePanel>
+      </div>
+    )
+  }
+  const { level, subject, subjectData } = resource
   const guideOutline = guideOutlines.guides[subjectData.id]
   const hasPractice = subject.practiceStatus === 'available'
   const summary = resourceSummary.levels[level.id].subjects[subjectData.id]

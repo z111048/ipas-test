@@ -37,7 +37,7 @@ import re
 import unicodedata
 from pathlib import Path
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 
 CONTEXT_CHARS = 5
 PAGE_LABEL_NUMERIC = re.compile(r'^\d+-\d+$')
@@ -144,6 +144,38 @@ def find_span(haystack: str, needle: str) -> tuple[int, int] | None:
     return start, end
 
 
+def mask_normalized_spans(text: str, needle: str) -> tuple[str, int]:
+    """Mask every normalized ``needle`` match without changing raw indices.
+
+    In insertion-style errata the damaged text is a prefix of the corrected
+    text.  Searching the corrected page for the damaged text would therefore
+    find it *inside the correction* and append the supplement again.  An
+    equal-length, non-whitespace mask keeps ``find_span()`` offsets aligned
+    with the original text while making completed spans unavailable to the
+    subsequent damaged-text search.
+    """
+    marker = next(
+        (
+            candidate
+            for candidate in ("\x00", "\x01", "\ue000", "\uf8ff")
+            if candidate not in text and candidate not in needle
+        ),
+        None,
+    )
+    if marker is None:
+        raise ValueError("Unable to allocate a normalized-span mask marker")
+
+    protected = text
+    count = 0
+    while True:
+        span = find_span(protected, needle)
+        if span is None:
+            return protected, count
+        start, end = span
+        protected = protected[:start] + marker * (end - start) + protected[end:]
+        count += 1
+
+
 # 純刪除超過這個字數就視為不安全。「多模態多模態→多模態」這種去重複只刪 3 字，
 # 是合法的；初級 3-27 那筆是勘誤表巢狀表格 OCR 壞掉，會一口氣刪掉近百字的表格內容。
 UNSAFE_DELETION_CHARS = 30
@@ -179,10 +211,17 @@ def apply_pairs(text: str, pairs: list[tuple[str, str]]
             # 內容整段刪掉。而且它的「更正後文字」是原文的開頭，冪等檢查一定命中，
             # 會把「還沒改」誤判成「已改好」（初級 3-27 就踩到）。一律不套、也不算已滿足。
             continue
-        span = find_span(text, old)
+        search_text = text
+        corrected_count = 0
+        normalized_old = normalize(old)
+        normalized_new = normalize(new)
+        if normalized_old and normalized_old in normalized_new:
+            search_text, corrected_count = mask_normalized_spans(text, new)
+
+        span = find_span(search_text, old)
         if span is None:
             # 原文不在、更正後的文字在 → 早就套好了
-            if find_span(text, new) is not None:
+            if corrected_count or find_span(text, new) is not None:
                 already.append(pair)
             continue
         located.append((span[0], span[1], pair))

@@ -335,9 +335,9 @@
       "id": "mid_1151_s2_q18",
       "question": "某零售企業的 AI工程師正在用關聯規則學習（Association Rule Learning）分析購物籃 資料，評估商品 A 跟商品 B 之間同時購買的關係。關於「支援度（Support）」、「信賴 度（Confidence）」、「提升度（Lift）」三個指標，下列敘述何者正確？",
       "options": {
-        "A": "×P",
-        "B": "]，範圍固定在[0,1]之間",
-        "C": "提升度=P(A∩B) / [P",
+        "A": "信賴度=P(A∩B)，即A與B 同時出現的機率，範圍[0,1]",
+        "B": "支援度=P(B|A)，即 A出現時 B 也出現的條件機率，範圍[0,1]",
+        "C": "提升度=P(A∩B) / [P(A)×P(B)]，範圍固定在[0,1]之間",
         "D": "提升度=1 表示 A 與 B 獨立（無關聯），<1 表示負相關，>1 表示正向關聯，因此提 升度並非數值愈大即代表關聯愈強"
       },
       "answer": "D",
@@ -809,18 +809,6 @@
         "page_number": 13
       },
       "context": "某全球共享乘車平台的資料科學團隊，正針對2025 年第四季度進行營收優化與防弊分 析專案。團隊希望透過資料分析達成兩項目標：一是預測司機未來收入表現，以支援 營運策略與獎勵機制調整；二是希望透過分析裝置與定位回傳資料，辨識潛在異常行 為，以降低補貼濫用風險。 為此，團隊整理出一份司機每日營運資料檔（driver_daily_stats.csv），其中每筆資料代 表某位司機於某一天的營運表現與系統回傳摘要資訊。資料欄位如下： ● driver_id：司機編號 ● daily_earnings：日總收入（單位：美元） ● region：註冊營運區域（以字串A、B、C 表示） ● app_version：使用的司機端App 版本（如v1.0、v2.0） ● gps_ping_rate：每分鐘回傳GPS 訊號的次數 請根據此資料情境回答第41~44 題。",
-      "context_blocks": [
-        {
-          "title": "Python 程式碼",
-          "language": "python",
-          "markdown": "import pandas as pd\n\ndf = pd.read_csv('driver_daily_stats.csv')\nprint(df['daily_earnings'].describe()[['mean', '50%', 'max']])"
-        },
-        {
-          "title": "執行結果",
-          "language": "text",
-          "markdown": "mean    223.411306\n50%     128.552462\nmax    4500.000000\nName: daily_earnings, dtype: float64"
-        }
-      ],
       "images": [
         {
           "type": "image",
@@ -838,6 +826,18 @@
           "markdown_language": "python",
           "markdown_title": "Python 程式碼",
           "markdown": "import pandas as pd\n\ndf = pd.read_csv('driver_daily_stats.csv')\nprint(df['daily_earnings'].describe()[['mean', '50%', 'max']])"
+        }
+      ],
+      "context_blocks": [
+        {
+          "title": "Python 程式碼",
+          "language": "python",
+          "markdown": "import pandas as pd\n\ndf = pd.read_csv('driver_daily_stats.csv')\nprint(df['daily_earnings'].describe()[['mean', '50%', 'max']])"
+        },
+        {
+          "title": "執行結果",
+          "language": "text",
+          "markdown": "mean    223.411306\n50%     128.552462\nmax    4500.000000"
         }
       ]
     },
@@ -1003,13 +1003,18 @@
         "D": "見下方選項 D 程式碼"
       },
       "answer": "B",
-      "explanation": "正確答案為(B)。",
+      "explanation": "官方答案為(B)，本平台照錄、不改寫題幹或答案。依題目列出的 split → 建立模型 → fit 流程，選項(A)的 liblinear 與選項(B)的 lbfgs 都可用於 Iris 羅吉斯迴歸；原題未提供足以排除(A)的額外條件，因此答案具有歧義。",
       "source": "mid_1151_s2",
       "source_ref": {
         "page_index": 15,
         "page_number": 16
       },
       "context": "請根據下方資訊回答第48~50 題。",
+      "source_issue": {
+        "type": "multiple_syntactically_valid_choices",
+        "official_answer": "B",
+        "note": "官方答案為(B)，本平台照錄、不改寫題幹或答案。依題目列出的 split → 建立模型 → fit 流程，選項(A)的 liblinear 與選項(B)的 lbfgs 都可用於 Iris 羅吉斯迴歸；原題未提供足以排除(A)的額外條件，因此答案具有歧義。"
+      },
       "context_blocks": [
         {
           "title": "Iris 資料載入（第 48~50 題共用）",

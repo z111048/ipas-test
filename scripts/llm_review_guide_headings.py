@@ -13,7 +13,7 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 GUIDE_CONTENT = BASE / 'frontend' / 'src' / 'generated' / 'guideContent'
 
 

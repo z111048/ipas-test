@@ -8,7 +8,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-BASE = Path('/home/james/projects/ipas-test')
+from resource_catalog import exam_entries
+
+BASE = Path(__file__).resolve().parents[1]
 
 PAGE_LABEL_RE = re.compile(r'^\d+-\d+$')
 GUIDE_PAGE_TITLE_RE = re.compile(r'^第[一二三四五六七八九十]+章\s+.+$')
@@ -28,13 +30,17 @@ class Strategy:
 STRATEGIES = {
     'guide1': Strategy('guide', 'guide'),
     'guide2': Strategy('guide', 'guide'),
-    'exam1': Strategy('exam', 'exam'),
-    'exam2': Strategy('exam', 'exam'),
-    'exam3': Strategy('exam', 'exam'),
-    'sample': Strategy('sample_exam', 'exam'),
     'errata': Strategy('errata', 'guide'),
     'briefing': Strategy('briefing', 'guide'),
 }
+for _exam in exam_entries():
+    _asset_key = _exam.get('legacyAssetKey', _exam['key'])
+    _strategy_name = 'sample_exam' if _exam['kind'] == 'sample' else 'exam'
+    STRATEGIES[_asset_key] = Strategy(_strategy_name, 'exam')
+
+# Archived pre-catalog middle-level extraction runs may still contain exam3/.
+# It is not produced by the current catalog, but remains readable for compatibility.
+STRATEGIES.setdefault('exam3', Strategy('exam', 'exam'))
 
 
 def load_json(path: Path) -> dict:
@@ -468,7 +474,7 @@ def clean_pdf(level: str, key: str) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--level', default='初級', help='資料等級資料夾（預設: 初級）')
-    parser.add_argument('--key', help='只處理指定 PDF key，如 guide1/exam1/sample')
+    parser.add_argument('--key', help='只處理指定 page_extract 資產 key，如 guide1/exam1/sample')
     parser.add_argument('--all', action='store_true', help='處理所有 page_extract PDF')
     args = parser.parse_args()
 

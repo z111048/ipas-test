@@ -47,7 +47,7 @@ import sys
 import time
 from pathlib import Path
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 DEFAULT_TIMEOUT = 180  # seconds per Codex call
 
 # ── Data loading ──────────────────────────────────────────────────────────────
@@ -239,6 +239,7 @@ def call_codex(prompt: str, timeout: int = DEFAULT_TIMEOUT) -> str:
         capture_output=True,
         text=True,
         timeout=timeout,
+        cwd=BASE,
     )
     output = result.stdout.strip()
     if result.returncode != 0 and not output:

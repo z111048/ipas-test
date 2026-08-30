@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any
 from asset_paths import image_url
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 DEFAULT_LEVEL = '初級'
 DEFAULT_UNITS_FILE = BASE / 'data' / DEFAULT_LEVEL / 'image_units' / 'all_image_units.json'
 DEFAULT_OUTPUT = BASE / 'frontend' / 'src' / 'generated' / 'guideImages.json'
@@ -65,8 +65,12 @@ def export_images(units_file: Path, output: Path, public_images_dir: Path) -> di
         key = f'{image["guideKey"]}:{image["sourceNodeId"]}'
         by_chapter.setdefault(key, []).append(image)
 
+    try:
+        source = units_file.relative_to(BASE).as_posix()
+    except ValueError:
+        source = units_file.as_posix()
     result = {
-        'source': str(units_file.relative_to(BASE)),
+        'source': source,
         'totalImages': len(images),
         'images': images,
         'byChapter': by_chapter,
@@ -82,8 +86,19 @@ def main() -> None:
     parser.add_argument('--public-images-dir', type=Path, default=PUBLIC_IMAGES_DIR)
     args = parser.parse_args()
 
-    result = export_images(args.units_file, args.output, args.public_images_dir)
-    print(f'Exported {result["totalImages"]} guide images to {args.output.relative_to(BASE)}')
+    units_file = args.units_file if args.units_file.is_absolute() else BASE / args.units_file
+    output = args.output if args.output.is_absolute() else BASE / args.output
+    public_images_dir = (
+        args.public_images_dir
+        if args.public_images_dir.is_absolute()
+        else BASE / args.public_images_dir
+    )
+    result = export_images(units_file, output, public_images_dir)
+    try:
+        display_output = output.relative_to(BASE)
+    except ValueError:
+        display_output = output
+    print(f'Exported {result["totalImages"]} guide images to {display_output}')
 
 
 if __name__ == '__main__':

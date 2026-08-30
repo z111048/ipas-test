@@ -297,6 +297,27 @@ function GuideImageFigure({ image, depth }: { image: GuideImageAsset; depth: num
   )
 }
 
+function GuideSourceFigure({ block }: { block: GuideBlock }) {
+  if (!block.src) return null
+  return (
+    <figure
+      className="guide-depth-block my-5"
+      style={blockIndentStyle(block.depth)}
+      data-guide-source-image={block.src}
+    >
+      <img
+        src={publicAsset(block.src)}
+        alt={block.alt ?? '學習指引原圖'}
+        loading="lazy"
+        className="block w-full max-w-4xl rounded-lg border border-border bg-white object-contain"
+      />
+      <figcaption className="mt-2 text-[0.78rem] leading-5 text-text-light">
+        PDF 原圖{block.alt ? ` · ${block.alt}` : ''}
+      </figcaption>
+    </figure>
+  )
+}
+
 function GuideExamReferenceNotes({ annotations, depth }: { annotations: GuideExamAnnotation[]; depth: number }) {
   if (annotations.length === 0) return null
   const visibleAnnotations = annotations.slice(0, 8)
@@ -384,6 +405,9 @@ function GuideBlocksRenderer({
         <GuideImageFigure key={image.id} image={image} depth={Math.max(image.headingDepth ?? 2, 2)} />
       ))}
       {blocks.map((block) => {
+        if (block.type === 'source_image') {
+          return <GuideSourceFigure key={block.id} block={block} />
+        }
         if (block.type === 'table' && (block.html || block.rows?.length)) {
           return renderWithImages(block, (
             <div key={block.id} style={blockIndentStyle(block.depth)}>

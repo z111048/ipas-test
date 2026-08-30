@@ -7,7 +7,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 
 CHAPTER_RE = re.compile(r'^第[一二三四五六七八九十]+章\s+(.+)$')
 NUMBERED_RE = re.compile(r'^(?P<num>\d+(?:\.\d+)+)\s*(?P<title>.+?)?$')

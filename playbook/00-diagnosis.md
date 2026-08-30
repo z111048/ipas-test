@@ -1,7 +1,20 @@
+<!-- 2026-08-30: 同步 exporter 內建 publication overlays 與 13 項 release gate；修改前備份：
+     backups/00-diagnosis.md.bak-2026-08-30。 -->
+<!-- 2026-08-29: 補上架構硬化後現況；下方 2026-07-13 診斷保留為問題來源的歷史紀錄。
+     修改前備份：backups/00-diagnosis.md.bak-2026-08-29。 -->
 # 00 — Harness 快速診斷（2026-07-13，由 Fable 5 撰寫）
 
 本檔是後面所有制度檔的依據。三個問題按「每個 session 浪費的 token × 出錯機率」排序。
 數字都是撰寫當天實測，之後若結構大改，依 `04-maintenance.md` 更新本檔。
+
+## 2026-08-29 現況（先讀）
+
+下方「證據」描述的是 2026-07-13 的事故現場，不再全部代表目前實作：README 已精簡；
+`export_guide_outline_data.py` 已有 staging、完整 content schema 驗證、原子替換與 rollback，
+單等級匯出會保留其他等級（常規操作仍依 CLAUDE.md 帶 `--all-levels`）；s1c2/s1c4/s2c3
+publication overlays 已在 staged candidate 內套用並驗證，legacy helper 僅為 optional 0-change check；
+production Python 已改為 repo-relative 並由可攜性測試防退化；完整驗收目前是 13 項。
+最新操作規則一律以 `pipeline-reference.md` 與 `tests/README.md` 為準。
 
 ---
 
@@ -72,8 +85,8 @@
 ## 次要觀察（不進前三，但寫給未來參考）
 
 - `.claude/` 被 gitignore，所以持久制度檔不能放那裡——這就是 `playbook/` 存在的原因。
-- 多數腳本硬編 `BASE = Path('/home/james/projects/ipas-test')`（少數 export 腳本用 `Path(__file__)`
-  相對解析），搬 repo 會大面積壞掉。
+- 2026-08-29 已把 production Python 腳本改為 `Path(__file__).resolve()` 的 repo-relative 路徑，
+  並由 `test_repo_portability.py` 掃描絕對工作站路徑與 subprocess cwd，防止搬 repo 再度失效。
 - 7 支腳本的 `--level` 預設是 `中級` 而非 `初級`（清單見 pipeline-reference.md 通用規則）——
   「預設初級」的直覺是錯的，一律顯式帶 `--level`。
 - repo 根目錄有 `generated/`、`generated-assets/`、`generated_assets/`、`generated_images/`

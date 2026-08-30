@@ -6,28 +6,42 @@
 促成原因：把考試作答紀錄從「陣列索引」改成「question id」時，那兩條都驗不到
 「勾選狀態有沒有對到正確的題」——build 會過、資料對齊也會過，但使用者可能答 A 卻記到別題。
 
-## 7 項驗收，一個入口
+## 13 項驗收，一個入口
 
 ```bash
-python3 tests/run_all.py                 # 全部，約 3.5 分鐘
-python3 tests/run_all.py --skip-browser  # 只跑靜態（沒裝 playwright 時）
+uv run python tests/run_all.py                 # 全部，約 4–5 分鐘
+uv run python tests/run_all.py --skip-browser  # 僅 10/13 靜態診斷；不得當成 release pass
 ```
 
-跑的是這 7 項——**前 4 項是 CLAUDE.md 不變量 5 訂的靜態防線，後 3 項是端對端**：
+跑的是這 13 項——**前 10 項是靜態／資料防線，後 3 項是端對端**：
 
 | # | 項目 | 驗什麼 |
 |---|---|---|
-| 1 | `npm run build` | tsc 零錯誤 + vite 產出 |
-| 2 | `verify_data_alignment --level 初級` | 資料對齊 toc_manifest（SSOT） |
-| 3 | `verify_data_alignment --level 中級` | 同上 |
-| 4 | `audit_resources` | 7 項確定性審核，任一 FAIL 就擋 |
-| 5 | `tests/test_exam_flow.py` | 考試：點選/鍵盤作答、題號盤、計分、切題後立刻作答 |
-| 6 | `tests/test_practice_flow.py` | 章節練習：同上 + localStorage 保存與還原 |
-| 7 | `tests/test_routes.py` | 全 17 條路由：無 console error、無白畫面 |
+| 1 | `test_resource_catalog` | catalog schema、14 份考卷、route、題數、3 份 PDF 資源及完整 gallery（初級勘誤：3 page＋5 table＝8 assets）、legacy 資產鍵 |
+| 2 | `test_repo_portability` | production 腳本無工作站絕對路徑，subprocess 有明確 cwd |
+| 3 | `test_pipeline_output_safety` | Guide producer 所有權、完整 OCR cache、staging/rollback、partial export；appendix boundary、題目 ID／card 保留及 production 5 檔 179 題／179 cards |
+| 4 | `test_exam_ocr_repairs` | 14 份／709 題 production 修復、原始 sidecar 不變、verified overlay 與 promotion blocker |
+| 5 | `test_track_a_ocr_repairs` | 閱讀頁 169 筆精確 inventory＋3 筆 publication overlays＋3 筆 structure contracts、跨頁 provenance、公式、來源圖與導覽搜尋一致性；不依賴本機 cache |
+| 6 | `test_track_b_ocr_fixes` | 出題來源 78 筆（71 OCR／抽取＋2 來源數式＋5 provenance）、固定 canonical SHA、5 筆 deterministic page-type override、插入型勘誤與 TB-006 immutable OCR 重建、guide_sections exact rebuild、兩個出題入口拒絕 stale payload、cache 深比對與 fresh-clone 契約 |
+| 7 | `npm run build` | tsc 零錯誤 + vite 產出 |
+| 8 | `verify_data_alignment --level 初級` | 資料對齊 toc_manifest 與 resource catalog（SSOT） |
+| 9 | `verify_data_alignment --level 中級` | 同上 |
+| 10 | `audit_resources` | 8 類確定性審核（含三軌 `ocrSemantics`），任一 FAIL 就擋 |
+| 11 | `tests/test_exam_flow.py` | 考試：作答、計分、背景計時補正、到期自動交卷 |
+| 12 | `tests/test_practice_flow.py` | 章節練習：作答 + localStorage 保存與還原 |
+| 13 | `tests/test_routes.py` | 29 條正常路由 + 3 條預期錯誤路由 |
+
+Fresh checkout 不含 gitignored 的 `pages_cache`、`exam_pages_cache`、`page_clean`、`page_extract`、
+`guide_tree` 與 Track A reading snapshot。Release gate 因此以 committed canonical／signature
+產物為必要層；本機完整 cache 存在時會追加來源重建深比對，partial cache 一律失敗。
+Fresh checkout 的考題 sidecar 是 0/709；維護者本機即使有部分 coverage（2026-08-30 盤點為
+150/709）也只供
+診斷，不是 release input。Promotion 是獨立 gate，必須 709/709 且零 mismatch 才會放行；
+coverage 未滿時 `--promotion-gate` 預期阻擋，不影響 verified production JSON。
 
 三支端對端也可以單獨跑（`python3 tests/test_exam_flow.py`）。
 
-前置：`pip install playwright && playwright install chromium`
+前置：`uv sync && uv run playwright install chromium`
 
 三支都會**自己啟停 dev server**（port 5199）。⚠️ 已經有 server 佔著那個 port 就直接用它、
 且結束時不會關它（`devserver.py:63-66`）——所以本機另外開著 dev server 時，測的是那一支。
@@ -41,8 +55,9 @@ python3 tests/run_all.py --skip-browser  # 只跑靜態（沒裝 playwright 時�
 
 ## test_routes.py 驗什麼
 
-17 條路由逐一開啟，檢查：無 console error / pageerror、內容不是白畫面、
-頁面沒有出現「載入失敗」「NaN」「undefined」「找不到」。
+catalog 展開的 14 份考卷與其餘正常路由逐一開啟，檢查無 console error / pageerror、
+內容不是白畫面，且沒有「載入失敗」「NaN」「undefined」「找不到」。另驗證未知 route、
+無效科目與無效考卷各自顯示明確的找不到狀態；等待條件也會排除 Suspense skeleton。
 
 ## 寫這類測試的兩個坑（都踩過）
 

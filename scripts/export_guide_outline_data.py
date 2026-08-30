@@ -1,16 +1,37 @@
 #!/usr/bin/env python3
 """Export cleaned PDF guide outlines and split content for static frontend imports."""
 
+import hashlib
 import json
 import re
 import shutil
+import tempfile
 import unicodedata
+import uuid
 from html import escape
 from pathlib import Path
 from typing import Any
 from asset_paths import page_asset_url
+from guide_publication_overlays import (
+    apply_publication_block_overlays,
+    apply_publication_heading_overlays,
+    apply_publication_markdown_overlays,
+)
+from track_a_ocr_repairs import (
+    EXERCISE_PROVENANCE_PAGES,
+    OCR_VISUAL_FALLBACKS,
+    SEMANTIC_VISUAL_PAGES,
+    SIGNATURE_REGISTRY_PATH,
+    VISUAL_INVENTORY_BY_PAGE,
+    apply_formula_repairs,
+    apply_markdown_repairs,
+    apply_markdown_structure_repairs,
+    apply_text_repairs,
+    apply_track_a_block_repairs,
+    audit_generated_track_a,
+)
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 
 
 def load_json(path: Path) -> dict:
@@ -21,6 +42,184 @@ def load_json(path: Path) -> dict:
 def write_json(path: Path, data: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
+
+
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open('rb') as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b''):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _track_a_signature_registry() -> dict[str, Any]:
+    registry = load_json(SIGNATURE_REGISTRY_PATH)
+    if registry.get('schema') != 'track-a-ocr-signatures-v2':
+        raise ValueError('unsupported Track-A signature registry schema')
+    return registry
+
+
+def _visual_signature(level: str, key: str, page_index: int) -> dict[str, Any]:
+    inventory = VISUAL_INVENTORY_BY_PAGE[(level, key, page_index)]
+    expected = _track_a_signature_registry()['visuals'][inventory['id']]
+    location = (expected.get('level'), expected.get('key'), expected.get('pageIndex'))
+    if location != (level, key, page_index) or expected.get('node') != inventory['node']:
+        raise ValueError(f"{inventory['id']}: visual signature location mismatch")
+    return expected
+
+
+def _visual_source_path(level: str, key: str, page_index: int) -> Path:
+    """Resolve the one reviewed source file for an exact visual signature."""
+    visual_key = (level, key, page_index)
+    expected = _visual_signature(level, key, page_index)
+    expected_name = Path(str(expected['src'])).name
+    fallback = OCR_VISUAL_FALLBACKS.get(visual_key)
+    if fallback:
+        source = Path(fallback['source'])
+        if str(fallback['filename']) != expected_name:
+            raise ValueError(f"{expected['src']}: OCR fallback filename differs from registry")
+    else:
+        extract_path = BASE / 'data' / level / 'page_extract' / key / 'pages' / f'page_{page_index:03d}.json'
+        if not extract_path.is_file():
+            raise ValueError(f'{level}/{key}/page_{page_index:03d}: source extraction missing')
+        extracted = load_json(extract_path)
+        candidates = [
+            (extract_path.parent / str(image.get('path'))).resolve()
+            for image in extracted.get('images') or []
+            if image.get('path') and Path(str(image['path'])).name == expected_name
+        ]
+        if len(candidates) != 1:
+            raise ValueError(
+                f'{level}/{key}/page_{page_index:03d}: exact source visual matched '
+                f'{len(candidates)}, expected 1'
+            )
+        source = candidates[0]
+    if not source.is_file():
+        raise ValueError(f'{level}/{key}/page_{page_index:03d}: exact source visual file missing')
+    if _sha256_file(source) != expected['assetSha256']:
+        raise ValueError(f'{level}/{key}/page_{page_index:03d}: exact source visual SHA-256 mismatch')
+    return source
+
+
+def _stage_track_a_visual_assets(levels: list[str], staged_public_root: Path) -> list[Path]:
+    """Copy reviewed assets into an isolated overlay; never touch live public."""
+    relative_paths: list[Path] = []
+    for (level, key, page_index), inventory in VISUAL_INVENTORY_BY_PAGE.items():
+        if level not in levels:
+            continue
+        expected = _track_a_signature_registry()['visuals'][inventory['id']]
+        relative = Path(str(expected['src']).lstrip('/'))
+        destination = staged_public_root / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(_visual_source_path(level, key, page_index), destination)
+        if _sha256_file(destination) != expected['assetSha256']:
+            raise ValueError(f"{inventory['id']}: staged visual SHA-256 mismatch")
+        relative_paths.append(relative)
+    return relative_paths
+
+
+def _guide_level(guide: dict) -> str:
+    """Read a guide's level, including older outline files without ``level``."""
+    level = str(guide.get('level') or '')
+    if level:
+        return level
+    key = str(guide.get('key') or '')
+    return key.split('-', 1)[0] if '-' in key else ''
+
+
+def _validate_export(data: dict[str, Any], content_dir: Path, asset_root: Path | None = None) -> None:
+    """Validate the complete merged export before it can replace live data."""
+    guides = data.get('guides')
+    if not isinstance(guides, dict):
+        raise ValueError('guideOutlines export must contain a guides object')
+    for subject_id, guide in guides.items():
+        if guide.get('subjectId') != subject_id:
+            raise ValueError(f'{subject_id} subjectId mismatch')
+        validate_guide(guide, content_dir, asset_root=asset_root)
+
+
+def _commit_staged_outputs(
+    staged_content_dir: Path,
+    content_dir: Path,
+    staged_outlines_path: Path,
+    outlines_path: Path,
+    *,
+    staged_public_root: Path | None = None,
+    public_root: Path | None = None,
+    asset_relative_paths: list[Path] | None = None,
+) -> None:
+    """Replace content, outlines, and reviewed assets as one rollback unit."""
+    token = uuid.uuid4().hex
+    content_backup = content_dir.with_name(f'.{content_dir.name}.backup-{token}')
+    outlines_backup = outlines_path.with_name(f'.{outlines_path.name}.backup-{token}')
+    assets = list(asset_relative_paths or [])
+    asset_backup_root: Path | None = None
+    changed_assets: list[tuple[Path, Path, bool]] = []
+    installed_content = False
+    installed_outlines = False
+    backed_up_content = False
+    backed_up_outlines = False
+    try:
+        if assets:
+            if staged_public_root is None or public_root is None:
+                raise ValueError('asset transaction requires staged_public_root and public_root')
+            missing = [relative for relative in assets if not (staged_public_root / relative).is_file()]
+            if missing:
+                raise FileNotFoundError(f'missing staged publication assets: {missing}')
+            public_root.mkdir(parents=True, exist_ok=True)
+            asset_backup_root = public_root / f'.track-a-assets.backup-{token}'
+            asset_backup_root.mkdir()
+            for relative in assets:
+                staged_asset = staged_public_root / relative
+                live_asset = public_root / relative
+                if live_asset.is_file() and _sha256_file(live_asset) == _sha256_file(staged_asset):
+                    continue
+                existed = live_asset.exists()
+                backup_asset = asset_backup_root / relative
+                changed_assets.append((live_asset, backup_asset, existed))
+                if existed:
+                    backup_asset.parent.mkdir(parents=True, exist_ok=True)
+                    live_asset.rename(backup_asset)
+                live_asset.parent.mkdir(parents=True, exist_ok=True)
+                staged_asset.rename(live_asset)
+
+        if content_dir.exists():
+            content_dir.rename(content_backup)
+            backed_up_content = True
+        staged_content_dir.rename(content_dir)
+        installed_content = True
+
+        if outlines_path.exists():
+            outlines_path.rename(outlines_backup)
+            backed_up_outlines = True
+        staged_outlines_path.rename(outlines_path)
+        installed_outlines = True
+    except Exception:
+        if installed_outlines and outlines_path.exists():
+            outlines_path.unlink()
+        if backed_up_outlines and outlines_backup.exists():
+            outlines_backup.rename(outlines_path)
+        if installed_content and content_dir.exists():
+            shutil.rmtree(content_dir)
+        if backed_up_content and content_backup.exists():
+            content_backup.rename(content_dir)
+        for live_asset, backup_asset, existed in reversed(changed_assets):
+            if live_asset.exists():
+                live_asset.unlink()
+            if existed and backup_asset.exists():
+                live_asset.parent.mkdir(parents=True, exist_ok=True)
+                backup_asset.rename(live_asset)
+        raise
+    else:
+        if content_backup.exists():
+            shutil.rmtree(content_backup)
+        if outlines_backup.exists():
+            outlines_backup.unlink()
+    finally:
+        if asset_backup_root and asset_backup_root.exists():
+            shutil.rmtree(asset_backup_root)
+        if staged_public_root and staged_public_root.exists():
+            shutil.rmtree(staged_public_root)
 
 
 def normalize(value: str) -> str:
@@ -76,6 +275,186 @@ def page_blocks(level: str, key: str, start_page: int, end_page: int) -> list[di
         page = load_json(pages_dir / f'page_{page_index:03d}.json')
         items.extend(positioned_page_items(level, key, page_index, page))
     return build_content_blocks(merge_split_tables(items))
+
+
+def exercise_block_key(block: dict) -> tuple[str, int] | None:
+    match = re.match(r'^\s*(\d+)\.', str(block.get('text') or ''))
+    if block.get('type') not in ('question', 'answer') or not match:
+        return None
+    return str(block['type']), int(match.group(1))
+
+
+def refresh_prebuilt_exercise_text(
+    blocks: list[dict],
+    level: str,
+    key: str,
+    node: str,
+    title: str,
+    start_page: int,
+    end_page: int,
+) -> list[dict]:
+    """Overlay current cleaned exercise text onto stale guide-tree blocks.
+
+    Guide-tree artifacts are intentionally reviewable caches and can lag
+    source/errata overlays.  Only question/answer text is refreshed here; the
+    reviewed hierarchy and every non-exercise block remain guide-tree-owned.
+    """
+    if (level, key, node) not in EXERCISE_PROVENANCE_PAGES:
+        return blocks
+    current = post_process_guide_blocks(node, title, page_blocks(level, key, start_page, end_page))
+    current_by_key = {
+        identifier: block
+        for block in current
+        if (identifier := exercise_block_key(block)) is not None
+    }
+    result = [dict(block) for block in blocks]
+    for block in result:
+        identifier = exercise_block_key(block)
+        if identifier is None:
+            continue
+        source = current_by_key.get(identifier)
+        if source is None:
+            raise ValueError(f'{level}/{key}/{node}: current exercise block {identifier} missing')
+        block['text'] = source.get('text') or ''
+    return result
+
+
+TRACK_A_BIBLIOGRAPHY_PAGES: dict[tuple[str, str, str], int] = {
+    ('初級', 'guide1', 's1c4'): 69,
+    ('初級', 'guide2', 's2c3'): 60,
+}
+
+
+def inject_structured_bibliography(
+    blocks: list[dict],
+    level: str,
+    key: str,
+    node: str,
+) -> list[dict]:
+    """Recover the two appendices swallowed by prebuilt exercise blocks."""
+    page_index = TRACK_A_BIBLIOGRAPHY_PAGES.get((level, key, node))
+    if page_index is None:
+        return blocks
+    result = [dict(block) for block in blocks]
+    for block in result:
+        if block.get('type') != 'answer':
+            continue
+        text = str(block.get('text') or '')
+        block['text'] = re.sub(r'\s*附件\s*本學習指引參考書目\s*$', '', text).rstrip()
+
+    has_heading = any(block.get('type') == 'heading' and '參考書目' in str(block.get('title') or '') for block in result)
+    has_table = any(
+        block.get('type') == 'table'
+        and block.get('pageIndex') == page_index
+        and len(block.get('rows') or []) >= 10
+        for block in result
+    )
+    if has_heading and has_table:
+        return result
+
+    appendix_blocks = page_blocks(level, key, page_index + 1, page_index + 1)
+    if not has_heading:
+        heading = next(
+            (block for block in appendix_blocks if block.get('type') == 'heading' and '參考書目' in str(block.get('title') or '')),
+            None,
+        )
+        if heading is None:
+            source = next(
+                (block for block in appendix_blocks if block.get('type') == 'paragraph' and '參考書目' in str(block.get('text') or '')),
+                None,
+            )
+            if source is not None:
+                heading = {
+                    'type': 'heading',
+                    'depth': 3,
+                    'title': str(source.get('text') or '').strip(),
+                    'anchor': normalize_heading_key(str(source.get('text') or '')),
+                    'pageIndex': source.get('pageIndex'),
+                    'bbox': source.get('bbox'),
+                }
+        if heading is None:
+            raise ValueError(f'{level}/{key}/{node}: bibliography heading not recoverable')
+        result.append(dict(heading))
+    if not has_table:
+        table = next(
+            (block for block in appendix_blocks if block.get('type') == 'table' and len(block.get('rows') or []) >= 10),
+            None,
+        )
+        if table is None:
+            raise ValueError(f'{level}/{key}/{node}: bibliography table not recoverable')
+        result.append(dict(table))
+    return reset_block_ids(result)
+
+
+def inject_semantic_source_images(
+    blocks: list[dict],
+    level: str,
+    key: str,
+    node: str,
+    start_page: int,
+    end_page: int,
+) -> list[dict]:
+    """Inject exact PDF/OCR source figures into both export paths.
+
+    `--use-guide-tree` supplies prebuilt blocks and therefore bypasses
+    `page_blocks()`.  Re-reading only the 17 reviewed visual pages here keeps
+    both paths equivalent.  Asset copies are additive publication inputs; the
+    generated-content transaction validates every resulting `src` via the
+    standalone Track-A gate.
+    """
+    semantic_pages = {
+        page_index
+        for repair_level, repair_key, page_index in SEMANTIC_VISUAL_PAGES
+        if (repair_level, repair_key) == (level, key)
+        and start_page - 1 <= page_index <= end_page - 1
+    }
+    # Legacy page assembly may already have injected these into aggregate
+    # nodes. Rebuild reviewed source images from the explicit route registry so
+    # only the intended leaf receives exactly one block per inventory item.
+    result = [
+        dict(block) for block in blocks
+        if not (block.get('type') == 'source_image' and block.get('pageIndex') in semantic_pages)
+    ]
+    for page_number in range(start_page, end_page + 1):
+        page_index = page_number - 1
+        visual_key = (level, key, page_index)
+        inventory = VISUAL_INVENTORY_BY_PAGE.get(visual_key)
+        if inventory is None or inventory['node'] != node:
+            continue
+        page_path = BASE / 'data' / level / 'page_clean' / key / 'pages' / f'page_{page_index:03d}.json'
+        if not page_path.is_file():
+            raise ValueError(f"{inventory['id']}: cleaned source page missing")
+        items = positioned_page_items(level, key, page_index, load_json(page_path))
+        source_items = [item for item in items if item.get('type') == 'source_image']
+        if len(source_items) != 1:
+            raise ValueError(f"{inventory['id']}: source-image block matched {len(source_items)}, expected 1")
+        item = source_items[0]
+        expected = _visual_signature(level, key, page_index)
+        if item.get('src') != expected['src'] or item.get('alt') != expected['alt']:
+            raise ValueError(f"{inventory['id']}: source-image src/alt differs from committed signature")
+        image_block = {
+            'type': 'source_image',
+            'depth': 3,
+            'src': item.get('src'),
+            'alt': item.get('alt'),
+            'pageIndex': page_index,
+            'sourcePageIndexes': [page_index],
+            'bbox': item.get('bbox'),
+        }
+        image_y = float((item.get('bbox') or [0, 0])[1])
+        insert_at = len(result)
+        for index, block in enumerate(result):
+            block_page = block.get('pageIndex')
+            block_bbox = block.get('bbox') or []
+            block_y = float(block_bbox[1]) if len(block_bbox) == 4 else 0.0
+            if isinstance(block_page, int) and (
+                block_page > page_index
+                or (block_page == page_index and block_y > image_y)
+            ):
+                insert_at = index
+                break
+        result.insert(insert_at, image_block)
+    return reset_block_ids(result)
 
 
 def normalize_heading_key(text: str) -> str:
@@ -511,8 +890,13 @@ def collect_formula_blocks(value: Any) -> list[dict]:
     formulas: list[dict] = []
     if isinstance(value, dict):
         if value.get('type') == 'formula' and str(value.get('latex') or '').strip():
+            latex = str(value['latex']).strip()
+            if latex.startswith('$$') and latex.endswith('$$'):
+                latex = latex[2:-2].strip()
+            elif latex.startswith('$') and latex.endswith('$'):
+                latex = latex[1:-1].strip()
             formulas.append({
-                'latex': str(value['latex']).strip(),
+                'latex': latex,
                 'display': bool(value.get('display', True)),
             })
         for child in value.values():
@@ -554,7 +938,12 @@ def load_audit_formula_pages(level: str, key: str) -> dict[int, list[dict]]:
     for page_index in set(audit) | set(ocr):
         merged: list[dict] = []
         seen: set[str] = set()
-        for formula in [*ocr.get(page_index, []), *audit.get(page_index, [])]:
+        # PaddleOCR-VL formulas are the source-faithful primary track.  Mixing
+        # Gemini audit variants into a page that already has OCR formulas was
+        # the main source of duplicated and shifted attachments.  Audit is a
+        # fallback only when the primary page has no formula result.
+        source = ocr.get(page_index) or audit.get(page_index, [])
+        for formula in source:
             latex = str(formula.get('latex') or '').strip()
             if not latex or latex in seen:
                 continue
@@ -888,7 +1277,11 @@ def classify_text_block(text: str) -> tuple[str, int, str | None]:
 
 
 def append_block(blocks: list[dict], block: dict) -> None:
-    if not block.get('text') and not block.get('title') and block.get('type') != 'table':
+    if (
+        not block.get('text')
+        and not block.get('title')
+        and block.get('type') not in {'table', 'source_image'}
+    ):
         return
     block['id'] = f'block-{len(blocks) + 1}'
     blocks.append(block)
@@ -934,6 +1327,15 @@ def split_heading_title(title: str, depth: int) -> tuple[str, str | None]:
 
 
 CONTENT_SECTION_TITLES: dict[str, dict[str, list[str]]] = {
+    's1c1': {
+        '1.': ['1. 人工智慧技術的多樣化應用'],
+    },
+    's1c3': {
+        '1.': ['1. 機器學習基本理論'],
+    },
+    's1c4': {
+        '1.': ['1. 鑑別式 AI 與生成式 AI 的基本原理'],
+    },
     'mid-s2c1': {
         '1.': ['1. 前言與章節導覽'],
         '2.': ['2. 集中趨勢與離散程度'],
@@ -1279,6 +1681,7 @@ def merge_heading_continuation_paragraphs(blocks: list[dict]) -> list[dict]:
             merged
             and merged[-1].get('type') == 'heading'
             and block.get('type') == 'paragraph'
+            and merged[-1].get('pageIndex') == block.get('pageIndex')
             and re.match(r'^(與|及|和)[^。！？]{1,40}$', block.get('text') or '')
         ):
             title = f'{merged[-1]["title"]}{block["text"]}'
@@ -1317,6 +1720,8 @@ def looks_like_short_continuation_fragment(text: str) -> bool:
 
 def should_merge_list_item_continuation(previous: dict, current: dict) -> bool:
     if previous.get('type') != 'list_item' or current.get('type') != 'paragraph':
+        return False
+    if previous.get('pageIndex') != current.get('pageIndex'):
         return False
     text = block_text(current.get('text') or '')
     previous_text = block_text(previous.get('text') or '')
@@ -1600,9 +2005,15 @@ def normalize_chapter_exercise_blocks(blocks: list[dict]) -> list[dict]:
             continue
 
         exercise_blocks: list[dict] = []
+        appendix_blocks: list[dict] = []
         index += 1
         while index < len(blocks):
-            exercise_blocks.append(blocks[index])
+            candidate = blocks[index]
+            candidate_text = candidate.get('text') or candidate.get('title') or ''
+            if candidate.get('type') == 'table' or '附件本學習指引參考書目' in candidate_text.replace(' ', ''):
+                appendix_blocks = blocks[index:]
+                break
+            exercise_blocks.append(candidate)
             index += 1
 
         question_parts: list[str] = []
@@ -1612,6 +2023,15 @@ def normalize_chapter_exercise_blocks(blocks: list[dict]) -> list[dict]:
             'pageIndex': exercise_blocks[0].get('pageIndex') if exercise_blocks else block.get('pageIndex'),
             'bbox': exercise_blocks[0].get('bbox') if exercise_blocks else block.get('bbox'),
         }
+        source_page_indexes = sorted({
+            page_index
+            for exercise_block in exercise_blocks
+            for page_index in (
+                [exercise_block.get('pageIndex')]
+                + list(exercise_block.get('sourcePageIndexes') or [])
+            )
+            if isinstance(page_index, int)
+        })
         for exercise_block in exercise_blocks:
             text = exercise_block.get('text') or exercise_block.get('title') or ''
             if not text:
@@ -1629,6 +2049,7 @@ def normalize_chapter_exercise_blocks(blocks: list[dict]) -> list[dict]:
                 'depth': 4,
                 'text': segment,
                 'pageIndex': first_meta['pageIndex'],
+                'sourcePageIndexes': source_page_indexes,
                 'bbox': first_meta['bbox'],
             })
         for segment in split_numbered_exercise_segments(' '.join(answer_parts), answer_mode=True):
@@ -1637,8 +2058,23 @@ def normalize_chapter_exercise_blocks(blocks: list[dict]) -> list[dict]:
                 'depth': 4,
                 'text': segment,
                 'pageIndex': first_meta['pageIndex'],
+                'sourcePageIndexes': source_page_indexes,
                 'bbox': first_meta['bbox'],
             })
+        if appendix_blocks:
+            first = dict(appendix_blocks[0])
+            appendix_title = first.get('text') or first.get('title') or ''
+            if '附件本學習指引參考書目' in appendix_title.replace(' ', ''):
+                first = {
+                    'type': 'heading',
+                    'depth': 3,
+                    'title': '附件 本學習指引參考書目',
+                    'anchor': '',
+                    'pageIndex': first.get('pageIndex'),
+                    'bbox': first.get('bbox'),
+                }
+                appendix_blocks[0] = first
+            normalized.extend(appendix_blocks)
         break
     return normalized
 
@@ -1716,7 +2152,7 @@ def post_process_guide_blocks(current_id: str, raw_title: str, blocks: list[dict
                     }
                     processed.append(block)
                     detail = paragraph_section.group(2).strip()
-                    if detail:
+                    if detail and not (current_id == 's1c4' and detail.replace(' ', '') == 'AIAI'):
                         processed.append({
                             'type': 'paragraph',
                             'depth': 4,
@@ -1830,6 +2266,8 @@ def post_process_guide_blocks(current_id: str, raw_title: str, blocks: list[dict
 def can_extend_previous_heading(previous: dict, text: str, item: dict) -> bool:
     if previous.get('type') != 'heading':
         return False
+    if previous.get('pageIndex') != item.get('page_index'):
+        return False
     if len(previous.get('title') or '') < 28:
         return False
     if text_looks_sentence_complete(previous.get('title') or ''):
@@ -1849,6 +2287,8 @@ def can_extend_previous_heading(previous: dict, text: str, item: dict) -> bool:
 
 def can_extend_previous_text_block(previous: dict, text: str, item: dict) -> bool:
     if previous.get('type') not in {'paragraph', 'list_item'}:
+        return False
+    if previous.get('pageIndex') != item.get('page_index'):
         return False
     if classify_text_block(text)[0] != 'paragraph':
         return False
@@ -1888,6 +2328,17 @@ def build_content_blocks(items: list[dict]) -> list[dict]:
     in_chapter_exercises = False
     for item in merge_text_items(items):
         item_type = item.get('type')
+        if item_type == 'source_image':
+            append_block(blocks, {
+                'type': 'source_image',
+                'depth': min(current_context_depth + 1, 9),
+                'src': item.get('src'),
+                'alt': item.get('alt') or '學習指引原圖',
+                'pageIndex': item.get('page_index'),
+                'sourcePageIndexes': [item.get('page_index')],
+                'bbox': item.get('bbox'),
+            })
+            continue
         if item_type == 'table':
             rows = item.get('rows') or []
             if rows:
@@ -1896,6 +2347,7 @@ def build_content_blocks(items: list[dict]) -> list[dict]:
                     'depth': min(current_context_depth + 1, 9),
                     'rows': rows,
                     'pageIndex': item.get('page_index'),
+                    'sourcePageIndexes': item.get('source_page_indexes') or [item.get('page_index')],
                     'bbox': item.get('bbox'),
                 })
             continue
@@ -2051,12 +2503,52 @@ def positioned_page_items(level: str, key: str, page_index: int, cleaned_page: d
             items.append({
                 'type': 'table',
                 'page_index': page_index,
+                'source_page_indexes': [page_index],
                 'page_height': page_height,
                 'bbox': bbox,
                 'y': bbox[1],
                 'x': bbox[0],
                 'rows': rows,
             })
+
+    visual_key = (level, key, page_index)
+    if visual_key in SEMANTIC_VISUAL_PAGES:
+        expected = _visual_signature(level, key, page_index)
+        expected_name = Path(str(expected['src'])).name
+        fallback = OCR_VISUAL_FALLBACKS.get(visual_key)
+        if fallback:
+            bbox = list(fallback['bbox'])
+            source_index = 1
+        else:
+            candidates = [
+                (image_index, source_image)
+                for image_index, source_image in enumerate(extracted.get('images') or [], start=1)
+                if source_image.get('path')
+                and Path(str(source_image['path'])).name == expected_name
+                and len(source_image.get('bbox') or []) == 4
+            ]
+            if len(candidates) != 1:
+                raise ValueError(
+                    f'{level}/{key}/page_{page_index:03d}: exact source-image item '
+                    f'matched {len(candidates)}, expected 1'
+                )
+            source_index, source_image = candidates[0]
+            bbox = list(source_image['bbox'])
+        # Resolve and hash now so a missing/tampered source cannot silently
+        # produce a block whose asset is absent.  The copy itself happens only
+        # in the isolated publication staging tree.
+        _visual_source_path(level, key, page_index)
+        items.append({
+            'type': 'source_image',
+            'page_index': page_index,
+            'page_height': page_height,
+            'bbox': bbox,
+            'y': bbox[1],
+            'x': bbox[0],
+            'src': expected['src'],
+            'alt': expected['alt'],
+            'source_index': source_index,
+        })
 
     return sorted(items, key=lambda item: (item['page_index'], item['y'], item['x']))
 
@@ -2107,8 +2599,15 @@ def merge_split_tables(items: list[dict]) -> list[dict]:
             rows = item.get('rows') or []
             if rows:
                 merged[-1]['rows'].extend(rows[1:] if len(rows) > 1 else rows)
+                merged[-1]['source_page_indexes'] = sorted({
+                    page_index
+                    for page_index in (
+                        list(merged[-1].get('source_page_indexes') or [merged[-1].get('page_index')])
+                        + list(item.get('source_page_indexes') or [item.get('page_index')])
+                    )
+                    if isinstance(page_index, int)
+                })
                 merged[-1]['bbox'] = item.get('bbox') or merged[-1].get('bbox')
-                merged[-1]['page_index'] = item.get('page_index')
                 merged[-1]['page_height'] = item.get('page_height')
             continue
         merged.append(item)
@@ -2118,7 +2617,11 @@ def merge_split_tables(items: list[dict]) -> list[dict]:
 def render_positioned_items(items: list[dict]) -> str:
     chunks = []
     for item in merge_text_items(items):
-        if item.get('type') == 'table':
+        if item.get('type') == 'source_image':
+            src = item.get('src') or ''
+            if src:
+                chunks.append(f'![{item.get("alt") or "學習指引原圖"}]({src})')
+        elif item.get('type') == 'table':
             html = table_rows_to_html(item.get('rows') or [])
             if html:
                 chunks.append(html)
@@ -2359,21 +2862,67 @@ def build_nodes(
         content_ref = f'{current_id}.json'
         content = page_content(level, key, start_page, end_page)
         markdown_content = format_markdown(raw_node.get('title') or '', content)
-        blocks = (
+        prebuilt_blocks = (
             prebuilt_blocks_by_node.get(current_id)
             if prebuilt_blocks_by_node is not None
             else None
         )
+        blocks = prebuilt_blocks
         if blocks is None:
             blocks = post_process_guide_blocks(current_id, raw_node.get('title') or '', page_blocks(level, key, start_page, end_page))
+        else:
+            blocks = refresh_prebuilt_exercise_text(
+                blocks,
+                level,
+                key,
+                current_id,
+                raw_node.get('title') or '',
+                start_page,
+                end_page,
+            )
+        blocks = apply_track_a_block_repairs(
+            level,
+            key,
+            current_id,
+            blocks,
+            require_prebuilt_matches=prebuilt_blocks is not None,
+        )
+        blocks = apply_publication_block_overlays(level, key, current_id, blocks)
+        blocks = inject_structured_bibliography(blocks, level, key, current_id)
+        blocks = inject_semantic_source_images(blocks, level, key, current_id, start_page, end_page)
+        blocks = apply_text_repairs(
+            level,
+            key,
+            blocks,
+            node=current_id,
+            strict=prebuilt_blocks is not None,
+        )
+        markdown_content = apply_markdown_repairs(level, key, markdown_content)
+        markdown_content = apply_markdown_structure_repairs(current_id, markdown_content)
         blocks = enrich_guide_blocks(blocks, audit_formulas_by_page or {})
+        blocks = apply_formula_repairs(
+            level,
+            key,
+            blocks,
+            node=current_id,
+            strict=prebuilt_blocks is not None,
+        )
         markdown_content = inject_formulas_into_markdown(markdown_content, blocks)
+        markdown_content = apply_publication_markdown_overlays(
+            level, key, current_id, markdown_content,
+        )
+        content_headings = apply_publication_heading_overlays(
+            level,
+            key,
+            current_id,
+            markdown_headings(markdown_content),
+        )
         write_json(content_dir / content_key / content_ref, {
             'id': current_id,
             'title': raw_node.get('title') or '',
             'content': markdown_content,
             'contentFormat': 'markdown',
-            'headings': markdown_headings(markdown_content),
+            'headings': content_headings,
             'blocks': blocks,
             'sourcePages': source_pages(level, key, start_page, end_page),
         })
@@ -2403,7 +2952,7 @@ def flatten_ids(root_ids: list[str], nodes_by_id: dict[str, dict]) -> list[str]:
     return result
 
 
-def validate_guide(guide: dict, content_dir: Path) -> None:
+def validate_guide(guide: dict, content_dir: Path, *, asset_root: Path | None = None) -> None:
     nodes_by_id = guide['nodesById']
     for node_id_value, node in nodes_by_id.items():
         page_range = node['pageRange']
@@ -2422,6 +2971,35 @@ def validate_guide(guide: dict, content_dir: Path) -> None:
         content_path = content_dir / guide['key'] / node['contentRef']
         if not content_path.exists():
             raise ValueError(f'{node_id_value} missing content file: {content_path}')
+        try:
+            content_data = load_json(content_path)
+        except (OSError, json.JSONDecodeError) as exc:
+            raise ValueError(
+                f'{node_id_value} invalid content JSON: {content_path}'
+            ) from exc
+        if not isinstance(content_data, dict):
+            raise ValueError(f'{node_id_value} content JSON must be an object: {content_path}')
+        if content_data.get('id') != node_id_value:
+            raise ValueError(f'{node_id_value} content id mismatch: {content_path}')
+        content = content_data.get('content')
+        if not isinstance(content, str) or not content.strip():
+            raise ValueError(f'{node_id_value} content must be non-empty: {content_path}')
+        if content_data.get('contentFormat') not in {'plain', 'markdown'}:
+            raise ValueError(f'{node_id_value} invalid contentFormat: {content_path}')
+        blocks = content_data.get('blocks')
+        if not isinstance(blocks, list) or not blocks or not all(isinstance(block, dict) for block in blocks):
+            raise ValueError(f'{node_id_value} blocks must be a non-empty object list: {content_path}')
+        for block in blocks:
+            if block.get('type') != 'source_image':
+                continue
+            src = str(block.get('src') or '')
+            if not src.startswith('/pdf-assets/'):
+                raise ValueError(f'{node_id_value} invalid source_image src: {src!r}')
+            asset = asset_root / src.lstrip('/') if asset_root is not None else None
+            if asset is not None and (not asset.is_file() or asset.stat().st_size <= 0):
+                raise ValueError(f'{node_id_value} missing source_image asset: {asset}')
+        if not isinstance(content_data.get('sourcePages'), list):
+            raise ValueError(f'{node_id_value} sourcePages must be a list: {content_path}')
 
 
 def export_level(level: str, content_dir: Path) -> dict[str, Any]:
@@ -2515,19 +3093,99 @@ def export_level_from_guide_tree(level: str, content_dir: Path) -> dict[str, Any
 def export(levels: list[str], use_guide_tree: bool = False) -> dict[str, Any]:
     generated_dir = BASE / 'frontend' / 'src' / 'generated'
     content_dir = generated_dir / 'guideContent'
-    if content_dir.exists():
-        shutil.rmtree(content_dir)
+    outlines_path = generated_dir / 'guideOutlines.json'
+    public_dir = BASE / 'frontend' / 'public'
+    generated_dir.mkdir(parents=True, exist_ok=True)
 
-    guides = {}
-    for level in levels:
-        if use_guide_tree:
-            guides.update(export_level_from_guide_tree(level, content_dir))
-        else:
-            guides.update(export_level(level, content_dir))
-    return {
-        'levels': levels,
-        'guides': guides,
-    }
+    staged_content_dir = Path(tempfile.mkdtemp(
+        prefix='.guideContent.staging-',
+        dir=generated_dir,
+    ))
+    staged_outlines_path = generated_dir / f'.guideOutlines.staging-{uuid.uuid4().hex}.json'
+    standard_all_levels = set(levels) == {'初級', '中級'} and len(levels) == 2
+    staged_public_root = (
+        Path(tempfile.mkdtemp(prefix='.track-a-public.staging-', dir=BASE / 'frontend'))
+        if standard_all_levels else None
+    )
+    staged_asset_paths: list[Path] = []
+    try:
+        # Start from the live tree so a partial-level export preserves all other
+        # levels. Only the explicitly requested level directories are rebuilt.
+        if content_dir.exists():
+            shutil.copytree(content_dir, staged_content_dir, dirs_exist_ok=True)
+        for child in list(staged_content_dir.iterdir()):
+            if child.is_dir() and any(child.name.startswith(f'{level}-') for level in levels):
+                shutil.rmtree(child)
+
+        existing = load_json(outlines_path) if outlines_path.exists() else {'levels': [], 'guides': {}}
+        guides = {
+            subject_id: guide
+            for subject_id, guide in (existing.get('guides') or {}).items()
+            if _guide_level(guide) not in levels
+        }
+        for level in levels:
+            if use_guide_tree:
+                guides.update(export_level_from_guide_tree(level, staged_content_dir))
+            else:
+                guides.update(export_level(level, staged_content_dir))
+
+        merged_levels = list(existing.get('levels') or [])
+        for level in levels:
+            if level not in merged_levels:
+                merged_levels.append(level)
+        represented_levels = {_guide_level(guide) for guide in guides.values()}
+        merged_levels = [level for level in merged_levels if level in represented_levels]
+        for level in sorted(represented_levels - set(merged_levels)):
+            if level:
+                merged_levels.append(level)
+
+        data = {'levels': merged_levels, 'guides': guides}
+        if staged_public_root is not None:
+            staged_asset_paths = _stage_track_a_visual_assets(levels, staged_public_root)
+        _validate_export(
+            data,
+            staged_content_dir,
+            asset_root=staged_public_root or public_dir,
+        )
+        if staged_public_root is not None:
+            semantic = audit_generated_track_a(
+                BASE,
+                content_root=staged_content_dir,
+                public_root=staged_public_root,
+                source_screenshot_root=public_dir,
+                check_optional_reading_seed=False,
+            )
+            if (
+                semantic['remaining']
+                or semantic['publication_overlay_remaining']
+                or semantic['publication_structure_remaining']
+            ):
+                failures = [
+                    *semantic['failures'],
+                    *semantic['publication_overlay_failures'],
+                    *semantic['publication_structure_failures'],
+                ]
+                raise ValueError(f'staged Track-A semantic gate failed: {failures}')
+        write_json(staged_outlines_path, data)
+        _commit_staged_outputs(
+            staged_content_dir,
+            content_dir,
+            staged_outlines_path,
+            outlines_path,
+            staged_public_root=staged_public_root,
+            public_root=public_dir,
+            asset_relative_paths=staged_asset_paths,
+        )
+        return data
+    finally:
+        # Before commit these are staging paths; after commit they no longer
+        # exist. Cleanup never touches the live output names.
+        if staged_content_dir.exists():
+            shutil.rmtree(staged_content_dir)
+        if staged_outlines_path.exists():
+            staged_outlines_path.unlink()
+        if staged_public_root and staged_public_root.exists():
+            shutil.rmtree(staged_public_root)
 
 
 def main() -> None:
@@ -2540,10 +3198,9 @@ def main() -> None:
 
     levels = ['初級', '中級'] if args.all_levels else [args.level]
     data = export(levels, use_guide_tree=args.use_guide_tree)
-    out_path = BASE / 'frontend' / 'src' / 'generated' / 'guideOutlines.json'
-    write_json(out_path, data)
     for guide in data['guides'].values():
-        print(f'{guide["level"]}/{guide["sourceKey"]}: {len(guide["flat"])} guide outline nodes')
+        if guide['level'] in levels:
+            print(f'{guide["level"]}/{guide["sourceKey"]}: {len(guide["flat"])} guide outline nodes')
 
 
 if __name__ == '__main__':

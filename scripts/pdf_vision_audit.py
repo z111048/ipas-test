@@ -42,7 +42,7 @@ try:
 except ImportError:
     sys.exit('google-genai not found. Run: uv add google-genai')
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 
 DEFAULT_MODEL = 'gemini-3-flash-preview'
 # Conservative upper-bound pricing (USD per 1M tokens).

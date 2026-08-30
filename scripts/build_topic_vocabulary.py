@@ -30,6 +30,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any
 
+from resource_catalog import exam_entries, level_entry
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from verify_question_answers import call_gateway, load_env_file  # noqa: E402
 
@@ -41,12 +43,19 @@ OUT_PATH = BASE / 'data' / 'topics' / 'topics_draft.json'
 # are 90 KB of intermediate output that would bloat the reviewable vocabulary.
 DRAFTS_PATH = BASE / 'data' / 'topics' / '_drafts_by_subject.json'
 
-# Which subject each exam key belongs to, so the vocabulary keeps subject provenance.
+def catalog_subject_label(exam: dict[str, Any]) -> str:
+    data_level = level_entry(level_id=exam['levelId'])['dataLevel']
+    if exam['kind'] == 'sample':
+        return f'{data_level}樣張'
+    match = re.search(r'科目[一二三四五六]', exam['label'])
+    return f'{data_level}{match.group(0)}' if match else data_level
+
+
+# Which frontend exam route belongs to which subject, derived from the catalog so
+# newly exported reference-answer files participate without another mapping edit.
 SUBJECT_OF_EXAM = {
-    'jr_1141_s1': '初級科目一', 'jr_1151_s1': '初級科目一', 'jr_1152_s1': '初級科目一',
-    'jr_1141_s2': '初級科目二', 'jr_1151_s2': '初級科目二', 'jr_1152_s2': '初級科目二',
-    'mid_1141_s1': '中級科目一', 'mid_1141_s2': '中級科目二', 'mid_1141_s3': '中級科目三',
-    'sample': '初級樣張', 'midSample': '中級樣張',
+    exam['routeKey']: catalog_subject_label(exam)
+    for exam in exam_entries()
 }
 
 

@@ -46,7 +46,7 @@ from verify_question_answers import (  # noqa: E402  (shared gateway client)
     save_json,
 )
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 GENERATED = BASE / 'frontend' / 'src' / 'generated'
 HEAT = GENERATED / 'topicHeat.json'
 GUIDE_CONTENT = GENERATED / 'guideContent'

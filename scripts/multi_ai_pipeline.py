@@ -32,7 +32,7 @@ from question_dedupe import (
     question_label,
 )
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 LOG_DIR = BASE / 'logs'
 
 MAX_CONTENT_CHARS = 4000
@@ -89,6 +89,7 @@ def _run_subprocess(cmd: list[str], prompt: str, timeout: int) -> str | None:
             capture_output=True,
             text=True,
             timeout=timeout,
+            cwd=BASE,
         )
         if result.returncode != 0:
             log.error(f"[{cmd[0]}] exit {result.returncode}: {result.stderr[:300]}")
@@ -162,7 +163,7 @@ def check_available_tools() -> dict[str, bool]:
         ('claude', ['claude', '--version']),
     ]:
         try:
-            subprocess.run(version_cmd, capture_output=True, timeout=5)
+            subprocess.run(version_cmd, capture_output=True, timeout=5, cwd=BASE)
             available[name] = True
         except FileNotFoundError:
             available[name] = False

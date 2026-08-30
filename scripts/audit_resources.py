@@ -29,6 +29,7 @@ from pathlib import Path
 from typing import Any, Iterator
 
 from asset_paths import asset_root, local_path
+from resource_catalog import iter_question_paths
 
 BASE = Path(__file__).resolve().parents[1]
 ALLOWLIST_PATH = BASE / 'data' / 'audit_allowlist.json'
@@ -273,26 +274,15 @@ def audit_questions(report: Report) -> None:
 # Reference answers vs the official key
 # ---------------------------------------------------------------------------
 
-EXAM_QUESTION_FILES = {
-    'jr_1141_s1': '初級/questions/mock_jr_1141_s1.json',
-    'jr_1141_s2': '初級/questions/mock_jr_1141_s2.json',
-    'jr_1151_s1': '初級/questions/mock_jr_1151_s1.json',
-    'jr_1151_s2': '初級/questions/mock_jr_1151_s2.json',
-    'jr_1152_s1': '初級/questions/mock_jr_1152_s1.json',
-    'jr_1152_s2': '初級/questions/mock_jr_1152_s2.json',
-    'mid_1141_s1': '中級/questions/mock_mid_1141_s1.json',
-    'mid_1141_s2': '中級/questions/mock_mid_1141_s2.json',
-    'mid_1141_s3': '中級/questions/mock_mid_1141_s3.json',
-    'sample': '初級/questions/sample_exam.json',
-    'midSample': '中級/questions/sample_exam.json',
-}
-
-
 def audit_reference_answers(report: Report) -> None:
-    for exam_key, rel in EXAM_QUESTION_FILES.items():
+    for exam, question_path in iter_question_paths():
+        exam_key = exam['routeKey']
         ref_path = GENERATED / 'examReferenceAnswers' / f'{exam_key}.json'
-        question_path = BASE / 'data' / rel
-        if not ref_path.exists() or not question_path.exists():
+        # Reference answers are optional and currently exist for 11/14 papers.
+        # When present, their answer keys must match the catalog-selected paper.
+        if not ref_path.exists():
+            continue
+        if not question_path.exists():
             report.add('referenceAnswers', 'WARN', '找不到對應檔案', exam_key)
             continue
         official = {qid.rsplit('_q', 1)[-1]: (qid, answer)
@@ -413,7 +403,7 @@ def audit_guide(report: Report) -> None:
     """講義本文。佔前端資源最大宗（8.6MB）卻一直沒有任何閘門覆蓋。
 
     只查確定性的東西：空章節、SSOT 對得上、OCR 破字、頁面圖檔存在。
-    內容正確性靠 verify_question_guide_alignment.py 的引文命中率，不在這裡做。
+    內容正確性由獨立的 ``ocrSemantics`` 檢查負責；這裡只查資源結構。
     """
     root = GENERATED / 'guideContent'
     if not root.exists():
@@ -498,6 +488,295 @@ def audit_guide(report: Report) -> None:
                f'檢查 {chapters} 章，過短 {short} 章，缺圖 {missing_images} 個', '')
 
 
+# ---------------------------------------------------------------------------
+# OCR semantic publication gates
+# ---------------------------------------------------------------------------
+
+def audit_ocr_semantics(report: Report) -> None:
+    """Gate the reviewed Track A, Track B, and official-exam OCR contracts.
+
+    Structural alignment and cache completeness cannot detect a formula being
+    attached to the wrong paragraph, a cross-page block carrying the previous
+    page id, or a Vision sidecar silently omitting a field.  The three repair
+    pipelines therefore expose pure, read-only verifiers; this audit makes
+    those verifiers publication-blocking.
+    """
+    try:
+        from track_a_ocr_repairs import audit_generated_track_a
+
+        track_a = audit_generated_track_a(BASE)
+    except Exception as exc:  # A broken verifier must block, not skip, release.
+        report.add('ocrSemantics', 'FAIL', f'Track A 驗證無法執行：{exc}', 'track-a')
+    else:
+        expected_track_a_categories = {
+            'formula_and_errata': 45,
+            'bibliography': 2,
+            'heading': 3,
+            'exercise_provenance': 55,
+            'table_provenance': 3,
+            'block_page_index': 44,
+            'source_visual': 17,
+        }
+        checked_ids = track_a.get('checked_ids') if isinstance(track_a, dict) else None
+        category_remaining = track_a.get('category_remaining') if isinstance(track_a, dict) else None
+        failures = track_a.get('failures') if isinstance(track_a, dict) else None
+        overlay_failures = (
+            track_a.get('publication_overlay_failures') if isinstance(track_a, dict) else None
+        )
+        structure_failures = (
+            track_a.get('publication_structure_failures') if isinstance(track_a, dict) else None
+        )
+        track_a_contract_ok = (
+            isinstance(track_a, dict)
+            and track_a.get('inventory_total') == 169
+            and track_a.get('checked_total') == 169
+            and checked_ids == [f'TA-{index:03d}' for index in range(1, 170)]
+            and track_a.get('category_totals') == expected_track_a_categories
+            and isinstance(category_remaining, dict)
+            and set(category_remaining) == set(expected_track_a_categories)
+            and all(type(value) is int and value >= 0 for value in category_remaining.values())
+            and type(track_a.get('remaining')) is int
+            and track_a['remaining'] >= 0
+            and isinstance(failures, list)
+            and track_a['remaining'] == len(failures)
+            and track_a['remaining'] == sum(category_remaining.values())
+            and track_a.get('publication_overlay_total') == 3
+            and track_a.get('publication_overlay_names') == [
+                'official-errata:perceptron-w_i-x_i',
+                'source-math:X_max',
+                'source-math:softmax-z_j',
+            ]
+            and type(track_a.get('publication_overlay_remaining')) is int
+            and track_a['publication_overlay_remaining'] >= 0
+            and isinstance(overlay_failures, list)
+            and track_a['publication_overlay_remaining'] == len(overlay_failures)
+            and track_a.get('publication_structure_total') == 3
+            and track_a.get('publication_structure_names') == [
+                'manual-heading:s1c2-hypothesis',
+                'manual-heading:s1c4-hierarchy',
+                'manual-heading:s2c3-import-strategy',
+            ]
+            and type(track_a.get('publication_structure_remaining')) is int
+            and track_a['publication_structure_remaining'] >= 0
+            and isinstance(structure_failures, list)
+            and track_a['publication_structure_remaining'] == len(structure_failures)
+        )
+        if not track_a_contract_ok:
+            report.add(
+                'ocrSemantics', 'FAIL',
+                'Track A verifier 回傳格式／盤點數不符（預期 169 筆＋3 筆 publication overlay'
+                '＋3 筆 publication structure）',
+                'track-a',
+            )
+        elif (
+            track_a['remaining']
+            or track_a['publication_overlay_remaining']
+            or track_a['publication_structure_remaining']
+        ):
+            remaining = track_a['remaining']
+            sample_items = [*failures, *overlay_failures, *structure_failures]
+            sample = '；'.join(str(item) for item in sample_items[:5])
+            report.add(
+                'ocrSemantics', 'FAIL',
+                f'Track A 尚有 {remaining}/169 筆已知缺陷、'
+                f'{track_a["publication_overlay_remaining"]}/3 筆 publication overlay、'
+                f'{track_a["publication_structure_remaining"]}/3 筆 publication structure：{sample}',
+                'track-a',
+            )
+        else:
+            report.add(
+                'ocrSemantics', 'INFO',
+                'Track A 169 筆已審 inventory、3 筆來源／官方勘誤 overlay 與 '
+                '3 筆手動結構契約全數在位',
+                'track-a',
+            )
+
+    try:
+        from apply_track_b_ocr_fixes import audit_track_b_state
+        from export_guide_sections import verify_outputs as verify_guide_sections
+
+        track_b = audit_track_b_state(BASE, 'all')
+        section_summary, section_errors = verify_guide_sections()
+    except Exception as exc:
+        report.add('ocrSemantics', 'FAIL', f'Track B 快取／canonical 驗證失敗：{exc}', 'track-b')
+    else:
+        cache_state = (track_b.get('cache') or {}) if isinstance(track_b, dict) else {}
+        canonical_state = (
+            (track_b.get('committed_canonical') or {}) if isinstance(track_b, dict) else {}
+        )
+        cache_status = cache_state.get('status', 'unknown')
+        cache_detail = (
+            '本機 cache 重建比對已執行'
+            if cache_state.get('extended_rebuild_check')
+            else '本機 cache 不可用，未執行重建比對'
+        )
+        track_b_contract_ok = (
+            isinstance(track_b, dict)
+            and track_b.get('status') == 'pass'
+            and type(track_b.get('remaining')) is int
+            and track_b['remaining'] == 0
+            and track_b.get('canonical_files') == 5
+            and track_b.get('ocr_or_extraction_corrections') == 71
+            and track_b.get('source_math_corrections') == 2
+            and track_b.get('provenance_corrections') == 5
+            and track_b.get('verified_inventory_ids') == 78
+            and canonical_state.get('status') == 'verified'
+            and canonical_state.get('fixed_content_sha256') == 5
+            and isinstance(section_summary, dict)
+            and isinstance(section_errors, list)
+            and section_summary.get('expected_files') == track_b.get('canonical_files')
+            and section_summary.get('files') == section_summary.get('expected_files')
+            and type(section_summary.get('expected_chapters')) is int
+            and section_summary['expected_chapters'] > 0
+            and section_summary.get('chapters') == section_summary.get('expected_chapters')
+            and type(section_summary.get('sections')) is int
+            and section_summary['sections'] > 0
+            and type(section_summary.get('chunks')) is int
+            and section_summary['chunks'] > 0
+            and section_summary.get('errors') == len(section_errors) == 0
+            and cache_status in {'verified', 'not_available'}
+            and isinstance(cache_state.get('available'), bool)
+            and (
+                (cache_status == 'verified'
+                 and cache_state.get('available') is True
+                 and cache_state.get('extended_rebuild_check') is True)
+                or (cache_status == 'not_available'
+                    and cache_state.get('available') is False
+                    and cache_state.get('extended_rebuild_check') is False)
+            )
+        )
+        if not track_b_contract_ok:
+            track_b_status = track_b.get('status') if isinstance(track_b, dict) else None
+            track_b_remaining = track_b.get('remaining') if isinstance(track_b, dict) else None
+            report.add(
+                'ocrSemantics', 'FAIL',
+                f'Track B verifier 回傳未達 release contract：status={track_b_status!r}、'
+                f'remaining={track_b_remaining!r}、canonical={canonical_state.get("status")!r}、'
+                f'cache={cache_status!r}、guide_sections errors={len(section_errors)}',
+                'track-b',
+            )
+        else:
+            report.add(
+                'ocrSemantics', 'INFO',
+                f'Track B 驗證 {track_b["verified_inventory_ids"]} 筆；'
+                f'OCR／抽取 {track_b.get("ocr_or_extraction_corrections", 0)}、'
+                f'來源數式 {track_b.get("source_math_corrections", 0)}、'
+                f'provenance {track_b.get("provenance_corrections", 0)}；'
+                f'guide_sections={section_summary["files"]} 檔／{section_summary["chunks"]} chunks；'
+                f'canonical=verified、cache={cache_status}（{cache_detail}）',
+                'track-b',
+            )
+
+    try:
+        from resource_catalog import exam_entries
+        from verify_exam_ocr_repairs import verify as verify_exam_ocr
+
+        catalog_exams = exam_entries()
+        expected_exam_count = len(catalog_exams)
+        expected_question_count = sum(int(exam['expectedQuestions']) for exam in catalog_exams)
+        exam_summary, exam_errors = verify_exam_ocr()
+    except Exception as exc:
+        report.add('ocrSemantics', 'FAIL', f'考題 production 驗證無法執行：{exc}', 'exams')
+    else:
+        exam_contract_ok = (
+            isinstance(exam_summary, dict)
+            and isinstance(exam_errors, list)
+            and exam_summary.get('catalog_exams') == expected_exam_count
+            and exam_summary.get('production_questions') == expected_question_count
+            and exam_summary.get('source_issues_visible') == 2
+            and exam_summary.get('errors') == len(exam_errors)
+        )
+        if not exam_contract_ok:
+            report.add(
+                'ocrSemantics', 'FAIL',
+                f'考題 verifier 回傳格式／母體數不符（預期 {expected_exam_count} 份／'
+                f'{expected_question_count} 題）',
+                'exams',
+            )
+        elif exam_errors:
+            sample = '；'.join(exam_errors[:5])
+            report.add(
+                'ocrSemantics', 'FAIL',
+                f'考題 production 尚有 {len(exam_errors)} 項誤差：{sample}',
+                'exams',
+            )
+        else:
+            report.add(
+                'ocrSemantics', 'INFO',
+                f'{exam_summary.get("catalog_exams", 0)} 份考卷／'
+                f'{exam_summary.get("production_questions", 0)} 題已通過 production 修復驗證，'
+                f'{exam_summary.get("source_issues_visible", 0)} 題來源歧義已顯示註記',
+                'exams',
+            )
+
+    try:
+        from reconcile_exam_vision_sidecar import build_overlay
+
+        sidecar_exams = exam_entries()
+        expected_sidecar_total = sum(int(exam['expectedQuestions']) for exam in sidecar_exams)
+        sidecar = build_overlay(sidecar_exams)
+        sidecar_summary = sidecar['summary']
+    except Exception as exc:
+        report.add('ocrSemantics', 'FAIL', f'Vision sidecar 安全層驗證無法執行：{exc}', 'exam-sidecar')
+        return
+
+    required_numeric = (
+        'production_questions', 'cached_questions', 'missing_cache_questions',
+        'overlay_field_mismatches', 'unexpected_cache_numbers',
+    )
+    if (
+        not isinstance(sidecar_summary, dict)
+        or any(not isinstance(sidecar_summary.get(key), int) for key in required_numeric)
+        or not isinstance(sidecar_summary.get('promotion_ready'), bool)
+    ):
+        report.add(
+            'ocrSemantics', 'FAIL',
+            'Vision sidecar verifier 回傳格式不完整',
+            'exam-sidecar',
+        )
+        return
+
+    production_total = sidecar_summary['production_questions']
+    cached = sidecar_summary['cached_questions']
+    missing = sidecar_summary['missing_cache_questions']
+    overlay_mismatches = sidecar_summary['overlay_field_mismatches']
+    unexpected = sidecar_summary['unexpected_cache_numbers']
+    q12_answer = sidecar_summary.get('q12_verified_answer')
+    # q12 is locked in the committed production verifier above.  When the
+    # gitignored local sidecar is present as well, its verified overlay must
+    # agree.  A fresh CI checkout legitimately has no sidecar records at all.
+    q12_overlay_bad = q12_answer is not None and q12_answer != 'C'
+    coverage_bad = (
+        production_total != expected_sidecar_total
+        or cached < 0
+        or missing < 0
+        or cached + missing != production_total
+    )
+    promotion_state_bad = sidecar_summary['promotion_ready'] != (
+        missing == 0 and overlay_mismatches == 0 and unexpected == 0
+    )
+    if coverage_bad or overlay_mismatches or unexpected or q12_overlay_bad or promotion_state_bad:
+        report.add(
+            'ocrSemantics', 'FAIL',
+            f'Vision verified overlay contract 失敗：coverage={cached}+{missing}/{production_total}、'
+            f'field mismatch={overlay_mismatches}、unexpected={unexpected}、'
+            f'q12={q12_answer!r}、promotion_ready={sidecar_summary["promotion_ready"]!r}',
+            'exam-sidecar',
+        )
+    else:
+        # Missing raw cache is an expected, explicit promotion blocker.  It is
+        # safe for today's production because runtime consumes the verified
+        # question JSON, not exam_pages_cache; the regression test locks that
+        # boundary and --promotion-gate exits non-zero until coverage is full.
+        state = '可升級' if sidecar_summary.get('promotion_ready') else '升級已阻擋'
+        report.add(
+            'ocrSemantics', 'INFO',
+            f'Vision sidecar 已有 cache 的 {cached} 題 overlay 均與 production 一致；'
+            f'coverage 尚缺 {missing}/{production_total} 題，{state}',
+            'exam-sidecar',
+        )
+
+
 def audit_articles(report: Report) -> None:
     """學習文章。3 篇，先前完全沒有閘門。"""
     index_path = GENERATED / 'learningArticles' / 'index.json'
@@ -532,6 +811,7 @@ CHECKS = {
     'questions': audit_questions,
     'referenceAnswers': audit_reference_answers,
     'guide': audit_guide,
+    'ocrSemantics': audit_ocr_semantics,
     'articles': audit_articles,
     'images': audit_images,
     'glossary': audit_glossary,

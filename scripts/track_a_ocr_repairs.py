@@ -19,7 +19,11 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
-from guide_publication_overlays import DEMOTE_HEADINGS, PROMOTE_HEADINGS, SHORTEN_HEADINGS
+from guide_publication_overlays import (
+    DEMOTE_HEADINGS,
+    GUIDE_NAVIGATION_HEADINGS,
+    SHORTEN_HEADINGS,
+)
 
 
 BASE = Path(__file__).resolve().parents[1]
@@ -1426,23 +1430,93 @@ def audit_generated_track_a(
     }
     overlay_failures = [name for name, ok in overlay_checks.items() if not ok]
 
-    # Exporter-owned publication hierarchy overlays must be present in the
-    # staged candidate itself.  This prevents a schema-valid export from
-    # silently reverting the s1c2/s1c4 Markdown and relying on a later manual
-    # file edit to repair live output.
-    publication_structure_checks: dict[str, bool] = {}
-    hypothesis_title, hypothesis_depth = PROMOTE_HEADINGS['s1c2']
-    hypothesis_markdown = str(s1c2.get('content') or '')
-    hypothesis_headings = s1c2.get('headings') or []
-    publication_structure_checks['manual-heading:s1c2-hypothesis'] = (
-        hypothesis_markdown.count(f'\n{"#" * hypothesis_depth} {hypothesis_title}\n') == 1
-        and hypothesis_markdown.count(f'\n{hypothesis_title}\n') == 0
-        and sum(
-            heading.get('title') == hypothesis_title
-            and heading.get('level') == hypothesis_depth
-            for heading in hypothesis_headings
-        ) == 1
-    )
+    # Exporter-owned publication hierarchy overlays must be present on every
+    # generated content surface.  On the live output, the same contract also
+    # covers the derived hierarchy/search files; staged exporter candidates
+    # skip only those downstream files because export_guide_hierarchy.py runs
+    # after the atomic content commit.
+    navigation_registry = signature_registry.get('guideNavigation') or {}
+    if navigation_registry != GUIDE_NAVIGATION_HEADINGS:
+        raise AssertionError(
+            'guide-navigation signature registry differs from publication overlay contracts'
+        )
+    live_content_root = base / 'frontend/src/generated/guideContent'
+    check_derived_navigation = content_root.resolve() == live_content_root.resolve()
+    hierarchy_payload = load(base / 'frontend/src/generated/guideHierarchy.json') if check_derived_navigation else {}
+    search_payload = load(base / 'frontend/src/generated/guideSearchIndex.json') if check_derived_navigation else {}
+
+    def exact_navigation_contract(contract_name: str, expected: dict[str, Any]) -> bool:
+        data = load(_content_path(expected['level'], expected['key'], expected['node'], content_root))
+        title = expected['title']
+        depth = expected['depth']
+        anchor = expected['anchor']
+        forbidden = set(expected['forbiddenTitles'])
+        markdown_lines = str(data.get('content') or '').splitlines()
+        metadata = [
+            heading for heading in data.get('headings') or []
+            if heading.get('title') == title
+        ]
+        blocks = [
+            block for block in data.get('blocks') or []
+            if block.get('type') == 'heading' and block.get('title') == title
+        ]
+        serialized = json.dumps({
+            'content': data.get('content'),
+            'headings': data.get('headings'),
+            'blocks': data.get('blocks'),
+        }, ensure_ascii=False)
+        content_ok = (
+            markdown_lines.count(f'{"#" * depth} {title}') == 1
+            and len(metadata) == 1
+            and metadata[0].get('id') == anchor
+            and metadata[0].get('level') == depth
+            and len(blocks) == 1
+            and blocks[0].get('depth') == depth
+            and blocks[0].get('anchor') == anchor
+            and blocks[0].get('pageIndex') == expected['pageIndex']
+            and blocks[0].get('sourcePageIndexes') == [expected['pageIndex']]
+            and blocks[0].get('publicationOverlayId') == contract_name
+            and all(forbidden_title not in serialized for forbidden_title in forbidden)
+        )
+        if not content_ok or not check_derived_navigation:
+            return content_ok
+
+        subject_id = expected['subjectId']
+        hierarchy_nodes = (
+            hierarchy_payload.get('guides', {}).get(subject_id, {}).get('nodesById', {})
+        )
+        hierarchy_matches = [
+            node for node in hierarchy_nodes.values()
+            if node.get('title') == title
+        ]
+        search_nodes = search_payload.get('guides', {}).get(subject_id, {}).get('nodes', [])
+        search_matches = [node for node in search_nodes if node.get('t') == title]
+        expected_id = f'{expected["node"]}#{anchor}'
+        return (
+            len(hierarchy_matches) == 1
+            and hierarchy_matches[0].get('id') == expected_id
+            and hierarchy_matches[0].get('kind') == 'heading'
+            and hierarchy_matches[0].get('anchor') == anchor
+            and hierarchy_matches[0].get('headingLevel') == depth
+            and hierarchy_matches[0].get('page') == expected['hierarchyPage']
+            and len(search_matches) == 1
+            and search_matches[0].get('id') == expected_id
+            and search_matches[0].get('k') == 'h'
+            and search_matches[0].get('a') == anchor
+            and search_matches[0].get('x') is None
+            and all(
+                forbidden_title not in json.dumps(
+                    {'hierarchy': hierarchy_nodes, 'search': search_nodes},
+                    ensure_ascii=False,
+                )
+                for forbidden_title in forbidden
+            )
+        )
+
+    publication_structure_checks: dict[str, bool] = {
+        contract_name: exact_navigation_contract(contract_name, expected)
+        for contract_name, expected in navigation_registry.items()
+    }
 
     s1c4 = load(_content_path('初級', 'guide1', 's1c4', content_root))
     s1c4_markdown = str(s1c4.get('content') or '')

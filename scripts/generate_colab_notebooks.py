@@ -28,7 +28,7 @@ import textwrap
 from datetime import datetime
 from pathlib import Path
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 LOG_DIR = BASE / 'logs'
 GITHUB_REPO = 'z111048/ipas-test'
 
@@ -62,6 +62,7 @@ def call_codex(prompt: str, timeout: int = DEFAULT_TIMEOUT) -> str | None:
                 capture_output=True,
                 text=True,
                 timeout=timeout,
+                cwd=BASE,
             )
             if result.returncode == 0 and result.stdout.strip():
                 return result.stdout.strip()
@@ -280,6 +281,7 @@ def run_code(code: str, timeout: int = EXEC_TIMEOUT) -> tuple[bool, str]:
             capture_output=True,
             text=True,
             timeout=timeout,
+            cwd=BASE,
         )
         if result.returncode != 0:
             stderr = result.stderr.strip()

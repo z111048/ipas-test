@@ -8,6 +8,8 @@ release shape directly and validate it before touching live outputs.
 
 from __future__ import annotations
 
+import re
+import unicodedata
 from typing import Any
 
 
@@ -32,6 +34,126 @@ SHORTEN_HEADINGS = {
 }
 
 PROMOTE_HEADINGS = {'s1c2': ('假說檢定名詞介紹：', 3)}
+
+GUIDE_NAVIGATION_HEADINGS = {
+    'manual-heading:s1c2-hypothesis': {
+        'level': '初級',
+        'key': 'guide1',
+        'node': 's1c2',
+        'subjectId': 's1',
+        'title': '假說檢定名詞介紹：',
+        'depth': 3,
+        'anchor': '假說檢定名詞介紹',
+        'pageIndex': 31,
+        'hierarchyPage': 32,
+        'forbiddenTitles': [],
+    },
+    'manual-heading:s2c3-import-strategy': {
+        'level': '初級',
+        'key': 'guide2',
+        'node': 's2c3',
+        'subjectId': 's2',
+        'title': '（3） 導入策略與階段規劃',
+        'depth': 4,
+        'anchor': '3導入策略與階段規劃',
+        'pageIndex': 37,
+        'hierarchyPage': 38,
+        'forbiddenTitles': ['（3）企業導入階段性實施策略企業需採取'],
+    },
+}
+
+
+def _normalized(value: Any) -> str:
+    return re.sub(r'\s+', '', unicodedata.normalize('NFKC', str(value or '')))
+
+
+def _table_starts_with(block: dict[str, Any], title: str) -> bool:
+    rows = block.get('rows') or []
+    return bool(
+        block.get('type') == 'table'
+        and rows
+        and rows[0]
+        and _normalized(rows[0][0]) == _normalized(title)
+    )
+
+
+def apply_publication_block_overlays(
+    level: str,
+    key: str,
+    node: str,
+    blocks: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Return exact navigable heading blocks for source-reviewed exceptions."""
+    result = [dict(block) for block in blocks]
+
+    contract_name = 'manual-heading:s1c2-hypothesis'
+    contract = GUIDE_NAVIGATION_HEADINGS[contract_name]
+    if (level, key, node) == (contract['level'], contract['key'], contract['node']):
+        title = str(contract['title'])
+        matches = [
+            index for index, block in enumerate(result)
+            if block.get('type') == 'heading' and block.get('title') == title
+        ]
+        tables = [
+            index for index, block in enumerate(result)
+            if _table_starts_with(block, title)
+        ]
+        if len(tables) != 1 or len(matches) > 1:
+            raise ValueError(
+                f'{level}/{key}/{node}: hypothesis navigation source matched '
+                f'headings={len(matches)}, tables={len(tables)}; expected at most one/one'
+            )
+        table_index = tables[0]
+        if not matches:
+            result.insert(table_index, {
+                'type': 'heading',
+                'depth': contract['depth'],
+                'title': title,
+                'anchor': contract['anchor'],
+                'pageIndex': contract['pageIndex'],
+                'sourcePageIndexes': [contract['pageIndex']],
+                'bbox': [101.8, 421.61, 218.23, 434.9],
+                'publicationOverlayId': contract_name,
+            })
+            table_index += 1
+            matches = [table_index - 1]
+        heading_index = matches[0]
+        if heading_index + 1 != table_index:
+            raise ValueError(f'{level}/{key}/{node}: hypothesis heading is not before its table')
+        result[heading_index].update({
+            'depth': contract['depth'],
+            'anchor': contract['anchor'],
+            'pageIndex': contract['pageIndex'],
+            'sourcePageIndexes': [contract['pageIndex']],
+            'bbox': [101.8, 421.61, 218.23, 434.9],
+            'publicationOverlayId': contract_name,
+        })
+
+    contract_name = 'manual-heading:s2c3-import-strategy'
+    contract = GUIDE_NAVIGATION_HEADINGS[contract_name]
+    if (level, key, node) == (contract['level'], contract['key'], contract['node']):
+        title = str(contract['title'])
+        forbidden = set(contract['forbiddenTitles'])
+        matches = [
+            index for index, block in enumerate(result)
+            if block.get('type') == 'heading'
+            and (block.get('title') == title or block.get('title') in forbidden)
+        ]
+        if len(matches) != 1:
+            raise ValueError(
+                f'{level}/{key}/{node}: import-strategy heading matched '
+                f'{len(matches)}, expected exactly one'
+            )
+        result[matches[0]].update({
+            'title': title,
+            'depth': contract['depth'],
+            'anchor': contract['anchor'],
+            'pageIndex': contract['pageIndex'],
+            'sourcePageIndexes': [contract['pageIndex']],
+            'publicationOverlayId': contract_name,
+        })
+
+    return result
 
 
 def apply_publication_markdown_overlays(
@@ -71,6 +193,23 @@ def apply_publication_markdown_overlays(
                     f'{level}/{key}/{node}: manual heading {title!r} matched '
                     f'h4={old_count}, h3={new_count}; expected exactly one'
                 )
+
+    contract = GUIDE_NAVIGATION_HEADINGS['manual-heading:s2c3-import-strategy']
+    if (level, key, node) == (contract['level'], contract['key'], contract['node']):
+        title = str(contract['title'])
+        old_title = str(contract['forbiddenTitles'][0])
+        old_line = f'{"#" * int(contract["depth"])} {old_title}'
+        new_line = f'{"#" * int(contract["depth"])} {title}'
+        lines = markdown.splitlines()
+        old_count = lines.count(old_line)
+        new_count = lines.count(new_line)
+        if (old_count, new_count) == (1, 0):
+            markdown = markdown.replace(old_line, new_line, 1)
+        elif (old_count, new_count) != (0, 1):
+            raise ValueError(
+                f'{level}/{key}/{node}: import-strategy Markdown matched '
+                f'old={old_count}, final={new_count}; expected exactly one'
+            )
     return markdown
 
 
@@ -102,4 +241,17 @@ def apply_publication_heading_overlays(
                 raise ValueError(
                     f'{level}/{key}/{node}: heading shortening contract differs for {short_title!r}'
                 )
+
+    contract = GUIDE_NAVIGATION_HEADINGS['manual-heading:s2c3-import-strategy']
+    if (level, key, node) == (contract['level'], contract['key'], contract['node']):
+        title = str(contract['title'])
+        forbidden = set(contract['forbiddenTitles'])
+        matches = [
+            heading for heading in result
+            if heading.get('title') == title or heading.get('title') in forbidden
+        ]
+        if len(matches) != 1 or matches[0].get('level') != contract['depth']:
+            raise ValueError(f'{level}/{key}/{node}: exact import-strategy metadata missing')
+        matches[0]['title'] = title
+        matches[0]['id'] = contract['anchor']
     return result

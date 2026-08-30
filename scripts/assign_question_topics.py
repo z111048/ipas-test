@@ -465,7 +465,8 @@ def main() -> None:
         VERIFY_CACHE = VERIFY_CACHE.with_name('_verify_cache_practice.json')
         ASSIGN_CACHE = ASSIGN_CACHE.with_name('_assign_cache_practice.json')
     if args.out:
-        OUT_PATH = Path(args.out)
+        requested_output = Path(args.out)
+        OUT_PATH = requested_output if requested_output.is_absolute() else BASE / requested_output
 
     vocab = load_json(VOCAB_PATH)
     if vocab.get('status') != 'signed-off':

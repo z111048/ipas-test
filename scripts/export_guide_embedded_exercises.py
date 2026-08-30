@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import unicodedata
 from pathlib import Path
 from typing import Any
 
@@ -14,6 +15,11 @@ BASE = Path(__file__).resolve().parents[1]
 QUESTION_RE = re.compile(r'^(\d{1,2})\.\s+(?!Ans\b)(.+)$', re.IGNORECASE)
 ANSWER_RE = re.compile(r'^(\d{1,2})\.\s*Ans[（(]([A-D])[）)]?\s*(.*)$', re.IGNORECASE)
 OPTION_RE = re.compile(r'[（(]([A-D])[）)]')
+STRONG_BIBLIOGRAPHY_BOUNDARIES = {
+    '附件本學習指引參考書目',
+    '本學習指引參考書目',
+    '附件參考書目',
+}
 
 
 def load_json(path: Path) -> Any:
@@ -30,6 +36,34 @@ def compact_text(value: str) -> str:
     value = re.sub(r'\s*\n\s*', '', value.strip())
     value = re.sub(r'[ \t]+', ' ', value)
     return value
+
+
+def normalized_structural_line(value: str) -> str:
+    """Normalize one complete source line for structural comparisons only."""
+    value = unicodedata.normalize('NFKC', value or '').strip()
+    value = re.sub(r'^#{1,6}\s*', '', value)
+    return re.sub(r'\s+', '', value).strip('：:')
+
+
+def is_bibliography_boundary(line: str, *, first_content_line: bool = False) -> bool:
+    """Recognize a standalone appendix heading, never an in-sentence mention.
+
+    The supplied guides use the strong ``附件 本學習指引參考書目`` label.
+    A bare ``參考書目`` is accepted only as the first content line of a page,
+    which covers a conventional appendix heading without truncating an option
+    or explanation that merely discusses reference material.
+    """
+    normalized = normalized_structural_line(line)
+    return (
+        normalized in STRONG_BIBLIOGRAPHY_BOUNDARIES
+        or (first_content_line and normalized == '參考書目')
+    )
+
+
+def has_bibliography_bleed(value: str) -> bool:
+    """Detect a strong appendix marker in an already assembled field."""
+    normalized = normalized_structural_line(value)
+    return any(marker in normalized for marker in STRONG_BIBLIOGRAPHY_BOUNDARIES)
 
 
 def page_index(path: Path) -> int:
@@ -127,7 +161,11 @@ def parse_questions(page_paths: list[Path], subject: dict[str, Any],
         current = None
 
     for page_path in page_paths:
-        for page, line in read_page_lines(page_path, headers):
+        source_lines = read_page_lines(page_path, headers)
+        for line_index, (page, line) in enumerate(source_lines):
+            if is_bibliography_boundary(line, first_content_line=line_index == 0):
+                flush()
+                return records
             answer_match = ANSWER_RE.match(line)
             question_match = QUESTION_RE.match(line)
             if answer_match:
@@ -174,7 +212,11 @@ def parse_answers(page_paths: list[Path], subject: dict[str, Any],
         current = None
 
     for page_path in page_paths:
-        for page, line in read_page_lines(page_path, headers):
+        source_lines = read_page_lines(page_path, headers)
+        for line_index, (page, line) in enumerate(source_lines):
+            if is_bibliography_boundary(line, first_content_line=line_index == 0):
+                flush()
+                return records
             answer_match = ANSWER_RE.match(line)
             question_match = QUESTION_RE.match(line)
             if answer_match:
@@ -274,6 +316,62 @@ def carry_over_cards(out_path: Path, chapters: list[dict[str, Any]]) -> int:
     return kept
 
 
+def payload_questions(payload: dict[str, Any]) -> list[dict[str, Any]]:
+    return [
+        question
+        for chapter in payload.get('chapters') or []
+        for question in chapter.get('questions') or []
+    ]
+
+
+def validate_export_payload(
+    payload: dict[str, Any],
+    previous_payload: dict[str, Any] | None = None,
+) -> None:
+    """Fail before writing on appendix bleed or silent production data loss."""
+    questions = payload_questions(payload)
+    by_id = {str(question.get('id') or ''): question for question in questions}
+    if '' in by_id or len(by_id) != len(questions):
+        raise ValueError('guide exercise output has missing or duplicate question IDs')
+
+    for question_id, question in by_id.items():
+        fields = {
+            'question': question.get('question'),
+            'explanation': question.get('explanation'),
+            **{
+                f'option.{key}': value
+                for key, value in (question.get('options') or {}).items()
+            },
+            **{
+                f'card.{key}': value
+                for key, value in (question.get('card') or {}).items()
+                if isinstance(value, str)
+            },
+        }
+        for field, value in fields.items():
+            if has_bibliography_bleed(str(value or '')):
+                raise ValueError(f'{question_id}.{field} contains bibliography appendix bleed')
+
+    if previous_payload is None:
+        return
+    previous_questions = payload_questions(previous_payload)
+    previous_by_id = {
+        str(question.get('id') or ''): question for question in previous_questions
+    }
+    if '' in previous_by_id or len(previous_by_id) != len(previous_questions):
+        raise ValueError('existing guide exercise output has missing or duplicate question IDs')
+    if set(by_id) != set(previous_by_id):
+        missing = sorted(set(previous_by_id) - set(by_id))
+        added = sorted(set(by_id) - set(previous_by_id))
+        raise ValueError(
+            f'guide exercise question IDs changed; missing={missing}, added={added}'
+        )
+    for question_id, previous in previous_by_id.items():
+        previous_card = previous.get('card')
+        if isinstance(previous_card, dict) and by_id[question_id].get('card') != previous_card:
+            raise ValueError(f'{question_id} existing card was not preserved exactly')
+
+
 def export_level(level: str) -> None:
     manifest = load_json(BASE / 'data' / level / 'toc_manifest.json')
     subject_by_key = {subject['key']: subject for subject in manifest['subjects']}
@@ -291,6 +389,7 @@ def export_level(level: str) -> None:
         subject_number = key.replace('guide', '')
         out_path = (BASE / 'data' / level / 'questions'
                     / f'subject{subject_number}_guide_exercises.json')
+        previous_payload = load_json(out_path) if out_path.exists() else None
         carry_over_cards(out_path, merged['chapters'])
         payload = {
             'level': level,
@@ -299,6 +398,7 @@ def export_level(level: str) -> None:
             'description': '從學習指引 PDF 內嵌章節練習題抽取',
             'chapters': merged['chapters'],
         }
+        validate_export_payload(payload, previous_payload)
         write_json(out_path, payload)
         total = sum(len(chapter['questions']) for chapter in payload['chapters'])
         print(f'Wrote {out_path.relative_to(BASE)}: {total} questions')

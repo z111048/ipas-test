@@ -72,18 +72,25 @@ def rclone_flags() -> list[str]:
     ]
 
 
+def configured_bucket(cli_bucket: str | None) -> str:
+    """Resolve the bucket after project ``.env`` has been loaded."""
+    return cli_bucket or os.environ.get('R2_BUCKET', 'ipas-assets')
+
+
 def main() -> int:
+    # Load before resolving parser defaults. Credentials and R2_BUCKET are
+    # intentionally allowed to live in the same project .env file.
+    load_dotenv()
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--dry-run', action='store_true', help='只顯示會做什麼，不動遠端')
     parser.add_argument('--only', choices=sorted(ASSET_DIRS), help='只發佈其中一個目錄')
-    parser.add_argument('--bucket', default=os.environ.get('R2_BUCKET', 'ipas-assets'))
+    parser.add_argument('--bucket', help='R2 bucket（預設讀 R2_BUCKET，否則 ipas-assets）')
     parser.add_argument('--transfers', type=int, default=16, help='平行上傳數（預設 16）')
     parser.add_argument('--prune', action='store_true',
                         help='危險：連同刪除遠端多餘物件（預設只上傳不刪）')
     args = parser.parse_args()
-
-    load_dotenv()
+    bucket = configured_bucket(args.bucket)
 
     if shutil.which('rclone') is None:
         print('ERROR: 找不到 rclone。安裝：curl https://rclone.org/install.sh | sudo bash',
@@ -113,7 +120,7 @@ def main() -> int:
             print(f'SKIP {local_name}：{src} 不存在')
             continue
         count = sum(1 for _ in src.rglob('*') if _.is_file())
-        dest = f':s3:{args.bucket}/{remote_prefix}'
+        dest = f':s3:{bucket}/{remote_prefix}'
         print(f'\n=== {verb} {local_name} → {dest}（{count} 檔）===')
 
         cmd = ['rclone', verb, str(src), dest,
@@ -123,7 +130,7 @@ def main() -> int:
         if args.dry_run:
             cmd.append('--dry-run')
 
-        result = subprocess.run(cmd, check=False)
+        result = subprocess.run(cmd, check=False, cwd=BASE)
         if result.returncode != 0:
             print(f'ERROR: {local_name} 發佈失敗（rclone exit {result.returncode}）',
                   file=sys.stderr)

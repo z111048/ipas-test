@@ -48,7 +48,7 @@ try:
 except ImportError:
     sys.exit('google-genai not found. Run: uv add google-genai')
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 
 MODEL = os.environ.get('GOOGLE_MODEL', 'gemini-2.5-flash')
 # Pricing (USD per 1M tokens) for gemini-2.5-flash — update if model changes

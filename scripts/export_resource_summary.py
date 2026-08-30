@@ -6,26 +6,11 @@ import json
 from pathlib import Path
 from typing import Any
 
+from resource_catalog import exam_entries, level_entries
+
 
 ROOT = Path(__file__).resolve().parents[1]
 FRONTEND_GENERATED = ROOT / "frontend" / "src" / "generated"
-
-LEVELS = {
-    "junior": {
-        "level": "初級",
-        "data_dir": ROOT / "data" / "初級",
-        "subject_ids": ["s1", "s2"],
-        "exam_keys": ["jr_1141_s1", "jr_1141_s2", "jr_1151_s1", "jr_1151_s2", "jr_1152_s1", "jr_1152_s2"],
-        "sample_key": "sample",
-    },
-    "middle": {
-        "level": "中級",
-        "data_dir": ROOT / "data" / "中級",
-        "subject_ids": ["mid-s1", "mid-s2", "mid-s3"],
-        "exam_keys": ["mid_1141_s1", "mid_1141_s2", "mid_1141_s3", "mid_1151_s1", "mid_1151_s2", "mid_1151_s3"],
-        "sample_key": "midSample",
-    },
-}
 
 # 2026-08-09：移除 codex100（對外名稱「精選 100 題」）。題庫改為每科一份
 # 熱度配額題庫（ai）＋ 學習指引抽取題（guide），不再有第二份重疊的生成題庫。
@@ -33,28 +18,6 @@ PRACTICE_FILES = {
     "ai": "subject{n}_questions.json",
     "guide": "subject{n}_guide_exercises.json",
 }
-
-EXAM_FILES = {
-    "junior": {
-        "jr_1141_s1": "mock_jr_1141_s1.json",
-        "jr_1141_s2": "mock_jr_1141_s2.json",
-        "jr_1151_s1": "mock_jr_1151_s1.json",
-        "jr_1151_s2": "mock_jr_1151_s2.json",
-        "jr_1152_s1": "mock_jr_1152_s1.json",
-        "jr_1152_s2": "mock_jr_1152_s2.json",
-        "sample": "sample_exam.json",
-    },
-    "middle": {
-        "mid_1141_s1": "mock_mid_1141_s1.json",
-        "mid_1141_s2": "mock_mid_1141_s2.json",
-        "mid_1141_s3": "mock_mid_1141_s3.json",
-        "mid_1151_s1": "mock_mid_1151_s1.json",
-        "mid_1151_s2": "mock_mid_1151_s2.json",
-        "mid_1151_s3": "mock_mid_1151_s3.json",
-        "midSample": "sample_exam.json",
-    },
-}
-
 
 def read_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
@@ -116,10 +79,14 @@ def summarize_visuals() -> dict[str, Any]:
 
 def build_summary() -> dict[str, Any]:
     output: dict[str, Any] = {"levels": {}, "visuals": summarize_visuals()}
-    for level_id, config in LEVELS.items():
-        data_dir = config["data_dir"]
+    for level in level_entries():
+        level_id = level["id"]
+        data_level = level["dataLevel"]
+        data_dir = ROOT / "data" / data_level
+        manifest = read_json(data_dir / "toc_manifest.json")
         subjects: dict[str, Any] = {}
-        for subject_id in config["subject_ids"]:
+        for subject in manifest.get("subjects", []):
+            subject_id = subject["id"]
             number = subject_number(subject_id)
             subjects[subject_id] = {
                 practice_type: summarize_questions(
@@ -128,13 +95,19 @@ def build_summary() -> dict[str, Any]:
                 for practice_type, filename in PRACTICE_FILES.items()
             }
 
-        exams = {
-            exam_key: summarize_exam(data_dir / "questions" / filename)
-            for exam_key, filename in EXAM_FILES[level_id].items()
-        }
+        # Stable output order keeps the generated file reviewable while the catalog
+        # remains free to order exams for navigation (newest first).
+        exams = {}
+        for exam in sorted(
+            exam_entries(level=data_level),
+            key=lambda item: (item["kind"] == "sample", item["routeKey"]),
+        ):
+            exams[exam["routeKey"]] = summarize_exam(
+                data_dir / "questions" / exam["questionFile"]
+            )
 
         output["levels"][level_id] = {
-            "level": config["level"],
+            "level": data_level,
             "subjects": subjects,
             "exams": exams,
         }

@@ -54,7 +54,7 @@ import re
 import unicodedata
 from pathlib import Path
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 GENERATED = BASE / 'frontend' / 'src' / 'generated'
 OUTLINES = GENERATED / 'guideOutlines.json'
 CONTENT_DIR = GENERATED / 'guideContent'

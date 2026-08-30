@@ -1,7 +1,16 @@
+<!-- 2026-08-30: 三軌 OCR 語意修復納入 release gate；補 Track A staged export、Track B
+     canonical/cache 雙層驗證、插入型勘誤冪等安全閥、嵌入練習 appendix 邊界與考題 sidecar
+     promotion 邊界。修改前備份：
+     backups/pipeline-reference.md.bak-2026-08-30。 -->
+<!-- 2026-08-29: 架構硬化同步：repo-relative 路徑、resource catalog SSOT、Guide 雙軌所有權、安全
+     staging/partial export（含 content schema）、CI 發佈閘門與可選外部資產模式／R2 .env；
+     修正已經由程式與測試驗證。
+     修改前備份：backups/pipeline-reference.md.bak-2026-08-29-2。 -->
 <!-- 2026-08-29: render_guide_page_images.py 標記退場（產物 /guide-pages/ 經窮舉比對確認
      前端從未引用，89 檔 13 MB 已從版控刪除）。
-     測試文件刻意不寫進本檔——本檔改動前已 728 行、超過 04-maintenance §4 的 600 行上限
-     128 行，改放 tests/README.md。備份見 backups/pipeline-reference.md.bak-2026-08-29。 -->
+     測試細節以 tests/README.md 為準；本檔只保留 pipeline 所需的 release-gate 摘要。
+     本檔改動前已 728 行、超過 04-maintenance §4 的 600 行上限 128 行。
+     備份見 backups/pipeline-reference.md.bak-2026-08-29。 -->
 # Pipeline Reference（腳本目錄與操作手冊）
 
 > 本檔是 pipeline 細節的**唯一權威來源**。CLAUDE.md 只放路由；AGENTS.md（Codex CLI 用）內容較舊，
@@ -20,21 +29,22 @@
 - 某支腳本是幹嘛的 → §7 腳本目錄
 - 輸出檔案的意義與 gitignore 狀態 → §8
 - 跑完 pipeline 怎麼驗證 → §9
-- **必補的手動修正（s1c4）→ §10（最容易漏，重跑 export 後必看）**
+- **s1c2/s1c4/s2c3 deterministic publication overlay → §10（exporter 內建＋fail-closed）**
 
 通用規則：
-- 資料 pipeline 腳本都支援 `--level`，路徑解析為 `data/{level}/`。⚠️ **預設值不一致**：
+- 支援 `--level` 的資料 pipeline 路徑解析為 `data/{level}/`。⚠️ **預設值不一致**：
   多數預設 `初級`，但 `supplement_guide_from_audit.py`、`generate_colab_notebooks.py`、
   `run_codex_exam_reference_answers.py`、`export_exam_reference_answers.py`、
   `export_colab_metadata.py`、`export_question_generation_data.py`、`llm_review_guide_headings.py`
-  預設 `中級`（2026-07-13 grep argparse 驗證）。**一律顯式帶 `--level`，不要依賴預設**——
-  尤其 `supplement_guide_from_audit.py` 會覆寫 guide JSON，跑錯等級就是資料事故。
+  預設 `中級`（2026-07-13 grep argparse 驗證）。**有 `--level` 時一律顯式帶值，不要依賴預設**；
+  跨級腳本則依本文件固定使用 `--all-levels`、`--level all` 或其全域模式。尤其
+  `supplement_guide_from_audit.py` 會覆寫 guide JSON，跑錯等級就是資料事故。
 - `data/{level}/toc_manifest.json` 是章節定義 SSOT，由 `build_manifest.py` 生成、需提交。
   任何地方都不得複製章節定義。
-- 多數腳本硬編 `BASE = Path('/home/james/projects/ipas-test')`（少數 export 腳本用
-  `Path(__file__).resolve().parents[1]` 相對解析），搬 repo 要逐支檢查。
+- `data/resource_catalog.json` 是等級、考卷與參考資源 metadata SSOT；Python 抽取／解析／驗證／摘要與前端 loaders／導覽共用，不得另建考卷常數表。
+- scripts/tests 均以 `Path(__file__).resolve()` 找 repo root、subprocess 明確指定 `cwd`；`test_repo_portability.py` 會拒絕機器專屬絕對路徑或漏寫 `cwd`。
 - 新增等級：① `build_manifest.py` 的 `GUIDES_BY_LEVEL` 填章節定義 ② `build_manifest.py --level 中級`。
-- 依賴：`uv sync`（Python：pdfplumber、PyMuPDF、anthropic、google-genai）；
+- 依賴：`uv sync`（Python：pdfplumber、PyMuPDF、anthropic、google-genai、requests、playwright）；
   `cd frontend && npm install`（Node）。
 - API 金鑰：`GEMINI_API_KEY`（vision 腳本，模型 gemini-2.5-flash，可用 `GOOGLE_MODEL` 覆蓋）、
   `ANTHROPIC_API_KEY`（generate_questions、audit_chapters，用 claude-haiku-4-5）。
@@ -49,14 +59,15 @@ uv run python3 scripts/build_manifest.py --level 初級        # → data/初級
 python3 scripts/extract_pdf_pages_structured.py --level 初級 --all --force
 python3 scripts/clean_pdf_page_text.py --level 初級 --all
 python3 scripts/build_guide_tree.py --level 初級 --all       # 驗證過的章節樹（AGENTS.md 路線）
-python3 scripts/export_guide_outline_data.py --all-levels --use-guide-tree   # ⚠️ 見 §10 陷阱
+python3 scripts/export_guide_outline_data.py --all-levels --use-guide-tree   # 內建 §10 overlays＋staged gate
 python3 scripts/codex_review_pdf_pages.py --level 初級 --key guide1 --page 7 --force
 python3 scripts/build_pdf_outline.py --level 初級 --all
 python3 scripts/export_pdf_image_gallery.py --level 初級 --force
 uv run python3 scripts/verify_toc_alignment.py --all-levels   # 章節邊界／標題對帳，見下方
 ```
 
-⚠️ `export_guide_outline_data.py` 有兩個會造成資料損失的陷阱（rmtree、必補手動修正）——**見 §10**。
+`export_guide_outline_data.py` 已改為 staging 驗證後才替換，失敗 rollback、單等級保留另一等級；
+並在候選輸出內套用 §10 overlays。常規完整重跑仍依 CLAUDE.md 不變量 3 使用 `--all-levels`。
 
 **動過 `toc_manifest.json`（或重跑 `build_manifest.py`）後，跑 `verify_toc_alignment.py`。**
 它拿學習指引 PDF 自帶的目錄當 ground truth，檢查每一章的 `start_page`、標題、`page_range[0]`
@@ -80,11 +91,10 @@ uv run python3 scripts/pdf_vision_extract.py --level 初級 --all   # 兩科約 
 #   單科 --subject 1｜單章 --chapter mid-s1c1｜頁範圍 --page-range 10 25（1-based）
 #   --dry-run 估費用｜--force 強制重跑（覆蓋快取）
 uv run python3 scripts/parse_guides.py --level 初級 [--subject 1]  # → guide/subject{N}_guide.json
-# render_guide_page_images.py 已退場（2026-08-26）：產物 /guide-pages/ 前端從未引用，已刪除。不要再跑。
+# render_guide_page_images.py 已退場（2026-08-29）：產物 /guide-pages/ 前端從未引用，已刪除。不要再跑。
 ```
 
-`parse_guides.py` 偵測到 `pages_cache/` 走 vision mode，否則 fallback regex mode——
-跑完要確認印出 `[vision mode]`。
+`parse_guides.py` 建立 canonical Track B，預設要求完整 `pages_cache/` 並印 `[vision mode]`；快取不足直接停止。只有緊急救援才明確加 `--allow-regex-fallback`，輸出標 `source_track=legacy_regex`／`source_mode=regex`，不可誤當 OCR 版。
 
 <!-- 2026-08-07: 新增 §1a。OCR 遷移完成，把「重跑順序」從 06 搬來這裡當常駐規則。 -->
 ## §1a 高精度 OCR 兩軌（2026-08-06 起的實際主路線）
@@ -100,19 +110,53 @@ python3 scripts/merge_guide_ocr.py    # Track A：→ page_extract/（前端閱�
 **完整重跑順序（不可調換，每一步都有人踩過）**：
 
 ```bash
-python3 scripts/ocr_extract.py
-python3 scripts/merge_guide_ocr.py                        # 會備份 page_extract → page_extract_before_ocr_merge/
-python3 scripts/apply_errata.py                           # ⚠ 勘誤是疊加層，轉接層重跑會沖掉（見 §10 修正 4）
-uv run python3 scripts/parse_guides.py --level {lv}
-python3 scripts/clean_pdf_page_text.py --level {lv} --key {key}
-uv run python3 scripts/export_guide_outline_data.py --all-levels   # ⚠ 必帶 --all-levels
-python3 scripts/apply_manual_guide_fixes.py                        # ⚠ 緊接著跑（見 §10）
+# Fresh checkout／page_extract 不存在時先建立兩級版面抽取；已有本機成果時不要無故 --force。
+python3 scripts/extract_pdf_pages_structured.py --level 初級 --all --force
+python3 scripts/extract_pdf_pages_structured.py --level 中級 --all --force
+
+python3 scripts/ocr_extract.py --level 初級
+python3 scripts/ocr_extract.py --level 中級
+python3 scripts/merge_guide_ocr.py --level 初級           # 會備份 page_extract → page_extract_before_ocr_merge/
+python3 scripts/merge_guide_ocr.py --level 中級
+python3 scripts/apply_errata.py --level 初級              # ⚠ 勘誤是疊加層，轉接層重跑會沖掉（見 §10 修正 4）
+python3 scripts/apply_errata.py --level 中級
+python3 scripts/apply_track_b_ocr_fixes.py --level all    # Track B 語意校正層；官方勘誤之後、parse 之前
+uv run python3 scripts/parse_guides.py --level 初級
+uv run python3 scripts/parse_guides.py --level 中級
+python3 scripts/apply_track_b_ocr_fixes.py --level all --check     # canonical 78 筆＋本機 cache 深比對
+python3 scripts/clean_pdf_page_text.py --level 初級 --all
+python3 scripts/clean_pdf_page_text.py --level 中級 --all
+python3 scripts/build_guide_tree.py --level 初級 --all
+python3 scripts/build_guide_tree.py --level 中級 --all
+uv run python3 scripts/export_guide_outline_data.py --all-levels --use-guide-tree
 python3 scripts/export_guide_hierarchy.py
-python3 scripts/export_guide_sections.py
+python3 scripts/export_question_generation_data.py --all-levels    # Track A reading snapshot（非 canonical）
+python3 scripts/track_a_ocr_repairs.py                              # 169 inventory＋3 overlays＋2 structure gate
+python3 scripts/export_guide_sections.py --level 初級              # Track B downstream；exact canonical rebuild gate
+python3 scripts/export_guide_sections.py --level 中級
 python3 scripts/export_guide_embedded_exercises.py --level all      # ⚠ 必須在 apply_errata + clean 之後（見 §3）
-python3 scripts/verify_data_alignment.py --level {lv}
+python3 scripts/export_resource_summary.py
+python3 scripts/verify_data_alignment.py --level 初級
+python3 scripts/verify_data_alignment.py --level 中級
 cd frontend && npm run build
+uv run python tests/run_all.py                                      # 最終 release gate（13 項；含上述 build/alignment/audit）
 ```
+
+`apply_track_b_ocr_fixes.py` 不改 `guide_ocr/` SSOT，只在 `pages_cache/` 套用已逐頁核對的
+OCR／結構／圖像語意修正；`TB-002`（Min-Max 的 `X_man`）與 `TB-007`（Softmax 分母的
+`z_i`）明確標為來源 PDF 數式校正，不算 OCR 缺陷。`parse_guides.py` 會把 correction ID、
+來源軌與內容 SHA-256 寫進 canonical guide。下列 gate 永遠以固定 content/source-pages SHA
+與逐頁 correction ID 驗五份 committed guide；fresh clone 因 `pages_cache/` gitignored 可只跑此層。
+若任一本 cache 存在，五本都必須完整涵蓋 `0..N-1`，並追加 cache→canonical 重建對照；
+partial／stale cache 不得降級略過。任何不一致都會 exit 1：
+
+```bash
+python3 scripts/apply_track_b_ocr_fixes.py --level all --check
+```
+
+`ocr_extract.py` 的 page type 由規則加 5 筆 committed `TYPE_OVERRIDES` 決定；gitignored
+`pages_cache_gemini_backup/` 只做診斷，不參與輸出。回歸測試會注入衝突 backup，確認有／無
+歷史快取仍產生相同 type，避免 fresh clone 重建出不同 canonical SHA。
 
 要從乾淨狀態重跑 `merge_guide_ocr.py`，得先把 `page_extract_before_ocr_merge/` 複製回
 `page_extract/`——它**只在備份不存在時才備份**，直接重跑會疊在已合併的結果上。
@@ -129,7 +173,7 @@ python3 scripts/export_guide_hierarchy.py --print-tree s1    # 印出來目視�
 
 階層原本斷成兩段：`guideOutlines.json` 只到「節」（64 節點），節以下的標題散在各章的
 `blocks[]` 與 `headings[]`，沒有父子關係。本腳本接成一棵樹（**1,207 節點**：23 章 +
-41 節 + 1,143 標題，最深 6 層），並用 `guide_ocr` 補回 Track A 漏抓的 `N.` 層（74 個）。
+41 節 + 1,143 標題，最深 6 層），並用 `guide_ocr` 補回 Track A 漏抓的 `N.` 層（72 個）。
 只讀既有產物、可隨時重跑；跑在 `export_guide_outline_data.py` 之後。
 
 三個實作重點（改動前先讀，都是踩過的坑）：
@@ -156,7 +200,7 @@ python3 scripts/export_guide_hierarchy.py --print-tree s1    # 印出來目視�
 階層樹的標題有兩個來源，從 `headings[]` 來的那批只有標題文字、anchor 是 slug 推出來的，
 頁面上沒有對應 DOM——帶著 `#anchor` 連過去只會停在頁頂（實測佔全部標題約兩成）。
 這類節點標 `x:1`，消費端要退回連到章節頁本身或顯示為不可跳轉。
-目前 1,143 個標題裡可跳轉 849、不可跳轉 294（含 OCR 補回的 74 個）。
+目前 1,143 個標題裡可跳轉 849、不可跳轉 294（含 OCR 補回的 72 個）。
 
 前端吃 `#anchor` 的是 GuidePage 的 `location.hash` effect。**HashRouter 下網址形如
 `#/guide/s1/s1c1#anchor`**（react-router 把第二個 `#` 之後當 `location.hash`）；內容非同步
@@ -196,29 +240,30 @@ uv run python3 scripts/audit_chapters.py --level 初級 --all [--subject 1] [--c
 
 ## §3 考題 pipeline
 
-### ⚠️ `data/{level}/guide/subject{N}_guide.json` 有兩個生產者
+### Guide 出題資料所有權（雙生產者事故已修復）
 
-`parse_guides.py`（Track B，內容來自 pages_cache／OCR）與
-`export_question_generation_data.py`（內容來自 guideContent，也就是 Track A）
-**都會寫同一個檔案，互相覆寫**。跑錯順序會把 OCR 版的講義換成 page_clean 版，
-公式與表格品質差很多。動到出題資料前先確認現在檔案裡是哪一版
-（OCR 版的公式是 `$...$` LaTeX，數量約 358 個）。
+- `data/{level}/guide/subject{N}_guide.json` 是 canonical Track B，由 `parse_guides.py` 建立；`supplement_guide_from_audit.py` 是同軌刻意的審核後處理，執行前仍會備份。
+- `export_question_generation_data.py` 讀 Track A `guideContent`，只寫 `subject{N}_reading_guide.json`（`source_track=track_a_reading`），不再覆寫 canonical。
+- `export_guide_sections.py` 與出題／audit 腳本仍讀 canonical Track B；不要把 reading snapshot 改名頂替。
+
+`test_pipeline_output_safety.py` 固定這份所有權契約，也驗證 regex fallback 必須明確開啟。
 
 ### 小節粒度出題（2026-08-06 新增）
 
 ```bash
-python3 scripts/export_guide_sections.py [--target-chars 3000]
+python3 scripts/export_guide_sections.py --level 初級 [--target-chars 3000]
+python3 scripts/export_guide_sections.py --level 中級 [--target-chars 3000]
 # → data/{level}/guide_sections/subject{N}.json（sections 細切片 + chunks 出題區塊）
 uv run python3 scripts/generate_questions.py --level 初級 --subject 1 --by-section --count 3
 ```
 
 為什麼要這個：`generate_questions.py` 把章節內容截到 `MAX_CONTENT_CHARS = 4000` 才餵給
 模型，但一章動輒上萬字——實測 **41 章有 39 章被截斷，整份講義只有 40% 進得了出題流程**，
-最長的 mid-s1c1（36,918 字）只看得到 11%。切成小節區塊後共 370 塊、中位數 889 字，
-覆蓋率 100%，只有 7 塊超過 4000 字。
+最長章節只會看到開頭一小段。切成小節／chunk 後可覆蓋整章；區塊數與長度以當次 export
+log 為準，不是 release invariant。
 
 `--count` 的語意會改變：不帶 `--by-section` 是「每章幾題」，帶了是「每個區塊幾題」。
-初級科目1 有 37 個區塊，`--count 3` 就是 111 題，注意 API 花費。
+實際題數是「當次區塊數 × `--count`」，跑前先看 export log 並估 API 花費。
 產出的題目會帶 `section_id` / `section_title` 標記來源小節。
 
 <!-- 2026-08-07: 新增 codex 小節出題線。 -->
@@ -256,10 +301,13 @@ python3 scripts/verify_question_answers.py --run-dir ... --only-flagged --thresh
 票答錯進 `flagged.json`。選項依 question id 固定亂序、答完映射回原字母，
 避開出題端 A→B→C→D 輪替與位置偏誤。`answers/` 快取存**所有驗證器答案的聯集**、判定只算
 本次 `--verifiers`。分流看 `wrong_consensus`（答錯的票彼此一致才可能是答案真的錯）；
-771 題官方卷的校準數據與圖片題過濾，見 `playbook/07-question-generation.md` §4a。
+歷史校準集曾有 771 題（含當時 100 題 legacy duplicate aliases）；現行 production 契約是
+14 份／709 題。兩者的校準數據與圖片題過濾，見 `playbook/07-question-generation.md` §4a。
 
-`export_guide_sections.py` 讀的是**當下**的 `guide/subject{N}_guide.json`，
-所以上面那個「兩個生產者」的問題會直接傳導過來——重跑 parse_guides 後要一併重跑它。
+`export_guide_sections.py` 讀的是**當下**的 canonical `guide/subject{N}_guide.json`；
+重跑 `parse_guides.py` 或 Track B 補強後要一併重跑它。每份輸出記錄 canonical SHA，
+`ocrSemantics` 會用相同 exporter 做 exact rebuild；`generate_questions.py --by-section` 與
+`build_codex_section_prompts.py` 都會在送出 API 請求／寫 prompt 前拒絕 stale 或被修改的 payload。
 
 <!-- 2026-08-07: 新增。抽取器的兩個尾端污染修掉後，把陷阱寫成常駐規則。 -->
 ### ⚠️ `export_guide_embedded_exercises.py`（章節練習題）
@@ -268,12 +316,16 @@ python3 scripts/verify_question_answers.py --run-dir ... --only-flagged --thresh
 與 `clean_pdf_page_text.py` 之後**——勘誤與清洗都在那一層，順序反了就吃不到勘誤。
 （2026-08-07 重跑時，兩筆初級勘誤就是這樣自動生效的：`s1c2gq003` 答案 B→A、`s1c2gq007` 題幹改寫。）
 
-改這支腳本前必讀的三件事：
+改這支腳本前必讀的失敗模式：
 
 - **頁眉會黏進選項**。題塊跨頁時吃進下一頁頁眉，選項變成「迭代次數第三章 人工智慧基礎概論」。
   現行解法是靠出現頻率認頁眉（重複出現在多頁首行），不寫死章名，且只剝該頁首行。
 - **最後一題的解析會吃到下一章正文**（沒有結束標記），最誇張一筆長 18,485 字。
   現行解法是依 `clean_pdf_page_text` 判定的 `continues_to_next` 在頁尾收束。
+- **最後一題的解析也會吃進卷末參考書目**。只在 NFKC 正規化後的獨立結構標題命中
+  appendix boundary 時停止，正文中一般「參考書目」字樣不算；questions／answers state machine
+  都要 flush 後結束。寫檔前會拒絕任一題目／選項／解析／card 的 bibliography bleed、題目 ID
+  漂移或既有 card 遺失。現行 production 契約是初級 69＋中級 110＝179 題、179 cards。
 - **題組共用題幹曾被吃進最後一個選項**（2026-08-25 修復）。共用題幹在表格中是「答案欄空白」
   的獨立列，`parse_exam_json` 原本無條件把它接到上一題的 `pending_cell`，導致整段情境敘述
   併入選項 D（例：`mid_1151_s2_q40`、`mid_1151_s3_q41`／`q48`）。現由
@@ -285,14 +337,7 @@ python3 scripts/verify_question_answers.py --run-dir ... --only-flagged --thresh
   是圖片內文字，表格與頁面文字都取不到，只能人工謄寫。這類內容一律放進
   `apply_exam_explanations.py` 的 `QUESTION_OVERRIDES`，不要直接手改 JSON——直接改的話
   下次重跑就沒了。
-- **考題資產鍵（key）改名會讓人工校正整批變死碼**。2026-08-25 發現：中級 114-2 三份考題的
-  page_extract／pdf-assets 仍停在舊鍵 `exam1/2/3`，題號卻已改成 `mid_1141_s{n}`，於是
-  `attach_exam_images()` 找不到 `page_extract/{key}/` 而靜默回傳空、`annotate_exam_code_images.py`
-  裡所有綁 `exam3_q45` 的人工謄寫全部失效——19 題引用「附圖／程式碼」卻一張圖都沒有，
-  `mid_1141_s3_q45` 更是四個選項全空（選項本體是程式碼截圖）。**改 key 或題號時，必須同步
-  grep `scripts/annotate_exam_code_images.py` 與 `page_extract/`、`pdf-assets/` 的目錄名。**
-  `annotate_exam_code_images.py` 現在會丟掉指向不存在檔案的圖片參照並印出 `[DROP]`，
-  重跑後看到 `[DROP]` 就代表有參照沒跟上改名。
+- **考題 key／資產相容名只在 catalog 定義**。中級 114 年三份資產已用 canonical `mid_1141_s{n}`；初級 114 年兩份既有目錄仍是 `exam1/2`，由 catalog 的 `legacyAssetKey` 保留。題號、route、extracted JSON 用 canonical key，只有頁面資產查找套 legacy key。`test_resource_catalog.py` 檢查 catalog、實體目錄與 loader；`annotate_exam_code_images.py` 的 `[DROP]` 仍代表參照失效。
 - **`is_decorative_image()` 的高度門檻會吃掉程式碼截圖**。原本 `height < 45` 即視為裝飾圖，
   但考題常把幾行程式碼截成「很寬很矮」的橫幅（例：中級 s3 q46 的 PCA 程式碼 283×44.1），
   被誤刪後該題就失去唯一作答依據。現已改成「寬度 ≥ 頁寬 40% 且高度 ≥ 20 一律保留」。
@@ -301,18 +346,33 @@ python3 scripts/verify_question_answers.py --run-dir ... --only-flagged --thresh
   （初級 40+29=69、中級 30+40+40=110）。
 
 ```bash
+# Fresh checkout／page_extract 不存在時先建立兩級逐頁抽取，否則圖片題會失去來源資產。
+python3 scripts/extract_pdf_pages_structured.py --level 初級 --all --force
+python3 scripts/extract_pdf_pages_structured.py --level 中級 --all --force
+
 uv run python3 scripts/extract_pdfs.py --level 初級      # PDFs → data/初級/extracted/*.{txt,json}
-uv run python3 scripts/gemini_exam_vision_extract.py --level 中級 --key exam2 [--dry-run]
-# 官方考題 PDF 的 Vision OCR（題目/答案/共用題幹/圖片參照 schema），快取 data/{level}/exam_pages_cache/
+uv run python3 scripts/extract_pdfs.py --level 中級
 uv run python3 scripts/parse_exams_v2.py --level 初級
-# → mock_{key}.json, sample_exam.json（subject{N}_questions.json 是人工策展，不會被覆蓋）
+uv run python3 scripts/parse_exams_v2.py --level 中級
+# → catalog 各考卷的 questionFile（subject{N}_questions.json 是人工策展，不會被覆蓋）
 
-# ⚠️ parse_exams_v2 之後這兩支「人工補強層」必跑，順序不可調換，否則人工成果被制式輸出蓋掉：
-uv run python3 scripts/export_pdf_image_gallery.py --all-levels   # page_extract → public/pdf-assets（必帶 --all-levels）
-uv run python3 scripts/annotate_exam_code_images.py               # 程式碼截圖的文字謄寫、選項圖、清除失效圖片參照
-uv run python3 scripts/apply_exam_explanations.py                 # 人工解析（parse 會覆寫成「正確答案為(X)。」）
+# ⚠️ parse_exams_v2 之後三支「人工補強層」必跑，順序不可調換，否則人工成果被制式輸出蓋掉：
+uv run python3 scripts/export_pdf_image_gallery.py --all-levels   # 單 level 也安全合併；完整刷新仍用 all-levels
+uv run python3 scripts/annotate_exam_code_images.py --level 初級  # 程式碼截圖的文字謄寫、選項圖、清除失效圖片參照
+uv run python3 scripts/annotate_exam_code_images.py --level 中級
+uv run python3 scripts/apply_exam_explanations.py --level 初級    # 人工解析（parse 會覆寫成「正確答案為(X)。」）
+uv run python3 scripts/apply_exam_explanations.py --level 中級
+python3 scripts/verify_exam_ocr_repairs.py                        # 14 卷／709 題 production gate
+python3 scripts/export_resource_summary.py
+python3 scripts/verify_data_alignment.py --level 初級
+python3 scripts/verify_data_alignment.py --level 中級
+uv run python tests/run_all.py                           # 發佈前 13 項 release gate
 
-python3 scripts/verify_data_alignment.py --level 初級    # 一致性檢查，必跑
+# 選用：Vision cache 是 gitignored 稽核 sidecar；parse_exams_v2 不讀它，不能拿這步當正式題庫刷新。
+# Fresh checkout 是 0/709；本機可能只有部分 coverage。verified overlay 只供未來升級實驗。
+uv run python3 scripts/gemini_exam_vision_extract.py --level 中級 --key mid_1141_s2 [--dry-run]
+python3 scripts/reconcile_exam_vision_sidecar.py --level all --output /tmp/exam-vision-verified.json
+python3 scripts/reconcile_exam_vision_sidecar.py --level all --promotion-gate # 必須 709/709；未滿時預期 exit 1
 
 # 選用：Claude API 出題 / 補 card 欄位
 uv run python3 scripts/generate_questions.py --level 初級 --subject 1
@@ -332,7 +392,7 @@ python3 scripts/run_codex_exam_reference_answers.py --level 初級 --exam all [-
 
 # 發佈到前端
 python3 scripts/export_exam_reference_answers.py --level 初級
-# → frontend/src/generated/examReferenceAnswers/{route_key}.json（exam key → route key 映射在 ROUTES_BY_LEVEL）
+# → frontend/src/generated/examReferenceAnswers/{route_key}.json（映射讀 data/resource_catalog.json）
 ```
 
 ## §5 Colab notebook pipeline（中級章節實作練習）
@@ -464,9 +524,11 @@ uv run python3 scripts/build_web.py     # production build → docs/（gitignore
 ```
 
 - Vite + React 19 + TypeScript + Tailwind CSS v4 + React Router v6（HashRouter，避免 Pages 404）+ Zustand。
-- alias：`@data` → `data/初級/`、`@data-mid` → `data/中級/`（vite.config.ts:24-25，已驗證存在）。
-- 所有 JSON build time 靜態匯入，無 runtime fetch。章節導覽一律從 `toc_manifest.json` 讀，
-  不得加回硬編章節陣列。
+- alias：`@catalog` → `data/`、`@data` → `data/初級/`、`@data-mid` → `data/中級/`。
+- 資料 JSON 在 build time 納入（大型題庫／詳解走 Vite 動態 import），無 API runtime fetch；章節導覽讀 `toc_manifest.json`，考卷 loaders／資源導覽讀 `resource_catalog.json`，不得加回硬編陣列。
+- `build_web.py` 先跑 `audit_resources.py`，FAIL 就中止；`--skip-audit` 只供本機迭代，不能發佈。
+  `.github/workflows/deploy.yml` 在 PR/main 先跑 `tests/run_all.py` quality，只有 main 通過才 build → deploy，避免直接呼叫 Vite 繞過稽核。
+- 大型資產仍由 `frontend/public/` 提供，**尚未完成外部搬遷**。日後先用 `publish_assets.py` 上傳，再用 `verify_r2_assets.py --base URL` 全量 HEAD；全過後才設定 `VITE_ASSET_BASE_URL`。此時 URL 指向外部站、Vite 改複製 `public-shell/`，Pages artifact 由 400+ MB 降為 app-only；留空維持現況。`R2_BUCKET` 可與憑證同放專案 `.env`，CLI `--bucket` 優先；腳本會先載入 `.env` 才解析預設 bucket。
 - Guide 頁優先渲染 `GuideContent.blocks[]`（heading/paragraph/list_item/table/question/answer，
   depth 不限），無 blocks 才 fallback Markdown。「本節階層」側欄只顯示 depth 3–4。
 - 練習題頁路由 `/practice/:subjectId/:chapterId`，行動版藏在 `☰` 抽屜——改導覽要檢查行動版。
@@ -487,12 +549,16 @@ uv run python3 scripts/build_web.py     # production build → docs/（gitignore
 
 **SSOT / 抽取**
 - `build_manifest.py` — 章節定義 SSOT 生成器，唯一硬編 `GUIDES_BY_LEVEL` 之處；開 PDF 算 `page_range`（0-based）寫入 `toc_manifest.json`。
-- `extract_pdfs.py` — pdfplumber 為主、PyMuPDF fallback 的整檔文字/表格抽取 → `extracted/`。guide PDF 清單來自 manifest，考題 PDF 在 `EXAM_PDFS_BY_LEVEL`。
+- `resource_catalog.py` — 驗證／查詢 committed `data/resource_catalog.json`；等級、考卷、route、題庫檔、預期題數、PDF、legacy asset key 的唯一共用入口。
+- `extract_pdfs.py` — pdfplumber 為主、PyMuPDF fallback 的整檔抽取 → `extracted/`；guide PDF 來自 manifest，考題／參考資源 PDF 來自 resource catalog。
 - `extract_pdf_pages_structured.py` — 頁面忠實抽取：每頁文字 + text/image/table bbox + 裁切 PNG → `page_extract/{key}/assets/`。
 - `clean_pdf_page_text.py` — 清 header/footer/頁碼/表格標籤、標記跨頁接續、重建 per-PDF outline → `page_clean/{key}/`。
-- `ocr_extract.py` — Track B 轉接層：PaddleOCR-VL 逐頁 md → `pages_cache/{key}/page_NNN.json`（見 §1a）。
+- `ocr_extract.py` — Track B 轉接層：PaddleOCR-VL 逐頁 md → `pages_cache/{key}/page_NNN.json`；
+  page type 由規則＋5 筆 committed override 決定，舊 Gemini backup 僅診斷（見 §1a）。
 - `merge_guide_ocr.py` — Track A 轉接層：OCR 內容合併進 `page_extract/`，首次執行會備份原檔（見 §1a）。
+- `guide_publication_overlays.py` — s1c2/s1c4/s2c3 deterministic structure transform SSOT；exporter 在 staging 套用，legacy `apply_manual_guide_fixes.py` 共用同一映射。
 - `build_errata.py` / `apply_errata.py` — 勘誤表 OCR → `errata_corrections.json`；套用到兩軌，冪等（見 §10 修正 4）。
+- `apply_track_b_ocr_fixes.py` — Track B 的 78 筆 reviewed correction overlay；`--check` 以 committed canonical SHA 為必要層，完整本機 cache 存在時再做重建深比對。
 - `build_codex_section_prompts.py` — 小節粒度出題 prompt。⚠️ `--heat-total` 的配額**必須對整科算完再篩章節**；`--batch-target`（預設 9）把連續區塊打包，因為每次 codex 呼叫固定開銷約 108 秒與題數無關（不打包時平均每次只出 1.6 題）；`--run-dir` 兩種寫法都吃。
 - `export_guide_mindmap.py` — guideNav ＋ 考古題標註 → `guideMindmap/{subjectId}.json`（前端 `/mindmap` 章節熱度圖）。只讀 committed 產物、無 API 花費、可隨時重跑。⚠️ 各章題數**不可相加**（一題常引用多章：905 vs 實際 450 題）。
 - `imggen_client.py` — **產圖一律走這裡**（`codex-imggen` HTTP 服務，`~/projects/codex-imggen`，`docker compose up -d`，`http://localhost:8090`）。`generate()` 文生圖、`edit()` 圖生圖、`require_service()` 開跑前健康檢查。⚠️ **不要再直接 `codex exec` 產圖**：那會把 session rollout 與原始 PNG 堆在 host `~/.codex/`、在 repo 根目錄亂丟 png，而且產物檔名慣例隨 codex-cli 版本變（2026-08-08 就因此讓 `generate_images.py` 靜默壞掉）。服務直接回傳圖片 bytes。
@@ -509,11 +575,12 @@ uv run python3 scripts/build_web.py     # production build → docs/（gitignore
 - `verify_glossary_terms.py` — 釋義閘門：三模型盲審每一條，`wrong` 票 ≥2 就 flagged。`--self-test` 拿 4 條故意寫錯的＋4 條乾淨孿生驗閘門本身（要 4/4 抓到、0 誤報）；`--term` 只重驗改過的那條。金鑰 `LLMSHARE_API_KEY`（`.env`，gitignored）。
 - `export_guide_hierarchy.py` — 接成完整階層樹，並產導覽用的兩個衍生檔 → `guideHierarchy.json`、`guideNav.json`、`guideSearchIndex.json`（見 §1b）。
 - `pdf_vision_extract.py` — 每頁 PNG（2x）送 Gemini Vision → `pages_cache/{key}/page_NNN.json`（{type, headings, markdown, usage}）；完成後自動生成 `page_index.json`。重跑只補 missing/failed。
-- `gemini_exam_vision_extract.py` — 考題 PDF 的 Vision OCR（獨立 schema）→ `exam_pages_cache/`。
+- `gemini_exam_vision_extract.py` — 考題 Vision OCR 稽核 sidecar → `exam_pages_cache/`；`parse_exams_v2.py` 不消費，不能當 production 題庫來源。
 
 **組裝 / 解析**
-- `parse_guides.py` — 從 pages_cache（vision mode，優先）或 extracted（regex mode，快取 <80% 時的緊急 fallback）組章節 JSON → `guide/subject{N}_guide.json`（`content_format: 'markdown'`）。跑完確認印出 `[vision mode]`。
-- `parse_exams_v2.py` — 從 extracted JSON 解析題目/答案表（處理全形 A-D 與括號）→ `questions/mock_exam{1,2}.json, sample_exam.json`。
+- `parse_guides.py` — pages_cache → canonical Track B `guide/subject{N}_guide.json`；cache 不合格即停止，legacy regex 必須明確加 `--allow-regex-fallback`，輸出帶來源標記。
+- `export_guide_sections.py` — canonical Track B → committed `guide_sections/subject{N}.json`；記錄來源 SHA 與切片參數，可由現行 canonical exact rebuild。兩個 section 出題入口都會先拒絕 stale payload。
+- `parse_exams_v2.py` — 依 catalog 從 extracted JSON 解析題目／答案 → 指定 `questions/*.json`；頁面圖片才套 `legacyAssetKey`。
 - `build_guide_tree.py` — 從 page_clean 建驗證過的章節樹（heading 深度、sibling 連續性、頁範圍、內嵌習題檢查）→ `guide_tree/{key}/tree.json, blocks.json, warnings.json`（gitignored）。
 - `build_pdf_outline.py` — 從 page_extract 建可審閱的 PDF 階層 outline（有 Vision headings 用之，否則 regex）→ `outline/{key}_outline.{json,md}`。
 
@@ -524,6 +591,9 @@ uv run python3 scripts/build_web.py     # production build → docs/（gitignore
 - `supplement_guide_from_audit.py` — 用 audit_cache（或 pages_cache）重組 Markdown 補 fail 章節，原檔備 `*.bak`。
 - `codex_review_pdf_pages.py` — Codex CLI（read-only sandbox）逐頁審 cleaned pages → `codex_page_review/{key}/`。
 - `verify_data_alignment.py` — manifest vs build_manifest vs PDF 頁標 vs guide/questions 一致性檢查。
+- `track_a_ocr_repairs.py` — Track A 169 筆 review/inventory registry、3 筆 publication overlay 與 3 筆 structure contract＋唯讀 publication gate；真正套用由 `export_guide_outline_data.py` 內建完成，並在 commit staged outputs 前再跑同一 gate。預期簽章在 `track_a_ocr_expected_signatures.json`。
+- `verify_exam_ocr_repairs.py` — 依 catalog 鎖定 14 份／709 題 production 題庫、人工覆蓋與來源歧義註記。
+- `reconcile_exam_vision_sidecar.py` — 唯讀建立 raw Vision sidecar 的 verified overlay；只有 709/709 且零 mismatch 才允許 promotion。
 - `verify_question_guide_alignment.py` — 唯讀。量題庫與講義的引文對齊：章節引用完整性、
   `guide_exercises` 逐字引文（對 page_clean，含跨頁串接）、章節正文新舊漂移。
   與 `page_extract_before_ocr_merge/` 舊版比，能區分「本輪造成的退化」與「舊版就這樣」。
@@ -534,15 +604,15 @@ uv run python3 scripts/build_web.py     # production build → docs/（gitignore
 - `llm_review_guide_headings.py`、`question_dedupe.py`、`annotate_exam_code_images.py` — 輔助（先讀 docstring）。
 
 **前端匯出（`frontend/src/generated/` 是 committed 靜態輸入）**
-- `export_guide_outline_data.py` — ⚠️ 見 §10。page_clean/guide_tree → `guideOutlines.json` + 分拆 per-node `guideContent/{key}/`（前端 GuidePage 讀的是這個，**不是** `data/*/guide/*.json`）。
-- `export_guide_embedded_exercises.py` — 抽 guide PDF 內嵌官方習題 → `questions/subject{N}_guide_exercises.json`（與 AI 生成題分開）。
-- `export_question_generation_data.py` — 匯出出題 pipeline 的 seed（guide 內容 + 既有題目），並初始化/保留 `subject{N}_questions.json`。
+- `export_guide_outline_data.py` — page_clean/guide_tree → `guideOutlines.json` + `guideContent/{key}/`；staging 驗證後一起替換，失敗 rollback，partial 保留其他等級。
+- `export_guide_embedded_exercises.py` — 抽 guide PDF 內嵌官方習題 → `questions/subject{N}_guide_exercises.json`（與 AI 生成題分開）；在結構化 appendix 前停止，寫檔前拒絕 bibliography bleed、ID 漂移與 card 遺失，production 契約為 179 題／179 cards。
+- `export_question_generation_data.py` — Track A seed → `subject{N}_reading_guide.json`，初始化／保留 `subject{N}_questions.json`；不寫 canonical Track B。
 - `export_pdf_image_gallery.py` — page_extract 裁圖 → `frontend/public/pdf-assets/{level}/` +
-  `frontend/src/generated/pdfGallery.json`（`#/images` 檢視器）。
+  `frontend/src/generated/pdfGallery.json`（`#/images` 檢視器）；partial export 會合併未指定等級。
   2026-08-29 起不再寫 `public/.../gallery.json`——那份三個 level 合計 589 KB，從來沒有消費者。
 - `export_resource_summary.py` — 章節/題數/覆蓋統計 + `visuals` 概念圖卡計數 → `resourceSummary.json`（首頁統計用；題目 JSON 得以 lazy load）。
 - `export_exam_reference_answers.py`、`export_colab_metadata.py`、`export_guide_images_data.py`、`export_guide_image_units.py`、`export_learning_articles.py`、`export_guide_exam_annotations.py` — 各自把後端產物轉前端 JSON；改了上游資料記得重跑對應那支。
-- ~~`render_guide_page_images.py`~~ — **已退場（2026-08-26）**。產物 `frontend/public/guide-pages/`（89 檔 13 MB）
+- ~~`render_guide_page_images.py`~~ — **已退場（2026-08-29）**。產物 `frontend/public/guide-pages/`（89 檔 13 MB）
   經窮舉比對確認前端從未引用（`parse_guides.py:369-373` 註解已寫明），已從版控刪除。
   前端讀的是 `guideContent` 與 `pdfGallery`，都指向 `pdf-assets/`。不要重跑這支。
 
@@ -554,28 +624,34 @@ uv run python3 scripts/build_web.py     # production build → docs/（gitignore
 - `run_codex_exam_reference_answers.py` — 見 §4。
 - `build_codex_*_prompts.py` / `run_codex_*_generation.py` / `merge_codex_mock_exam_outputs.py` / `validate_codex_*_output.py` / `export_codex_mock_exam_questions.py` — Codex 批次出題家族：build prompts → run → validate → merge → export。
 
-**Build**
-- `build_web.py` — 薄包裝，跑 `frontend/ && npm run build` → `docs/`。
+**Build / 發佈**：`build_web.py` 先 audit 再 Vite build → `docs/`；`publish_assets.py` 可選上傳 R2（預設 copy，`--prune` 才刪除）；`verify_r2_assets.py` 全量 HEAD，正式切換不可用 `--sample`。
 
 ## §8 輸出檔案與 gitignore 狀態
 
-**Committed（改了要提交）**：`data/{level}/toc_manifest.json`（SSOT）、`data/{level}/questions/*.json`、
-`data/{level}/guide/subject{N}_guide.json`（tracked，`git ls-files` 已驗證；guide/ 下被忽略的只有
-`*.md`、`*.bak`、`*_nested.json`、`*_audit_report.json`、`*_flagged.json`、`*_validation_report.json`）、
-`notebooks/{level}/*.ipynb`、`frontend/src/generated/**`、`frontend/public/**`。
+**Committed（改了要提交）**：`data/{level}/toc_manifest.json`（章節 SSOT）、`data/resource_catalog.json`（exam/resource metadata SSOT）、`data/{level}/questions/*.json`、
+`data/{level}/guide/subject{N}_guide.json`（tracked；guide/ 只忽略 `*.md`、`*.bak`、`*_reading_guide.json`、`*_nested.json`、`*_audit_report.json`、`*_flagged.json`、`*_validation_report.json`）、
+`data/{level}/guide_ocr/**`（OCR SSOT）、`data/{level}/guide_sections/*.json`（canonical Track B 衍生出題片段）、
+`scripts/track_a_ocr_expected_signatures.json`、`notebooks/{level}/*.ipynb`、
+`frontend/src/generated/**`、`frontend/public/**`（含 Track A gate 的 exact source assets）、`frontend/public-shell/**`。
 
 **Gitignored（刪了救不回；vision 快取重建要花 API 錢）**：`data/*/extracted/`、`page_extract/`、
 `page_clean/`、`guide_tree/`、`codex_page_review/`、`outline/`、`pages_cache/`、`audit_cache/`、
-`audit_compare/`、`exam_pages_cache/`（未列於 .gitignore 但同性質，見 git status）、`pipeline/`、
+`pages_cache_gemini_backup/`、`page_extract_before_ocr_merge/`、`audit_compare/`、
+`exam_pages_cache/`、`pipeline/`、
 `analysis/`、`logs/`、`docs/`、`.claude/`、`.env`、`ref/`（`data/*/guide/` 只忽略上面
-Committed 段列出的六類後綴，`subject{N}_guide.json` 本體是 tracked）。
+Committed 段列出的後綴，`subject{N}_guide.json` 本體是 tracked）。
+
+Fresh checkout 不含 `page_clean`、`page_extract`、`guide_tree`、`pages_cache`、`exam_pages_cache`
+與 Track A reading snapshot；release gate 的必要層不得依賴它們。Track A 使用 committed
+guideContent/signatures/assets，Track B 使用 committed canonical SHA，考題使用 production JSON。
 
 **視為 build artifacts**：`data/{level}/questions/*.json`、`data/{level}/guide/*.json`、`docs/`。
 只有刻意策展內容時才手動編輯 JSON，且要在 commit message 說明。
 注意 `subject{1,2}_questions.json` 是人工策展，`parse_exams_v2.py` 不會覆蓋它。
 
 **guide/ 的雙軌真相**（易混淆）：
-- `data/{level}/guide/subject{N}_guide.json` — 後端章節 JSON，給 audit/compare/supplement 腳本用。
+- `data/{level}/guide/subject{N}_guide.json` — canonical Track B，供 audit/compare/supplement、section export、出題；`parse_guides.py` 建立，`supplement_guide_from_audit.py` 可刻意後處理。
+- `data/{level}/guide/subject{N}_reading_guide.json` — Track A 快照，由 `export_question_generation_data.py` 建立且 gitignored，不能頂替 canonical。
 - 前端 GuidePage 讀的是 `frontend/src/generated/guideContent/`（由 `export_guide_outline_data.py`
   從 `page_clean/`/`guide_tree/` 生成）。**兩者來源不同，改一邊不會影響另一邊。**
 
@@ -590,7 +666,7 @@ Committed 段列出的六類後綴，`subject{N}_guide.json` 本體是 tracked�
 }
 ```
 
-## §9 驗證清單（自動的跑 `python3 tests/run_all.py`，其餘靠這份）
+## §9 驗證清單（自動的跑 `uv run python tests/run_all.py`，其餘靠這份）
 
 Pipeline 跑完後：
 1. `toc_manifest.json` 存在且所有章節 `page_range` 非 null。
@@ -611,8 +687,11 @@ Pipeline 跑完後：
 12. 動過講義文字（OCR、勘誤、清洗）後：`python3 scripts/verify_question_guide_alignment.py`
     ——「本輪造成的退化」要是 0，`chapter_id` 失效要是 0。2026-08-07 的基準是
     179 題 `guide_exercises` 全數在引用頁逐字命中。
-13. 自動測試在 `tests/`（5 支，2026-08-29 新增）。**動到執行時行為就要跑**：
-    `python3 tests/run_all.py`（7 項，約 3.5 分鐘，需要 playwright）。細節見 `tests/README.md`。
+13. 自動測試在 `tests/`；**發佈前一律跑** `uv run python tests/run_all.py`，動執行時行為或
+    OCR 三軌也要跑。13 項包含
+    build、兩級 alignment、8 類 audit、3 項 Playwright，以及 Track A 169＋3＋3、Track B 78、
+    考題 14 份／709 題的 OCR regression；fresh-checkout 與 staged/rollback 契約也在其中。
+    完整清單與邊界見 `tests/README.md`。
 
 > 教訓 2026-08-07：比對中文 PDF 文字時只正規化其中一邊，會全部落空。根因：全形標點與
 > CJK 相容字（「數」是 U+F969）在兩邊的編碼不同。規則：**兩邊都做 NFKC**，若要把結果寫回
@@ -620,29 +699,31 @@ Pipeline 跑完後：
 > 串成一條用最長共同子串比會嚴重低估），**題目常跨頁**（選項 C/D 印在下一頁），
 > 單頁比對要補比「本頁＋下一頁」。
 
-## §10 已知手動修正（重跑 export 後必補回）⚠️
+## §10 Deterministic publication overlays（exporter 內建）
 
-### 前置陷阱：`export_guide_outline_data.py` 必帶 `--all-levels`
+### Export transaction 已修復；常規仍用 `--all-levels`
 
-腳本會先 `shutil.rmtree` 清空 `frontend/src/generated/guideContent/` 再重建。
-預設 `--level 初級` 只重建初級 → **中級檔案永久消失**（2026-06-06 實際發生過）。
-跑完立刻 `git status frontend/src/generated/guideContent/` 確認 mid-* 目錄還在。
+2026-08-29 起，腳本在 staging 建立／驗證完整候選，才一起替換 `guideContent/` 與 `guideOutlines.json`；每個 contentRef 會讀回 JSON，驗證 node id、非空 content、非空 blocks、contentFormat 與 sourcePages 型別。失敗 rollback，單等級只替換該級並保留另一級；舊 rmtree 與空／錯 schema 資料損失路徑都由 `test_pipeline_output_safety.py` 鎖住。
 
-### 修正 1、2 已經腳本化（2026-08-06）
+2026-08-30 起，s1c2/s1c4/s2c3 的三項人工判斷已整理成 `guide_publication_overlays.py` 的
+deterministic transform，由 exporter 在 staged candidate 內套用，再以 exact structure gate
+驗證後才 commit。標準 exporter 單獨重跑已可位元冪等，不再依賴事後修改 live output。
+
+### 修正 1、2、5、6 已整合進 exporter（2026-08-30）
 
 ```bash
-uv run python3 scripts/export_guide_outline_data.py --all-levels
-python3 scripts/apply_manual_guide_fixes.py     # ← 緊接著跑，冪等，可重複執行（修正 1、2、5）
+uv run python3 scripts/export_guide_outline_data.py --all-levels --use-guide-tree
+python3 scripts/apply_manual_guide_fixes.py     # optional legacy compatibility check；應為 0 change
+python3 scripts/track_a_ocr_repairs.py          # 3/3 publication structure，否則 exit 1
 ```
 
-原本是下面兩段「複製貼上執行」的程式碼，且**字串對不上時靜默不改**，
-造成「以為補好了其實沒補」。腳本版對不上會**直接報錯中斷**（要放行加 `--no-strict`），
-對照表在 `apply_manual_guide_fixes.py` 的 `DEMOTE_HEADINGS` / `SHORTEN_HEADINGS`。
-以下兩段保留為修正內容的說明，不必再手動執行。
+舊流程是在 live output 上事後補 patch；字串對不上時可能靜默不改。現在同一份對照表由
+exporter 與 legacy compatibility script 共用，staged precommit gate 會精確驗證三個 structure
+名稱與內容。以下保留修正內容的來源說明，不必再手動執行。
 
 ### 修正 5：s1c2 標題升階（2026-08-08 新增，已腳本化）
 
-`apply_manual_guide_fixes.py` 的 `apply_s1c2`：把「假說檢定名詞介紹：」升為 h3。
+publication overlay 把「假說檢定名詞介紹：」升為 h3。
 這章在 PDF 裡只有這一個次級標題，而且它**緊貼表格上緣**（y 421.6–434.9 vs 表格起點
 426.3），一度被 `positioned_page_items` 的表格重疊過濾**整行刪掉**。
 
@@ -656,6 +737,12 @@ python3 scripts/apply_manual_guide_fixes.py     # ← 緊接著跑，冪等，�
 > 約半數是雜訊，會讓 25 章的導覽變差來換 1 章變好。規則：**換掉一個啟發式之前，先在
 > 全語料上算「改善幾章 vs 惡化幾章」**，不要只看目標案例。
 
+### 修正 6：s2c3 導入策略標題同步（2026-08-30 新增，已腳本化）
+
+publication overlay 將破碎的「（3）企業導入階段性實施策略企業需採取」精確改為
+「（3） 導入策略與階段規劃」，並同步 Markdown、`headings[]`、`blocks[]`、hierarchy 與 search anchor；
+Track A live gate 會拒絕任一表面殘留舊標題或缺少新節點。
+
 ### 修正 1、2 的內容（說明用，不必手動執行）
 
 - **修正 1：s1c4 本節階層 heading 層級**（6 個 h4 → h3）。腳本對所有 `（\d+）` 開頭行
@@ -665,11 +752,11 @@ python3 scripts/apply_manual_guide_fixes.py     # ← 緊接著跑，冪等，�
   `（1）（2）…` 前綴（如「（1） 邏輯迴歸（Logistic Regression）是鑑別式AI 中最簡單…」
   → 「邏輯迴歸（Logistic Regression）」），造成側欄同層視覺混淆。
 
-兩者的完整對照表在 `apply_manual_guide_fixes.py` 的 `DEMOTE_HEADINGS` / `SHORTEN_HEADINGS`；
+兩者的完整對照表在 `guide_publication_overlays.py`；
 原本的手動 code block 見 `playbook/backups/pipeline-reference.md.bak-2026-08-07`。
 
-觸發時機：每次執行 `export_guide_outline_data.py`（含 `--all-levels`）後跑
-`scripts/apply_manual_guide_fixes.py`，然後 `npm run build` 驗證。
+驗收時機：每次執行 exporter 後跑 `track_a_ocr_repairs.py` 與 `npm run build`；legacy
+`apply_manual_guide_fixes.py` 可用來確認相容性，但標準輸出必須讓它回報 0 change。
 
 ### 修正 4：官方勘誤表（2026-08-06 新增，已腳本化）
 
@@ -679,22 +766,28 @@ OCR 成果在 `data/{level}/guide_ocr/errata/`）。內容是「頁碼 / 行數�
 少數是整段改寫（初級 3-31 答案由 B 改為 A、中級 4-34 PDPA 整段重寫）。
 
 ```bash
-python3 scripts/build_errata.py                 # 勘誤表 OCR → data/{level}/errata_corrections.json
-python3 scripts/apply_errata.py [--dry-run]     # 套進 pages_cache 與 page_extract
+python3 scripts/build_errata.py --level 初級                 # 勘誤表 OCR → data/{level}/errata_corrections.json
+python3 scripts/build_errata.py --level 中級
+python3 scripts/apply_errata.py --level 初級 [--dry-run]     # 套進 pages_cache 與 page_extract
+python3 scripts/apply_errata.py --level 中級 [--dry-run]
 ```
 
 **執行順序有硬性要求**——勘誤是疊加層，套在兩條軌的轉接產物上，重跑轉接層會沖掉：
 
 ```
-ocr_extract.py       → apply_errata.py → parse_guides.py                （Track B）
-merge_guide_ocr.py   → apply_errata.py → clean_pdf_page_text.py
-                                       → export_guide_outline_data.py   （Track A）
+ocr_extract.py     → apply_errata.py → apply_track_b_ocr_fixes.py → parse_guides.py
+                  → Track B --check → export_guide_sections.py             （Track B）
+merge_guide_ocr.py → apply_errata.py → clean_pdf_page_text.py → build_guide_tree.py
+                  → export_guide_outline_data.py（staged precommit gate）
+                  → export_guide_hierarchy.py → reading snapshot
+                  → track_a_ocr_repairs.py                                  （Track A）
 ```
 
 不改 `data/{level}/guide_ocr/`：那是 OCR 的忠實紀錄，要能對回原稿印的內容。
 
-採**全有或全無**策略：一筆勘誤的片段沒有全部定位到就整筆不動，
-因為只改一半會產生新舊混雜的段落，比不改更糟。腳本是**冪等**的，可重複執行。
+採**全有或全無**策略：一筆勘誤的片段沒有全部定位到就整筆不動，因為只改一半會產生
+新舊混雜的段落。腳本是**冪等**的；插入型更正若「原文」是「更正後文字」的子字串，
+必須先等長遮罩所有已完成 span，再找真正未更正的原文，否則每次重跑都會再追加一次。
 
 自動比對解不了的（勘誤表對「原內容」的轉錄與講義原文有標點、條列符號、斷行的差異，
 或一筆勘誤同時要改題目頁與解析頁）寫進 `data/{level}/errata_manual.json`
@@ -709,23 +802,29 @@ merge_guide_ocr.py   → apply_errata.py → clean_pdf_page_text.py
 
 **兩軌的原文格式常常不同**（Track B 是 OCR markdown、Track A 是 PDF 文字層），
 同一處更正往往要各寫一筆並標 `track`。只改到一軌時腳本會示警——這類漏網以前是靜默的。
+中級 5-21 的官方 diff 在同頁 Precision／Recall 間不唯一；TB-006 必須用含 Recall 標題的
+人工上下文修正 Recall，並另把被誤改的 Precision 復原，不能接受第一個文字命中。
 
-現況與未決條目（剩 2 筆需看原始 PDF）記在 `06-guide-ocr-recalibration.md`。
+2026-08-30 現況：28 筆官方勘誤已處理，兩級 `errata_unresolved.json` 都是空陣列；
+Type-I、Recall 與感知器 `w_i x_i` 等容易誤套的項目另由 Track A/B 精確 gate 鎖住。
+完整收斂邊界見 `06-guide-ocr-recalibration.md`。
 
 安全閥：純刪除（更正後文字是原文開頭）且刪掉超過 30 字的片段一律不套——
 那幾乎都是勘誤表表格 OCR 壞掉造成的，照套會刪掉整段講義。
 
-### 修正 3（已改為自動，留紀錄）：guideContent `content` 的 LaTeX 公式
+### 修正 3（已改為精確 inventory gate）：guideContent 的 LaTeX 公式
 
 2026-06-10 手工補在 13 個章節檔的 98 處 `$$...$$`（把 PDF 文字層攤平的公式亂碼換成
 可渲染 LaTeX）**沒有留在任何腳本裡**，重跑 export 就全數消失。2026-08-06 起
-`export_guide_outline_data.py` 的 `inject_formulas_into_markdown()` 自動做這件事，
-**但只覆蓋約六成**（公式標記 149→259 處，殘留亂碼卻從 455 字元變成 860——人工版會刪掉
-整段亂碼，自動版只換能對應到公式的片段）。
+`export_guide_outline_data.py` 的 `inject_formulas_into_markdown()` 自動做這件事。2026-08-30 起
+**不再用 `$$` 數量或「約六成」推估正確率**：Track A 對 43 個已審公式頁驗 exact same-page
+formula multiset、目標 attachment 與 `formulaOnly`；加上 Type-I／Recall，共 45 筆
+`formula_and_errata` inventory。169 筆總 inventory remaining=0，另有 X_max、Softmax z_j、
+感知器官方勘誤 3 筆 publication overlays。
 
-影響有限：`content` **不是閱讀頁的渲染來源**（GuidePage 走 `blocks`，64 章全有 blocks）。
-實際讀它的是概念圖卡頁與 `export_learning_articles.py` / `export_question_generation_data.py`。
-要收斂就提高 `enrich_guide_blocks` 的公式附著率，不要再手工 patch。
+`content` 雖不是 GuidePage 的主要渲染來源（64 章都優先走 `blocks`），仍由概念圖卡與 export
+流程讀取，所以 overlay 會同步兩者；本機 reading snapshot 存在時也會驗它。這套數字只代表已審 inventory closure；
+新增／換版 PDF 仍須看原始影像，確認後把新缺陷加入 registry，不能把 gate 外推成全頁正確。
 
 ---
 
@@ -733,5 +832,6 @@ merge_guide_ocr.py   → apply_errata.py → clean_pdf_page_text.py
 
 - Python：4-space、`snake_case`、短 module docstring、`Path` 不用 `os.path`、
   腳本自足、小 helper 優於深巢狀。
-- 生成 JSON 以內容命名（`mock_exam1.json`、`subject2_questions.json`）。
+- 生成 JSON 以內容命名（`mock_mid_1141_s1.json`、`subject2_questions.json`）；考卷正式檔名由
+  `data/resource_catalog.json` 決定，不另建 alias 檔。
 - Commit：祈使句 + scope，如 `build: refresh mock exam JSON`、`parser: improve table extraction`。

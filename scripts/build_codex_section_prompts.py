@@ -27,7 +27,9 @@ import json
 from pathlib import Path
 from textwrap import dedent
 
-BASE = Path('/home/james/projects/ipas-test')
+from export_guide_sections import payload_errors as guide_section_payload_errors
+
+BASE = Path(__file__).resolve().parents[1]
 DEFAULT_RUN_DIR = 'pipeline/codex_section_prompts'
 
 # 題型固定成 enum：第一輪放任模型自由填，結果同一個概念出現「情境應用型」
@@ -48,6 +50,19 @@ SUBJECT_ID = {
 def load_json(path: Path):
     with path.open(encoding='utf-8') as f:
         return json.load(f)
+
+
+def load_section_payload(level: str, subject: int) -> dict:
+    """Load only a section snapshot that exactly rebuilds from canonical Track B."""
+    path = BASE / 'data' / level / 'guide_sections' / f'subject{subject}.json'
+    data = load_json(path)
+    errors = guide_section_payload_errors(level, subject, data)
+    if errors:
+        raise RuntimeError(
+            f'Stale or invalid guide_sections input: {"; ".join(errors)}. '
+            'Run scripts/export_guide_sections.py before building prompts.'
+        )
+    return data
 
 
 def pack_chunks(chapter: dict, quota: dict | None, default_count: int,
@@ -267,8 +282,7 @@ def main() -> None:
     args = parser.parse_args()
 
     subject_id = SUBJECT_ID[(args.level, args.subject)]
-    sections_path = BASE / 'data' / args.level / 'guide_sections' / f'subject{args.subject}.json'
-    data = load_json(sections_path)
+    data = load_section_payload(args.level, args.subject)
     subject_title = data.get('subject') or subject_id
 
     # --run-dir 同時接受兩種寫法：repo 相對路徑（data/初級/pipeline/xxx）與

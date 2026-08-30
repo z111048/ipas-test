@@ -42,7 +42,7 @@ from verify_question_answers import (  # noqa: E402  (shared gateway client)
     save_json,
 )
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 DEFAULT_GLOSSARY = BASE / 'frontend' / 'src' / 'generated' / 'middleGlossary.json'
 DEFAULT_OUT = BASE / 'data' / 'audit' / 'glossary_review'
 # Same roster that scored 28/28 on the mid-s2c3 answer baseline.
@@ -216,11 +216,18 @@ def main() -> None:
     if not models:
         raise SystemExit('no verifiers selected')
 
-    entries = load_entries(Path(args.glossary))
+    glossary_path = Path(args.glossary)
+    if not glossary_path.is_absolute():
+        glossary_path = BASE / glossary_path
+    out_dir = Path(args.out_dir)
+    if not out_dir.is_absolute():
+        out_dir = BASE / out_dir
+
+    entries = load_entries(glossary_path)
     if args.term:
         entries = [e for e in entries if e['zh'] in set(args.term)]
         if not entries:
-            raise SystemExit(f'no entry matches {args.term} in {args.glossary}')
+            raise SystemExit(f'no entry matches {args.term} in {glossary_path}')
     if args.self_test:
         entries = apply_corruptions(entries)
     elif args.limit:
@@ -241,12 +248,11 @@ def main() -> None:
         for entry in false_alarm:
             issues = [v['issue'] for v in entry['votes'].values() if v and v['issue']]
             print(f'  FALSE {entry["zh"]}: {issues}')
-        save_json(Path(args.out_dir) / 'self_test.json', reviewed)
+        save_json(out_dir / 'self_test.json', reviewed)
         raise SystemExit(0 if not missed and not false_alarm else 1)
 
     flagged = [e for e in reviewed if e['wrong_count'] >= args.threshold]
     minor = [e for e in reviewed if e not in flagged and e['minor_count'] >= 2]
-    out_dir = Path(args.out_dir)
     save_json(out_dir / 'review.json', reviewed)
     save_json(out_dir / 'flagged.json', flagged)
 

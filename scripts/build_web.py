@@ -12,7 +12,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-ROOT = Path('/home/james/projects/ipas-test')
+ROOT = Path(__file__).resolve().parents[1]
 FRONTEND = ROOT / 'frontend'
 
 

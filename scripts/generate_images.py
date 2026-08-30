@@ -8,7 +8,7 @@ import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 OUTPUT_DIR = BASE / 'frontend' / 'public' / 'images'
 PROMPT_CACHE = BASE / 'build' / 'image_prompts.json'
 GENERATION_LOG = BASE / 'build' / 'image_generation_log.jsonl'
@@ -348,7 +348,8 @@ def main() -> None:
 
     try:
         if args.units_file:
-            images = selected_unit_images(args.units_file, args.name, args.offset, args.limit)
+            units_file = args.units_file if args.units_file.is_absolute() else BASE / args.units_file
+            images = selected_unit_images(units_file, args.name, args.offset, args.limit)
         else:
             images = selected_images(args.name)
     except ValueError as exc:

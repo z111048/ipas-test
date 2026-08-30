@@ -190,6 +190,39 @@ with dev_server() as BASE, sync_playwright() as pw:
     check('手動捲到第 10 題後按鍵，答案落在第 10 題', st == {'q9': 'D'}, str(st))
     pg.close()
 
+    print('\n=== 9. 計時器以絕對截止時間校正背景分頁漂移 ===')
+    timer_pg = browser.new_page(viewport={'width': 1280, 'height': 900})
+    timer_pg.add_init_script('''(() => {
+        let now = Date.now()
+        Date.now = () => now
+        window.__ipasAdvanceClock = (milliseconds) => { now += milliseconds }
+    })()''')
+    timer_pg.goto(f'{BASE}/#/exam/{EXAM}', wait_until='networkidle')
+    timer_pg.wait_for_selector('text=開始考試', timeout=20000)
+    timer_pg.click('text=開始考試')
+    timer_pg.wait_for_selector('div.text-xl.tabular-nums', timeout=20000)
+    initial_timer = timer_pg.locator('div.text-xl.tabular-nums').inner_text()
+    check('初始倒數 = 90:00', initial_timer == '90:00', initial_timer)
+
+    timer_pg.evaluate('''() => {
+        window.__ipasAdvanceClock(5000)
+        document.dispatchEvent(new Event('visibilitychange'))
+    }''')
+    timer_pg.wait_for_function(
+        "() => document.querySelector('div.text-xl.tabular-nums')?.textContent === '89:55'",
+        timeout=5000,
+    )
+    corrected_timer = timer_pg.locator('div.text-xl.tabular-nums').inner_text()
+    check('回到前景時一次補正 5 秒', corrected_timer == '89:55', corrected_timer)
+
+    timer_pg.evaluate('''() => {
+        window.__ipasAdvanceClock(89 * 60 * 1000 + 55 * 1000)
+        window.dispatchEvent(new Event('focus'))
+    }''')
+    timer_pg.wait_for_selector('button:has-text("重新考試")', timeout=5000)
+    check('截止時間到達後自動交卷', '詳細解析' in timer_pg.inner_text('body'))
+    timer_pg.close()
+
     browser.close()
 
 print('\n' + '=' * 52)

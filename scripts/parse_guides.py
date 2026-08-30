@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
-"""Parse study guide PDFs into chapter-structured JSON.
+"""Build the canonical Track B guide JSON used for question generation.
 
-Two modes (auto-selected):
-  1. Vision mode  — if pages_cache/{key}/ exists from pdf_vision_extract.py,
-                    chapter content is assembled from LLM-extracted per-page markdown.
-  2. Regex mode   — fallback: text extraction + structural regex conversion.
+Vision/OCR pages_cache is required by default. The legacy regex parser is an
+emergency recovery path and must be enabled explicitly with
+``--allow-regex-fallback``; it is never selected silently.
 
 Usage:
   uv run python3 scripts/parse_guides.py                   # default: 初級, all subjects
   uv run python3 scripts/parse_guides.py --level 初級
   uv run python3 scripts/parse_guides.py --level 初級 --subject 1
+  uv run python3 scripts/parse_guides.py --level 初級 --allow-regex-fallback
 """
 
 import argparse
+import hashlib
 import json
 import re
 from pathlib import Path
@@ -24,7 +25,7 @@ try:
 except ImportError:
     _FITZ_AVAILABLE = False
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 
 
 def _load_manifest(data_dir: Path) -> dict[int, dict]:
@@ -317,18 +318,30 @@ def text_to_markdown(text: str, chapter_title: str) -> str:
 
 # ── Vision-cache chapter loading ──────────────────────────────────────────────
 
-def _build_page_label_map(pdf_path: Path) -> dict[str, int]:
-    """Map in-document page labels (e.g. '3-24') → 0-based page index.
+def _build_page_label_maps(pdf_path: Path) -> tuple[dict[str, int], dict[int, str]]:
+    """Build label→index and index→display-label maps in one PDF scan.
 
-    Scans every page for numeric labels like '3-24'.  Uses the LAST occurrence
-    so that actual content pages win over TOC forward-references.
+    Boundary lookup uses the LAST occurrence so actual content pages win over
+    TOC forward-references.  Display labels preserve the FIRST match on each
+    page, exactly matching the former ``_page_label`` behavior without opening
+    the PDF again for every selected page.
     """
     doc = fitz.open(str(pdf_path))
     mapping: dict[str, int] = {}
+    display_labels: dict[int, str] = {}
     for i, page in enumerate(doc):
-        for m in re.finditer(r'\b(\d+-\d+)\b', page.get_text()):
+        matches = list(re.finditer(r'\b(\d+-\d+)\b', page.get_text()))
+        if matches:
+            display_labels[i] = matches[0].group(1)
+        for m in matches:
             mapping[m.group(1)] = i
     doc.close()
+    return mapping, display_labels
+
+
+def _build_page_label_map(pdf_path: Path) -> dict[str, int]:
+    """Compatibility wrapper returning only label→index boundary lookup."""
+    mapping, _display_labels = _build_page_label_maps(pdf_path)
     return mapping
 
 
@@ -374,6 +387,18 @@ def _page_asset_path(level: str, key: str, idx: int) -> str:
     return page_asset_url(level, key, idx)
 
 
+def chapter_content_sha256(chapters: list[dict]) -> str:
+    """Fingerprint the exact canonical chapter text emitted from pages_cache."""
+    payload = [
+        [chapter.get('id'), chapter.get('content')]
+        for chapter in chapters
+    ]
+    serialized = json.dumps(
+        payload, ensure_ascii=False, separators=(',', ':'), sort_keys=False,
+    )
+    return hashlib.sha256(serialized.encode('utf-8')).hexdigest()
+
+
 def load_chapter_pages_vision(
     key: str, chapters: list[dict], pdf_path: Path, cache_dir: Path, level: str
 ) -> list[dict] | None:
@@ -387,33 +412,58 @@ def load_chapter_pages_vision(
         return None
 
     if not _FITZ_AVAILABLE:
-        print('  [vision] PyMuPDF not available; falling back to regex mode')
+        print('  [vision] PyMuPDF not available')
         return None
-
-    # Count available content pages (skip page_index.json)
-    cached = {}
-    for p in guide_cache_dir.glob('page_*.json'):
-        if p.name == 'page_index.json':
-            continue
-        with open(p, encoding='utf-8') as f:
-            d = json.load(f)
-        cached[d['idx']] = d
 
     doc = fitz.open(str(pdf_path))
     total_pages = len(doc)
     doc.close()
 
-    # Require at least 80% of pages cached
-    coverage = len(cached) / total_pages if total_pages else 0
-    if coverage < 0.8:
-        print(f'  [vision] cache only {coverage:.0%} complete; falling back to regex mode')
+    # Canonical Track B must be page-complete. Accepting a percentage threshold
+    # can silently publish a guide with missing pages, even when every chapter
+    # still happens to contain some text.
+    cached: dict[int, dict] = {}
+    invalid_files: list[str] = []
+    for p in sorted(guide_cache_dir.glob('page_*.json')):
+        if p.name == 'page_index.json':
+            continue
+        try:
+            with open(p, encoding='utf-8') as f:
+                entry = json.load(f)
+        except (OSError, json.JSONDecodeError):
+            invalid_files.append(p.name)
+            continue
+        idx = entry.get('idx')
+        page_type = entry.get('type')
+        valid_type = page_type in {'content', 'practice', 'skip'}
+        valid_content = page_type != 'content' or bool(
+            isinstance(entry.get('markdown'), str) and entry['markdown'].strip()
+        )
+        if not isinstance(idx, int) or idx in cached or not valid_type or not valid_content:
+            invalid_files.append(p.name)
+            continue
+        cached[idx] = entry
+
+    expected_indices = set(range(total_pages))
+    cached_indices = set(cached)
+    missing_indices = sorted(expected_indices - cached_indices)
+    unexpected_indices = sorted(cached_indices - expected_indices)
+    if invalid_files or missing_indices or unexpected_indices:
+        details = []
+        if missing_indices:
+            details.append(f'missing pages {missing_indices}')
+        if unexpected_indices:
+            details.append(f'out-of-range pages {unexpected_indices}')
+        if invalid_files:
+            details.append(f'invalid/error cache files {invalid_files}')
+        print(f"  [vision] incomplete cache: {'; '.join(details)}")
         return None
 
-    label_map = _build_page_label_map(pdf_path)
+    label_map, display_labels = _build_page_label_maps(pdf_path)
     try:
         page_ranges = _get_chapter_page_ranges(chapters, label_map, total_pages)
     except ValueError as e:
-        print(f'  [vision] page mapping failed ({e}); falling back to regex mode')
+        print(f'  [vision] page mapping failed ({e})')
         return None
 
     chapter_contents = []
@@ -433,12 +483,20 @@ def load_chapter_pages_vision(
             md = entry.get('markdown', '').strip()
             if md:
                 parts.append(md)
-                source_pages.append({
+                source_page = {
                     'index': idx,
                     'page': idx + 1,
-                    'label': _page_label(pdf_path, idx),
+                    'label': display_labels.get(idx, ''),
                     'image': _page_asset_path(level, key, idx),
+                }
+                correction_ids = sorted({
+                    item.get('id')
+                    for item in entry.get('track_b_corrections', [])
+                    if isinstance(item, dict) and isinstance(item.get('id'), str)
                 })
+                if correction_ids:
+                    source_page['semantic_correction_ids'] = correction_ids
+                source_pages.append(source_page)
         chapter_contents.append({
             'content': '\n\n'.join(parts),
             'source_pages': source_pages,
@@ -450,7 +508,7 @@ def load_chapter_pages_vision(
         if not c['content'].strip()
     ]
     if empty:
-        print(f'  [vision] chapters with no content: {empty}; falling back to regex mode')
+        print(f'  [vision] chapters with no content: {empty}')
         return None
 
     return chapter_contents
@@ -463,6 +521,7 @@ def parse_guide(
     cache_dir: Path,
     data_dir: Path,
     level: str,
+    allow_regex_fallback: bool = False,
 ) -> dict:
     cfg = guides[subject_num]
     key = cfg['key']
@@ -493,10 +552,33 @@ def parse_guide(
                 'source_pages': content_data['source_pages'],
             })
             print(f"  {ch['id']} ({ch['title']}): {len(full_content)} chars")
-        return {'subject': cfg['subject'], 'chapters': result_chapters}
+        semantic_correction_ids = sorted({
+            correction_id
+            for chapter in result_chapters
+            for page in chapter['source_pages']
+            for correction_id in page.get('semantic_correction_ids', [])
+        })
+        return {
+            'subject': cfg['subject'],
+            'source_track': 'track_b_ocr_vision',
+            'source_mode': 'vision',
+            'semantic_correction_layer': 'track_b_reviewed_v1',
+            'semantic_correction_ids': semantic_correction_ids,
+            'source_content_sha256': chapter_content_sha256(result_chapters),
+            'chapters': result_chapters,
+        }
 
     # ── Regex mode (fallback) ──────────────────────────────────────────────────
-    print('  [regex mode]')
+    if not allow_regex_fallback:
+        raise RuntimeError(
+            f'Canonical Track B source unavailable for {level}/{key}. '
+            f'Expected a complete data/{level}/pages_cache/{key}/ OCR/Vision cache '
+            'and its source PDF. Run scripts/ocr_extract.py (Track B) or '
+            'scripts/pdf_vision_extract.py first. '
+            'For emergency legacy extraction only, rerun with '
+            '--allow-regex-fallback; that output is tagged source_mode=regex.'
+        )
+    print('  [regex mode: explicitly enabled legacy fallback]')
     raw_text = load_guide_text(key, data_dir)
     segments = split_into_chapters(raw_text, chapters)
 
@@ -538,6 +620,8 @@ def parse_guide(
 
     return {
         'subject': cfg['subject'],
+        'source_track': 'legacy_regex',
+        'source_mode': 'regex',
         'chapters': result_chapters,
     }
 
@@ -549,6 +633,11 @@ def main():
                         help='資料等級資料夾（預設: 初級）')
     parser.add_argument('--subject', type=int,
                         help='只處理指定科目（不指定則處理所有科目）')
+    parser.add_argument(
+        '--allow-regex-fallback',
+        action='store_true',
+        help='明確允許在 OCR/Vision cache 不可用時使用舊 regex 抽取（緊急備援）',
+    )
     args = parser.parse_args()
 
     data_dir = BASE / 'data' / args.level
@@ -568,7 +657,15 @@ def main():
         if n not in guides:
             print(f'[WARN] Subject {n} not found in manifest')
             continue
-        data = parse_guide(n, guides, pdf_dir, cache_dir, data_dir, args.level)
+        data = parse_guide(
+            n,
+            guides,
+            pdf_dir,
+            cache_dir,
+            data_dir,
+            args.level,
+            allow_regex_fallback=args.allow_regex_fallback,
+        )
         out_path = guide_dir / f'subject{n}_guide.json'
         out_path.write_text(
             json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8'

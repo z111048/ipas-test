@@ -3,6 +3,14 @@ import middleTocRaw from '@data-mid/toc_manifest.json'
 import guideOutlinesRaw from '../generated/guideOutlines.json'
 import resourceSummaryRaw from '../generated/resourceSummary.json'
 import type { GuideOutlinesData, ResourceSummaryData, TocManifest } from '../types'
+import {
+  catalogLevels,
+  examsForLevel,
+  resourcesForLevel,
+  type CatalogExam,
+  type CatalogResource,
+  type ResourceLevelId,
+} from './resourceCatalog'
 
 export type ResourceStatus = 'available' | 'pending' | 'external'
 
@@ -56,14 +64,16 @@ function firstGuideRoute(subjectId: string) {
   return first ? `/guide/${subjectId}/${first}` : undefined
 }
 
-function subjectResources(toc: TocManifest, level: 'junior' | 'middle'): SubjectResource[] {
-  return toc.subjects.map((subject, index) => {
-    const isJunior = level === 'junior'
+function subjectResources(toc: TocManifest, level: ResourceLevelId): SubjectResource[] {
+  return toc.subjects.map((subject) => {
     const subjectSummary = resourceSummary.levels[level].subjects[subject.id]
     const aiSummary = subjectSummary?.ai
     const guideSummary = subjectSummary?.guide
     const hasPracticeQuestions = Boolean(aiSummary?.available)
     const hasGuideExerciseQuestions = Boolean(guideSummary?.available)
+    const latestExam = examsForLevel(level).find(
+      (exam) => exam.kind === 'official' && exam.subjectId === subject.id
+    )
     return {
       id: subject.id,
       label: subject.subject,
@@ -76,10 +86,35 @@ function subjectResources(toc: TocManifest, level: 'junior' | 'middle'): Subject
       practiceLabel: hasPracticeQuestions ? '章節練習' : '章節練習待建立',
       practiceDetail: '章節模擬練習題',
       guideExercisePracticeDetail: hasGuideExerciseQuestions ? `${guideSummary?.total ?? 0} 題，從學習指引 PDF 內嵌練習抽取` : undefined,
-      examTo: isJunior ? `/exam/jr_1152_s${index + 1}` : `/exam/mid_1151_s${index + 1}`,
+      examTo: latestExam ? `/exam/${latestExam.routeKey}` : undefined,
       chapters: subject.chapters.length,
     }
   })
+}
+
+function examNavItem(exam: CatalogExam): ResourceNavItem {
+  const summary = resourceSummary.levels[exam.levelId].exams[exam.routeKey]
+  const available = Boolean(summary?.available)
+  return {
+    label: exam.label,
+    detail: `${summary?.total ?? 0} 題`,
+    to: available ? `/exam/${exam.routeKey}` : undefined,
+    status: available ? 'available' : 'pending',
+  }
+}
+
+function referenceNavItem(resource: CatalogResource): ResourceNavItem {
+  const to = resource.kind === 'route'
+    ? resource.route
+    : resource.sourceLevel && resource.sourceKey
+      ? galleryRoute(resource.sourceLevel, resource.sourceKey)
+      : undefined
+  return {
+    label: resource.label,
+    detail: resource.detail,
+    to,
+    status: to ? 'available' : 'pending',
+  }
 }
 
 export const resourceStats = {
@@ -103,73 +138,22 @@ export const resourceStats = {
   },
 }
 
-export const resourceLevels: LevelResource[] = [
-  {
-    id: 'junior',
-    label: '初級',
-    subtitle: '已有章節練習題、公告試題與官方樣題',
-    toc: juniorToc,
-    subjects: subjectResources(juniorToc, 'junior'),
-    exams: [
-      { label: '科目一 公告試題（115年第二次）', detail: `${resourceSummary.levels.junior.exams.jr_1152_s1?.total ?? 0} 題`, to: '/exam/jr_1152_s1', status: 'available' as const },
-      { label: '科目二 公告試題（115年第二次）', detail: `${resourceSummary.levels.junior.exams.jr_1152_s2?.total ?? 0} 題`, to: '/exam/jr_1152_s2', status: 'available' as const },
-      { label: '科目一 公告試題（115年第一次）', detail: `${resourceSummary.levels.junior.exams.jr_1151_s1?.total ?? 0} 題`, to: '/exam/jr_1151_s1', status: 'available' as const },
-      { label: '科目二 公告試題（115年第一次）', detail: `${resourceSummary.levels.junior.exams.jr_1151_s2?.total ?? 0} 題`, to: '/exam/jr_1151_s2', status: 'available' as const },
-      { label: '科目一 公告試題（114年第四梯次）', detail: `${resourceSummary.levels.junior.exams.jr_1141_s1?.total ?? 0} 題`, to: '/exam/jr_1141_s1', status: 'available' as const },
-      { label: '科目二 公告試題（114年第四梯次）', detail: `${resourceSummary.levels.junior.exams.jr_1141_s2?.total ?? 0} 題`, to: '/exam/jr_1141_s2', status: 'available' as const },
-    ],
-    samples: [{
-      label: '初級考試樣題（114年9月版）',
-      detail: `${resourceSummary.levels.junior.exams.sample?.total ?? 0} 題`,
-      to: '/exam/sample',
-      status: 'available',
-    }],
-    references: [{
-      label: '評鑑內容範圍參考（115簡章）',
-      detail: '已入庫，可在圖片與表格檢視',
-      to: galleryRoute('共用', 'briefing'),
-      status: 'available',
-    }],
-  },
-  {
-    id: 'middle',
-    label: '中級',
-    subtitle: '已有學習指引與公告試題；章節練習內容先集中在學習指引內',
-    toc: middleToc,
-    subjects: subjectResources(middleToc, 'middle'),
-    exams: [
-      { label: '科目一 公告試題（115年第一次）', detail: `${resourceSummary.levels.middle.exams.mid_1151_s1?.total ?? 0} 題`, to: '/exam/mid_1151_s1', status: 'available' as const },
-      { label: '科目二 公告試題（115年第一次）', detail: `${resourceSummary.levels.middle.exams.mid_1151_s2?.total ?? 0} 題`, to: '/exam/mid_1151_s2', status: 'available' as const },
-      { label: '科目三 公告試題（115年第一次）', detail: `${resourceSummary.levels.middle.exams.mid_1151_s3?.total ?? 0} 題`, to: '/exam/mid_1151_s3', status: 'available' as const },
-      { label: '科目一 公告試題（114年第二梯次）', detail: `${resourceSummary.levels.middle.exams.mid_1141_s1?.total ?? 0} 題`, to: '/exam/mid_1141_s1', status: 'available' as const },
-      { label: '科目二 公告試題（114年第二梯次）', detail: `${resourceSummary.levels.middle.exams.mid_1141_s2?.total ?? 0} 題`, to: '/exam/mid_1141_s2', status: 'available' as const },
-      { label: '科目三 公告試題（114年第二梯次）', detail: `${resourceSummary.levels.middle.exams.mid_1141_s3?.total ?? 0} 題`, to: '/exam/mid_1141_s3', status: 'available' as const },
-    ],
-    samples: [{
-      label: '中級考試樣題（114年9月版）',
-      detail: `${resourceSummary.levels.middle.exams.midSample?.total ?? 0} 題`,
-      to: '/exam/midSample',
-      status: 'available',
-    }],
-    references: [
-      {
-        label: '中級學習指引勘誤表',
-        detail: '已入庫，可在圖片與表格檢視',
-        to: galleryRoute('中級', 'errata'),
-        status: 'available',
-      },
-      {
-        label: '評鑑內容範圍參考（115簡章）',
-        detail: '已入庫，可在圖片與表格檢視',
-        to: galleryRoute('共用', 'briefing'),
-        status: 'available',
-      },
-      {
-        label: '關鍵字整理',
-        detail: '初級與中級分科的中英文定義與案例',
-        to: '/glossary',
-        status: 'available',
-      },
-    ],
-  },
-]
+const tocByLevel: Record<ResourceLevelId, TocManifest> = {
+  junior: juniorToc,
+  middle: middleToc,
+}
+
+export const resourceLevels: LevelResource[] = catalogLevels.map((level) => {
+  const toc = tocByLevel[level.id]
+  const exams = examsForLevel(level.id)
+  return {
+    id: level.id,
+    label: level.label,
+    subtitle: level.subtitle,
+    toc,
+    subjects: subjectResources(toc, level.id),
+    exams: exams.filter((exam) => exam.kind === 'official').map(examNavItem),
+    samples: exams.filter((exam) => exam.kind === 'sample').map(examNavItem),
+    references: resourcesForLevel(level.id).map(referenceNavItem),
+  }
+})

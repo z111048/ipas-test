@@ -220,7 +220,7 @@ export interface GuideImagesData {
   byChapter: Record<string, GuideImageAsset[]>
 }
 
-export type GuideBlockType = 'heading' | 'paragraph' | 'list_item' | 'table' | 'question' | 'answer' | 'spacer'
+export type GuideBlockType = 'heading' | 'paragraph' | 'list_item' | 'table' | 'source_image' | 'question' | 'answer' | 'spacer'
 
 export interface GuideFormula {
   latex: string
@@ -237,10 +237,13 @@ export interface GuideBlock {
   anchor?: string
   rows?: string[][]
   html?: string
+  src?: string
+  alt?: string
   formulas?: GuideFormula[]
   latex?: string | string[]
   formulaOnly?: boolean
   pageIndex?: number
+  sourcePageIndexes?: number[]
   bbox?: number[]
   indentFirstLine?: boolean
 }

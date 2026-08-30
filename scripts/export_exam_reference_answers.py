@@ -8,26 +8,11 @@ import json
 from pathlib import Path
 from typing import Any
 
+from resource_catalog import exam_entries
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "frontend/src/generated/examReferenceAnswers"
-ROUTES_BY_LEVEL = {
-    "初級": {
-        "jr_1141_s1": "jr_1141_s1",
-        "jr_1141_s2": "jr_1141_s2",
-        "jr_1151_s1": "jr_1151_s1",
-        "jr_1151_s2": "jr_1151_s2",
-        "jr_1152_s1": "jr_1152_s1",
-        "jr_1152_s2": "jr_1152_s2",
-        "sample": "sample",
-    },
-    "中級": {
-        "mid_1141_s1": "mid_1141_s1",
-        "mid_1141_s2": "mid_1141_s2",
-        "mid_1141_s3": "mid_1141_s3",
-        "sample": "midSample",
-    },
-}
 STATS_KEYS = {
     "初級": "elementary",
     "中級": "middle",
@@ -66,8 +51,12 @@ def export_reference_answers(level: str, output_path: Path) -> dict[str, Any]:
     if not run_root.exists():
         raise SystemExit(f"Reference answer directory does not exist: {run_root}")
 
-    route_map = ROUTES_BY_LEVEL.get(level)
-    if not route_map:
+    try:
+        route_map = {
+            exam["key"]: exam["routeKey"]
+            for exam in exam_entries(level=level)
+        }
+    except KeyError:
         raise SystemExit(f"Unsupported level: {level}")
 
     exams: dict[str, dict[str, Any]] = {}

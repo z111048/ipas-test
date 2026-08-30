@@ -157,6 +157,9 @@ class TrackAOcrRepairGateTests(unittest.TestCase):
         content_source = ROOT / 'frontend/src/generated/guideContent'
         content_destination = destination / 'frontend/src/generated/guideContent'
         shutil.copytree(content_source, content_destination)
+        generated_destination = destination / 'frontend/src/generated'
+        for filename in ('guideHierarchy.json', 'guideSearchIndex.json'):
+            shutil.copy2(ROOT / 'frontend/src/generated' / filename, generated_destination / filename)
 
         source_urls: set[str] = set()
         for path in content_destination.glob('*/*.json'):
@@ -289,10 +292,11 @@ class TrackAOcrRepairGateTests(unittest.TestCase):
             'official-errata:perceptron-w_i-x_i',
         })
         self.assertEqual(result['publication_overlay_remaining'], 0)
-        self.assertEqual(result['publication_structure_total'], 2)
+        self.assertEqual(result['publication_structure_total'], 3)
         self.assertEqual(set(result['publication_structure_names']), {
             'manual-heading:s1c2-hypothesis',
             'manual-heading:s1c4-hierarchy',
+            'manual-heading:s2c3-import-strategy',
         })
         self.assertEqual(result['publication_structure_remaining'], 0)
         self.assertEqual(set(result['checked_ids']), {f'TA-{index:03d}' for index in range(1, 170)})
@@ -476,6 +480,63 @@ class TrackAOcrRepairGateTests(unittest.TestCase):
         self.assertEqual(hypothesis_once, hypothesis_twice)
         self.assertIn(f'{"#" * hypothesis_depth} {hypothesis_title}', hypothesis_once)
 
+        hypothesis_blocks = [{
+            'type': 'table',
+            'depth': 3,
+            'rows': [[hypothesis_title, ''], ['假說檢定之流程', '說明']],
+            'pageIndex': 32,
+        }]
+        hypothesis_blocks_once = publication_overlays.apply_publication_block_overlays(
+            '初級', 'guide1', 's1c2', hypothesis_blocks,
+        )
+        hypothesis_blocks_twice = publication_overlays.apply_publication_block_overlays(
+            '初級', 'guide1', 's1c2', hypothesis_blocks_once,
+        )
+        self.assertEqual(hypothesis_blocks_once, hypothesis_blocks_twice)
+        self.assertEqual(hypothesis_blocks_once[0]['type'], 'heading')
+        self.assertEqual(hypothesis_blocks_once[0]['depth'], hypothesis_depth)
+        self.assertEqual(hypothesis_blocks_once[0]['anchor'], '假說檢定名詞介紹')
+
+        strategy = publication_overlays.GUIDE_NAVIGATION_HEADINGS[
+            'manual-heading:s2c3-import-strategy'
+        ]
+        old_strategy = strategy['forbiddenTitles'][0]
+        strategy_markdown = f'# 章\n\n#### {old_strategy}\n\n內容'
+        strategy_once = publication_overlays.apply_publication_markdown_overlays(
+            '初級', 'guide2', 's2c3', strategy_markdown,
+        )
+        strategy_twice = publication_overlays.apply_publication_markdown_overlays(
+            '初級', 'guide2', 's2c3', strategy_once,
+        )
+        self.assertEqual(strategy_once, strategy_twice)
+        self.assertNotIn(old_strategy, strategy_once)
+        self.assertIn(f'#### {strategy["title"]}', strategy_once)
+
+        strategy_headings = [{'id': 'old', 'level': 4, 'title': old_strategy}]
+        strategy_headings_once = publication_overlays.apply_publication_heading_overlays(
+            '初級', 'guide2', 's2c3', strategy_headings,
+        )
+        strategy_headings_twice = publication_overlays.apply_publication_heading_overlays(
+            '初級', 'guide2', 's2c3', strategy_headings_once,
+        )
+        self.assertEqual(strategy_headings_once, strategy_headings_twice)
+        self.assertEqual(strategy_headings_once[0]['title'], strategy['title'])
+        self.assertEqual(strategy_headings_once[0]['id'], strategy['anchor'])
+
+        strategy_blocks = [{
+            'type': 'heading', 'depth': 4, 'title': old_strategy,
+            'anchor': 'old', 'pageIndex': 37,
+        }]
+        strategy_blocks_once = publication_overlays.apply_publication_block_overlays(
+            '初級', 'guide2', 's2c3', strategy_blocks,
+        )
+        strategy_blocks_twice = publication_overlays.apply_publication_block_overlays(
+            '初級', 'guide2', 's2c3', strategy_blocks_once,
+        )
+        self.assertEqual(strategy_blocks_once, strategy_blocks_twice)
+        self.assertEqual(strategy_blocks_once[0]['title'], strategy['title'])
+        self.assertEqual(strategy_blocks_once[0]['anchor'], strategy['anchor'])
+
         s1c4_source = ''.join(f'#### {title}\n' for title in publication_overlays.DEMOTE_HEADINGS)
         s1c4_once = publication_overlays.apply_publication_markdown_overlays(
             '初級', 'guide1', 's1c4', s1c4_source,
@@ -496,6 +557,24 @@ class TrackAOcrRepairGateTests(unittest.TestCase):
             '初級', 'guide1', 's1c4', headings_once,
         )
         self.assertEqual(headings_once, headings_twice)
+
+    def test_publication_block_overlays_fail_closed_on_source_drift(self) -> None:
+        with self.assertRaisesRegex(ValueError, 'hypothesis navigation source matched'):
+            publication_overlays.apply_publication_block_overlays(
+                '初級', 'guide1', 's1c2', [],
+            )
+
+        strategy = publication_overlays.GUIDE_NAVIGATION_HEADINGS[
+            'manual-heading:s2c3-import-strategy'
+        ]
+        duplicate = {
+            'type': 'heading', 'depth': strategy['depth'], 'title': strategy['title'],
+            'anchor': strategy['anchor'], 'pageIndex': strategy['pageIndex'],
+        }
+        with self.assertRaisesRegex(ValueError, 'import-strategy heading matched 2'):
+            publication_overlays.apply_publication_block_overlays(
+                '初級', 'guide2', 's2c3', [duplicate, copy.deepcopy(duplicate)],
+            )
 
     def test_publication_structure_drift_fails_cache_free_release_gate(self) -> None:
         mutations = {
@@ -521,6 +600,16 @@ class TrackAOcrRepairGateTests(unittest.TestCase):
                     ),
                 }),
             ),
+            'manual-heading:s2c3-import-strategy': (
+                'frontend/src/generated/guideContent/初級-guide2/s2c3.json',
+                lambda payload: payload.update({
+                    'content': payload['content'].replace(
+                        '\n#### （3） 導入策略與階段規劃\n',
+                        '\n#### （3）企業導入階段性實施策略企業需採取\n',
+                        1,
+                    ),
+                }),
+            ),
         }
         for failure_name, (relative_path, mutate) in mutations.items():
             with self.subTest(failure_name=failure_name), tempfile.TemporaryDirectory() as directory:
@@ -531,6 +620,31 @@ class TrackAOcrRepairGateTests(unittest.TestCase):
                 path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding='utf-8')
                 result = audit_generated_track_a(root)
             self.assertIn(failure_name, result['publication_structure_failures'])
+
+    def test_guide_navigation_drift_fails_cache_free_release_gate(self) -> None:
+        cases = (
+            ('manual-heading:s1c2-hypothesis', 'guideHierarchy.json', 'page'),
+            ('manual-heading:s1c2-hypothesis', 'guideSearchIndex.json', 'a'),
+            ('manual-heading:s2c3-import-strategy', 'guideHierarchy.json', 'title'),
+            ('manual-heading:s2c3-import-strategy', 'guideSearchIndex.json', 't'),
+        )
+        for contract_name, filename, field in cases:
+            contract = publication_overlays.GUIDE_NAVIGATION_HEADINGS[contract_name]
+            with self.subTest(contract_name=contract_name, filename=filename), \
+                    tempfile.TemporaryDirectory() as directory:
+                root = self.make_cache_free_tree(Path(directory))
+                path = root / 'frontend/src/generated' / filename
+                payload = json.loads(path.read_text(encoding='utf-8'))
+                guide = payload['guides'][contract['subjectId']]
+                expected_id = f'{contract["node"]}#{contract["anchor"]}'
+                if filename == 'guideHierarchy.json':
+                    target = guide['nodesById'][expected_id]
+                else:
+                    target = next(node for node in guide['nodes'] if node['id'] == expected_id)
+                target[field] = 'drifted' if field != 'page' else contract['hierarchyPage'] + 1
+                path.write_text(json.dumps(payload, ensure_ascii=False), encoding='utf-8')
+                result = audit_generated_track_a(root)
+            self.assertIn(contract_name, result['publication_structure_failures'])
 
 
 if __name__ == '__main__':

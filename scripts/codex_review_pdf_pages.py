@@ -10,7 +10,7 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 SCHEMA = BASE / 'scripts' / 'codex_page_review.schema.json'
 
 

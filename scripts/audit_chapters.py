@@ -28,7 +28,7 @@ try:
 except ImportError:
     sys.exit('anthropic not found. Run: uv sync')
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 
 MODEL = 'claude-haiku-4-5-20251001'
 # Truncate chapter content to avoid excessive token usage

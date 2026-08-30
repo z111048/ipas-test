@@ -1,628 +1,110 @@
 # iPAS AI 應用規劃師備考平台
 
-針對 iPAS AI 應用規劃師能力鑑定（初級 / 中級）的靜態備考網站，部署於 GitHub Pages。
+初級與中級共用的靜態備考網站。專案把官方學習指引、樣題與公告試題轉成可稽核的結構化資料，
+再由 React/Vite 建成 GitHub Pages 網站。內容解析品質是核心：PDF 對章節、題號與圖片資產的對齊，
+都必須先通過閘門才能發佈。
 
----
+## 快速開始
 
-## 目錄結構
-
-```
-ipas-test/
-├── scripts/                      # 資料處理腳本
-│   ├── build_manifest.py         # ★ 章節定義 SSOT → data/{level}/toc_manifest.json
-│   ├── extract_pdf_pages_structured.py # PDF 逐頁文字 + 圖表 bbox + 裁切圖檔
-│   ├── build_pdf_outline.py      # 從逐頁抽取結果建立 PDF 階層目錄
-│   ├── clean_pdf_page_text.py    # 清理逐頁文字 + 重建 page_clean 目錄
-│   ├── export_guide_outline_data.py # 匯出前端 PDF 目錄 metadata + blocks 階層內容
-│   ├── export_guide_embedded_exercises.py # 從學習指引 PDF 內嵌練習抽取官方章節題
-│   ├── export_pdf_image_gallery.py # 匯出圖表檢視頁所需 public assets + manifest
-│   ├── export_guide_image_units.py # 從 guide_tree 拆出適合產圖的最小小節單元
-│   ├── pdf_vision_extract.py     # PDF → Gemini Vision → pages_cache + page_index.json（有 LLM）
-│   ├── parse_guides.py           # pages_cache/extracted → 章節 JSON（vision/regex）
-│   ├── audit_chapters.py         # 解析後 LLM 審核 → subject{N}_audit_report.json
-│   ├── extract_pdfs.py           # PDF → 文字/JSON（供考題 pipeline 使用）
-│   ├── parse_exams_v2.py         # JSON 表格 → 模擬考試題庫 JSON
-│   ├── generate_questions.py     # Claude API → 章節題目 + 解說圖卡
-│   ├── generate_images.py        # Codex CLI → WebP 資訊圖表 public assets
-│   ├── multi_ai_pipeline.py      # 多 AI 出題流水線（Gemini/Codex/Claude CLI）
-│   ├── render_guide_page_images.py # 已退場（2026-08-29），拒絕執行
-│   ├── verify_data_alignment.py  # 檢查 PDF / manifest / guide / questions 是否一致
-│   └── build_web.py              # 呼叫 npm run build → docs/
-├── frontend/                     # Vite 前端專案
-│   ├── src/                      # React + TypeScript 原始碼
-│   │   ├── pages/                # 頁面元件（Home、SubjectOverview、Practice、Exam、Guide）
-│   │   ├── generated/            # 版控的前端靜態資料（guide outline/content、gallery manifest）
-│   ├── public/                   # 版控的靜態 PDF 圖片/表格/原頁截圖資源
-│   │   ├── components/           # UI 元件（layout、practice、exam、shared）
-│   │   ├── store/                # Zustand 狀態管理（examStore）
-│   │   ├── hooks/                # useExamTimer
-│   │   ├── types/                # TypeScript 型別定義
-│   │   └── constants/            # 靜態常數（guideNotices）
-│   ├── public/                   # 靜態資源（favicon.ico、.nojekyll）
-│   ├── vite.config.ts            # 輸出至 ../docs，@data alias → ../data/初級
-│   └── package.json              # React 19、TW v4、React Router v6、Zustand v5
-├── data/
-│   ├── 初級/                     # 初級資料（manifest 與 curated JSON 可提交；bulk 產物 gitignored）
-│   └── 中級/                     # 中級資料（學習指引、公告試題、樣題、Codex 100 題與學習指引練習）
-│       ├── pdfs/                 # 原始 PDF 來源
-│       ├── extracted/            # 從 PDF 萃取的文字與結構（.txt / .json）
-│       ├── questions/            # 題庫 JSON（mock_exam*.json、subject*_questions.json、*_guide_exercises.json）
-│       ├── toc_manifest.json     # ★ 章節定義 SSOT（由 build_manifest.py 生成，需提交）
-│       ├── guide/                # 學習指引輸出（subject{N}_guide.json、_audit_report.json 等）
-│       ├── page_extract/         # 逐頁 PDF 結構抽取與圖表裁切（gitignore）
-│       ├── outline/              # PDF 階層目錄分析結果（gitignore）
-│       ├── analysis/             # 章節／題型分析（exam_analysis.json）
-│       └── pipeline/             # multi_ai_pipeline.py 各次執行的中間產物（gitignore）
-├── logs/                         # 執行 log（gitignore）
-└── docs/                         # 本機 Vite 建置輸出（gitignored；GitHub Actions 會重新 build）
-    ├── index.html                # 入口 HTML（434 B）
-    └── assets/                   # 打包後的 JS + CSS
-```
-
-> 初級與中級共用同一套資料 pipeline。章節定義由 `scripts/build_manifest.py` 的 `GUIDES_BY_LEVEL` 產生 `data/{level}/toc_manifest.json`，前端透過 `@data` 與 `@data-mid` 靜態匯入兩個等級資料。
-
----
-
-## 執行 Pipeline
-
-### 核心目標
-
-**依據解析的 MD 教材與官方樣張／歷屆題目，針對特定章節自動生成高品質模擬試題。**
-解析品質直接決定出題品質——每頁必須正確歸入對應章節。
-
-### 指令
-
-從專案根目錄依序執行：
+需求：Python 3.11、[uv](https://docs.astral.sh/uv/)、Node.js 20。
 
 ```bash
-# 0. 生成章節目錄索引（僅在章節定義或 PDF 異動時需要）
-uv run python3 scripts/build_manifest.py                    # 預設 初級
-uv run python3 scripts/build_manifest.py --level 初級       # → data/初級/toc_manifest.json
+uv sync
+cd frontend && npm ci && cd ..
+uv run playwright install chromium       # 第一次跑完整測試時安裝
 
-# 0b. 逐頁保真抽取：文字 + 圖片/表格位置 + 圖表裁切
-python3 scripts/extract_pdf_pages_structured.py --level 初級 --all --force
-python3 scripts/clean_pdf_page_text.py --level 初級 --all
-python3 scripts/export_guide_outline_data.py --all-levels
-python3 scripts/export_guide_embedded_exercises.py --level 初級
-python3 scripts/export_guide_embedded_exercises.py --level 中級
-python3 scripts/build_pdf_outline.py --level 初級 --all
-python3 scripts/export_pdf_image_gallery.py --level 初級 --force
-python3 scripts/export_guide_image_units.py
-python3 scripts/export_guide_images_data.py
-
-# 0c. （選用）AI 資訊圖表產圖：先 dry-run，再單張測試
-python3 scripts/generate_images.py --dry-run
-python3 scripts/generate_images.py --name ai-study-roadmap
-
-# ── 學習指引 Guide pipeline（Vision 提取，需 GEMINI_API_KEY）────────────
-
-# Step 1: PDF 逐頁送 Gemini Vision（結果快取於 pages_cache/）
-uv run python3 scripts/pdf_vision_extract.py --level 初級 --all       # 兩科全跑（~$2）
-uv run python3 scripts/pdf_vision_extract.py --level 初級 --subject 1 # 只跑科目一
-
-# Step 2: 組合章節 JSON
-uv run python3 scripts/parse_guides.py --level 初級                   # 組合章節 JSON
-# render_guide_page_images.py 已退場（2026-08-29）：產物前端從未引用，已刪。不要跑。
-
-# Step 3: 解析後 LLM 審核（確認頁面→章節對應正確）
-uv run python3 scripts/audit_chapters.py --level 初級 --all           # 兩科全審
-uv run python3 scripts/audit_chapters.py --level 初級 --all --dry-run # 預覽 prompt
-# → data/初級/guide/subject{1,2}_audit_report.json
-
-# ── 考題 Exam pipeline ───────────────────────────────────────────────────
-
-# 1. PDF 萃取（更換 PDF 後才需重新執行）
-uv run python3 scripts/extract_pdfs.py --level 初級
-
-# 2. 解析模擬考試題目（公告試題 / 樣題）
-uv run python3 scripts/parse_exams_v2.py --level 初級
-
-# 3. 檢查 PDF 參考、manifest、學習指引與題庫章節是否對齊
-python3 scripts/verify_data_alignment.py --level 初級
-
-# 4a. （選用）透過 Claude API 生成／補充題目（單一模型）
-export ANTHROPIC_API_KEY=sk-ant-...
-uv run python3 scripts/generate_questions.py --level 初級 --subject 1   # 生成科目一各章新題
-uv run python3 scripts/generate_questions.py --level 初級 --subject 2   # 生成科目二各章新題
-uv run python3 scripts/generate_questions.py --level 初級 --enrich      # 補充既有題目的解說圖卡欄位
-
-# 4b. （選用）多 AI 出題流水線（需 gemini / codex / claude CLI 已安裝並完成認證）
-# 注意：multi_ai_pipeline.py 使用 subprocess 呼叫外部 CLI，不需要 uv run
-python3 scripts/multi_ai_pipeline.py --level 初級 --subject 1 --chapter s1c1 --dry-run  # 預覽 prompt
-python3 scripts/multi_ai_pipeline.py --level 初級 --subject 1 --count 3                  # 執行科目一
-
-# 5. 建置網站（Vite 打包 React 前端）
-uv run python3 scripts/build_web.py
-# 等同於：cd frontend && npm run build
+cd frontend && npm run dev -- --host     # 開發伺服器
+uv run python scripts/build_web.py        # 資源審核 + production build → docs/
+uv run python tests/run_all.py            # 靜態、資料、build 與瀏覽器端到端閘門
 ```
 
-僅更新前端 UI 時只需執行最後一步。前端開發時可用 dev server：
+`build_web.py --skip-audit` 只供本機快速迭代，該產物不可發佈。沒有瀏覽器環境時可先跑
+`uv run python tests/run_all.py --skip-browser`，但不能用它取代合併前的完整驗收。
 
-```bash
-cd frontend && npm run dev -- --host    # http://localhost:5173/（--host 供 WSL 存取）
-```
-
-> `docs/` 是 Vite 的本機建置輸出目錄，已 gitignored。只要 `frontend/src/` 或任何資料 JSON 有變動，就重新執行 `uv run python3 scripts/build_web.py` 或 `cd frontend && npm run build` 驗證 production build；push 到 `main` 後 GitHub Actions 會重新 build 並部署。
-
-依賴套件：
-
-```bash
-uv sync                                    # Python 依賴（pdfplumber、pymupdf、Pillow、anthropic、google-genai）
-cd frontend && npm install                 # 前端依賴（React、Vite、Tailwind CSS v4 等）
-# multi_ai_pipeline.py 不需額外 Python 套件，但需以下 CLI 工具：
-#   gemini  → https://github.com/google-gemini/gemini-cli
-#   codex   → https://github.com/openai/codex
-#   claude  → npm install -g @anthropic-ai/claude-code
-```
-
----
-
-## 腳本實作說明
-
-### `scripts/extract_pdf_pages_structured.py`
-
-逐頁抽取所有 PDF，保留純文字以外的版面資訊：
-
-- 每頁輸出 `data/{level}/page_extract/{key}/pages/page_NNN.json` 與 `.md`
-- `text`：該頁文字層內容
-- `blocks`：文字 block 與 bbox
-- `images`：圖片 bbox 與裁切 PNG 路徑
-- `tables`：表格 bbox、裁切 PNG 路徑與抽出的 rows
-- `markers`：依頁面座標排序的 image/table 位置標記
-
-```bash
-python3 scripts/extract_pdf_pages_structured.py --level 初級 --all --force
-python3 scripts/extract_pdf_pages_structured.py --level 初級 --key guide1
-```
-
-這個輸出用來彌補 PDF → txt 的資訊遺失：圖、表、版面位置、跨頁脈絡都可透過 bbox 與裁切圖回查。
-
----
-
-### `scripts/build_pdf_outline.py`
-
-讀取 `page_extract/` 的逐頁 JSON，建立可審核的 PDF 階層目錄：
-
-- guide PDF 若已有 `pages_cache/{key}/page_*.json`，優先使用 Vision headings 建立 L2/L3/L4 階層
-- 否則 fallback 到文字規則：章名、`3.1`、`（1）`、`A.` 等模式
-- 輸出 `data/{level}/outline/{key}_outline.json` 與 `.md`
-
-```bash
-python3 scripts/build_pdf_outline.py --level 初級 --all
-python3 scripts/build_pdf_outline.py --level 初級 --key guide1
-```
-
----
-
-### `scripts/clean_pdf_page_text.py`
-
-讀取 `page_extract/`，針對不同 PDF key 套用清理策略，產出可審核的逐頁文字與階層目錄：
-
-- 移除頁首、頁尾、頁碼、PDF 頁籤、表格欄名等非正文內容
-- 判斷 `continues_from_previous` 與 `continues_to_next`
-- guide PDF 會用目錄頁回填 `3.1` / `3.2` 等標題文字
-- 輸出 `data/{level}/page_clean/{key}/pages/page_NNN.json`
-- 輸出 `data/{level}/page_clean/{key}/outline.json` 與 `.md`
-
-```bash
-python3 scripts/clean_pdf_page_text.py --level 初級 --all
-python3 scripts/clean_pdf_page_text.py --level 初級 --key guide1
-```
-
----
-
-### `scripts/codex_review_pdf_pages.py`
-
-使用 Codex CLI 在 read-only sandbox 中逐頁審核 `page_clean/` 結果，並輸出結構化 JSON：
-
-- 檢查開頭/結尾是否清乾淨
-- 判斷跨頁延續
-- 確認章節階層是否漏判或誤判
-- 輸出 `data/{level}/codex_page_review/{key}/page_NNN.json`
-- schema 在 `scripts/codex_page_review.schema.json`
-
-```bash
-python3 scripts/codex_review_pdf_pages.py --level 初級 --key guide1 --page 7 --force
-python3 scripts/codex_review_pdf_pages.py --level 初級 --all --limit 5
-python3 scripts/codex_review_pdf_pages.py --level 初級 --key guide1 --with-image
-```
-
-執行此腳本需要已登入的 `codex` CLI 與網路權限。腳本會使用臨時 `CODEX_HOME=/tmp/ipas-codex-page-review-home`，但 Codex 代理本身仍以 `--sandbox read-only` 執行。
-
----
-
-### `scripts/export_guide_outline_data.py`
-
-將 `page_clean/{key}/outline.json` 匯出成前端使用的完整 PDF 目錄資料：
-
-- `frontend/src/generated/guideOutlines.json`：只放目錄 metadata、parent/children、route、page range、content ref
-- `frontend/src/generated/guideContent/{key}/{nodeId}.json`：單一節點正文、結構化 `blocks[]` 與 PDF 原頁截圖索引
-- 每份 content JSON 保留 Markdown fallback，但前端優先使用 `blocks[]`；block type 包含 `heading`、`paragraph`、`list_item`、`table`、`question`、`answer`
-- `blocks[].depth` 表示 PDF 內部真實階層，可超過 Markdown `h1`-`h6`；常見對應為 `1.`→3、`（1）`→4、`A.`→5、`a.`→6、`•`→7、`○`→8
-- 匯出時會驗證 node id 唯一、parent/child 關係、depth、page range、content file 是否存在
-
-```bash
-python3 scripts/export_guide_outline_data.py --all-levels
-```
-
-前端 Sidebar、SubjectOverviewPage、GuidePage 共用這份 metadata tree；GuidePage 會依 route 動態載入單一 content JSON，優先用 `blocks[]` 呈現正文縮排與表格。側欄「本節階層」只顯示 depth 3–4（`1.` 與 `（1）`），避免 A/B/C、清單與題目層級讓導覽過細。
-
----
-
-### `scripts/export_pdf_image_gallery.py`
-
-將 `page_extract/` 裡裁切出的圖片與表格複製到 `frontend/public/pdf-assets/{level}/`，並產生 `gallery.json`。前端 route `#/images` 會讀取這份 manifest，提供 PDF key、類型、頁碼篩選與大圖檢視。
-
-```bash
-python3 scripts/export_pdf_image_gallery.py --level 初級 --force
-```
-
----
-
-### `scripts/export_guide_image_units.py`
-
-讀取 `data/{level}/guide_tree/{guide1,guide2}/tree.json` 與 `blocks.json`，依現有 PDF 階層把學習指引拆成適合產生資訊圖表的最小單元。預設只輸出真正教材章節（`s1c*`、`s2c*`），略過考試科目表與前置章節；每個 unit 都是某個 heading 底下的 exclusive content，不會把子小節內容再併回父層。
-
-輸出：
-
-- `data/初級/image_units/guide1_image_units.json`
-- `data/初級/image_units/guide2_image_units.json`
-- `data/初級/image_units/all_image_units.json`
-
-每筆 unit 包含 `sourceNodeId`、`headingPath`、`pageNumbers`、`visualBrief`、`imagePrompt` 與建議 WebP 檔名 `output`，可作為後續資料驅動批次產圖的輸入。
-
-```bash
-python3 scripts/export_guide_image_units.py
-python3 scripts/export_guide_image_units.py --key guide1
-python3 scripts/export_guide_image_units.py --include-front-matter
-```
-
-產圖完成後，執行 `scripts/export_guide_images_data.py` 可把已存在的 `frontend/public/images/*.webp` 匯出成前端可讀的 `frontend/src/generated/guideImages.json`。此檔會依 `guideKey:sourceNodeId` 分組，並保留 `headingBlockId`，讓 guide 頁能把資訊圖插在對應小節 heading 後方。匯出時會驗證每張 WebP 都存在，缺檔會直接報錯。
-
-```bash
-python3 scripts/export_guide_images_data.py
-```
-
----
-
-### `scripts/generate_images.py`
-
-使用 Codex CLI 產生章節資訊圖表，並用 Pillow 將 Codex 輸出的 PNG 轉成 WebP，放到 Vite 前端可直接引用的 `frontend/public/images/`。前端引用路徑格式為 `/images/{name}.webp`。
-
-前置需求：
-
-- 已安裝並登入 `codex` CLI
-- 帳號具備 `gpt-image-2` 圖片生成權限
-- 已安裝 Pillow；本專案用 `uv sync` 安裝 Python 依賴
-
-建議流程：
-
-```bash
-# 先確認 prompt 與輸出路徑，不會產圖
-python3 scripts/generate_images.py --dry-run
-
-# 先單張測試，確認 frontend/public/images/ai-study-roadmap.webp 可被前端引用
-python3 scripts/generate_images.py --name ai-study-roadmap
-
-# 全部固定清單產圖；既有 WebP 預設略過
-python3 scripts/generate_images.py
-
-# 強制重產指定圖片
-python3 scripts/generate_images.py --name ai-study-roadmap --no-skip-existing
-```
-
-腳本固定圖片清單在 `IMAGES`，每筆包含 `name`、`output`、`visual`、`prompt`。Prompt 標準格式為：
+## 架構
 
 ```text
-Generate a 1792x1024 wide landscape image (16:9).
-Style: clean flat-vector editorial infographic illustration for the iPAS AI study platform; off-white background, deep navy and slate foundation, blue accent, restrained amber and green highlights, soft shadows, 8px-radius visual panels.
-Layout: fixed 16:9 widescreen composition with one central concept object, three to five surrounding icon-based panels, thin connector lines, generous margins, consistent safe area, no cropping.
-Topic reference, summarize this into the title and labels without copying long text verbatim: {visual_description}.
-Text: the image must contain visible, correctly written Traditional Chinese text: one short main title plus three to five concise Traditional Chinese labels; each label must be eight Chinese characters or fewer; use large legible sans-serif typography; place each label inside a dedicated panel with strong contrast and generous padding.
-Rules: high quality, coherent composition, readable Chinese text is required, no text-free infographic, no long paragraphs, no tiny text, no random letters, no fake UI, no logos, no watermarks, no UI screenshots
+PDF / OCR
+  ├─ Guide Track B ─→ canonical 出題講義 ─→ 題目生成／審核
+  ├─ Guide Track A ─→ guideContent blocks ─→ 前端閱讀頁
+  └─ Exam extraction ─→ 公告試題 JSON ─────→ 前端考試頁
+
+toc_manifest.json + resource_catalog.json
+  └─ Python pipeline 與 React loaders/navigation 共用 metadata
+
+frontend/src + committed JSON/assets
+  └─ Vite build ─→ docs/ ─→ GitHub Pages
 ```
 
-目前預設風格配合本站教育平台調性，使用深藍、藍色 accent、淺灰白背景與少量 amber/green 狀態色，而不是 pixel art。所有圖片都固定為同一個 16:9 資訊圖架構，以維持尺寸與構圖一致；文字必須是可讀的繁中短標題與 3–5 個短標籤，避免無字資訊圖、長段落與小字破壞可讀性。資料驅動批次產圖時，每個 chapter/section unit 的 `imagePrompt` 是提示詞來源；`build/image_prompts.json` 只保留目前 prompt 快照，不會覆蓋 units JSON 的 prompt。每次 Codex 嘗試、成功、失敗、skip 都會附完整 prompt 記錄到 `build/image_generation_log.jsonl`，可用圖片 `name` 回查實際使用的是 primary 或 fallback prompt：
+主要目錄：
 
-```json
-{
-  "ai-study-roadmap": {
-    "visual": "...",
-    "image_prompt": "..."
-  }
-}
-```
+- `data/{level}/pdfs/`：來源 PDF；`level` 為 `初級` 或 `中級`。
+- `data/{level}/`：抽取快取、講義與題庫產物；哪些檔案需提交以 playbook 為準。
+- `scripts/`：Python 抽取、組裝、審核、匯出與 build 工具，路徑均由腳本位置解析。
+- `frontend/`：React 19、TypeScript、Tailwind CSS v4、React Router 與 Zustand 前端。
+- `frontend/src/generated/`、`frontend/public/`：已生成且目前隨版控發佈的前端資料與資產。
+- `tests/`：資料契約、可攜性、pipeline 安全與 Playwright 端到端閘門。
+- `docs/`：本機 build 產物，gitignored；正式站由 GitHub Actions 重建。
 
-Codex CLI 呼叫格式為 `codex exec --skip-git-repo-check "{prompt}"`。腳本會從 stdout/stderr 以 `session id` 解析產圖目錄，尋找 `~/.codex/generated_images/{session_id}/ig_*.png`，再轉成 quality 92 的 WebP。單張失敗不會中斷整批，最後會印出 `完成：ok / failed / skipped` 統計。
+## 單一權威與資料所有權
 
----
+| 資料 | 權威來源 | 消費者 |
+|---|---|---|
+| 科目／章節 | `scripts/build_manifest.py` → `data/{level}/toc_manifest.json` | 所有資料腳本與前端章節導覽 |
+| 等級／考卷／資源 metadata | `data/resource_catalog.json` | Python 抽取、解析、驗證、摘要，以及前端 loaders／導覽 |
+| 出題講義（Track B） | `parse_guides.py` → `subject{N}_guide.json` | audit、出題與小節切片；`supplement_guide_from_audit.py` 是刻意的 Track B 後處理 |
+| 閱讀內容（Track A） | `export_guide_outline_data.py` → `frontend/src/generated/guideContent/` | Guide 閱讀頁 |
+| Track A 出題參考快照 | `export_question_generation_data.py` → `subject{N}_reading_guide.json` | 比對／seed 用；不會覆寫 canonical Track B |
 
-## 考試及格標準
+Guide 的兩條軌不可互換。Track B 由 OCR/Vision `pages_cache` 組成；缺少合格快取時
+`parse_guides.py` 會停止，只有明確加 `--allow-regex-fallback` 才能產生帶來源標記的舊式結果。
+Track A 則由逐頁版面抽取、清洗與 blocks 匯出，服務前端閱讀版面。
 
-初級同時報考兩科時，兩科平均達 70 分視為及格，但任一單科不得低於 60 分。單科成績達 70 分以上者，保留及格單科成績自應考日起三年度有效。首頁「考試說明」採用此規則顯示；模擬考 JSON 的 `passing_score` 目前仍用於單份模擬卷結果門檻。
+考卷與共用資源 metadata 不得再寫第二份常數表。初級 114 年兩份既有圖片目錄以 catalog 的
+`legacyAssetKey` 保留 `exam1`／`exam2` 相容性；中級 114 年資產已使用 canonical key。
+`gemini_exam_vision_extract.py` 只產生稽核 sidecar，正式題庫仍由 `extract_pdfs.py` →
+`parse_exams_v2.py` 建立。
 
----
+## Pipeline 與安全操作
 
-### `scripts/extract_pdfs.py`
+完整命令、重跑順序、輸出與 s1c2/s1c4/s2c3 deterministic publication overlays 只維護在
+[`playbook/pipeline-reference.md`](playbook/pipeline-reference.md)。執行 pipeline 前也要讀：
 
-以 `pdfplumber` 為主要 PDF 解析器，`PyMuPDF`（`fitz`）為備援。
+- [`CLAUDE.md`](CLAUDE.md)：不變量與文件路由。
+- [`playbook/pipeline-reference.md`](playbook/pipeline-reference.md)：唯一的腳本操作手冊。
+- [`tests/README.md`](tests/README.md)：驗收範圍與端到端測試設計。
+- [`playbook/04-maintenance.md`](playbook/04-maintenance.md)：修改權威文件的備份與 read-back 程序。
 
-**提取流程：**
-1. `extract_with_pdfplumber(pdf_path)` — 使用 `x_tolerance=3, y_tolerance=3` 提取文字，另以 `extract_tables()` 提取表格結構（list of list of str）。若 pdfplumber 無法取得任何文字，退回 `extract_with_pymupdf()`。
-2. 每頁輸出一個 dict：`{page, text, tables, width, height}`。
-3. 每份 PDF 同時存成 `.txt`（供人工閱覽）與 `.json`（供後續程式解析）。
+幾個不能跳過的原則：
 
-**鍵名對應（學習指引來自 `toc_manifest.json`，考試 PDF 來自 `EXAM_PDFS_BY_LEVEL`）：**
+- 凡提供 `--level` 的 pipeline 命令都顯式指定；不同腳本預設值並不一致。
+- `export_guide_outline_data.py` 現在會在 staging 完成驗證，再原子替換並可回復；單等級匯出也會
+  保留另一等級。常規完整重跑仍依不變量使用 `--all-levels`；exporter 會在 staged candidate
+  套用並驗 Track A 169＋3＋3，`apply_manual_guide_fixes.py` 僅為 optional compatibility check，
+  標準輸出預期 0 change。
+- `export_pdf_image_gallery.py` 的單等級匯出會合併既有 manifest，不再抹掉另一等級。
+- 動資料 pipeline 後至少跑對應等級的 `verify_data_alignment.py`；動前端或資料 JSON 後必須 build；
+  動執行時行為則跑完整 `tests/run_all.py`。
 
-| 鍵 | 說明 |
-|---|---|
-| `guide1` | 科目一學習指引 |
-| `guide2` | 科目二學習指引 |
-| `exam1` | 科目一公告試題 |
-| `exam2` | 科目二公告試題 |
-| `sample` | 考試樣題（114 年 9 月版） |
+## CI 與靜態資產
 
-擴充其他年度或等級時，在 `EXAM_PDFS_BY_LEVEL` dict 新增對應 PDF 檔名；學習指引 PDF 則從 `toc_manifest.json` 讀取。
+`.github/workflows/deploy.yml` 在 pull request 與 `main` push 先跑完整 quality job；只有 `main`
+通過後才 build 與 deploy。正式 build 使用 `build_web.py`，因此資源審核不是可繞過的旁路。
 
----
-
-### `scripts/parse_exams_v2.py`
-
-從 `extracted/*.json` 的表格資料解析選擇題，並回掛 `page_extract/` 中已裁切的圖片或原頁截圖給圖片題。
-
-**表格格式假設：**
-- 公告試題（exam1/exam2）：每列 `[答案, 題目全文]`，答案欄為 A/B/C/D（含全形 Ａ/Ｂ/Ｃ/Ｄ 與全形括號 `（）`，以 `FW_MAP` 正規化）。
-- 樣題（sample）：每列有 8 個以上欄位，程式尋找符合 `[ABCD]` 的欄位作為答案，並尋找包含 `(A)` 且長度 > 10 的欄位作為題目全文。
-
-**`parse_question_cell()` 解析邏輯：**
-1. 移除嵌入的題號（`\n1.\n` 等格式）。
-2. 以 regex `\(([A-D])\)(.*?)(?=\([A-D]\)|\Z)` 提取四個選項。
-3. 第一個 `(A)` 之前的文字為題幹。
-4. 少於 4 個選項的資料列直接丟棄，並印出 WARN 訊息。
-5. 寫入 `source_ref` 的 PDF 頁碼；題幹含「附圖、下圖、圖中、程式碼、欄位概觀」等提示時，從 `frontend/public/pdf-assets/{level}/` 掛上 `images[]`。
-
-**輸出 JSON 格式（模擬考 `mock_exam*.json`）：**
-
-```json
-{
-  "exam": "科目一 模擬考試：...",
-  "total": 50,
-  "time_limit": "90分鐘",
-  "passing_score": 60,
-  "questions": [
-    {
-      "id": "exam1_q1",
-      "question": "題幹文字",
-      "options": {"A": "...", "B": "...", "C": "...", "D": "..."},
-      "answer": "B",
-      "explanation": "正確答案為(B)。",
-      "source": "exam1",
-      "source_ref": {"page_index": 0, "page_number": 1},
-      "images": [
-        {
-          "type": "image",
-          "src": "/pdf-assets/中級/exam2/page_010/image_01_01.png",
-          "alt": "exam2 第 11 頁圖片 image_01_01",
-          "page_index": 10,
-          "page_number": 11,
-          "bbox": [118.15, 132.85, 423.6, 221.39]
-        }
-      ]
-    }
-  ]
-}
-```
-
-> 圖片題配對策略：單一圖片題會優先掛裁切圖；同一頁有多個圖片題或多張圖時，會掛 PDF 原頁截圖，避免把小圖錯配到錯題。`subject*_questions.json` 為手工整理，不被此腳本覆寫。
-
----
-
-### `scripts/build_manifest.py`
-
-**章節定義 SSOT**。內嵌所有科目/章節的 metadata（唯一需要硬編碼 `GUIDES_BY_LEVEL` dict 的腳本），以 PyMuPDF 計算每章的 PDF 頁碼範圍（0-based），輸出 `data/{level}/toc_manifest.json`。支援 `--level`。
-
-資料腳本（例如 `parse_guides.py`、`pdf_vision_extract.py`）和前端章節導覽／總覽均從此 manifest 讀取，不得在他處重複定義章節。
+大型 `pdf-assets/` 與 `images/` 目前仍在本 repo，尚未宣告完成外部搬遷。若日後上傳到物件儲存：
 
 ```bash
-uv run python3 scripts/build_manifest.py                    # 預設 初級
-uv run python3 scripts/build_manifest.py --level 初級       # → data/初級/toc_manifest.json
-uv run python3 scripts/build_manifest.py --dry-run          # 印出 JSON，不寫檔
+python scripts/publish_assets.py --dry-run
+python scripts/publish_assets.py
+python scripts/verify_r2_assets.py --base https://assets.example.com
 ```
 
----
+必須讓最後一支命令對所有引用做完整 HEAD 驗證後，才能在 GitHub Repository Variables 設定
+`VITE_ASSET_BASE_URL`。設定後前端 URL 會指向外部資產站，Vite 改用 `frontend/public-shell/`，
+Pages artifact 才會由 400+ MB 的完整 public 內容降為 app-only；未設定時維持現行本地資產模式。
 
-### `scripts/audit_chapters.py`
+## 開發約定
 
-**LLM 章節內容審核**。讀取 `subject{N}_guide.json`，對每章節呼叫 Claude Haiku 審核：subtopics 是否全部覆蓋、是否有內容錯置。輸出 `subject{N}_audit_report.json`（`overall_status: PASS/WARN/FAIL`）。審核 FAIL 的章節需人工確認後才進行出題。支援 `--level`。
-
-```bash
-uv run python3 scripts/audit_chapters.py --level 初級 --all
-uv run python3 scripts/audit_chapters.py --level 初級 --subject 1 --chapter s1c1
-uv run python3 scripts/audit_chapters.py --level 初級 --all --dry-run  # 預覽 prompt
-```
-
----
-
-### `scripts/parse_guides.py`
-
-**Vision 組合**。從 `pages_cache/` 讀取 Gemini Vision 快取（preferred），或 fallback 到 regex 模式解析 `extracted/guide{N}.json`。依 `toc_manifest.json` 章節頁碼範圍輸出章節結構化 JSON。支援 `--level`、`--subject`。
-
-**輸出（`data/{level}/guide/`）：**
-
-```json
-{
-  "subject": "科目一：人工智慧基礎概論",
-  "chapters": [
-    {
-      "id": "s1c1",
-      "title": "人工智慧概念",
-      "subtopics": ["AI定義與分類", "..."],
-      "content": "原文文字（約 5,000–15,000 字元）"
-    }
-  ]
-}
-```
-
----
-
-### `scripts/generate_questions.py`
-
-呼叫 Claude API 自動生成帶解說圖卡的題目，或為既有題目補充 `card` 欄位。
-
-**執行模式：**
-
-```bash
-uv run python3 scripts/generate_questions.py --level 初級 --subject 1 [--count 5] [--dry-run]
-uv run python3 scripts/generate_questions.py --level 初級 --subject 2
-uv run python3 scripts/generate_questions.py --level 初級 --enrich
-```
-
-**擴充後的題目 JSON schema：**
-
-```json
-{
-  "id": "s1c1q1",
-  "question": "...",
-  "options": {"A": "...", "B": "...", "C": "...", "D": "..."},
-  "answer": "C",
-  "explanation": "完整解說",
-  "card": {
-    "concept": "核心概念摘要（1–2 句）",
-    "mnemonic": "記憶口訣",
-    "confusion": "常見混淆點與辨別方式",
-    "frequency": "高/中/低"
-  },
-  "difficulty": "易/中/難",
-  "type": "概念定義型",
-  "tags": ["Human-in-the-loop", "AI治理"],
-  "generated_by": "multi_ai_pipeline | generate_questions | manual"
-}
-```
-
----
-
-### `scripts/multi_ai_pipeline.py`
-
-以三套 CLI 工具分擔角色，透過 subprocess 非互動模式串接成出題流水線。
-
-**角色分工（預設，可透過 CLI 覆蓋）：**
-
-| 角色 | 預設工具 | 說明 |
-|------|---------|------|
-| 出題者 (Creator) | `gemini` | 依章節內容與題型模板產生草稿題目 |
-| 審核者 (Reviewer) | `codex` | 逐題評分（答案正確性、干擾項品質、清晰度等） |
-| 完稿者 (Finalizer) | `claude` | 依審核意見修正並輸出最終 JSON |
-
-**5 種題型模板：** 概念定義型 / 應用情境型 / 比較辨析型 / 錯誤識別型 / 流程步驟型
-`select_templates()` 依章節 subtopics 數量與關鍵字自動選 2–3 種。
-
-**答題驗證：** 完稿後，三工具以 `ThreadPoolExecutor` 並行各自作答，
-若 2 個以上答錯同一題，該題寫入 `flagged.json` 供人工審閱，不自動刪除。
-
-**每次執行的輸出目錄結構：**
-
-```
-data/初級/pipeline/<run_id>/subject1/
-  s1c1/
-    draft.json        ← 出題草稿
-    review.json       ← 審核意見
-    final.json        ← 最終題目
-    validation.json   ← 各 AI 作答記錄
-    flagged.json      ← 有問題的題目（僅在有 flag 時產生）
-  pipeline_summary.json
-```
-
-通過驗證的題目自動 merge 進 `data/初級/questions/subject{N}_questions.json`，
-id 格式為 `{chapter_id}q{n}_multi`，以區別手工策展題目（`q{n}` 無後綴）。
-
-**常用指令：**
-
-```bash
-# 乾跑確認 prompt 內容
-python3 scripts/multi_ai_pipeline.py --level 初級 --subject 1 --chapter s1c1 --dry-run
-
-# 單章節執行（預設 3 題）
-python3 scripts/multi_ai_pipeline.py --level 初級 --subject 1 --chapter s1c1
-
-# 全科目執行，自訂題數與角色
-python3 scripts/multi_ai_pipeline.py --level 初級 --subject 2 --count 5 \
-  --creator gemini --reviewer codex --finalizer claude
-
-# 跳過審核與驗證（速度最快）
-python3 scripts/multi_ai_pipeline.py --level 初級 --subject 1 --skip-review --skip-validation
-
-# 注意：multi_ai_pipeline.py 透過 subprocess 呼叫外部 CLI，不需要 uv run
-```
-
----
-
-### `scripts/verify_data_alignment.py`
-
-本地一致性檢查，用來確認 PDF 參考資料與系統使用的章節資料沒有分岔：
-
-- 重新依 `build_manifest.py` 與目前 PDF 頁碼標籤計算 manifest，並與 `data/{level}/toc_manifest.json` 比對（忽略 `generated_at`）。
-- 檢查 manifest 內的學習指引 PDF 與 `extract_pdfs.py` 的考試 PDF 檔名是否存在。
-- 檢查 `subject{N}_guide.json` 與 `subject{N}_questions.json` 的章節 ID / title 是否符合 manifest，且章節題庫不是空的。
-- 檢查 guide JSON 內的 PDF 原頁截圖路徑是否存在（根目錄可用 `IPAS_ASSET_ROOT` 指定，預設 `frontend/public/`）。
-
-```bash
-python3 scripts/verify_data_alignment.py --level 初級
-```
-
----
-
-### ~~`scripts/render_guide_page_images.py`~~（已退場，2026-08-29）
-
-產物 `frontend/public/guide-pages/` 經窮舉比對確認**前端從未引用**，89 檔 12.5 MB 已從版控刪除，
-腳本本身也改成拒絕執行。網站學習指引頁顯示的原頁截圖來自 `pdf-assets/`（`export_pdf_image_gallery.py` 產生）。
-
----
-
-### `scripts/build_web.py`
-
-Thin wrapper，呼叫 `frontend/` 下的 `npm run build`，讓 Vite 將 React 前端打包輸出至 `docs/`。
-
-**輸出結構：**
-
-```
-docs/
-├── index.html          # 入口 HTML（僅 ~430 B，引用 assets/）
-└── assets/
-    ├── index-*.js      # 所有 JS（含 React、Router、資料 JSON，~570 KB）
-    └── index-*.css     # 所有 CSS（Tailwind，~21 KB）
-```
-
-**資料存取方式：** 前端以 Vite 的 `@data` alias（指向 `data/初級/`）靜態 import 所有 JSON 檔案（toc_manifest、questions × 5、guide × 2），在 build time 打包進 JS bundle，不需 runtime fetch。
-
-**網站導覽（React Router HashRouter）：**
-- `#/` 首頁 → 各科目總覽、考試說明
-- `#/subject/s1` / `#/subject/s2` → 科目章節總覽
-- `#/practice/:subjectId/:chapterId` → 章節練習（sidebar `✏️` 入口）
-- `#/exam/:examKey` → 模擬考試（`mock1`、`mock2`、`sample`）
-- `#/guide/:subjectId/:chapterId` → 學習指引
-- 手機版 sidebar 收進左上角 `☰` 漢堡選單。
-- 題目若無 `card` 欄位，前端不顯示「📌 查看解說圖卡」按鈕；屬資料狀態而非 UI 問題。
-
----
-
-## GitHub Pages 部署
-
-部署由 `.github/workflows/deploy.yml` 自動處理，push 到 `main` 即觸發。
-
-**首次設定：**
-1. 建立 GitHub repo，推上 `main` branch。
-2. `Settings → Pages → Source` 選 **GitHub Actions**（不是 branch/docs）。
-
-**後續流程：**
-- push `main` → Actions 自動 build（`npm ci && npm run build`）→ deploy 到 Pages。
-- `docs/` 已 gitignored，不需手動 build 或 commit build artifacts。
-- 本機開發仍可用 `uv run python3 scripts/build_web.py` 預覽 production build。
-
----
-
-## 擴充為中級
-
-1. 在 `data/中級/pdfs/` 放入中級 PDF。
-2. 在 `scripts/build_manifest.py` 的 `GUIDES_BY_LEVEL` dict 加入中級章節定義，執行 `uv run python3 scripts/build_manifest.py --level 中級` 生成 manifest。
-3. 資料 pipeline scripts 已支援 `--level 中級`，直接以 `--level 中級` 執行各 pipeline 步驟即可（不需修改程式碼）。
-4. 在 `scripts/build_web.py` 載入中級題庫與學習指引，並加入網頁 UI。
+Python 使用 4-space、`snake_case` 與 `Path`；測試放在 `tests/test_*.py`。不要手改 derived JSON，
+除非是有意識的內容策展並在 commit 說明。Commit subject 採祈使句加 scope，例如
+`parser: preserve exam asset aliases`。

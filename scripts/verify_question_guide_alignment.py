@@ -29,7 +29,7 @@ from difflib import SequenceMatcher
 from pathlib import Path
 from typing import Any
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 LEVELS = ('初級', '中級')
 
 # 題幹在頁面上的比對門檻（normalized 後的最長共同子串涵蓋率）

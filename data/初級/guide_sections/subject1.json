@@ -1,6 +1,22 @@
 {
+  "schema": "guide-sections-v2",
   "level": "初級",
   "subject": "科目一：人工智慧基礎概論",
+  "sourceGuide": "data/初級/guide/subject1_guide.json",
+  "sourceGuideSha256": "31cce3138259b08e9a69bc5fe65be7b4598689bae8485532adcdcf5630c31420",
+  "parameters": {
+    "targetChars": 3000,
+    "minChars": 300
+  },
+  "stats": {
+    "chapters": 4,
+    "sections": 170,
+    "chunks": 32,
+    "medianChunkChars": 929,
+    "maxChunkChars": 3450,
+    "oversizedChunks": 1,
+    "unlocatedHeadings": 47
+  },
   "chapters": [
     {
       "id": "s1c1",
@@ -940,7 +956,7 @@
     {
       "id": "s1c2",
       "title": "資料處理與分析概念",
-      "charCount": 5965,
+      "charCount": 5964,
       "sections": [
         {
           "id": "s1c2#intro",
@@ -949,36 +965,44 @@
           "page": null,
           "anchor": null,
           "recovered": false,
-          "content": "# 資料處理與分析概念\n\n### 重點掃瞄\n\n## 3.2 資料處理與分析概念\n\n在人工智慧（AI）領域，資料處理與分析是至關重要的基礎。AI模型的訓練和應用都高度依賴於大量、高品質的資料。以下將深入探討資料處理與分析在AI領域中的概念。\n\n在人工智慧與機器學習領域中，資料是模型學習的基石。為了從海量資料中萃取出有價值的資訊，統計學扮演著不可或缺的角色。從基礎的資料敘述統計，到進階的重抽樣與模擬技術，統計學提供了我們分析資料、驗證模型的堅實基礎。換句話說，統計學是我們駕馭資料、獲得洞見的指南針。\n\n統計測量數大致包含三種類型：中央趨勢的衡量、分散度的衡量及其他測量數。\n\n當我們想要了解一組數據的整體趨勢時，常常會關注資料的集中位置。這個集中位置，我們就稱之為「中央趨勢」，常用的中央趨勢測量值有平均數（Mean）、中位數（Median）和眾數（Mode）等，其中平均數代表資料的平均值，中位數代表將資料排序後位於中間的數值，而眾數則代表資料中出現頻率最高的數值。\n\n平均數（Mean）：描述一組資料集中趨勢最常用的統計量。它代表了所有資料值的平均水平，就像是一個資料的「重心」。最常見的平均數是算術平均數（Arithmetic Mean），也就是將所有資料數值相加後除以資料的個數。雖然幾何平均數（Geometric Mean）和調和平均數（Harmonic Mean）也能用來表示平均水平，但算術平均數因其計算簡單、易於理解，在實際應用中更為普遍。然而，算術平均數容易受到極端值（過大或過小的數據）的影響，這也是我們在選擇統計量時需要考慮的因素。\n\n中位數（Median）：將一組資料按數值大小順序排列後，位於正中間的數值。相較於平均數，中位數不易受到極端值（過大或過小的資料數值）的影響，因此更能反映資料的典型水平。然而，中位數在進行複雜的數學運算和統計推斷時，較不易操作，這也是它的限制。\n\n眾數（Mode）：指在一組資料中出現頻率最高的值。相較於平均數和中位數，眾數不受極端值影響，能直接反映資料中最常見的類別或數值。然而，眾數可能有多個，也可能不存在，這使得它在某些情況下應用較受限制，不像平均數和中位數那樣普遍。\n\n分散度之衡量統計量為可衡量資料之離散程度，主要用於尋找變異的原因和性質，常見的分散度之衡量統計量有：四分位數（Quartile）、全距（Range）、四分位距（Interquartile Range）、平均差（Mean Deviation）、變異數（Coefficient of Variation）及標準差（Standard Deviation）等。\n\n四分位數（Quartile）：所有數值由小到大排列並分成四等份，處於三個分割點位置的數值就是四分位數。\n\n- 全距（Range, R）：觀察值中的最大值減去最小值後的數值，由於只考慮最大與最小兩個觀察值，未考慮所有觀察值，故不能精確的反應全體觀察值的分散情形，且會受極端值影響。\n\n- 四分位距（Interquartile Range, IQR）：為統計離差的度量，等於第三和第一四分位之間的差異，與全距有一樣的缺點。\n\n平均差（Mean Deviation）：是所有觀察值與平均數之間絕對差值的平均，其數值越大，表示資料的分散程度越高。\n\n標準差（Standard Deviation）：標準差是衡量一組資料分散程度的統計量。當標準差較大時，表示資料點離平均值的距離較遠，也就是說，資料的分散程度較高。反之，若標準差較小，則表示資料點都聚集在平均值附近，資料的分散程度較低。在品質管理中，標準差常用來評估產品或過程的穩定性。標準差越大，表示產品品質越不穩定，良率越低。\n\n在進行統計分析時，從母體中抽取樣本所計算出的統計量（如樣本平均數、樣本標準差），往往因樣本的隨機性而與對應的母體參數有所差異。這種因抽樣而產生的統計量變動現象，稱為抽樣變異（Sampling Variation）。為了量化這種變異並進行推論，我們需要引入機率模型。機率模型（Probability\n\nModels）能幫助我們刻畫抽樣變異的特性，進而對母體參數做出推斷。透過機率模型，我們可以建立起一個框架，用來量化統計估計值的不確定性，並進一步進行區間估計和假設檢定等統計推斷。\n\n常見的統計方法可做以下分類：\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'></td><td style='text-align: center; word-wrap: break-word;'>類別變數</td><td style='text-align: center; word-wrap: break-word;'>連續變數</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>無因果關係</td><td style='text-align: center; word-wrap: break-word;'>• 敘述性統計\\n• 複選題分析\\n• （多重）交叉分析\\n• 卡方檢定</td><td style='text-align: center; word-wrap: break-word;'>• 主成份分析\\n• 因素分析\\n• 集群分析\\n• （偏）相關分析</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>有因果關係</td><td style='text-align: center; word-wrap: break-word;'>• 二元羅吉斯迴歸\\n• 區別分析</td><td style='text-align: center; word-wrap: break-word;'>• 偏相關分析\\n• 迴歸分析\\n• （多變量）變異數分析\\n• 偏最小平方迴歸</td></tr></table>\n\n### 假說檢定名詞介紹：\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>名稱</td><td style='text-align: center; word-wrap: break-word;'>說明</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>假說檢定之流程</td><td style='text-align: center; word-wrap: break-word;'>猜想（假定）→蒐集資料→檢定作決策（接受或拒絕猜想）</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>統計假設\\n( hypothesis )</td><td style='text-align: center; word-wrap: break-word;'>指對母體分佈的陳述或推測，即關於母體特性的一種假設性敘述（statement）。統計假設主要包含以下部分：\\n• 虛無假設（null hypothesis）：以符號 H0 表之，表示不存在顯著效果或差異，通常作為檢定的基準假設。\\n• 對立假設（alternative hypothesis）：以符號 Ha（或 H1, K）表之，與虛無假設相對，表示存在顯著效果或差異。\\n統計假設可進一步分類為：\\n• 簡單假設（Simple Hypothesis）：完全確定母體分佈的所有參數。\\n• 複合假設（Composite Hypothesis）：僅對母體分佈的部分參數作出假設</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>統計推論\\n( statistical inference )</td><td style='text-align: center; word-wrap: break-word;'>根據樣本資料，判斷是否接受或拒絕統計假設的過程。</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>假設檢定\\n( testing hypothesis )</td><td style='text-align: center; word-wrap: break-word;'>基於母體之一組隨機樣本 X，以決定兩個假設（H0, Ha）中何者該拒絕。</td></tr></table>\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>名稱</td><td colspan=\"3\">說明</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>接受域\\n(acceptance region)\\n拒絕域\\n(rejection region)</td><td colspan=\"3\">• 接受域：使虛無假設被接受之集合。\\n• 拒絕域：使虛無假設被拒絕之集合。</td></tr><tr><td rowspan=\"5\">檢定 (test)</td><td colspan=\"3\">• 決定一檢定，即表決定拒絕域及接受域。\\n• 對一檢定，以 C 為拒絕域，即拒絕 H0，若且為若  $ \\chi \\in C $。\\n• 統計檢定之可能結果：</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>$ H_0 $為真</td><td colspan=\"2\">$ H_0 $為假</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>接受  $ H_0 $</td><td style='text-align: center; word-wrap: break-word;'>正確</td><td style='text-align: center; word-wrap: break-word;'>Type II 錯誤 ( $ \\beta $)</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>拒絕  $ H_0 $</td><td style='text-align: center; word-wrap: break-word;'>Type II 錯誤 ( $ \\alpha $)</td><td style='text-align: center; word-wrap: break-word;'>正確</td></tr><tr><td colspan=\"3\">$ \\alpha=P $ (拒絕  $ H_0 $ |  $ H_0 $為真)\\n $ \\beta=P $ (接受  $ H_0 $ |  $ H_a $為真)</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>顯著水準\\n(significance level)</td><td colspan=\"3\">•  $ \\alpha $ 稱為顯著水準，又稱為檢定大小。\\n•  $ \\alpha $ 之值常取成 0.1，0.05 或 0.01 等。</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>檢定統計量\\n(test statistic)</td><td colspan=\"3\">• 樣本 X 的一個實值函數，以 T=T (X) 表之。利用 T 來決定是否接受 H0。</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>p 值\\n(p-value)</td><td colspan=\"3\">• 在 H0 為真之下，檢定統計量會落在比觀測值至少同樣極端的區域之機率。\\n• p 值又稱觀測大小。\\n• 若所得之觀測值得 p 值夠小，小於  $ \\alpha $，則拒絕虛無假設。</td></tr></table>\n\n### 探索式資料分析\n\n根據分析目的，資料分析可大致分為兩類：探索性資料分析（Exploratory Data Analysis, EDA）和驗證性資料分析（Confirmatory Data Analysis, CDA）。\n\n每個資料集都具有其獨特的特徵，因此在進行資料分析之前，我們需要先對資料進行深入的探索。探索性資料分析正如其名，強調的是一種靈活且開放的探索過程，透過探索性資料分析，我們可以從資料中發現潛在的模式、關係和異常值，這些發現將為後續的深入分析提供重要的線索，通常在研究初期，對資料特徵尚不熟悉的情況下進行，為後續更深入的分析奠定基礎。\n\n探索性資料分析不僅僅是對數據的描述，更是一種生成假設的過程。透過視覺化工具，研究人員可以直觀地觀察數據的分佈情況，並提出一些初步的假設。這些假設將為後續的驗證性分析提供方向。\n\n相較於探索性資料分析，驗證性資料分析更注重於驗證研究者提出的假設，透過分類、分群、相關性分析以及預測模型等方法，研究人員可以對探索階段所發現的模式進行更深入的挖掘。此外，為了更全面地理解數據，研究人員也可能結合定性分析，對量化分析的結果進行深入探討，以發現數據中更細緻的內涵。"
+          "content": "# 資料處理與分析概念\n\n### 重點掃瞄\n\n## 3.2 資料處理與分析概念\n\n在人工智慧（AI）領域，資料處理與分析是至關重要的基礎。AI模型的訓練和應用都高度依賴於大量、高品質的資料。以下將深入探討資料處理與分析在AI領域中的概念。\n\n在人工智慧與機器學習領域中，資料是模型學習的基石。為了從海量資料中萃取出有價值的資訊，統計學扮演著不可或缺的角色。從基礎的資料敘述統計，到進階的重抽樣與模擬技術，統計學提供了我們分析資料、驗證模型的堅實基礎。換句話說，統計學是我們駕馭資料、獲得洞見的指南針。\n\n統計測量數大致包含三種類型：中央趨勢的衡量、分散度的衡量及其他測量數。\n\n當我們想要了解一組數據的整體趨勢時，常常會關注資料的集中位置。這個集中位置，我們就稱之為「中央趨勢」，常用的中央趨勢測量值有平均數（Mean）、中位數（Median）和眾數（Mode）等，其中平均數代表資料的平均值，中位數代表將資料排序後位於中間的數值，而眾數則代表資料中出現頻率最高的數值。\n\n平均數（Mean）：描述一組資料集中趨勢最常用的統計量。它代表了所有資料值的平均水平，就像是一個資料的「重心」。最常見的平均數是算術平均數（Arithmetic Mean），也就是將所有資料數值相加後除以資料的個數。雖然幾何平均數（Geometric Mean）和調和平均數（Harmonic Mean）也能用來表示平均水平，但算術平均數因其計算簡單、易於理解，在實際應用中更為普遍。然而，算術平均數容易受到極端值（過大或過小的數據）的影響，這也是我們在選擇統計量時需要考慮的因素。\n\n中位數（Median）：將一組資料按數值大小順序排列後，位於正中間的數值。相較於平均數，中位數不易受到極端值（過大或過小的資料數值）的影響，因此更能反映資料的典型水平。然而，中位數在進行複雜的數學運算和統計推斷時，較不易操作，這也是它的限制。\n\n眾數（Mode）：指在一組資料中出現頻率最高的值。相較於平均數和中位數，眾數不受極端值影響，能直接反映資料中最常見的類別或數值。然而，眾數可能有多個，也可能不存在，這使得它在某些情況下應用較受限制，不像平均數和中位數那樣普遍。\n\n分散度之衡量統計量為可衡量資料之離散程度，主要用於尋找變異的原因和性質，常見的分散度之衡量統計量有：四分位數（Quartile）、全距（Range）、四分位距（Interquartile Range）、平均差（Mean Deviation）、變異數（Coefficient of Variation）及標準差（Standard Deviation）等。\n\n四分位數（Quartile）：所有數值由小到大排列並分成四等份，處於三個分割點位置的數值就是四分位數。\n\n- 全距（Range, R）：觀察值中的最大值減去最小值後的數值，由於只考慮最大與最小兩個觀察值，未考慮所有觀察值，故不能精確的反應全體觀察值的分散情形，且會受極端值影響。\n\n- 四分位距（Interquartile Range, IQR）：為統計離差的度量，等於第三和第一四分位之間的差異，與全距有一樣的缺點。\n\n平均差（Mean Deviation）：是所有觀察值與平均數之間絕對差值的平均，其數值越大，表示資料的分散程度越高。\n\n標準差（Standard Deviation）：標準差是衡量一組資料分散程度的統計量。當標準差較大時，表示資料點離平均值的距離較遠，也就是說，資料的分散程度較高。反之，若標準差較小，則表示資料點都聚集在平均值附近，資料的分散程度較低。在品質管理中，標準差常用來評估產品或過程的穩定性。標準差越大，表示產品品質越不穩定，良率越低。\n\n在進行統計分析時，從母體中抽取樣本所計算出的統計量（如樣本平均數、樣本標準差），往往因樣本的隨機性而與對應的母體參數有所差異。這種因抽樣而產生的統計量變動現象，稱為抽樣變異（Sampling Variation）。為了量化這種變異並進行推論，我們需要引入機率模型。機率模型（Probability\n\nModels）能幫助我們刻畫抽樣變異的特性，進而對母體參數做出推斷。透過機率模型，我們可以建立起一個框架，用來量化統計估計值的不確定性，並進一步進行區間估計和假設檢定等統計推斷。\n\n常見的統計方法可做以下分類：\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'></td><td style='text-align: center; word-wrap: break-word;'>類別變數</td><td style='text-align: center; word-wrap: break-word;'>連續變數</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>無因果關係</td><td style='text-align: center; word-wrap: break-word;'>• 敘述性統計\\n• 複選題分析\\n• （多重）交叉分析\\n• 卡方檢定</td><td style='text-align: center; word-wrap: break-word;'>• 主成份分析\\n• 因素分析\\n• 集群分析\\n• （偏）相關分析</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>有因果關係</td><td style='text-align: center; word-wrap: break-word;'>• 二元羅吉斯迴歸\\n• 區別分析</td><td style='text-align: center; word-wrap: break-word;'>• 偏相關分析\\n• 迴歸分析\\n• （多變量）變異數分析\\n• 偏最小平方迴歸</td></tr></table>\n\n###"
+        },
+        {
+          "id": "s1c2#假說檢定名詞介紹",
+          "title": "假說檢定名詞介紹：",
+          "level": 3,
+          "page": 32,
+          "anchor": "假說檢定名詞介紹",
+          "recovered": false,
+          "content": "假說檢定名詞介紹：\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>名稱</td><td style='text-align: center; word-wrap: break-word;'>說明</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>假說檢定之流程</td><td style='text-align: center; word-wrap: break-word;'>猜想（假定）→蒐集資料→檢定作決策（接受或拒絕猜想）</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>統計假設\\n( hypothesis )</td><td style='text-align: center; word-wrap: break-word;'>指對母體分佈的陳述或推測，即關於母體特性的一種假設性敘述（statement）。統計假設主要包含以下部分：\\n• 虛無假設（null hypothesis）：以符號 H0 表之，表示不存在顯著效果或差異，通常作為檢定的基準假設。\\n• 對立假設（alternative hypothesis）：以符號 Ha（或 H1, K）表之，與虛無假設相對，表示存在顯著效果或差異。\\n統計假設可進一步分類為：\\n• 簡單假設（Simple Hypothesis）：完全確定母體分佈的所有參數。\\n• 複合假設（Composite Hypothesis）：僅對母體分佈的部分參數作出假設</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>統計推論\\n( statistical inference )</td><td style='text-align: center; word-wrap: break-word;'>根據樣本資料，判斷是否接受或拒絕統計假設的過程。</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>假設檢定\\n( testing hypothesis )</td><td style='text-align: center; word-wrap: break-word;'>基於母體之一組隨機樣本 X，以決定兩個假設（H0, Ha）中何者該拒絕。</td></tr></table>\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>名稱</td><td colspan=\"3\">說明</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>接受域\\n(acceptance region)\\n拒絕域\\n(rejection region)</td><td colspan=\"3\">• 接受域：使虛無假設被接受之集合。\\n• 拒絕域：使虛無假設被拒絕之集合。</td></tr><tr><td rowspan=\"5\">檢定 (test)</td><td colspan=\"3\">• 決定一檢定，即表決定拒絕域及接受域。\\n• 對一檢定，以 C 為拒絕域，即拒絕 H0，若且為若  $ \\chi \\in C $。\\n• 統計檢定之可能結果：</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>$ H_0 $為真</td><td colspan=\"2\">$ H_0 $為假</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>接受  $ H_0 $</td><td style='text-align: center; word-wrap: break-word;'>正確</td><td style='text-align: center; word-wrap: break-word;'>Type II 錯誤 ( $ \\beta $)</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>拒絕  $ H_0 $</td><td style='text-align: center; word-wrap: break-word;'>Type I 錯誤 ( $ \\alpha $)</td><td style='text-align: center; word-wrap: break-word;'>正確</td></tr><tr><td colspan=\"3\">$ \\alpha=P $ (拒絕  $ H_0 $ |  $ H_0 $為真)\\n $ \\beta=P $ (接受  $ H_0 $ |  $ H_a $為真)</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>顯著水準\\n(significance level)</td><td colspan=\"3\">•  $ \\alpha $ 稱為顯著水準，又稱為檢定大小。\\n•  $ \\alpha $ 之值常取成 0.1，0.05 或 0.01 等。</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>檢定統計量\\n(test statistic)</td><td colspan=\"3\">• 樣本 X 的一個實值函數，以 T=T (X) 表之。利用 T 來決定是否接受 H0。</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>p 值\\n(p-value)</td><td colspan=\"3\">• 在 H0 為真之下，檢定統計量會落在比觀測值至少同樣極端的區域之機率。\\n• p 值又稱觀測大小。\\n• 若所得之觀測值得 p 值夠小，小於  $ \\alpha $，則拒絕虛無假設。</td></tr></table>\n\n### 探索式資料分析\n\n根據分析目的，資料分析可大致分為兩類：探索性資料分析（Exploratory Data Analysis, EDA）和驗證性資料分析（Confirmatory Data Analysis, CDA）。\n\n每個資料集都具有其獨特的特徵，因此在進行資料分析之前，我們需要先對資料進行深入的探索。探索性資料分析正如其名，強調的是一種靈活且開放的探索過程，透過探索性資料分析，我們可以從資料中發現潛在的模式、關係和異常值，這些發現將為後續的深入分析提供重要的線索，通常在研究初期，對資料特徵尚不熟悉的情況下進行，為後續更深入的分析奠定基礎。\n\n探索性資料分析不僅僅是對數據的描述，更是一種生成假設的過程。透過視覺化工具，研究人員可以直觀地觀察數據的分佈情況，並提出一些初步的假設。這些假設將為後續的驗證性分析提供方向。\n\n相較於探索性資料分析，驗證性資料分析更注重於驗證研究者提出的假設，透過分類、分群、相關性分析以及預測模型等方法，研究人員可以對探索階段所發現的模式進行更深入的挖掘。此外，為了更全面地理解數據，研究人員也可能結合定性分析，對量化分析的結果進行深入探討，以發現數據中更細緻的內涵。"
         }
       ],
       "chunks": [
         {
-          "id": "s1c2#intro#p1",
-          "title": "資料處理與分析概念（章首）（第 1 段）",
+          "id": "s1c2#intro",
+          "title": "資料處理與分析概念（章首）",
           "level": 2,
           "page": null,
           "anchor": null,
           "sectionCount": 1,
-          "splitBy": "paragraph",
-          "content": "# 資料處理與分析概念\n\n### 重點掃瞄\n\n## 3.2 資料處理與分析概念\n\n在人工智慧（AI）領域，資料處理與分析是至關重要的基礎。AI模型的訓練和應用都高度依賴於大量、高品質的資料。以下將深入探討資料處理與分析在AI領域中的概念。\n\n在人工智慧與機器學習領域中，資料是模型學習的基石。為了從海量資料中萃取出有價值的資訊，統計學扮演著不可或缺的角色。從基礎的資料敘述統計，到進階的重抽樣與模擬技術，統計學提供了我們分析資料、驗證模型的堅實基礎。換句話說，統計學是我們駕馭資料、獲得洞見的指南針。\n\n統計測量數大致包含三種類型：中央趨勢的衡量、分散度的衡量及其他測量數。\n\n當我們想要了解一組數據的整體趨勢時，常常會關注資料的集中位置。這個集中位置，我們就稱之為「中央趨勢」，常用的中央趨勢測量值有平均數（Mean）、中位數（Median）和眾數（Mode）等，其中平均數代表資料的平均值，中位數代表將資料排序後位於中間的數值，而眾數則代表資料中出現頻率最高的數值。\n\n平均數（Mean）：描述一組資料集中趨勢最常用的統計量。它代表了所有資料值的平均水平，就像是一個資料的「重心」。最常見的平均數是算術平均數（Arithmetic Mean），也就是將所有資料數值相加後除以資料的個數。雖然幾何平均數（Geometric Mean）和調和平均數（Harmonic Mean）也能用來表示平均水平，但算術平均數因其計算簡單、易於理解，在實際應用中更為普遍。然而，算術平均數容易受到極端值（過大或過小的數據）的影響，這也是我們在選擇統計量時需要考慮的因素。\n\n中位數（Median）：將一組資料按數值大小順序排列後，位於正中間的數值。相較於平均數，中位數不易受到極端值（過大或過小的資料數值）的影響，因此更能反映資料的典型水平。然而，中位數在進行複雜的數學運算和統計推斷時，較不易操作，這也是它的限制。\n\n眾數（Mode）：指在一組資料中出現頻率最高的值。相較於平均數和中位數，眾數不受極端值影響，能直接反映資料中最常見的類別或數值。然而，眾數可能有多個，也可能不存在，這使得它在某些情況下應用較受限制，不像平均數和中位數那樣普遍。\n\n分散度之衡量統計量為可衡量資料之離散程度，主要用於尋找變異的原因和性質，常見的分散度之衡量統計量有：四分位數（Quartile）、全距（Range）、四分位距（Interquartile Range）、平均差（Mean Deviation）、變異數（Coefficient of Variation）及標準差（Standard Deviation）等。\n\n四分位數（Quartile）：所有數值由小到大排列並分成四等份，處於三個分割點位置的數值就是四分位數。\n\n- 全距（Range, R）：觀察值中的最大值減去最小值後的數值，由於只考慮最大與最小兩個觀察值，未考慮所有觀察值，故不能精確的反應全體觀察值的分散情形，且會受極端值影響。\n\n- 四分位距（Interquartile Range, IQR）：為統計離差的度量，等於第三和第一四分位之間的差異，與全距有一樣的缺點。\n\n平均差（Mean Deviation）：是所有觀察值與平均數之間絕對差值的平均，其數值越大，表示資料的分散程度越高。\n\n標準差（Standard Deviation）：標準差是衡量一組資料分散程度的統計量。當標準差較大時，表示資料點離平均值的距離較遠，也就是說，資料的分散程度較高。反之，若標準差較小，則表示資料點都聚集在平均值附近，資料的分散程度較低。在品質管理中，標準差常用來評估產品或過程的穩定性。標準差越大，表示產品品質越不穩定，良率越低。\n\n在進行統計分析時，從母體中抽取樣本所計算出的統計量（如樣本平均數、樣本標準差），往往因樣本的隨機性而與對應的母體參數有所差異。這種因抽樣而產生的統計量變動現象，稱為抽樣變異（Sampling Variation）。為了量化這種變異並進行推論，我們需要引入機率模型。機率模型（Probability\n\nModels）能幫助我們刻畫抽樣變異的特性，進而對母體參數做出推斷。透過機率模型，我們可以建立起一個框架，用來量化統計估計值的不確定性，並進一步進行區間估計和假設檢定等統計推斷。\n\n常見的統計方法可做以下分類：\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'></td><td style='text-align: center; word-wrap: break-word;'>類別變數</td><td style='text-align: center; word-wrap: break-word;'>連續變數</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>無因果關係</td><td style='text-align: center; word-wrap: break-word;'>• 敘述性統計\\n• 複選題分析\\n• （多重）交叉分析\\n• 卡方檢定</td><td style='text-align: center; word-wrap: break-word;'>• 主成份分析\\n• 因素分析\\n• 集群分析\\n• （偏）相關分析</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>有因果關係</td><td style='text-align: center; word-wrap: break-word;'>• 二元羅吉斯迴歸\\n• 區別分析</td><td style='text-align: center; word-wrap: break-word;'>• 偏相關分析\\n• 迴歸分析\\n• （多變量）變異數分析\\n• 偏最小平方迴歸</td></tr></table>\n\n### 假說檢定名詞介紹："
+          "content": "# 資料處理與分析概念\n\n### 重點掃瞄\n\n## 3.2 資料處理與分析概念\n\n在人工智慧（AI）領域，資料處理與分析是至關重要的基礎。AI模型的訓練和應用都高度依賴於大量、高品質的資料。以下將深入探討資料處理與分析在AI領域中的概念。\n\n在人工智慧與機器學習領域中，資料是模型學習的基石。為了從海量資料中萃取出有價值的資訊，統計學扮演著不可或缺的角色。從基礎的資料敘述統計，到進階的重抽樣與模擬技術，統計學提供了我們分析資料、驗證模型的堅實基礎。換句話說，統計學是我們駕馭資料、獲得洞見的指南針。\n\n統計測量數大致包含三種類型：中央趨勢的衡量、分散度的衡量及其他測量數。\n\n當我們想要了解一組數據的整體趨勢時，常常會關注資料的集中位置。這個集中位置，我們就稱之為「中央趨勢」，常用的中央趨勢測量值有平均數（Mean）、中位數（Median）和眾數（Mode）等，其中平均數代表資料的平均值，中位數代表將資料排序後位於中間的數值，而眾數則代表資料中出現頻率最高的數值。\n\n平均數（Mean）：描述一組資料集中趨勢最常用的統計量。它代表了所有資料值的平均水平，就像是一個資料的「重心」。最常見的平均數是算術平均數（Arithmetic Mean），也就是將所有資料數值相加後除以資料的個數。雖然幾何平均數（Geometric Mean）和調和平均數（Harmonic Mean）也能用來表示平均水平，但算術平均數因其計算簡單、易於理解，在實際應用中更為普遍。然而，算術平均數容易受到極端值（過大或過小的數據）的影響，這也是我們在選擇統計量時需要考慮的因素。\n\n中位數（Median）：將一組資料按數值大小順序排列後，位於正中間的數值。相較於平均數，中位數不易受到極端值（過大或過小的資料數值）的影響，因此更能反映資料的典型水平。然而，中位數在進行複雜的數學運算和統計推斷時，較不易操作，這也是它的限制。\n\n眾數（Mode）：指在一組資料中出現頻率最高的值。相較於平均數和中位數，眾數不受極端值影響，能直接反映資料中最常見的類別或數值。然而，眾數可能有多個，也可能不存在，這使得它在某些情況下應用較受限制，不像平均數和中位數那樣普遍。\n\n分散度之衡量統計量為可衡量資料之離散程度，主要用於尋找變異的原因和性質，常見的分散度之衡量統計量有：四分位數（Quartile）、全距（Range）、四分位距（Interquartile Range）、平均差（Mean Deviation）、變異數（Coefficient of Variation）及標準差（Standard Deviation）等。\n\n四分位數（Quartile）：所有數值由小到大排列並分成四等份，處於三個分割點位置的數值就是四分位數。\n\n- 全距（Range, R）：觀察值中的最大值減去最小值後的數值，由於只考慮最大與最小兩個觀察值，未考慮所有觀察值，故不能精確的反應全體觀察值的分散情形，且會受極端值影響。\n\n- 四分位距（Interquartile Range, IQR）：為統計離差的度量，等於第三和第一四分位之間的差異，與全距有一樣的缺點。\n\n平均差（Mean Deviation）：是所有觀察值與平均數之間絕對差值的平均，其數值越大，表示資料的分散程度越高。\n\n標準差（Standard Deviation）：標準差是衡量一組資料分散程度的統計量。當標準差較大時，表示資料點離平均值的距離較遠，也就是說，資料的分散程度較高。反之，若標準差較小，則表示資料點都聚集在平均值附近，資料的分散程度較低。在品質管理中，標準差常用來評估產品或過程的穩定性。標準差越大，表示產品品質越不穩定，良率越低。\n\n在進行統計分析時，從母體中抽取樣本所計算出的統計量（如樣本平均數、樣本標準差），往往因樣本的隨機性而與對應的母體參數有所差異。這種因抽樣而產生的統計量變動現象，稱為抽樣變異（Sampling Variation）。為了量化這種變異並進行推論，我們需要引入機率模型。機率模型（Probability\n\nModels）能幫助我們刻畫抽樣變異的特性，進而對母體參數做出推斷。透過機率模型，我們可以建立起一個框架，用來量化統計估計值的不確定性，並進一步進行區間估計和假設檢定等統計推斷。\n\n常見的統計方法可做以下分類：\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'></td><td style='text-align: center; word-wrap: break-word;'>類別變數</td><td style='text-align: center; word-wrap: break-word;'>連續變數</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>無因果關係</td><td style='text-align: center; word-wrap: break-word;'>• 敘述性統計\\n• 複選題分析\\n• （多重）交叉分析\\n• 卡方檢定</td><td style='text-align: center; word-wrap: break-word;'>• 主成份分析\\n• 因素分析\\n• 集群分析\\n• （偏）相關分析</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>有因果關係</td><td style='text-align: center; word-wrap: break-word;'>• 二元羅吉斯迴歸\\n• 區別分析</td><td style='text-align: center; word-wrap: break-word;'>• 偏相關分析\\n• 迴歸分析\\n• （多變量）變異數分析\\n• 偏最小平方迴歸</td></tr></table>\n\n###"
         },
         {
-          "id": "s1c2#intro#p2",
-          "title": "資料處理與分析概念（章首）（第 2 段）",
-          "level": 2,
-          "page": null,
-          "anchor": null,
+          "id": "s1c2#假說檢定名詞介紹#p1",
+          "title": "假說檢定名詞介紹：（第 1 段）",
+          "level": 3,
+          "page": 32,
+          "anchor": "假說檢定名詞介紹",
           "sectionCount": 1,
           "splitBy": "paragraph",
-          "content": "<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>名稱</td><td style='text-align: center; word-wrap: break-word;'>說明</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>假說檢定之流程</td><td style='text-align: center; word-wrap: break-word;'>猜想（假定）→蒐集資料→檢定作決策（接受或拒絕猜想）</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>統計假設\\n( hypothesis )</td><td style='text-align: center; word-wrap: break-word;'>指對母體分佈的陳述或推測，即關於母體特性的一種假設性敘述（statement）。統計假設主要包含以下部分：\\n• 虛無假設（null hypothesis）：以符號 H0 表之，表示不存在顯著效果或差異，通常作為檢定的基準假設。\\n• 對立假設（alternative hypothesis）：以符號 Ha（或 H1, K）表之，與虛無假設相對，表示存在顯著效果或差異。\\n統計假設可進一步分類為：\\n• 簡單假設（Simple Hypothesis）：完全確定母體分佈的所有參數。\\n• 複合假設（Composite Hypothesis）：僅對母體分佈的部分參數作出假設</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>統計推論\\n( statistical inference )</td><td style='text-align: center; word-wrap: break-word;'>根據樣本資料，判斷是否接受或拒絕統計假設的過程。</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>假設檢定\\n( testing hypothesis )</td><td style='text-align: center; word-wrap: break-word;'>基於母體之一組隨機樣本 X，以決定兩個假設（H0, Ha）中何者該拒絕。</td></tr></table>\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>名稱</td><td colspan=\"3\">說明</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>接受域\\n(acceptance region)\\n拒絕域\\n(rejection region)</td><td colspan=\"3\">• 接受域：使虛無假設被接受之集合。\\n• 拒絕域：使虛無假設被拒絕之集合。</td></tr><tr><td rowspan=\"5\">檢定 (test)</td><td colspan=\"3\">• 決定一檢定，即表決定拒絕域及接受域。\\n• 對一檢定，以 C 為拒絕域，即拒絕 H0，若且為若  $ \\chi \\in C $。\\n• 統計檢定之可能結果：</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>$ H_0 $為真</td><td colspan=\"2\">$ H_0 $為假</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>接受  $ H_0 $</td><td style='text-align: center; word-wrap: break-word;'>正確</td><td style='text-align: center; word-wrap: break-word;'>Type II 錯誤 ( $ \\beta $)</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>拒絕  $ H_0 $</td><td style='text-align: center; word-wrap: break-word;'>Type II 錯誤 ( $ \\alpha $)</td><td style='text-align: center; word-wrap: break-word;'>正確</td></tr><tr><td colspan=\"3\">$ \\alpha=P $ (拒絕  $ H_0 $ |  $ H_0 $為真)\\n $ \\beta=P $ (接受  $ H_0 $ |  $ H_a $為真)</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>顯著水準\\n(significance level)</td><td colspan=\"3\">•  $ \\alpha $ 稱為顯著水準，又稱為檢定大小。\\n•  $ \\alpha $ 之值常取成 0.1，0.05 或 0.01 等。</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>檢定統計量\\n(test statistic)</td><td colspan=\"3\">• 樣本 X 的一個實值函數，以 T=T (X) 表之。利用 T 來決定是否接受 H0。</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>p 值\\n(p-value)</td><td colspan=\"3\">• 在 H0 為真之下，檢定統計量會落在比觀測值至少同樣極端的區域之機率。\\n• p 值又稱觀測大小。\\n• 若所得之觀測值得 p 值夠小，小於  $ \\alpha $，則拒絕虛無假設。</td></tr></table>\n\n### 探索式資料分析\n\n根據分析目的，資料分析可大致分為兩類：探索性資料分析（Exploratory Data Analysis, EDA）和驗證性資料分析（Confirmatory Data Analysis, CDA）。"
+          "content": "假說檢定名詞介紹：\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>名稱</td><td style='text-align: center; word-wrap: break-word;'>說明</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>假說檢定之流程</td><td style='text-align: center; word-wrap: break-word;'>猜想（假定）→蒐集資料→檢定作決策（接受或拒絕猜想）</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>統計假設\\n( hypothesis )</td><td style='text-align: center; word-wrap: break-word;'>指對母體分佈的陳述或推測，即關於母體特性的一種假設性敘述（statement）。統計假設主要包含以下部分：\\n• 虛無假設（null hypothesis）：以符號 H0 表之，表示不存在顯著效果或差異，通常作為檢定的基準假設。\\n• 對立假設（alternative hypothesis）：以符號 Ha（或 H1, K）表之，與虛無假設相對，表示存在顯著效果或差異。\\n統計假設可進一步分類為：\\n• 簡單假設（Simple Hypothesis）：完全確定母體分佈的所有參數。\\n• 複合假設（Composite Hypothesis）：僅對母體分佈的部分參數作出假設</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>統計推論\\n( statistical inference )</td><td style='text-align: center; word-wrap: break-word;'>根據樣本資料，判斷是否接受或拒絕統計假設的過程。</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>假設檢定\\n( testing hypothesis )</td><td style='text-align: center; word-wrap: break-word;'>基於母體之一組隨機樣本 X，以決定兩個假設（H0, Ha）中何者該拒絕。</td></tr></table>\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>名稱</td><td colspan=\"3\">說明</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>接受域\\n(acceptance region)\\n拒絕域\\n(rejection region)</td><td colspan=\"3\">• 接受域：使虛無假設被接受之集合。\\n• 拒絕域：使虛無假設被拒絕之集合。</td></tr><tr><td rowspan=\"5\">檢定 (test)</td><td colspan=\"3\">• 決定一檢定，即表決定拒絕域及接受域。\\n• 對一檢定，以 C 為拒絕域，即拒絕 H0，若且為若  $ \\chi \\in C $。\\n• 統計檢定之可能結果：</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>$ H_0 $為真</td><td colspan=\"2\">$ H_0 $為假</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>接受  $ H_0 $</td><td style='text-align: center; word-wrap: break-word;'>正確</td><td style='text-align: center; word-wrap: break-word;'>Type II 錯誤 ( $ \\beta $)</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>拒絕  $ H_0 $</td><td style='text-align: center; word-wrap: break-word;'>Type I 錯誤 ( $ \\alpha $)</td><td style='text-align: center; word-wrap: break-word;'>正確</td></tr><tr><td colspan=\"3\">$ \\alpha=P $ (拒絕  $ H_0 $ |  $ H_0 $為真)\\n $ \\beta=P $ (接受  $ H_0 $ |  $ H_a $為真)</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>顯著水準\\n(significance level)</td><td colspan=\"3\">•  $ \\alpha $ 稱為顯著水準，又稱為檢定大小。\\n•  $ \\alpha $ 之值常取成 0.1，0.05 或 0.01 等。</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>檢定統計量\\n(test statistic)</td><td colspan=\"3\">• 樣本 X 的一個實值函數，以 T=T (X) 表之。利用 T 來決定是否接受 H0。</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>p 值\\n(p-value)</td><td colspan=\"3\">• 在 H0 為真之下，檢定統計量會落在比觀測值至少同樣極端的區域之機率。\\n• p 值又稱觀測大小。\\n• 若所得之觀測值得 p 值夠小，小於  $ \\alpha $，則拒絕虛無假設。</td></tr></table>\n\n### 探索式資料分析\n\n根據分析目的，資料分析可大致分為兩類：探索性資料分析（Exploratory Data Analysis, EDA）和驗證性資料分析（Confirmatory Data Analysis, CDA）。"
         },
         {
-          "id": "s1c2#intro#p3",
-          "title": "資料處理與分析概念（章首）（第 3 段）",
-          "level": 2,
-          "page": null,
-          "anchor": null,
+          "id": "s1c2#假說檢定名詞介紹#p2",
+          "title": "假說檢定名詞介紹：（第 2 段）",
+          "level": 3,
+          "page": 32,
+          "anchor": "假說檢定名詞介紹",
           "sectionCount": 1,
           "splitBy": "paragraph",
           "content": "每個資料集都具有其獨特的特徵，因此在進行資料分析之前，我們需要先對資料進行深入的探索。探索性資料分析正如其名，強調的是一種靈活且開放的探索過程，透過探索性資料分析，我們可以從資料中發現潛在的模式、關係和異常值，這些發現將為後續的深入分析提供重要的線索，通常在研究初期，對資料特徵尚不熟悉的情況下進行，為後續更深入的分析奠定基礎。\n\n探索性資料分析不僅僅是對數據的描述，更是一種生成假設的過程。透過視覺化工具，研究人員可以直觀地觀察數據的分佈情況，並提出一些初步的假設。這些假設將為後續的驗證性分析提供方向。\n\n相較於探索性資料分析，驗證性資料分析更注重於驗證研究者提出的假設，透過分類、分群、相關性分析以及預測模型等方法，研究人員可以對探索階段所發現的模式進行更深入的挖掘。此外，為了更全面地理解數據，研究人員也可能結合定性分析，對量化分析的結果進行深入探討，以發現數據中更細緻的內涵。"
@@ -988,7 +1012,7 @@
     {
       "id": "s1c3",
       "title": "機器學習概念",
-      "charCount": 8176,
+      "charCount": 8300,
       "sections": [
         {
           "id": "s1c3#intro",
@@ -1003,9 +1027,9 @@
           "id": "s1c3#1機器學習基本理論",
           "title": "1. 機器學習基本理論",
           "level": 3,
-          "page": 40,
+          "page": null,
           "anchor": "1機器學習基本理論",
-          "recovered": true,
+          "recovered": false,
           "content": "1. 機器學習基本理論\n\n####"
         },
         {
@@ -1015,7 +1039,7 @@
           "page": 40,
           "anchor": "1基本原理",
           "recovered": false,
-          "content": "（1） 基本原理\n\n機器學習（Machine Learning）的基本原理是利用數據中的模式與規律，透過演算法構建模型來進行預測和決策。過程依賴於高效的算法設計、豐富的數據資源以及不斷增強的計算能力，成為現代科技和產業發展的核心技術之一。機器學習的目的是讓計算機系統能夠自動從數據中學習，並且在沒有明確指令的情況上不斷改進其效能。隨著應用需求的多樣化和技術能力的提升，機器學習正迅速應用至醫療、金融、交通、零售等多個行業。\n\n#####"
+          "content": "（1） 基本原理\n\n機器學習（Machine Learning）的基本原理是利用數據中的模式與規律，透過演算法構建模型來進行預測和決策。過程依賴於高效的算法設計、豐富的數據資源以及不斷增強的計算能力，成為現代科技和產業發展的核心技術之一。機器學習的目的是讓計算機系統能夠自動從數據中學習，並且在沒有明確指令的情況下不斷改進其效能。隨著應用需求的多樣化和技術能力的提升，機器學習正迅速應用至醫療、金融、交通、零售等多個行業。\n\n#####"
         },
         {
           "id": "s1c3#a機器學習的特徵",
@@ -1159,7 +1183,7 @@
           "page": 46,
           "anchor": "a最小-最大標準化min-maxscaling將數據映射到0到1的區間公式如下",
           "recovered": false,
-          "content": "a. 最小-最大標準化（Min-Max Scaling）：將數據映射到 0 到 1 的區間，公式如下：\n\n$$ X_{scaled}=\\frac{X-X_{min}}{X_{man}-X_{min}} $$"
+          "content": "a. 最小-最大標準化（Min-Max Scaling）：將數據映射到 0 到 1 的區間，公式如下：\n\n$$ X_{scaled}=\\frac{X-X_{min}}{X_{max}-X_{min}} $$"
         },
         {
           "id": "s1c3#bz-score標準化將數據轉換為均值為0標準差為1的分佈公式如下",
@@ -1186,7 +1210,7 @@
           "page": 46,
           "anchor": "a特徵選擇根據特徵對預測結果的影響力篩選出最具代表性的特徵常見方",
           "recovered": false,
-          "content": "a. 特徵選擇：根據特徵對預測結果的影響力，篩選出最具代表性的特徵，常見方法包括：\n\n過濾法（Filter Methods）：使用相關性或統計量篩選特徵，如皮爾遜（Pearson）相關係數。\n\n- 包裝法（Wrapper Methods）：透過模型效能指標評估特徵組合的效果，例如遞迴特徵消除（Recursive Feature Elimination, RFE）。\n\n- 嵌入法（Embedded Methods）：利用模型內置的機制（如 LASSO 正則化）自動進行特徵篩選。"
+          "content": "a. 特徵選擇：根據特徵對預測結果的影響力，篩選出最具代表性的特徵，常見方法包括：\n\n過濾法（Filter Methods）：使用相關性或統計量篩選特徵，如皮爾遜（Pearson）相關係數。\n\n- 包裝法（Wrapper Methods）：透過模型效能指標評估特徵組合的效果，例如遞迴特徵消除（Recursive Feature Elimination, RFE）。\n\n- 嵌入法（Embedded Methods）：利用模型內置的機制（如 LASSO 正則化）自動進行特徵篩選。\n\n<!-- track-b-source-math-correction:TB-002 -->\n> **來源公式校正**：原始 PDF 將 Min-Max 公式的分母下標誤植為 `man`；本出題來源依 Min-Max 定義更正為 `max`。"
         },
         {
           "id": "s1c3#b降維技術主要針對高維度數據透過線性變換降低特徵空間的維度同時保",
@@ -1285,7 +1309,7 @@
           "page": 48,
           "anchor": "3模型評估與優化",
           "recovered": false,
-          "content": "（3） 模型評估與優化\n\n模型訓練完成後，必須透過評估指標對模型效能進行驗證，並根據結果進步優化模型。\n\n#####"
+          "content": "（3） 模型評估與優化\n\n模型訓練完成後，必須透過評估指標對模型效能進行驗證，並根據結果進一步優化模型。\n\n#####"
         },
         {
           "id": "s1c3#a效能評估指標",
@@ -1383,10 +1407,10 @@
           "id": "s1c3#1機器學習基本理論",
           "title": "1. 機器學習基本理論",
           "level": 3,
-          "page": 40,
+          "page": null,
           "anchor": "1機器學習基本理論",
           "sectionCount": 5,
-          "content": "1. 機器學習基本理論\n\n####\n\n（1） 基本原理\n\n機器學習（Machine Learning）的基本原理是利用數據中的模式與規律，透過演算法構建模型來進行預測和決策。過程依賴於高效的算法設計、豐富的數據資源以及不斷增強的計算能力，成為現代科技和產業發展的核心技術之一。機器學習的目的是讓計算機系統能夠自動從數據中學習，並且在沒有明確指令的情況上不斷改進其效能。隨著應用需求的多樣化和技術能力的提升，機器學習正迅速應用至醫療、金融、交通、零售等多個行業。\n\n#####\n\nA. 機器學習的特徵\n\n機器學習的特徵是基於數據的學習和自適應能力，透過分析大量的歷史數據，系統能夠構建預測模型，並在新數據到來時進行動態更新。例如，醫療領域中的機器學習技術可以分析患者的病歷資料和醫學影像數據，透過學習病變區域的特徵模式，輔助醫生快速而準確地識別出腫瘤或其他病灶區域，提高診斷效率和準確性。此外，透過整合多模態數據，如基因數據、檢測結果和生活習慣，機器學習還能為個人化治療方案的設計提供依據。在金融領域，機器學習被廣泛應用於市場趨勢的分析和信用風險的評估。例如，透過分析交易數據和經濟指標，系統能夠提前預測市場波動，幫助投資者做出更明智的決策。在信用風險評估中，機器學習算法可以根據客戶的歷史交易行為和信用資料，自動識別潛在的違約風險，支持金融機構進行風險管理。同時，這些模型還能根據新進數據進行動態調整，確保預測的準確性和即時性。\n\n#####\n\nB. 機器學習的技術優勢\n\n機器學習技術的核心優勢在於其強大的自適應能力和廣泛的應用場景。不同\n\n於傳統的編程方式，機器學習透過數據驅動的方式學習規律，不僅能處理大規模的結構化數據，還能從非結構化數據（如圖像、文本、語音等）中提取有用訊息。例如，在智慧推薦系統中，機器學習演算法能夠分析用戶的歷史行為數據，準確預測用戶的偏好，從而提供個人化的推薦內容，大幅提升用戶體驗。\n\n此外，機器學習具有極高的可擴展性。隨著數據規模的增加和模型效能的提升，其預測能力和效率也不斷提高。例如，在交通領域，機器學習被用於自動駕駛技術中，幫助車輛在複雜的路況中做出即時且精確的決策，從而提升交通安全性。同樣，零售行業透過機器學習進行庫存管理和需求預測，可以有效降低成本，優化供應鏈效率。\n\n#####\n\nC. 挑戰與未來方向\n\n機器學習在多個領域表現出巨大的潛力，但其應用仍面臨一些挑戰。數據品質的優劣直接影響模型的準確性與穩定性，而許多領域的數據存在缺失、不平衡或雜訊問題。此外，機器學習模型的解釋性和透明性不足，也限制了其在醫療、法律等對結果可解釋性要求較高領域的應用，例如醫療決策中，模型需要解釋其診斷建議的依據，否則可能無法獲得專業人士的信任。\n\n面向未來，機器學習的發展將更加注重提升模型的解釋性和公平性。例如透過引入視覺化技術和可解釋算法，幫助用戶理解模型的運作原理；同時，開發去偏演算法以減少數據中的隱性偏見，確保模型的公平性。此外，隨著人工智慧與機器學習技術的不斷成熟，跨領域整合應用將成為趨勢，例如結合生物訊息學和機器學習技術，共同推動個人化醫療和精準醫學的發展。\n\n###"
+          "content": "1. 機器學習基本理論\n\n####\n\n（1） 基本原理\n\n機器學習（Machine Learning）的基本原理是利用數據中的模式與規律，透過演算法構建模型來進行預測和決策。過程依賴於高效的算法設計、豐富的數據資源以及不斷增強的計算能力，成為現代科技和產業發展的核心技術之一。機器學習的目的是讓計算機系統能夠自動從數據中學習，並且在沒有明確指令的情況下不斷改進其效能。隨著應用需求的多樣化和技術能力的提升，機器學習正迅速應用至醫療、金融、交通、零售等多個行業。\n\n#####\n\nA. 機器學習的特徵\n\n機器學習的特徵是基於數據的學習和自適應能力，透過分析大量的歷史數據，系統能夠構建預測模型，並在新數據到來時進行動態更新。例如，醫療領域中的機器學習技術可以分析患者的病歷資料和醫學影像數據，透過學習病變區域的特徵模式，輔助醫生快速而準確地識別出腫瘤或其他病灶區域，提高診斷效率和準確性。此外，透過整合多模態數據，如基因數據、檢測結果和生活習慣，機器學習還能為個人化治療方案的設計提供依據。在金融領域，機器學習被廣泛應用於市場趨勢的分析和信用風險的評估。例如，透過分析交易數據和經濟指標，系統能夠提前預測市場波動，幫助投資者做出更明智的決策。在信用風險評估中，機器學習算法可以根據客戶的歷史交易行為和信用資料，自動識別潛在的違約風險，支持金融機構進行風險管理。同時，這些模型還能根據新進數據進行動態調整，確保預測的準確性和即時性。\n\n#####\n\nB. 機器學習的技術優勢\n\n機器學習技術的核心優勢在於其強大的自適應能力和廣泛的應用場景。不同\n\n於傳統的編程方式，機器學習透過數據驅動的方式學習規律，不僅能處理大規模的結構化數據，還能從非結構化數據（如圖像、文本、語音等）中提取有用訊息。例如，在智慧推薦系統中，機器學習演算法能夠分析用戶的歷史行為數據，準確預測用戶的偏好，從而提供個人化的推薦內容，大幅提升用戶體驗。\n\n此外，機器學習具有極高的可擴展性。隨著數據規模的增加和模型效能的提升，其預測能力和效率也不斷提高。例如，在交通領域，機器學習被用於自動駕駛技術中，幫助車輛在複雜的路況中做出即時且精確的決策，從而提升交通安全性。同樣，零售行業透過機器學習進行庫存管理和需求預測，可以有效降低成本，優化供應鏈效率。\n\n#####\n\nC. 挑戰與未來方向\n\n機器學習在多個領域表現出巨大的潛力，但其應用仍面臨一些挑戰。數據品質的優劣直接影響模型的準確性與穩定性，而許多領域的數據存在缺失、不平衡或雜訊問題。此外，機器學習模型的解釋性和透明性不足，也限制了其在醫療、法律等對結果可解釋性要求較高領域的應用，例如醫療決策中，模型需要解釋其診斷建議的依據，否則可能無法獲得專業人士的信任。\n\n面向未來，機器學習的發展將更加注重提升模型的解釋性和公平性。例如透過引入視覺化技術和可解釋算法，幫助用戶理解模型的運作原理；同時，開發去偏演算法以減少數據中的隱性偏見，確保模型的公平性。此外，隨著人工智慧與機器學習技術的不斷成熟，跨領域整合應用將成為趨勢，例如結合生物訊息學和機器學習技術，共同推動個人化醫療和精準醫學的發展。\n\n###"
         },
         {
           "id": "s1c3#2機器學習的類型",
@@ -1424,15 +1448,36 @@
           "level": 3,
           "page": 45,
           "anchor": "3機器學習核心過程",
-          "sectionCount": 28,
-          "content": "3. 機器學習核心過程\n\n機器學習的實現是一個循序漸進且高度依賴數據和計算資源的過程，其核心流程可分為「數據處理」、「模型訓練」和「模型評估與優化」三大階段。這些步驟不僅影響模型的學習效率，更決定了最終模型的效能表現與穩健性。\n\n####\n\n（1） 數據處理\n\n數據是機器學習的基礎，數據品質的高低直接影響模型的學習效果和預測能力。因此，在進入模型訓練之前，數據處理是一個不可或缺的步驟。數據處理主要包括數據清洗、數據標準化、特徵選擇和降維等重要環節。\n\n#####\n\nA. 數據清洗\n\n數據清洗是數據處理的第一步，旨在處理數據集中的遺缺值、重複值和異常值。遺缺值可能導致模型訓練失敗或結果不準確，常見的處理方法包括：\n\n- 均值填補：對遺缺值用該特徵的平均值進行填補，適用於數值型特徵。\n\n中位數或眾數填補：針對偏態分佈或類別型特徵，使用中位數或眾數進行填補。\n\n- 刪除法：直接刪除遺缺值過多的記錄或特徵，適用於缺失比例過高且無法填補的情況。\n\n異常值（Outliers）可能來自數據錄入錯誤或極端事件，例如在股票交易數據中突然出現異常高額的交易量。常見的處理方式包括：\n\n四分位距法：判斷數據是否超出正常範圍，並對異常值進行修正或剔除。\n\n標準差法：對距離平均值超過多個標準差的數據進行檢測和處理。\n\n#####\n\nB. 數據標準化\n\n數據標準化旨在將不同量級的數據轉換到統一的範圍，從而消除特徵間的尺度差異，提升模型的學習效果。常用的方法包括：\n\na. 最小-最大標準化（Min-Max Scaling）：將數據映射到 0 到 1 的區間，公式如下：\n\n$$ X_{scaled}=\\frac{X-X_{min}}{X_{man}-X_{min}} $$\n\nb. Z-score 標準化：將數據轉換為均值為 0、標準差為 1 的分佈，公式如下：\n\n$$ X_{scaled}=\\frac{X-\\mu}{\\sigma} $$\n\n這些標準化技術在應對數據分佈不均或特徵範圍差異較大的情況下尤為重要，特別是在使用梯度下降等對特徵尺度敏感的演算法時。\n\n#####\n\nC. 特徵選擇與降維\n\n特徵選擇和降維是數據處理的關鍵步驟，旨在提升模型的效率並減少計算負擔。\n\na. 特徵選擇：根據特徵對預測結果的影響力，篩選出最具代表性的特徵，常見方法包括：\n\n過濾法（Filter Methods）：使用相關性或統計量篩選特徵，如皮爾遜（Pearson）相關係數。\n\n- 包裝法（Wrapper Methods）：透過模型效能指標評估特徵組合的效果，例如遞迴特徵消除（Recursive Feature Elimination, RFE）。\n\n- 嵌入法（Embedded Methods）：利用模型內置的機制（如 LASSO 正則化）自動進行特徵篩選。\n\nb. 降維技術：主要針對高維度數據，透過線性變換降低特徵空間的維度，同時保留數據的重要訊息。常用方法包括主成分分析（PCA），它透過提取數據的主成分，將冗餘特徵壓縮到低維空間。\n\n####\n\n（2） 模型訓練\n\n模型訓練是機器學習過程的核心階段，其目標是透過學習輸入特徵與輸出結果之間的映射關係，找出最優的模型參數。模型訓練通常涉及損失函數的設置、優化演算法的選擇以及避免過擬合的策略。\n\n#####\n\nA. 損失函數\n\n損失函數（Loss Function）是一種用來衡量模型預測值與實際目標之間差異的函數。透過損失函數的計算，模型可以得知自身的損失（Loss，代表不準確度），損失值越高，表示模型預測結果與實際值的誤差越大，反之則表示模型越準確。因此，損失函數可以視為評估模型好壞的指標。\n\n在模型訓練過程中，系統會不斷計算損失，並透過優化器（Optimizer）使用梯度下降（Gradient Descent）等方法來最小化損失，藉此降低模型的誤差，以達到最佳化的目的。常見的損失函數包括：\n\na. 均方誤差（Mean Squared Error, MSE）：用於迴歸任務，計算預測值與真實值之間平方誤差的平均值。\n\n$$ MSE=\\frac{1}{n}\\sum_{i=1}^{n}(y_{i}-\\hat{y}_{i})^{2} $$\n\nb. 交叉熵損失（Cross-Entropy Loss）：用於分類任務，衡量預測概率分佈與真實分佈之間的差異。\n\n#####\n\nB. 優化演算法\n\n模型的訓練過程透過優化演算法調整參數，以最小化損失函數的值。最常見的優化演算法是梯度下降法及其變種：\n\na. 批次梯度下降（Batch Gradient Descent, BGD）：基於整個數據集計算損失函數的梯度並更新參數。\n\nb. 隨機梯度下降（Stochastic Gradient Descent, SGD）：每次迭代僅使用一個樣本來更新參數，速度較快但收斂不穩定。\n\nc. Adam（Adaptive Moment Estimation）演算法：結合了動量法和 RMSProp，能夠自適應學習率，是目前最廣泛使用的優化方法之一。\n\n#####\n\nC. 過擬合的防範\n\n過擬合是模型在訓練數據上表現優異，但在測試數據上表現不佳的現象。為了避免過擬合，通常採用以下策略：\n\n- Regularization：在損失函數中添加懲罰項，如 L1 和 L2 正則化。\n\n- Early Stopping：當模型在驗證集上的表現開始下降時，停止訓練。\n\nData Augmentation：透過隨機旋轉、翻轉等方式擴展訓練數據集，提升模型的泛化能力。\n\n####\n\n（3） 模型評估與優化\n\n模型訓練完成後，必須透過評估指標對模型效能進行驗證，並根據結果進步優化模型。\n\n#####\n\nA. 效能評估指標\n\n不同任務對模型效能的要求不同，常用的評估指標包括：\n\na. 準確率（Accuracy）：衡量模型預測正確的比例，適用於平衡的分類問題。\n\nb. F1 分數（F1 Score）：綜合考慮精確率（Precision）和召回率（Recall），適合處理數據不平衡的問題。\n\nc. 均方誤差（MSE）：適用於迴歸問題，反映預測誤差的大小。\n\n#####\n\nB. 交叉驗證\n\n交叉驗證是一種評估模型穩健性的技術，透過將數據集分割為多個子集，反覆進行訓練與測試，有效降低過擬合風險並提升模型的泛化能力。其中，K 折交叉驗證（K-Fold Cross-Validation）是最常見的方法，將數據集平均分成 K 個子集（折），每次選擇其中一個子集作為測試集，其餘 K-1 個子集作為訓練集，重複 K 次後取平均評估結果，以獲得模型的整體表現。\n\n#####\n\nC. 模型調參\n\n模型優化的最後一步是調整超參數，這一過程稱為「調參」。常見的方法包括：\n\na. 網格搜索（Grid Search）：在預定範圍內逐一嘗試超參數組合。\n\nb. 隨機搜索（Random Search）：隨機選擇超參數進行測試，適合高維度的參數空間。\n\nc. 貝葉斯優化（Bayesian Optimization）：透過構建代理模型，根據歷史結果逐步尋找最優參數。"
+          "sectionCount": 9,
+          "content": "3. 機器學習核心過程\n\n機器學習的實現是一個循序漸進且高度依賴數據和計算資源的過程，其核心流程可分為「數據處理」、「模型訓練」和「模型評估與優化」三大階段。這些步驟不僅影響模型的學習效率，更決定了最終模型的效能表現與穩健性。\n\n####\n\n（1） 數據處理\n\n數據是機器學習的基礎，數據品質的高低直接影響模型的學習效果和預測能力。因此，在進入模型訓練之前，數據處理是一個不可或缺的步驟。數據處理主要包括數據清洗、數據標準化、特徵選擇和降維等重要環節。\n\n#####\n\nA. 數據清洗\n\n數據清洗是數據處理的第一步，旨在處理數據集中的遺缺值、重複值和異常值。遺缺值可能導致模型訓練失敗或結果不準確，常見的處理方法包括：\n\n- 均值填補：對遺缺值用該特徵的平均值進行填補，適用於數值型特徵。\n\n中位數或眾數填補：針對偏態分佈或類別型特徵，使用中位數或眾數進行填補。\n\n- 刪除法：直接刪除遺缺值過多的記錄或特徵，適用於缺失比例過高且無法填補的情況。\n\n異常值（Outliers）可能來自數據錄入錯誤或極端事件，例如在股票交易數據中突然出現異常高額的交易量。常見的處理方式包括：\n\n四分位距法：判斷數據是否超出正常範圍，並對異常值進行修正或剔除。\n\n標準差法：對距離平均值超過多個標準差的數據進行檢測和處理。\n\n#####\n\nB. 數據標準化\n\n數據標準化旨在將不同量級的數據轉換到統一的範圍，從而消除特徵間的尺度差異，提升模型的學習效果。常用的方法包括：\n\na. 最小-最大標準化（Min-Max Scaling）：將數據映射到 0 到 1 的區間，公式如下：\n\n$$ X_{scaled}=\\frac{X-X_{min}}{X_{max}-X_{min}} $$\n\nb. Z-score 標準化：將數據轉換為均值為 0、標準差為 1 的分佈，公式如下：\n\n$$ X_{scaled}=\\frac{X-\\mu}{\\sigma} $$\n\n這些標準化技術在應對數據分佈不均或特徵範圍差異較大的情況下尤為重要，特別是在使用梯度下降等對特徵尺度敏感的演算法時。\n\n#####\n\nC. 特徵選擇與降維\n\n特徵選擇和降維是數據處理的關鍵步驟，旨在提升模型的效率並減少計算負擔。\n\na. 特徵選擇：根據特徵對預測結果的影響力，篩選出最具代表性的特徵，常見方法包括：\n\n過濾法（Filter Methods）：使用相關性或統計量篩選特徵，如皮爾遜（Pearson）相關係數。\n\n- 包裝法（Wrapper Methods）：透過模型效能指標評估特徵組合的效果，例如遞迴特徵消除（Recursive Feature Elimination, RFE）。\n\n- 嵌入法（Embedded Methods）：利用模型內置的機制（如 LASSO 正則化）自動進行特徵篩選。\n\n<!-- track-b-source-math-correction:TB-002 -->\n> **來源公式校正**：原始 PDF 將 Min-Max 公式的分母下標誤植為 `man`；本出題來源依 Min-Max 定義更正為 `max`。\n\nb. 降維技術：主要針對高維度數據，透過線性變換降低特徵空間的維度，同時保留數據的重要訊息。常用方法包括主成分分析（PCA），它透過提取數據的主成分，將冗餘特徵壓縮到低維空間。\n\n####",
+          "mergedTitles": [
+            "（1）數據處理"
+          ]
+        },
+        {
+          "id": "s1c3#2模型訓練",
+          "title": "（2）模型訓練",
+          "level": 4,
+          "page": 47,
+          "anchor": "2模型訓練",
+          "sectionCount": 9,
+          "content": "（2） 模型訓練\n\n模型訓練是機器學習過程的核心階段，其目標是透過學習輸入特徵與輸出結果之間的映射關係，找出最優的模型參數。模型訓練通常涉及損失函數的設置、優化演算法的選擇以及避免過擬合的策略。\n\n#####\n\nA. 損失函數\n\n損失函數（Loss Function）是一種用來衡量模型預測值與實際目標之間差異的函數。透過損失函數的計算，模型可以得知自身的損失（Loss，代表不準確度），損失值越高，表示模型預測結果與實際值的誤差越大，反之則表示模型越準確。因此，損失函數可以視為評估模型好壞的指標。\n\n在模型訓練過程中，系統會不斷計算損失，並透過優化器（Optimizer）使用梯度下降（Gradient Descent）等方法來最小化損失，藉此降低模型的誤差，以達到最佳化的目的。常見的損失函數包括：\n\na. 均方誤差（Mean Squared Error, MSE）：用於迴歸任務，計算預測值與真實值之間平方誤差的平均值。\n\n$$ MSE=\\frac{1}{n}\\sum_{i=1}^{n}(y_{i}-\\hat{y}_{i})^{2} $$\n\nb. 交叉熵損失（Cross-Entropy Loss）：用於分類任務，衡量預測概率分佈與真實分佈之間的差異。\n\n#####\n\nB. 優化演算法\n\n模型的訓練過程透過優化演算法調整參數，以最小化損失函數的值。最常見的優化演算法是梯度下降法及其變種：\n\na. 批次梯度下降（Batch Gradient Descent, BGD）：基於整個數據集計算損失函數的梯度並更新參數。\n\nb. 隨機梯度下降（Stochastic Gradient Descent, SGD）：每次迭代僅使用一個樣本來更新參數，速度較快但收斂不穩定。\n\nc. Adam（Adaptive Moment Estimation）演算法：結合了動量法和 RMSProp，能夠自適應學習率，是目前最廣泛使用的優化方法之一。\n\n#####\n\nC. 過擬合的防範\n\n過擬合是模型在訓練數據上表現優異，但在測試數據上表現不佳的現象。為了避免過擬合，通常採用以下策略：\n\n- Regularization：在損失函數中添加懲罰項，如 L1 和 L2 正則化。\n\n- Early Stopping：當模型在驗證集上的表現開始下降時，停止訓練。\n\nData Augmentation：透過隨機旋轉、翻轉等方式擴展訓練數據集，提升模型的泛化能力。\n\n####"
+        },
+        {
+          "id": "s1c3#3模型評估與優化",
+          "title": "（3）模型評估與優化",
+          "level": 4,
+          "page": 48,
+          "anchor": "3模型評估與優化",
+          "sectionCount": 10,
+          "content": "（3） 模型評估與優化\n\n模型訓練完成後，必須透過評估指標對模型效能進行驗證，並根據結果進一步優化模型。\n\n#####\n\nA. 效能評估指標\n\n不同任務對模型效能的要求不同，常用的評估指標包括：\n\na. 準確率（Accuracy）：衡量模型預測正確的比例，適用於平衡的分類問題。\n\nb. F1 分數（F1 Score）：綜合考慮精確率（Precision）和召回率（Recall），適合處理數據不平衡的問題。\n\nc. 均方誤差（MSE）：適用於迴歸問題，反映預測誤差的大小。\n\n#####\n\nB. 交叉驗證\n\n交叉驗證是一種評估模型穩健性的技術，透過將數據集分割為多個子集，反覆進行訓練與測試，有效降低過擬合風險並提升模型的泛化能力。其中，K 折交叉驗證（K-Fold Cross-Validation）是最常見的方法，將數據集平均分成 K 個子集（折），每次選擇其中一個子集作為測試集，其餘 K-1 個子集作為訓練集，重複 K 次後取平均評估結果，以獲得模型的整體表現。\n\n#####\n\nC. 模型調參\n\n模型優化的最後一步是調整超參數，這一過程稱為「調參」。常見的方法包括：\n\na. 網格搜索（Grid Search）：在預定範圍內逐一嘗試超參數組合。\n\nb. 隨機搜索（Random Search）：隨機選擇超參數進行測試，適合高維度的參數空間。\n\nc. 貝葉斯優化（Bayesian Optimization）：透過構建代理模型，根據歷史結果逐步尋找最優參數。"
         }
       ]
     },
     {
       "id": "s1c4",
       "title": "鑑別式AI與生成式AI概念",
-      "charCount": 8733,
+      "charCount": 8874,
       "sections": [
         {
           "id": "s1c4#intro",
@@ -1447,9 +1492,9 @@
           "id": "s1c4#1鑑別式ai與生成式ai的基本原理",
           "title": "1. 鑑別式 AI 與生成式 AI 的基本原理",
           "level": 3,
-          "page": 55,
+          "page": null,
           "anchor": "1鑑別式ai與生成式ai的基本原理",
-          "recovered": true,
+          "recovered": false,
           "content": "1. 鑑別式 AI 與生成式 AI 的基本原理\n\n####"
         },
         {
@@ -1459,7 +1504,7 @@
           "page": 55,
           "anchor": "1鑑別式ai的原理與應用",
           "recovered": false,
-          "content": "（1） 鑑別式 AI 的原理與應用\n\n鑑別式 AI 是一種透過學習數據特徵與目標標記之間的條件概率 P(y|x)來進行預測的機器學習方法。其核心思想在於區分不同類別之間的差異，從而找到最適合分類或迴歸的邊界。鑑別式 AI 不會建構數據生成的內在機制，而是專注於判斷輸入數據所屬的類別或進行數值預測。這使得其在標記數據充足且任務目標明確的場景下，具有極高的準確性和計算效率。\n\n透過直接建構條件分佈，鑑別式 AI 在分類、迴歸、模式識別等任務中有著重要的應用價值，如醫學影像分類、信用風險評估、語音辨識以及文本分類等領域。這類模型透過嚴謹的數學公式與優化過程，得以廣泛應用於不同領域，並且具有良好的解釋性與泛化能力。常見模型與技術如下：\n\n（1）"
+          "content": "（1） 鑑別式 AI 的原理與應用\n\n鑑別式 AI 是一種透過學習數據特徵與目標標記之間的條件概率 P(y|x)來進行預測的機器學習方法。其核心思想在於區分不同類別之間的差異，從而找到最適合分類或迴歸的邊界。鑑別式 AI 不會建構數據生成的內在機制，而是專注於判斷輸入數據所屬的類別或進行數值預測。這使得其在標記數據充足且任務目標明確的場景下，具有極高的準確性和計算效率。\n\n透過直接建構條件分佈，鑑別式 AI 在分類、迴歸、模式識別等任務中有著重要的應用價值，如醫學影像分類、信用風險評估、語音辨識以及文本分類等領域。這類模型透過嚴謹的數學公式與優化過程，得以廣泛應用於不同領域，並且具有良好的解釋性與泛化能力。常見模型與技術如下：\n\n<!-- track-b-image-semantic:TB-057 -->\n> **圖像語意補充（原始教材圖示）**：流程圖比較鑑別式 AI 與生成式 AI：鑑別式 AI 由資料經邊界判定產生決策；生成式 AI 由提示經輸入與調整、創建及生成產生內容，並以箭頭呈現兩者的整合。\n\n（1）"
         },
         {
           "id": "s1c4#1邏輯迴歸logisticregression是鑑別式ai中最簡單且最基礎的分類模型",
@@ -1809,10 +1854,10 @@
           "id": "s1c4#1鑑別式ai與生成式ai的基本原理",
           "title": "1. 鑑別式 AI 與生成式 AI 的基本原理",
           "level": 3,
-          "page": 55,
+          "page": null,
           "anchor": "1鑑別式ai與生成式ai的基本原理",
           "sectionCount": 27,
-          "content": "1. 鑑別式 AI 與生成式 AI 的基本原理\n\n####\n\n（1） 鑑別式 AI 的原理與應用\n\n鑑別式 AI 是一種透過學習數據特徵與目標標記之間的條件概率 P(y|x)來進行預測的機器學習方法。其核心思想在於區分不同類別之間的差異，從而找到最適合分類或迴歸的邊界。鑑別式 AI 不會建構數據生成的內在機制，而是專注於判斷輸入數據所屬的類別或進行數值預測。這使得其在標記數據充足且任務目標明確的場景下，具有極高的準確性和計算效率。\n\n透過直接建構條件分佈，鑑別式 AI 在分類、迴歸、模式識別等任務中有著重要的應用價值，如醫學影像分類、信用風險評估、語音辨識以及文本分類等領域。這類模型透過嚴謹的數學公式與優化過程，得以廣泛應用於不同領域，並且具有良好的解釋性與泛化能力。常見模型與技術如下：\n\n（1）\n\n邏輯迴歸（Logistic Regression）是鑑別式 AI 中最簡單且最基礎的分類模型之一，用於解決二元分類問題。與傳統的線性迴歸不同，邏輯迴歸透過 sigmoid 函數（也稱為邏輯函數）將線性模型的輸出映射到 0 到 1 之間，作為預測概率，並以此進行分類決策。\n\nA. 原理：邏輯迴歸假設數據與輸出標籤之間存在線性關係，並透過最大似然估計（Maximum Likelihood Estimation, MLE）來學習最優參數。當概率超過預設的閾值（如 0.5）時，模型將數據分配至特定類別。\n\nB. 應用場景：\n\na. 醫療診斷：根據患者的年齡、血壓等健康指標，預測罹患特定疾病的可能性。\n\nb. 市場營銷：分析顧客行為，預測購買轉換率，進而進行個人化推薦。\n\nc. 金融風險評估：根據用戶的信用記錄和行為數據，評估貸款違約風險。\n\n（2）支援向量機（Support Vector Machine, SVM）是一種強大的分類模型，其核心思想在於尋找一個能夠最大化類別間隔的超平面，從而達到最優的分類效果。SVM透過引入核函數，將線性不可分的數據映射到高維特徵空間，進而實現非線性分類。\n\nA. 原理：SVM 的目標是找到最佳的決策邊界（即超平面），並最大化不同類別樣本之間的間隔。當數據線性不可分時，模型使用核函數（如多項式核、高斯核）將數據映射到高維空間，使其在該空間中可分。\n\nB. 應用場景：\n\na. 文本分類：可應用於垃圾郵件檢測、情感分析等自然語言處理任務。\n\nb. 圖像識別：在計算機視覺領域，可用於人臉識別、物件分類等任務。\n\nc. 生物資訊學：支援向量機在基因表達數據分析、蛋白質分類中扮演著重要角色。\n\n（3）\n\n決策樹（Decision Tree）是一種基於樹形結構進行數據分類的模型。其透過逐層劃分數據特徵空間，形成一個分類規則。決策樹的每個節點表示一個特徵條件，每個葉節點表示一個類別標籤或預測值。\n\nA. 原理：決策樹的生成基於遞迴分割原則，利用資訊增益、吉尼係數或均方誤差等標準選擇最佳劃分特徵，從而構建樹形結構。在樹的每個分支處，數據根據特徵值進行劃分，直到滿足終止條件。\n\nB. 應用場景：\n\na. 醫療診斷：根據患者的症狀，逐步排除無關疾病，最終確定診斷結果。\n\nb. 金融風險評估：根據用戶的信用評分、收入等特徵，預測貸款違約風險。\n\nc. 行銷分析：根據顧客購買行為，生成個人化推薦策略。\n\n（4）\n\n隨機森林（Random Forest）是決策樹的集成學習方法，其透過構建多棵決策樹並取其結果的平均值或投票結果，提升模型的準確性與穩定性。隨機森林在訓練過程中引入隨機性，保證每棵樹在不同特徵子集和樣本集上獨立訓練，從而降低過擬合風險。\n\nA. 原理：隨機森林利用 Bootstrap 取樣法隨機抽取樣本，構建多棵獨立的決策樹，並在最終預測階段將所有樹的輸出進行投票或平均，得到最終結果。\n\nB. 應用場景：\n\na. 醫學影像分類：隨機森林在識別腫瘤類型、診斷疾病方面表現穩定。\n\nb. 金融市場分析：用於股票價格預測和投資風險管理。\n\nc. 生態環境監測：根據地理數據分析土壤、植被和氣候的變化。\n\n（5）\n\n神經網路（Neural Networks）是一種模擬生物神經系統的非線性模型，透過多層神經元網路結構學習數據的深層特徵。神經網路擅長處理高維度、非結構化數據，如圖像、語音和文本。\n\nA. 原理：神經網路由輸入層、隱藏層和輸出層組成，透過激勵函數（Activation Function）和反向傳播（Backpropagation）機制，逐步調整權重以最小化損失函數，最終學習出數據間的複雜映射關係。\n\nB. 應用場景：\n\na. 語音辨識：基於神經網路技術的語音助理可識別並理解自然語言。\n\nb. 自動駕駛：神經網路透過處理多模態數據，如影像、雷達等，實現環境感知與決策。\n\nc. 圖像辨識：在醫學領域中，神經網路可識別 MRI 和 CT 影像中的異常病變。\n\n####",
+          "content": "1. 鑑別式 AI 與生成式 AI 的基本原理\n\n####\n\n（1） 鑑別式 AI 的原理與應用\n\n鑑別式 AI 是一種透過學習數據特徵與目標標記之間的條件概率 P(y|x)來進行預測的機器學習方法。其核心思想在於區分不同類別之間的差異，從而找到最適合分類或迴歸的邊界。鑑別式 AI 不會建構數據生成的內在機制，而是專注於判斷輸入數據所屬的類別或進行數值預測。這使得其在標記數據充足且任務目標明確的場景下，具有極高的準確性和計算效率。\n\n透過直接建構條件分佈，鑑別式 AI 在分類、迴歸、模式識別等任務中有著重要的應用價值，如醫學影像分類、信用風險評估、語音辨識以及文本分類等領域。這類模型透過嚴謹的數學公式與優化過程，得以廣泛應用於不同領域，並且具有良好的解釋性與泛化能力。常見模型與技術如下：\n\n<!-- track-b-image-semantic:TB-057 -->\n> **圖像語意補充（原始教材圖示）**：流程圖比較鑑別式 AI 與生成式 AI：鑑別式 AI 由資料經邊界判定產生決策；生成式 AI 由提示經輸入與調整、創建及生成產生內容，並以箭頭呈現兩者的整合。\n\n（1）\n\n邏輯迴歸（Logistic Regression）是鑑別式 AI 中最簡單且最基礎的分類模型之一，用於解決二元分類問題。與傳統的線性迴歸不同，邏輯迴歸透過 sigmoid 函數（也稱為邏輯函數）將線性模型的輸出映射到 0 到 1 之間，作為預測概率，並以此進行分類決策。\n\nA. 原理：邏輯迴歸假設數據與輸出標籤之間存在線性關係，並透過最大似然估計（Maximum Likelihood Estimation, MLE）來學習最優參數。當概率超過預設的閾值（如 0.5）時，模型將數據分配至特定類別。\n\nB. 應用場景：\n\na. 醫療診斷：根據患者的年齡、血壓等健康指標，預測罹患特定疾病的可能性。\n\nb. 市場營銷：分析顧客行為，預測購買轉換率，進而進行個人化推薦。\n\nc. 金融風險評估：根據用戶的信用記錄和行為數據，評估貸款違約風險。\n\n（2）支援向量機（Support Vector Machine, SVM）是一種強大的分類模型，其核心思想在於尋找一個能夠最大化類別間隔的超平面，從而達到最優的分類效果。SVM透過引入核函數，將線性不可分的數據映射到高維特徵空間，進而實現非線性分類。\n\nA. 原理：SVM 的目標是找到最佳的決策邊界（即超平面），並最大化不同類別樣本之間的間隔。當數據線性不可分時，模型使用核函數（如多項式核、高斯核）將數據映射到高維空間，使其在該空間中可分。\n\nB. 應用場景：\n\na. 文本分類：可應用於垃圾郵件檢測、情感分析等自然語言處理任務。\n\nb. 圖像識別：在計算機視覺領域，可用於人臉識別、物件分類等任務。\n\nc. 生物資訊學：支援向量機在基因表達數據分析、蛋白質分類中扮演著重要角色。\n\n（3）\n\n決策樹（Decision Tree）是一種基於樹形結構進行數據分類的模型。其透過逐層劃分數據特徵空間，形成一個分類規則。決策樹的每個節點表示一個特徵條件，每個葉節點表示一個類別標籤或預測值。\n\nA. 原理：決策樹的生成基於遞迴分割原則，利用資訊增益、吉尼係數或均方誤差等標準選擇最佳劃分特徵，從而構建樹形結構。在樹的每個分支處，數據根據特徵值進行劃分，直到滿足終止條件。\n\nB. 應用場景：\n\na. 醫療診斷：根據患者的症狀，逐步排除無關疾病，最終確定診斷結果。\n\nb. 金融風險評估：根據用戶的信用評分、收入等特徵，預測貸款違約風險。\n\nc. 行銷分析：根據顧客購買行為，生成個人化推薦策略。\n\n（4）\n\n隨機森林（Random Forest）是決策樹的集成學習方法，其透過構建多棵決策樹並取其結果的平均值或投票結果，提升模型的準確性與穩定性。隨機森林在訓練過程中引入隨機性，保證每棵樹在不同特徵子集和樣本集上獨立訓練，從而降低過擬合風險。\n\nA. 原理：隨機森林利用 Bootstrap 取樣法隨機抽取樣本，構建多棵獨立的決策樹，並在最終預測階段將所有樹的輸出進行投票或平均，得到最終結果。\n\nB. 應用場景：\n\na. 醫學影像分類：隨機森林在識別腫瘤類型、診斷疾病方面表現穩定。\n\nb. 金融市場分析：用於股票價格預測和投資風險管理。\n\nc. 生態環境監測：根據地理數據分析土壤、植被和氣候的變化。\n\n（5）\n\n神經網路（Neural Networks）是一種模擬生物神經系統的非線性模型，透過多層神經元網路結構學習數據的深層特徵。神經網路擅長處理高維度、非結構化數據，如圖像、語音和文本。\n\nA. 原理：神經網路由輸入層、隱藏層和輸出層組成，透過激勵函數（Activation Function）和反向傳播（Backpropagation）機制，逐步調整權重以最小化損失函數，最終學習出數據間的複雜映射關係。\n\nB. 應用場景：\n\na. 語音辨識：基於神經網路技術的語音助理可識別並理解自然語言。\n\nb. 自動駕駛：神經網路透過處理多模態數據，如影像、雷達等，實現環境感知與決策。\n\nc. 圖像辨識：在醫學領域中，神經網路可識別 MRI 和 CT 影像中的異常病變。\n\n####",
           "mergedTitles": [
             "（1）鑑別式AI 的原理與應用"
           ]

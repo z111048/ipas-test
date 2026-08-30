@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
 """跑完整套驗收。每個重構階段結束時應該全綠才算完成。
 
-    python3 tests/run_all.py
-    python3 tests/run_all.py --skip-browser    # 只跑靜態檢查（沒裝 playwright 時）
+    uv run python tests/run_all.py
+    uv run python tests/run_all.py --skip-browser    # 只跑靜態檢查（沒裝 Chromium 時）
 
-7 項驗收，分兩層：
-  1. npm run build            —— tsc 零錯誤 + vite 產出
-  2. verify_data_alignment    —— 資料對齊 toc_manifest（SSOT），初級與中級各一次
-  3. audit_resources          —— 7 項確定性審核，任一 FAIL 就擋
-  4. 端對端測試               —— 考試流程、章節練習、全路由（需要 playwright）
+完整驗收分兩層：
+  - 靜態與資料品質：路徑可攜性、pipeline 輸出安全、前端 build、資料對齊與資源審核
+  - 端對端：考試流程、章節練習與全路由（需要 playwright）
 
-前兩道是 CLAUDE.md 不變量 5 訂的；後兩道是 2026-08-29 補的，理由見 tests/README.md。
+必要閘門由 CLAUDE.md 不變量 5 定義；各測試的設計理由見 tests/README.md。
 """
 
 from __future__ import annotations
@@ -47,12 +45,24 @@ def main() -> int:
     results = []
 
     print('\n=== 靜態 ===')
+    results.append(run('test_resource_catalog',
+                       [sys.executable, 'tests/test_resource_catalog.py']))
+    results.append(run('test_repo_portability',
+                       [sys.executable, 'tests/test_repo_portability.py']))
+    results.append(run('test_pipeline_output_safety',
+                       [sys.executable, 'tests/test_pipeline_output_safety.py']))
+    results.append(run('test_exam_ocr_repairs',
+                       [sys.executable, 'tests/test_exam_ocr_repairs.py']))
+    results.append(run('test_track_a_ocr_repairs',
+                       [sys.executable, 'tests/test_track_a_ocr_repairs.py']))
+    results.append(run('test_track_b_ocr_fixes',
+                       [sys.executable, 'tests/test_track_b_ocr_fixes.py']))
     results.append(run('npm run build（tsc + vite）',
                        ['npm', 'run', 'build'], cwd=BASE / 'frontend'))
     for level in ('初級', '中級'):
         results.append(run(f'verify_data_alignment --level {level}',
                            [sys.executable, 'scripts/verify_data_alignment.py', '--level', level]))
-    results.append(run('audit_resources（7 項）',
+    results.append(run('audit_resources（8 項）',
                        [sys.executable, 'scripts/audit_resources.py']))
 
     if not args.skip_browser:

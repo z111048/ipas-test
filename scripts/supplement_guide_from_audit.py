@@ -34,7 +34,7 @@ import re
 import shutil
 from pathlib import Path
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 
 # mid-s1 → (subject_num=1, guide_key='guide1')
 SUBJECT_MAP: dict[str, tuple[int, str]] = {

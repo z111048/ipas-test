@@ -13,7 +13,7 @@ from question_dedupe import find_similar_question_pairs, question_label
 from run_codex_question_batch_generation import validate_batch
 from validate_codex_chapter_mock_output import validate_file
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 LEVEL = '中級'
 SUBJECT_NUMBER = {'mid-s1': 1, 'mid-s2': 2, 'mid-s3': 3}
 DEFAULT_BATCH_DIR = BASE / 'data' / LEVEL / 'pipeline' / 'codex_question_batch_prompts'

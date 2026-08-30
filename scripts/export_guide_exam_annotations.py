@@ -9,67 +9,13 @@ import re
 from pathlib import Path
 from typing import Any
 
+from resource_catalog import exam_entries, level_entries
+
 
 ROOT = Path(__file__).resolve().parents[1]
 REFERENCE_DIR = ROOT / "frontend/src/generated/examReferenceAnswers"
 GUIDE_CONTENT_DIR = ROOT / "frontend/src/generated/guideContent"
 DEFAULT_OUTPUT = ROOT / "frontend/src/generated/guideExamAnnotations"
-
-
-OFFICIAL_EXAMS_BY_LEVEL: dict[str, dict[str, dict[str, str]]] = {
-    "初級": {
-        "jr_1141_s1": {
-            "question_file": "mock_jr_1141_s1.json",
-            "label": "科目一 公告試題（114年第四梯次）",
-        },
-        "jr_1141_s2": {
-            "question_file": "mock_jr_1141_s2.json",
-            "label": "科目二 公告試題（114年第四梯次）",
-        },
-        "jr_1151_s1": {
-            "question_file": "mock_jr_1151_s1.json",
-            "label": "科目一 公告試題（115年第一次）",
-        },
-        "jr_1151_s2": {
-            "question_file": "mock_jr_1151_s2.json",
-            "label": "科目二 公告試題（115年第一次）",
-        },
-        "jr_1152_s1": {
-            "question_file": "mock_jr_1152_s1.json",
-            "label": "科目一 公告試題（115年第二次）",
-        },
-        "jr_1152_s2": {
-            "question_file": "mock_jr_1152_s2.json",
-            "label": "科目二 公告試題（115年第二次）",
-        },
-    },
-    "中級": {
-        "mid_1141_s1": {
-            "question_file": "mock_mid_1141_s1.json",
-            "label": "科目一 公告試題（114年第二梯次）",
-        },
-        "mid_1141_s2": {
-            "question_file": "mock_mid_1141_s2.json",
-            "label": "科目二 公告試題（114年第二梯次）",
-        },
-        "mid_1141_s3": {
-            "question_file": "mock_mid_1141_s3.json",
-            "label": "科目三 公告試題（114年第二梯次）",
-        },
-        "mid_1151_s1": {
-            "question_file": "mock_mid_1151_s1.json",
-            "label": "科目一 公告試題（115年第一次）",
-        },
-        "mid_1151_s2": {
-            "question_file": "mock_mid_1151_s2.json",
-            "label": "科目二 公告試題（115年第一次）",
-        },
-        "mid_1151_s3": {
-            "question_file": "mock_mid_1151_s3.json",
-            "label": "科目三 公告試題（115年第一次）",
-        },
-    },
-}
 
 
 def load_json(path: Path) -> Any:
@@ -202,15 +148,19 @@ def export_annotations(output_path: Path, fail_on_missing: bool = True) -> dict[
     question_ids: set[str] = set()
     exam_count = 0
 
-    for level, exams in OFFICIAL_EXAMS_BY_LEVEL.items():
-        for exam_key, config in exams.items():
+    for level_config in level_entries():
+        level = level_config["dataLevel"]
+        for config in exam_entries(level=level, kind="official"):
+            exam_key = config["routeKey"]
             reference_path = REFERENCE_DIR / f"{exam_key}.json"
             if not reference_path.exists():
                 continue
 
             exam_count += 1
             references = load_json(reference_path)
-            questions_by_id, questions_by_number, exam_title = question_lookup(level, config["question_file"])
+            questions_by_id, questions_by_number, exam_title = question_lookup(
+                level, config["questionFile"]
+            )
 
             for reference_question_id, reference in sorted(references.items()):
                 number = question_number(str(reference_question_id))

@@ -17,7 +17,7 @@ from pathlib import Path
 
 import fitz  # PyMuPDF
 
-BASE = Path('/home/james/projects/ipas-test')
+BASE = Path(__file__).resolve().parents[1]
 
 
 def load_manifest(level: str) -> dict:

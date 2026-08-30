@@ -34,6 +34,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from resource_catalog import exam_entries, level_entry
+
 BASE = Path(__file__).resolve().parents[1]
 GENERATED = BASE / 'frontend' / 'src' / 'generated'
 TOPICS_PATH = BASE / 'data' / 'topics' / 'topics.json'
@@ -48,8 +50,11 @@ GLOSSARY_FILES = {'初級': GENERATED / 'primaryGlossary.json',
 # → 題庫檔。114 年第二梯次那三份在標註裡沿用舊題號（exam1_q7），與題庫檔的
 # mid_1141_s1_q7 對不上，所以下面一律用「卷別 ＋ 題號數字」配對，不比字串。
 PAPER_FILES = {
-    'sample': ('初級', 'sample_exam.json'),
-    'midSample': ('中級', 'sample_exam.json'),
+    exam['routeKey']: (
+        level_entry(level_id=exam['levelId'])['dataLevel'],
+        exam['questionFile'],
+    )
+    for exam in exam_entries()
 }
 QUESTION_NUMBER = re.compile(r'_q(\d+)$')
 # 章節 id 藏在題號裡：mid-s1c4gq001 → 章節 mid-s1c4、科目 mid-s1
@@ -77,10 +82,7 @@ def correct_labels(path: Path) -> dict[str, list[str]]:
 
 
 def paper_file(paper: str) -> tuple[str, str] | None:
-    if paper in PAPER_FILES:
-        return PAPER_FILES[paper]
-    level = '中級' if paper.startswith('mid') else '初級'
-    return (level, f'mock_{paper}.json')
+    return PAPER_FILES.get(paper)
 
 
 def build_official_index() -> dict[str, dict[str, Any]]:
