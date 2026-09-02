@@ -1,4 +1,3 @@
-<!-- 2026-09-03: 新增「離線匯出」小節（export_notebooklm_pack / export_guide_epub）。 -->
 <!-- 2026-08-31: 內容指紋升為來源與實際圖檔 bytes，補 targeted-rerun／完整發布防線。 -->
 <!-- 2026-08-30: 從 pipeline-reference.md §7 忠實搬入逐支腳本目錄；補考題內容指紋、reference-answer provenance 與 direct-view gate 契約。 -->
 # Pipeline 腳本目錄（原 §7 companion）
@@ -86,27 +85,6 @@
 - `generate_images.py` — Codex 圖像 API 逐 unit 生成資訊圖 → WebP → `frontend/public/images/`。
 - `run_codex_exam_reference_answers.py` — reference-answer producer；輸出保存題目、情境、圖片與來源頁 v2 provenance，targeted rerun 先擋重編號 carrier 覆寫；canonical qid 契約見 §4／`07-question-generation.md` §4a。
 - `build_codex_*_prompts.py` / `run_codex_*_generation.py` / `merge_codex_mock_exam_outputs.py` / `validate_codex_*_output.py` / `export_codex_mock_exam_questions.py` — Codex 批次出題家族：build prompts → run → validate → merge → export。
-
-**離線匯出（`exports/` 是產物，gitignored，隨時可重建）**
-- `export_notebooklm_pack.py` — 講義正文＋官方試題與參考詳解＋章節練習＋學習指引練習＋名詞解釋＋考點分布
-  → `exports/notebooklm/{level}/*.md`（每級 10 檔）。`--level 初級|中級|all`（預設 all）。
-- `export_guide_epub.py` — 只出 5 份學習指引正文 → `exports/epub/*.epub`（EPUB 3，內嵌 17 張原書插圖）。
-  共用 `export_notebooklm_pack.py` 的 block 渲染與勘誤函式，改一邊要確認另一邊。
-
-  兩支共通、也是最容易踩的三件事：
-  1. **一律從 `blocks[]` 重建，不要用 `.content`**。`.content` 的標題被降級成裸編號（「3.1」「1.」），
-     因為原 PDF 那層是圖片；完整標題只在 blocks。
-  2. **但勘誤只套在 `.content`，沒有進 blocks**，所以兩支都自己再跑一次
-     `errata_corrections.json` 的空白容錯字串替換，並把實際套用筆數寫進輸出。
-     產物裡不要寫「已套用官方勘誤」這種宣稱，除非能報出筆數。
-  3. **只取 leaf 節點**（`guideOutlines` 的 `nodesById[id].children` 為空），否則 `pdf-cN` 父節點
-     會把整章內容再重複一次；父節點獨有的章導言另用 `parent_only_blocks()` 撈回來。
-
-  > 教訓 2026-09-03：`guideImages.json` 是 AI 產的「概念圖卡」，不是原書插圖。
-  > 根因：欄位名稱（title / headingPath / pageNumbers）看起來像原書圖，第一版匯出照著寫了
-  > 637 行「原教材插圖…請看原始 PDF 第 N 頁」，而那些頁根本沒有那張圖。
-  > 規則：要原書插圖只認 `blocks[].type == "source_image"`（全 5 本共 17 張，檔案在
-  > `frontend/public/pdf-assets/`）；`guideImages` 只能用在 `/visuals` 概念圖卡。
 
 **Build / 發佈**：`build_web.py` 先 audit 再 Vite build → `docs/`；`publish_assets.py` 可選上傳 R2（預設 copy，`--prune` 才刪除）；`verify_r2_assets.py` 全量 HEAD，正式切換不可用 `--sample`。
 
