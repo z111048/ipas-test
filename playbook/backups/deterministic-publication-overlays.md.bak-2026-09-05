@@ -1,4 +1,3 @@
-<!-- 2026-09-05: 補「overlay 分層」小節——公式與圖說在 overlay 階段尚未掛上，放錯層會被靜默覆蓋；並記錄手工公式清單自身是缺陷來源、簽章 alt 的職責界線。 -->
 <!-- 2026-08-30: 從 pipeline-reference.md §10 忠實搬入 deterministic publication overlay 詳節；主檔保留 fail-closed 摘要與路由。 -->
 # Deterministic Publication Overlays（原 §10 companion）
 
@@ -131,38 +130,3 @@ formula multiset、目標 attachment 與 `formulaOnly`；加上 Type-I／Recall�
 `content` 雖不是 GuidePage 的主要渲染來源（64 章都優先走 `blocks`），仍由概念圖卡與 export
 流程讀取，所以 overlay 會同步兩者；本機 reading snapshot 存在時也會驗它。這套數字只代表已審 inventory closure；
 新增／換版 PDF 仍須看原始影像，確認後把新缺陷加入 registry，不能把 gate 外推成全頁正確。
-
-
-## Overlay 分層：哪些東西在 `apply_publication_block_overlays` 時**還不存在**
-
-`export_guide_outline_data.py` 的順序是：
-
-```
-build_nodes → apply_publication_block_overlays(blocks)     # ← overlay 在這
-            → inject_semantic_source_images(blocks)        # ← 圖說（alt）在這之後才附加
-            → enrich_guide_blocks(...)                     # ← 公式（formulas[]）在這之後才附加
-```
-
-> 教訓 2026-09-05：想在 publication overlay 裡改公式 LaTeX 或插圖 alt，改動會被靜默覆蓋。
-> 根因：`formulas[]` 來自 `ocr_formulas/`、`alt` 來自 `page_clean` 經
-> `inject_semantic_source_images` 重建，兩者都在 overlay **之後**才寫入 blocks。
-> 規則：改公式去 `track_a_ocr_repairs.py` 的手工公式清單；改圖說用該檔的
-> `PUBLICATION_VISUAL_ALTS`，並在 `inject_semantic_source_images` 的簽章驗證**之後**套用。
-> overlay 只適合改在那個時點已經存在的東西（heading、table rows）。
-
-> 教訓 2026-09-05：`track_a_ocr_repairs.py` 的手工公式清單**自己就可能是缺陷來源**。
-> 原書 5-40 AdaGrad 的 ε 被寫成根號外（`\sqrt{G_t}+\epsilon`），而
-> `ocr_formulas/guide3/page_173.json`、`audit_cache` 同頁與頁面影像**三者都是正確的**
-> `\sqrt{G_t+\epsilon}`——是這份清單覆蓋掉了正確的 OCR 結果。
-> 規則：公式對不上時，先比對 `ocr_formulas/` 與 `audit_cache/` 的原始值再下判斷，
-> 不要預設手工清單是對的。
-
-> 教訓 2026-09-05：`track_a_ocr_expected_signatures.json` 裡 `visuals[].alt` 守的是
-> **來源忠實度**（`page_clean` 的 alt 有沒有無聲漂移），**不是對外的發佈契約**。
-> 要改對外圖說就加 publication 覆寫層、套在簽章驗證之後，並讓 Track A 閘門讀同一份
-> 覆寫表（`PUBLICATION_VISUAL_ALTS`），不要在 JSON 再複製一份而生出兩個權威。
-
-> 教訓 2026-09-05：插圖圖說的取代文字**不要讓模型生成**，用原書自己的用字——
-> 每張圖正上方的條列／標題就是它的名字（5-34 頁的圖上方就寫著
-> 「相關係數矩陣（Correlation Matrix）」）。抽取階段留下的 `*原圖` 是通用佔位字串：
-> mid-s2c9 的十張圖曾共用「資料處理流程原圖」，實際是十種完全不同的統計圖。

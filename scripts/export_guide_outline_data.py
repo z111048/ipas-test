@@ -22,6 +22,7 @@ from track_a_ocr_repairs import (
     OCR_VISUAL_FALLBACKS,
     SEMANTIC_VISUAL_PAGES,
     SIGNATURE_REGISTRY_PATH,
+    PUBLICATION_VISUAL_ALTS,
     VISUAL_INVENTORY_BY_PAGE,
     apply_formula_repairs,
     apply_markdown_repairs,
@@ -436,7 +437,8 @@ def inject_semantic_source_images(
             'type': 'source_image',
             'depth': 3,
             'src': item.get('src'),
-            'alt': item.get('alt'),
+            # 簽章驗完來源忠實度之後，才套 publication 層的圖說覆寫
+            'alt': PUBLICATION_VISUAL_ALTS.get(inventory['id'], item.get('alt')),
             'pageIndex': page_index,
             'sourcePageIndexes': [page_index],
             'bbox': item.get('bbox'),

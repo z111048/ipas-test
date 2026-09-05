@@ -210,7 +210,10 @@ FORMULA_PAGE_REPAIRS: dict[tuple[str, str, int], list[dict[str, Any]]] = {
     ],
     ('中級', 'guide3', 173): [
         {'match': '𝑣𝑡+1 =', 'latex': [r'v_{t+1}=\gamma v_t+\eta\nabla_\theta L(\theta_t)', r'\theta_{t+1}=\theta_t-v_{t+1}'], 'only': False},
-        {'match': '公式為：𝐺𝑡=', 'latex': [r'G_t=G_{t-1}+(\nabla_\theta L(\theta_t))^2', r'\theta_{t+1}=\theta_t-\frac{\eta}{\sqrt{G_t}+\epsilon}\nabla_\theta L(\theta_t)'], 'only': False},
+        # 2026-09-05：原本寫成 \sqrt{G_t}+\epsilon（ε 在根號外），與原書 5-40 頁影像、
+        # ocr_formulas/guide3/page_173.json 及 audit_cache 同頁的轉寫都不符——三個來源
+        # 都是 \sqrt{G_t+\epsilon}。這份人工清單覆蓋了正確的 OCR 結果，是本清單自身的錯字。
+        {'match': '公式為：𝐺𝑡=', 'latex': [r'G_t=G_{t-1}+(\nabla_\theta L(\theta_t))^2', r'\theta_{t+1}=\theta_t-\frac{\eta}{\sqrt{G_t+\epsilon}}\nabla_\theta L(\theta_t)'], 'only': False},
     ],
     ('中級', 'guide3', 174): [
         {'match': '𝑚𝑡= 𝛽1', 'latex': [r'm_t=\beta_1m_{t-1}+(1-\beta_1)\nabla_\theta L(\theta_t)'], 'only': True},
@@ -425,6 +428,35 @@ OFF_BY_ONE_REPAIRS: list[dict[str, Any]] = [
     {'id': 'TA-151', 'level': '中級', 'key': 'guide3', 'node': 'mid-s3c7', 'block': 'block-35', 'page': 137},
     {'id': 'TA-152', 'level': '中級', 'key': 'guide3', 'node': 'mid-s3c12', 'block': 'block-45', 'page': 208},
 ]
+
+
+# ── 圖說覆寫（2026-09-05）──────────────────────────────────────────────────
+# 抽取階段留下的 `*原圖` 是通用佔位字串，不是原書的圖說。最嚴重的是 TA-157～TA-166：
+# 十張圖共用「資料處理流程原圖」，實際卻是十種完全不同的統計圖。
+#
+# 取代文字來自**原書自己的用字**——每張圖正上方的條列／標題（例如 5-34 頁的
+# 「相關係數矩陣（Correlation Matrix）」）。以三個視覺模型逐張複驗，
+# 並人工開圖確認 TA-161（相關係數矩陣）與 TA-169（ROC 曲線）。
+#
+# 這是 publication 層的覆寫，不動 page_clean 來源，也不動 expected_signatures
+# 的 alt——那組簽章的職責是擋住**來源**的無聲漂移，兩者不可混為一談。
+PUBLICATION_VISUAL_ALTS: dict[str, str] = {
+    'TA-155': '偏度（Skewness）',
+    'TA-156': '峰度（Kurtosis）',
+    'TA-157': '直方圖（Histogram）',
+    'TA-158': '箱型圖（Boxplot）',
+    'TA-159': 'KDE 曲線（Kernel Density Estimation）',
+    'TA-160': '散佈圖（Scatter Plot）',
+    'TA-161': '相關係數矩陣（Correlation Matrix）',
+    'TA-162': '熱力圖（Heatmap）',
+    'TA-163': '長條圖（Bar Chart）',
+    'TA-164': '堆疊長條圖（Stacked Bar Chart）',
+    'TA-165': '圓餅圖（Pie Chart）',
+    'TA-166': '折線圖（Line Chart）',
+    'TA-167': '高效梯度提升方法（如 XGBoost、LightGBM）',
+    'TA-168': '偏差-變異的權衡（Bias-Variance Tradeoff）',
+    'TA-169': 'ROC 曲線與 AUC',
+}
 
 
 VISUAL_INVENTORY_BY_PAGE: dict[tuple[str, str, int], dict[str, str]] = {
@@ -1305,7 +1337,8 @@ def audit_generated_track_a(
             and len(src_occurrences) == 1
             and matches[0] is src_occurrences[0]
             and matches[0].get('src') == expected.get('src')
-            and matches[0].get('alt') == expected.get('alt')
+            # 輸出的圖說可能被 publication 層覆寫；簽章的 alt 仍守著來源忠實度
+            and matches[0].get('alt') == PUBLICATION_VISUAL_ALTS.get(item_id, expected.get('alt'))
             and matches[0].get('sourcePageIndexes') == [page_index]
             and asset.is_file()
             and _sha256_file(asset) == expected.get('assetSha256')

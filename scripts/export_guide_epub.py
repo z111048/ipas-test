@@ -15,13 +15,16 @@
 from __future__ import annotations
 
 import argparse
+import difflib
 import hashlib
 import html
+import re
 import zipfile
 from pathlib import Path
 
 from export_notebooklm_pack import (
     GENERATED,
+    PLACEHOLDER_HEAD,
     LEVELS,
     REPO,
     apply_errata,
@@ -78,9 +81,52 @@ FRONT_NOTE = (
     "任何與官方 PDF 不一致之處，以官方 PDF 為準。"
 )
 
+SCOPE_NOTE = (
+    "【收錄範圍】本書只收學習指引的正文。原書各章章末的模擬考題與解析共 {exercises} 題"
+    "未收錄，需要練習題請看原始 PDF。"
+)
+
+ERRATA_NOTE = (
+    "【官方勘誤】本書適用官方勘誤 {total} 筆：{applied} 筆由本工具套用、"
+    "{already} 筆內文已是修正後的內容、{unknown} 筆無法確認"
+    "（勘誤原文與影像辨識還原的文字有出入，或該筆勘誤指向未收錄的頁面）。"
+    "無法確認的部分請以官方勘誤表為準。"
+)
+
 
 def esc(text: str) -> str:
     return html.escape(text or "", quote=False)
+
+
+def errata_state(original: str, corrected: str, flat: str) -> str:
+    """內文目前是勘誤前還是勘誤後的版本？回傳 corrected / original / unknown。
+
+    不能用整段字串的相似度判斷：多數勘誤是詞級小修（反饋→回饋、支持→支援），
+    original 與 corrected 有九成以上字元相同，整段比對兩邊都會「命中」。
+    正確做法是只看**兩者相異的片段**，各自加上前後文再去內文裡找。
+    """
+    o, c = squash(original), squash(corrected)
+    if not o or not c:
+        return "unknown"
+    ctx = 6
+    votes = {"corrected": 0, "original": 0}
+    for tag, i1, i2, j1, j2 in difflib.SequenceMatcher(None, o, c).get_opcodes():
+        if tag == "equal":
+            continue
+        o_probe = o[max(0, i1 - ctx):i2 + ctx]
+        c_probe = c[max(0, j1 - ctx):j2 + ctx]
+        if len(o_probe) < 6 or len(c_probe) < 6:
+            continue
+        in_o, in_c = o_probe in flat, c_probe in flat
+        if in_c and not in_o:
+            votes["corrected"] += 1
+        elif in_o and not in_c:
+            votes["original"] += 1
+    if votes["corrected"] and not votes["original"]:
+        return "corrected"
+    if votes["original"] and not votes["corrected"]:
+        return "original"
+    return "unknown"
 
 
 def items_to_xhtml(items, images: dict[str, str]) -> list[str]:
@@ -99,7 +145,9 @@ def items_to_xhtml(items, images: dict[str, str]) -> list[str]:
         text = item["text"]
         if kind == "heading":
             close_list()
-            level = min(max(item["level"], 3), 6)
+            # 用 depth 而非 level：小節標題已是 h2，來源 depth 3 就該是 h3。
+            # level 是給 Markdown 版用的（那邊沒有 h2 這一層），沿用會讓全書從 h2 直接跳 h4。
+            level = min(max(item.get("depth") or 3, 3), 6)
             out.append(f'<h{level}>{esc(text)}</h{level}>')
             continue
         if kind == "page":
@@ -149,19 +197,33 @@ def inline(text: str) -> str:
     return "<br />".join(rendered)
 
 
+SPLIT_CELLS = re.compile(r"(?<!\\)\|")   # 跳脫過的 \| 是儲存格內容，不是欄位分隔
+
+
 def markdown_table_to_html(text: str) -> str:
     rows = [line for line in text.split("\n") if line.strip().startswith("|")]
     if len(rows) < 2:
         return f"<p>{esc(text)}</p>"
 
     def cells(line: str) -> list[str]:
-        return [c.strip().replace("\\|", "|") for c in line.strip().strip("|").split("|")]
+        # 先依「未跳脫的 |」切欄，再還原跳脫；順序顛倒的話書名裡的
+        # 「圖解 AI | 機器學習…」會被切成兩欄並留下反斜線
+        inner = line.strip()
+        inner = re.sub(r"^\|", "", inner)
+        inner = re.sub(r"(?<!\\)\|$", "", inner)
+        return [c.strip().replace("\\|", "|") for c in SPLIT_CELLS.split(inner)]
 
     head = cells(rows[0])
     body = [cells(line) for line in rows[2:]]
-    out = ["<table>", "<thead><tr>"]
-    out.extend(f"<th>{esc(c)}</th>" for c in head)
-    out.append("</tr></thead><tbody>")
+    # render_table 判定這張表沒有真表頭時會補「欄1/欄2…」佔位——不要輸出 <thead>，
+    # 否則等於憑空捏造一個表頭給讀者
+    fake = all(re.fullmatch(rf"{PLACEHOLDER_HEAD}\d+", c or "") for c in head) if head else False
+    out = ["<table>"]
+    if not fake:
+        out.append("<thead><tr>")
+        out.extend(f"<th>{esc(c)}</th>" for c in head)
+        out.append("</tr></thead>")
+    out.append("<tbody>")
     for row in body:
         out.append("<tr>" + "".join(f"<td>{esc(c)}</td>" for c in row) + "</tr>")
     out.append("</tbody></table>")
@@ -190,6 +252,63 @@ def collect_images(node: dict) -> list[tuple[str, Path]]:
     return found
 
 
+FRONT_MATTER_NOTE = (
+    "本章是原書正文之前的「序」與「職能基準」。這兩頁不在學習指引的章節結構內，"
+    "文字改由另一條頁面辨識軌還原，未經與正文相同的校對流程，"
+    "表格與細節請以官方 PDF 為準。"
+)
+
+TOC_LEADER = re.compile(r"\.{4,}")          # 目錄頁的點線
+
+
+def _sanitize_track_b_html(fragment: str) -> str:
+    """Track B 的 markdown 夾帶原始 HTML 表格，屬性帶單引號且有裸 <br>——先清成合法 XHTML。"""
+    out = re.sub(r"<(table|tr|td|th)\b[^>]*>", r"<\1>", fragment)
+    out = re.sub(r"<br\s*/?>", "<br />", out)
+    out = re.sub(r"<(?!/?(?:table|tr|td|th|br\s*/)\b)[^>]*>", "", out)
+    return out
+
+
+def render_front_matter(level: str, guide_key: str, body_start_page: int) -> str:
+    """把正文之前的「序」「職能基準」補成一章。
+
+    這兩頁從來沒進過 Track A 的章節樹（章節樹從第一章才開始），
+    所以五本 EPUB 一直缺這段——連帶讓指向「職能基準」頁的官方勘誤永遠無從套用。
+    封面與目錄不收：封面沒有內文，目錄由 EPUB 自己的 nav 取代。
+    """
+    cache = REPO / "data" / level / "pages_cache" / guide_key
+    if not cache.is_dir():
+        return ""
+    parts: list[str] = []
+    for page_index in range(0, max(0, body_start_page - 1)):
+        path = cache / f"page_{page_index:03d}.json"
+        if not path.is_file():
+            continue
+        markdown = str(load_json(path).get("markdown") or "").strip()
+        if len(re.findall(r"[一-鿿]", markdown)) < 60:
+            continue                      # 封面之類幾乎沒有內文的頁
+        if len(TOC_LEADER.findall(markdown)) >= 3:
+            continue                      # 目錄頁
+        for chunk in re.split(r"\n{2,}", markdown):
+            chunk = chunk.strip()
+            if not chunk:
+                continue
+            heading = re.match(r"^(#{1,6})\s+(.*)$", chunk)
+            if heading:
+                # Track B 的最上層是 ###，而本章的 h1 是「書前資料」——
+                # 直接照搬會變成 h1 → h3 的跳階
+                level_tag = min(max(len(heading.group(1)) - 1, 2), 6)
+                parts.append(f"<h{level_tag}>{esc(clean_text(heading.group(2)))}</h{level_tag}>")
+            elif chunk.lstrip().startswith("<table"):
+                parts.append(_sanitize_track_b_html(chunk))
+            else:
+                parts.append(f"<p>{esc(clean_text(chunk))}</p>")
+    if not parts:
+        return ""
+    return (f"<h1>書前資料</h1>\n<p class=\"note\">{esc(FRONT_MATTER_NOTE)}</p>\n"
+            + "\n".join(parts))
+
+
 def build_book(level: str, subject_id: str, outlines: dict, hierarchy: dict,
                errata, counter: Counter) -> tuple[str, bytes, dict]:
     guide = outlines["guides"][subject_id]
@@ -200,10 +319,15 @@ def build_book(level: str, subject_id: str, outlines: dict, hierarchy: dict,
     book_title = f"iPAS AI應用規劃師（{level}）學習指引・{subject_title}"
 
     loaded = {}
+    exercises = 0
     for node_id in guide.get("flat") or []:
         path = content_dir / f"{node_id}.json"
         if path.exists():
             loaded[node_id] = load_json(path)
+            if not (nodes.get(node_id) or {}).get("children"):
+                # 章末練習題被 block_items 刻意排除，書前說明要向讀者交代題數
+                exercises += sum(1 for b in (loaded[node_id].get("blocks") or [])
+                                 if b.get("type") == "question")
 
     leaf_prints, corpus = leaf_index(loaded, nodes)
 
@@ -269,13 +393,27 @@ def build_book(level: str, subject_id: str, outlines: dict, hierarchy: dict,
 
     flush()
 
-    payload = write_epub(book_title, level, subject_title, documents, assets, errata, counter)
+    body_start = min(
+        (page.get("page") for node in loaded.values()
+         for page in (node.get("sourcePages") or [])
+         if isinstance(page, dict) and page.get("page")),
+        default=5,
+    )
+    front_matter = render_front_matter(level, (guide.get("key") or "").split("-")[-1], body_start)
+    if front_matter:
+        documents.insert(0, ("書前資料", front_matter, []))
+
+    payload = write_epub(book_title, level, subject_title, documents, assets, errata,
+                         counter, exercises=exercises,
+                         guide_key=(guide.get("key") or "").split("-")[-1])
     filename = f"{level}-{subject_title.replace('：', '-').replace('/', '／')}.epub"
-    return filename, payload, {"chapters": len(documents), "images": len(assets)}
+    return filename, payload, {"chapters": len(documents), "images": len(assets),
+                               "exercises": exercises}
 
 
 def write_epub(title: str, level: str, subject_title: str,
-               documents, assets: dict[str, Path], errata, counter: Counter) -> bytes:
+               documents, assets: dict[str, Path], errata, counter: Counter,
+               exercises: int = 0, guide_key: str = "") -> bytes:
     uid = "urn:uuid:" + hashlib.sha1(title.encode("utf-8")).hexdigest()[:32]
     files: dict[str, bytes] = {}
 
@@ -287,10 +425,37 @@ def write_epub(title: str, level: str, subject_title: str,
     ).encode("utf-8")
     files["OEBPS/style.css"] = STYLESHEET.encode("utf-8")
 
-    front = (
-        f"<h1>{esc(title)}</h1>\n"
-        f'<p class="note">{esc(FRONT_NOTE)}</p>\n'
-    )
+    # 勘誤要先套用完才知道實際命中幾處——書前說明要報這個數字，
+    # 不能像以前那樣只寫「已套用官方勘誤」卻拿不出筆數（實測 28 筆只中 4 筆）
+    book_counter: Counter = Counter()
+    # 命中筆數要在替換前用 pattern 逐條數——counter 的 key 是「key + page_label」，
+    # 同一頁有兩筆勘誤時會併成一個 key，直接數 key 會少算
+    # 只算**本書**適用的勘誤：errata 是整個等級的，直接用 len() 會把別本的也算進來
+    mine = [r for r in errata if not guide_key or (r[2].get("key") or "") == guide_key]
+    raw_all = "\n".join(c for _, c, _ in documents)
+    flat = squash(raw_all)
+    applied = already = unknown = 0
+    for pattern, corrected, entry in mine:
+        if pattern.search(raw_all):
+            applied += 1                       # 這一輪由本工具替換
+            continue
+        state = errata_state(entry.get("original", ""), corrected, flat)
+        if state == "corrected":
+            already += 1                       # 上游（Track A／overlay）早就修好了
+        else:
+            unknown += 1                       # 仍是原文，或兩者都比對不到
+    unmatched = unknown
+    documents = [(t, apply_errata(c, errata, book_counter), a) for t, c, a in documents]
+    counter.update(book_counter)
+
+    notes = [FRONT_NOTE]
+    if exercises:
+        notes.append(SCOPE_NOTE.format(exercises=exercises))
+    if mine:
+        notes.append(ERRATA_NOTE.format(total=len(mine), applied=applied,
+                                        already=already, unknown=unknown))
+    front = f"<h1>{esc(title)}</h1>\n" + "\n".join(
+        f'<p class="note">{esc(n)}</p>' for n in notes) + "\n"
     documents = [("書前說明", front, [])] + list(documents)
 
     spine, manifest, nav_items = [], [], []
@@ -302,7 +467,7 @@ def write_epub(title: str, level: str, subject_title: str,
             '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-TW" lang="zh-TW">\n'
             f"<head><meta charset=\"utf-8\"/><title>{esc(chapter_title)}</title>"
             '<link rel="stylesheet" type="text/css" href="../style.css"/></head>\n'
-            f"<body>\n{apply_errata(content, errata, counter)}\n</body>\n</html>\n"
+            f"<body>\n{content}\n</body>\n</html>\n"
         )
         files[f"OEBPS/{name}"] = page.encode("utf-8")
         item_id = f"ch{index:02d}"
@@ -423,7 +588,8 @@ def main() -> None:
             (out_dir / filename).write_bytes(payload)
             size_mb = len(payload) / 1024 / 1024
             print(f"  {size_mb:6.2f} MB  {filename}"
-                  f"（{stats['chapters']} 章、{stats['images']} 張插圖）")
+                  f"（{stats['chapters']} 章、{stats['images']} 張插圖、"
+                  f"排除 {stats['exercises']} 題章末練習）")
             lines.append(f"- `{filename}`（{stats['chapters']} 章、內嵌 {stats['images']} 張插圖）")
         print(f"{level}：官方勘誤套用 {sum(counter.values())} 處")
 

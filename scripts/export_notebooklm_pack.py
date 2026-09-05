@@ -256,6 +256,44 @@ def block_body(block: dict) -> str:
     return "\n\n".join(([text] if text else []) + formulas)
 
 
+PLACEHOLDER_HEAD = "欄"   # 佔位表頭；EPUB 端據此判斷「這張表沒有真表頭」
+
+
+def looks_like_header(row: list[str], nxt: list[str] | None) -> bool:
+    """rows[0] 真的是表頭嗎？
+
+    來源表格常常根本沒有表頭列——第一列可能是圖說、跨頁續接內容，
+    或被 Track A 攤平成空白。盲目拿 rows[0] 當表頭會**憑空捏造一個表頭**，
+    並把真正的第一筆資料吃掉。2026-09-05 稽核：34 張表有 14 張中招。
+    """
+    filled = [c for c in row if c]
+    if len(filled) <= max(1, len(row) - 2):
+        return False                      # 幾乎全空
+    if row and row[0].rstrip().endswith(("：", ":")):
+        return False                      # 其實是圖說，例如「常見的統計方法可做以下分類：」
+    if len(filled) != len(set(filled)):
+        return False                      # 重複欄名，例如 ['', 'AI', 'AI']
+    if nxt and row and not row[0] and not nxt[0]:
+        return False                      # 表頭被切成兩列，交給 merge_split_header 處理
+    return True
+
+
+def merge_split_header(rows: list[list[str]]) -> list[list[str]] | None:
+    """表頭跨兩行被切成兩列時併回一列。
+
+    例：rows[0]=['', 'AI', 'AI']、rows[1]=['', 'Generative AI', 'Discriminative AI']
+    ——原書是「生成式 AI（Generative AI）」這種兩行儲存格，Track A 切成了兩列。
+    """
+    if len(rows) < 3 or len(rows[0]) != len(rows[1]):
+        return None
+    if rows[0][0] or rows[1][0]:
+        return None
+    if not any(rows[0][1:]) or not any(rows[1][1:]):
+        return None
+    merged = [" ".join(x for x in (a, b) if x).strip() for a, b in zip(rows[0], rows[1])]
+    return [merged] + rows[2:]
+
+
 def render_table(rows: list[list]) -> str:
     if not rows:
         return ""
@@ -265,9 +303,13 @@ def render_table(rows: list[list]) -> str:
         return clean_text(re.sub(r"\s*\n\s*", " ", str(value or ""))).replace("|", "\\|").strip()
 
     body = [[cell(v) for v in row] + [""] * (width - len(row)) for row in rows]
-    # 表頭整列空白時（blocks 版常見）補一列佔位，避免 markdown 表格沒有表頭
-    if not any(body[0]):
-        body.insert(0, [f"欄{index + 1}" for index in range(width)])
+    merged = merge_split_header(body)
+    if merged is not None:
+        body = merged
+    # 沒有可用的表頭時補一列佔位——EPUB 端會據此不輸出 <thead>，
+    # 而不是把第一列資料誤當表頭（markdown 表格語法一定要有表頭列）
+    if not looks_like_header(body[0], body[1] if len(body) > 1 else None):
+        body.insert(0, [f"{PLACEHOLDER_HEAD}{index + 1}" for index in range(width)])
     lines = ["| " + " | ".join(body[0]) + " |", "|" + "---|" * width]
     lines.extend("| " + " | ".join(row) + " |" for row in body[1:])
     return "\n".join(lines)

@@ -63,6 +63,94 @@ GUIDE_NAVIGATION_HEADINGS = {
 }
 
 
+# ── 來源內容修正（2026-09-05 逐頁核對頁面影像後新增）────────────────────────
+# 與上面的 heading overlay 不同：這些改的是**內容**而非結構。
+# 每一筆都附頁面影像出處，且 fail-closed——來源形狀對不上就 raise，不會靜默略過。
+
+# 原書 3-60（PDF 67）：表頭是跨兩行的圖片文字，Track A 切成兩列並丟失
+# 「特徵」「生成式」「鑑別式」。頁面影像：中級/guide1/page_066/page.png
+TABLE_HEADER_FIXES = {
+    ('中級', 'guide1', 'mid-s1c3'): [{
+        'match_rows': [['', 'AI', 'AI'], ['', 'Generative AI', 'Discriminative AI']],
+        'header': ['特徵', '生成式 AI（Generative AI）', '鑑別式 AI（Discriminative AI）'],
+    }],
+}
+
+# `*原圖` 是抽取階段留下的通用佔位 alt，不是原書的圖說。
+# 最嚴重的案例：mid-s2c9 的十張圖共用「資料處理流程原圖」，
+# 實際卻是直方圖／箱型圖／散佈圖／熱力圖／長條圖／圓餅圖等十種不同的圖。
+PLACEHOLDER_ALT = re.compile(r'^.{0,12}原圖$')
+ALT_LOOKBACK = 6          # 往前找幾個 block
+ALT_MAX_LEN = 40          # 推導出來的圖說上限
+
+
+def _alt_from_neighbour(text: str) -> str:
+    """把前一個條列／標題的文字收斂成一句圖說。"""
+    value = re.sub(r'\s+', ' ', str(text or '')).strip()
+    value = re.sub(r'^[（(]\d+[）)]\s*', '', value)      # 去掉「（1）」這類編號
+    value = re.sub(r'^[A-Z][.、]\s*', '', value)          # 去掉「C. 」
+    # 「高效梯度提升方法（如XGBoost、LightGBM） 高效梯度提升方法是對傳統…」
+    # 這種「名稱＋接續說明」只取名稱那一段
+    closing = value.find('） ')
+    if closing != -1:
+        value = value[:closing + 1]
+    value = re.split(r'[。！？：]', value)[0].strip()
+    return value[:ALT_MAX_LEN].strip()
+
+
+def derive_source_image_alts(blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """通用佔位 alt → 用圖片前方最近的標題／條列命名（原書自己的用字）。"""
+    result = [dict(block) for block in blocks]
+    for index, block in enumerate(result):
+        if block.get('type') != 'source_image':
+            continue
+        if not PLACEHOLDER_ALT.match(str(block.get('alt') or '')):
+            continue
+        for back in range(index - 1, max(-1, index - 1 - ALT_LOOKBACK), -1):
+            neighbour = result[back]
+            if neighbour.get('type') not in {'heading', 'list_item'}:
+                continue
+            candidate = _alt_from_neighbour(neighbour.get('title') or neighbour.get('text'))
+            if 4 <= len(candidate) <= ALT_MAX_LEN:
+                block['alt'] = candidate
+                block['publicationOverlayId'] = 'source-image-alt:derived'
+                break
+    return result
+
+
+def apply_table_header_fixes(level: str, key: str, node: str,
+                             blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    fixes = TABLE_HEADER_FIXES.get((level, key, node))
+    if not fixes:
+        return blocks
+    result = [dict(block) for block in blocks]
+    for fix in fixes:
+        want = [[_normalized(c) for c in row] for row in fix['match_rows']]
+        target = [_normalized(c) for c in fix['header']]
+        hits = done = 0
+        for block in result:
+            rows = block.get('rows')
+            if block.get('type') != 'table' or not rows:
+                continue
+            if [_normalized(c) for c in rows[0]] == target:
+                done += 1                  # 已經是修正後的表頭
+                continue
+            if len(rows) < len(want) + 1:
+                continue
+            head = [[_normalized(c) for c in row] for row in rows[:len(want)]]
+            if head != want:
+                continue
+            block['rows'] = [list(fix['header'])] + [list(r) for r in rows[len(want):]]
+            block['publicationOverlayId'] = 'table-header-fix'
+            hits += 1
+        if hits + done != 1:
+            raise ValueError(
+                f'{level}/{key}/{node}: table header fix matched {hits} wrong + {done} '
+                f'already-correct tables, expected exactly 1 in total'
+            )
+    return result
+
+
 def _normalized(value: Any) -> str:
     return re.sub(r'\s+', '', unicodedata.normalize('NFKC', str(value or '')))
 
@@ -153,6 +241,8 @@ def apply_publication_block_overlays(
             'publicationOverlayId': contract_name,
         })
 
+    result = apply_table_header_fixes(level, key, node, result)
+    result = derive_source_image_alts(result)
     return result
 
 
