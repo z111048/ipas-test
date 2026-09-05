@@ -331,7 +331,9 @@ def block_items(node: dict, skip_chapter_heading: bool = False) -> list[dict]:
         if page_index is not None and page_index != last_page:
             meta = labels.get(page_index)
             if meta and meta.get("label"):
-                items.append({"t": "page", "text": f"〔原書 {meta['label']} 頁 · PDF 第 {meta['page']} 頁〕"})
+                # label 另外帶著：EPUB 端要拿它做 epub:type="pagebreak" 的錨點與 page-list
+                items.append({"t": "page", "label": str(meta["label"]),
+                              "text": f"〔原書 {meta['label']} 頁 · PDF 第 {meta['page']} 頁〕"})
             last_page = page_index
 
         if kind == "heading":

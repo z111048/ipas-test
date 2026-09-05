@@ -16,8 +16,11 @@ from __future__ import annotations
 
 import argparse
 import difflib
+from datetime import datetime, timezone
 import hashlib
 import html
+import os
+import uuid
 import re
 import zipfile
 from pathlib import Path
@@ -152,7 +155,16 @@ def items_to_xhtml(items, images: dict[str, str]) -> list[str]:
             continue
         if kind == "page":
             close_list()
-            out.append(f'<p class="folio">{esc(text)}</p>')
+            # 頁碼不只是文字：加上 epub:type="pagebreak" 錨點，閱讀器才能
+            # 「跳到原書第 3-24 頁」，nav 的 page-list 也才有目標可指
+            label = item.get("label") or ""
+            if label:
+                anchor = "pg-" + re.sub(r"[^0-9A-Za-z-]", "-", label)
+                out.append(f'<p class="folio" id="{anchor}" epub:type="pagebreak" '
+                           f'role="doc-pagebreak" aria-label="{html.escape(label, quote=True)}">'
+                           f'{esc(text)}</p>')
+            else:
+                out.append(f'<p class="folio">{esc(text)}</p>')
             continue
 
         if text.startswith("|"):  # markdown 表格
@@ -221,7 +233,7 @@ def markdown_table_to_html(text: str) -> str:
     out = ["<table>"]
     if not fake:
         out.append("<thead><tr>")
-        out.extend(f"<th>{esc(c)}</th>" for c in head)
+        out.extend(f'<th scope="col">{esc(c)}</th>' for c in head)
         out.append("</tr></thead>")
     out.append("<tbody>")
     for row in body:
@@ -310,7 +322,7 @@ def render_front_matter(level: str, guide_key: str, body_start_page: int) -> str
 
 
 def build_book(level: str, subject_id: str, outlines: dict, hierarchy: dict,
-               errata, counter: Counter) -> tuple[str, bytes, dict]:
+               errata, counter: Counter, source_pdf: str = "") -> tuple[str, bytes, dict]:
     guide = outlines["guides"][subject_id]
     nodes = guide.get("nodesById") or {}
     hier_nodes = ((hierarchy.get("guides") or {}).get(subject_id) or {}).get("nodesById") or {}
@@ -403,9 +415,12 @@ def build_book(level: str, subject_id: str, outlines: dict, hierarchy: dict,
     if front_matter:
         documents.insert(0, ("書前資料", front_matter, []))
 
+    guide_key = (guide.get("key") or "").split("-")[-1]
+    # 封面用原書自己的封面頁影像，不另外生成
+    cover = REPO / "frontend/public/pdf-assets" / level / guide_key / "page_000" / "page.png"
     payload = write_epub(book_title, level, subject_title, documents, assets, errata,
-                         counter, exercises=exercises,
-                         guide_key=(guide.get("key") or "").split("-")[-1])
+                         counter, exercises=exercises, guide_key=guide_key,
+                         cover=cover if cover.is_file() else None, source_pdf=source_pdf)
     filename = f"{level}-{subject_title.replace('：', '-').replace('/', '／')}.epub"
     return filename, payload, {"chapters": len(documents), "images": len(assets),
                                "exercises": exercises}
@@ -413,8 +428,11 @@ def build_book(level: str, subject_id: str, outlines: dict, hierarchy: dict,
 
 def write_epub(title: str, level: str, subject_title: str,
                documents, assets: dict[str, Path], errata, counter: Counter,
-               exercises: int = 0, guide_key: str = "") -> bytes:
-    uid = "urn:uuid:" + hashlib.sha1(title.encode("utf-8")).hexdigest()[:32]
+               exercises: int = 0, guide_key: str = "",
+               cover: Path | None = None, source_pdf: str = "") -> bytes:
+    # 用 uuid5 而非 sha1 截斷：EPUBCheck 的 OPF-085 會抓「宣告是 UUID 卻不是合法 UUID」。
+    # uuid5 同樣由書名決定，重跑仍然穩定。
+    uid = "urn:uuid:" + str(uuid.uuid5(uuid.NAMESPACE_URL, f"ipas-guide-epub:{title}"))
     files: dict[str, bytes] = {}
 
     files["META-INF/container.xml"] = (
@@ -454,17 +472,45 @@ def write_epub(title: str, level: str, subject_title: str,
     if mine:
         notes.append(ERRATA_NOTE.format(total=len(mine), applied=applied,
                                         already=already, unknown=unknown))
+    cover_href = ""
+    if cover is not None and cover.is_file():
+        cover_href = f"images/cover{cover.suffix.lower()}"
+        files[f"OEBPS/{cover_href}"] = cover.read_bytes()
+        files["OEBPS/text/cover.xhtml"] = (
+            '<?xml version="1.0" encoding="UTF-8"?>\n<!DOCTYPE html>\n'
+            '<html xmlns="http://www.w3.org/1999/xhtml" '
+            'xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="zh-TW" lang="zh-TW">\n'
+            f'<head><meta charset="utf-8"/><title>封面</title>'
+            '<link rel="stylesheet" type="text/css" href="../style.css"/></head>\n'
+            '<body epub:type="cover"><figure class="cover">'
+            f'<img src="../{cover_href}" alt="{html.escape(title, quote=True)}　封面" />'
+            "</figure></body>\n</html>\n"
+        ).encode("utf-8")
+
     front = f"<h1>{esc(title)}</h1>\n" + "\n".join(
         f'<p class="note">{esc(n)}</p>' for n in notes) + "\n"
     documents = [("書前說明", front, [])] + list(documents)
 
+    def dedupe_page_ids(html_text: str) -> str:
+        """同一頁碼在一份文件裡出現多次時給後續的加序號，避免 duplicate ID。"""
+        seen: Counter = Counter()
+
+        def rename(match: re.Match) -> str:
+            base = match.group(1)
+            seen[base] += 1
+            return f'id="{base}"' if seen[base] == 1 else f'id="{base}-{seen[base]}"'
+
+        return re.sub(r'id="(pg-[^"]+)"', rename, html_text)
+
     spine, manifest, nav_items = [], [], []
+    documents = [(t, dedupe_page_ids(c), a) for t, c, a in documents]
     for index, (chapter_title, content, anchors) in enumerate(documents):
         name = f"text/ch{index:02d}.xhtml"
         page = (
             '<?xml version="1.0" encoding="UTF-8"?>\n'
             '<!DOCTYPE html>\n'
-            '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-TW" lang="zh-TW">\n'
+            '<html xmlns="http://www.w3.org/1999/xhtml" '
+            'xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="zh-TW" lang="zh-TW">\n'
             f"<head><meta charset=\"utf-8\"/><title>{esc(chapter_title)}</title>"
             '<link rel="stylesheet" type="text/css" href="../style.css"/></head>\n'
             f"<body>\n{content}\n</body>\n</html>\n"
@@ -489,6 +535,30 @@ def write_epub(title: str, level: str, subject_title: str,
             nav_body.append("</ol>")
         nav_body.append("</li>")
     nav_body.append("</ol></nav>")
+
+    # page-list：把全書的 pagebreak 錨點收成可跳頁的清單。
+    # 這本書的核心用途就是回頭核對原書頁碼，只有可見文字而沒有 page-list
+    # 等於這個功能只做了一半。
+    pages: list[tuple[str, str, str]] = []
+    for name, _title, _anchors in nav_items:
+        for anchor, label in re.findall(
+                r'<p class="folio" id="([^"]+)" epub:type="pagebreak" '
+                r'role="doc-pagebreak" aria-label="([^"]*)"', files[f"OEBPS/{name}"].decode("utf-8")):
+            pages.append((name, anchor, label))
+    if pages:
+        nav_body.append('<nav epub:type="page-list" id="page-list" hidden="hidden">'
+                        "<h1>原書頁碼</h1><ol>")
+        nav_body.extend(f'<li><a href="{name}#{anchor}">{esc(label)}</a></li>'
+                        for name, anchor, label in pages)
+        nav_body.append("</ol></nav>")
+
+    page_labels_present = bool(pages)
+    first_body = nav_items[1][0] if len(nav_items) > 1 else nav_items[0][0]
+    nav_body.append(
+        '<nav epub:type="landmarks" id="landmarks" hidden="hidden"><h1>導覽</h1><ol>'
+        f'<li><a epub:type="cover" href="text/cover.xhtml">封面</a></li>'
+        f'<li><a epub:type="bodymatter" href="{first_body}">正文開始</a></li>'
+        "</ol></nav>")
     files["OEBPS/nav.xhtml"] = (
         '<?xml version="1.0" encoding="UTF-8"?>\n<!DOCTYPE html>\n'
         '<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" '
@@ -497,22 +567,59 @@ def write_epub(title: str, level: str, subject_title: str,
         + "\n".join(nav_body) + "\n</body>\n</html>\n"
     ).encode("utf-8")
 
+    # dcterms:modified 預設用建置時間（正確反映最後修改），但這會讓每次重跑的 bytes 不同。
+    # 依 reproducible-builds 慣例支援 SOURCE_DATE_EPOCH：設了就用它，重跑即位元相同。
+    epoch = os.environ.get("SOURCE_DATE_EPOCH")
+    moment = (datetime.fromtimestamp(int(epoch), timezone.utc)
+              if epoch and epoch.isdigit() else datetime.now(timezone.utc))
+    built_at = moment.strftime("%Y-%m-%dT%H:%M:%SZ")
+    source_note = f"經濟部 iPAS「AI 應用規劃師」官方學習指引 PDF：{source_pdf}" if source_pdf else ""
+    cover_manifest = (
+        f'    <item id="cover-image" href="{cover_href}" '
+        f'media-type="{MEDIA_TYPES.get(Path(cover_href).suffix.lower(), "image/png")}" '
+        'properties="cover-image"/>\n'
+        '    <item id="cover" href="text/cover.xhtml" media-type="application/xhtml+xml"/>\n'
+        if cover_href else ""
+    )
     opf = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="pub-id">\n'
+        '<package xmlns="http://www.idpf.org/2007/opf" version="3.0" '
+        'unique-identifier="pub-id" xml:lang="zh-TW">\n'
         '  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">\n'
         f'    <dc:identifier id="pub-id">{uid}</dc:identifier>\n'
         f"    <dc:title>{esc(title)}</dc:title>\n"
         "    <dc:language>zh-TW</dc:language>\n"
         "    <dc:creator>經濟部產業人才能力鑑定 iPAS</dc:creator>\n"
+        "    <dc:publisher>經濟部產業人才能力鑑定 iPAS</dc:publisher>\n"
         f"    <dc:subject>{esc(level)}</dc:subject>\n"
         f"    <dc:description>{esc(subject_title)}　學習指引正文</dc:description>\n"
-        '    <meta property="dcterms:modified">2026-09-03T00:00:00Z</meta>\n'
-        "  </metadata>\n  <manifest>\n"
+        f"    <dc:date>{built_at}</dc:date>\n"
+        "    <dc:rights>版權屬經濟部產業人才能力鑑定推動小組所有；本電子書為學習用途之重製版本。</dc:rights>\n"
+        + (f"    <dc:source>{esc(source_note)}</dc:source>\n" if source_note else "")
+        + f'    <meta property="dcterms:modified">{built_at}</meta>\n'
+        + ('    <meta name="cover" content="cover-image"/>\n' if cover_href else "")
+        # ── 無障礙 metadata（EPUB Accessibility 1.1；歐盟無障礙法案要求）──
+        + '    <meta property="schema:accessMode">textual</meta>\n'
+        + ('    <meta property="schema:accessMode">visual</meta>\n' if assets else "")
+        + '    <meta property="schema:accessModeSufficient">textual</meta>\n'
+        + '    <meta property="schema:accessibilityFeature">structuralNavigation</meta>\n'
+        + '    <meta property="schema:accessibilityFeature">tableOfContents</meta>\n'
+        + ('    <meta property="schema:accessibilityFeature">printPageNumbers</meta>\n'
+           if page_labels_present else "")
+        + ('    <meta property="schema:accessibilityFeature">alternativeText</meta>\n'
+           if assets else "")
+        + '    <meta property="schema:accessibilityHazard">none</meta>\n'
+        + '    <meta property="schema:accessibilitySummary">'
+          '全書為文字內容，具章節與小節階層導覽、目次，並保留原書印刷頁碼可供跳頁；'
+          '內嵌插圖皆有替代文字。原書中以圖片呈現的標題與表格表頭已由頁面影像辨識還原為文字。'
+          '</meta>\n'
+        + "  </metadata>\n  <manifest>\n"
         '    <item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>\n'
-        '    <item id="css" href="style.css" media-type="text/css"/>\n    '
-        + "\n    ".join(manifest)
-        + "\n  </manifest>\n  <spine>\n    "
+        '    <item id="css" href="style.css" media-type="text/css"/>\n'
+        + cover_manifest
+        + "    " + "\n    ".join(manifest)
+        + '\n  </manifest>\n  <spine page-progression-direction="ltr">\n    '
+        + ('<itemref idref="cover" linear="no"/>\n    ' if cover_href else "")
         + "\n    ".join(spine)
         + "\n  </spine>\n</package>\n"
     )
@@ -520,12 +627,15 @@ def write_epub(title: str, level: str, subject_title: str,
 
     import io
     buffer = io.BytesIO()
+    # 固定時間戳，否則每次重跑都產生不同的 bytes（同樣內容卻對不上 SHA）
+    stamp = (1980, 1, 1, 0, 0, 0)
     with zipfile.ZipFile(buffer, "w") as archive:
         # mimetype 必須是第一個檔且不壓縮，否則部分閱讀器會拒收
-        archive.writestr(zipfile.ZipInfo("mimetype"), "application/epub+zip",
+        archive.writestr(zipfile.ZipInfo("mimetype", stamp), "application/epub+zip",
                          compress_type=zipfile.ZIP_STORED)
         for name, payload in files.items():
-            archive.writestr(name, payload, compress_type=zipfile.ZIP_DEFLATED)
+            archive.writestr(zipfile.ZipInfo(name, stamp), payload,
+                             compress_type=zipfile.ZIP_DEFLATED)
     return buffer.getvalue()
 
 
@@ -584,7 +694,8 @@ def main() -> None:
             if subject_id not in (outlines.get("guides") or {}):
                 continue
             filename, payload, stats = build_book(level, subject_id, outlines, hierarchy,
-                                                  errata, counter)
+                                                  errata, counter,
+                                                  source_pdf=str(subject.get("pdf") or ""))
             (out_dir / filename).write_bytes(payload)
             size_mb = len(payload) / 1024 / 1024
             print(f"  {size_mb:6.2f} MB  {filename}"
