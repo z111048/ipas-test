@@ -128,6 +128,15 @@
   > 補法是從 Track B `pages_cache` 補一章並標明來源，
   > **不要動 `build_manifest.py` 的章節 SSOT**——那會波及前端導覽、出題與概念標籤。
 
+  > 教訓 2026-09-05（公式）：EPUB 3 原生支援 MathML，**不要把 LaTeX 原始碼直接丟給讀者**
+  > ——第一版 150 個公式全是 `$$ P(a\leq X\leq b)=\int_{a}^{b}f(x)dx $$` 這種原始碼。
+  > 轉換時兩個坑：①一個 `class="tex"` 區塊常含**多條**公式且夾雜說明文字
+  > （`block_body` 用空行接起來），只當單一公式處理會有一成轉不出來；
+  > ②KaTeX 把 `\min`／`\max` 渲染成 `<mi>min</mi><mo>⁡</mo>`，
+  > 放進 `<msub>` 就變成三個子元素而違反 arity（EPUBCheck 報 RSC-005）——
+  > 那個 U+2061 是不可見的函數套用運算子，移除即可。
+  > 含 MathML 的文件記得在 manifest 標 `properties="mathml"`。
+
   > 教訓 2026-09-05（EPUB 格式）：**合規 ≠ 專業**。第一版 EPUBCheck 只有 1 個 warning，
   > 卻缺封面、無障礙 metadata（歐盟無障礙法案自 2025-06 強制）、`page-list`、`landmarks`
   > ——全書滿是〔原書 3-24 頁〕卻只是純文字，跳頁功能只做了一半。

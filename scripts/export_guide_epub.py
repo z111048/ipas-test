@@ -19,6 +19,8 @@ import difflib
 from datetime import datetime, timezone
 import hashlib
 import html
+import json
+import subprocess
 import os
 import uuid
 import re
@@ -60,6 +62,9 @@ p.folio { font-size: .78em; color: #777; margin: 1.1em 0 .3em;
           border-left: 3px solid #ccc; padding-left: .6em; text-align: left; }
 p.tex { font-family: monospace; font-size: .9em; background: #f4f4f4;
         padding: .5em .7em; text-align: left; white-space: pre-wrap; }
+p.math { text-align: center; margin: 1em 0; overflow-x: auto; }
+span.math { white-space: nowrap; }
+math { font-size: 1.05em; }
 ul { margin: .4em 0; padding-left: 1.2em; }
 li { margin: .25em 0; }
 li.d4 { margin-left: .9em; }
@@ -321,6 +326,96 @@ def render_front_matter(level: str, guide_key: str, body_start_page: int) -> str
             + "\n".join(parts))
 
 
+MATHML_SCRIPT = REPO / "scripts" / "latex_to_mathml.js"
+TEX_BLOCK = re.compile(r'<(p|span) class="tex">(.*?)</\1>', re.S)
+
+
+SEGMENT = re.compile(r"\$\$(.+?)\$\$|\$(.+?)\$", re.S)
+
+
+def _segments(payload: str) -> list[tuple[str, str, bool]]:
+    """把一個 tex 區塊拆成 [(kind, text, display)]。
+
+    一個區塊常常不只一條公式——`block_body` 會用空行把多條 `$$…$$` 接起來，
+    中間還可能夾著說明文字（「分別控制動量與梯度平方的衰減」）。
+    第一版只處理「整塊就是一條公式」，這 10 條因此轉不出來。
+    """
+    raw = html.unescape(payload)
+    parts: list[tuple[str, str, bool]] = []
+    cursor = 0
+    for match in SEGMENT.finditer(raw):
+        if match.start() > cursor:
+            prose = raw[cursor:match.start()].strip()
+            if prose:
+                parts.append(("text", prose, False))
+        display = match.group(1) is not None
+        parts.append(("math", (match.group(1) or match.group(2) or "").strip(), display))
+        cursor = match.end()
+    tail = raw[cursor:].strip()
+    if tail:
+        parts.append(("text", tail, False))
+    if not parts:                       # 沒有 $ 包起來的整塊，就當一條 display 公式
+        value = raw.strip()
+        return [("math", value, True)] if value else []
+    return parts
+
+
+def render_math(documents: list[tuple[str, str, list]]) -> list[tuple[str, str, list]]:
+    r"""把 `class="tex"` 的 LaTeX 原始碼換成 MathML。
+
+    EPUB 3 原生支援 MathML，閱讀器會排版；不轉的話讀者看到的是
+    「$$ P(a\leq X\leq b)=\int_{a}^{b}f(x)dx $$」這串原始碼。
+    轉不出來的個別公式保留原樣，不讓整份輸出跟著失敗。
+    """
+    if not MATHML_SCRIPT.is_file():
+        return documents
+    parsed = [
+        [_segments(payload) for _tag, payload in TEX_BLOCK.findall(content)]
+        for _title, content, _anchors in documents
+    ]
+    jobs = [{"latex": text, "display": display}
+            for doc in parsed for block in doc for kind, text, display in block if kind == "math"]
+    if not jobs:
+        return documents
+    try:
+        result = subprocess.run(
+            ["node", str(MATHML_SCRIPT)], input=json.dumps(jobs), capture_output=True,
+            text=True, timeout=300, cwd=str(REPO),
+        )
+        rendered = json.loads(result.stdout) if result.returncode == 0 else []
+    except (OSError, ValueError, subprocess.SubprocessError):
+        rendered = []
+    if len(rendered) != len(jobs):
+        print("  ⚠️ MathML 轉換未完成，公式保留 LaTeX 原始碼")
+        return documents
+
+    stream = iter(rendered)
+    done = failed = 0
+
+    def swap(match: re.Match) -> str:
+        nonlocal done, failed
+        tag, payload = match.group(1), match.group(2)
+        pieces, ok = [], True
+        for kind, text, _display in _segments(payload):
+            if kind == "text":
+                pieces.append(esc(text))
+                continue
+            mathml = next(stream, None)
+            if mathml:
+                pieces.append(mathml)
+                done += 1
+            else:
+                ok = False
+                failed += 1
+        if not ok and not any(x.startswith("<math") for x in pieces):
+            return match.group(0)       # 整塊都轉不出來就維持原樣
+        return f'<{tag} class="math">' + "<br />".join(pieces) + f"</{tag}>"
+
+    out = [(title, TEX_BLOCK.sub(swap, content), anchors) for title, content, anchors in documents]
+    print(f"  公式轉 MathML：{done} 條成功" + (f"、{failed} 條保留原文" if failed else ""))
+    return out
+
+
 def build_book(level: str, subject_id: str, outlines: dict, hierarchy: dict,
                errata, counter: Counter, source_pdf: str = "") -> tuple[str, bytes, dict]:
     guide = outlines["guides"][subject_id]
@@ -503,7 +598,7 @@ def write_epub(title: str, level: str, subject_title: str,
         return re.sub(r'id="(pg-[^"]+)"', rename, html_text)
 
     spine, manifest, nav_items = [], [], []
-    documents = [(t, dedupe_page_ids(c), a) for t, c, a in documents]
+    documents = render_math([(t, dedupe_page_ids(c), a) for t, c, a in documents])
     for index, (chapter_title, content, anchors) in enumerate(documents):
         name = f"text/ch{index:02d}.xhtml"
         page = (
@@ -517,7 +612,9 @@ def write_epub(title: str, level: str, subject_title: str,
         )
         files[f"OEBPS/{name}"] = page.encode("utf-8")
         item_id = f"ch{index:02d}"
-        manifest.append(f'<item id="{item_id}" href="{name}" media-type="application/xhtml+xml"/>')
+        props = ' properties="mathml"' if "<math" in page else ""
+        manifest.append(
+            f'<item id="{item_id}" href="{name}" media-type="application/xhtml+xml"{props}/>')
         spine.append(f'<itemref idref="{item_id}"/>')
         nav_items.append((name, chapter_title, anchors))
 
