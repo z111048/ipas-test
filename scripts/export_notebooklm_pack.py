@@ -256,7 +256,9 @@ def block_body(block: dict) -> str:
     return "\n\n".join(([text] if text else []) + formulas)
 
 
-PLACEHOLDER_HEAD = "欄"   # 佔位表頭；EPUB 端據此判斷「這張表沒有真表頭」
+# 沒有真表頭時補一列**空的**表頭（markdown 表格語法一定要有表頭列）。
+# 早期是補「欄1/欄2/欄3」，但那等於對讀者與 NotebookLM 注入不存在的欄位名稱；
+# EPUB 端據「表頭整列皆空」判斷這張表沒有真表頭，不輸出 <thead>。
 
 
 def looks_like_header(row: list[str], nxt: list[str] | None) -> bool:
@@ -294,6 +296,60 @@ def merge_split_header(rows: list[list[str]]) -> list[list[str]] | None:
     return [merged] + rows[2:]
 
 
+TOC_LEADER = re.compile(r"\.{4,}")
+HTML_ROW = re.compile(r"<tr[^>]*>(.*?)</tr>", re.S)
+HTML_CELL = re.compile(r"<t[dh][^>]*>(.*?)</t[dh]>", re.S)
+
+
+def _html_table_to_rows(fragment: str) -> list[list[str]]:
+    """Track B 的 markdown 夾帶原始 HTML 表格，轉成 rows 好交給 render_table。"""
+    rows = []
+    for row in HTML_ROW.findall(fragment):
+        cells = [clean_text(re.sub(r"<[^>]+>", " ", cell)) for cell in HTML_CELL.findall(row)]
+        if cells:
+            rows.append(cells)
+    return rows
+
+
+def render_front_matter(level: str, guide_key: str, body_start_page: int) -> str:
+    """正文之前的「序」與「職能基準」。
+
+    這兩頁從來不在章節樹裡（樹從第一章才開始），Track A 因此完全沒有它們，
+    連帶讓指向「職能基準」頁的官方勘誤永遠無從套用。改由 Track B 的
+    `pages_cache` 補回。封面與目錄不收：封面沒有內文，目錄由本檔自己的標題結構取代。
+    """
+    cache = REPO / "data" / level / "pages_cache" / guide_key
+    if not cache.is_dir():
+        return ""
+    out: list[str] = []
+    for page_index in range(0, max(0, body_start_page - 1)):
+        path = cache / f"page_{page_index:03d}.json"
+        if not path.is_file():
+            continue
+        markdown = str(load_json(path).get("markdown") or "").strip()
+        if len(re.findall(r"[一-鿿]", markdown)) < 60 or len(TOC_LEADER.findall(markdown)) >= 3:
+            continue
+        for chunk in re.split(r"\n{2,}", markdown):
+            chunk = chunk.strip()
+            if not chunk:
+                continue
+            heading = re.match(r"^(#{1,6})\s+(.*)$", chunk)
+            if heading:
+                out.append(f"\n### {clean_text(heading.group(2))}\n")
+            elif chunk.lstrip().startswith("<table"):
+                table = render_table(_html_table_to_rows(chunk))
+                if table:
+                    out.append(table)
+            else:
+                out.append(clean_text(chunk))
+    if not out:
+        return ""
+    return ("\n## 書前資料\n\n"
+            "> 本節是原書正文之前的「序」與「職能基準」，不在學習指引的章節結構內；\n"
+            "> 文字由另一條頁面辨識軌還原，未經與正文相同的校對流程，細節以官方 PDF 為準。\n\n"
+            + "\n\n".join(out) + "\n")
+
+
 def render_table(rows: list[list]) -> str:
     if not rows:
         return ""
@@ -309,7 +365,7 @@ def render_table(rows: list[list]) -> str:
     # 沒有可用的表頭時補一列佔位——EPUB 端會據此不輸出 <thead>，
     # 而不是把第一列資料誤當表頭（markdown 表格語法一定要有表頭列）
     if not looks_like_header(body[0], body[1] if len(body) > 1 else None):
-        body.insert(0, [f"{PLACEHOLDER_HEAD}{index + 1}" for index in range(width)])
+        body.insert(0, [""] * width)
     lines = ["| " + " | ".join(body[0]) + " |", "|" + "---|" * width]
     lines.extend("| " + " | ".join(row) + " |" for row in body[1:])
     return "\n".join(lines)
@@ -454,6 +510,17 @@ def guide_files(level: str, outlines: dict, hierarchy: dict, manifest: dict,
             "> 本檔只有正文；書上章末的練習題與解答另見「21-學習指引練習」。",
             "",
         ]
+
+        body_start = min(
+            (page.get("page") for node in loaded.values()
+             for page in (node.get("sourcePages") or [])
+             if isinstance(page, dict) and page.get("page")),
+            default=5,
+        )
+        front_matter = render_front_matter(level, (guide.get("key") or "").split("-")[-1],
+                                           body_start)
+        if front_matter:
+            body.append(front_matter)
 
         for node_id in guide.get("flat") or []:
             node = loaded.get(node_id)

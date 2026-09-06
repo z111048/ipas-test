@@ -29,7 +29,6 @@ from pathlib import Path
 
 from export_notebooklm_pack import (
     GENERATED,
-    PLACEHOLDER_HEAD,
     LEVELS,
     REPO,
     apply_errata,
@@ -88,6 +87,17 @@ FRONT_NOTE = (
     "〔原書 X-Y 頁〕標的是講義的印刷頁碼，可據以回頭核對原始 PDF。"
     "任何與官方 PDF 不一致之處，以官方 PDF 為準。"
 )
+
+# 經審查、有紀錄的「與原書不同」之處，要讓讀者看得到——決定本身有 track_a_ocr_repairs.py
+# 的具名契約與閘門保護，但先前只存在於程式碼裡，讀者無從得知。
+PUBLICATION_DECISIONS = {
+    ("中級", "guide3"): [
+        "原書 5-35 頁 Softmax 公式的分母印為 e^(z_i)，本書依數學正確性排版為 e^(z_j)。"
+        "這是唯一一處刻意與原書不同的內容。",
+    ],
+}
+
+DECISION_NOTE = "【與原書不同之處】{items}"
 
 SCOPE_NOTE = (
     "【收錄範圍】本書只收學習指引的正文。原書各章章末的模擬考題與解析共 {exercises} 題"
@@ -232,9 +242,9 @@ def markdown_table_to_html(text: str) -> str:
 
     head = cells(rows[0])
     body = [cells(line) for line in rows[2:]]
-    # render_table 判定這張表沒有真表頭時會補「欄1/欄2…」佔位——不要輸出 <thead>，
+    # render_table 判定這張表沒有真表頭時會補一列空的佔位——不要輸出 <thead>，
     # 否則等於憑空捏造一個表頭給讀者
-    fake = all(re.fullmatch(rf"{PLACEHOLDER_HEAD}\d+", c or "") for c in head) if head else False
+    fake = bool(head) and all(not (c or "").strip() for c in head)
     out = ["<table>"]
     if not fake:
         out.append("<thead><tr>")
@@ -567,6 +577,9 @@ def write_epub(title: str, level: str, subject_title: str,
     if mine:
         notes.append(ERRATA_NOTE.format(total=len(mine), applied=applied,
                                         already=already, unknown=unknown))
+    decisions = PUBLICATION_DECISIONS.get((level, guide_key))
+    if decisions:
+        notes.append(DECISION_NOTE.format(items="".join(decisions)))
     cover_href = ""
     if cover is not None and cover.is_file():
         cover_href = f"images/cover{cover.suffix.lower()}"
