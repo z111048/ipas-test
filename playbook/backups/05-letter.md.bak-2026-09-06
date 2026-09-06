@@ -59,37 +59,6 @@ git 救不回。兩個具體行動：
 
 ## 交接（未完成項目）
 
-<!-- 2026-09-06: 追加 EPUB/NBL 匯出稽核 session 的交接。 -->
-
-### 2026-09-06 session：五本學習指引 EPUB 稽核與發佈品質（main，4 commit，**未 push**）
-
-**做完的**：
-- 多模型稽核（codex CLI 五本並行 → 跨軌比對 → 三模型視覺複驗 → 兩階段辨識/判斷）。
-  ⚠️ **誤報率極高**：51 項合議結果最後只有 3 項成立，逐條靠確定性全書比對或人工開圖才定案。
-- 渲染層修 6 項：捏造表頭（34 表中 14 表）、`|` 切欄、標題跳階 41 處、
-  書前說明補練習題題數與勘誤三分類、佔位表頭改留空、書前資料（序／職能基準）。
-- Track A 修 3 類：AdaGrad 公式（根因是 `track_a_ocr_repairs.py` 手工清單自己寫錯，
-  覆蓋掉正確的 OCR）、3-60 表頭還原、17 張插圖圖說（十張曾共用「資料處理流程原圖」）。
-- EPUB 3 專業格式：MathML（159 條）、封面、page-list、landmarks、無障礙 metadata、
-  UUID、`SOURCE_DATE_EPOCH` 位元可重現。**epubcheck 五本 0 fatals/0 errors/0 warnings**。
-- 教訓已寫進 `pipeline-script-catalog.md` 與 `deterministic-publication-overlays.md`。
-
-**未完成／待接手**：
-1. **5 個 commit 未 push**（`e731760`、`9ce8739`、`25a9855`、`7352007`、`3e51745`）。
-   push main 會觸發 GitHub Actions 部署——使用者未授權，接手前先問。
-   其中 `e731760` 是上一個 session 就留下的。
-2. **稽核只覆蓋 77 個高風險頁**（含表格／公式／插圖者），其餘 629 頁純文字頁未做視覺核對。
-   補跑成本約 $0.2–0.3（gemini-3.1-flash-lite）。指令與腳本在 `exports/epub/驗證腳本/`。
-3. **19 筆官方勘誤仍「無法確認」**（28 筆中 4 筆工具套用、5 筆內文已正確）。
-   勘誤原文與 OCR 還原文字差異超過空白容錯，需人工逐筆比對頁面影像。
-4. 序／職能基準是從 Track B `pages_cache` 補的，**未經與正文相同的校對**（產物已標明）。
-
-**接手前必讀**：`exports/epub/審核報告.md`（gitignored，完整稽核與修復紀錄）。
-模型評測結果（28 筆勘誤當 ground truth，14 個模型）在 `exports/epub/評測-總表.json`；
-結論是 `gemini-2.5-flash`（repo 目前預設）表現最差（0.732），
-經濟性最佳是 `gemini-3.1-flash-lite`（0.912、thinking=0）。
-
-
 <!-- 2026-08-08 更新：上一段（2026-07-13）的交接項目均已完成，內容移除。 -->
 
 ### 2026-08-08 session：資料治理與重生計畫（分支 `data-governance-2026-08-08`，14 commit，已併回 main）
