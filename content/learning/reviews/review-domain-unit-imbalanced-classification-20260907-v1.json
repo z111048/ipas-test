@@ -1,0 +1,80 @@
+{
+  "id": "review-domain-unit-imbalanced-classification-20260907-v1",
+  "subject": {
+    "kind": "learning-unit",
+    "id": "unit-imbalanced-classification",
+    "revision": 1,
+    "hash": "sha256:a8e8213fc629be53447ec321246d1cb2d04c07b1510c22671a0c7be8e76411a8"
+  },
+  "dependencyHashes": [
+    "sha256:263987fb931e9736a15bf16c4c1b3e94fec3d91d68d33ab601c7c16d77d06f37",
+    "sha256:2c0e0519fa54b217bcdf06257eb2b560e21b50181cd4473da6d53332d01ab71a",
+    "sha256:5bb3dc8b27d18e8d5407398445a7ea52791c2ae5d97de5d5131a63c3c319cb2b",
+    "sha256:bbfedffc559834396aa3093b908409472ac26626e5976b196f4192ae3c093e3b",
+    "sha256:c9553d68d5ffe227115e4648f46a04b8cd33402aef2e1c65fbe5e53ec17d8152"
+  ],
+  "rubricVersion": "mvp-review-v1",
+  "reviewerId": "agent-content-labs",
+  "reviewerRole": "independent_model",
+  "authorId": "agent-p0-baseline",
+  "responsibility": "domain_content",
+  "qualification": {
+    "scope": [
+      "mvp-domain-content"
+    ],
+    "evidenceIds": [
+      "evidence-mvp-record-completion-delegation"
+    ],
+    "grantedBy": "root-coordinator",
+    "grantedAt": "2026-09-07T12:54:29Z"
+  },
+  "evidenceRefs": [
+    {
+      "id": "evidence-mvp-record-completion-delegation",
+      "revision": 1,
+      "hash": "sha256:922240d8bed38acc0ea3c8733d23d8a0e906b4830ed0f75b6350d8fff5398d56"
+    },
+    {
+      "id": "evidence-mvp-unit-project-review-20260907",
+      "revision": 1,
+      "hash": "sha256:e73a6dbbd0fb0278e952b8cf935be3f524973776c0e4f5ee152c7b83b521cb3b"
+    },
+    {
+      "id": "evidence-mid-s3c9-accuracy-imbalance",
+      "revision": 1,
+      "hash": "sha256:81c6bb607828b27862d299feab06464f5e1da268642c87ba295ec43c92d95259"
+    },
+    {
+      "id": "evidence-mid-s3c9-imbalance-strategies",
+      "revision": 1,
+      "hash": "sha256:0ae999467db373fed15743499179ede992c2614d0da1b34604f0f2018201c291"
+    },
+    {
+      "id": "evidence-recall-formula-direct-view",
+      "revision": 1,
+      "hash": "sha256:b49dbdcc1bbb0abf4673077d70efac4effa0a4f10784d6de6b87b0aa2a369ac5"
+    },
+    {
+      "id": "evidence-recall-pdf-source",
+      "revision": 1,
+      "hash": "sha256:5dc57e60548c7be09ce07647f42df32fcb01bd1eefc4e2942c44cd8e58fcc9a2"
+    }
+  ],
+  "verdict": "approved",
+  "checks": [
+    {
+      "code": "D1",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-mvp-record-completion-delegation",
+        "evidence-mvp-unit-project-review-20260907",
+        "evidence-mid-s3c9-accuracy-imbalance",
+        "evidence-mid-s3c9-imbalance-strategies",
+        "evidence-recall-formula-direct-view",
+        "evidence-recall-pdf-source"
+      ]
+    }
+  ],
+  "createdAt": "2026-09-07T12:54:29Z",
+  "rationale": "只記本輪已實際執行且hash綁定的machine檢查，完整範圍與限制見evidence；沒有human L5批准。"
+}

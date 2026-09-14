@@ -1,0 +1,342 @@
+{
+  "schemaVersion": 1,
+  "id": "unit-imbalanced-classification",
+  "revision": 1,
+  "contentHash": "sha256:a5ac34ded71a1b9078febc9643dcbf9b66635411b0edad3cbd01be80e53641a5",
+  "status": "in_review",
+  "reviewIds": [
+    "review-contract-unit-imbalanced-classification-20260909-v2",
+    "review-domain-unit-imbalanced-classification-20260909-v2"
+  ],
+  "dependencies": [
+    {
+      "resource": {
+        "namespace": "resource",
+        "levelId": "middle",
+        "key": "learning-guide-middle-3"
+      },
+      "revision": "sha256-263987fb931e9736a15bf16c4c1b3e94fec3d91d68d33ab601c7c16d77d06f37",
+      "hash": "sha256:263987fb931e9736a15bf16c4c1b3e94fec3d91d68d33ab601c7c16d77d06f37",
+      "kind": "repository",
+      "hashScope": "full_artifact",
+      "artifactPath": "frontend/src/generated/guideContent/中級-guide3/mid-s3c9.json"
+    },
+    {
+      "resource": {
+        "namespace": "resource",
+        "levelId": "middle",
+        "key": "sklearn-model-evaluation"
+      },
+      "revision": "stable-checked-2026-09-07",
+      "hash": "sha256:2c0e0519fa54b217bcdf06257eb2b560e21b50181cd4473da6d53332d01ab71a",
+      "selector": "classification-metrics",
+      "kind": "external",
+      "hashScope": "reviewed_capture",
+      "retrievedAt": "2026-09-07T11:30:00Z",
+      "reviewDueAt": "2027-03-07T00:00:00Z",
+      "capture": {
+        "mode": "authored_summary",
+        "text": "分類評估以實際類別與預測類別形成混淆矩陣；precision、recall 與 F1 回答不同的錯誤取捨。"
+      }
+    }
+  ],
+  "title": "不平衡分類：從矩陣回答業務問題",
+  "summary": "以固定 400 筆混淆矩陣手算 accuracy、precision、recall 與 F1，對照全負類 baseline，並把少數類指標翻成設備告警的抓漏、誤報與派工語意。",
+  "bodyRef": "content/learning/units/unit-imbalanced-classification.md",
+  "levelIds": [
+    "middle"
+  ],
+  "chapterRefs": [
+    {
+      "levelId": "middle",
+      "subjectId": "mid-s3",
+      "chapterId": "mid-s3c9"
+    }
+  ],
+  "topicRefs": [
+    {
+      "id": "topic-4f38972f",
+      "name": "評估指標"
+    },
+    {
+      "id": "topic-10db0f21",
+      "name": "類別不平衡"
+    }
+  ],
+  "guideRefs": [
+    {
+      "anchorId": "mid-s3c9-accuracy-imbalance",
+      "levelId": "middle",
+      "guideKey": "中級-guide3",
+      "nodeId": "mid-s3c9",
+      "blockIds": [
+        "block-70"
+      ],
+      "sourceHash": "sha256:263987fb931e9736a15bf16c4c1b3e94fec3d91d68d33ab601c7c16d77d06f37",
+      "pageIndexes": [
+        154
+      ],
+      "quote": "95%樣本為負類時，即使模型全預測為負，準確率仍高達95%",
+      "anchor": null,
+      "precision": "exact",
+      "fallbackRoute": "/guide/mid-s3/mid-s3c9"
+    },
+    {
+      "anchorId": "mid-s3c9-imbalance-strategies",
+      "levelId": "middle",
+      "guideKey": "中級-guide3",
+      "nodeId": "mid-s3c9",
+      "blockIds": [
+        "block-148"
+      ],
+      "sourceHash": "sha256:263987fb931e9736a15bf16c4c1b3e94fec3d91d68d33ab601c7c16d77d06f37",
+      "pageIndexes": [
+        158
+      ],
+      "quote": "類別不平衡處理與評估策略",
+      "anchor": null,
+      "precision": "exact",
+      "fallbackRoute": "/guide/mid-s3/mid-s3c9"
+    }
+  ],
+  "gapStatement": "指引已指出不平衡資料中 accuracy 可能誤導；本單元補上固定矩陣手算、分母辨識、全負類比較與錯誤成本解釋。",
+  "objectives": [
+    {
+      "id": "unit-imbalanced-classification::compute-metrics",
+      "action": "從混淆矩陣計算四項分類指標",
+      "condition": "給定 TN、FP、FN、TP 與正類定義",
+      "criterion": "accuracy、precision、recall、F1 誤差均不超過 0.001",
+      "assessmentIds": [
+        "assess-metric-calculation"
+      ]
+    },
+    {
+      "id": "unit-imbalanced-classification::interpret-baseline",
+      "action": "比較候選模型與全負類 baseline",
+      "condition": "給定 5% 正類資料與兩組矩陣",
+      "criterion": "指出 accuracy 的限制並正確解釋漏報與誤報",
+      "assessmentIds": [
+        "assess-baseline-interpretation"
+      ]
+    },
+    {
+      "id": "unit-imbalanced-classification::choose-metric",
+      "action": "依業務錯誤成本選擇主要指標",
+      "condition": "給定 FP 與 FN 後果",
+      "criterion": "選擇理由同時交代主要指標、配套指標與限制",
+      "assessmentIds": [
+        "assess-baseline-interpretation"
+      ]
+    }
+  ],
+  "prerequisites": [
+    {
+      "kind": "skill",
+      "ref": "binary-classification-basics",
+      "diagnosticPrompt": "能否在 2×2 表中標出 TP、FP、FN、TN？",
+      "remediationRef": "mid-s3c9"
+    }
+  ],
+  "estimatedMinutes": 25,
+  "sections": [
+    {
+      "id": "metrics-context",
+      "kind": "context",
+      "bodyAnchor": "context",
+      "objectiveIds": [
+        "unit-imbalanced-classification::interpret-baseline"
+      ],
+      "claimIds": [
+        "claim-accuracy-limit"
+      ]
+    },
+    {
+      "id": "metrics-bridge",
+      "kind": "concept_bridge",
+      "bodyAnchor": "concept_bridge",
+      "objectiveIds": [
+        "unit-imbalanced-classification::compute-metrics"
+      ],
+      "claimIds": [
+        "claim-metric-definitions",
+        "claim-recall-definition-note"
+      ]
+    },
+    {
+      "id": "metrics-example",
+      "kind": "worked_example",
+      "bodyAnchor": "worked_example",
+      "objectiveIds": [
+        "unit-imbalanced-classification::compute-metrics",
+        "unit-imbalanced-classification::interpret-baseline"
+      ],
+      "claimIds": []
+    },
+    {
+      "id": "metrics-guided",
+      "kind": "guided_practice",
+      "bodyAnchor": "guided_practice",
+      "objectiveIds": [
+        "unit-imbalanced-classification::compute-metrics"
+      ],
+      "claimIds": []
+    },
+    {
+      "id": "metrics-independent",
+      "kind": "independent_practice",
+      "bodyAnchor": "independent_practice",
+      "objectiveIds": [
+        "unit-imbalanced-classification::choose-metric"
+      ],
+      "claimIds": []
+    },
+    {
+      "id": "metrics-misconceptions",
+      "kind": "misconceptions",
+      "bodyAnchor": "misconceptions",
+      "objectiveIds": [
+        "unit-imbalanced-classification::interpret-baseline"
+      ],
+      "claimIds": []
+    },
+    {
+      "id": "metrics-reflection",
+      "kind": "assessment_reflection",
+      "bodyAnchor": "assessment_reflection",
+      "objectiveIds": [
+        "unit-imbalanced-classification::compute-metrics",
+        "unit-imbalanced-classification::choose-metric"
+      ],
+      "claimIds": []
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim-accuracy-limit",
+      "kind": "source",
+      "text": "嚴重類別不平衡時，全預測多數類仍可能得到很高 accuracy。",
+      "sourceRefs": [
+        {
+          "resource": {
+            "namespace": "resource",
+            "levelId": "middle",
+            "key": "learning-guide-middle-3"
+          },
+          "revision": "sha256-263987fb931e9736a15bf16c4c1b3e94fec3d91d68d33ab601c7c16d77d06f37",
+          "hash": "sha256:263987fb931e9736a15bf16c4c1b3e94fec3d91d68d33ab601c7c16d77d06f37",
+          "kind": "repository",
+          "hashScope": "full_artifact",
+          "artifactPath": "frontend/src/generated/guideContent/中級-guide3/mid-s3c9.json"
+        }
+      ]
+    },
+    {
+      "id": "claim-metric-definitions",
+      "kind": "source",
+      "text": "precision、recall、F1 必須由明確方向的混淆矩陣定義並重算。",
+      "sourceRefs": [
+        {
+          "resource": {
+            "namespace": "resource",
+            "levelId": "middle",
+            "key": "sklearn-model-evaluation"
+          },
+          "revision": "stable-checked-2026-09-07",
+          "hash": "sha256:2c0e0519fa54b217bcdf06257eb2b560e21b50181cd4473da6d53332d01ab71a",
+          "selector": "classification-metrics",
+          "kind": "external",
+          "hashScope": "reviewed_capture",
+          "retrievedAt": "2026-09-07T11:30:00Z",
+          "reviewDueAt": "2027-03-07T00:00:00Z",
+          "capture": {
+            "mode": "authored_summary",
+            "text": "分類評估以實際類別與預測類別形成混淆矩陣；precision、recall 與 F1 回答不同的錯誤取捨。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "claim-recall-definition-note",
+      "kind": "editorial",
+      "text": "原 PDF pageIndex 154 的 recall 分母與官方技術定義不一致；本站不宣稱官方已發布勘誤，計算採 TP/(TP+FN)。",
+      "sourceRefs": [
+        {
+          "resource": {
+            "namespace": "resource",
+            "levelId": "middle",
+            "key": "sklearn-model-evaluation"
+          },
+          "revision": "stable-checked-2026-09-07",
+          "hash": "sha256:2c0e0519fa54b217bcdf06257eb2b560e21b50181cd4473da6d53332d01ab71a",
+          "selector": "classification-metrics",
+          "kind": "external",
+          "hashScope": "reviewed_capture",
+          "retrievedAt": "2026-09-07T11:30:00Z",
+          "reviewDueAt": "2027-03-07T00:00:00Z",
+          "capture": {
+            "mode": "authored_summary",
+            "text": "分類評估以實際類別與預測類別形成混淆矩陣；precision、recall 與 F1 回答不同的錯誤取捨。"
+          }
+        }
+      ]
+    }
+  ],
+  "assessments": [
+    {
+      "id": "assess-metric-calculation",
+      "kind": "calculation",
+      "prompt": "手算固定矩陣四項指標並與程式重算比對。",
+      "objectiveIds": [
+        "unit-imbalanced-classification::compute-metrics"
+      ],
+      "expectedEvidence": "公式、代入值與誤差不超過 0.001 的比對。",
+      "rubricId": "rubric-metrics"
+    },
+    {
+      "id": "assess-baseline-interpretation",
+      "kind": "independent_analysis",
+      "prompt": "設計 accuracy 較高但 recall 較低的固定母體矩陣並提出選擇。",
+      "objectiveIds": [
+        "unit-imbalanced-classification::interpret-baseline",
+        "unit-imbalanced-classification::choose-metric"
+      ],
+      "expectedEvidence": "兩矩陣、四項指標與具成本假設的決策理由。",
+      "rubricId": "rubric-metrics"
+    }
+  ],
+  "rubrics": [
+    {
+      "id": "rubric-metrics",
+      "criteria": [
+        {
+          "criterion": "計算正確",
+          "passEvidence": "矩陣方向、分母與四項數值皆正確。"
+        },
+        {
+          "criterion": "決策可解釋",
+          "passEvidence": "以 FP/FN 後果解釋主要與配套指標，不用單一 accuracy 下結論。"
+        }
+      ]
+    }
+  ],
+  "evidenceIds": [
+    "evidence-mid-s3c9-accuracy-imbalance",
+    "evidence-mid-s3c9-imbalance-strategies",
+    "evidence-recall-formula-direct-view",
+    "evidence-recall-pdf-source"
+  ],
+  "labRefs": [
+    {
+      "kind": "lab",
+      "id": "lab-imbalanced-classification",
+      "revision": 1
+    }
+  ],
+  "projectRefs": [
+    {
+      "kind": "project",
+      "id": "project-imbalanced-classification",
+      "revision": 1
+    }
+  ]
+}

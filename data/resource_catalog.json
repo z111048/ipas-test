@@ -247,6 +247,106 @@
       "visibleIn": ["middle"],
       "label": "關鍵字整理",
       "detail": "初級與中級分科的中英文定義與案例"
+    },
+    {
+      "key": "learning-guide-middle-2",
+      "levelId": "middle",
+      "kind": "guide",
+      "surface": "learning",
+      "visibleIn": ["middle"],
+      "label": "中級科目二學習指引來源快照",
+      "detail": "供實務補充的精確 GuideRef 解參照，不另建章節表",
+      "manifestRef": {"dataLevel": "中級", "guideKey": "中級-guide2"},
+      "artifactPath": "frontend/src/generated/guideContent/中級-guide2/mid-s2c4.json",
+      "version": "sha256-0a879eb0b67bbdd33cf0e92e0df98f7668ddd94ec522deb5ba01c2b06079e63a",
+      "sha256": "sha256:0a879eb0b67bbdd33cf0e92e0df98f7668ddd94ec522deb5ba01c2b06079e63a"
+    },
+    {
+      "key": "learning-guide-middle-3",
+      "levelId": "middle",
+      "kind": "guide",
+      "surface": "learning",
+      "visibleIn": ["middle"],
+      "label": "中級科目三學習指引來源快照",
+      "detail": "供實務補充的精確 GuideRef 解參照，不另建章節表",
+      "manifestRef": {"dataLevel": "中級", "guideKey": "中級-guide3"},
+      "artifactPath": "frontend/src/generated/guideContent/中級-guide3/mid-s3c9.json",
+      "version": "sha256-263987fb931e9736a15bf16c4c1b3e94fec3d91d68d33ab601c7c16d77d06f37",
+      "sha256": "sha256:263987fb931e9736a15bf16c4c1b3e94fec3d91d68d33ab601c7c16d77d06f37"
+    },
+    {
+      "key": "equipment-alerts-synthetic-v1",
+      "levelId": "middle",
+      "kind": "dataset",
+      "surface": "learning",
+      "visibleIn": ["middle"],
+      "label": "設備異常告警合成資料 v1",
+      "detail": "2,000 列、8 個數值特徵、5% 正類；不含個資",
+      "version": "1.0.0",
+      "license": "CC0-1.0",
+      "licenseRef": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+      "provenance": "由 /root/p0_baseline 以 scripts/generate_learning_lab.py v1、Python random seed 42 產生；無外部原始資料",
+      "generatorVersion": "scripts/generate_learning_lab.py:v1",
+      "sha256": "sha256:c6db9b752a39e85e48ddf13131eafc31ca1320c74bb171582ef49d8a58ad41ee",
+      "bytes": 206045,
+      "fixtureRef": "notebooks/labs/lab-imbalanced-classification/fixtures/equipment_alerts_v1.csv",
+      "splitManifestRef": "notebooks/labs/lab-imbalanced-classification/fixtures/split_manifest_v1.json",
+      "splitManifestSha256": "sha256:92a43c167af21d254f0b07ff0a1386c48bbe0d7ea3ef8f12a4ca588d7681882e",
+      "splitManifestBytes": 36240,
+      "schema": {
+        "rowCount": 2000,
+        "columns": [
+          {"name":"row_id","type":"string","unique":true,"nullable":false},
+          {"name":"feature_1","type":"number","finite":true,"nullable":false},
+          {"name":"feature_2","type":"number","finite":true,"nullable":false},
+          {"name":"feature_3","type":"number","finite":true,"nullable":false},
+          {"name":"feature_4","type":"number","finite":true,"nullable":false},
+          {"name":"feature_5","type":"number","finite":true,"nullable":false},
+          {"name":"feature_6","type":"number","finite":true,"nullable":false},
+          {"name":"feature_7","type":"number","finite":true,"nullable":false},
+          {"name":"feature_8","type":"number","finite":true,"nullable":false},
+          {"name":"is_anomaly","type":"integer","enum":[0,1],"nullable":false}
+        ],
+        "labelMeaning": "1 表示需要檢查的合成異常；0 表示正常",
+        "missingAllowed": false,
+        "positiveCount": 100
+      }
+    },
+    {
+      "key": "sklearn-common-pitfalls",
+      "levelId": "middle",
+      "kind": "external",
+      "surface": "learning",
+      "visibleIn": ["middle"],
+      "label": "scikit-learn 常見陷阱與資料洩漏",
+      "version": "stable-checked-2026-09-07",
+      "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+      "checkedAt": "2026-09-07T11:30:00Z",
+      "reviewDueAt": "2027-03-07T00:00:00Z"
+    },
+    {
+      "key": "sklearn-model-evaluation",
+      "levelId": "middle",
+      "kind": "external",
+      "surface": "learning",
+      "visibleIn": ["middle"],
+      "label": "scikit-learn 分類評估指標",
+      "version": "stable-checked-2026-09-07",
+      "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+      "checkedAt": "2026-09-07T11:30:00Z",
+      "reviewDueAt": "2027-03-07T00:00:00Z"
+    },
+    {
+      "key": "sklearn-threshold-tuning",
+      "levelId": "middle",
+      "kind": "external",
+      "surface": "learning",
+      "visibleIn": ["middle"],
+      "label": "scikit-learn 分類決策閾值",
+      "version": "stable-checked-2026-09-07",
+      "url": "https://scikit-learn.org/stable/modules/classification_threshold.html",
+      "checkedAt": "2026-09-07T11:30:00Z",
+      "reviewDueAt": "2027-03-07T00:00:00Z"
     }
   ]
 }

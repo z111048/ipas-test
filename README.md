@@ -4,6 +4,11 @@
 再由 React/Vite 建成 GitHub Pages 網站。內容解析品質是核心：PDF 對章節、題號與圖片資產的對齊，
 都必須先通過閘門才能發佈。
 
+擴充規劃見 [`學習平台架構與開發規格`](specifications/learning-platform/README.md)：
+涵蓋學習指引實務補充、主題專題、歷屆考題分析、模擬練習與 Colab 操作。
+第一條本機 MVP 已完成並通過 20 項驗收；啟動見 [MVP 操作手冊](specifications/learning-platform/mvp-runbook.md)，
+實際完成與限制見 [驗收進度](specifications/learning-platform/progress.md)。現有 pipeline 操作仍以 playbook 為準。
+
 ## 快速開始
 
 需求：Python 3.11、[uv](https://docs.astral.sh/uv/)、Node.js 20。

@@ -1,0 +1,52 @@
+{
+  "id": "review-peer-d1-diagnostic-imbalanced-classification-v1-20260907-v1",
+  "subject": {
+    "kind": "mock-blueprint",
+    "id": "diagnostic-imbalanced-classification-v1",
+    "revision": 1,
+    "hash": "sha256:3f2f3a05964d91d6cbd0ca54323ec7a8e732f80b992aee2183300b37c83cbdba"
+  },
+  "dependencyHashes": [
+    "sha256:38c244398604545cb383574cd0b1468067322c95ae3583cc40c949127cc6a8c3"
+  ],
+  "rubricVersion": "mvp-review-v1",
+  "reviewerId": "agent-p0-baseline",
+  "reviewerRole": "independent_model",
+  "authorId": "agent-content-labs",
+  "responsibility": "domain_content",
+  "qualification": {
+    "scope": [
+      "mvp-domain-content"
+    ],
+    "evidenceIds": [
+      "evidence-assessment-peer-delegation"
+    ],
+    "grantedBy": "root-coordinator",
+    "grantedAt": "2026-09-07T12:59:37Z"
+  },
+  "evidenceRefs": [
+    {
+      "id": "evidence-assessment-peer-delegation",
+      "revision": 1,
+      "hash": "sha256:7c723eb62ecf0b0a82dc17e1376b6c7547602f65a9742db5c8858d4a5d5650a9"
+    },
+    {
+      "id": "evidence-assessment-peer-review-20260907",
+      "revision": 1,
+      "hash": "sha256:360b2a29b84e937ee56f3f359bf2ede17490bdb4a4cd797af75625ee0bfd27a2"
+    }
+  ],
+  "verdict": "approved",
+  "checks": [
+    {
+      "code": "D1",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-assessment-peer-delegation",
+        "evidence-assessment-peer-review-20260907"
+      ]
+    }
+  ],
+  "createdAt": "2026-09-07T12:59:37Z",
+  "rationale": "agent-p0-baseline真實非作者21/21覆核。A1僅pool策展完整性/已審答案綁定；單題答案仍依agent-content-labs既有獨立審查，不構成作者自審或human批准。"
+}

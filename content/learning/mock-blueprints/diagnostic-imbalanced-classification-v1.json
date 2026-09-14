@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "id": "diagnostic-imbalanced-classification-v1",
+  "revision": 1,
+  "contentHash": "sha256:3f2f3a05964d91d6cbd0ca54323ec7a8e732f80b992aee2183300b37c83cbdba",
+  "status": "in_review",
+  "reviewIds": [
+    "review-contract-diagnostic-imbalanced-classification-v1-20260907-v1",
+    "review-peer-d1-diagnostic-imbalanced-classification-v1-20260907-v1"
+  ],
+  "dependencies": [],
+  "title": "不平衡分類與防洩漏：10題主題診斷",
+  "levelId": "middle",
+  "subjectIds": [
+    "mid-s3"
+  ],
+  "questionCount": 10,
+  "timeLimitSeconds": 1200,
+  "poolRef": {
+    "id": "pool-imbalanced-classification-v1",
+    "releaseId": "candidate",
+    "hash": "sha256:38c244398604545cb383574cd0b1468067322c95ae3583cc40c949127cc6a8c3"
+  },
+  "kinds": [
+    "chapter_practice"
+  ],
+  "format": "single_choice",
+  "quotas": [
+    {
+      "id": "unit-split-before-fit",
+      "dimension": "topic",
+      "key": "資料洩漏",
+      "min": 3,
+      "max": 3,
+      "mode": "hard",
+      "priority": 1
+    },
+    {
+      "id": "unit-imbalanced-classification",
+      "dimension": "topic",
+      "key": "評估指標",
+      "min": 4,
+      "max": 4,
+      "mode": "hard",
+      "priority": 1
+    },
+    {
+      "id": "unit-threshold-decision",
+      "dimension": "topic",
+      "key": "模型評估",
+      "min": 3,
+      "max": 3,
+      "mode": "hard",
+      "priority": 1
+    }
+  ],
+  "seedPolicy": "user_or_generated",
+  "algorithmVersion": "mock-selector-v1",
+  "uniqueFamily": true,
+  "contextPolicy": "atomic_keep_order",
+  "optionOrder": "seeded",
+  "scoring": {
+    "correct": 1,
+    "incorrect": 0,
+    "unanswered": 0,
+    "passingPercent": 60
+  }
+}

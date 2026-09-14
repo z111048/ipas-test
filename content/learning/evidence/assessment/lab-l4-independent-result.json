@@ -1,0 +1,58 @@
+{
+  "verdict": "pass",
+  "reviewerId": "agent-content-labs",
+  "role": "independent_model",
+  "scope": "L4 semantic and independent fault checks; no human Colab",
+  "sourceHash": "sha256:e271535428e2c50a5422ab80496eaf1f5bcd37502f605c0d927f31e34b4a5f31",
+  "labContentHash": "sha256:5bb3dc8b27d18e8d5407398445a7ea52791c2ae5d97de5d5131a63c3c319cb2b",
+  "executionSeconds": 15.852,
+  "rootUploadWithoutFixturesDirectory": true,
+  "audit": {
+    "actualKernelPython": "3.11.13",
+    "actualPackages": {
+      "numpy": "2.4.3",
+      "pandas": "3.0.5",
+      "scikit-learn": "1.9.0"
+    },
+    "fitRows": 1200,
+    "actualWrongFitRows": 2000,
+    "actualWrongSelectionRows": 400,
+    "correctSelectionRows": 400,
+    "wrongFitIncludesTest": true,
+    "wrongSelectionEqualsTest": true
+  },
+  "probes": {
+    "empty_fit_rows": "rejected",
+    "test_row_identity": "rejected",
+    "only_two_test_labels": "rejected",
+    "negative_validation_cost": "rejected",
+    "impossible_validation_recall": "rejected",
+    "changed_fn5_cost": "rejected",
+    "forged_dummy_metric": "rejected",
+    "changed_threshold": "rejected"
+  },
+  "baseline": {
+    "accuracy": 0.95,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "tn": 380,
+    "fp": 0,
+    "fn": 20,
+    "tp": 0,
+    "average_cost": 1.0
+  },
+  "selectedThreshold": 0.05,
+  "testMetrics": {
+    "tn": 266,
+    "fp": 114,
+    "fn": 7,
+    "tp": 13,
+    "accuracy": 0.6975,
+    "precision": 0.10236220472440945,
+    "recall": 0.65,
+    "f1": 0.1768707482993197,
+    "average_cost": 0.635
+  },
+  "humanL5": "not_run"
+}

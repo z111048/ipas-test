@@ -1,0 +1,58 @@
+{
+  "id": "review-contract-lab-imbalanced-classification-20260907-v1",
+  "subject": {
+    "kind": "lab",
+    "id": "lab-imbalanced-classification",
+    "revision": 1,
+    "hash": "sha256:5bb3dc8b27d18e8d5407398445a7ea52791c2ae5d97de5d5131a63c3c319cb2b"
+  },
+  "dependencyHashes": [
+    "sha256:947a4dffcddf2b0f964351d67004b00a6ebd08cff9d0c4c93787490fba33bdf1",
+    "sha256:a8e8213fc629be53447ec321246d1cb2d04c07b1510c22671a0c7be8e76411a8",
+    "sha256:bbfedffc559834396aa3093b908409472ac26626e5976b196f4192ae3c093e3b",
+    "sha256:c6db9b752a39e85e48ddf13131eafc31ca1320c74bb171582ef49d8a58ad41ee",
+    "sha256:cf2f0121d697bcaebe777a8142c3ce18f3b252ac4a2121d96b920935350ed7f8",
+    "sha256:ec7cfde721e6728e913a0b0f8bd52aea2f10bbf0eb6fe69a9eae0a5b73959f8f",
+    "sha256:fb5b5b1985d5c46e6684140616bd7741d0ef3885473dc7caa5dc9e248d500e29"
+  ],
+  "rubricVersion": "mvp-review-v1",
+  "reviewerId": "script-validate-learning-content",
+  "reviewerRole": "automated_check",
+  "authorId": "agent-p0-baseline",
+  "responsibility": "deterministic_contract",
+  "qualification": {
+    "scope": [
+      "mvp-source-contract"
+    ],
+    "evidenceIds": [
+      "evidence-mvp-record-completion-delegation"
+    ],
+    "grantedBy": "root-coordinator",
+    "grantedAt": "2026-09-07T12:54:29Z"
+  },
+  "evidenceRefs": [
+    {
+      "id": "evidence-mvp-record-completion-delegation",
+      "revision": 1,
+      "hash": "sha256:922240d8bed38acc0ea3c8733d23d8a0e906b4830ed0f75b6350d8fff5398d56"
+    },
+    {
+      "id": "evidence-mvp-contract-check-20260907",
+      "revision": 1,
+      "hash": "sha256:17c011241124fbc4a8af6ac73b4e47e43b045d54384c118dec1bc5bee37e684f"
+    }
+  ],
+  "verdict": "approved",
+  "checks": [
+    {
+      "code": "C1",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-mvp-record-completion-delegation",
+        "evidence-mvp-contract-check-20260907"
+      ]
+    }
+  ],
+  "createdAt": "2026-09-07T12:54:29Z",
+  "rationale": "只記本輪已實際執行且hash綁定的machine檢查，完整範圍與限制見evidence；沒有human L5批准。"
+}

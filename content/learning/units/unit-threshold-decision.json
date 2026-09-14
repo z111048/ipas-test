@@ -1,0 +1,282 @@
+{
+  "schemaVersion": 1,
+  "id": "unit-threshold-decision",
+  "revision": 1,
+  "contentHash": "sha256:27070a98f3b159411d170161a26c3fda34f9af0efce095fd5412e5defd96cad1",
+  "status": "in_review",
+  "reviewIds": [
+    "review-contract-unit-threshold-decision-20260909-v2",
+    "review-domain-unit-threshold-decision-20260909-v2"
+  ],
+  "dependencies": [
+    {
+      "resource": {
+        "namespace": "resource",
+        "levelId": "middle",
+        "key": "learning-guide-middle-3"
+      },
+      "revision": "sha256-263987fb931e9736a15bf16c4c1b3e94fec3d91d68d33ab601c7c16d77d06f37",
+      "hash": "sha256:263987fb931e9736a15bf16c4c1b3e94fec3d91d68d33ab601c7c16d77d06f37",
+      "kind": "repository",
+      "hashScope": "full_artifact",
+      "artifactPath": "frontend/src/generated/guideContent/中級-guide3/mid-s3c9.json"
+    },
+    {
+      "resource": {
+        "namespace": "resource",
+        "levelId": "middle",
+        "key": "sklearn-threshold-tuning"
+      },
+      "revision": "stable-checked-2026-09-07",
+      "hash": "sha256:12fc719b5b52872b412fd09a5878c1e6086ef519e5bdf2baca4c8a3e734a8bef",
+      "selector": "decision-threshold",
+      "kind": "external",
+      "hashScope": "reviewed_capture",
+      "retrievedAt": "2026-09-07T11:30:00Z",
+      "reviewDueAt": "2027-03-07T00:00:00Z",
+      "capture": {
+        "mode": "authored_summary",
+        "text": "分類機率與採取行動是不同問題；調整決策閾值應使用與訓練、最終測試分離的資料。"
+      }
+    }
+  ],
+  "title": "用 validation 成本選閾值，再凍結決策",
+  "summary": "把模型機率與採取行動分開，依 FN/FP 相對成本在 validation 上用確定性規則選閾值，凍結後只讀一次 test，並以敏感度分析說明決策限制。",
+  "bodyRef": "content/learning/units/unit-threshold-decision.md",
+  "levelIds": [
+    "middle"
+  ],
+  "chapterRefs": [
+    {
+      "levelId": "middle",
+      "subjectId": "mid-s3",
+      "chapterId": "mid-s3c9"
+    }
+  ],
+  "topicRefs": [
+    {
+      "id": "topic-4f38972f",
+      "name": "評估指標"
+    },
+    {
+      "id": "topic-a0911713",
+      "name": "交叉驗證"
+    }
+  ],
+  "guideRefs": [
+    {
+      "anchorId": "mid-s3c9-cross-validation",
+      "levelId": "middle",
+      "guideKey": "中級-guide3",
+      "nodeId": "mid-s3c9",
+      "blockIds": [
+        "block-167"
+      ],
+      "sourceHash": "sha256:263987fb931e9736a15bf16c4c1b3e94fec3d91d68d33ab601c7c16d77d06f37",
+      "pageIndexes": [
+        159
+      ],
+      "quote": "4. 交叉驗證",
+      "anchor": "4交叉驗證",
+      "precision": "exact",
+      "fallbackRoute": "/guide/mid-s3/mid-s3c9"
+    }
+  ],
+  "gapStatement": "指引介紹評估與交叉驗證；本單元補上 validation 成本選閾值、確定性 tie-break、test 隔離、決策凍結與成本敏感度。",
+  "objectives": [
+    {
+      "id": "unit-threshold-decision::compute-cost",
+      "action": "從混淆矩陣計算每筆平均錯誤成本",
+      "condition": "給定 FN/FP 成本與 validation 筆數",
+      "criterion": "成本計算誤差不超過 0.000001",
+      "assessmentIds": [
+        "assess-threshold-table"
+      ]
+    },
+    {
+      "id": "unit-threshold-decision::select-threshold",
+      "action": "依成本與 tie-break 選擇 threshold",
+      "condition": "給定固定候選 thresholds 與 validation scores",
+      "criterion": "結果等於 average_cost 升冪、recall 降冪、threshold 升冪的首筆",
+      "assessmentIds": [
+        "assess-threshold-table"
+      ]
+    },
+    {
+      "id": "unit-threshold-decision::freeze-decision",
+      "action": "凍結方案並隔離最終 test",
+      "condition": "完成 validation 選擇後",
+      "criterion": "threshold 搜尋 row IDs 不含 test，報告含一次 test 與 FN=5 敏感度",
+      "assessmentIds": [
+        "assess-threshold-decision"
+      ]
+    }
+  ],
+  "prerequisites": [
+    {
+      "kind": "unit",
+      "ref": "unit-imbalanced-classification",
+      "diagnosticPrompt": "能否由矩陣說明 FN 與 FP 的業務後果？",
+      "remediationRef": "unit-imbalanced-classification"
+    }
+  ],
+  "estimatedMinutes": 25,
+  "sections": [
+    {
+      "id": "threshold-context",
+      "kind": "context",
+      "bodyAnchor": "context",
+      "objectiveIds": [
+        "unit-threshold-decision::freeze-decision"
+      ],
+      "claimIds": []
+    },
+    {
+      "id": "threshold-bridge",
+      "kind": "concept_bridge",
+      "bodyAnchor": "concept_bridge",
+      "objectiveIds": [
+        "unit-threshold-decision::compute-cost",
+        "unit-threshold-decision::select-threshold"
+      ],
+      "claimIds": [
+        "claim-threshold-source"
+      ]
+    },
+    {
+      "id": "threshold-example",
+      "kind": "worked_example",
+      "bodyAnchor": "worked_example",
+      "objectiveIds": [
+        "unit-threshold-decision::compute-cost"
+      ],
+      "claimIds": []
+    },
+    {
+      "id": "threshold-guided",
+      "kind": "guided_practice",
+      "bodyAnchor": "guided_practice",
+      "objectiveIds": [
+        "unit-threshold-decision::select-threshold"
+      ],
+      "claimIds": []
+    },
+    {
+      "id": "threshold-independent",
+      "kind": "independent_practice",
+      "bodyAnchor": "independent_practice",
+      "objectiveIds": [
+        "unit-threshold-decision::freeze-decision"
+      ],
+      "claimIds": []
+    },
+    {
+      "id": "threshold-misconceptions",
+      "kind": "misconceptions",
+      "bodyAnchor": "misconceptions",
+      "objectiveIds": [
+        "unit-threshold-decision::freeze-decision"
+      ],
+      "claimIds": [
+        "claim-threshold-source"
+      ]
+    },
+    {
+      "id": "threshold-reflection",
+      "kind": "assessment_reflection",
+      "bodyAnchor": "assessment_reflection",
+      "objectiveIds": [
+        "unit-threshold-decision::compute-cost",
+        "unit-threshold-decision::select-threshold",
+        "unit-threshold-decision::freeze-decision"
+      ],
+      "claimIds": []
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim-threshold-source",
+      "kind": "source",
+      "text": "分類機率與決策是不同問題；threshold 選擇需與模型訓練及最終 test 分離。",
+      "sourceRefs": [
+        {
+          "resource": {
+            "namespace": "resource",
+            "levelId": "middle",
+            "key": "sklearn-threshold-tuning"
+          },
+          "revision": "stable-checked-2026-09-07",
+          "hash": "sha256:12fc719b5b52872b412fd09a5878c1e6086ef519e5bdf2baca4c8a3e734a8bef",
+          "selector": "decision-threshold",
+          "kind": "external",
+          "hashScope": "reviewed_capture",
+          "retrievedAt": "2026-09-07T11:30:00Z",
+          "reviewDueAt": "2027-03-07T00:00:00Z",
+          "capture": {
+            "mode": "authored_summary",
+            "text": "分類機率與採取行動是不同問題；調整決策閾值應使用與訓練、最終測試分離的資料。"
+          }
+        }
+      ]
+    }
+  ],
+  "assessments": [
+    {
+      "id": "assess-threshold-table",
+      "kind": "calculation",
+      "prompt": "重算所有 validation threshold 的矩陣、指標與成本並套用 tie-break。",
+      "objectiveIds": [
+        "unit-threshold-decision::compute-cost",
+        "unit-threshold-decision::select-threshold"
+      ],
+      "expectedEvidence": "完整成本表與可重現排序結果。",
+      "rubricId": "rubric-threshold"
+    },
+    {
+      "id": "assess-threshold-decision",
+      "kind": "independent_analysis",
+      "prompt": "把 FN 成本改為 5，重做 validation 選擇並比較原方案。",
+      "objectiveIds": [
+        "unit-threshold-decision::freeze-decision"
+      ],
+      "expectedEvidence": "frozen decision、test 隔離證據、敏感度表與限制說明。",
+      "rubricId": "rubric-threshold"
+    }
+  ],
+  "rubrics": [
+    {
+      "id": "rubric-threshold",
+      "criteria": [
+        {
+          "criterion": "選擇可重現",
+          "passEvidence": "成本公式與三層 tie-break 完整且結果唯一。"
+        },
+        {
+          "criterion": "test 隔離",
+          "passEvidence": "test 未參與閾值搜尋，方案凍結後才估計。"
+        },
+        {
+          "criterion": "限制清楚",
+          "passEvidence": "不把合成成本冒充真實績效，提出至少兩項部署待驗證事項。"
+        }
+      ]
+    }
+  ],
+  "evidenceIds": [
+    "evidence-mid-s3c9-cross-validation"
+  ],
+  "labRefs": [
+    {
+      "kind": "lab",
+      "id": "lab-imbalanced-classification",
+      "revision": 1
+    }
+  ],
+  "projectRefs": [
+    {
+      "kind": "project",
+      "id": "project-imbalanced-classification",
+      "revision": 1
+    }
+  ]
+}

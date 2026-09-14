@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { FilterBar, PageHeader, SegmentedControl, StatePanel } from '../components/ui'
+import { resolveConcept } from '../data/conceptLookup'
 
 // three.js 約 1MB：只有切到立體圖才載
 const ConceptGraph3D = lazy(() => import('../components/concepts/ConceptGraph3D'))
@@ -36,14 +37,21 @@ interface QuestionRef {
 }
 
 interface Concept {
+  /** 詞彙表的穩定 id（`topic-<8 hex>`）：網址、選取與 key 都用它 */
+  id: string
   name: string
+  /** id 指派帳本裡的舊正式名稱，只給舊連結解析用 */
+  previousNames: string[]
   parent: string
   questionCount: { official: number; practice: number }
   glossary: GlossaryRef[]
   chapters: ChapterRef[]
-  related: { name: string; weight: number }[]
+  related: { id: string; name: string; weight: number }[]
   questions: QuestionRef[]
 }
+
+// 舊連結相容層：`?c=` 在 LP-210C 之前放的是中文名稱。解析順序與相容期的說明見 data/conceptLookup.ts；
+// 命中舊形式就把網址改寫成 id（下方 useEffect），之後再分享出去的連結不再綁名稱，概念改名也不會斷。
 
 interface ConceptGraph {
   conceptCount: number
@@ -78,9 +86,19 @@ export default function ConceptsPage() {
     }
   }, [])
 
-  const selectedName = searchParams.get('c') ?? ''
+  const requested = searchParams.get('c') ?? ''
   const concepts = graph?.concepts ?? []
-  const selected = concepts.find((c) => c.name === selectedName) ?? null
+  const selected = useMemo(() => resolveConcept(concepts, requested), [concepts, requested])
+  // 資料載好了、網址有指定、卻對不到任何概念：多半是改名或合併後的失效連結
+  const unresolved = graph !== null && requested !== '' && selected === null
+
+  useEffect(() => {
+    // 舊形式（中文名稱）命中就改寫成 id；replace 不留歷史紀錄，返回鍵不會卡在舊網址
+    if (!selected || requested === selected.id) return
+    const next = new URLSearchParams(searchParams)
+    next.set('c', selected.id)
+    setSearchParams(next, { replace: true })
+  }, [requested, selected, searchParams, setSearchParams])
 
   const parents = useMemo(
     () => Array.from(new Set(concepts.map((c) => c.parent).filter(Boolean))).sort(),
@@ -98,9 +116,9 @@ export default function ConceptsPage() {
     })
   }, [concepts, query, parent])
 
-  function select(name: string) {
+  function select(id: string) {
     const next = new URLSearchParams(searchParams)
-    next.set('c', name)
+    next.set('c', id)
     setSearchParams(next)
   }
 
@@ -199,7 +217,7 @@ export default function ConceptsPage() {
             >
               <ConceptGraph3D
                 concepts={listed}
-                selected={selectedName}
+                selected={selected?.id ?? ''}
                 minWeight={strongOnly ? 2 : 1}
                 onSelect={select}
               />
@@ -241,11 +259,11 @@ export default function ConceptsPage() {
           {listed.map((concept) => {
             return (
               <button
-                key={concept.name}
+                key={concept.id}
                 type="button"
-                onClick={() => select(concept.name)}
+                onClick={() => select(concept.id)}
                 className={`min-h-11 w-full text-left px-4 py-2.5 border-b border-border cursor-pointer ${
-                  concept.name === selectedName ? 'bg-accent/10' : 'hover:bg-[#f7fbff]'
+                  concept.id === selected?.id ? 'bg-accent/10' : 'hover:bg-[#f7fbff]'
                 }`}
               >
                 <div className="text-[0.9rem] font-semibold text-primary">{concept.name}</div>
@@ -263,7 +281,12 @@ export default function ConceptsPage() {
         </div>
 
         <div className="bg-card rounded-xl shadow-sm border border-border p-5">
-          {!selected ? (
+          {unresolved ? (
+            <StatePanel tone="empty" title="找不到概念">
+              網址指定的「{requested}」不在目前的概念索引裡，可能已改名或合併。
+              請從清單重新選一個概念。
+            </StatePanel>
+          ) : !selected ? (
             <StatePanel tone="empty">
               從概念清單挑一個概念，或在立體圖中點選節點。
             </StatePanel>
@@ -314,9 +337,9 @@ export default function ConceptsPage() {
                   <div className="flex flex-wrap gap-2">
                     {selected.related.map((item) => (
                       <button
-                        key={item.name}
+                        key={item.id}
                         type="button"
-                        onClick={() => select(item.name)}
+                        onClick={() => select(item.id)}
                         className="min-h-11 rounded-full border border-border px-3 py-2 text-[0.8rem] text-primary hover:border-accent cursor-pointer"
                       >
                         {item.name}

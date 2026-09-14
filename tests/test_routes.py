@@ -24,6 +24,12 @@ CATALOG_EXAM_ROUTES = [
     )['exams']
 ]
 
+# /concepts?c= 的相容層（LP-210C）：拿真實產物的第一個概念，不寫死名稱——概念改名時
+# 這條測試要跟著資料走，而不是跟著某個 session 的記憶走。
+FIRST_CONCEPT = json.loads(
+    (ROOT / 'frontend/src/generated/conceptGraph.json').read_text(encoding='utf-8')
+)['concepts'][0]
+
 ROUTES = [
     ('首頁', '/'),
     ('科目總覽 s1', '/subject/s1'),
@@ -41,12 +47,20 @@ ROUTES = [
     ('完整目錄', '/outline'),
     ('心智圖', '/mindmap'),
     ('概念索引', '/concepts'),
+    ('概念索引 舊名連結', f'/concepts?c={FIRST_CONCEPT["name"]}'),
 ]
 
 EXPECTED_NOT_FOUND_ROUTES = [
     ('未知路由', '/definitely-not-a-real-route', '找不到頁面'),
     ('無效科目', '/subject/not-a-real-subject', '找不到科目'),
     ('無效考卷', '/exam/not-a-real-exam', '找不到考試'),
+    ('無效概念', '/concepts?c=topic-not-a-real-topic', '找不到概念'),
+]
+
+# 舊 `?c=<中文名>`、新 `?c=<id>` 都要開到同一個概念；舊形式要被改寫成 id 形式。
+CONCEPT_LINK_CASES = [
+    ('?c=<中文名> → 改寫成 id', f'/concepts?c={FIRST_CONCEPT["name"]}'),
+    ('?c=<id> 直接命中', f'/concepts?c={FIRST_CONCEPT["id"]}'),
 ]
 
 fails = []
@@ -115,6 +129,40 @@ with dev_server() as BASE, sync_playwright() as pw:
         finally:
             page.close()
 
+    for label, route in CONCEPT_LINK_CASES:
+        page = browser.new_page(viewport={'width': 1280, 'height': 900})
+        errors = []
+        page.on('console', lambda m: errors.append(m.text) if m.type == 'error' else None)
+        page.on('pageerror', lambda e: errors.append(f'pageerror: {e}'))
+        try:
+            page.goto(f'{BASE}/#{route}', wait_until='networkidle', timeout=45000)
+            settle_text(page)
+            # 標題要是概念名稱；網址不論用哪種形式進來，最後都要停在 id 形式
+            heading = page.locator('h2').first.inner_text().strip()
+            page.wait_for_function(
+                'id => decodeURIComponent(location.hash).includes("c=" + id)',
+                arg=FIRST_CONCEPT['id'], timeout=10000)
+            final_hash = page.evaluate('decodeURIComponent(location.hash)')
+            real_errors = [e for e in errors if 'favicon' not in e.lower()]
+            note = []
+            if heading != FIRST_CONCEPT['name']:
+                note.append(f'標題是「{heading[:20]}」而非「{FIRST_CONCEPT["name"]}」')
+            if f'c={FIRST_CONCEPT["id"]}' not in final_hash:
+                note.append(f'網址仍是 {final_hash[:60]}')
+            if f'c={FIRST_CONCEPT["name"]}' in final_hash:
+                note.append('舊名稱仍留在網址上')
+            if real_errors:
+                note.append(f'console: {real_errors[0][:90]}')
+            ok = not note
+            print(f'  {"✓" if ok else "✗"} {label:<34} {final_hash[-40:]:>40}  {"; ".join(note)}')
+            if not ok:
+                fails.append(label)
+        except Exception as exc:
+            print(f'  ✗ {label:<34} 例外：{type(exc).__name__}: {str(exc)[:80]}')
+            fails.append(label)
+        finally:
+            page.close()
+
     for label, route, expected in EXPECTED_NOT_FOUND_ROUTES:
         page = browser.new_page(viewport={'width': 1280, 'height': 900})
         errors = []
@@ -142,7 +190,8 @@ with dev_server() as BASE, sync_playwright() as pw:
 
 print('\n' + '=' * 60)
 if fails:
-    total_routes = len(ROUTES) + len(EXPECTED_NOT_FOUND_ROUTES)
+    total_routes = len(ROUTES) + len(CONCEPT_LINK_CASES) + len(EXPECTED_NOT_FOUND_ROUTES)
     print(f'✗ {len(fails)}/{total_routes} 條路由有問題：' + '、'.join(fails))
     sys.exit(1)
-print(f'✓ {len(ROUTES)} 條正常路由＋{len(EXPECTED_NOT_FOUND_ROUTES)} 條錯誤路由全部正常')
+print(f'✓ {len(ROUTES)} 條正常路由＋{len(CONCEPT_LINK_CASES)} 條概念連結相容＋'
+      f'{len(EXPECTED_NOT_FOUND_ROUTES)} 條錯誤路由全部正常')

@@ -29,7 +29,8 @@ export interface CatalogExam {
 
 export interface CatalogResource {
   key: string
-  kind: 'pdf' | 'route'
+  kind: 'pdf' | 'route' | 'dataset' | 'external' | 'guide'
+  surface?: 'reference' | 'learning'
   visibleIn: ResourceLevelId[]
   label: string
   detail?: string
@@ -59,8 +60,13 @@ export function examsForLevel(levelId: ResourceLevelId) {
   return catalogExams.filter((exam) => exam.levelId === levelId)
 }
 
-export function resourcesForLevel(levelId: ResourceLevelId) {
-  return resourceCatalog.resources.filter((resource) => resource.visibleIn.includes(levelId))
+export function resourcesForLevel(
+  levelId: ResourceLevelId,
+  surface: 'reference' | 'learning' = 'reference',
+) {
+  return resourceCatalog.resources.filter((resource) =>
+    (resource.surface ?? 'reference') === surface && resource.visibleIn.includes(levelId),
+  )
 }
 
 export function examByRouteKey(routeKey: string) {

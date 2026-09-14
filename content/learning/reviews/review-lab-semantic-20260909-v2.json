@@ -1,0 +1,95 @@
+{
+  "id": "review-lab-semantic-20260909-v2",
+  "subject": {
+    "kind": "lab",
+    "id": "lab-imbalanced-classification",
+    "revision": 1,
+    "hash": "sha256:6aeb2aeb2702ef5044f2b1144328252750eec6e36b418b7d5f8a3c9cb28aaa36"
+  },
+  "dependencyHashes": [
+    "sha256:27070a98f3b159411d170161a26c3fda34f9af0efce095fd5412e5defd96cad1",
+    "sha256:a5ac34ded71a1b9078febc9643dcbf9b66635411b0edad3cbd01be80e53641a5",
+    "sha256:c6db9b752a39e85e48ddf13131eafc31ca1320c74bb171582ef49d8a58ad41ee",
+    "sha256:cf2f0121d697bcaebe777a8142c3ce18f3b252ac4a2121d96b920935350ed7f8",
+    "sha256:df97d09c8ae8305693ea5efcc79b15fab23f2b993956bbacbfb426962c9f481b",
+    "sha256:ec7cfde721e6728e913a0b0f8bd52aea2f10bbf0eb6fe69a9eae0a5b73959f8f"
+  ],
+  "rubricVersion": "mvp-review-v1",
+  "reviewerId": "agent-codex-cli",
+  "reviewerRole": "independent_model",
+  "authorId": "agent-claude-code",
+  "responsibility": "domain_content",
+  "qualification": {
+    "scope": [
+      "mvp-domain-content",
+      "mvp-source-contract"
+    ],
+    "evidenceIds": [
+      "evidence-lp210b-review-delegation"
+    ],
+    "grantedBy": "maintainer",
+    "grantedAt": "2026-09-09T00:00:00Z"
+  },
+  "evidenceRefs": [
+    {
+      "id": "evidence-lab-author-execution",
+      "revision": 1,
+      "hash": "sha256:7fb884f4f70dce969a7da09e018feb7120cd3af583896b01e2bf8e110487beaa"
+    },
+    {
+      "id": "evidence-lab-independent-probes",
+      "revision": 1,
+      "hash": "sha256:5125c378a2df85c0563a6184e169834ffaabbe8f5cd7ab271bc0fe4c76cf71e2"
+    },
+    {
+      "id": "evidence-lab-semantic-delegation",
+      "revision": 1,
+      "hash": "sha256:7cafffc714e4382329bc107368abd8b2f237a30d3fe86a2d5d95d3f53b8edb0c"
+    },
+    {
+      "id": "evidence-lab-semantic-review",
+      "revision": 1,
+      "hash": "sha256:498598dd0d6baaf912820141379680939f8c377a769cee51d5842251333a2d35"
+    },
+    {
+      "id": "evidence-lp210b-migration-diff",
+      "revision": 1,
+      "hash": "sha256:4b067cec98f71e9960e6d064c2d258a194e5ae7076632f7da2c7deecd504beae"
+    },
+    {
+      "id": "evidence-lp210b-review-delegation",
+      "revision": 1,
+      "hash": "sha256:6aa7f6603715641cce813c196f5f25ad39280095290b9b990eedc52ec1bc99c7"
+    }
+  ],
+  "verdict": "approved",
+  "checks": [
+    {
+      "code": "D1",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-lab-author-execution",
+        "evidence-lab-independent-probes",
+        "evidence-lab-semantic-delegation",
+        "evidence-lab-semantic-review",
+        "evidence-lp210b-migration-diff",
+        "evidence-lp210b-review-delegation"
+      ]
+    },
+    {
+      "code": "L4",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-lab-author-execution",
+        "evidence-lab-independent-probes",
+        "evidence-lab-semantic-delegation",
+        "evidence-lab-semantic-review",
+        "evidence-lp210b-migration-diff",
+        "evidence-lp210b-review-delegation"
+      ]
+    }
+  ],
+  "createdAt": "2026-09-09T00:00:00Z",
+  "rationale": "本紀錄的 scope 是 LP-210B 的機械式 topic 引用遷移。非作者審查者確認 contentHash 投影內只有 topicRefs 改變、lab 的教學與執行內容 bytes 不變，因此 review-lab-semantic-20260907-v1 的 D1／L4 結論可承接到這個 revision。**L4 本輪沒有被重做**，這裡的 L4: pass 只能讀作「舊結論經遷移確認後承接」，不得引用為新做的獨立語意審查。人類 Colab L5 仍未完成。",
+  "supersedes": "review-lab-semantic-20260907-v1"
+}

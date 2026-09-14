@@ -1,0 +1,216 @@
+{
+  "schemaVersion": 1,
+  "id": "project-imbalanced-classification",
+  "revision": 1,
+  "contentHash": "sha256:c333d0600d3c1360f9f415998ee0caa6f47cab3bb1c65996a7d057050ee25aa1",
+  "status": "in_review",
+  "reviewIds": [
+    "review-contract-project-imbalanced-classification-20260909-v2",
+    "review-domain-project-imbalanced-classification-20260909-v2"
+  ],
+  "dependencies": [],
+  "title": "設備異常告警試點決策",
+  "brief": {
+    "scenario": "維護團隊要用完全合成的設備觀測資料評估異常告警流程，決定是否進入有限範圍、有人覆核的試點。",
+    "problemStatement": "完成可重現的切分、baseline、指標與閾值證據，回答是否值得啟動試點，以及正式部署前仍缺哪些資料。",
+    "constraints": [
+      "2,000 列合成資料，不含個資且不代表真實故障率",
+      "CPU、離線執行，不使用付費 API",
+      "模型只 fit train，threshold 只用 validation，test 在方案凍結後讀一次",
+      "不得以單一 accuracy 或最佳 leaderboard 分數作結論"
+    ]
+  },
+  "topicRefs": [
+    {
+      "id": "topic-899e6a65",
+      "name": "資料洩漏"
+    },
+    {
+      "id": "topic-10db0f21",
+      "name": "類別不平衡"
+    },
+    {
+      "id": "topic-4f38972f",
+      "name": "評估指標"
+    }
+  ],
+  "chapterRefs": [
+    {
+      "levelId": "middle",
+      "subjectId": "mid-s3",
+      "chapterId": "mid-s3c9"
+    },
+    {
+      "levelId": "middle",
+      "subjectId": "mid-s2",
+      "chapterId": "mid-s2c4"
+    }
+  ],
+  "unitRefs": [
+    {
+      "kind": "unit",
+      "id": "unit-split-before-fit",
+      "revision": 1
+    },
+    {
+      "kind": "unit",
+      "id": "unit-imbalanced-classification",
+      "revision": 1
+    },
+    {
+      "kind": "unit",
+      "id": "unit-threshold-decision",
+      "revision": 1
+    }
+  ],
+  "labRefs": [
+    {
+      "kind": "lab",
+      "id": "lab-imbalanced-classification",
+      "revision": 1
+    }
+  ],
+  "milestones": [
+    {
+      "id": "m1-data-contract",
+      "title": "資料與切分契約",
+      "requiredUnitIds": [
+        "unit-split-before-fit"
+      ],
+      "task": "核對 fixture 與 split hash，提交三分 row ID 不相交及 fit 範圍證據。",
+      "deliverableIds": [
+        "metrics-json"
+      ],
+      "prerequisiteIds": [],
+      "acceptanceCriteria": [
+        "總列數 2,000、8 個數值特徵、正類 100",
+        "split 為 1,200/400/400 且聯集完整",
+        "fitRowIds 僅屬 train"
+      ]
+    },
+    {
+      "id": "m2-metrics",
+      "title": "baseline 與指標報告",
+      "requiredUnitIds": [
+        "unit-imbalanced-classification"
+      ],
+      "task": "比較 DummyClassifier 與候選模型，從矩陣重算四項指標。",
+      "deliverableIds": [
+        "metrics-json"
+      ],
+      "prerequisiteIds": [
+        "m1-data-contract"
+      ],
+      "acceptanceCriteria": [
+        "矩陣方向明確",
+        "precision/recall/F1 重算誤差不超過 1e-6",
+        "說明全負類 baseline 的限制"
+      ]
+    },
+    {
+      "id": "m3-threshold",
+      "title": "validation 閾值選擇",
+      "requiredUnitIds": [
+        "unit-threshold-decision"
+      ],
+      "task": "依 FN=20、FP=1 的相對成本及 tie-break 選 threshold，再以 FN=5 做敏感度分析。",
+      "deliverableIds": [
+        "metrics-json"
+      ],
+      "prerequisiteIds": [
+        "m2-metrics"
+      ],
+      "acceptanceCriteria": [
+        "threshold search 只用 validation",
+        "完整保存候選成本表與 tie-break",
+        "敏感度分析使用相同 validation scores"
+      ]
+    },
+    {
+      "id": "m4-pilot-decision",
+      "title": "最終測試與試點建議",
+      "requiredUnitIds": [
+        "unit-split-before-fit",
+        "unit-imbalanced-classification",
+        "unit-threshold-decision"
+      ],
+      "task": "凍結方案後讀一次 test，提交一頁決策摘要。",
+      "deliverableIds": [
+        "metrics-json",
+        "decision-md"
+      ],
+      "prerequisiteIds": [
+        "m3-threshold"
+      ],
+      "acceptanceCriteria": [
+        "test 未參與選擇",
+        "建議區分試點與全面上線",
+        "至少列兩項合成資料無法支持的真實部署主張"
+      ]
+    }
+  ],
+  "rubric": [
+    {
+      "id": "rubric-data",
+      "criterion": "資料與切分紀律",
+      "weight": 30,
+      "passEvidence": "hash、row IDs、fit 範圍與 test 隔離可重算；洩漏即需重做。"
+    },
+    {
+      "id": "rubric-metrics",
+      "criterion": "指標與計算",
+      "weight": 25,
+      "passEvidence": "混淆矩陣、四指標與 baseline 比較一致。"
+    },
+    {
+      "id": "rubric-decision",
+      "criterion": "閾值與決策",
+      "weight": 25,
+      "passEvidence": "validation 成本表、確定性 tie-break、凍結 threshold 與 test 報告完整。"
+    },
+    {
+      "id": "rubric-limits",
+      "criterion": "反思與限制",
+      "weight": 20,
+      "passEvidence": "說明至少兩個適用限制及下一步資料／試點計畫。"
+    }
+  ],
+  "deliverables": [
+    {
+      "id": "metrics-json",
+      "format": "JSON",
+      "requiredFields": [
+        "dataChecksum",
+        "splitHash",
+        "modelConfig",
+        "threshold",
+        "confusionMatrix or tn/fp/fn/tp",
+        "metrics",
+        "costs",
+        "seed"
+      ],
+      "maxBytes": 100000,
+      "rubricCriterionIds": [
+        "rubric-data",
+        "rubric-metrics",
+        "rubric-decision"
+      ]
+    },
+    {
+      "id": "decision-md",
+      "format": "Markdown",
+      "requiredFields": [
+        "目標",
+        "資料限制",
+        "方案比較",
+        "建議",
+        "驗證下一步"
+      ],
+      "maxBytes": 50000,
+      "rubricCriterionIds": [
+        "rubric-decision",
+        "rubric-limits"
+      ]
+    }
+  ]
+}

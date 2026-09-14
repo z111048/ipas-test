@@ -19,6 +19,11 @@ const MindmapPage = lazy(() => import('./pages/MindmapPage'))
 const ConceptsPage = lazy(() => import('./pages/ConceptsPage'))
 const LearningArticlesPage = lazy(() => import('./pages/LearningArticlesPage'))
 const LearningArticlePage = lazy(() => import('./pages/LearningArticlePage'))
+const LearnPage = lazy(() => import('./features/learning/LearnPage'))
+const ProjectsPage = lazy(() => import('./features/learning/ProjectsPage'))
+const LabPage = lazy(() => import('./features/learning/LabPage'))
+const SimulationPage = lazy(() => import('./features/learning/SimulationPage'))
+const LearningAnalysisPage = lazy(() => import('./features/learning/LearningAnalysisPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 // 搜尋對話框連同 204 KB 索引都不進首頁 bundle，第一次開啟才載入
 const GuideSearchDialog = lazy(() => import('./components/search/GuideSearchDialog'))
@@ -148,6 +153,13 @@ function AppShell() {
                 <Route path="/guide/:subjectId/:chapterId" element={<GuidePage />} />
                 <Route path="/articles" element={<LearningArticlesPage />} />
                 <Route path="/articles/:articleId" element={<LearningArticlePage />} />
+                <Route path="/learn" element={<LearnPage />} />
+                <Route path="/learn/:unitId" element={<LearnPage />} />
+                <Route path="/projects" element={<ProjectsPage />} />
+                <Route path="/projects/:projectId" element={<ProjectsPage />} />
+                <Route path="/labs/:labId" element={<LabPage />} />
+                <Route path="/simulations/:blueprintId" element={<SimulationPage />} />
+                <Route path="/analysis/exams" element={<LearningAnalysisPage />} />
                 <Route path="/visuals" element={<VisualCardsPage />} />
                 <Route path="/images" element={<ImageGalleryPage />} />
                 <Route path="/glossary" element={<GlossaryPage />} />

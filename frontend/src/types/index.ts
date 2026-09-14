@@ -620,6 +620,8 @@ export interface TopicHeatChapter {
 }
 
 export interface TopicHeatTopic {
+  /** 詞彙表的穩定 id（`topic-<8 hex>`），改名不變；key 與連結用它，顯示用 `name` */
+  id: string
   name: string
   /** 所屬大類 */
   parent: string

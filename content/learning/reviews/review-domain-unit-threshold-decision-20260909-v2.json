@@ -1,0 +1,75 @@
+{
+  "id": "review-domain-unit-threshold-decision-20260909-v2",
+  "subject": {
+    "kind": "learning-unit",
+    "id": "unit-threshold-decision",
+    "revision": 1,
+    "hash": "sha256:27070a98f3b159411d170161a26c3fda34f9af0efce095fd5412e5defd96cad1"
+  },
+  "dependencyHashes": [
+    "sha256:12fc719b5b52872b412fd09a5878c1e6086ef519e5bdf2baca4c8a3e734a8bef",
+    "sha256:263987fb931e9736a15bf16c4c1b3e94fec3d91d68d33ab601c7c16d77d06f37",
+    "sha256:6aeb2aeb2702ef5044f2b1144328252750eec6e36b418b7d5f8a3c9cb28aaa36",
+    "sha256:c333d0600d3c1360f9f415998ee0caa6f47cab3bb1c65996a7d057050ee25aa1"
+  ],
+  "rubricVersion": "mvp-review-v1",
+  "reviewerId": "agent-codex-cli",
+  "reviewerRole": "independent_model",
+  "authorId": "agent-claude-code",
+  "responsibility": "domain_content",
+  "qualification": {
+    "scope": [
+      "mvp-domain-content",
+      "mvp-source-contract"
+    ],
+    "evidenceIds": [
+      "evidence-lp210b-review-delegation"
+    ],
+    "grantedBy": "maintainer",
+    "grantedAt": "2026-09-09T00:00:00Z"
+  },
+  "evidenceRefs": [
+    {
+      "id": "evidence-lp210b-migration-diff",
+      "revision": 1,
+      "hash": "sha256:4b067cec98f71e9960e6d064c2d258a194e5ae7076632f7da2c7deecd504beae"
+    },
+    {
+      "id": "evidence-lp210b-review-delegation",
+      "revision": 1,
+      "hash": "sha256:6aa7f6603715641cce813c196f5f25ad39280095290b9b990eedc52ec1bc99c7"
+    },
+    {
+      "id": "evidence-mid-s3c9-cross-validation",
+      "revision": 1,
+      "hash": "sha256:02fb2c284b90c263a007a1448fcac267cf04819d98eeb14c0042c2d66376e3c3"
+    },
+    {
+      "id": "evidence-mvp-record-completion-delegation",
+      "revision": 1,
+      "hash": "sha256:922240d8bed38acc0ea3c8733d23d8a0e906b4830ed0f75b6350d8fff5398d56"
+    },
+    {
+      "id": "evidence-mvp-unit-project-review-20260907",
+      "revision": 1,
+      "hash": "sha256:e73a6dbbd0fb0278e952b8cf935be3f524973776c0e4f5ee152c7b83b521cb3b"
+    }
+  ],
+  "verdict": "approved",
+  "checks": [
+    {
+      "code": "D1",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-lp210b-migration-diff",
+        "evidence-lp210b-review-delegation",
+        "evidence-mid-s3c9-cross-validation",
+        "evidence-mvp-record-completion-delegation",
+        "evidence-mvp-unit-project-review-20260907"
+      ]
+    }
+  ],
+  "createdAt": "2026-09-09T00:00:00Z",
+  "rationale": "本紀錄的 scope 是 LP-210B 的機械式 topic 引用遷移（TopicRef 從 name+vocabularyHash 改為 id+name），不是重做語意審查。非作者審查者以舊 review 記錄的 subject.hash 反推，確認 contentHash 投影內只有 topicRefs 改變、教學正文 bytes 不變，因此前一版 review-domain-unit-threshold-decision-20260907-v1 的結論可承接到這個 revision；證明與其邊界見 evidence-lp210b-migration-diff。人類 Colab L5 仍未完成。",
+  "supersedes": "review-domain-unit-threshold-decision-20260907-v1"
+}

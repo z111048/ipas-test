@@ -1,0 +1,61 @@
+{
+  "id": "review-contract-pool-imbalanced-classification-v1-20260907-v1",
+  "subject": {
+    "kind": "mock-pool",
+    "id": "pool-imbalanced-classification-v1",
+    "revision": 1,
+    "hash": "sha256:38c244398604545cb383574cd0b1468067322c95ae3583cc40c949127cc6a8c3"
+  },
+  "dependencyHashes": [
+    "sha256:17d9f553cd74aa0d927505375dfa7fd9b6a158f71302065bb187411ce5e8863f",
+    "sha256:2dca24717ef7de6f757ea5c32be73b3f602161a1bf076e36902ea91bff9eb45d",
+    "sha256:7990a2e7a6fad5b2dbc69281d031e46cdbf6664300875feabca586baa6479171",
+    "sha256:b0b2a6c7f7005467c19c8273db439d55b525be2569d7dde0cccd2db7f9578162",
+    "sha256:c73c43f61dedd68d432282f7d1a06bb2f5c092a03195860e0b5bc7e1fddfc72f",
+    "sha256:d651291fd7651d928483f2c38d513963d6a9ea6267ba862913b12ffcce7c2a90",
+    "sha256:dcc1b40de072d426d89c45b8128714efb348dacc1ac8f2ee66486b839d76731e",
+    "sha256:e034bba941cca1613832cdc125613705c8028b4b3d6ac8a553570d1fa5fbad87",
+    "sha256:eb23354d971480969ff5ea2bf2cca81cd5a9b7b1869263d7970fa50232910463",
+    "sha256:ff424ad5730631cf48b73f9112953e379ef4ff58b210499af3029a9c6a17fcd5"
+  ],
+  "rubricVersion": "mvp-review-v1",
+  "reviewerId": "script-validate-learning-content",
+  "reviewerRole": "automated_check",
+  "authorId": "agent-content-labs",
+  "responsibility": "deterministic_contract",
+  "qualification": {
+    "scope": [
+      "mvp-source-contract"
+    ],
+    "evidenceIds": [
+      "evidence-mvp-record-completion-delegation"
+    ],
+    "grantedBy": "root-coordinator",
+    "grantedAt": "2026-09-07T12:54:29Z"
+  },
+  "evidenceRefs": [
+    {
+      "id": "evidence-mvp-record-completion-delegation",
+      "revision": 1,
+      "hash": "sha256:922240d8bed38acc0ea3c8733d23d8a0e906b4830ed0f75b6350d8fff5398d56"
+    },
+    {
+      "id": "evidence-mvp-contract-check-20260907",
+      "revision": 1,
+      "hash": "sha256:17c011241124fbc4a8af6ac73b4e47e43b045d54384c118dec1bc5bee37e684f"
+    }
+  ],
+  "verdict": "approved",
+  "checks": [
+    {
+      "code": "C1",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-mvp-record-completion-delegation",
+        "evidence-mvp-contract-check-20260907"
+      ]
+    }
+  ],
+  "createdAt": "2026-09-07T12:54:29Z",
+  "rationale": "只記本輪已實際執行且hash綁定的machine檢查，完整範圍與限制見evidence；沒有human L5批准。"
+}

@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "id": "lab-imbalanced-classification",
+  "revision": 1,
+  "contentHash": "sha256:6aeb2aeb2702ef5044f2b1144328252750eec6e36b418b7d5f8a3c9cb28aaa36",
+  "status": "in_review",
+  "reviewIds": [
+    "review-lab-semantic-20260909-v2",
+    "review-contract-lab-imbalanced-classification-20260909-v2",
+    "review-execution-lab-imbalanced-classification-20260909-v2"
+  ],
+  "dependencies": [
+    {
+      "resource": {
+        "namespace": "resource",
+        "levelId": "middle",
+        "key": "equipment-alerts-synthetic-v1"
+      },
+      "revision": "1.0.0",
+      "hash": "sha256:c6db9b752a39e85e48ddf13131eafc31ca1320c74bb171582ef49d8a58ad41ee",
+      "kind": "repository",
+      "hashScope": "full_artifact",
+      "artifactPath": "notebooks/labs/lab-imbalanced-classification/fixtures/equipment_alerts_v1.csv"
+    }
+  ],
+  "title": "設備異常告警：不平衡分類與防資料洩漏",
+  "unitRefs": [
+    {
+      "kind": "unit",
+      "id": "unit-split-before-fit",
+      "revision": 1
+    },
+    {
+      "kind": "unit",
+      "id": "unit-imbalanced-classification",
+      "revision": 1
+    },
+    {
+      "kind": "unit",
+      "id": "unit-threshold-decision",
+      "revision": 1
+    }
+  ],
+  "chapterRefs": [
+    {
+      "levelId": "middle",
+      "subjectId": "mid-s3",
+      "chapterId": "mid-s3c9"
+    },
+    {
+      "levelId": "middle",
+      "subjectId": "mid-s2",
+      "chapterId": "mid-s2c4"
+    }
+  ],
+  "topicRefs": [
+    {
+      "id": "topic-899e6a65",
+      "name": "資料洩漏"
+    },
+    {
+      "id": "topic-10db0f21",
+      "name": "類別不平衡"
+    },
+    {
+      "id": "topic-4f38972f",
+      "name": "評估指標"
+    }
+  ],
+  "objectiveIds": [
+    "unit-split-before-fit::audit-fit-rows",
+    "unit-imbalanced-classification::compute-metrics",
+    "unit-threshold-decision::select-threshold"
+  ],
+  "sourceNotebookRef": "notebooks/labs/lab-imbalanced-classification.ipynb",
+  "notebookHash": "sha256:ec7cfde721e6728e913a0b0f8bd52aea2f10bbf0eb6fe69a9eae0a5b73959f8f",
+  "environment": {
+    "pythonVersion": "3.11",
+    "lockRef": "uv.lock",
+    "lockHash": "sha256:cf2f0121d697bcaebe777a8142c3ce18f3b252ac4a2121d96b920935350ed7f8",
+    "kernelName": "python3",
+    "runtimeProfile": "cpu-2vcpu-4gb",
+    "seed": 42
+  },
+  "executionPolicy": {
+    "cpuOnly": true,
+    "maxMemoryMb": 4096,
+    "cellTimeoutSeconds": 60,
+    "totalTimeoutSeconds": 300,
+    "networkPolicy": "offline"
+  },
+  "datasets": [
+    {
+      "resource": {
+        "namespace": "resource",
+        "levelId": "middle",
+        "key": "equipment-alerts-synthetic-v1"
+      },
+      "hash": "sha256:c6db9b752a39e85e48ddf13131eafc31ca1320c74bb171582ef49d8a58ad41ee",
+      "version": "1.0.0"
+    }
+  ],
+  "steps": [
+    {
+      "id": "step-setup",
+      "phase": "setup",
+      "cellIds": [
+        "intro",
+        "environment-and-fixture",
+        "load-fixed-splits"
+      ],
+      "objectiveIds": [
+        "unit-split-before-fit::audit-fit-rows"
+      ],
+      "estimatedMinutes": 5,
+      "expectedArtifacts": []
+    },
+    {
+      "id": "step-worked",
+      "phase": "worked",
+      "cellIds": [
+        "worked-explanation",
+        "worked-matrix"
+      ],
+      "objectiveIds": [
+        "unit-imbalanced-classification::compute-metrics"
+      ],
+      "estimatedMinutes": 8,
+      "expectedArtifacts": []
+    },
+    {
+      "id": "step-guided",
+      "phase": "guided",
+      "cellIds": [
+        "guided-pipeline",
+        "fit-train-only"
+      ],
+      "objectiveIds": [
+        "unit-split-before-fit::audit-fit-rows",
+        "unit-imbalanced-classification::compute-metrics"
+      ],
+      "estimatedMinutes": 12,
+      "expectedArtifacts": []
+    },
+    {
+      "id": "step-independent",
+      "phase": "independent",
+      "cellIds": [
+        "independent-instructions",
+        "threshold-and-artifacts"
+      ],
+      "objectiveIds": [
+        "unit-threshold-decision::select-threshold"
+      ],
+      "estimatedMinutes": 20,
+      "expectedArtifacts": [
+        "metrics.json",
+        "decision.md"
+      ]
+    },
+    {
+      "id": "step-check",
+      "phase": "check",
+      "cellIds": [
+        "invariant-and-fault-checks"
+      ],
+      "objectiveIds": [
+        "unit-split-before-fit::audit-fit-rows",
+        "unit-imbalanced-classification::compute-metrics",
+        "unit-threshold-decision::select-threshold"
+      ],
+      "estimatedMinutes": 5,
+      "expectedArtifacts": [
+        "metrics.json"
+      ]
+    },
+    {
+      "id": "step-reflection",
+      "phase": "reflection",
+      "cellIds": [
+        "solution-note",
+        "reflection-prompts"
+      ],
+      "objectiveIds": [
+        "unit-threshold-decision::select-threshold"
+      ],
+      "estimatedMinutes": 10,
+      "expectedArtifacts": [
+        "decision.md"
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "check-split-isolation",
+      "objectiveIds": [
+        "unit-split-before-fit::audit-fit-rows"
+      ],
+      "artifactRef": "split_manifest_v1.json",
+      "predicate": "train、validation、test row IDs 兩兩不交且聯集等於全部 2,000 列",
+      "severity": "block"
+    },
+    {
+      "id": "check-fit-rows",
+      "objectiveIds": [
+        "unit-split-before-fit::audit-fit-rows"
+      ],
+      "artifactRef": "metrics.json#/fitRowIds",
+      "predicate": "fitRowIds 是 train row IDs 的子集且不含 validation/test",
+      "severity": "block"
+    },
+    {
+      "id": "check-metric-recompute",
+      "objectiveIds": [
+        "unit-imbalanced-classification::compute-metrics"
+      ],
+      "artifactRef": "metrics.json#/test",
+      "predicate": "從 yTrue/yPred 重算 TN/FP/FN/TP 與 accuracy/precision/recall/F1，絕對誤差 <= 0.000001",
+      "tolerance": 1e-06,
+      "bounds": [
+        0,
+        1
+      ],
+      "severity": "block"
+    },
+    {
+      "id": "check-threshold-optimal",
+      "objectiveIds": [
+        "unit-threshold-decision::select-threshold"
+      ],
+      "artifactRef": "metrics.json#/validationTable",
+      "predicate": "threshold 是 average_cost 升冪、recall 降冪、threshold 升冪排序的第一筆",
+      "severity": "block"
+    },
+    {
+      "id": "check-test-isolation",
+      "objectiveIds": [
+        "unit-threshold-decision::select-threshold"
+      ],
+      "artifactRef": "metrics.json#/thresholdSelectionRowIds",
+      "predicate": "thresholdSelectionRowIds 精確等於 validation 且與 test 不相交",
+      "severity": "block"
+    },
+    {
+      "id": "check-fault-injections",
+      "objectiveIds": [
+        "unit-split-before-fit::audit-fit-rows",
+        "unit-imbalanced-classification::compute-metrics",
+        "unit-threshold-decision::select-threshold"
+      ],
+      "artifactRef": "execution-report.json#/faultInjections",
+      "predicate": "全資料 fit、test 當 validation、precision/recall 顛倒三種注入皆被拒絕",
+      "severity": "block"
+    }
+  ],
+  "rubric": [
+    {
+      "criterion": "資料與切分紀律（30）",
+      "passEvidence": "固定 hash、split 隔離、fit rows 僅 train；洩漏即重做。"
+    },
+    {
+      "criterion": "指標與計算（25）",
+      "passEvidence": "固定矩陣及模型矩陣皆可獨立重算，誤差不超過 1e-6。"
+    },
+    {
+      "criterion": "閾值與決策（25）",
+      "passEvidence": "validation 成本、tie-break、凍結 threshold 與一次 test 證據完整。"
+    },
+    {
+      "criterion": "反思與限制（20）",
+      "passEvidence": "decision.md 說明至少兩個限制與後續試點驗證。"
+    }
+  ],
+  "reflectionPrompts": [
+    "正類比例改變會如何影響 precision 與派工量？",
+    "合成資料的低成本為何不能直接支持全面上線？",
+    "同一設備多次觀測時，現有 row split 應如何改為 group/time split？"
+  ],
+  "artifacts": [
+    {
+      "variant": "starter",
+      "path": "frontend/public/labs/lab-imbalanced-classification/1/starter.ipynb",
+      "hash": "sha256:139b34cad6c2de94a725d008fda060f8fa976da97ca830e21e98bc19776970d0",
+      "revision": 1,
+      "size": 16516
+    },
+    {
+      "variant": "solution",
+      "path": "frontend/public/labs/lab-imbalanced-classification/1/solution.ipynb",
+      "hash": "sha256:a8a88e11db43dda1b2a6cadf57814fd1baf3c18a85c33da0c86580f6bef5fe4c",
+      "revision": 1,
+      "size": 17628
+    }
+  ],
+  "semanticReviewId": "review-lab-semantic-20260907-v1"
+}

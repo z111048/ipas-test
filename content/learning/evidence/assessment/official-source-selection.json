@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "id": "mvp-source-question-candidates-v1",
+  "status": "in_review",
+  "authorId": "/root/p0_baseline",
+  "note": "僅為逐題審查候選；尚未建立可發布 QuestionRevision/QuestionRef，不得進 mock pool。未複製題文。",
+  "candidates": [
+    {"candidateQuestionKey": "q:junior:jr_1151_s1:jr_1151_s1_q6", "sourcePath": "data/初級/questions/mock_jr_1151_s1.json", "sourceFileHash": "sha256:b84ff97d942d05db348fd547c0b607f8fcd08eb4ee1ea285aee5b81950d6a182", "legacyId": "jr_1151_s1_q6", "unitId": "unit-split-before-fit", "reason": "直接考先切分並只用 train 計算標準化統計量", "reviewStatus": "unreviewed"},
+    {"candidateQuestionKey": "q:junior:jr_1151_s1:jr_1151_s1_q40", "sourcePath": "data/初級/questions/mock_jr_1151_s1.json", "sourceFileHash": "sha256:b84ff97d942d05db348fd547c0b607f8fcd08eb4ee1ea285aee5b81950d6a182", "legacyId": "jr_1151_s1_q40", "unitId": "unit-imbalanced-classification", "reason": "低瑕疵率情境下選擇少數類評估指標", "reviewStatus": "unreviewed"},
+    {"candidateQuestionKey": "q:middle:mid_1141_s3:mid_1141_s3_q19", "sourcePath": "data/中級/questions/mock_mid_1141_s3.json", "sourceFileHash": "sha256:e9276a40572a89382e77efc82be650d64f3baf5be03f7fbc3df4199fafe90ea8", "legacyId": "mid_1141_s3_q19", "unitId": "unit-imbalanced-classification", "reason": "3% 正類情境辨識不適當的 accuracy 用法", "reviewStatus": "unreviewed"},
+    {"candidateQuestionKey": "q:middle:mid_1141_s3:mid_1141_s3_q16", "sourcePath": "data/中級/questions/mock_mid_1141_s3.json", "sourceFileHash": "sha256:e9276a40572a89382e77efc82be650d64f3baf5be03f7fbc3df4199fafe90ea8", "legacyId": "mid_1141_s3_q16", "unitId": "unit-imbalanced-classification", "reason": "precision/recall 到 F1 的指標計算", "reviewStatus": "unreviewed"},
+    {"candidateQuestionKey": "q:middle:mid_1151_s3:mid_1151_s3_q32", "sourcePath": "data/中級/questions/mock_mid_1151_s3.json", "sourceFileHash": "sha256:0933e66596949af8f706475172cceb11f89805823b0a7995ada9bb0ccdc830f7", "legacyId": "mid_1151_s3_q32", "unitId": "unit-threshold-decision", "reason": "precision-recall 取捨與 F1 的決策語意", "reviewStatus": "unreviewed"}
+  ]
+}

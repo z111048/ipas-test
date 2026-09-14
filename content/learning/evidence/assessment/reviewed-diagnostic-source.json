@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "draftNamespace": "middle:subject3_questions",
+  "id": "diagnostic-imbalanced-classification-v1",
+  "revision": 1,
+  "status": "in_review",
+  "authorId": "/root/p0_baseline",
+  "reviewIds": [],
+  "distribution": {
+    "unit-split-before-fit": 3,
+    "unit-imbalanced-classification": 4,
+    "unit-threshold-decision": 3
+  },
+  "questions": [
+    {
+      "id": "diag-imbalanced-v1-q01",
+      "unitId": "unit-split-before-fit",
+      "objectiveIds": ["unit-split-before-fit::audit-fit-rows"],
+      "kind": "scenario",
+      "stem": "團隊先用全部資料計算各欄中位數，再切成 train、validation、test。哪一項判斷正確？",
+      "options": [
+        {"optionId": "opt-a", "text": "沒有洩漏，因為分類器只用 train", "explanation": "錯。中位數是從資料學得的參數，test 已影響前處理。"},
+        {"optionId": "opt-b", "text": "有洩漏，應先切分並只用 train fit 中位數", "explanation": "對。validation/test 只能套用 train 已凍結的填補規則。"},
+        {"optionId": "opt-c", "text": "只要中位數沒有保存就沒有洩漏", "explanation": "錯。是否保存不改變 test 已參與估計的事實。"},
+        {"optionId": "opt-d", "text": "應讓三個集合各自 fit 中位數", "explanation": "錯。這會讓每個集合使用不同處理規則，且 validation/test 仍學到自身資訊。"}
+      ],
+      "correctOptionId": "opt-b",
+      "explanation": "所有會估計參數的前處理都屬 fit；切分必須先完成，fit rows 必須是 train 的子集。",
+      "difficulty": {"basis": "editorial", "value": "easy", "rationale": "辨識單一常見洩漏點，不需計算。"},
+      "sourceRefs": ["mid-s2c4-data-quality", "sklearn-common-pitfalls"]
+    },
+    {
+      "id": "diag-imbalanced-v1-q02",
+      "unitId": "unit-split-before-fit",
+      "objectiveIds": ["unit-split-before-fit::audit-fit-rows"],
+      "kind": "concept",
+      "stem": "下列哪一個證據最直接支持「前處理只從 train 學習」？",
+      "options": [
+        {"optionId": "opt-a", "text": "測試 accuracy 大於 0.9", "explanation": "錯。分數不能證明資料使用範圍。"},
+        {"optionId": "opt-b", "text": "程式使用 scikit-learn Pipeline", "explanation": "錯。Pipeline 不會自動證明輸入集合或特徵語意合法。"},
+        {"optionId": "opt-c", "text": "記錄的 fitRowIds 全部包含於 trainRowIds", "explanation": "對。這是可機驗的資料範圍不變條件。"},
+        {"optionId": "opt-d", "text": "test 的筆數比 train 少", "explanation": "錯。集合大小與是否洩漏沒有直接關係。"}
+      ],
+      "correctOptionId": "opt-c",
+      "explanation": "比較實際 row ID 集合可直接驗證 fit 範圍；工具名稱與模型分數都不足以取代該證據。",
+      "difficulty": {"basis": "editorial", "value": "easy", "rationale": "要求把抽象原則對應到可稽核證據。"},
+      "sourceRefs": ["sklearn-common-pitfalls"]
+    },
+    {
+      "id": "diag-imbalanced-v1-q03",
+      "unitId": "unit-split-before-fit",
+      "objectiveIds": ["unit-split-before-fit::identify-semantic-leakage"],
+      "kind": "scenario",
+      "stem": "模型的 Pipeline 只 fit train，但特徵含設備完成維修後才寫入的「最終故障原因」。主要問題是什麼？",
+      "options": [
+        {"optionId": "opt-a", "text": "沒有問題，因為 row IDs 沒有交集", "explanation": "錯。資料切分正確仍可能有時間語意洩漏。"},
+        {"optionId": "opt-b", "text": "特徵尺度不同", "explanation": "錯。即使標準化也無法修正預測當下不存在的資訊。"},
+        {"optionId": "opt-c", "text": "正類比例太低", "explanation": "錯。類別不平衡與這個特徵的可用時間是不同問題。"},
+        {"optionId": "opt-d", "text": "發生時間語意洩漏，Pipeline 無法替你判斷欄位何時可得", "explanation": "對。應依實際預測時點排除事後欄位。"}
+      ],
+      "correctOptionId": "opt-d",
+      "explanation": "Pipeline 能約束前處理的 fit/transform 順序，不能理解業務欄位的產生時點。",
+      "difficulty": {"basis": "editorial", "value": "medium", "rationale": "需區分集合洩漏與特徵語意洩漏。"},
+      "sourceRefs": ["sklearn-common-pitfalls"]
+    },
+    {
+      "id": "diag-imbalanced-v1-q04",
+      "unitId": "unit-imbalanced-classification",
+      "objectiveIds": ["unit-imbalanced-classification::interpret-baseline"],
+      "kind": "scenario",
+      "stem": "異常率 5% 時，一個全預測正常的模型有 95% accuracy。最恰當的解讀為何？",
+      "options": [
+        {"optionId": "opt-a", "text": "模型已可上線", "explanation": "錯。它完全抓不到異常。"},
+        {"optionId": "opt-b", "text": "accuracy 在不平衡資料可能誤導，需同看少數類指標", "explanation": "對。此模型的異常 recall 為 0。"},
+        {"optionId": "opt-c", "text": "資料一定標錯", "explanation": "錯。高 accuracy 可由類別比例自然產生。"},
+        {"optionId": "opt-d", "text": "precision 必為 95%", "explanation": "錯。沒有正類預測時不能由 accuracy 推得 precision。"}
+      ],
+      "correctOptionId": "opt-b",
+      "explanation": "多數類 baseline 是必要的比較基準；模型可能高於或低於它，評估仍需對應抓漏與誤報的工作目標。",
+      "difficulty": {"basis": "editorial", "value": "easy", "rationale": "直接應用指引中的 95% 反例。"},
+      "sourceRefs": ["mid-s3c9-accuracy-imbalance", "mid-s3c9-imbalance-strategies"]
+    },
+    {
+      "id": "diag-imbalanced-v1-q05",
+      "unitId": "unit-imbalanced-classification",
+      "objectiveIds": ["unit-imbalanced-classification::compute-metrics"],
+      "kind": "calculation",
+      "stem": "混淆矩陣為 TP=12、FN=8、FP=18、TN=362。異常類 precision 與 recall 分別為何？",
+      "options": [
+        {"optionId": "opt-a", "text": "0.40、0.60", "explanation": "對。precision=12/(12+18)，recall=12/(12+8)。"},
+        {"optionId": "opt-b", "text": "0.60、0.40", "explanation": "錯。這是把兩個分母交換。"},
+        {"optionId": "opt-c", "text": "0.935、0.95", "explanation": "錯。這是模型與全負類 baseline 的 accuracy。"},
+        {"optionId": "opt-d", "text": "0.30、0.20", "explanation": "錯。12/40 與 8/40 都不是這兩項指標的定義。"}
+      ],
+      "correctOptionId": "opt-a",
+      "explanation": "precision 分母是所有預測正類；recall 分母是所有實際正類。",
+      "difficulty": {"basis": "editorial", "value": "medium", "rationale": "需正確辨識兩個分母並完成除法。"},
+      "sourceRefs": ["sklearn-model-evaluation"]
+    },
+    {
+      "id": "diag-imbalanced-v1-q06",
+      "unitId": "unit-imbalanced-classification",
+      "objectiveIds": ["unit-imbalanced-classification::compute-metrics"],
+      "kind": "calculation",
+      "stem": "若 precision=0.40、recall=0.60，F1 最接近下列何者？",
+      "options": [
+        {"optionId": "opt-a", "text": "0.20", "explanation": "錯。這不是調和平均的結果。"},
+        {"optionId": "opt-b", "text": "0.48", "explanation": "對。2×0.4×0.6/(0.4+0.6)=0.48。"},
+        {"optionId": "opt-c", "text": "0.50", "explanation": "錯。0.50 是算術平均，F1 使用調和平均。"},
+        {"optionId": "opt-d", "text": "0.935", "explanation": "錯。這是另一個例子的 accuracy。"}
+      ],
+      "correctOptionId": "opt-b",
+      "explanation": "F1 是 precision 與 recall 的調和平均，不是算術平均。",
+      "difficulty": {"basis": "editorial", "value": "medium", "rationale": "單步公式計算，干擾項包含常見算術平均錯法。"},
+      "sourceRefs": ["sklearn-model-evaluation"]
+    },
+    {
+      "id": "diag-imbalanced-v1-q07",
+      "unitId": "unit-imbalanced-classification",
+      "objectiveIds": ["unit-imbalanced-classification::choose-metric"],
+      "kind": "scenario",
+      "stem": "若漏掉真實異常的代價遠高於多派一次檢查，初步比較模型時最應優先關注哪一項？",
+      "options": [
+        {"optionId": "opt-a", "text": "異常類 recall", "explanation": "對。recall 直接反映真實異常被抓到的比例。"},
+        {"optionId": "opt-b", "text": "只看 accuracy", "explanation": "錯。多數正常樣本可能掩蓋漏報。"},
+        {"optionId": "opt-c", "text": "R²", "explanation": "錯。R² 是常見迴歸指標，不回答此分類問題。"},
+        {"optionId": "opt-d", "text": "訓練資料筆數", "explanation": "錯。筆數不是模型抓漏能力的指標。"}
+      ],
+      "correctOptionId": "opt-a",
+      "explanation": "指標要對應錯誤成本；仍應同時呈現 precision 與告警量，避免只把成本移到誤報。",
+      "difficulty": {"basis": "editorial", "value": "medium", "rationale": "需把 FN 成本映射到 recall，並辨識分類/迴歸指標。"},
+      "sourceRefs": ["mid-s3c9-imbalance-strategies", "sklearn-model-evaluation"]
+    },
+    {
+      "id": "diag-imbalanced-v1-q08",
+      "unitId": "unit-threshold-decision",
+      "objectiveIds": ["unit-threshold-decision::select-threshold"],
+      "kind": "scenario",
+      "stem": "模型已用 train 完成 fit。應使用哪一組資料選 threshold，並用哪一組做凍結後的最終估計？",
+      "options": [
+        {"optionId": "opt-a", "text": "train 選，validation 最終估計", "explanation": "錯。這省略獨立 test，且 train 指標偏向已見資料。"},
+        {"optionId": "opt-b", "text": "test 選，test 最終估計", "explanation": "錯。同一 test 參與選擇後不再獨立。"},
+        {"optionId": "opt-c", "text": "validation 選，test 最終估計", "explanation": "對。選完先凍結，再讀 test 一次。"},
+        {"optionId": "opt-d", "text": "全部資料選，再隨機抽一組估計", "explanation": "錯。全部資料參與選擇會失去未見資料。"}
+      ],
+      "correctOptionId": "opt-c",
+      "explanation": "validation 負責決策選擇；test 只評估凍結方案。",
+      "difficulty": {"basis": "editorial", "value": "easy", "rationale": "檢查三分資料用途的核心順序。"},
+      "sourceRefs": ["sklearn-threshold-tuning", "mid-s3c9-cross-validation"]
+    },
+    {
+      "id": "diag-imbalanced-v1-q09",
+      "unitId": "unit-threshold-decision",
+      "objectiveIds": ["unit-threshold-decision::compute-cost"],
+      "kind": "calculation",
+      "stem": "validation 有 400 筆，某 threshold 得到 FN=4、FP=31；FN 成本 20、FP 成本 1。每筆平均成本為何？",
+      "options": [
+        {"optionId": "opt-a", "text": "0.0775", "explanation": "錯。只計入 FP/400，漏掉 FN 成本。"},
+        {"optionId": "opt-b", "text": "0.2000", "explanation": "錯。只計入 20×FN/400，漏掉 FP。"},
+        {"optionId": "opt-c", "text": "0.2775", "explanation": "對。(20×4+31)/400=111/400。"},
+        {"optionId": "opt-d", "text": "27.7500", "explanation": "錯。這是百分比數字，題目要求每筆成本。"}
+      ],
+      "correctOptionId": "opt-c",
+      "explanation": "先用成本權重加總兩種錯誤，再除以 validation 筆數。",
+      "difficulty": {"basis": "editorial", "value": "medium", "rationale": "需正確套用成本公式與分母。"},
+      "sourceRefs": ["sklearn-threshold-tuning"]
+    },
+    {
+      "id": "diag-imbalanced-v1-q10",
+      "unitId": "unit-threshold-decision",
+      "objectiveIds": ["unit-threshold-decision::freeze-decision"],
+      "kind": "decision",
+      "stem": "兩個 validation threshold 成本相同且 recall 都是 0.80，A 的 threshold=0.25、B 的 threshold=0.20。依本課 tie-break 應選哪個？",
+      "options": [
+        {"optionId": "opt-a", "text": "A，因 threshold 較大", "explanation": "錯。成本與 recall 都相同時，本課規則選較小 threshold。"},
+        {"optionId": "opt-b", "text": "B，因前兩項相同時選較小 threshold", "explanation": "對。這是第三層確定性 tie-break。"},
+        {"optionId": "opt-c", "text": "再看 test 後選較佳者", "explanation": "錯。用 test 決策會污染最終估計。"},
+        {"optionId": "opt-d", "text": "隨機選，避免人為偏差", "explanation": "錯。固定規則才能重現。"}
+      ],
+      "correctOptionId": "opt-b",
+      "explanation": "確定性排序為 average_cost 升冪、recall 降冪、threshold 升冪。",
+      "difficulty": {"basis": "editorial", "value": "medium", "rationale": "需依序套用兩層 tie-break 並拒絕讀 test。"},
+      "sourceRefs": ["sklearn-threshold-tuning"]
+    }
+  ]
+}

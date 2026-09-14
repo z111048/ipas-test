@@ -1,0 +1,62 @@
+{
+  "id": "review-domain-14b136a2a2aed2e7b905",
+  "subject": {
+    "kind": "question-revision",
+    "id": "q:middle:subject3_questions:diag-imbalanced-v1-q06",
+    "revision": 1,
+    "hash": "sha256:b0b2a6c7f7005467c19c8273db439d55b525be2569d7dde0cccd2db7f9578162"
+  },
+  "dependencyHashes": [],
+  "rubricVersion": "mvp-review-v1",
+  "reviewerId": "agent-content-labs",
+  "reviewerRole": "independent_model",
+  "authorId": "agent-p0-baseline",
+  "responsibility": "domain_content",
+  "qualification": {
+    "scope": [
+      "mvp-domain-content"
+    ],
+    "evidenceIds": [
+      "ev-mvp-model-delegation"
+    ],
+    "grantedBy": "root-coordinator",
+    "grantedAt": "2026-09-07T12:01:50Z"
+  },
+  "evidenceRefs": [
+    {
+      "id": "ev-mvp-review-report",
+      "revision": 1,
+      "hash": "sha256:8f92bea6655703c94a24c52ba101c16c1d5390f8060df2982b210e32ce4f7b0f"
+    },
+    {
+      "id": "ev-mvp-model-delegation",
+      "revision": 1,
+      "hash": "sha256:ad4ba5d994a6154dcd92c5ab9f23bb66430f1fbdb1472dbbf1077cfef3664724"
+    },
+    {
+      "id": "ev-mvp-curated-source",
+      "revision": 1,
+      "hash": "sha256:9b4cb0763c259e9b1858b232d9d435b0f10896d446650bdc76d2fb265aaa13e0"
+    },
+    {
+      "id": "ev-mvp-official-selection",
+      "revision": 1,
+      "hash": "sha256:b19ac78e2922fd35ff5d0fb18d0cad11cc6529ed4ec235c8cfa0d4f80392732a"
+    }
+  ],
+  "verdict": "approved",
+  "checks": [
+    {
+      "code": "D1",
+      "verdict": "pass",
+      "evidenceIds": [
+        "ev-mvp-review-report",
+        "ev-mvp-model-delegation",
+        "ev-mvp-curated-source",
+        "ev-mvp-official-selection"
+      ]
+    }
+  ],
+  "createdAt": "2026-09-07T12:01:50Z",
+  "rationale": "見逐題獨立審查報告；scope 僅本次 model 內容/答案查核，不是人類批准。"
+}

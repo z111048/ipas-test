@@ -3,6 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { galleryRoute, resourceLevels, type ResourceNavItem, type SubjectResource } from '../../data/resourceRegistry'
 import { guideNav } from '../../data/guideNav'
 import { useFocusTrap } from '../../hooks/useFocusTrap'
+import { useLearningIndex } from '../../features/learning/useLearningIndex'
 
 const STORAGE_KEY = 'ipas-sidebar-expanded-v4'
 
@@ -269,6 +270,7 @@ function Sidebar({ id, isOpen, onClose, restoreFocusRef }: SidebarProps) {
   const isMobile = useIsMobileSidebar()
   const modalActive = isOpen && isMobile
   const hiddenMobileDrawer = isMobile && !isOpen
+  const { index: learningIndex } = useLearningIndex()
 
   useFocusTrap({
     active: modalActive,
@@ -372,6 +374,28 @@ function Sidebar({ id, isOpen, onClose, restoreFocusRef }: SidebarProps) {
           >
             主題文章
           </NavLink>
+          {learningIndex && (
+            <>
+              <NavLink to="/learn" className={({ isActive }) => navItemClass(isActive)} onClick={onClose}>
+                實務補充
+              </NavLink>
+              {learningIndex.projects.length > 0 && (
+                <NavLink to="/projects" className={({ isActive }) => navItemClass(isActive)} onClick={onClose}>
+                  實務專題
+                </NavLink>
+              )}
+              {learningIndex.blueprints?.[0] && (
+                <NavLink to={`/simulations/${learningIndex.blueprints[0].id}`} className={({ isActive }) => navItemClass(isActive)} onClick={onClose}>
+                  主題診斷
+                </NavLink>
+              )}
+              {(learningIndex.analysis?.length ?? 0) > 0 && (
+                <NavLink to="/analysis/exams" className={({ isActive }) => navItemClass(isActive)} onClick={onClose}>
+                  精選例題對照
+                </NavLink>
+              )}
+            </>
+          )}
           <NavLink
             to="/visuals"
             className={({ isActive }) => navItemClass(isActive)}

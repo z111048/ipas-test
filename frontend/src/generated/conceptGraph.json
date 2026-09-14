@@ -1,9 +1,14 @@
 {
-  "generatedAt": "2026-08-30T16:29:06+00:00",
   "source": {
     "official": "data/topics/question_topics.json",
     "practice": "data/topics/practice_question_topics.json",
-    "vocabulary": "data/topics/topics.json"
+    "vocabulary": "data/topics/topics.json",
+    "ledger": "data/topics/topic_id_assignments.json"
+  },
+  "stableIds": {
+    "source": "data/topics/topic_id_assignments.json",
+    "assignedAt": "2026-09-09",
+    "idFormat": "topic-<8 hex>"
   },
   "countingRule": "只算 verdict=正確 的標籤；official 與 practice 分開計，不可相加當熱度",
   "conceptCount": 178,
@@ -15,7 +20,9 @@
   "strongEdgeCount": 110,
   "concepts": [
     {
+      "id": "topic-10f38c70",
       "name": "生成式AI",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 22,
@@ -65,50 +72,62 @@
       ],
       "related": [
         {
+          "id": "topic-2f18521d",
           "name": "鑑別式AI",
           "weight": 14
         },
         {
+          "id": "topic-130de467",
           "name": "生成對抗網路",
           "weight": 4
         },
         {
+          "id": "topic-fcd10f7f",
           "name": "影像生成",
           "weight": 3
         },
         {
+          "id": "topic-9d30842d",
           "name": "應用場景規劃",
           "weight": 3
         },
         {
+          "id": "topic-11de7491",
           "name": "資料品質",
           "weight": 3
         },
         {
+          "id": "topic-ee3a1351",
           "name": "低代碼無代碼開發",
           "weight": 2
         },
         {
+          "id": "topic-113acb95",
           "name": "大型語言模型",
           "weight": 2
         },
         {
+          "id": "topic-c8c5b799",
           "name": "自迴歸生成",
           "weight": 2
         },
         {
+          "id": "topic-ab7d5e17",
           "name": "變分自編碼器",
           "weight": 2
         },
         {
+          "id": "topic-08aeb299",
           "name": "AI應用場景評估",
           "weight": 1
         },
         {
+          "id": "topic-78532a7f",
           "name": "AI風險管理",
           "weight": 1
         },
         {
+          "id": "topic-99e53b22",
           "name": "Transformer架構",
           "weight": 1
         }
@@ -513,7 +532,9 @@
       ]
     },
     {
+      "id": "topic-4f38972f",
       "name": "評估指標",
+      "previousNames": [],
       "parent": "模型訓練與評估",
       "questionCount": {
         "official": 19,
@@ -613,50 +634,62 @@
       ],
       "related": [
         {
+          "id": "topic-8066e7e4",
           "name": "類別敏感評估",
           "weight": 9
         },
         {
+          "id": "topic-2858f6d9",
           "name": "迴歸分析",
           "weight": 6
         },
         {
+          "id": "topic-c91c9c94",
           "name": "偏見與公平性",
           "weight": 3
         },
         {
+          "id": "topic-4bcdb1f7",
           "name": "分類模型",
           "weight": 2
         },
         {
+          "id": "topic-241fb160",
           "name": "模型評估",
           "weight": 2
         },
         {
+          "id": "topic-10db0f21",
           "name": "類別不平衡",
           "weight": 2
         },
         {
+          "id": "topic-08aeb299",
           "name": "AI應用場景評估",
           "weight": 1
         },
         {
+          "id": "topic-00a9904e",
           "name": "偏態與長尾分佈",
           "weight": 1
         },
         {
+          "id": "topic-27d063f9",
           "name": "多模態AI",
           "weight": 1
         },
         {
+          "id": "topic-113acb95",
           "name": "大型語言模型",
           "weight": 1
         },
         {
+          "id": "topic-52c8fb08",
           "name": "模型監控",
           "weight": 1
         },
         {
+          "id": "topic-72fe2b6f",
           "name": "過擬合與泛化",
           "weight": 1
         }
@@ -1067,7 +1100,9 @@
       ]
     },
     {
+      "id": "topic-ee3a1351",
       "name": "低代碼無代碼開發",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 14,
@@ -1099,50 +1134,62 @@
       ],
       "related": [
         {
+          "id": "topic-c64e2577",
           "name": "系統整合與API",
           "weight": 3
         },
         {
+          "id": "topic-4ef40ad1",
           "name": "影子IT治理",
           "weight": 2
         },
         {
+          "id": "topic-9446aaa7",
           "name": "成本效益分析",
           "weight": 2
         },
         {
+          "id": "topic-86a66aa2",
           "name": "業務流程整合",
           "weight": 2
         },
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 2
         },
         {
+          "id": "topic-08aeb299",
           "name": "AI應用場景評估",
           "weight": 1
         },
         {
+          "id": "topic-e4b2553e",
           "name": "AI治理與倫理",
           "weight": 1
         },
         {
+          "id": "topic-58449c1c",
           "name": "低程式碼平台",
           "weight": 1
         },
         {
+          "id": "topic-c91c9c94",
           "name": "偏見與公平性",
           "weight": 1
         },
         {
+          "id": "topic-9d30842d",
           "name": "應用場景規劃",
           "weight": 1
         },
         {
+          "id": "topic-26c437d5",
           "name": "提示工程",
           "weight": 1
         },
         {
+          "id": "topic-43613e6f",
           "name": "程式碼輔助生成",
           "weight": 1
         }
@@ -1464,7 +1511,9 @@
       ]
     },
     {
+      "id": "topic-c91c9c94",
       "name": "偏見與公平性",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 18,
@@ -1540,50 +1589,62 @@
       ],
       "related": [
         {
+          "id": "topic-e4b2553e",
           "name": "AI治理與倫理",
           "weight": 3
         },
         {
+          "id": "topic-7ac14abe",
           "name": "模型可解釋性",
           "weight": 3
         },
         {
+          "id": "topic-4f38972f",
           "name": "評估指標",
           "weight": 3
         },
         {
+          "id": "topic-6dae10e9",
           "name": "AI幻覺與真實性風險",
           "weight": 2
         },
         {
+          "id": "topic-0179470c",
           "name": "AI法規遵循",
           "weight": 2
         },
         {
+          "id": "topic-1aad1bfb",
           "name": "生成內容審查",
           "weight": 2
         },
         {
+          "id": "topic-78532a7f",
           "name": "AI風險管理",
           "weight": 1
         },
         {
+          "id": "topic-ee3a1351",
           "name": "低代碼無代碼開發",
           "weight": 1
         },
         {
+          "id": "topic-dcef393e",
           "name": "情感分析",
           "weight": 1
         },
         {
+          "id": "topic-52c8fb08",
           "name": "模型監控",
           "weight": 1
         },
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 1
         },
         {
+          "id": "topic-11de7491",
           "name": "資料品質",
           "weight": 1
         }
@@ -1897,7 +1958,9 @@
       ]
     },
     {
+      "id": "topic-971f6b78",
       "name": "資料隱私保護",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 15,
@@ -1955,50 +2018,62 @@
       ],
       "related": [
         {
+          "id": "topic-0179470c",
           "name": "AI法規遵循",
           "weight": 5
         },
         {
+          "id": "topic-f459af60",
           "name": "資料匿名化",
           "weight": 5
         },
         {
+          "id": "topic-94b81884",
           "name": "資料隱私法規",
           "weight": 4
         },
         {
+          "id": "topic-78532a7f",
           "name": "AI風險管理",
           "weight": 3
         },
         {
+          "id": "topic-39bed6b1",
           "name": "隱私強化技術",
           "weight": 3
         },
         {
+          "id": "topic-48f2eb21",
           "name": "系統安全與稽核",
           "weight": 2
         },
         {
+          "id": "topic-aff68e45",
           "name": "部署架構",
           "weight": 2
         },
         {
+          "id": "topic-e4b2553e",
           "name": "AI治理與倫理",
           "weight": 1
         },
         {
+          "id": "topic-58449c1c",
           "name": "低程式碼平台",
           "weight": 1
         },
         {
+          "id": "topic-c91c9c94",
           "name": "偏見與公平性",
           "weight": 1
         },
         {
+          "id": "topic-4ef40ad1",
           "name": "影子IT治理",
           "weight": 1
         },
         {
+          "id": "topic-318680aa",
           "name": "智慧財產權",
           "weight": 1
         }
@@ -2263,7 +2338,9 @@
       ]
     },
     {
+      "id": "topic-72fe2b6f",
       "name": "過擬合與泛化",
+      "previousNames": [],
       "parent": "模型訓練與評估",
       "questionCount": {
         "official": 13,
@@ -2363,42 +2440,52 @@
       ],
       "related": [
         {
+          "id": "topic-00567752",
           "name": "正則化",
           "weight": 7
         },
         {
+          "id": "topic-4c390b1a",
           "name": "資料增強",
           "weight": 4
         },
         {
+          "id": "topic-a0911713",
           "name": "交叉驗證",
           "weight": 3
         },
         {
+          "id": "topic-de467180",
           "name": "超參數調整",
           "weight": 2
         },
         {
+          "id": "topic-10db0f21",
           "name": "類別不平衡",
           "weight": 2
         },
         {
+          "id": "topic-113acb95",
           "name": "大型語言模型",
           "weight": 1
         },
         {
+          "id": "topic-c405e016",
           "name": "少樣本提示",
           "weight": 1
         },
         {
+          "id": "topic-241fb160",
           "name": "模型評估",
           "weight": 1
         },
         {
+          "id": "topic-4f38972f",
           "name": "評估指標",
           "weight": 1
         },
         {
+          "id": "topic-e164bd90",
           "name": "資料切分",
           "weight": 1
         }
@@ -2667,7 +2754,9 @@
       ]
     },
     {
+      "id": "topic-2858f6d9",
       "name": "迴歸分析",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 11,
@@ -2725,38 +2814,47 @@
       ],
       "related": [
         {
+          "id": "topic-4f38972f",
           "name": "評估指標",
           "weight": 6
         },
         {
+          "id": "topic-4bcdb1f7",
           "name": "分類模型",
           "weight": 3
         },
         {
+          "id": "topic-4bf3c2e0",
           "name": "分群演算法",
           "weight": 2
         },
         {
+          "id": "topic-79d5d8c0",
           "name": "時間序列預測",
           "weight": 2
         },
         {
+          "id": "topic-97fa5357",
           "name": "監督式學習",
           "weight": 2
         },
         {
+          "id": "topic-00a9904e",
           "name": "偏態與長尾分佈",
           "weight": 1
         },
         {
+          "id": "topic-00567752",
           "name": "正則化",
           "weight": 1
         },
         {
+          "id": "topic-d2491275",
           "name": "決策樹與集成學習",
           "weight": 1
         },
         {
+          "id": "topic-828bda22",
           "name": "線性代數與運算",
           "weight": 1
         }
@@ -3007,7 +3105,9 @@
       ]
     },
     {
+      "id": "topic-3319b1f4",
       "name": "強化學習",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 9,
@@ -3053,30 +3153,37 @@
       ],
       "related": [
         {
+          "id": "topic-8ff8bd6e",
           "name": "模型優化",
           "weight": 1
         },
         {
+          "id": "topic-ef91061e",
           "name": "模型微調",
           "weight": 1
         },
         {
+          "id": "topic-92d0f55b",
           "name": "檢索增強生成",
           "weight": 1
         },
         {
+          "id": "topic-af6a1945",
           "name": "深度學習",
           "weight": 1
         },
         {
+          "id": "topic-97fa5357",
           "name": "監督式學習",
           "weight": 1
         },
         {
+          "id": "topic-45f6de13",
           "name": "非監督式學習",
           "weight": 1
         },
         {
+          "id": "topic-375c9e2f",
           "name": "領域應用",
           "weight": 1
         }
@@ -3320,7 +3427,9 @@
       ]
     },
     {
+      "id": "topic-7ac14abe",
       "name": "模型可解釋性",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 18,
@@ -3396,26 +3505,32 @@
       ],
       "related": [
         {
+          "id": "topic-e4b2553e",
           "name": "AI治理與倫理",
           "weight": 4
         },
         {
+          "id": "topic-c91c9c94",
           "name": "偏見與公平性",
           "weight": 3
         },
         {
+          "id": "topic-08aeb299",
           "name": "AI應用場景評估",
           "weight": 1
         },
         {
+          "id": "topic-78532a7f",
           "name": "AI風險管理",
           "weight": 1
         },
         {
+          "id": "topic-2cd80e59",
           "name": "多重共線性",
           "weight": 1
         },
         {
+          "id": "topic-03fbcb80",
           "name": "特徵選擇",
           "weight": 1
         }
@@ -3641,7 +3756,9 @@
       ]
     },
     {
+      "id": "topic-e4b2553e",
       "name": "AI治理與倫理",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 7,
@@ -3685,34 +3802,42 @@
       ],
       "related": [
         {
+          "id": "topic-7ac14abe",
           "name": "模型可解釋性",
           "weight": 4
         },
         {
+          "id": "topic-c91c9c94",
           "name": "偏見與公平性",
           "weight": 3
         },
         {
+          "id": "topic-0179470c",
           "name": "AI法規遵循",
           "weight": 1
         },
         {
+          "id": "topic-78532a7f",
           "name": "AI風險管理",
           "weight": 1
         },
         {
+          "id": "topic-ee3a1351",
           "name": "低代碼無代碼開發",
           "weight": 1
         },
         {
+          "id": "topic-86a66aa2",
           "name": "業務流程整合",
           "weight": 1
         },
         {
+          "id": "topic-48f2eb21",
           "name": "系統安全與稽核",
           "weight": 1
         },
         {
+          "id": "topic-971f6b78",
           "name": "資料隱私保護",
           "weight": 1
         }
@@ -3949,7 +4074,9 @@
       ]
     },
     {
+      "id": "topic-78532a7f",
       "name": "AI風險管理",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 7,
@@ -3987,46 +4114,57 @@
       ],
       "related": [
         {
+          "id": "topic-1aad1bfb",
           "name": "生成內容審查",
           "weight": 3
         },
         {
+          "id": "topic-971f6b78",
           "name": "資料隱私保護",
           "weight": 3
         },
         {
+          "id": "topic-318680aa",
           "name": "智慧財產權",
           "weight": 2
         },
         {
+          "id": "topic-e4b2553e",
           "name": "AI治理與倫理",
           "weight": 1
         },
         {
+          "id": "topic-0179470c",
           "name": "AI法規遵循",
           "weight": 1
         },
         {
+          "id": "topic-c91c9c94",
           "name": "偏見與公平性",
           "weight": 1
         },
         {
+          "id": "topic-7ac14abe",
           "name": "模型可解釋性",
           "weight": 1
         },
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 1
         },
         {
+          "id": "topic-43613e6f",
           "name": "程式碼輔助生成",
           "weight": 1
         },
         {
+          "id": "topic-48f2eb21",
           "name": "系統安全與稽核",
           "weight": 1
         },
         {
+          "id": "topic-aff68e45",
           "name": "部署架構",
           "weight": 1
         }
@@ -4263,7 +4401,9 @@
       ]
     },
     {
+      "id": "topic-00567752",
       "name": "正則化",
+      "previousNames": [],
       "parent": "模型訓練與評估",
       "questionCount": {
         "official": 9,
@@ -4327,26 +4467,32 @@
       ],
       "related": [
         {
+          "id": "topic-03fbcb80",
           "name": "特徵選擇",
           "weight": 8
         },
         {
+          "id": "topic-72fe2b6f",
           "name": "過擬合與泛化",
           "weight": 7
         },
         {
+          "id": "topic-2cd80e59",
           "name": "多重共線性",
           "weight": 1
         },
         {
+          "id": "topic-d2491275",
           "name": "決策樹與集成學習",
           "weight": 1
         },
         {
+          "id": "topic-ab7d5e17",
           "name": "變分自編碼器",
           "weight": 1
         },
         {
+          "id": "topic-2858f6d9",
           "name": "迴歸分析",
           "weight": 1
         }
@@ -4579,7 +4725,9 @@
       ]
     },
     {
+      "id": "topic-2f18521d",
       "name": "鑑別式AI",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 8,
@@ -4617,30 +4765,37 @@
       ],
       "related": [
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 14
         },
         {
+          "id": "topic-c91c9c94",
           "name": "偏見與公平性",
           "weight": 1
         },
         {
+          "id": "topic-4bcdb1f7",
           "name": "分類模型",
           "weight": 1
         },
         {
+          "id": "topic-21636455",
           "name": "命名實體辨識",
           "weight": 1
         },
         {
+          "id": "topic-b83ab9a7",
           "name": "支援向量機",
           "weight": 1
         },
         {
+          "id": "topic-130de467",
           "name": "生成對抗網路",
           "weight": 1
         },
         {
+          "id": "topic-4c390b1a",
           "name": "資料增強",
           "weight": 1
         }
@@ -4864,7 +5019,9 @@
       ]
     },
     {
+      "id": "topic-4031e9d2",
       "name": "AI專案導入評估",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 3,
@@ -4896,22 +5053,27 @@
       ],
       "related": [
         {
+          "id": "topic-08aeb299",
           "name": "AI應用場景評估",
           "weight": 3
         },
         {
+          "id": "topic-5d51a65c",
           "name": "概念驗證",
           "weight": 3
         },
         {
+          "id": "topic-9d30842d",
           "name": "應用場景規劃",
           "weight": 2
         },
         {
+          "id": "topic-9446aaa7",
           "name": "成本效益分析",
           "weight": 2
         },
         {
+          "id": "topic-a4208908",
           "name": "AI基礎設施評估",
           "weight": 1
         }
@@ -5123,7 +5285,9 @@
       ]
     },
     {
+      "id": "topic-92d0f55b",
       "name": "檢索增強生成",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 19,
@@ -5193,50 +5357,62 @@
       ],
       "related": [
         {
+          "id": "topic-f6bd603c",
           "name": "知識庫整合",
           "weight": 3
         },
         {
+          "id": "topic-08aeb299",
           "name": "AI應用場景評估",
           "weight": 2
         },
         {
+          "id": "topic-36931efe",
           "name": "文本切分",
           "weight": 2
         },
         {
+          "id": "topic-a11a7707",
           "name": "模型上下文協定",
           "weight": 2
         },
         {
+          "id": "topic-ef91061e",
           "name": "模型微調",
           "weight": 2
         },
         {
+          "id": "topic-697ecae5",
           "name": "向量檢索",
           "weight": 1
         },
         {
+          "id": "topic-3319b1f4",
           "name": "強化學習",
           "weight": 1
         },
         {
+          "id": "topic-9d30842d",
           "name": "應用場景規劃",
           "weight": 1
         },
         {
+          "id": "topic-26c437d5",
           "name": "提示工程",
           "weight": 1
         },
         {
+          "id": "topic-6167bf4f",
           "name": "效能優化",
           "weight": 1
         },
         {
+          "id": "topic-3af189e9",
           "name": "知識蒸餾",
           "weight": 1
         },
         {
+          "id": "topic-ce08fbb1",
           "name": "資料前處理",
           "weight": 1
         }
@@ -5416,7 +5592,9 @@
       ]
     },
     {
+      "id": "topic-35a185b7",
       "name": "代理式AI",
+      "previousNames": [],
       "parent": "代理式AI與自動化",
       "questionCount": {
         "official": 17,
@@ -5454,50 +5632,62 @@
       ],
       "related": [
         {
+          "id": "topic-06aa2dea",
           "name": "任務分解",
           "weight": 4
         },
         {
+          "id": "topic-86a66aa2",
           "name": "業務流程整合",
           "weight": 4
         },
         {
+          "id": "topic-c45160cc",
           "name": "工具呼叫",
           "weight": 3
         },
         {
+          "id": "topic-eb86a0aa",
           "name": "AI客服應用",
           "weight": 1
         },
         {
+          "id": "topic-08aeb299",
           "name": "AI應用場景評估",
           "weight": 1
         },
         {
+          "id": "topic-f5e3565c",
           "name": "ReAct提示",
           "weight": 1
         },
         {
+          "id": "topic-c576d4ff",
           "name": "人類參與迴圈",
           "weight": 1
         },
         {
+          "id": "topic-697ecae5",
           "name": "向量檢索",
           "weight": 1
         },
         {
+          "id": "topic-75d9a7b4",
           "name": "多模態生成",
           "weight": 1
         },
         {
+          "id": "topic-9d30842d",
           "name": "應用場景規劃",
           "weight": 1
         },
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 1
         },
         {
+          "id": "topic-c64e2577",
           "name": "系統整合與API",
           "weight": 1
         }
@@ -5670,7 +5860,9 @@
       ]
     },
     {
+      "id": "topic-4bcdb1f7",
       "name": "分類模型",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 12,
@@ -5728,38 +5920,47 @@
       ],
       "related": [
         {
+          "id": "topic-97fa5357",
           "name": "監督式學習",
           "weight": 5
         },
         {
+          "id": "topic-2858f6d9",
           "name": "迴歸分析",
           "weight": 3
         },
         {
+          "id": "topic-4f38972f",
           "name": "評估指標",
           "weight": 2
         },
         {
+          "id": "topic-4bf3c2e0",
           "name": "分群演算法",
           "weight": 1
         },
         {
+          "id": "topic-b83ab9a7",
           "name": "支援向量機",
           "weight": 1
         },
         {
+          "id": "topic-79d5d8c0",
           "name": "時間序列預測",
           "weight": 1
         },
         {
+          "id": "topic-d719aa2f",
           "name": "機率與統計",
           "weight": 1
         },
         {
+          "id": "topic-3d42afcd",
           "name": "異常偵測",
           "weight": 1
         },
         {
+          "id": "topic-2f18521d",
           "name": "鑑別式AI",
           "weight": 1
         }
@@ -5942,7 +6143,9 @@
       ]
     },
     {
+      "id": "topic-130de467",
       "name": "生成對抗網路",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 6,
@@ -6000,22 +6203,27 @@
       ],
       "related": [
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 4
         },
         {
+          "id": "topic-ab7d5e17",
           "name": "變分自編碼器",
           "weight": 4
         },
         {
+          "id": "topic-206496aa",
           "name": "擴散模型",
           "weight": 3
         },
         {
+          "id": "topic-e96f0020",
           "name": "模型穩定性",
           "weight": 1
         },
         {
+          "id": "topic-2f18521d",
           "name": "鑑別式AI",
           "weight": 1
         }
@@ -6210,7 +6418,9 @@
       ]
     },
     {
+      "id": "topic-97fa5357",
       "name": "監督式學習",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 12,
@@ -6256,38 +6466,47 @@
       ],
       "related": [
         {
+          "id": "topic-4bcdb1f7",
           "name": "分類模型",
           "weight": 5
         },
         {
+          "id": "topic-45f6de13",
           "name": "非監督式學習",
           "weight": 5
         },
         {
+          "id": "topic-2858f6d9",
           "name": "迴歸分析",
           "weight": 2
         },
         {
+          "id": "topic-4bf3c2e0",
           "name": "分群演算法",
           "weight": 1
         },
         {
+          "id": "topic-3319b1f4",
           "name": "強化學習",
           "weight": 1
         },
         {
+          "id": "topic-b83ab9a7",
           "name": "支援向量機",
           "weight": 1
         },
         {
+          "id": "topic-3d42afcd",
           "name": "異常偵測",
           "weight": 1
         },
         {
+          "id": "topic-2c2889e1",
           "name": "神經網路基礎",
           "weight": 1
         },
         {
+          "id": "topic-5c2bb378",
           "name": "資料標註",
           "weight": 1
         }
@@ -6470,7 +6689,9 @@
       ]
     },
     {
+      "id": "topic-3d4e3271",
       "name": "降維方法",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 9,
@@ -6520,26 +6741,32 @@
       ],
       "related": [
         {
+          "id": "topic-03fbcb80",
           "name": "特徵選擇",
           "weight": 2
         },
         {
+          "id": "topic-2cd80e59",
           "name": "多重共線性",
           "weight": 1
         },
         {
+          "id": "topic-b83ab9a7",
           "name": "支援向量機",
           "weight": 1
         },
         {
+          "id": "topic-30500f7f",
           "name": "特徵縮放",
           "weight": 1
         },
         {
+          "id": "topic-828bda22",
           "name": "線性代數與運算",
           "weight": 1
         },
         {
+          "id": "topic-45f6de13",
           "name": "非監督式學習",
           "weight": 1
         }
@@ -6728,7 +6955,9 @@
       ]
     },
     {
+      "id": "topic-3d42afcd",
       "name": "異常偵測",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 9,
@@ -6792,42 +7021,52 @@
       ],
       "related": [
         {
+          "id": "topic-ab7d5e17",
           "name": "變分自編碼器",
           "weight": 3
         },
         {
+          "id": "topic-1482ca35",
           "name": "串流處理",
           "weight": 2
         },
         {
+          "id": "topic-10db0f21",
           "name": "類別不平衡",
           "weight": 2
         },
         {
+          "id": "topic-4bcdb1f7",
           "name": "分類模型",
           "weight": 1
         },
         {
+          "id": "topic-8645a759",
           "name": "影像辨識任務",
           "weight": 1
         },
         {
+          "id": "topic-65f94592",
           "name": "敘述統計",
           "weight": 1
         },
         {
+          "id": "topic-97fa5357",
           "name": "監督式學習",
           "weight": 1
         },
         {
+          "id": "topic-672a1d1c",
           "name": "統計量分析",
           "weight": 1
         },
         {
+          "id": "topic-9aab6ad8",
           "name": "資料漂移",
           "weight": 1
         },
         {
+          "id": "topic-45f6de13",
           "name": "非監督式學習",
           "weight": 1
         }
@@ -7005,7 +7244,9 @@
       ]
     },
     {
+      "id": "topic-c64e2577",
       "name": "系統整合與API",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 11,
@@ -7043,46 +7284,57 @@
       ],
       "related": [
         {
+          "id": "topic-58449c1c",
           "name": "低程式碼平台",
           "weight": 4
         },
         {
+          "id": "topic-ee3a1351",
           "name": "低代碼無代碼開發",
           "weight": 3
         },
         {
+          "id": "topic-b408c032",
           "name": "半結構化資料",
           "weight": 2
         },
         {
+          "id": "topic-c45160cc",
           "name": "工具呼叫",
           "weight": 2
         },
         {
+          "id": "topic-86a66aa2",
           "name": "業務流程整合",
           "weight": 2
         },
         {
+          "id": "topic-aff68e45",
           "name": "部署架構",
           "weight": 2
         },
         {
+          "id": "topic-a469b273",
           "name": "上下文工程",
           "weight": 1
         },
         {
+          "id": "topic-35a185b7",
           "name": "代理式AI",
           "weight": 1
         },
         {
+          "id": "topic-5d51a65c",
           "name": "概念驗證",
           "weight": 1
         },
         {
+          "id": "topic-11de7491",
           "name": "資料品質",
           "weight": 1
         },
         {
+          "id": "topic-8a556abc",
           "name": "資料型態",
           "weight": 1
         }
@@ -7256,7 +7508,9 @@
       ]
     },
     {
+      "id": "topic-10db0f21",
       "name": "類別不平衡",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 11,
@@ -7320,38 +7574,47 @@
       ],
       "related": [
         {
+          "id": "topic-8066e7e4",
           "name": "類別敏感評估",
           "weight": 4
         },
         {
+          "id": "topic-a0911713",
           "name": "交叉驗證",
           "weight": 2
         },
         {
+          "id": "topic-3d42afcd",
           "name": "異常偵測",
           "weight": 2
         },
         {
+          "id": "topic-4f38972f",
           "name": "評估指標",
           "weight": 2
         },
         {
+          "id": "topic-4c390b1a",
           "name": "資料增強",
           "weight": 2
         },
         {
+          "id": "topic-72fe2b6f",
           "name": "過擬合與泛化",
           "weight": 2
         },
         {
+          "id": "topic-65f94592",
           "name": "敘述統計",
           "weight": 1
         },
         {
+          "id": "topic-ce08fbb1",
           "name": "資料前處理",
           "weight": 1
         },
         {
+          "id": "topic-11de7491",
           "name": "資料品質",
           "weight": 1
         }
@@ -7525,7 +7788,9 @@
       ]
     },
     {
+      "id": "topic-00a9904e",
       "name": "偏態與長尾分佈",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 6,
@@ -7595,34 +7860,42 @@
       ],
       "related": [
         {
+          "id": "topic-65f94592",
           "name": "敘述統計",
           "weight": 2
         },
         {
+          "id": "topic-4b5a6291",
           "name": "大數據概念",
           "weight": 1
         },
         {
+          "id": "topic-6bad06db",
           "name": "數值型資料視覺化",
           "weight": 1
         },
         {
+          "id": "topic-f3159475",
           "name": "特徵工程",
           "weight": 1
         },
         {
+          "id": "topic-672a1d1c",
           "name": "統計量分析",
           "weight": 1
         },
         {
+          "id": "topic-4f38972f",
           "name": "評估指標",
           "weight": 1
         },
         {
+          "id": "topic-2858f6d9",
           "name": "迴歸分析",
           "weight": 1
         },
         {
+          "id": "topic-bde75fbc",
           "name": "離群值處理",
           "weight": 1
         }
@@ -7795,7 +8068,9 @@
       ]
     },
     {
+      "id": "topic-4bf3c2e0",
       "name": "分群演算法",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 9,
@@ -7847,22 +8122,27 @@
       ],
       "related": [
         {
+          "id": "topic-45f6de13",
           "name": "非監督式學習",
           "weight": 6
         },
         {
+          "id": "topic-2858f6d9",
           "name": "迴歸分析",
           "weight": 2
         },
         {
+          "id": "topic-4bcdb1f7",
           "name": "分類模型",
           "weight": 1
         },
         {
+          "id": "topic-97fa5357",
           "name": "監督式學習",
           "weight": 1
         },
         {
+          "id": "topic-bde75fbc",
           "name": "離群值處理",
           "weight": 1
         }
@@ -8029,7 +8309,9 @@
       ]
     },
     {
+      "id": "topic-03fbcb80",
       "name": "特徵選擇",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 8,
@@ -8111,30 +8393,37 @@
       ],
       "related": [
         {
+          "id": "topic-00567752",
           "name": "正則化",
           "weight": 8
         },
         {
+          "id": "topic-2cd80e59",
           "name": "多重共線性",
           "weight": 2
         },
         {
+          "id": "topic-3d4e3271",
           "name": "降維方法",
           "weight": 2
         },
         {
+          "id": "topic-7ac14abe",
           "name": "模型可解釋性",
           "weight": 1
         },
         {
+          "id": "topic-62c40140",
           "name": "決策樹模型",
           "weight": 1
         },
         {
+          "id": "topic-f3159475",
           "name": "特徵工程",
           "weight": 1
         },
         {
+          "id": "topic-4c390b1a",
           "name": "資料增強",
           "weight": 1
         }
@@ -8303,7 +8592,9 @@
       ]
     },
     {
+      "id": "topic-45f6de13",
       "name": "非監督式學習",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 11,
@@ -8349,26 +8640,32 @@
       ],
       "related": [
         {
+          "id": "topic-4bf3c2e0",
           "name": "分群演算法",
           "weight": 6
         },
         {
+          "id": "topic-97fa5357",
           "name": "監督式學習",
           "weight": 5
         },
         {
+          "id": "topic-3319b1f4",
           "name": "強化學習",
           "weight": 1
         },
         {
+          "id": "topic-3d42afcd",
           "name": "異常偵測",
           "weight": 1
         },
         {
+          "id": "topic-ab7d5e17",
           "name": "變分自編碼器",
           "weight": 1
         },
         {
+          "id": "topic-3d4e3271",
           "name": "降維方法",
           "weight": 1
         }
@@ -8531,7 +8828,9 @@
       ]
     },
     {
+      "id": "topic-0179470c",
       "name": "AI法規遵循",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 9,
@@ -8557,50 +8856,62 @@
       ],
       "related": [
         {
+          "id": "topic-971f6b78",
           "name": "資料隱私保護",
           "weight": 5
         },
         {
+          "id": "topic-c91c9c94",
           "name": "偏見與公平性",
           "weight": 2
         },
         {
+          "id": "topic-e4b2553e",
           "name": "AI治理與倫理",
           "weight": 1
         },
         {
+          "id": "topic-78532a7f",
           "name": "AI風險管理",
           "weight": 1
         },
         {
+          "id": "topic-318680aa",
           "name": "智慧財產權",
           "weight": 1
         },
         {
+          "id": "topic-52c8fb08",
           "name": "模型監控",
           "weight": 1
         },
         {
+          "id": "topic-1aad1bfb",
           "name": "生成內容審查",
           "weight": 1
         },
         {
+          "id": "topic-f6bd603c",
           "name": "知識庫整合",
           "weight": 1
         },
         {
+          "id": "topic-48f2eb21",
           "name": "系統安全與稽核",
           "weight": 1
         },
         {
+          "id": "topic-f459af60",
           "name": "資料匿名化",
           "weight": 1
         },
         {
+          "id": "topic-94b81884",
           "name": "資料隱私法規",
           "weight": 1
         },
         {
+          "id": "topic-aff68e45",
           "name": "部署架構",
           "weight": 1
         }
@@ -8756,7 +9067,9 @@
       ]
     },
     {
+      "id": "topic-9d30842d",
       "name": "應用場景規劃",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 6,
@@ -8788,42 +9101,52 @@
       ],
       "related": [
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 3
         },
         {
+          "id": "topic-4031e9d2",
           "name": "AI專案導入評估",
           "weight": 2
         },
         {
+          "id": "topic-86a66aa2",
           "name": "業務流程整合",
           "weight": 2
         },
         {
+          "id": "topic-375c9e2f",
           "name": "領域應用",
           "weight": 2
         },
         {
+          "id": "topic-35a185b7",
           "name": "代理式AI",
           "weight": 1
         },
         {
+          "id": "topic-ee3a1351",
           "name": "低代碼無代碼開發",
           "weight": 1
         },
         {
+          "id": "topic-fcd10f7f",
           "name": "影像生成",
           "weight": 1
         },
         {
+          "id": "topic-80874e9a",
           "name": "思維鏈提示",
           "weight": 1
         },
         {
+          "id": "topic-26c437d5",
           "name": "提示工程",
           "weight": 1
         },
         {
+          "id": "topic-92d0f55b",
           "name": "檢索增強生成",
           "weight": 1
         }
@@ -8985,7 +9308,9 @@
       ]
     },
     {
+      "id": "topic-86a66aa2",
       "name": "業務流程整合",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 9,
@@ -9017,34 +9342,42 @@
       ],
       "related": [
         {
+          "id": "topic-35a185b7",
           "name": "代理式AI",
           "weight": 4
         },
         {
+          "id": "topic-ee3a1351",
           "name": "低代碼無代碼開發",
           "weight": 2
         },
         {
+          "id": "topic-58449c1c",
           "name": "低程式碼平台",
           "weight": 2
         },
         {
+          "id": "topic-9d30842d",
           "name": "應用場景規劃",
           "weight": 2
         },
         {
+          "id": "topic-c64e2577",
           "name": "系統整合與API",
           "weight": 2
         },
         {
+          "id": "topic-e4b2553e",
           "name": "AI治理與倫理",
           "weight": 1
         },
         {
+          "id": "topic-c576d4ff",
           "name": "人類參與迴圈",
           "weight": 1
         },
         {
+          "id": "topic-9446aaa7",
           "name": "成本效益分析",
           "weight": 1
         }
@@ -9200,7 +9533,9 @@
       ]
     },
     {
+      "id": "topic-52c8fb08",
       "name": "模型監控",
+      "previousNames": [],
       "parent": "模型訓練與評估",
       "questionCount": {
         "official": 7,
@@ -9246,30 +9581,37 @@
       ],
       "related": [
         {
+          "id": "topic-9aab6ad8",
           "name": "資料漂移",
           "weight": 10
         },
         {
+          "id": "topic-0179470c",
           "name": "AI法規遵循",
           "weight": 1
         },
         {
+          "id": "topic-d0119649",
           "name": "MLOps",
           "weight": 1
         },
         {
+          "id": "topic-c91c9c94",
           "name": "偏見與公平性",
           "weight": 1
         },
         {
+          "id": "topic-c405e016",
           "name": "少樣本提示",
           "weight": 1
         },
         {
+          "id": "topic-241fb160",
           "name": "模型評估",
           "weight": 1
         },
         {
+          "id": "topic-4f38972f",
           "name": "評估指標",
           "weight": 1
         }
@@ -9429,7 +9771,9 @@
       ]
     },
     {
+      "id": "topic-f3159475",
       "name": "特徵工程",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 6,
@@ -9489,38 +9833,47 @@
       ],
       "related": [
         {
+          "id": "topic-6938f367",
           "name": "類別特徵編碼",
           "weight": 3
         },
         {
+          "id": "topic-00a9904e",
           "name": "偏態與長尾分佈",
           "weight": 1
         },
         {
+          "id": "topic-b408c032",
           "name": "半結構化資料",
           "weight": 1
         },
         {
+          "id": "topic-30500f7f",
           "name": "特徵縮放",
           "weight": 1
         },
         {
+          "id": "topic-03fbcb80",
           "name": "特徵選擇",
           "weight": 1
         },
         {
+          "id": "topic-ce08fbb1",
           "name": "資料前處理",
           "weight": 1
         },
         {
+          "id": "topic-5e3eb343",
           "name": "資料標準化",
           "weight": 1
         },
         {
+          "id": "topic-899e6a65",
           "name": "資料洩漏",
           "weight": 1
         },
         {
+          "id": "topic-5880e5ef",
           "name": "資料清理",
           "weight": 1
         }
@@ -9682,7 +10035,9 @@
       ]
     },
     {
+      "id": "topic-5e3eb343",
       "name": "資料標準化",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 10,
@@ -9746,38 +10101,47 @@
       ],
       "related": [
         {
+          "id": "topic-30500f7f",
           "name": "特徵縮放",
           "weight": 6
         },
         {
+          "id": "topic-5880e5ef",
           "name": "資料清理",
           "weight": 2
         },
         {
+          "id": "topic-8645a759",
           "name": "影像辨識任務",
           "weight": 1
         },
         {
+          "id": "topic-62c40140",
           "name": "決策樹模型",
           "weight": 1
         },
         {
+          "id": "topic-f3159475",
           "name": "特徵工程",
           "weight": 1
         },
         {
+          "id": "topic-e164bd90",
           "name": "資料切分",
           "weight": 1
         },
         {
+          "id": "topic-ce08fbb1",
           "name": "資料前處理",
           "weight": 1
         },
         {
+          "id": "topic-899e6a65",
           "name": "資料洩漏",
           "weight": 1
         },
         {
+          "id": "topic-6938f367",
           "name": "類別特徵編碼",
           "weight": 1
         }
@@ -9931,7 +10295,9 @@
       ]
     },
     {
+      "id": "topic-08aeb299",
       "name": "AI應用場景評估",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 7,
@@ -9983,50 +10349,62 @@
       ],
       "related": [
         {
+          "id": "topic-4031e9d2",
           "name": "AI專案導入評估",
           "weight": 3
         },
         {
+          "id": "topic-92d0f55b",
           "name": "檢索增強生成",
           "weight": 2
         },
         {
+          "id": "topic-eb86a0aa",
           "name": "AI客服應用",
           "weight": 1
         },
         {
+          "id": "topic-35a185b7",
           "name": "代理式AI",
           "weight": 1
         },
         {
+          "id": "topic-ee3a1351",
           "name": "低代碼無代碼開發",
           "weight": 1
         },
         {
+          "id": "topic-27d063f9",
           "name": "多模態AI",
           "weight": 1
         },
         {
+          "id": "topic-5d51a65c",
           "name": "概念驗證",
           "weight": 1
         },
         {
+          "id": "topic-7ac14abe",
           "name": "模型可解釋性",
           "weight": 1
         },
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 1
         },
         {
+          "id": "topic-f6bd603c",
           "name": "知識庫整合",
           "weight": 1
         },
         {
+          "id": "topic-4f38972f",
           "name": "評估指標",
           "weight": 1
         },
         {
+          "id": "topic-11de7491",
           "name": "資料品質",
           "weight": 1
         }
@@ -10175,7 +10553,9 @@
       ]
     },
     {
+      "id": "topic-1482ca35",
       "name": "串流處理",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 4,
@@ -10225,22 +10605,27 @@
       ],
       "related": [
         {
+          "id": "topic-1d3e03ce",
           "name": "即時資料處理",
           "weight": 8
         },
         {
+          "id": "topic-3d42afcd",
           "name": "異常偵測",
           "weight": 2
         },
         {
+          "id": "topic-2966a7e6",
           "name": "分散式資料處理",
           "weight": 1
         },
         {
+          "id": "topic-65f94592",
           "name": "敘述統計",
           "weight": 1
         },
         {
+          "id": "topic-672a1d1c",
           "name": "統計量分析",
           "weight": 1
         }
@@ -10395,7 +10780,9 @@
       ]
     },
     {
+      "id": "topic-f459af60",
       "name": "資料匿名化",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 4,
@@ -10435,26 +10822,32 @@
       ],
       "related": [
         {
+          "id": "topic-971f6b78",
           "name": "資料隱私保護",
           "weight": 5
         },
         {
+          "id": "topic-39bed6b1",
           "name": "隱私強化技術",
           "weight": 5
         },
         {
+          "id": "topic-0179470c",
           "name": "AI法規遵循",
           "weight": 1
         },
         {
+          "id": "topic-318680aa",
           "name": "智慧財產權",
           "weight": 1
         },
         {
+          "id": "topic-ce08fbb1",
           "name": "資料前處理",
           "weight": 1
         },
         {
+          "id": "topic-94b81884",
           "name": "資料隱私法規",
           "weight": 1
         }
@@ -10609,7 +11002,9 @@
       ]
     },
     {
+      "id": "topic-9aab6ad8",
       "name": "資料漂移",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 9,
@@ -10667,22 +11062,27 @@
       ],
       "related": [
         {
+          "id": "topic-52c8fb08",
           "name": "模型監控",
           "weight": 10
         },
         {
+          "id": "topic-d0119649",
           "name": "MLOps",
           "weight": 2
         },
         {
+          "id": "topic-a0911713",
           "name": "交叉驗證",
           "weight": 1
         },
         {
+          "id": "topic-c405e016",
           "name": "少樣本提示",
           "weight": 1
         },
         {
+          "id": "topic-3d42afcd",
           "name": "異常偵測",
           "weight": 1
         }
@@ -10827,7 +11227,9 @@
       ]
     },
     {
+      "id": "topic-aff68e45",
       "name": "部署架構",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 6,
@@ -10891,34 +11293,42 @@
       ],
       "related": [
         {
+          "id": "topic-e935cb9c",
           "name": "系統資源調度",
           "weight": 3
         },
         {
+          "id": "topic-0545aaf7",
           "name": "模型推論",
           "weight": 2
         },
         {
+          "id": "topic-c64e2577",
           "name": "系統整合與API",
           "weight": 2
         },
         {
+          "id": "topic-971f6b78",
           "name": "資料隱私保護",
           "weight": 2
         },
         {
+          "id": "topic-0179470c",
           "name": "AI法規遵循",
           "weight": 1
         },
         {
+          "id": "topic-78532a7f",
           "name": "AI風險管理",
           "weight": 1
         },
         {
+          "id": "topic-19de4c71",
           "name": "容器編排",
           "weight": 1
         },
         {
+          "id": "topic-6167bf4f",
           "name": "效能優化",
           "weight": 1
         }
@@ -11069,7 +11479,9 @@
       ]
     },
     {
+      "id": "topic-39bed6b1",
       "name": "隱私強化技術",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 7,
@@ -11133,18 +11545,22 @@
       ],
       "related": [
         {
+          "id": "topic-f459af60",
           "name": "資料匿名化",
           "weight": 5
         },
         {
+          "id": "topic-971f6b78",
           "name": "資料隱私保護",
           "weight": 3
         },
         {
+          "id": "topic-48f2eb21",
           "name": "系統安全與稽核",
           "weight": 1
         },
         {
+          "id": "topic-94b81884",
           "name": "資料隱私法規",
           "weight": 1
         }
@@ -11293,7 +11709,9 @@
       ]
     },
     {
+      "id": "topic-99e53b22",
       "name": "Transformer架構",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 7,
@@ -11363,38 +11781,47 @@
       ],
       "related": [
         {
+          "id": "topic-38ac1232",
           "name": "注意力機制",
           "weight": 5
         },
         {
+          "id": "topic-c8c5b799",
           "name": "自迴歸生成",
           "weight": 2
         },
         {
+          "id": "topic-3681063e",
           "name": "多任務學習",
           "weight": 1
         },
         {
+          "id": "topic-dfd2be46",
           "name": "多模態融合",
           "weight": 1
         },
         {
+          "id": "topic-16071ad8",
           "name": "序列模型",
           "weight": 1
         },
         {
+          "id": "topic-3defbd81",
           "name": "循環神經網路",
           "weight": 1
         },
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 1
         },
         {
+          "id": "topic-00390007",
           "name": "預訓練語言模型",
           "weight": 1
         },
         {
+          "id": "topic-375c9e2f",
           "name": "領域應用",
           "weight": 1
         }
@@ -11532,7 +11959,9 @@
       ]
     },
     {
+      "id": "topic-a0911713",
       "name": "交叉驗證",
+      "previousNames": [],
       "parent": "模型訓練與評估",
       "questionCount": {
         "official": 7,
@@ -11594,26 +12023,32 @@
       ],
       "related": [
         {
+          "id": "topic-72fe2b6f",
           "name": "過擬合與泛化",
           "weight": 3
         },
         {
+          "id": "topic-241fb160",
           "name": "模型評估",
           "weight": 2
         },
         {
+          "id": "topic-10db0f21",
           "name": "類別不平衡",
           "weight": 2
         },
         {
+          "id": "topic-9aab6ad8",
           "name": "資料漂移",
           "weight": 1
         },
         {
+          "id": "topic-de467180",
           "name": "超參數調整",
           "weight": 1
         },
         {
+          "id": "topic-8066e7e4",
           "name": "類別敏感評估",
           "weight": 1
         }
@@ -11751,7 +12186,9 @@
       ]
     },
     {
+      "id": "topic-26c437d5",
       "name": "提示工程",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 12,
@@ -11789,38 +12226,47 @@
       ],
       "related": [
         {
+          "id": "topic-80874e9a",
           "name": "思維鏈提示",
           "weight": 3
         },
         {
+          "id": "topic-ee3a1351",
           "name": "低代碼無代碼開發",
           "weight": 1
         },
         {
+          "id": "topic-c405e016",
           "name": "少樣本提示",
           "weight": 1
         },
         {
+          "id": "topic-9d30842d",
           "name": "應用場景規劃",
           "weight": 1
         },
         {
+          "id": "topic-ef91061e",
           "name": "模型微調",
           "weight": 1
         },
         {
+          "id": "topic-241fb160",
           "name": "模型評估",
           "weight": 1
         },
         {
+          "id": "topic-92d0f55b",
           "name": "檢索增強生成",
           "weight": 1
         },
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 1
         },
         {
+          "id": "topic-43613e6f",
           "name": "程式碼輔助生成",
           "weight": 1
         }
@@ -11948,7 +12394,9 @@
       ]
     },
     {
+      "id": "topic-11de7491",
       "name": "資料品質",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 6,
@@ -11986,38 +12434,47 @@
       ],
       "related": [
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 3
         },
         {
+          "id": "topic-08aeb299",
           "name": "AI應用場景評估",
           "weight": 1
         },
         {
+          "id": "topic-58449c1c",
           "name": "低程式碼平台",
           "weight": 1
         },
         {
+          "id": "topic-c91c9c94",
           "name": "偏見與公平性",
           "weight": 1
         },
         {
+          "id": "topic-92d0f55b",
           "name": "檢索增強生成",
           "weight": 1
         },
         {
+          "id": "topic-80597829",
           "name": "異常值偵測",
           "weight": 1
         },
         {
+          "id": "topic-c64e2577",
           "name": "系統整合與API",
           "weight": 1
         },
         {
+          "id": "topic-5c2bb378",
           "name": "資料標註",
           "weight": 1
         },
         {
+          "id": "topic-10db0f21",
           "name": "類別不平衡",
           "weight": 1
         }
@@ -12157,7 +12614,9 @@
       ]
     },
     {
+      "id": "topic-5880e5ef",
       "name": "資料清理",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 6,
@@ -12215,22 +12674,27 @@
       ],
       "related": [
         {
+          "id": "topic-ce08fbb1",
           "name": "資料前處理",
           "weight": 3
         },
         {
+          "id": "topic-5e3eb343",
           "name": "資料標準化",
           "weight": 2
         },
         {
+          "id": "topic-e6622089",
           "name": "遺漏值處理",
           "weight": 2
         },
         {
+          "id": "topic-c91c9c94",
           "name": "偏見與公平性",
           "weight": 1
         },
         {
+          "id": "topic-f3159475",
           "name": "特徵工程",
           "weight": 1
         }
@@ -12370,7 +12834,9 @@
       ]
     },
     {
+      "id": "topic-8066e7e4",
       "name": "類別敏感評估",
+      "previousNames": [],
       "parent": "模型訓練與評估",
       "questionCount": {
         "official": 6,
@@ -12446,14 +12912,17 @@
       ],
       "related": [
         {
+          "id": "topic-4f38972f",
           "name": "評估指標",
           "weight": 9
         },
         {
+          "id": "topic-10db0f21",
           "name": "類別不平衡",
           "weight": 4
         },
         {
+          "id": "topic-a0911713",
           "name": "交叉驗證",
           "weight": 1
         }
@@ -12593,7 +13062,9 @@
       ]
     },
     {
+      "id": "topic-58449c1c",
       "name": "低程式碼平台",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 12,
@@ -12631,38 +13102,47 @@
       ],
       "related": [
         {
+          "id": "topic-c64e2577",
           "name": "系統整合與API",
           "weight": 4
         },
         {
+          "id": "topic-86a66aa2",
           "name": "業務流程整合",
           "weight": 2
         },
         {
+          "id": "topic-ee3a1351",
           "name": "低代碼無代碼開發",
           "weight": 1
         },
         {
+          "id": "topic-4ef40ad1",
           "name": "影子IT治理",
           "weight": 1
         },
         {
+          "id": "topic-5d51a65c",
           "name": "概念驗證",
           "weight": 1
         },
         {
+          "id": "topic-c30aab5e",
           "name": "模型訓練機制",
           "weight": 1
         },
         {
+          "id": "topic-df7019dc",
           "name": "機器學習概論",
           "weight": 1
         },
         {
+          "id": "topic-11de7491",
           "name": "資料品質",
           "weight": 1
         },
         {
+          "id": "topic-971f6b78",
           "name": "資料隱私保護",
           "weight": 1
         }
@@ -12779,7 +13259,9 @@
       ]
     },
     {
+      "id": "topic-74519e95",
       "name": "假設檢定",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 1,
@@ -12805,10 +13287,12 @@
       ],
       "related": [
         {
+          "id": "topic-4b5a6291",
           "name": "大數據概念",
           "weight": 1
         },
         {
+          "id": "topic-d57bb83f",
           "name": "探索性資料分析",
           "weight": 1
         }
@@ -12947,7 +13431,9 @@
       ]
     },
     {
+      "id": "topic-9446aaa7",
       "name": "成本效益分析",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 6,
@@ -12985,22 +13471,27 @@
       ],
       "related": [
         {
+          "id": "topic-4031e9d2",
           "name": "AI專案導入評估",
           "weight": 2
         },
         {
+          "id": "topic-ee3a1351",
           "name": "低代碼無代碼開發",
           "weight": 2
         },
         {
+          "id": "topic-113acb95",
           "name": "大型語言模型",
           "weight": 1
         },
         {
+          "id": "topic-86a66aa2",
           "name": "業務流程整合",
           "weight": 1
         },
         {
+          "id": "topic-0545aaf7",
           "name": "模型推論",
           "weight": 1
         }
@@ -13129,7 +13620,9 @@
       ]
     },
     {
+      "id": "topic-65f94592",
       "name": "敘述統計",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 4,
@@ -13181,30 +13674,37 @@
       ],
       "related": [
         {
+          "id": "topic-00a9904e",
           "name": "偏態與長尾分佈",
           "weight": 2
         },
         {
+          "id": "topic-672a1d1c",
           "name": "統計量分析",
           "weight": 2
         },
         {
+          "id": "topic-1482ca35",
           "name": "串流處理",
           "weight": 1
         },
         {
+          "id": "topic-4b5a6291",
           "name": "大數據概念",
           "weight": 1
         },
         {
+          "id": "topic-3d42afcd",
           "name": "異常偵測",
           "weight": 1
         },
         {
+          "id": "topic-bde75fbc",
           "name": "離群值處理",
           "weight": 1
         },
         {
+          "id": "topic-10db0f21",
           "name": "類別不平衡",
           "weight": 1
         }
@@ -13337,7 +13837,9 @@
       ]
     },
     {
+      "id": "topic-7186f4cd",
       "name": "機率分佈",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 2,
@@ -13354,10 +13856,12 @@
       ],
       "related": [
         {
+          "id": "topic-7d34a419",
           "name": "激活函數",
           "weight": 1
         },
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 1
         }
@@ -13494,7 +13998,9 @@
       ]
     },
     {
+      "id": "topic-38ac1232",
       "name": "注意力機制",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 6,
@@ -13564,18 +14070,22 @@
       ],
       "related": [
         {
+          "id": "topic-99e53b22",
           "name": "Transformer架構",
           "weight": 5
         },
         {
+          "id": "topic-6167bf4f",
           "name": "效能優化",
           "weight": 1
         },
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 1
         },
         {
+          "id": "topic-2c2889e1",
           "name": "神經網路基礎",
           "weight": 1
         }
@@ -13704,7 +14214,9 @@
       ]
     },
     {
+      "id": "topic-30500f7f",
       "name": "特徵縮放",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 7,
@@ -13762,26 +14274,32 @@
       ],
       "related": [
         {
+          "id": "topic-5e3eb343",
           "name": "資料標準化",
           "weight": 6
         },
         {
+          "id": "topic-b83ab9a7",
           "name": "支援向量機",
           "weight": 1
         },
         {
+          "id": "topic-f3159475",
           "name": "特徵工程",
           "weight": 1
         },
         {
+          "id": "topic-3d4e3271",
           "name": "降維方法",
           "weight": 1
         },
         {
+          "id": "topic-bde75fbc",
           "name": "離群值處理",
           "weight": 1
         },
         {
+          "id": "topic-6938f367",
           "name": "類別特徵編碼",
           "weight": 1
         }
@@ -13908,7 +14426,9 @@
       ]
     },
     {
+      "id": "topic-ab7d5e17",
       "name": "變分自編碼器",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 7,
@@ -13972,38 +14492,47 @@
       ],
       "related": [
         {
+          "id": "topic-130de467",
           "name": "生成對抗網路",
           "weight": 4
         },
         {
+          "id": "topic-3d42afcd",
           "name": "異常偵測",
           "weight": 3
         },
         {
+          "id": "topic-206496aa",
           "name": "擴散模型",
           "weight": 2
         },
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 2
         },
         {
+          "id": "topic-fcd10f7f",
           "name": "影像生成",
           "weight": 1
         },
         {
+          "id": "topic-df8422df",
           "name": "模型壓縮",
           "weight": 1
         },
         {
+          "id": "topic-00567752",
           "name": "正則化",
           "weight": 1
         },
         {
+          "id": "topic-c8c5b799",
           "name": "自迴歸生成",
           "weight": 1
         },
         {
+          "id": "topic-45f6de13",
           "name": "非監督式學習",
           "weight": 1
         }
@@ -14130,7 +14659,9 @@
       ]
     },
     {
+      "id": "topic-4c390b1a",
       "name": "資料增強",
+      "previousNames": [],
       "parent": "特定領域AI技術",
       "questionCount": {
         "official": 4,
@@ -14182,34 +14713,42 @@
       ],
       "related": [
         {
+          "id": "topic-72fe2b6f",
           "name": "過擬合與泛化",
           "weight": 4
         },
         {
+          "id": "topic-10db0f21",
           "name": "類別不平衡",
           "weight": 2
         },
         {
+          "id": "topic-21636455",
           "name": "命名實體辨識",
           "weight": 1
         },
         {
+          "id": "topic-03fbcb80",
           "name": "特徵選擇",
           "weight": 1
         },
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 1
         },
         {
+          "id": "topic-5c2bb378",
           "name": "資料標註",
           "weight": 1
         },
         {
+          "id": "topic-de467180",
           "name": "超參數調整",
           "weight": 1
         },
         {
+          "id": "topic-2f18521d",
           "name": "鑑別式AI",
           "weight": 1
         }
@@ -14342,7 +14881,9 @@
       ]
     },
     {
+      "id": "topic-1d3e03ce",
       "name": "即時資料處理",
+      "previousNames": [],
       "parent": "MLOps與系統部署",
       "questionCount": {
         "official": 6,
@@ -14412,14 +14953,17 @@
       ],
       "related": [
         {
+          "id": "topic-1482ca35",
           "name": "串流處理",
           "weight": 8
         },
         {
+          "id": "topic-4b5a6291",
           "name": "大數據概念",
           "weight": 1
         },
         {
+          "id": "topic-0545aaf7",
           "name": "模型推論",
           "weight": 1
         }
@@ -14537,7 +15081,9 @@
       ]
     },
     {
+      "id": "topic-27d063f9",
       "name": "多模態AI",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 4,
@@ -14583,34 +15129,42 @@
       ],
       "related": [
         {
+          "id": "topic-dfd2be46",
           "name": "多模態融合",
           "weight": 4
         },
         {
+          "id": "topic-6dae10e9",
           "name": "AI幻覺與真實性風險",
           "weight": 1
         },
         {
+          "id": "topic-08aeb299",
           "name": "AI應用場景評估",
           "weight": 1
         },
         {
+          "id": "topic-697ecae5",
           "name": "向量檢索",
           "weight": 1
         },
         {
+          "id": "topic-05f57778",
           "name": "自監督式學習",
           "weight": 1
         },
         {
+          "id": "topic-4f38972f",
           "name": "評估指標",
           "weight": 1
         },
         {
+          "id": "topic-12853714",
           "name": "零樣本學習",
           "weight": 1
         },
         {
+          "id": "topic-375c9e2f",
           "name": "領域應用",
           "weight": 1
         }
@@ -14732,7 +15286,9 @@
       ]
     },
     {
+      "id": "topic-3defbd81",
       "name": "循環神經網路",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 5,
@@ -14778,26 +15334,32 @@
       ],
       "related": [
         {
+          "id": "topic-79d5d8c0",
           "name": "時間序列預測",
           "weight": 3
         },
         {
+          "id": "topic-6e5cdc94",
           "name": "卷積神經網路",
           "weight": 2
         },
         {
+          "id": "topic-99e53b22",
           "name": "Transformer架構",
           "weight": 1
         },
         {
+          "id": "topic-0ec4389c",
           "name": "優化演算法",
           "weight": 1
         },
         {
+          "id": "topic-16071ad8",
           "name": "序列模型",
           "weight": 1
         },
         {
+          "id": "topic-023b5465",
           "name": "神經網路訓練",
           "weight": 1
         }
@@ -14917,7 +15479,9 @@
       ]
     },
     {
+      "id": "topic-5d51a65c",
       "name": "概念驗證",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 5,
@@ -14969,26 +15533,32 @@
       ],
       "related": [
         {
+          "id": "topic-4031e9d2",
           "name": "AI專案導入評估",
           "weight": 3
         },
         {
+          "id": "topic-08aeb299",
           "name": "AI應用場景評估",
           "weight": 1
         },
         {
+          "id": "topic-58449c1c",
           "name": "低程式碼平台",
           "weight": 1
         },
         {
+          "id": "topic-241fb160",
           "name": "模型評估",
           "weight": 1
         },
         {
+          "id": "topic-df7019dc",
           "name": "機器學習概論",
           "weight": 1
         },
         {
+          "id": "topic-c64e2577",
           "name": "系統整合與API",
           "weight": 1
         }
@@ -15108,7 +15678,9 @@
       ]
     },
     {
+      "id": "topic-7d34a419",
       "name": "激活函數",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 5,
@@ -15160,10 +15732,12 @@
       ],
       "related": [
         {
+          "id": "topic-2c2889e1",
           "name": "神經網路基礎",
           "weight": 3
         },
         {
+          "id": "topic-7186f4cd",
           "name": "機率分佈",
           "weight": 1
         }
@@ -15283,7 +15857,9 @@
       ]
     },
     {
+      "id": "topic-672a1d1c",
       "name": "統計量分析",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 1,
@@ -15300,22 +15876,27 @@
       ],
       "related": [
         {
+          "id": "topic-65f94592",
           "name": "敘述統計",
           "weight": 2
         },
         {
+          "id": "topic-1482ca35",
           "name": "串流處理",
           "weight": 1
         },
         {
+          "id": "topic-00a9904e",
           "name": "偏態與長尾分佈",
           "weight": 1
         },
         {
+          "id": "topic-3d42afcd",
           "name": "異常偵測",
           "weight": 1
         },
         {
+          "id": "topic-bde75fbc",
           "name": "離群值處理",
           "weight": 1
         }
@@ -15443,7 +16024,9 @@
       ]
     },
     {
+      "id": "topic-94b81884",
       "name": "資料隱私法規",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 3,
@@ -15469,18 +16052,22 @@
       ],
       "related": [
         {
+          "id": "topic-971f6b78",
           "name": "資料隱私保護",
           "weight": 4
         },
         {
+          "id": "topic-0179470c",
           "name": "AI法規遵循",
           "weight": 1
         },
         {
+          "id": "topic-f459af60",
           "name": "資料匿名化",
           "weight": 1
         },
         {
+          "id": "topic-39bed6b1",
           "name": "隱私強化技術",
           "weight": 1
         }
@@ -15604,7 +16191,9 @@
       ]
     },
     {
+      "id": "topic-0ec4389c",
       "name": "優化演算法",
+      "previousNames": [],
       "parent": "模型訓練與評估",
       "questionCount": {
         "official": 3,
@@ -15644,14 +16233,17 @@
       ],
       "related": [
         {
+          "id": "topic-3defbd81",
           "name": "循環神經網路",
           "weight": 1
         },
         {
+          "id": "topic-3a063ca6",
           "name": "梯度下降",
           "weight": 1
         },
         {
+          "id": "topic-023b5465",
           "name": "神經網路訓練",
           "weight": 1
         }
@@ -15764,7 +16356,9 @@
       ]
     },
     {
+      "id": "topic-dfd2be46",
       "name": "多模態融合",
+      "previousNames": [],
       "parent": "特定領域AI技術",
       "questionCount": {
         "official": 5,
@@ -15804,18 +16398,22 @@
       ],
       "related": [
         {
+          "id": "topic-27d063f9",
           "name": "多模態AI",
           "weight": 4
         },
         {
+          "id": "topic-99e53b22",
           "name": "Transformer架構",
           "weight": 1
         },
         {
+          "id": "topic-828bda22",
           "name": "線性代數與運算",
           "weight": 1
         },
         {
+          "id": "topic-375c9e2f",
           "name": "領域應用",
           "weight": 1
         }
@@ -15924,7 +16522,9 @@
       ]
     },
     {
+      "id": "topic-2c2889e1",
       "name": "神經網路基礎",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 3,
@@ -15962,18 +16562,22 @@
       ],
       "related": [
         {
+          "id": "topic-7d34a419",
           "name": "激活函數",
           "weight": 3
         },
         {
+          "id": "topic-38ac1232",
           "name": "注意力機制",
           "weight": 1
         },
         {
+          "id": "topic-af6a1945",
           "name": "深度學習",
           "weight": 1
         },
         {
+          "id": "topic-97fa5357",
           "name": "監督式學習",
           "weight": 1
         }
@@ -16086,7 +16690,9 @@
       ]
     },
     {
+      "id": "topic-48f2eb21",
       "name": "系統安全與稽核",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 4,
@@ -16150,26 +16756,32 @@
       ],
       "related": [
         {
+          "id": "topic-971f6b78",
           "name": "資料隱私保護",
           "weight": 2
         },
         {
+          "id": "topic-e4b2553e",
           "name": "AI治理與倫理",
           "weight": 1
         },
         {
+          "id": "topic-0179470c",
           "name": "AI法規遵循",
           "weight": 1
         },
         {
+          "id": "topic-78532a7f",
           "name": "AI風險管理",
           "weight": 1
         },
         {
+          "id": "topic-43613e6f",
           "name": "程式碼輔助生成",
           "weight": 1
         },
         {
+          "id": "topic-39bed6b1",
           "name": "隱私強化技術",
           "weight": 1
         }
@@ -16280,7 +16892,9 @@
       ]
     },
     {
+      "id": "topic-6e5cdc94",
       "name": "卷積神經網路",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 6,
@@ -16332,18 +16946,22 @@
       ],
       "related": [
         {
+          "id": "topic-3defbd81",
           "name": "循環神經網路",
           "weight": 2
         },
         {
+          "id": "topic-37483701",
           "name": "電腦視覺",
           "weight": 2
         },
         {
+          "id": "topic-8645a759",
           "name": "影像辨識任務",
           "weight": 1
         },
         {
+          "id": "topic-e19fb724",
           "name": "物件偵測",
           "weight": 1
         }
@@ -16439,7 +17057,9 @@
       ]
     },
     {
+      "id": "topic-113acb95",
       "name": "大型語言模型",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 8,
@@ -16489,42 +17109,52 @@
       ],
       "related": [
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 2
         },
         {
+          "id": "topic-6dae10e9",
           "name": "AI幻覺與真實性風險",
           "weight": 1
         },
         {
+          "id": "topic-a4d70f5d",
           "name": "參數高效微調",
           "weight": 1
         },
         {
+          "id": "topic-9446aaa7",
           "name": "成本效益分析",
           "weight": 1
         },
         {
+          "id": "topic-07c1a7f2",
           "name": "文字分類",
           "weight": 1
         },
         {
+          "id": "topic-43613e6f",
           "name": "程式碼輔助生成",
           "weight": 1
         },
         {
+          "id": "topic-c8c5b799",
           "name": "自迴歸生成",
           "weight": 1
         },
         {
+          "id": "topic-4f38972f",
           "name": "評估指標",
           "weight": 1
         },
         {
+          "id": "topic-72fe2b6f",
           "name": "過擬合與泛化",
           "weight": 1
         },
         {
+          "id": "topic-12853714",
           "name": "零樣本學習",
           "weight": 1
         }
@@ -16616,7 +17246,9 @@
       ]
     },
     {
+      "id": "topic-fcd10f7f",
       "name": "影像生成",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 7,
@@ -16668,22 +17300,27 @@
       ],
       "related": [
         {
+          "id": "topic-206496aa",
           "name": "擴散模型",
           "weight": 4
         },
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 3
         },
         {
+          "id": "topic-9d30842d",
           "name": "應用場景規劃",
           "weight": 1
         },
         {
+          "id": "topic-318680aa",
           "name": "智慧財產權",
           "weight": 1
         },
         {
+          "id": "topic-ab7d5e17",
           "name": "變分自編碼器",
           "weight": 1
         }
@@ -16777,7 +17414,9 @@
       ]
     },
     {
+      "id": "topic-206496aa",
       "name": "擴散模型",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 5,
@@ -16835,22 +17474,27 @@
       ],
       "related": [
         {
+          "id": "topic-fcd10f7f",
           "name": "影像生成",
           "weight": 4
         },
         {
+          "id": "topic-130de467",
           "name": "生成對抗網路",
           "weight": 3
         },
         {
+          "id": "topic-ab7d5e17",
           "name": "變分自編碼器",
           "weight": 2
         },
         {
+          "id": "topic-75d9a7b4",
           "name": "多模態生成",
           "weight": 1
         },
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 1
         }
@@ -16948,7 +17592,9 @@
       ]
     },
     {
+      "id": "topic-6167bf4f",
       "name": "效能優化",
+      "previousNames": [],
       "parent": "模型訓練與評估",
       "questionCount": {
         "official": 8,
@@ -17024,30 +17670,37 @@
       ],
       "related": [
         {
+          "id": "topic-df8422df",
           "name": "模型壓縮",
           "weight": 1
         },
         {
+          "id": "topic-0545aaf7",
           "name": "模型推論",
           "weight": 1
         },
         {
+          "id": "topic-b71f69b8",
           "name": "模型訓練資源",
           "weight": 1
         },
         {
+          "id": "topic-92d0f55b",
           "name": "檢索增強生成",
           "weight": 1
         },
         {
+          "id": "topic-38ac1232",
           "name": "注意力機制",
           "weight": 1
         },
         {
+          "id": "topic-3af189e9",
           "name": "知識蒸餾",
           "weight": 1
         },
         {
+          "id": "topic-aff68e45",
           "name": "部署架構",
           "weight": 1
         }
@@ -17139,7 +17792,9 @@
       ]
     },
     {
+      "id": "topic-df8422df",
       "name": "模型壓縮",
+      "previousNames": [],
       "parent": "模型訓練與評估",
       "questionCount": {
         "official": 3,
@@ -17168,14 +17823,17 @@
       ],
       "related": [
         {
+          "id": "topic-3af189e9",
           "name": "知識蒸餾",
           "weight": 2
         },
         {
+          "id": "topic-6167bf4f",
           "name": "效能優化",
           "weight": 1
         },
         {
+          "id": "topic-ab7d5e17",
           "name": "變分自編碼器",
           "weight": 1
         }
@@ -17277,7 +17935,9 @@
       ]
     },
     {
+      "id": "topic-ef91061e",
       "name": "模型微調",
+      "previousNames": [],
       "parent": "模型訓練與評估",
       "questionCount": {
         "official": 7,
@@ -17315,26 +17975,32 @@
       ],
       "related": [
         {
+          "id": "topic-92d0f55b",
           "name": "檢索增強生成",
           "weight": 2
         },
         {
+          "id": "topic-c405e016",
           "name": "少樣本提示",
           "weight": 1
         },
         {
+          "id": "topic-3319b1f4",
           "name": "強化學習",
           "weight": 1
         },
         {
+          "id": "topic-26c437d5",
           "name": "提示工程",
           "weight": 1
         },
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 1
         },
         {
+          "id": "topic-26882f50",
           "name": "遷移學習",
           "weight": 1
         }
@@ -17428,7 +18094,9 @@
       ]
     },
     {
+      "id": "topic-241fb160",
       "name": "模型評估",
+      "previousNames": [],
       "parent": "模型訓練與評估",
       "questionCount": {
         "official": 3,
@@ -17454,30 +18122,37 @@
       ],
       "related": [
         {
+          "id": "topic-a0911713",
           "name": "交叉驗證",
           "weight": 2
         },
         {
+          "id": "topic-4f38972f",
           "name": "評估指標",
           "weight": 2
         },
         {
+          "id": "topic-26c437d5",
           "name": "提示工程",
           "weight": 1
         },
         {
+          "id": "topic-5d51a65c",
           "name": "概念驗證",
           "weight": 1
         },
         {
+          "id": "topic-8ff8bd6e",
           "name": "模型優化",
           "weight": 1
         },
         {
+          "id": "topic-52c8fb08",
           "name": "模型監控",
           "weight": 1
         },
         {
+          "id": "topic-72fe2b6f",
           "name": "過擬合與泛化",
           "weight": 1
         }
@@ -17579,7 +18254,9 @@
       ]
     },
     {
+      "id": "topic-1aad1bfb",
       "name": "生成內容審查",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 6,
@@ -17605,30 +18282,37 @@
       ],
       "related": [
         {
+          "id": "topic-78532a7f",
           "name": "AI風險管理",
           "weight": 3
         },
         {
+          "id": "topic-c91c9c94",
           "name": "偏見與公平性",
           "weight": 2
         },
         {
+          "id": "topic-318680aa",
           "name": "智慧財產權",
           "weight": 2
         },
         {
+          "id": "topic-6ad9de6a",
           "name": "AI幻覺與內容審核",
           "weight": 1
         },
         {
+          "id": "topic-6dae10e9",
           "name": "AI幻覺與真實性風險",
           "weight": 1
         },
         {
+          "id": "topic-0179470c",
           "name": "AI法規遵循",
           "weight": 1
         },
         {
+          "id": "topic-741371e7",
           "name": "提示詞攻擊防護",
           "weight": 1
         }
@@ -17724,7 +18408,9 @@
       ]
     },
     {
+      "id": "topic-cd4c44db",
       "name": "詞嵌入",
+      "previousNames": [],
       "parent": "特定領域AI技術",
       "questionCount": {
         "official": 1,
@@ -17743,6 +18429,7 @@
       "chapters": [],
       "related": [
         {
+          "id": "topic-f7095537",
           "name": "自然語言處理",
           "weight": 1
         }
@@ -17848,7 +18535,9 @@
       ]
     },
     {
+      "id": "topic-ce08fbb1",
       "name": "資料前處理",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 5,
@@ -17886,34 +18575,42 @@
       ],
       "related": [
         {
+          "id": "topic-5880e5ef",
           "name": "資料清理",
           "weight": 3
         },
         {
+          "id": "topic-36931efe",
           "name": "文本切分",
           "weight": 1
         },
         {
+          "id": "topic-92d0f55b",
           "name": "檢索增強生成",
           "weight": 1
         },
         {
+          "id": "topic-f3159475",
           "name": "特徵工程",
           "weight": 1
         },
         {
+          "id": "topic-f459af60",
           "name": "資料匿名化",
           "weight": 1
         },
         {
+          "id": "topic-5e3eb343",
           "name": "資料標準化",
           "weight": 1
         },
         {
+          "id": "topic-10db0f21",
           "name": "類別不平衡",
           "weight": 1
         },
         {
+          "id": "topic-6938f367",
           "name": "類別特徵編碼",
           "weight": 1
         }
@@ -18011,7 +18708,9 @@
       ]
     },
     {
+      "id": "topic-6938f367",
       "name": "類別特徵編碼",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 7,
@@ -18069,18 +18768,22 @@
       ],
       "related": [
         {
+          "id": "topic-f3159475",
           "name": "特徵工程",
           "weight": 3
         },
         {
+          "id": "topic-30500f7f",
           "name": "特徵縮放",
           "weight": 1
         },
         {
+          "id": "topic-ce08fbb1",
           "name": "資料前處理",
           "weight": 1
         },
         {
+          "id": "topic-5e3eb343",
           "name": "資料標準化",
           "weight": 1
         }
@@ -18174,7 +18877,9 @@
       ]
     },
     {
+      "id": "topic-b83ab9a7",
       "name": "支援向量機",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 4,
@@ -18214,26 +18919,32 @@
       ],
       "related": [
         {
+          "id": "topic-4bcdb1f7",
           "name": "分類模型",
           "weight": 1
         },
         {
+          "id": "topic-30500f7f",
           "name": "特徵縮放",
           "weight": 1
         },
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 1
         },
         {
+          "id": "topic-97fa5357",
           "name": "監督式學習",
           "weight": 1
         },
         {
+          "id": "topic-2f18521d",
           "name": "鑑別式AI",
           "weight": 1
         },
         {
+          "id": "topic-3d4e3271",
           "name": "降維方法",
           "weight": 1
         }
@@ -18322,7 +19033,9 @@
       ]
     },
     {
+      "id": "topic-6bad06db",
       "name": "數值型資料視覺化",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 3,
@@ -18362,18 +19075,22 @@
       ],
       "related": [
         {
+          "id": "topic-54f15e66",
           "name": "相關分析",
           "weight": 2
         },
         {
+          "id": "topic-00a9904e",
           "name": "偏態與長尾分佈",
           "weight": 1
         },
         {
+          "id": "topic-352a11e9",
           "name": "時間序列視覺化",
           "weight": 1
         },
         {
+          "id": "topic-80597829",
           "name": "異常值偵測",
           "weight": 1
         }
@@ -18464,7 +19181,9 @@
       ]
     },
     {
+      "id": "topic-df7019dc",
       "name": "機器學習概論",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 2,
@@ -18481,10 +19200,12 @@
       ],
       "related": [
         {
+          "id": "topic-58449c1c",
           "name": "低程式碼平台",
           "weight": 1
         },
         {
+          "id": "topic-5d51a65c",
           "name": "概念驗證",
           "weight": 1
         }
@@ -18577,7 +19298,9 @@
       ]
     },
     {
+      "id": "topic-8a556abc",
       "name": "資料型態",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 4,
@@ -18623,22 +19346,27 @@
       ],
       "related": [
         {
+          "id": "topic-4b5a6291",
           "name": "大數據概念",
           "weight": 2
         },
         {
+          "id": "topic-b408c032",
           "name": "半結構化資料",
           "weight": 1
         },
         {
+          "id": "topic-09e92cd6",
           "name": "多模態資料處理",
           "weight": 1
         },
         {
+          "id": "topic-c64e2577",
           "name": "系統整合與API",
           "weight": 1
         },
         {
+          "id": "topic-e6622089",
           "name": "遺漏值處理",
           "weight": 1
         }
@@ -18727,7 +19455,9 @@
       ]
     },
     {
+      "id": "topic-e6622089",
       "name": "遺漏值處理",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 4,
@@ -18779,10 +19509,12 @@
       ],
       "related": [
         {
+          "id": "topic-5880e5ef",
           "name": "資料清理",
           "weight": 2
         },
         {
+          "id": "topic-8a556abc",
           "name": "資料型態",
           "weight": 1
         }
@@ -18871,7 +19603,9 @@
       ]
     },
     {
+      "id": "topic-375c9e2f",
       "name": "領域應用",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 4,
@@ -18915,26 +19649,32 @@
       ],
       "related": [
         {
+          "id": "topic-9d30842d",
           "name": "應用場景規劃",
           "weight": 2
         },
         {
+          "id": "topic-99e53b22",
           "name": "Transformer架構",
           "weight": 1
         },
         {
+          "id": "topic-27d063f9",
           "name": "多模態AI",
           "weight": 1
         },
         {
+          "id": "topic-dfd2be46",
           "name": "多模態融合",
           "weight": 1
         },
         {
+          "id": "topic-3319b1f4",
           "name": "強化學習",
           "weight": 1
         },
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 1
         }
@@ -19023,7 +19763,9 @@
       ]
     },
     {
+      "id": "topic-6dae10e9",
       "name": "AI幻覺與真實性風險",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 6,
@@ -19061,26 +19803,32 @@
       ],
       "related": [
         {
+          "id": "topic-c91c9c94",
           "name": "偏見與公平性",
           "weight": 2
         },
         {
+          "id": "topic-a469b273",
           "name": "上下文工程",
           "weight": 1
         },
         {
+          "id": "topic-27d063f9",
           "name": "多模態AI",
           "weight": 1
         },
         {
+          "id": "topic-113acb95",
           "name": "大型語言模型",
           "weight": 1
         },
         {
+          "id": "topic-1aad1bfb",
           "name": "生成內容審查",
           "weight": 1
         },
         {
+          "id": "topic-43613e6f",
           "name": "程式碼輔助生成",
           "weight": 1
         }
@@ -19154,7 +19902,9 @@
       ]
     },
     {
+      "id": "topic-d0119649",
       "name": "MLOps",
+      "previousNames": [],
       "parent": "MLOps與系統部署",
       "questionCount": {
         "official": 1,
@@ -19186,18 +19936,22 @@
       ],
       "related": [
         {
+          "id": "topic-aa45781d",
           "name": "模型部署",
           "weight": 2
         },
         {
+          "id": "topic-9aab6ad8",
           "name": "資料漂移",
           "weight": 2
         },
         {
+          "id": "topic-338eb7ec",
           "name": "模型版本控管",
           "weight": 1
         },
         {
+          "id": "topic-52c8fb08",
           "name": "模型監控",
           "weight": 1
         }
@@ -19281,7 +20035,9 @@
       ]
     },
     {
+      "id": "topic-c405e016",
       "name": "少樣本提示",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 7,
@@ -19319,30 +20075,37 @@
       ],
       "related": [
         {
+          "id": "topic-eb86a0aa",
           "name": "AI客服應用",
           "weight": 1
         },
         {
+          "id": "topic-26c437d5",
           "name": "提示工程",
           "weight": 1
         },
         {
+          "id": "topic-ef91061e",
           "name": "模型微調",
           "weight": 1
         },
         {
+          "id": "topic-52c8fb08",
           "name": "模型監控",
           "weight": 1
         },
         {
+          "id": "topic-9aab6ad8",
           "name": "資料漂移",
           "weight": 1
         },
         {
+          "id": "topic-72fe2b6f",
           "name": "過擬合與泛化",
           "weight": 1
         },
         {
+          "id": "topic-12853714",
           "name": "零樣本學習",
           "weight": 1
         }
@@ -19414,7 +20177,9 @@
       ]
     },
     {
+      "id": "topic-79d5d8c0",
       "name": "時間序列預測",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 4,
@@ -19466,14 +20231,17 @@
       ],
       "related": [
         {
+          "id": "topic-3defbd81",
           "name": "循環神經網路",
           "weight": 3
         },
         {
+          "id": "topic-2858f6d9",
           "name": "迴歸分析",
           "weight": 2
         },
         {
+          "id": "topic-4bcdb1f7",
           "name": "分類模型",
           "weight": 1
         }
@@ -19551,7 +20319,9 @@
       ]
     },
     {
+      "id": "topic-318680aa",
       "name": "智慧財產權",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 2,
@@ -19574,30 +20344,37 @@
       ],
       "related": [
         {
+          "id": "topic-78532a7f",
           "name": "AI風險管理",
           "weight": 2
         },
         {
+          "id": "topic-1aad1bfb",
           "name": "生成內容審查",
           "weight": 2
         },
         {
+          "id": "topic-0179470c",
           "name": "AI法規遵循",
           "weight": 1
         },
         {
+          "id": "topic-e090eca2",
           "name": "內容溯源",
           "weight": 1
         },
         {
+          "id": "topic-fcd10f7f",
           "name": "影像生成",
           "weight": 1
         },
         {
+          "id": "topic-f459af60",
           "name": "資料匿名化",
           "weight": 1
         },
         {
+          "id": "topic-971f6b78",
           "name": "資料隱私保護",
           "weight": 1
         }
@@ -19679,7 +20456,9 @@
       ]
     },
     {
+      "id": "topic-3a063ca6",
       "name": "梯度下降",
+      "previousNames": [],
       "parent": "模型訓練與評估",
       "questionCount": {
         "official": 1,
@@ -19705,6 +20484,7 @@
       ],
       "related": [
         {
+          "id": "topic-0ec4389c",
           "name": "優化演算法",
           "weight": 1
         }
@@ -19788,7 +20568,9 @@
       ]
     },
     {
+      "id": "topic-0545aaf7",
       "name": "模型推論",
+      "previousNames": [],
       "parent": "模型訓練與評估",
       "questionCount": {
         "official": 6,
@@ -19832,26 +20614,32 @@
       ],
       "related": [
         {
+          "id": "topic-aff68e45",
           "name": "部署架構",
           "weight": 2
         },
         {
+          "id": "topic-1d3e03ce",
           "name": "即時資料處理",
           "weight": 1
         },
         {
+          "id": "topic-9446aaa7",
           "name": "成本效益分析",
           "weight": 1
         },
         {
+          "id": "topic-6167bf4f",
           "name": "效能優化",
           "weight": 1
         },
         {
+          "id": "topic-b71f69b8",
           "name": "模型訓練資源",
           "weight": 1
         },
         {
+          "id": "topic-e935cb9c",
           "name": "系統資源調度",
           "weight": 1
         }
@@ -19925,7 +20713,9 @@
       ]
     },
     {
+      "id": "topic-b71f69b8",
       "name": "模型訓練資源",
+      "previousNames": [],
       "parent": "模型訓練與評估",
       "questionCount": {
         "official": 3,
@@ -19971,26 +20761,32 @@
       ],
       "related": [
         {
+          "id": "topic-d4a62cee",
           "name": "分散式運算",
           "weight": 2
         },
         {
+          "id": "topic-a4208908",
           "name": "AI基礎設施評估",
           "weight": 1
         },
         {
+          "id": "topic-6167bf4f",
           "name": "效能優化",
           "weight": 1
         },
         {
+          "id": "topic-0545aaf7",
           "name": "模型推論",
           "weight": 1
         },
         {
+          "id": "topic-e935cb9c",
           "name": "系統資源調度",
           "weight": 1
         },
         {
+          "id": "topic-de467180",
           "name": "超參數調整",
           "weight": 1
         }
@@ -20070,7 +20866,9 @@
       ]
     },
     {
+      "id": "topic-54f15e66",
       "name": "相關分析",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 3,
@@ -20110,18 +20908,22 @@
       ],
       "related": [
         {
+          "id": "topic-afce7c3e",
           "name": "多變數視覺化",
           "weight": 2
         },
         {
+          "id": "topic-6bad06db",
           "name": "數值型資料視覺化",
           "weight": 2
         },
         {
+          "id": "topic-d57bb83f",
           "name": "探索性資料分析",
           "weight": 1
         },
         {
+          "id": "topic-352a11e9",
           "name": "時間序列視覺化",
           "weight": 1
         }
@@ -20201,7 +21003,9 @@
       ]
     },
     {
+      "id": "topic-828bda22",
       "name": "線性代數與運算",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 2,
@@ -20218,14 +21022,17 @@
       ],
       "related": [
         {
+          "id": "topic-dfd2be46",
           "name": "多模態融合",
           "weight": 1
         },
         {
+          "id": "topic-2858f6d9",
           "name": "迴歸分析",
           "weight": 1
         },
         {
+          "id": "topic-3d4e3271",
           "name": "降維方法",
           "weight": 1
         }
@@ -20307,7 +21114,9 @@
       ]
     },
     {
+      "id": "topic-de467180",
       "name": "超參數調整",
+      "previousNames": [],
       "parent": "模型訓練與評估",
       "questionCount": {
         "official": 4,
@@ -20357,22 +21166,27 @@
       ],
       "related": [
         {
+          "id": "topic-72fe2b6f",
           "name": "過擬合與泛化",
           "weight": 2
         },
         {
+          "id": "topic-a0911713",
           "name": "交叉驗證",
           "weight": 1
         },
         {
+          "id": "topic-b71f69b8",
           "name": "模型訓練資源",
           "weight": 1
         },
         {
+          "id": "topic-4c390b1a",
           "name": "資料增強",
           "weight": 1
         },
         {
+          "id": "topic-899e6a65",
           "name": "資料洩漏",
           "weight": 1
         }
@@ -20450,7 +21264,9 @@
       ]
     },
     {
+      "id": "topic-bde75fbc",
       "name": "離群值處理",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 5,
@@ -20508,22 +21324,27 @@
       ],
       "related": [
         {
+          "id": "topic-00a9904e",
           "name": "偏態與長尾分佈",
           "weight": 1
         },
         {
+          "id": "topic-4bf3c2e0",
           "name": "分群演算法",
           "weight": 1
         },
         {
+          "id": "topic-65f94592",
           "name": "敘述統計",
           "weight": 1
         },
         {
+          "id": "topic-30500f7f",
           "name": "特徵縮放",
           "weight": 1
         },
         {
+          "id": "topic-672a1d1c",
           "name": "統計量分析",
           "weight": 1
         }
@@ -20599,7 +21420,9 @@
       ]
     },
     {
+      "id": "topic-a4208908",
       "name": "AI基礎設施評估",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 3,
@@ -20625,10 +21448,12 @@
       ],
       "related": [
         {
+          "id": "topic-4031e9d2",
           "name": "AI專案導入評估",
           "weight": 1
         },
         {
+          "id": "topic-b71f69b8",
           "name": "模型訓練資源",
           "weight": 1
         }
@@ -20697,7 +21522,9 @@
       ]
     },
     {
+      "id": "topic-4b5a6291",
       "name": "大數據概念",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 3,
@@ -20729,22 +21556,27 @@
       ],
       "related": [
         {
+          "id": "topic-8a556abc",
           "name": "資料型態",
           "weight": 2
         },
         {
+          "id": "topic-74519e95",
           "name": "假設檢定",
           "weight": 1
         },
         {
+          "id": "topic-00a9904e",
           "name": "偏態與長尾分佈",
           "weight": 1
         },
         {
+          "id": "topic-1d3e03ce",
           "name": "即時資料處理",
           "weight": 1
         },
         {
+          "id": "topic-65f94592",
           "name": "敘述統計",
           "weight": 1
         }
@@ -20813,7 +21645,9 @@
       ]
     },
     {
+      "id": "topic-aa45781d",
       "name": "模型部署",
+      "previousNames": [],
       "parent": "MLOps與系統部署",
       "questionCount": {
         "official": 2,
@@ -20830,10 +21664,12 @@
       ],
       "related": [
         {
+          "id": "topic-d0119649",
           "name": "MLOps",
           "weight": 2
         },
         {
+          "id": "topic-19de4c71",
           "name": "容器編排",
           "weight": 1
         }
@@ -20904,7 +21740,9 @@
       ]
     },
     {
+      "id": "topic-80597829",
       "name": "異常值偵測",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 3,
@@ -20930,10 +21768,12 @@
       ],
       "related": [
         {
+          "id": "topic-6bad06db",
           "name": "數值型資料視覺化",
           "weight": 1
         },
         {
+          "id": "topic-11de7491",
           "name": "資料品質",
           "weight": 1
         }
@@ -21002,7 +21842,9 @@
       ]
     },
     {
+      "id": "topic-e935cb9c",
       "name": "系統資源調度",
+      "previousNames": [],
       "parent": "MLOps與系統部署",
       "questionCount": {
         "official": 3,
@@ -21040,14 +21882,17 @@
       ],
       "related": [
         {
+          "id": "topic-aff68e45",
           "name": "部署架構",
           "weight": 3
         },
         {
+          "id": "topic-0545aaf7",
           "name": "模型推論",
           "weight": 1
         },
         {
+          "id": "topic-b71f69b8",
           "name": "模型訓練資源",
           "weight": 1
         }
@@ -21116,7 +21961,9 @@
       ]
     },
     {
+      "id": "topic-f7095537",
       "name": "自然語言處理",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 4,
@@ -21156,18 +22003,22 @@
       ],
       "related": [
         {
+          "id": "topic-dc0daae3",
           "name": "NLP應用",
           "weight": 1
         },
         {
+          "id": "topic-dcef393e",
           "name": "情感分析",
           "weight": 1
         },
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 1
         },
         {
+          "id": "topic-cd4c44db",
           "name": "詞嵌入",
           "weight": 1
         }
@@ -21234,7 +22085,9 @@
       ]
     },
     {
+      "id": "topic-5c2bb378",
       "name": "資料標註",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 1,
@@ -21251,18 +22104,22 @@
       ],
       "related": [
         {
+          "id": "topic-21636455",
           "name": "命名實體辨識",
           "weight": 1
         },
         {
+          "id": "topic-97fa5357",
           "name": "監督式學習",
           "weight": 1
         },
         {
+          "id": "topic-11de7491",
           "name": "資料品質",
           "weight": 1
         },
         {
+          "id": "topic-4c390b1a",
           "name": "資料增強",
           "weight": 1
         }
@@ -21335,7 +22192,9 @@
       ]
     },
     {
+      "id": "topic-eb86a0aa",
       "name": "AI客服應用",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 3,
@@ -21373,18 +22232,22 @@
       ],
       "related": [
         {
+          "id": "topic-dc0daae3",
           "name": "NLP應用",
           "weight": 2
         },
         {
+          "id": "topic-08aeb299",
           "name": "AI應用場景評估",
           "weight": 1
         },
         {
+          "id": "topic-35a185b7",
           "name": "代理式AI",
           "weight": 1
         },
         {
+          "id": "topic-c405e016",
           "name": "少樣本提示",
           "weight": 1
         }
@@ -21442,7 +22305,9 @@
       ]
     },
     {
+      "id": "topic-dc0daae3",
       "name": "NLP應用",
+      "previousNames": [],
       "parent": "特定領域AI技術",
       "questionCount": {
         "official": 4,
@@ -21468,14 +22333,17 @@
       ],
       "related": [
         {
+          "id": "topic-eb86a0aa",
           "name": "AI客服應用",
           "weight": 2
         },
         {
+          "id": "topic-dcef393e",
           "name": "情感分析",
           "weight": 2
         },
         {
+          "id": "topic-f7095537",
           "name": "自然語言處理",
           "weight": 1
         }
@@ -21531,7 +22399,9 @@
       ]
     },
     {
+      "id": "topic-2966a7e6",
       "name": "分散式資料處理",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 1,
@@ -21554,10 +22424,12 @@
       ],
       "related": [
         {
+          "id": "topic-1482ca35",
           "name": "串流處理",
           "weight": 1
         },
         {
+          "id": "topic-09e92cd6",
           "name": "多模態資料處理",
           "weight": 1
         }
@@ -21619,7 +22491,9 @@
       ]
     },
     {
+      "id": "topic-b408c032",
       "name": "半結構化資料",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 1,
@@ -21636,14 +22510,17 @@
       ],
       "related": [
         {
+          "id": "topic-c64e2577",
           "name": "系統整合與API",
           "weight": 2
         },
         {
+          "id": "topic-f3159475",
           "name": "特徵工程",
           "weight": 1
         },
         {
+          "id": "topic-8a556abc",
           "name": "資料型態",
           "weight": 1
         }
@@ -21705,7 +22582,9 @@
       ]
     },
     {
+      "id": "topic-75d9a7b4",
       "name": "多模態生成",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 4,
@@ -21757,14 +22636,17 @@
       ],
       "related": [
         {
+          "id": "topic-35a185b7",
           "name": "代理式AI",
           "weight": 1
         },
         {
+          "id": "topic-c45160cc",
           "name": "工具呼叫",
           "weight": 1
         },
         {
+          "id": "topic-206496aa",
           "name": "擴散模型",
           "weight": 1
         }
@@ -21820,7 +22702,9 @@
       ]
     },
     {
+      "id": "topic-c45160cc",
       "name": "工具呼叫",
+      "previousNames": [],
       "parent": "代理式AI與自動化",
       "questionCount": {
         "official": 4,
@@ -21858,22 +22742,27 @@
       ],
       "related": [
         {
+          "id": "topic-35a185b7",
           "name": "代理式AI",
           "weight": 3
         },
         {
+          "id": "topic-c64e2577",
           "name": "系統整合與API",
           "weight": 2
         },
         {
+          "id": "topic-697ecae5",
           "name": "向量檢索",
           "weight": 1
         },
         {
+          "id": "topic-75d9a7b4",
           "name": "多模態生成",
           "weight": 1
         },
         {
+          "id": "topic-a11a7707",
           "name": "模型上下文協定",
           "weight": 1
         }
@@ -21929,7 +22818,9 @@
       ]
     },
     {
+      "id": "topic-8645a759",
       "name": "影像辨識任務",
+      "previousNames": [],
       "parent": "特定領域AI技術",
       "questionCount": {
         "official": 4,
@@ -21961,30 +22852,37 @@
       ],
       "related": [
         {
+          "id": "topic-6e5cdc94",
           "name": "卷積神經網路",
           "weight": 1
         },
         {
+          "id": "topic-dee96c2a",
           "name": "影像分割",
           "weight": 1
         },
         {
+          "id": "topic-e19fb724",
           "name": "物件偵測",
           "weight": 1
         },
         {
+          "id": "topic-3d42afcd",
           "name": "異常偵測",
           "weight": 1
         },
         {
+          "id": "topic-e164bd90",
           "name": "資料切分",
           "weight": 1
         },
         {
+          "id": "topic-5e3eb343",
           "name": "資料標準化",
           "weight": 1
         },
         {
+          "id": "topic-37483701",
           "name": "電腦視覺",
           "weight": 1
         }
@@ -22040,7 +22938,9 @@
       ]
     },
     {
+      "id": "topic-dcef393e",
       "name": "情感分析",
+      "previousNames": [],
       "parent": "特定領域AI技術",
       "questionCount": {
         "official": 4,
@@ -22092,18 +22992,22 @@
       ],
       "related": [
         {
+          "id": "topic-dc0daae3",
           "name": "NLP應用",
           "weight": 2
         },
         {
+          "id": "topic-c91c9c94",
           "name": "偏見與公平性",
           "weight": 1
         },
         {
+          "id": "topic-07c1a7f2",
           "name": "文字分類",
           "weight": 1
         },
         {
+          "id": "topic-f7095537",
           "name": "自然語言處理",
           "weight": 1
         }
@@ -22159,7 +23063,9 @@
       ]
     },
     {
+      "id": "topic-62c40140",
       "name": "決策樹模型",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 3,
@@ -22217,10 +23123,12 @@
       ],
       "related": [
         {
+          "id": "topic-03fbcb80",
           "name": "特徵選擇",
           "weight": 1
         },
         {
+          "id": "topic-5e3eb343",
           "name": "資料標準化",
           "weight": 1
         }
@@ -22278,7 +23186,9 @@
       ]
     },
     {
+      "id": "topic-d2491275",
       "name": "決策樹與集成學習",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 2,
@@ -22307,10 +23217,12 @@
       ],
       "related": [
         {
+          "id": "topic-00567752",
           "name": "正則化",
           "weight": 1
         },
         {
+          "id": "topic-2858f6d9",
           "name": "迴歸分析",
           "weight": 1
         }
@@ -22370,7 +23282,9 @@
       ]
     },
     {
+      "id": "topic-3af189e9",
       "name": "知識蒸餾",
+      "previousNames": [],
       "parent": "模型訓練與評估",
       "questionCount": {
         "official": 2,
@@ -22393,18 +23307,22 @@
       ],
       "related": [
         {
+          "id": "topic-df8422df",
           "name": "模型壓縮",
           "weight": 2
         },
         {
+          "id": "topic-6167bf4f",
           "name": "效能優化",
           "weight": 1
         },
         {
+          "id": "topic-92d0f55b",
           "name": "檢索增強生成",
           "weight": 1
         },
         {
+          "id": "topic-971f6b78",
           "name": "資料隱私保護",
           "weight": 1
         }
@@ -22464,7 +23382,9 @@
       ]
     },
     {
+      "id": "topic-43613e6f",
       "name": "程式碼輔助生成",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 5,
@@ -22496,34 +23416,42 @@
       ],
       "related": [
         {
+          "id": "topic-6dae10e9",
           "name": "AI幻覺與真實性風險",
           "weight": 1
         },
         {
+          "id": "topic-78532a7f",
           "name": "AI風險管理",
           "weight": 1
         },
         {
+          "id": "topic-c576d4ff",
           "name": "人類參與迴圈",
           "weight": 1
         },
         {
+          "id": "topic-ee3a1351",
           "name": "低代碼無代碼開發",
           "weight": 1
         },
         {
+          "id": "topic-113acb95",
           "name": "大型語言模型",
           "weight": 1
         },
         {
+          "id": "topic-26c437d5",
           "name": "提示工程",
           "weight": 1
         },
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 1
         },
         {
+          "id": "topic-48f2eb21",
           "name": "系統安全與稽核",
           "weight": 1
         }
@@ -22577,7 +23505,9 @@
       ]
     },
     {
+      "id": "topic-c8c5b799",
       "name": "自迴歸生成",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 4,
@@ -22609,18 +23539,22 @@
       ],
       "related": [
         {
+          "id": "topic-99e53b22",
           "name": "Transformer架構",
           "weight": 2
         },
         {
+          "id": "topic-10f38c70",
           "name": "生成式AI",
           "weight": 2
         },
         {
+          "id": "topic-113acb95",
           "name": "大型語言模型",
           "weight": 1
         },
         {
+          "id": "topic-ab7d5e17",
           "name": "變分自編碼器",
           "weight": 1
         }
@@ -22676,7 +23610,9 @@
       ]
     },
     {
+      "id": "topic-7a0e5387",
       "name": "類別型資料視覺化",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 3,
@@ -22708,6 +23644,7 @@
       ],
       "related": [
         {
+          "id": "topic-afce7c3e",
           "name": "多變數視覺化",
           "weight": 1
         }
@@ -22765,7 +23702,9 @@
       ]
     },
     {
+      "id": "topic-a469b273",
       "name": "上下文工程",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 4,
@@ -22797,10 +23736,12 @@
       ],
       "related": [
         {
+          "id": "topic-6dae10e9",
           "name": "AI幻覺與真實性風險",
           "weight": 1
         },
         {
+          "id": "topic-c64e2577",
           "name": "系統整合與API",
           "weight": 1
         }
@@ -22845,7 +23786,9 @@
       ]
     },
     {
+      "id": "topic-06aa2dea",
       "name": "任務分解",
+      "previousNames": [],
       "parent": "代理式AI與自動化",
       "questionCount": {
         "official": 4,
@@ -22877,6 +23820,7 @@
       ],
       "related": [
         {
+          "id": "topic-35a185b7",
           "name": "代理式AI",
           "weight": 4
         }
@@ -22921,7 +23865,9 @@
       ]
     },
     {
+      "id": "topic-d4a62cee",
       "name": "分散式運算",
+      "previousNames": [],
       "parent": "MLOps與系統部署",
       "questionCount": {
         "official": 0,
@@ -22931,6 +23877,7 @@
       "chapters": [],
       "related": [
         {
+          "id": "topic-b71f69b8",
           "name": "模型訓練資源",
           "weight": 2
         }
@@ -22983,7 +23930,9 @@
       ]
     },
     {
+      "id": "topic-21636455",
       "name": "命名實體辨識",
+      "previousNames": [],
       "parent": "特定領域AI技術",
       "questionCount": {
         "official": 1,
@@ -23006,14 +23955,17 @@
       ],
       "related": [
         {
+          "id": "topic-4c390b1a",
           "name": "資料增強",
           "weight": 1
         },
         {
+          "id": "topic-5c2bb378",
           "name": "資料標註",
           "weight": 1
         },
         {
+          "id": "topic-2f18521d",
           "name": "鑑別式AI",
           "weight": 1
         }
@@ -23064,7 +24016,9 @@
       ]
     },
     {
+      "id": "topic-afce7c3e",
       "name": "多變數視覺化",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 1,
@@ -23081,14 +24035,17 @@
       ],
       "related": [
         {
+          "id": "topic-54f15e66",
           "name": "相關分析",
           "weight": 2
         },
         {
+          "id": "topic-d57bb83f",
           "name": "探索性資料分析",
           "weight": 1
         },
         {
+          "id": "topic-7a0e5387",
           "name": "類別型資料視覺化",
           "weight": 1
         }
@@ -23139,7 +24096,9 @@
       ]
     },
     {
+      "id": "topic-dee96c2a",
       "name": "影像分割",
+      "previousNames": [],
       "parent": "特定領域AI技術",
       "questionCount": {
         "official": 3,
@@ -23185,18 +24144,22 @@
       ],
       "related": [
         {
+          "id": "topic-7cc3333a",
           "name": "交並比",
           "weight": 1
         },
         {
+          "id": "topic-8645a759",
           "name": "影像辨識任務",
           "weight": 1
         },
         {
+          "id": "topic-e19fb724",
           "name": "物件偵測",
           "weight": 1
         },
         {
+          "id": "topic-37483701",
           "name": "電腦視覺",
           "weight": 1
         }
@@ -23243,7 +24206,9 @@
       ]
     },
     {
+      "id": "topic-4ef40ad1",
       "name": "影子IT治理",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 4,
@@ -23275,14 +24240,17 @@
       ],
       "related": [
         {
+          "id": "topic-ee3a1351",
           "name": "低代碼無代碼開發",
           "weight": 2
         },
         {
+          "id": "topic-58449c1c",
           "name": "低程式碼平台",
           "weight": 1
         },
         {
+          "id": "topic-971f6b78",
           "name": "資料隱私保護",
           "weight": 1
         }
@@ -23327,7 +24295,9 @@
       ]
     },
     {
+      "id": "topic-80874e9a",
       "name": "思維鏈提示",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 4,
@@ -23359,14 +24329,17 @@
       ],
       "related": [
         {
+          "id": "topic-26c437d5",
           "name": "提示工程",
           "weight": 3
         },
         {
+          "id": "topic-9d30842d",
           "name": "應用場景規劃",
           "weight": 1
         },
         {
+          "id": "topic-12853714",
           "name": "零樣本學習",
           "weight": 1
         }
@@ -23411,7 +24384,9 @@
       ]
     },
     {
+      "id": "topic-d57bb83f",
       "name": "探索性資料分析",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 1,
@@ -23443,14 +24418,17 @@
       ],
       "related": [
         {
+          "id": "topic-74519e95",
           "name": "假設檢定",
           "weight": 1
         },
         {
+          "id": "topic-afce7c3e",
           "name": "多變數視覺化",
           "weight": 1
         },
         {
+          "id": "topic-54f15e66",
           "name": "相關分析",
           "weight": 1
         }
@@ -23501,7 +24479,9 @@
       ]
     },
     {
+      "id": "topic-741371e7",
       "name": "提示詞攻擊防護",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 4,
@@ -23533,10 +24513,12 @@
       ],
       "related": [
         {
+          "id": "topic-9be36f86",
           "name": "對抗性攻擊",
           "weight": 1
         },
         {
+          "id": "topic-1aad1bfb",
           "name": "生成內容審查",
           "weight": 1
         }
@@ -23581,7 +24563,9 @@
       ]
     },
     {
+      "id": "topic-a11a7707",
       "name": "模型上下文協定",
+      "previousNames": [],
       "parent": "代理式AI與自動化",
       "questionCount": {
         "official": 4,
@@ -23619,10 +24603,12 @@
       ],
       "related": [
         {
+          "id": "topic-92d0f55b",
           "name": "檢索增強生成",
           "weight": 2
         },
         {
+          "id": "topic-c45160cc",
           "name": "工具呼叫",
           "weight": 1
         }
@@ -23667,7 +24653,9 @@
       ]
     },
     {
+      "id": "topic-c30aab5e",
       "name": "模型訓練機制",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 1,
@@ -23690,6 +24678,7 @@
       ],
       "related": [
         {
+          "id": "topic-58449c1c",
           "name": "低程式碼平台",
           "weight": 1
         }
@@ -23740,7 +24729,9 @@
       ]
     },
     {
+      "id": "topic-e19fb724",
       "name": "物件偵測",
+      "previousNames": [],
       "parent": "特定領域AI技術",
       "questionCount": {
         "official": 3,
@@ -23786,18 +24777,22 @@
       ],
       "related": [
         {
+          "id": "topic-7cc3333a",
           "name": "交並比",
           "weight": 1
         },
         {
+          "id": "topic-6e5cdc94",
           "name": "卷積神經網路",
           "weight": 1
         },
         {
+          "id": "topic-dee96c2a",
           "name": "影像分割",
           "weight": 1
         },
         {
+          "id": "topic-8645a759",
           "name": "影像辨識任務",
           "weight": 1
         }
@@ -23844,7 +24839,9 @@
       ]
     },
     {
+      "id": "topic-f6bd603c",
       "name": "知識庫整合",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 4,
@@ -23876,14 +24873,17 @@
       ],
       "related": [
         {
+          "id": "topic-92d0f55b",
           "name": "檢索增強生成",
           "weight": 3
         },
         {
+          "id": "topic-08aeb299",
           "name": "AI應用場景評估",
           "weight": 1
         },
         {
+          "id": "topic-0179470c",
           "name": "AI法規遵循",
           "weight": 1
         }
@@ -23928,7 +24928,9 @@
       ]
     },
     {
+      "id": "topic-785b4ea8",
       "name": "詞頻-逆文件頻率",
+      "previousNames": [],
       "parent": "特定領域AI技術",
       "questionCount": {
         "official": 1,
@@ -23990,7 +24992,9 @@
       ]
     },
     {
+      "id": "topic-e1e5b5b1",
       "name": "關聯規則學習",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 1,
@@ -24058,7 +25062,9 @@
       ]
     },
     {
+      "id": "topic-12853714",
       "name": "零樣本學習",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 3,
@@ -24104,22 +25110,27 @@
       ],
       "related": [
         {
+          "id": "topic-27d063f9",
           "name": "多模態AI",
           "weight": 1
         },
         {
+          "id": "topic-113acb95",
           "name": "大型語言模型",
           "weight": 1
         },
         {
+          "id": "topic-c405e016",
           "name": "少樣本提示",
           "weight": 1
         },
         {
+          "id": "topic-80874e9a",
           "name": "思維鏈提示",
           "weight": 1
         },
         {
+          "id": "topic-07c1a7f2",
           "name": "文字分類",
           "weight": 1
         }
@@ -24166,7 +25177,9 @@
       ]
     },
     {
+      "id": "topic-00390007",
       "name": "預訓練語言模型",
+      "previousNames": [],
       "parent": "特定領域AI技術",
       "questionCount": {
         "official": 0,
@@ -24176,10 +25189,12 @@
       "chapters": [],
       "related": [
         {
+          "id": "topic-99e53b22",
           "name": "Transformer架構",
           "weight": 1
         },
         {
+          "id": "topic-26882f50",
           "name": "遷移學習",
           "weight": 1
         }
@@ -24232,7 +25247,9 @@
       ]
     },
     {
+      "id": "topic-c576d4ff",
       "name": "人類參與迴圈",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 3,
@@ -24264,14 +25281,17 @@
       ],
       "related": [
         {
+          "id": "topic-35a185b7",
           "name": "代理式AI",
           "weight": 1
         },
         {
+          "id": "topic-86a66aa2",
           "name": "業務流程整合",
           "weight": 1
         },
         {
+          "id": "topic-43613e6f",
           "name": "程式碼輔助生成",
           "weight": 1
         }
@@ -24307,7 +25327,9 @@
       ]
     },
     {
+      "id": "topic-e090eca2",
       "name": "內容溯源",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 2,
@@ -24324,6 +25346,7 @@
       ],
       "related": [
         {
+          "id": "topic-318680aa",
           "name": "智慧財產權",
           "weight": 1
         }
@@ -24361,7 +25384,9 @@
       ]
     },
     {
+      "id": "topic-697ecae5",
       "name": "向量檢索",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 3,
@@ -24407,18 +25432,22 @@
       ],
       "related": [
         {
+          "id": "topic-35a185b7",
           "name": "代理式AI",
           "weight": 1
         },
         {
+          "id": "topic-27d063f9",
           "name": "多模態AI",
           "weight": 1
         },
         {
+          "id": "topic-c45160cc",
           "name": "工具呼叫",
           "weight": 1
         },
         {
+          "id": "topic-92d0f55b",
           "name": "檢索增強生成",
           "weight": 1
         }
@@ -24454,7 +25483,9 @@
       ]
     },
     {
+      "id": "topic-2cd80e59",
       "name": "多重共線性",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 3,
@@ -24492,18 +25523,22 @@
       ],
       "related": [
         {
+          "id": "topic-03fbcb80",
           "name": "特徵選擇",
           "weight": 2
         },
         {
+          "id": "topic-7ac14abe",
           "name": "模型可解釋性",
           "weight": 1
         },
         {
+          "id": "topic-00567752",
           "name": "正則化",
           "weight": 1
         },
         {
+          "id": "topic-3d4e3271",
           "name": "降維方法",
           "weight": 1
         }
@@ -24539,7 +25574,9 @@
       ]
     },
     {
+      "id": "topic-41c0c6ac",
       "name": "池化層",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 1,
@@ -24596,7 +25633,9 @@
       ]
     },
     {
+      "id": "topic-af6a1945",
       "name": "深度學習",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 3,
@@ -24622,10 +25661,12 @@
       ],
       "related": [
         {
+          "id": "topic-3319b1f4",
           "name": "強化學習",
           "weight": 1
         },
         {
+          "id": "topic-2c2889e1",
           "name": "神經網路基礎",
           "weight": 1
         }
@@ -24661,7 +25702,9 @@
       ]
     },
     {
+      "id": "topic-023b5465",
       "name": "神經網路訓練",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 0,
@@ -24671,10 +25714,12 @@
       "chapters": [],
       "related": [
         {
+          "id": "topic-0ec4389c",
           "name": "優化演算法",
           "weight": 1
         },
         {
+          "id": "topic-3defbd81",
           "name": "循環神經網路",
           "weight": 1
         }
@@ -24716,7 +25761,9 @@
       ]
     },
     {
+      "id": "topic-e164bd90",
       "name": "資料切分",
+      "previousNames": [],
       "parent": "模型訓練與評估",
       "questionCount": {
         "official": 3,
@@ -24756,14 +25803,17 @@
       ],
       "related": [
         {
+          "id": "topic-8645a759",
           "name": "影像辨識任務",
           "weight": 1
         },
         {
+          "id": "topic-5e3eb343",
           "name": "資料標準化",
           "weight": 1
         },
         {
+          "id": "topic-72fe2b6f",
           "name": "過擬合與泛化",
           "weight": 1
         }
@@ -24799,7 +25849,9 @@
       ]
     },
     {
+      "id": "topic-899e6a65",
       "name": "資料洩漏",
+      "previousNames": [],
       "parent": "模型訓練與評估",
       "questionCount": {
         "official": 2,
@@ -24834,14 +25886,17 @@
       ],
       "related": [
         {
+          "id": "topic-f3159475",
           "name": "特徵工程",
           "weight": 1
         },
         {
+          "id": "topic-5e3eb343",
           "name": "資料標準化",
           "weight": 1
         },
         {
+          "id": "topic-de467180",
           "name": "超參數調整",
           "weight": 1
         }
@@ -24879,7 +25934,9 @@
       ]
     },
     {
+      "id": "topic-a31424cb",
       "name": "迴歸模型假設",
+      "previousNames": [],
       "parent": "模型訓練與評估",
       "questionCount": {
         "official": 2,
@@ -24946,7 +26003,9 @@
       ]
     },
     {
+      "id": "topic-26882f50",
       "name": "遷移學習",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 2,
@@ -24984,10 +26043,12 @@
       ],
       "related": [
         {
+          "id": "topic-ef91061e",
           "name": "模型微調",
           "weight": 1
         },
         {
+          "id": "topic-00390007",
           "name": "預訓練語言模型",
           "weight": 1
         }
@@ -25025,7 +26086,9 @@
       ]
     },
     {
+      "id": "topic-37483701",
       "name": "電腦視覺",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 3,
@@ -25071,14 +26134,17 @@
       ],
       "related": [
         {
+          "id": "topic-6e5cdc94",
           "name": "卷積神經網路",
           "weight": 2
         },
         {
+          "id": "topic-dee96c2a",
           "name": "影像分割",
           "weight": 1
         },
         {
+          "id": "topic-8645a759",
           "name": "影像辨識任務",
           "weight": 1
         }
@@ -25114,7 +26180,9 @@
       ]
     },
     {
+      "id": "topic-d2b182b5",
       "name": "CNN模型演進",
+      "previousNames": [],
       "parent": "特定領域AI技術",
       "questionCount": {
         "official": 1,
@@ -25147,7 +26215,9 @@
       ]
     },
     {
+      "id": "topic-7cc3333a",
       "name": "交並比",
+      "previousNames": [],
       "parent": "特定領域AI技術",
       "questionCount": {
         "official": 1,
@@ -25164,10 +26234,12 @@
       ],
       "related": [
         {
+          "id": "topic-dee96c2a",
           "name": "影像分割",
           "weight": 1
         },
         {
+          "id": "topic-e19fb724",
           "name": "物件偵測",
           "weight": 1
         }
@@ -25196,7 +26268,9 @@
       ]
     },
     {
+      "id": "topic-40879a6a",
       "name": "半監督式學習",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 2,
@@ -25234,7 +26308,9 @@
       ]
     },
     {
+      "id": "topic-09e92cd6",
       "name": "多模態資料處理",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 1,
@@ -25257,10 +26333,12 @@
       ],
       "related": [
         {
+          "id": "topic-2966a7e6",
           "name": "分散式資料處理",
           "weight": 1
         },
         {
+          "id": "topic-8a556abc",
           "name": "資料型態",
           "weight": 1
         }
@@ -25289,7 +26367,9 @@
       ]
     },
     {
+      "id": "topic-19de4c71",
       "name": "容器編排",
+      "previousNames": [],
       "parent": "MLOps與系統部署",
       "questionCount": {
         "official": 2,
@@ -25306,10 +26386,12 @@
       ],
       "related": [
         {
+          "id": "topic-aa45781d",
           "name": "模型部署",
           "weight": 1
         },
         {
+          "id": "topic-aff68e45",
           "name": "部署架構",
           "weight": 1
         }
@@ -25336,7 +26418,9 @@
       ]
     },
     {
+      "id": "topic-9be36f86",
       "name": "對抗性攻擊",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 2,
@@ -25365,6 +26449,7 @@
       ],
       "related": [
         {
+          "id": "topic-741371e7",
           "name": "提示詞攻擊防護",
           "weight": 1
         }
@@ -25391,7 +26476,9 @@
       ]
     },
     {
+      "id": "topic-16071ad8",
       "name": "序列模型",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 1,
@@ -25408,10 +26495,12 @@
       ],
       "related": [
         {
+          "id": "topic-99e53b22",
           "name": "Transformer架構",
           "weight": 1
         },
         {
+          "id": "topic-3defbd81",
           "name": "循環神經網路",
           "weight": 1
         }
@@ -25440,7 +26529,9 @@
       ]
     },
     {
+      "id": "topic-07c1a7f2",
       "name": "文字分類",
+      "previousNames": [],
       "parent": "特定領域AI技術",
       "questionCount": {
         "official": 0,
@@ -25450,14 +26541,17 @@
       "chapters": [],
       "related": [
         {
+          "id": "topic-113acb95",
           "name": "大型語言模型",
           "weight": 1
         },
         {
+          "id": "topic-dcef393e",
           "name": "情感分析",
           "weight": 1
         },
         {
+          "id": "topic-12853714",
           "name": "零樣本學習",
           "weight": 1
         }
@@ -25488,7 +26582,9 @@
       ]
     },
     {
+      "id": "topic-36931efe",
       "name": "文本切分",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 2,
@@ -25511,10 +26607,12 @@
       ],
       "related": [
         {
+          "id": "topic-92d0f55b",
           "name": "檢索增強生成",
           "weight": 2
         },
         {
+          "id": "topic-ce08fbb1",
           "name": "資料前處理",
           "weight": 1
         }
@@ -25541,7 +26639,9 @@
       ]
     },
     {
+      "id": "topic-352a11e9",
       "name": "時間序列視覺化",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 0,
@@ -25551,10 +26651,12 @@
       "chapters": [],
       "related": [
         {
+          "id": "topic-6bad06db",
           "name": "數值型資料視覺化",
           "weight": 1
         },
         {
+          "id": "topic-54f15e66",
           "name": "相關分析",
           "weight": 1
         }
@@ -25585,7 +26687,9 @@
       ]
     },
     {
+      "id": "topic-8ff8bd6e",
       "name": "模型優化",
+      "previousNames": [],
       "parent": "模型訓練與評估",
       "questionCount": {
         "official": 1,
@@ -25602,10 +26706,12 @@
       ],
       "related": [
         {
+          "id": "topic-3319b1f4",
           "name": "強化學習",
           "weight": 1
         },
         {
+          "id": "topic-241fb160",
           "name": "模型評估",
           "weight": 1
         }
@@ -25634,7 +26740,9 @@
       ]
     },
     {
+      "id": "topic-338eb7ec",
       "name": "模型版本控管",
+      "previousNames": [],
       "parent": "MLOps與系統部署",
       "questionCount": {
         "official": 1,
@@ -25651,6 +26759,7 @@
       ],
       "related": [
         {
+          "id": "topic-d0119649",
           "name": "MLOps",
           "weight": 1
         }
@@ -25679,7 +26788,9 @@
       ]
     },
     {
+      "id": "topic-d719aa2f",
       "name": "機率與統計",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 1,
@@ -25696,6 +26807,7 @@
       ],
       "related": [
         {
+          "id": "topic-4bcdb1f7",
           "name": "分類模型",
           "weight": 1
         }
@@ -25724,7 +26836,9 @@
       ]
     },
     {
+      "id": "topic-6ad06c1f",
       "name": "資料庫交易",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 2,
@@ -25762,7 +26876,9 @@
       ]
     },
     {
+      "id": "topic-6ad9de6a",
       "name": "AI幻覺與內容審核",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 0,
@@ -25772,6 +26888,7 @@
       "chapters": [],
       "related": [
         {
+          "id": "topic-1aad1bfb",
           "name": "生成內容審查",
           "weight": 1
         }
@@ -25791,7 +26908,9 @@
       ]
     },
     {
+      "id": "topic-f5e3565c",
       "name": "ReAct提示",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 1,
@@ -25808,6 +26927,7 @@
       ],
       "related": [
         {
+          "id": "topic-35a185b7",
           "name": "代理式AI",
           "weight": 1
         }
@@ -25825,7 +26945,9 @@
       ]
     },
     {
+      "id": "topic-62fd9713",
       "name": "二分搜尋",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 1,
@@ -25854,7 +26976,9 @@
       ]
     },
     {
+      "id": "topic-f71eb43a",
       "name": "人工智慧能力層級",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 1,
@@ -25883,7 +27007,9 @@
       ]
     },
     {
+      "id": "topic-a4d70f5d",
       "name": "參數高效微調",
+      "previousNames": [],
       "parent": "模型訓練與評估",
       "questionCount": {
         "official": 1,
@@ -25900,6 +27026,7 @@
       ],
       "related": [
         {
+          "id": "topic-113acb95",
           "name": "大型語言模型",
           "weight": 1
         }
@@ -25917,7 +27044,9 @@
       ]
     },
     {
+      "id": "topic-40daa9f1",
       "name": "圖形資料庫",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 1,
@@ -25952,7 +27081,9 @@
       ]
     },
     {
+      "id": "topic-0f494c23",
       "name": "圖論分析",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 1,
@@ -25974,7 +27105,9 @@
       ]
     },
     {
+      "id": "topic-3681063e",
       "name": "多任務學習",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 1,
@@ -25991,6 +27124,7 @@
       ],
       "related": [
         {
+          "id": "topic-99e53b22",
           "name": "Transformer架構",
           "weight": 1
         }
@@ -26008,7 +27142,9 @@
       ]
     },
     {
+      "id": "topic-0edc21e5",
       "name": "感知器網路",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 1,
@@ -26043,7 +27179,9 @@
       ]
     },
     {
+      "id": "topic-a5734c47",
       "name": "持續整合",
+      "previousNames": [],
       "parent": "MLOps與系統部署",
       "questionCount": {
         "official": 1,
@@ -26072,7 +27210,9 @@
       ]
     },
     {
+      "id": "topic-a53bbcee",
       "name": "推理模型",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 1,
@@ -26094,7 +27234,9 @@
       ]
     },
     {
+      "id": "topic-2fe1d7ec",
       "name": "數據密度",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 1,
@@ -26123,7 +27265,9 @@
       ]
     },
     {
+      "id": "topic-2a05c04b",
       "name": "文字預處理",
+      "previousNames": [],
       "parent": "特定領域AI技術",
       "questionCount": {
         "official": 0,
@@ -26147,7 +27291,9 @@
       ]
     },
     {
+      "id": "topic-19958ca0",
       "name": "標記化",
+      "previousNames": [],
       "parent": "生成式AI與應用",
       "questionCount": {
         "official": 1,
@@ -26169,7 +27315,9 @@
       ]
     },
     {
+      "id": "topic-e96f0020",
       "name": "模型穩定性",
+      "previousNames": [],
       "parent": "AI專案與治理",
       "questionCount": {
         "official": 0,
@@ -26179,6 +27327,7 @@
       "chapters": [],
       "related": [
         {
+          "id": "topic-130de467",
           "name": "生成對抗網路",
           "weight": 1
         }
@@ -26198,7 +27347,9 @@
       ]
     },
     {
+      "id": "topic-20425b12",
       "name": "模型記憶風險",
+      "previousNames": [],
       "parent": "資料工程與處理",
       "questionCount": {
         "official": 1,
@@ -26227,7 +27378,9 @@
       ]
     },
     {
+      "id": "topic-9f4d1b83",
       "name": "演算法複雜度",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 1,
@@ -26262,7 +27415,9 @@
       ]
     },
     {
+      "id": "topic-05f57778",
       "name": "自監督式學習",
+      "previousNames": [],
       "parent": "統計與機器學習基礎",
       "questionCount": {
         "official": 0,
@@ -26272,6 +27427,7 @@
       "chapters": [],
       "related": [
         {
+          "id": "topic-27d063f9",
           "name": "多模態AI",
           "weight": 1
         }

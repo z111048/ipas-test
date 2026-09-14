@@ -140,7 +140,7 @@ python3 scripts/export_resource_summary.py
 python3 scripts/verify_data_alignment.py --level 初級
 python3 scripts/verify_data_alignment.py --level 中級
 cd frontend && npm run build
-uv run python tests/run_all.py                                      # 最終 release gate（13 項；含上述 build/alignment/audit）
+uv run python tests/run_all.py                                      # 最終 release gate（20 項；含上述 build/alignment/audit）
 ```
 
 `apply_track_b_ocr_fixes.py` 不改 `guide_ocr/` SSOT，只在 `pages_cache/` 套用已逐頁核對的
@@ -332,7 +332,7 @@ python3 scripts/verify_exam_ocr_repairs.py                        # 14 卷／715
 python3 scripts/export_resource_summary.py
 python3 scripts/verify_data_alignment.py --level 初級
 python3 scripts/verify_data_alignment.py --level 中級
-uv run python tests/run_all.py                           # 發佈前 13 項 release gate
+uv run python tests/run_all.py                           # 發佈前 20 項 release gate
 
 # 選用：Vision cache 是 gitignored 稽核 sidecar；parse_exams_v2 不讀它，不能拿這步當正式題庫刷新。
 # Fresh checkout 是 0/715；本機可能只有部分 coverage。verified overlay 只供未來升級實驗。
@@ -446,6 +446,14 @@ python3 scripts/export_concept_graph.py
   但上位詞會連到所有東西，圖會糊掉。
 - 指派與驗收都可續跑：`_assign_cache_practice.json` / `_verify_cache_practice.json`。
   網關限流時整批會空回應（實測 590 題有 13/50 批被打掉），**重跑同一個指令只補缺的**。
+- **穩定 id（2026-09-14，LP-210C）**：標註輸出的每個名稱旁同時帶詞彙表的 `topic-<8 hex>` id
+  （`topicIds`／`evidence[].topicId`／`droppedAsWrongIds`），快取是 `topic-cache/v2`（每筆 `{topic, topicId}`），
+  `topicHeat.json` 每列與 `conceptGraph.json` 每個概念都有 `id`，graph 的計數與共現邊以 id 配對。
+  **概念改名後的順序**：`build_topic_vocabulary.py --apply-pairs`（帳本補 `previousNames`）→
+  `assign_question_topics.py --backfill-ids` 與 `--source practice --backfill-ids`（不呼叫模型，依 id 把舊名稱換掉）→
+  `export_topic_heat.py` → `export_concept_graph.py`。少跑回填，graph 會以「id／名稱與詞彙表不一致」拒絕建圖，不會靜默用舊名。
+  `conceptGraph.json` 不再寫 `generatedAt`，重跑要 byte-identical。前端 `/concepts?c=` 以 id 為鍵，舊中文名連結仍解析並改寫成 id
+  （相容期待裁決，見 `specifications/learning-platform/topic-id-migration.md` §10.4）。
 
 三個踩過的坑（都是「以為模型沒做到，其實是自己對不上」）：
 
@@ -498,7 +506,7 @@ uv run python3 scripts/build_web.py     # production build → docs/（gitignore
 本檔只保留流程順序：SSOT／抽取看 §0–§1，考題看 §3，前端匯出與 build 看 §6，
 驗收看 §9。跨檔仍須遵守四條邊界：章節 metadata 只讀 `toc_manifest.json`、考卷 metadata
 只讀 `resource_catalog.json`、Guide Track A／B producer 不可互相覆寫、花錢或破壞性腳本先確認
-cache／staging／rollback。查任何單支腳本前先走 companion 的用途分組。
+cache／staging／rollback。查任何單支腳本前先走 companion 的用途分組；新增實務學習流程見其中「實務學習 MVP」，實際驗收見 [progress.md](../specifications/learning-platform/progress.md)。<!-- 2026-09-07: 已核對新增 CLI --help；只補路由，詳細清單仍由 companion 維護。 -->
 
 ## §8 輸出檔案與 gitignore 狀態
 
@@ -563,11 +571,11 @@ Pipeline 跑完後：
     ——「本輪造成的退化」要是 0，`chapter_id` 失效要是 0。2026-08-07 的基準是
     179 題 `guide_exercises` 全數在引用頁逐字命中。
 13. 自動測試在 `tests/`；**發佈前一律跑** `uv run python tests/run_all.py`，動執行時行為或
-    OCR 三軌也要跑。13 項包含
-    build、兩級 alignment、8 類 audit、3 項 Playwright，以及 Track A 169＋3＋3、Track B 78、
+    OCR 三軌也要跑。20 項保留原 13 項的
+    build、兩級 alignment、8 類 audit、3 項既有 Playwright，以及 Track A 169＋3＋3、Track B 78、
     考題 14 份／715 題的 OCR regression＋逐頁 direct-view SHA/inventory gate；fresh-checkout 與
     staged/rollback 契約也在其中。`verify_exam_visual_reviews.py` 由考題 repair／audit gate 串入。
-    完整清單與邊界見 `tests/README.md`。
+    另納入 7 項實務學習門檻；完整清單與邊界見 `tests/README.md`。<!-- 2026-09-07: 依 run_all.py 新增門檻同步數量，保留既有驗收。 -->
 
 > 教訓 2026-08-07：比對中文 PDF 文字時只正規化其中一邊，會全部落空。根因：全形標點與
 > CJK 相容字（「數」是 U+F969）在兩邊的編碼不同。規則：**兩邊都做 NFKC**，若要把結果寫回

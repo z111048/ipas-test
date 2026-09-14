@@ -1,0 +1,52 @@
+{
+  "id": "review-contract-analysis-imbalanced-source-examples-v1-20260907-v1",
+  "subject": {
+    "kind": "exam-analysis",
+    "id": "analysis-imbalanced-source-examples-v1",
+    "revision": 1,
+    "hash": "sha256:7fe21ecf929bd42c11c857cd3fd70ed209301eb47454a683a1cf839fa4cccbea"
+  },
+  "dependencyHashes": [
+    "sha256:bbfedffc559834396aa3093b908409472ac26626e5976b196f4192ae3c093e3b"
+  ],
+  "rubricVersion": "mvp-review-v1",
+  "reviewerId": "script-validate-learning-content",
+  "reviewerRole": "automated_check",
+  "authorId": "agent-content-labs",
+  "responsibility": "deterministic_contract",
+  "qualification": {
+    "scope": [
+      "mvp-source-contract"
+    ],
+    "evidenceIds": [
+      "evidence-mvp-record-completion-delegation"
+    ],
+    "grantedBy": "root-coordinator",
+    "grantedAt": "2026-09-07T12:54:29Z"
+  },
+  "evidenceRefs": [
+    {
+      "id": "evidence-mvp-record-completion-delegation",
+      "revision": 1,
+      "hash": "sha256:922240d8bed38acc0ea3c8733d23d8a0e906b4830ed0f75b6350d8fff5398d56"
+    },
+    {
+      "id": "evidence-mvp-contract-check-20260907",
+      "revision": 1,
+      "hash": "sha256:17c011241124fbc4a8af6ac73b4e47e43b045d54384c118dec1bc5bee37e684f"
+    }
+  ],
+  "verdict": "approved",
+  "checks": [
+    {
+      "code": "C1",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-mvp-record-completion-delegation",
+        "evidence-mvp-contract-check-20260907"
+      ]
+    }
+  ],
+  "createdAt": "2026-09-07T12:54:29Z",
+  "rationale": "只記本輪已實際執行且hash綁定的machine檢查，完整範圍與限制見evidence；沒有human L5批准。"
+}

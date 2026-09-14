@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "id": "learning-review-policy",
+  "version": 1,
+  "requirements": [
+    {
+      "subjectKind": "learning-content",
+      "responsibility": "domain_content",
+      "allowedReviewerRoles": ["human", "independent_model"],
+      "qualificationScope": "learning-content",
+      "rubricVersion": "domain-v1",
+      "requiredCheckCodes": ["source_fidelity", "objective_alignment", "practical_accuracy"],
+      "independentFromAuthor": true
+    },
+    {
+      "subjectKind": "question",
+      "responsibility": "assessment_answer",
+      "allowedReviewerRoles": ["human", "independent_model"],
+      "qualificationScope": "assessment",
+      "rubricVersion": "answer-v1",
+      "requiredCheckCodes": ["answer_correct", "distractors_valid"],
+      "independentFromAuthor": true
+    },
+    {
+      "subjectKind": "lab",
+      "responsibility": "domain_content",
+      "allowedReviewerRoles": ["human", "independent_model"],
+      "qualificationScope": "learning-lab",
+      "rubricVersion": "lab-content-v1",
+      "requiredCheckCodes": ["source_fidelity", "objective_alignment", "practical_accuracy", "L4"],
+      "independentFromAuthor": true
+    },
+    {
+      "subjectKind": "lab",
+      "responsibility": "notebook_execution",
+      "allowedReviewerRoles": ["automated_check"],
+      "qualificationScope": "learning-lab",
+      "rubricVersion": "lab-runtime-v1",
+      "requiredCheckCodes": ["L0", "L1", "L2", "L3"],
+      "independentFromAuthor": false
+    },
+    {
+      "subjectKind": "lab",
+      "responsibility": "notebook_execution",
+      "allowedReviewerRoles": ["human"],
+      "qualificationScope": "learning-lab",
+      "rubricVersion": "lab-release-v1",
+      "requiredCheckCodes": ["L5"],
+      "independentFromAuthor": true
+    },
+    {
+      "subjectKind": "publication",
+      "responsibility": "deterministic_contract",
+      "allowedReviewerRoles": ["automated_check"],
+      "qualificationScope": "learning-release",
+      "rubricVersion": "contract-v1",
+      "requiredCheckCodes": ["schema", "references", "hash_integrity"],
+      "independentFromAuthor": false
+    }
+  ]
+}

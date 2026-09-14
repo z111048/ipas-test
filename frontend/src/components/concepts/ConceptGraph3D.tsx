@@ -3,14 +3,17 @@ import ForceGraph3D from 'react-force-graph-3d'
 import SpriteText from 'three-spritetext'
 
 interface ConceptNodeInput {
+  /** 詞彙表的穩定 id：節點身分、連線兩端與選取都用它；name 只拿來畫標籤 */
+  id: string
   name: string
   parent: string
   questionCount: { official: number; practice: number }
-  related: { name: string; weight: number }[]
+  related: { id: string; name: string; weight: number }[]
 }
 
 interface GraphNode {
   id: string
+  name: string
   parent: string
   official: number
   total: number
@@ -73,9 +76,10 @@ interface GraphHandle {
 
 interface Props {
   concepts: ConceptNodeInput[]
+  /** 目前選取的概念 id（不是名稱） */
   selected: string
   minWeight: number
-  onSelect: (name: string) => void
+  onSelect: (id: string) => void
 }
 
 export default function ConceptGraph3D({ concepts, selected, minWeight, onSelect }: Props) {
@@ -121,7 +125,8 @@ export default function ConceptGraph3D({ concepts, selected, minWeight, onSelect
     const nodes: GraphNode[] = concepts.map((concept) => {
       const total = concept.questionCount.official + concept.questionCount.practice
       return {
-        id: concept.name,
+        id: concept.id,
+        name: concept.name,
         parent: concept.parent,
         official: concept.questionCount.official,
         total,
@@ -135,11 +140,11 @@ export default function ConceptGraph3D({ concepts, selected, minWeight, onSelect
     const links: GraphLink[] = []
     for (const concept of concepts) {
       for (const related of concept.related) {
-        if (related.weight < minWeight || !known.has(related.name)) continue
-        const key = [concept.name, related.name].sort().join('|')
+        if (related.weight < minWeight || !known.has(related.id)) continue
+        const key = [concept.id, related.id].sort().join('|')
         if (seen.has(key)) continue      // related 是雙向的，同一條邊會出現兩次
         seen.add(key)
-        links.push({ source: concept.name, target: related.name, weight: related.weight })
+        links.push({ source: concept.id, target: related.id, weight: related.weight })
       }
     }
     return { nodes, links }
@@ -262,7 +267,7 @@ export default function ConceptGraph3D({ concepts, selected, minWeight, onSelect
           const item = node as GraphNode
           const show = item.id === focus || neighbours.has(item.id) || item.total >= labelFloor
           if (!show) return null as unknown as never
-          const sprite = new SpriteText(item.id)
+          const sprite = new SpriteText(item.name)
           sprite.color = item.id === focus ? HIGHLIGHT : LABEL_COLOR
           sprite.textHeight = item.id === focus ? labelUnit * 1.35 : labelUnit
           // SpriteText 的型別宣告沒有帶到 Object3D 的 position，但執行期有

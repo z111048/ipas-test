@@ -134,12 +134,12 @@ export default function TopicHeatPanel() {
 
       <ol className="mt-4 divide-y divide-border rounded border border-border bg-card">
         {rows.map((topic, position) => {
-          const isOpen = opened === topic.name
+          const isOpen = opened === topic.id
           return (
-            <li key={topic.name}>
+            <li key={topic.id}>
               <button
                 type="button"
-                onClick={() => setOpened(isOpen ? null : topic.name)}
+                onClick={() => setOpened(isOpen ? null : topic.id)}
                 aria-expanded={isOpen}
                 className="flex w-full items-center gap-3 px-3 py-2.5 text-left hover:bg-app-bg"
               >

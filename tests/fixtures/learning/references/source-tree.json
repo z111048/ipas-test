@@ -1,0 +1,18 @@
+{
+  "data/resource_catalog.json": {
+    "schemaVersion": 1,
+    "levels": [{"id":"junior","dataLevel":"初級"},{"id":"middle","dataLevel":"中級"}],
+    "exams": [
+      {"key":"sample","routeKey":"sample","levelId":"junior","kind":"sample","questionFile":"sample_exam.json"},
+      {"key":"sample","routeKey":"midSample","levelId":"middle","kind":"sample","questionFile":"sample_exam.json"}
+    ],
+    "resources": [{"key":"reading","kind":"file","version":"1","artifactPath":"data/source.txt","visibleIn":["middle"]}]
+  },
+  "data/初級/toc_manifest.json": {"subjects":[{"id":"s1","chapters":[{"id":"s1c1","title":"初級章節"}]}]},
+  "data/中級/toc_manifest.json": {"subjects":[{"id":"mid-s3","chapters":[{"id":"mid-s3c9","title":"模型訓練、評估與驗證"}]}]},
+  "data/topics/topics.json": {"topics":[{"id":"topic-11111111","name":"評估指標","aliases":["metrics"]},{"id":"topic-22222222","name":"資料洩漏","aliases":["data leakage","洩漏"]},{"id":"topic-33333333","name":"交叉驗證","aliases":["k-fold","交叉驗證法"]}]},
+  "frontend/src/generated/guideOutlines.json": {"guides":{"mid-s3":{"key":"中級-guide3","level":"中級","subjectId":"mid-s3","sourceKey":"guide3","nodesById":{"mid-s3c9":{"id":"mid-s3c9","route":"/guide/mid-s3/mid-s3c9","contentRef":"mid-s3c9.json"}}}}},
+  "frontend/src/generated/guideContent/中級-guide3/mid-s3c9.json": {"id":"mid-s3c9","blocks":[{"id":"block-1","type":"heading","title":"評估","pageIndex":154,"anchor":"metrics"},{"id":"block-2","type":"paragraph","text":"不平衡資料不能只看準確率。","pageIndex":154}],"sourcePages":[{"index":154,"page":155,"label":"5-21"}]},
+  "data/初級/questions/sample_exam.json": {"questions":[{"id":"Q1","question":"初級題目","options":{"A":"甲","B":"乙","C":"丙","D":"丁"},"answer":"A","explanation":"初級解析","source_ref":{"page_index":0}}]},
+  "data/中級/questions/sample_exam.json": {"questions":[{"id":"Q1","question":"中級題目","options":{"A":"甲","B":"乙","C":"丙","D":"丁"},"answer":"D","explanation":"中級解析","source_ref":{"page_index":1}}]}
+}

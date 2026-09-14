@@ -8,6 +8,9 @@
 輸出：
     frontend/src/generated/topicHeat.json
 
+每列同時帶詞彙表的穩定 `id`（`topic-<8 hex>`，LP-210C）：前端 key 與連結用 id，顯示用 `name`。
+詞彙表任一概念沒有 id 就拒絕輸出，不產出半套。
+
 **採計規則：只算 `verdict` 是「正確」的標籤。**
 驗收把標籤分成 正確 75%／過廣 22%／錯誤 3%。錯誤已在標註階段濾除；「過廣」
 不算錯，但把它算進熱度會讓上位概念虛胖——實測寬鬆採計會把「機率與統計」
@@ -59,7 +62,18 @@ def main() -> None:
     if assignments.get('status') != 'verified':
         raise SystemExit('FAIL question_topics.json 不是 verified 狀態，'
                          '先跑 assign_question_topics.py --verify-all')
-    vocab = {t['name']: t for t in load(TOPICS_PATH)['topics']}
+    vocabulary = load(TOPICS_PATH)
+    vocab = {t['name']: t for t in vocabulary['topics']}
+    without_id = [t['name'] for t in vocabulary['topics'] if not t.get('id')]
+    if without_id:
+        raise SystemExit(f'FAIL 詞彙表有 {len(without_id)} 個概念沒有穩定 id（例如「{without_id[0]}」），'
+                         '先完成 LP-210B（build_topic_vocabulary.py --apply-pairs）')
+    owners: dict[str, str] = {}
+    for topic in vocabulary['topics']:
+        if topic['id'] in owners:
+            # id 會變成前端的 React key 與 ?c= 的值，兩個概念撞同一個 id 就是撞號
+            raise SystemExit(f'FAIL topic id「{topic["id"]}」同時屬於「{owners[topic["id"]]}」與「{topic["name"]}」')
+        owners[topic['id']] = topic['name']
 
     # 題目 → 概念（分嚴格與寬鬆兩套）
     strict: dict[str, list[str]] = {}
@@ -118,6 +132,7 @@ def main() -> None:
         spread = per_chapter.get(name, Counter())
         kinds = Counter(chapter_kind(node) for node in spread)
         rows.append({
+            'id': topic['id'],
             'name': name,
             'parent': topic.get('parent', ''),
             'count': counts[name],
@@ -138,6 +153,7 @@ def main() -> None:
             'vocabulary': str(TOPICS_PATH.relative_to(BASE)),
             'annotations': str(ANNOTATION_DIR.relative_to(BASE)),
         },
+        'stableIds': vocabulary.get('stableIds'),
         'countingRule': '只算 verdict=正確 的標籤；countLoose 另含「過廣」供比較',
         'warning': '各章題數不可相加——一題常引用多章，chapters 是分布不是份額',
         'verdictTally': assignments.get('verdictTally'),
@@ -155,7 +171,10 @@ def main() -> None:
     for row in rows[:8]:
         print(f'   {row["name"]:20} {row["count"]:>3} 題 / '
               f'{row["guideChapterCount"]} 章（{row["chapterCount"]}）')
-    print(f'→ {OUT_PATH.relative_to(BASE)}')
+    try:
+        print(f'→ {OUT_PATH.relative_to(BASE)}')
+    except ValueError:
+        print(f'→ {OUT_PATH}')  # 測試會把輸出指到 repo 外
 
 
 if __name__ == '__main__':

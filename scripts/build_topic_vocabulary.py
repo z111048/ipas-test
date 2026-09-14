@@ -445,6 +445,79 @@ def apply_manual_topic_additions(
 
 
 
+def apply_topic_id_assignments(topics: list[dict[str, Any]]) -> dict[str, Any]:
+    """把帳本裡的穩定 id 折回重建出來的詞彙表；對不上就 fail，不靜默丟 id。
+
+    join 鍵是 canonicalName ∪ previousNames——改名時必須把舊名寫進 previousNames，
+    否則這裡會擋下來，而不是讓 id 悄悄消失。
+    """
+    existing_ids = {}
+    if FINAL_PATH.exists():
+        try:
+            existing_ids = {topic['name']: topic['id']
+                            for topic in json.loads(FINAL_PATH.read_text(encoding='utf-8'))['topics']
+                            if 'id' in topic}
+        except (OSError, ValueError, KeyError, TypeError):
+            existing_ids = {}
+    if not ID_ASSIGNMENTS_PATH.exists():
+        if existing_ids:
+            # 沒有這道防線，重建會安靜地把 181 個隨機代號洗成零個，而且救不回來。
+            raise SystemExit(
+                f'FAIL 找不到 id 指派帳本 {ID_ASSIGNMENTS_PATH.name}，但現有 topics.json 已經有 '
+                f'{len(existing_ids)} 個 id。重建會把它們洗掉且無法重算——先還原帳本再重跑。')
+        return {}
+    ledger = json.loads(ID_ASSIGNMENTS_PATH.read_text(encoding='utf-8'))
+    entries = ledger.get('assignments', [])
+
+    by_name: dict[str, dict[str, Any]] = {}
+    folded: dict[str, str] = {}
+    for entry in entries:
+        identity = entry.get('id')
+        if not valid_identifier(identity):
+            raise SystemExit(f'FAIL topic id 帳本：「{identity!r}」不是合法 identifier')
+        if identity.casefold() in folded and folded[identity.casefold()] != identity:
+            raise SystemExit(f'FAIL topic id 帳本：「{identity}」與「{folded[identity.casefold()]}」只差大小寫')
+        folded[identity.casefold()] = identity
+        for name in [entry['canonicalName'], *entry.get('previousNames', [])]:
+            if name in by_name and by_name[name] is not entry:
+                raise SystemExit(f'FAIL topic id 帳本：「{name}」同時對到兩筆指派')
+            by_name[name] = entry
+
+    # 詞彙表既有的 id 不得被帳本悄悄換掉——那等於讓所有引用它的 ref 變成孤兒。
+    for name, identity in existing_ids.items():
+        entry = by_name.get(name)
+        if entry is not None and entry['id'] != identity:
+            raise SystemExit(
+                f'FAIL 概念「{name}」現有 id 是「{identity}」，帳本卻指派「{entry["id"]}」。'
+                'id 一經指派不得改動；要改名請補 previousNames，不要換 id。')
+
+    seen: dict[str, str] = {}
+    for topic in topics:
+        entry = by_name.get(topic['name'])
+        if entry is None:
+            raise SystemExit(
+                f'FAIL 概念「{topic["name"]}」沒有 id 指派。'
+                f'新概念先跑 migrate_topic_ids.py --assign；改名要把舊名加進 previousNames。')
+        identity = entry['id']
+        if identity in seen:
+            raise SystemExit(f'FAIL topic id「{identity}」同時指派給「{seen[identity]}」與「{topic["name"]}」')
+        seen[identity] = topic['name']
+        topic['id'] = identity
+
+    unmatched = [entry for entry in entries
+                 if entry['canonicalName'] not in seen.values() and not entry.get('retiredAt')]
+    if unmatched:
+        names = '、'.join(entry['canonicalName'] for entry in unmatched[:5])
+        raise SystemExit(
+            f'FAIL 帳本有 {len(unmatched)} 筆指派對不到任何概念（例如「{names}」）。'
+            '被合併或刪除的概念要標 retiredAt，改名要補 previousNames；id 不得重用。')
+    for topic in topics:
+        # id 排在最前面，讀 diff 時一眼看得到身分沒有變。
+        for key in [k for k in topic if k != 'id']:
+            topic[key] = topic.pop(key)
+    return ledger
+
+
 def apply_merge_pairs() -> None:
     """把已勾選的合併配對套進詞彙表，產出定案版 topics.json。
 
@@ -520,6 +593,7 @@ def apply_merge_pairs() -> None:
     alias_before = sum(len(t.get('aliases', [])) for t in draft['topics'])
     apply_recorded_alias_cleanup(topics)
     manual = apply_manual_topic_additions(topics)
+    ledger = apply_topic_id_assignments(topics)
     alias_after = sum(len(t.get('aliases', [])) for t in topics)
 
     payload = {
@@ -536,6 +610,9 @@ def apply_merge_pairs() -> None:
         'mergedFrom': str(OUT_PATH.relative_to(BASE)),
         'mergeDecisions': str(PAIRS_PATH.relative_to(BASE)),
         'aliasCleanup': str(CLEAN_PATH.relative_to(BASE)),
+        **({'stableIds': {'source': str(ID_ASSIGNMENTS_PATH.relative_to(BASE)),
+                          'assignedAt': ledger.get('assignedAt'),
+                          'idFormat': ledger.get('idFormat')}} if ledger else {}),
         'topics': topics,
     }
     FINAL_PATH.write_text(
@@ -552,6 +629,24 @@ def apply_merge_pairs() -> None:
 
 CLEAN_PATH = BASE / 'data' / 'topics' / 'alias_cleanup.json'
 FINAL_PATH = BASE / 'data' / 'topics' / 'topics.json'
+# 穩定 id 的指派帳本。它是這份詞彙表的策展輸入（和 merge_pairs／alias_cleanup／
+# manual_topic_additions 同一類），不是第二份詞彙表：topics.json 仍是唯一 SSOT。
+# 帳本必須存在，因為 apply_merge_pairs() 每次都從 draft 整份重建；隨機代號一旦
+# 沒被折回來就永遠救不回，所有引用它的 authored ref 會變成孤兒。
+ID_ASSIGNMENTS_PATH = BASE / 'data' / 'topics' / 'topic_id_assignments.json'
+# id 的合法性規則直接讀 schema 的 $defs.identifier，與 resolver 同一條規則；
+# 這裡刻意不 import jsonschema，這支腳本要能在裸 interpreter 下跑。
+_IDENTIFIER = json.loads(
+    (BASE / 'schemas' / 'learning' / 'common.schema.json').read_text(encoding='utf-8')
+)['$defs']['identifier']
+_IDENTIFIER_RE = re.compile(_IDENTIFIER['pattern'])
+
+
+def valid_identifier(value: Any) -> bool:
+    """完整的 identifier 約束：型別、長度、anchored pattern（`$` 會放過尾端換行）。"""
+    return (isinstance(value, str)
+            and _IDENTIFIER['minLength'] <= len(value) <= _IDENTIFIER['maxLength']
+            and bool(_IDENTIFIER_RE.fullmatch(value)))
 
 
 def clean_aliases(model: str, timeout: int, max_tokens: int, retries: int) -> None:

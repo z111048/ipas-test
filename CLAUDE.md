@@ -4,6 +4,7 @@
 <!-- 2026-08-29（使用者授權）：同步架構硬化後現況——10 項驗收、Guide staged partial
      export 安全性與 production 腳本 repo-relative。修改前備份：
      playbook/backups/CLAUDE.md.bak-2026-08-29-2。 -->
+<!-- 2026-09-07: 加入 Claude Code 的 MVP 交接入口，並依實跑結果同步驗收數量／耗時；不變量語意不變。備份：playbook/backups/CLAUDE.md.bak-2026-09-07。 -->
 # CLAUDE.md
 
 iPAS AI 應用規劃師（初級＋中級）考試教材內容生成工作區。來源 PDF 在 `data/{level}/pdfs/`，
@@ -21,6 +22,7 @@ PDF→MD 解析品質直接決定出題品質，前處理正確性優先於一�
 
 | 要做的事 | 讀這份 |
 |---|---|
+| **接續學習平台 MVP 開發**：現況、下一任務、驗收與發布待辦 | `specifications/learning-platform/claude-code-handoff.md`（先讀；本機 MVP 已完成，正式發布待真人 Colab L5） |
 | 跑 pipeline、查輸出檔案與驗證清單 | `playbook/pipeline-reference.md`（核心流程；用 Grep 跳小節） |
 | 查單支腳本用途、輸入輸出、成本或陷阱 | `playbook/pipeline-script-catalog.md` |
 | **s1c2/s1c4/s2c3 publication overlay、官方勘誤、公式 inventory** | `playbook/deterministic-publication-overlays.md` |
@@ -29,7 +31,7 @@ PDF→MD 解析品質直接決定出題品質，前處理正確性優先於一�
 | 拿不準：要不要升級模型／算不算完成／該不該問使用者／方向對不對 | `playbook/02-judgment.md` |
 | 委派任務的 prompt 模板（搜尋/實作/重構/研究/審查） | `playbook/03-templates.md` |
 | 想修改 CLAUDE.md 或 playbook 本身 | `playbook/04-maintenance.md`（先讀再改） |
-| **跑測試／驗收**：13 項驗收、端對端測試怎麼寫 | `tests/README.md` |
+| **跑測試／驗收**：20 項驗收、端對端測試怎麼寫 | `tests/README.md` |
 | 本 harness 的已知弱點與環境備忘 | `playbook/00-diagnosis.md`、`playbook/05-letter.md` |
 | 學習指引 OCR 校正的現況與待接工作 | `playbook/06-guide-ocr-recalibration.md`（2026-08-30：A 169＋3＋3／B 78／考題 14 份 715 題已收斂） |
 | **小節粒度出題（進行中）**：codex CLI 出題、答案交叉驗證 | `playbook/07-question-generation.md` |
@@ -59,7 +61,7 @@ PDF→MD 解析品質直接決定出題品質，前處理正確性優先於一�
 5. **改動後驗證**：動了 `frontend/src/` 或資料 JSON → `cd frontend && npm run build`
    必須零 TS 錯誤；動了資料 pipeline → `python3 scripts/verify_data_alignment.py --level {level}`。
    這兩條局部驗證任何情況都不可省。**正式發佈前一律跑** `uv run python tests/run_all.py`；
-   動到執行時行為或 OCR 三軌也要跑——13 項約 4–5 分鐘，需要 Playwright Chromium。
+   動到執行時行為或 OCR 三軌也要跑——20 項，2026-09-07 實測 679 秒，需要 Playwright Chromium。
    <!-- 2026-08-29（使用者指示 update）：原文是「沒有其他自動測試，這兩條不可省」。
         tests/ 已從無到有。促成原因：把考試作答從陣列索引改成 question id 時，
         build 與資料對齊**都會過**，但驗不到「勾選有沒有對到正確的題」——
@@ -72,7 +74,7 @@ uv sync && (cd frontend && npm install)                  # 初始化（clone 後
 cd frontend && npm run dev -- --host                     # dev server（WSL 需 --host）
 uv run python3 scripts/build_web.py                      # production build → docs/
 python3 scripts/verify_data_alignment.py --level 初級    # 資料一致性檢查
-uv run python tests/run_all.py                          # 13 項驗收（含端對端，需 Playwright）
+uv run python tests/run_all.py                          # 20 項驗收（含端對端，需 Playwright）
 ```
 
 支援 `--level` 的資料 pipeline **預設值不一致**：多數預設 `初級`，中級專屬 pipeline

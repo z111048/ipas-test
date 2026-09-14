@@ -1,0 +1,293 @@
+{
+  "schemaVersion": 1,
+  "id": "unit-split-before-fit",
+  "revision": 1,
+  "contentHash": "sha256:df97d09c8ae8305693ea5efcc79b15fab23f2b993956bbacbfb426962c9f481b",
+  "status": "in_review",
+  "reviewIds": [
+    "review-contract-unit-split-before-fit-20260909-v2",
+    "review-domain-unit-split-before-fit-20260909-v2"
+  ],
+  "dependencies": [
+    {
+      "resource": {
+        "namespace": "resource",
+        "levelId": "middle",
+        "key": "learning-guide-middle-2"
+      },
+      "revision": "sha256-0a879eb0b67bbdd33cf0e92e0df98f7668ddd94ec522deb5ba01c2b06079e63a",
+      "hash": "sha256:0a879eb0b67bbdd33cf0e92e0df98f7668ddd94ec522deb5ba01c2b06079e63a",
+      "kind": "repository",
+      "hashScope": "full_artifact",
+      "artifactPath": "frontend/src/generated/guideContent/中級-guide2/mid-s2c4.json"
+    },
+    {
+      "resource": {
+        "namespace": "resource",
+        "levelId": "middle",
+        "key": "sklearn-common-pitfalls"
+      },
+      "revision": "stable-checked-2026-09-07",
+      "hash": "sha256:3e3f4b769b246a58997e75bb4c4ade793b464c34aae5d4a1b2e01d5753baf79b",
+      "selector": "data-leakage",
+      "kind": "external",
+      "hashScope": "reviewed_capture",
+      "retrievedAt": "2026-09-07T11:30:00Z",
+      "reviewDueAt": "2027-03-07T00:00:00Z",
+      "capture": {
+        "mode": "authored_summary",
+        "text": "scikit-learn 建議先切分資料，前處理只在訓練資料上 fit，Pipeline 可降低資料洩漏風險但不理解特徵的業務時間語意。"
+      }
+    }
+  ],
+  "title": "先切分，再學習資料規則",
+  "summary": "以設備異常資料流為例，區分 fit 與 transform，固定 train／validation／test 的用途，並以 row ID 證據找出前處理、事後欄位與測試集調參三種資料洩漏。",
+  "bodyRef": "content/learning/units/unit-split-before-fit.md",
+  "levelIds": [
+    "middle"
+  ],
+  "chapterRefs": [
+    {
+      "levelId": "middle",
+      "subjectId": "mid-s3",
+      "chapterId": "mid-s3c9"
+    },
+    {
+      "levelId": "middle",
+      "subjectId": "mid-s2",
+      "chapterId": "mid-s2c4"
+    }
+  ],
+  "topicRefs": [
+    {
+      "id": "topic-899e6a65",
+      "name": "資料洩漏"
+    },
+    {
+      "id": "topic-a0911713",
+      "name": "交叉驗證"
+    }
+  ],
+  "guideRefs": [
+    {
+      "anchorId": "mid-s2c4-data-quality",
+      "levelId": "middle",
+      "guideKey": "中級-guide2",
+      "nodeId": "mid-s2c4",
+      "blockIds": [
+        "block-3"
+      ],
+      "sourceHash": "sha256:0a879eb0b67bbdd33cf0e92e0df98f7668ddd94ec522deb5ba01c2b06079e63a",
+      "pageIndexes": [
+        56
+      ],
+      "quote": "若資料本身存在缺漏、錯誤、格式不一致等問題，將直接導致模型預測失真",
+      "anchor": null,
+      "precision": "exact",
+      "fallbackRoute": "/guide/mid-s2/mid-s2c4"
+    }
+  ],
+  "gapStatement": "指引說明資料品質與評估，但未提供可機驗的 fit row 範圍與 train／validation／test 資訊流；本單元以固定 row ID 契約、Pipeline 邊界及三種反例補足操作能力。",
+  "objectives": [
+    {
+      "id": "unit-split-before-fit::audit-fit-rows",
+      "action": "驗證所有學習型前處理與模型的 fit rows",
+      "condition": "給定固定三分 split manifest 與執行紀錄",
+      "criterion": "fitRowIds 全為 trainRowIds 子集，三個 split 兩兩不相交",
+      "assessmentIds": [
+        "assess-split-audit"
+      ]
+    },
+    {
+      "id": "unit-split-before-fit::identify-semantic-leakage",
+      "action": "辨識預測時點後才可得的欄位",
+      "condition": "給定設備欄位來源與時間描述",
+      "criterion": "找出至少三個洩漏位置並提出合法替代流程",
+      "assessmentIds": [
+        "assess-leakage-map"
+      ]
+    }
+  ],
+  "prerequisites": [
+    {
+      "kind": "skill",
+      "ref": "python-dataframe-basics",
+      "diagnosticPrompt": "能否用 row_id 篩選 DataFrame 並解釋函式 fit 與 transform 的差異？",
+      "remediationRef": "mid-s2c4"
+    }
+  ],
+  "estimatedMinutes": 25,
+  "sections": [
+    {
+      "id": "split-context",
+      "kind": "context",
+      "bodyAnchor": "context",
+      "objectiveIds": [
+        "unit-split-before-fit::audit-fit-rows"
+      ],
+      "claimIds": [
+        "claim-split-guide"
+      ]
+    },
+    {
+      "id": "split-bridge",
+      "kind": "concept_bridge",
+      "bodyAnchor": "concept_bridge",
+      "objectiveIds": [
+        "unit-split-before-fit::audit-fit-rows"
+      ],
+      "claimIds": [
+        "claim-split-source"
+      ]
+    },
+    {
+      "id": "split-example",
+      "kind": "worked_example",
+      "bodyAnchor": "worked_example",
+      "objectiveIds": [
+        "unit-split-before-fit::audit-fit-rows"
+      ],
+      "claimIds": []
+    },
+    {
+      "id": "split-guided",
+      "kind": "guided_practice",
+      "bodyAnchor": "guided_practice",
+      "objectiveIds": [
+        "unit-split-before-fit::audit-fit-rows",
+        "unit-split-before-fit::identify-semantic-leakage"
+      ],
+      "claimIds": []
+    },
+    {
+      "id": "split-independent",
+      "kind": "independent_practice",
+      "bodyAnchor": "independent_practice",
+      "objectiveIds": [
+        "unit-split-before-fit::identify-semantic-leakage"
+      ],
+      "claimIds": []
+    },
+    {
+      "id": "split-misconceptions",
+      "kind": "misconceptions",
+      "bodyAnchor": "misconceptions",
+      "objectiveIds": [
+        "unit-split-before-fit::identify-semantic-leakage"
+      ],
+      "claimIds": [
+        "claim-split-source"
+      ]
+    },
+    {
+      "id": "split-reflection",
+      "kind": "assessment_reflection",
+      "bodyAnchor": "assessment_reflection",
+      "objectiveIds": [
+        "unit-split-before-fit::audit-fit-rows",
+        "unit-split-before-fit::identify-semantic-leakage"
+      ],
+      "claimIds": []
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim-split-guide",
+      "kind": "source",
+      "text": "資料缺漏、錯誤與格式不一致會影響模型與決策。",
+      "sourceRefs": [
+        {
+          "resource": {
+            "namespace": "resource",
+            "levelId": "middle",
+            "key": "learning-guide-middle-2"
+          },
+          "revision": "sha256-0a879eb0b67bbdd33cf0e92e0df98f7668ddd94ec522deb5ba01c2b06079e63a",
+          "hash": "sha256:0a879eb0b67bbdd33cf0e92e0df98f7668ddd94ec522deb5ba01c2b06079e63a",
+          "kind": "repository",
+          "hashScope": "full_artifact",
+          "artifactPath": "frontend/src/generated/guideContent/中級-guide2/mid-s2c4.json"
+        }
+      ]
+    },
+    {
+      "id": "claim-split-source",
+      "kind": "source",
+      "text": "先切分並只用 train fit 前處理可避免常見資料洩漏；Pipeline 可降低錯用風險。",
+      "sourceRefs": [
+        {
+          "resource": {
+            "namespace": "resource",
+            "levelId": "middle",
+            "key": "sklearn-common-pitfalls"
+          },
+          "revision": "stable-checked-2026-09-07",
+          "hash": "sha256:3e3f4b769b246a58997e75bb4c4ade793b464c34aae5d4a1b2e01d5753baf79b",
+          "selector": "data-leakage",
+          "kind": "external",
+          "hashScope": "reviewed_capture",
+          "retrievedAt": "2026-09-07T11:30:00Z",
+          "reviewDueAt": "2027-03-07T00:00:00Z",
+          "capture": {
+            "mode": "authored_summary",
+            "text": "scikit-learn 建議先切分資料，前處理只在訓練資料上 fit，Pipeline 可降低資料洩漏風險但不理解特徵的業務時間語意。"
+          }
+        }
+      ]
+    }
+  ],
+  "assessments": [
+    {
+      "id": "assess-split-audit",
+      "kind": "artifact_audit",
+      "prompt": "提交 split 集合與 fitRowIds 的包含及不相交檢查。",
+      "objectiveIds": [
+        "unit-split-before-fit::audit-fit-rows"
+      ],
+      "expectedEvidence": "可重算的 row ID 集合與通過 assertions。",
+      "rubricId": "rubric-split"
+    },
+    {
+      "id": "assess-leakage-map",
+      "kind": "independent_analysis",
+      "prompt": "為重複設備觀測設計切分並標記三個資訊洩漏點。",
+      "objectiveIds": [
+        "unit-split-before-fit::identify-semantic-leakage"
+      ],
+      "expectedEvidence": "切分圖、時間語意說明與兩項不變條件。",
+      "rubricId": "rubric-split"
+    }
+  ],
+  "rubrics": [
+    {
+      "id": "rubric-split",
+      "criteria": [
+        {
+          "criterion": "資料範圍正確",
+          "passEvidence": "fit rows 僅含 train，三分集合不交集。"
+        },
+        {
+          "criterion": "資訊時點正確",
+          "passEvidence": "排除事後欄位並說明 Pipeline 的能力邊界。"
+        }
+      ]
+    }
+  ],
+  "evidenceIds": [
+    "evidence-mid-s2c4-data-quality"
+  ],
+  "labRefs": [
+    {
+      "kind": "lab",
+      "id": "lab-imbalanced-classification",
+      "revision": 1
+    }
+  ],
+  "projectRefs": [
+    {
+      "kind": "project",
+      "id": "project-imbalanced-classification",
+      "revision": 1
+    }
+  ]
+}

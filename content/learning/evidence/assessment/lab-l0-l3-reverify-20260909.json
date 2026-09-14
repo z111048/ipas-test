@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "labId": "lab-imbalanced-classification",
+  "revision": 1,
+  "authorId": "/root/p0_baseline",
+  "automatedScope": "L0-L3 implementation evidence; not an independent publication review",
+  "environment": {
+    "kernel": "python3",
+    "python": "3.11.13",
+    "packages": {
+      "numpy": "2.4.3",
+      "pandas": "3.0.5",
+      "scikit-learn": "1.9.0",
+      "matplotlib": "3.11.1",
+      "nbformat": "5.11.1",
+      "nbclient": "0.11.0",
+      "ipykernel": "7.3.0"
+    },
+    "network": "not used by notebook",
+    "maxCellSeconds": 60,
+    "maxTotalSeconds": 300
+  },
+  "inputs": {
+    "sourceNotebook": "sha256:e271535428e2c50a5422ab80496eaf1f5bcd37502f605c0d927f31e34b4a5f31",
+    "fixture": "sha256:c6db9b752a39e85e48ddf13131eafc31ca1320c74bb171582ef49d8a58ad41ee",
+    "splitManifest": "sha256:92a43c167af21d254f0b07ff0a1386c48bbe0d7ea3ef8f12a4ca588d7681882e"
+  },
+  "structure": {
+    "cells": 12,
+    "starterReplacementCells": 1
+  },
+  "runs": {
+    "solutionCleanKernelSeconds": 4.203,
+    "starterSetupWorkedSeconds": 4.048,
+    "manualUploadSimulationSeconds": 4.059
+  },
+  "checks": {
+    "L0": "pass",
+    "L1": "pass",
+    "L2": "pass",
+    "L3": "pass",
+    "starterIncomplete": "blocked_at_TODO",
+    "faultInjections": {
+      "allDataFit": "rejected",
+      "testAsValidation": "rejected",
+      "precisionRecallSwap": "rejected"
+    }
+  },
+  "publicationGate": {
+    "status": "blocked",
+    "L4": "not_run",
+    "L5": "not_run",
+    "missing": [
+      "independent semantic review",
+      "human Colab smoke",
+      "immutable Git commit URL"
+    ]
+  },
+  "reverifiedAt": "2026-09-09",
+  "reverifyScope": "LP-210B 後以 --check 重跑 L0-L3；notebook 與 fixture bytes 未變，僅 lab 封套的 topicRefs 改變。不是 L4、也不是真人 Colab L5。"
+}

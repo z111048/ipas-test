@@ -1,0 +1,64 @@
+{
+  "id": "review-peer-d1-analysis-imbalanced-source-examples-v1-20260909-v2",
+  "subject": {
+    "kind": "exam-analysis",
+    "id": "analysis-imbalanced-source-examples-v1",
+    "revision": 1,
+    "hash": "sha256:5636989303de0bf283c69b5b50cdf25b43b4c2d75ccae7bc06345805cf96b0fd"
+  },
+  "dependencyHashes": [],
+  "rubricVersion": "mvp-review-v1",
+  "reviewerId": "agent-codex-cli",
+  "reviewerRole": "independent_model",
+  "authorId": "agent-claude-code",
+  "responsibility": "domain_content",
+  "qualification": {
+    "scope": [
+      "mvp-domain-content",
+      "mvp-source-contract"
+    ],
+    "evidenceIds": [
+      "evidence-lp210b-review-delegation"
+    ],
+    "grantedBy": "maintainer",
+    "grantedAt": "2026-09-09T00:00:00Z"
+  },
+  "evidenceRefs": [
+    {
+      "id": "evidence-assessment-peer-delegation",
+      "revision": 1,
+      "hash": "sha256:7c723eb62ecf0b0a82dc17e1376b6c7547602f65a9742db5c8858d4a5d5650a9"
+    },
+    {
+      "id": "evidence-assessment-peer-review-20260907",
+      "revision": 1,
+      "hash": "sha256:360b2a29b84e937ee56f3f359bf2ede17490bdb4a4cd797af75625ee0bfd27a2"
+    },
+    {
+      "id": "evidence-lp210b-migration-diff",
+      "revision": 1,
+      "hash": "sha256:4b067cec98f71e9960e6d064c2d258a194e5ae7076632f7da2c7deecd504beae"
+    },
+    {
+      "id": "evidence-lp210b-review-delegation",
+      "revision": 1,
+      "hash": "sha256:6aa7f6603715641cce813c196f5f25ad39280095290b9b990eedc52ec1bc99c7"
+    }
+  ],
+  "verdict": "approved",
+  "checks": [
+    {
+      "code": "D1",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-assessment-peer-delegation",
+        "evidence-assessment-peer-review-20260907",
+        "evidence-lp210b-migration-diff",
+        "evidence-lp210b-review-delegation"
+      ]
+    }
+  ],
+  "createdAt": "2026-09-09T00:00:00Z",
+  "rationale": "本紀錄的 scope 是 LP-210B 的機械式 topic 引用遷移。analysis 是 build 產物，它變動的不只 topicRefs：measures[].topic、taxonomyHash、以及由 mapping 集合算出的 labelReviewHash 三者都變了。非作者審查者把這三者還原成遷移前形式後重算，得到與 review-peer-d1-analysis-imbalanced-source-examples-v1-20260907-v1 相同的 subject.hash sha256:7fe21ecf929b…，確認母體、分母、verdict、inventory、exclusions 等統計內容未變，因此前一版結論可承接；證明見 evidence-lp210b-migration-diff 的 analysis 小節。本輪未重做標註或分析語意審查。人類 Colab L5 仍未完成。",
+  "supersedes": "review-peer-d1-analysis-imbalanced-source-examples-v1-20260907-v1"
+}

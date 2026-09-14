@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "lp210b-migration-review-delegation-v1",
+  "grantedBy": "maintainer",
+  "grantedTo": "agent-codex-cli",
+  "grantedAt": "2026-09-09T00:00:00Z",
+  "role": "independent_model",
+  "scope": [
+    "mvp-domain-content",
+    "mvp-source-contract"
+  ],
+  "scopeLimit": "只限 LP-210B 機械式 topic 引用遷移的正確性：差異是否確實只在 topicRefs 與 contentHash、新的 id/name 是否都能解析、詞彙表改動是否為純新增、代號帳本的耐久性護欄是否有效、新契約是否解決原問題、有無新缺陷。不包含重做教學語意審查、不包含重跑真人 Colab L5、不包含重新判斷題目答案。",
+  "evidence": "維護者 2026-09-08 指示「你可以使用 Codex CLI 審核」；2026-09-09 就 13 筆因 contentHash 改變而失效的 review，在三個選項中明確選擇「選項一：範圍受限的重新審查」，要求新紀錄明寫 scope 是機械式遷移並以 supersedes 指回前一版。授權者是維護者本人，不等於審查者，也不等於作者。",
+  "humanApproval": false
+}

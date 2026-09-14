@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "cases": [
+    {"id":"stored-snapshot-tamper","expected":"rejected"},
+    {"id":"import-correct-answer-field","expected":"rejected"},
+    {"id":"import-reference-mismatch","expected":"rejected"},
+    {"id":"import-hash-mismatch","expected":"rejected"},
+    {"id":"same-import-dedup","expected":"one historical record"},
+    {"id":"conflicting-import","expected":"separate importedFrom record"},
+    {"id":"submit-idempotent","expected":"same writeVersion and snapshotHash"},
+    {"id":"record-cap","expected":"reject 101st without deletion"},
+    {"id":"byte-cap","expected":"reject projected size over 50MB without write"},
+    {"id":"native-quota","expected":"visible storage-full error"},
+    {"id":"cross-tab-conflict","expected":"second tab becomes read-only"}
+  ]
+}

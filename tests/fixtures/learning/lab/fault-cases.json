@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "labId": "lab-imbalanced-classification",
+  "cases": [
+    {"id":"all-data-fit","mutation":"call the audited fit wrapper with the full dataframe and validate its observed row IDs","expectedCheck":"fit rows 必須精確等於 train","expected":"rejected"},
+    {"id":"test-as-validation","mutation":"call the audited threshold selector with the test dataframe and its scores","expectedCheck":"threshold 只能用 validation","expected":"rejected"},
+    {"id":"precision-recall-swap","mutation":"swap reported test precision and recall","expectedCheck":"metric 與 matrix 不一致","expected":"rejected"}
+  ]
+}

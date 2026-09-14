@@ -22,6 +22,7 @@ import { preferredScrollBehavior } from '../utils/motion'
 import { useScrollProgress, ReadingProgressBar, BackToTopButton } from '../components/shared/ReadingProgress'
 import { MobileActionBar, PageHeader, StatePanel } from '../components/ui'
 import { MobileChapterDrawer, ReadingAuxiliary, ReadingContent, ReadingSurface } from '../components/reading'
+import { useLearningIndex } from '../features/learning/useLearningIndex'
 
 const guideOutlines = guideOutlinesRaw as unknown as GuideOutlinesData
 const guideHierarchy = guideHierarchyRaw as unknown as GuideHierarchyData
@@ -423,6 +424,8 @@ function GuideBlocksRenderer({
             return renderWithImages(block, (
               <Element
                 key={block.id}
+                id={guideHeadingDomId(block.id)}
+                data-guide-block-id={block.id}
                 className="guide-depth-block text-[0.9rem] leading-7 text-app-text mb-2 content-justify"
                 style={blockIndentStyle(block.depth)}
               >
@@ -433,6 +436,8 @@ function GuideBlocksRenderer({
           return renderWithImages(block, (
             <div
               key={block.id}
+              id={guideHeadingDomId(block.id)}
+              data-guide-block-id={block.id}
               className="guide-depth-block grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1 text-[0.9rem] leading-7 text-app-text mb-2 content-justify"
               style={blockIndentStyle(block.depth)}
             >
@@ -469,6 +474,8 @@ function GuideBlocksRenderer({
           return renderWithImages(block, (
             <div
               key={block.id}
+              id={guideHeadingDomId(block.id)}
+              data-guide-block-id={block.id}
               className={`guide-depth-block ${blockTextClass(block)}`}
               style={textStyle}
             >
@@ -479,6 +486,8 @@ function GuideBlocksRenderer({
         return renderWithImages(block, (
           <p
             key={block.id}
+            id={guideHeadingDomId(block.id)}
+            data-guide-block-id={block.id}
             className={`guide-depth-block ${blockTextClass(block)}`}
             style={textStyle}
           >
@@ -505,6 +514,10 @@ export default function GuidePage() {
   const scrollToContentBlockRef = useRef<((id: string, anchor?: string) => void) | null>(null)
   const [activeHeadingId, setActiveHeadingId] = useState<string | null>(null)
   const { progress: readingProgress, showBackToTop, scrollToTop } = useScrollProgress(() => contentScrollRef.current)
+  const { index: learningIndex } = useLearningIndex()
+  const relatedUnits = learningIndex?.units.filter((unit) =>
+    unit.chapterRefs.some((ref) => ref.subjectId === subjectId && ref.chapterId === chapterId),
+  ) ?? []
 
   useEffect(() => {
     if (contentScrollRef.current) contentScrollRef.current.scrollTop = 0
@@ -804,6 +817,19 @@ export default function GuidePage() {
           className="alert-warning mb-4 shrink-0"
           dangerouslySetInnerHTML={{ __html: notice }}
         />
+      )}
+
+      {relatedUnits.length > 0 && (
+        <section className="surface mb-4 shrink-0 border-l-4 border-l-accent p-4" aria-label="實務補充">
+          <div className="section-title mb-2">把這一章用在實務情境</div>
+          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+            {relatedUnits.map((unit) => (
+              <Link key={unit.id} to={`/learn/${unit.id}`} className="btn-secondary no-underline">
+                {unit.title}
+              </Link>
+            ))}
+          </div>
+        </section>
       )}
 
       <div className="hidden sm:block surface shrink-0 p-4 sm:p-5 mb-4">

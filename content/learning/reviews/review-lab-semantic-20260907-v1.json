@@ -1,0 +1,81 @@
+{
+  "id": "review-lab-semantic-20260907-v1",
+  "subject": {
+    "kind": "lab",
+    "id": "lab-imbalanced-classification",
+    "revision": 1,
+    "hash": "sha256:5bb3dc8b27d18e8d5407398445a7ea52791c2ae5d97de5d5131a63c3c319cb2b"
+  },
+  "dependencyHashes": [
+    "sha256:947a4dffcddf2b0f964351d67004b00a6ebd08cff9d0c4c93787490fba33bdf1",
+    "sha256:a8e8213fc629be53447ec321246d1cb2d04c07b1510c22671a0c7be8e76411a8",
+    "sha256:bbfedffc559834396aa3093b908409472ac26626e5976b196f4192ae3c093e3b",
+    "sha256:c6db9b752a39e85e48ddf13131eafc31ca1320c74bb171582ef49d8a58ad41ee",
+    "sha256:cf2f0121d697bcaebe777a8142c3ce18f3b252ac4a2121d96b920935350ed7f8",
+    "sha256:ec7cfde721e6728e913a0b0f8bd52aea2f10bbf0eb6fe69a9eae0a5b73959f8f",
+    "sha256:fb5b5b1985d5c46e6684140616bd7741d0ef3885473dc7caa5dc9e248d500e29"
+  ],
+  "rubricVersion": "mvp-review-v1",
+  "reviewerId": "agent-content-labs",
+  "reviewerRole": "independent_model",
+  "authorId": "agent-p0-baseline",
+  "responsibility": "domain_content",
+  "qualification": {
+    "scope": [
+      "mvp-domain-content",
+      "lab-semantic-L4"
+    ],
+    "evidenceIds": [
+      "evidence-lab-semantic-delegation"
+    ],
+    "grantedBy": "root-coordinator",
+    "grantedAt": "2026-09-07T12:42:26Z"
+  },
+  "evidenceRefs": [
+    {
+      "id": "evidence-lab-semantic-delegation",
+      "revision": 1,
+      "hash": "sha256:7cafffc714e4382329bc107368abd8b2f237a30d3fe86a2d5d95d3f53b8edb0c"
+    },
+    {
+      "id": "evidence-lab-semantic-review",
+      "revision": 1,
+      "hash": "sha256:498598dd0d6baaf912820141379680939f8c377a769cee51d5842251333a2d35"
+    },
+    {
+      "id": "evidence-lab-independent-probes",
+      "revision": 1,
+      "hash": "sha256:5125c378a2df85c0563a6184e169834ffaabbe8f5cd7ab271bc0fe4c76cf71e2"
+    },
+    {
+      "id": "evidence-lab-author-execution",
+      "revision": 1,
+      "hash": "sha256:7fb884f4f70dce969a7da09e018feb7120cd3af583896b01e2bf8e110487beaa"
+    }
+  ],
+  "verdict": "approved",
+  "checks": [
+    {
+      "code": "D1",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-lab-semantic-delegation",
+        "evidence-lab-semantic-review",
+        "evidence-lab-independent-probes",
+        "evidence-lab-author-execution"
+      ]
+    },
+    {
+      "code": "L4",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-lab-semantic-delegation",
+        "evidence-lab-semantic-review",
+        "evidence-lab-independent-probes",
+        "evidence-lab-author-execution"
+      ]
+    }
+  ],
+  "createdAt": "2026-09-07T12:42:26Z",
+  "rationale": "非作者代理完整讀檢修正版，於乾淨本機kernel執行並核對實際資料路徑及八種變異。僅model內容/L4語意通過，未授予人類Colab L5或完整發布批准。"
+}

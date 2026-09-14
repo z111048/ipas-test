@@ -106,6 +106,11 @@ def validate_resource_catalog(catalog: dict[str, Any]) -> dict[str, Any]:
         if not resource_key or resource_key in resource_keys:
             raise ValueError(f"Duplicate or empty catalog resource key: {resource_key!r}")
         resource_keys.add(resource_key)
+        surface = resource.get("surface", "reference")
+        if surface not in {"reference", "learning"}:
+            raise ValueError(f"Unknown catalog resource surface: {resource_key}")
+        if resource.get("kind") in {"dataset", "external", "guide"} and surface != "learning":
+            raise ValueError(f"Learning resource must use learning surface: {resource_key}")
         visible_in = resource.get("visibleIn")
         if not isinstance(visible_in, list) or not visible_in:
             raise ValueError(f"Catalog resource has no visibleIn levels: {resource_key}")

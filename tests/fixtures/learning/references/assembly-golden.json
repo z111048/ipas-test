@@ -1,0 +1,1004 @@
+{
+  "blueprint": {
+    "schemaVersion": 1,
+    "id": "blueprint-fixture",
+    "revision": 1,
+    "contentHash": "sha256:0cd5e17b6f2de2c8b64cae25d367bb93f3b82ae4bc1d1c3d6b7d2894f0c23c6b",
+    "status": "in_review",
+    "reviewIds": [],
+    "dependencies": [],
+    "title": "測試診斷",
+    "levelId": "middle",
+    "subjectIds": [
+      "mid-s3"
+    ],
+    "questionCount": 10,
+    "timeLimitSeconds": 600,
+    "poolRef": {
+      "id": "pool-fixture",
+      "releaseId": "test-release",
+      "hash": "sha256:8de839217926a4b4a7246ac7efdab8faa7540a5797652a4b46fb4a550a11a049"
+    },
+    "kinds": [
+      "chapter_practice"
+    ],
+    "format": "single_choice",
+    "quotas": [
+      {
+        "id": "quota-0",
+        "dimension": "topic",
+        "key": "資料洩漏",
+        "min": 3,
+        "max": 3,
+        "mode": "hard",
+        "priority": 1
+      },
+      {
+        "id": "quota-1",
+        "dimension": "topic",
+        "key": "評估指標",
+        "min": 4,
+        "max": 4,
+        "mode": "hard",
+        "priority": 1
+      },
+      {
+        "id": "quota-2",
+        "dimension": "topic",
+        "key": "模型評估",
+        "min": 3,
+        "max": 3,
+        "mode": "hard",
+        "priority": 1
+      }
+    ],
+    "seedPolicy": "user_or_generated",
+    "algorithmVersion": "mock-selector-v1",
+    "uniqueFamily": true,
+    "contextPolicy": "atomic_keep_order",
+    "optionOrder": "seeded",
+    "scoring": {
+      "correct": 1,
+      "incorrect": 0,
+      "unanswered": 0,
+      "passingPercent": 60
+    }
+  },
+  "pool": {
+    "schemaVersion": 1,
+    "id": "pool-fixture",
+    "releaseId": "test-release",
+    "contentHash": "sha256:8de839217926a4b4a7246ac7efdab8faa7540a5797652a4b46fb4a550a11a049",
+    "policyHash": "sha256:17ad92e63c962393c0329c658937d16eccaea13036412a3d1d0a5b6b8f29d738",
+    "annotationSnapshotHash": "sha256:140acfea7011eaf6346ea7e0bb46075fc2f8b317d8e8a93f09809c3b806cdfef",
+    "questions": [
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q01",
+          "revision": 1,
+          "hash": "sha256:33e55c23673e7745f228c542fb661c47603636c95d41912024cdaff345cf71a3"
+        },
+        "payloadPath": "questions/9107b9aaaecca080d965f8d1/1.json",
+        "fileHash": "sha256:e4f68c9cfb85d238df0d03db1676563db6d3999c13e1d0610e854f8a6bf090e2",
+        "identityReview": "verified",
+        "mappingReviewIds": [
+          "fixture-mapping"
+        ],
+        "difficultyReviewIds": []
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q02",
+          "revision": 1,
+          "hash": "sha256:79951636e33db408c14c8c10f2e2e8d7151c3f92693ff79ee7e8840380854897"
+        },
+        "payloadPath": "questions/1cbb61b8fae23a72a5d64166/1.json",
+        "fileHash": "sha256:5d0dd25c7114d22060f2997b4be9d0614a270a74c52497e13846f41441537491",
+        "identityReview": "verified",
+        "mappingReviewIds": [
+          "fixture-mapping"
+        ],
+        "difficultyReviewIds": []
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q03",
+          "revision": 1,
+          "hash": "sha256:6b334e80ec3632780bf66df1ab1882011c883596fef9463e7adcbe74e3a269b4"
+        },
+        "payloadPath": "questions/c2d042456aab2e5800ef6570/1.json",
+        "fileHash": "sha256:57b84a42812f7c6341aa9f99443e185603efc165f6dc0d11ee3f48a4b1ab21b8",
+        "identityReview": "verified",
+        "mappingReviewIds": [
+          "fixture-mapping"
+        ],
+        "difficultyReviewIds": []
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q04",
+          "revision": 1,
+          "hash": "sha256:d762fcfa2110b8f28d4ba3d5a2388dc51e68726cfb322365f3b1a5f40ebce22f"
+        },
+        "payloadPath": "questions/57ce34c198ca96c91d4d5153/1.json",
+        "fileHash": "sha256:78884f3128e5f3b3162b8ffd0e1d78dc06a81db4828b0bdebf8bed9f9dd99858",
+        "identityReview": "verified",
+        "mappingReviewIds": [
+          "fixture-mapping"
+        ],
+        "difficultyReviewIds": []
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q05",
+          "revision": 1,
+          "hash": "sha256:7dc152c2cc252654fe3c2cda22640bc27641fd2bd5087570ef9cb381a41ddbe8"
+        },
+        "payloadPath": "questions/76604dc7ba1933af21e8bd0a/1.json",
+        "fileHash": "sha256:62f9244cab37708c81a10a30b9ed8906916599e05076ca1005fd0aed7423ca2b",
+        "identityReview": "verified",
+        "mappingReviewIds": [
+          "fixture-mapping"
+        ],
+        "difficultyReviewIds": []
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q06",
+          "revision": 1,
+          "hash": "sha256:773dbb911f06b4a8fd4f2468aaa181245fa45d9ccb3ec4581ea69eebd0fc71c6"
+        },
+        "payloadPath": "questions/9288955f73606e86c457a690/1.json",
+        "fileHash": "sha256:cc7a273731a95aba487f4b42ae3d66681042fdeaf35d96e44246f358d62fead4",
+        "identityReview": "verified",
+        "mappingReviewIds": [
+          "fixture-mapping"
+        ],
+        "difficultyReviewIds": []
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q07",
+          "revision": 1,
+          "hash": "sha256:7ce5c8e18ee98f94c4768f985f2d3e7460d4699e7b3c57718b6f7c214bc31b24"
+        },
+        "payloadPath": "questions/896519cb2287fd34e389dce2/1.json",
+        "fileHash": "sha256:8b87d6be006dbac4c7c2055b36e3f1038821bec12ab70c4b2db22a6883f5802d",
+        "identityReview": "verified",
+        "mappingReviewIds": [
+          "fixture-mapping"
+        ],
+        "difficultyReviewIds": []
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q08",
+          "revision": 1,
+          "hash": "sha256:77e7ac6df1eab73cca6ab9d62a2a1ebe40f8d032d506bd8078ff1f9fed334000"
+        },
+        "payloadPath": "questions/8fba9cd3891335897188b96b/1.json",
+        "fileHash": "sha256:5dac96c17351f4acf93b31187e986c6b328fbacd37107d2b872f720ba05ca5ee",
+        "identityReview": "verified",
+        "mappingReviewIds": [
+          "fixture-mapping"
+        ],
+        "difficultyReviewIds": []
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q09",
+          "revision": 1,
+          "hash": "sha256:98649a6401bf5bbe4a3ee17c15836d27832430c6c93c7357d3234082566144a6"
+        },
+        "payloadPath": "questions/8fb1e741f697f5f87c1209d6/1.json",
+        "fileHash": "sha256:564a04ac8f05624b05ed5b4138da23b584e6deba1976d87777c6d0cad6ffefda",
+        "identityReview": "verified",
+        "mappingReviewIds": [
+          "fixture-mapping"
+        ],
+        "difficultyReviewIds": []
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q10",
+          "revision": 1,
+          "hash": "sha256:a3427dc27370020d3af144c7256e0a0f9b8e5fc791490dc40455b3933ca3853f"
+        },
+        "payloadPath": "questions/2124e779d441b14e002f6045/1.json",
+        "fileHash": "sha256:774f33b12599b8db6939cbbe3e966b62e0877b60c57b4f9be06ddfa8e08a02ff",
+        "identityReview": "verified",
+        "mappingReviewIds": [
+          "fixture-mapping"
+        ],
+        "difficultyReviewIds": []
+      }
+    ],
+    "groups": []
+  },
+  "questions": [
+    {
+      "questionKey": "q:middle:subject3_questions:test-q01",
+      "revision": 1,
+      "contentHash": "sha256:33e55c23673e7745f228c542fb661c47603636c95d41912024cdaff345cf71a3",
+      "format": "single_choice",
+      "stem": "測試題 1",
+      "options": [
+        {
+          "optionId": "opt-A",
+          "text": "甲"
+        },
+        {
+          "optionId": "opt-B",
+          "text": "乙"
+        }
+      ],
+      "correctOptionId": "opt-A",
+      "explanation": "測试fixture",
+      "answerStatus": "verified",
+      "assets": [],
+      "reviewIds": [
+        "fixture-answer-review"
+      ],
+      "sourceHashes": [
+        "sha256:073171f7f5e1438ae632cb252bda87d19e1bfab1a0ba309e91bdd645886f24ea"
+      ]
+    },
+    {
+      "questionKey": "q:middle:subject3_questions:test-q02",
+      "revision": 1,
+      "contentHash": "sha256:79951636e33db408c14c8c10f2e2e8d7151c3f92693ff79ee7e8840380854897",
+      "format": "single_choice",
+      "stem": "測試題 2",
+      "options": [
+        {
+          "optionId": "opt-A",
+          "text": "甲"
+        },
+        {
+          "optionId": "opt-B",
+          "text": "乙"
+        }
+      ],
+      "correctOptionId": "opt-A",
+      "explanation": "測试fixture",
+      "answerStatus": "verified",
+      "assets": [],
+      "reviewIds": [
+        "fixture-answer-review"
+      ],
+      "sourceHashes": [
+        "sha256:073171f7f5e1438ae632cb252bda87d19e1bfab1a0ba309e91bdd645886f24ea"
+      ]
+    },
+    {
+      "questionKey": "q:middle:subject3_questions:test-q03",
+      "revision": 1,
+      "contentHash": "sha256:6b334e80ec3632780bf66df1ab1882011c883596fef9463e7adcbe74e3a269b4",
+      "format": "single_choice",
+      "stem": "測試題 3",
+      "options": [
+        {
+          "optionId": "opt-A",
+          "text": "甲"
+        },
+        {
+          "optionId": "opt-B",
+          "text": "乙"
+        }
+      ],
+      "correctOptionId": "opt-A",
+      "explanation": "測试fixture",
+      "answerStatus": "verified",
+      "assets": [],
+      "reviewIds": [
+        "fixture-answer-review"
+      ],
+      "sourceHashes": [
+        "sha256:073171f7f5e1438ae632cb252bda87d19e1bfab1a0ba309e91bdd645886f24ea"
+      ]
+    },
+    {
+      "questionKey": "q:middle:subject3_questions:test-q04",
+      "revision": 1,
+      "contentHash": "sha256:d762fcfa2110b8f28d4ba3d5a2388dc51e68726cfb322365f3b1a5f40ebce22f",
+      "format": "single_choice",
+      "stem": "測試題 4",
+      "options": [
+        {
+          "optionId": "opt-A",
+          "text": "甲"
+        },
+        {
+          "optionId": "opt-B",
+          "text": "乙"
+        }
+      ],
+      "correctOptionId": "opt-A",
+      "explanation": "測试fixture",
+      "answerStatus": "verified",
+      "assets": [],
+      "reviewIds": [
+        "fixture-answer-review"
+      ],
+      "sourceHashes": [
+        "sha256:073171f7f5e1438ae632cb252bda87d19e1bfab1a0ba309e91bdd645886f24ea"
+      ]
+    },
+    {
+      "questionKey": "q:middle:subject3_questions:test-q05",
+      "revision": 1,
+      "contentHash": "sha256:7dc152c2cc252654fe3c2cda22640bc27641fd2bd5087570ef9cb381a41ddbe8",
+      "format": "single_choice",
+      "stem": "測試題 5",
+      "options": [
+        {
+          "optionId": "opt-A",
+          "text": "甲"
+        },
+        {
+          "optionId": "opt-B",
+          "text": "乙"
+        }
+      ],
+      "correctOptionId": "opt-A",
+      "explanation": "測试fixture",
+      "answerStatus": "verified",
+      "assets": [],
+      "reviewIds": [
+        "fixture-answer-review"
+      ],
+      "sourceHashes": [
+        "sha256:073171f7f5e1438ae632cb252bda87d19e1bfab1a0ba309e91bdd645886f24ea"
+      ]
+    },
+    {
+      "questionKey": "q:middle:subject3_questions:test-q06",
+      "revision": 1,
+      "contentHash": "sha256:773dbb911f06b4a8fd4f2468aaa181245fa45d9ccb3ec4581ea69eebd0fc71c6",
+      "format": "single_choice",
+      "stem": "測試題 6",
+      "options": [
+        {
+          "optionId": "opt-A",
+          "text": "甲"
+        },
+        {
+          "optionId": "opt-B",
+          "text": "乙"
+        }
+      ],
+      "correctOptionId": "opt-A",
+      "explanation": "測试fixture",
+      "answerStatus": "verified",
+      "assets": [],
+      "reviewIds": [
+        "fixture-answer-review"
+      ],
+      "sourceHashes": [
+        "sha256:073171f7f5e1438ae632cb252bda87d19e1bfab1a0ba309e91bdd645886f24ea"
+      ]
+    },
+    {
+      "questionKey": "q:middle:subject3_questions:test-q07",
+      "revision": 1,
+      "contentHash": "sha256:7ce5c8e18ee98f94c4768f985f2d3e7460d4699e7b3c57718b6f7c214bc31b24",
+      "format": "single_choice",
+      "stem": "測試題 7",
+      "options": [
+        {
+          "optionId": "opt-A",
+          "text": "甲"
+        },
+        {
+          "optionId": "opt-B",
+          "text": "乙"
+        }
+      ],
+      "correctOptionId": "opt-A",
+      "explanation": "測试fixture",
+      "answerStatus": "verified",
+      "assets": [],
+      "reviewIds": [
+        "fixture-answer-review"
+      ],
+      "sourceHashes": [
+        "sha256:073171f7f5e1438ae632cb252bda87d19e1bfab1a0ba309e91bdd645886f24ea"
+      ]
+    },
+    {
+      "questionKey": "q:middle:subject3_questions:test-q08",
+      "revision": 1,
+      "contentHash": "sha256:77e7ac6df1eab73cca6ab9d62a2a1ebe40f8d032d506bd8078ff1f9fed334000",
+      "format": "single_choice",
+      "stem": "測試題 8",
+      "options": [
+        {
+          "optionId": "opt-A",
+          "text": "甲"
+        },
+        {
+          "optionId": "opt-B",
+          "text": "乙"
+        }
+      ],
+      "correctOptionId": "opt-A",
+      "explanation": "測试fixture",
+      "answerStatus": "verified",
+      "assets": [],
+      "reviewIds": [
+        "fixture-answer-review"
+      ],
+      "sourceHashes": [
+        "sha256:073171f7f5e1438ae632cb252bda87d19e1bfab1a0ba309e91bdd645886f24ea"
+      ]
+    },
+    {
+      "questionKey": "q:middle:subject3_questions:test-q09",
+      "revision": 1,
+      "contentHash": "sha256:98649a6401bf5bbe4a3ee17c15836d27832430c6c93c7357d3234082566144a6",
+      "format": "single_choice",
+      "stem": "測試題 9",
+      "options": [
+        {
+          "optionId": "opt-A",
+          "text": "甲"
+        },
+        {
+          "optionId": "opt-B",
+          "text": "乙"
+        }
+      ],
+      "correctOptionId": "opt-A",
+      "explanation": "測试fixture",
+      "answerStatus": "verified",
+      "assets": [],
+      "reviewIds": [
+        "fixture-answer-review"
+      ],
+      "sourceHashes": [
+        "sha256:073171f7f5e1438ae632cb252bda87d19e1bfab1a0ba309e91bdd645886f24ea"
+      ]
+    },
+    {
+      "questionKey": "q:middle:subject3_questions:test-q10",
+      "revision": 1,
+      "contentHash": "sha256:a3427dc27370020d3af144c7256e0a0f9b8e5fc791490dc40455b3933ca3853f",
+      "format": "single_choice",
+      "stem": "測試題 10",
+      "options": [
+        {
+          "optionId": "opt-A",
+          "text": "甲"
+        },
+        {
+          "optionId": "opt-B",
+          "text": "乙"
+        }
+      ],
+      "correctOptionId": "opt-A",
+      "explanation": "測试fixture",
+      "answerStatus": "verified",
+      "assets": [],
+      "reviewIds": [
+        "fixture-answer-review"
+      ],
+      "sourceHashes": [
+        "sha256:073171f7f5e1438ae632cb252bda87d19e1bfab1a0ba309e91bdd645886f24ea"
+      ]
+    }
+  ],
+  "identities": {
+    "q:middle:subject3_questions:test-q01": {
+      "questionKey": "q:middle:subject3_questions:test-q01",
+      "levelId": "middle",
+      "sourceKey": "subject3_questions",
+      "legacyId": "test-q01",
+      "kind": "chapter_practice",
+      "sourcePath": "data/中級/questions/subject3_questions.json",
+      "chapterRef": {
+        "levelId": "middle",
+        "subjectId": "mid-s3",
+        "chapterId": "mid-s3c9"
+      },
+      "familyId": "family-1",
+      "identityReview": "verified"
+    },
+    "q:middle:subject3_questions:test-q02": {
+      "questionKey": "q:middle:subject3_questions:test-q02",
+      "levelId": "middle",
+      "sourceKey": "subject3_questions",
+      "legacyId": "test-q02",
+      "kind": "chapter_practice",
+      "sourcePath": "data/中級/questions/subject3_questions.json",
+      "chapterRef": {
+        "levelId": "middle",
+        "subjectId": "mid-s3",
+        "chapterId": "mid-s3c9"
+      },
+      "familyId": "family-2",
+      "identityReview": "verified"
+    },
+    "q:middle:subject3_questions:test-q03": {
+      "questionKey": "q:middle:subject3_questions:test-q03",
+      "levelId": "middle",
+      "sourceKey": "subject3_questions",
+      "legacyId": "test-q03",
+      "kind": "chapter_practice",
+      "sourcePath": "data/中級/questions/subject3_questions.json",
+      "chapterRef": {
+        "levelId": "middle",
+        "subjectId": "mid-s3",
+        "chapterId": "mid-s3c9"
+      },
+      "familyId": "family-3",
+      "identityReview": "verified"
+    },
+    "q:middle:subject3_questions:test-q04": {
+      "questionKey": "q:middle:subject3_questions:test-q04",
+      "levelId": "middle",
+      "sourceKey": "subject3_questions",
+      "legacyId": "test-q04",
+      "kind": "chapter_practice",
+      "sourcePath": "data/中級/questions/subject3_questions.json",
+      "chapterRef": {
+        "levelId": "middle",
+        "subjectId": "mid-s3",
+        "chapterId": "mid-s3c9"
+      },
+      "familyId": "family-4",
+      "identityReview": "verified"
+    },
+    "q:middle:subject3_questions:test-q05": {
+      "questionKey": "q:middle:subject3_questions:test-q05",
+      "levelId": "middle",
+      "sourceKey": "subject3_questions",
+      "legacyId": "test-q05",
+      "kind": "chapter_practice",
+      "sourcePath": "data/中級/questions/subject3_questions.json",
+      "chapterRef": {
+        "levelId": "middle",
+        "subjectId": "mid-s3",
+        "chapterId": "mid-s3c9"
+      },
+      "familyId": "family-5",
+      "identityReview": "verified"
+    },
+    "q:middle:subject3_questions:test-q06": {
+      "questionKey": "q:middle:subject3_questions:test-q06",
+      "levelId": "middle",
+      "sourceKey": "subject3_questions",
+      "legacyId": "test-q06",
+      "kind": "chapter_practice",
+      "sourcePath": "data/中級/questions/subject3_questions.json",
+      "chapterRef": {
+        "levelId": "middle",
+        "subjectId": "mid-s3",
+        "chapterId": "mid-s3c9"
+      },
+      "familyId": "family-6",
+      "identityReview": "verified"
+    },
+    "q:middle:subject3_questions:test-q07": {
+      "questionKey": "q:middle:subject3_questions:test-q07",
+      "levelId": "middle",
+      "sourceKey": "subject3_questions",
+      "legacyId": "test-q07",
+      "kind": "chapter_practice",
+      "sourcePath": "data/中級/questions/subject3_questions.json",
+      "chapterRef": {
+        "levelId": "middle",
+        "subjectId": "mid-s3",
+        "chapterId": "mid-s3c9"
+      },
+      "familyId": "family-7",
+      "identityReview": "verified"
+    },
+    "q:middle:subject3_questions:test-q08": {
+      "questionKey": "q:middle:subject3_questions:test-q08",
+      "levelId": "middle",
+      "sourceKey": "subject3_questions",
+      "legacyId": "test-q08",
+      "kind": "chapter_practice",
+      "sourcePath": "data/中級/questions/subject3_questions.json",
+      "chapterRef": {
+        "levelId": "middle",
+        "subjectId": "mid-s3",
+        "chapterId": "mid-s3c9"
+      },
+      "familyId": "family-8",
+      "identityReview": "verified"
+    },
+    "q:middle:subject3_questions:test-q09": {
+      "questionKey": "q:middle:subject3_questions:test-q09",
+      "levelId": "middle",
+      "sourceKey": "subject3_questions",
+      "legacyId": "test-q09",
+      "kind": "chapter_practice",
+      "sourcePath": "data/中級/questions/subject3_questions.json",
+      "chapterRef": {
+        "levelId": "middle",
+        "subjectId": "mid-s3",
+        "chapterId": "mid-s3c9"
+      },
+      "familyId": "family-9",
+      "identityReview": "verified"
+    },
+    "q:middle:subject3_questions:test-q10": {
+      "questionKey": "q:middle:subject3_questions:test-q10",
+      "levelId": "middle",
+      "sourceKey": "subject3_questions",
+      "legacyId": "test-q10",
+      "kind": "chapter_practice",
+      "sourcePath": "data/中級/questions/subject3_questions.json",
+      "chapterRef": {
+        "levelId": "middle",
+        "subjectId": "mid-s3",
+        "chapterId": "mid-s3c9"
+      },
+      "familyId": "family-10",
+      "identityReview": "verified"
+    }
+  },
+  "annotations": {
+    "q:middle:subject3_questions:test-q01": {
+      "topics": [
+        "資料洩漏"
+      ],
+      "chapters": [
+        "mid-s3c9"
+      ],
+      "difficulty": null
+    },
+    "q:middle:subject3_questions:test-q02": {
+      "topics": [
+        "資料洩漏"
+      ],
+      "chapters": [
+        "mid-s3c9"
+      ],
+      "difficulty": null
+    },
+    "q:middle:subject3_questions:test-q03": {
+      "topics": [
+        "資料洩漏"
+      ],
+      "chapters": [
+        "mid-s3c9"
+      ],
+      "difficulty": null
+    },
+    "q:middle:subject3_questions:test-q04": {
+      "topics": [
+        "評估指標"
+      ],
+      "chapters": [
+        "mid-s3c9"
+      ],
+      "difficulty": null
+    },
+    "q:middle:subject3_questions:test-q05": {
+      "topics": [
+        "評估指標"
+      ],
+      "chapters": [
+        "mid-s3c9"
+      ],
+      "difficulty": null
+    },
+    "q:middle:subject3_questions:test-q06": {
+      "topics": [
+        "評估指標"
+      ],
+      "chapters": [
+        "mid-s3c9"
+      ],
+      "difficulty": null
+    },
+    "q:middle:subject3_questions:test-q07": {
+      "topics": [
+        "評估指標"
+      ],
+      "chapters": [
+        "mid-s3c9"
+      ],
+      "difficulty": null
+    },
+    "q:middle:subject3_questions:test-q08": {
+      "topics": [
+        "模型評估"
+      ],
+      "chapters": [
+        "mid-s3c9"
+      ],
+      "difficulty": null
+    },
+    "q:middle:subject3_questions:test-q09": {
+      "topics": [
+        "模型評估"
+      ],
+      "chapters": [
+        "mid-s3c9"
+      ],
+      "difficulty": null
+    },
+    "q:middle:subject3_questions:test-q10": {
+      "topics": [
+        "模型評估"
+      ],
+      "chapters": [
+        "mid-s3c9"
+      ],
+      "difficulty": null
+    }
+  },
+  "seed": "0123456789abcdef0123456789abcdef",
+  "expected": {
+    "status": "ready",
+    "formId": "form-3f9f06bd7427dd41c6ff02af7d86b83837de2941b5fe5d304b57c8be2c837b17",
+    "seed": "0123456789abcdef0123456789abcdef",
+    "blueprintHash": "sha256:0cd5e17b6f2de2c8b64cae25d367bb93f3b82ae4bc1d1c3d6b7d2894f0c23c6b",
+    "poolRef": {
+      "id": "pool-fixture",
+      "releaseId": "test-release",
+      "hash": "sha256:8de839217926a4b4a7246ac7efdab8faa7540a5797652a4b46fb4a550a11a049"
+    },
+    "poolHash": "sha256:8de839217926a4b4a7246ac7efdab8faa7540a5797652a4b46fb4a550a11a049",
+    "selectedQuestionRevisions": [
+      {
+        "questionKey": "q:middle:subject3_questions:test-q05",
+        "revision": 1,
+        "hash": "sha256:7dc152c2cc252654fe3c2cda22640bc27641fd2bd5087570ef9cb381a41ddbe8"
+      },
+      {
+        "questionKey": "q:middle:subject3_questions:test-q03",
+        "revision": 1,
+        "hash": "sha256:6b334e80ec3632780bf66df1ab1882011c883596fef9463e7adcbe74e3a269b4"
+      },
+      {
+        "questionKey": "q:middle:subject3_questions:test-q07",
+        "revision": 1,
+        "hash": "sha256:7ce5c8e18ee98f94c4768f985f2d3e7460d4699e7b3c57718b6f7c214bc31b24"
+      },
+      {
+        "questionKey": "q:middle:subject3_questions:test-q02",
+        "revision": 1,
+        "hash": "sha256:79951636e33db408c14c8c10f2e2e8d7151c3f92693ff79ee7e8840380854897"
+      },
+      {
+        "questionKey": "q:middle:subject3_questions:test-q06",
+        "revision": 1,
+        "hash": "sha256:773dbb911f06b4a8fd4f2468aaa181245fa45d9ccb3ec4581ea69eebd0fc71c6"
+      },
+      {
+        "questionKey": "q:middle:subject3_questions:test-q01",
+        "revision": 1,
+        "hash": "sha256:33e55c23673e7745f228c542fb661c47603636c95d41912024cdaff345cf71a3"
+      },
+      {
+        "questionKey": "q:middle:subject3_questions:test-q04",
+        "revision": 1,
+        "hash": "sha256:d762fcfa2110b8f28d4ba3d5a2388dc51e68726cfb322365f3b1a5f40ebce22f"
+      },
+      {
+        "questionKey": "q:middle:subject3_questions:test-q10",
+        "revision": 1,
+        "hash": "sha256:a3427dc27370020d3af144c7256e0a0f9b8e5fc791490dc40455b3933ca3853f"
+      },
+      {
+        "questionKey": "q:middle:subject3_questions:test-q09",
+        "revision": 1,
+        "hash": "sha256:98649a6401bf5bbe4a3ee17c15836d27832430c6c93c7357d3234082566144a6"
+      },
+      {
+        "questionKey": "q:middle:subject3_questions:test-q08",
+        "revision": 1,
+        "hash": "sha256:77e7ac6df1eab73cca6ab9d62a2a1ebe40f8d032d506bd8078ff1f9fed334000"
+      }
+    ],
+    "slotAssignments": [
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q05",
+          "revision": 1,
+          "hash": "sha256:7dc152c2cc252654fe3c2cda22640bc27641fd2bd5087570ef9cb381a41ddbe8"
+        },
+        "dimension": "topic",
+        "quotaId": "quota-1"
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q03",
+          "revision": 1,
+          "hash": "sha256:6b334e80ec3632780bf66df1ab1882011c883596fef9463e7adcbe74e3a269b4"
+        },
+        "dimension": "topic",
+        "quotaId": "quota-0"
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q07",
+          "revision": 1,
+          "hash": "sha256:7ce5c8e18ee98f94c4768f985f2d3e7460d4699e7b3c57718b6f7c214bc31b24"
+        },
+        "dimension": "topic",
+        "quotaId": "quota-1"
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q02",
+          "revision": 1,
+          "hash": "sha256:79951636e33db408c14c8c10f2e2e8d7151c3f92693ff79ee7e8840380854897"
+        },
+        "dimension": "topic",
+        "quotaId": "quota-0"
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q06",
+          "revision": 1,
+          "hash": "sha256:773dbb911f06b4a8fd4f2468aaa181245fa45d9ccb3ec4581ea69eebd0fc71c6"
+        },
+        "dimension": "topic",
+        "quotaId": "quota-1"
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q01",
+          "revision": 1,
+          "hash": "sha256:33e55c23673e7745f228c542fb661c47603636c95d41912024cdaff345cf71a3"
+        },
+        "dimension": "topic",
+        "quotaId": "quota-0"
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q04",
+          "revision": 1,
+          "hash": "sha256:d762fcfa2110b8f28d4ba3d5a2388dc51e68726cfb322365f3b1a5f40ebce22f"
+        },
+        "dimension": "topic",
+        "quotaId": "quota-1"
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q10",
+          "revision": 1,
+          "hash": "sha256:a3427dc27370020d3af144c7256e0a0f9b8e5fc791490dc40455b3933ca3853f"
+        },
+        "dimension": "topic",
+        "quotaId": "quota-2"
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q09",
+          "revision": 1,
+          "hash": "sha256:98649a6401bf5bbe4a3ee17c15836d27832430c6c93c7357d3234082566144a6"
+        },
+        "dimension": "topic",
+        "quotaId": "quota-2"
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q08",
+          "revision": 1,
+          "hash": "sha256:77e7ac6df1eab73cca6ab9d62a2a1ebe40f8d032d506bd8078ff1f9fed334000"
+        },
+        "dimension": "topic",
+        "quotaId": "quota-2"
+      }
+    ],
+    "displayedOptionIds": [
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q05",
+          "revision": 1,
+          "hash": "sha256:7dc152c2cc252654fe3c2cda22640bc27641fd2bd5087570ef9cb381a41ddbe8"
+        },
+        "optionIds": [
+          "opt-A",
+          "opt-B"
+        ]
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q03",
+          "revision": 1,
+          "hash": "sha256:6b334e80ec3632780bf66df1ab1882011c883596fef9463e7adcbe74e3a269b4"
+        },
+        "optionIds": [
+          "opt-A",
+          "opt-B"
+        ]
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q07",
+          "revision": 1,
+          "hash": "sha256:7ce5c8e18ee98f94c4768f985f2d3e7460d4699e7b3c57718b6f7c214bc31b24"
+        },
+        "optionIds": [
+          "opt-B",
+          "opt-A"
+        ]
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q02",
+          "revision": 1,
+          "hash": "sha256:79951636e33db408c14c8c10f2e2e8d7151c3f92693ff79ee7e8840380854897"
+        },
+        "optionIds": [
+          "opt-A",
+          "opt-B"
+        ]
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q06",
+          "revision": 1,
+          "hash": "sha256:773dbb911f06b4a8fd4f2468aaa181245fa45d9ccb3ec4581ea69eebd0fc71c6"
+        },
+        "optionIds": [
+          "opt-A",
+          "opt-B"
+        ]
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q01",
+          "revision": 1,
+          "hash": "sha256:33e55c23673e7745f228c542fb661c47603636c95d41912024cdaff345cf71a3"
+        },
+        "optionIds": [
+          "opt-B",
+          "opt-A"
+        ]
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q04",
+          "revision": 1,
+          "hash": "sha256:d762fcfa2110b8f28d4ba3d5a2388dc51e68726cfb322365f3b1a5f40ebce22f"
+        },
+        "optionIds": [
+          "opt-B",
+          "opt-A"
+        ]
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q10",
+          "revision": 1,
+          "hash": "sha256:a3427dc27370020d3af144c7256e0a0f9b8e5fc791490dc40455b3933ca3853f"
+        },
+        "optionIds": [
+          "opt-A",
+          "opt-B"
+        ]
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q09",
+          "revision": 1,
+          "hash": "sha256:98649a6401bf5bbe4a3ee17c15836d27832430c6c93c7357d3234082566144a6"
+        },
+        "optionIds": [
+          "opt-B",
+          "opt-A"
+        ]
+      },
+      {
+        "question": {
+          "questionKey": "q:middle:subject3_questions:test-q08",
+          "revision": 1,
+          "hash": "sha256:77e7ac6df1eab73cca6ab9d62a2a1ebe40f8d032d506bd8078ff1f9fed334000"
+        },
+        "optionIds": [
+          "opt-B",
+          "opt-A"
+        ]
+      }
+    ],
+    "softMisses": []
+  }
+}

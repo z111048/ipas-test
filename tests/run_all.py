@@ -57,8 +57,18 @@ def main() -> int:
                        [sys.executable, 'tests/test_track_a_ocr_repairs.py']))
     results.append(run('test_track_b_ocr_fixes',
                        [sys.executable, 'tests/test_track_b_ocr_fixes.py']))
+    results.append(run('test_learning_contracts',
+                       [sys.executable, 'tests/test_learning_contracts.py']))
+    results.append(run('test_learning_references',
+                       [sys.executable, 'tests/test_learning_references.py']))
+    results.append(run('test_learning_publication',
+                       [sys.executable, 'tests/test_learning_publication.py']))
+    results.append(run('test_learning_assessment',
+                       [sys.executable, 'tests/test_learning_assessment.py']))
     results.append(run('npm run build（tsc + vite）',
                        ['npm', 'run', 'build'], cwd=BASE / 'frontend'))
+    results.append(run('test_learning_frontend_static',
+                       [sys.executable, 'tests/test_learning_frontend_static.py']))
     for level in ('初級', '中級'):
         results.append(run(f'verify_data_alignment --level {level}',
                            [sys.executable, 'scripts/verify_data_alignment.py', '--level', level]))
@@ -70,6 +80,8 @@ def main() -> int:
         results.append(run('test_exam_flow', [sys.executable, 'tests/test_exam_flow.py']))
         results.append(run('test_practice_flow', [sys.executable, 'tests/test_practice_flow.py']))
         results.append(run('test_routes', [sys.executable, 'tests/test_routes.py']))
+        results.append(run('test_learning_state', [sys.executable, 'tests/test_learning_state.py']))
+        results.append(run('test_learning_frontend', [sys.executable, 'tests/test_learning_frontend.py']))
     else:
         print('\n=== 端對端：已跳過（--skip-browser）===')
 

@@ -1,0 +1,127 @@
+{
+  "id": "review-execution-lab-imbalanced-classification-20260909-v2",
+  "subject": {
+    "kind": "lab",
+    "id": "lab-imbalanced-classification",
+    "revision": 1,
+    "hash": "sha256:6aeb2aeb2702ef5044f2b1144328252750eec6e36b418b7d5f8a3c9cb28aaa36"
+  },
+  "dependencyHashes": [
+    "sha256:27070a98f3b159411d170161a26c3fda34f9af0efce095fd5412e5defd96cad1",
+    "sha256:a5ac34ded71a1b9078febc9643dcbf9b66635411b0edad3cbd01be80e53641a5",
+    "sha256:c6db9b752a39e85e48ddf13131eafc31ca1320c74bb171582ef49d8a58ad41ee",
+    "sha256:cf2f0121d697bcaebe777a8142c3ce18f3b252ac4a2121d96b920935350ed7f8",
+    "sha256:df97d09c8ae8305693ea5efcc79b15fab23f2b993956bbacbfb426962c9f481b",
+    "sha256:ec7cfde721e6728e913a0b0f8bd52aea2f10bbf0eb6fe69a9eae0a5b73959f8f"
+  ],
+  "rubricVersion": "lab-v1",
+  "reviewerId": "script-verify-learning-labs",
+  "reviewerRole": "automated_check",
+  "authorId": "agent-claude-code",
+  "responsibility": "notebook_execution",
+  "qualification": {
+    "scope": [
+      "lab-local-execution"
+    ],
+    "evidenceIds": [
+      "evidence-lp210b-review-delegation"
+    ],
+    "grantedBy": "maintainer",
+    "grantedAt": "2026-09-09T00:00:00Z"
+  },
+  "evidenceRefs": [
+    {
+      "id": "evidence-lab-author-execution",
+      "revision": 1,
+      "hash": "sha256:7fb884f4f70dce969a7da09e018feb7120cd3af583896b01e2bf8e110487beaa"
+    },
+    {
+      "id": "evidence-lab-independent-probes",
+      "revision": 1,
+      "hash": "sha256:5125c378a2df85c0563a6184e169834ffaabbe8f5cd7ab271bc0fe4c76cf71e2"
+    },
+    {
+      "id": "evidence-lab-semantic-review",
+      "revision": 1,
+      "hash": "sha256:498598dd0d6baaf912820141379680939f8c377a769cee51d5842251333a2d35"
+    },
+    {
+      "id": "evidence-lp210b-lab-reverify",
+      "revision": 1,
+      "hash": "sha256:98bd96f898ae7b1d162fd427b8c72205b2c5112e8096a2ab6d7cf324c0fb6199"
+    },
+    {
+      "id": "evidence-lp210b-migration-diff",
+      "revision": 1,
+      "hash": "sha256:4b067cec98f71e9960e6d064c2d258a194e5ae7076632f7da2c7deecd504beae"
+    },
+    {
+      "id": "evidence-lp210b-review-delegation",
+      "revision": 1,
+      "hash": "sha256:6aa7f6603715641cce813c196f5f25ad39280095290b9b990eedc52ec1bc99c7"
+    },
+    {
+      "id": "evidence-mvp-record-completion-delegation",
+      "revision": 1,
+      "hash": "sha256:922240d8bed38acc0ea3c8733d23d8a0e906b4830ed0f75b6350d8fff5398d56"
+    }
+  ],
+  "verdict": "approved",
+  "checks": [
+    {
+      "code": "L0",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-lab-author-execution",
+        "evidence-lab-independent-probes",
+        "evidence-lab-semantic-review",
+        "evidence-lp210b-lab-reverify",
+        "evidence-lp210b-migration-diff",
+        "evidence-lp210b-review-delegation",
+        "evidence-mvp-record-completion-delegation"
+      ]
+    },
+    {
+      "code": "L1",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-lab-author-execution",
+        "evidence-lab-independent-probes",
+        "evidence-lab-semantic-review",
+        "evidence-lp210b-lab-reverify",
+        "evidence-lp210b-migration-diff",
+        "evidence-lp210b-review-delegation",
+        "evidence-mvp-record-completion-delegation"
+      ]
+    },
+    {
+      "code": "L2",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-lab-author-execution",
+        "evidence-lab-independent-probes",
+        "evidence-lab-semantic-review",
+        "evidence-lp210b-lab-reverify",
+        "evidence-lp210b-migration-diff",
+        "evidence-lp210b-review-delegation",
+        "evidence-mvp-record-completion-delegation"
+      ]
+    },
+    {
+      "code": "L3",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-lab-author-execution",
+        "evidence-lab-independent-probes",
+        "evidence-lab-semantic-review",
+        "evidence-lp210b-lab-reverify",
+        "evidence-lp210b-migration-diff",
+        "evidence-lp210b-review-delegation",
+        "evidence-mvp-record-completion-delegation"
+      ]
+    }
+  ],
+  "createdAt": "2026-09-09T00:00:00Z",
+  "rationale": "本紀錄的 scope 是 LP-210B 遷移後的 L0–L3 重跑。notebook 與 fixture 的 bytes 未變，但 lab 封套的 contentHash 因 topicRefs 改變，故以新 hash 重新開立。2026-09-09 由作者本機實跑 verify_learning_labs.py --check（exit 0，乾淨 kernel），紀錄見 evidence-lp210b-lab-reverify。獨立審查者在唯讀 sandbox 無法建立 Jupyter socket，未獨立重現這一項，其報告已如實列為「無法驗證」。這不是 L4，也不是真人 Colab L5。",
+  "supersedes": "review-execution-lab-imbalanced-classification-20260907-v1"
+}

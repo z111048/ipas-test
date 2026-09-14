@@ -31,8 +31,9 @@
 - `verify_batch_answers.py` — 單批答案交叉驗證，供 runner（`--verify-answers`）與 export 當閘門。結果存輸出檔旁 `<batch>.verify.json`，可續跑可稽核；**驗不到不算過**；圖片題跳過。判準看 `wrong_consensus`（不同意者都選同一個錯答才是真的錯）。金鑰 `LLMSHARE_API_KEY` 放 `.env`（gitignored）。
 - `sample_card_review.py` — 確定性分層抽樣題目 `card` 欄位 → `data/audit/card_sample_review.json`；`--tally` 讀回判定算錯誤率。同 `--size`／`--seed` 重跑會拿到同一批題，才能改完驗同一批。
 - `fix_card_defects.py` — 修 `card.frequency` 值域外（依所在章熱度分段給值）與解析尾端黏上的「參考書目」附件。冪等，`--dry-run` 先看。
-- `export_topic_heat.py` — 概念標註 ＋ 詞彙表 ＋ 考古題標註 → `topicHeat.json`（前端 `/mindmap` 概念軸）。只讀 committed 產物、無 API 花費、可隨時重跑、輸出確定性（跨 `PYTHONHASHSEED` 位元相同）。⚠️ 採計只算 `verdict=正確`；「散落章數」用 `guideChapterCount`，**不是** `chapterCount`（後者把大綱章與指引章各記一次，虛胖 32%）。細節見 `08-topic-labeling.md` §7-3。
-- `export_concept_graph.py` — 概念關聯圖：把詞彙表、兩份標註、熱度、名詞解釋、題幹併成 `conceptGraph.json`（前端 `/concepts`）。只讀 committed 產物、無 API 花費、可隨時重跑。⚠️ `questionCount` 的 official／practice 不可相加當熱度。見 §5b。
+- `assign_question_topics.py` — 詞彙表 → 官方卷／練習題概念標註（`--source exam|practice`），兩段式：別名比對零花費，比對不到的才送模型且限定從詞彙表挑；`--verify-all --verify-model <另一個模型>` 逐標籤驗收並濾掉「錯誤」。輸出每個名稱旁同時帶穩定 id，快取是 `topic-cache/v2`；**`--backfill-ids` 不呼叫模型**，只把既有標註與快取補上 id（純新增、冪等、寫入前先證明無損；概念改名後依 id 自動換新名稱）。⚠️ 快取 gitignored、是付費產物：腳本只新增不刪，寫入為原子；`--limit` 試跑務必配 `--out`。見 `pipeline-reference.md` §5b。
+- `export_topic_heat.py` — 概念標註 ＋ 詞彙表 ＋ 考古題標註 → `topicHeat.json`（前端 `/mindmap` 概念軸）。只讀 committed 產物、無 API 花費、可隨時重跑、輸出確定性（跨 `PYTHONHASHSEED` 位元相同）。每列帶詞彙表的穩定 `id`（排第一），詞彙表任一概念沒有 id 就拒絕輸出。⚠️ 採計只算 `verdict=正確`；「散落章數」用 `guideChapterCount`，**不是** `chapterCount`（後者把大綱章與指引章各記一次，虛胖 32%）。細節見 `08-topic-labeling.md` §7-3。
+- `export_concept_graph.py` — 概念關聯圖：把詞彙表、id 帳本（只取 `previousNames`）、兩份標註、熱度、名詞解釋、題幹併成 `conceptGraph.json`（前端 `/concepts`）。只讀 committed 產物、無 API 花費、可隨時重跑、**不寫時間戳**（重跑要 byte-identical）。概念與共現邊以穩定 id 為鍵、`name` 只作顯示；標註的 `topicId`／名稱與詞彙表不一致就拒絕建圖（先跑 `assign_question_topics.py --backfill-ids`）。⚠️ `questionCount` 的 official／practice 不可相加當熱度。見 §5b。
 - `build_glossary.py` — 名詞解釋生成（詞表由 `topicHeat.json` 熱度決定，來源＝講義原文段落＋詳解片段）→ `frontend/src/generated/{primary,middle}Glossary.json`。`--dry-run` 只看選詞與來源覆蓋、不花錢；`--apply` 才寫前端；既有詞條預設保留不覆蓋（`--regenerate` 才重寫）。生成模型不可與 `verify_glossary_terms.py` 的審核名單重疊。見 §5a。
 - `verify_glossary_terms.py` — 釋義閘門：三模型盲審每一條，`wrong` 票 ≥2 就 flagged。`--self-test` 拿 4 條故意寫錯的＋4 條乾淨孿生驗閘門本身（要 4/4 抓到、0 誤報）；`--term` 只重驗改過的那條。金鑰 `LLMSHARE_API_KEY`（`.env`，gitignored）。
 - `export_guide_hierarchy.py` — 接成完整階層樹，並產導覽用的兩個衍生檔 → `guideHierarchy.json`、`guideNav.json`、`guideSearchIndex.json`（見 §1b）。
@@ -79,6 +80,23 @@
 - ~~`render_guide_page_images.py`~~ — **已退場（2026-08-29）**。產物 `frontend/public/guide-pages/`（89 檔 13 MB）
   經窮舉比對確認前端從未引用（`parse_guides.py:369-373` 註解已寫明），已從版控刪除。
   前端讀的是 `guideContent` 與 `pdfGallery`，都指向 `pdf-assets/`。不要重跑這支。
+
+**實務學習 MVP（2026-09-07 新增）**
+<!-- 2026-09-07: 新增實務學習 CLI；已核對各支 --help，curation 與保留舊題的結果已實跑。 -->
+- `validate_learning_content.py --all --check` — 檢查 `content/learning/` 的契約、來源引用與審查缺口；不寫入產物。
+- `build_learning_content.py --preview` — 建立獨立本機候選與 preview 指標；`--check`／`--dry-run` 不寫入。
+  正式模式才可更新 current 指標，且須通過發布閘門。預覽資產留在候選目錄，不寫入 `frontend/public/`。
+- `build_learning_assessment.py --preview` — 組成已審診斷題、固定組卷與有限範圍官方選讀；通用建置會自動串接此流程與 Lab 資產，不依賴暫存 run。
+- `generate_learning_lab.py` — 建立首個 Lab 的合成資料與 notebook 資產；`--check` 檢查重建差異。
+- `verify_learning_labs.py --lab lab-imbalanced-classification --profile cpu` — 執行 Lab 驗證；`--check` 不寫入執行證據。
+  Notebook 工具需 `uv run --group learning-lab`；本機執行紀錄不代表已完成真人 Colab 走查。
+- `curate_learning_questions.py --check` — 預檢已獨立審查的診斷題策展；移除 `--check` 才追加題庫。
+  此流程保留原題與 cards，審查輸入放 `content/learning/evidence/assessment/`；不將暫存 run 目錄當唯一來源。
+  本輪範圍與驗收進度見 [`specifications/learning-platform/progress.md`](../specifications/learning-platform/progress.md)。
+- `migrate_topic_ids.py --dry-run --report <path>` — 唯讀盤點 topic 詞彙表：canonical／alias、既有引用、
+  consumer 與候選 id 規則的碰撞。只支援 `--dry-run`（沒帶會 exit 2），不寫 `data/topics/topics.json`，
+  連跑兩次 byte-identical。id 規則提案與遷移順序見
+  [`specifications/learning-platform/topic-id-migration.md`](../specifications/learning-platform/topic-id-migration.md)。
 
 **生成（花錢/花時間）**
 - `generate_questions.py` — Claude API 出題（`--subject N`）或補 card 欄位（`--enrich`）。`--dry-run` 先看 prompt。

@@ -1,0 +1,696 @@
+{
+  "reviewerId": "agent-p0-baseline",
+  "reviewerRole": "independent_model",
+  "authorIndependence": {
+    "blueprintPoolAnalysisAuthor": "agent-content-labs",
+    "questionAuthors": [
+      "agent-p0-baseline",
+      "official-source"
+    ]
+  },
+  "authorizedScope": {
+    "D1": [
+      "mock-blueprint",
+      "mock-pool",
+      "exam-analysis"
+    ],
+    "A1": [
+      "mock-pool-curation-integrity"
+    ]
+  },
+  "explicitExclusion": "No new review of individual question correctness; each QuestionRevision must retain agent-content-labs D1/A1 records.",
+  "verdict": "approved",
+  "checks": [
+    {
+      "code": "blueprint-count-distribution",
+      "pass": true,
+      "detail": {
+        "count": 10,
+        "quotas": {
+          "unit-split-before-fit": [
+            3,
+            3,
+            "資料洩漏"
+          ],
+          "unit-imbalanced-classification": [
+            4,
+            4,
+            "評估指標"
+          ],
+          "unit-threshold-decision": [
+            3,
+            3,
+            "模型評估"
+          ]
+        }
+      }
+    },
+    {
+      "code": "blueprint-selection-policy",
+      "pass": true,
+      "detail": {
+        "algorithmVersion": "mock-selector-v1",
+        "seedPolicy": "user_or_generated",
+        "uniqueFamily": true,
+        "contextPolicy": "atomic_keep_order",
+        "optionOrder": "seeded"
+      }
+    },
+    {
+      "code": "blueprint-content-hash",
+      "pass": true,
+      "detail": "sha256:3f2f3a05964d91d6cbd0ca54323ec7a8e732f80b992aee2183300b37c83cbdba"
+    },
+    {
+      "code": "blueprint-pool-binding",
+      "pass": true,
+      "detail": {
+        "id": "pool-imbalanced-classification-v1",
+        "releaseId": "candidate",
+        "hash": "sha256:38c244398604545cb383574cd0b1468067322c95ae3583cc40c949127cc6a8c3"
+      }
+    },
+    {
+      "code": "pool-unique-complete",
+      "pass": true,
+      "detail": {
+        "entries": 10,
+        "unique": 10
+      }
+    },
+    {
+      "code": "pool-content-hash",
+      "pass": true,
+      "detail": "sha256:38c244398604545cb383574cd0b1468067322c95ae3583cc40c949127cc6a8c3"
+    },
+    {
+      "code": "pool-source-hash-answer-review-bindings",
+      "pass": true,
+      "detail": [
+        {
+          "questionKey": "q:middle:subject3_questions:diag-imbalanced-v1-q01",
+          "sourceExact": true,
+          "hashesExact": true,
+          "eligibility": true,
+          "correctOptionId": "opt-B",
+          "reviews": [
+            [
+              "review-domain-39a3018c83d5cdbc2e19",
+              "domain_content",
+              true,
+              "agent-content-labs"
+            ],
+            [
+              "review-answer-39a3018c83d5cdbc2e19",
+              "assessment_answer",
+              true,
+              "agent-content-labs"
+            ],
+            [
+              "review-contract-39a3018c83d5cdbc2e19",
+              "deterministic_contract",
+              true,
+              "script-learning-assessment"
+            ]
+          ]
+        },
+        {
+          "questionKey": "q:middle:subject3_questions:diag-imbalanced-v1-q02",
+          "sourceExact": true,
+          "hashesExact": true,
+          "eligibility": true,
+          "correctOptionId": "opt-C",
+          "reviews": [
+            [
+              "review-domain-79ccb4a16572d87bbaff",
+              "domain_content",
+              true,
+              "agent-content-labs"
+            ],
+            [
+              "review-answer-79ccb4a16572d87bbaff",
+              "assessment_answer",
+              true,
+              "agent-content-labs"
+            ],
+            [
+              "review-contract-79ccb4a16572d87bbaff",
+              "deterministic_contract",
+              true,
+              "script-learning-assessment"
+            ]
+          ]
+        },
+        {
+          "questionKey": "q:middle:subject3_questions:diag-imbalanced-v1-q03",
+          "sourceExact": true,
+          "hashesExact": true,
+          "eligibility": true,
+          "correctOptionId": "opt-D",
+          "reviews": [
+            [
+              "review-domain-703a3a9a7a6abfc6fee7",
+              "domain_content",
+              true,
+              "agent-content-labs"
+            ],
+            [
+              "review-answer-703a3a9a7a6abfc6fee7",
+              "assessment_answer",
+              true,
+              "agent-content-labs"
+            ],
+            [
+              "review-contract-703a3a9a7a6abfc6fee7",
+              "deterministic_contract",
+              true,
+              "script-learning-assessment"
+            ]
+          ]
+        },
+        {
+          "questionKey": "q:middle:subject3_questions:diag-imbalanced-v1-q04",
+          "sourceExact": true,
+          "hashesExact": true,
+          "eligibility": true,
+          "correctOptionId": "opt-B",
+          "reviews": [
+            [
+              "review-domain-647a85afa7f26162a6b7",
+              "domain_content",
+              true,
+              "agent-content-labs"
+            ],
+            [
+              "review-answer-647a85afa7f26162a6b7",
+              "assessment_answer",
+              true,
+              "agent-content-labs"
+            ],
+            [
+              "review-contract-647a85afa7f26162a6b7",
+              "deterministic_contract",
+              true,
+              "script-learning-assessment"
+            ]
+          ]
+        },
+        {
+          "questionKey": "q:middle:subject3_questions:diag-imbalanced-v1-q05",
+          "sourceExact": true,
+          "hashesExact": true,
+          "eligibility": true,
+          "correctOptionId": "opt-A",
+          "reviews": [
+            [
+              "review-domain-f24c7595cf94001f5169",
+              "domain_content",
+              true,
+              "agent-content-labs"
+            ],
+            [
+              "review-answer-f24c7595cf94001f5169",
+              "assessment_answer",
+              true,
+              "agent-content-labs"
+            ],
+            [
+              "review-contract-f24c7595cf94001f5169",
+              "deterministic_contract",
+              true,
+              "script-learning-assessment"
+            ]
+          ]
+        },
+        {
+          "questionKey": "q:middle:subject3_questions:diag-imbalanced-v1-q06",
+          "sourceExact": true,
+          "hashesExact": true,
+          "eligibility": true,
+          "correctOptionId": "opt-B",
+          "reviews": [
+            [
+              "review-domain-14b136a2a2aed2e7b905",
+              "domain_content",
+              true,
+              "agent-content-labs"
+            ],
+            [
+              "review-answer-14b136a2a2aed2e7b905",
+              "assessment_answer",
+              true,
+              "agent-content-labs"
+            ],
+            [
+              "review-contract-14b136a2a2aed2e7b905",
+              "deterministic_contract",
+              true,
+              "script-learning-assessment"
+            ]
+          ]
+        },
+        {
+          "questionKey": "q:middle:subject3_questions:diag-imbalanced-v1-q07",
+          "sourceExact": true,
+          "hashesExact": true,
+          "eligibility": true,
+          "correctOptionId": "opt-A",
+          "reviews": [
+            [
+              "review-domain-04d9df5fa917a0ea55b7",
+              "domain_content",
+              true,
+              "agent-content-labs"
+            ],
+            [
+              "review-answer-04d9df5fa917a0ea55b7",
+              "assessment_answer",
+              true,
+              "agent-content-labs"
+            ],
+            [
+              "review-contract-04d9df5fa917a0ea55b7",
+              "deterministic_contract",
+              true,
+              "script-learning-assessment"
+            ]
+          ]
+        },
+        {
+          "questionKey": "q:middle:subject3_questions:diag-imbalanced-v1-q08",
+          "sourceExact": true,
+          "hashesExact": true,
+          "eligibility": true,
+          "correctOptionId": "opt-C",
+          "reviews": [
+            [
+              "review-domain-3991dec093daa636a4f1",
+              "domain_content",
+              true,
+              "agent-content-labs"
+            ],
+            [
+              "review-answer-3991dec093daa636a4f1",
+              "assessment_answer",
+              true,
+              "agent-content-labs"
+            ],
+            [
+              "review-contract-3991dec093daa636a4f1",
+              "deterministic_contract",
+              true,
+              "script-learning-assessment"
+            ]
+          ]
+        },
+        {
+          "questionKey": "q:middle:subject3_questions:diag-imbalanced-v1-q09",
+          "sourceExact": true,
+          "hashesExact": true,
+          "eligibility": true,
+          "correctOptionId": "opt-C",
+          "reviews": [
+            [
+              "review-domain-3cf1dcf401f8c9c4a945",
+              "domain_content",
+              true,
+              "agent-content-labs"
+            ],
+            [
+              "review-answer-3cf1dcf401f8c9c4a945",
+              "assessment_answer",
+              true,
+              "agent-content-labs"
+            ],
+            [
+              "review-contract-3cf1dcf401f8c9c4a945",
+              "deterministic_contract",
+              true,
+              "script-learning-assessment"
+            ]
+          ]
+        },
+        {
+          "questionKey": "q:middle:subject3_questions:diag-imbalanced-v1-q10",
+          "sourceExact": true,
+          "hashesExact": true,
+          "eligibility": true,
+          "correctOptionId": "opt-B",
+          "reviews": [
+            [
+              "review-domain-ab79f3fa18a0e9c001a0",
+              "domain_content",
+              true,
+              "agent-content-labs"
+            ],
+            [
+              "review-answer-ab79f3fa18a0e9c001a0",
+              "assessment_answer",
+              true,
+              "agent-content-labs"
+            ],
+            [
+              "review-contract-ab79f3fa18a0e9c001a0",
+              "deterministic_contract",
+              true,
+              "script-learning-assessment"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "code": "pool-unique-families",
+      "pass": true,
+      "detail": {
+        "unique": 10,
+        "total": 10
+      }
+    },
+    {
+      "code": "pool-topic-distribution",
+      "pass": true,
+      "detail": {
+        "資料洩漏": 3,
+        "評估指標": 4,
+        "模型評估": 3
+      }
+    },
+    {
+      "code": "pool-annotation-hash",
+      "pass": true,
+      "detail": "sha256:d605c3215a582445d1fda77163457c26dc1f0511845ec1f0a4efa71b920f76a7"
+    },
+    {
+      "code": "assembly-selection",
+      "pass": true,
+      "detail": {
+        "status": "ready",
+        "seed": "0123456789abcdef0123456789abcdef",
+        "selected": [
+          [
+            "q:middle:subject3_questions:diag-imbalanced-v1-q01",
+            1
+          ],
+          [
+            "q:middle:subject3_questions:diag-imbalanced-v1-q10",
+            1
+          ],
+          [
+            "q:middle:subject3_questions:diag-imbalanced-v1-q05",
+            1
+          ],
+          [
+            "q:middle:subject3_questions:diag-imbalanced-v1-q06",
+            1
+          ],
+          [
+            "q:middle:subject3_questions:diag-imbalanced-v1-q09",
+            1
+          ],
+          [
+            "q:middle:subject3_questions:diag-imbalanced-v1-q04",
+            1
+          ],
+          [
+            "q:middle:subject3_questions:diag-imbalanced-v1-q02",
+            1
+          ],
+          [
+            "q:middle:subject3_questions:diag-imbalanced-v1-q07",
+            1
+          ],
+          [
+            "q:middle:subject3_questions:diag-imbalanced-v1-q08",
+            1
+          ],
+          [
+            "q:middle:subject3_questions:diag-imbalanced-v1-q03",
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "code": "assembly-hard-quota-assignments",
+      "pass": true,
+      "detail": {
+        "unit-split-before-fit": 3,
+        "unit-threshold-decision": 3,
+        "unit-imbalanced-classification": 4
+      }
+    },
+    {
+      "code": "assembly-option-permutations",
+      "pass": true,
+      "detail": {
+        "aligned": true,
+        "setsExact": true
+      }
+    },
+    {
+      "code": "assembly-version-hash-bindings",
+      "pass": true,
+      "detail": {
+        "blueprint": "sha256:3f2f3a05964d91d6cbd0ca54323ec7a8e732f80b992aee2183300b37c83cbdba",
+        "pool": "sha256:38c244398604545cb383574cd0b1468067322c95ae3583cc40c949127cc6a8c3",
+        "formId": "form-f56c84ce3e64a30c86ea8558f122b413478b40bfce27b32194b699e2ea4be5be"
+      }
+    },
+    {
+      "code": "analysis-authored-policy-scope",
+      "pass": true,
+      "detail": {
+        "id": "analysis-selected-three-volumes-v1",
+        "revision": 1,
+        "levelIds": [
+          "junior",
+          "middle"
+        ],
+        "subjectIds": [
+          "s1",
+          "mid-s3"
+        ],
+        "kinds": [
+          "official"
+        ],
+        "examKeys": [
+          {
+            "levelId": "junior",
+            "key": "jr_1151_s1"
+          },
+          {
+            "levelId": "middle",
+            "key": "mid_1141_s3"
+          },
+          {
+            "levelId": "middle",
+            "key": "mid_1151_s3"
+          }
+        ],
+        "mappingPolicy": "source_bound_strict_v1",
+        "unit": "occurrence",
+        "answerPolicy": "include_with_status"
+      }
+    },
+    {
+      "code": "analysis-policy-content-hashes",
+      "pass": true,
+      "detail": {
+        "policyHash": "sha256:dca15a4b5a78248bca7588bfe09d54ad64b931e7aa29a3891685b3338fe33a9e",
+        "contentHash": "sha256:7fe21ecf929bd42c11c857cd3fd70ed209301eb47454a683a1cf839fa4cccbea"
+      }
+    },
+    {
+      "code": "analysis-three-volume-population",
+      "pass": true,
+      "detail": {
+        "inventory": [
+          {
+            "levelId": "junior",
+            "examKey": "jr_1151_s1",
+            "kind": "official",
+            "expected": 50,
+            "present": 50,
+            "labelReviewed": 2,
+            "answerDisputed": 0
+          },
+          {
+            "levelId": "middle",
+            "examKey": "mid_1141_s3",
+            "kind": "official",
+            "expected": 50,
+            "present": 50,
+            "labelReviewed": 2,
+            "answerDisputed": 0
+          },
+          {
+            "levelId": "middle",
+            "examKey": "mid_1151_s3",
+            "kind": "official",
+            "expected": 50,
+            "present": 50,
+            "labelReviewed": 1,
+            "answerDisputed": 0
+          }
+        ],
+        "population": 150,
+        "reviewed": 5
+      }
+    },
+    {
+      "code": "analysis-measures",
+      "pass": true,
+      "detail": [
+        {
+          "topic": "資料洩漏",
+          "exact": true,
+          "population": 150,
+          "reviewed": 5,
+          "matched": 1,
+          "unknown": 145,
+          "prevalence": null,
+          "reviewedPrevalence": 0.2,
+          "lowerBound": 0.006666666666666667,
+          "upperBound": 0.9733333333333334
+        },
+        {
+          "topic": "評估指標",
+          "exact": true,
+          "population": 150,
+          "reviewed": 5,
+          "matched": 4,
+          "unknown": 145,
+          "prevalence": null,
+          "reviewedPrevalence": 0.8,
+          "lowerBound": 0.02666666666666667,
+          "upperBound": 0.9933333333333333
+        },
+        {
+          "topic": "類別不平衡",
+          "exact": true,
+          "population": 150,
+          "reviewed": 5,
+          "matched": 2,
+          "unknown": 145,
+          "prevalence": null,
+          "reviewedPrevalence": 0.4,
+          "lowerBound": 0.013333333333333334,
+          "upperBound": 0.98
+        }
+      ]
+    },
+    {
+      "code": "analysis-non-exhaustive-disclosure",
+      "pass": true,
+      "detail": {
+        "coverage": {
+          "sessionsKnown": [],
+          "sessionsIncluded": [],
+          "missingSessions": [],
+          "exhaustive": false,
+          "evidenceIds": [
+            "ev-mvp-official-selection"
+          ]
+        },
+        "exclusions": [
+          {
+            "reason": "其他試卷不在本次明確選讀範圍；本結果不代表全部歷屆或命題預測。",
+            "count": 0
+          },
+          {
+            "reason": "範圍內尚未逐題審查主題標記，保留為 unknown 並仍計入母體。",
+            "count": 145
+          }
+        ]
+      }
+    },
+    {
+      "code": "analysis-original-exam-links",
+      "pass": true,
+      "detail": [
+        {
+          "questionKey": "q:junior:jr_1151_s1:jr_1151_s1_q6",
+          "source": {
+            "levelId": "junior",
+            "examKey": "jr_1151_s1",
+            "pageIndex": 1,
+            "pageNumber": 2,
+            "route": "/exam/jr_1151_s1"
+          },
+          "exact": true
+        },
+        {
+          "questionKey": "q:junior:jr_1151_s1:jr_1151_s1_q40",
+          "source": {
+            "levelId": "junior",
+            "examKey": "jr_1151_s1",
+            "pageIndex": 8,
+            "pageNumber": 9,
+            "route": "/exam/jr_1151_s1"
+          },
+          "exact": true
+        },
+        {
+          "questionKey": "q:middle:mid_1141_s3:mid_1141_s3_q19",
+          "source": {
+            "levelId": "middle",
+            "examKey": "mid_1141_s3",
+            "pageIndex": 3,
+            "pageNumber": 4,
+            "route": "/exam/mid_1141_s3"
+          },
+          "exact": true
+        },
+        {
+          "questionKey": "q:middle:mid_1141_s3:mid_1141_s3_q16",
+          "source": {
+            "levelId": "middle",
+            "examKey": "mid_1141_s3",
+            "pageIndex": 3,
+            "pageNumber": 4,
+            "route": "/exam/mid_1141_s3"
+          },
+          "exact": true
+        },
+        {
+          "questionKey": "q:middle:mid_1151_s3:mid_1151_s3_q32",
+          "source": {
+            "levelId": "middle",
+            "examKey": "mid_1151_s3",
+            "pageIndex": 7,
+            "pageNumber": 8,
+            "route": "/exam/mid_1151_s3"
+          },
+          "exact": true
+        }
+      ]
+    },
+    {
+      "code": "analysis-unit-guide-links",
+      "pass": true,
+      "detail": [
+        {
+          "unitId": "unit-imbalanced-classification",
+          "guideRefCount": 2,
+          "resolverErrors": []
+        },
+        {
+          "unitId": "unit-split-before-fit",
+          "guideRefCount": 1,
+          "resolverErrors": []
+        },
+        {
+          "unitId": "unit-threshold-decision",
+          "guideRefCount": 1,
+          "resolverErrors": []
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "checks": 21,
+    "passed": 21,
+    "failed": 0
+  }
+}
