@@ -7,7 +7,7 @@
  * 那個的正式名稱，舊連結就會指到錯的概念（topic-id-migration.md §9.2 列的情境）。
  *
  * 相容期：維護者於 2026-09-14 裁決「保留一段時間」，到期日 **2026-12-31**（topic-id-migration.md §10.4，
- * 日期只寫在那一節與這裡）。到期後刪掉 `resolveByLegacyName`、讓 `resolveConcept` 只剩 id 那一段，
+ * 權威定義只在那一節與這裡，其他文件是轉述；改期時 grep 該日期找齊）。到期後刪掉 `resolveByLegacyName`、讓 `resolveConcept` 只剩 id 那一段，
  * 並依 §10.4 調整 tests/test_routes.py 與 tests/frontend_checks/concept_lookup_check.cjs 的預期。
  *
  * 這個檔刻意不含 JSX、不 import 任何東西：tests/frontend_checks/concept_lookup_check.cjs 會轉譯後直接執行它。

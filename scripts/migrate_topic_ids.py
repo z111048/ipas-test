@@ -312,8 +312,15 @@ def carries_stable_ids(path: Path) -> bool | None:
     except (OSError, ValueError):
         return False
     if isinstance(data, dict) and isinstance(data.get("assignments"), dict):
-        return all(isinstance(entry.get("topicIds"), list) and len(entry["topicIds"]) == len(entry.get("topics", []))
-                   and all(isinstance(evidence.get("topicId"), str) for evidence in entry.get("evidence", []))
+        def filled(values: Any) -> bool:
+            return isinstance(values, list) and all(isinstance(v, str) and v for v in values)
+
+        return all(filled(entry.get("topicIds")) and len(entry["topicIds"]) == len(entry.get("topics", []))
+                   and ("droppedAsWrong" not in entry
+                        or (filled(entry.get("droppedAsWrongIds"))
+                            and len(entry["droppedAsWrongIds"]) == len(entry["droppedAsWrong"])))
+                   and all(isinstance(evidence.get("topicId"), str) and evidence["topicId"]
+                           for evidence in entry.get("evidence", []))
                    for entry in data["assignments"].values())
     rows = data.get("topics") if isinstance(data, dict) and "topics" in data else data.get("concepts") if isinstance(data, dict) else None
     if not isinstance(rows, list):

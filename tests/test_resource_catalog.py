@@ -448,6 +448,50 @@ class TopicStableIdArtifactTests(unittest.TestCase):
              {"topic": "不在這題上的標籤", "topicId": None, "verdict": "正確"}],
             renamed)
         self.assertEqual(aligned, {"生成式人工智慧": "正確", "評估指標": "過廣"})
+        # 帶 id 但 id 不在這題上：概念 a 曾叫「B」、改名後「B」被概念 b 沿用。
+        # a 的判定不可依名稱誤套給 b（2026-09-19 非作者審查重現）。
+        self.assertEqual(
+            topic_assigner.align_cached(["B"], [{"topic": "B", "topicId": "a", "verdict": "正確"}],
+                                        {"A": "a", "B": "b"}),
+            {})
+
+    def test_reverification_rebuilds_ids_so_a_label_judged_wrong_stays_dropped(self) -> None:
+        """重新驗收：快取把原本保留的標籤改判「錯誤」，寫出的檔案不得把它放回保留名單。
+
+        verify_all 重算 topics／droppedAsWrong 後若留下載入時的舊 id，attach_topic_ids()
+        會依舊 id 把名稱改回驗收前的分類（2026-09-19 非作者審查重現）。
+        """
+        from types import SimpleNamespace
+        a, b = "生成式AI", "評估指標"
+        annotated = {"vocabulary": "x", "assignments": {"p:q1": {
+            "topics": [b], "topicIds": [self.ids[b]],
+            "evidence": [{"topic": a, "topicId": self.ids[a], "verdict": "錯誤"},
+                         {"topic": b, "topicId": self.ids[b], "verdict": "正確"}],
+            "droppedAsWrong": [a], "droppedAsWrongIds": [self.ids[a]]}}}
+        cache = {"format": topic_assigner.CACHE_FORMAT, "kind": "verify", "stableIds": self.stable_ids,
+                 "entries": {"p:q1": [{"topic": a, "topicId": self.ids[a], "verdict": "正確"},
+                                      {"topic": b, "topicId": self.ids[b], "verdict": "錯誤"}]}}
+        with tempfile.TemporaryDirectory() as directory:
+            out = Path(directory) / "question_topics.json"
+            verify_cache = Path(directory) / "_verify_cache.json"
+            out.write_text(json.dumps(annotated, ensure_ascii=False), encoding="utf-8")
+            verify_cache.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
+            args = SimpleNamespace(limit=0, verify_model="reviewer", models="assigner",
+                                   retries=0, timeout=1, max_tokens=1)
+            with patch.object(topic_assigner, "OUT_PATH", out), \
+                    patch.object(topic_assigner, "VERIFY_CACHE", verify_cache), \
+                    patch.object(topic_assigner, "load_env_file", lambda: None), \
+                    patch.object(topic_assigner, "call_gateway",
+                                 lambda *_a, **_k: self.fail("快取已齊全，不該呼叫模型")), \
+                    redirect_stdout(StringIO()):
+                topic_assigner.verify_all(args, {"p:q1": {"reference_answer": "…"}},
+                                          self.ids, self.by_id, self.valid, self.stable_ids)
+            row = load_json(out)["assignments"]["p:q1"]
+        self.assertEqual(row["topics"], [a])
+        self.assertEqual(row["topicIds"], [self.ids[a]])
+        self.assertEqual(row["droppedAsWrong"], [b])
+        self.assertEqual(row["droppedAsWrongIds"], [self.ids[b]])
+        self.assertEqual({ev["topic"]: ev["verdict"] for ev in row["evidence"]}, {a: "正確", b: "錯誤"})
 
     def test_topic_heat_rebuild_is_exact_and_carries_ids(self) -> None:
         committed_path = ROOT / "frontend/src/generated/topicHeat.json"
@@ -555,6 +599,12 @@ class TopicStableIdArtifactTests(unittest.TestCase):
             bare = Path(directory) / "topicHeat.json"
             bare.write_text(json.dumps({"topics": [{"name": "x"}]}), encoding="utf-8")
             self.assertIs(topic_id_migration.carries_stable_ids(bare), False)
+            # topicIds 長度對但內容是 null：不算「帶 id」（2026-09-19 非作者審查重現）
+            nulled = Path(directory) / "question_topics.json"
+            nulled.write_text(json.dumps({"assignments": {"p:q1": {
+                "topics": ["A"], "topicIds": [None],
+                "evidence": [{"topic": "A", "topicId": "topic-00000000"}]}}}), encoding="utf-8")
+            self.assertIs(topic_id_migration.carries_stable_ids(nulled), False)
 
 
 if __name__ == "__main__":

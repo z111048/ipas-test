@@ -673,6 +673,145 @@ sandbox 擋住的驗證請明說「無法驗證」，不要當成通過。
 `tsc --noEmit` 零錯誤），再重跑完整 20 項 gate；沒有再請審查者複審修正本身。若維護者要第二輪，
 建議以 Codex（重新登入後）對 F1／F3／F7 的修正做變異驗證。
 
+## 第二輪（2026-09-19，Codex CLI 補審）：判定 FAIL，三項優先修正 → 已全部修正
+
+維護者 `codex login` 後，以本節末的提示詞改寫版重跑 Codex CLI 0.154.0
+（`codex exec -c 'sandbox_permissions=["disk-full-read-access"]' -s read-only`）。與第一輪的差別：
+本包已隨 commit 32d5a7d 進 main，基準固定為父 commit e35a312；§3 事項 C 已裁決，第 9 項改為驗「裁決落檔一致」；
+第 10 項改為驗兩檔 181 個 id 互相一致。審查者全程未修改 repo、未呼叫模型 API。
+
+審查者報告本文（原文；本機絕對路徑已去除）：
+
+**判定：FAIL，暫不背書 LP-210C 全部完成。** 已提交產物的無損性與 id 一致性通過；但實測發現兩個新邏輯缺陷，以及一個盤點欄位的誤報。
+
+基準為 `e35a312 → 32d5a7d`。全程未修改 repo、未呼叫模型 API。下列 Python 探針皆以 `PYTHONDONTWRITEBYTECODE=1 .venv/bin/python - <<'PY'` 執行；變異資料、寫入攔截及 gateway 替身均在記憶體內。
+
+1. **PASS｜純新增**
+   
+   實跑 Python 拆欄後與 `git show e35a312:<path>` 深度比較：
+   - 兩份標註：565／580 題，相等。
+   - topicHeat：179 列，相等。
+   - conceptGraph：178 概念，排除指定欄位及舊 `generatedAt` 後相等。
+   
+   `git diff --numstat e35a312 HEAD -- data/topics/{question_topics,practice_question_topics}.json`：分別 **3409／2985 插入，均 0 刪除**。
+
+2. **PASS｜id 一致**
+   
+   Python 逐筆檢查 `topics ↔ topicIds`、`evidence`、`droppedAsWrongIds`、熱度列、概念及 related：全部等於詞彙表同名 id，無 null。兩份 evidence 共 **1105／880 筆**。
+
+3. **PASS｜快取無損**
+   
+   實跑 `legacy_cache_view()`，再以 `json.dumps(..., ensure_ascii=False).encode()` 與備份 bytes 比較：三份全部相同，分別 **590／558／580 個鍵**。另實算備份 SHA256，**7/7 符合 SHA256SUMS**。
+   
+   唯一 null 是 assign 快取的「應用場景評估」；確認它在標註檔頂層 `rejectedTopics`。
+
+4. **WARN｜可重建**
+   
+   命令：
+   `PYTHONDONTWRITEBYTECODE=1 .venv/bin/python tests/test_resource_catalog.py TopicStableIdArtifactTests -v`
+   
+   結果：**9 tests，7 errors**，錯誤是 `No usable temporary directory found`，不能當通過。
+   
+   另直接執行兩支 exporter 的 `main()`，只攔截 `Path.write_text`：產出的 UTF-8 bytes 均與 committed 相同，大小 **156523／1023503 bytes**。這證明記憶體重建相同；**實際落盤重建無法驗證**。
+
+5. **PASS｜指定 fail-closed 情境**
+   
+   記憶體變異實跑確認：
+   - 未知標註名稱：`attach_topic_ids` → SystemExit。
+   - evidence 缺 id／id 不匹配：`correct_labels` → SystemExit，含 `--backfill-ids`。
+   - 詞彙表刪掉一個 id：assign、heat、graph 均拒絕。
+   - cache kind 錯誤：SystemExit。
+   - 分別注入標註／快取轉換損失：`backfill_ids` 拒絕，寫入 mock 未被呼叫。
+   
+   背書範圍是上述分支；不是所有損壞輸入。
+
+6. **FAIL｜改名與快取對齊**
+   
+   舊名稱帶 id → 新名稱，以及無 id 的 `評估 指標` → `評估指標`，均實測通過。
+   
+   但以下探針重現錯配：
+   ```python
+   align_cached(
+       ['B'],
+       [{'topic': 'B', 'topicId': 'a', 'verdict': '正確'}],
+       {'A': 'a', 'B': 'b'},
+   )
+   # 實際：{'B': '正確'}；應為 {}
+   ```
+   當概念 a 曾叫 B、改名後 B 被另一概念使用，a 已不屬於本題，仍會把 a 的判定套給 b。與「只有沒有 id 才 normalise」的宣稱不符。
+
+7. **WARN｜既有破壞性行為修正**
+   
+   實際載入 `git show e35a312:scripts/assign_question_topics.py` 並執行新舊 `verify_all`，攔截 IO：
+   - 舊版：本輪外題目變成 `{}`；批內原有 A 判定消失，只剩新回覆 B。
+   - 新版：保留外題判定；批內 A、B 均保留並完成。
+   
+   **這部分修正成立。** 但原宣稱的 `--limit` 觸發方式不成立：實測舊版先 `KeyError 'q2'`，新版明確 SystemExit；§10.3 已更正此敘述。
+   
+   另發現重新驗收的新缺陷，見下方優先修正 1。
+
+8. **WARN｜前端相容層**
+   
+   `node tests/frontend_checks/concept_lookup_check.cjs`：**11 條全部通過**。
+   
+   讀碼確認解析順序、`replace`、找不到概念、effect 停止條件、3D id／name 分工與熱度 key 均符合要求。本包 UI 原始文案未找到 AI／模型字眼。
+   
+   `node frontend/node_modules/typescript/bin/tsc -p frontend/tsconfig.app.json --noEmit`：**exit 0**。
+   
+   但 `rg` 全前端仍找到 [LearningAnalysisPage.tsx:35](frontend/src/features/learning/LearningAnalysisPage.tsx:35) 用 `${row.scopeKey}:${row.topic.name}` 當 key。這是**範圍外殘留**，不能聲稱全前端已無名稱 key。未開瀏覽器。
+
+9. **WARN｜裁決落檔**
+   
+   `rg` 加上 tracked 檔案內容掃描：日期只出現在指定三個檔案，均為 **2026-12-31**，未找到第四個檔案。當前相容行為符合過渡期要求。
+   
+   文件卻仍寫「日期只寫在本節與 conceptLookup.ts，改這兩處」，與 handoff 及同文件其他段落的實際重複不符。另 §10.4 說到期日由作者選定；單憑 repo **無法證明維護者親自核定具體日期**。
+
+10. **PASS｜可觀測的範圍紀律**
+    
+    Python 實測詞彙表與帳本：**181 個 id 一一相同、無重複、格式符合 `topic-<8 hex>`**，與 §9 記載一致。
+    
+    `git diff --name-only e35a312 HEAD -- '*Glossary*' '*glossary*' '*current.json'` 無輸出。
+    
+    LP-210B／C 合併在同一 commit，無法再用 Git 證明兩包之間的中間 id 歷史；未把 B 的新增誤判為 C 改號。
+
+**我無法驗證的部分**
+
+- sandbox 禁止暫存寫入：現有測試完整通過、實際 exporter 落盤及原子替換無法驗證。
+- 未執行 Vite production build、瀏覽器路由及完整 20 項 gate；只背書上述 TypeScript、解析器及記憶體測試。
+- 審查期間外部修改了 `.github/workflows/deploy.yml` 與解析器測試的一行註解。已確認**本次列定審查檔案仍與 HEAD 相同**；不背書整個工作樹持續乾淨。
+
+**優先修正**
+
+1. **P1：重新驗收會讓舊 id 撤銷新分類。**  
+   [assign_question_topics.py:624](scripts/assign_question_topics.py:624)
+   
+   實測 fixture：原本保留 B、排除 A；快取改判 B「錯誤」。新版輸出仍是 `topics=['B']`、`droppedAsWrong=['A']`，但 evidence 明載 B「錯誤」。原因是更新名稱陣列後留下舊 id，最後 `attach_topic_ids()` 又依舊 id 改回名稱。應在分類變動時同步重建對應 id，並加入重新驗收回歸測試。舊版已有把未評 A 保留的問題；**新版額外把已判錯的 B 放回保留名單**。
+
+2. **P1：有 id 的快取錯誤退回名稱匹配。**  
+   [assign_question_topics.py:257](scripts/assign_question_topics.py:257)
+   
+   第 6 項的一行探針可重現。應明確區分「沒有 id」與「id 不屬於本題」；後者不可用同名概念接收判定。
+
+3. **P2：`carriesStableIds` 對 null 誤報 true。**  
+   [migrate_topic_ids.py:314](scripts/migrate_topic_ids.py:314)
+   
+   實測 `topics=['A']、topicIds=[None]`，搭配合法 evidence id，回傳 **True**。目前只查列表長度，應至少逐個確認非空字串；這是盤點誤報，現有四份產物未受影響。
+
+**有沒有引入新缺陷：有。** 上述三項均由本次實跑重現；另有相容期限「只需改兩處」的文件宣稱不一致。現有 committed 產物通過比對，不能排除後續重新驗收或概念改名時出錯。
+
+### 優先修正（審查者列）與作者的處置
+
+| 編號 | 審查者發現 | 作者處置 |
+|---|---|---|
+| P1-1 | `verify_all` 重算 `topics`／`droppedAsWrong` 後留著載入時的舊 `topicIds`／`droppedAsWrongIds`，最後 `attach_topic_ids()` 依舊 id 把名稱改回驗收前的分類——已判「錯誤」的標籤回到保留名單 | 已修：重算名稱時同步重算兩個 id 陣列並清掉過期的 `droppedAsWrong*`。另修同處的既有問題：受評名單改為 evidence 的全部標籤（原本只評 `topics`，已驗收檔案上次判錯的標籤對不到快取而變「未評」→ 回到保留名單）。加測 `test_reverification_rebuilds_ids_so_a_label_judged_wrong_stays_dropped`（假 gateway，快取齊全時不得呼叫模型） |
+| P1-2 | `align_cached` 帶 id 但 id 不在本題的紀錄退回名稱比對：概念 a 曾叫 B、改名後 B 被概念 b 沿用，a 的判定誤套給 b | 已修：有 `topicId` 只走 id；沒有才走 normalise。加測審查者的一行探針 |
+| P2-3 | `carries_stable_ids` 對 `topicIds=[None]` 回 True（只查長度） | 已修：逐元素非空字串，`droppedAsWrongIds` 同規則。加測 |
+| WARN-9 | 文件宣稱「日期只寫在兩處」與實際不符 | 已改為「權威定義在 §10.4 與 `conceptLookup.ts`，其他文件是轉述，改期 grep 找齊」（三處措辭同步） |
+| WARN-8 | `LearningAnalysisPage.tsx` 用 `topic.name` 當 React key | 範圍外（學習平台 analysis 的 `measures[].topic` 契約是 `{name, vocabularyHash}`，沒有 id 可用）；同 scopeKey 內名稱唯一，且只做 key 不做選取。留待學習平台契約補 id 時一併改 |
+
+審查者列為「無法驗證」的：sandbox 無可寫暫存目錄（7 個測例 error、實際落盤重建）、Vite build、瀏覽器路由、完整 20 項 gate——
+由作者在修正後另行實跑（結果記於 `topic-id-migration.md` §10.7）。
+
 ### 審查提示詞（全文，Codex 與替代 agent 共用；agent 版只多了「不得跑 build／E2E、報告寫到 scratchpad」的限制）
 
 ```text

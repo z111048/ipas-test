@@ -247,14 +247,21 @@ def legacy_cache_view(kind: str, data: Any) -> Any:
 def align_cached(topics: list[str], records: list[dict[str, Any]], ids: dict[str, str]) -> dict[str, str]:
     """驗收快取紀錄 → {這題目前的正式名稱: 判定}。
 
-    id 優先：概念改名後名稱對不上，id 還在，判定就跟著搬到新名稱；沒有 id 的舊紀錄
+    id 優先：概念改名後名稱對不上，id 還在，判定就跟著搬到新名稱；**只有**沒有 id 的舊紀錄
     才退回 normalise 比對。對不到這題任何現有標籤的紀錄丟掉（那個標籤已不在這題上）。
+
+    帶 id 但 id 不在這題上的紀錄**不可**退回名稱比對：概念 a 曾叫 B、改名後 B 被另一個
+    概念 b 沿用時，a 的判定會被誤套到 b（2026-09-19 非作者審查重現）。
     """
     by_topic_id = {ids[t]: t for t in topics}
     by_norm = {normalise(t): t for t in topics}
     aligned: dict[str, str] = {}
     for record in records:
-        canonical = by_topic_id.get(record.get('topicId')) or by_norm.get(normalise(record['topic']))
+        identity = record.get('topicId')
+        if identity:
+            canonical = by_topic_id.get(identity)
+        else:
+            canonical = by_norm.get(normalise(record['topic']))
         if canonical:
             aligned[canonical] = record['verdict']
     return aligned
@@ -513,8 +520,10 @@ def verify_all(args, questions: dict[str, dict], ids: dict[str, str], by_id: dic
     if missing_questions:
         raise SystemExit(f'FAIL 標註檔有 {len(missing_questions)} 題不在目前的題目集合裡（例如 {missing_questions[0]}），'
                          '--source 是否選對？')
+    # 要評的是 evidence 的全部標籤，不是 topics：已驗收過的檔案 topics 只剩保留的，
+    # 用它當受評名單會讓上次判「錯誤」的標籤對不到快取而變成「未評」——然後回到保留名單。
     items = [(k, str(questions[k].get('reference_answer') or '')[:260],
-              data['assignments'][k]['topics']) for k in keys]
+              [ev['topic'] for ev in data['assignments'][k]['evidence']]) for k in keys]
     print(f'全量驗收 {len(items)} 題')
 
     load_env_file()
@@ -608,9 +617,16 @@ def verify_all(args, questions: dict[str, dict], ids: dict[str, str], by_id: dic
             evidence['verdict'] = verdict
             tally[verdict] += 1
             (dropped if verdict == '錯誤' else kept).append(evidence['topic'])
+        # 名稱陣列重算後，載入時帶進來的 topicIds／droppedAsWrongIds 已經過期；留著它們，
+        # 最後 attach_topic_ids() 會依舊 id 把名稱改回驗收前的分類（已判錯的標籤回到保留名單）。
+        # 這裡一併重算，evidence[].topicId 不動（名稱沒變）。
         entry['topics'] = kept
+        entry['topicIds'] = [ids[name] for name in kept]
+        entry.pop('droppedAsWrong', None)
+        entry.pop('droppedAsWrongIds', None)
         if dropped:
             entry['droppedAsWrong'] = dropped
+            entry['droppedAsWrongIds'] = [ids[name] for name in dropped]
     total = sum(tally.values())
     empty = [k for k in keys if not data['assignments'][k]['topics']]
     data.update({

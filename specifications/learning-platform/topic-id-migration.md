@@ -513,10 +513,11 @@ LP-210B 之後，SSOT 與 authored 引用都有 id，但**下游全部還是以�
 
 目前 181 筆帳本的 `previousNames` 全部為空，真實資料走不到第三段；`tests/test_learning_frontend_static.py`
 因此呼叫 `tests/frontend_checks/concept_lookup_check.cjs`——用 frontend 自己的 typescript 套件轉譯 `conceptLookup.ts`
-後執行（CI 是 Node 20，不能靠 Node 22 的原生 TS），以人造 fixture 驗三段順序、互換名字與空值（非作者審查 F4）。
+後執行（不綁 CI 的 Node 版本，不靠原生 TS type stripping），以人造 fixture 驗三段順序、互換名字與空值（非作者審查 F4）。
 
 **§3 未決事項 C 已裁決（2026-09-14，維護者）：只保留一段過渡期。** 維護者沒有指定長度，作者取 **2026-12-31**
-為到期日（約三個半月，跨過 12 月的考期），日期只寫在本節與 `frontend/src/data/conceptLookup.ts` 的註解，要改只改這兩處。
+為到期日（約三個半月，跨過 12 月的考期），到期日的權威定義在本節與 `frontend/src/data/conceptLookup.ts` 的註解；其他文件（本文 §1、§11、`claude-code-handoff.md`）
+只是轉述。改期時以 `grep -rn 2026-12-31 specifications frontend/src` 找齊所有出現處一併更新，不要只改兩處。
 
 到期後的移除步驟（一次做完，跑完整 gate）：
 
@@ -570,9 +571,16 @@ Codex CLI 當日因登入 token 失效無法使用；改派沒有實作脈絡的
 F3 舊名解析優先序）與 5 項補強（F4–F8）全部已修並加測例；沒有第二輪。報告全文、對照表與委派範圍在
 `content/learning/evidence/topic-id-migration-review.md`（LP-210C 節）與 `lp210c-review-delegation-20260914.md`。
 
+**第二輪（2026-09-19，Codex CLI 補審，基準 e35a312 → 32d5a7d）：判定 FAIL，三項優先修正全部已修。**
+P1-1 `verify_all` 重算分類後留著舊 id，`attach_topic_ids()` 依舊 id 把已判錯的標籤改回保留名單；
+P1-2 `align_cached` 對「帶 id 但 id 不在本題」的紀錄退回名稱比對；P2-3 `carries_stable_ids` 對 `[None]` 誤報 True。
+修法與新增測例見 evidence 檔第二輪的處置表；同處順手修了重新驗收只評 `topics` 不評 evidence 全部標籤的既有問題。
+審查者的 sandbox 無可寫暫存目錄，測例落盤與完整 gate 由作者修正後實跑：
+`TopicStableIdArtifactTests` 10/10、`npm run build` 零 TS 錯誤、`tests/run_all.py` 見同日 commit 說明。
+
 ### 10.8 下一步
 
 1. **§3 未決事項 C 已裁決為過渡期，到期日 2026-12-31**：到期後依 §10.4 的四步移除 name fallback。
 2. **英文 slug**（可選）：填帳本的 `slug` 欄位，純增補。
 3. **既有問題（非本包）**：`guide()`／`question()`／`catalog()` 的快取版本問題（§5）。
-4. **可選**：維護者 `codex login` 後補一輪 Codex 審查，對 F1／F3／F7 的修正做變異驗證。
+4. ~~可選：維護者 `codex login` 後補一輪 Codex 審查~~ 已於 2026-09-19 完成（§10.7 第二輪）。

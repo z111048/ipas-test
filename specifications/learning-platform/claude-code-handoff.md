@@ -51,7 +51,8 @@ git diff --stat
   `content/`、`data/topics/`、`schemas/`、`scripts/`、`tests/`、`frontend/src/` 檔（含三個 gitignored 快取），跑完 `sha256sum -c`
   全部相符。同日稍早與審查 agent 併行的一次是 18/20（兩支學習 E2E 在 CPU 競爭下逾時），不當證據。
   四份 tracked 衍生產物的改動對 HEAD 是純新增（6,394＋184＋1,158 行插入、只刪 `generatedAt`），三個快取轉回 v1 與原檔逐字相等。
-  非作者審查改由 opus 子代理進行（Codex 登入失效），10 項 9 PASS、全部修正已加測例；報告與委派紀錄在
+  非作者審查第一輪由 opus 子代理進行（Codex 登入失效），10 項 9 PASS；第二輪 2026-09-19 由 Codex CLI 補審（基準 e35a312→32d5a7d）
+  判 FAIL、3 項優先修正（重新驗收會把已判錯標籤放回保留名單等）全部已修並加測例；報告與委派紀錄在
   [`topic-id-migration-review.md`](../../content/learning/evidence/topic-id-migration-review.md) LP-210C 節與
   [`lp210c-review-delegation-20260914.md`](../../content/learning/evidence/lp210c-review-delegation-20260914.md)，
   差異證據在 [`lp210c-derived-artifacts-20260914.md`](../../content/learning/evidence/lp210c-derived-artifacts-20260914.md)。
@@ -139,13 +140,14 @@ uv run --group learning-lab python scripts/verify_learning_labs.py --lab lab-imb
   `previousNames` 目前全空，第三段只靠 `tests/frontend_checks/concept_lookup_check.cjs`（轉譯後執行，掛在 gate 第 12 項）的 fixture 驗。
 - 非作者審查：Codex CLI 當日登入 token 失效（401）無法用，改派沒有實作脈絡的 opus 子代理唯讀審查，10 項宣稱 9 PASS，
   3 項優先修正＋5 項補強**全部已修並加測例**（對照表與報告全文在
-  [`topic-id-migration-review.md`](../../content/learning/evidence/topic-id-migration-review.md) LP-210C 節）。沒有第二輪。
+  [`topic-id-migration-review.md`](../../content/learning/evidence/topic-id-migration-review.md) LP-210C 節）。
+  第二輪 Codex 補審（2026-09-19）判 FAIL，發現 `verify_all`／`align_cached`／`carries_stable_ids` 三個邏輯缺陷，已全部修正加測（同檔第二輪節、`topic-id-migration.md` §10.7）。
 - 概念改名後的重跑順序固定為：重建詞彙表 → `--backfill-ids`（兩份）→ `export_topic_heat` → `export_concept_graph`；
   少跑回填 graph 會拒絕建圖，不會靜默用舊名。
 - 沒有動 `topics.json`、帳本、任何 id、`content/learning/**`、review、glossary、production `current.json`；沒有呼叫 API。
 
-**C 已裁決為過渡期**（維護者：「保留一段時間即可」；到期日由作者定為 2026-12-31，只寫在 §10.4 與
-`conceptLookup.ts` 註解兩處）。到期後依 §10.4 的四步移除 name fallback，到期前行為等同永久接受。
+**C 已裁決為過渡期**（維護者：「保留一段時間即可」；到期日由作者定為 2026-12-31，權威定義在 §10.4 與
+`conceptLookup.ts` 註解，本檔與 §1／§11 只是轉述；改期時 grep 該日期找齊）。到期後依 §10.4 的四步移除 name fallback，到期前行為等同永久接受。
 
 ## LP-210B（2026-09-09 已實作）：遷移完成
 
