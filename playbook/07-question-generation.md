@@ -299,3 +299,36 @@ python3 scripts/export_generated_questions.py --run-dir data/中級/pipeline/reg
 `glm-5.2`／`deepseek-v4-pro`／`kimi-k2.7-code` 都在），411 題的答案交叉驗證就是靠它跑的。
 ⚠️ `.env` 另有 `ANTHROPIC_API_KEY`／`GEMINI_API_KEY`，兩者都非空但**這一輪沒有實測**
 ——舊 session 說它們「是假的」，那個結論沒有重驗過，要用之前先自己測一次。
+
+## §7 待接：中級 115 年第一次三科題解（2026-09-20 交接）
+
+**現況**：`frontend/src/generated/examReferenceAnswers/` 有 11 份（初級 6 卷＋中級 114 年 3 卷＋兩份樣題，
+共 565 題）。中級 115 年第一次三科（`mid_1151_s1/s2/s3`，各 50 題，2026-06-16 commit 233f5dc 上線）
+**只有題目與官方答案，沒有 Codex 題解**；`referenceAnswerLoaders.ts` 依 catalog `routeKey` 找檔，找不到就靜默不顯示。
+`data/中級/pipeline/exam_reference_answers/` 只有 `mid_1141_*`、`sample`（gitignored，機器上還在）。
+
+**要做的事（順序固定，全部走既有腳本，不要另寫）**：
+
+1. 產題解：`python3 scripts/run_codex_exam_reference_answers.py --level 中級 --exam mid_1151_s1 --run`
+   （s2、s3 同）。先不帶 `--run` 看 prompts 是否對到 v2 canonical qid（`pipeline-reference.md` §4 的指紋契約）。
+   codex CLI 需已登入；每題一次 `codex exec`、實測每次約 100 秒 → 150 題約 4–5 小時，可三科平行跑。
+   跑完看 `summary.json` 與 `outputs/*.err`，補跑失敗題（`--question-id`）。
+   s2 有 9 題、s3 有 10 題帶圖（程式碼截圖已在 233f5dc 做成 Markdown 對照，題幹裡就有），
+   `mid_1151_s3_q46/q47` 的「描述A~F」清單在 PDF 是圖片、文字救不回（`pipeline-reference.md` §1 註記）——
+   這幾題的題解要人工看一眼。
+2. 發佈：`python3 scripts/export_exam_reference_answers.py --level 中級` → 三個新 JSON ＋ `stats.json`。
+   exporter 要求發布 inventory 與 production 完全相等，不得手動塞檔。
+3. 概念標註（gate 會擋，不可省）：`test_every_reference_answer_has_a_signed_off_topic` 要求
+   `data/topics/question_topics.json` 覆蓋**每一題**題解，`questionCount` 寫死 565（`tests/test_resource_catalog.py:138`），
+   做完要改成 715。依 `pipeline-reference.md` §5b 的官方考卷路徑：
+   `assign_question_topics.py --source exam --models glm-5.2` → `--verify-all --verify-model qwen3.5:397b`
+   （2026-09-19 才修好重新驗收把已判錯標籤放回保留名單的 bug，見 `topic-id-migration.md` §10.7；
+   快取齊全的題不會再花 API）→ `--backfill-ids` → `export_topic_heat.py` → `export_concept_graph.py`。
+   新題只能標到 `topics.json` 現有 181 個概念；模型自創的名稱會進 `rejectedTopics`，不得為此擴詞彙表
+   （詞彙表 signed-off，改動走 `08-topic-labeling.md` §5 的流程）。
+4. 驗收：`cd frontend && npm run build`、`verify_data_alignment.py --level 中級`、`uv run python tests/run_all.py` 20 項；
+   `audit_resources.py` 的 `referenceAnswers` 項會核對題號對得上。
+5. 一個 commit：`exam: add Codex reference answers for 中級 115年第一次三科`，說明題數與 topic 覆蓋數。
+
+**不要做的**：不重跑 OCR／`parse_exams_v2`（考題資產鍵改名會讓圖片掛載靜默失效，見 memory
+`project_exam_asset_key_rename`）；不改 `mock_mid_1151_*.json` 題幹；不動 `topics.json` 的 id。

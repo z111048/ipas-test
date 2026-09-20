@@ -34,7 +34,7 @@ PDF→MD 解析品質直接決定出題品質，前處理正確性優先於一�
 | **跑測試／驗收**：20 項驗收、端對端測試怎麼寫 | `tests/README.md` |
 | 本 harness 的已知弱點與環境備忘 | `playbook/00-diagnosis.md`、`playbook/05-letter.md` |
 | 學習指引 OCR 校正的現況與待接工作 | `playbook/06-guide-ocr-recalibration.md`（2026-08-30：A 169＋3＋3／B 78／考題 14 份 715 題已收斂） |
-| **小節粒度出題（進行中）**：codex CLI 出題、答案交叉驗證 | `playbook/07-question-generation.md` |
+| **小節粒度出題**：codex CLI 出題、答案交叉驗證；**擴充新考卷題解（待接：中級 115 第一次三科）** | `playbook/07-question-generation.md`（題解看 §7） |
 | **考古題熱度／概念標籤／心智圖**：`/mindmap`、受控詞彙表草稿 | `playbook/08-topic-labeling.md` |
 
 `AGENTS.md` 是給 Codex CLI 的，內容較舊；與 playbook 衝突時以 playbook 為準。
