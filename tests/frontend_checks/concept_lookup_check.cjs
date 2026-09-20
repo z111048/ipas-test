@@ -1,7 +1,7 @@
 // /concepts?c= 解析順序檢查（LP-210C）。由 tests/test_learning_frontend_static.py 呼叫。
 //
 // 用 frontend 自己的 typescript 套件把 frontend/src/data/conceptLookup.ts 轉譯後載入，
-// 不依賴 Node 22 的原生 TS 執行——CI（deploy.yml）用的是 Node 20。
+// 不依賴 Node 的原生 TS 執行（type stripping），避免綁死 CI（deploy.yml）的 Node 版本。
 // 驗三段順序 id → 目前正式名稱 → previousNames，尤其是「兩個概念互換名字」：
 // 真實資料的 previousNames 目前全空，只有這裡走得到第三段。
 const fs = require('node:fs')
