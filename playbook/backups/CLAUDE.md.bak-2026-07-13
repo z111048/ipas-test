@@ -178,7 +178,7 @@ Frontend dependencies: run `cd frontend && npm install` after cloning (requires 
 - **概念圖卡 page** (`frontend/src/pages/VisualCardsPage.tsx`, route `/visuals`): card-style browser for all generated guide infographics from `guideImages.json`, grouped by chapter with level/subject/chapter filters, keyword search, and incremental "載入更多章節" paging (少量多餐). The 727-image `guideImages.json` is route-lazy so it does not bloat the homepage bundle. Linked from the sidebar top nav and homepage hero. Opening a card lazy-loads the chapter's `guideContent/{level}-{guideKey}/{sourceNodeId}.json` and slices out only the markdown section whose heading matches the card title (`extractSection`, ~97% hit rate; falls back to a short chapter intro), rendered with ReactMarkdown for bite-sized reading plus a "前往完整章節" link. Mobile: cards are centered (`justify-items-center` + `max-w-sm`) and all text uses `break-words`/`line-clamp` to avoid overflow.
 - **使用者文案不得透露 AI 生成（商品化）**: user-facing copy must not reveal that materials/questions are AI-generated. Internal variable names, route keys, and data keys (e.g. `codex100`, `summary.ai`) may stay; only neutralise visible labels. Established naming: 「AI 模擬章節練習題／AI 舊版練習」→「章節練習／章節模擬練習題」; 「Codex 100 題」→「精選 100 題」; AI 生成的教材資訊圖對外稱「概念圖卡」. Legitimate domain terms「AI 應用規劃師」(exam name) and「生成式 AI」(syllabus topic) are fine.
 
-**Note:** All scripts use hardcoded absolute `BASE = Path('/home/james/projects/ipas-test')`. Update `BASE` if moving the repo. All other paths are derived from `BASE / 'data' / level`.
+**Note:** All scripts use hardcoded absolute `BASE = Path('/Users/james/projects/ipas-test')`. Update `BASE` if moving the repo. All other paths are derived from `BASE / 'data' / level`.
 
 ## Output Files (Extended)
 

@@ -114,7 +114,7 @@ ASCII 的兩組確實是：
 1. **尾端換行 ID 被接受，且 resolver 與 inventory 判斷不同。**  
    詞彙表與 ref 同用 `"topic-a\n"`，schema issues 為 `[]`，resolver 成功解析；inventory 卻列為 invalid。原因是 schema 的 `$` 可匹配最末換行之前，而 CLI 使用 `re.fullmatch()`。
 
-   證據：[common.schema.json:7](/home/james/projects/ipas-test/schemas/learning/common.schema.json:7)、[references.py:184](/home/james/projects/ipas-test/scripts/learning/references.py:184)、[migrate_topic_ids.py:127](/home/james/projects/ipas-test/scripts/migrate_topic_ids.py:127)。
+   證據：[common.schema.json:7](/Users/james/projects/ipas-test/schemas/learning/common.schema.json:7)、[references.py:184](/Users/james/projects/ipas-test/scripts/learning/references.py:184)、[migrate_topic_ids.py:127](/Users/james/projects/ipas-test/scripts/migrate_topic_ids.py:127)。
 
 2. **索引與 hash 可以指向不同版本。**  
    用 mock 模擬同一路徑先讀 A、後讀 B，未寫檔：
@@ -123,7 +123,7 @@ ASCII 的兩組確實是：
    - 詞彙表換成 `A / topic-b`，同一 resolver 仍接受舊 ref。
    - 再呼叫公開的 `read_bytes()` 更新 hash，竟接受 **`topic-a / hash(B)`**，回傳舊索引。
 
-   `_topic_index` 提前返回，`_json_cache` 亦不失效，但 `input_hashes` 可獨立更新。這超出單純「固定讀取快照」的行為。證據：[references.py:112](/home/james/projects/ipas-test/scripts/learning/references.py:112)、`:122–131、172–173、198–208`。既有 stale 測試每次建立新 resolver（`test_learning_references.py:98–104`），驗不到此問題。
+   `_topic_index` 提前返回，`_json_cache` 亦不失效，但 `input_hashes` 可獨立更新。這超出單純「固定讀取快照」的行為。證據：[references.py:112](/Users/james/projects/ipas-test/scripts/learning/references.py:112)、`:122–131、172–173、198–208`。既有 stale 測試每次建立新 resolver（`test_learning_references.py:98–104`），驗不到此問題。
 
 3. **來源形狀錯誤不是完整的結構化拒絕。**  
    實跑 `topics=null` 得 TypeError；`topics="abc"`、`topics=[null]` 得 AttributeError。`_unique()` 直接呼叫 `item.get()`（`:74–80`），外層 `validate()` 沒捕捉 AttributeError（`:430–436`）。這些沒有錯誤放行，但會崩潰。直接傳 list／dict 型 ref ID 也會 TypeError；正常 schema-first 入口則會先擋住。
@@ -227,20 +227,20 @@ ASCII 的兩組確實是：
 
 | 項目 | 判定 | 獨立驗證結果與證據 |
 |---|---|---|
-| 1. 尾端換行 id | **OK** | `"topic-a\n"` 被 resolver 判為 `invalid_topic_id`，盤點列入 `invalidStableIds` 且 `blocking=true`。兩邊確實使用 schema pattern 的 `fullmatch`。[references.py:91](/home/james/projects/ipas-test/scripts/learning/references.py:91)、[migrate_topic_ids.py:138](/home/james/projects/ipas-test/scripts/migrate_topic_ids.py:138)。但「所有 id 判定一致」的延伸宣稱不成立，見下文。 |
-| 2. 索引與 hash 版本錯配 | **FAIL** | 原測例的「先建索引，再更新 bytes」已修好；**先 `read_json()`、再更新 bytes、最後才建索引仍錯配**。實跑接受新版 hash 搭配已不存在的舊 id。原因是 cached JSON 與可更新的 `input_hashes` 仍分開取得。[references.py:138](/home/james/projects/ipas-test/scripts/learning/references.py:138)、[references.py:190](/home/james/projects/ipas-test/scripts/learning/references.py:190)。 |
-| 3. canonical name 同時為自己及別人的 alias | **OK** | 指定反例實跑得到 `[{"name":"A","aliasOf":["B"]}]`，不再漏報。[migrate_topic_ids.py:152](/home/james/projects/ipas-test/scripts/migrate_topic_ids.py:152)。但沒有有效回歸測試覆蓋，見下文。 |
-| 4. authored 假 id／錯配 id | **FAIL（部分修正）** | 複製真實詞彙表至 `/tmp` 後，自造假 id 得到 `unknown`，借用另一 topic 的 id 得到 `name_mismatch`；兩者均 blocking。**但 `"id": null` 被當成欄位缺席**，回報 `stableIdState=absent`、`unresolvedStableIds=0`、`blocking=false`。這是存在但不合法的 id。[migrate_topic_ids.py:237](/home/james/projects/ipas-test/scripts/migrate_topic_ids.py:237)。 |
-| 5. approved 與 curated 碰撞 | **WARN** | 四筆 `approved` 確實都是 `false`；大小寫碰撞 fixture 實算得到 `covered=2, collisions=1`。移除 `approved` 的記憶體變異會使測試出錯，證明斷言有效；但把 curated 碰撞改回常數 `0`，19 個 references 測試仍全過。[tests:168](/home/james/projects/ipas-test/tests/test_learning_references.py:168)、[migrate_topic_ids.py:200](/home/james/projects/ipas-test/scripts/migrate_topic_ids.py:200)。 |
-| 6. `--report` 覆寫 repo | **OK** | 實際執行 `--dry-run --report data/topics/topics.json`，以及 `--report /home/james/projects/ipas-test/specifications/learning-platform/topic-id-migration.md`；均 **exit 2**，目標檔案 bytes 與 mtime 均未改變。[migrate_topic_ids.py:350](/home/james/projects/ipas-test/scripts/migrate_topic_ids.py:350)。 |
-| 7. 遞迴掃描 | **OK** | 現況實掃 **25 檔**。另在外部最小樹建立 `scripts/nested/deeper/reader.py`，內容含 `topics.json`，確實被掃到；在 generated、fixtures、node_modules、`__pycache__` 放相同內容則均排除。這證明遞迴行為有效；不是只相信檔案總數。[migrate_topic_ids.py:264](/home/james/projects/ipas-test/scripts/migrate_topic_ids.py:264)。 |
-| 8. consumer 文件補正 | **OK** | `QuestionModal` 確實只在註解提 conceptGraph，實際以題目 id 查找；文件已補 assessment mapping 與兩類名稱型快取。[QuestionModal.tsx:24](/home/james/projects/ipas-test/frontend/src/components/concepts/QuestionModal.tsx:24)、[assessment.py:262](/home/james/projects/ipas-test/scripts/learning/assessment.py:262)、[文件:87](/home/james/projects/ipas-test/specifications/learning-platform/topic-id-migration.md:87)。 |
-| 9. LP-210B 原子包 | **OK** | 外部複製樹中，現有 **12/12 refs 可解析**；寫入一個 id 後全部變成 `stale_vocabulary`。保持正文不變、只更新 ref hash，也實測改變 unit `contentHash`；review 會比對 subject hash 與 dependency hashes。因此 §7 的因果鏈正確。[文件:230](/home/james/projects/ipas-test/specifications/learning-platform/topic-id-migration.md:230)、[publication.py:154](/home/james/projects/ipas-test/scripts/learning/publication.py:154)。 |
-| 10. redirects 契約與大小寫孿生 | **OK** | §3 已明列 redirects 必須放同一 SSOT；casefold 重複會使 resolver 整份拒絕，相關負向測試實跑通過。[文件:137](/home/james/projects/ipas-test/specifications/learning-platform/topic-id-migration.md:137)、[references.py:201](/home/james/projects/ipas-test/scripts/learning/references.py:201)。 |
+| 1. 尾端換行 id | **OK** | `"topic-a\n"` 被 resolver 判為 `invalid_topic_id`，盤點列入 `invalidStableIds` 且 `blocking=true`。兩邊確實使用 schema pattern 的 `fullmatch`。[references.py:91](/Users/james/projects/ipas-test/scripts/learning/references.py:91)、[migrate_topic_ids.py:138](/Users/james/projects/ipas-test/scripts/migrate_topic_ids.py:138)。但「所有 id 判定一致」的延伸宣稱不成立，見下文。 |
+| 2. 索引與 hash 版本錯配 | **FAIL** | 原測例的「先建索引，再更新 bytes」已修好；**先 `read_json()`、再更新 bytes、最後才建索引仍錯配**。實跑接受新版 hash 搭配已不存在的舊 id。原因是 cached JSON 與可更新的 `input_hashes` 仍分開取得。[references.py:138](/Users/james/projects/ipas-test/scripts/learning/references.py:138)、[references.py:190](/Users/james/projects/ipas-test/scripts/learning/references.py:190)。 |
+| 3. canonical name 同時為自己及別人的 alias | **OK** | 指定反例實跑得到 `[{"name":"A","aliasOf":["B"]}]`，不再漏報。[migrate_topic_ids.py:152](/Users/james/projects/ipas-test/scripts/migrate_topic_ids.py:152)。但沒有有效回歸測試覆蓋，見下文。 |
+| 4. authored 假 id／錯配 id | **FAIL（部分修正）** | 複製真實詞彙表至 `/tmp` 後，自造假 id 得到 `unknown`，借用另一 topic 的 id 得到 `name_mismatch`；兩者均 blocking。**但 `"id": null` 被當成欄位缺席**，回報 `stableIdState=absent`、`unresolvedStableIds=0`、`blocking=false`。這是存在但不合法的 id。[migrate_topic_ids.py:237](/Users/james/projects/ipas-test/scripts/migrate_topic_ids.py:237)。 |
+| 5. approved 與 curated 碰撞 | **WARN** | 四筆 `approved` 確實都是 `false`；大小寫碰撞 fixture 實算得到 `covered=2, collisions=1`。移除 `approved` 的記憶體變異會使測試出錯，證明斷言有效；但把 curated 碰撞改回常數 `0`，19 個 references 測試仍全過。[tests:168](/Users/james/projects/ipas-test/tests/test_learning_references.py:168)、[migrate_topic_ids.py:200](/Users/james/projects/ipas-test/scripts/migrate_topic_ids.py:200)。 |
+| 6. `--report` 覆寫 repo | **OK** | 實際執行 `--dry-run --report data/topics/topics.json`，以及 `--report /Users/james/projects/ipas-test/specifications/learning-platform/topic-id-migration.md`；均 **exit 2**，目標檔案 bytes 與 mtime 均未改變。[migrate_topic_ids.py:350](/Users/james/projects/ipas-test/scripts/migrate_topic_ids.py:350)。 |
+| 7. 遞迴掃描 | **OK** | 現況實掃 **25 檔**。另在外部最小樹建立 `scripts/nested/deeper/reader.py`，內容含 `topics.json`，確實被掃到；在 generated、fixtures、node_modules、`__pycache__` 放相同內容則均排除。這證明遞迴行為有效；不是只相信檔案總數。[migrate_topic_ids.py:264](/Users/james/projects/ipas-test/scripts/migrate_topic_ids.py:264)。 |
+| 8. consumer 文件補正 | **OK** | `QuestionModal` 確實只在註解提 conceptGraph，實際以題目 id 查找；文件已補 assessment mapping 與兩類名稱型快取。[QuestionModal.tsx:24](/Users/james/projects/ipas-test/frontend/src/components/concepts/QuestionModal.tsx:24)、[assessment.py:262](/Users/james/projects/ipas-test/scripts/learning/assessment.py:262)、[文件:87](/Users/james/projects/ipas-test/specifications/learning-platform/topic-id-migration.md:87)。 |
+| 9. LP-210B 原子包 | **OK** | 外部複製樹中，現有 **12/12 refs 可解析**；寫入一個 id 後全部變成 `stale_vocabulary`。保持正文不變、只更新 ref hash，也實測改變 unit `contentHash`；review 會比對 subject hash 與 dependency hashes。因此 §7 的因果鏈正確。[文件:230](/Users/james/projects/ipas-test/specifications/learning-platform/topic-id-migration.md:230)、[publication.py:154](/Users/james/projects/ipas-test/scripts/learning/publication.py:154)。 |
+| 10. redirects 契約與大小寫孿生 | **OK** | §3 已明列 redirects 必須放同一 SSOT；casefold 重複會使 resolver 整份拒絕，相關負向測試實跑通過。[文件:137](/Users/james/projects/ipas-test/specifications/learning-platform/topic-id-migration.md:137)、[references.py:201](/Users/james/projects/ipas-test/scripts/learning/references.py:201)。 |
 
 **額外發現與測試有效性**
 
-- **FAIL：161 字 id 造成判定分歧。** 暫存詞彙表設 `id = "x" * 161`，resolver 回 `invalid_topic_id`，盤點卻回 `invalidStableIds=[]`、`blocking=false`。schema 除了 pattern，還有 `maxLength: 160`；盤點只取 pattern。因此[文件:184](/home/james/projects/ipas-test/specifications/learning-platform/topic-id-migration.md:184)所稱「兩邊判定一致」過度宣稱。[schema:7](/home/james/projects/ipas-test/schemas/learning/common.schema.json:7)
+- **FAIL：161 字 id 造成判定分歧。** 暫存詞彙表設 `id = "x" * 161`，resolver 回 `invalid_topic_id`，盤點卻回 `invalidStableIds=[]`、`blocking=false`。schema 除了 pattern，還有 `maxLength: 160`；盤點只取 pattern。因此[文件:184](/Users/james/projects/ipas-test/specifications/learning-platform/topic-id-migration.md:184)所稱「兩邊判定一致」過度宣稱。[schema:7](/Users/james/projects/ipas-test/schemas/learning/common.schema.json:7)
 
 - **FAIL：版本綁定只是延後包裝，沒有保證來源一致。** 實跑順序如下，最後一步成功回傳 `topic-old`：
 
@@ -258,7 +258,7 @@ ASCII 的兩組確實是：
 
 **文件宣稱**
 
-[§8:255](/home/james/projects/ipas-test/specifications/learning-platform/topic-id-migration.md:255)的版本綁定修正不完整；[開頭:4](/home/james/projects/ipas-test/specifications/learning-platform/topic-id-migration.md:4)「已全數修正」應撤回。[handoff:105](/home/james/projects/ipas-test/specifications/learning-platform/claude-code-handoff.md:105)「已全數修正並補上回歸測例」也超出實測結果。
+[§8:255](/Users/james/projects/ipas-test/specifications/learning-platform/topic-id-migration.md:255)的版本綁定修正不完整；[開頭:4](/Users/james/projects/ipas-test/specifications/learning-platform/topic-id-migration.md:4)「已全數修正」應撤回。[handoff:105](/Users/james/projects/ipas-test/specifications/learning-platform/claude-code-handoff.md:105)「已全數修正並補上回歸測例」也超出實測結果。
 
 §8 所稱「審查者確認過」屬歷史歸因，本輪只能重新確認部分事實：數字、12 筆 refs、stdout 決定性及 SSOT 與 HEAD bytes 相同均成立；不能據此證明首輪審查者曾作出那些確認。
 
@@ -312,10 +312,10 @@ sandbox 擋住的驗證請明說「無法驗證」，不要當成通過。
 
 | 項目 | 判定 | 實測與證據 |
 |---|---|---|
-| 1. 版本綁定 | **OK** | `read_json → 改檔 → read_bytes → 建索引 → 用新 hash 解析` 現在回報 `stale_vocabulary`。另驗先建索引、未刷新 bytes、只先讀 bytes 等八種組合，hash 均對應實際快取版本。[references.py:139](/home/james/projects/ipas-test/scripts/learning/references.py:139)、[references.py:195](/home/james/projects/ipas-test/scripts/learning/references.py:195) |
-| 2. identifier 完整約束 | **OK** | 詞彙表 id 為 161 字元、空字串、尾端換行、`null`、數字、布林、陣列、物件時，resolver 均拒絕，盤點均列 `invalidStableIds` 且 blocking；160 字元通過。[migrate_topic_ids.py:49](/home/james/projects/ipas-test/scripts/migrate_topic_ids.py:49)、[references.py:84](/home/james/projects/ipas-test/scripts/learning/references.py:84) |
-| 3. authored `"id": null` | **OK** | 實得 `stableIdState="unknown"`、`unresolvedStableIds=1`、`blocking=true`；直接呼叫 resolver 得 `unknown_topic_id`。[migrate_topic_ids.py:247](/home/james/projects/ipas-test/scripts/migrate_topic_ids.py:247) |
-| 4. 測試有效性 | **OK** | 我獨立抽驗全部五項變異，均因預期斷言失敗被抓到，沒有以執行例外冒充成功攔截；相關斷言未見恆真問題。[test_learning_references.py:184](/home/james/projects/ipas-test/tests/test_learning_references.py:184) |
+| 1. 版本綁定 | **OK** | `read_json → 改檔 → read_bytes → 建索引 → 用新 hash 解析` 現在回報 `stale_vocabulary`。另驗先建索引、未刷新 bytes、只先讀 bytes 等八種組合，hash 均對應實際快取版本。[references.py:139](/Users/james/projects/ipas-test/scripts/learning/references.py:139)、[references.py:195](/Users/james/projects/ipas-test/scripts/learning/references.py:195) |
+| 2. identifier 完整約束 | **OK** | 詞彙表 id 為 161 字元、空字串、尾端換行、`null`、數字、布林、陣列、物件時，resolver 均拒絕，盤點均列 `invalidStableIds` 且 blocking；160 字元通過。[migrate_topic_ids.py:49](/Users/james/projects/ipas-test/scripts/migrate_topic_ids.py:49)、[references.py:84](/Users/james/projects/ipas-test/scripts/learning/references.py:84) |
+| 3. authored `"id": null` | **OK** | 實得 `stableIdState="unknown"`、`unresolvedStableIds=1`、`blocking=true`；直接呼叫 resolver 得 `unknown_topic_id`。[migrate_topic_ids.py:247](/Users/james/projects/ipas-test/scripts/migrate_topic_ids.py:247) |
+| 4. 測試有效性 | **OK** | 我獨立抽驗全部五項變異，均因預期斷言失敗被抓到，沒有以執行例外冒充成功攔截；相關斷言未見恆真問題。[test_learning_references.py:184](/Users/james/projects/ipas-test/tests/test_learning_references.py:184) |
 
 五項變異分別是：改回使用 `input_hashes`、移除長度限制、把 null 當缺席、還原 canonical-as-alias 漏檢條件、把 curated 碰撞數寫死為 0。
 
@@ -327,19 +327,19 @@ PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B /tmp/ipas_round3_review.py
 
 **共用程式碼：OK，但保留既有風險 WARN**
 
-- **OK：例外與快取同步。** 無效 JSON、無效編碼、缺檔均未留下單邊 `_json_cache`／`_json_hashes`；修復後重試正常。已快取有效 JSON 再讀到無效 bytes，也仍保留配對的舊資料與舊 hash。新增成本為每個 JSON 快取鍵的一筆 hash 記錄，沒有額外保存整份 bytes。[references.py:125](/home/james/projects/ipas-test/scripts/learning/references.py:125)
-- **WARN：guide／question 仍可能混用版本。** 預讀舊 JSON、修改來源、呼叫 `read_bytes()`，再提供新 hash，舊快取仍可通過；新 resolver 則分別拒絕為 `guide_quote_mismatch`、`question_answer_mismatch`。guide 重現使用公開參數 `require_registry=False`。[references.py:311](/home/james/projects/ipas-test/scripts/learning/references.py:311)、[references.py:384](/home/james/projects/ipas-test/scripts/learning/references.py:384)
-- **WARN：catalog／snapshot 仍使用舊 metadata。** 快取 catalog 後撤銷資源並刷新 catalog bytes，既有 resolver 的 snapshot 仍通過，新 resolver 回報 `revoked_resource`。snapshot 自身的 artifact hash 是直接由當次 bytes 計算，問題在 catalog 快取。[references.py:150](/home/james/projects/ipas-test/scripts/learning/references.py:150)、[references.py:257](/home/james/projects/ipas-test/scripts/learning/references.py:257)
+- **OK：例外與快取同步。** 無效 JSON、無效編碼、缺檔均未留下單邊 `_json_cache`／`_json_hashes`；修復後重試正常。已快取有效 JSON 再讀到無效 bytes，也仍保留配對的舊資料與舊 hash。新增成本為每個 JSON 快取鍵的一筆 hash 記錄，沒有額外保存整份 bytes。[references.py:125](/Users/james/projects/ipas-test/scripts/learning/references.py:125)
+- **WARN：guide／question 仍可能混用版本。** 預讀舊 JSON、修改來源、呼叫 `read_bytes()`，再提供新 hash，舊快取仍可通過；新 resolver 則分別拒絕為 `guide_quote_mismatch`、`question_answer_mismatch`。guide 重現使用公開參數 `require_registry=False`。[references.py:311](/Users/james/projects/ipas-test/scripts/learning/references.py:311)、[references.py:384](/Users/james/projects/ipas-test/scripts/learning/references.py:384)
+- **WARN：catalog／snapshot 仍使用舊 metadata。** 快取 catalog 後撤銷資源並刷新 catalog bytes，既有 resolver 的 snapshot 仍通過，新 resolver 回報 `revoked_resource`。snapshot 自身的 artifact hash 是直接由當次 bytes 計算，問題在 catalog 快取。[references.py:150](/Users/james/projects/ipas-test/scripts/learning/references.py:150)、[references.py:257](/Users/james/projects/ipas-test/scripts/learning/references.py:257)
 
 上述三個重現，在記憶體中移除本輪新增的 hash bookkeeping 後仍成立，因此**不是新增 `_json_hashes` 所造成**。但受審檔案仍 untracked，無法用歷史 diff 證明首次引入時間。
 
-其他 consumer 確有一致性假設：題目產生器拿 `input_hashes` 填 `sourceHashes`，publication 最終也只重新核對 `input_hashes`；若它已被新讀取覆蓋，該檢查無法證明先前使用的快取資料版本。[assessment.py:54](/home/james/projects/ipas-test/scripts/learning/assessment.py:54)、[publication.py:599](/home/james/projects/ipas-test/scripts/learning/publication.py:599)
+其他 consumer 確有一致性假設：題目產生器拿 `input_hashes` 填 `sourceHashes`，publication 最終也只重新核對 `input_hashes`；若它已被新讀取覆蓋，該檢查無法證明先前使用的快取資料版本。[assessment.py:54](/Users/james/projects/ipas-test/scripts/learning/assessment.py:54)、[publication.py:599](/Users/james/projects/ipas-test/scripts/learning/publication.py:599)
 
 **文件：WARN，並非完全相符**
 
-1. §5「詞彙表 bytes 改變 → stale」省略了快取條件：同一 resolver 仍接受舊 hash 配舊索引，測例也明確要求此行為。另外，「詞彙表 id 與 `TopicRef.id` 永遠同一規則」過強：純 schema 驗證仍接受尾端換行，詞彙表額外的 `fullmatch` 才拒絕。[文件:181](/home/james/projects/ipas-test/specifications/learning-platform/topic-id-migration.md:181)、[文件:184](/home/james/projects/ipas-test/specifications/learning-platform/topic-id-migration.md:184)
-2. §8 說完整 gate 由作者重跑並「記於 §6」，但 §6 只有指令，沒有執行結果或 evidence。[文件:293](/home/james/projects/ipas-test/specifications/learning-platform/topic-id-migration.md:293)
-3. 「兩輪 findings 均已修正」就本次列出的修正而言成立；「第三輪未進行」可描述本輪開始前的狀態，**本報告完成後即不再成立**。handoff 亦須同步。[handoff:105](/home/james/projects/ipas-test/specifications/learning-platform/claude-code-handoff.md:105)
+1. §5「詞彙表 bytes 改變 → stale」省略了快取條件：同一 resolver 仍接受舊 hash 配舊索引，測例也明確要求此行為。另外，「詞彙表 id 與 `TopicRef.id` 永遠同一規則」過強：純 schema 驗證仍接受尾端換行，詞彙表額外的 `fullmatch` 才拒絕。[文件:181](/Users/james/projects/ipas-test/specifications/learning-platform/topic-id-migration.md:181)、[文件:184](/Users/james/projects/ipas-test/specifications/learning-platform/topic-id-migration.md:184)
+2. §8 說完整 gate 由作者重跑並「記於 §6」，但 §6 只有指令，沒有執行結果或 evidence。[文件:293](/Users/james/projects/ipas-test/specifications/learning-platform/topic-id-migration.md:293)
+3. 「兩輪 findings 均已修正」就本次列出的修正而言成立；「第三輪未進行」可描述本輪開始前的狀態，**本報告完成後即不再成立**。handoff 亦須同步。[handoff:105](/Users/james/projects/ipas-test/specifications/learning-platform/claude-code-handoff.md:105)
 
 實跑 references 20、contracts 11、publication 12、assessment 9，**共 52 tests 通過**。正式盤點連跑兩次 byte-identical，數量符合文件；`topics.json` 與 HEAD bytes 相同。
 
@@ -404,12 +404,12 @@ sandbox 擋住的驗證請明說「無法驗證」，不要當成通過。
 
 五個目前的 `contentHash` 也都正確；還原舊 entity hashes、補回舊 vocabulary hash 後，五者的相依指紋皆與原 review 相符。
 
-Lab 的 `sourceNotebookRef`、`notebookHash` 都包含在上述還原成功的投影內；實際 notebook 的 `notebook_content_hash()` 也符合 `ec7cfde721e6…`。證據：[lab JSON:75](/home/james/projects/ipas-test/content/learning/labs/lab-imbalanced-classification.json:75)。
+Lab 的 `sourceNotebookRef`、`notebookHash` 都包含在上述還原成功的投影內；實際 notebook 的 `notebook_content_hash()` 也符合 `ec7cfde721e6…`。證據：[lab JSON:75](/Users/james/projects/ipas-test/content/learning/labs/lab-imbalanced-classification.json:75)。
 
 但有兩項 **WARN**：
 
 - `git ls-files content/learning/reviews` 沒有輸出，工作樹顯示 `?? content/`。因此只能確認與**現存舊 review 紀錄**相符，無法證明它們是文件宣稱的「版控中遷移前指紋」。
-- `contentHash` 是 canonical JSON 投影，排除 `status`、`reviewIds`，Lab 另排除 execution／semantic review IDs。因此不能宣稱「其他每個欄位一個 byte 都没動」。正文 bytes 有涵蓋，JSON 排版及排除欄位沒有。[contracts.py:210](/home/james/projects/ipas-test/scripts/learning/contracts.py:210)
+- `contentHash` 是 canonical JSON 投影，排除 `status`、`reviewIds`，Lab 另排除 execution／semantic review IDs。因此不能宣稱「其他每個欄位一個 byte 都没動」。正文 bytes 有涵蓋，JSON 排版及排除欄位沒有。[contracts.py:210](/Users/james/projects/ipas-test/scripts/learning/contracts.py:210)
 
 **2. OK：詞彙表純新增且帳本一對一**
 
@@ -433,17 +433,17 @@ Lab 的 `sourceNotebookRef`、`notebookHash` 都包含在上述還原成功的�
 | **整份帳本缺失** | **exit 0，輸出 181 個概念、零個 id** |
 | 帳本 id 僅大小寫不同／非法 `bad/id` | exit 0；後續 resolver 才拒絕 |
 
-改名反例使用 manual addition 的「二分搜尋」：同步改為「二分搜尋改名」，`previousNames=[]`，重建仍成功。實作只做當前名稱 join，沒有驗證改名歷史。[build_topic_vocabulary.py:448](/home/james/projects/ipas-test/scripts/build_topic_vocabulary.py:448)
+改名反例使用 manual addition 的「二分搜尋」：同步改為「二分搜尋改名」，`previousNames=[]`，重建仍成功。實作只做當前名稱 join，沒有驗證改名歷史。[build_topic_vocabulary.py:448](/Users/james/projects/ipas-test/scripts/build_topic_vocabulary.py:448)
 
-**最高優先修正**是缺帳本直接 `return {}` 的分支，會讓正式重建成功覆寫成無 id 詞彙表。[build_topic_vocabulary.py:454](/home/james/projects/ipas-test/scripts/build_topic_vocabulary.py:454)
+**最高優先修正**是缺帳本直接 `return {}` 的分支，會讓正式重建成功覆寫成無 id 詞彙表。[build_topic_vocabulary.py:454](/Users/james/projects/ipas-test/scripts/build_topic_vocabulary.py:454)
 
 **4. OK／WARN：新引用契約解決全域失效；既有來源保障仍在**
 
 - 新增一個概念後，既有 **12/12** authored refs 仍可解析。
-- 改掉被引用概念的名稱，舊 ref 得到 `unknown_topic`；錯配 id/name 亦被拒絕。[references.py:207](/home/james/projects/ipas-test/scripts/learning/references.py:207)
-- schema 實測拒絕缺 `id`、缺 `name`、帶 `vocabularyHash` 三種資料。[common.schema.json:26](/home/james/projects/ipas-test/schemas/learning/common.schema.json:26)
-- `dependency_hashes()` 仍收集 `hash`、`sourceHash`、`notebookHash`、`lockHash`、`artifactHash`，並納入 unit／lab／project 的實際 `contentHash`。逐項注入與來源 hash 變異測試均有效，舊 review 被拒絕。[publication.py:85](/home/james/projects/ipas-test/scripts/learning/publication.py:85)
-- analysis 仍保留整份 `taxonomyHash`、mapping 的 `labelReviewHash`，兩者由 analysis subject hash 綁定。[build_learning_assessment.py:175](/home/james/projects/ipas-test/scripts/build_learning_assessment.py:175)
+- 改掉被引用概念的名稱，舊 ref 得到 `unknown_topic`；錯配 id/name 亦被拒絕。[references.py:207](/Users/james/projects/ipas-test/scripts/learning/references.py:207)
+- schema 實測拒絕缺 `id`、缺 `name`、帶 `vocabularyHash` 三種資料。[common.schema.json:26](/Users/james/projects/ipas-test/schemas/learning/common.schema.json:26)
+- `dependency_hashes()` 仍收集 `hash`、`sourceHash`、`notebookHash`、`lockHash`、`artifactHash`，並納入 unit／lab／project 的實際 `contentHash`。逐項注入與來源 hash 變異測試均有效，舊 review 被拒絕。[publication.py:85](/Users/james/projects/ipas-test/scripts/learning/publication.py:85)
+- analysis 仍保留整份 `taxonomyHash`、mapping 的 `labelReviewHash`，兩者由 analysis subject hash 綁定。[build_learning_assessment.py:175](/Users/james/projects/ipas-test/scripts/build_learning_assessment.py:175)
 
 **WARN：** topic ref 現在只保護 id/name，不再綁定 aliases、parent 等詞彙 metadata。這符合解除整份詞彙表耦合的目的；不能再宣稱個別 ref review 固定了完整 taxonomy 快照。本次 metadata 原值未變，未見因此影響既有內容審查結論。
 
@@ -457,12 +457,12 @@ code: unknown_topic
 path: adapter:mock-blueprint/blueprint-fixture@1/quotas/0/key
 ```
 
-證據：[references.py:519](/home/james/projects/ipas-test/scripts/learning/references.py:519)。
+證據：[references.py:519](/Users/james/projects/ipas-test/scripts/learning/references.py:519)。
 
 **6. FAIL：另有新缺陷；現有測例只涵蓋部分防線**
 
-- **`--assign` 會重新指派已有 id 的概念。** 刪去一筆帳本、保留 `topics.json` 的既有 id，再跑 `--assign --seed 42`：`topic-a4208908` 被換成 `topic-a3b1799d`，exit 0，後續重建也 exit 0。它只查帳本名稱，未核對詞彙表既有 id；而重建錯誤訊息正會引導使用者跑這個命令。[migrate_topic_ids.py:355](/home/james/projects/ipas-test/scripts/migrate_topic_ids.py:355)
-- **合法 Guide mapping 使 inventory crash。** `is_topic_ref()` 把所有 `/target/ref` 當成 TopicRef；加入 `target.kind="guide"` 的 mapping 後，`build_report()` 在 `normalise(None)` 拋出 `TypeError`。它也漏判 `/measures/0/topic`。[migrate_topic_ids.py:231](/home/james/projects/ipas-test/scripts/migrate_topic_ids.py:231)
+- **`--assign` 會重新指派已有 id 的概念。** 刪去一筆帳本、保留 `topics.json` 的既有 id，再跑 `--assign --seed 42`：`topic-a4208908` 被換成 `topic-a3b1799d`，exit 0，後續重建也 exit 0。它只查帳本名稱，未核對詞彙表既有 id；而重建錯誤訊息正會引導使用者跑這個命令。[migrate_topic_ids.py:355](/Users/james/projects/ipas-test/scripts/migrate_topic_ids.py:355)
+- **合法 Guide mapping 使 inventory crash。** `is_topic_ref()` 把所有 `/target/ref` 當成 TopicRef；加入 `target.kind="guide"` 的 mapping 後，`build_report()` 在 `normalise(None)` 拋出 `TypeError`。它也漏判 `/measures/0/topic`。[migrate_topic_ids.py:231](/Users/james/projects/ipas-test/scripts/migrate_topic_ids.py:231)
 - 帳本重建缺乏完整 identifier／casefold 驗證，與 resolver 的規則不一致，見第 3 項。
 
 測試結果：contracts **11/11**、references **19/19**、publication **12/12** 通過。另在記憶體中移除「id/name 配對」「casefold 重複」「改名拒絕」三道檢查，既有對應測例**全部會失敗**；這些測例有效，但沒有攔住上述帳本與 Guide mapping 缺陷。
@@ -529,11 +529,11 @@ sandbox 擋住的驗證請明說「無法驗證」，不要當成通過。
 
 | 項目 | 判定 | 實測結果與定位 |
 |---|---|---|
-| 帳本遺失 | **OK** | 現有詞彙表保留 181 個 id、移除暫存帳本後，重建 exit 1，詞彙表未覆寫。[build_topic_vocabulary.py:462](/home/james/projects/ipas-test/scripts/build_topic_vocabulary.py:462) |
-| 大小寫孿生／`bad/id` | **OK** | 兩種輸入均 exit 1，原詞彙表未覆寫；使用共用 `valid_identifier()` 與 casefold 檢查。[build_topic_vocabulary.py:475](/home/james/projects/ipas-test/scripts/build_topic_vocabulary.py:475) |
-| 帳本漏一筆、詞彙表仍有 id | **OK** | 重建先拒絕；接著 `--assign` exit 0，顯示「指派 0、收編 1」，181 個既有 id 全部保留。[migrate_topic_ids.py:384](/home/james/projects/ipas-test/scripts/migrate_topic_ids.py:384) |
-| 帳本與詞彙表 id 不一致 | **FAIL** | 將暫存帳本第一筆改為 `topic-00000000`：重建 exit 1，但 `--assign` **exit 0 並寫回不一致帳本**。原因是已知名稱直接 `continue`。[migrate_topic_ids.py:382](/home/james/projects/ipas-test/scripts/migrate_topic_ids.py:382) |
-| guide mapping／analysis measures | **OK** | guide ref 不再被盤點為 TopicRef；`/measures/0/topic` 正確納入，測例通過。[migrate_topic_ids.py:216](/home/james/projects/ipas-test/scripts/migrate_topic_ids.py:216) |
+| 帳本遺失 | **OK** | 現有詞彙表保留 181 個 id、移除暫存帳本後，重建 exit 1，詞彙表未覆寫。[build_topic_vocabulary.py:462](/Users/james/projects/ipas-test/scripts/build_topic_vocabulary.py:462) |
+| 大小寫孿生／`bad/id` | **OK** | 兩種輸入均 exit 1，原詞彙表未覆寫；使用共用 `valid_identifier()` 與 casefold 檢查。[build_topic_vocabulary.py:475](/Users/james/projects/ipas-test/scripts/build_topic_vocabulary.py:475) |
+| 帳本漏一筆、詞彙表仍有 id | **OK** | 重建先拒絕；接著 `--assign` exit 0，顯示「指派 0、收編 1」，181 個既有 id 全部保留。[migrate_topic_ids.py:384](/Users/james/projects/ipas-test/scripts/migrate_topic_ids.py:384) |
+| 帳本與詞彙表 id 不一致 | **FAIL** | 將暫存帳本第一筆改為 `topic-00000000`：重建 exit 1，但 `--assign` **exit 0 並寫回不一致帳本**。原因是已知名稱直接 `continue`。[migrate_topic_ids.py:382](/Users/james/projects/ipas-test/scripts/migrate_topic_ids.py:382) |
+| guide mapping／analysis measures | **OK** | guide ref 不再被盤點為 TopicRef；`/measures/0/topic` 正確納入，測例通過。[migrate_topic_ids.py:216](/Users/james/projects/ipas-test/scripts/migrate_topic_ids.py:216) |
 | 回歸測試有效性 | **OK／WARN** | 下述四種變異確實造成 assertion failure；但 identifier 與 casefold 的個別防線仍有測試缺口。 |
 
 實際注入並被測試抓到的四種退化：
@@ -543,7 +543,7 @@ sandbox 擋住的驗證請明說「無法驗證」，不要當成通過。
 - 將 guide mapping 納入 TopicRef → `/target/ref` 排除斷言失敗。
 - 漏掉 measures → `/measures/0/topic` 存在斷言失敗。
 
-**WARN：** 單獨移除 identifier 或 casefold 檢查，重建回歸測試仍通過。原因是測例同時觸發「既有 id 不一致」，而測試只要求任一 `SystemExit`，未證明這兩道防線各自有效。[test_resource_catalog.py:93](/home/james/projects/ipas-test/tests/test_resource_catalog.py:93)
+**WARN：** 單獨移除 identifier 或 casefold 檢查，重建回歸測試仍通過。原因是測例同時觸發「既有 id 不一致」，而測試只要求任一 `SystemExit`，未證明這兩道防線各自有效。[test_resource_catalog.py:93](/Users/james/projects/ipas-test/tests/test_resource_catalog.py:93)
 
 此外，21 項 references 測試、正常精確重建測試均通過；尚未看到針對 **`--assign` 不一致帳本**的回歸測例。
 
@@ -577,23 +577,23 @@ sandbox 擋住的驗證請明說「無法驗證」，不要當成通過。
 需要修正的內容：
 
 1. **兩筆 analysis 紀錄誤套五實體證明。**  
-   [contract rationale:61](/home/james/projects/ipas-test/content/learning/reviews/review-contract-analysis-imbalanced-source-examples-v1-20260909-v2.json:61) 與 [peer rationale:62](/home/james/projects/ipas-test/content/learning/reviews/review-peer-d1-analysis-imbalanced-source-examples-v1-20260909-v2.json:62) 都聲稱已確認「只有 topicRefs 改變、教學正文 bytes 不變」。但 analysis 實際變動包括 `measures[].topic`、`taxonomyHash`、`labelReviewHash`；證據文件的 TARGETS 也只有五個 authored 實體。
+   [contract rationale:61](/Users/james/projects/ipas-test/content/learning/reviews/review-contract-analysis-imbalanced-source-examples-v1-20260909-v2.json:61) 與 [peer rationale:62](/Users/james/projects/ipas-test/content/learning/reviews/review-peer-d1-analysis-imbalanced-source-examples-v1-20260909-v2.json:62) 都聲稱已確認「只有 topicRefs 改變、教學正文 bytes 不變」。但 analysis 實際變動包括 `measures[].topic`、`taxonomyHash`、`labelReviewHash`；證據文件的 TARGETS 也只有五個 authored 實體。
 
    我額外還原上述三類變動後，確實重現 analysis 舊 hash `7fe21ecf…`。所以**內容遷移仍可接受，但不可把未適用的證明記成我做過的確認**。應補上 analysis 專屬證明並修正兩筆 rationale。
 
 2. **execution 紀錄沒有冒稱 Codex 跑 notebook，但「實際重跑」缺乏本次證據。**  
-   reviewer 正確是腳本；然而主要執行證據仍是 [9 月 7 日紀錄](/home/james/projects/ipas-test/content/learning/evidence/evidence-lab-author-execution.json:7)，委派文件卻寫由「實際重跑的腳本」背書。[委派文件:37](/home/james/projects/ipas-test/content/learning/evidence/lp210b-review-delegation-20260909.md:37)
+   reviewer 正確是腳本；然而主要執行證據仍是 [9 月 7 日紀錄](/Users/james/projects/ipas-test/content/learning/evidence/evidence-lab-author-execution.json:7)，委派文件卻寫由「實際重跑的腳本」背書。[委派文件:37](/Users/james/projects/ipas-test/content/learning/evidence/lp210b-review-delegation-20260909.md:37)
 
    本輪執行 `verify_learning_labs.py --check` 在建立 Jupyter socket 時收到 `PermissionError: Operation not permitted`，**無法驗證**。應明寫承接 9 月 7 日 L0–L3，或補入可核對的本次重跑證據；不能把本輪受阻算成成功。
 
 3. **L4 沒有被我重新審過。**  
-   [semantic rationale:93](/home/james/projects/ipas-test/content/learning/reviews/review-lab-semantic-20260909-v2.json:93) 明確否認重做語意審查，並指回原 L4 紀錄。依使用者允許的範圍受限承接，這筆可以留下；其中 `L4: pass` 只能讀作**舊結論經遷移確認後承接**，不能引用為 Codex 新做 L4。
+   [semantic rationale:93](/Users/james/projects/ipas-test/content/learning/reviews/review-lab-semantic-20260909-v2.json:93) 明確否認重做語意審查，並指回原 L4 紀錄。依使用者允許的範圍受限承接，這筆可以留下；其中 `L4: pass` 只能讀作**舊結論經遷移確認後承接**，不能引用為 Codex 新做 L4。
 
 **三、證據文件措辭**
 
-- **OK：** 已明確承認 contentHash 是投影、`content/` 是 untracked；Git 現況符合。[證據文件:7](/home/james/projects/ipas-test/content/learning/evidence/lp210b-topic-id-migration-20260909.md:7)、[證據文件:37](/home/james/projects/ipas-test/content/learning/evidence/lp210b-topic-id-migration-20260909.md:37)
+- **OK：** 已明確承認 contentHash 是投影、`content/` 是 untracked；Git 現況符合。[證據文件:7](/Users/james/projects/ipas-test/content/learning/evidence/lp210b-topic-id-migration-20260909.md:7)、[證據文件:37](/Users/james/projects/ipas-test/content/learning/evidence/lp210b-topic-id-migration-20260909.md:37)
 - **OK：** 五實體反推舊 hash 全相符；詞彙表確為 186 行新增、零刪除；盤點為 181 個 id、15 筆 authored refs、零 unresolved、非 blocking。
-- **WARN：** 第 40 行仍寫「其餘欄位一個 byte 都沒動」，應限定為其餘**投影欄位值**；notebook「沒有被碰過」也比投影 hash 能證明的範圍更強。[證據文件:40](/home/james/projects/ipas-test/content/learning/evidence/lp210b-topic-id-migration-20260909.md:40)、[證據文件:89](/home/james/projects/ipas-test/content/learning/evidence/lp210b-topic-id-migration-20260909.md:89)
+- **WARN：** 第 40 行仍寫「其餘欄位一個 byte 都沒動」，應限定為其餘**投影欄位值**；notebook「沒有被碰過」也比投影 hash 能證明的範圍更強。[證據文件:40](/Users/james/projects/ipas-test/content/learning/evidence/lp210b-topic-id-migration-20260909.md:40)、[證據文件:89](/Users/james/projects/ipas-test/content/learning/evidence/lp210b-topic-id-migration-20260909.md:89)
 
 **13 筆重審紀錄是否可以留下：需修正。** 必改兩筆 analysis 與一筆 execution；其餘十筆可作範圍受限的承接紀錄保留。這不代表工具層已通過。
 

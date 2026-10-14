@@ -31,7 +31,7 @@
   尤其 `supplement_guide_from_audit.py` 會覆寫 guide JSON，跑錯等級就是資料事故。
 - `data/{level}/toc_manifest.json` 是章節定義 SSOT，由 `build_manifest.py` 生成、需提交。
   任何地方都不得複製章節定義。
-- 多數腳本硬編 `BASE = Path('/home/james/projects/ipas-test')`（少數 export 腳本用
+- 多數腳本硬編 `BASE = Path('/Users/james/projects/ipas-test')`（少數 export 腳本用
   `Path(__file__).resolve().parents[1]` 相對解析），搬 repo 要逐支檢查。
 - 新增等級：① `build_manifest.py` 的 `GUIDES_BY_LEVEL` 填章節定義 ② `build_manifest.py --level 中級`。
 - 依賴：`uv sync`（Python：pdfplumber、PyMuPDF、anthropic、google-genai）；

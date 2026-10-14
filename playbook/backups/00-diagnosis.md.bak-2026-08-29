@@ -72,7 +72,7 @@
 ## 次要觀察（不進前三，但寫給未來參考）
 
 - `.claude/` 被 gitignore，所以持久制度檔不能放那裡——這就是 `playbook/` 存在的原因。
-- 多數腳本硬編 `BASE = Path('/home/james/projects/ipas-test')`（少數 export 腳本用 `Path(__file__)`
+- 多數腳本硬編 `BASE = Path('/Users/james/projects/ipas-test')`（少數 export 腳本用 `Path(__file__)`
   相對解析），搬 repo 會大面積壞掉。
 - 7 支腳本的 `--level` 預設是 `中級` 而非 `初級`（清單見 pipeline-reference.md 通用規則）——
   「預設初級」的直覺是錯的，一律顯式帶 `--level`。

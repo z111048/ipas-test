@@ -61,7 +61,7 @@ API 金鑰：`GEMINI_API_KEY`（vision）、`ANTHROPIC_API_KEY`（出題/審核�
 
 ## 環境備忘
 
-- 多數腳本硬編 `BASE = Path('/home/james/projects/ipas-test')`（少數用 `Path(__file__)` 相對解析），搬 repo 要改。
+- 多數腳本硬編 `BASE = Path('/Users/james/projects/ipas-test')`（少數用 `Path(__file__)` 相對解析），搬 repo 要改。
 - WSL2；大型資料 JSON（`data/`、`frontend/src/generated/` 下常見 100KB–1MB）
   **>50KB 禁止整檔 Read**，用 `jq`/`grep` 切片或派 subagent（門檻與規則見 `playbook/01-dispatch.md` §0）。
 - 前端 alias：`@data` → `data/初級/`、`@data-mid` → `data/中級/`。前端 GuidePage 讀的是

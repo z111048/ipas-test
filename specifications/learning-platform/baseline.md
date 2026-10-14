@@ -54,7 +54,7 @@
 
 ## 基線測試證據
 
-所有 subprocess 的 cwd 都是 `/home/james/projects/ipas-test`。使用既有環境並把 uv cache 指到 `/tmp/ipas-uv-cache`；沒有使用 `--skip-browser`。
+所有 subprocess 的 cwd 都是 `/Users/james/projects/ipas-test`。使用既有環境並把 uv cache 指到 `/tmp/ipas-uv-cache`；沒有使用 `--skip-browser`。
 
 1. 沙箱內執行 `UV_CACHE_DIR=/tmp/ipas-uv-cache uv run python tests/run_all.py`：2026-09-07 19:14:47–19:16:01 +08:00，外層 74 秒，exit 1。10/13 靜態項目通過；三項 browser 測試都在 `tests/devserver.py` 建立 `socket.socket()` 時原樣回報 `PermissionError: [Errno 1] Operation not permitted`，未進入產品流程。原始 stdout/stderr 與 exit metadata：`/tmp/ipas-learning-baseline.sandbox.log`。
 2. 經核准在沙箱外重跑同一個完整命令：2026-09-07 19:16:37–19:20:35 +08:00，外層 238 秒，exit 0；runner 報 `13/13 通過，共 247s`。三項端對端均實際執行：`test_exam_flow` 56.6s、`test_practice_flow` 33.4s、`test_routes` 94.9s。原始 stdout/stderr 與 exit metadata：`/tmp/ipas-learning-baseline.log`。
