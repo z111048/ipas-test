@@ -355,19 +355,19 @@ class ExamOcrRepairTests(unittest.TestCase):
     def test_current_production_repairs_and_source_issue_notices(self) -> None:
         summary, errors = verify()
         self.assertEqual(errors, [], '\n'.join(errors))
-        self.assertEqual(summary['catalog_exams'], 14)
-        self.assertEqual(summary['production_questions'], 715)
+        self.assertEqual(summary['catalog_exams'], 16)
+        self.assertEqual(summary['production_questions'], 815)
         self.assertEqual(summary['source_issues_visible'], 2)
-        self.assertEqual(summary['visual_reviewed_exams'], 14)
-        self.assertEqual(summary['visual_reviewed_questions'], 715)
+        self.assertEqual(summary['visual_reviewed_exams'], 16)
+        self.assertEqual(summary['visual_reviewed_questions'], 815)
 
     def test_every_exam_has_a_current_page_by_page_visual_review(self) -> None:
         summary, errors = verify_visual_reviews()
         self.assertEqual(errors, [], '\n'.join(errors))
-        self.assertEqual(summary['catalog_exams'], 14)
-        self.assertEqual(summary['reviewed_exams'], 14)
-        self.assertEqual(summary['reviewed_pages'], 199)
-        self.assertEqual(summary['reviewed_questions'], 715)
+        self.assertEqual(summary['catalog_exams'], 16)
+        self.assertEqual(summary['reviewed_exams'], 16)
+        self.assertEqual(summary['reviewed_pages'], 230)
+        self.assertEqual(summary['reviewed_questions'], 815)
 
     def test_source_issue_explanations_have_a_results_render_path(self) -> None:
         results_component = (
@@ -393,11 +393,11 @@ class ExamOcrRepairTests(unittest.TestCase):
         after = hashlib.sha256(raw_cache.read_bytes()).hexdigest() if raw_cache.exists() else None
 
         self.assertEqual(before, after)
-        self.assertEqual(payload['summary']['production_questions'], 715)
+        self.assertEqual(payload['summary']['production_questions'], 815)
         self.assertEqual(
             payload['summary']['cached_questions']
             + payload['summary']['missing_cache_questions'],
-            715,
+            815,
         )
         self.assertEqual(payload['summary']['overlay_field_mismatches'], 0)
         self.assertFalse(payload['summary']['promotion_ready'])

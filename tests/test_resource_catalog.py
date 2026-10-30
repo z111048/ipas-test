@@ -44,7 +44,7 @@ from verify_data_alignment import check_exam_pdfs  # noqa: E402
 
 EXPECTED_ROUTES = {
     "jr_1141_s1", "jr_1141_s2", "jr_1151_s1", "jr_1151_s2",
-    "jr_1152_s1", "jr_1152_s2", "sample",
+    "jr_1152_s1", "jr_1152_s2", "jr_1153_s1", "jr_1153_s2", "sample",
     "mid_1141_s1", "mid_1141_s2", "mid_1141_s3",
     "mid_1151_s1", "mid_1151_s2", "mid_1151_s3", "midSample",
 }
@@ -135,7 +135,7 @@ class ResourceCatalogTests(unittest.TestCase):
         self.assertEqual(len(topic_names), len(set(topic_names)))
 
         rows = assignments["assignments"]
-        self.assertEqual(assignments["questionCount"], 565)
+        self.assertEqual(assignments["questionCount"], 815)
         self.assertEqual(assignments["assignedCount"], len(rows))
         self.assertEqual(assignments["coverage"], 1.0)
         self.assertEqual(assignments["unassigned"], [])
@@ -152,7 +152,7 @@ class ResourceCatalogTests(unittest.TestCase):
 
     def test_existing_frontend_routes_and_question_counts(self) -> None:
         exams = exam_entries()
-        self.assertEqual(len(exams), 14)
+        self.assertEqual(len(exams), 16)
         self.assertEqual({exam["routeKey"] for exam in exams}, EXPECTED_ROUTES)
 
         for exam, path in iter_question_paths(exams):
@@ -176,7 +176,7 @@ class ResourceCatalogTests(unittest.TestCase):
     def test_pdf_maps_and_resource_files_are_catalog_derived(self) -> None:
         catalog = load_resource_catalog()
         exam_maps = exam_pdf_maps()
-        self.assertEqual(sum(len(entries) for entries in exam_maps.values()), 14)
+        self.assertEqual(sum(len(entries) for entries in exam_maps.values()), 16)
         self.assertIn("jr_1141_s1", exam_maps["初級"])
         self.assertNotIn("exam1", exam_maps["初級"])
         for level, entries in exam_maps.items():
