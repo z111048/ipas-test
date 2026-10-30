@@ -1,3 +1,4 @@
+<!-- 2026-10-31: 同步官方題 815／標註 814 與 guideExamAnnotations 現況。 -->
 <!-- 2026-08-31: 兩級樣題補回 6 道跨頁題；人工補簽 7 個題幹可直接判定的概念，清除既有標註缺口。 -->
 <!-- 2026-08-30: 兩級樣題補回 6 道跨頁題，同步官方題／詳解數與人工概念標註現況。 -->
 <!-- 2026-08-08: 新增。考古題熱度、概念標籤、心智圖這條線的設計與現況。
@@ -12,8 +13,8 @@
 # 08 — 考古題熱度、概念標籤與心智圖
 
 **狀態：`/mindmap`（「考點熱度圖」）章節軸與概念軸都已上線；概念詞彙表共 181 個
-（`data/topics/topics.json`，`signed-off`；原定案 174 個加 7 個人工補簽概念），565 題
-官方考古題皆有至少 1 個概念標註（模型標註精度基線見 §7-2）；出題配額已改為熱度加權（§7-4）。
+（`data/topics/topics.json`，`signed-off`；原定案 174 個加 7 個人工補簽概念），2026-10-31 起 815 題
+官方考古題中 814 題有概念標註（`mid_1151_s2_q39` 詞彙表無對應，見 07 §7）（模型標註精度基線見 §7-2）；出題配額已改為熱度加權（§7-4）。
 未完：§7-5 補教材、§7-7 正規化標註結構；概念圖卡的中文字形要換產圖方案（§7-6）。**
 
 ## §1 這條線在做什麼
@@ -33,9 +34,9 @@
 
 ## §2 已經有的資料（別重造）
 
-- `frontend/src/generated/guideExamAnnotations/` — 450 題官方考古題 → 2,872 個講義區塊，
-  5,973 條標註，帶 `confidence` 與 `why_relevant`。來源是 `examReferenceAnswers` 的引文。
-- `frontend/src/generated/examReferenceAnswers/` — **565 題**的詳解，每題帶
+- `frontend/src/generated/guideExamAnnotations/` — 700 題官方考古題 → 3,494 個講義區塊，
+  7,674 條標註（2026-10-31），帶 `confidence` 與 `why_relevant`。來源是 `examReferenceAnswers` 的引文。
+- `frontend/src/generated/examReferenceAnswers/` — **815 題**的詳解（2026-10-31），每題帶
   `citations`（有序，含 `block_ids`）與 **`key_concepts`**（概念詞組，共 3,034 個）。
 - `frontend/src/generated/guideNav.json`（64 節點）／`guideHierarchy.json`（1,207 節點）。
 

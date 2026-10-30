@@ -300,7 +300,21 @@ python3 scripts/export_generated_questions.py --run-dir data/中級/pipeline/reg
 ⚠️ `.env` 另有 `ANTHROPIC_API_KEY`／`GEMINI_API_KEY`，兩者都非空但**這一輪沒有實測**
 ——舊 session 說它們「是假的」，那個結論沒有重驗過，要用之前先自己測一次。
 
-## §7 待接：中級 115 年第一次三科題解（2026-09-20 交接）
+## §7 已完成：中級 115 年第一次三科題解（2026-09-20 交接，2026-10-31 完成）
+
+<!-- 2026-10-31：標記完成並記錄與原計畫的差異；原交接內容保留。 -->
+> 2026-10-31 完成，並一併補上初級 115 年第三次（`jr_1153_s1/s2`）：題解共 16 卷 815 題。與下方原計畫的差異：
+> - Codex 模型 `gpt-6.1-sol`。原 prompt 讓題解出現「R2 的 block-71」「看不到附圖」等內部字樣（新 250 題中 199 題），
+>   已在 `run_codex_exam_reference_answers.py` 的 prompt 加兩條規則後 `--force` 全重跑，殘留 0。
+>   **舊 565 題仍有 268 題含「檢索片段指出…」措辭，未處理。** 單題逾時要帶 `--timeout 600`（預設 240 秒漏 1 題）。
+> - 概念標註依使用者決定改用 `deepseek-v4-pro`（網關別名，背後快照無法辨識）`--model-all` 全 815 題重標，
+>   `--batch-size 5 --max-tokens 16000`（預設 4000 會被推理用光，整批空回應——不是限流）；驗收 `qwen3.5:397b`。
+>   舊檔 12 題 `source: human` 標籤併回；4 題模型未標或被剔光的題人工補標（`source: manual`）；
+>   `mid_1151_s2_q39`（Python 可變預設參數）詞彙表沒有對應概念，保留未標（814/815）。
+> - export 順序見 `pipeline-reference.md` §5b 教訓：annotations 要先於 heat。
+>
+> 以下為原交接內容，保留作紀錄。
+
 
 **現況**：`frontend/src/generated/examReferenceAnswers/` 有 11 份（初級 6 卷＋中級 114 年 3 卷＋兩份樣題，
 共 565 題）。中級 115 年第一次三科（`mid_1151_s1/s2/s3`，各 50 題，2026-06-16 commit 233f5dc 上線）

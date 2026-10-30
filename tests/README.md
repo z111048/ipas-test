@@ -1,3 +1,4 @@
+<!-- 2026-10-31: 同步考題 16 卷／815 題（新增初級 115 第三次）。 -->
 <!-- 2026-08-30: 同步考題 14 卷／715 題、初級樣題 70／中級樣題 45，並記錄逐頁 direct-view gate。 -->
 # 自動化測試
 
@@ -18,10 +19,10 @@ uv run python tests/run_all.py --skip-browser  # 僅 15/20 靜態診斷；不得
 
 | # | 項目 | 驗什麼 |
 |---|---|---|
-| 1 | `test_resource_catalog` | catalog schema、14 份考卷、route、題數、3 份 PDF 資源及完整 gallery（初級勘誤：3 page＋5 table＝8 assets）、legacy 資產鍵、565/565 詳解題都有 signed-off 概念標註、詞彙表 exact rebuild 與 id 帳本六道防線、兩份標註／`topicHeat`／`conceptGraph` 的穩定 id 與詞彙表逐筆一致且 export 精確重建、快取 v2 無損轉換與 id 優先對齊 |
+| 1 | `test_resource_catalog` | catalog schema、16 份考卷、route、題數、3 份 PDF 資源及完整 gallery（初級勘誤：3 page＋5 table＝8 assets）、legacy 資產鍵、815 題詳解的概念標註（mid_1151_s2_q39 詞彙表無對應、保留未標）、詞彙表 exact rebuild 與 id 帳本六道防線、兩份標註／`topicHeat`／`conceptGraph` 的穩定 id 與詞彙表逐筆一致且 export 精確重建、快取 v2 無損轉換與 id 優先對齊 |
 | 2 | `test_repo_portability` | production 腳本無工作站絕對路徑，subprocess 有明確 cwd |
 | 3 | `test_pipeline_output_safety` | Guide producer 所有權、完整 OCR cache、staging/rollback、partial export；appendix boundary、題目 ID／card 保留及 production 5 檔 179 題／179 cards |
-| 4 | `test_exam_ocr_repairs` | 14 份／715 題（初級樣題 70、中級樣題 45）production 修復、code-image annotation、逐頁 direct-view SHA/inventory、reference v2 provenance／完整發布、盲答圖檔 bytes cache、原始 sidecar 不變與 promotion blocker |
+| 4 | `test_exam_ocr_repairs` | 16 份／815 題（初級樣題 70、中級樣題 45）production 修復、code-image annotation、逐頁 direct-view SHA/inventory、reference v2 provenance／完整發布、盲答圖檔 bytes cache、原始 sidecar 不變與 promotion blocker |
 | 5 | `test_track_a_ocr_repairs` | 閱讀頁 169 筆精確 inventory＋3 筆 publication overlays＋3 筆 structure contracts、跨頁 provenance、公式、來源圖與導覽搜尋一致性；不依賴本機 cache |
 | 6 | `test_track_b_ocr_fixes` | 出題來源 78 筆（71 OCR／抽取＋2 來源數式＋5 provenance）、固定 canonical SHA、5 筆 deterministic page-type override、插入型勘誤與 TB-006 immutable OCR 重建、guide_sections exact rebuild、兩個出題入口拒絕 stale payload、cache 深比對與 fresh-clone 契約 |
 | 7 | `test_learning_contracts` | Draft 2020-12 結構、領域 invariants、canonical hash 與 malformed payload 不 crash |
@@ -42,12 +43,12 @@ uv run python tests/run_all.py --skip-browser  # 僅 15/20 靜態診斷；不得
 Fresh checkout 不含 gitignored 的 `pages_cache`、`exam_pages_cache`、`page_clean`、`page_extract`、
 `guide_tree` 與 Track A reading snapshot。Release gate 因此以 committed canonical／signature
 產物為必要層；本機完整 cache 存在時會追加來源重建深比對，partial cache 一律失敗。
-Fresh checkout 的考題 sidecar 是 0/715；維護者本機即使有部分 coverage（2026-08-30 盤點為
+Fresh checkout 的考題 sidecar 是 0/815；維護者本機即使有部分 coverage（2026-08-30 盤點為
 150/715）也只供
-診斷，不是 release input。Promotion 是獨立 gate，必須 715/715 且零 mismatch 才會放行；
+診斷，不是 release input。Promotion 是獨立 gate，必須 815/815 且零 mismatch 才會放行；
 coverage 未滿時 `--promotion-gate` 預期阻擋，不影響 verified production JSON。
 
-`data/exam_visual_review/*.json` 是 14 卷逐頁 direct-view 的 committed 報告；
+`data/exam_visual_review/*.json` 是 16 卷逐頁 direct-view 的 committed 報告；
 `verify_exam_visual_reviews.py` 以 PDF／question SHA 與完整 page／qid inventory fail-closed，並由考題 repair／audit gate 串入。
 
 各支端對端也可以單獨跑，例如 `python3 tests/test_exam_flow.py` 或 `python3 tests/test_learning_frontend.py`。
@@ -73,7 +74,7 @@ uv run --group learning-lab python tests/test_learning_lab.py
 
 ## test_routes.py 驗什麼
 
-catalog 展開的 14 份考卷與其餘正常路由逐一開啟，檢查無 console error / pageerror、
+catalog 展開的 16 份考卷與其餘正常路由逐一開啟，檢查無 console error / pageerror、
 內容不是白畫面，且沒有「載入失敗」「NaN」「undefined」「找不到」。另驗證未知 route、
 無效科目、無效考卷與無效概念各自顯示明確的找不到狀態；等待條件也會排除 Suspense skeleton。
 

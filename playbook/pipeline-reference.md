@@ -268,7 +268,7 @@ python3 scripts/verify_question_answers.py --run-dir ... --only-flagged --thresh
 有序圖片 path／SHA-256／byte length，legacy／stale／缺圖 cache 一律重問。分流看
 `wrong_consensus`（答錯票一致才可能是答案真的錯）；
 歷史校準集曾有 771 題（含當時 100 題 legacy duplicate aliases）；現行 production 契約是
-14 份／715 題。兩者的校準數據與圖片題過濾，見 `playbook/07-question-generation.md` §4a。
+16 份／815 題（2026-10-31）。兩者的校準數據與圖片題過濾，見 `playbook/07-question-generation.md` §4a。
 
 `export_guide_sections.py` 讀的是**當下**的 canonical `guide/subject{N}_guide.json`；
 重跑 `parse_guides.py` 或 Track B 補強後要一併重跑它。每份輸出記錄 canonical SHA，
@@ -328,17 +328,17 @@ uv run python3 scripts/annotate_exam_code_images.py --level 初級  # 程式碼�
 uv run python3 scripts/annotate_exam_code_images.py --level 中級
 uv run python3 scripts/apply_exam_explanations.py --level 初級    # 人工解析（parse 會覆寫成「正確答案為(X)。」）
 uv run python3 scripts/apply_exam_explanations.py --level 中級
-python3 scripts/verify_exam_ocr_repairs.py                        # 14 卷／715 題 production＋direct-view gate
+python3 scripts/verify_exam_ocr_repairs.py                        # 16 卷／815 題 production＋direct-view gate
 python3 scripts/export_resource_summary.py
 python3 scripts/verify_data_alignment.py --level 初級
 python3 scripts/verify_data_alignment.py --level 中級
 uv run python tests/run_all.py                           # 發佈前 20 項 release gate
 
 # 選用：Vision cache 是 gitignored 稽核 sidecar；parse_exams_v2 不讀它，不能拿這步當正式題庫刷新。
-# Fresh checkout 是 0/715；本機可能只有部分 coverage。verified overlay 只供未來升級實驗。
+# Fresh checkout 是 0/815；本機可能只有部分 coverage。verified overlay 只供未來升級實驗。
 uv run python3 scripts/gemini_exam_vision_extract.py --level 中級 --key mid_1141_s2 [--dry-run]
 python3 scripts/reconcile_exam_vision_sidecar.py --level all --output /tmp/exam-vision-verified.json
-python3 scripts/reconcile_exam_vision_sidecar.py --level all --promotion-gate # 必須 715/715；未滿時預期 exit 1
+python3 scripts/reconcile_exam_vision_sidecar.py --level all --promotion-gate # 必須 815/815；未滿時預期 exit 1
 
 # 選用：Claude API 出題 / 補 card 欄位
 uv run python3 scripts/generate_questions.py --level 初級 --subject 1
@@ -454,6 +454,7 @@ python3 scripts/export_concept_graph.py
   `export_topic_heat.py` → `export_concept_graph.py`。少跑回填，graph 會以「id／名稱與詞彙表不一致」拒絕建圖，不會靜默用舊名。
   `conceptGraph.json` 不再寫 `generatedAt`，重跑要 byte-identical。前端 `/concepts?c=` 以 id 為鍵，舊中文名連結仍解析並改寫成 id
   （相容期待裁決，見 `specifications/learning-platform/topic-id-migration.md` §10.4）。
+> 教訓 2026-10-31：新考卷題解發佈後 `topicHeat` 的 `questionsWithoutChapter` 從 115 跳到 364。根因：heat 的題→章對應讀 `guideExamAnnotations/`，先跑 heat 時新題還沒有標註。規則：官方卷順序為 `export_guide_exam_annotations.py` → `export_topic_heat.py` → `export_concept_graph.py`；網關推理模型標註要帶 `--batch-size 5 --max-tokens 16000`。
 
 三個踩過的坑（都是「以為模型沒做到，其實是自己對不上」）：
 
@@ -573,7 +574,7 @@ Pipeline 跑完後：
 13. 自動測試在 `tests/`；**發佈前一律跑** `uv run python tests/run_all.py`，動執行時行為或
     OCR 三軌也要跑。20 項保留原 13 項的
     build、兩級 alignment、8 類 audit、3 項既有 Playwright，以及 Track A 169＋3＋3、Track B 78、
-    考題 14 份／715 題的 OCR regression＋逐頁 direct-view SHA/inventory gate；fresh-checkout 與
+    考題 16 份／815 題的 OCR regression＋逐頁 direct-view SHA/inventory gate；fresh-checkout 與
     staged/rollback 契約也在其中。`verify_exam_visual_reviews.py` 由考題 repair／audit gate 串入。
     另納入 7 項實務學習門檻；完整清單與邊界見 `tests/README.md`。<!-- 2026-09-07: 依 run_all.py 新增門檻同步數量，保留既有驗收。 -->
 
