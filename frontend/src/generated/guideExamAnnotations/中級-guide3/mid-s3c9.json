@@ -2,9 +2,9 @@
   "guideKey": "中級-guide3",
   "nodeId": "mid-s3c9",
   "stats": {
-    "questions": 11,
-    "guideBlocks": 109,
-    "annotations": 151
+    "questions": 21,
+    "guideBlocks": 126,
+    "annotations": 202
   },
   "blocks": {
     "block-3": [
@@ -39,6 +39,21 @@
         "reasons": [
           "指出模型開發需重視訓練、評估、穩定性與泛化能力檢驗，支撐選項 D 的 PSI 穩定性檢驗屬於合理流程。"
         ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q41",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q41",
+        "questionNumber": 41,
+        "question": "工程師使用 PyTorch 建立OCR 訓練pipeline，並對手寫字母資料集套用下圖程式進 行資料增強（Transform）。模型在訓練過程中顯示驗證損失（Validation Loss）持續 下降，但實際部署後，系統在辨識「b/d/p/q」類字母錯誤率異常偏高。下列何者為 最可能的根本原因？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明驗證集用於監控訓練與觀察泛化能力，以及評估方法不嚴謹可能導致實際應用表現不佳。"
+        ]
       }
     ],
     "block-4": [
@@ -72,6 +87,21 @@
         "referenceQuestionId": "exam3_q25",
         "reasons": [
           "指出模型開發需重視訓練、評估、穩定性與泛化能力檢驗，支撐選項 D 的 PSI 穩定性檢驗屬於合理流程。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q41",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q41",
+        "questionNumber": 41,
+        "question": "工程師使用 PyTorch 建立OCR 訓練pipeline，並對手寫字母資料集套用下圖程式進 行資料增強（Transform）。模型在訓練過程中顯示驗證損失（Validation Loss）持續 下降，但實際部署後，系統在辨識「b/d/p/q」類字母錯誤率異常偏高。下列何者為 最可能的根本原因？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明驗證集用於監控訓練與觀察泛化能力，以及評估方法不嚴謹可能導致實際應用表現不佳。"
         ]
       }
     ],
@@ -241,6 +271,66 @@
         "reasons": [
           "說明訓練集、驗證集與測試集的分工；驗證集用於監控訓練與調整超參數，測試集用於訓練完成後的最終評估。"
         ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q13",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q13",
+        "questionNumber": 13,
+        "question": "某工程師訓練文本情感分類模型，訓練集 F1=0.96、驗證集 F1=0.71，落差明顯， 顯示模型出現過擬合。下列哪一種策略能最直接從降低模型複雜度的角度緩解過 擬合？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "區分訓練集與驗證集的用途，支持保留驗證集以監控泛化能力並調整正則化係數。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q14",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q14",
+        "questionNumber": 14,
+        "question": "某電商平台使用樸素貝氏分類器（Naive Bayes Classifier）建立垃圾郵件過濾模型。 訓練集準確率（Accuracy）達 92%，但上線後發現，包含「限時優惠、立即下單 享折扣」等關鍵字的正常促銷郵件，常被誤判為垃圾信。經分析發現，這些詞彙 在訓練資料中多出現在垃圾郵件中，導致其類別條件機率偏高。請問造成此現象 的最主要原因與較適當的改善方式為何？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "區分訓練集與驗證集的用途，支持以獨立驗證資料觀察模型的泛化能力，而非僅憑訓練準確率判斷成效。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q44",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q44",
+        "questionNumber": 44,
+        "question": "研究人員撰寫的程式中（下圖），先用整體資料進行 LDA（Linear Discriminant Analysis）降維，接著再用KNN（K-Nearest Neighbors）進行分類，並用交叉驗證 來評估準確率。請問下列敘述何者正確？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明訓練資料負責參數學習，驗證資料用來觀察泛化能力，支持訓練與驗證用途應分離的原則。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q48",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q48",
+        "questionNumber": 48,
+        "question": "參考下圖繪圖結果，當Epochs=6 時，訓練曲線值(0.81)明顯大於驗證曲線值(0.72)， 下列何者為最可能的原因？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明訓練集與驗證集的不同用途，支持以兩者的表現落差判讀模型泛化能力。"
+        ]
       }
     ],
     "block-9": [
@@ -275,6 +365,66 @@
         "reasons": [
           "說明訓練集、驗證集與測試集的分工；驗證集用於監控訓練與調整超參數，測試集用於訓練完成後的最終評估。"
         ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q13",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q13",
+        "questionNumber": 13,
+        "question": "某工程師訓練文本情感分類模型，訓練集 F1=0.96、驗證集 F1=0.71，落差明顯， 顯示模型出現過擬合。下列哪一種策略能最直接從降低模型複雜度的角度緩解過 擬合？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "區分訓練集與驗證集的用途，支持保留驗證集以監控泛化能力並調整正則化係數。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q14",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q14",
+        "questionNumber": 14,
+        "question": "某電商平台使用樸素貝氏分類器（Naive Bayes Classifier）建立垃圾郵件過濾模型。 訓練集準確率（Accuracy）達 92%，但上線後發現，包含「限時優惠、立即下單 享折扣」等關鍵字的正常促銷郵件，常被誤判為垃圾信。經分析發現，這些詞彙 在訓練資料中多出現在垃圾郵件中，導致其類別條件機率偏高。請問造成此現象 的最主要原因與較適當的改善方式為何？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "區分訓練集與驗證集的用途，支持以獨立驗證資料觀察模型的泛化能力，而非僅憑訓練準確率判斷成效。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q44",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q44",
+        "questionNumber": 44,
+        "question": "研究人員撰寫的程式中（下圖），先用整體資料進行 LDA（Linear Discriminant Analysis）降維，接著再用KNN（K-Nearest Neighbors）進行分類，並用交叉驗證 來評估準確率。請問下列敘述何者正確？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明訓練資料負責參數學習，驗證資料用來觀察泛化能力，支持訓練與驗證用途應分離的原則。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q48",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q48",
+        "questionNumber": 48,
+        "question": "參考下圖繪圖結果，當Epochs=6 時，訓練曲線值(0.81)明顯大於驗證曲線值(0.72)， 下列何者為最可能的原因？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明訓練集與驗證集的不同用途，支持以兩者的表現落差判讀模型泛化能力。"
+        ]
       }
     ],
     "block-10": [
@@ -308,6 +458,66 @@
         "referenceQuestionId": "exam3_q31",
         "reasons": [
           "說明訓練集、驗證集與測試集的分工；驗證集用於監控訓練與調整超參數，測試集用於訓練完成後的最終評估。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q13",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q13",
+        "questionNumber": 13,
+        "question": "某工程師訓練文本情感分類模型，訓練集 F1=0.96、驗證集 F1=0.71，落差明顯， 顯示模型出現過擬合。下列哪一種策略能最直接從降低模型複雜度的角度緩解過 擬合？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "區分訓練集與驗證集的用途，支持保留驗證集以監控泛化能力並調整正則化係數。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q14",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q14",
+        "questionNumber": 14,
+        "question": "某電商平台使用樸素貝氏分類器（Naive Bayes Classifier）建立垃圾郵件過濾模型。 訓練集準確率（Accuracy）達 92%，但上線後發現，包含「限時優惠、立即下單 享折扣」等關鍵字的正常促銷郵件，常被誤判為垃圾信。經分析發現，這些詞彙 在訓練資料中多出現在垃圾郵件中，導致其類別條件機率偏高。請問造成此現象 的最主要原因與較適當的改善方式為何？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "區分訓練集與驗證集的用途，支持以獨立驗證資料觀察模型的泛化能力，而非僅憑訓練準確率判斷成效。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q44",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q44",
+        "questionNumber": 44,
+        "question": "研究人員撰寫的程式中（下圖），先用整體資料進行 LDA（Linear Discriminant Analysis）降維，接著再用KNN（K-Nearest Neighbors）進行分類，並用交叉驗證 來評估準確率。請問下列敘述何者正確？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明訓練資料負責參數學習，驗證資料用來觀察泛化能力，支持訓練與驗證用途應分離的原則。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q48",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q48",
+        "questionNumber": 48,
+        "question": "參考下圖繪圖結果，當Epochs=6 時，訓練曲線值(0.81)明顯大於驗證曲線值(0.72)， 下列何者為最可能的原因？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明訓練集與驗證集的不同用途，支持以兩者的表現落差判讀模型泛化能力。"
         ]
       }
     ],
@@ -359,6 +569,81 @@
         "reasons": [
           "說明訓練集、驗證集與測試集的分工；驗證集用於監控訓練與調整超參數，測試集用於訓練完成後的最終評估。"
         ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q13",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q13",
+        "questionNumber": 13,
+        "question": "某工程師訓練文本情感分類模型，訓練集 F1=0.96、驗證集 F1=0.71，落差明顯， 顯示模型出現過擬合。下列哪一種策略能最直接從降低模型複雜度的角度緩解過 擬合？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "區分訓練集與驗證集的用途，支持保留驗證集以監控泛化能力並調整正則化係數。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q14",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q14",
+        "questionNumber": 14,
+        "question": "某電商平台使用樸素貝氏分類器（Naive Bayes Classifier）建立垃圾郵件過濾模型。 訓練集準確率（Accuracy）達 92%，但上線後發現，包含「限時優惠、立即下單 享折扣」等關鍵字的正常促銷郵件，常被誤判為垃圾信。經分析發現，這些詞彙 在訓練資料中多出現在垃圾郵件中，導致其類別條件機率偏高。請問造成此現象 的最主要原因與較適當的改善方式為何？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "區分訓練集與驗證集的用途，支持以獨立驗證資料觀察模型的泛化能力，而非僅憑訓練準確率判斷成效。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q41",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q41",
+        "questionNumber": 41,
+        "question": "工程師使用 PyTorch 建立OCR 訓練pipeline，並對手寫字母資料集套用下圖程式進 行資料增強（Transform）。模型在訓練過程中顯示驗證損失（Validation Loss）持續 下降，但實際部署後，系統在辨識「b/d/p/q」類字母錯誤率異常偏高。下列何者為 最可能的根本原因？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明驗證集用於監控訓練與觀察泛化能力，以及評估方法不嚴謹可能導致實際應用表現不佳。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q44",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q44",
+        "questionNumber": 44,
+        "question": "研究人員撰寫的程式中（下圖），先用整體資料進行 LDA（Linear Discriminant Analysis）降維，接著再用KNN（K-Nearest Neighbors）進行分類，並用交叉驗證 來評估準確率。請問下列敘述何者正確？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明訓練資料負責參數學習，驗證資料用來觀察泛化能力，支持訓練與驗證用途應分離的原則。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q48",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q48",
+        "questionNumber": 48,
+        "question": "參考下圖繪圖結果，當Epochs=6 時，訓練曲線值(0.81)明顯大於驗證曲線值(0.72)， 下列何者為最可能的原因？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明訓練集與驗證集的不同用途，支持以兩者的表現落差判讀模型泛化能力。"
+        ]
       }
     ],
     "block-12": [
@@ -408,6 +693,81 @@
         "referenceQuestionId": "exam3_q31",
         "reasons": [
           "說明訓練集、驗證集與測試集的分工；驗證集用於監控訓練與調整超參數，測試集用於訓練完成後的最終評估。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q13",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q13",
+        "questionNumber": 13,
+        "question": "某工程師訓練文本情感分類模型，訓練集 F1=0.96、驗證集 F1=0.71，落差明顯， 顯示模型出現過擬合。下列哪一種策略能最直接從降低模型複雜度的角度緩解過 擬合？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "區分訓練集與驗證集的用途，支持保留驗證集以監控泛化能力並調整正則化係數。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q14",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q14",
+        "questionNumber": 14,
+        "question": "某電商平台使用樸素貝氏分類器（Naive Bayes Classifier）建立垃圾郵件過濾模型。 訓練集準確率（Accuracy）達 92%，但上線後發現，包含「限時優惠、立即下單 享折扣」等關鍵字的正常促銷郵件，常被誤判為垃圾信。經分析發現，這些詞彙 在訓練資料中多出現在垃圾郵件中，導致其類別條件機率偏高。請問造成此現象 的最主要原因與較適當的改善方式為何？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "區分訓練集與驗證集的用途，支持以獨立驗證資料觀察模型的泛化能力，而非僅憑訓練準確率判斷成效。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q41",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q41",
+        "questionNumber": 41,
+        "question": "工程師使用 PyTorch 建立OCR 訓練pipeline，並對手寫字母資料集套用下圖程式進 行資料增強（Transform）。模型在訓練過程中顯示驗證損失（Validation Loss）持續 下降，但實際部署後，系統在辨識「b/d/p/q」類字母錯誤率異常偏高。下列何者為 最可能的根本原因？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明驗證集用於監控訓練與觀察泛化能力，以及評估方法不嚴謹可能導致實際應用表現不佳。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q44",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q44",
+        "questionNumber": 44,
+        "question": "研究人員撰寫的程式中（下圖），先用整體資料進行 LDA（Linear Discriminant Analysis）降維，接著再用KNN（K-Nearest Neighbors）進行分類，並用交叉驗證 來評估準確率。請問下列敘述何者正確？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明訓練資料負責參數學習，驗證資料用來觀察泛化能力，支持訓練與驗證用途應分離的原則。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q48",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q48",
+        "questionNumber": 48,
+        "question": "參考下圖繪圖結果，當Epochs=6 時，訓練曲線值(0.81)明顯大於驗證曲線值(0.72)， 下列何者為最可能的原因？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明訓練集與驗證集的不同用途，支持以兩者的表現落差判讀模型泛化能力。"
         ]
       }
     ],
@@ -701,6 +1061,176 @@
         ]
       }
     ],
+    "block-25": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q11",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q11",
+        "questionNumber": 11,
+        "question": "某工程師在 A100 GPU 叢集上訓練大型語言模型，觀察到以下現象：全批次梯度 下降時 GPU 利用率達 100%，但每次更新耗時 45 秒；隨機梯度下降（SGD）每 次更新僅需 0.01秒，但梯度極不穩定、訓練曲線震盪劇烈。為兼顧梯度穩定性與 GPU吞吐量（Throughput），應採用下列哪種策略？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "直接比較全量、單樣本與小批次訓練，並說明小批次兼具穩定性與效率，以及批次大小須依 GPU 記憶體與任務調整。"
+        ]
+      }
+    ],
+    "block-26": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q11",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q11",
+        "questionNumber": 11,
+        "question": "某工程師在 A100 GPU 叢集上訓練大型語言模型，觀察到以下現象：全批次梯度 下降時 GPU 利用率達 100%，但每次更新耗時 45 秒；隨機梯度下降（SGD）每 次更新僅需 0.01秒，但梯度極不穩定、訓練曲線震盪劇烈。為兼顧梯度穩定性與 GPU吞吐量（Throughput），應採用下列哪種策略？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "直接比較全量、單樣本與小批次訓練，並說明小批次兼具穩定性與效率，以及批次大小須依 GPU 記憶體與任務調整。"
+        ]
+      }
+    ],
+    "block-27": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q11",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q11",
+        "questionNumber": 11,
+        "question": "某工程師在 A100 GPU 叢集上訓練大型語言模型，觀察到以下現象：全批次梯度 下降時 GPU 利用率達 100%，但每次更新耗時 45 秒；隨機梯度下降（SGD）每 次更新僅需 0.01秒，但梯度極不穩定、訓練曲線震盪劇烈。為兼顧梯度穩定性與 GPU吞吐量（Throughput），應採用下列哪種策略？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "直接比較全量、單樣本與小批次訓練，並說明小批次兼具穩定性與效率，以及批次大小須依 GPU 記憶體與任務調整。"
+        ]
+      }
+    ],
+    "block-28": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q11",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q11",
+        "questionNumber": 11,
+        "question": "某工程師在 A100 GPU 叢集上訓練大型語言模型，觀察到以下現象：全批次梯度 下降時 GPU 利用率達 100%，但每次更新耗時 45 秒；隨機梯度下降（SGD）每 次更新僅需 0.01秒，但梯度極不穩定、訓練曲線震盪劇烈。為兼顧梯度穩定性與 GPU吞吐量（Throughput），應採用下列哪種策略？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "直接比較全量、單樣本與小批次訓練，並說明小批次兼具穩定性與效率，以及批次大小須依 GPU 記憶體與任務調整。"
+        ]
+      }
+    ],
+    "block-29": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q11",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q11",
+        "questionNumber": 11,
+        "question": "某工程師在 A100 GPU 叢集上訓練大型語言模型，觀察到以下現象：全批次梯度 下降時 GPU 利用率達 100%，但每次更新耗時 45 秒；隨機梯度下降（SGD）每 次更新僅需 0.01秒，但梯度極不穩定、訓練曲線震盪劇烈。為兼顧梯度穩定性與 GPU吞吐量（Throughput），應採用下列哪種策略？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "直接比較全量、單樣本與小批次訓練，並說明小批次兼具穩定性與效率，以及批次大小須依 GPU 記憶體與任務調整。"
+        ]
+      }
+    ],
+    "block-30": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q11",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q11",
+        "questionNumber": 11,
+        "question": "某工程師在 A100 GPU 叢集上訓練大型語言模型，觀察到以下現象：全批次梯度 下降時 GPU 利用率達 100%，但每次更新耗時 45 秒；隨機梯度下降（SGD）每 次更新僅需 0.01秒，但梯度極不穩定、訓練曲線震盪劇烈。為兼顧梯度穩定性與 GPU吞吐量（Throughput），應採用下列哪種策略？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "直接比較全量、單樣本與小批次訓練，並說明小批次兼具穩定性與效率，以及批次大小須依 GPU 記憶體與任務調整。"
+        ]
+      }
+    ],
+    "block-31": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q8",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q8",
+        "questionNumber": 8,
+        "question": "某深度學習工程師訓練 ResNet 時，發現模型在前幾個 Epoch驗證損失快速下降， 但從第 15 個 Epoch 起驗證損失開始上升，而訓練損失持續下降。工程師將學習 率調高後，訓練損失反而開始明顯震盪。學習率過大最直接導致下列哪種現象？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明學習率是控制更新步伐的超參數，以及降低學習率有助於穩定收斂。"
+        ]
+      }
+    ],
+    "block-32": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q8",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q8",
+        "questionNumber": 8,
+        "question": "某深度學習工程師訓練 ResNet 時，發現模型在前幾個 Epoch驗證損失快速下降， 但從第 15 個 Epoch 起驗證損失開始上升，而訓練損失持續下降。工程師將學習 率調高後，訓練損失反而開始明顯震盪。學習率過大最直接導致下列哪種現象？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明學習率是控制更新步伐的超參數，以及降低學習率有助於穩定收斂。"
+        ]
+      }
+    ],
+    "block-35": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q8",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q8",
+        "questionNumber": 8,
+        "question": "某深度學習工程師訓練 ResNet 時，發現模型在前幾個 Epoch驗證損失快速下降， 但從第 15 個 Epoch 起驗證損失開始上升，而訓練損失持續下降。工程師將學習 率調高後，訓練損失反而開始明顯震盪。學習率過大最直接導致下列哪種現象？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明學習率是控制更新步伐的超參數，以及降低學習率有助於穩定收斂。"
+        ]
+      }
+    ],
+    "block-36": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q8",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q8",
+        "questionNumber": 8,
+        "question": "某深度學習工程師訓練 ResNet 時，發現模型在前幾個 Epoch驗證損失快速下降， 但從第 15 個 Epoch 起驗證損失開始上升，而訓練損失持續下降。工程師將學習 率調高後，訓練損失反而開始明顯震盪。學習率過大最直接導致下列哪種現象？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明學習率是控制更新步伐的超參數，以及降低學習率有助於穩定收斂。"
+        ]
+      }
+    ],
     "block-41": [
       {
         "id": "mid_1141_s3:mid_1141_s3_q31",
@@ -843,6 +1373,21 @@
         "reasons": [
           "說明分類任務評估指標，並列出 Precision、Recall 與 F1 分數的定義及公式。"
         ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q12",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q12",
+        "questionNumber": 12,
+        "question": "某醫院導入肺癌篩檢模型，資料集中正常病例佔 99%、肺癌陽性僅佔 1%。模型 上線後，系統報告整體準確率（Accuracy）為 99.1%。醫師對此數字感到疑慮， 認為不足以評估臨床價值，在漏診風險上可能存在重大問題。請問在此情境下， 僅以Accuracy 作為評估指標最嚴重的缺陷為何？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "介紹分類評估的目的與混淆矩陣，區分 TP、TN、FP、FN，支持以假陰性分析漏診風險，並依任務風險選擇評估指標。"
+        ]
       }
     ],
     "block-57": [
@@ -861,6 +1406,21 @@
         "reasons": [
           "說明分類任務評估指標，並列出 Precision、Recall 與 F1 分數的定義及公式。"
         ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q12",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q12",
+        "questionNumber": 12,
+        "question": "某醫院導入肺癌篩檢模型，資料集中正常病例佔 99%、肺癌陽性僅佔 1%。模型 上線後，系統報告整體準確率（Accuracy）為 99.1%。醫師對此數字感到疑慮， 認為不足以評估臨床價值，在漏診風險上可能存在重大問題。請問在此情境下， 僅以Accuracy 作為評估指標最嚴重的缺陷為何？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "介紹分類評估的目的與混淆矩陣，區分 TP、TN、FP、FN，支持以假陰性分析漏診風險，並依任務風險選擇評估指標。"
+        ]
       }
     ],
     "block-58": [
@@ -878,6 +1438,123 @@
         "referenceQuestionId": "exam3_q16",
         "reasons": [
           "說明分類任務評估指標，並列出 Precision、Recall 與 F1 分數的定義及公式。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q12",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q12",
+        "questionNumber": 12,
+        "question": "某醫院導入肺癌篩檢模型，資料集中正常病例佔 99%、肺癌陽性僅佔 1%。模型 上線後，系統報告整體準確率（Accuracy）為 99.1%。醫師對此數字感到疑慮， 認為不足以評估臨床價值，在漏診風險上可能存在重大問題。請問在此情境下， 僅以Accuracy 作為評估指標最嚴重的缺陷為何？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "介紹分類評估的目的與混淆矩陣，區分 TP、TN、FP、FN，支持以假陰性分析漏診風險，並依任務風險選擇評估指標。"
+        ]
+      }
+    ],
+    "block-59": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q12",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q12",
+        "questionNumber": 12,
+        "question": "某醫院導入肺癌篩檢模型，資料集中正常病例佔 99%、肺癌陽性僅佔 1%。模型 上線後，系統報告整體準確率（Accuracy）為 99.1%。醫師對此數字感到疑慮， 認為不足以評估臨床價值，在漏診風險上可能存在重大問題。請問在此情境下， 僅以Accuracy 作為評估指標最嚴重的缺陷為何？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "介紹分類評估的目的與混淆矩陣，區分 TP、TN、FP、FN，支持以假陰性分析漏診風險，並依任務風險選擇評估指標。"
+        ]
+      }
+    ],
+    "block-60": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q12",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q12",
+        "questionNumber": 12,
+        "question": "某醫院導入肺癌篩檢模型，資料集中正常病例佔 99%、肺癌陽性僅佔 1%。模型 上線後，系統報告整體準確率（Accuracy）為 99.1%。醫師對此數字感到疑慮， 認為不足以評估臨床價值，在漏診風險上可能存在重大問題。請問在此情境下， 僅以Accuracy 作為評估指標最嚴重的缺陷為何？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "介紹分類評估的目的與混淆矩陣，區分 TP、TN、FP、FN，支持以假陰性分析漏診風險，並依任務風險選擇評估指標。"
+        ]
+      }
+    ],
+    "block-62": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q12",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q12",
+        "questionNumber": 12,
+        "question": "某醫院導入肺癌篩檢模型，資料集中正常病例佔 99%、肺癌陽性僅佔 1%。模型 上線後，系統報告整體準確率（Accuracy）為 99.1%。醫師對此數字感到疑慮， 認為不足以評估臨床價值，在漏診風險上可能存在重大問題。請問在此情境下， 僅以Accuracy 作為評估指標最嚴重的缺陷為何？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "介紹分類評估的目的與混淆矩陣，區分 TP、TN、FP、FN，支持以假陰性分析漏診風險，並依任務風險選擇評估指標。"
+        ]
+      }
+    ],
+    "block-63": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q12",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q12",
+        "questionNumber": 12,
+        "question": "某醫院導入肺癌篩檢模型，資料集中正常病例佔 99%、肺癌陽性僅佔 1%。模型 上線後，系統報告整體準確率（Accuracy）為 99.1%。醫師對此數字感到疑慮， 認為不足以評估臨床價值，在漏診風險上可能存在重大問題。請問在此情境下， 僅以Accuracy 作為評估指標最嚴重的缺陷為何？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "介紹分類評估的目的與混淆矩陣，區分 TP、TN、FP、FN，支持以假陰性分析漏診風險，並依任務風險選擇評估指標。"
+        ]
+      }
+    ],
+    "block-64": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q12",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q12",
+        "questionNumber": 12,
+        "question": "某醫院導入肺癌篩檢模型，資料集中正常病例佔 99%、肺癌陽性僅佔 1%。模型 上線後，系統報告整體準確率（Accuracy）為 99.1%。醫師對此數字感到疑慮， 認為不足以評估臨床價值，在漏診風險上可能存在重大問題。請問在此情境下， 僅以Accuracy 作為評估指標最嚴重的缺陷為何？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "介紹分類評估的目的與混淆矩陣，區分 TP、TN、FP、FN，支持以假陰性分析漏診風險，並依任務風險選擇評估指標。"
+        ]
+      }
+    ],
+    "block-65": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q12",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q12",
+        "questionNumber": 12,
+        "question": "某醫院導入肺癌篩檢模型，資料集中正常病例佔 99%、肺癌陽性僅佔 1%。模型 上線後，系統報告整體準確率（Accuracy）為 99.1%。醫師對此數字感到疑慮， 認為不足以評估臨床價值，在漏診風險上可能存在重大問題。請問在此情境下， 僅以Accuracy 作為評估指標最嚴重的缺陷為何？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "介紹分類評估的目的與混淆矩陣，區分 TP、TN、FP、FN，支持以假陰性分析漏診風險，並依任務風險選擇評估指標。"
         ]
       }
     ],
@@ -1915,6 +2592,36 @@
         "reasons": [
           "提供交叉驗證用於觀察多次訓練下穩定性、降低資料切分偶然性偏誤的背景概念。"
         ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q27",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q27",
+        "questionNumber": 27,
+        "question": "某工程師建立零售商品銷量預測模型，初期以第 1 至 52 週資料作為訓練集、第 53 週作為測試集（固定時間切分）。半年後重新評估，發現模型對最新資料（如 第 80 週）的預測明顯衰退，推測為時間演進導致行為模式改變。若重新設計驗 證策略，應採用下列哪種方法，使每次訓練皆基於最新時間區間資料？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "支持模型評估應觀察多輪訓練的穩定性與變異，而非只依賴單一實驗結果。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q30",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q30",
+        "questionNumber": 30,
+        "question": "某信用風險模型：訓練AUC=0.97、驗證AUC=0.72、少數違約樣本預測波動極大 及不同K-fold切分結果差異明顯。下列何者為最可能的問題？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "強調多輪訓練的穩定性、變異範圍及 K-fold 評估，可用來解讀題目中不同資料切分造成的效能波動。"
+        ]
       }
     ],
     "block-161": [
@@ -1948,6 +2655,38 @@
         "referenceQuestionId": "exam3_q34",
         "reasons": [
           "提供交叉驗證用於觀察多次訓練下穩定性、降低資料切分偶然性偏誤的背景概念。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q30",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q30",
+        "questionNumber": 30,
+        "question": "某信用風險模型：訓練AUC=0.97、驗證AUC=0.72、少數違約樣本預測波動極大 及不同K-fold切分結果差異明顯。下列何者為最可能的問題？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "強調多輪訓練的穩定性、變異範圍及 K-fold 評估，可用來解讀題目中不同資料切分造成的效能波動。"
+        ]
+      }
+    ],
+    "block-162": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q30",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q30",
+        "questionNumber": 30,
+        "question": "某信用風險模型：訓練AUC=0.97、驗證AUC=0.72、少數違約樣本預測波動極大 及不同K-fold切分結果差異明顯。下列何者為最可能的問題？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "強調多輪訓練的穩定性、變異範圍及 K-fold 評估，可用來解讀題目中不同資料切分造成的效能波動。"
         ]
       }
     ],
@@ -2118,6 +2857,21 @@
         "reasons": [
           "說明 K-fold 交叉驗證可減少資料切分偏差、評估不同樣本上的穩定性，且適用於模型效能比較與分類/迴歸任務的泛化能力驗證。"
         ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q27",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q27",
+        "questionNumber": 27,
+        "question": "某工程師建立零售商品銷量預測模型，初期以第 1 至 52 週資料作為訓練集、第 53 週作為測試集（固定時間切分）。半年後重新評估，發現模型對最新資料（如 第 80 週）的預測明顯衰退，推測為時間演進導致行為模式改變。若重新設計驗 證策略，應採用下列哪種方法，使每次訓練皆基於最新時間區間資料？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "說明一般 K-fold 的切分方式及降低特定切分偶然性的目的，用以比較選項 A 與時間窗口驗證。"
+        ]
       }
     ],
     "block-171": [
@@ -2151,6 +2905,21 @@
         "referenceQuestionId": "exam3_q47",
         "reasons": [
           "說明 K-fold 交叉驗證可減少資料切分偏差、評估不同樣本上的穩定性，且適用於模型效能比較與分類/迴歸任務的泛化能力驗證。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q27",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q27",
+        "questionNumber": 27,
+        "question": "某工程師建立零售商品銷量預測模型，初期以第 1 至 52 週資料作為訓練集、第 53 週作為測試集（固定時間切分）。半年後重新評估，發現模型對最新資料（如 第 80 週）的預測明顯衰退，推測為時間演進導致行為模式改變。若重新設計驗 證策略，應採用下列哪種方法，使每次訓練皆基於最新時間區間資料？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "說明一般 K-fold 的切分方式及降低特定切分偶然性的目的，用以比較選項 A 與時間窗口驗證。"
         ]
       }
     ],
@@ -2252,6 +3021,21 @@
         "reasons": [
           "說明 K-fold 交叉驗證可減少資料切分偏差、評估不同樣本上的穩定性，且適用於模型效能比較與分類/迴歸任務的泛化能力驗證。"
         ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q27",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q27",
+        "questionNumber": 27,
+        "question": "某工程師建立零售商品銷量預測模型，初期以第 1 至 52 週資料作為訓練集、第 53 週作為測試集（固定時間切分）。半年後重新評估，發現模型對最新資料（如 第 80 週）的預測明顯衰退，推測為時間演進導致行為模式改變。若重新設計驗 證策略，應採用下列哪種方法，使每次訓練皆基於最新時間區間資料？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "說明一般 K-fold 的切分方式及降低特定切分偶然性的目的，用以比較選項 A 與時間窗口驗證。"
+        ]
       }
     ],
     "block-174": [
@@ -2285,6 +3069,21 @@
         "referenceQuestionId": "exam3_q47",
         "reasons": [
           "說明 K-fold 交叉驗證可減少資料切分偏差、評估不同樣本上的穩定性，且適用於模型效能比較與分類/迴歸任務的泛化能力驗證。"
+        ]
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q27",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q27",
+        "questionNumber": 27,
+        "question": "某工程師建立零售商品銷量預測模型，初期以第 1 至 52 週資料作為訓練集、第 53 週作為測試集（固定時間切分）。半年後重新評估，發現模型對最新資料（如 第 80 週）的預測明顯衰退，推測為時間演進導致行為模式改變。若重新設計驗 證策略，應採用下列哪種方法，使每次訓練皆基於最新時間區間資料？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "說明一般 K-fold 的切分方式及降低特定切分偶然性的目的，用以比較選項 A 與時間窗口驗證。"
         ]
       }
     ],

@@ -488,6 +488,10 @@ def build_prompt(level: str, exam_key: str, exam: dict, question: dict, retrieve
 - reference_answer 要能讓考生理解為何正確答案成立，並連結到學習指引概念。
 - option_analysis 必須逐一說明 A/B/C/D 正確或錯誤原因。
 - citations 只能使用下方 R1..Rn 中的 guide_key、node_id、title、page_label、block_ids。
+- reference_answer 與 option_analysis 會直接顯示給考生：不得出現 R1..Rn、block id、「檢索片段」「提供的片段」等內部字樣；
+  需要指出出處時寫學習指引的章節標題與頁碼（例：學習指引〈數據準備與特徵工程〉5-2 頁），完整出處放 citations。
+- 若題目附圖而你無法直接看到圖像內容，不要在 reference_answer 或 option_analysis 提及看不到圖；
+  只依題幹、選項與圖片的文字對照作答，限制寫在 notes。
 - 只輸出符合 JSON schema 的 JSON。
 
 題目資訊：

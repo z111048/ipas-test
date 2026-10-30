@@ -2,9 +2,9 @@
   "guideKey": "中級-guide2",
   "nodeId": "mid-s2c7",
   "stats": {
-    "questions": 10,
-    "guideBlocks": 22,
-    "annotations": 42
+    "questions": 17,
+    "guideBlocks": 23,
+    "annotations": 60
   },
   "blocks": {
     "block-5": [
@@ -86,6 +86,51 @@
         "referenceQuestionId": "exam2_q47",
         "reasons": [
           "指出敘述統計可用於彙總資料特性、揭示趨勢與變異性，呼應本題先找出銷售額最高前五名再視覺化的分析流程。"
+        ]
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q21",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q21",
+        "questionNumber": 21,
+        "question": "某AI平台的資料工程師需要在 Apache Spark 叢集上，對包含 10億筆使用者行為紀錄 的RDD/DataFrame 計算整體標準差（Standard Deviation）。請問下列哪種策略在分散式 環境中最正確且有效率？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明數十億筆資料下敘述統計的運算資源限制，以及資料無法完全載入記憶體時，傳統平均數與標準差計算方式的效能問題。"
+        ]
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q45",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q45",
+        "questionNumber": 45,
+        "question": "若分析師想找出「總貢獻營收最高的前 3 名客戶」，下列 Pandas 程式碼何者最為精確 且高效？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "說明敘述統計的資料彙總目的，以及大規模資料彙總時的運算效率考量，支持本題先彙總客戶營收再選取前幾名的概念。"
+        ]
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q46",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q46",
+        "questionNumber": 46,
+        "question": "若分析師只想計算「Electronics（電子產品）」這個特定分類的平均營收，下列何者為 最佳的語法？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "說明平均數屬於敘述統計指標，用於彙總資料特性，並提醒消費金額等資料的極端值與長尾分佈可能影響平均數的解釋。"
         ]
       }
     ],
@@ -169,6 +214,66 @@
         "reasons": [
           "指出敘述統計可用於彙總資料特性、揭示趨勢與變異性，呼應本題先找出銷售額最高前五名再視覺化的分析流程。"
         ]
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q21",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q21",
+        "questionNumber": 21,
+        "question": "某AI平台的資料工程師需要在 Apache Spark 叢集上，對包含 10億筆使用者行為紀錄 的RDD/DataFrame 計算整體標準差（Standard Deviation）。請問下列哪種策略在分散式 環境中最正確且有效率？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明數十億筆資料下敘述統計的運算資源限制，以及資料無法完全載入記憶體時，傳統平均數與標準差計算方式的效能問題。"
+        ]
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q41",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q41",
+        "questionNumber": 41,
+        "question": "資料分析師使用Python檢視daily_earnings欄位的基本統計量，執行以下程式碼（Pandas 2以上版本，程式碼與輸出見下方）。若團隊進一步發現 daily_earnings 欄位約有 5%的遺失值，且目前規劃先建立線性迴歸 （Linear Regression）模型來預測未來收入。為盡可能保留該欄位原有分布特性，並降 低因補值造成的偏差，請問下列哪一種處理方式最為合理？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明收入等資料可能具有偏態或長尾，平均數易受極端值影響，須搭配中位數或分位數判讀，支持本題選擇中位數補值的統計理由。"
+        ]
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q45",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q45",
+        "questionNumber": 45,
+        "question": "若分析師想找出「總貢獻營收最高的前 3 名客戶」，下列 Pandas 程式碼何者最為精確 且高效？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "說明敘述統計的資料彙總目的，以及大規模資料彙總時的運算效率考量，支持本題先彙總客戶營收再選取前幾名的概念。"
+        ]
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q46",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q46",
+        "questionNumber": 46,
+        "question": "若分析師只想計算「Electronics（電子產品）」這個特定分類的平均營收，下列何者為 最佳的語法？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "說明平均數屬於敘述統計指標，用於彙總資料特性，並提醒消費金額等資料的極端值與長尾分佈可能影響平均數的解釋。"
+        ]
       }
     ],
     "block-7": [
@@ -186,6 +291,36 @@
         "referenceQuestionId": "exam2_q27",
         "reasons": [
           "說明大數據下敘述統計面臨運算資源、即時計算、偏態分佈與異常偵測等挑戰，呼應題目中的金融交易分佈與異常波動監控情境。"
+        ]
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q21",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q21",
+        "questionNumber": 21,
+        "question": "某AI平台的資料工程師需要在 Apache Spark 叢集上，對包含 10億筆使用者行為紀錄 的RDD/DataFrame 計算整體標準差（Standard Deviation）。請問下列哪種策略在分散式 環境中最正確且有效率？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明數十億筆資料下敘述統計的運算資源限制，以及資料無法完全載入記憶體時，傳統平均數與標準差計算方式的效能問題。"
+        ]
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q45",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q45",
+        "questionNumber": 45,
+        "question": "若分析師想找出「總貢獻營收最高的前 3 名客戶」，下列 Pandas 程式碼何者最為精確 且高效？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "說明敘述統計的資料彙總目的，以及大規模資料彙總時的運算效率考量，支持本題先彙總客戶營收再選取前幾名的概念。"
         ]
       }
     ],
@@ -220,6 +355,36 @@
         "referenceQuestionId": "exam2_q27",
         "reasons": [
           "說明大數據下敘述統計面臨運算資源、即時計算、偏態分佈與異常偵測等挑戰，呼應題目中的金融交易分佈與異常波動監控情境。"
+        ]
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q21",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q21",
+        "questionNumber": 21,
+        "question": "某AI平台的資料工程師需要在 Apache Spark 叢集上，對包含 10億筆使用者行為紀錄 的RDD/DataFrame 計算整體標準差（Standard Deviation）。請問下列哪種策略在分散式 環境中最正確且有效率？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明數十億筆資料下敘述統計的運算資源限制，以及資料無法完全載入記憶體時，傳統平均數與標準差計算方式的效能問題。"
+        ]
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q45",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q45",
+        "questionNumber": 45,
+        "question": "若分析師想找出「總貢獻營收最高的前 3 名客戶」，下列 Pandas 程式碼何者最為精確 且高效？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "說明敘述統計的資料彙總目的，以及大規模資料彙總時的運算效率考量，支持本題先彙總客戶營收再選取前幾名的概念。"
         ]
       }
     ],
@@ -270,6 +435,36 @@
         "referenceQuestionId": "exam2_q44",
         "reasons": [
           "說明敘述統計用於揭示趨勢與資料特性，也指出資料型態會影響統計計算，呼應 Year 欄位需轉為適合趨勢分析的數值型態。"
+        ]
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q41",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q41",
+        "questionNumber": 41,
+        "question": "資料分析師使用Python檢視daily_earnings欄位的基本統計量，執行以下程式碼（Pandas 2以上版本，程式碼與輸出見下方）。若團隊進一步發現 daily_earnings 欄位約有 5%的遺失值，且目前規劃先建立線性迴歸 （Linear Regression）模型來預測未來收入。為盡可能保留該欄位原有分布特性，並降 低因補值造成的偏差，請問下列哪一種處理方式最為合理？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明收入等資料可能具有偏態或長尾，平均數易受極端值影響，須搭配中位數或分位數判讀，支持本題選擇中位數補值的統計理由。"
+        ]
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q46",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q46",
+        "questionNumber": 46,
+        "question": "若分析師只想計算「Electronics（電子產品）」這個特定分類的平均營收，下列何者為 最佳的語法？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "說明平均數屬於敘述統計指標，用於彙總資料特性，並提醒消費金額等資料的極端值與長尾分佈可能影響平均數的解釋。"
         ]
       }
     ],
@@ -352,6 +547,36 @@
         "referenceQuestionId": "exam2_q44",
         "reasons": [
           "說明敘述統計用於揭示趨勢與資料特性，也指出資料型態會影響統計計算，呼應 Year 欄位需轉為適合趨勢分析的數值型態。"
+        ]
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q41",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q41",
+        "questionNumber": 41,
+        "question": "資料分析師使用Python檢視daily_earnings欄位的基本統計量，執行以下程式碼（Pandas 2以上版本，程式碼與輸出見下方）。若團隊進一步發現 daily_earnings 欄位約有 5%的遺失值，且目前規劃先建立線性迴歸 （Linear Regression）模型來預測未來收入。為盡可能保留該欄位原有分布特性，並降 低因補值造成的偏差，請問下列哪一種處理方式最為合理？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明收入等資料可能具有偏態或長尾，平均數易受極端值影響，須搭配中位數或分位數判讀，支持本題選擇中位數補值的統計理由。"
+        ]
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q46",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q46",
+        "questionNumber": 46,
+        "question": "若分析師只想計算「Electronics（電子產品）」這個特定分類的平均營收，下列何者為 最佳的語法？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "說明平均數屬於敘述統計指標，用於彙總資料特性，並提醒消費金額等資料的極端值與長尾分佈可能影響平均數的解釋。"
         ]
       }
     ],
@@ -649,6 +874,36 @@
         "reasons": [
           "提供 α=0.05 顯著性判讀與統計推論假設的背景，可用來說明為何不能未檢查各係數 p 值就宣稱所有迴歸係數皆顯著。"
         ]
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q23",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q23",
+        "questionNumber": 23,
+        "question": "Receiver Operating Characteristic（ROC）曲線係由單一分類模型在不同決策閾值下形成， 並以真陽率（True Positive Rate, TPR）為縱軸、假陽率（False Positive Rate, FPR）為橫 軸。請問下圖中四條曲線，何者最不可能是 ROC 曲線？",
+        "answer": "C",
+        "confidence": "medium",
+        "reasons": [
+          "提及敏感度與特異度之間的取捨，可連結 ROC 的兩軸意義；該段未直接說明 ROC 定義或單調性，不能作為曲線形狀判定的直接證據。"
+        ]
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q44",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q44",
+        "questionNumber": 44,
+        "question": "針對上述外掛偵測模型，營運長下達最終的商業決策目標如下：「對於作弊行為零容忍。 即使誤凍結部分正常司機帳號，後續仍可交由人工覆核；但不能放過任何一個真正的 外掛司機。」根據上述目標，團隊在調整模型輸出的決策機率門檻（Threshold，預設 為0.5）時，應採取下列何種策略最為合理？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "說明減少偽陽性可能犧牲真正結果的辨識能力，支持敏感度與特異度須依決策需求取捨的概念；其原文情境為多重統計檢定。"
+        ]
       }
     ],
     "block-34": [
@@ -702,6 +957,23 @@
         "referenceQuestionId": "exam2_q50",
         "reasons": [
           "提供 α=0.05 顯著性判讀與統計推論假設的背景，可用來說明為何不能未檢查各係數 p 值就宣稱所有迴歸係數皆顯著。"
+        ]
+      }
+    ],
+    "block-50": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q42",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q42",
+        "questionNumber": 42,
+        "question": "承上題，團隊在建立預測模型前，先將 region（A、B、C 區）轉換為整數 1、2、3， 即採用標籤編碼（Label Encoding）。模型上線測試後發現，線性迴歸模型對於 C 區（編 碼為3）的預測收入出現明顯高估，顯示模型可能將編碼值誤解為具有線性大小關係。 若主管要求不得修改原有的特徵編碼方式，必須維持 1、2、3 的整數表示，但希望從 演算法層面降低此類誤解風險，則下列何者最適合作為替代模型？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "以預測顧客購買機率說明邏輯迴歸的應用，可連結選項 A 與本題連續收入預測任務的差異。"
         ]
       }
     ],
