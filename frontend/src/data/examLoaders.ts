@@ -1,5 +1,6 @@
 import type { ExamData } from '../types'
 import { catalogExams, type ResourceLevelId } from './resourceCatalog'
+import { cleanExamQuestion } from '../utils/examText'
 
 type JsonModule = { default: unknown }
 
@@ -30,7 +31,14 @@ export function loadExamData(examKey: string) {
   if (cached) return cached
 
   const loader = examLoaders[examKey]
-  const promise = loader ? loader().then((module) => module.default as ExamData) : Promise.resolve(undefined)
+  // 原始 JSON 不動（詳解 pipeline 以題目內容做指紋），PDF 斷行留下的「中文 空白 中文」
+  // 在載入時清掉一次；考試頁、概念彈窗等所有讀這裡的畫面都拿到清過的題幹與選項。
+  const promise = loader
+    ? loader().then((module) => {
+        const exam = module.default as ExamData
+        return { ...exam, questions: exam.questions.map(cleanExamQuestion) }
+      })
+    : Promise.resolve(undefined)
   cache.set(examKey, promise)
   return promise
 }

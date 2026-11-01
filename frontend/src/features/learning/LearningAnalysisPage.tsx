@@ -6,6 +6,7 @@ import { useLearningIndex } from './useLearningIndex'
 import { useLearningItem } from './useLearningItem'
 import { localizeTerms } from './displayTerms'
 import { LINK_ROW, READING_MEASURE } from './layout'
+import { cleanExamText } from '../../utils/examText'
 
 export default function LearningAnalysisPage() {
   const { index, error: indexError, retry: retryIndex } = useLearningIndex()
@@ -30,7 +31,7 @@ export default function LearningAnalysisPage() {
       <div className="space-y-4">{item.sourceExamples?.map((example, position) => (
         <article key={example.question.questionKey} className="rounded-lg border border-border p-4">
           <div className="text-meta font-semibold text-accent">例題 {position + 1} · 原卷第 {example.source.pageNumber} 頁 · {example.relation === 'prerequisite' ? '先備概念' : '單元可解釋'}</div>
-          <h3 className={`mt-2 text-reading font-semibold leading-7 text-primary ${READING_MEASURE}`}>{example.stem}</h3>
+          <h3 data-exam-text className={`mt-2 text-reading font-semibold leading-7 text-primary ${READING_MEASURE}`}>{cleanExamText(example.stem)}</h3>
           <p className={`mt-2 text-body leading-7 text-text-light ${READING_MEASURE}`}>{localizeTerms(example.reason)}</p>
           <div className={`mt-2 ${LINK_ROW}`}><Link className="text-link" to={example.source.route}>查看原卷</Link><Link className="text-link" to={`/learn/${example.unitId}`}>閱讀對應單元</Link></div>
         </article>

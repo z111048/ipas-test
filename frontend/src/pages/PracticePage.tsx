@@ -48,13 +48,13 @@ export default function PracticePage() {
   const [answers, setAnswers] = useState<AnswerMap>({})
   const [activeIndex, setActiveIndex] = useState(0)
   const [showRestoreBanner, setShowRestoreBanner] = useState(false)
-  // 手機預設收合題號導航，第一屏直接看到題目；寬版預設展開。
+  // 手機預設收合題號盤，第一屏直接看到題目；寬版預設展開。
   const [showQuestionNav, setShowQuestionNav] = useState(() => !isNarrowViewport())
   const [confirmRestart, setConfirmRestart] = useState(false)
   /** 窄版（< 1280px）摘要列是否展開題號與章節；預設收合，讓題目上到第一屏。 */
   const [showCompactDetails, setShowCompactDetails] = useState(false)
   /**
-   * >= 1280px：作答進度與題號導航放在右側常駐欄。
+   * >= 1280px：作答進度與題號盤放在右側常駐欄。
    * 練習頁不收合站台側欄，比考試頁（>= 1024px）晚一級才分兩欄，題目欄才不會被擠窄。
    */
   const isWide = useMediaQuery('(min-width: 1280px)')
@@ -400,7 +400,7 @@ export default function PracticePage() {
           aria-expanded={showQuestionNav}
           aria-controls="practice-question-nav"
         >
-          {showQuestionNav ? '收起題號導航' : '展開題號導航'}
+          {showQuestionNav ? '收起題號盤' : '展開題號盤'}
         </button>
       </div>
 
@@ -454,7 +454,7 @@ export default function PracticePage() {
   ) : null
 
   /**
-   * 窄於 1280px：作答進度、題號導航與切換章節收成一列摘要（可展開），
+   * 窄於 1280px：作答進度、題號盤與切換章節收成一列摘要（可展開），
    * 手機第一屏才看得到第 1 題題幹。寬版則是右側常駐欄＋章節列。
    */
   const compactProgress = (
@@ -473,7 +473,7 @@ export default function PracticePage() {
           <span className={wrongCount > 0 ? 'text-wrong' : 'text-text-light'}>待複習 {wrongCount}</span>
         </span>
         <span className="shrink-0 text-meta font-semibold text-accent">
-          {showCompactDetails ? '收起' : selectableChapters.length > 1 ? '題號・章節' : '題號導航'}
+          {showCompactDetails ? '收起' : selectableChapters.length > 1 ? '題號盤・章節' : '題號盤'}
           <span aria-hidden="true" className="ml-1 inline-block">{showCompactDetails ? '▴' : '▾'}</span>
         </span>
       </button>

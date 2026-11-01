@@ -5,6 +5,7 @@ import { loadExamData } from '../../data/examLoaders'
 import { loadSubjectQuestions } from '../../data/questionLoaders'
 import { loadReferenceAnswers, referenceForQuestion } from '../../data/referenceAnswerLoaders'
 import type { ExamReferenceAnswer, Question } from '../../types'
+import { cleanExamText } from '../../utils/examText'
 
 export interface QuestionRef {
   id: string
@@ -114,8 +115,10 @@ export default function QuestionModal({ item, onClose }: { item: QuestionRef; on
 
         {state === 'ready' && question && (
           <>
-            <div className="mb-4 text-reading leading-8 text-app-text content-justify">
-              {question.question}
+            {/* data-exam-text：tests/test_layout_audit.py 以此找題目文字，驗沒有 PDF 斷行空白。
+                公告試題已在 loadExamData 清過；這裡再清一次涵蓋章節練習題（冪等）。 */}
+            <div data-exam-text className="mb-4 text-reading leading-8 text-app-text content-justify">
+              {cleanExamText(question.question)}
             </div>
 
             <div className="flex flex-col gap-2">
@@ -134,7 +137,7 @@ export default function QuestionModal({ item, onClose }: { item: QuestionRef; on
                     locked={show}
                     state={state}
                   >
-                    {question.options[key]}
+                    <span data-exam-text>{cleanExamText(question.options[key])}</span>
                   </ChoiceOption>
                 )
               })}

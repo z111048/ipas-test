@@ -45,6 +45,13 @@ def check(label, cond, detail=''):
         fails.append(label)
 
 
+def click_bar_palette(page):
+    """計時列的「題號盤」按鈕只在窄版（< 1024px）出現；寬版題號盤是常駐側欄，不用點。"""
+    button = page.locator('button:has-text("題號盤")').first
+    if button.is_visible():
+        button.click()
+
+
 def checked_state(page):
     """目前每一題被勾選的選項，例 {'q0': 'A', 'q1': 'D'}。"""
     return page.evaluate('''() => {
@@ -92,7 +99,7 @@ with dev_server() as BASE, sync_playwright() as pw:
     check('恰好兩題有作答', sorted(state) == ['q0', 'q1'], str(state))
 
     print('\n=== 5. 題號盤 ===')
-    page.click('button:has-text("題號盤")')
+    click_bar_palette(page)
     page.wait_for_timeout(400)
     body = page.inner_text('body')
     found = re.search(r'(未答 \d+ 題|全部已答)', body)
@@ -108,7 +115,7 @@ with dev_server() as BASE, sync_playwright() as pw:
             .map(x => x.n)
     }''')
     check('題號盤標記的正是第 1、2 題', marked == [1, 2], f'標記={marked}')
-    page.click('button:has-text("題號盤")')
+    click_bar_palette(page)
     page.wait_for_timeout(300)
 
     print(f'\n=== 6. 交卷與計分（Q1=A 正解{CORRECT_Q1}、Q2=D 正解{CORRECT_Q2} → 2 對 = 4 分）===')
@@ -190,7 +197,7 @@ with dev_server() as BASE, sync_playwright() as pw:
     print('  -- 長距離：題號盤跳到第 45 題 --')
     for delay in (0, 150, 900, 1100, 1300):
         pg = fresh_exam()
-        pg.click('button:has-text("題號盤")')
+        click_bar_palette(pg)
         pg.wait_for_timeout(300)
         pg.evaluate(PALETTE_CLICK)
         pg.wait_for_timeout(delay)

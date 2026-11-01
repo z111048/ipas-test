@@ -1,11 +1,29 @@
 import type { ExamReferenceAnswer } from '../types'
 import { catalogExams } from './resourceCatalog'
+import { cleanExamText } from '../utils/examText'
 
 // 從 ExamResults.tsx 抽出來共用：概念索引的題目彈窗也要拿同一份參考詳解。
 // 兩邊各寫一份的話，114 年考卷那組 legacy 題號對應遲早會有一邊漏掉。
 type ExamReferenceModule = { default: unknown }
 
-const asReferenceMap = (module: ExamReferenceModule) => module.default as Record<string, ExamReferenceAnswer>
+// 詳解常整句引用題幹，題幹的 PDF 斷行空白（「並 取代」）也跟著進來；顯示前一併清掉。
+// 只清可見文字，citations 的 block id 等結構欄位不動。
+function cleanReference(ref: ExamReferenceAnswer): ExamReferenceAnswer {
+  return {
+    ...ref,
+    reference_answer: cleanExamText(ref.reference_answer),
+    option_analysis: ref.option_analysis
+      ? Object.fromEntries(
+          Object.entries(ref.option_analysis).map(([key, text]) => [key, cleanExamText(text)]),
+        )
+      : ref.option_analysis,
+  }
+}
+
+const asReferenceMap = (module: ExamReferenceModule) =>
+  Object.fromEntries(
+    Object.entries(module.default as Record<string, ExamReferenceAnswer>).map(([id, ref]) => [id, cleanReference(ref)]),
+  )
 // 唯一入口是下面的 loadReferenceAnswers()——刻意不 export，避免繞過快取
 const referenceModules = import.meta.glob<ExamReferenceModule>(
   '../generated/examReferenceAnswers/*.json'

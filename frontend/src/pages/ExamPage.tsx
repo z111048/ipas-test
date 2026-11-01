@@ -46,7 +46,6 @@ export default function ExamPage() {
   const questionRefs = useRef<Array<HTMLElement | null>>([])
   const confirmSubmitRef = useRef<HTMLButtonElement>(null)
   const paletteButtonRef = useRef<HTMLButtonElement>(null)
-  const sidePaletteActiveRef = useRef<HTMLButtonElement>(null)
   const sheetActiveRef = useRef<HTMLButtonElement>(null)
   /** >= 1024px：題號盤是常駐右側欄；以下是底部抽屜。 */
   const isWide = useMediaQuery(WIDE_LAYOUT_QUERY)
@@ -338,14 +337,8 @@ export default function ExamPage() {
     goTo(index)
   }
 
-  const handlePaletteButton = () => {
-    if (isWide) {
-      // 寬版題號盤是常駐側欄：按鈕把焦點移到目前題號，鍵盤使用者可直接在格子間移動。
-      sidePaletteActiveRef.current?.focus({ preventScroll: true })
-      return
-    }
-    setShowPalette((open) => !open)
-  }
+  /** 只在窄版出現：寬版題號盤是常駐側欄，計時列不放重複的按鈕。 */
+  const handlePaletteButton = () => setShowPalette((open) => !open)
 
   const handleSubmitIntent = () => {
     setShowPalette(false)
@@ -381,7 +374,7 @@ export default function ExamPage() {
         />
         {/*
           作答計時列：手機專注模式下站台 Header 隱藏、main 從畫面頂端開始，
-          這一列以 sticky 貼在 main 最上緣（-top-4／md:-top-6 抵銷 main 的 py-4／md:py-6，否則上方會留一條露出題目的縫），固定單行（離開 · 時間 · 已答 · 題號盤 · 繳卷）。
+          這一列以 sticky 貼在 main 最上緣（-top-4／md:-top-6 抵銷 main 的 py-4／md:py-6，否則上方會留一條露出題目的縫），固定單行（離開 · 時間 · 已答 · 題號盤 · 繳卷；寬版題號盤是常駐側欄，這裡不放按鈕）。
         */}
         <div className="sticky -top-4 md:-top-6 z-20 mb-3">
           <div className="rounded-xl border border-primary-light bg-primary px-2 py-1.5 text-on-dark shadow-lg sm:p-3">
@@ -403,17 +396,18 @@ export default function ExamPage() {
                 <div className="hidden text-caption text-on-dark-muted sm:block">{unansweredText}</div>
               </div>
               <div className="flex shrink-0 items-center gap-1.5">
-                <button
-                  ref={paletteButtonRef}
-                  type="button"
-                  className="btn-hero-ghost px-2.5 text-ui sm:px-3"
-                  onClick={handlePaletteButton}
-                  aria-haspopup={isWide ? undefined : 'dialog'}
-                  aria-expanded={isWide ? undefined : showPalette}
-                  aria-controls={isWide ? SIDE_PALETTE_ID : undefined}
-                >
-                  題號盤
-                </button>
+                {!isWide && (
+                  <button
+                    ref={paletteButtonRef}
+                    type="button"
+                    className="btn-hero-ghost px-2.5 text-ui sm:px-3"
+                    onClick={handlePaletteButton}
+                    aria-haspopup="dialog"
+                    aria-expanded={showPalette}
+                  >
+                    題號盤
+                  </button>
+                )}
                 <button
                   type="button"
                   className="btn-hero px-2.5 text-ui shadow-none sm:px-3"
@@ -475,14 +469,13 @@ export default function ExamPage() {
                 items={paletteItems}
                 activeIndex={activeIndex}
                 onSelect={selectFromPalette}
-                activeButtonRef={sidePaletteActiveRef}
                 columnsClassName="grid-cols-5"
                 legend={['answered', 'unanswered']}
                 summary={paletteSummary}
                 actions={
                   unansweredCount > 0 ? (
                     <button type="button" className="btn-outline btn-sm" onClick={jumpToFirstUnanswered}>
-                      跳到最前面的未答題
+                      跳到未答題
                     </button>
                   ) : undefined
                 }
@@ -538,7 +531,7 @@ export default function ExamPage() {
               <>
                 {unansweredCount > 0 && (
                   <button type="button" className="btn-outline btn-sm" onClick={jumpToFirstUnanswered}>
-                    跳到最前面的未答題
+                    跳到未答題
                   </button>
                 )}
                 <button type="button" className="btn-ghost btn-sm" onClick={() => setShowPalette(false)}>

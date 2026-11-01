@@ -574,8 +574,12 @@ html {
       scroll-snap-type: x proximity;
       scrollbar-width: none;
       margin-inline: -1rem;
-      padding: 0.125rem 1rem 0.25rem;
+      /* 右側多留 0.5rem：最後一顆 chip 捲到底時落在漸層之外，不會被淡出遮住。 */
+      padding: 0.125rem 1.5rem 0.25rem 1rem;
       scroll-padding-inline: 1rem;
+      /* 右緣 16px 淡出，暗示可以橫向捲動；只蓋在 padding 區，不遮內容。 */
+      -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 1rem), transparent);
+      mask-image: linear-gradient(to right, #000 calc(100% - 1rem), transparent);
     }
 
     .chip-row::-webkit-scrollbar {

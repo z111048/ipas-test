@@ -19,6 +19,7 @@ import { examResultsReturnTarget } from '../components/exam/resultsViewState'
 import { guideBreadcrumb } from '../data/guideNav'
 import ColabSection from '../components/guide/ColabSection'
 import { publicAsset } from '../utils/assets'
+import { cleanExamText } from '../utils/examText'
 import { preferredScrollBehavior } from '../utils/motion'
 import { useScrollProgress, ReadingProgressBar, BackToTopButton } from '../components/shared/ReadingProgress'
 import { MobileActionBar, PageHeader, StatePanel } from '../components/ui'
@@ -145,13 +146,19 @@ function cssEscape(value: string) {
 }
 
 /**
- * 從考試成績的引用連結（/guide/...#block-N）落地時，短暫標亮目標段落，讓讀者一眼找到引用處。
+ * 從考試成績的引用連結（/guide/...#block-N）落地時標亮目標段落，讓讀者一眼找到引用處。
  * 用 Web Animations 疊在元素原本的背景之上，結束後自動回到原樣（不改 className、不殘留）。
- * prefers-reduced-motion：不做漸層淡出，維持約 2.5 秒後直接消失。
+ *
+ * 分兩段：找到目標的第一刻就 `hold`（持續標亮、不淡出），因為圖片／公式／徽章撐開高度時
+ * 落地 effect 還會再對齊幾次；對齊結束才 `release`，再停留一下後淡出。以前是等位置連續
+ * 穩定才開始 2.5 秒動畫，實測要晚約 1 秒才亮，看起來像畫面先跳一下才標出來。
+ * prefers-reduced-motion：不做漸層淡出，停留後直接消失。
  * 正文欄 overflow-x-hidden，左右外框會被裁掉，所以只往上下延伸背景。
  */
-function highlightLandingTarget(target: HTMLElement) {
-  if (typeof target.animate !== 'function') return
+function createLandingHighlight(target: HTMLElement) {
+  if (typeof target.animate !== 'function') {
+    return { release: () => {}, cancel: () => {} }
+  }
   const line = getComputedStyle(document.documentElement).getPropertyValue('--color-warning-line').trim() || '#f7d48b'
   const tint = `color-mix(in srgb, ${line} 45%, transparent)`
   const reduceMotion = typeof window.matchMedia === 'function'
@@ -161,11 +168,27 @@ function highlightLandingTarget(target: HTMLElement) {
     boxShadow: `0 -4px 0 ${tint}, 0 4px 0 ${tint}`,
     borderRadius: '4px',
   }
-  // 沒寫 offset 1 的關鍵影格 → 結束時回到元素自己的樣式（例如 question 區塊原本的底色）
-  target.animate([on, { ...on, offset: reduceMotion ? 0.99 : 0.55 }], {
-    duration: 2500,
-    easing: 'ease-out',
-  })
+  let hold: Animation | null = target.animate([on, on], { duration: 1, fill: 'forwards' })
+  let fade: Animation | null = null
+  return {
+    release() {
+      if (!hold) return
+      // 先疊上淡出動畫再取消 hold，中間不會閃回原色。
+      // 沒寫 offset 1 的關鍵影格 → 結束時回到元素自己的樣式（例如 question 區塊原本的底色）
+      fade = target.animate([on, { ...on, offset: reduceMotion ? 0.99 : 0.6 }], {
+        duration: reduceMotion ? 1500 : 2000,
+        easing: 'ease-out',
+      })
+      hold.cancel()
+      hold = null
+    },
+    cancel() {
+      hold?.cancel()
+      fade?.cancel()
+      hold = null
+      fade = null
+    },
+  }
 }
 
 // 表格儲存格可能夾帶 $...$ 數學式（來源是學習指引 OCR 的 <table>，例如 $\mu_1 \neq \mu_2$）。
@@ -402,8 +425,8 @@ function GuideExamReferenceNotes({ annotations, depth }: { annotations: GuideExa
                   答案 {annotation.answer}
                 </span>
               </div>
-              <div className="mt-1 text-ui leading-6 text-app-text content-justify">
-                {annotation.question}
+              <div data-exam-text className="mt-1 text-ui leading-6 text-app-text content-justify">
+                {cleanExamText(annotation.question)}
               </div>
             </div>
           ))}
@@ -565,7 +588,7 @@ export default function GuidePage() {
   const contentScrollRef = useRef<HTMLDivElement | null>(null)
   const drawerTriggerRef = useRef<HTMLButtonElement | null>(null)
   const stickyProgressRef = useRef<HTMLDivElement | null>(null)
-  const scrollToContentBlockRef = useRef<((id: string, anchor?: string) => HTMLElement | null) | null>(null)
+  const scrollToContentBlockRef = useRef<((id: string, anchor?: string, behavior?: ScrollBehavior) => HTMLElement | null) | null>(null)
   const [activeHeadingId, setActiveHeadingId] = useState<string | null>(null)
   const [showExamNotes, setShowExamNotes] = useState(readExamNotesPreference)
   const isWideLayout = useMediaQuery(WIDE_LAYOUT_QUERY)
@@ -703,46 +726,54 @@ export default function GuidePage() {
     let timer = 0
     let lastHeight = -1
     let stable = 0
-    let highlighted = false
     let landedTarget: HTMLElement | null = null
+    let highlight: ReturnType<typeof createLandingHighlight> | null = null
     const deadline = performance.now() + 12000
 
-    const stop = () => {
+    const finish = () => {
       cancelled = true
       window.clearTimeout(timer)
+      highlight?.release()
     }
     const tick = () => {
       if (cancelled) return
       const container = contentScrollRef.current
       const height = container?.scrollHeight ?? document.documentElement.scrollHeight
-      if (height !== lastHeight) {
+      if (height !== lastHeight || !landedTarget) {
         lastHeight = height
         stable = 0
-        landedTarget = scrollToContentBlockRef.current?.(anchor, anchor) ?? landedTarget
+        // 第一次用平滑捲動（尊重 reduced-motion）；之後是高度變動造成的小幅修正，
+        // 直接定位，避免一連串平滑捲動互相打斷造成的跳動。
+        const behavior: ScrollBehavior | undefined = landedTarget ? 'auto' : undefined
+        landedTarget = scrollToContentBlockRef.current?.(anchor, anchor, behavior) ?? landedTarget
       } else {
         stable += 1
       }
-      const keepGoing = stable < 4 && performance.now() < deadline
-      // 位置穩定（或已到上限）才標亮，避免動畫在目標還沒捲進畫面時就播完
-      if (landedTarget && !highlighted && (stable >= 1 || !keepGoing)) {
-        highlighted = true
-        highlightLandingTarget(landedTarget)
+      // 一找到目標就標亮並保持，對齊期間不淡出
+      if (landedTarget && !highlight) {
+        highlight = createLandingHighlight(landedTarget)
       }
+      const keepGoing = stable < 4 && performance.now() < deadline
       if (keepGoing) {
         timer = window.setTimeout(tick, 250)
+      } else {
+        finish()
       }
     }
     const frame = requestAnimationFrame(tick)
 
-    window.addEventListener('wheel', stop, { passive: true, once: true })
-    window.addEventListener('touchstart', stop, { passive: true, once: true })
-    window.addEventListener('keydown', stop, { once: true })
+    // 使用者自己動了：停止對齊、開始淡出
+    window.addEventListener('wheel', finish, { passive: true, once: true })
+    window.addEventListener('touchstart', finish, { passive: true, once: true })
+    window.addEventListener('keydown', finish, { once: true })
     return () => {
       cancelAnimationFrame(frame)
-      stop()
-      window.removeEventListener('wheel', stop)
-      window.removeEventListener('touchstart', stop)
-      window.removeEventListener('keydown', stop)
+      cancelled = true
+      window.clearTimeout(timer)
+      highlight?.cancel()
+      window.removeEventListener('wheel', finish)
+      window.removeEventListener('touchstart', finish)
+      window.removeEventListener('keydown', finish)
     }
   }, [location.hash, content])
 
@@ -828,7 +859,8 @@ export default function GuidePage() {
   const nextChapter = nextChapterId ? outlineGuide.nodesById[nextChapterId] : undefined
 
 
-  const scrollToContentBlock = (id: string, anchor?: string) => {
+  const scrollToContentBlock = (id: string, anchor?: string, behaviorOverride?: ScrollBehavior) => {
+    const behavior = behaviorOverride ?? preferredScrollBehavior()
     const container = contentScrollRef.current
     const root: ParentNode = container ?? document
     const target = root.querySelector<HTMLElement>(
@@ -841,7 +873,7 @@ export default function GuidePage() {
     )
     if (!target) return null
     if (!container) {
-      target.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' })
+      target.scrollIntoView({ behavior, block: 'start' })
       return target
     }
     const containerTop = container.getBoundingClientRect().top
@@ -851,10 +883,10 @@ export default function GuidePage() {
     const nextTop = container.scrollTop + targetTop - containerTop - stickyOffset - 12
     container.scrollTo({
       top: nextTop,
-      behavior: preferredScrollBehavior(),
+      behavior,
     })
     if (Math.abs(container.scrollTop - nextTop) > 2 && container.scrollHeight <= container.clientHeight) {
-      target.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' })
+      target.scrollIntoView({ behavior, block: 'start' })
     }
     return target
   }

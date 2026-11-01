@@ -169,7 +169,8 @@ export default function HomePage() {
     <div className="page-shell">
       <PageHeader
         variant="hero"
-        className="mb-4 sm:mb-5"
+        // 手機（390×844）要讓第一張科目卡完整落在第一屏：hero 上下內距與間距收緊一點。
+        className="mb-3 max-sm:py-4 sm:mb-5"
         eyebrow={
           <>
             <span className="hero-chip">經濟部 iPAS 產業人才能力鑑定</span>
@@ -210,10 +211,10 @@ export default function HomePage() {
         }
       />
 
-      <section id="choose-subject" className="surface mb-6 p-4 sm:p-5 scroll-mt-4">
-        <div className="mb-3 flex flex-col gap-2 sm:mb-4 sm:flex-row sm:items-end sm:justify-between">
+      <section id="choose-subject" className="surface mb-6 p-3 sm:p-5 scroll-mt-4">
+        <div className="mb-2 flex flex-col gap-2 sm:mb-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <div className="eyebrow mb-1">從這裡開始</div>
+            <div className="eyebrow mb-1 hidden sm:block">從這裡開始</div>
             <h2 id="choose-subject-title" tabIndex={-1} className="section-title focus:outline-none">選擇級別與科目</h2>
           </div>
           <div className="hidden text-meta leading-6 text-text-light sm:block">
@@ -225,10 +226,11 @@ export default function HomePage() {
             const stats = resourceStats[level.id]
             return (
               <section key={level.id} className="surface-compact p-3 sm:p-4">
-                <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
+                <div className="mb-2 flex flex-wrap items-start justify-between gap-3 sm:mb-3">
                   <div>
                     <h3 className="text-lg font-semibold text-primary">{level.label}</h3>
-                    <p className="mt-1 text-ui leading-6 text-text-light">{level.subtitle}</p>
+                    {/* 手機省略副標，讓第一張科目卡完整出現在第一屏。 */}
+                    <p className="mt-1 hidden text-ui leading-6 text-text-light sm:block">{level.subtitle}</p>
                   </div>
                   <span className="pill shrink-0">{stats.subjects} 科 / {stats.chapters} 章</span>
                 </div>
@@ -237,7 +239,7 @@ export default function HomePage() {
                     const practice = practiceTarget(subject)
                     return (
                       <article key={subject.id} className="rounded-lg border border-border bg-white p-3">
-                        <div className="mb-3 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+                        <div className="mb-2 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 sm:mb-3">
                           <Link to={subject.overviewTo ?? subject.guideTo ?? '/'} className="text-link text-primary hover:text-accent">
                             {subjectOptionById(subject.id)?.fullLabel ?? subject.label}
                           </Link>

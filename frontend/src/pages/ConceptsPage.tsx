@@ -5,6 +5,7 @@ import { navLabel } from '../constants/navLabels'
 import { resolveConcept } from '../data/conceptLookup'
 import { guideNav } from '../data/guideNav'
 import { useMediaQuery, WIDE_LAYOUT_QUERY } from '../hooks/useMediaQuery'
+import { cleanExamText } from '../utils/examText'
 
 // three.js 約 1MB：只有切到立體圖才載
 const ConceptGraph3D = lazy(() => import('../components/concepts/ConceptGraph3D'))
@@ -517,7 +518,7 @@ function ConceptDetail({
                     {question.level} · {question.source}
                   </span>
                   <br />
-                  <span className="text-primary">{question.stem}…</span>
+                  <span className="text-primary" data-exam-text>{cleanExamText(question.stem)}…</span>
                 </button>
               </li>
             ))}

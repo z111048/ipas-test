@@ -12,7 +12,7 @@ export class LearnerStorageError extends Error {}
 export class LearnerConflictError extends LearnerStorageError {}
 
 function storageError(error: DOMException | null) {
-  if (error?.name === 'QuotaExceededError') return new LearnerStorageError('瀏覽器儲存空間已滿；請先匯出備份再清理紀錄')
+  if (error?.name === 'QuotaExceededError') return new LearnerStorageError('瀏覽器儲存空間已滿；請先按「備份我的紀錄」再清理紀錄')
   return new LearnerStorageError(error?.message ?? '瀏覽器儲存失敗')
 }
 
@@ -219,7 +219,7 @@ export class LearnerRepository {
       const rows = await requestResult<StoredAttempt[]>(store.getAll())
       if (rows.length >= 100) throw new LearnerStorageError('本機已達 100 筆學習作答上限；請先匯出備份並由你選擇清理')
       const projectedBytes = new Blob([JSON.stringify(rows), JSON.stringify(snapshot)]).size
-      if (projectedBytes > 50 * 1024 * 1024) throw new LearnerStorageError('本機學習紀錄已達 50 MB 上限；請先匯出備份並由你選擇清理')
+      if (projectedBytes > 50 * 1024 * 1024) throw new LearnerStorageError('本機學習紀錄已達 50 MB 上限；請先按「備份我的紀錄」再自行選擇清理')
     }
     const record: StoredAttempt = { attemptId: snapshot.attemptId, schemaVersion: 1, writeVersion: (current?.writeVersion ?? 0) + 1, snapshotHash: digest, snapshot, ...(importedFrom ? { importedFrom } : {}) }
     try { store.put(record) } catch (error) { throw storageError(error instanceof DOMException ? error : null) }
