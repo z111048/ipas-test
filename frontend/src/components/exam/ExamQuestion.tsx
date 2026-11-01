@@ -1,6 +1,7 @@
 import { useExamStore } from '../../store/examStore'
 import type { Question, QuestionImage } from '../../types'
 import { publicAsset } from '../../utils/assets'
+import { ChoiceOption } from '../ui'
 import CodeSnippet from './CodeSnippet'
 
 interface ExamQuestionProps {
@@ -45,14 +46,14 @@ export default function ExamQuestion({ question, index, isActive, registerRef }:
 
     return (
       <div className={className}>
-        <div className="border-b border-border bg-[#f8fafc]">
-          <div className="px-3 py-2 text-[0.75rem] font-semibold text-text-light">
+        <div className="border-b border-border bg-app-bg">
+          <div className="px-3 py-2 text-caption font-semibold text-text-light">
             {image.markdown_title ?? '程式碼'}
           </div>
           <CodeSnippet code={image.markdown} language={image.markdown_language} />
         </div>
         <details className="bg-white">
-          <summary className="cursor-pointer px-3 py-2 text-[0.75rem] text-text-light hover:text-primary">
+          <summary className="cursor-pointer px-3 py-2 text-caption text-text-light hover:text-primary">
             查看原始截圖
           </summary>
           {renderImage(image)}
@@ -67,11 +68,11 @@ export default function ExamQuestion({ question, index, isActive, registerRef }:
       data-q-index={index}
       className={`surface p-5 mb-4 transition-shadow duration-150 ${isActive ? 'ring-2 ring-accent/50' : ''}`}
     >
-      <div className="eyebrow mb-2">
+      <h2 id={`exam-q-${index}-label`} className="eyebrow mb-2">
         第 {index + 1} 題
-      </div>
+      </h2>
       {question.context && (
-        <div className="mb-4 rounded-lg border border-[#d7e7f5] bg-[#f4f9fd] px-4 py-3 text-[0.9rem] leading-relaxed text-app-text">
+        <div className="mb-4 rounded-lg border border-answered-line/60 bg-answered-soft px-4 py-3 text-body text-app-text">
           {question.context}
         </div>
       )}
@@ -83,7 +84,7 @@ export default function ExamQuestion({ question, index, isActive, registerRef }:
               className="rounded-lg border border-border bg-white overflow-hidden"
             >
               {renderImageAsset(image)}
-              <figcaption className="px-3 py-2 text-[0.75rem] text-text-light border-t border-border">
+              <figcaption className="px-3 py-2 text-caption text-text-light border-t border-border">
                 PDF 第 {image.page_number} 頁題組附圖
               </figcaption>
             </figure>
@@ -96,14 +97,14 @@ export default function ExamQuestion({ question, index, isActive, registerRef }:
           className="mb-4 overflow-hidden rounded-lg border border-border bg-white"
         >
           {block.title && (
-            <div className="border-b border-border bg-[#f8fafc] px-3 py-2 text-[0.75rem] font-semibold text-text-light">
+            <div className="border-b border-border bg-app-bg px-3 py-2 text-caption font-semibold text-text-light">
               {block.title}
             </div>
           )}
           <CodeSnippet code={block.markdown} language={block.language} />
         </div>
       ))}
-      <div className="text-[0.96rem] leading-8 mb-4 text-app-text content-justify">{question.question}</div>
+      <div className="text-reading mb-4 text-app-text content-justify">{question.question}</div>
       {questionImages.length > 0 && (
         <div className="grid grid-cols-1 gap-3 mb-4">
           {questionImages.map((image) => (
@@ -112,49 +113,46 @@ export default function ExamQuestion({ question, index, isActive, registerRef }:
               className="rounded-lg border border-border bg-white overflow-hidden"
             >
               {renderImageAsset(image)}
-              <figcaption className="px-3 py-2 text-[0.75rem] text-text-light border-t border-border">
+              <figcaption className="px-3 py-2 text-caption text-text-light border-t border-border">
                 PDF 第 {image.page_number} 頁{image.type === 'page' ? '原頁截圖' : '題目附圖'}
               </figcaption>
             </figure>
           ))}
         </div>
       )}
-      <div className="flex flex-col gap-2">
-        {(['A', 'B', 'C', 'D'] as const).map((key) => (
-          <label
-            key={key}
-            className={`flex min-h-[44px] items-start gap-3 px-4 py-3 rounded-lg border cursor-pointer transition-colors text-[0.9rem] has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent ${
-              selected === key
-                ? 'bg-[#eff6ff] border-accent text-primary'
-                : 'bg-white border-border hover:bg-[#f8fbff] hover:border-accent/60'
-            }`}
-          >
-            <input
-              type="radio"
+      <div
+        role="radiogroup"
+        aria-labelledby={`exam-q-${index}-label`}
+        className="flex flex-col gap-2"
+      >
+        {(['A', 'B', 'C', 'D'] as const).map((key) => {
+          const images = optionImages.filter((image) => image.option === key)
+          return (
+            <ChoiceOption
+              key={key}
+              kind="radio"
+              letter={key}
               name={`q${index}`}
               value={key}
               checked={selected === key}
-              // 只在 onChange 作答：點 <label> 會由瀏覽器轉成對 radio 的 click，
+              // 只在 radio 的 onChange 作答：點 <label> 會由瀏覽器轉成對 radio 的 click，
               // 若 label 也掛 onClick，一次點擊會呼叫兩次 selectAnswer。
-              // 鍵盤（Space、上下方向鍵）同樣走 onChange。
-              onChange={() => selectAnswer(question.id, key)}
-              className="mt-0.5 accent-accent"
-            />
-            <span className="min-w-0 flex-1">
-              <span>({key}) {question.options[key]}</span>
-              {optionImages
-                .filter((image) => image.option === key)
-                .map((image) => (
-                  <div
-                    key={`${image.src}-${key}`}
-                    className="mt-3 rounded-md border border-border bg-white"
-                  >
-                    {renderImageAsset(image)}
-                  </div>
-                ))}
-            </span>
-          </label>
-        ))}
+              // 鍵盤（Space、上下方向鍵）同樣走 onChange。ChoiceOption 已照此實作。
+              onChange={(value) => selectAnswer(question.id, value as typeof key)}
+              after={
+                images.length > 0
+                  ? images.map((image) => (
+                      <div key={`${image.src}-${key}`} className="mt-3 rounded-md border border-border bg-white">
+                        {renderImageAsset(image)}
+                      </div>
+                    ))
+                  : undefined
+              }
+            >
+              {question.options[key]}
+            </ChoiceOption>
+          )
+        })}
       </div>
     </article>
   )

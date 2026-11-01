@@ -56,7 +56,7 @@ export default function MobileChapterDrawer({
           <div className="h-1 w-10 rounded-full bg-gray-200" />
         </div>
         <div className="flex min-h-11 shrink-0 items-center justify-between border-b border-border px-4 py-2">
-          <span className="font-semibold text-primary text-sm">{title}</span>
+          <span className="font-semibold text-primary text-ui">{title}</span>
           <button
             ref={closeButtonRef}
             type="button"

@@ -13,8 +13,8 @@ interface StatePanelProps {
 const toneClass: Record<StateTone, string> = {
   loading: 'border-border bg-white text-text-light',
   empty: 'border-border bg-white text-text-light',
-  error: 'border-red-200 bg-red-50 text-red-700',
-  status: 'border-[#d7e7f5] bg-[#f4f9fd] text-app-text',
+  error: 'border-wrong-line bg-wrong-soft text-wrong',
+  status: 'border-answered-line bg-answered-soft text-app-text',
 }
 
 export default function StatePanel({
@@ -26,10 +26,10 @@ export default function StatePanel({
 }: StatePanelProps) {
   return (
     <section
-      className={`rounded-lg border p-4 text-[0.9rem] leading-7 ${toneClass[tone]} ${className}`}
+      className={`rounded-lg border p-4 text-body ${toneClass[tone]} ${className}`}
       aria-live={tone === 'loading' || tone === 'error' ? 'polite' : undefined}
     >
-      {title && <div className="mb-1 font-semibold text-primary">{title}</div>}
+      {title && <div className={`mb-1 font-semibold ${tone === 'error' ? 'text-wrong' : 'text-primary'}`}>{title}</div>}
       {children && <div>{children}</div>}
       {action && <div className="mt-3 flex flex-wrap gap-2">{action}</div>}
     </section>

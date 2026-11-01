@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useParams, useSearchParams } from 'react-router-dom'
-import { Dialog, MobileActionBar, StatePanel } from '../components/ui'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
+import { Badge, Dialog, MobileActionBar, PageHeader, StatePanel } from '../components/ui'
+import { navLabel } from '../constants/navLabels'
 import { loadExamData } from '../data/examLoaders'
 import { useExamTimer } from '../hooks/useExamTimer'
 import { useExamStore } from '../store/examStore'
@@ -224,7 +225,8 @@ export default function ExamPage() {
   if (loadError) {
     return (
       <div className="page-shell">
-        <StatePanel tone="error" title="考卷載入失敗">{loadError}</StatePanel>
+        <PageHeader variant="plain" className="mb-5" eyebrow={navLabel('exam')} title="考卷載入失敗" />
+        <StatePanel tone="error">{loadError}</StatePanel>
       </div>
     )
   }
@@ -232,7 +234,13 @@ export default function ExamPage() {
   if (!examData) {
     return (
       <div className="page-shell">
-        <StatePanel tone="error" title="找不到考試">{examKey}</StatePanel>
+        <PageHeader
+          variant="plain"
+          eyebrow={navLabel('exam')}
+          title="找不到考試"
+          description="這份考卷不存在，或內容已經移動。"
+          actions={<Link to="/" className="btn-primary">回到首頁</Link>}
+        />
       </div>
     )
   }
@@ -251,17 +259,16 @@ export default function ExamPage() {
 
   if (phase === 'intro') {
     return (
-      <>
-        {targetIndex >= 0 && (
-          <div className="page-shell">
-            <StatePanel className="mb-4">
-              開始作答後會自動跳到<strong>第 {targetIndex + 1} 題</strong>
-              （你從概念索引點進來的那一題）。
-            </StatePanel>
-          </div>
-        )}
-        <ExamIntro
+      <ExamIntro
           examData={examData}
+          notice={
+            targetIndex >= 0 ? (
+              <StatePanel className="mb-4">
+                開始作答後會自動跳到<strong>第 {targetIndex + 1} 題</strong>
+                （你從概念索引點進來的那一題）。
+              </StatePanel>
+            ) : undefined
+          }
           onStart={() => {
             pendingResumeIndexRef.current = null
             startExam()
@@ -273,7 +280,6 @@ export default function ExamPage() {
             resumeExam()
           }}
         />
-      </>
     )
   }
 
@@ -312,20 +318,26 @@ export default function ExamPage() {
 
   return (
     <div className="page-shell pb-28 sm:pb-6">
+      <PageHeader
+        variant="plain"
+        className="mb-1 pb-2"
+        eyebrow={navLabel('exam')}
+        title={currentExamData.exam}
+      />
       <div className="sticky top-0 z-20 mb-3">
-        <div className="rounded-xl border border-[#b8cce2] bg-primary p-2 text-white shadow-lg sm:p-3">
+        <div className="rounded-xl border border-primary-light bg-primary p-2 text-on-dark shadow-lg sm:p-3">
           <div className="flex items-center justify-between gap-2">
             <ExamTimer compact />
             <div className="min-w-0 text-center">
-              <div className="text-[0.8rem] font-semibold">已答 {answeredCount}/{currentExamData.total}</div>
-              <div className="text-[0.68rem] text-white/72">
+              <div className="text-ui font-semibold">已答 {answeredCount}/{currentExamData.total}</div>
+              <div className="text-caption text-on-dark-muted">
                 {unansweredCount === 0 ? '全部已答' : `未答 ${unansweredCount} 題`}
               </div>
             </div>
             <div className="flex shrink-0 items-center gap-1.5">
               <button
                 type="button"
-                className="min-h-[44px] rounded-md border border-white/20 bg-white/8 px-2 py-2 text-[0.74rem] font-semibold text-white sm:px-3 sm:text-[0.78rem]"
+                className="btn-hero-ghost px-3 text-ui"
                 onClick={() => setShowPalette((open) => !open)}
                 aria-expanded={showPalette}
               >
@@ -333,16 +345,12 @@ export default function ExamPage() {
               </button>
               <button
                 type="button"
-                className="min-h-[44px] rounded-md border border-white/20 bg-white px-2 py-2 text-[0.78rem] font-semibold text-primary sm:px-3 sm:text-[0.82rem]"
+                className="btn-hero px-3 text-ui shadow-none"
                 onClick={handleSubmitIntent}
               >
                 繳卷
               </button>
             </div>
-          </div>
-          <div className="mt-1 flex min-w-0 items-center gap-2 text-[0.72rem] text-white/70">
-            <span className="shrink-0 font-semibold uppercase tracking-[0.12em]">公告試題</span>
-            <span className="truncate text-white/85">{currentExamData.exam}</span>
           </div>
         </div>
       </div>
@@ -351,33 +359,30 @@ export default function ExamPage() {
         <section className="surface mb-4 p-4 sm:p-5">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <div className="section-title">題號盤</div>
-              <p className="mt-1 text-[0.84rem] leading-6 text-text-light">
+              <h2 className="section-title">題號盤</h2>
+              <p className="mt-1 text-ui text-text-light">
                 目前在第 {activeIndex + 1} 題。
                 {unansweredCount === 0 ? ' 全部題目都已作答。' : ` 還有 ${unansweredCount} 題未答。`}
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
               {unansweredCount > 0 && (
-                <button
-                  type="button"
-                  className="btn-outline min-h-[44px]"
-                  onClick={jumpToFirstUnanswered}
-                >
+                <button type="button" className="btn-outline" onClick={jumpToFirstUnanswered}>
                   跳到第一題未答
                 </button>
               )}
-              <button
-                type="button"
-                className="btn-outline min-h-[44px]"
-                onClick={() => setShowPalette(false)}
-              >
+              <button type="button" className="btn-outline" onClick={() => setShowPalette(false)}>
                 收起題號盤
               </button>
             </div>
           </div>
 
-          <div className="mt-4 grid grid-cols-5 gap-2 sm:grid-cols-7 lg:grid-cols-10">
+          <div className="mt-3 flex flex-wrap gap-2" aria-hidden="true">
+            <Badge tone="answered">已作答</Badge>
+            <Badge>未作答</Badge>
+          </div>
+
+          <div className="mt-3 grid grid-cols-5 gap-2 sm:grid-cols-7 lg:grid-cols-10">
             {currentExamData.questions.map((question, index) => {
               const isActive = index === activeIndex
               const isAnswered = Boolean(userAnswers[question.id])
@@ -385,13 +390,11 @@ export default function ExamPage() {
                 <button
                   key={question.id}
                   type="button"
-                  className={`min-h-[44px] rounded-lg border px-2 py-2 text-sm font-semibold transition-colors ${
-                    isActive
-                      ? 'border-accent bg-[#eff6ff] text-primary ring-2 ring-accent/35 ring-offset-2'
-                      : isAnswered
-                        ? 'border-success/30 bg-[#ecfdf3] text-success'
-                        : 'border-border bg-white text-text-light'
-                  }`}
+                  className={`min-h-[44px] rounded-lg border px-2 py-2 text-ui font-semibold transition-colors ${
+                    isAnswered
+                      ? 'border-answered-line bg-answered-soft text-answered'
+                      : 'border-unanswered-line bg-unanswered-soft text-unanswered'
+                  } ${isActive ? 'border-accent ring-2 ring-accent/35 ring-offset-2' : ''}`}
                   onClick={() => goTo(index)}
                   aria-current={isActive ? 'true' : undefined}
                 >
@@ -410,11 +413,7 @@ export default function ExamPage() {
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <span>鍵盤：1–4 選答，←→ 切換上下題。</span>
           {unansweredCount > 0 && (
-            <button
-              type="button"
-              className="btn-outline min-h-[44px]"
-              onClick={jumpToFirstUnanswered}
-            >
+            <button type="button" className="btn-outline btn-sm" onClick={jumpToFirstUnanswered}>
               跳到未答題
             </button>
           )}
@@ -436,7 +435,7 @@ export default function ExamPage() {
       <div className="hidden py-4 text-center sm:block">
         <button
           type="button"
-          className="btn-primary min-h-[44px] cursor-pointer border-0 px-8 py-3 text-base"
+          className="btn-primary px-8 py-3 text-reading"
           onClick={handleSubmitIntent}
         >
           繳卷交答案
@@ -445,20 +444,22 @@ export default function ExamPage() {
 
       <MobileActionBar className="sm:hidden">
         <button
-          className="btn-outline min-h-[44px] flex-1 disabled:opacity-40"
+          type="button"
+          className="btn-outline flex-1"
           onClick={() => goTo(activeIndex - 1)}
           disabled={activeIndex === 0}
         >
           ← 上一題
         </button>
-        <div className="min-w-[92px] shrink-0 text-center text-[0.76rem] text-text-light">
+        <div className="min-w-[92px] shrink-0 text-center text-caption text-text-light">
           <div className="font-semibold text-primary">第 {activeIndex + 1} 題</div>
           <div>
             {currentAnswer ? `已選 ${currentAnswer}` : '未作答'} · {answeredCount}/{currentExamData.questions.length}
           </div>
         </div>
         <button
-          className="btn-outline min-h-[44px] flex-1 disabled:opacity-40"
+          type="button"
+          className="btn-outline flex-1"
           onClick={() => goTo(activeIndex + 1)}
           disabled={activeIndex === currentExamData.questions.length - 1}
         >
@@ -473,9 +474,9 @@ export default function ExamPage() {
         initialFocusRef={confirmSubmitRef}
       >
         <div className="p-5 sm:p-6">
-          <div className="mb-1 text-sm font-semibold text-primary">確認繳卷</div>
+          <div className="mb-1 text-ui font-semibold text-primary">確認繳卷</div>
           <h2 className="text-xl font-bold text-app-text">要現在結束作答嗎？</h2>
-          <div className="mt-4 space-y-3 text-[0.92rem] leading-7 text-app-text">
+          <div className="mt-4 space-y-3 text-body text-app-text">
             <p>剩餘時間：{formatRemaining(secondsRemaining)}</p>
             <p>{unansweredCount === 0 ? '所有題目都已作答。' : `還有 ${unansweredCount} 題未作答。`}</p>
             {activeAnswered ? (
@@ -487,25 +488,17 @@ export default function ExamPage() {
 
           <div className="mt-5 flex flex-wrap gap-2">
             {unansweredCount > 0 && (
-              <button
-                type="button"
-                className="btn-outline min-h-[44px]"
-                onClick={jumpToFirstUnanswered}
-              >
+              <button type="button" className="btn-outline" onClick={jumpToFirstUnanswered}>
                 先看未答題
               </button>
             )}
-            <button
-              type="button"
-              className="btn-outline min-h-[44px]"
-              onClick={() => setShowSubmitDialog(false)}
-            >
+            <button type="button" className="btn-outline" onClick={() => setShowSubmitDialog(false)}>
               返回作答
             </button>
             <button
               ref={confirmSubmitRef}
               type="button"
-              className="btn-primary min-h-[44px] border-0"
+              className="btn-primary"
               onClick={handleConfirmSubmit}
             >
               確認繳卷

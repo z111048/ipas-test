@@ -1,6 +1,6 @@
 import { useId, useState } from 'react'
 import type { Question } from '../../types'
-import OptionButton from './OptionButton'
+import { ChoiceOption, type ChoiceState } from '../ui'
 import CardPanel from './CardPanel'
 
 interface QuestionCardProps {
@@ -11,8 +11,6 @@ interface QuestionCardProps {
   isActive?: boolean
   registerRef?: (el: HTMLElement | null) => void
 }
-
-type OptionState = 'idle' | 'correct' | 'wrong'
 
 export default function QuestionCard({ question, index, selected, onSelect, isActive, registerRef }: QuestionCardProps) {
   const [manualReveal, setManualReveal] = useState(false)
@@ -26,8 +24,9 @@ export default function QuestionCard({ question, index, selected, onSelect, isAc
     onSelect(key)
   }
 
-  const getState = (key: 'A' | 'B' | 'C' | 'D'): OptionState => {
-    if (!revealed) return 'idle'
+  /** 批改後才給 correct/wrong；未批改交給 ChoiceOption 依 selected 決定。 */
+  const getState = (key: 'A' | 'B' | 'C' | 'D'): ChoiceState | undefined => {
+    if (!revealed) return undefined
     if (key === question.answer) return 'correct'
     if (key === selected) return 'wrong'
     return 'idle'
@@ -49,50 +48,48 @@ export default function QuestionCard({ question, index, selected, onSelect, isAc
         isActive ? 'ring-2 ring-accent/50' : ''
       }`}
     >
-      <div className="eyebrow mb-2">
-        第 {index + 1} 題
-      </div>
-      <div className="text-[0.96rem] leading-8 mb-4 text-app-text content-justify">{question.question}</div>
+      <h2 className="eyebrow mb-2">第 {index + 1} 題</h2>
+      <div className="text-reading mb-4 text-app-text content-justify">{question.question}</div>
 
       <div className="flex flex-col gap-2">
         {(['A', 'B', 'C', 'D'] as const).map((key) => (
-          <OptionButton
+          <ChoiceOption
             key={key}
-            optKey={key}
-            value={question.options[key]}
-            state={getState(key)}
-            locked={selected !== null}
+            kind="button"
+            letter={key}
             selected={selected === key}
+            locked={selected !== null}
+            state={getState(key)}
             describedBy={resultMessage ? resultId : undefined}
-            onClick={() => handleSelect(key)}
-          />
+            onSelect={() => handleSelect(key)}
+          >
+            {question.options[key]}
+          </ChoiceOption>
         ))}
       </div>
 
       <div id={resultId} aria-live="polite" className="sr-only">{resultMessage}</div>
 
       {!revealed && (
-        <button
-          className="btn-outline mt-3 min-h-[44px] cursor-pointer"
-          onClick={() => setManualReveal(true)}
-        >
+        <button type="button" className="btn-outline mt-3" onClick={() => setManualReveal(true)}>
           顯示答案與解析
         </button>
       )}
 
       {revealed && (
-        <div className="mt-4 rounded-lg border border-[#bfdbfe] bg-[#eff6ff] p-4 text-[0.88rem] leading-7 content-justify">
-          <strong>正確答案：({question.answer}) {question.options[question.answer]}</strong>
-          <br /><br />
-          {question.explanation}
+        <div className="mt-4 rounded-lg border border-answered-line bg-answered-soft p-4 text-reading text-app-text content-justify">
+          <strong className="block">正確答案：({question.answer}) {question.options[question.answer]}</strong>
+          {question.explanation && <p className="mt-3">{question.explanation}</p>}
         </div>
       )}
 
       {revealed && question.card && (
         <>
           <button
-            className="btn-outline mt-3 min-h-[44px] cursor-pointer"
+            type="button"
+            className="btn-outline mt-3"
             onClick={() => setCardOpen((o) => !o)}
+            aria-expanded={cardOpen}
           >
             {cardOpen ? '收起解說圖卡' : '查看解說圖卡'}
           </button>

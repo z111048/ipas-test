@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { PageHeader, StatePanel } from '../../components/ui'
+import { ChoiceOption, PageHeader, StatePanel } from '../../components/ui'
+import LearningState from './LearningState'
 import { findMeta, loadLearningItem, loadQuestion, type MockBlueprint, type QuestionRevision, type ReadyAssembly } from './data'
 import { learnerRepository, type StoredAttempt } from './state/repository'
 import type { AttemptSnapshot, LearningUnit } from './types'
@@ -166,18 +167,18 @@ export default function SimulationPage() {
     void persist(submitted, true)
   }, [record, questions, secondsLeft])
 
-  if (index === undefined) return <StatePanel tone="loading" title="載入主題診斷" />
-  if (indexError) return <StatePanel tone="error" title="無法載入診斷" action={<button className="btn-secondary" onClick={retryIndex}>重試</button>}>{indexError}</StatePanel>
-  if (!index || !blueprintMeta || !assemblyMeta) return <StatePanel tone="empty" title="目前沒有可驗證的診斷表單">題池、版本與固定組卷結果完整對上後才會開放作答。</StatePanel>
+  if (index === undefined) return <LearningState tone="loading" title="載入主題診斷" />
+  if (indexError) return <LearningState tone="error" title="無法載入主題診斷" action={<button type="button" className="btn-secondary" onClick={retryIndex}>重試</button>}>{indexError}</LearningState>
+  if (!index || !blueprintMeta || !assemblyMeta) return <LearningState tone="empty" title="這份主題診斷尚未開放">題目與版本全部核對完成後才會開放作答。</LearningState>
   const loadError = blueprintState.error || assemblyState.error || questionError
-  if (loadError) return <StatePanel tone="error" title="診斷內容不可用" action={<button className="btn-secondary" onClick={() => { blueprintState.retry(); assemblyState.retry() }}>重試</button>}>{loadError}</StatePanel>
-  if (!blueprint || !assembly || !questions) return <StatePanel tone="loading" title="載入主題診斷">正在核對題目版本與固定組卷結果…</StatePanel>
-  if (!record && storageError) return <StatePanel tone="error" title="作答未保存">{storageError}。你仍可閱讀其他內容，請先匯出或清理瀏覽器空間再重試。</StatePanel>
-  if (!record) return <StatePanel tone="loading" title="建立作答紀錄">正在準備題目…</StatePanel>
+  if (loadError) return <LearningState tone="error" title="診斷內容不可用" action={<button type="button" className="btn-secondary" onClick={() => { blueprintState.retry(); assemblyState.retry() }}>重試</button>}>{loadError}</LearningState>
+  if (!blueprint || !assembly || !questions) return <LearningState tone="loading" title="載入主題診斷">正在核對題目版本…</LearningState>
+  if (!record && storageError) return <LearningState tone="error" title="作答未保存">{storageError}。你仍可閱讀其他內容，請先匯出或清理瀏覽器空間再重試。</LearningState>
+  if (!record) return <LearningState tone="loading" title="載入主題診斷">正在準備題目…</LearningState>
   const submitted = record.snapshot.status === 'submitted'
   return <div className="page-shell w-full">
     {import.meta.env.DEV && assemblyState.item?.availability === 'preview' && <div className="alert-warning mb-4" data-learning-preview>開發預覽：這份診斷仍在審核中。</div>}
-    <PageHeader eyebrow="10 題主題診斷" title={blueprint.title} description="作答會自動保存在這個瀏覽器，重新整理後可接著作答。" meta={<><span className="pill">{answered} / {record.snapshot.items.length} 已答</span>{!submitted && <span className="pill">剩餘 {Math.floor(secondsLeft / 60)}:{String(secondsLeft % 60).padStart(2, '0')}</span>}</>} />
+    <PageHeader className="mb-5" eyebrow="主題診斷" title={blueprint.title} description="作答會自動保存在這個瀏覽器，重新整理後可接著作答。" meta={<><span className="pill">{answered} / {record.snapshot.items.length} 已答</span>{!submitted && <span className="pill">剩餘 {Math.floor(secondsLeft / 60)}:{String(secondsLeft % 60).padStart(2, '0')}</span>}</>} />
     {storageError && <StatePanel tone="error" title="作答未保存" className="mb-4">{storageError}。請重新載入後再繼續，避免覆蓋其他分頁的作答。</StatePanel>}
     <div className="space-y-4">{record.snapshot.items.map((item, indexNumber) => {
       const question = questions.get(item.questionKey)!
@@ -186,8 +187,24 @@ export default function SimulationPage() {
       const unit = unitId ? remediation.get(unitId) : undefined
       const guide = unit?.guideRefs[0]
       const guideTarget = guide?.anchor ?? guide?.blockIds[0]
-      return <article key={`${item.questionKey}:${item.revision}`} data-learning-question={item.questionKey} className="surface p-5"><h2 className="font-semibold leading-7 text-primary">{indexNumber + 1}. {item.promptSnapshot.stem}</h2><div className="mt-3 grid gap-2">{item.promptSnapshot.options.map((option) => <button key={option.optionId} type="button" disabled={submitted || readOnly} aria-pressed={item.selectedOptionId === option.optionId} onClick={() => select(item.questionKey, option.optionId)} className={`min-h-11 rounded-lg border px-4 py-3 text-left ${item.selectedOptionId === option.optionId ? 'border-accent bg-[#eef7ff]' : 'border-border bg-white hover:border-accent'}`}><span className="mr-2 font-semibold">{option.optionId.replace('opt-', '')}.</span>{option.text}</button>)}</div>{submitted && <div className={`mt-3 rounded-lg p-3 text-sm leading-6 ${correct ? 'bg-emerald-50 text-emerald-800' : 'bg-amber-50 text-amber-900'}`}><div className="font-semibold">{correct ? '答對了' : `正確答案：${question.correctOptionId.replace('opt-', '')}`}</div><p>{question.explanation}</p>{!correct && unitId && <div className="mt-2 flex flex-wrap gap-3"><Link to={`/learn/${unitId}`} className="text-link">閱讀對應單元</Link>{guide && guideTarget && <Link to={`${guide.fallbackRoute}#${encodeURIComponent(guideTarget)}`} className="text-link">回到指引原文</Link>}<Link to="/labs/lab-imbalanced-classification" className="text-link">用 Lab 練習</Link></div>}</div>}</article>
+      const locked = submitted || readOnly
+      return <article key={`${item.questionKey}:${item.revision}`} data-learning-question={item.questionKey} className="surface p-5">
+        <h2 className="text-reading font-semibold leading-8 text-primary">{indexNumber + 1}. {item.promptSnapshot.stem}</h2>
+        <fieldset className="mt-3 grid min-w-0 gap-2" disabled={locked}>
+          <legend className="sr-only">第 {indexNumber + 1} 題選項</legend>
+          {item.promptSnapshot.options.map((option) => {
+            const picked = item.selectedOptionId === option.optionId
+            const state = submitted ? (option.optionId === question.correctOptionId ? 'correct' : picked ? 'wrong' : 'idle') : undefined
+            return <ChoiceOption key={option.optionId} kind="button" letter={option.optionId.replace('opt-', '')} selected={picked} locked={locked} state={state} onSelect={() => select(item.questionKey, option.optionId)}>{option.text}</ChoiceOption>
+          })}
+        </fieldset>
+        {submitted && <div className={`mt-3 rounded-lg border p-4 text-reading leading-8 ${correct ? 'border-correct-line bg-correct-soft' : 'border-wrong-line bg-wrong-soft'}`}>
+          <div className={`font-semibold ${correct ? 'text-correct' : 'text-wrong'}`}>{correct ? '答對了' : `正確答案：${question.correctOptionId.replace('opt-', '')}`}</div>
+          <p className="text-app-text">{question.explanation}</p>
+          {!correct && unitId && <div className="mt-2 flex flex-wrap gap-x-5"><Link to={`/learn/${unitId}`} className="text-link">閱讀對應單元</Link>{guide && guideTarget && <Link to={`${guide.fallbackRoute}#${encodeURIComponent(guideTarget)}`} className="text-link">回到指引原文</Link>}<Link to="/labs/lab-imbalanced-classification" className="text-link">用實作練習鞏固</Link></div>}
+        </div>}
+      </article>
     })}</div>
-    {!submitted ? <button className="btn-primary mt-5 w-full sm:w-auto" disabled={readOnly || answered !== record.snapshot.items.length} onClick={submit}>提交診斷</button> : <StatePanel className="mt-5" title={`得分 ${record.snapshot.result?.score.toFixed(0)} 分`}>答對 {record.snapshot.result?.correctCount} / {record.snapshot.result?.eligibleCount} 題。請用錯題下方連結回到補充或 Lab。</StatePanel>}
+    {!submitted ? <button type="button" className="btn-primary mt-5 w-full sm:w-auto" disabled={readOnly || answered !== record.snapshot.items.length} onClick={submit}>提交診斷</button> : <StatePanel className="mt-5" title={`得分 ${record.snapshot.result?.score.toFixed(0)} 分`}>答對 {record.snapshot.result?.correctCount} / {record.snapshot.result?.eligibleCount} 題。請用錯題下方連結回到實務補充或實作練習。</StatePanel>}
   </div>
 }

@@ -35,12 +35,13 @@ export default function ExamTimer({ compact = false }: ExamTimerProps) {
   const bucket = useMemo(() => announcementBucket(seconds), [seconds])
   const [liveText, setLiveText] = useState(() => announcementText(bucket))
 
+  // 計時器放在深色（bg-primary）底上：用淺色警示色才有足夠對比
   const colorClass =
     seconds <= 300
-      ? 'text-error'
+      ? 'text-on-dark-danger'
       : seconds <= 600
-        ? 'text-warning'
-        : 'text-white'
+        ? 'text-on-dark-warning'
+        : 'text-on-dark'
 
   useEffect(() => {
     setLiveText(announcementText(bucket))
@@ -52,7 +53,7 @@ export default function ExamTimer({ compact = false }: ExamTimerProps) {
     return (
       <div className="min-w-0">
         <div className={`text-xl font-bold tabular-nums leading-none ${colorClass}`}>{display}</div>
-        <div className="mt-1 text-[0.72rem] text-white/75">{status}</div>
+        <div className="mt-1 text-caption text-on-dark-muted">{status}</div>
         <div aria-live="polite" aria-atomic="true" className="sr-only">{liveText}</div>
       </div>
     )
@@ -61,7 +62,7 @@ export default function ExamTimer({ compact = false }: ExamTimerProps) {
   return (
     <div>
       <div className={`text-3xl font-bold tabular-nums ${colorClass}`}>{display}</div>
-      <div className="mt-1 text-[0.8rem] font-medium text-white/75">{status}</div>
+      <div className="mt-1 text-meta font-medium text-on-dark-muted">{status}</div>
       <div aria-live="polite" aria-atomic="true" className="sr-only">{liveText}</div>
     </div>
   )

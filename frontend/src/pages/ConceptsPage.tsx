@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
-import { FilterBar, PageHeader, SegmentedControl, StatePanel } from '../components/ui'
+import { useSearchParams } from 'react-router-dom'
+import { Chip, ChipGroup, FilterBar, PageHeader, StatePanel, SubjectPicker, subjectOptions } from '../components/ui'
+import { navLabel } from '../constants/navLabels'
 import { resolveConcept } from '../data/conceptLookup'
 import { guideNav } from '../data/guideNav'
 
@@ -12,6 +13,7 @@ const HEAT_STEPS = ['#184f95', '#256abf', '#3987e5', '#6da7ec', '#b7d3f6']
 
 interface GlossaryRef {
   level: string
+  subject?: string
   subjectName: string
   en: string
   definition: string
@@ -30,6 +32,25 @@ function chapterNode(nodeId: string) {
     if (node) return node
   }
   return undefined
+}
+
+function chapterSubjectId(nodeId: string) {
+  for (const [subjectId, guide] of Object.entries(guideNav.guides)) {
+    if (guide.nodesById[nodeId]) return subjectId
+  }
+  return undefined
+}
+
+/** 概念涉及的科目：名詞解釋所屬科目、練習題科目、學習指引章節所屬科目。 */
+function conceptSubjectIds(concept: Concept) {
+  const ids = new Set<string>()
+  for (const entry of concept.glossary) if (entry.subject) ids.add(entry.subject)
+  for (const question of concept.questions) if (question.subjectId) ids.add(question.subjectId)
+  for (const chapter of concept.chapters) {
+    const subjectId = chapterSubjectId(chapter.nodeId)
+    if (subjectId) ids.add(subjectId)
+  }
+  return ids
 }
 
 interface QuestionRef {
@@ -76,6 +97,7 @@ export default function ConceptsPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const [query, setQuery] = useState('')
   const [parent, setParent] = useState('all')
+  const [subject, setSubject] = useState('all')
   const [view, setView] = useState<'list' | 'graph'>('list')
   const [openQuestion, setOpenQuestion] = useState<QuestionRef | null>(null)
   const [strongOnly, setStrongOnly] = useState(false)
@@ -114,16 +136,27 @@ export default function ConceptsPage() {
     [concepts]
   )
 
+  const subjectsByConcept = useMemo(
+    () => new Map(concepts.map((concept) => [concept.id, conceptSubjectIds(concept)])),
+    [concepts]
+  )
+  const subjectIds = useMemo(() => {
+    const present = new Set<string>()
+    for (const ids of subjectsByConcept.values()) for (const id of ids) present.add(id)
+    return subjectOptions().map((option) => option.id).filter((id) => present.has(id))
+  }, [subjectsByConcept])
+
   const listed = useMemo(() => {
     const keyword = query.trim().toLowerCase()
     return concepts.filter((concept) => {
       if (parent !== 'all' && concept.parent !== parent) return false
+      if (subject !== 'all' && !subjectsByConcept.get(concept.id)?.has(subject)) return false
       if (!keyword) return true
       return [concept.name, concept.parent, concept.glossary[0]?.en ?? '',
         concept.glossary[0]?.definition ?? '']
         .join(' ').toLowerCase().includes(keyword)
     })
-  }, [concepts, query, parent])
+  }, [concepts, query, parent, subject, subjectsByConcept])
 
   function select(id: string) {
     const next = new URLSearchParams(searchParams)
@@ -134,6 +167,7 @@ export default function ConceptsPage() {
   if (loadError) {
     return (
       <div className="page-shell">
+        <PageHeader className="mb-5" title={navLabel('concepts')} />
         <StatePanel tone="error" title="概念索引載入失敗">
           {loadError}
         </StatePanel>
@@ -144,6 +178,7 @@ export default function ConceptsPage() {
   if (!graph) {
     return (
       <div className="page-shell">
+        <PageHeader className="mb-5" title={navLabel('concepts')} />
         <StatePanel tone="loading">
           載入概念索引中…
         </StatePanel>
@@ -155,10 +190,10 @@ export default function ConceptsPage() {
     <div className="page-shell">
       <PageHeader
         className="mb-5"
-        eyebrow="概念索引"
-        title="概念、定義與考過的題目"
+        title={navLabel('concepts')}
         description={
           <>
+            概念、定義與考過的題目：
             {graph.conceptCount} 個概念，串起名詞定義、學習指引章節、
             {graph.questionCount.official} 題歷屆試題與 {graph.questionCount.practice} 題練習。
             點任一概念看它考在哪裡、和哪些概念一起出現。
@@ -177,38 +212,33 @@ export default function ConceptsPage() {
         title="概念篩選"
         result={`${listed.length} / ${concepts.length} 個概念`}
       >
-        <label className="block">
-          <span className="mb-1.5 block text-[0.78rem] font-semibold text-text-light">分類</span>
-          <select
-            value={parent}
-            onChange={(event) => setParent(event.target.value)}
-            className="min-h-11 w-full rounded-lg border border-border px-3 py-2 text-[0.88rem] outline-none focus:border-accent"
-          >
-            <option value="all">全部分類（{concepts.length}）</option>
-            {parents.map((name) => (
-              <option key={name} value={name}>{name}</option>
-            ))}
-          </select>
-        </label>
-        <label className="block">
-          <span className="mb-1.5 block text-[0.78rem] font-semibold text-text-light">搜尋</span>
+        <SubjectPicker
+          className="md:col-span-2 xl:col-span-4"
+          value={subject}
+          onChange={setSubject}
+          subjectIds={subjectIds}
+          allOption={{ value: 'all', label: '全部科目' }}
+        />
+        <ChipGroup label="分類" className="md:col-span-2 xl:col-span-4">
+          <Chip active={parent === 'all'} onClick={() => setParent('all')}>全部分類</Chip>
+          {parents.map((name) => (
+            <Chip key={name} active={parent === name} onClick={() => setParent(name)}>{name}</Chip>
+          ))}
+        </ChipGroup>
+        <label className="block md:col-span-2">
+          <span className="field-label">搜尋</span>
           <input
+            type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="搜尋概念、英文或定義"
-            className="min-h-11 w-full rounded-lg border border-border px-3 py-2 text-[0.88rem] outline-none focus:border-accent"
+            className="min-h-11 w-full rounded-lg border border-border px-3 py-2 text-reading outline-none focus:border-accent"
           />
         </label>
-        <SegmentedControl
-          className="md:col-span-2"
-          label="檢視模式"
-          value={view}
-          onChange={(value) => setView(value as typeof view)}
-          options={[
-            { value: 'list', label: '清單' },
-            { value: 'graph', label: '立體圖' },
-          ]}
-        />
+        <ChipGroup label="檢視模式" className="md:col-span-2">
+          <Chip active={view === 'list'} onClick={() => setView('list')}>清單</Chip>
+          <Chip active={view === 'graph'} onClick={() => setView('graph')}>立體圖</Chip>
+        </ChipGroup>
       </FilterBar>
 
       {view === 'graph' && (
@@ -232,7 +262,7 @@ export default function ConceptsPage() {
               />
             </Suspense>
           </div>
-          <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.78rem] text-text-light">
+          <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-meta text-text-light">
             <span className="flex items-center gap-1">
               考古題題數
               {HEAT_STEPS.map((color) => (
@@ -242,7 +272,7 @@ export default function ConceptsPage() {
                   style={{ backgroundColor: color }}
                 />
               ))}
-            <span>少 → 多</span>
+              <span>少 → 多</span>
             </span>
             <span>球體大小＝總題數（考古題＋練習）</span>
             <span>連線＝兩個概念被標在同一題上，粗細＝次數</span>
@@ -271,12 +301,13 @@ export default function ConceptsPage() {
                 key={concept.id}
                 type="button"
                 onClick={() => select(concept.id)}
+                aria-current={concept.id === selected?.id ? 'true' : undefined}
                 className={`min-h-11 w-full text-left px-4 py-2.5 border-b border-border cursor-pointer ${
-                  concept.id === selected?.id ? 'bg-accent/10' : 'hover:bg-[#f7fbff]'
+                  concept.id === selected?.id ? 'bg-answered-soft' : 'hover:bg-unanswered-soft'
                 }`}
               >
-                <div className="text-[0.9rem] font-semibold text-primary">{concept.name}</div>
-                <div className="text-[0.75rem] text-text-light">
+                <div className="text-body font-semibold text-primary">{concept.name}</div>
+                <div className="text-caption text-text-light">
                   {concept.parent} · 考古題 {concept.questionCount.official}／練習 {concept.questionCount.practice}
                 </div>
               </button>
@@ -301,41 +332,38 @@ export default function ConceptsPage() {
             </StatePanel>
           ) : (
             <>
-              <div className="text-[0.75rem] text-text-light">{selected.parent}</div>
+              <div className="text-caption text-text-light">{selected.parent}</div>
               <h2 className="text-xl font-bold text-primary mt-1 mb-2">{selected.name}</h2>
 
               {selected.glossary.length > 0 ? (
                 selected.glossary.map((entry) => (
                   <div key={`${entry.level}-${entry.subjectName}`} className="mb-3">
-                    <div className="text-[0.78rem] text-accent">
+                    <div className="text-meta text-accent">
                       {entry.level} · {entry.en}
                     </div>
-                    <p className="leading-7 content-justify m-0">{entry.definition}</p>
+                    <p className="text-reading leading-7 content-justify m-0">{entry.definition}</p>
                     {entry.example && (
-                      <p className="leading-7 content-justify m-0 mt-1 text-text-light text-[0.85rem]">
+                      <p className="leading-7 content-justify m-0 mt-1 text-text-light text-ui">
                         例：{entry.example}
                       </p>
                     )}
                   </div>
                 ))
               ) : (
-                <p className="text-[0.85rem] text-text-light">這個概念還沒有名詞解釋。</p>
+                <p className="text-ui text-text-light">這個概念還沒有定義說明。</p>
               )}
 
               {selected.chapters.length > 0 && (
                 <div className="mt-4">
-                  <div className="text-[0.8rem] font-semibold text-primary mb-1.5">學習指引章節</div>
+                  <h3 className="text-meta font-semibold text-primary mb-1.5">{navLabel('guide')}章節</h3>
                   <div className="flex flex-wrap gap-2">
                     {selected.chapters.map((chapter) => {
                       const node = chapterNode(chapter.nodeId)
                       const label = `${chapter.guideKey.split('-')[0]} ${node?.title ?? '學習指引'}（${chapter.count} 題）`
-                      const className = 'rounded border border-border px-2 py-1 text-[0.78rem] text-text-light'
                       return node?.route ? (
-                        <Link key={chapter.nodeId} to={node.route} className={`${className} hover:border-primary hover:text-primary`}>
-                          {label}
-                        </Link>
+                        <Chip key={chapter.nodeId} to={node.route}>{label}</Chip>
                       ) : (
-                        <span key={chapter.nodeId} className={className}>{label}</span>
+                        <span key={chapter.nodeId} className="badge">{label}</span>
                       )
                     })}
                   </div>
@@ -344,38 +372,32 @@ export default function ConceptsPage() {
 
               {selected.related.length > 0 && (
                 <div className="mt-4">
-                  <div className="text-[0.8rem] font-semibold text-primary mb-1.5">
+                  <h3 className="text-meta font-semibold text-primary mb-1.5">
                     常一起出現的概念
-                  </div>
+                  </h3>
                   <div className="flex flex-wrap gap-2">
                     {selected.related.map((item) => (
-                      <button
-                        key={item.id}
-                        type="button"
-                        onClick={() => select(item.id)}
-                        className="min-h-11 rounded-full border border-border px-3 py-2 text-[0.8rem] text-primary hover:border-accent cursor-pointer"
-                      >
+                      <Chip key={item.id} onClick={() => select(item.id)} count={`×${item.weight}`}>
                         {item.name}
-                        <span className="text-text-light"> ×{item.weight}</span>
-                      </button>
+                      </Chip>
                     ))}
                   </div>
                 </div>
               )}
 
               <div className="mt-4">
-                <div className="text-[0.8rem] font-semibold text-primary mb-1.5">
+                <h3 className="text-meta font-semibold text-primary mb-1.5">
                   考過這個概念的題目（{selected.questions.length} 題）
-                </div>
+                </h3>
                 <ul className="m-0 list-none p-0 space-y-1.5">
                   {selected.questions.map((question) => (
                     <li key={`${question.source}-${question.id}`}>
                       <button
                         type="button"
                         onClick={() => setOpenQuestion(question)}
-                        className="min-h-11 w-full rounded-lg border border-border px-3 py-2 text-left text-[0.85rem] hover:border-accent cursor-pointer"
+                        className="min-h-11 w-full rounded-lg border border-border px-3 py-2 text-left text-ui hover:border-accent cursor-pointer"
                       >
-                        <span className="text-text-light text-[0.75rem]">
+                        <span className="text-text-light text-caption">
                           {question.level} · {question.source}
                         </span>
                         <br />

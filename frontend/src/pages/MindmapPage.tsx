@@ -2,7 +2,8 @@ import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { loadMindmap, loadMindmapIndex } from '../data/guideMindmap'
 import type { GuideMindmapData, GuideMindmapIndex, GuideMindmapNode } from '../types'
-import { FilterBar, PageHeader, SegmentedControl, StatePanel } from '../components/ui'
+import { Chip, ChipGroup, FilterBar, PageHeader, StatePanel, SubjectPicker } from '../components/ui'
+import { navLabel } from '../constants/navLabels'
 
 const TopicHeatPanel = lazy(() => import('../components/guide/TopicHeatPanel'))
 
@@ -135,7 +136,7 @@ export default function MindmapPage() {
       <PageHeader
         className="mb-5"
         eyebrow="知識探索"
-        title={axis === 'chapter' ? '章節熱度圖' : '概念熱度'}
+        title={navLabel('mindmap')}
         description={
           axis === 'chapter'
             ? '以歷屆試題實際命中的章節統計，節點越大代表該章考得越多。點擊節點可直接前往該章。'
@@ -143,16 +144,10 @@ export default function MindmapPage() {
         }
       />
 
-      <SegmentedControl
-        className="mb-4"
-        label="熱度統計軸"
-        value={axis}
-        onChange={(value) => setAxis(value as Axis)}
-        options={[
-          { value: 'chapter', label: '按章節' },
-          { value: 'topic', label: '按概念' },
-        ]}
-      />
+      <ChipGroup label="熱度統計軸" className="mb-4">
+        <Chip active={axis === 'chapter'} onClick={() => setAxis('chapter')}>按章節</Chip>
+        <Chip active={axis === 'topic'} onClick={() => setAxis('topic')}>按概念</Chip>
+      </ChipGroup>
 
       {axis === 'topic' ? (
         <div className="space-y-4">
@@ -228,46 +223,22 @@ function ChapterHeatView({
         result={data ? `${data.subject}・${data.nodes.length} 個節點` : '資料載入中'}
       >
         <div className="md:col-span-2 xl:col-span-4">
-          <div className="mb-1.5 text-[0.78rem] font-semibold text-text-light">科目</div>
-          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-            {index?.guides.map((guide) => (
-              <button
-                key={guide.subjectId}
-                type="button"
-                onClick={() => setSubjectId(guide.subjectId)}
-                className={`min-h-11 rounded border px-3 py-2 text-sm font-semibold ${
-                  guide.subjectId === subjectId
-                    ? 'border-accent bg-accent text-white'
-                    : 'border-border bg-white text-app-text hover:border-accent'
-                }`}
-              >
-                {guide.level} {guide.subject.replace(/^中級/, '')}
-              </button>
-            ))}
-          </div>
+          {index ? (
+            <SubjectPicker
+              value={subjectId}
+              onChange={setSubjectId}
+              subjectIds={index.guides.map((guide) => guide.subjectId)}
+            />
+          ) : (
+            <div className="field-label">科目</div>
+          )}
         </div>
         <div className="md:col-span-2 xl:col-span-4">
-          <div className="mb-1.5 text-[0.78rem] font-semibold text-text-light">排序依據</div>
-          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-            {(
-              [
-                ['questions', '題數'],
-                ['density', '密度（每千字題數）'],
-              ] as [Metric, string][]
-            ).map(([value, label]) => (
-              <button
-                key={value}
-                type="button"
-                onClick={() => setMetric(value)}
-                className={`min-h-11 rounded border px-3 py-2 text-sm font-semibold ${
-                  metric === value ? 'border-accent text-accent' : 'border-border bg-white text-text-light hover:border-accent'
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-          <p className="mt-2 text-xs leading-6 text-text-light">
+          <ChipGroup label="排序依據">
+            <Chip active={metric === 'questions'} onClick={() => setMetric('questions')}>題數</Chip>
+            <Chip active={metric === 'density'} onClick={() => setMetric('density')}>密度（每千字題數）</Chip>
+          </ChipGroup>
+          <p className="mt-2 text-meta leading-6 text-text-light">
             長章節本來就容易累積題數，密度可以看出「單位篇幅」的考點集中程度。
           </p>
         </div>
@@ -341,7 +312,7 @@ function ChapterHeatView({
                     >
                       {node.t.length > 18 ? `${node.t.slice(0, 18)}…` : node.t}
                     </text>
-                    <text x={radius + 6} y={17} className="text-[10px] fill-text-light">
+                    <text x={radius + 6} y={19} className="text-[12px] fill-text-light">
                       {node.q === null
                         ? '尚無統計'
                         : `${node.q} 題・${node.y ?? 0}/千字`}
@@ -358,22 +329,22 @@ function ChapterHeatView({
               <ol className="mt-2 space-y-1 text-sm">
                 {ranking.map((node, position) => (
                   <li key={node.i} className="flex items-baseline gap-2">
-                    <span className="w-5 text-right text-text-light">{position + 1}</span>
+                    <span className="w-5 shrink-0 text-right text-text-light">{position + 1}</span>
                     <button
                       type="button"
                       onClick={() => node.r && navigate(node.r)}
-                      className="min-h-11 text-left text-app-text hover:text-accent"
+                      className="min-h-11 py-2 text-left text-app-text hover:text-accent"
                     >
                       {node.t}
                     </button>
-                    <span className="ml-auto text-text-light">
+                    <span className="ml-auto shrink-0 text-text-light">
                       {metric === 'questions' ? `${node.q} 題` : `${node.y}/千字`}
                     </span>
                   </li>
                 ))}
               </ol>
             </div>
-            <div className="text-xs text-text-light">
+            <div className="text-meta leading-6 text-text-light">
               <h2 className="text-base font-semibold text-primary">怎麼看這張圖</h2>
               <ul className="mt-2 space-y-1.5">
                 <li>

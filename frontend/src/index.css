@@ -8,12 +8,64 @@
   --color-app-bg: #f5f7fb;
   --color-card: #ffffff;
   --color-app-text: #1f2937;
-  --color-text-light: #64748b;
+  /* Muted text: #5a6a7f passes 4.5:1 on white, app-bg, #f8fafc and #eff6ff (>= 5.0:1). */
+  --color-text-light: #5a6a7f;
+  --color-text-muted: #5a6a7f;
   --color-border: #d8e0ea;
   --color-success: #15803d;
   --color-error: #dc2626;
   --color-warning: #b45309;
   --sidebar-w: 260px;
+
+  /* Dark chrome (header #17324d / sidebar #132b43). on-dark-muted = white/72 (>= 7.5:1). */
+  --color-sidebar: #132b43;
+  --color-on-dark: #ffffff;
+  --color-on-dark-muted: rgb(255 255 255 / 0.72);
+  /* Alert text on the dark chrome (exam timer < 10 / < 5 min): >= 7:1 on #17324d. */
+  --color-on-dark-warning: #fcd34d;
+  --color-on-dark-danger: #fca5a5;
+
+  /* Accent tint for hover / highlighted cards (NOT an answer state — use answered-* for that). */
+  --color-accent-soft: #f0f7ff;
+
+  /* Warning / caution surfaces (alerts, 「歷屆試題」 blocks, badge-warning). text >= 7:1 on soft. */
+  --color-warning-soft: #fffbeb;
+  --color-warning-line: #f7d48b;
+  --color-warning-text: #7c4a03;
+
+  /* Semantic answer states. "answered" is neutral blue (filled in, NOT judged);
+     correct / wrong only after grading. *-soft = background, *-line = border, base = text/icon. */
+  --color-answered: #1d4ed8;
+  --color-answered-soft: #eff6ff;
+  --color-answered-line: #93c5fd;
+  --color-correct: #166534;
+  --color-correct-strong: #15803d;
+  --color-correct-soft: #ecfdf3;
+  --color-correct-line: #86efac;
+  --color-wrong: #b91c1c;
+  --color-wrong-strong: #dc2626;
+  --color-wrong-soft: #fef2f2;
+  --color-wrong-line: #fca5a5;
+  --color-unanswered: #5a6a7f;
+  --color-unanswered-soft: #f8fafc;
+  --color-unanswered-line: #d8e0ea;
+
+  /* Type scale. Nothing visible may be smaller than text-caption (12px).
+     text-reading (16px) is for guide/article body, question stems and options. */
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.5;
+  --text-meta: 0.8125rem;
+  --text-meta--line-height: 1.6;
+  --text-ui: 0.875rem;
+  --text-ui--line-height: 1.5;
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.75;
+  --text-reading: 1rem;
+  --text-reading--line-height: 1.85;
+  --text-page-title: 1.5rem;
+  --text-page-title--line-height: 1.3;
+  --text-hero-title: 2rem;
+  --text-hero-title--line-height: 1.22;
 }
 
 :root {
@@ -26,6 +78,14 @@
   --radius-panel: 0.75rem;
   --radius-control: 0.5rem;
   --target-min: 44px;
+  /* Desktop (fine pointer, >= 768px) controls may be compact; touch/narrow always get --target-min. */
+  --control-min-h: 2.25rem;
+}
+
+@media (pointer: coarse), (max-width: 767px) {
+  :root {
+    --control-min-h: var(--target-min);
+  }
 }
 
 body {
@@ -143,6 +203,60 @@ html {
     box-shadow: var(--surface-shadow);
   }
 
+  .page-header-title {
+    color: var(--color-primary);
+    font-size: var(--text-page-title);
+    line-height: var(--text-page-title--line-height);
+    font-weight: 700;
+  }
+
+  .page-header-description {
+    max-width: 56rem;
+    color: var(--color-text-light);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+  }
+
+  .page-header-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-light);
+    font-size: var(--text-meta);
+  }
+
+  /* PageHeader variant="plain": no card chrome (404, embedded headers). */
+  .page-header-plain {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    padding: 0.5rem 0 1rem;
+  }
+
+  /* PageHeader variant="hero": home hero, dark panel. */
+  .page-header-hero .page-header-title {
+    color: #ffffff;
+    font-size: 1.75rem;
+    font-weight: 900;
+    line-height: var(--text-hero-title--line-height);
+  }
+
+  .page-header-hero .page-header-description {
+    color: rgb(255 255 255 / 0.8);
+    font-size: var(--text-reading);
+  }
+
+  .page-header-hero .page-header-meta {
+    color: rgb(255 255 255 / 0.78);
+  }
+
+  @media (min-width: 768px) {
+    .page-header-hero .page-header-title {
+      font-size: var(--text-hero-title);
+    }
+  }
+
   .hero-panel {
     position: relative;
     overflow: hidden;
@@ -176,7 +290,7 @@ html {
     background-color: rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.92);
     padding: 0.22rem 0.65rem;
-    font-size: 0.74rem;
+    font-size: var(--text-caption);
     font-weight: 700;
     line-height: 1.4;
   }
@@ -185,10 +299,10 @@ html {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 2.5rem;
+    min-height: max(2.5rem, var(--control-min-h));
     border-radius: 0.5rem;
     padding: 0.55rem 1.1rem;
-    font-size: 0.88rem;
+    font-size: var(--text-ui);
     font-weight: 700;
     line-height: 1.2;
     text-decoration: none;
@@ -209,10 +323,10 @@ html {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 2.5rem;
+    min-height: max(2.5rem, var(--control-min-h));
     border-radius: 0.5rem;
     padding: 0.55rem 1.1rem;
-    font-size: 0.88rem;
+    font-size: var(--text-ui);
     font-weight: 700;
     line-height: 1.2;
     text-decoration: none;
@@ -242,31 +356,36 @@ html {
 
   .section-title {
     color: var(--color-primary);
-    font-size: 0.92rem;
+    font-size: var(--text-body);
     font-weight: 700;
     letter-spacing: 0;
   }
 
   .eyebrow {
-    color: var(--color-accent);
-    font-size: 0.74rem;
+    color: var(--color-accent-hover);
+    font-size: var(--text-caption);
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
   }
 
   .btn-primary,
+  .btn-secondary,
   .btn-outline,
   .btn-muted,
+  .btn-ghost,
   .btn-warning,
-  .btn-success {
+  .btn-success,
+  .btn-danger {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 2.25rem;
+    gap: 0.375rem;
+    min-height: var(--control-min-h);
+    cursor: pointer;
     border-radius: var(--radius-control);
     padding: 0.5rem 0.9rem;
-    font-size: 0.84rem;
+    font-size: var(--text-ui);
     font-weight: 700;
     line-height: 1.2;
     text-decoration: none;
@@ -298,8 +417,253 @@ html {
 
   .btn-muted {
     color: var(--color-text-light);
-    background-color: #f8fafc;
+    background-color: var(--color-unanswered-soft);
     border: 1px solid var(--color-border);
+  }
+
+  .btn-muted:hover {
+    color: var(--color-primary);
+    border-color: #b6c3d3;
+  }
+
+  /* Neutral secondary action (was referenced by pages but never defined). */
+  .btn-secondary {
+    color: var(--color-primary);
+    background-color: #ffffff;
+    border: 1px solid var(--color-border);
+  }
+
+  .btn-secondary:hover {
+    color: var(--color-accent-hover);
+    border-color: var(--color-accent);
+    background-color: var(--color-accent-soft);
+  }
+
+  /* Borderless text-style action (toolbar / inline). */
+  .btn-ghost {
+    color: var(--color-accent-hover);
+    background-color: transparent;
+    border: 1px solid transparent;
+  }
+
+  .btn-ghost:hover {
+    background-color: var(--color-answered-soft);
+  }
+
+  .btn-danger {
+    color: var(--color-wrong);
+    background-color: var(--color-wrong-soft);
+    border: 1px solid var(--color-wrong-line);
+  }
+
+  .btn-danger:hover {
+    color: #ffffff;
+    background-color: var(--color-wrong);
+    border-color: var(--color-wrong);
+  }
+
+  /* Modifiers: .btn-sm (desktop-compact, still 44px on touch), .btn-block (full width). */
+  .btn-sm {
+    padding: 0.35rem 0.7rem;
+    font-size: var(--text-meta);
+  }
+
+  .btn-block {
+    width: 100%;
+  }
+
+  .btn-primary:disabled,
+  .btn-secondary:disabled,
+  .btn-outline:disabled,
+  .btn-muted:disabled,
+  .btn-ghost:disabled,
+  .btn-warning:disabled,
+  .btn-success:disabled,
+  .btn-danger:disabled,
+  .btn-primary[aria-disabled='true'],
+  .btn-secondary[aria-disabled='true'],
+  .btn-outline[aria-disabled='true'] {
+    cursor: not-allowed;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  /* Filter / toggle chip. Active via .chip-active, [aria-pressed=true], [aria-current] or :checked label. */
+  .chip {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    min-height: var(--control-min-h);
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    background-color: #ffffff;
+    color: var(--color-primary);
+    padding: 0.4rem 0.9rem;
+    font-size: var(--text-ui);
+    font-weight: 600;
+    line-height: 1.3;
+    white-space: nowrap;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+  }
+
+  .chip:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent-hover);
+  }
+
+  .chip-active,
+  .chip[aria-pressed='true'],
+  .chip[aria-current]:not([aria-current='false']),
+  .chip[aria-selected='true'] {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
+    color: #ffffff;
+  }
+
+  .chip-active:hover,
+  .chip[aria-pressed='true']:hover,
+  .chip[aria-current]:not([aria-current='false']):hover,
+  .chip[aria-selected='true']:hover {
+    background-color: var(--color-accent-hover);
+    color: #ffffff;
+  }
+
+  .chip:disabled,
+  .chip[aria-disabled='true'] {
+    cursor: not-allowed;
+    background-color: var(--color-unanswered-soft);
+    color: var(--color-text-light);
+    border-style: dashed;
+  }
+
+  /* Wrong-tone chip (e.g. 「答錯的題目」 jump list on the results page). */
+  .chip-wrong {
+    border-color: var(--color-wrong-line);
+    background-color: var(--color-wrong-soft);
+    color: var(--color-wrong);
+  }
+
+  .chip-wrong:hover {
+    border-color: var(--color-wrong-strong);
+    background-color: var(--color-wrong-soft);
+    color: var(--color-wrong);
+  }
+
+  .chip-count {
+    font-size: var(--text-caption);
+    font-weight: 700;
+    opacity: 0.85;
+  }
+
+  /* Horizontal chip row: wraps on desktop, scrolls sideways on narrow screens. */
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 767px) {
+    .chip-row {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x proximity;
+      scrollbar-width: none;
+      margin-inline: -1rem;
+      padding: 0.125rem 1rem 0.25rem;
+      scroll-padding-inline: 1rem;
+    }
+
+    .chip-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chip-row > * {
+      scroll-snap-align: start;
+    }
+  }
+
+  /* Non-interactive status badge. Tones: neutral | accent | answered | correct | wrong | warning. */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    border-radius: 0.375rem;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-unanswered-soft);
+    color: var(--color-text-light);
+    padding: 0.125rem 0.5rem;
+    font-size: var(--text-caption);
+    font-weight: 700;
+    line-height: 1.45;
+    white-space: nowrap;
+  }
+
+  .badge-accent,
+  .badge-answered {
+    border-color: var(--color-answered-line);
+    background-color: var(--color-answered-soft);
+    color: var(--color-answered);
+  }
+
+  .badge-correct {
+    border-color: var(--color-correct-line);
+    background-color: var(--color-correct-soft);
+    color: var(--color-correct);
+  }
+
+  .badge-wrong {
+    border-color: var(--color-wrong-line);
+    background-color: var(--color-wrong-soft);
+    color: var(--color-wrong);
+  }
+
+  .badge-warning {
+    border-color: var(--color-warning-line);
+    background-color: var(--color-warning-soft);
+    color: var(--color-warning-text);
+  }
+
+  /* Long badge text (e.g. citation titles) may wrap instead of overflowing on mobile. */
+  .badge-wrap {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: left;
+  }
+
+  /* Standalone text link (not inside a paragraph): padded to a 44px target on touch. */
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--control-min-h);
+    min-width: var(--control-min-h);
+    color: var(--color-accent-hover);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .text-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Field label above inputs/pickers. */
+  .field-label {
+    display: block;
+    margin-bottom: 0.375rem;
+    color: var(--color-text-light);
+    font-size: var(--text-meta);
+    font-weight: 600;
+  }
+
+  /* Reading text: 16px body for guide/article/question content. */
+  .text-reading-block {
+    font-size: var(--text-reading);
+    line-height: var(--text-reading--line-height);
   }
 
   .btn-warning {
@@ -331,28 +695,28 @@ html {
     align-items: center;
     gap: 0.25rem;
     border-radius: 999px;
-    border: 1px solid #cfe0f5;
-    background-color: #f4f8ff;
-    color: #1d4ed8;
+    border: 1px solid var(--color-answered-line);
+    background-color: var(--color-answered-soft);
+    color: var(--color-answered);
     padding: 0.18rem 0.55rem;
-    font-size: 0.72rem;
+    font-size: var(--text-caption);
     font-weight: 700;
     line-height: 1.35;
   }
 
   .pill-muted {
     border-color: var(--color-border);
-    background-color: #f8fafc;
+    background-color: var(--color-unanswered-soft);
     color: var(--color-text-light);
   }
 
   .alert-warning {
-    border: 1px solid #f7d48b;
-    background-color: #fffbeb;
-    color: #7c4a03;
+    border: 1px solid var(--color-warning-line);
+    background-color: var(--color-warning-soft);
+    color: var(--color-warning-text);
     border-radius: 0.625rem;
     padding: 0.85rem 1rem;
-    font-size: 0.88rem;
+    font-size: var(--text-ui);
     line-height: 1.65;
   }
 
@@ -375,9 +739,9 @@ html {
   }
 
   .table-soft th {
-    background-color: #f8fafc;
+    background-color: var(--color-unanswered-soft);
     color: #334155;
-    font-size: 0.78rem;
+    font-size: var(--text-meta);
     font-weight: 800;
   }
 
@@ -387,8 +751,12 @@ html {
 }
 
 .btn-primary:focus-visible,
+.btn-secondary:focus-visible,
 .btn-outline:focus-visible,
 .btn-muted:focus-visible,
+.btn-ghost:focus-visible,
+.btn-danger:focus-visible,
+.chip:focus-visible,
 .btn-warning:focus-visible,
 .btn-success:focus-visible,
 .btn-hero:focus-visible,
@@ -410,10 +778,16 @@ button:focus-visible {
   transform: translateY(-2px);
 }
 
+/* 窄螢幕的左右對齊會把中英混排拉出大空隙（「在　Lasso　模　型」），只在 md 以上對齊 */
 .content-justify {
-  text-align: justify;
-  text-justify: inter-ideograph;
+  text-align: left;
   overflow-wrap: anywhere;
+}
+@media (min-width: 768px) {
+  .content-justify {
+    text-align: justify;
+    text-justify: inter-ideograph;
+  }
 }
 
 .guide-content {

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { StatePanel } from '../ui'
+import { Chip, ChipGroup, StatePanel } from '../ui'
 import { loadAllMindmaps } from '../../data/guideMindmap'
 import { buildChapterIndex, loadTopicHeat, type ChapterRef } from '../../data/topicHeat'
 import type { TopicHeatChapter, TopicHeatData } from '../../types'
@@ -82,53 +82,39 @@ export default function TopicHeatPanel() {
 
   return (
     <>
-      <div className="mt-4 flex flex-wrap items-center gap-3 text-sm">
-        <span className="text-text-light">排序依據</span>
-        {(
-          [
-            ['count', '常考題數'],
-            ['spread', '散落章數'],
-          ] as [Sort, string][]
-        ).map(([value, label]) => (
-          <button
-            key={value}
-            type="button"
-            onClick={() => setSort(value)}
-            className={`rounded border px-2.5 py-1 ${
-              sort === value ? 'border-accent text-accent' : 'border-border text-text-light'
-            }`}
-          >
-            {label}
-          </button>
-        ))}
-        <span className="text-xs text-text-light">
+      <div className="mt-4">
+        <ChipGroup label="排序依據">
+          {(
+            [
+              ['count', '常考題數'],
+              ['spread', '散落章數'],
+            ] as [Sort, string][]
+          ).map(([value, label]) => (
+            <Chip key={value} active={sort === value} onClick={() => setSort(value)}>
+              {label}
+            </Chip>
+          ))}
+        </ChipGroup>
+        <p className="mt-1 text-meta text-text-light">
           散落章數多，代表這個觀念不屬於任何單一章節，複習時要跨章一起看。
-        </span>
+        </p>
       </div>
 
-      <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
+      <ChipGroup label="分類" className="mt-3">
         {[[ALL, scored.length] as [string, number], ...categories].map(([name, total]) => (
-          <button
-            key={name}
-            type="button"
-            onClick={() => setCategory(name)}
-            className={`rounded border px-2.5 py-1 ${
-              category === name ? 'border-accent bg-accent text-white' : 'border-border text-app-text'
-            }`}
-          >
+          <Chip key={name} active={category === name} onClick={() => setCategory(name)} count={total}>
             {name}
-            <span className={`ml-1.5 text-xs ${category === name ? 'text-white/80' : 'text-text-light'}`}>
-              {total}
-            </span>
-          </button>
+          </Chip>
         ))}
+      </ChipGroup>
+      <div className="mt-3">
         <input
           type="search"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="搜尋概念"
           aria-label="搜尋概念"
-          className="rounded border border-border bg-card px-2.5 py-1 text-sm text-app-text placeholder:text-text-light"
+          className="min-h-11 w-full rounded-lg border border-border bg-card px-3 py-2 text-ui text-app-text placeholder:text-text-light sm:w-72 md:min-h-9"
         />
       </div>
 
@@ -141,7 +127,7 @@ export default function TopicHeatPanel() {
                 type="button"
                 onClick={() => setOpened(isOpen ? null : topic.id)}
                 aria-expanded={isOpen}
-                className="flex w-full items-center gap-3 px-3 py-2.5 text-left hover:bg-app-bg"
+                className="flex min-h-11 w-full items-center gap-3 px-3 py-2.5 text-left hover:bg-app-bg"
               >
                 <span className="w-6 shrink-0 text-right text-xs tabular-nums text-text-light">
                   {position + 1}
@@ -172,7 +158,7 @@ export default function TopicHeatPanel() {
 
               {isOpen && (
                 <div className="border-t border-border bg-app-bg px-3 py-3">
-                  <p className="text-xs text-text-light">
+                  <p className="text-meta text-text-light">
                     {topic.parent}
                     {topic.chapterCount > 0 ? (
                       <>
@@ -193,23 +179,19 @@ export default function TopicHeatPanel() {
                     if (group.length === 0) return null
                     return (
                       <div key={kind} className="mt-2 flex flex-wrap items-center gap-1.5">
-                        <span className="mr-1 text-xs text-text-light">{label}</span>
+                        <span className="mr-1 text-meta text-text-light">{label}</span>
                         {group.map((chapter) => {
                           const ref = chapterRef(chapter)
                           return (
-                            <button
+                            <Chip
                               key={`${chapter.guideKey}:${chapter.nodeId}`}
-                              type="button"
                               disabled={!ref?.route}
                               onClick={() => ref?.route && navigate(ref.route)}
                               title={ref?.subject}
-                              className="rounded border border-border bg-card px-2 py-1 text-xs text-app-text enabled:hover:border-accent enabled:hover:text-accent disabled:text-text-light"
+                              count={chapter.count}
                             >
                               {ref?.title ?? chapter.nodeId}
-                              <span className="ml-1.5 tabular-nums text-text-light">
-                                {chapter.count}
-                              </span>
-                            </button>
+                            </Chip>
                           )
                         })}
                       </div>

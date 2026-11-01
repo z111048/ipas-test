@@ -1,6 +1,7 @@
 import { Link, useSearchParams, useParams } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
-import { MobileActionBar, PageHeader, StatePanel } from '../components/ui'
+import { Badge, Chip, ChipGroup, MobileActionBar, PageHeader, StatePanel } from '../components/ui'
+import { formatSubjectLabel, navLabel } from '../constants/navLabels'
 import QuestionCard from '../components/practice/QuestionCard'
 import { resourceLevels, resourceSummary } from '../data/resourceRegistry'
 import { loadSubjectQuestions } from '../data/questionLoaders'
@@ -39,12 +40,12 @@ function statusLabel(status: QuestionStatus) {
 function statusClass(status: QuestionStatus, active: boolean) {
   const activeClass = active ? 'ring-2 ring-accent/40 ring-offset-2' : ''
   if (status === 'correct') {
-    return `border-success/35 bg-[#ecfdf3] text-success ${activeClass}`
+    return `border-correct-line bg-correct-soft text-correct ${activeClass}`
   }
   if (status === 'wrong') {
-    return `border-error/30 bg-[#fdf2f2] text-error ${activeClass}`
+    return `border-wrong-line bg-wrong-soft text-wrong ${activeClass}`
   }
-  return `border-border bg-white text-text-light ${activeClass}`
+  return `border-unanswered-line bg-unanswered-soft text-unanswered ${activeClass}`
 }
 
 export default function PracticePage() {
@@ -78,7 +79,8 @@ export default function PracticePage() {
   const activeSummary = isGuideExercise ? summary?.guide : summary?.ai
   const originalChapterCount = chapterId ? summary?.ai?.chapterCounts[chapterId] ?? 0 : 0
   const guideExerciseChapterCount = chapterId ? summary?.guide?.chapterCounts[chapterId] ?? 0 : 0
-  const setLabel = isGuideExercise ? '學習指引練習' : '章節練習'
+  const setLabel = isGuideExercise ? navLabel('guidePractice') : navLabel('practice')
+  const subjectFullLabel = level && subject ? formatSubjectLabel(level.label, subject.label).full : undefined
   const selectableChapters = subjectData?.chapters.filter((item) => (activeSummary?.chapterCounts[item.id] ?? 0) > 0) ?? []
 
   useEffect(() => {
@@ -257,7 +259,8 @@ export default function PracticePage() {
   if (loadError) {
     return (
       <div className="page-shell">
-        <StatePanel tone="error" title="題目載入失敗">{loadError}</StatePanel>
+        <PageHeader variant="plain" className="mb-5" eyebrow={setLabel} title="題目載入失敗" />
+        <StatePanel tone="error">{loadError}</StatePanel>
       </div>
     )
   }
@@ -267,9 +270,9 @@ export default function PracticePage() {
       <div className="page-shell">
         <PageHeader
           className="mb-5"
-          eyebrow="練習"
+          eyebrow={setLabel}
           title="本章沒有學習指引練習題"
-          description={`${data.subject} › ${chapter.title} 的學習指引沒有附章節練習題。`}
+          description={`${subjectFullLabel ?? data.subject} › ${chapter.title} 的學習指引沒有附章節練習題。`}
         />
         {selectableChapters.length > 0 && (
           <StatePanel
@@ -279,7 +282,7 @@ export default function PracticePage() {
               <Link
                 key={item.id}
                 to={`/practice/${subjectId}/${item.id}/guide`}
-                className="btn-warning min-h-[44px]"
+                className="btn-warning"
               >
                 {item.title}（{summary?.guide?.chapterCounts[item.id] ?? 0} 題）
               </Link>
@@ -297,9 +300,9 @@ export default function PracticePage() {
       <div className="page-shell">
         <PageHeader
           className="mb-5"
-          eyebrow="練習"
-          title="章節練習題待建立"
-          description={`${subject?.label ?? subjectId} 的章節練習題尚未入庫。`}
+          eyebrow={setLabel}
+          title="章節練習題準備中"
+          description={`${subjectFullLabel ?? subject?.label ?? subjectId} 的章節練習題尚未開放。`}
         />
         <StatePanel
           tone="status"
@@ -307,12 +310,12 @@ export default function PracticePage() {
           action={
             <>
               {subject?.guideTo && (
-                <Link to={subject.guideTo} className="btn-outline min-h-[44px]">
+                <Link to={subject.guideTo} className="btn-outline">
                   前往學習指引
                 </Link>
               )}
               {subject?.examTo && (
-                <Link to={subject.examTo} className="btn-outline min-h-[44px]">
+                <Link to={subject.examTo} className="btn-outline">
                   前往公告試題
                 </Link>
               )}
@@ -328,7 +331,14 @@ export default function PracticePage() {
   if (!chapter) {
     return (
       <div className="page-shell">
-        <StatePanel tone="error" title="找不到章節">{chapterId}</StatePanel>
+        <PageHeader
+          variant="plain"
+          className="mb-5"
+          eyebrow={setLabel}
+          title="找不到章節"
+          description="這個章節不存在，或內容已經移動。"
+          actions={subject?.overviewTo ? <Link to={subject.overviewTo} className="btn-primary">回科目總覽</Link> : undefined}
+        />
       </div>
     )
   }
@@ -367,12 +377,12 @@ export default function PracticePage() {
     <div className="page-shell pb-28 sm:pb-6">
       <PageHeader
         className="mb-4"
-        eyebrow="練習"
+        eyebrow={setLabel}
         title={chapter.title}
         description={
           <>
-            <span>{data.subject} › {setLabel}</span>
-            <span className="block text-[0.78rem] text-text-light mt-1">
+            <span>{subjectFullLabel ?? data.subject}</span>
+            <span className="mt-1 hidden text-meta text-text-light sm:block">
               鍵盤：1–4 選答，←→ 切換上下題
             </span>
           </>
@@ -384,7 +394,7 @@ export default function PracticePage() {
           </>
         }
         actions={(
-          <button className="btn-outline min-h-[44px]" onClick={handleRestart}>
+          <button type="button" className="btn-outline" onClick={handleRestart}>
             重新開始
           </button>
         )}
@@ -395,7 +405,7 @@ export default function PracticePage() {
           className="mb-4"
           title="已恢復上次進度"
           action={(
-            <button className="btn-outline min-h-[44px]" onClick={handleRestart}>
+            <button type="button" className="btn-outline" onClick={handleRestart}>
               重新開始
             </button>
           )}
@@ -404,32 +414,30 @@ export default function PracticePage() {
         </StatePanel>
       )}
 
-      <div className="mb-4 flex flex-wrap gap-2">
-        {originalChapterCount > 0 && (
-          <Link
-            to={`/practice/${subjectId}/${chapterId}`}
-            className={`btn-outline min-h-[44px] ${
-              !isGuideExercise
-                ? 'border-accent bg-accent text-white'
-                : 'border-border text-text-light hover:border-accent hover:text-accent'
-            }`}
-          >
-            章節練習（{originalChapterCount} 題）
-          </Link>
-        )}
-        {guideExerciseChapterCount > 0 && (
-          <Link
-            to={`/practice/${subjectId}/${chapterId}/guide`}
-            className={`btn-outline min-h-[44px] ${
-              isGuideExercise
-                ? 'border-[#9a5c17] bg-[#9a5c17] text-white'
-                : 'border-border text-text-light hover:border-[#9a5c17] hover:text-[#9a5c17]'
-            }`}
-          >
-            學習指引練習（{guideExerciseChapterCount} 題）
-          </Link>
-        )}
-      </div>
+      {(originalChapterCount > 0 || guideExerciseChapterCount > 0) && (
+        <ChipGroup label="題目來源" labelHidden className="mb-4">
+          {originalChapterCount > 0 && (
+            <Chip
+              to={`/practice/${subjectId}/${chapterId}`}
+              active={!isGuideExercise}
+              current="page"
+              count={`${originalChapterCount} 題`}
+            >
+              {navLabel('practice')}
+            </Chip>
+          )}
+          {guideExerciseChapterCount > 0 && (
+            <Chip
+              to={`/practice/${subjectId}/${chapterId}/guide`}
+              active={isGuideExercise}
+              current="page"
+              count={`${guideExerciseChapterCount} 題`}
+            >
+              {navLabel('guidePractice')}
+            </Chip>
+          )}
+        </ChipGroup>
+      )}
 
       {completed && (
         <StatePanel
@@ -437,16 +445,16 @@ export default function PracticePage() {
           title="本章練習完成"
           action={(
             <>
-              <button className="btn-outline min-h-[44px]" onClick={wrongCount > 0 ? handleRedoWrong : handleRestart}>
+              <button type="button" className="btn-outline" onClick={wrongCount > 0 ? handleRedoWrong : handleRestart}>
                 {wrongCount > 0 ? '重做錯題' : '重新練習'}
               </button>
               {subject?.overviewTo && (
-                <Link to={subject.overviewTo} className="btn-outline min-h-[44px]">
+                <Link to={subject.overviewTo} className="btn-outline">
                   回科目總覽
                 </Link>
               )}
               {nextChapter && (
-                <Link to={chapterRoute(nextChapter.id)} className="btn-primary min-h-[44px]">
+                <Link to={chapterRoute(nextChapter.id)} className="btn-primary">
                   下一章
                 </Link>
               )}
@@ -462,16 +470,16 @@ export default function PracticePage() {
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0">
             <div className="section-title">作答進度</div>
-            <div className="mt-2 flex flex-wrap gap-2 text-[0.78rem]">
-              <span className="rounded-full border border-border bg-white px-3 py-1.5 text-app-text">已答 {answeredCount}</span>
-              <span className="rounded-full border border-success/25 bg-[#ecfdf3] px-3 py-1.5 text-success">答對 {correctCount}</span>
-              <span className="rounded-full border border-error/20 bg-[#fdf2f2] px-3 py-1.5 text-error">待複習 {wrongCount}</span>
-              <span className="rounded-full border border-[#d7e7f5] bg-[#f4f9fd] px-3 py-1.5 text-app-text">待完成 {pendingCount}</span>
+            <div className="mt-2 flex flex-wrap gap-2">
+              <Badge tone="answered">已答 {answeredCount}</Badge>
+              <Badge tone="correct">答對 {correctCount}</Badge>
+              <Badge tone="wrong">待複習 {wrongCount}</Badge>
+              <Badge>待完成 {pendingCount}</Badge>
             </div>
           </div>
           <button
             type="button"
-            className="btn-outline min-h-[44px] shrink-0"
+            className="btn-outline shrink-0"
             onClick={() => setShowQuestionNav((open) => !open)}
             aria-expanded={showQuestionNav}
           >
@@ -481,12 +489,12 @@ export default function PracticePage() {
 
         {showQuestionNav && (
           <div className="mt-4">
-            <div className="mb-2 flex items-center justify-between gap-3 text-[0.8rem] text-text-light">
+            <div className="mb-2 flex items-center justify-between gap-3 text-meta text-text-light">
               <span>目前題號：第 {activeIndex + 1} 題</span>
               {pendingCount > 0 && firstPendingIndex >= 0 && (
                 <button
                   type="button"
-                  className="btn-outline min-h-[44px] text-[0.8rem]"
+                  className="btn-outline btn-sm"
                   onClick={() => goTo(firstPendingIndex)}
                 >
                   跳到未答題
@@ -501,7 +509,7 @@ export default function PracticePage() {
                   <button
                     key={question.id}
                     type="button"
-                    className={`min-h-[44px] rounded-lg border px-2 py-2 text-sm font-semibold transition-colors ${statusClass(status, active)}`}
+                    className={`min-h-[44px] rounded-lg border px-2 py-2 text-ui font-semibold transition-colors ${statusClass(status, active)}`}
                     onClick={() => goTo(index)}
                     aria-current={active ? 'true' : undefined}
                   >
@@ -519,26 +527,21 @@ export default function PracticePage() {
 
       {selectableChapters.length > 1 && (
         <section className="surface mb-4 p-4 sm:p-5">
-          <div className="section-title mb-2">切換章節</div>
-          <div className="flex flex-wrap gap-2">
-            {selectableChapters.map((item, index) => {
-              const count = activeSummary?.chapterCounts[item.id] ?? 0
-              return (
-                <Link
-                  key={item.id}
-                  to={chapterRoute(item.id)}
-                  className={`btn-outline min-h-[44px] ${
-                    item.id === chapter.id
-                      ? 'border-accent bg-accent text-white'
-                      : 'border-border text-text-light hover:border-accent hover:text-accent'
-                  }`}
-                  title={item.title}
-                >
-                  {index + 1}. {item.title}（{count} 題）
-                </Link>
-              )
-            })}
-          </div>
+          <h2 className="section-title mb-2">切換章節</h2>
+          <ChipGroup label="切換章節" labelHidden>
+            {selectableChapters.map((item, index) => (
+              <Chip
+                key={item.id}
+                to={chapterRoute(item.id)}
+                active={item.id === chapter.id}
+                current="page"
+                title={item.title}
+                count={`${activeSummary?.chapterCounts[item.id] ?? 0} 題`}
+              >
+                {index + 1}. {item.title}
+              </Chip>
+            ))}
+          </ChipGroup>
         </section>
       )}
 
@@ -560,18 +563,20 @@ export default function PracticePage() {
 
       <MobileActionBar className="sm:hidden">
         <button
-          className="btn-outline min-h-[44px] flex-1 disabled:opacity-40"
+          type="button"
+          className="btn-outline flex-1"
           onClick={() => goTo(activeIndex - 1)}
           disabled={activeIndex === 0}
         >
           ← 上一題
         </button>
-        <div className="min-w-[84px] shrink-0 text-center text-[0.76rem] text-text-light">
+        <div className="min-w-[84px] shrink-0 text-center text-caption text-text-light">
           <div className="font-semibold text-primary">第 {activeIndex + 1} 題</div>
           <div>{statusLabel(currentStatus)} · {answeredCount}/{chapter.questions.length}</div>
         </div>
         <button
-          className="btn-outline min-h-[44px] flex-1 disabled:opacity-40"
+          type="button"
+          className="btn-outline flex-1"
           onClick={() => goTo(activeIndex + 1)}
           disabled={activeIndex === chapter.questions.length - 1}
         >

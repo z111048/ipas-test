@@ -18,6 +18,9 @@
    重新開始與交卷會清掉；作答中重新整理要跳 beforeunload 確認。
 
 5. **一次點擊只作答一次**（第 11 節）。label onClick 與 radio onChange 曾經各觸發一次。
+
+選項是 ui/ChoiceOption（<label> 包 sr-only radio）：作答一律點 label（使用者實際點到的元素），
+只有第 11 節的「點 radio」直接對 input 派送 click。
 """
 import re
 import sys
@@ -68,7 +71,7 @@ with dev_server() as BASE, sync_playwright() as pw:
     check('進入作答、選項渲染', n_q == 50, f'{n_q} 題')
 
     print('\n=== 2. 點選作答：第 1 題選 C ===')
-    page.locator('input[name="q0"][value="C"]').first.click()
+    page.locator('label:has(input[name="q0"][value="C"])').first.click()
     page.wait_for_timeout(250)
     check('第 1 題 = C', checked_state(page).get('q0') == 'C')
     check('沒有連帶勾到別題', list(checked_state(page)) == ['q0'], str(checked_state(page)))
@@ -81,7 +84,7 @@ with dev_server() as BASE, sync_playwright() as pw:
     check('覆寫沒有波及別題', list(state) == ['q0'], str(state))
 
     print('\n=== 4. 點選作答：第 2 題選 D ===')
-    page.locator('input[name="q1"][value="D"]').first.click()
+    page.locator('label:has(input[name="q1"][value="D"])').first.click()
     page.wait_for_timeout(250)
     state = checked_state(page)
     check('第 2 題 = D', state.get('q1') == 'D')
@@ -94,13 +97,14 @@ with dev_server() as BASE, sync_playwright() as pw:
     body = page.inner_text('body')
     found = re.search(r'(未答 \d+ 題|全部已答)', body)
     check('未答數 = 48', '未答 48 題' in body, found.group(0) if found else '（找不到未答字樣）')
-    # 當前題吃 isActive 樣式、其餘已答的才是 success 綠色，所以兩種都要算
+    # 當前題吃 isActive 樣式（ring-accent）、其餘已答的是 answered 藍色（bg-answered-soft），
+    # 兩種都要算。注意 unanswered 的 class 也含 "answered" 子字串，所以要比對完整 token。
     marked = page.evaluate('''() => {
         const grid = [...document.querySelectorAll('div.grid')]
             .find(g => g.querySelectorAll('button').length >= 40)
         if (!grid) return null
         return [...grid.querySelectorAll('button')].map((b, i) => ({ n: i + 1, c: b.className }))
-            .filter(x => x.c.includes('success') || x.c.includes('ring-accent'))
+            .filter(x => x.c.split(/\s+/).includes('bg-answered-soft') || x.c.includes('ring-accent'))
             .map(x => x.n)
     }''')
     check('題號盤標記的正是第 1、2 題', marked == [1, 2], f'標記={marked}')
@@ -245,8 +249,8 @@ with dev_server() as BASE, sync_playwright() as pw:
     dialogs = []
     pg = fresh_exam()
     pg.on('dialog', lambda d: (dialogs.append(d.type), d.accept()))
-    pg.locator('input[name="q0"][value="B"]').first.click()
-    pg.locator('input[name="q2"][value="C"]').first.click()
+    pg.locator('label:has(input[name="q0"][value="B"])').first.click()
+    pg.locator('label:has(input[name="q2"][value="C"])').first.click()
     for _ in range(3):
         pg.keyboard.press('ArrowRight')
         pg.wait_for_timeout(150)
@@ -303,7 +307,7 @@ with dev_server() as BASE, sync_playwright() as pw:
     pg.wait_for_selector('input[type=radio]', timeout=20000)
     pg.wait_for_timeout(300)
     check('重新開始會清掉上次作答', checked_state(pg) == {}, str(checked_state(pg)))
-    pg.locator('input[name="q1"][value="A"]').first.click()
+    pg.locator('label:has(input[name="q1"][value="A"])').first.click()
     pg.click('button:has-text("繳卷交答案")')
     pg.click('button:has-text("確認繳卷")')
     pg.wait_for_selector('button:has-text("重新考試")', timeout=20000)
@@ -341,11 +345,16 @@ with dev_server() as BASE, sync_playwright() as pw:
     pg.wait_for_selector('input[type=radio]', timeout=20000)
     pg.wait_for_timeout(500)
     for label, locator in (
+        # radio 本身是 sr-only（ChoiceOption），座標點擊會落在 label 上；
+        # 直接對 input 派送 click 才是「點 radio」這條路徑。
         ('點 radio', pg.locator('input[name="q0"][value="B"]').first),
         ('點選項文字（label）', pg.locator('label:has(input[name="q0"][value="C"])').first),
     ):
         before = pg.evaluate('() => window.__ipasAttemptWrites')
-        locator.click()
+        if label == '點 radio':
+            locator.dispatch_event('click')
+        else:
+            locator.click()
         pg.wait_for_timeout(300)
         after = pg.evaluate('() => window.__ipasAttemptWrites')
         check(f'{label}：恰好一次作答', after - before == 1, f'{after - before} 次')

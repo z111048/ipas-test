@@ -2,7 +2,7 @@
 
     uv run python tests/test_layout_audit.py
     uv run python tests/test_layout_audit.py --only exam      # 只跑 label/route 含 exam 的
-    uv run python tests/test_layout_audit.py --phase1         # 把 PENDING 檢查也當成失敗
+    uv run python tests/test_layout_audit.py --phase1         # 相容旗標（Phase 1 檢查已預設強制）
 
 ENFORCED（失敗 → exit 1）：
   (a) 沒有水平溢出：documentElement 與 <main> 的 scrollWidth 都 <= clientWidth
@@ -11,7 +11,7 @@ ENFORCED（失敗 → exit 1）：
   (c) document.body.innerText 不含內部用語（BANNED_COPY）。CLAUDE.md 不變量 2 的延伸：
       使用者看到的是商品，不是我們的工作區。
 
-PENDING（已實作，ENFORCE_PHASE1 = False 時只印 warning 與計數，方便追進度）：
+PHASE 1（ENFORCE_PHASE1 = True，2026-11-01 起強制；設回 False 只印 warning 與計數）：
   - 每頁恰好一個 <h1>。
   - 沒有可見文字節點的 computed font-size < 12px。
   - 手機寬度下可互動元素（a、button、input、select、[role=button]、[role=tab]）至少 44×44。
@@ -39,8 +39,9 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from devserver import dev_server, require_playwright  # noqa: E402
 
-# Phase 1 的三項檢查（h1、字級、觸控尺寸）目前只回報；UX 改版 Phase 1 完成後改成 True。
-ENFORCE_PHASE1 = False
+# Phase 1 的三項檢查（h1、字級、觸控尺寸）。2026-11-01 UX 改版 Phase 1 完成、78 個頁面×寬度
+# 全數通過後改為 True（強制）；--phase1 旗標保留做相容。
+ENFORCE_PHASE1 = True
 
 VIEWPORTS = [
     ('desktop', {'viewport': {'width': 1440, 'height': 900}}),
@@ -65,6 +66,21 @@ FIRST_ARTICLE_ID = json.loads(
     (ROOT / 'frontend/src/generated/learningArticles/index.json').read_text(encoding='utf-8')
 )['flatArticleIds'][0]
 
+# /labs/:id 與 /simulations/:id 的 id 來自 build_learning_content.py --preview 產生的
+# preview.json（gitignored）；沒有 preview 時這兩條路由跳過（run_all 的 learning 測試會先建好它）。
+_preview_pointer = ROOT / 'frontend/src/generated/learning/preview.json'
+LEARNING_DETAIL_ROUTES: list[tuple[str, str]] = []
+if _preview_pointer.exists():
+    _manifest = json.loads(_preview_pointer.read_text(encoding='utf-8'))['manifestPath']
+    _index_path = _preview_pointer.parent / Path(_manifest).parent / 'index.json'
+    if _index_path.exists():
+        _learning = json.loads(_index_path.read_text(encoding='utf-8'))
+        if _learning.get('labs'):
+            LEARNING_DETAIL_ROUTES.append(('實作練習', f'/labs/{_learning["labs"][0]["id"]}'))
+        if _learning.get('blueprints'):
+            LEARNING_DETAIL_ROUTES.append(
+                ('主題診斷', f'/simulations/{_learning["blueprints"][0]["id"]}'))
+
 # 鏡像 test_routes.ROUTES（見模組 docstring），再加上它沒涵蓋的頁面。
 ROUTES = [
     ('首頁', '/'),
@@ -74,21 +90,22 @@ ROUTES = [
     ('學習指引 s1pdf-c3', '/guide/s1/s1pdf-c3'),
     ('學習指引 mid-s2c6', '/guide/mid-s2/mid-s2c6'),
     ('章節練習 s1c1', '/practice/s1/s1c1'),
-    ('指引練習 s1c1', '/practice/s1/s1c1/guide'),
+    ('學習指引練習 s1c1', '/practice/s1/s1c1/guide'),
     *CATALOG_EXAM_ROUTES,
-    ('學習文章列表', '/articles'),
+    ('主題式文章', '/articles'),
     ('概念圖卡', '/visuals'),
-    ('圖庫', '/images'),
-    ('名詞解釋', '/glossary'),
-    ('完整目錄', '/outline'),
-    ('心智圖', '/mindmap'),
+    ('教材圖片與表格', '/images'),
+    ('關鍵字整理', '/glossary'),
+    ('學習指引目錄', '/outline'),
+    ('章節熱度圖', '/mindmap'),
     ('概念索引', '/concepts'),
     ('概念索引 舊名連結', f'/concepts?c={FIRST_CONCEPT["name"]}'),
     # ---- test_routes 沒有的
-    ('學習單元', '/learn'),
-    ('專題', '/projects'),
-    ('考題分析', '/analysis/exams'),
-    (f'學習文章 {FIRST_ARTICLE_ID}', f'/articles/{FIRST_ARTICLE_ID}'),
+    ('實務補充', '/learn'),
+    ('實務專題', '/projects'),
+    ('精選例題對照', '/analysis/exams'),
+    *LEARNING_DETAIL_ROUTES,
+    (f'主題式文章 {FIRST_ARTICLE_ID}', f'/articles/{FIRST_ARTICLE_ID}'),
     ('404', '/definitely-not-a-real-route'),
 ]
 

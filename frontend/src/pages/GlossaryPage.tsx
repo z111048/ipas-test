@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react'
 import primaryRaw from '../generated/primaryGlossary.json'
 import middleRaw from '../generated/middleGlossary.json'
-import { FilterBar, PageHeader, SegmentedControl, StatePanel } from '../components/ui'
+import { FilterBar, LevelPicker, PageHeader, StatePanel, SubjectPicker, levelOptions, subjectOptionById } from '../components/ui'
+import { NAV_LABELS } from '../constants/navLabels'
 
 interface GlossaryTerm {
   zh: string
@@ -53,8 +54,7 @@ export default function GlossaryPage() {
     <div className="page-shell">
       <PageHeader
         className="mb-5"
-        eyebrow="名詞解釋"
-        title="關鍵字整理"
+        title={NAV_LABELS.glossary.label}
         description="依歷屆試題出現頻率整理的中英文名詞、定義與應用案例，初級與中級各自分科呈現。"
         meta={
           <>
@@ -76,54 +76,50 @@ export default function GlossaryPage() {
               setSubjectId(Object.keys(bundles[levels[0]].subjects)[0])
               setQuery('')
             }}
-            className="btn-outline min-h-11"
+            className="btn-outline"
           >
             清除篩選
           </button>
         )}
       >
-        <SegmentedControl
-          label="級別"
+        <LevelPicker
           value={level}
-          options={levels.map((name) => ({ value: name, label: name }))}
-          onChange={(name) => {
+          onChange={(levelId) => {
+            const name = levelOptions().find((option) => option.id === levelId)?.label
+            if (!name || !bundles[name]) return
             setLevel(name)
             setSubjectId(Object.keys(bundles[name].subjects)[0])
           }}
         />
-        <SegmentedControl
-          label="科目"
-          value={activeSubjectId}
+        <SubjectPicker
           className="xl:col-span-2"
-          options={subjectIds.map((id) => ({
-            value: id,
-            label: glossary.subjects[id].subject.replace(/^中級/, ''),
-          }))}
+          value={activeSubjectId}
+          subjectIds={subjectIds}
           onChange={setSubjectId}
         />
-        <label className="text-[0.82rem] text-text-light">
+        <label className="field-label">
           關鍵字
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="搜尋中文、英文、定義或案例"
-            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-[0.88rem] text-app-text outline-none focus:border-accent"
+            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-ui font-normal text-app-text outline-none focus:border-accent md:min-h-9"
           />
         </label>
       </FilterBar>
 
       <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden">
         <div className="px-5 py-4 border-b border-border">
-          <div className="text-primary font-semibold">{level}　{subject.subject}</div>
-          <div className="text-[0.8rem] text-text-light mt-1">
+          <h2 className="text-reading font-semibold text-primary">{subjectOptionById(activeSubjectId)?.fullLabel ?? `${level}・${subject.subject}`}</h2>
+          <div className="text-meta text-text-light mt-1">
             本科共 {subject.terms.length} 個關鍵字（{level}合計 {totalTerms} 個），符合篩選 {terms.length} 個
           </div>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[860px] border-collapse text-[0.88rem]">
+          <table className="w-full min-w-[860px] border-collapse text-body">
             <thead>
-              <tr className="bg-[#f5f7fa] text-primary">
+              <tr className="bg-unanswered-soft text-primary">
                 <th className="w-[16%] p-3 text-left border-b border-border">中文</th>
                 <th className="w-[22%] p-3 text-left border-b border-border">英文</th>
                 <th className="w-[31%] p-3 text-left border-b border-border">定義</th>
@@ -132,7 +128,7 @@ export default function GlossaryPage() {
             </thead>
             <tbody>
               {terms.map((term) => (
-                <tr key={`${term.zh}-${term.en}`} className="align-top hover:bg-[#f7fbff]">
+                <tr key={`${term.zh}-${term.en}`} className="align-top hover:bg-accent-soft">
                   <td className="p-3 border-b border-border font-semibold text-primary">{term.zh}</td>
                   <td className="p-3 border-b border-border text-accent">{term.en}</td>
                   <td className="p-3 border-b border-border leading-7 content-justify">{term.definition}</td>
@@ -152,7 +148,7 @@ export default function GlossaryPage() {
                 <button
                   type="button"
                   onClick={() => setQuery('')}
-                  className="btn-outline min-h-11"
+                  className="btn-outline"
                 >
                   清除搜尋字
                 </button>

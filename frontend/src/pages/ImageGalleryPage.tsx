@@ -3,8 +3,9 @@ import { useSearchParams } from 'react-router-dom'
 import pdfGallery from '../generated/pdfGallery.json'
 import type { PdfImageAsset, PdfImageGallery } from '../types'
 import { publicAsset } from '../utils/assets'
-import { catalogExams } from '../data/resourceCatalog'
-import { Dialog, FilterBar, PageHeader, StatePanel } from '../components/ui'
+import { catalogExams, catalogLevels } from '../data/resourceCatalog'
+import { Chip, ChipGroup, Dialog, FilterBar, PageHeader, StatePanel } from '../components/ui'
+import { NAV_LABELS } from '../constants/navLabels'
 
 const PAGE_SIZE = 24
 
@@ -58,7 +59,7 @@ function AssetPreview({ item }: { item: PdfImageAsset }) {
 
   if (failed) {
     return (
-      <div className="h-full w-full flex items-center justify-center px-4 text-center text-sm text-red-700 bg-red-50">
+      <div className="h-full w-full flex items-center justify-center px-4 text-center text-ui text-wrong bg-wrong-soft">
         圖片載入失敗
       </div>
     )
@@ -98,7 +99,12 @@ export default function ImageGalleryPage() {
 
   const levels = useMemo(() => {
     const unique = Array.from(new Set(gallery.items.map((item) => item.level).filter(Boolean))) as string[]
-    return unique.sort((a, b) => a.localeCompare(b, 'zh-Hant'))
+    // 初級、中級依 catalog 順序在前，共用等其他來源排最後
+    const rank = (level: string) => {
+      const index = catalogLevels.findIndex((row) => row.dataLevel === level)
+      return index === -1 ? catalogLevels.length : index
+    }
+    return unique.sort((a, b) => rank(a) - rank(b) || a.localeCompare(b, 'zh-Hant'))
   }, [gallery])
 
   const keys = useMemo(() => {
@@ -180,8 +186,7 @@ export default function ImageGalleryPage() {
     <div className="page-shell">
       <PageHeader
         className="mb-5"
-        eyebrow="圖表總覽"
-        title="教材圖片與表格"
+        title={NAV_LABELS.images.label}
         description="依頁碼瀏覽教材中的圖片、表格與頁面。"
         meta={<span className="pill">{counts.total} 項</span>}
       />
@@ -199,34 +204,32 @@ export default function ImageGalleryPage() {
               setSelectedType('all')
               setPageQuery('')
             }}
-            className="btn-outline min-h-11"
+            className="btn-outline"
           >
             清除篩選
           </button>
         )}
       >
-        <label className="text-[0.82rem] text-text-light">
-          等級
-          <select
-            value={selectedLevel}
-            onChange={(event) => {
-              setSelectedLevel(event.target.value)
-              setSelectedKey('all')
-            }}
-            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
-          >
-            <option value="all">全部等級</option>
-            {levels.map((level) => (
-              <option key={level} value={level}>{level}</option>
-            ))}
-          </select>
-        </label>
-        <label className="text-[0.82rem] text-text-light">
+        <ChipGroup label="級別">
+          {['all', ...levels].map((level) => (
+            <Chip
+              key={level}
+              active={selectedLevel === level}
+              onClick={() => {
+                setSelectedLevel(level)
+                setSelectedKey('all')
+              }}
+            >
+              {level === 'all' ? '全部級別' : level}
+            </Chip>
+          ))}
+        </ChipGroup>
+        <label className="field-label">
           教材
           <select
             value={selectedKey}
             onChange={(event) => setSelectedKey(event.target.value)}
-            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
+            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-ui font-normal text-app-text md:min-h-9"
           >
             <option value="all">全部教材</option>
             {keys.map((key) => (
@@ -234,12 +237,12 @@ export default function ImageGalleryPage() {
             ))}
           </select>
         </label>
-        <label className="text-[0.82rem] text-text-light">
+        <label className="field-label">
           類型
           <select
             value={selectedType}
             onChange={(event) => setSelectedType(event.target.value)}
-            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
+            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-ui font-normal text-app-text md:min-h-9"
           >
             <option value="all">全部</option>
             <option value="page">頁面截圖 ({filteredCounts.page})</option>
@@ -247,18 +250,18 @@ export default function ImageGalleryPage() {
             <option value="table">表格 ({filteredCounts.table})</option>
           </select>
         </label>
-        <label className="text-[0.82rem] text-text-light">
+        <label className="field-label">
           頁碼 / 教材頁碼
           <input
             value={pageQuery}
             onChange={(event) => setPageQuery(event.target.value)}
             placeholder="例如 31 或 3-24"
-            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
+            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-ui font-normal text-app-text md:min-h-9"
           />
         </label>
       </FilterBar>
 
-      <div className="text-[0.88rem] text-text-light mb-3">
+      <div className="text-ui text-text-light mb-3">
         顯示 {visibleItems.length} / {filtered.length} 項
       </div>
 
@@ -276,7 +279,7 @@ export default function ImageGalleryPage() {
                 setSelectedType('all')
                 setPageQuery('')
               }}
-              className="btn-outline min-h-11"
+              className="btn-outline"
             >
               清除篩選
             </button>
@@ -297,17 +300,17 @@ export default function ImageGalleryPage() {
             }}
             className="min-h-11 text-left bg-card rounded-xl shadow-sm border border-border overflow-hidden transition-all hover:-translate-y-0.5 hover:border-accent hover:shadow-md"
           >
-            <div className="h-52 bg-[#f5f7fa] flex items-center justify-center overflow-hidden">
+            <div className="h-52 bg-unanswered-soft flex items-center justify-center overflow-hidden">
               <AssetPreview item={item} />
             </div>
             <div className="p-3">
               <div className="flex items-center justify-between gap-2 mb-1">
                 <span className="font-semibold text-primary">{item.level ? `${item.level} ` : ''}{keyLabel(item.key)}</span>
-                <span className="text-[0.74rem] rounded-full bg-[#eef5ff] text-accent px-2 py-0.5">
+                <span className="badge badge-accent shrink-0">
                   {typeLabel(item.type)}
                 </span>
               </div>
-              <div className="text-[0.78rem] text-text-light">
+              <div className="text-meta text-text-light">
                 {pageText(item)}
               </div>
             </div>
@@ -319,7 +322,7 @@ export default function ImageGalleryPage() {
         <div className="mt-6 flex justify-center">
           <button
             type="button"
-            className="btn-outline min-h-11 min-w-40"
+            className="btn-outline min-w-40"
             onClick={() => setVisibleCount((count) => Math.min(count + PAGE_SIZE, filtered.length))}
           >
             載入更多（尚有 {filtered.length - visibleItems.length} 項）
@@ -340,25 +343,25 @@ export default function ImageGalleryPage() {
             <div className="p-4 border-b border-border flex items-start justify-between gap-3">
               <div>
                 <div className="font-semibold text-primary">{active.level ? `${active.level} ` : ''}{keyLabel(active.key)}</div>
-                <div className="text-[0.82rem] text-text-light">
+                <div className="text-meta text-text-light">
                   {typeLabel(active.type)} · {pageText(active)}
                 </div>
               </div>
               <div className="flex shrink-0 items-center gap-2">
-                <span className="text-[0.78rem] tabular-nums text-text-light">
+                <span className="text-meta tabular-nums text-text-light">
                   {activeIndex >= 0 ? activeIndex + 1 : 0} / {filtered.length}
                 </span>
                 <button
                   ref={lightboxCloseRef}
                   type="button"
                   onClick={() => setActive(null)}
-                  className="min-h-11 rounded-lg border border-border px-3 py-2 text-sm hover:border-accent"
+                  className="btn-outline btn-sm"
                 >
                   關閉 (Esc)
                 </button>
               </div>
             </div>
-            <div className="min-h-0 flex-1 overflow-auto bg-[#f5f7fa] p-4">
+            <div className="min-h-0 flex-1 overflow-auto bg-unanswered-soft p-4">
               <img
                 src={publicAsset(active.path)}
                 alt={assetAlt(active)}
@@ -370,7 +373,7 @@ export default function ImageGalleryPage() {
                 type="button"
                 onClick={() => goRelative(-1)}
                 disabled={activeIndex <= 0}
-                className="min-h-11 rounded-lg border border-border px-3 py-2 text-sm transition-colors enabled:hover:border-accent enabled:hover:text-accent disabled:opacity-40"
+                className="btn-outline btn-sm"
               >
                 ‹ 上一項
               </button>
@@ -378,7 +381,7 @@ export default function ImageGalleryPage() {
                 type="button"
                 onClick={() => goRelative(1)}
                 disabled={activeIndex === -1 || activeIndex >= filtered.length - 1}
-                className="min-h-11 rounded-lg border border-border px-3 py-2 text-sm transition-colors enabled:hover:border-accent enabled:hover:text-accent disabled:opacity-40"
+                className="btn-outline btn-sm"
               >
                 下一項 ›
               </button>

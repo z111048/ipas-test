@@ -1,4 +1,5 @@
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import { SITE_NAME, SITE_TAGLINE, navLabelForPath } from '../../constants/navLabels'
 import type { RefObject } from 'react'
 
 interface HeaderProps {
@@ -10,21 +11,6 @@ interface HeaderProps {
   onSearchClick: () => void
 }
 
-function sectionLabel(pathname: string): string | null {
-  if (pathname === '/') return '首頁'
-  if (pathname.startsWith('/subject/')) return '科目總覽'
-  if (pathname.startsWith('/practice/')) return '章節練習'
-  if (pathname.startsWith('/exam/')) return '測驗'
-  if (pathname.startsWith('/guide/')) return '學習指引'
-  if (pathname.startsWith('/articles')) return '主題文章'
-  if (pathname.startsWith('/visuals')) return '概念圖卡'
-  if (pathname.startsWith('/glossary')) return '名詞解釋'
-  if (pathname.startsWith('/concepts')) return '概念索引'
-  if (pathname.startsWith('/outline')) return '完整目錄'
-  if (pathname.startsWith('/images')) return '圖片總覽'
-  return null
-}
-
 export default function Header({
   menuButtonRef,
   searchButtonRef,
@@ -34,7 +20,7 @@ export default function Header({
   onSearchClick,
 }: HeaderProps) {
   const location = useLocation()
-  const section = sectionLabel(location.pathname)
+  const section = navLabelForPath(location.pathname)
 
   return (
     <header className="app-header sticky top-0 z-100 min-h-14 border-b border-white/10 bg-primary text-white shadow-[0_8px_24px_rgba(15,23,42,0.18)]">
@@ -51,13 +37,18 @@ export default function Header({
           ☰
         </button>
         <div className="min-w-0 flex-1">
-          <h1 className="truncate text-[1rem] font-bold tracking-0">iPAS AI應用規劃師備考平台</h1>
-          <div className="hidden text-[0.72rem] text-white/60 sm:flex sm:items-center sm:gap-1.5">
-            <span>官方資料、學習指引、公告試題與章節練習</span>
+          {/* 站名不是 <h1>：每頁唯一的 <h1> 由 PageHeader 提供。 */}
+          <p className="m-0 min-w-0 text-[1rem] font-bold tracking-0">
+            <Link to="/" className="block truncate leading-[2.75rem] text-white no-underline hover:text-white/90 sm:leading-snug">
+              {SITE_NAME}
+            </Link>
+          </p>
+          <div className="hidden text-caption text-on-dark-muted sm:flex sm:items-center sm:gap-1.5">
+            <span>{SITE_TAGLINE}</span>
             {section && (
               <>
-                <span aria-hidden="true" className="text-white/30">·</span>
-                <span className="font-semibold text-white/80">{section}</span>
+                <span aria-hidden="true" className="text-on-dark-muted">·</span>
+                <span className="font-semibold text-white/90">{section}</span>
               </>
             )}
           </div>
@@ -66,12 +57,12 @@ export default function Header({
           ref={searchButtonRef}
           type="button"
           onClick={onSearchClick}
-          className="touch-target inline-flex shrink-0 items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[0.76rem] text-white/85 hover:bg-white/16"
+          className="touch-target inline-flex shrink-0 items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-meta text-white/90 hover:bg-white/16"
           aria-label="搜尋學習指引"
         >
           <span aria-hidden="true">🔍</span>
           <span className="hidden sm:inline">搜尋</span>
-          <kbd className="hidden rounded border border-white/25 px-1 text-[0.65rem] text-white/60 md:inline">Ctrl K</kbd>
+          <kbd className="hidden rounded border border-white/25 px-1 text-caption text-on-dark-muted md:inline">Ctrl K</kbd>
         </button>
       </div>
     </header>

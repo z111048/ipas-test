@@ -39,7 +39,7 @@ export function ReadingAuxiliary({
 }) {
   return (
     <details className={`surface overflow-hidden p-4 sm:p-5 ${className}`}>
-      <summary className="min-h-11 cursor-pointer text-primary font-semibold">
+      <summary className="min-h-11 cursor-pointer py-2 text-primary font-semibold">
         {title}
       </summary>
       <div className="mt-4 min-w-0 overflow-x-auto">

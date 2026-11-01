@@ -1,7 +1,8 @@
 import { Link, useSearchParams } from 'react-router-dom'
 import { articleList, articlesForPath, learningArticleIndex, learningPath, learningPathList } from '../data/articleLoaders'
 import type { LearningArticleLevelId, LearningArticleMeta, LearningPath } from '../types'
-import { FilterBar, PageHeader, SegmentedControl, StatePanel } from '../components/ui'
+import { FilterBar, LevelPicker, PageHeader, StatePanel, SubjectPicker } from '../components/ui'
+import { NAV_LABELS } from '../constants/navLabels'
 
 const LEVEL_ORDER: LearningArticleLevelId[] = ['junior', 'middle']
 
@@ -42,8 +43,8 @@ function PathCard({ path, selected }: { path: LearningPath; selected: boolean })
   return (
     <Link
       to={pageLink({ pathId: path.id })}
-      className={`surface-hover group surface flex h-full flex-col p-4 no-underline hover:border-accent hover:bg-[#f8fbff] ${
-        selected ? 'border-accent bg-[#f8fbff] ring-1 ring-accent' : ''
+      className={`surface-hover group surface flex h-full flex-col p-4 no-underline hover:border-accent hover:bg-accent-soft ${
+        selected ? 'border-accent bg-answered-soft ring-1 ring-accent' : ''
       }`}
     >
       <div className="mb-2 flex flex-wrap items-center gap-2">
@@ -52,14 +53,14 @@ function PathCard({ path, selected }: { path: LearningPath; selected: boolean })
         <span className="pill pill-muted">{path.estimatedMinutes} 分鐘</span>
         {selected && <span className="pill bg-accent text-white">目前檢視</span>}
       </div>
-      <h2 className="text-[1rem] font-bold leading-snug text-primary group-hover:text-accent">
+      <h2 className="text-reading font-bold leading-snug text-primary group-hover:text-accent">
         {path.title}
       </h2>
-      <p className="mt-2 flex-1 text-[0.84rem] leading-6 text-text-light">
+      <p className="mt-2 flex-1 text-ui leading-6 text-text-light">
         {path.description}
       </p>
       {firstArticle && (
-        <div className="mt-3 text-[0.76rem] font-semibold text-accent">
+        <div className="mt-3 text-meta font-semibold text-accent-hover">
           從「{firstArticle.title}」開始
         </div>
       )}
@@ -75,21 +76,21 @@ function ArticleCard({ article, activePathId }: { article: LearningArticleMeta; 
   return (
     <Link
       to={articleRoute(article, activePathId)}
-      className="surface-hover group surface flex h-full flex-col p-4 no-underline hover:border-accent hover:bg-[#f8fbff]"
+      className="surface-hover group surface flex h-full flex-col p-4 no-underline hover:border-accent hover:bg-accent-soft"
     >
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div className="min-w-0">
           <div className="mb-1 flex flex-wrap items-center gap-2">
             <span className="pill">{article.levelLabel}</span>
             <span className="pill pill-muted">{article.subjectShortTitle}</span>
-            <span className="text-[0.75rem] font-semibold text-text-light">
+            <span className="text-caption font-semibold text-text-light">
               {article.order.toString().padStart(2, '0')}
             </span>
           </div>
-          <h2 className="text-[1.05rem] font-bold leading-snug text-primary group-hover:text-accent">
+          <h2 className="text-reading font-bold leading-snug text-primary group-hover:text-accent">
             {article.title}
           </h2>
-          <p className="mt-2 line-clamp-2 text-[0.86rem] leading-6 text-text-light">
+          <p className="mt-2 line-clamp-2 text-ui leading-6 text-text-light">
             {article.excerpt}
           </p>
         </div>
@@ -100,12 +101,12 @@ function ArticleCard({ article, activePathId }: { article: LearningArticleMeta; 
       </div>
       <div className="mt-3 flex flex-1 flex-wrap content-start gap-1.5">
         {article.subtopics.slice(0, 4).map((subtopic) => (
-          <span key={subtopic} className="rounded-md border border-border bg-white px-2 py-1 text-[0.72rem] font-semibold leading-5 text-text-light">
+          <span key={subtopic} className="rounded-md border border-border bg-white px-2 py-1 text-caption font-semibold leading-5 text-text-light">
             {subtopic}
           </span>
         ))}
       </div>
-      {sourceRange && <div className="mt-3 text-[0.75rem] text-text-light">{sourceRange}</div>}
+      {sourceRange && <div className="mt-3 text-caption text-text-light">{sourceRange}</div>}
     </Link>
   )
 }
@@ -136,8 +137,7 @@ export default function LearningArticlesPage() {
     <div className="page-shell">
       <PageHeader
         className="mb-5"
-        eyebrow="主題文章"
-        title="主題式文章"
+        title={NAV_LABELS.articles.label}
         description="將初級與中級學習指引整理為可獨立閱讀的主題文章，並以跨章學習路徑串起基礎、資料、模型、生成式 AI、落地與治理。"
         meta={
           <>
@@ -151,7 +151,7 @@ export default function LearningArticlesPage() {
         <div className="mb-3 flex items-center justify-between gap-3">
           <h2 className="section-title">系統學習路徑</h2>
           {selectedPath && (
-            <Link to="/articles" className="text-[0.8rem] font-semibold text-accent no-underline hover:underline">
+            <Link to="/articles" className="text-link text-ui">
               顯示全部文章
             </Link>
           )}
@@ -168,42 +168,36 @@ export default function LearningArticlesPage() {
         title="篩選文章"
         result={`顯示 ${articles.length} 篇`}
         action={(selectedLevel || selectedSubject || selectedPath) && (
-          <Link to="/articles" className="btn-outline min-h-11">
+          <Link to="/articles" className="btn-outline">
             清除篩選
           </Link>
         )}
       >
-        <SegmentedControl
-          label="級別"
+        <LevelPicker
           value={selectedLevel ?? 'all'}
-          options={[
-            { value: 'all', label: '全部級別', to: pageLink({ subjectId: selectedSubject, pathId: selectedPathId }) },
-            ...LEVEL_ORDER.map((levelId) => ({
-              value: levelId,
-              label: levelLabel(levelId),
-              to: pageLink({ levelId, pathId: selectedPathId }),
-            })),
-          ]}
+          allOption={{ value: 'all', label: '全部級別' }}
+          hrefFor={(levelId) =>
+            levelId === 'all'
+              ? pageLink({ subjectId: selectedSubject, pathId: selectedPathId })
+              : pageLink({ levelId: levelId as LearningArticleLevelId, pathId: selectedPathId })}
         />
-        <SegmentedControl
-          label="科目"
-          value={selectedSubject ?? 'all'}
+        <SubjectPicker
           className="xl:col-span-3"
-          options={[
-            { value: 'all', label: '全部科目', to: pageLink({ levelId: selectedLevel, pathId: selectedPathId }) },
-            ...visibleSubjects.map((subject) => ({
-              value: subject.id,
-              label: `${subject.levelLabel} ${subject.shortTitle}`,
-              to: pageLink({ levelId: subject.levelId, subjectId: subject.id, pathId: selectedPathId }),
-              title: subject.title,
-            })),
-          ]}
+          value={selectedSubject ?? 'all'}
+          levels={selectedLevel ? [selectedLevel] : undefined}
+          subjectIds={visibleSubjects.map((subject) => subject.id)}
+          allOption={{ value: 'all', label: '全部科目' }}
+          hrefFor={(subjectId) => {
+            if (subjectId === 'all') return pageLink({ levelId: selectedLevel, pathId: selectedPathId })
+            const subject = visibleSubjects.find((item) => item.id === subjectId)
+            return pageLink({ levelId: subject?.levelId, subjectId, pathId: selectedPathId })
+          }}
         />
       </FilterBar>
 
       <div className="mb-3 flex items-center justify-between gap-3">
         <h2 className="section-title">{selectedPath ? selectedPath.title : '文章列表'}</h2>
-        <span className="text-[0.8rem] text-text-light">顯示 {articles.length} 篇</span>
+        <span className="text-meta text-text-light">顯示 {articles.length} 篇</span>
       </div>
 
       {articles.length > 0 ? (
@@ -216,7 +210,7 @@ export default function LearningArticlesPage() {
         <StatePanel
           tone="empty"
           title="沒有符合條件的文章"
-          action={<Link to="/articles" className="btn-outline min-h-11">清除篩選</Link>}
+          action={<Link to="/articles" className="btn-outline">清除篩選</Link>}
         >
           請放寬級別或科目條件，或改看全部文章。
         </StatePanel>

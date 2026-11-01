@@ -4,6 +4,7 @@ import { galleryRoute, resourceLevels, type ResourceNavItem, type SubjectResourc
 import { guideNav } from '../../data/guideNav'
 import { useFocusTrap } from '../../hooks/useFocusTrap'
 import { useLearningIndex } from '../../features/learning/useLearningIndex'
+import { SECTION_LABELS, formatSubjectLabel, navLabel } from '../../constants/navLabels'
 
 const STORAGE_KEY = 'ipas-sidebar-expanded-v4'
 
@@ -16,12 +17,12 @@ interface SidebarProps {
 
 function navItemClass(isActive: boolean, disabled = false) {
   if (disabled) {
-    return 'flex min-h-[44px] items-center px-5 py-2 text-[0.83rem] border-l-[3px] border-l-transparent text-white/35 cursor-not-allowed md:min-h-[40px]'
+    return 'flex min-h-[max(2.5rem,var(--control-min-h))] items-center px-5 py-2 text-meta border-l-[3px] border-l-transparent text-on-dark-muted cursor-not-allowed'
   }
-  return `flex min-h-[44px] items-center px-5 py-2 cursor-pointer text-[0.83rem] border-l-[3px] transition-all duration-150 no-underline md:min-h-[40px] ${
+  return `flex min-h-[max(2.5rem,var(--control-min-h))] items-center px-5 py-2 cursor-pointer text-meta border-l-[3px] transition-all duration-150 no-underline ${
     isActive
-      ? 'bg-white/12 border-l-accent text-white font-semibold'
-      : 'border-l-transparent text-white/72 hover:bg-white/8 hover:text-white'
+      ? 'bg-white/12 border-l-accent text-on-dark font-semibold'
+      : 'border-l-transparent text-on-dark-muted hover:bg-white/8 hover:text-on-dark'
   }`
 }
 
@@ -37,7 +38,7 @@ function SidebarLink({
       <span className={navItemClass(false, true)} title={item.detail}>
         {item.label}
         {item.status === 'pending' && (
-          <span className="ml-2 text-[0.65rem] text-white/40">待建立</span>
+          <span className="ml-2 rounded border border-white/25 px-1.5 text-caption text-on-dark-muted">待建立</span>
         )}
       </span>
     )
@@ -94,10 +95,10 @@ function GuideNavNodes({
             <NavLink
               to={node.route}
               className={({ isActive }) =>
-                `flex min-h-[44px] items-center py-2 pr-3 text-[0.78rem] leading-5 border-l-[3px] transition-all duration-150 no-underline md:min-h-[40px] ${
+                `flex min-h-[max(2.5rem,var(--control-min-h))] items-center py-2 pr-3 text-meta leading-5 border-l-[3px] transition-all duration-150 no-underline ${
                   isActive
-                    ? 'bg-white/12 border-l-accent text-white font-semibold'
-                    : 'border-l-transparent text-white/62 hover:bg-white/8 hover:text-white'
+                    ? 'bg-white/12 border-l-accent text-on-dark font-semibold'
+                    : 'border-l-transparent text-on-dark-muted hover:bg-white/8 hover:text-on-dark'
                 }`
               }
               style={{ paddingLeft: indent }}
@@ -117,18 +118,19 @@ function GuideNavNodes({
 
 function SubjectBlock({
   subject,
+  levelLabel,
   onClose,
   guideOpen,
   onToggleGuide,
 }: {
   subject: SubjectResource
+  levelLabel: string
   onClose: () => void
   guideOpen: boolean
   onToggleGuide: () => void
 }) {
-  const colonIdx = subject.label.indexOf('：')
-  const subjectNum = colonIdx > -1 ? subject.label.slice(0, colonIdx) : subject.label
-  const subjectName = colonIdx > -1 ? subject.label.slice(colonIdx + 1) : ''
+  // 已在級別區塊內，只顯示「科目一」，不重複「中級」前綴
+  const { number: subjectNum, name: subjectName } = formatSubjectLabel(levelLabel, subject.label)
   const navGuide = guideNav.guides[subject.id]
 
   return (
@@ -136,9 +138,9 @@ function SubjectBlock({
       {/* Subject label */}
       <div className="flex items-center gap-2 pl-4 pr-3 pt-2.5 pb-0.5">
         <div className="w-0.5 h-3.5 rounded-full bg-accent/70 shrink-0" />
-        <span className="text-[0.78rem] font-semibold text-white/90">{subjectNum}</span>
+        <span className="shrink-0 text-meta font-semibold text-on-dark">{subjectNum}</span>
         {subjectName && (
-          <span className="text-[0.66rem] text-white/38 truncate">{subjectName}</span>
+          <span className="text-caption text-on-dark-muted truncate" title={subjectName}>{subjectName}</span>
         )}
       </div>
 
@@ -151,12 +153,12 @@ function SubjectBlock({
               className={({ isActive }) => `${navItemClass(isActive)} flex-1 min-w-0 truncate`}
               onClick={onClose}
             >
-              學習指引
+              {navLabel('guide')}
             </NavLink>
             {navGuide && navGuide.rootIds.length > 0 && (
               <button
                 type="button"
-                className="min-h-[44px] px-3 text-white/45 hover:text-white text-[0.7rem] md:min-h-[40px]"
+                className="min-h-[max(2.5rem,var(--control-min-h))] min-w-[max(2.5rem,var(--control-min-h))] px-3 text-on-dark-muted hover:bg-white/8 hover:text-on-dark text-ui"
                 onClick={onToggleGuide}
                 aria-expanded={guideOpen}
                 aria-label={guideOpen ? '收合章節' : '展開章節'}
@@ -176,19 +178,19 @@ function SubjectBlock({
         className={() => navItemClass(false)}
         onClick={onClose}
       >
-        主題文章
+        {navLabel('articles')}
       </NavLink>
 
       {/* 練習 */}
       {subject.practiceTo && (
         <SidebarLink
-          item={{ label: '章節練習', to: subject.practiceTo, status: subject.practiceStatus, detail: subject.practiceDetail }}
+          item={{ label: navLabel('practice'), to: subject.practiceTo, status: subject.practiceStatus, detail: subject.practiceDetail }}
           onClose={onClose}
         />
       )}
       {subject.guideExercisePracticeTo && (
         <SidebarLink
-          item={{ label: '指引練習', to: subject.guideExercisePracticeTo, status: 'available', detail: subject.guideExercisePracticeDetail }}
+          item={{ label: navLabel('guidePractice'), to: subject.guideExercisePracticeTo, status: 'available', detail: subject.guideExercisePracticeDetail }}
           onClose={onClose}
         />
       )}
@@ -199,7 +201,7 @@ function SubjectBlock({
         className={({ isActive }) => navItemClass(isActive)}
         onClick={onClose}
       >
-        科目總覽
+        {navLabel('subject')}
       </NavLink>
     </div>
   )
@@ -222,11 +224,11 @@ function CollapsibleSection({
     <div className="mt-1">
       <button
         type="button"
-        className="flex min-h-[44px] w-full items-center gap-1 px-4 py-2 text-left text-[0.67rem] uppercase tracking-widest text-white/42 font-semibold hover:text-white/65 md:min-h-[40px]"
+        className="flex min-h-[max(2.5rem,var(--control-min-h))] w-full items-center gap-1 px-4 py-2 text-left text-caption tracking-wider text-on-dark-muted font-semibold hover:text-on-dark"
         onClick={() => onToggle(id)}
         aria-expanded={open}
       >
-        <span className="inline-block w-3 text-white/35">{open ? '▾' : '▸'}</span>
+        <span className="inline-block w-3" aria-hidden="true">{open ? '▾' : '▸'}</span>
         {heading}
       </button>
       {open && <div>{children}</div>}
@@ -349,7 +351,7 @@ function Sidebar({ id, isOpen, onClose, restoreFocusRef }: SidebarProps) {
       inert={hiddenMobileDrawer ? true : undefined}
       tabIndex={-1}
       className={`
-        sidebar-drawer fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-[272px] bg-[#132b43] text-white
+        sidebar-drawer fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-[272px] bg-sidebar text-on-dark
         flex-shrink-0 z-50 transition-transform duration-300
         md:sticky md:top-0 md:left-auto md:h-full md:translate-x-0 md:z-auto
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
@@ -365,33 +367,33 @@ function Sidebar({ id, isOpen, onClose, restoreFocusRef }: SidebarProps) {
             className={({ isActive }) => navItemClass(isActive)}
             onClick={onClose}
           >
-            首頁
+            {navLabel('home')}
           </NavLink>
           <NavLink
             to="/articles"
             className={({ isActive }) => navItemClass(isActive)}
             onClick={onClose}
           >
-            主題文章
+            {navLabel('articles')}
           </NavLink>
           {learningIndex && (
             <>
               <NavLink to="/learn" className={({ isActive }) => navItemClass(isActive)} onClick={onClose}>
-                實務補充
+                {navLabel('learn')}
               </NavLink>
               {learningIndex.projects.length > 0 && (
                 <NavLink to="/projects" className={({ isActive }) => navItemClass(isActive)} onClick={onClose}>
-                  實務專題
+                  {navLabel('projects')}
                 </NavLink>
               )}
               {learningIndex.blueprints?.[0] && (
                 <NavLink to={`/simulations/${learningIndex.blueprints[0].id}`} className={({ isActive }) => navItemClass(isActive)} onClick={onClose}>
-                  主題診斷
+                  {navLabel('simulations')}
                 </NavLink>
               )}
               {(learningIndex.analysis?.length ?? 0) > 0 && (
                 <NavLink to="/analysis/exams" className={({ isActive }) => navItemClass(isActive)} onClick={onClose}>
-                  精選例題對照
+                  {navLabel('analysis')}
                 </NavLink>
               )}
             </>
@@ -401,28 +403,28 @@ function Sidebar({ id, isOpen, onClose, restoreFocusRef }: SidebarProps) {
             className={({ isActive }) => navItemClass(isActive)}
             onClick={onClose}
           >
-            概念圖卡
+            {navLabel('visuals')}
           </NavLink>
           <NavLink
             to="/concepts"
             className={({ isActive }) => navItemClass(isActive)}
             onClick={onClose}
           >
-            概念索引
+            {navLabel('concepts')}
           </NavLink>
           <NavLink
             to="/outline"
             className={({ isActive }) => navItemClass(isActive)}
             onClick={onClose}
           >
-            完整目錄
+            {navLabel('outline')}
           </NavLink>
           <NavLink
             to="/mindmap"
             className={({ isActive }) => navItemClass(isActive)}
             onClick={onClose}
           >
-            考點熱度圖
+            {navLabel('mindmap')}
           </NavLink>
         </div>
 
@@ -433,7 +435,7 @@ function Sidebar({ id, isOpen, onClose, restoreFocusRef }: SidebarProps) {
           const referenceItems = [
             ...level.references,
             {
-              label: `${level.label}圖片與表格`,
+              label: navLabel('images'),
               to: galleryRoute(level.label, 'guide1'),
               status: 'available' as const,
             },
@@ -447,13 +449,13 @@ function Sidebar({ id, isOpen, onClose, restoreFocusRef }: SidebarProps) {
               {/* Level toggle */}
               <button
                 type="button"
-                className="mx-3 flex min-h-[44px] w-[calc(100%-1.5rem)] items-center gap-1.5 rounded-md border border-white/10 bg-white/10 px-3 py-2 text-left text-[0.86rem] font-semibold text-white hover:bg-white/14 md:min-h-[40px]"
+                className="mx-3 flex min-h-[max(2.5rem,var(--control-min-h))] w-[calc(100%-1.5rem)] items-center gap-1.5 rounded-md border border-white/10 bg-white/10 px-3 py-2 text-left text-ui font-semibold text-on-dark hover:bg-white/14"
                 onClick={() => toggle(levelId)}
                 aria-expanded={isLevelOpen}
               >
-                <span className="text-white/60 w-3.5">{isLevelOpen ? '▾' : '▸'}</span>
+                <span className="text-on-dark-muted w-3.5" aria-hidden="true">{isLevelOpen ? '▾' : '▸'}</span>
                 {level.label}
-                <span className="ml-auto text-[0.68rem] font-normal text-white/38">
+                <span className="ml-auto text-caption font-normal text-on-dark-muted">
                   {level.subjects.length} 科目
                 </span>
               </button>
@@ -465,17 +467,18 @@ function Sidebar({ id, isOpen, onClose, restoreFocusRef }: SidebarProps) {
                     <SubjectBlock
                       key={subject.id}
                       subject={subject}
+                      levelLabel={level.label}
                       onClose={onClose}
                       guideOpen={isOpen_(`guide-${subject.id}`)}
                       onToggleGuide={() => toggle(`guide-${subject.id}`)}
                     />
                   ))}
 
-                  {/* 試題庫 */}
+                  {/* 公告試題 */}
                   <div className="mx-4 mt-3 mb-1 h-px bg-white/8" />
                   <CollapsibleSection
                     id={`${level.id}-exams`}
-                    heading="試題庫"
+                    heading={SECTION_LABELS.exams}
                     open={isOpen_(`${level.id}-exams`)}
                     onToggle={toggle}
                   >
@@ -487,7 +490,7 @@ function Sidebar({ id, isOpen, onClose, restoreFocusRef }: SidebarProps) {
                   {/* 官方資料 */}
                   <CollapsibleSection
                     id={`${level.id}-references`}
-                    heading="官方資料"
+                    heading={SECTION_LABELS.references}
                     open={isOpen_(`${level.id}-references`)}
                     onToggle={toggle}
                   >

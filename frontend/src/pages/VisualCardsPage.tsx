@@ -11,7 +11,8 @@ import middleTocRaw from '@data-mid/toc_manifest.json'
 import { resourceSummary } from '../data/resourceRegistry'
 import type { GuideContent, GuideImageAsset, GuideImagesData, TocManifest } from '../types'
 import { publicAsset } from '../utils/assets'
-import { Dialog, FilterBar, PageHeader, StatePanel } from '../components/ui'
+import { Dialog, FilterBar, LevelPicker, PageHeader, StatePanel, SubjectPicker, levelOptions, subjectOptionById } from '../components/ui'
+import { NAV_LABELS } from '../constants/navLabels'
 
 const guideImages = guideImagesRaw as unknown as GuideImagesData
 const juniorToc = juniorTocRaw as unknown as TocManifest
@@ -52,6 +53,10 @@ indexToc(juniorToc, '初級')
 indexToc(middleToc, '中級')
 
 const PAGE_STEP = 6
+
+function subjectLabel(subjectId: string) {
+  return subjectOptionById(subjectId)?.label ?? subjectMeta[subjectId]?.short ?? subjectId
+}
 
 interface ChapterGroup {
   chapterId: string
@@ -174,16 +179,16 @@ const markdownComponents = {
     <h3 className="mt-3 mb-1.5 text-base font-semibold text-primary break-words">{children}</h3>
   ),
   h3: ({ children }: { children?: ReactNode }) => (
-    <h4 className="mt-3 mb-1 text-[0.95rem] font-semibold text-accent break-words">{children}</h4>
+    <h4 className="mt-3 mb-1 text-body font-semibold text-accent break-words">{children}</h4>
   ),
   h4: ({ children }: { children?: ReactNode }) => (
-    <h5 className="mt-2.5 mb-1 text-[0.9rem] font-semibold text-primary break-words">{children}</h5>
+    <h5 className="mt-2.5 mb-1 text-body font-semibold text-primary break-words">{children}</h5>
   ),
   h5: ({ children }: { children?: ReactNode }) => (
-    <h6 className="mt-2 mb-1 text-[0.86rem] font-semibold text-app-text break-words">{children}</h6>
+    <h6 className="mt-2 mb-1 text-ui font-semibold text-app-text break-words">{children}</h6>
   ),
   h6: ({ children }: { children?: ReactNode }) => (
-    <h6 className="mt-2 mb-1 text-[0.84rem] font-semibold text-text-light break-words">{children}</h6>
+    <h6 className="mt-2 mb-1 text-ui font-semibold text-text-light break-words">{children}</h6>
   ),
   p: ({ children }: { children?: ReactNode }) => (
     <p className="mb-2.5 break-words leading-7">{children}</p>
@@ -199,7 +204,7 @@ const markdownComponents = {
   ),
   table: ({ children }: { children?: ReactNode }) => (
     <div className="my-3 overflow-x-auto">
-      <table className="table-soft text-[0.82rem]">{children}</table>
+      <table className="table-soft text-ui">{children}</table>
     </div>
   ),
   td: ({ children }: { children?: ReactNode }) => (
@@ -209,7 +214,7 @@ const markdownComponents = {
     <th className="whitespace-pre-line break-words">{children}</th>
   ),
   code: ({ children }: { children?: ReactNode }) => (
-    <code className="break-words rounded bg-[#eef2f7] px-1 py-0.5 text-[0.82rem]">{children}</code>
+    <code className="break-words rounded bg-unanswered-soft px-1 py-0.5 text-[0.875em]">{children}</code>
   ),
 }
 
@@ -368,8 +373,7 @@ export default function VisualCardsPage() {
     <div className="page-shell">
       <PageHeader
         className="mb-5"
-        eyebrow="概念圖卡"
-        title="概念圖卡"
+        title={NAV_LABELS.visuals.label}
         description="把學習指引的重點整理成圖卡並依章節編排；點開任一張可放大細看並回到完整章節。"
         meta={
           <>
@@ -389,51 +393,37 @@ export default function VisualCardsPage() {
         title="篩選圖卡"
         result={`篩選出 ${matchedCount} 張圖卡，分布於 ${groups.length} 個章節`}
         action={hasFilters && (
-          <button type="button" onClick={resetFilters} className="btn-outline min-h-11">
+          <button type="button" onClick={resetFilters} className="btn-outline">
             重設篩選
           </button>
         )}
       >
-        <label className="text-[0.82rem] text-text-light">
-          等級
-          <select
-            value={level}
-            onChange={(event) => {
-              setLevel(event.target.value)
-              setSubjectId('all')
-              setChapterId('all')
-            }}
-            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
-          >
-            <option value="all">全部等級</option>
-            <option value="初級">初級</option>
-            <option value="中級">中級</option>
-          </select>
-        </label>
-        <label className="text-[0.82rem] text-text-light">
-          科目
-          <select
-            value={subjectId}
-            onChange={(event) => {
-              setSubjectId(event.target.value)
-              setChapterId('all')
-            }}
-            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
-          >
-            <option value="all">全部科目</option>
-            {subjects.map((id) => (
-              <option key={id} value={id}>
-                {subjectMeta[id].short}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="text-[0.82rem] text-text-light">
+        <LevelPicker
+          value={level}
+          allOption={{ value: 'all', label: '全部級別' }}
+          onChange={(levelId) => {
+            // level state holds the label (「初級」) or 'all'.
+            setLevel(levelOptions().find((option) => option.id === levelId)?.label ?? 'all')
+            setSubjectId('all')
+            setChapterId('all')
+          }}
+        />
+        <SubjectPicker
+          className="md:col-span-2 xl:col-span-3"
+          value={subjectId}
+          subjectIds={subjects}
+          allOption={{ value: 'all', label: '全部科目' }}
+          onChange={(nextSubjectId) => {
+            setSubjectId(nextSubjectId)
+            setChapterId('all')
+          }}
+        />
+        <label className="field-label xl:col-span-2">
           章節
           <select
             value={chapterId}
             onChange={(event) => setChapterId(event.target.value)}
-            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
+            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-ui font-normal text-app-text md:min-h-9"
           >
             <option value="all">全部章節</option>
             {chapters.map((id) => (
@@ -443,13 +433,13 @@ export default function VisualCardsPage() {
             ))}
           </select>
         </label>
-        <label className="text-[0.82rem] text-text-light">
+        <label className="field-label xl:col-span-2">
           關鍵字
           <input
             value={keyword}
             onChange={(event) => setKeyword(event.target.value)}
             placeholder="搜尋圖卡標題"
-            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
+            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-ui font-normal text-app-text md:min-h-9"
           />
         </label>
       </FilterBar>
@@ -459,7 +449,7 @@ export default function VisualCardsPage() {
           tone="empty"
           title="目前篩選沒有圖卡"
           className="mb-5"
-          action={<button type="button" onClick={resetFilters} className="btn-outline min-h-11">重設篩選</button>}
+          action={<button type="button" onClick={resetFilters} className="btn-outline">重設篩選</button>}
         >
           目前篩選沒有圖卡，請放寬條件或重設篩選。
         </StatePanel>
@@ -470,10 +460,10 @@ export default function VisualCardsPage() {
           <section key={group.chapterId}>
             <div className="mb-3 flex items-end justify-between gap-3 border-b border-border pb-2">
               <div className="min-w-0">
-                <div className="text-[0.72rem] uppercase tracking-wider text-text-light">
-                  {group.meta.level} · {group.meta.subjectShort}
+                <div className="text-caption text-text-light">
+                  {subjectLabel(group.meta.subjectId)}
                 </div>
-                <h2 className="break-words text-[1.05rem] font-semibold text-primary">{group.meta.title}</h2>
+                <h2 className="break-words text-reading font-semibold text-primary">{group.meta.title}</h2>
               </div>
               <span className="pill shrink-0">{group.images.length} 張</span>
             </div>
@@ -517,13 +507,13 @@ export default function VisualCardsPage() {
           <>
             <div className="flex items-start justify-between gap-3 border-b border-border p-3 sm:p-4">
               <div className="min-w-0">
-                <div className="break-words text-[0.95rem] font-semibold leading-snug text-primary">{active.title}</div>
-                <div className="mt-0.5 break-words text-[0.8rem] text-text-light">
-                  {chapterMeta[active.sourceNodeId]?.level} · {chapterMeta[active.sourceNodeId]?.subjectShort} ·{' '}
+                <div className="break-words text-reading font-semibold leading-snug text-primary">{active.title}</div>
+                <div className="mt-0.5 break-words text-meta text-text-light">
+                  {subjectLabel(active.subjectId)} ·{' '}
                   {chapterMeta[active.sourceNodeId]?.title}
                 </div>
                 {headingTrail(active) && (
-                  <div className="mt-0.5 break-words text-[0.76rem] text-text-light">{headingTrail(active)}</div>
+                  <div className="mt-0.5 break-words text-meta text-text-light">{headingTrail(active)}</div>
                 )}
               </div>
               <button
@@ -531,14 +521,14 @@ export default function VisualCardsPage() {
                 type="button"
                 onClick={() => setActive(null)}
                 aria-label="關閉"
-                className="min-h-11 shrink-0 rounded-lg border border-border px-3 py-2 text-sm hover:border-accent"
+                className="btn-outline btn-sm shrink-0"
               >
                 關閉 ✕
               </button>
             </div>
 
             <div key={active.id} className="min-h-0 flex-1 overflow-y-auto">
-              <div className="flex items-center justify-center bg-[#f5f7fa] p-4">
+              <div className="flex items-center justify-center bg-unanswered-soft p-4">
                 <img
                   src={publicAsset(active.src)}
                   alt={active.title}
@@ -549,15 +539,15 @@ export default function VisualCardsPage() {
               <div className="p-4 sm:p-5">
                 <div className="mb-2 flex items-center gap-2">
                   <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
-                  <span className="text-[0.8rem] font-semibold text-primary">
+                  <span className="text-meta font-semibold text-primary">
                     {section.isIntro ? '本章重點摘要' : '本段章節內容'}
                   </span>
                 </div>
 
                 {section.loading ? (
-                  <div className="py-4 text-[0.85rem] text-text-light">章節內容載入中…</div>
+                  <div className="py-4 text-ui text-text-light">章節內容載入中…</div>
                 ) : section.markdown ? (
-                  <div className="prose prose-sm max-w-none break-words text-[0.86rem] leading-7 text-app-text">
+                  <div className="prose max-w-none break-words text-body leading-7 text-app-text">
                     <ReactMarkdown
                       remarkPlugins={[remarkGfm, remarkMath]}
                       rehypePlugins={[rehypeRaw, rehypeKatex]}
@@ -567,7 +557,7 @@ export default function VisualCardsPage() {
                     </ReactMarkdown>
                   </div>
                 ) : (
-                  <div className="py-2 text-[0.85rem] text-text-light">此圖卡目前沒有對應的章節文字，可前往完整章節閱讀。</div>
+                  <div className="py-2 text-ui text-text-light">此圖卡目前沒有對應的章節文字，可前往完整章節閱讀。</div>
                 )}
 
                 <div className="mt-4 border-t border-border pt-3">
@@ -588,18 +578,18 @@ export default function VisualCardsPage() {
                 type="button"
                 onClick={() => goRelative(-1)}
                 disabled={activeIndex <= 0}
-                className="min-h-11 rounded-lg border border-border px-3 py-2 text-sm transition-colors enabled:hover:border-accent enabled:hover:text-accent disabled:opacity-40"
+                className="btn-outline btn-sm"
               >
                 ‹ 上一張
               </button>
-              <span className="shrink-0 text-[0.78rem] tabular-nums text-text-light">
+              <span className="shrink-0 text-meta tabular-nums text-text-light">
                 {activeIndex >= 0 ? activeIndex + 1 : 0} / {flatImages.length}
               </span>
               <button
                 type="button"
                 onClick={() => goRelative(1)}
                 disabled={activeIndex === -1 || activeIndex >= flatImages.length - 1}
-                className="min-h-11 rounded-lg border border-border px-3 py-2 text-sm transition-colors enabled:hover:border-accent enabled:hover:text-accent disabled:opacity-40"
+                className="btn-outline btn-sm"
               >
                 下一張 ›
               </button>
@@ -620,9 +610,9 @@ function VisualCard({ image, onOpen }: { image: GuideImageAsset; onOpen: (trigge
       onClick={(event) => onOpen(event.currentTarget)}
       className="group flex min-h-11 w-full max-w-sm flex-col overflow-hidden rounded-xl border border-border bg-card text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent hover:shadow-md sm:max-w-none"
     >
-      <div className="flex h-48 items-center justify-center overflow-hidden bg-[#f5f7fa] p-2">
+      <div className="flex h-48 items-center justify-center overflow-hidden bg-unanswered-soft p-2">
         {failed ? (
-          <span className="px-4 text-center text-xs text-text-light">圖卡載入失敗</span>
+          <span className="px-4 text-center text-caption text-text-light">圖卡載入失敗</span>
         ) : (
           <img
             src={publicAsset(image.src)}
@@ -634,8 +624,8 @@ function VisualCard({ image, onOpen }: { image: GuideImageAsset; onOpen: (trigge
         )}
       </div>
       <div className="border-t border-border p-3">
-        {trail && <div className="mb-0.5 truncate text-[0.72rem] text-text-light">{trail}</div>}
-        <div className="line-clamp-2 break-words text-[0.86rem] font-medium leading-snug text-primary">{image.title}</div>
+        {trail && <div className="mb-0.5 truncate text-caption text-text-light">{trail}</div>}
+        <div className="line-clamp-2 break-words text-ui font-medium leading-snug text-primary">{image.title}</div>
       </div>
     </button>
   )

@@ -1,41 +1,40 @@
 import { Link } from 'react-router-dom'
 import { resourceLevels } from '../../data/resourceRegistry'
+import { NAV_LABELS, SITE_NAME, navLabel, type NavLabelKey } from '../../constants/navLabels'
 
-const quickLinks = [
-  { label: '主題文章', to: '/articles' },
-  { label: '概念圖卡', to: '/visuals' },
-  { label: '關鍵字整理', to: '/glossary' },
-  { label: '概念索引', to: '/concepts' },
-  { label: '教材圖片與表格', to: '/images' },
-]
+const quickLinkKeys: NavLabelKey[] = ['articles', 'visuals', 'glossary', 'concepts', 'images']
+const quickLinks = quickLinkKeys.map((key) => ({ label: navLabel(key), to: NAV_LABELS[key].route }))
+
+/** Standalone footer link: 44px tall on touch / narrow screens (.text-link), muted color. */
+const footerLinkClass = 'text-link font-normal text-text-light hover:text-accent'
 
 export default function Footer() {
   const year = new Date().getFullYear()
   const firstExam = resourceLevels[0]?.exams[0]
 
   return (
-    <footer className="page-shell mt-10 border-t border-border pt-6 pb-8 text-[0.82rem] text-text-light">
+    <footer className="page-shell mt-10 border-t border-border pt-6 pb-8 text-meta text-text-light">
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
         <div className="sm:col-span-1">
-          <div className="mb-1.5 font-bold text-primary">iPAS AI 應用規劃師備考平台</div>
+          <div className="mb-1.5 font-bold text-primary">{SITE_NAME}</div>
           <p className="leading-6">
             對齊經濟部 iPAS 產業人才能力鑑定評鑑範圍，整合學習指引、歷屆公告試題與章節練習的自主備考資源。
           </p>
         </div>
         <div>
           <div className="mb-1.5 font-bold text-primary">快速入口</div>
-          <ul className="m-0 list-none space-y-1 p-0">
+          <ul className="m-0 list-none p-0">
             {quickLinks.map((l) => (
               <li key={l.to}>
-                <Link to={l.to} className="no-underline text-text-light hover:text-accent">
+                <Link to={l.to} className={footerLinkClass}>
                   {l.label}
                 </Link>
               </li>
             ))}
             {firstExam?.to && (
               <li>
-                <Link to={firstExam.to} className="no-underline text-text-light hover:text-accent">
-                  歷屆公告試題
+                <Link to={firstExam.to} className={footerLinkClass}>
+                  {navLabel('exam')}
                 </Link>
               </li>
             )}
@@ -43,13 +42,13 @@ export default function Footer() {
         </div>
         <div>
           <div className="mb-1.5 font-bold text-primary">官方資源</div>
-          <ul className="m-0 list-none space-y-1 p-0">
+          <ul className="m-0 list-none p-0">
             <li>
               <a
                 href="https://www.ipas.org.tw/"
                 target="_blank"
                 rel="noreferrer"
-                className="no-underline text-text-light hover:text-accent"
+                className={footerLinkClass}
               >
                 iPAS 產業人才能力鑑定官網 ↗
               </a>
@@ -59,7 +58,7 @@ export default function Footer() {
                 href="https://www.ipas.org.tw/AIA"
                 target="_blank"
                 rel="noreferrer"
-                className="no-underline text-text-light hover:text-accent"
+                className={footerLinkClass}
               >
                 AI 應用規劃師鑑定介紹 ↗
               </a>
@@ -71,7 +70,7 @@ export default function Footer() {
         <p className="m-0">
           本平台為自主學習輔助資源，非 iPAS 官方網站；學習指引與公告試題之著作權屬原發行單位，僅供備考研習之用。
         </p>
-        <p className="m-0 mt-1">© {year} iPAS AI 應用規劃師備考平台</p>
+        <p className="m-0 mt-1">© {year} {SITE_NAME}</p>
       </div>
     </footer>
   )

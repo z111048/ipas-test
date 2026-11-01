@@ -85,22 +85,22 @@ export default function GuideSearchDialog({ open, onClose, restoreFocusRef }: Gu
             onChange={(event) => setQuery(event.target.value)}
             onKeyDown={onKeyDown}
             placeholder="搜尋章節與標題，例如「梯度下降」"
-            className="w-full border-none text-[0.95rem] text-app-text outline-none placeholder:text-text-light/70"
+            className="w-full border-none text-reading text-app-text outline-none placeholder:text-text-light"
             aria-label="搜尋關鍵字"
           />
-          <kbd className="hidden rounded border border-border px-1.5 py-0.5 text-[0.68rem] text-text-light sm:inline">Esc</kbd>
+          <kbd className="hidden rounded border border-border px-1.5 py-0.5 text-caption text-text-light sm:inline">Esc</kbd>
         </div>
 
         <div className="max-h-[calc(100dvh-5.5rem)] overflow-y-auto overscroll-contain">
-          {loading && <p className="px-4 py-6 text-[0.85rem] text-text-light">載入索引中…</p>}
+          {loading && <p className="px-4 py-6 text-ui text-text-light">載入索引中…</p>}
           {!loading && loadError && (
-            <p className="px-4 py-6 text-[0.85rem] text-red-700" role="alert">{loadError}</p>
+            <p className="px-4 py-6 text-ui text-wrong" role="alert">{loadError}</p>
           )}
           {!loading && !loadError && query.trim() && hits.length === 0 && (
-            <p className="px-4 py-6 text-[0.85rem] text-text-light">找不到「{query}」</p>
+            <p className="px-4 py-6 text-ui text-text-light">找不到「{query}」</p>
           )}
           {!loading && !query.trim() && (
-            <p id={descriptionId} className="px-4 py-6 text-[0.85rem] text-text-light">
+            <p id={descriptionId} className="px-4 py-6 text-ui text-text-light">
               可搜尋全部 5 份學習指引的章、節與內文標題。↑↓ 選擇，Enter 前往。
             </p>
           )}
@@ -117,19 +117,19 @@ export default function GuideSearchDialog({ open, onClose, restoreFocusRef }: Gu
                     onMouseEnter={() => setActiveIndex(position)}
                     onClick={() => go(hit)}
                     className={`block min-h-[44px] w-full px-4 py-2 text-left transition-colors ${
-                      isActive ? 'bg-[#f0f7ff]' : ''
+                      isActive ? 'bg-answered-soft' : ''
                     } ${hit.to ? 'cursor-pointer' : 'cursor-default opacity-60'}`}
                   >
                     <div className="flex items-center gap-2">
-                      <span className="rounded bg-border/60 px-1.5 py-0.5 text-[0.65rem] text-text-light">
+                      <span className="shrink-0 rounded bg-unanswered-soft border border-border px-1.5 py-0.5 text-caption text-text-light">
                         {KIND_LABEL[hit.node.k]}
                       </span>
-                      <span className="truncate text-[0.9rem] font-medium text-primary">{hit.node.t}</span>
+                      <span className="truncate text-body font-medium text-primary">{hit.node.t}</span>
                       {hit.approximate && (
-                        <span className="shrink-0 text-[0.65rem] text-text-light">概略位置</span>
+                        <span className="shrink-0 text-caption text-text-light">概略位置</span>
                       )}
                     </div>
-                    <div className="mt-0.5 truncate text-[0.72rem] text-text-light">
+                    <div className="mt-0.5 truncate text-caption text-text-light">
                       {[label, ...hit.path].join(' › ')}
                     </div>
                   </button>

@@ -8,6 +8,8 @@ import {
 } from '../data/resourceRegistry'
 import { learningArticleIndex } from '../data/articleLoaders'
 import StatBox from '../components/shared/StatBox'
+import { PageHeader, subjectOptionById } from '../components/ui'
+import { SECTION_LABELS, SITE_NAME, navLabel } from '../constants/navLabels'
 
 function statusLabel(status?: ResourceNavItem['status']) {
   if (status === 'pending') return '待建立'
@@ -28,11 +30,11 @@ function ResourceLink({ item, compact = false }: { item: ResourceNavItem; compac
           </span>
         )}
       </span>
-      {item.detail && <span className="mt-1 block text-[0.8rem] text-text-light">{item.detail}</span>}
+      {item.detail && <span className="mt-1 block text-meta text-text-light">{item.detail}</span>}
     </>
   )
 
-  const className = `group block surface-compact surface-hover no-underline hover:bg-[#f8fbff] ${
+  const className = `group block min-h-11 surface-compact surface-hover no-underline hover:bg-accent-soft ${
     compact ? 'px-3 py-2.5' : 'px-4 py-3'
   }`
   if (item.externalUrl) {
@@ -44,7 +46,7 @@ function ResourceLink({ item, compact = false }: { item: ResourceNavItem; compac
   }
   if (!item.to || item.status === 'pending') {
     return (
-      <div className={`surface-compact bg-[#f8fafc] ${compact ? 'px-3 py-2.5' : 'px-4 py-3'}`}>
+      <div className={`surface-compact bg-unanswered-soft ${compact ? 'px-3 py-2.5' : 'px-4 py-3'}`}>
         {content}
       </div>
     )
@@ -69,9 +71,9 @@ function SubjectTaskLink({
 }) {
   if (!to) {
     return (
-      <div className="rounded-lg border border-border bg-[#f8fafc] px-3 py-2.5 text-[0.84rem] text-text-light">
+      <div className="rounded-lg border border-border bg-unanswered-soft px-2.5 py-2.5 text-ui sm:px-3 text-text-light">
         <span className="block font-semibold text-text-light">{label}</span>
-        <span className="mt-0.5 block text-[0.74rem] leading-5">{detail}</span>
+        <span className="mt-0.5 block text-caption leading-5">{detail}</span>
       </div>
     )
   }
@@ -79,14 +81,14 @@ function SubjectTaskLink({
   return (
     <Link
       to={to}
-      className={`min-h-11 rounded-lg border px-3 py-2.5 text-[0.84rem] no-underline transition-colors ${
+      className={`min-h-11 rounded-lg border px-2.5 py-2.5 text-ui no-underline sm:px-3 transition-colors ${
         primary
           ? 'border-accent bg-accent text-white hover:bg-accent-hover'
-          : 'border-border bg-white text-primary hover:border-accent hover:bg-[#f8fbff]'
+          : 'border-border bg-white text-primary hover:border-accent hover:bg-accent-soft'
       }`}
     >
       <span className="block font-semibold">{label}</span>
-      <span className={`mt-0.5 block text-[0.74rem] leading-5 ${primary ? 'text-white/78' : 'text-text-light'}`}>
+      <span className={`mt-0.5 block text-caption leading-5 ${primary ? 'text-on-dark-muted' : 'text-text-light'}`}>
         {detail}
       </span>
     </Link>
@@ -95,12 +97,12 @@ function SubjectTaskLink({
 
 function practiceTarget(subject: SubjectResource) {
   if (subject.practiceStatus === 'available' && subject.practiceTo) {
-    return { to: subject.practiceTo, label: '練', detail: subject.practiceLabel }
+    return { to: subject.practiceTo, label: navLabel('practice'), detail: '逐章檢查理解' }
   }
   if (subject.guideExercisePracticeTo) {
-    return { to: subject.guideExercisePracticeTo, label: '練', detail: '學習指引練習' }
+    return { to: subject.guideExercisePracticeTo, label: navLabel('guidePractice'), detail: '學習指引內附題目' }
   }
-  return { to: undefined, label: '練', detail: subject.practiceLabel }
+  return { to: undefined, label: navLabel('practice'), detail: '待建立' }
 }
 
 export default function HomePage() {
@@ -112,51 +114,51 @@ export default function HomePage() {
 
   return (
     <div className="page-shell">
-      <section className="hero-panel mb-5 px-4 py-5 sm:px-6 md:px-8 md:py-7">
-        <div className="hero-grid" aria-hidden="true" />
-        <div className="relative grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(260px,340px)] lg:items-end">
-          <div className="min-w-0">
-            <div className="mb-3 flex flex-wrap gap-2">
-              <span className="hero-chip">經濟部 iPAS 產業人才能力鑑定</span>
-              <span className="hero-chip">初級・中級</span>
-            </div>
-            <h1 className="mb-3 text-[1.8rem] font-black leading-[1.22] tracking-0 text-white md:text-[2.3rem]">
-              AI 應用規劃師備考平台
-            </h1>
-            <p className="max-w-2xl text-[0.95rem] leading-7 text-white/76">
-              先選級別與科目，再依章節讀指引、做練習、驗收公告試題。
-            </p>
-            <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-              <button
-                type="button"
-                className="btn-hero min-h-11"
-                onClick={() => document.getElementById('choose-subject')?.scrollIntoView({
-                  behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-                  block: 'start',
-                })}
-              >
-                選擇級別與科目
-              </button>
-              <Link to={firstArticleTo} className="btn-hero-ghost min-h-11">主題文章</Link>
-              {firstExamTo && <Link to={firstExamTo} className="btn-hero-ghost min-h-11">公告試題</Link>}
-            </div>
+      <PageHeader
+        variant="hero"
+        className="mb-5"
+        eyebrow={
+          <>
+            <span className="hero-chip">經濟部 iPAS 產業人才能力鑑定</span>
+            <span className="hero-chip">初級・中級</span>
+          </>
+        }
+        title={SITE_NAME}
+        description="先選級別與科目，再依章節讀指引、做練習、驗收公告試題。"
+        actions={
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              className="btn-hero hidden sm:inline-flex"
+              onClick={() => document.getElementById('choose-subject')?.scrollIntoView({
+                behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+                block: 'start',
+              })}
+            >
+              選擇級別與科目
+            </button>
+            <Link to={firstArticleTo} className="btn-hero-ghost">{navLabel('articles')}</Link>
+            {firstExamTo && <Link to={firstExamTo} className="btn-hero-ghost">{navLabel('exam')}</Link>}
           </div>
+        }
+        asideClassName="hidden sm:block"
+        aside={
           <div className="grid grid-cols-3 gap-3 border-t border-white/15 pt-4 text-white lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
             <div>
               <div className="text-[1.35rem] font-black leading-none tabular-nums">{resourceStats.junior.subjects + resourceStats.middle.subjects}</div>
-              <div className="mt-1 text-[0.72rem] font-medium text-white/60">科目</div>
+              <div className="mt-1 text-caption font-medium text-on-dark-muted">科目</div>
             </div>
             <div>
               <div className="text-[1.35rem] font-black leading-none tabular-nums">{totalPractice}</div>
-              <div className="mt-1 text-[0.72rem] font-medium text-white/60">練習題</div>
+              <div className="mt-1 text-caption font-medium text-on-dark-muted">練習題</div>
             </div>
             <div>
               <div className="text-[1.35rem] font-black leading-none tabular-nums">{totalOfficial}</div>
-              <div className="mt-1 text-[0.72rem] font-medium text-white/60">公告題</div>
+              <div className="mt-1 text-caption font-medium text-on-dark-muted">{navLabel('exam')}題數</div>
             </div>
           </div>
-        </div>
-      </section>
+        }
+      />
 
       <section id="choose-subject" className="surface mb-6 p-4 sm:p-5 scroll-mt-4">
         <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
@@ -164,8 +166,8 @@ export default function HomePage() {
             <div className="eyebrow mb-1">從這裡開始</div>
             <h2 className="section-title">選擇級別與科目</h2>
           </div>
-          <div className="text-[0.82rem] leading-6 text-text-light">
-            每科都可從「讀、練、考」進入；尚未建置的資源會顯示狀態。
+          <div className="hidden text-meta leading-6 text-text-light sm:block">
+            每科都可從學習指引、練習與公告試題進入；尚未建置的資源會顯示狀態。
           </div>
         </div>
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
@@ -176,7 +178,7 @@ export default function HomePage() {
                 <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <h3 className="text-lg font-semibold text-primary">{level.label}</h3>
-                    <p className="mt-1 text-[0.84rem] leading-6 text-text-light">{level.subtitle}</p>
+                    <p className="mt-1 text-ui leading-6 text-text-light">{level.subtitle}</p>
                   </div>
                   <span className="pill shrink-0">{stats.subjects} 科 / {stats.chapters} 章</span>
                 </div>
@@ -187,22 +189,22 @@ export default function HomePage() {
                       <article key={subject.id} className="rounded-lg border border-border bg-white p-3">
                         <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                           <div className="min-w-0">
-                            <Link to={subject.overviewTo ?? subject.guideTo ?? '/'} className="font-semibold text-primary no-underline hover:text-accent">
-                              {subject.label}
+                            <Link to={subject.overviewTo ?? subject.guideTo ?? '/'} className="text-link text-primary hover:text-accent">
+                              {subjectOptionById(subject.id)?.fullLabel ?? subject.label}
                             </Link>
-                            <div className="mt-1 text-[0.78rem] text-text-light">
+                            <div className="text-meta text-text-light">
                               {subject.chapters} 個章節
                             </div>
                           </div>
-                          <Link to={subject.overviewTo ?? subject.guideTo ?? '/'} className="btn-outline min-h-11 shrink-0">
-                            科目總覽
+                          <Link to={subject.overviewTo ?? subject.guideTo ?? '/'} className="btn-outline btn-sm shrink-0">
+                            {navLabel('subject')}
                           </Link>
                         </div>
-                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                        <div className="grid grid-cols-3 gap-2">
                           <SubjectTaskLink
                             to={subject.guideTo}
-                            label="讀"
-                            detail="學習指引"
+                            label={navLabel('guide')}
+                            detail="先讀章節重點"
                             primary
                           />
                           <SubjectTaskLink
@@ -212,8 +214,8 @@ export default function HomePage() {
                           />
                           <SubjectTaskLink
                             to={subject.examTo}
-                            label="考"
-                            detail="公告試題"
+                            label={navLabel('exam')}
+                            detail="整卷驗收"
                           />
                         </div>
                       </article>
@@ -228,9 +230,9 @@ export default function HomePage() {
 
       <div className="mb-6 flex flex-wrap gap-3">
         <StatBox value={resourceStats.junior.chapters + resourceStats.middle.chapters} label="章節單元" />
-        <StatBox value={learningArticleIndex.articleCount} label="主題文章" />
+        <StatBox value={learningArticleIndex.articleCount} label={navLabel('articles')} />
         <StatBox value={learningArticleIndex.pathCount} label="學習路徑" />
-        {totalVisuals > 0 && <StatBox value={totalVisuals} label="概念圖卡" />}
+        {totalVisuals > 0 && <StatBox value={totalVisuals} label={navLabel('visuals')} />}
       </div>
 
       <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
@@ -238,15 +240,15 @@ export default function HomePage() {
           <section key={level.id} className="surface p-4 sm:p-5">
             <div className="mb-4">
               <div className="eyebrow mb-1">{level.label}</div>
-              <h2 className="section-title">公告試題與官方資料</h2>
+              <h2 className="section-title">{SECTION_LABELS.exams}與{SECTION_LABELS.references}</h2>
             </div>
-            <div className="section-title mb-2 text-[0.84rem]">公告試題與樣題</div>
+            <h3 className="section-title mb-2 text-ui">{SECTION_LABELS.exams}與樣題</h3>
             <div className="mb-4 grid grid-cols-1 gap-3 md:grid-cols-2">
               {[...level.exams, ...level.samples].map((item) => (
                 <ResourceLink key={item.label} item={item} compact />
               ))}
             </div>
-            <div className="section-title mb-2 text-[0.84rem]">官方參考資料</div>
+            <h3 className="section-title mb-2 text-ui">{SECTION_LABELS.references}</h3>
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               {level.references.map((item) => (
                 <ResourceLink key={item.label} item={item} compact />
@@ -261,16 +263,16 @@ export default function HomePage() {
         <h2 className="section-title mb-3">備考流程</h2>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
           <div className="surface-compact p-4">
-            <div className="mb-1 text-[0.8rem] font-semibold text-accent">01 選科目</div>
-            <p className="text-[0.85rem] leading-6 text-text-light">先確認級別與科目，再進科目總覽查看章節範圍。</p>
+            <div className="mb-1 text-meta font-semibold text-accent">01 選科目</div>
+            <p className="text-ui leading-6 text-text-light">先確認級別與科目，再進科目總覽查看章節範圍。</p>
           </div>
           <div className="surface-compact p-4">
-            <div className="mb-1 text-[0.8rem] font-semibold text-accent">02 讀與練</div>
-            <p className="text-[0.85rem] leading-6 text-text-light">每章先讀主題文章或學習指引，再用可用練習題檢查理解。</p>
+            <div className="mb-1 text-meta font-semibold text-accent">02 讀與練</div>
+            <p className="text-ui leading-6 text-text-light">每章先讀主題式文章或學習指引，再用可用練習題檢查理解。</p>
           </div>
           <div className="surface-compact p-4">
-            <div className="mb-1 text-[0.8rem] font-semibold text-accent">03 做整卷</div>
-            <p className="text-[0.85rem] leading-6 text-text-light">最後用公告試題與樣題驗收，錯題再回到章節補強。</p>
+            <div className="mb-1 text-meta font-semibold text-accent">03 做整卷</div>
+            <p className="text-ui leading-6 text-text-light">最後用公告試題與樣題驗收，錯題再回到章節補強。</p>
           </div>
         </div>
       </section>

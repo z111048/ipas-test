@@ -305,7 +305,7 @@ export default function ConceptGraph3D({ concepts, selected, minWeight, onSelect
         onEngineStop={fitCamera}
       />
       {spinning && (
-        <div className="pointer-events-none absolute bottom-3 left-3 rounded-full bg-white/10 px-3 py-1 text-[0.72rem] text-white/70">
+        <div className="pointer-events-none absolute bottom-3 left-3 rounded-full bg-black/40 px-3 py-1 text-caption text-on-dark-muted">
           自動旋轉中 · 拖曳或點擊即停
         </div>
       )}

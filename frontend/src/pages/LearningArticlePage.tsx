@@ -8,6 +8,7 @@ import { articleMeta, articleNeighbors, articlePaths, loadLearningArticle, learn
 import type { GuideBlock, GuideFormula, LearningArticle } from '../types'
 import { useScrollProgress, ReadingProgressBar, BackToTopButton } from '../components/shared/ReadingProgress'
 import { PageHeader, StatePanel } from '../components/ui'
+import { NAV_LABELS } from '../constants/navLabels'
 import { ReadingContent, ReadingSurface } from '../components/reading'
 import { preferredScrollBehavior } from '../utils/motion'
 
@@ -28,12 +29,12 @@ function blockTextClass(block: GuideBlock) {
   if (block.type === 'heading') {
     if (block.depth <= 2) return 'text-lg font-bold text-primary border-b border-border pb-1 mt-7 mb-3'
     if (block.depth === 3) return 'text-base font-semibold text-accent mt-6 mb-2'
-    if (block.depth === 4) return 'text-[0.96rem] font-semibold text-primary mt-4 mb-1.5'
-    return 'text-[0.9rem] font-semibold text-app-text mt-3 mb-1'
+    if (block.depth === 4) return 'text-reading font-semibold text-primary mt-4 mb-1.5'
+    return 'text-reading font-semibold text-app-text mt-3 mb-1'
   }
-  if (block.type === 'question') return 'text-[0.9rem] font-semibold text-primary bg-[#f7fbff] border-l-4 border-accent px-3 py-2 rounded-r-lg my-3'
-  if (block.type === 'answer') return 'text-[0.86rem] text-app-text bg-[#f8fafc] border border-border px-3 py-2 rounded-lg my-2'
-  return 'text-[0.92rem] leading-8 text-app-text mb-3 content-justify'
+  if (block.type === 'question') return 'text-reading font-semibold text-primary bg-answered-soft border-l-4 border-accent px-3 py-2 rounded-r-lg my-3'
+  if (block.type === 'answer') return 'text-reading text-app-text bg-unanswered-soft border border-border px-3 py-2 rounded-lg my-2'
+  return 'text-reading leading-8 text-app-text mb-3 content-justify'
 }
 
 function listMarkerClass(marker?: string) {
@@ -92,7 +93,7 @@ function blockFormulaEntries(block: GuideBlock): GuideFormula[] {
 function ArticleFormulas({ formulas }: { formulas: GuideFormula[] }) {
   if (formulas.length === 0) return null
   return (
-    <div className="guide-formulas mt-2 space-y-1 overflow-x-auto text-[0.9rem]">
+    <div className="guide-formulas mt-2 space-y-1 overflow-x-auto text-reading">
       {formulas.map((formula, index) => {
         const source = formula.display === false
           ? `$${formula.latex}$`
@@ -164,7 +165,7 @@ function ArticleBlocks({ blocks }: { blocks: GuideBlock[] }) {
             return (
               <p
                 key={block.id}
-                className="guide-depth-block text-[0.92rem] leading-8 text-app-text mb-2 content-justify"
+                className="guide-depth-block text-reading leading-8 text-app-text mb-2 content-justify"
                 style={articleIndentStyle(block.depth)}
               >
                 <ArticleBlockBody block={block} />
@@ -174,7 +175,7 @@ function ArticleBlocks({ blocks }: { blocks: GuideBlock[] }) {
           return (
             <div
               key={block.id}
-              className="guide-depth-block grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1 text-[0.92rem] leading-8 text-app-text mb-2 content-justify"
+              className="guide-depth-block grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1 text-reading leading-8 text-app-text mb-2 content-justify"
               style={articleIndentStyle(block.depth)}
             >
               <span className={listMarkerClass(block.marker)}>{block.marker}</span>
@@ -287,9 +288,12 @@ export default function LearningArticlePage() {
   if (loadError) {
     return (
       <div className="page-shell">
-        <StatePanel tone="error" title="文章載入失敗">
-          {loadError}
-        </StatePanel>
+        <PageHeader
+          variant="plain"
+          title="文章載入失敗"
+          description={loadError}
+          actions={<Link to="/articles" className="btn-primary">回到{NAV_LABELS.articles.label}</Link>}
+        />
       </div>
     )
   }
@@ -297,9 +301,12 @@ export default function LearningArticlePage() {
   if (!article) {
     return (
       <div className="page-shell">
-        <StatePanel tone="empty" title="找不到文章內容">
-          {articleId}
-        </StatePanel>
+        <PageHeader
+          variant="plain"
+          title="找不到文章內容"
+          description="這篇文章不存在，或內容已經移動。"
+          actions={<Link to="/articles" className="btn-primary">回到{NAV_LABELS.articles.label}</Link>}
+        />
       </div>
     )
   }
@@ -317,26 +324,25 @@ export default function LearningArticlePage() {
       <BackToTopButton show={showBackToTop} onClick={scrollToTop} className="bottom-8 right-4 md:right-8" />
       <PageHeader
         className="mb-5"
-        eyebrow="主題文章"
         title={article.title}
         description={
           <>
-            <div className="mb-2 flex flex-wrap items-center gap-2">
-              <Link to="/articles" className="text-[0.82rem] font-semibold text-accent no-underline hover:underline">
-                主題式文章
+            <div className="mb-2 flex flex-wrap items-center gap-x-2">
+              <Link to="/articles" className="text-link text-ui">
+                {NAV_LABELS.articles.label}
               </Link>
-              <span className="text-[0.75rem] text-text-light">/</span>
-              <Link to={`/articles?level=${article.levelId}`} className="text-[0.82rem] font-semibold text-accent no-underline hover:underline">
+              <span className="text-meta text-text-light" aria-hidden="true">/</span>
+              <Link to={`/articles?level=${article.levelId}`} className="text-link text-ui">
                 {level.label}
               </Link>
-              <span className="text-[0.75rem] text-text-light">/</span>
-              <Link to={`/articles?level=${article.levelId}&subject=${article.subjectId}`} className="text-[0.82rem] font-semibold text-accent no-underline hover:underline">
+              <span className="text-meta text-text-light" aria-hidden="true">/</span>
+              <Link to={`/articles?level=${article.levelId}&subject=${article.subjectId}`} className="text-link text-ui">
                 {article.subjectShortTitle}
               </Link>
               {selectedPath && (
                 <>
-                  <span className="text-[0.75rem] text-text-light">/</span>
-                  <Link to={`/articles?path=${selectedPath.id}`} className="text-[0.82rem] font-semibold text-accent no-underline hover:underline">
+                  <span className="text-meta text-text-light" aria-hidden="true">/</span>
+                  <Link to={`/articles?path=${selectedPath.id}`} className="text-link text-ui">
                     {selectedPath.title}
                   </Link>
                 </>
@@ -361,8 +367,8 @@ export default function LearningArticlePage() {
 
       <div className="mb-5 grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_280px]">
         <ReadingSurface className="min-w-0">
-          <ReadingContent className="text-[0.92rem] leading-8 sm:text-[0.96rem]">
-            <div className="mb-5 rounded-lg border border-[#dbeafe] bg-[#f8fbff] p-4">
+          <ReadingContent className="text-reading leading-8">
+            <div className="mb-5 rounded-lg border border-answered-line/50 bg-answered-soft p-4">
               <div className="section-title mb-3">本篇重點</div>
               <div className="flex flex-wrap gap-2">
                 {article.subtopics.map((subtopic) => (
@@ -372,7 +378,7 @@ export default function LearningArticlePage() {
                 ))}
               </div>
               {selectedPath && (
-                <div className="mt-4 rounded-md border border-[#cfe0f5] bg-white px-3 py-2 text-[0.82rem] leading-6 text-text-light">
+                <div className="mt-4 rounded-md border border-answered-line/50 bg-white px-3 py-2 text-ui leading-6 text-text-light">
                   目前位於「<span className="font-semibold text-primary">{selectedPath.title}</span>」第 {selectedPathPosition} / {selectedPath.articleCount} 篇。
                 </div>
               )}
@@ -398,7 +404,7 @@ export default function LearningArticlePage() {
                   <button
                     key={section.id}
                     type="button"
-                    className="block w-full rounded-md px-2 py-1.5 text-left text-[0.8rem] leading-5 text-text-light hover:bg-[#f8fbff] hover:text-accent"
+                    className="block min-h-11 w-full rounded-md px-2 py-2.5 text-left text-ui leading-5 text-text-light hover:bg-accent-soft hover:text-accent md:min-h-0 md:py-1.5"
                     style={{ paddingLeft: `${Math.max(section.depth - 2, 0) * 0.65 + 0.5}rem` }}
                     onClick={() => scrollToSection(section.id)}
                   >
@@ -406,13 +412,13 @@ export default function LearningArticlePage() {
                   </button>
                 ))}
                 {article.sections.length > 24 && (
-                  <div className="px-2 pt-1 text-[0.75rem] text-text-light">
+                  <div className="px-2 pt-1 text-meta text-text-light">
                     另有 {article.sections.length - 24} 個小節
                   </div>
                 )}
               </div>
             ) : (
-              <div className="text-[0.82rem] leading-6 text-text-light">本篇以段落方式整理。</div>
+              <div className="text-ui leading-6 text-text-light">本篇以段落方式整理。</div>
             )}
           </div>
           {availablePaths.length > 0 && (
@@ -423,12 +429,12 @@ export default function LearningArticlePage() {
                   <Link
                     key={path.id}
                     to={articleRoute(article, path.id)}
-                    className={`block rounded-md border px-3 py-2 no-underline transition-colors hover:border-accent hover:bg-[#f8fbff] ${
-                      selectedPath?.id === path.id ? 'border-accent bg-[#f8fbff]' : 'border-border bg-white'
+                    className={`block rounded-md border px-3 py-2 no-underline transition-colors hover:border-accent hover:bg-accent-soft ${
+                      selectedPath?.id === path.id ? 'border-accent bg-answered-soft' : 'border-border bg-white'
                     }`}
                   >
-                    <div className="text-[0.82rem] font-semibold text-primary">{path.title}</div>
-                    <div className="mt-1 text-[0.75rem] leading-5 text-text-light">
+                    <div className="text-ui font-semibold text-primary">{path.title}</div>
+                    <div className="mt-1 text-meta leading-5 text-text-light">
                       {path.articleCount} 篇 / 約 {path.estimatedMinutes} 分鐘
                     </div>
                   </Link>
@@ -441,20 +447,20 @@ export default function LearningArticlePage() {
 
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         {neighbors.previous ? (
-          <Link to={articleRoute(neighbors.previous, selectedPath?.id)} className="surface-compact p-4 no-underline hover:border-accent hover:bg-[#f8fbff]">
-            <div className="text-[0.75rem] font-semibold text-text-light">{selectedPath ? '路徑上一篇' : '上一篇'}</div>
+          <Link to={articleRoute(neighbors.previous, selectedPath?.id)} className="surface-compact p-4 no-underline hover:border-accent hover:bg-accent-soft">
+            <div className="text-meta font-semibold text-text-light">{selectedPath ? '路徑上一篇' : '上一篇'}</div>
             <div className="mt-1 font-semibold text-primary">{neighbors.previous.title}</div>
           </Link>
         ) : (
-          <div className="surface-compact p-4 text-[0.85rem] text-text-light">{selectedPath ? '已是本路徑第一篇' : '已是第一篇文章'}</div>
+          <div className="surface-compact p-4 text-ui text-text-light">{selectedPath ? '已是本路徑第一篇' : '已是第一篇文章'}</div>
         )}
         {neighbors.next ? (
-          <Link to={articleRoute(neighbors.next, selectedPath?.id)} className="surface-compact p-4 text-right no-underline hover:border-accent hover:bg-[#f8fbff]">
-            <div className="text-[0.75rem] font-semibold text-text-light">{selectedPath ? '路徑下一篇' : '下一篇'}</div>
+          <Link to={articleRoute(neighbors.next, selectedPath?.id)} className="surface-compact p-4 text-right no-underline hover:border-accent hover:bg-accent-soft">
+            <div className="text-meta font-semibold text-text-light">{selectedPath ? '路徑下一篇' : '下一篇'}</div>
             <div className="mt-1 font-semibold text-primary">{neighbors.next.title}</div>
           </Link>
         ) : (
-          <div className="surface-compact p-4 text-right text-[0.85rem] text-text-light">{selectedPath ? '已是本路徑最後一篇' : '已是最後一篇文章'}</div>
+          <div className="surface-compact p-4 text-right text-ui text-text-light">{selectedPath ? '已是本路徑最後一篇' : '已是最後一篇文章'}</div>
         )}
       </div>
     </div>

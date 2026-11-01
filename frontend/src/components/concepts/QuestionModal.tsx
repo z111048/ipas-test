@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Dialog } from '../ui'
+import { ChoiceOption, Dialog } from '../ui'
 import { loadExamData } from '../../data/examLoaders'
 import { loadSubjectQuestions } from '../../data/questionLoaders'
 import { loadReferenceAnswers, referenceForQuestion } from '../../data/referenceAnswerLoaders'
@@ -91,22 +91,22 @@ export default function QuestionModal({ item, onClose }: { item: QuestionRef; on
     >
       <div>
         <div className="mb-3 flex items-start justify-between gap-3">
-          <div id={descriptionId} className="text-[0.78rem] text-text-light">
+          <div id={descriptionId} className="text-meta text-text-light">
             {item.level} · {item.source}
           </div>
           <button
             ref={closeButtonRef}
             type="button"
             onClick={onClose}
-            className="min-h-[44px] rounded-md border border-border px-3 py-2 text-[0.78rem] text-text-light hover:border-accent hover:text-accent cursor-pointer"
+            className="btn-outline btn-sm shrink-0"
           >
             關閉 Esc
           </button>
         </div>
 
-        {state === 'loading' && <p className="text-sm text-text-light">題目載入中…</p>}
+        {state === 'loading' && <p className="text-ui text-text-light">題目載入中…</p>}
         {state === 'missing' && (
-          <p className="text-sm text-text-light">
+          <p className="text-ui text-text-light">
             載不到這一題的內容，
             <Link to={item.route} className="text-accent">改到原頁面查看</Link>。
           </p>
@@ -114,7 +114,7 @@ export default function QuestionModal({ item, onClose }: { item: QuestionRef; on
 
         {state === 'ready' && question && (
           <>
-            <div className="mb-4 text-[0.96rem] leading-8 text-app-text content-justify">
+            <div className="mb-4 text-reading leading-8 text-app-text content-justify">
               {question.question}
             </div>
 
@@ -123,26 +123,19 @@ export default function QuestionModal({ item, onClose }: { item: QuestionRef; on
                 const isAnswer = key === answer
                 const isPicked = key === picked
                 const show = revealed || picked !== null
-                const tone = !show
-                  ? 'border-border bg-white hover:border-accent'
-                  : isAnswer
-                    ? 'border-success bg-success/10'
-                    : isPicked
-                      ? 'border-error bg-error/10'
-                      : 'border-border bg-white opacity-70'
+                const state = !show ? undefined : isAnswer ? 'correct' : isPicked ? 'wrong' : 'idle'
                 return (
-                  <button
+                  <ChoiceOption
                     key={key}
-                    type="button"
-                    disabled={show}
-                    onClick={() => setPicked(key)}
-                    className={`min-h-[44px] rounded-lg border px-3 py-2 text-left text-[0.9rem] leading-7 ${tone} ${
-                      show ? '' : 'cursor-pointer'
-                    }`}
+                    kind="button"
+                    letter={key}
+                    selected={isPicked}
+                    onSelect={() => setPicked(key)}
+                    locked={show}
+                    state={state}
                   >
-                    <span className="mr-2 font-semibold text-primary">({key})</span>
                     {question.options[key]}
-                  </button>
+                  </ChoiceOption>
                 )
               })}
             </div>
@@ -151,7 +144,7 @@ export default function QuestionModal({ item, onClose }: { item: QuestionRef; on
               <button
                 type="button"
                 onClick={() => setRevealed(true)}
-                className="mt-3 min-h-[44px] rounded-lg border border-border px-3 py-2 text-[0.82rem] text-text-light hover:border-accent hover:text-accent cursor-pointer"
+                className="btn-outline mt-3"
               >
                 直接看答案
               </button>
@@ -159,24 +152,24 @@ export default function QuestionModal({ item, onClose }: { item: QuestionRef; on
 
             {(revealed || picked !== null) && (
               <div className="mt-4 border-t border-border pt-3">
-                <div className="mb-1 text-[0.82rem] font-semibold text-primary">
+                <div className="mb-1 text-ui font-semibold text-primary">
                   正確答案（{answer}）
                 </div>
                 {question.explanation && (
-                  <p className="m-0 text-[0.88rem] leading-7 text-app-text content-justify">
+                  <p className="m-0 text-reading leading-7 text-app-text content-justify">
                     {question.explanation}
                   </p>
                 )}
                 {reference && (
-                  <div className="mt-3 rounded-lg bg-[#f4f9fd] px-3 py-3 text-[0.86rem] leading-7 text-app-text content-justify">
+                  <div className="mt-3 rounded-lg bg-answered-soft px-3 py-3 text-reading leading-7 text-app-text content-justify">
                     {reference.reference_answer}
                   </div>
                 )}
               </div>
             )}
 
-            <div className="mt-4 border-t border-border pt-3 text-[0.82rem]">
-              <Link to={item.route} className="text-accent no-underline hover:underline">
+            <div className="mt-4 border-t border-border pt-3 text-ui">
+              <Link to={item.route} className="text-link">
                 在{item.kind === 'exam' ? '整份考卷' : '這一章的練習'}裡開啟 →
               </Link>
             </div>

@@ -31,8 +31,9 @@ def check(label, cond, detail=''):
         fails.append(label)
 
 
-# 練習頁的選項是 <button aria-pressed>（OptionButton.tsx:32-42），不是 radio；
-# 題目容器是 <article data-q-index>（QuestionCard.tsx:44-47）。
+# 練習頁的選項是 <button aria-pressed>（ui/ChoiceOption.tsx 的 kind="button"），不是 radio；
+# 題目容器是 <article data-q-index>（practice/QuestionCard.tsx）。
+# 選項按鈕的 innerText 以字母徽章開頭（"A\n選項文字"），不再是 "(A) 選項文字"。
 READY_SELECTOR = 'article[data-q-index] button[aria-pressed]'
 
 PICKED_JS = (
@@ -41,7 +42,7 @@ PICKED_JS = (
     "  for (const art of document.querySelectorAll('article[data-q-index]')) {"
     "    const i = art.getAttribute('data-q-index');"
     "    for (const b of art.querySelectorAll('button[aria-pressed=\"true\"]')) {"
-    "      const m = (b.innerText || '').match(/\\(([A-D])\\)/);"
+    "      const m = (b.innerText || '').match(/^\\s*([A-D])(?:\\s|$)/);"
     "      if (m) out['q' + i] = m[1];"
     "    }"
     "  }"

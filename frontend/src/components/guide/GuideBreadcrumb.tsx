@@ -10,7 +10,7 @@ export default function GuideBreadcrumb({ crumbs }: { crumbs: BreadcrumbCrumb[] 
   if (crumbs.length === 0) return null
 
   return (
-    <nav aria-label="麵包屑" className="mb-1.5 text-[0.75rem] leading-5 text-text-light">
+    <nav aria-label="麵包屑" className="mb-1.5 text-meta leading-5 text-text-light">
       <ol className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
         {crumbs.map((crumb, index) => {
           const isLast = index === crumbs.length - 1
@@ -18,7 +18,7 @@ export default function GuideBreadcrumb({ crumbs }: { crumbs: BreadcrumbCrumb[] 
             <Fragment key={`${crumb.label}-${index}`}>
               <li className="min-w-0">
                 {crumb.to && !isLast ? (
-                  <Link to={crumb.to} className="no-underline hover:text-accent">
+                  <Link to={crumb.to} className="inline-flex min-h-11 min-w-11 items-center justify-center no-underline hover:text-accent md:min-h-0 md:min-w-0">
                     {crumb.label}
                   </Link>
                 ) : (
@@ -27,7 +27,7 @@ export default function GuideBreadcrumb({ crumbs }: { crumbs: BreadcrumbCrumb[] 
                   </span>
                 )}
               </li>
-              {!isLast && <li aria-hidden="true" className="text-text-light/50">›</li>}
+              {!isLast && <li aria-hidden="true" className="text-text-light">›</li>}
             </Fragment>
           )
         })}

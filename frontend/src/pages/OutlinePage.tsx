@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import { loadGuideSearchIndex } from '../data/guideSearch'
 import { resourceLevels } from '../data/resourceRegistry'
 import type { GuideSearchIndexData, GuideSearchNode } from '../types'
-import { FilterBar, PageHeader, StatePanel } from '../components/ui'
+import { PageHeader, StatePanel, SubjectPicker } from '../components/ui'
+import { navLabel } from '../constants/navLabels'
 
 /** 由節點陣列建 parent → children 的索引；索引本身是依樹序排好的。 */
 function buildTree(nodes: GuideSearchNode[]) {
@@ -57,29 +58,29 @@ function OutlineNodes({
 
         return (
           <li key={node.id}>
-            <div className="flex items-start gap-1.5">
+            <div className="flex items-start gap-1">
               {children.length > 0 ? (
                 <button
                   type="button"
                   onClick={() => onToggle(node.id)}
                   aria-expanded={!isCollapsed}
                   aria-label={isCollapsed ? '展開' : '收合'}
-                  className="mt-0.5 w-4 shrink-0 text-[0.7rem] text-text-light hover:text-accent"
+                  className="-ml-2 inline-flex min-h-[var(--control-min-h)] min-w-[var(--control-min-h)] shrink-0 items-center justify-center rounded-md text-ui text-text-light hover:bg-accent-soft hover:text-accent"
                 >
                   {isCollapsed ? '▸' : '▾'}
                 </button>
               ) : (
-                <span className="w-4 shrink-0" aria-hidden="true" />
+                <span className="-ml-2 min-w-[var(--control-min-h)] shrink-0" aria-hidden="true" />
               )}
               {to ? (
-                <Link to={to} className={`text-[0.86rem] leading-6 no-underline hover:text-accent ${weight}`}>
+                <Link to={to} className={`inline-flex min-h-[var(--control-min-h)] items-center py-1 text-body leading-6 no-underline hover:text-accent ${weight}`}>
                   {node.t}
                 </Link>
               ) : (
-                <span className="text-[0.86rem] leading-6 text-text-light">{node.t}</span>
+                <span className="inline-flex min-h-[var(--control-min-h)] items-center py-1 text-body leading-6 text-text-light">{node.t}</span>
               )}
               {children.length > 0 && (
-                <span className="mt-1 shrink-0 text-[0.66rem] text-text-light">{children.length}</span>
+                <span className="shrink-0 self-center text-caption text-text-light">{children.length}</span>
               )}
             </div>
             {!isCollapsed && (
@@ -125,12 +126,12 @@ export default function OutlinePage() {
       resourceLevels.flatMap((level) =>
         level.subjects
           .filter((subject) => index?.guides[subject.id])
-          .map((subject) => ({ id: subject.id, label: subject.label, level: level.label })),
+          .map((subject) => subject.id),
       ),
     [index],
   )
 
-  const activeId = subjectId ?? subjects[0]?.id
+  const activeId = subjectId ?? subjects[0]
   const guide = activeId ? index?.guides[activeId] : undefined
   const tree = useMemo(() => (guide ? buildTree(guide.nodes) : null), [guide])
 
@@ -152,41 +153,25 @@ export default function OutlinePage() {
     <div className="page-shell">
       <PageHeader
         className="mb-5"
-        eyebrow="完整目錄"
-        title="學習指引目錄"
+        title={navLabel('outline')}
         description="全部章、節與內文標題，點擊直接跳到對應段落。"
         meta={guide && <span className="pill">{guide.nodes.length} 個項目</span>}
       />
 
-      <FilterBar
-        className="mb-4"
-        title="科目篩選"
-        result={index ? `${subjects.length} 個科目可瀏覽` : '目錄資料載入中'}
-        action={
-          subjects.length > 0 && (
-            <div className="flex w-full flex-col gap-2 sm:flex-row sm:flex-wrap">
-              {subjects.map((subject) => (
-                <button
-                  key={subject.id}
-                  type="button"
-                  onClick={() => setSubjectId(subject.id)}
-                  className={`min-h-11 rounded-full border px-3 py-2 text-[0.8rem] font-semibold transition-colors ${
-                    subject.id === activeId
-                      ? 'border-accent bg-accent text-white'
-                      : 'border-border bg-white text-text-light hover:text-accent'
-                  }`}
-                >
-                  {subject.level}・{subject.label}
-                </button>
-              ))}
-            </div>
-          )
-        }
-      >
-        <div className="md:col-span-2 xl:col-span-4 text-[0.86rem] leading-7 text-text-light">
-          選擇科目後會保留章節樹狀結構。
-        </div>
-      </FilterBar>
+      <section className="surface mb-4 p-4">
+        {subjects.length > 0 ? (
+          <SubjectPicker
+            value={activeId ?? null}
+            onChange={setSubjectId}
+            subjectIds={subjects}
+          />
+        ) : (
+          <div className="field-label">科目</div>
+        )}
+        <p className="mt-2 text-meta leading-6 text-text-light">
+          {index ? `${subjects.length} 個科目可瀏覽；選擇科目後會保留章節樹狀結構。` : '目錄資料載入中'}
+        </p>
+      </section>
 
       {loadError && (
         <StatePanel tone="error" title="目錄載入失敗" className="mb-4">
@@ -208,18 +193,17 @@ export default function OutlinePage() {
 
       {guide && tree && (
         <div className="surface p-4 sm:p-5">
-          <div className="mb-3 flex flex-wrap items-center gap-3">
-            <span className="pill">{guide.nodes.length} 個項目</span>
+          <div className="mb-3 flex flex-wrap items-center gap-2">
             <button
               type="button"
-              className="min-h-11 rounded-lg border border-border bg-white px-3 py-2 text-[0.78rem] font-semibold text-accent hover:border-accent"
+              className="btn-outline btn-sm"
               onClick={() => setCollapsed(new Set())}
             >
               全部展開
             </button>
             <button
               type="button"
-              className="min-h-11 rounded-lg border border-border bg-white px-3 py-2 text-[0.78rem] font-semibold text-accent hover:border-accent"
+              className="btn-outline btn-sm"
               onClick={() =>
                 setCollapsed(new Set(guide.nodes.filter((node) => node.k !== 'h').map((node) => node.id)))
               }

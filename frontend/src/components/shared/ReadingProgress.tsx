@@ -58,7 +58,7 @@ export function useScrollProgress(resolveHost: () => ScrollHost | null | undefin
 
 export function ReadingProgressBar({ progress, className = '' }: { progress: number; className?: string }) {
   return (
-    <div className={`h-[3px] w-full shrink-0 overflow-hidden rounded-full bg-[#e8eef5] ${className}`} aria-hidden="true">
+    <div className={`h-[3px] w-full shrink-0 overflow-hidden rounded-full bg-border ${className}`} aria-hidden="true">
       <div
         className="h-full bg-accent transition-[width] duration-150 ease-out"
         style={{ width: `${progress}%` }}

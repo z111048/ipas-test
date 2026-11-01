@@ -7,6 +7,7 @@ import StatBox from '../shared/StatBox'
 import { publicAsset } from '../../utils/assets'
 import { preferredScrollBehavior } from '../../utils/motion'
 import { scrollMainToTop } from '../../utils/scrollMain'
+import { Badge, Chip, PageHeader } from '../ui'
 import CodeSnippet from './CodeSnippet'
 
 interface ExamResultsProps {
@@ -28,12 +29,12 @@ function ScoreRing({ score, pass }: { score: number; pass: boolean }) {
   const stroke = 12
   const circumference = 2 * Math.PI * radius
   const offset = circumference * (1 - Math.min(Math.max(score, 0), 100) / 100)
-  const color = pass ? '#15803d' : '#dc2626'
+  const color = pass ? 'var(--color-correct-strong)' : 'var(--color-wrong-strong)'
 
   return (
     <div className="relative mx-auto h-32 w-32">
       <svg viewBox="0 0 128 128" className="h-32 w-32 -rotate-90">
-        <circle cx="64" cy="64" r={radius} fill="none" stroke="#e2e8f0" strokeWidth={stroke} />
+        <circle cx="64" cy="64" r={radius} fill="none" stroke="var(--color-border)" strokeWidth={stroke} />
         <circle
           cx="64"
           cy="64"
@@ -48,8 +49,8 @@ function ScoreRing({ score, pass }: { score: number; pass: boolean }) {
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className={`text-3xl font-bold tabular-nums ${pass ? 'text-success' : 'text-error'}`}>{score}</span>
-        <span className="text-[0.7rem] text-text-light">分</span>
+        <span className={`text-3xl font-bold tabular-nums ${pass ? 'text-correct' : 'text-wrong'}`}>{score}</span>
+        <span className="text-caption text-text-light">分</span>
       </div>
     </div>
   )
@@ -60,21 +61,21 @@ const answerOptions = ['A', 'B', 'C', 'D'] as const
 function ReferenceAnswerBlock({ reference }: { reference: ExamReferenceAnswer }) {
   return (
     <section className="mt-3 border-t border-border pt-3">
-      <div className="mb-2 text-[0.8rem] font-semibold text-primary">參考答案</div>
-      <div className="rounded-lg bg-[#f4f9fd] px-3 py-3 text-[0.86rem] leading-relaxed text-app-text">
+      <h3 className="mb-2 text-meta font-semibold text-primary">參考答案</h3>
+      <div className="rounded-lg bg-answered-soft px-3 py-3 text-reading text-app-text content-justify">
         {reference.reference_answer}
       </div>
 
       {reference.option_analysis && (
         <div className="mt-3">
-          <div className="mb-1 text-[0.78rem] font-semibold text-text-light">選項解析</div>
-          <div className="space-y-1.5 text-[0.82rem] leading-relaxed text-app-text">
+          <h3 className="mb-1 text-meta font-semibold text-text-light">選項解析</h3>
+          <div className="space-y-1.5 text-body text-app-text">
             {answerOptions.map((option) => {
               const analysis = reference.option_analysis?.[option]
               if (!analysis) return null
               return (
                 <div key={option} className="grid grid-cols-[1.75rem_1fr] gap-2">
-                  <span className={option === reference.answer ? 'font-semibold text-success' : 'font-semibold text-text-light'}>
+                  <span className={option === reference.answer ? 'font-semibold text-correct' : 'font-semibold text-text-light'}>
                     {option}.
                   </span>
                   <span>{analysis}</span>
@@ -86,21 +87,22 @@ function ReferenceAnswerBlock({ reference }: { reference: ExamReferenceAnswer })
       )}
 
       {(reference.key_concepts?.length || reference.citations?.length) && (
-        <div className="mt-3 flex flex-wrap gap-2 text-[0.74rem] text-text-light">
+        <div className="mt-3 flex flex-wrap gap-2 text-caption text-text-light">
           {reference.key_concepts?.map((concept) => (
-            <span key={concept} className="rounded-full border border-border bg-white px-2 py-1">
+            <Badge key={concept} wrap>
               {concept}
-            </span>
+            </Badge>
           ))}
           {reference.citations?.slice(0, 3).map((citation, index) => (
-            <span
+            <Badge
               key={`${citation.guide_key}-${citation.node_id}-${index}`}
-              className="rounded-full border border-[#d7e7f5] bg-white px-2 py-1"
+              tone="accent"
+              wrap
               title={citation.why_relevant}
             >
               {citation.title}
               {citation.page_label ? ` · ${citation.page_label}` : ''}
-            </span>
+            </Badge>
           ))}
         </div>
       )}
@@ -163,14 +165,14 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
 
     return (
       <div>
-        <div className="border-b border-border bg-[#f8fafc]">
-          <div className="px-3 py-2 text-[0.75rem] font-semibold text-text-light">
+        <div className="border-b border-border bg-app-bg">
+          <div className="px-3 py-2 text-caption font-semibold text-text-light">
             {image.markdown_title ?? '程式碼'}
           </div>
           <CodeSnippet code={image.markdown} language={image.markdown_language} />
         </div>
         <details className="bg-white">
-          <summary className="cursor-pointer px-3 py-2 text-[0.75rem] text-text-light hover:text-primary">
+          <summary className="cursor-pointer px-3 py-2 text-caption text-text-light hover:text-primary">
             查看原始截圖
           </summary>
           {renderImage(image)}
@@ -190,63 +192,63 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
 
   return (
     <div className="page-shell">
-      <div className="page-header text-center mb-6">
-        <div className="eyebrow mb-2">{examData.exam}</div>
-        <h1
-          ref={scoreHeadingRef}
-          tabIndex={-1}
-          id="exam-score-heading"
-          className="mb-3 text-xl font-bold text-primary focus:outline-none"
-        >
-          測驗成績
-          <span className="sr-only">：{score} 分，{pass ? '已達及格標準' : '尚未達及格標準'}</span>
-        </h1>
+      {/* 成績頁唯一的 <h1>；交卷後焦點移到這裡（id 是 test_exam_flow 的焦點目標）。 */}
+      <PageHeader
+        className="mb-4"
+        eyebrow={examData.exam}
+        titleId="exam-score-heading"
+        titleRef={scoreHeadingRef}
+        titleTabIndex={-1}
+        title={
+          <>
+            考試成績
+            <span className="sr-only">：{score} 分，{pass ? '已達及格標準' : '尚未達及格標準'}</span>
+          </>
+        }
+      />
+      <section className="surface mb-6 p-4 text-center sm:p-6" aria-label="成績摘要">
         <ScoreRing score={score} pass={pass} />
         <div
-          className={`mt-3 inline-block rounded-full px-4 py-1 text-[0.85rem] font-semibold ${
-            pass ? 'bg-[#eafaf1] text-success' : 'bg-[#fdf2f2] text-error'
+          className={`mt-3 inline-block rounded-full border px-4 py-1 text-ui font-semibold ${
+            pass ? 'border-correct-line bg-correct-soft text-correct' : 'border-wrong-line bg-wrong-soft text-wrong'
           }`}
         >
           {pass ? '已達及格標準' : '尚未達及格標準'}
         </div>
         <div className="flex gap-3 flex-wrap justify-center my-6">
-          <StatBox value={correct} label="答對" valueColor="text-success" />
-          <StatBox value={wrong} label="答錯" valueColor="text-error" />
+          <StatBox value={correct} label="答對" valueColor="text-correct" />
+          <StatBox value={wrong} label="答錯" valueColor="text-wrong" />
           <StatBox value={skipped} label="未答" valueColor="text-text-light" />
           <StatBox value={total} label="總題數" />
         </div>
         <ProgressBar
           percent={score}
-          color={pass ? 'bg-success' : 'bg-error'}
+          color={pass ? 'bg-correct-strong' : 'bg-wrong-strong'}
           height="h-3"
         />
-        <div className="text-[0.8rem] text-text-light mt-2">及格線：{examData.passing_score} 分</div>
+        <div className="mt-2 text-meta text-text-light">及格線：{examData.passing_score} 分</div>
 
         {wrongIndices.length > 0 && (
           <div className="mt-6 text-left">
-            <div className="mb-2 text-center text-[0.8rem] font-semibold text-text-light">錯題快速跳轉</div>
-            <div className="flex flex-wrap justify-center gap-2">
+            <h2 id="wrong-jump-label" className="mb-2 text-center text-meta font-semibold text-text-light">
+              錯題快速跳轉
+            </h2>
+            <div className="flex flex-wrap justify-center gap-2" role="group" aria-labelledby="wrong-jump-label">
               {wrongIndices.map((i) => (
-                <button
-                  key={i}
-                  type="button"
-                  className="rounded-full border border-error/40 bg-[#fdf2f2] px-3 py-1 text-[0.78rem] font-semibold text-error transition-colors hover:bg-error hover:text-white cursor-pointer"
-                  onClick={() => jumpToQuestion(i)}
-                >
+                <Chip key={i} tone="wrong" onClick={() => jumpToQuestion(i)}>
                   第 {i + 1} 題
-                </button>
+                </Chip>
               ))}
             </div>
           </div>
         )}
 
-        <button
-          className="btn-outline mt-6 cursor-pointer bg-transparent"
-          onClick={onRetry}
-        >
-          重新考試
-        </button>
-      </div>
+        <div className="mt-6">
+          <button type="button" className="btn-outline" onClick={onRetry}>
+            重新考試
+          </button>
+        </div>
+      </section>
 
       <h2 className="section-title mb-4">詳細解析</h2>
       {examData.questions.map((q, i) => {
@@ -262,27 +264,17 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
             key={q.id}
             id={`result-q-${i}`}
             className={`surface p-5 mb-3 scroll-mt-4 ${
-              isCorrect ? 'border-success/30' : isSkipped ? 'border-border' : 'border-error/30'
+              isCorrect ? 'border-correct-line' : isSkipped ? 'border-border' : 'border-wrong-line'
             }`}
           >
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-[0.78rem] text-text-light font-semibold uppercase tracking-wide">
-                第 {i + 1} 題
-              </span>
-              <span
-                className={`text-[0.75rem] px-2 py-0.5 rounded-full font-medium ${
-                  isCorrect
-                    ? 'bg-[#eafaf1] text-success'
-                    : isSkipped
-                      ? 'bg-[#fef5e7] text-warning'
-                      : 'bg-[#fdf2f2] text-error'
-                }`}
-              >
+              <h3 className="text-meta font-semibold text-text-light">第 {i + 1} 題</h3>
+              <Badge tone={isCorrect ? 'correct' : isSkipped ? 'warning' : 'wrong'}>
                 {isCorrect ? '正確' : isSkipped ? '未作答' : '錯誤'}
-              </span>
+              </Badge>
             </div>
             {q.context && (
-              <div className="mb-3 rounded-lg border border-[#d7e7f5] bg-[#f4f9fd] px-4 py-3 text-[0.88rem] leading-relaxed text-app-text">
+              <div className="mb-3 rounded-lg border border-answered-line/60 bg-answered-soft px-4 py-3 text-body text-app-text">
                 {q.context}
               </div>
             )}
@@ -294,7 +286,7 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
                     className="rounded-lg border border-border bg-white overflow-hidden"
                   >
                     {renderImageAsset(image)}
-                    <figcaption className="px-3 py-2 text-[0.75rem] text-text-light border-t border-border">
+                    <figcaption className="px-3 py-2 text-caption text-text-light border-t border-border">
                       PDF 第 {image.page_number} 頁題組附圖
                     </figcaption>
                   </figure>
@@ -307,14 +299,14 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
                 className="mb-3 overflow-hidden rounded-lg border border-border bg-white"
               >
                 {block.title && (
-                  <div className="border-b border-border bg-[#f8fafc] px-3 py-2 text-[0.75rem] font-semibold text-text-light">
+                  <div className="border-b border-border bg-app-bg px-3 py-2 text-caption font-semibold text-text-light">
                     {block.title}
                   </div>
                 )}
                 <CodeSnippet code={block.markdown} language={block.language} />
               </div>
             ))}
-            <div className="text-[0.92rem] mb-3 text-app-text">{q.question}</div>
+            <div className="mb-3 text-reading text-app-text content-justify">{q.question}</div>
             {questionImages.length > 0 && (
               <div className="grid grid-cols-1 gap-3 mb-3">
                 {questionImages.map((image) => (
@@ -323,16 +315,16 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
                     className="rounded-lg border border-border bg-white overflow-hidden"
                   >
                     {renderImageAsset(image)}
-                    <figcaption className="px-3 py-2 text-[0.75rem] text-text-light border-t border-border">
+                    <figcaption className="px-3 py-2 text-caption text-text-light border-t border-border">
                       PDF 第 {image.page_number} 頁{image.type === 'page' ? '原頁截圖' : '題目附圖'}
                     </figcaption>
                   </figure>
                 ))}
               </div>
             )}
-            <div className="text-[0.85rem] space-y-1">
+            <div className="space-y-1 text-body">
               {!isCorrect && !isSkipped && (
-                <div className="text-error">
+                <div className="text-wrong">
                   您的答案：({ua}) {q.options[ua!]}
                   {optionImages
                     .filter((image) => image.option === ua)
@@ -346,7 +338,7 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
                     ))}
                 </div>
               )}
-              <div className="text-success">
+              <div className="text-correct">
                 正確答案：({q.answer}) {q.options[q.answer]}
                 {optionImages
                   .filter((image) => image.option === q.answer)
@@ -361,7 +353,7 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
               </div>
             </div>
             {q.explanation && (
-              <div className="mt-3 bg-[#f8f9fa] rounded-lg p-3 text-[0.85rem] text-text-light leading-relaxed">
+              <div className="mt-3 rounded-lg bg-app-bg p-3 text-reading text-app-text content-justify">
                 {q.explanation}
               </div>
             )}

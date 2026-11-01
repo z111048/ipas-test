@@ -140,7 +140,7 @@ function AppShell() {
           id="main-content"
           tabIndex={-1}
           ref={mainRef}
-          className={`app-main app-scroll-stable flex-1 min-h-0 ${mainOverflow} ${isGuideRoute ? '' : 'flex flex-col'} px-4 py-4 md:px-6 md:py-6 min-w-0 focus:outline-none`}
+          className={`app-main app-scroll-stable relative flex-1 min-h-0 ${mainOverflow} ${isGuideRoute ? '' : 'flex flex-col'} px-4 py-4 md:px-6 md:py-6 min-w-0 focus:outline-none`}
         >
           <AppErrorBoundary resetKey={location.key}>
             <Suspense fallback={<PageSkeleton />}>

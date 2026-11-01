@@ -99,13 +99,13 @@ function blockTextClass(block: GuideBlock) {
   if (block.type === 'heading') {
     if (block.depth <= 2) return 'text-lg font-bold text-primary border-b border-border pb-1 mt-6 mb-2'
     if (block.depth === 3) return 'text-base font-semibold text-accent mt-5 mb-2'
-    if (block.depth === 4) return 'text-[0.96rem] font-semibold text-primary mt-4 mb-1'
-    if (block.depth === 5) return 'text-[0.9rem] font-semibold text-app-text mt-3 mb-1'
-    return 'text-[0.86rem] font-semibold text-text-light mt-3 mb-1'
+    if (block.depth === 4) return 'text-reading font-semibold text-primary mt-4 mb-1'
+    if (block.depth === 5) return 'text-reading font-semibold text-app-text mt-3 mb-1'
+    return 'text-body font-semibold text-text-light mt-3 mb-1'
   }
-  if (block.type === 'question') return 'text-[0.9rem] font-semibold text-primary bg-[#f7fbff] border-l-4 border-accent px-3 py-2 rounded-r-lg my-3'
-  if (block.type === 'answer') return 'text-[0.86rem] text-app-text bg-[#f8fafc] border border-border px-3 py-2 rounded-lg my-2'
-  return 'text-[0.9rem] leading-8 text-app-text mb-3 content-justify'
+  if (block.type === 'question') return 'text-reading font-semibold text-primary bg-answered-soft border-l-4 border-accent px-3 py-2 rounded-r-lg my-3'
+  if (block.type === 'answer') return 'text-reading text-app-text bg-unanswered-soft border border-border px-3 py-2 rounded-lg my-2'
+  return 'text-reading leading-8 text-app-text mb-3 content-justify'
 }
 
 function listMarkerClass(marker?: string) {
@@ -162,7 +162,7 @@ function GuideHeadingNavItem({
   onSelect: (blockId: string, anchor?: string) => void
 }) {
   const indent = `${0.5 + Math.max(0, heading.level - 3) * 0.85}rem`
-  const size = compact ? 'px-2 py-1.5 text-[0.82rem]' : 'px-2 py-1 text-[0.78rem]'
+  const size = compact ? 'min-h-11 px-2 py-2.5 text-ui' : 'min-h-11 px-2 py-2.5 text-meta md:min-h-0 md:py-1.5'
 
   if (!heading.id) {
     return (
@@ -182,8 +182,8 @@ function GuideHeadingNavItem({
       aria-current={active ? 'true' : undefined}
       className={`block w-full rounded-md border-l-2 text-left leading-5 no-underline transition-colors ${size} ${
         active
-          ? 'border-l-accent bg-[#f0f7ff] font-semibold text-accent'
-          : 'border-l-transparent text-primary hover:bg-[#f8fbff] hover:text-accent'
+          ? 'border-l-accent bg-answered-soft font-semibold text-accent'
+          : 'border-l-transparent text-primary hover:bg-accent-soft hover:text-accent'
       }`}
       style={{ paddingLeft: indent }}
     >
@@ -241,7 +241,7 @@ function blockFormulaEntries(block: GuideBlock): GuideFormula[] {
 function GuideFormulas({ formulas }: { formulas: GuideFormula[] }) {
   if (formulas.length === 0) return null
   return (
-    <div className="guide-formulas mt-2 space-y-1 overflow-x-auto text-[0.9rem]">
+    <div className="guide-formulas mt-2 space-y-1 overflow-x-auto text-reading">
       {formulas.map((formula, index) => {
         const source = formula.display === false
           ? `$${formula.latex}$`
@@ -291,7 +291,7 @@ function GuideImageFigure({ image, depth }: { image: GuideImageAsset; depth: num
         loading="lazy"
         className="block w-full max-w-4xl rounded-lg border border-border bg-white object-cover"
       />
-      <figcaption className="mt-2 text-[0.78rem] leading-5 text-text-light">
+      <figcaption className="mt-2 text-meta leading-5 text-text-light">
         {caption}
       </figcaption>
     </figure>
@@ -312,7 +312,7 @@ function GuideSourceFigure({ block }: { block: GuideBlock }) {
         loading="lazy"
         className="block w-full max-w-4xl rounded-lg border border-border bg-white object-contain"
       />
-      <figcaption className="mt-2 text-[0.78rem] leading-5 text-text-light">
+      <figcaption className="mt-2 text-meta leading-5 text-text-light">
         PDF 原圖{block.alt ? ` · ${block.alt}` : ''}
       </figcaption>
     </figure>
@@ -327,39 +327,39 @@ function GuideExamReferenceNotes({ annotations, depth }: { annotations: GuideExa
 
   return (
     <details
-      className="guide-depth-block my-3 rounded-md border border-[#f2d5a2] bg-[#fffaf1] px-3 py-2 text-[0.82rem] leading-6 text-app-text"
+      className="guide-depth-block my-3 rounded-md border border-warning-line bg-warning-soft px-3 py-2 text-ui leading-6 text-app-text"
       style={blockIndentStyle(depth)}
     >
-      <summary className="cursor-pointer text-primary">
+      <summary className="min-h-11 cursor-pointer py-2.5 text-primary md:min-h-0 md:py-0">
         <span className="font-semibold">歷屆試題</span>
-        <span className="ml-2 text-[0.76rem] text-text-light">
+        <span className="ml-2 text-meta text-text-light">
           {annotations.length} 題曾引用此段
           {examLabels.length > 0 ? ` · ${examLabels.slice(0, 2).join('、')}${examLabels.length > 2 ? ` 等 ${examLabels.length} 份` : ''}` : ''}
         </span>
       </summary>
       <div className="mt-2 space-y-2">
         {visibleAnnotations.map((annotation) => (
-          <div key={annotation.id} className="border-t border-[#f3dfbd] pt-2 first:border-t-0 first:pt-0">
+          <div key={annotation.id} className="border-t border-warning/20 pt-2 first:border-t-0 first:pt-0">
             <div className="flex flex-wrap items-center gap-2">
-              <Link to={annotation.route} className="font-semibold text-accent no-underline hover:underline">
+              <Link to={annotation.route} className="text-link">
                 {annotation.examLabel} 第 {annotation.questionNumber} 題
               </Link>
-              <span className="rounded-full border border-[#f3dfbd] bg-white px-2 py-0.5 text-[0.72rem] font-semibold text-primary">
+              <span className="badge badge-warning">
                 答案 {annotation.answer}
               </span>
             </div>
-            <div className="mt-1 text-[0.8rem] leading-6 text-app-text content-justify">
+            <div className="mt-1 text-ui leading-6 text-app-text content-justify">
               {annotation.question}
             </div>
             {annotation.reasons?.[0] && (
-              <div className="mt-1 text-[0.75rem] leading-5 text-text-light">
+              <div className="mt-1 text-meta leading-5 text-text-light">
                 {annotation.reasons[0]}
               </div>
             )}
           </div>
         ))}
         {hiddenCount > 0 && (
-          <div className="border-t border-[#f3dfbd] pt-2 text-[0.76rem] text-text-light">
+          <div className="border-t border-warning/20 pt-2 text-meta text-text-light">
             另有 {hiddenCount} 題引用此區塊。
           </div>
         )}
@@ -426,7 +426,7 @@ function GuideBlocksRenderer({
                 key={block.id}
                 id={guideHeadingDomId(block.id)}
                 data-guide-block-id={block.id}
-                className="guide-depth-block text-[0.9rem] leading-7 text-app-text mb-2 content-justify"
+                className="guide-depth-block text-reading leading-8 text-app-text mb-2 content-justify"
                 style={blockIndentStyle(block.depth)}
               >
                 <GuideBlockBody block={block} />
@@ -438,7 +438,7 @@ function GuideBlocksRenderer({
               key={block.id}
               id={guideHeadingDomId(block.id)}
               data-guide-block-id={block.id}
-              className="guide-depth-block grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1 text-[0.9rem] leading-7 text-app-text mb-2 content-justify"
+              className="guide-depth-block grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1 text-reading leading-8 text-app-text mb-2 content-justify"
               style={blockIndentStyle(block.depth)}
             >
               <span className={listMarkerClass(block.marker)}>{block.marker}</span>
@@ -679,9 +679,12 @@ export default function GuidePage() {
   if (!outlineGuide || !chapter) {
     return (
       <div className="page-shell">
-        <StatePanel tone="error" title="找不到章節">
-          {chapterId}
-        </StatePanel>
+        <PageHeader
+          variant="plain"
+          title="找不到章節"
+          description="這個章節不存在，或內容已經移動。"
+          actions={<Link to="/outline" className="btn-primary">回到學習指引目錄</Link>}
+        />
       </div>
     )
   }
@@ -862,12 +865,12 @@ export default function GuidePage() {
                 <Link
                   key={child.id}
                   to={`/guide/${subjectId}/${child.id}`}
-                  className="block surface-compact px-4 py-3 text-primary no-underline transition-colors hover:border-accent hover:bg-[#f8fbff]"
+                  className="block surface-compact px-4 py-3 text-primary no-underline transition-colors hover:border-accent hover:bg-accent-soft"
                 >
-                  <span className="block text-[0.9rem] font-semibold">
+                  <span className="block text-body font-semibold">
                     {child.number ? `${child.number} ` : ''}{child.title}
                   </span>
-                  <span className="block text-[0.74rem] text-text-light mt-1">
+                  <span className="block text-meta text-text-light mt-1">
                     PDF 第 {child.pageRange[0]}–{child.pageRange[1]} 頁
                   </span>
                 </Link>
@@ -932,7 +935,7 @@ export default function GuidePage() {
                       loading="lazy"
                       className="block w-full h-auto"
                     />
-                    <figcaption className="px-3 py-2 text-[0.78rem] text-text-light border-t border-border">
+                    <figcaption className="px-3 py-2 text-meta text-text-light border-t border-border">
                       PDF {page.label || `第 ${page.page} 頁`}
                     </figcaption>
                   </figure>
@@ -944,7 +947,7 @@ export default function GuidePage() {
           {hasChildChapters ? (
             <ReadingSurface>
               <div className="text-primary font-semibold mb-2">請選擇下層章節</div>
-              <p className="text-[0.9rem] leading-7 text-text-light mb-4">
+              <p className="text-body leading-7 text-text-light mb-4">
                 這一層是 PDF 的章節容器，內容已依下層章節拆開，避免把多個章節連在同一頁閱讀。
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -952,12 +955,12 @@ export default function GuidePage() {
                   <Link
                     key={child.id}
                     to={`/guide/${subjectId}/${child.id}`}
-                    className="block surface-compact px-4 py-3 no-underline transition-colors hover:border-accent hover:bg-[#f8fbff]"
+                    className="block surface-compact px-4 py-3 no-underline transition-colors hover:border-accent hover:bg-accent-soft"
                   >
                     <span className="block text-primary font-semibold">
                       {child.number ? `${child.number} ` : ''}{child.title}
                     </span>
-                    <span className="block text-[0.78rem] text-text-light mt-1">
+                    <span className="block text-meta text-text-light mt-1">
                       PDF 第 {child.pageRange[0]}–{child.pageRange[1]} 頁
                     </span>
                   </Link>
@@ -966,7 +969,7 @@ export default function GuidePage() {
             </ReadingSurface>
           ) : (
             <ReadingSurface>
-              <ReadingContent className="text-[0.9rem] leading-8 sm:text-[0.95rem]">
+              <ReadingContent className="text-reading leading-8">
                 {hasBlocks ? (
                   <GuideBlocksRenderer
                     blocks={contentBlocks}
@@ -974,7 +977,7 @@ export default function GuidePage() {
                     examAnnotations={examAnnotationsByBlock}
                   />
                 ) : isMarkdown ? (
-                  <div className="guide-content prose prose-sm max-w-none text-app-text content-justify">
+                  <div className="guide-content prose max-w-none text-reading text-app-text content-justify">
                     <ReactMarkdown
                       remarkPlugins={[remarkGfm, remarkMath]}
                       rehypePlugins={[rehypeRaw, rehypeKatex]}
@@ -986,13 +989,13 @@ export default function GuidePage() {
                           <h3 id={headingAnchor(plainText(children))} className="scroll-mt-4 text-base font-semibold text-accent mt-4 mb-1">{children}</h3>
                         ),
                         h4: ({ children }) => (
-                          <h4 id={headingAnchor(plainText(children))} className="scroll-mt-4 text-[0.96rem] font-semibold text-primary mt-4 mb-1">{children}</h4>
+                          <h4 id={headingAnchor(plainText(children))} className="scroll-mt-4 text-reading font-semibold text-primary mt-4 mb-1">{children}</h4>
                         ),
                         h5: ({ children }) => (
-                          <h5 id={headingAnchor(plainText(children))} className="scroll-mt-4 text-[0.9rem] font-semibold text-app-text mt-3 mb-1">{children}</h5>
+                          <h5 id={headingAnchor(plainText(children))} className="scroll-mt-4 text-reading font-semibold text-app-text mt-3 mb-1">{children}</h5>
                         ),
                         h6: ({ children }) => (
-                          <h6 id={headingAnchor(plainText(children))} className="scroll-mt-4 text-[0.86rem] font-semibold text-text-light mt-3 mb-1">{children}</h6>
+                          <h6 id={headingAnchor(plainText(children))} className="scroll-mt-4 text-body font-semibold text-text-light mt-3 mb-1">{children}</h6>
                         ),
                         p: ({ children }) => (
                           <p className="mb-3 leading-8 content-justify">{children}</p>
@@ -1026,7 +1029,7 @@ export default function GuidePage() {
                     </ReactMarkdown>
                   </div>
                 ) : (
-                  <div className="guide-content prose prose-sm max-w-none text-app-text space-y-4 content-justify">
+                  <div className="guide-content prose max-w-none text-reading text-app-text space-y-4 content-justify">
                     {paragraphs.map((para, i) => (
                       <p key={i}>{para}</p>
                     ))}
@@ -1059,7 +1062,7 @@ export default function GuidePage() {
               <span className="text-2xl leading-none">‹</span>
             </Link>
           ) : (
-            <span className="flex items-center justify-center w-12 shrink-0 text-gray-300 border-r border-border">
+            <span className="flex items-center justify-center w-12 shrink-0 text-text-light/40 border-r border-border" aria-hidden="true">
               <span className="text-2xl leading-none">‹</span>
             </span>
           )}
@@ -1075,14 +1078,14 @@ export default function GuidePage() {
             aria-controls="guide-mobile-chapter-drawer"
           >
             <div className="flex flex-col items-start min-w-0">
-              <span className="text-[0.64rem] text-text-light leading-none truncate max-w-full">{outlineGuide.subject}</span>
-              <span className="text-[0.82rem] font-semibold text-primary truncate max-w-full leading-snug mt-0.5">{chapter.title}</span>
+              <span className="text-caption text-text-light leading-tight truncate max-w-full">{outlineGuide.subject}</span>
+              <span className="text-ui font-semibold text-primary truncate max-w-full leading-snug">{chapter.title}</span>
             </div>
             <div className="flex items-center gap-1.5 shrink-0">
-              <span className="text-[0.68rem] text-text-light bg-gray-100 px-1.5 py-0.5 rounded-full whitespace-nowrap">
+              <span className="text-caption tabular-nums text-text-light bg-unanswered-soft border border-border px-1.5 py-0.5 rounded-full whitespace-nowrap">
                 {currentFlatIndex + 1}/{flatIds.length}
               </span>
-              <span className="text-text-light/60 text-base leading-none">☰</span>
+              <span className="text-text-light text-base leading-none" aria-hidden="true">☰</span>
             </div>
           </button>
 
@@ -1097,7 +1100,7 @@ export default function GuidePage() {
               <span className="text-2xl leading-none">›</span>
             </Link>
           ) : (
-            <span className="flex items-center justify-center w-12 shrink-0 text-gray-300 border-l border-border">
+            <span className="flex items-center justify-center w-12 shrink-0 text-text-light/40 border-l border-border" aria-hidden="true">
               <span className="text-2xl leading-none">›</span>
             </span>
           )}
@@ -1122,7 +1125,7 @@ export default function GuidePage() {
         {contentHeadings.length > 0 && (
           <div className="mt-5 border-t border-border pt-4">
             <div className="section-title mb-3">本節階層</div>
-            <div className="space-y-0.5">
+            <div className="space-y-1">
               {contentHeadings.map((heading, index) => (
                 <GuideHeadingNavItem
                   key={`${heading.id || heading.anchor || index}-${heading.title}`}
