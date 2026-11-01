@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useExamStore } from '../../store/examStore'
 import type { ExamReferenceAnswer, QuestionImage } from '../../types'
 import { loadReferenceAnswers, referenceForQuestion } from '../../data/referenceAnswerLoaders'
@@ -6,6 +6,7 @@ import ProgressBar from '../shared/ProgressBar'
 import StatBox from '../shared/StatBox'
 import { publicAsset } from '../../utils/assets'
 import { preferredScrollBehavior } from '../../utils/motion'
+import { scrollMainToTop } from '../../utils/scrollMain'
 import CodeSnippet from './CodeSnippet'
 
 interface ExamResultsProps {
@@ -112,6 +113,13 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
   const examKey = useExamStore((s) => s.examKey)
   const userAnswers = useExamStore((s) => s.userAnswers)
   const [referencesByQuestion, setReferencesByQuestion] = useState<Record<string, ExamReferenceAnswer>>({})
+  const scoreHeadingRef = useRef<HTMLHeadingElement>(null)
+
+  // 交卷後從頁首開始看成績；焦點移到成績標題，讓螢幕報讀器直接念出分數。
+  useEffect(() => {
+    scrollMainToTop()
+    scoreHeadingRef.current?.focus({ preventScroll: true })
+  }, [])
 
   useEffect(() => {
     let active = true
@@ -184,6 +192,15 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
     <div className="page-shell">
       <div className="page-header text-center mb-6">
         <div className="eyebrow mb-2">{examData.exam}</div>
+        <h1
+          ref={scoreHeadingRef}
+          tabIndex={-1}
+          id="exam-score-heading"
+          className="mb-3 text-xl font-bold text-primary focus:outline-none"
+        >
+          測驗成績
+          <span className="sr-only">：{score} 分，{pass ? '已達及格標準' : '尚未達及格標準'}</span>
+        </h1>
         <ScoreRing score={score} pass={pass} />
         <div
           className={`mt-3 inline-block rounded-full px-4 py-1 text-[0.85rem] font-semibold ${

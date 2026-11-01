@@ -184,7 +184,7 @@ export default function OutlinePage() {
         }
       >
         <div className="md:col-span-2 xl:col-span-4 text-[0.86rem] leading-7 text-text-light">
-          選擇科目後會保留章節樹狀結構；標題連結仍使用原學習指引 route 與 hash anchor。
+          選擇科目後會保留章節樹狀結構。
         </div>
       </FilterBar>
 

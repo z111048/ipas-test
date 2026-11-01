@@ -128,13 +128,15 @@ export default function ExamQuestion({ question, index, isActive, registerRef }:
                 ? 'bg-[#eff6ff] border-accent text-primary'
                 : 'bg-white border-border hover:bg-[#f8fbff] hover:border-accent/60'
             }`}
-            onClick={() => selectAnswer(question.id, key)}
           >
             <input
               type="radio"
               name={`q${index}`}
               value={key}
               checked={selected === key}
+              // 只在 onChange 作答：點 <label> 會由瀏覽器轉成對 radio 的 click，
+              // 若 label 也掛 onClick，一次點擊會呼叫兩次 selectAnswer。
+              // 鍵盤（Space、上下方向鍵）同樣走 onChange。
               onChange={() => selectAnswer(question.id, key)}
               className="mt-0.5 accent-accent"
             />

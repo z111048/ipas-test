@@ -10,6 +10,14 @@
    程式觸發平滑捲動時，IntersectionObserver 會在動畫途中改掉 activeIndex。
    短距離與長距離都要測——理由見 tests/README.md 的坑 2，那裡記了一個
    「短距離全綠但其實是壞的」修法是怎麼被長距離抓出來的。
+
+3. **交卷後回到頁首**（第 6 節）。真正的捲動容器是 App.tsx 的 <main>，
+   window.scrollTo 沒有作用；成績頁要從頂端開始、焦點落在成績標題。
+
+4. **作答中的進度不會掉**（第 10 節）。重新整理、站內導覽離開再回來都能續答，
+   重新開始與交卷會清掉；作答中重新整理要跳 beforeunload 確認。
+
+5. **一次點擊只作答一次**（第 11 節）。label onClick 與 radio onChange 曾經各觸發一次。
 """
 import re
 import sys
@@ -102,6 +110,8 @@ with dev_server() as BASE, sync_playwright() as pw:
     print(f'\n=== 6. 交卷與計分（Q1=A 正解{CORRECT_Q1}、Q2=D 正解{CORRECT_Q2} → 2 對 = 4 分）===')
     page.click('button:has-text("繳卷交答案")')
     page.wait_for_timeout(500)
+    MAIN_SCROLL_TOP = "() => document.getElementById('main-content').scrollTop"
+    before_submit_top = page.evaluate(MAIN_SCROLL_TOP)
     page.click('button:has-text("確認繳卷")')
     # 等成績頁真的出現再取樣，不要用固定 sleep（見 tests/README.md 的坑 1）。
     # 判準用「重新考試」這個成績頁專屬按鈕，不要用 /\d+\s*分/——
@@ -113,6 +123,14 @@ with dev_server() as BASE, sync_playwright() as pw:
     check('分數 = 4（id-keyed 計分正確）', bool(score) and int(score.group(1)) == 4,
           f'{score.group(1) if score else "?"} 分')
     check('沒有 NaN / undefined', 'NaN' not in result and 'undefined' not in result)
+    page.wait_for_timeout(300)
+    after_submit_top = page.evaluate(MAIN_SCROLL_TOP)
+    check('交卷前 main 確實已往下捲（這條測試有意義）', before_submit_top > 500, f'{before_submit_top}px')
+    check('成績頁 main 捲回頂端', after_submit_top <= 2, f'{after_submit_top}px')
+    focus_id = page.evaluate('() => document.activeElement && document.activeElement.id')
+    check('焦點移到成績標題', focus_id == 'exam-score-heading', str(focus_id))
+    heading_box = page.locator('#exam-score-heading').bounding_box()
+    check('成績標題在畫面內', bool(heading_box) and 0 <= heading_box['y'] < 900, str(heading_box))
 
     print('\n=== 7. Console 錯誤 ===')
     real = [e for e in console_errors if 'favicon' not in e.lower()]
@@ -222,6 +240,126 @@ with dev_server() as BASE, sync_playwright() as pw:
     timer_pg.wait_for_selector('button:has-text("重新考試")', timeout=5000)
     check('截止時間到達後自動交卷', '詳細解析' in timer_pg.inner_text('body'))
     timer_pg.close()
+
+    print('\n=== 10. 作答進度：重新整理、站內導覽後可續答 ===')
+    dialogs = []
+    pg = fresh_exam()
+    pg.on('dialog', lambda d: (dialogs.append(d.type), d.accept()))
+    pg.locator('input[name="q0"][value="B"]').first.click()
+    pg.locator('input[name="q2"][value="C"]').first.click()
+    for _ in range(3):
+        pg.keyboard.press('ArrowRight')
+        pg.wait_for_timeout(150)
+    pg.wait_for_timeout(300)
+    stored = pg.evaluate(f"() => JSON.parse(localStorage.getItem('ipas:exam:{EXAM}:attempt'))")
+    check('作答寫入 localStorage（含版本號）',
+          bool(stored) and stored.get('v') == 1
+          and stored.get('answers') == {f'{EXAM}_q1': 'B', f'{EXAM}_q3': 'C'},
+          str(stored and stored.get('answers')))
+    # 點第 3 題時 scroll-spy 會把當前題移到第 3 題附近，再按三次 → ；確切題號以存檔為準，
+    # 只要求它確實離開了已作答的第 1、3 題，後面「按 1 落在哪題」才驗得出還原。
+    saved_idx = stored.get('currentIndex') if stored else None
+    check('目前題號寫入 localStorage（已往後移）', isinstance(saved_idx, int) and saved_idx >= 3,
+          str(saved_idx))
+    saved_idx = saved_idx if isinstance(saved_idx, int) else 3
+
+    pg.reload(wait_until='networkidle')
+    check('作答中重新整理會跳 beforeunload 確認', 'beforeunload' in dialogs, str(dialogs))
+    resume_btn = pg.locator('button:has-text("繼續上次作答")')
+    resume_btn.wait_for(timeout=20000)
+    check('重新整理後 intro 顯示續答選項（已答 2 題）', '已答 2 題' in resume_btn.inner_text(),
+          resume_btn.inner_text())
+    check('同時提供「重新開始」', pg.locator('button:has-text("重新開始")').count() == 1)
+    resume_btn.click()
+    pg.wait_for_selector('input[type=radio]', timeout=20000)
+    pg.wait_for_timeout(600)
+    st = checked_state(pg)
+    check('重新整理後作答還原', st == {'q0': 'B', 'q2': 'C'}, str(st))
+    pg.keyboard.press('1')
+    pg.wait_for_timeout(400)
+    st = checked_state(pg)
+    check(f'續答回到上次的第 {saved_idx + 1} 題（按 1 → 該題 = A）',
+          st == {'q0': 'B', 'q2': 'C', f'q{saved_idx}': 'A'}, str(st))
+
+    pg.evaluate("() => { location.hash = '#/' }")
+    pg.wait_for_function("() => !document.querySelector('input[type=radio]')", timeout=10000)
+    pg.wait_for_timeout(300)
+    pg.evaluate(f"() => {{ location.hash = '#/exam/{EXAM}' }}")
+    resume_btn = pg.locator('button:has-text("繼續上次作答")')
+    resume_btn.wait_for(timeout=20000)
+    check('站內導覽回來後顯示續答（已答 3 題）', '已答 3 題' in resume_btn.inner_text(),
+          resume_btn.inner_text())
+    resume_btn.click()
+    pg.wait_for_selector('input[type=radio]', timeout=20000)
+    pg.wait_for_timeout(400)
+    st = checked_state(pg)
+    check('站內導覽回來後作答還原', st == {'q0': 'B', 'q2': 'C', f'q{saved_idx}': 'A'}, str(st))
+
+    pg.evaluate("() => { location.hash = '#/' }")
+    pg.wait_for_function("() => !document.querySelector('input[type=radio]')", timeout=10000)
+    pg.evaluate(f"() => {{ location.hash = '#/exam/{EXAM}' }}")
+    pg.locator('button:has-text("重新開始")').wait_for(timeout=20000)
+    pg.click('button:has-text("重新開始")')
+    pg.wait_for_selector('input[type=radio]', timeout=20000)
+    pg.wait_for_timeout(300)
+    check('重新開始會清掉上次作答', checked_state(pg) == {}, str(checked_state(pg)))
+    pg.locator('input[name="q1"][value="A"]').first.click()
+    pg.click('button:has-text("繳卷交答案")')
+    pg.click('button:has-text("確認繳卷")')
+    pg.wait_for_selector('button:has-text("重新考試")', timeout=20000)
+    left = pg.evaluate(f"() => localStorage.getItem('ipas:exam:{EXAM}:attempt')")
+    check('交卷後清掉 localStorage 的作答', left is None, str(left)[:80])
+    pg.click('button:has-text("重新考試")')
+    pg.wait_for_selector('text=開始考試', timeout=20000)
+    check('交卷後回 intro 不再提供續答', pg.locator('button:has-text("繼續上次作答")').count() == 0)
+
+    pg.evaluate(f"""() => localStorage.setItem('ipas:exam:{EXAM}:attempt',
+        JSON.stringify({{ v: 0, examKey: '{EXAM}', phase: 'active', answers: {{}},
+                          currentIndex: 0, secondsRemaining: 100 }}))""")
+    pg.reload(wait_until='networkidle')
+    pg.wait_for_selector('text=開始考試', timeout=20000)
+    check('版本不符的舊資料被忽略', pg.locator('button:has-text("繼續上次作答")').count() == 0)
+    pg.close()
+
+    print('\n=== 11. 一次點擊只觸發一次作答 ===')
+    # 凍結時鐘，讓倒數不會產生寫入；作答紀錄每變一次就寫一次 localStorage，
+    # 所以 setItem 次數 = selectAnswer 次數（每次都產生新的 userAnswers 物件）。
+    pg = browser.new_page(viewport={'width': 1280, 'height': 900})
+    pg.add_init_script('''(() => {
+        const now = Date.now()
+        Date.now = () => now
+        window.__ipasAttemptWrites = 0
+        const orig = Storage.prototype.setItem
+        Storage.prototype.setItem = function (key, value) {
+            if (String(key).startsWith('ipas:exam:')) window.__ipasAttemptWrites++
+            return orig.call(this, key, value)
+        }
+    })()''')
+    pg.goto(f'{BASE}/#/exam/{EXAM}', wait_until='networkidle')
+    pg.wait_for_selector('text=開始考試', timeout=20000)
+    pg.click('text=開始考試')
+    pg.wait_for_selector('input[type=radio]', timeout=20000)
+    pg.wait_for_timeout(500)
+    for label, locator in (
+        ('點 radio', pg.locator('input[name="q0"][value="B"]').first),
+        ('點選項文字（label）', pg.locator('label:has(input[name="q0"][value="C"])').first),
+    ):
+        before = pg.evaluate('() => window.__ipasAttemptWrites')
+        locator.click()
+        pg.wait_for_timeout(300)
+        after = pg.evaluate('() => window.__ipasAttemptWrites')
+        check(f'{label}：恰好一次作答', after - before == 1, f'{after - before} 次')
+    st = checked_state(pg)
+    check('label 點擊後第 1 題 = C', st == {'q0': 'C'}, str(st))
+    pg.locator('input[name="q0"][value="C"]').first.focus()
+    before = pg.evaluate('() => window.__ipasAttemptWrites')
+    pg.keyboard.press('ArrowDown')
+    pg.wait_for_timeout(300)
+    after = pg.evaluate('() => window.__ipasAttemptWrites')
+    st = checked_state(pg)
+    check('方向鍵 ↓ 在選項間移動並作答一次', st == {'q0': 'D'} and after - before == 1,
+          f'{st}，{after - before} 次')
+    pg.close()
 
     browser.close()
 

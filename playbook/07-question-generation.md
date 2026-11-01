@@ -342,7 +342,7 @@ python3 scripts/export_generated_questions.py --run-dir data/中級/pipeline/reg
    快取齊全的題不會再花 API）→ `--backfill-ids` → `export_topic_heat.py` → `export_concept_graph.py`。
    新題只能標到 `topics.json` 現有 181 個概念；模型自創的名稱會進 `rejectedTopics`，不得為此擴詞彙表
    （詞彙表 signed-off，改動走 `08-topic-labeling.md` §5 的流程）。
-4. 驗收：`cd frontend && npm run build`、`verify_data_alignment.py --level 中級`、`uv run python tests/run_all.py` 20 項；
+4. 驗收：`cd frontend && npm run build`、`verify_data_alignment.py --level 中級`、`uv run python tests/run_all.py` 21 項；
    `audit_resources.py` 的 `referenceAnswers` 項會核對題號對得上。
 5. 一個 commit：`exam: add Codex reference answers for 中級 115年第一次三科`，說明題數與 topic 覆蓋數。
 

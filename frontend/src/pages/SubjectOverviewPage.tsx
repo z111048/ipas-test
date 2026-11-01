@@ -85,18 +85,18 @@ export default function SubjectOverviewPage() {
       <section className="mb-6">
         <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <div className="eyebrow mb-1">Chapters</div>
+            <div className="eyebrow mb-1">章節</div>
             <h2 className="section-title">章節路徑</h2>
           </div>
           <p className="text-[0.82rem] leading-6 text-text-light">
-            每章依「先讀 → 練習」排序；題數與 PDF 頁碼整合在卡片中。
+            每章建議先讀，再練習。
           </p>
         </div>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           {subjectData.chapters.map((ch, index) => {
             const pageRange = ch.page_range
               ? `PDF 第 ${ch.page_range[0] + 1}–${ch.page_range[1] + 1} 頁`
-              : 'PDF 頁碼待補'
+              : null
             const article = articleMeta(ch.id)
             const practiceCount = questionSummary?.chapterCounts[ch.id] ?? 0
             const guideExerciseCount = guideExerciseSummary?.chapterCounts[ch.id] ?? 0
@@ -115,9 +115,9 @@ export default function SubjectOverviewPage() {
                   <div className="min-w-0">
                     <h3 className="text-[1rem] font-semibold leading-snug text-primary">{ch.title}</h3>
                     <div className="mt-2 flex flex-wrap gap-1.5">
-                      <ChapterMetric label="頁碼" value={pageRange} />
+                      {pageRange && <ChapterMetric label="頁碼" value={pageRange} />}
                       <ChapterMetric label="章節練習" value={hasChapterPractice ? `${practiceCount} 題` : '待建立'} />
-                      <ChapterMetric label="指引練習" value={hasGuideExercise ? `${guideExerciseCount} 題` : '無內嵌題'} />
+                      <ChapterMetric label="指引練習" value={hasGuideExercise ? `${guideExerciseCount} 題` : '本章無'} />
                     </div>
                   </div>
                 </div>

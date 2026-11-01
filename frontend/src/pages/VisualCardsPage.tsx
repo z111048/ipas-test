@@ -368,7 +368,7 @@ export default function VisualCardsPage() {
     <div className="page-shell">
       <PageHeader
         className="mb-5"
-        eyebrow="Concept cards"
+        eyebrow="概念圖卡"
         title="概念圖卡"
         description="把學習指引的重點整理成圖卡並依章節編排；點開任一張可放大細看並回到完整章節。"
         meta={

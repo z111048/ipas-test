@@ -1,3 +1,4 @@
+<!-- 2026-11-01: 新增第 21 項 test_layout_audit（跨頁版面／文案稽核，UX 改版 Phase 0C）。 -->
 <!-- 2026-10-31: 同步考題 16 卷／815 題（新增初級 115 第三次）。 -->
 <!-- 2026-08-30: 同步考題 14 卷／715 題、初級樣題 70／中級樣題 45，並記錄逐頁 direct-view gate。 -->
 # 自動化測試
@@ -8,14 +9,14 @@
 促成原因：把考試作答紀錄從「陣列索引」改成「question id」時，那兩條都驗不到
 「勾選狀態有沒有對到正確的題」——build 會過、資料對齊也會過，但使用者可能答 A 卻記到別題。
 
-## 20 項驗收，一個入口
+## 21 項驗收，一個入口
 
 ```bash
 uv run python tests/run_all.py                 # 全部；2026-09-07 實測 679 秒、2026-09-14 實測 797 秒（勿與其他重負載併行）
-uv run python tests/run_all.py --skip-browser  # 僅 15/20 靜態診斷；不得當成 release pass
+uv run python tests/run_all.py --skip-browser  # 僅 15/21 靜態診斷；不得當成 release pass
 ```
 
-跑的是這 20 項——**15 項是靜態／資料防線，5 項是端對端**。原有 13 項的命令與語義不變：
+跑的是這 21 項——**15 項是靜態／資料防線，6 項是端對端**。原有 13 項的命令與語義不變：
 
 | # | 項目 | 驗什麼 |
 |---|---|---|
@@ -39,6 +40,7 @@ uv run python tests/run_all.py --skip-browser  # 僅 15/20 靜態診斷；不得
 | 18 | `tests/test_routes.py` | 30 條正常路由 + 2 條 `/concepts?c=` 連結相容（舊中文名改寫成 id、id 直達）+ 4 條預期錯誤路由 |
 | 19 | `tests/test_learning_state.py` | IndexedDB hash/tamper、匯入衝突、idempotency、quota、storage failure 與跨分頁唯讀 |
 | 20 | `tests/test_learning_frontend.py` | 真 preview 的單元、10 題續答／逾時／回補、Lab 五檔下載、分析與 375px keyboard flow |
+| 21 | `tests/test_layout_audit.py` | 全部頁面（test_routes 的路由＋`/learn`、`/projects`、`/analysis/exams`、第一篇文章、404）× 1440 桌機／390 手機：無水平溢出、無 console error、無內部用語；Phase 1 檢查（h1、字級、觸控尺寸）先只回報 |
 
 Fresh checkout 不含 gitignored 的 `pages_cache`、`exam_pages_cache`、`page_clean`、`page_extract`、
 `guide_tree` 與 Track A reading snapshot。Release gate 因此以 committed canonical／signature
@@ -62,7 +64,7 @@ uv run --group learning-lab python tests/test_learning_lab.py
 
 前置：`uv sync && uv run playwright install chromium`
 
-舊三支端對端會**自己啟停 dev server**（port 5199）；learning flow/state 分別使用 5207/5208。⚠️ 已經有 server 佔著對應 port 就直接用它、
+舊三支端對端會**自己啟停 dev server**（port 5199）；learning flow/state 分別使用 5207/5208，test_layout_audit 用 5209。⚠️ 已經有 server 佔著對應 port 就直接用它、
 且結束時不會關它（`devserver.py:63-66`）——所以本機另外開著 dev server 時，測的是那一支。
 要指定外部 server 用 `IPAS_TEST_BASE=http://127.0.0.1:5173`。
 
@@ -81,6 +83,34 @@ catalog 展開的 16 份考卷與其餘正常路由逐一開啟，檢查無 cons
 `/concepts?c=` 的相容層（LP-210C）另有兩條：拿 `conceptGraph.json` 的第一個概念（不寫死名稱），
 以舊的 `?c=<中文名>` 進來要看到該概念、且網址被改寫成 `?c=<id>`；以 `?c=<id>` 進來要直接命中。
 概念改名時這兩條會跟著資料走，不需要改測試。
+
+## test_layout_audit.py 驗什麼
+
+UX 改版 Phase 0C 加入，讓每一個 UI 改動都在所有頁面、兩種寬度上一次驗完（約 2 分鐘）。
+
+```bash
+uv run python tests/test_layout_audit.py              # 全部
+uv run python tests/test_layout_audit.py --only exam  # 只跑 label／route 含 exam 的
+uv run python tests/test_layout_audit.py --phase1     # PENDING 也算失敗（預覽 Phase 1 完成度）
+```
+
+**ENFORCED**（失敗即 exit 1）：
+- 水平溢出：`documentElement` 與 `<main>` 的 `scrollWidth <= clientWidth`。本站內容在 `<main>`
+  裡捲動、不是 document，只量 document 會漏掉；失敗時列出最外層的溢出元素。
+- console error／pageerror。
+- `document.body.innerText` 不得含內部用語（章節／考卷內部 id、route、pipeline、已入庫、
+  MOCK EXAM 等英文 eyebrow……完整清單見檔內 `BANNED_COPY`）。講義正文本來就會談 Data Pipeline、
+  母體、分母，所以命中正文時**收窄 pattern、不做整頁白名單**，每個收窄決策都寫在 `BANNED_COPY` 上方的註解。
+
+**PENDING**（`ENFORCE_PHASE1 = False`，只印 ⚠ 與每條路由的計數表）：每頁恰好一個 `<h1>`；
+沒有 computed font-size < 12px 的可見文字；手機上 a／button／input／select／`[role=button]`／`[role=tab]`
+至少 44×44——嵌在句子裡的 inline `<a>`（最近的 p／li／td／th／dd／dt／blockquote／figcaption
+文字比連結長）豁免，checkbox／radio 量包住它的 `<label>`，收起的側欄、跳到主要內容等不在版面內的元素不計。
+Phase 1 完成後把常數改成 `True`。
+
+路由清單鏡像 `test_routes.py` 的 `ROUTES`（那支 import 時就會開跑，不能直接 import），並用 `ast`
+讀 `test_routes.py` 做漂移檢查：那邊新增路由而這裡沒跟上，本測試直接失敗。文章頁取
+`learningArticles/index.json` 的第一個 id，不寫死。
 
 ## 寫這類測試的兩個坑（都踩過）
 

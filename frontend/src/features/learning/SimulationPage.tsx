@@ -38,9 +38,9 @@ export default function SimulationPage() {
     if (!assembly || !questionPaths) return
     Promise.all(assembly.selectedQuestionRevisions.map(async (ref) => {
       const path = questionPaths[ref.questionKey]
-      if (!path) throw new Error(`題目路徑遺失：${ref.questionKey}`)
+      if (!path) throw new Error('題目資料缺漏，請重新整理頁面')
       const question = await loadQuestion(path)
-      if (question.questionKey !== ref.questionKey || question.revision !== ref.revision || question.contentHash !== ref.hash) throw new Error(`題目版本不一致：${ref.questionKey}`)
+      if (question.questionKey !== ref.questionKey || question.revision !== ref.revision || question.contentHash !== ref.hash) throw new Error('題目已更新，請重新整理頁面')
       return [ref.questionKey, question] as const
     })).then((rows) => active && setQuestions(new Map(rows))).catch((reason) => active && setQuestionError(reason instanceof Error ? reason.message : String(reason)))
     return () => { active = false }
@@ -49,7 +49,7 @@ export default function SimulationPage() {
   useEffect(() => {
     if (!blueprint || !assembly || !questions || !index) return
     if (assembly.blueprintHash !== blueprint.contentHash || assembly.poolRef.releaseId !== index.releaseId) {
-      setQuestionError('診斷表單與目前發布版本不一致')
+      setQuestionError('這份診斷已更新，請重新整理頁面')
       return
     }
     const attemptId = `attempt-${assembly.formId.slice(5, 29)}`
@@ -69,7 +69,7 @@ export default function SimulationPage() {
         items: assembly.selectedQuestionRevisions.map((ref, position) => {
           const question = questions.get(ref.questionKey)!
           const optionIds = displayByQuestion.get(ref.questionKey)
-          if (!optionIds || optionIds.some((id) => !question.options.some((option) => option.optionId === id))) throw new Error(`選項快照不一致：${ref.questionKey}`)
+          if (!optionIds || optionIds.some((id) => !question.options.some((option) => option.optionId === id))) throw new Error('題目選項已更新，請重新整理頁面')
           return { questionKey: ref.questionKey, revision: ref.revision, contentHash: ref.hash, position,
             promptSnapshot: { stem: question.stem, options: optionIds.map((id) => question.options.find((option) => option.optionId === id)!) },
             assets: [], displayedOptionIds: optionIds, selectedOptionId: null, answeredAt: null }
@@ -97,7 +97,7 @@ export default function SimulationPage() {
     const unitIds = [...new Set(assembly.slotAssignments.map((slot) => slot.quotaId))]
     Promise.all(unitIds.map(async (unitId) => {
       const meta = findMeta(index, 'units', unitId)
-      if (!meta) throw new Error(`找不到錯題對應單元：${unitId}`)
+      if (!meta) throw new Error('找不到錯題對應的單元')
       return [unitId, (await loadLearningItem<LearningUnit>(meta.path)).document] as const
     })).then((rows) => { if (active) setRemediation(new Map(rows)) })
       .catch((reason) => { if (active) setQuestionError(reason instanceof Error ? reason.message : String(reason)) })
@@ -173,11 +173,11 @@ export default function SimulationPage() {
   if (loadError) return <StatePanel tone="error" title="診斷內容不可用" action={<button className="btn-secondary" onClick={() => { blueprintState.retry(); assemblyState.retry() }}>重試</button>}>{loadError}</StatePanel>
   if (!blueprint || !assembly || !questions) return <StatePanel tone="loading" title="載入主題診斷">正在核對題目版本與固定組卷結果…</StatePanel>
   if (!record && storageError) return <StatePanel tone="error" title="作答未保存">{storageError}。你仍可閱讀其他內容，請先匯出或清理瀏覽器空間再重試。</StatePanel>
-  if (!record) return <StatePanel tone="loading" title="建立作答紀錄">正在建立版本化快照…</StatePanel>
+  if (!record) return <StatePanel tone="loading" title="建立作答紀錄">正在準備題目…</StatePanel>
   const submitted = record.snapshot.status === 'submitted'
   return <div className="page-shell w-full">
     {import.meta.env.DEV && assemblyState.item?.availability === 'preview' && <div className="alert-warning mb-4" data-learning-preview>開發預覽：這份診斷仍在審核中。</div>}
-    <PageHeader eyebrow="10 題主題診斷" title={blueprint.title} description="作答會依題目穩定 ID 保存；重新整理後可續答。" meta={<><span className="pill">{answered} / {record.snapshot.items.length} 已答</span>{!submitted && <span className="pill">剩餘 {Math.floor(secondsLeft / 60)}:{String(secondsLeft % 60).padStart(2, '0')}</span>}</>} />
+    <PageHeader eyebrow="10 題主題診斷" title={blueprint.title} description="作答會自動保存在這個瀏覽器，重新整理後可接著作答。" meta={<><span className="pill">{answered} / {record.snapshot.items.length} 已答</span>{!submitted && <span className="pill">剩餘 {Math.floor(secondsLeft / 60)}:{String(secondsLeft % 60).padStart(2, '0')}</span>}</>} />
     {storageError && <StatePanel tone="error" title="作答未保存" className="mb-4">{storageError}。請重新載入後再繼續，避免覆蓋其他分頁的作答。</StatePanel>}
     <div className="space-y-4">{record.snapshot.items.map((item, indexNumber) => {
       const question = questions.get(item.questionKey)!

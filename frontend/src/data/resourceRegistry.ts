@@ -85,7 +85,7 @@ function subjectResources(toc: TocManifest, level: ResourceLevelId): SubjectReso
       practiceStatus: hasPracticeQuestions ? 'available' : 'pending',
       practiceLabel: hasPracticeQuestions ? '章節練習' : '章節練習待建立',
       practiceDetail: '章節模擬練習題',
-      guideExercisePracticeDetail: hasGuideExerciseQuestions ? `${guideSummary?.total ?? 0} 題，從學習指引 PDF 內嵌練習抽取` : undefined,
+      guideExercisePracticeDetail: hasGuideExerciseQuestions ? `${guideSummary?.total ?? 0} 題，收錄自學習指引內的練習題` : undefined,
       examTo: latestExam ? `/exam/${latestExam.routeKey}` : undefined,
       chapters: subject.chapters.length,
     }

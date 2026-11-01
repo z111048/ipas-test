@@ -9,6 +9,7 @@ import ExamIntro from '../components/exam/ExamIntro'
 import ExamQuestion from '../components/exam/ExamQuestion'
 import ExamResults from '../components/exam/ExamResults'
 import ExamTimer from '../components/exam/ExamTimer'
+import { scrollMainToTop } from '../utils/scrollMain'
 
 function isTypingTarget(target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) return false
@@ -44,14 +45,38 @@ export default function ExamPage() {
   const storeExamKey = useExamStore((s) => s.examKey)
   const setExam = useExamStore((s) => s.setExam)
   const startExam = useExamStore((s) => s.startExam)
+  const resumeExam = useExamStore((s) => s.resumeExam)
+  const savedAttempt = useExamStore((s) => s.savedAttempt)
+  const setCurrentIndex = useExamStore((s) => s.setCurrentIndex)
   const submitExam = useExamStore((s) => s.submitExam)
   const resetExam = useExamStore((s) => s.resetExam)
   const selectAnswer = useExamStore((s) => s.selectAnswer)
   const userAnswers = useExamStore((s) => s.userAnswers)
   const currentExamData = useExamStore((s) => s.examData)
   const secondsRemaining = useExamStore((s) => s.secondsRemaining)
+  /** 續答時要回到的題號；等作答頁渲染、scroll-spy 歸零之後才捲過去。 */
+  const pendingResumeIndexRef = useRef<number | null>(null)
 
   useExamTimer(phase === 'active')
+
+  // 離開考試頁（站內導覽、換路由）時把作答存檔並退回 intro，回來可選擇續答。
+  useEffect(() => () => useExamStore.getState().suspendExam(), [])
+
+  useEffect(() => {
+    if (phase === 'active') setCurrentIndex(activeIndex)
+  }, [phase, activeIndex, setCurrentIndex])
+
+  const hasAnswers = Object.keys(userAnswers).length > 0
+  useEffect(() => {
+    if (phase !== 'active' || !hasAnswers) return
+    const handler = (event: BeforeUnloadEvent) => {
+      event.preventDefault()
+      // 舊版瀏覽器要設 returnValue 才會跳出確認
+      event.returnValue = ''
+    }
+    window.addEventListener('beforeunload', handler)
+    return () => window.removeEventListener('beforeunload', handler)
+  }, [phase, hasAnswers])
 
   /**
    * 移動到指定題目。**程式觸發的捲動一律用 instant，這是正確性需求不是偏好。**
@@ -159,9 +184,19 @@ export default function ExamPage() {
   }, [examKey, examData, storeExamKey, currentExamData, setExam])
 
   useEffect(() => {
-    if (targetQuestionId && phase === 'active') return
-    window.scrollTo(0, 0)
+    if (phase === 'active' && (targetQuestionId || pendingResumeIndexRef.current !== null)) return
+    scrollMainToTop()
   }, [examKey, phase, targetQuestionId])
+
+  useEffect(() => {
+    if (phase !== 'active' || !currentExamData) return
+    const index = pendingResumeIndexRef.current
+    if (index === null) return
+    pendingResumeIndexRef.current = null
+    // 與深連結相同：等 scroll-spy 的 observer 掛好、把 activeIndex 歸零之後再定位
+    const timer = window.setTimeout(() => focusQuestion(index), 120)
+    return () => window.clearTimeout(timer)
+  }, [phase, currentExamData, focusQuestion])
 
   useEffect(() => {
     if (!targetQuestionId || phase !== 'active' || !currentExamData) return
@@ -225,7 +260,19 @@ export default function ExamPage() {
             </StatePanel>
           </div>
         )}
-        <ExamIntro examData={examData} onStart={startExam} />
+        <ExamIntro
+          examData={examData}
+          onStart={() => {
+            pendingResumeIndexRef.current = null
+            startExam()
+          }}
+          savedAttempt={savedAttempt}
+          onResume={() => {
+            if (!savedAttempt) return
+            pendingResumeIndexRef.current = targetIndex >= 0 ? null : savedAttempt.currentIndex
+            resumeExam()
+          }}
+        />
       </>
     )
   }
@@ -294,7 +341,7 @@ export default function ExamPage() {
             </div>
           </div>
           <div className="mt-1 flex min-w-0 items-center gap-2 text-[0.72rem] text-white/70">
-            <span className="shrink-0 font-semibold uppercase tracking-[0.12em]">模擬考試</span>
+            <span className="shrink-0 font-semibold uppercase tracking-[0.12em]">公告試題</span>
             <span className="truncate text-white/85">{currentExamData.exam}</span>
           </div>
         </div>

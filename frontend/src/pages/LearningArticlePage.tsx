@@ -307,7 +307,7 @@ export default function LearningArticlePage() {
   const level = learningArticleIndex.levels[article.levelId]
   const sourceRange = article.source.sourcePageRange
     ? `PDF 第 ${article.source.sourcePageRange[0]}–${article.source.sourcePageRange[1]} 頁`
-    : '來源頁碼已對齊'
+    : null
 
   return (
     <div className="page-shell" ref={pageRef}>
@@ -317,7 +317,7 @@ export default function LearningArticlePage() {
       <BackToTopButton show={showBackToTop} onClick={scrollToTop} className="bottom-8 right-4 md:right-8" />
       <PageHeader
         className="mb-5"
-        eyebrow="Learning article"
+        eyebrow="主題文章"
         title={article.title}
         description={
           <>
@@ -351,7 +351,7 @@ export default function LearningArticlePage() {
           <>
             <span className="pill">{article.readingMinutes} 分鐘</span>
             <span className="pill pill-muted">{article.wordCount.toLocaleString()} 字</span>
-            <span className="pill pill-muted">{sourceRange}</span>
+            {sourceRange && <span className="pill pill-muted">{sourceRange}</span>}
             {selectedPath && (
               <span className="pill">路徑 {selectedPathPosition}/{selectedPath.articleCount}</span>
             )}

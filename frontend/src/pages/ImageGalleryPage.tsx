@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import pdfGallery from '../generated/pdfGallery.json'
 import type { PdfImageAsset, PdfImageGallery } from '../types'
 import { publicAsset } from '../utils/assets'
+import { catalogExams } from '../data/resourceCatalog'
 import { Dialog, FilterBar, PageHeader, StatePanel } from '../components/ui'
 
 const PAGE_SIZE = 24
@@ -17,6 +18,11 @@ const keyLabels: Record<string, string> = {
   exam2: '科目二公告試題',
   exam3: '科目三公告試題',
   sample: '考試樣題',
+}
+
+// 公告試題的圖片 key 就是卷別 key（如 mid_1141_s1），名稱從 resource catalog 取
+function keyLabel(key: string) {
+  return keyLabels[key] ?? catalogExams.find((exam) => exam.key === key)?.label ?? '教材'
 }
 
 const keyOrder = ['guide1', 'guide2', 'guide3', 'errata', 'briefing', 'sample', 'exam1', 'exam2', 'exam3']
@@ -37,13 +43,23 @@ function compareAssets(a: PdfImageAsset, b: PdfImageAsset) {
   return a.asset_id.localeCompare(b.asset_id)
 }
 
+const typeLabel = (type: PdfImageAsset['type']) => (type === 'page' ? '頁面' : type === 'table' ? '表格' : '圖片')
+
+function pageText(item: PdfImageAsset) {
+  return `第 ${item.page_number} 頁${item.page_label ? `（教材頁碼 ${item.page_label}）` : ''}`
+}
+
+function assetAlt(item: PdfImageAsset) {
+  return `${keyLabel(item.key)} ${pageText(item)} ${typeLabel(item.type)}`
+}
+
 function AssetPreview({ item }: { item: PdfImageAsset }) {
   const [failed, setFailed] = useState(false)
 
   if (failed) {
     return (
       <div className="h-full w-full flex items-center justify-center px-4 text-center text-sm text-red-700 bg-red-50">
-        圖片載入失敗：{item.path}
+        圖片載入失敗
       </div>
     )
   }
@@ -51,7 +67,7 @@ function AssetPreview({ item }: { item: PdfImageAsset }) {
   return (
     <img
       src={publicAsset(item.path)}
-      alt={`${item.key} ${item.type} ${item.page_number}`}
+      alt={assetAlt(item)}
       loading="lazy"
       onError={() => setFailed(true)}
       className="max-w-full max-h-full object-contain"
@@ -164,9 +180,9 @@ export default function ImageGalleryPage() {
     <div className="page-shell">
       <PageHeader
         className="mb-5"
-        eyebrow="PDF assets"
-        title="PDF 圖片與表格檢視"
-        description="檢視逐頁抽取時裁切出的圖片、表格與頁面截圖。"
+        eyebrow="圖表總覽"
+        title="教材圖片與表格"
+        description="依頁碼瀏覽教材中的圖片、表格與頁面。"
         meta={<span className="pill">{counts.total} 項</span>}
       />
 
@@ -206,15 +222,15 @@ export default function ImageGalleryPage() {
           </select>
         </label>
         <label className="text-[0.82rem] text-text-light">
-          PDF
+          教材
           <select
             value={selectedKey}
             onChange={(event) => setSelectedKey(event.target.value)}
             className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-app-text"
           >
-            <option value="all">全部 PDF</option>
+            <option value="all">全部教材</option>
             {keys.map((key) => (
-              <option key={key} value={key}>{keyLabels[key] ?? key}</option>
+              <option key={key} value={key}>{keyLabel(key)}</option>
             ))}
           </select>
         </label>
@@ -232,7 +248,7 @@ export default function ImageGalleryPage() {
           </select>
         </label>
         <label className="text-[0.82rem] text-text-light">
-          頁碼 / PDF 標籤
+          頁碼 / 教材頁碼
           <input
             value={pageQuery}
             onChange={(event) => setPageQuery(event.target.value)}
@@ -286,13 +302,13 @@ export default function ImageGalleryPage() {
             </div>
             <div className="p-3">
               <div className="flex items-center justify-between gap-2 mb-1">
-                <span className="font-semibold text-primary">{item.level ? `${item.level} ` : ''}{keyLabels[item.key] ?? item.key}</span>
+                <span className="font-semibold text-primary">{item.level ? `${item.level} ` : ''}{keyLabel(item.key)}</span>
                 <span className="text-[0.74rem] rounded-full bg-[#eef5ff] text-accent px-2 py-0.5">
-                  {item.type === 'page' ? '頁面' : item.type === 'table' ? '表格' : '圖片'}
+                  {typeLabel(item.type)}
                 </span>
               </div>
               <div className="text-[0.78rem] text-text-light">
-                Page {item.page_number}{item.page_label ? ` / ${item.page_label}` : ''} · {item.asset_id}
+                {pageText(item)}
               </div>
             </div>
           </button>
@@ -313,7 +329,7 @@ export default function ImageGalleryPage() {
 
       <Dialog
         open={Boolean(active)}
-        title="PDF 圖片與表格檢視"
+        title="教材圖片與表格"
         onClose={() => setActive(null)}
         initialFocusRef={lightboxCloseRef}
         restoreFocusRef={lightboxTriggerRef}
@@ -323,10 +339,9 @@ export default function ImageGalleryPage() {
           <>
             <div className="p-4 border-b border-border flex items-start justify-between gap-3">
               <div>
-                <div className="font-semibold text-primary">{active.level ? `${active.level} ` : ''}{keyLabels[active.key] ?? active.key}</div>
+                <div className="font-semibold text-primary">{active.level ? `${active.level} ` : ''}{keyLabel(active.key)}</div>
                 <div className="text-[0.82rem] text-text-light">
-                  {active.type === 'page' ? '頁面' : active.type === 'table' ? '表格' : '圖片'} · Page {active.page_number}
-                  {active.page_label ? ` / ${active.page_label}` : ''} · bbox [{active.bbox.join(', ')}]
+                  {typeLabel(active.type)} · {pageText(active)}
                 </div>
               </div>
               <div className="flex shrink-0 items-center gap-2">
@@ -346,7 +361,7 @@ export default function ImageGalleryPage() {
             <div className="min-h-0 flex-1 overflow-auto bg-[#f5f7fa] p-4">
               <img
                 src={publicAsset(active.path)}
-                alt={active.id}
+                alt={assetAlt(active)}
                 className="mx-auto max-w-full h-auto bg-white"
               />
             </div>

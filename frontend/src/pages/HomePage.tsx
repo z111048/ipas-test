@@ -12,7 +12,7 @@ import StatBox from '../components/shared/StatBox'
 function statusLabel(status?: ResourceNavItem['status']) {
   if (status === 'pending') return '待建立'
   if (status === 'external') return '官方連結'
-  return '已入庫'
+  return null
 }
 
 function ResourceLink({ item, compact = false }: { item: ResourceNavItem; compact?: boolean }) {
@@ -22,9 +22,11 @@ function ResourceLink({ item, compact = false }: { item: ResourceNavItem; compac
         <span className="min-w-0 font-semibold text-primary">
           {item.label}
         </span>
-        <span className={`shrink-0 ${item.status === 'pending' ? 'pill pill-muted' : 'pill'}`}>
-          {statusLabel(item.status)}
-        </span>
+        {statusLabel(item.status) && (
+          <span className={`shrink-0 ${item.status === 'pending' ? 'pill pill-muted' : 'pill'}`}>
+            {statusLabel(item.status)}
+          </span>
+        )}
       </span>
       {item.detail && <span className="mt-1 block text-[0.8rem] text-text-light">{item.detail}</span>}
     </>
@@ -159,7 +161,7 @@ export default function HomePage() {
       <section id="choose-subject" className="surface mb-6 p-4 sm:p-5 scroll-mt-4">
         <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <div className="eyebrow mb-1">Start here</div>
+            <div className="eyebrow mb-1">從這裡開始</div>
             <h2 className="section-title">選擇級別與科目</h2>
           </div>
           <div className="text-[0.82rem] leading-6 text-text-light">
@@ -255,7 +257,7 @@ export default function HomePage() {
       </div>
 
       <section className="surface mt-6 p-4 sm:p-5">
-        <div className="eyebrow mb-1">Study path</div>
+        <div className="eyebrow mb-1">學習路線</div>
         <h2 className="section-title mb-3">備考流程</h2>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
           <div className="surface-compact p-4">

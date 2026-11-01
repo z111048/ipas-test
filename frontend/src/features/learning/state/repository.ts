@@ -119,7 +119,7 @@ function validateSnapshot(value: unknown): AttemptSnapshot {
     })
     if (new Set(optionIds).size !== optionIds.length || !Array.isArray(item.displayedOptionIds)
       || item.displayedOptionIds.length !== optionIds.length || item.displayedOptionIds.some((id, index) => id !== optionIds[index])) {
-      throw new LearnerStorageError('匯入題目的選項快照不一致')
+      throw new LearnerStorageError('匯入題目的選項紀錄不一致')
     }
     if (item.selectedOptionId !== null && !optionIds.includes(text(item.selectedOptionId, OPTION_ID))) throw new LearnerStorageError('匯入答案不在題目選項中')
     if (!Array.isArray(item.assets)) throw new LearnerStorageError('匯入題目資產格式不符')
@@ -179,7 +179,7 @@ async function parseImport(raw: string) {
     integer(envelope.writeVersion, 1); text(envelope.snapshotHash, HASH)
     if (envelope.importedFrom !== undefined) text(envelope.importedFrom, IDENTIFIER)
     const snapshot = validateSnapshot(envelope.snapshot)
-    if (await snapshotHash(snapshot) !== envelope.snapshotHash) throw new LearnerStorageError('匯入作答內容已被修改或 hash 不符')
+    if (await snapshotHash(snapshot) !== envelope.snapshotHash) throw new LearnerStorageError('匯入作答內容已被修改或檔案不完整')
     return { schemaVersion: 1 as const, writeVersion: envelope.writeVersion as number, snapshotHash: envelope.snapshotHash as `sha256:${string}`, snapshot, importedFrom: envelope.importedFrom as string | undefined }
   }))
   return { attempts, progress: payload.progress.map(validateProgress) }
@@ -195,7 +195,7 @@ export class LearnerRepository {
     const snapshot = validateSnapshot(row.snapshot)
     const digest = await snapshotHash(snapshot)
     if (row.schemaVersion === 1 && row.snapshotHash && row.snapshotHash !== digest) {
-      throw new LearnerStorageError('本機作答快照已被修改或損壞，拒絕續答')
+      throw new LearnerStorageError('本機作答紀錄已被修改或損壞，無法續答')
     }
     return { ...row, schemaVersion: 1, snapshotHash: digest, snapshot }
   }
@@ -219,7 +219,7 @@ export class LearnerRepository {
       const rows = await requestResult<StoredAttempt[]>(store.getAll())
       if (rows.length >= 100) throw new LearnerStorageError('本機已達 100 筆學習作答上限；請先匯出備份並由你選擇清理')
       const projectedBytes = new Blob([JSON.stringify(rows), JSON.stringify(snapshot)]).size
-      if (projectedBytes > 50 * 1024 * 1024) throw new LearnerStorageError('本機學習快照已達 50 MB 上限；請先匯出備份並由你選擇清理')
+      if (projectedBytes > 50 * 1024 * 1024) throw new LearnerStorageError('本機學習紀錄已達 50 MB 上限；請先匯出備份並由你選擇清理')
     }
     const record: StoredAttempt = { attemptId: snapshot.attemptId, schemaVersion: 1, writeVersion: (current?.writeVersion ?? 0) + 1, snapshotHash: digest, snapshot, ...(importedFrom ? { importedFrom } : {}) }
     try { store.put(record) } catch (error) { throw storageError(error instanceof DOMException ? error : null) }
@@ -260,7 +260,7 @@ export class LearnerRepository {
     const rows = await requestResult<StoredAttempt[]>(db.transaction(ATTEMPTS).objectStore(ATTEMPTS).getAll())
     const attempts = await Promise.all(rows.map(async ({ attemptId: _key, ...row }) => {
       const digest = await snapshotHash(validateSnapshot(row.snapshot))
-      if (row.snapshotHash && row.snapshotHash !== digest) throw new LearnerStorageError('本機作答快照已被修改或損壞，拒絕匯出')
+      if (row.snapshotHash && row.snapshotHash !== digest) throw new LearnerStorageError('本機作答紀錄已被修改或損壞，無法匯出')
       return { ...row, schemaVersion: 1 as const, snapshotHash: digest }
     }))
     return JSON.stringify({ schemaVersion: 1, attempts, progress: await this.listProgress() })

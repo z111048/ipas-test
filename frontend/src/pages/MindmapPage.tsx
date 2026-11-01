@@ -156,7 +156,7 @@ export default function MindmapPage() {
 
       {axis === 'topic' ? (
         <div className="space-y-4">
-          <StatePanel tone="status">
+          <StatePanel tone="status" className="md:hidden">
             手機版可先查看高頻概念摘要；詳細表格若超出畫面，可在區塊內橫向捲動。
           </StatePanel>
           <Suspense
@@ -291,7 +291,7 @@ function ChapterHeatView({
         </StatePanel>
       ) : (
         <>
-          <StatePanel tone="status" className="mb-4">
+          <StatePanel tone="status" className="mb-4 md:hidden">
             手機版可先用下方熱門章節清單操作；完整圖可在框內橫向捲動，點節點可前往章節。
           </StatePanel>
 

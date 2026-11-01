@@ -69,7 +69,7 @@ export default function LabPage() {
 
   return <div className="page-shell w-full">
     {import.meta.env.DEV && item.availability === 'preview' && <div className="alert-warning mb-4" data-learning-preview>開發預覽：Lab 仍在審核，執行結果不代表平台認證。</div>}
-    <PageHeader eyebrow="實作 Lab" title={lab.title} description="先下載 Starter，在自己的 Colab 工作階段手動上傳並執行。" meta={<span className="pill">CPU · 約 {lab.executionPolicy.totalTimeoutSeconds / 60} 分鐘內</span>} />
+    <PageHeader eyebrow="實作練習" title={lab.title} description="先下載 Starter，在自己的 Colab 工作階段手動上傳並執行。" meta={<span className="pill">CPU · 約 {lab.executionPolicy.totalTimeoutSeconds / 60} 分鐘內</span>} />
     {storageError && <StatePanel tone="error" title="學習紀錄未保存" className="mb-4">{storageError}。你仍可繼續閱讀與下載。</StatePanel>}
     {assetError && <StatePanel tone="error" title="下載失敗" className="mb-4">{assetError}</StatePanel>}
     <section className="surface p-5">

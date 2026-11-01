@@ -70,7 +70,7 @@ function PathCard({ path, selected }: { path: LearningPath; selected: boolean })
 function ArticleCard({ article, activePathId }: { article: LearningArticleMeta; activePathId?: string }) {
   const sourceRange = article.source.sourcePageRange
     ? `PDF 第 ${article.source.sourcePageRange[0]}–${article.source.sourcePageRange[1]} 頁`
-    : '來源頁碼已對齊'
+    : null
 
   return (
     <Link
@@ -105,7 +105,7 @@ function ArticleCard({ article, activePathId }: { article: LearningArticleMeta; 
           </span>
         ))}
       </div>
-      <div className="mt-3 text-[0.75rem] text-text-light">{sourceRange}</div>
+      {sourceRange && <div className="mt-3 text-[0.75rem] text-text-light">{sourceRange}</div>}
     </Link>
   )
 }
@@ -136,7 +136,7 @@ export default function LearningArticlesPage() {
     <div className="page-shell">
       <PageHeader
         className="mb-5"
-        eyebrow="Learning articles"
+        eyebrow="主題文章"
         title="主題式文章"
         description="將初級與中級學習指引整理為可獨立閱讀的主題文章，並以跨章學習路徑串起基礎、資料、模型、生成式 AI、落地與治理。"
         meta={

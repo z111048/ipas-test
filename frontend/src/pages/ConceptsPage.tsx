@@ -1,7 +1,8 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { FilterBar, PageHeader, SegmentedControl, StatePanel } from '../components/ui'
 import { resolveConcept } from '../data/conceptLookup'
+import { guideNav } from '../data/guideNav'
 
 // three.js 約 1MB：只有切到立體圖才載
 const ConceptGraph3D = lazy(() => import('../components/concepts/ConceptGraph3D'))
@@ -21,6 +22,14 @@ interface ChapterRef {
   nodeId: string
   count: number
   guideKey: string
+}
+
+function chapterNode(nodeId: string) {
+  for (const guide of Object.values(guideNav.guides)) {
+    const node = guide.nodesById[nodeId]
+    if (node) return node
+  }
+  return undefined
 }
 
 interface QuestionRef {
@@ -317,14 +326,18 @@ export default function ConceptsPage() {
                 <div className="mt-4">
                   <div className="text-[0.8rem] font-semibold text-primary mb-1.5">學習指引章節</div>
                   <div className="flex flex-wrap gap-2">
-                    {selected.chapters.map((chapter) => (
-                      <span
-                        key={chapter.nodeId}
-                        className="rounded border border-border px-2 py-1 text-[0.78rem] text-text-light"
-                      >
-                        {chapter.guideKey.split('-')[0]} {chapter.nodeId}（{chapter.count} 題）
-                      </span>
-                    ))}
+                    {selected.chapters.map((chapter) => {
+                      const node = chapterNode(chapter.nodeId)
+                      const label = `${chapter.guideKey.split('-')[0]} ${node?.title ?? '學習指引'}（${chapter.count} 題）`
+                      const className = 'rounded border border-border px-2 py-1 text-[0.78rem] text-text-light'
+                      return node?.route ? (
+                        <Link key={chapter.nodeId} to={node.route} className={`${className} hover:border-primary hover:text-primary`}>
+                          {label}
+                        </Link>
+                      ) : (
+                        <span key={chapter.nodeId} className={className}>{label}</span>
+                      )
+                    })}
                   </div>
                 </div>
               )}

@@ -6,7 +6,7 @@
 
 完整驗收分兩層：
   - 靜態與資料品質：路徑可攜性、pipeline 輸出安全、前端 build、資料對齊與資源審核
-  - 端對端：考試流程、章節練習與全路由（需要 playwright）
+  - 端對端：考試流程、章節練習、全路由與跨頁版面／文案稽核（需要 playwright）
 
 必要閘門由 CLAUDE.md 不變量 5 定義；各測試的設計理由見 tests/README.md。
 """
@@ -82,6 +82,7 @@ def main() -> int:
         results.append(run('test_routes', [sys.executable, 'tests/test_routes.py']))
         results.append(run('test_learning_state', [sys.executable, 'tests/test_learning_state.py']))
         results.append(run('test_learning_frontend', [sys.executable, 'tests/test_learning_frontend.py']))
+        results.append(run('test_layout_audit', [sys.executable, 'tests/test_layout_audit.py']))
     else:
         print('\n=== 端對端：已跳過（--skip-browser）===')
 

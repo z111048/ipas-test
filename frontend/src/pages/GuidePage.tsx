@@ -790,7 +790,7 @@ export default function GuidePage() {
     <div className="page-shell h-full min-h-0 flex flex-col overflow-hidden">
       <PageHeader
         className="mb-2 shrink-0 sm:mb-4"
-        eyebrow={<span className="hidden sm:inline">Guide</span>}
+        eyebrow={<span className="hidden sm:inline">學習指引</span>}
         title={chapter.title}
         description={
           <span className="hidden sm:inline">

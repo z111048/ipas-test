@@ -6,7 +6,7 @@ const quickLinks = [
   { label: '概念圖卡', to: '/visuals' },
   { label: '關鍵字整理', to: '/glossary' },
   { label: '概念索引', to: '/concepts' },
-  { label: '圖片與表格檢視', to: '/images' },
+  { label: '教材圖片與表格', to: '/images' },
 ]
 
 export default function Footer() {

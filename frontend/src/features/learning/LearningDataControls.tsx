@@ -59,10 +59,10 @@ export default function LearningDataControls() {
 
   return <section className="surface mt-5 p-5" aria-label="學習紀錄備份">
     <h2 className="section-title mb-2">本機學習紀錄</h2>
-    <p className="text-sm leading-6 text-text-light">紀錄只存在這個瀏覽器。匯入會先驗證版本、欄位與完整快照 hash；備份內的分數不會被當成可信成績。</p>
+    <p className="text-sm leading-6 text-text-light">紀錄只存在這個瀏覽器。匯入前會先檢查檔案是否完整、未被修改；從備份匯入的分數僅供個人參考。</p>
     {error && <StatePanel tone="error" title="學習紀錄操作失敗" className="mt-3">{error}</StatePanel>}
     {message && <StatePanel title="學習紀錄" className="mt-3">{message}</StatePanel>}
-    {preview && <StatePanel title="確認匯入" className="mt-3">檔案含 {preview.attempts} 筆作答、{preview.progress} 筆進度。進行中作答會降為歷史紀錄，同 ID 內容不同時另存且不覆寫。<div className="mt-3"><button className="btn-primary" onClick={() => void importData()}>確認匯入</button></div></StatePanel>}
+    {preview && <StatePanel title="確認匯入" className="mt-3">檔案含 {preview.attempts} 筆作答、{preview.progress} 筆進度。進行中的作答會改列為歷史紀錄；與現有紀錄衝突時會另存一份，不會覆蓋。<div className="mt-3"><button className="btn-primary" onClick={() => void importData()}>確認匯入</button></div></StatePanel>}
     <div className="mt-4 flex flex-wrap gap-3">
       <button className="btn-secondary" onClick={() => void exportData()}>匯出 JSON 備份</button>
       <button className="btn-secondary" onClick={() => inputRef.current?.click()}>選擇 JSON 匯入</button>

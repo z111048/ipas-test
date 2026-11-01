@@ -32,7 +32,7 @@ PDF→MD 解析品質直接決定出題品質，前處理正確性優先於一�
 | 拿不準：要不要升級模型／算不算完成／該不該問使用者／方向對不對 | `playbook/02-judgment.md` |
 | 委派任務的 prompt 模板（搜尋/實作/重構/研究/審查） | `playbook/03-templates.md` |
 | 想修改 CLAUDE.md 或 playbook 本身 | `playbook/04-maintenance.md`（先讀再改） |
-| **跑測試／驗收**：20 項驗收、端對端測試怎麼寫 | `tests/README.md` |
+| **跑測試／驗收**：21 項驗收、端對端測試怎麼寫 | `tests/README.md` |
 | 本 harness 的已知弱點與環境備忘 | `playbook/00-diagnosis.md`、`playbook/05-letter.md` |
 | 學習指引 OCR 校正的現況與待接工作 | `playbook/06-guide-ocr-recalibration.md`（2026-08-30：A 169＋3＋3／B 78 已收斂；考題 2026-10-31 為 16 份 815 題） |
 | **小節粒度出題**：codex CLI 出題、答案交叉驗證；**擴充新考卷題解**（2026-10-31 已補到初級 115 第三次） | `playbook/07-question-generation.md`（題解看 §7） |
@@ -62,7 +62,7 @@ PDF→MD 解析品質直接決定出題品質，前處理正確性優先於一�
 5. **改動後驗證**：動了 `frontend/src/` 或資料 JSON → `cd frontend && npm run build`
    必須零 TS 錯誤；動了資料 pipeline → `python3 scripts/verify_data_alignment.py --level {level}`。
    這兩條局部驗證任何情況都不可省。**正式發佈前一律跑** `uv run python tests/run_all.py`；
-   動到執行時行為或 OCR 三軌也要跑——20 項，2026-09-07 實測 679 秒，需要 Playwright Chromium。
+   動到執行時行為或 OCR 三軌也要跑——21 項（2026-11-01 加入跨頁版面檢查 test_layout_audit；當日實測 261 秒），需要 Playwright Chromium。
    <!-- 2026-08-29（使用者指示 update）：原文是「沒有其他自動測試，這兩條不可省」。
         tests/ 已從無到有。促成原因：把考試作答從陣列索引改成 question id 時，
         build 與資料對齊**都會過**，但驗不到「勾選有沒有對到正確的題」——
@@ -75,7 +75,7 @@ uv sync && (cd frontend && npm install)                  # 初始化（clone 後
 cd frontend && npm run dev -- --host                     # dev server（WSL 需 --host）
 uv run python3 scripts/build_web.py                      # production build → docs/
 python3 scripts/verify_data_alignment.py --level 初級    # 資料一致性檢查
-uv run python tests/run_all.py                          # 20 項驗收（含端對端，需 Playwright）
+uv run python tests/run_all.py                          # 21 項驗收（含端對端，需 Playwright）
 ```
 
 支援 `--level` 的資料 pipeline **預設值不一致**：多數預設 `初級`，中級專屬 pipeline

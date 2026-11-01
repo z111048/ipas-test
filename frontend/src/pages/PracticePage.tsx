@@ -4,6 +4,7 @@ import { MobileActionBar, PageHeader, StatePanel } from '../components/ui'
 import QuestionCard from '../components/practice/QuestionCard'
 import { resourceLevels, resourceSummary } from '../data/resourceRegistry'
 import { loadSubjectQuestions } from '../data/questionLoaders'
+import { scrollMainToTop } from '../utils/scrollMain'
 import type { Question, SubjectQuestions } from '../types'
 
 type AnswerMap = Record<string, 'A' | 'B' | 'C' | 'D'>
@@ -82,7 +83,7 @@ export default function PracticePage() {
 
   useEffect(() => {
     if (targetQuestionId) return
-    window.scrollTo(0, 0)
+    scrollMainToTop()
   }, [chapterId, practiceSet, targetQuestionId])
 
   useEffect(() => {
@@ -266,9 +267,9 @@ export default function PracticePage() {
       <div className="page-shell">
         <PageHeader
           className="mb-5"
-          eyebrow="Practice"
+          eyebrow="練習"
           title="本章沒有學習指引練習題"
-          description={`${data.subject} › ${chapter.title} 在學習指引 PDF 內沒有內嵌章節練習題。`}
+          description={`${data.subject} › ${chapter.title} 的學習指引沒有附章節練習題。`}
         />
         {selectableChapters.length > 0 && (
           <StatePanel
@@ -296,7 +297,7 @@ export default function PracticePage() {
       <div className="page-shell">
         <PageHeader
           className="mb-5"
-          eyebrow="Practice"
+          eyebrow="練習"
           title="章節練習題待建立"
           description={`${subject?.label ?? subjectId} 的章節練習題尚未入庫。`}
         />
@@ -318,7 +319,7 @@ export default function PracticePage() {
             </>
           }
         >
-          目前中級可先使用學習指引與公告試題；章節練習題建置後，此入口會自動改為可練習。
+          目前中級可先使用學習指引與公告試題；章節練習題推出後即可在這裡練習。
         </StatePanel>
       </div>
     )
@@ -366,7 +367,7 @@ export default function PracticePage() {
     <div className="page-shell pb-28 sm:pb-6">
       <PageHeader
         className="mb-4"
-        eyebrow="Practice"
+        eyebrow="練習"
         title={chapter.title}
         description={
           <>

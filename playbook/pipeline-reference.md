@@ -140,7 +140,7 @@ python3 scripts/export_resource_summary.py
 python3 scripts/verify_data_alignment.py --level 初級
 python3 scripts/verify_data_alignment.py --level 中級
 cd frontend && npm run build
-uv run python tests/run_all.py                                      # 最終 release gate（20 項；含上述 build/alignment/audit）
+uv run python tests/run_all.py                                      # 最終 release gate（21 項；含上述 build/alignment/audit）
 ```
 
 `apply_track_b_ocr_fixes.py` 不改 `guide_ocr/` SSOT，只在 `pages_cache/` 套用已逐頁核對的
@@ -332,7 +332,7 @@ python3 scripts/verify_exam_ocr_repairs.py                        # 16 卷／815
 python3 scripts/export_resource_summary.py
 python3 scripts/verify_data_alignment.py --level 初級
 python3 scripts/verify_data_alignment.py --level 中級
-uv run python tests/run_all.py                           # 發佈前 20 項 release gate
+uv run python tests/run_all.py                           # 發佈前 21 項 release gate
 
 # 選用：Vision cache 是 gitignored 稽核 sidecar；parse_exams_v2 不讀它，不能拿這步當正式題庫刷新。
 # Fresh checkout 是 0/815；本機可能只有部分 coverage。verified overlay 只供未來升級實驗。
