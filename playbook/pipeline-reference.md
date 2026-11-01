@@ -1,17 +1,5 @@
-<!-- 2026-08-30: 將過長的 §7 腳本目錄與 §10 publication overlay 詳節忠實搬至兩份 companion；主檔保留安全摘要與明確路由，並同步 14 卷／715 題現況。 -->
-<!-- 2026-08-30: 三軌 OCR 語意修復納入 release gate；補 Track A staged export、Track B
-     canonical/cache 雙層驗證、插入型勘誤冪等安全閥、嵌入練習 appendix 邊界與考題 sidecar
-     promotion 邊界。修改前備份：
-     backups/pipeline-reference.md.bak-2026-08-30。 -->
-<!-- 2026-08-29: 架構硬化同步：repo-relative 路徑、resource catalog SSOT、Guide 雙軌所有權、安全
-     staging/partial export（含 content schema）、CI 發佈閘門與可選外部資產模式／R2 .env；
-     修正已經由程式與測試驗證。
-     修改前備份：backups/pipeline-reference.md.bak-2026-08-29-2。 -->
-<!-- 2026-08-29: render_guide_page_images.py 標記退場（產物 /guide-pages/ 經窮舉比對確認
-     前端從未引用，89 檔 13 MB 已從版控刪除）。
-     測試細節以 tests/README.md 為準；本檔只保留 pipeline 所需的 release-gate 摘要。
-     本檔改動前已 728 行、超過 04-maintenance §4 的 600 行上限 128 行。
-     備份見 backups/pipeline-reference.md.bak-2026-08-29。 -->
+<!-- 2026-11-02: 精簡（624→600 內）：歷次改版註解（含各節「新增於某日」標記）收成此行；退場腳本只記在 script catalog（原文見 backups/pipeline-reference.md.bak-2026-11-02-2
+     與更早的 .bak-2026-08-29／-08-30）；附錄 coding style 與 CLAUDE.md 重複故改為指向；§9 修正過時的抽屜入口與測試項數。 -->
 # Pipeline Reference（核心流程與操作手冊）
 
 > 本檔與 `pipeline-script-catalog.md`、`deterministic-publication-overlays.md` 共同構成 pipeline
@@ -81,7 +69,6 @@ uv run python3 scripts/verify_toc_alignment.py --all-levels   # 章節邊界／�
 已知例外寫在腳本的 `KNOWN_EXCEPTIONS`：中級 guide3「線性代數之機器學習基礎應用」的目錄連結
 指向封面 p1，是官方 PDF 自身的缺陷（該行印的 3-9 與內文 p16 都正確），不是我們解析錯。
 
-<!-- 2026-08-07: §1 從「主路線」降為備援。實際主路線是 §1a 的 OCR 兩軌。 -->
 ## §1 Guide 內容 pipeline（Gemini Vision，**已非主路線**）
 
 `pages_cache/` 由 §1a 的 `ocr_extract.py` 產生。以下只在需要重建 Vision 版時才跑；
@@ -92,12 +79,10 @@ uv run python3 scripts/pdf_vision_extract.py --level 初級 --all   # 兩科約 
 #   單科 --subject 1｜單章 --chapter mid-s1c1｜頁範圍 --page-range 10 25（1-based）
 #   --dry-run 估費用｜--force 強制重跑（覆蓋快取）
 uv run python3 scripts/parse_guides.py --level 初級 [--subject 1]  # → guide/subject{N}_guide.json
-# render_guide_page_images.py 已退場（2026-08-29）：產物 /guide-pages/ 前端從未引用，已刪除。不要再跑。
 ```
 
 `parse_guides.py` 建立 canonical Track B，預設要求完整 `pages_cache/` 並印 `[vision mode]`；快取不足直接停止。只有緊急救援才明確加 `--allow-regex-fallback`，輸出標 `source_track=legacy_regex`／`source_mode=regex`，不可誤當 OCR 版。
 
-<!-- 2026-08-07: 新增 §1a。OCR 遷移完成，把「重跑順序」從 06 搬來這裡當常駐規則。 -->
 ## §1a 高精度 OCR 兩軌（2026-08-06 起的實際主路線）
 
 716 頁學習指引已改用 PaddleOCR-VL 重新解析，成果是 `data/{level}/guide_ocr/`（33 MB，committed，
@@ -242,7 +227,6 @@ log 為準，不是 release invariant。
 實際題數是「當次區塊數 × `--count`」，跑前先看 export log 並估 API 花費。
 產出的題目會帶 `section_id` / `section_title` 標記來源小節。
 
-<!-- 2026-08-07: 新增 codex 小節出題線。 -->
 ### codex CLI 小節出題（2026-08-07 新增，進行中）
 
 ```bash
@@ -259,7 +243,6 @@ python3 scripts/run_codex_question_batch_generation.py --run-dir data/中級/pip
 `~/.codex/config.toml` 全域設定，沒有 `--model` 參數。全量跑之前先讀
 `playbook/07-question-generation.md` §4。
 
-<!-- 2026-08-07: 新增答案交叉驗證。 -->
 #### 答案交叉驗證（出題後必跑）—— 網關全掃（每題約 2 秒）→ flagged 才升級 CLI（約 40 秒）
 
 ```bash
@@ -287,7 +270,6 @@ python3 scripts/verify_question_answers.py --run-dir ... --only-flagged --thresh
 `ocrSemantics` 會用相同 exporter 做 exact rebuild；`generate_questions.py --by-section` 與
 `build_codex_section_prompts.py` 都會在送出 API 請求／寫 prompt 前拒絕 stale 或被修改的 payload。
 
-<!-- 2026-08-07: 新增。抽取器的兩個尾端污染修掉後，把陷阱寫成常駐規則。 -->
 ### ⚠️ `export_guide_embedded_exercises.py`（章節練習題）
 
 讀的是 `page_clean/{key}/pages/*.json` 的 `cleaned_text`，所以**必須排在 `apply_errata.py`
@@ -497,7 +479,6 @@ uv run python3 scripts/build_web.py     # production build → docs/（gitignore
 - Guide 頁優先渲染 `GuideContent.blocks[]`（heading/paragraph/list_item/table/question/answer，
   depth 不限），無 blocks 才 fallback Markdown。「本節階層」側欄只顯示 depth 3–4。
 - 練習題頁路由 `/practice/:subjectId/:chapterId`，行動版藏在 `☰` 抽屜——改導覽要檢查行動版。
-<!-- 2026-07-13: 形象網站改版後補充版型事實 -->
 - App shell（App.tsx）：`main` 是唯一捲動容器（body 不捲），sidebar 桌面版常駐、行動版抽屜。
   外層 row 是 `h-[calc(100vh-3.5rem)] overflow-hidden` **且不可加回 `flex-1`**——flex-basis 會蓋掉
   height，造成 body 捲動、sidebar 捲走（2026-07-13 修過的 bug）。路由切換時 main 自動捲回頂部。
@@ -519,7 +500,7 @@ uv run python3 scripts/build_web.py     # production build → docs/（gitignore
 本檔只保留流程順序：SSOT／抽取看 §0–§1，考題看 §3，前端匯出與 build 看 §6，
 驗收看 §9。跨檔仍須遵守四條邊界：章節 metadata 只讀 `toc_manifest.json`、考卷 metadata
 只讀 `resource_catalog.json`、Guide Track A／B producer 不可互相覆寫、花錢或破壞性腳本先確認
-cache／staging／rollback。查任何單支腳本前先走 companion 的用途分組；新增實務學習流程見其中「實務學習 MVP」，實際驗收見 [progress.md](../specifications/learning-platform/progress.md)。<!-- 2026-09-07: 已核對新增 CLI --help；只補路由，詳細清單仍由 companion 維護。 -->
+cache／staging／rollback。查任何單支腳本前先走 companion 的用途分組；新增實務學習流程見其中「實務學習 MVP」，實際驗收見 [progress.md](../specifications/learning-platform/progress.md)。
 
 ## §8 輸出檔案與 gitignore 狀態
 
@@ -577,18 +558,15 @@ Pipeline 跑完後：
    看 WARN 行與實際 JSON 總數；數字短少代表表格解析退化，不要當成已知現象放過。
 8. 動了名詞解釋後：`verify_glossary_terms.py` 兩份檔案都跑（flagged 要為 0 或逐條裁決）＋ `audit_resources.py` exit 0。
 9. 前端改動後：`cd frontend && npm run build` 零 TypeScript 錯誤（這是唯一的型別防線）。
-10. 手動 spot-check：dev server 看題目渲染、答題後 card 面板出現（card 面板沒出現先確認
-   題目 JSON 是否真的有 `card` 欄位，再懷疑前端）、行動版 `☰` 抽屜有 `✏️` 練習題入口。
+10. 手動 spot-check：dev server 看題目渲染、答題後 card 面板出現（沒出現先確認題目 JSON 有 `card`
+   欄位，再懷疑前端）；版面跨頁檢查由 `tests/test_layout_audit.py` 自動跑。
 11. 看 `logs/` 有無抽取/解析錯誤。
 12. 動過講義文字（OCR、勘誤、清洗）後：`python3 scripts/verify_question_guide_alignment.py`
     ——「本輪造成的退化」要是 0，`chapter_id` 失效要是 0。2026-08-07 的基準是
     179 題 `guide_exercises` 全數在引用頁逐字命中。
-13. 自動測試在 `tests/`；**發佈前一律跑** `uv run python tests/run_all.py`，動執行時行為或
-    OCR 三軌也要跑。20 項保留原 13 項的
-    build、兩級 alignment、8 類 audit、3 項既有 Playwright，以及 Track A 169＋3＋3、Track B 78、
-    考題 16 份／815 題的 OCR regression＋逐頁 direct-view SHA/inventory gate；fresh-checkout 與
-    staged/rollback 契約也在其中。`verify_exam_visual_reviews.py` 由考題 repair／audit gate 串入。
-    另納入 7 項實務學習門檻；完整清單與邊界見 `tests/README.md`。<!-- 2026-09-07: 依 run_all.py 新增門檻同步數量，保留既有驗收。 -->
+13. 自動測試在 `tests/`；**發佈前一律跑** `uv run python tests/run_all.py`（21 項：build、兩級 alignment、
+    audit、Track A 169＋3＋3／Track B 78／考題 815 題 OCR gate、實務學習門檻、Playwright 端對端與版面檢查），
+    動執行時行為或 OCR 三軌也要跑。完整清單與邊界以 `tests/README.md` 為準。
 
 > 教訓 2026-08-07：比對中文 PDF 文字時只正規化其中一邊，會全部落空。根因：全形標點與
 > CJK 相容字（「數」是 U+F969）在兩邊的編碼不同。規則：**兩邊都做 NFKC**，若要把結果寫回
@@ -617,8 +595,5 @@ s1c2／s1c4／s2c3 structure transforms、官方勘誤與公式 inventory 的詳
 
 ## 附錄：Coding style 與 commit convention
 
-- Python：4-space、`snake_case`、短 module docstring、`Path` 不用 `os.path`、
-  腳本自足、小 helper 優於深巢狀。
-- 生成 JSON 以內容命名（`mock_mid_1141_s1.json`、`subject2_questions.json`）；考卷正式檔名由
-  `data/resource_catalog.json` 決定，不另建 alias 檔。
-- Commit：祈使句 + scope，如 `build: refresh mock exam JSON`、`parser: improve table extraction`。
+Python 風格與 commit 格式見 CLAUDE.md「Coding style / Commit」。補充：短 module docstring、小 helper 優於深巢狀；生成 JSON 以內容命名
+（`mock_mid_1141_s1.json`、`subject2_questions.json`），考卷正式檔名由 `data/resource_catalog.json` 決定，不另建 alias 檔。
