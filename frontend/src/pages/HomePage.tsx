@@ -155,12 +155,21 @@ export default function HomePage() {
   const totalVisuals = resourceSummary.visuals?.total ?? 0
   const firstArticleTo = learningArticleIndex.articlesById[learningArticleIndex.flatArticleIds[0]]?.route ?? '/articles'
   const firstExamTo = resourceLevels[0].exams[0]?.to
+  // 捲動容器是 <main id="main-content">；scrollIntoView 會捲動最近的可捲動祖先（main），
+  // 再把焦點移到區塊標題，鍵盤與螢幕閱讀器使用者也會落在同一處。
+  const goToSubjects = () => {
+    const section = document.getElementById('choose-subject')
+    if (!section) return
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    section.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' })
+    document.getElementById('choose-subject-title')?.focus({ preventScroll: true })
+  }
 
   return (
     <div className="page-shell">
       <PageHeader
         variant="hero"
-        className="mb-5"
+        className="mb-4 sm:mb-5"
         eyebrow={
           <>
             <span className="hero-chip">經濟部 iPAS 產業人才能力鑑定</span>
@@ -170,14 +179,11 @@ export default function HomePage() {
         title={SITE_NAME}
         description="先選級別與科目，再依章節讀指引、做練習、驗收公告試題。"
         actions={
-          <div className="flex flex-wrap gap-2">
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             <button
               type="button"
-              className="btn-hero hidden sm:inline-flex"
-              onClick={() => document.getElementById('choose-subject')?.scrollIntoView({
-                behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-                block: 'start',
-              })}
+              className="btn-hero col-span-2"
+              onClick={goToSubjects}
             >
               選擇級別與科目
             </button>
@@ -205,10 +211,10 @@ export default function HomePage() {
       />
 
       <section id="choose-subject" className="surface mb-6 p-4 sm:p-5 scroll-mt-4">
-        <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div className="mb-3 flex flex-col gap-2 sm:mb-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <div className="eyebrow mb-1">從這裡開始</div>
-            <h2 className="section-title">選擇級別與科目</h2>
+            <h2 id="choose-subject-title" tabIndex={-1} className="section-title focus:outline-none">選擇級別與科目</h2>
           </div>
           <div className="hidden text-meta leading-6 text-text-light sm:block">
             每科都可從學習指引、練習與公告試題進入；尚未建置的資源會顯示狀態。
@@ -218,7 +224,7 @@ export default function HomePage() {
           {resourceLevels.map((level) => {
             const stats = resourceStats[level.id]
             return (
-              <section key={level.id} className="surface-compact p-4">
+              <section key={level.id} className="surface-compact p-3 sm:p-4">
                 <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <h3 className="text-lg font-semibold text-primary">{level.label}</h3>

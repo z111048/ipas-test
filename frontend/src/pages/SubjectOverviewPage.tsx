@@ -117,7 +117,7 @@ export default function SubjectOverviewPage() {
               actions.push({
                 to: `/practice/${subjectData.id}/${ch.id}/guide`,
                 label: `${navLabel('guidePractice')}（${guideExerciseCount} 題）`,
-                className: 'btn-warning',
+                className: 'btn-outline',
               })
             }
             const unavailable = [

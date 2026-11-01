@@ -163,7 +163,6 @@ export default function MindmapPage() {
     <div className="page-shell mx-auto w-full max-w-6xl">
       <PageHeader
         className="mb-5"
-        eyebrow="知識探索"
         title={navLabel('mindmap')}
         description={
           axis === 'chapter'

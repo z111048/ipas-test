@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { PageHeader, StatePanel } from '../../components/ui'
 import LearningState from './LearningState'
+import { previewBadge } from './PreviewBadge'
 import { findMeta, learningAssetUrl } from './data'
 import { localizeTerms } from './displayTerms'
 import { ACTION_ROW, READING_PAGE, formatMinutes } from './layout'
@@ -99,13 +100,12 @@ export default function LabPage() {
     ['資料集', `${lab.datasets.length} 份固定版本`],
   ]
   return <div className={READING_PAGE}>
-    {import.meta.env.DEV && item.availability === 'preview' && <div className="alert-warning mb-4" data-learning-preview>開發預覽：實作練習仍在審核，執行結果不代表平台認證。</div>}
     <PageHeader
       className="mb-5"
       eyebrow="實作練習"
       title={localizeTerms(lab.title)}
       description="先下載 Starter 練習檔，在自己的 Colab 工作階段手動上傳並執行。"
-      meta={<>{totalMinutes > 0 && <span className="pill">{formatMinutes(totalMinutes)}</span>}<span className="pill pill-muted">{lab.steps.length} 個步驟</span></>}
+      meta={<>{totalMinutes > 0 && <span className="pill">{formatMinutes(totalMinutes)}</span>}<span className="pill pill-muted">{lab.steps.length} 個步驟</span>{previewBadge(item.availability)}</>}
       actions={backToProjects}
     />
     {storageError && <StatePanel tone="error" title="學習紀錄未保存" className="mb-4">{storageError}。你仍可繼續閱讀與下載。</StatePanel>}

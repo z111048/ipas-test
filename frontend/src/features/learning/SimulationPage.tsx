@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ChoiceOption, PageHeader, StatePanel } from '../../components/ui'
 import LearningState from './LearningState'
+import { previewBadge } from './PreviewBadge'
 import { findMeta, loadLearningItem, loadQuestion, type MockBlueprint, type QuestionRevision, type ReadyAssembly } from './data'
 import { learnerRepository, type StoredAttempt } from './state/repository'
 import type { AttemptSnapshot, LearningUnit } from './types'
@@ -182,13 +183,12 @@ export default function SimulationPage() {
   if (!record) return <LearningState tone="loading" title="載入主題診斷">正在準備題目…</LearningState>
   const submitted = record.snapshot.status === 'submitted'
   return <div className={READING_PAGE}>
-    {import.meta.env.DEV && assemblyState.item?.availability === 'preview' && <div className="alert-warning mb-4" data-learning-preview>開發預覽：這份診斷仍在審核中。</div>}
     <PageHeader
       className="mb-4"
       eyebrow="主題診斷"
       title={localizeTerms(blueprint.title)}
       description={submitted ? '已提交。每題下方附上正確答案與解析，答錯的題目可直接回到對應單元複習。' : '作答會自動保存在這個瀏覽器，重新整理後可接著作答。全部作答後才能提交。'}
-      meta={<span className="pill pill-muted">共 {record.snapshot.items.length} 題 · 限時 {Math.round(blueprint.timeLimitSeconds / 60)} 分鐘</span>}
+      meta={<><span className="pill pill-muted">共 {record.snapshot.items.length} 題 · 限時 {Math.round(blueprint.timeLimitSeconds / 60)} 分鐘</span>{previewBadge(assemblyState.item?.availability)}</>}
     />
     <div className="sticky -top-4 md:-top-6 z-10 mb-4 flex items-center justify-between gap-3 rounded-lg border border-border bg-white/95 px-4 py-2 text-ui shadow-sm backdrop-blur">
       <span className="font-semibold text-primary">{answered} / {record.snapshot.items.length} 已答</span>

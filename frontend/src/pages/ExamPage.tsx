@@ -11,6 +11,7 @@ import ExamQuestion from '../components/exam/ExamQuestion'
 import ExamResults from '../components/exam/ExamResults'
 import ExamTimer from '../components/exam/ExamTimer'
 import QuestionPalette from '../components/exam/QuestionPalette'
+import { examSubjectId } from '../components/exam/examResultLinks'
 import { useMediaQuery, WIDE_LAYOUT_QUERY } from '../hooks/useMediaQuery'
 import { useFocusMode } from '../hooks/useFocusMode'
 import { scrollMainToTop } from '../utils/scrollMain'
@@ -275,6 +276,7 @@ export default function ExamPage() {
     return (
       <ExamIntro
           examData={examData}
+          subjectId={examKey ? examSubjectId(examKey) : null}
           notice={
             targetIndex >= 0 ? (
               <StatePanel className="mb-4">
@@ -386,12 +388,12 @@ export default function ExamPage() {
             <div className="flex items-center gap-2 sm:gap-3">
               <button
                 type="button"
-                className="btn-hero-ghost shrink-0 px-2.5 text-ui sm:px-3"
+                className="btn-hero-ghost shrink-0 border-transparent bg-transparent px-2 text-ui font-medium text-on-dark-muted underline-offset-4 hover:border-transparent hover:bg-transparent hover:text-on-dark hover:underline sm:px-2.5"
                 onClick={handleLeave}
                 aria-label="離開（保存作答進度）"
                 title="保存作答進度並離開，之後可以繼續作答"
               >
-                離開
+                <span aria-hidden="true" className="mr-0.5">‹</span>離開
               </button>
               <ExamTimer compact />
               <div className="min-w-0 flex-1 text-center">
@@ -480,7 +482,7 @@ export default function ExamPage() {
                 actions={
                   unansweredCount > 0 ? (
                     <button type="button" className="btn-outline btn-sm" onClick={jumpToFirstUnanswered}>
-                      跳到第一題未答
+                      跳到最前面的未答題
                     </button>
                   ) : undefined
                 }
@@ -536,7 +538,7 @@ export default function ExamPage() {
               <>
                 {unansweredCount > 0 && (
                   <button type="button" className="btn-outline btn-sm" onClick={jumpToFirstUnanswered}>
-                    跳到第一題未答
+                    跳到最前面的未答題
                   </button>
                 )}
                 <button type="button" className="btn-ghost btn-sm" onClick={() => setShowPalette(false)}>

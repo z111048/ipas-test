@@ -10,11 +10,7 @@ import { useLearningIndex } from './useLearningIndex'
 import { useLearningItem } from './useLearningItem'
 import LearningDataControls from './LearningDataControls'
 import LearningState from './LearningState'
-
-function Availability({ value }: { value: 'preview' | 'published' }) {
-  if (!import.meta.env.DEV || value === 'published') return null
-  return <div className="alert-warning mb-4" data-learning-preview>開發預覽：內容仍在審核中，不代表已正式發布。</div>
-}
+import { previewBadge } from './PreviewBadge'
 
 function UnitDetail({ id }: { id: string }) {
   const { index, error: indexError, retry: retryIndex } = useLearningIndex()
@@ -32,13 +28,12 @@ function UnitDetail({ id }: { id: string }) {
   const hasNextSteps = unit.labRefs.length > 0 || unit.projectRefs.length > 0
   return (
     <div className={READING_PAGE}>
-      <Availability value={item.availability} />
       <PageHeader
         className="mb-5"
         eyebrow="實務補充"
         title={localizeTerms(unit.title)}
         description={localizeTerms(unit.summary, terms)}
-        meta={<span className="pill">{formatMinutes(unit.estimatedMinutes)}</span>}
+        meta={<><span className="pill">{formatMinutes(unit.estimatedMinutes)}</span>{previewBadge(item.availability)}</>}
         actions={guide && <Link className="btn-secondary" to={`${guide.fallbackRoute}${guideTarget ? `#${encodeURIComponent(guideTarget)}` : ''}`}>返回學習指引原文</Link>}
       />
       <article className="surface p-5 sm:p-7">
@@ -77,8 +72,7 @@ export default function LearnPage() {
   if (!index) return <LearningState tone="empty" title="實務補充尚未開放">目前沒有可閱讀的內容。</LearningState>
   return (
     <div className="page-shell w-full">
-      <Availability value={index.availability} />
-      <PageHeader className="mb-5" eyebrow="從概念到決策" title="實務補充" description="用情境、操作與檢查點，把學習指引的概念帶進真實工作流程。" />
+      <PageHeader className="mb-5" eyebrow="從概念到決策" title="實務補充" description="用情境、操作與檢查點，把學習指引的概念帶進真實工作流程。" meta={previewBadge(index.availability)} />
       <div className="grid gap-4 md:grid-cols-2">
         {index.units.map((unit) => (
           <Link key={unit.id} to={`/learn/${unit.id}`} className="surface block p-5 no-underline transition hover:border-accent">

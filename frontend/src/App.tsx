@@ -97,8 +97,10 @@ function AppShell() {
     mainRef.current?.focus()
   }, [location.pathname])
 
-  // Ctrl/Cmd + K 開搜尋；在輸入框裡也要能觸發，所以不排除 input 目標
+  // Ctrl/Cmd + K 開搜尋；在輸入框裡也要能觸發，所以不排除 input 目標。
+  // 專注模式（考試作答中）不開搜尋，避免考生誤觸離開作答畫面。
   useEffect(() => {
+    if (focusMode) return
     const onKeyDown = (event: KeyboardEvent) => {
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
         event.preventDefault()
@@ -107,7 +109,7 @@ function AppShell() {
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
-  }, [openSearch])
+  }, [openSearch, focusMode])
 
   return (
     <div

@@ -9,6 +9,7 @@ import type { Lab, LearnerProgress, LearningUnit, Project } from './types'
 import { useLearningIndex } from './useLearningIndex'
 import { useLearningItem } from './useLearningItem'
 import LearningState from './LearningState'
+import { previewBadge } from './PreviewBadge'
 
 function ProjectDetail({ id }: { id: string }) {
   const { index, error: indexError, retry: retryIndex } = useLearningIndex()
@@ -24,12 +25,12 @@ function ProjectDetail({ id }: { id: string }) {
   const unitTitle = (unitId: string) => localizeTerms(findMeta(index, 'units', unitId)?.title ?? '相關單元')
   return (
     <div className={READING_PAGE}>
-      {import.meta.env.DEV && item.availability === 'preview' && <div className="alert-warning mb-4" data-learning-preview>開發預覽：此專題尚未正式發布。</div>}
       <PageHeader
         className="mb-5"
         eyebrow="實務專題"
         title={localizeTerms(project.title)}
         description={localizeTerms(project.brief.scenario, terms)}
+        meta={previewBadge(item.availability)}
         actions={<Link to="/projects" className="btn-secondary">返回實務專題</Link>}
       />
       <section className="surface p-5">

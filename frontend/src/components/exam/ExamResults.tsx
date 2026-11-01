@@ -33,6 +33,12 @@ function imageAspectRatio(image: QuestionImage) {
   return `${width} / ${height}`
 }
 
+/** 教材頁碼（如 3-33）讀起來像內部代號：統一寫成「第 3-33 頁」；本身已帶「頁」字的保留原樣。 */
+function formatPageLabel(pageLabel: string) {
+  const trimmed = pageLabel.trim()
+  return trimmed.endsWith('頁') ? trimmed : `第 ${trimmed} 頁`
+}
+
 function ScoreRing({ score, pass }: { score: number; pass: boolean }) {
   const radius = 54
   const stroke = 12
@@ -141,7 +147,7 @@ function ReferenceAnswerBlock({
           <h3 className="mb-1 text-meta font-semibold text-text-light">學習指引對應段落</h3>
           <div className="flex flex-wrap gap-2">
             {reference.citations?.slice(0, 3).map((citation, index) => {
-              const label = `${citation.title}${citation.page_label ? ` · ${citation.page_label}` : ''}`
+              const label = `${citation.title}${citation.page_label ? `・${formatPageLabel(citation.page_label)}` : ''}`
               const to = citationRoute(citation, subjectId)
               const key = `${citation.guide_key}-${citation.node_id}-${index}`
               return to ? (

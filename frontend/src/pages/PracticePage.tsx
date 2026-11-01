@@ -51,6 +51,8 @@ export default function PracticePage() {
   // 手機預設收合題號導航，第一屏直接看到題目；寬版預設展開。
   const [showQuestionNav, setShowQuestionNav] = useState(() => !isNarrowViewport())
   const [confirmRestart, setConfirmRestart] = useState(false)
+  /** 窄版（< 1280px）摘要列是否展開題號與章節；預設收合，讓題目上到第一屏。 */
+  const [showCompactDetails, setShowCompactDetails] = useState(false)
   /**
    * >= 1280px：作答進度與題號導航放在右側常駐欄。
    * 練習頁不收合站台側欄，比考試頁（>= 1024px）晚一級才分兩欄，題目欄才不會被擠窄。
@@ -125,6 +127,7 @@ export default function PracticePage() {
     setActiveIndex(0)
     questionRefs.current = []
     setShowQuestionNav(!isNarrowViewport())
+    setShowCompactDetails(false)
     setConfirmRestart(false)
     if (!subjectId || !chapterId) {
       setAnswers({})
@@ -426,6 +429,81 @@ export default function PracticePage() {
     </section>
   )
 
+  const chapterChips = selectableChapters.length > 1 ? (
+    <ChipGroup label="切換章節" labelHidden>
+      {selectableChapters.map((item, index) => (
+        <Chip
+          key={item.id}
+          to={chapterRoute(item.id)}
+          active={item.id === chapter.id}
+          current="page"
+          title={item.title}
+          count={`${activeSummary?.chapterCounts[item.id] ?? 0} 題`}
+        >
+          {index + 1}. {item.title}
+        </Chip>
+      ))}
+    </ChipGroup>
+  ) : null
+
+  const chapterSwitchSection = chapterChips ? (
+    <section className="surface mb-4 p-4 sm:p-5">
+      <h2 className="section-title mb-2">切換章節</h2>
+      {chapterChips}
+    </section>
+  ) : null
+
+  /**
+   * 窄於 1280px：作答進度、題號導航與切換章節收成一列摘要（可展開），
+   * 手機第一屏才看得到第 1 題題幹。寬版則是右側常駐欄＋章節列。
+   */
+  const compactProgress = (
+    <section className="surface mb-4" aria-labelledby="practice-compact-heading">
+      <h2 id="practice-compact-heading" className="sr-only">作答進度</h2>
+      <button
+        type="button"
+        className="flex min-h-11 w-full items-center justify-between gap-3 rounded-[inherit] px-4 py-2 text-left"
+        onClick={() => setShowCompactDetails((open) => !open)}
+        aria-expanded={showCompactDetails}
+        aria-controls="practice-compact-details"
+      >
+        <span className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-0.5 text-meta tabular-nums">
+          <span className="font-semibold text-app-text">已答 {answeredCount}/{chapter.questions.length}</span>
+          <span className="text-correct">答對 {correctCount}</span>
+          <span className={wrongCount > 0 ? 'text-wrong' : 'text-text-light'}>待複習 {wrongCount}</span>
+        </span>
+        <span className="shrink-0 text-meta font-semibold text-accent">
+          {showCompactDetails ? '收起' : selectableChapters.length > 1 ? '題號・章節' : '題號導航'}
+          <span aria-hidden="true" className="ml-1 inline-block">{showCompactDetails ? '▴' : '▾'}</span>
+        </span>
+      </button>
+      {showCompactDetails && (
+        <div id="practice-compact-details" className="border-t border-border px-4 pb-4 pt-3">
+          <div className="mb-2 flex flex-wrap items-center justify-between gap-2 text-meta text-text-light">
+            <span>目前題號：第 {activeIndex + 1} 題・待完成 {pendingCount} 題</span>
+            {pendingCount > 0 && firstPendingIndex >= 0 && (
+              <button type="button" className="btn-outline btn-sm" onClick={() => goTo(firstPendingIndex)}>
+                跳到未答題
+              </button>
+            )}
+          </div>
+          <QuestionPaletteGrid
+            items={paletteItems}
+            activeIndex={activeIndex}
+            onSelect={goTo}
+            columnsClassName="grid-cols-5 sm:grid-cols-8"
+          />
+          {chapterChips && (
+            <div className="mt-4">
+              <h3 className="mb-2 text-meta font-semibold text-text-light">切換章節</h3>
+              {chapterChips}
+            </div>
+          )}
+        </div>
+      )}
+    </section>
+  )
+
   const activeQuestionNavLabel = currentStatus === 'correct'
     ? '目前題已答對'
     : currentStatus === 'wrong'
@@ -447,23 +525,18 @@ export default function PracticePage() {
               </span>
             </>
           }
-          meta={
-            <>
-              <span className="pill">共 {chapter.questions.length} 題</span>
-              <span className="pill pill-muted">已答 {answeredCount}</span>
-            </>
-          }
-          actions={(
-            // 破壞性操作：次要（ghost）樣式、不撐滿手機寬度，有進度時先確認
+          meta={<span className="pill">共 {chapter.questions.length} 題</span>}
+          actions={answeredCount > 0 ? (
+            // 破壞性操作：次要（ghost）樣式、不撐滿手機寬度，先確認；還沒作答時沒有東西可清，不顯示
             <button
               type="button"
               className="btn-ghost self-start"
               onClick={handleRestartIntent}
-              aria-haspopup={answeredCount > 0 ? 'dialog' : undefined}
+              aria-haspopup="dialog"
             >
               重新開始
             </button>
-          )}
+          ) : undefined}
         />
 
         <div className="xl:grid xl:grid-cols-[minmax(0,46rem)_16rem] xl:items-start xl:justify-between xl:gap-6">
@@ -534,27 +607,7 @@ export default function PracticePage() {
               </StatePanel>
             )}
 
-            {!isWide && progressSection}
-
-            {selectableChapters.length > 1 && (
-              <section className="surface mb-4 p-4 sm:p-5">
-                <h2 className="section-title mb-2">切換章節</h2>
-                <ChipGroup label="切換章節" labelHidden>
-                  {selectableChapters.map((item, index) => (
-                    <Chip
-                      key={item.id}
-                      to={chapterRoute(item.id)}
-                      active={item.id === chapter.id}
-                      current="page"
-                      title={item.title}
-                      count={`${activeSummary?.chapterCounts[item.id] ?? 0} 題`}
-                    >
-                      {index + 1}. {item.title}
-                    </Chip>
-                  ))}
-                </ChipGroup>
-              </section>
-            )}
+            {isWide ? chapterSwitchSection : compactProgress}
 
             <div>
               {chapter.questions.map((q, i) => (

@@ -240,33 +240,41 @@ function SubjectTree({
   )
 }
 
-/** 章節練習／學習指引練習：以路由前綴判斷作用中（不只第一章）。 */
+/**
+ * 章節練習／學習指引練習底下的單一科目。以路由前綴判斷作用中（不只第一章）。
+ * 群組標題（章節練習／學習指引練習）由外層 SubHeading 提供，這裡只顯示科目。
+ */
 function PracticeLink({
   to,
-  label,
+  groupLabel,
   subjectNumber,
+  subjectName,
   active,
   disabled,
   detail,
   onClose,
 }: {
   to?: string
-  label: string
+  /** 群組名稱，只放進無障礙名稱，讓螢幕閱讀器聽得出是哪一種練習。 */
+  groupLabel: string
   subjectNumber: string
+  subjectName: string
   active: boolean
   disabled?: boolean
   detail?: string
   onClose: () => void
 }) {
+  const indent = 'pl-[2.25rem]'
+  const accessibleName = [groupLabel, subjectNumber, subjectName].filter(Boolean).join(' ')
   const content = (
     <>
-      <span>{label}</span>
-      <span className="ml-auto shrink-0 text-caption font-normal text-on-dark-muted">{subjectNumber}</span>
+      <span className="shrink-0">{subjectNumber}</span>
+      {subjectName && <span className="min-w-0 truncate text-caption font-normal opacity-80">{subjectName}</span>}
     </>
   )
   if (!to || disabled) {
     return (
-      <span className={navItemClass(false, true)} title={detail}>
+      <span className={navItemClass(false, true, indent)} title={detail}>
         {content}
       </span>
     )
@@ -274,10 +282,11 @@ function PracticeLink({
   return (
     <Link
       to={to}
-      className={navItemClass(active)}
+      aria-label={accessibleName}
+      className={navItemClass(active, false, indent)}
       aria-current={active ? 'page' : undefined}
       onClick={onClose}
-      title={detail}
+      title={detail ?? subjectName}
     >
       {content}
     </Link>
@@ -499,16 +508,18 @@ function Sidebar({ id, isOpen, onClose, onSearch, restoreFocusRef, collapsed = f
 
         {/* 練習 */}
         <NavGroup label={NAV_GROUP_LABELS.practice}>
+          <SubHeading>{navLabel('practice')}</SubHeading>
           {level.subjects.map((subject) => {
-            const { number } = formatSubjectLabel(level.label, subject.label)
+            const { number, name } = formatSubjectLabel(level.label, subject.label)
             const inPractice = pathname.startsWith(`/practice/${subject.id}/`)
             const onGuidePractice = inPractice && /\/guide\/?$/.test(pathname)
             return (
               <PracticeLink
                 key={subject.id}
                 to={subject.practiceTo}
-                label={navLabel('practice')}
+                groupLabel={navLabel('practice')}
                 subjectNumber={number}
+                subjectName={name}
                 active={inPractice && !onGuidePractice}
                 disabled={subject.practiceStatus !== 'available'}
                 detail={subject.practiceDetail}
@@ -516,22 +527,28 @@ function Sidebar({ id, isOpen, onClose, onSearch, restoreFocusRef, collapsed = f
               />
             )
           })}
-          {hasGuidePractice && level.subjects.map((subject) => {
-            if (!subject.guideExercisePracticeTo) return null
-            const { number } = formatSubjectLabel(level.label, subject.label)
-            const active = pathname.startsWith(`/practice/${subject.id}/`) && /\/guide\/?$/.test(pathname)
-            return (
-              <PracticeLink
-                key={`${subject.id}-guide`}
-                to={subject.guideExercisePracticeTo}
-                label={navLabel('guidePractice')}
-                subjectNumber={number}
-                active={active}
-                detail={subject.guideExercisePracticeDetail}
-                onClose={onClose}
-              />
-            )
-          })}
+          {hasGuidePractice && (
+            <>
+              <SubHeading>{navLabel('guidePractice')}</SubHeading>
+              {level.subjects.map((subject) => {
+                if (!subject.guideExercisePracticeTo) return null
+                const { number, name } = formatSubjectLabel(level.label, subject.label)
+                const active = pathname.startsWith(`/practice/${subject.id}/`) && /\/guide\/?$/.test(pathname)
+                return (
+                  <PracticeLink
+                    key={`${subject.id}-guide`}
+                    to={subject.guideExercisePracticeTo}
+                    groupLabel={navLabel('guidePractice')}
+                    subjectNumber={number}
+                    subjectName={name}
+                    active={active}
+                    detail={subject.guideExercisePracticeDetail}
+                    onClose={onClose}
+                  />
+                )
+              })}
+            </>
+          )}
           {learningIndex?.blueprints?.[0] && (
             <NavLink
               to={`/simulations/${learningIndex.blueprints[0].id}`}

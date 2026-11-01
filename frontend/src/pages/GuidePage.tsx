@@ -144,6 +144,30 @@ function cssEscape(value: string) {
   return value.replace(/["\\]/g, '\\$&')
 }
 
+/**
+ * 從考試成績的引用連結（/guide/...#block-N）落地時，短暫標亮目標段落，讓讀者一眼找到引用處。
+ * 用 Web Animations 疊在元素原本的背景之上，結束後自動回到原樣（不改 className、不殘留）。
+ * prefers-reduced-motion：不做漸層淡出，維持約 2.5 秒後直接消失。
+ * 正文欄 overflow-x-hidden，左右外框會被裁掉，所以只往上下延伸背景。
+ */
+function highlightLandingTarget(target: HTMLElement) {
+  if (typeof target.animate !== 'function') return
+  const line = getComputedStyle(document.documentElement).getPropertyValue('--color-warning-line').trim() || '#f7d48b'
+  const tint = `color-mix(in srgb, ${line} 45%, transparent)`
+  const reduceMotion = typeof window.matchMedia === 'function'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const on = {
+    backgroundColor: tint,
+    boxShadow: `0 -4px 0 ${tint}, 0 4px 0 ${tint}`,
+    borderRadius: '4px',
+  }
+  // 沒寫 offset 1 的關鍵影格 → 結束時回到元素自己的樣式（例如 question 區塊原本的底色）
+  target.animate([on, { ...on, offset: reduceMotion ? 0.99 : 0.55 }], {
+    duration: 2500,
+    easing: 'ease-out',
+  })
+}
+
 // 表格儲存格可能夾帶 $...$ 數學式（來源是學習指引 OCR 的 <table>，例如 $\mu_1 \neq \mu_2$）。
 // 沒有 $ 的儲存格走純文字，維持 whitespace-pre-line 的換行行為；有 $ 的才過 KaTeX，
 // 避免對每一格都跑一次 markdown 解析。
@@ -381,11 +405,6 @@ function GuideExamReferenceNotes({ annotations, depth }: { annotations: GuideExa
               <div className="mt-1 text-ui leading-6 text-app-text content-justify">
                 {annotation.question}
               </div>
-              {annotation.reasons?.[0] && (
-                <div className="mt-1 text-meta leading-5 text-text-light">
-                  {annotation.reasons[0]}
-                </div>
-              )}
             </div>
           ))}
           {hiddenCount > 0 && (
@@ -545,7 +564,8 @@ export default function GuidePage() {
   const [showDrawer, setShowDrawer] = useState(false)
   const contentScrollRef = useRef<HTMLDivElement | null>(null)
   const drawerTriggerRef = useRef<HTMLButtonElement | null>(null)
-  const scrollToContentBlockRef = useRef<((id: string, anchor?: string) => void) | null>(null)
+  const stickyProgressRef = useRef<HTMLDivElement | null>(null)
+  const scrollToContentBlockRef = useRef<((id: string, anchor?: string) => HTMLElement | null) | null>(null)
   const [activeHeadingId, setActiveHeadingId] = useState<string | null>(null)
   const [showExamNotes, setShowExamNotes] = useState(readExamNotesPreference)
   const isWideLayout = useMediaQuery(WIDE_LAYOUT_QUERY)
@@ -683,6 +703,8 @@ export default function GuidePage() {
     let timer = 0
     let lastHeight = -1
     let stable = 0
+    let highlighted = false
+    let landedTarget: HTMLElement | null = null
     const deadline = performance.now() + 12000
 
     const stop = () => {
@@ -696,11 +718,17 @@ export default function GuidePage() {
       if (height !== lastHeight) {
         lastHeight = height
         stable = 0
-        scrollToContentBlockRef.current?.(anchor, anchor)
+        landedTarget = scrollToContentBlockRef.current?.(anchor, anchor) ?? landedTarget
       } else {
         stable += 1
       }
-      if (stable < 4 && performance.now() < deadline) {
+      const keepGoing = stable < 4 && performance.now() < deadline
+      // 位置穩定（或已到上限）才標亮，避免動畫在目標還沒捲進畫面時就播完
+      if (landedTarget && !highlighted && (stable >= 1 || !keepGoing)) {
+        highlighted = true
+        highlightLandingTarget(landedTarget)
+      }
+      if (keepGoing) {
         timer = window.setTimeout(tick, 250)
       }
     }
@@ -811,14 +839,16 @@ export default function GuidePage() {
         `#${cssEscape(id)}`,
       ].filter(Boolean).join(',')
     )
-    if (!target) return
+    if (!target) return null
     if (!container) {
       target.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' })
-      return
+      return target
     }
     const containerTop = container.getBoundingClientRect().top
     const targetTop = target.getBoundingClientRect().top
-    const nextTop = container.scrollTop + targetTop - containerTop - 8
+    // 捲動容器頂端有黏住的閱讀進度條，目標要落在它下面而不是被蓋住
+    const stickyOffset = stickyProgressRef.current?.offsetHeight ?? 0
+    const nextTop = container.scrollTop + targetTop - containerTop - stickyOffset - 12
     container.scrollTo({
       top: nextTop,
       behavior: preferredScrollBehavior(),
@@ -826,31 +856,44 @@ export default function GuidePage() {
     if (Math.abs(container.scrollTop - nextTop) > 2 && container.scrollHeight <= container.clientHeight) {
       target.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' })
     }
+    return target
   }
   scrollToContentBlockRef.current = scrollToContentBlock
 
+  // 版面：整頁（頁首卡、麵包屑、提示框、正文）一起在同一個捲動容器裡捲動，
+  // 頁首不再固定佔住手機畫面；只有網站頂列與手機底部章節列固定。
+  // 桌面右側「本頁目錄」在容器內 sticky。容器用負邊距吃掉 <main> 的上方內距，
+  // 讓捲動區貼齊網站頂列（<main> 在 /guide 路由不捲動，見 App.tsx）。
   return (
-    <div className="page-shell h-full min-h-0 flex flex-col overflow-hidden">
+    <>
+    <div
+      ref={contentScrollRef}
+      className="-mx-4 -mt-4 h-[calc(100%+1rem)] overflow-y-auto overflow-x-hidden overscroll-contain app-scroll-stable px-4 pt-4 pb-[calc(5rem+var(--app-safe-bottom))] md:-mx-6 md:-mt-6 md:h-[calc(100%+1.5rem)] md:px-6 md:pt-6 lg:pb-6"
+    >
+    <div className="page-shell">
       <PageHeader
-        className="mb-2 shrink-0 sm:mb-4"
-        eyebrow={<span className="hidden sm:inline">學習指引</span>}
+        className="mb-3 sm:mb-4"
+        eyebrow="學習指引"
         title={chapter.title}
-        description={<span className="hidden sm:inline">{outlineGuide.subject}</span>}
+        description={outlineGuide.subject}
         meta={
-          <div className="hidden flex-wrap gap-2 sm:flex">
+          <>
             <span className="pill pill-muted">{pageRange}</span>
             {chapterExamQuestionCount > 0 && (
               <span className="pill">公告試題 {chapterExamQuestionCount} 題</span>
             )}
-          </div>
+            {!isWideLayout && chapterExamQuestionCount > 0 && (
+              // 手機：頁首會隨正文捲走，開關放在章節資訊同一列，不多佔版面；抽屜內另有一份（同一個狀態）。
+              <ExamNotesSwitch checked={showExamNotes} onToggle={toggleExamNotes} className="-ml-1 inline-flex" />
+            )}
+          </>
         }
         actions={isWideLayout && chapterExamQuestionCount > 0 && (
-          // 手機版放進章節目錄抽屜，避免在不會捲走的頁首多佔一列、壓縮正文。
           <ExamNotesSwitch checked={showExamNotes} onToggle={toggleExamNotes} className="inline-flex" />
         )}
       />
 
-      <div className="mb-2 flex shrink-0 flex-wrap items-center gap-x-4 sm:mb-4">
+      <div className="mb-2 flex flex-wrap items-center gap-x-4 sm:mb-4">
         {examResultsReturn && (
           // 從考試成績的引用連結進來時，提供回到成績頁的入口（成績頁會還原篩選與捲動位置）
           <Link
@@ -867,13 +910,13 @@ export default function GuidePage() {
 
       {notice && (
         <div
-          className="alert-warning mb-4 shrink-0"
+          className="alert-warning mb-4"
           dangerouslySetInnerHTML={{ __html: notice }}
         />
       )}
 
       {relatedUnits.length > 0 && (
-        <section className="surface mb-4 shrink-0 border-l-4 border-l-accent p-4" aria-label="實務補充">
+        <section className="surface mb-4 border-l-4 border-l-accent p-4" aria-label="實務補充">
           <div className="section-title mb-2">把這一章用在實務情境</div>
           <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
             {relatedUnits.map((unit) => (
@@ -886,10 +929,6 @@ export default function GuidePage() {
       )}
 
       <ReadingLayout
-        className="min-h-0 flex-1 grid-rows-[minmax(0,1fr)] overflow-hidden"
-        mainRef={contentScrollRef}
-        mainClassName="h-full min-h-0 overflow-y-auto overflow-x-hidden pr-1 app-scroll-stable pb-[calc(5rem+var(--app-safe-bottom))] lg:pb-0"
-        asideClassName="h-full"
         toc={
           <>
             <ReadingToc
@@ -914,7 +953,7 @@ export default function GuidePage() {
           </>
         }
       >
-          <div className="sticky top-0 z-10 -mt-0 mb-3 bg-app-bg/90 px-0 py-1 backdrop-blur-sm">
+          <div ref={stickyProgressRef} className="sticky -top-4 md:-top-6 z-10 mb-3 bg-app-bg/90 px-0 py-1 backdrop-blur-sm">
             <ReadingProgressBar progress={readingProgress} />
           </div>
           {contentError && (
@@ -1068,6 +1107,8 @@ export default function GuidePage() {
             </nav>
           )}
       </ReadingLayout>
+    </div>
+    </div>
 
       <BackToTopButton
         show={showBackToTop}
@@ -1168,6 +1209,6 @@ export default function GuidePage() {
           </div>
         )}
       </MobileChapterDrawer>
-    </div>
+    </>
   )
 }
