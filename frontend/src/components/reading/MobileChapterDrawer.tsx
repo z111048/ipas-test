@@ -33,7 +33,7 @@ export default function MobileChapterDrawer({
   return (
     <>
       <div
-        className={`xl:hidden fixed inset-0 z-40 bg-black/50 transition-opacity duration-300 ${
+        className={`lg:hidden fixed inset-0 z-40 bg-black/50 transition-opacity duration-300 ${
           open ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         onClick={onClose}
@@ -42,7 +42,7 @@ export default function MobileChapterDrawer({
       <div
         id={id}
         ref={panelRef}
-        className={`xl:hidden fixed bottom-0 left-0 right-0 z-50 flex max-h-[min(78dvh,40rem)] flex-col rounded-t-2xl bg-white shadow-2xl transition-transform duration-300 ease-out ${
+        className={`lg:hidden fixed bottom-0 left-0 right-0 z-50 flex max-h-[min(78dvh,40rem)] flex-col rounded-t-2xl bg-white shadow-2xl transition-transform duration-300 ease-out ${
           open ? 'translate-y-0' : 'translate-y-full'
         }`}
         role="dialog"

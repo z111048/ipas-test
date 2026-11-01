@@ -7,6 +7,8 @@ export interface ChipProps {
   active?: boolean
   /** Render as a router link (filter state in the URL). */
   to?: string
+  /** Router location state for link chips (e.g. where to return to). */
+  state?: unknown
   onClick?: () => void
   disabled?: boolean
   /** Small trailing count, e.g. number of questions. */
@@ -28,6 +30,7 @@ export default function Chip({
   children,
   active = false,
   to,
+  state,
   onClick,
   disabled = false,
   count,
@@ -47,6 +50,7 @@ export default function Chip({
     return (
       <Link
         to={to}
+        state={state}
         className={cls}
         aria-current={active ? current : undefined}
         title={title}

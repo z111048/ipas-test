@@ -3,6 +3,8 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { PageHeader } from '../../components/ui'
 import { findMeta } from './data'
+import { localizeTerms, remarkLearningTerms } from './displayTerms'
+import { ACTION_ROW, READING_MEASURE, READING_PAGE, formatMinutes } from './layout'
 import type { LearningUnit } from './types'
 import { useLearningIndex } from './useLearningIndex'
 import { useLearningItem } from './useLearningItem'
@@ -26,24 +28,42 @@ function UnitDetail({ id }: { id: string }) {
   const unit = item.document
   const guide = unit.guideRefs[0]
   const guideTarget = guide?.anchor ?? guide?.blockIds[0]
+  const terms = new Set<string>()
+  const hasNextSteps = unit.labRefs.length > 0 || unit.projectRefs.length > 0
   return (
-    <div className="page-shell w-full">
+    <div className={READING_PAGE}>
       <Availability value={item.availability} />
-      <PageHeader className="mb-5" eyebrow="實務補充" title={unit.title} description={unit.summary} meta={<span className="pill">約 {unit.estimatedMinutes} 分鐘</span>} />
-      <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-        {guide && <Link className="btn-secondary" to={`${guide.fallbackRoute}${guideTarget ? `#${encodeURIComponent(guideTarget)}` : ''}`}>返回學習指引原文</Link>}
-        {unit.labRefs.map((ref) => <Link key={ref.id} className="btn-secondary" to={`/labs/${ref.id}`}>前往實作練習</Link>)}
-        {unit.projectRefs.map((ref) => <Link key={ref.id} className="btn-secondary" to={`/projects/${ref.id}`}>查看實務專題</Link>)}
-      </div>
-      <section className="surface p-5 sm:p-7">
-        <div className="prose prose-slate max-w-none text-reading leading-8"><ReactMarkdown remarkPlugins={[remarkGfm]}>{item.bodyMarkdown ?? ''}</ReactMarkdown></div>
-      </section>
+      <PageHeader
+        className="mb-5"
+        eyebrow="實務補充"
+        title={localizeTerms(unit.title)}
+        description={localizeTerms(unit.summary, terms)}
+        meta={<span className="pill">{formatMinutes(unit.estimatedMinutes)}</span>}
+        actions={guide && <Link className="btn-secondary" to={`${guide.fallbackRoute}${guideTarget ? `#${encodeURIComponent(guideTarget)}` : ''}`}>返回學習指引原文</Link>}
+      />
+      <article className="surface p-5 sm:p-7">
+        <div className="prose prose-slate max-w-none text-reading leading-8"><ReactMarkdown remarkPlugins={[remarkGfm, remarkLearningTerms]}>{item.bodyMarkdown ?? ''}</ReactMarkdown></div>
+      </article>
       <section className="surface mt-4 p-5">
         <h2 className="section-title mb-3">學習目標與自我檢查</h2>
         <ol className="space-y-3">
-          {unit.objectives.map((objective) => <li key={objective.id}><div className="text-reading font-semibold text-primary">{objective.action}</div><div className="text-ui leading-6 text-text-light">條件：{objective.condition}；通過標準：{objective.criterion}</div></li>)}
+          {unit.objectives.map((objective) => (
+            <li key={objective.id}>
+              <div className="text-reading font-semibold text-primary">{localizeTerms(objective.action, terms)}</div>
+              <div className="text-ui leading-6 text-text-light">條件：{localizeTerms(objective.condition, terms)}；通過標準：{localizeTerms(objective.criterion, terms)}</div>
+            </li>
+          ))}
         </ol>
       </section>
+      {hasNextSteps && (
+        <section className="surface mt-4 p-5" aria-labelledby="unit-next-steps">
+          <h2 id="unit-next-steps" className="section-title mb-3">下一步</h2>
+          <div className={ACTION_ROW}>
+            {unit.labRefs.map((ref) => <Link key={ref.id} className="btn-primary" to={`/labs/${ref.id}`}>前往實作練習</Link>)}
+            {unit.projectRefs.map((ref) => <Link key={ref.id} className="btn-secondary" to={`/projects/${ref.id}`}>查看實務專題</Link>)}
+          </div>
+        </section>
+      )}
     </div>
   )
 }
@@ -62,8 +82,8 @@ export default function LearnPage() {
       <div className="grid gap-4 md:grid-cols-2">
         {index.units.map((unit) => (
           <Link key={unit.id} to={`/learn/${unit.id}`} className="surface block p-5 no-underline transition hover:border-accent">
-            <h2 className="text-reading font-bold text-primary">{unit.title}</h2>
-            {unit.summary && <p className="mt-2 text-ui leading-6 text-text-light">{unit.summary}</p>}
+            <h2 className="text-reading font-bold text-primary">{localizeTerms(unit.title)}</h2>
+            {unit.summary && <p className={`mt-2 text-ui leading-6 text-text-light ${READING_MEASURE}`}>{localizeTerms(unit.summary)}</p>}
           </Link>
         ))}
       </div>

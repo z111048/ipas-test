@@ -7,6 +7,9 @@ import { learnerRepository, type StoredAttempt } from './state/repository'
 import type { AttemptSnapshot, LearningUnit } from './types'
 import { useLearningIndex } from './useLearningIndex'
 import { useLearningItem } from './useLearningItem'
+import { useFocusMode } from '../../hooks/useFocusMode'
+import { localizeTerms } from './displayTerms'
+import { LINK_ROW, READING_PAGE } from './layout'
 
 function now() { return new Date().toISOString() }
 
@@ -27,6 +30,8 @@ export default function SimulationPage() {
   const persistedVersion = useRef(0)
   const writeQueue = useRef<Promise<void>>(Promise.resolve())
   const autoSubmitting = useRef(false)
+  // 作答進行中進入專注模式：手機隱藏頂欄、桌機收合側欄，交卷或離開即還原。
+  useFocusMode(record?.snapshot.status === 'active' && !readOnly)
 
   const blueprint = blueprintState.item?.document
   const assembly = assemblyState.item?.document
@@ -176,9 +181,21 @@ export default function SimulationPage() {
   if (!record && storageError) return <LearningState tone="error" title="作答未保存">{storageError}。你仍可閱讀其他內容，請先匯出或清理瀏覽器空間再重試。</LearningState>
   if (!record) return <LearningState tone="loading" title="載入主題診斷">正在準備題目…</LearningState>
   const submitted = record.snapshot.status === 'submitted'
-  return <div className="page-shell w-full">
+  return <div className={READING_PAGE}>
     {import.meta.env.DEV && assemblyState.item?.availability === 'preview' && <div className="alert-warning mb-4" data-learning-preview>開發預覽：這份診斷仍在審核中。</div>}
-    <PageHeader className="mb-5" eyebrow="主題診斷" title={blueprint.title} description="作答會自動保存在這個瀏覽器，重新整理後可接著作答。" meta={<><span className="pill">{answered} / {record.snapshot.items.length} 已答</span>{!submitted && <span className="pill">剩餘 {Math.floor(secondsLeft / 60)}:{String(secondsLeft % 60).padStart(2, '0')}</span>}</>} />
+    <PageHeader
+      className="mb-4"
+      eyebrow="主題診斷"
+      title={localizeTerms(blueprint.title)}
+      description={submitted ? '已提交。每題下方附上正確答案與解析，答錯的題目可直接回到對應單元複習。' : '作答會自動保存在這個瀏覽器，重新整理後可接著作答。全部作答後才能提交。'}
+      meta={<span className="pill pill-muted">共 {record.snapshot.items.length} 題 · 限時 {Math.round(blueprint.timeLimitSeconds / 60)} 分鐘</span>}
+    />
+    <div className="sticky -top-4 md:-top-6 z-10 mb-4 flex items-center justify-between gap-3 rounded-lg border border-border bg-white/95 px-4 py-2 text-ui shadow-sm backdrop-blur">
+      <span className="font-semibold text-primary">{answered} / {record.snapshot.items.length} 已答</span>
+      {submitted
+        ? <span className="text-text-light">已提交</span>
+        : <span className="tabular-nums text-text-light">剩餘 <span className="font-semibold text-primary">{Math.floor(secondsLeft / 60)}:{String(secondsLeft % 60).padStart(2, '0')}</span></span>}
+    </div>
     {storageError && <StatePanel tone="error" title="作答未保存" className="mb-4">{storageError}。請重新載入後再繼續，避免覆蓋其他分頁的作答。</StatePanel>}
     <div className="space-y-4">{record.snapshot.items.map((item, indexNumber) => {
       const question = questions.get(item.questionKey)!
@@ -201,10 +218,13 @@ export default function SimulationPage() {
         {submitted && <div className={`mt-3 rounded-lg border p-4 text-reading leading-8 ${correct ? 'border-correct-line bg-correct-soft' : 'border-wrong-line bg-wrong-soft'}`}>
           <div className={`font-semibold ${correct ? 'text-correct' : 'text-wrong'}`}>{correct ? '答對了' : `正確答案：${question.correctOptionId.replace('opt-', '')}`}</div>
           <p className="text-app-text">{question.explanation}</p>
-          {!correct && unitId && <div className="mt-2 flex flex-wrap gap-x-5"><Link to={`/learn/${unitId}`} className="text-link">閱讀對應單元</Link>{guide && guideTarget && <Link to={`${guide.fallbackRoute}#${encodeURIComponent(guideTarget)}`} className="text-link">回到指引原文</Link>}<Link to="/labs/lab-imbalanced-classification" className="text-link">用實作練習鞏固</Link></div>}
+          {!correct && unitId && <div className={`mt-2 ${LINK_ROW}`}><Link to={`/learn/${unitId}`} className="text-link">閱讀對應單元</Link>{guide && guideTarget && <Link to={`${guide.fallbackRoute}#${encodeURIComponent(guideTarget)}`} className="text-link">回到指引原文</Link>}{unit?.labRefs[0] && <Link to={`/labs/${unit.labRefs[0].id}`} className="text-link">用實作練習鞏固</Link>}</div>}
         </div>}
       </article>
     })}</div>
-    {!submitted ? <button type="button" className="btn-primary mt-5 w-full sm:w-auto" disabled={readOnly || answered !== record.snapshot.items.length} onClick={submit}>提交診斷</button> : <StatePanel className="mt-5" title={`得分 ${record.snapshot.result?.score.toFixed(0)} 分`}>答對 {record.snapshot.result?.correctCount} / {record.snapshot.result?.eligibleCount} 題。請用錯題下方連結回到實務補充或實作練習。</StatePanel>}
+    {!submitted ? <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+      <button type="button" className="btn-primary w-full sm:w-auto" disabled={readOnly || answered !== record.snapshot.items.length} onClick={submit}>提交診斷</button>
+      {!readOnly && answered < record.snapshot.items.length && <p className="text-meta text-text-light">還有 {record.snapshot.items.length - answered} 題未作答。</p>}
+    </div> : <StatePanel className="mt-5" title={`得分 ${record.snapshot.result?.score.toFixed(0)} 分`}>答對 {record.snapshot.result?.correctCount} / {record.snapshot.result?.eligibleCount} 題。請用錯題下方連結回到實務補充或實作練習。</StatePanel>}
   </div>
 }

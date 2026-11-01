@@ -1,8 +1,10 @@
 import { Link, useSearchParams, useParams } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
-import { Badge, Chip, ChipGroup, MobileActionBar, PageHeader, StatePanel } from '../components/ui'
+import { Badge, Chip, ChipGroup, ConfirmDialog, MobileActionBar, PageHeader, StatePanel } from '../components/ui'
 import { formatSubjectLabel, navLabel } from '../constants/navLabels'
 import QuestionCard from '../components/practice/QuestionCard'
+import { QuestionPaletteGrid } from '../components/exam/QuestionPalette'
+import { isNarrowViewport, useMediaQuery } from '../hooks/useMediaQuery'
 import { resourceLevels, resourceSummary } from '../data/resourceRegistry'
 import { loadSubjectQuestions } from '../data/questionLoaders'
 import { scrollMainToTop } from '../utils/scrollMain'
@@ -37,17 +39,6 @@ function statusLabel(status: QuestionStatus) {
   return '待答'
 }
 
-function statusClass(status: QuestionStatus, active: boolean) {
-  const activeClass = active ? 'ring-2 ring-accent/40 ring-offset-2' : ''
-  if (status === 'correct') {
-    return `border-correct-line bg-correct-soft text-correct ${activeClass}`
-  }
-  if (status === 'wrong') {
-    return `border-wrong-line bg-wrong-soft text-wrong ${activeClass}`
-  }
-  return `border-unanswered-line bg-unanswered-soft text-unanswered ${activeClass}`
-}
-
 export default function PracticePage() {
   const { subjectId, chapterId, practiceSet } = useParams<{ subjectId: string; chapterId: string; practiceSet?: string }>()
   const isGuideExercise = practiceSet === 'guide'
@@ -57,7 +48,14 @@ export default function PracticePage() {
   const [answers, setAnswers] = useState<AnswerMap>({})
   const [activeIndex, setActiveIndex] = useState(0)
   const [showRestoreBanner, setShowRestoreBanner] = useState(false)
-  const [showQuestionNav, setShowQuestionNav] = useState(true)
+  // 手機預設收合題號導航，第一屏直接看到題目；寬版預設展開。
+  const [showQuestionNav, setShowQuestionNav] = useState(() => !isNarrowViewport())
+  const [confirmRestart, setConfirmRestart] = useState(false)
+  /**
+   * >= 1280px：作答進度與題號導航放在右側常駐欄。
+   * 練習頁不收合站台側欄，比考試頁（>= 1024px）晚一級才分兩欄，題目欄才不會被擠窄。
+   */
+  const isWide = useMediaQuery('(min-width: 1280px)')
   const questionRefs = useRef<Array<HTMLElement | null>>([])
   /**
    * 剛跑完「從 storage 還原」時設為 true，讓緊接著的那一次寫入跳過。
@@ -126,7 +124,8 @@ export default function PracticePage() {
   useEffect(() => {
     setActiveIndex(0)
     questionRefs.current = []
-    setShowQuestionNav(true)
+    setShowQuestionNav(!isNarrowViewport())
+    setConfirmRestart(false)
     if (!subjectId || !chapterId) {
       setAnswers({})
       setShowRestoreBanner(false)
@@ -210,7 +209,8 @@ export default function PracticePage() {
   }
 
   useEffect(() => {
-    if (!chapter || chapter.questions.length === 0) return
+    // 確認對話框開著時不接受作答快捷鍵
+    if (!chapter || chapter.questions.length === 0 || confirmRestart) return
     const handler = (event: KeyboardEvent) => {
       if (isTypingTarget(event.target)) return
       if (['1', '2', '3', '4'].includes(event.key)) {
@@ -230,7 +230,7 @@ export default function PracticePage() {
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [chapter, activeIndex, answers])
+  }, [chapter, activeIndex, answers, confirmRestart])
 
   useEffect(() => {
     if (!chapter || chapter.questions.length === 0) return
@@ -367,6 +367,65 @@ export default function PracticePage() {
     window.setTimeout(() => goTo(nextIndex), 0)
   }
 
+  /** 重新開始會清掉本章作答：有進度時先確認。 */
+  const handleRestartIntent = () => {
+    if (answeredCount > 0) setConfirmRestart(true)
+    else handleRestart()
+  }
+
+  const paletteItems = chapter.questions.map((question, index) => ({
+    id: question.id,
+    status: statuses[index] === 'pending' ? ('unanswered' as const) : statuses[index],
+  }))
+
+  const progressSection = (
+    <section className="surface mb-4 p-4 sm:p-5" aria-labelledby="practice-progress-heading">
+      <div className={`flex flex-col gap-3 ${isWide ? '' : 'sm:flex-row sm:items-start sm:justify-between'}`}>
+        <div className="min-w-0">
+          <h2 id="practice-progress-heading" className="section-title">作答進度</h2>
+          <div className="mt-2 flex flex-wrap gap-2">
+            <Badge tone="answered">已答 {answeredCount}</Badge>
+            <Badge tone="correct">答對 {correctCount}</Badge>
+            <Badge tone="wrong">待複習 {wrongCount}</Badge>
+            <Badge>待完成 {pendingCount}</Badge>
+          </div>
+        </div>
+        <button
+          type="button"
+          className="btn-outline shrink-0 self-start"
+          onClick={() => setShowQuestionNav((open) => !open)}
+          aria-expanded={showQuestionNav}
+          aria-controls="practice-question-nav"
+        >
+          {showQuestionNav ? '收起題號導航' : '展開題號導航'}
+        </button>
+      </div>
+
+      {showQuestionNav && (
+        <div id="practice-question-nav" className="mt-4">
+          <div className="mb-2 flex flex-wrap items-center justify-between gap-2 text-meta text-text-light">
+            <span>目前題號：第 {activeIndex + 1} 題</span>
+            {pendingCount > 0 && firstPendingIndex >= 0 && (
+              <button
+                type="button"
+                className="btn-outline btn-sm"
+                onClick={() => goTo(firstPendingIndex)}
+              >
+                跳到未答題
+              </button>
+            )}
+          </div>
+          <QuestionPaletteGrid
+            items={paletteItems}
+            activeIndex={activeIndex}
+            onSelect={goTo}
+            columnsClassName={isWide ? 'grid-cols-5' : 'grid-cols-5 sm:grid-cols-8'}
+          />
+        </div>
+      )}
+    </section>
+  )
+
   const activeQuestionNavLabel = currentStatus === 'correct'
     ? '目前題已答對'
     : currentStatus === 'wrong'
@@ -375,190 +434,151 @@ export default function PracticePage() {
 
   return (
     <div className="page-shell pb-28 sm:pb-6">
-      <PageHeader
-        className="mb-4"
-        eyebrow={setLabel}
-        title={chapter.title}
-        description={
-          <>
-            <span>{subjectFullLabel ?? data.subject}</span>
-            <span className="mt-1 hidden text-meta text-text-light sm:block">
-              鍵盤：1–4 選答，←→ 切換上下題
-            </span>
-          </>
-        }
-        meta={
-          <>
-            <span className="pill">共 {chapter.questions.length} 題</span>
-            <span className="pill pill-muted">已答 {answeredCount}</span>
-          </>
-        }
-        actions={(
-          <button type="button" className="btn-outline" onClick={handleRestart}>
-            重新開始
-          </button>
-        )}
-      />
-
-      {showRestoreBanner && (
-        <StatePanel
+      <div className="mx-auto w-full max-w-[46rem] xl:max-w-[63rem]">
+        <PageHeader
           className="mb-4"
-          title="已恢復上次進度"
-          action={(
-            <button type="button" className="btn-outline" onClick={handleRestart}>
+          eyebrow={setLabel}
+          title={chapter.title}
+          description={
+            <>
+              <span>{subjectFullLabel ?? data.subject}</span>
+              <span className="mt-1 hidden text-meta text-text-light sm:block">
+                鍵盤：1–4 選答，←→ 切換上下題
+              </span>
+            </>
+          }
+          meta={
+            <>
+              <span className="pill">共 {chapter.questions.length} 題</span>
+              <span className="pill pill-muted">已答 {answeredCount}</span>
+            </>
+          }
+          actions={(
+            // 破壞性操作：次要（ghost）樣式、不撐滿手機寬度，有進度時先確認
+            <button
+              type="button"
+              className="btn-ghost self-start"
+              onClick={handleRestartIntent}
+              aria-haspopup={answeredCount > 0 ? 'dialog' : undefined}
+            >
               重新開始
             </button>
           )}
-        >
-          你上次已作答 {answeredCount} / {chapter.questions.length} 題，可以直接從目前題號繼續。
-        </StatePanel>
-      )}
+        />
 
-      {(originalChapterCount > 0 || guideExerciseChapterCount > 0) && (
-        <ChipGroup label="題目來源" labelHidden className="mb-4">
-          {originalChapterCount > 0 && (
-            <Chip
-              to={`/practice/${subjectId}/${chapterId}`}
-              active={!isGuideExercise}
-              current="page"
-              count={`${originalChapterCount} 題`}
-            >
-              {navLabel('practice')}
-            </Chip>
-          )}
-          {guideExerciseChapterCount > 0 && (
-            <Chip
-              to={`/practice/${subjectId}/${chapterId}/guide`}
-              active={isGuideExercise}
-              current="page"
-              count={`${guideExerciseChapterCount} 題`}
-            >
-              {navLabel('guidePractice')}
-            </Chip>
-          )}
-        </ChipGroup>
-      )}
-
-      {completed && (
-        <StatePanel
-          className="mb-4"
-          title="本章練習完成"
-          action={(
-            <>
-              <button type="button" className="btn-outline" onClick={wrongCount > 0 ? handleRedoWrong : handleRestart}>
-                {wrongCount > 0 ? '重做錯題' : '重新練習'}
-              </button>
-              {subject?.overviewTo && (
-                <Link to={subject.overviewTo} className="btn-outline">
-                  回科目總覽
-                </Link>
-              )}
-              {nextChapter && (
-                <Link to={chapterRoute(nextChapter.id)} className="btn-primary">
-                  下一章
-                </Link>
-              )}
-            </>
-          )}
-        >
-          已答 {answeredCount} 題，答對 {correctCount} 題，待複習 {wrongCount} 題。
-          {wrongCount > 0 ? ' 建議先重做錯題，再前往下一章。' : ' 這一章可以直接往下走。'}
-        </StatePanel>
-      )}
-
-      <section className="surface mb-4 p-4 sm:p-5">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div className="xl:grid xl:grid-cols-[minmax(0,46rem)_16rem] xl:items-start xl:justify-between xl:gap-6">
           <div className="min-w-0">
-            <div className="section-title">作答進度</div>
-            <div className="mt-2 flex flex-wrap gap-2">
-              <Badge tone="answered">已答 {answeredCount}</Badge>
-              <Badge tone="correct">答對 {correctCount}</Badge>
-              <Badge tone="wrong">待複習 {wrongCount}</Badge>
-              <Badge>待完成 {pendingCount}</Badge>
-            </div>
-          </div>
-          <button
-            type="button"
-            className="btn-outline shrink-0"
-            onClick={() => setShowQuestionNav((open) => !open)}
-            aria-expanded={showQuestionNav}
-          >
-            {showQuestionNav ? '收起題號導航' : '展開題號導航'}
-          </button>
-        </div>
-
-        {showQuestionNav && (
-          <div className="mt-4">
-            <div className="mb-2 flex items-center justify-between gap-3 text-meta text-text-light">
-              <span>目前題號：第 {activeIndex + 1} 題</span>
-              {pendingCount > 0 && firstPendingIndex >= 0 && (
-                <button
-                  type="button"
-                  className="btn-outline btn-sm"
-                  onClick={() => goTo(firstPendingIndex)}
-                >
-                  跳到未答題
-                </button>
-              )}
-            </div>
-            <div className="grid grid-cols-5 gap-2 sm:grid-cols-6 lg:grid-cols-8">
-              {chapter.questions.map((question, index) => {
-                const status = statuses[index]
-                const active = index === activeIndex
-                return (
-                  <button
-                    key={question.id}
-                    type="button"
-                    className={`min-h-[44px] rounded-lg border px-2 py-2 text-ui font-semibold transition-colors ${statusClass(status, active)}`}
-                    onClick={() => goTo(index)}
-                    aria-current={active ? 'true' : undefined}
-                  >
-                    <span className="block">{index + 1}</span>
-                    <span className="sr-only">
-                      第 {index + 1} 題，{statusLabel(status)}{active ? '，目前題' : ''}
-                    </span>
+            {showRestoreBanner && (
+              <StatePanel
+                className="mb-4"
+                title="已恢復上次進度"
+                action={(
+                  <button type="button" className="btn-ghost" onClick={handleRestartIntent}>
+                    重新開始
                   </button>
-                )
-              })}
+                )}
+              >
+                你上次已作答 {answeredCount} / {chapter.questions.length} 題，可以直接從目前題號繼續。
+              </StatePanel>
+            )}
+
+            {(originalChapterCount > 0 || guideExerciseChapterCount > 0) && (
+              <ChipGroup label="題目來源" labelHidden className="mb-4">
+                {originalChapterCount > 0 && (
+                  <Chip
+                    to={`/practice/${subjectId}/${chapterId}`}
+                    active={!isGuideExercise}
+                    current="page"
+                    count={`${originalChapterCount} 題`}
+                  >
+                    {navLabel('practice')}
+                  </Chip>
+                )}
+                {guideExerciseChapterCount > 0 && (
+                  <Chip
+                    to={`/practice/${subjectId}/${chapterId}/guide`}
+                    active={isGuideExercise}
+                    current="page"
+                    count={`${guideExerciseChapterCount} 題`}
+                  >
+                    {navLabel('guidePractice')}
+                  </Chip>
+                )}
+              </ChipGroup>
+            )}
+
+            {completed && (
+              <StatePanel
+                className="mb-4"
+                title="本章練習完成"
+                action={(
+                  <>
+                    <button type="button" className="btn-outline" onClick={wrongCount > 0 ? handleRedoWrong : handleRestart}>
+                      {wrongCount > 0 ? '重做錯題' : '重新練習'}
+                    </button>
+                    {subject?.overviewTo && (
+                      <Link to={subject.overviewTo} className="btn-outline">
+                        回科目總覽
+                      </Link>
+                    )}
+                    {nextChapter && (
+                      <Link to={chapterRoute(nextChapter.id)} className="btn-primary">
+                        下一章
+                      </Link>
+                    )}
+                  </>
+                )}
+              >
+                已答 {answeredCount} 題，答對 {correctCount} 題，待複習 {wrongCount} 題。
+                {wrongCount > 0 ? ' 建議先重做錯題，再前往下一章。' : ' 這一章可以直接往下走。'}
+              </StatePanel>
+            )}
+
+            {!isWide && progressSection}
+
+            {selectableChapters.length > 1 && (
+              <section className="surface mb-4 p-4 sm:p-5">
+                <h2 className="section-title mb-2">切換章節</h2>
+                <ChipGroup label="切換章節" labelHidden>
+                  {selectableChapters.map((item, index) => (
+                    <Chip
+                      key={item.id}
+                      to={chapterRoute(item.id)}
+                      active={item.id === chapter.id}
+                      current="page"
+                      title={item.title}
+                      count={`${activeSummary?.chapterCounts[item.id] ?? 0} 題`}
+                    >
+                      {index + 1}. {item.title}
+                    </Chip>
+                  ))}
+                </ChipGroup>
+              </section>
+            )}
+
+            <div>
+              {chapter.questions.map((q, i) => (
+                <QuestionCard
+                  key={q.id}
+                  question={q}
+                  index={i}
+                  selected={answers[q.id] ?? null}
+                  onSelect={(key) => setAnswers((prev) => ({ ...prev, [q.id]: key }))}
+                  isActive={i === activeIndex}
+                  registerRef={(el) => {
+                    questionRefs.current[i] = el
+                  }}
+                />
+              ))}
             </div>
           </div>
-        )}
-      </section>
 
-      {selectableChapters.length > 1 && (
-        <section className="surface mb-4 p-4 sm:p-5">
-          <h2 className="section-title mb-2">切換章節</h2>
-          <ChipGroup label="切換章節" labelHidden>
-            {selectableChapters.map((item, index) => (
-              <Chip
-                key={item.id}
-                to={chapterRoute(item.id)}
-                active={item.id === chapter.id}
-                current="page"
-                title={item.title}
-                count={`${activeSummary?.chapterCounts[item.id] ?? 0} 題`}
-              >
-                {index + 1}. {item.title}
-              </Chip>
-            ))}
-          </ChipGroup>
-        </section>
-      )}
-
-      <div>
-        {chapter.questions.map((q, i) => (
-          <QuestionCard
-            key={q.id}
-            question={q}
-            index={i}
-            selected={answers[q.id] ?? null}
-            onSelect={(key) => setAnswers((prev) => ({ ...prev, [q.id]: key }))}
-            isActive={i === activeIndex}
-            registerRef={(el) => {
-              questionRefs.current[i] = el
-            }}
-          />
-        ))}
+          {isWide && (
+            <aside className="sticky top-0 max-h-[calc(100dvh-3.5rem-3rem)] overflow-y-auto">
+              {progressSection}
+            </aside>
+          )}
+        </div>
       </div>
 
       <MobileActionBar className="sm:hidden">
@@ -584,6 +604,21 @@ export default function PracticePage() {
         </button>
       </MobileActionBar>
       <div className="sr-only" aria-live="polite">{activeQuestionNavLabel}</div>
+
+      <ConfirmDialog
+        open={confirmRestart}
+        title="確認重新開始"
+        heading="要清除本章作答嗎？"
+        cancelLabel="保留作答"
+        confirmLabel="清除並重新開始"
+        onCancel={() => setConfirmRestart(false)}
+        onConfirm={() => {
+          setConfirmRestart(false)
+          handleRestart()
+        }}
+      >
+        <p>重新開始會清除本章已答的 {answeredCount} 題（答對 {correctCount} 題、待複習 {wrongCount} 題），從第 1 題重新練習。</p>
+      </ConfirmDialog>
     </div>
   )
 }

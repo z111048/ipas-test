@@ -3,10 +3,12 @@ import {
   resourceLevels,
   resourceStats,
   resourceSummary,
+  type LevelResource,
   type ResourceNavItem,
   type SubjectResource,
 } from '../data/resourceRegistry'
 import { learningArticleIndex } from '../data/articleLoaders'
+import { examsForLevel } from '../data/resourceCatalog'
 import StatBox from '../components/shared/StatBox'
 import { PageHeader, subjectOptionById } from '../components/ui'
 import { SECTION_LABELS, SITE_NAME, navLabel } from '../constants/navLabels'
@@ -105,6 +107,48 @@ function practiceTarget(subject: SubjectResource) {
   return { to: undefined, label: navLabel('practice'), detail: '待建立' }
 }
 
+/**
+ * 每級只列最新一次的公告試題（每科一份），其餘與樣題收進「查看全部公告試題」。
+ * 「最新」取自 resource catalog 的排序：同一科目第一份 official 就是最新一次。
+ */
+function LatestExams({ level }: { level: LevelResource }) {
+  const officials = examsForLevel(level.id).filter((exam) => exam.kind === 'official')
+  const seen = new Set<string | null>()
+  const latestIndexes = officials.flatMap((exam, index) => {
+    if (seen.has(exam.subjectId)) return []
+    seen.add(exam.subjectId)
+    return [index]
+  })
+  const latest = latestIndexes.map((index) => level.exams[index]).filter(Boolean)
+  const others = [
+    ...level.exams.filter((_, index) => !latestIndexes.includes(index)),
+    ...level.samples,
+  ]
+
+  return (
+    <div className="mb-4">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+        {latest.map((item) => (
+          <ResourceLink key={item.label} item={item} compact />
+        ))}
+      </div>
+      {others.length > 0 && (
+        <details className="group mt-3">
+          <summary className="flex min-h-11 cursor-pointer items-center gap-1 text-ui font-semibold text-accent hover:text-accent-hover">
+            <span aria-hidden="true" className="inline-block transition-transform group-open:rotate-90">▸</span>
+            查看全部{SECTION_LABELS.exams}（另 {others.length} 份{level.samples.length > 0 ? '，含樣題' : ''}）
+          </summary>
+          <div className="mt-2 grid grid-cols-1 gap-3 md:grid-cols-2">
+            {others.map((item) => (
+              <ResourceLink key={item.label} item={item} compact />
+            ))}
+          </div>
+        </details>
+      )}
+    </div>
+  )
+}
+
 export default function HomePage() {
   const totalPractice = resourceStats.junior.practiceQuestions + resourceStats.middle.practiceQuestions
   const totalOfficial = resourceStats.junior.officialQuestions + resourceStats.middle.officialQuestions
@@ -187,18 +231,13 @@ export default function HomePage() {
                     const practice = practiceTarget(subject)
                     return (
                       <article key={subject.id} className="rounded-lg border border-border bg-white p-3">
-                        <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                          <div className="min-w-0">
-                            <Link to={subject.overviewTo ?? subject.guideTo ?? '/'} className="text-link text-primary hover:text-accent">
-                              {subjectOptionById(subject.id)?.fullLabel ?? subject.label}
-                            </Link>
-                            <div className="text-meta text-text-light">
-                              {subject.chapters} 個章節
-                            </div>
-                          </div>
-                          <Link to={subject.overviewTo ?? subject.guideTo ?? '/'} className="btn-outline btn-sm shrink-0">
-                            {navLabel('subject')}
+                        <div className="mb-3 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+                          <Link to={subject.overviewTo ?? subject.guideTo ?? '/'} className="text-link text-primary hover:text-accent">
+                            {subjectOptionById(subject.id)?.fullLabel ?? subject.label}
                           </Link>
+                          <span className="text-meta text-text-light">
+                            {subject.chapters} 個章節
+                          </span>
                         </div>
                         <div className="grid grid-cols-3 gap-2">
                           <SubjectTaskLink
@@ -242,12 +281,8 @@ export default function HomePage() {
               <div className="eyebrow mb-1">{level.label}</div>
               <h2 className="section-title">{SECTION_LABELS.exams}與{SECTION_LABELS.references}</h2>
             </div>
-            <h3 className="section-title mb-2 text-ui">{SECTION_LABELS.exams}與樣題</h3>
-            <div className="mb-4 grid grid-cols-1 gap-3 md:grid-cols-2">
-              {[...level.exams, ...level.samples].map((item) => (
-                <ResourceLink key={item.label} item={item} compact />
-              ))}
-            </div>
+            <h3 className="section-title mb-2 text-ui">最新{SECTION_LABELS.exams}</h3>
+            <LatestExams level={level} />
             <h3 className="section-title mb-2 text-ui">{SECTION_LABELS.references}</h3>
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               {level.references.map((item) => (

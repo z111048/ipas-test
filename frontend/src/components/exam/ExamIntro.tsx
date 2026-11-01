@@ -1,8 +1,8 @@
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import type { SavedExamAttempt } from '../../store/examStore'
 import type { ExamData } from '../../types'
 import { navLabel } from '../../constants/navLabels'
-import { PageHeader } from '../ui'
+import { ConfirmDialog, PageHeader } from '../ui'
 
 interface ExamIntroProps {
   examData: ExamData
@@ -21,6 +21,7 @@ function formatClock(seconds: number) {
 export default function ExamIntro({ examData, onStart, savedAttempt, onResume, notice }: ExamIntroProps) {
   const canResume = Boolean(savedAttempt && onResume)
   const answeredCount = savedAttempt ? Object.keys(savedAttempt.answers).length : 0
+  const [confirmRestart, setConfirmRestart] = useState(false)
 
   return (
     <div className="page-shell">
@@ -46,7 +47,13 @@ export default function ExamIntro({ examData, onStart, savedAttempt, onResume, n
               <button type="button" className="btn-primary" onClick={onResume}>
                 繼續上次作答（已答 {answeredCount} 題）
               </button>
-              <button type="button" className="btn-outline" onClick={onStart}>
+              {/* 重新開始會丟掉上次作答：放次要位置（ghost），並先確認。 */}
+              <button
+                type="button"
+                className="btn-ghost self-start"
+                onClick={() => setConfirmRestart(true)}
+                aria-haspopup="dialog"
+              >
                 重新開始
               </button>
             </>
@@ -58,6 +65,20 @@ export default function ExamIntro({ examData, onStart, savedAttempt, onResume, n
         }
       />
       {notice}
+      <ConfirmDialog
+        open={confirmRestart}
+        title="確認重新開始"
+        heading="要放棄上次的作答嗎？"
+        cancelLabel="保留上次作答"
+        confirmLabel="清除並重新開始"
+        onCancel={() => setConfirmRestart(false)}
+        onConfirm={() => {
+          setConfirmRestart(false)
+          onStart()
+        }}
+      >
+        <p>重新開始會清除上次已答的 {answeredCount} 題與剩餘時間，並從第 1 題重新計時。</p>
+      </ConfirmDialog>
     </div>
   )
 }

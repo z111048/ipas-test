@@ -1,8 +1,8 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
+import { lazy, Suspense, useEffect, useId, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { loadMindmap, loadMindmapIndex } from '../data/guideMindmap'
 import type { GuideMindmapData, GuideMindmapIndex, GuideMindmapNode } from '../types'
-import { Chip, ChipGroup, FilterBar, PageHeader, StatePanel, SubjectPicker } from '../components/ui'
+import { Chip, ChipGroup, FilterBar, PageHeader, StatePanel, SubjectPicker, subjectOptionById } from '../components/ui'
 import { navLabel } from '../constants/navLabels'
 
 const TopicHeatPanel = lazy(() => import('../components/guide/TopicHeatPanel'))
@@ -66,6 +66,34 @@ function layout(data: GuideMindmapData) {
   const width = PAD_X * 2 + COL * Math.max(...placed.map((p) => p.node.d))
   const height = PAD_Y * 2 + row * ROW
   return { placed, edges, width, height }
+}
+
+/** 節點標籤可用寬度：到下一欄起點前留一點空隙（px）。 */
+const LABEL_FONT = 12
+const LABEL_GAP = 6
+
+/** 估算字寬：全形字約一個字級寬，半形約 0.6 個字級。SVG 文字不會自動換行或截斷，要自己算。 */
+function charWidth(char: string) {
+  return /[\u0000-\u024f]/.test(char) ? LABEL_FONT * 0.6 : LABEL_FONT
+}
+
+function fitLabel(text: string, maxWidth: number) {
+  let width = 0
+  const chars = Array.from(text)
+  for (let index = 0; index < chars.length; index += 1) {
+    width += charWidth(chars[index])
+    if (width > maxWidth) {
+      // 留一個全形寬給刪節號
+      let cut = index
+      let trimmed = width
+      while (cut > 0 && trimmed > maxWidth - LABEL_FONT) {
+        cut -= 1
+        trimmed -= charWidth(chars[cut])
+      }
+      return { label: `${chars.slice(0, cut).join('')}…`, truncated: true }
+    }
+  }
+  return { label: text, truncated: false }
 }
 
 function valueOf(node: GuideMindmapNode, metric: Metric) {
@@ -139,8 +167,8 @@ export default function MindmapPage() {
         title={navLabel('mindmap')}
         description={
           axis === 'chapter'
-            ? '以歷屆試題實際命中的章節統計，節點越大代表該章考得越多。點擊節點可直接前往該章。'
-            : '以歷屆試題實際考到的觀念統計，看哪個觀念反覆出現、又散落在哪幾章。'
+            ? '以公告試題實際考到的章節統計，越大代表該章考得越多；點擊章節可直接前往。'
+            : '以公告試題實際考到的觀念統計，看哪個觀念反覆出現、又散落在哪幾章。'
         }
       />
 
@@ -215,6 +243,10 @@ function ChapterHeatView({
   setMetric,
   navigate,
 }: ChapterHeatViewProps) {
+  // 手機先給熱門章節清單；完整圖要明確打開（桌機一律顯示）
+  const [showMap, setShowMap] = useState(false)
+  const mapId = useId()
+  const selectedSubject = subjectId ? subjectOptionById(subjectId) : undefined
   return (
     <>
       <FilterBar
@@ -224,11 +256,16 @@ function ChapterHeatView({
       >
         <div className="md:col-span-2 xl:col-span-4">
           {index ? (
-            <SubjectPicker
-              value={subjectId}
-              onChange={setSubjectId}
-              subjectIds={index.guides.map((guide) => guide.subjectId)}
-            />
+            <>
+              <SubjectPicker
+                value={subjectId}
+                onChange={setSubjectId}
+                subjectIds={index.guides.map((guide) => guide.subjectId)}
+              />
+              {selectedSubject && (
+                <p className="mt-2 text-ui font-semibold leading-6 text-primary">{selectedSubject.fullLabel}</p>
+              )}
+            </>
           ) : (
             <div className="field-label">科目</div>
           )}
@@ -262,69 +299,8 @@ function ChapterHeatView({
         </StatePanel>
       ) : (
         <>
-          <StatePanel tone="status" className="mb-4 md:hidden">
-            手機版可先用下方熱門章節清單操作；完整圖可在框內橫向捲動，點節點可前往章節。
-          </StatePanel>
-
-          <div className="mt-4 w-full max-w-full overflow-x-auto rounded border border-border bg-card">
-            <svg
-              viewBox={`0 0 ${view.width} ${view.height}`}
-              width={view.width}
-              height={view.height}
-              className="max-w-none"
-              role="img"
-              aria-label={`${data.subject} 章節熱度圖`}
-            >
-              {view.edges.map((edge) => (
-                <path
-                  key={edge.id}
-                  d={`M ${edge.x1} ${edge.y1} C ${(edge.x1 + edge.x2) / 2} ${edge.y1}, ${
-                    (edge.x1 + edge.x2) / 2
-                  } ${edge.y2}, ${edge.x2} ${edge.y2}`}
-                  fill="none"
-                  className="stroke-border"
-                  strokeWidth={1}
-                />
-              ))}
-              {view.placed.map(({ node, x, y }) => {
-                const value = valueOf(node, metric)
-                const scored = value !== null
-                const ratio = scored ? Math.sqrt(value / peak) : 0
-                const radius = scored ? 5 + ratio * 13 : 4
-                const to = node.r
-                return (
-                  <g
-                    key={node.i}
-                    transform={`translate(${x} ${y})`}
-                    onClick={() => to && navigate(to)}
-                    className={to ? 'cursor-pointer' : undefined}
-                  >
-                    <circle
-                      r={radius}
-                      className={scored ? 'fill-accent' : 'fill-none stroke-border'}
-                      fillOpacity={scored ? 0.25 + ratio * 0.75 : undefined}
-                      strokeWidth={scored ? 0 : 1}
-                    />
-                    <text
-                      x={radius + 6}
-                      y={4}
-                      className={`text-[12px] ${scored ? 'fill-app-text' : 'fill-text-light'}`}
-                    >
-                      {node.t.length > 18 ? `${node.t.slice(0, 18)}…` : node.t}
-                    </text>
-                    <text x={radius + 6} y={19} className="text-[12px] fill-text-light">
-                      {node.q === null
-                        ? '尚無統計'
-                        : `${node.q} 題・${node.y ?? 0}/千字`}
-                    </text>
-                  </g>
-                )
-              })}
-            </svg>
-          </div>
-
-          <div className="mt-6 grid gap-6 md:grid-cols-2">
-            <div>
+          <div className="grid gap-6 md:grid-cols-2">
+            <div className="order-1 md:order-2">
               <h2 className="text-base font-semibold text-primary">熱門章節</h2>
               <ol className="mt-2 space-y-1 text-sm">
                 {ranking.map((node, position) => (
@@ -344,7 +320,97 @@ function ChapterHeatView({
                 ))}
               </ol>
             </div>
-            <div className="text-meta leading-6 text-text-light">
+
+            <button
+              type="button"
+              className="btn-secondary btn-block order-2 md:hidden"
+              aria-expanded={showMap}
+              aria-controls={mapId}
+              onClick={() => setShowMap((current) => !current)}
+            >
+              {showMap ? '收合完整熱度圖' : '顯示完整熱度圖'}
+            </button>
+
+            <div
+              id={mapId}
+              className={`order-3 w-full max-w-full overflow-x-auto rounded border border-border bg-card md:order-1 md:col-span-2 md:block ${
+                showMap ? '' : 'hidden'
+              }`}
+            >
+              <p className="m-0 px-3 pt-2 text-meta text-text-light md:hidden">
+                圖可在框內橫向捲動，點節點可前往章節。
+              </p>
+              <svg
+                viewBox={`0 0 ${view.width} ${view.height}`}
+                width={view.width}
+                height={view.height}
+                className="max-w-none"
+                role="img"
+                aria-label={`${data.subject} 章節熱度圖`}
+              >
+                {view.edges.map((edge) => (
+                  <path
+                    key={edge.id}
+                    d={`M ${edge.x1} ${edge.y1} C ${(edge.x1 + edge.x2) / 2} ${edge.y1}, ${
+                      (edge.x1 + edge.x2) / 2
+                    } ${edge.y2}, ${edge.x2} ${edge.y2}`}
+                    fill="none"
+                    className="stroke-border"
+                    strokeWidth={1}
+                  />
+                ))}
+                {view.placed.map(({ node, x, y }) => {
+                  const value = valueOf(node, metric)
+                  const scored = value !== null
+                  const ratio = scored ? Math.sqrt(value / peak) : 0
+                  const radius = scored ? 5 + ratio * 13 : 4
+                  const to = node.r
+                  return (
+                    <g
+                      key={node.i}
+                      transform={`translate(${x} ${y})`}
+                      onClick={() => to && navigate(to)}
+                      className={to ? 'cursor-pointer' : undefined}
+                    >
+                      <circle
+                        r={radius}
+                        className={scored ? 'fill-accent' : 'fill-none stroke-border'}
+                        fillOpacity={scored ? 0.25 + ratio * 0.75 : undefined}
+                        strokeWidth={scored ? 0 : 1}
+                      />
+                      {/* 完整標題：滑鼠停留可看（截斷時尤其需要） */}
+                      <title>{node.q === null ? node.t : `${node.t}（${node.q} 題）`}</title>
+                      <text
+                        x={radius + LABEL_GAP}
+                        y={4}
+                        className={`text-[12px] ${scored ? 'fill-app-text' : 'fill-text-light'}`}
+                        stroke="var(--color-card)"
+                        strokeWidth={3}
+                        strokeLinejoin="round"
+                        paintOrder="stroke"
+                      >
+                        {fitLabel(node.t, COL - radius - LABEL_GAP * 3).label}
+                      </text>
+                      <text
+                        x={radius + LABEL_GAP}
+                        y={19}
+                        className="text-[12px] fill-text-light"
+                        stroke="var(--color-card)"
+                        strokeWidth={3}
+                        strokeLinejoin="round"
+                        paintOrder="stroke"
+                      >
+                        {node.q === null
+                          ? '尚無統計'
+                          : `${node.q} 題・${node.y ?? 0}/千字`}
+                      </text>
+                    </g>
+                  )
+                })}
+              </svg>
+            </div>
+
+            <div className="order-4 text-meta leading-6 text-text-light md:order-3">
               <h2 className="text-base font-semibold text-primary">怎麼看這張圖</h2>
               <ul className="mt-2 space-y-1.5">
                 <li>

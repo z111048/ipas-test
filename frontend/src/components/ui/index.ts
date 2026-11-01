@@ -9,6 +9,8 @@ export type {
   ChoiceOptionRadioProps,
   ChoiceState,
 } from './ChoiceOption'
+export { default as ConfirmDialog } from './ConfirmDialog'
+export type { ConfirmDialogProps } from './ConfirmDialog'
 export { default as Dialog } from './Dialog'
 export { default as FilterBar } from './FilterBar'
 export { default as MobileActionBar } from './MobileActionBar'

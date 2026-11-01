@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { loadGuideSearchIndex } from '../data/guideSearch'
 import { resourceLevels } from '../data/resourceRegistry'
 import type { GuideSearchIndexData, GuideSearchNode } from '../types'
-import { PageHeader, StatePanel, SubjectPicker } from '../components/ui'
+import { PageHeader, StatePanel, SubjectPicker, subjectOptionById } from '../components/ui'
 import { navLabel } from '../constants/navLabels'
 
 /** 由節點陣列建 parent → children 的索引；索引本身是依樹序排好的。 */
@@ -132,6 +132,7 @@ export default function OutlinePage() {
   )
 
   const activeId = subjectId ?? subjects[0]
+  const activeSubject = activeId ? subjectOptionById(activeId) : undefined
   const guide = activeId ? index?.guides[activeId] : undefined
   const tree = useMemo(() => (guide ? buildTree(guide.nodes) : null), [guide])
 
@@ -193,6 +194,7 @@ export default function OutlinePage() {
 
       {guide && tree && (
         <div className="surface p-4 sm:p-5">
+          <h2 className="section-title mb-3">{activeSubject?.fullLabel ?? '學習指引'}目錄</h2>
           <div className="mb-3 flex flex-wrap items-center gap-2">
             <button
               type="button"

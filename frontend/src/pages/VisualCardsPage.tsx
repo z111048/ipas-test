@@ -234,6 +234,7 @@ export default function VisualCardsPage() {
   const [visibleGroups, setVisibleGroups] = useState(PAGE_STEP)
   const [active, setActive] = useState<GuideImageAsset | null>(null)
   const [section, setSection] = useState<SectionState>({ loading: false, markdown: '', isIntro: false })
+  const [zoomed, setZoomed] = useState(false)
   const lightboxTriggerRef = useRef<HTMLButtonElement | null>(null)
   const lightboxCloseRef = useRef<HTMLButtonElement | null>(null)
 
@@ -245,6 +246,7 @@ export default function VisualCardsPage() {
 
   // Lazy-load the chapter content and slice out the section for the opened card.
   useEffect(() => {
+    setZoomed(false)
     if (!active) {
       setSection({ loading: false, markdown: '', isIntro: false })
       return
@@ -359,6 +361,9 @@ export default function VisualCardsPage() {
     setVisibleGroups(PAGE_STEP)
   }, [level, subjectId, chapterId, keyword])
 
+  const hasSectionText = !section.loading && Boolean(section.markdown.trim())
+  // 沒有對應章節文字：只顯示大圖（可點放大）＋「前往章節」，不留空的內容標題
+  const imageOnly = Boolean(active) && !section.loading && !hasSectionText
   const shownGroups = groups.slice(0, visibleGroups)
   const hasMore = visibleGroups < groups.length
   const hasFilters = level !== '初級' || subjectId !== 'all' || chapterId !== 'all' || keyword
@@ -528,45 +533,63 @@ export default function VisualCardsPage() {
             </div>
 
             <div key={active.id} className="min-h-0 flex-1 overflow-y-auto">
-              <div className="flex items-center justify-center bg-unanswered-soft p-4">
-                <img
-                  src={publicAsset(active.src)}
-                  alt={active.title}
-                  className="mx-auto max-h-[38vh] w-auto max-w-full bg-white object-contain sm:max-h-[42vh]"
-                />
+              {/* 點圖放大：預設縮放到容器內；放大後顯示原始尺寸，在自己的框內捲動 */}
+              <div
+                className={`bg-unanswered-soft p-4 ${
+                  zoomed ? 'overflow-auto' : 'flex items-center justify-center'
+                }`}
+              >
+                <button
+                  type="button"
+                  onClick={() => setZoomed((value) => !value)}
+                  aria-pressed={zoomed}
+                  aria-label={zoomed ? '縮小圖卡' : '放大圖卡'}
+                  className={`block ${zoomed ? 'cursor-zoom-out' : 'mx-auto cursor-zoom-in'}`}
+                >
+                  <img
+                    src={publicAsset(active.src)}
+                    alt={active.title}
+                    className={
+                      zoomed
+                        ? 'block h-auto w-auto max-w-none bg-white'
+                        : `mx-auto w-auto max-w-full bg-white object-contain ${
+                          imageOnly ? 'max-h-[62dvh] sm:max-h-[66dvh]' : 'max-h-[38vh] sm:max-h-[42vh]'
+                        }`
+                    }
+                  />
+                </button>
               </div>
 
               <div className="p-4 sm:p-5">
-                <div className="mb-2 flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
-                  <span className="text-meta font-semibold text-primary">
-                    {section.isIntro ? '本章重點摘要' : '本段章節內容'}
-                  </span>
-                </div>
-
                 {section.loading ? (
-                  <div className="py-4 text-ui text-text-light">章節內容載入中…</div>
-                ) : section.markdown ? (
-                  <div className="prose max-w-none break-words text-body leading-7 text-app-text">
-                    <ReactMarkdown
-                      remarkPlugins={[remarkGfm, remarkMath]}
-                      rehypePlugins={[rehypeRaw, rehypeKatex]}
-                      components={markdownComponents}
-                    >
-                      {section.markdown}
-                    </ReactMarkdown>
-                  </div>
-                ) : (
-                  <div className="py-2 text-ui text-text-light">此圖卡目前沒有對應的章節文字，可前往完整章節閱讀。</div>
-                )}
+                  <div className="py-2 text-ui text-text-light">章節內容載入中…</div>
+                ) : hasSectionText ? (
+                  <>
+                    <div className="mb-2 flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+                      <span className="text-meta font-semibold text-primary">
+                        {section.isIntro ? '本章重點摘要' : '本段章節內容'}
+                      </span>
+                    </div>
+                    <div className="prose max-w-none break-words text-body leading-7 text-app-text">
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm, remarkMath]}
+                        rehypePlugins={[rehypeRaw, rehypeKatex]}
+                        components={markdownComponents}
+                      >
+                        {section.markdown}
+                      </ReactMarkdown>
+                    </div>
+                  </>
+                ) : null}
 
-                <div className="mt-4 border-t border-border pt-3">
+                <div className={hasSectionText ? 'mt-4 border-t border-border pt-3' : ''}>
                   <Link
                     to={`/guide/${active.subjectId}/${active.sourceNodeId}`}
                     onClick={() => setActive(null)}
-                    className="btn-outline"
+                    className={hasSectionText ? 'btn-outline' : 'btn-primary'}
                   >
-                    前往完整章節 →
+                    前往章節 →
                   </Link>
                 </div>
               </div>

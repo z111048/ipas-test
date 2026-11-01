@@ -9,6 +9,10 @@ const FOCUSABLE_SELECTOR = [
   '[tabindex]:not([tabindex="-1"])',
 ].join(',')
 
+// Active traps, innermost last. Only the topmost trap handles Escape/Tab, so a
+// dialog opened on top of another dialog does not dismiss both on one Esc.
+const trapStack: object[] = []
+
 function focusableElements(container: HTMLElement) {
   return Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR))
     .filter((el) => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden'))
@@ -21,6 +25,11 @@ interface FocusTrapOptions {
   initialFocusRef?: RefObject<HTMLElement | null>
   restoreFocusRef?: RefObject<HTMLElement | null>
   lockBodyScroll?: boolean
+  /**
+   * Checked when the trap deactivates; return false to skip focus restore
+   * (e.g. the drawer closed because the user navigated — focus goes to <main>).
+   */
+  shouldRestoreFocus?: () => boolean
 }
 
 export function useFocusTrap({
@@ -30,12 +39,15 @@ export function useFocusTrap({
   initialFocusRef,
   restoreFocusRef,
   lockBodyScroll = true,
+  shouldRestoreFocus,
 }: FocusTrapOptions) {
   // Dialog consumers often pass an inline close callback. Keep the latest
   // callback without tearing down the trap (and restoring/re-focusing) on
   // every parent render, such as the exam timer's one-second updates.
   const onDismissRef = useRef(onDismiss)
   onDismissRef.current = onDismiss
+  const shouldRestoreRef = useRef(shouldRestoreFocus)
+  shouldRestoreRef.current = shouldRestoreFocus
 
   useEffect(() => {
     if (!active) return
@@ -56,7 +68,11 @@ export function useFocusTrap({
     const focusTarget = initialFocusRef?.current ?? focusableElements(container)[0] ?? container
     requestAnimationFrame(() => focusTarget.focus({ preventScroll: true }))
 
+    const trapToken = {}
+    trapStack.push(trapToken)
+
     const onKeyDown = (event: KeyboardEvent) => {
+      if (trapStack[trapStack.length - 1] !== trapToken) return
       if (event.key === 'Escape') {
         event.preventDefault()
         onDismissRef.current()
@@ -86,11 +102,14 @@ export function useFocusTrap({
     document.addEventListener('keydown', onKeyDown)
     return () => {
       document.removeEventListener('keydown', onKeyDown)
+      const stackIndex = trapStack.indexOf(trapToken)
+      if (stackIndex >= 0) trapStack.splice(stackIndex, 1)
       if (lockBodyScroll) {
         document.body.style.overflow = previousOverflow
         document.body.style.paddingRight = previousPaddingRight
       }
-      if (restoreTarget instanceof HTMLElement && document.contains(restoreTarget)) {
+      const restore = shouldRestoreRef.current?.() ?? true
+      if (restore && restoreTarget instanceof HTMLElement && document.contains(restoreTarget)) {
         requestAnimationFrame(() => restoreTarget.focus({ preventScroll: true }))
       }
     }

@@ -137,8 +137,9 @@ with dev_server() as BASE, sync_playwright() as pw:
         try:
             page.goto(f'{BASE}/#{route}', wait_until='networkidle', timeout=45000)
             settle_text(page)
-            # 標題要是概念名稱；網址不論用哪種形式進來，最後都要停在 id 形式
-            heading = page.locator('h2').first.inner_text().strip()
+            # 標題要是概念名稱；網址不論用哪種形式進來，最後都要停在 id 形式。
+            # 只看 <main> 內：側欄導覽的群組標題（學習／練習…）也是 h2，排在 main 之前。
+            heading = page.locator('main h2').first.inner_text().strip()
             page.wait_for_function(
                 'id => decodeURIComponent(location.hash).includes("c=" + id)',
                 arg=FIRST_CONCEPT['id'], timeout=10000)

@@ -1,5 +1,4 @@
 import { Link, useParams } from 'react-router-dom'
-import type { ReactNode } from 'react'
 import guideOutlinesRaw from '../generated/guideOutlines.json'
 import { resourceLevels, resourceSummary } from '../data/resourceRegistry'
 import { articleMeta } from '../data/articleLoaders'
@@ -9,6 +8,7 @@ import { PageHeader, StatePanel, subjectOptionById } from '../components/ui'
 import { navLabel } from '../constants/navLabels'
 
 const guideOutlines = guideOutlinesRaw as unknown as GuideOutlinesData
+const MOBILE_SUBTOPICS = 4
 
 function resourceForSubject(subjectId?: string) {
   for (const level of resourceLevels) {
@@ -24,14 +24,6 @@ function ChapterMetric({ label, value }: { label: string; value: string }) {
     <span className="rounded-md border border-border bg-unanswered-soft px-2.5 py-1 text-caption leading-5 text-text-light">
       <span className="font-semibold text-primary">{label}</span>
       <span className="ml-1">{value}</span>
-    </span>
-  )
-}
-
-function MutedAction({ children }: { children: ReactNode }) {
-  return (
-    <span className="btn-muted cursor-default" aria-disabled="true">
-      {children}
     </span>
   )
 }
@@ -93,7 +85,7 @@ export default function SubjectOverviewPage() {
             <h2 className="section-title">章節路徑</h2>
           </div>
           <p className="text-meta leading-6 text-text-light">
-            每章建議先讀，再練習。
+            每章建議先讀，再練習；按鈕依建議順序排列。
           </p>
         </div>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -106,9 +98,32 @@ export default function SubjectOverviewPage() {
             const guideExerciseCount = guideExerciseSummary?.chapterCounts[ch.id] ?? 0
             const hasChapterPractice = practiceCount > 0
             const hasGuideExercise = guideExerciseCount > 0
-            const primaryRead = article
-              ? { to: article.route, label: `讀${navLabel('articles')}` }
-              : { to: `/guide/${subjectData.id}/${ch.id}`, label: '讀學習指引' }
+            const guideRoute = `/guide/${subjectData.id}/${ch.id}`
+            // 建議順序：先讀（文章或學習指引）→ 再練習；沒有入口的項目只留一行淡色說明，不畫成按鈕
+            const actions: { to: string; label: string; className: string }[] = [
+              article
+                ? { to: article.route, label: `讀${navLabel('articles')}`, className: 'btn-primary' }
+                : { to: guideRoute, label: '讀學習指引', className: 'btn-primary' },
+            ]
+            if (article) actions.push({ to: guideRoute, label: '學習指引', className: 'btn-outline' })
+            if (hasChapterPractice) {
+              actions.push({
+                to: `/practice/${subjectData.id}/${ch.id}`,
+                label: `${navLabel('practice')}（${practiceCount} 題）`,
+                className: 'btn-outline',
+              })
+            }
+            if (hasGuideExercise) {
+              actions.push({
+                to: `/practice/${subjectData.id}/${ch.id}/guide`,
+                label: `${navLabel('guidePractice')}（${guideExerciseCount} 題）`,
+                className: 'btn-warning',
+              })
+            }
+            const unavailable = [
+              !hasChapterPractice && `${navLabel('practice')}待建立`,
+              !hasGuideExercise && `本章無${navLabel('guidePractice')}`,
+            ].filter((note): note is string => Boolean(note))
 
             return (
               <article key={ch.id} className="surface p-4 sm:p-5">
@@ -118,51 +133,47 @@ export default function SubjectOverviewPage() {
                   </span>
                   <div className="min-w-0">
                     <h3 className="text-reading font-semibold leading-snug text-primary">{ch.title}</h3>
-                    <div className="mt-2 flex flex-wrap gap-1.5">
-                      {pageRange && <ChapterMetric label="頁碼" value={pageRange} />}
-                      <ChapterMetric label={navLabel('practice')} value={hasChapterPractice ? `${practiceCount} 題` : '待建立'} />
-                      <ChapterMetric label={navLabel('guidePractice')} value={hasGuideExercise ? `${guideExerciseCount} 題` : '本章無'} />
-                    </div>
+                    {pageRange && (
+                      <div className="mt-2 flex flex-wrap gap-1.5">
+                        <ChapterMetric label="頁碼" value={pageRange} />
+                      </div>
+                    )}
                   </div>
                 </div>
 
                 <div className="mb-4 flex flex-wrap gap-1.5">
-                  {ch.subtopics.map((topic) => (
-                    <span key={topic} className="pill pill-muted">{topic}</span>
+                  {/* 手機只列前幾個主題，避免一章就超過一個畫面 */}
+                  {ch.subtopics.map((topic, topicIndex) => (
+                    <span
+                      key={topic}
+                      className={`pill pill-muted ${topicIndex >= MOBILE_SUBTOPICS ? 'max-sm:hidden' : ''}`}
+                    >
+                      {topic}
+                    </span>
+                  ))}
+                  {ch.subtopics.length > MOBILE_SUBTOPICS && (
+                    <span className="pill pill-muted sm:hidden">
+                      另 {ch.subtopics.length - MOBILE_SUBTOPICS} 個主題
+                    </span>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+                  {actions.map((action, actionIndex) => (
+                    <Link
+                      key={action.to}
+                      to={action.to}
+                      className={`${action.className} text-center ${
+                        actions.length % 2 === 1 && actionIndex === 0 ? 'col-span-2' : ''
+                      }`}
+                    >
+                      {action.label}
+                    </Link>
                   ))}
                 </div>
-
-                <div className="rounded-lg border border-border bg-unanswered-soft p-3">
-                  <div className="mb-2 text-meta font-semibold text-primary">先讀</div>
-                  <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-                    <Link to={primaryRead.to} className="btn-primary">
-                      {primaryRead.label}
-                    </Link>
-                    {article && (
-                      <Link to={`/guide/${subjectData.id}/${ch.id}`} className="btn-outline">
-                        學習指引
-                      </Link>
-                    )}
-                  </div>
-
-                  <div className="mb-2 mt-4 text-meta font-semibold text-primary">再練習</div>
-                  <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-                    {hasChapterPractice ? (
-                      <Link to={`/practice/${subjectData.id}/${ch.id}`} className="btn-outline">
-                        章節練習（{practiceCount} 題）
-                      </Link>
-                    ) : (
-                      <MutedAction>章節練習待建立</MutedAction>
-                    )}
-                    {hasGuideExercise ? (
-                      <Link to={`/practice/${subjectData.id}/${ch.id}/guide`} className="btn-warning">
-                        學習指引練習（{guideExerciseCount} 題）
-                      </Link>
-                    ) : (
-                      <MutedAction>無學習指引練習</MutedAction>
-                    )}
-                  </div>
-                </div>
+                {unavailable.length > 0 && (
+                  <p className="mt-2 text-meta leading-6 text-text-light">{unavailable.join('；')}</p>
+                )}
               </article>
             )
           })}

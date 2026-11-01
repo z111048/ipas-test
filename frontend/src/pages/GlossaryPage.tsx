@@ -55,7 +55,7 @@ export default function GlossaryPage() {
       <PageHeader
         className="mb-5"
         title={NAV_LABELS.glossary.label}
-        description="依歷屆試題出現頻率整理的中英文名詞、定義與應用案例，初級與中級各自分科呈現。"
+        description="依公告試題出現頻率整理的中英文名詞、定義與應用案例，初級與中級各自分科呈現。"
         meta={
           <>
             <span className="pill">{level}</span>
@@ -109,15 +109,38 @@ export default function GlossaryPage() {
       </FilterBar>
 
       <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden">
-        <div className="px-5 py-4 border-b border-border">
+        <div className="border-b border-border px-4 py-4 sm:px-5">
           <h2 className="text-reading font-semibold text-primary">{subjectOptionById(activeSubjectId)?.fullLabel ?? `${level}・${subject.subject}`}</h2>
           <div className="text-meta text-text-light mt-1">
             本科共 {subject.terms.length} 個關鍵字（{level}合計 {totalTerms} 個），符合篩選 {terms.length} 個
           </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[860px] border-collapse text-body">
+        {/* 手機：每個關鍵字一張卡（名詞／定義／案例上下排列），不需要橫向捲動 */}
+        <ul className="divide-y divide-border md:hidden">
+          {terms.map((term) => (
+            <li key={`${term.zh}-${term.en}`} className="px-4 py-4">
+              <div className="text-reading font-semibold leading-snug text-primary">{term.zh}</div>
+              {term.en && <div className="mt-0.5 text-ui text-accent [overflow-wrap:anywhere]">{term.en}</div>}
+              <dl className="mt-3 space-y-3">
+                <div>
+                  <dt className="text-meta font-semibold text-text-light">定義</dt>
+                  <dd className="mt-0.5 text-body leading-7 text-app-text content-justify">{term.definition}</dd>
+                </div>
+                {term.example && (
+                  <div>
+                    <dt className="text-meta font-semibold text-text-light">案例說明</dt>
+                    <dd className="mt-0.5 text-body leading-7 text-app-text content-justify">{term.example}</dd>
+                  </div>
+                )}
+              </dl>
+            </li>
+          ))}
+        </ul>
+
+        {/* 桌機：四欄表格 */}
+        <div className="hidden overflow-x-auto md:block">
+          <table className="w-full min-w-[720px] border-collapse text-body">
             <thead>
               <tr className="bg-unanswered-soft text-primary">
                 <th className="w-[16%] p-3 text-left border-b border-border">中文</th>

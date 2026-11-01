@@ -118,10 +118,10 @@ with dev_server() as BASE, sync_playwright() as pw:
     before_submit_top = page.evaluate(MAIN_SCROLL_TOP)
     page.click('button:has-text("確認繳卷")')
     # 等成績頁真的出現再取樣，不要用固定 sleep（見 tests/README.md 的坑 1）。
-    # 判準用「重新考試」這個成績頁專屬按鈕，不要用 /\d+\s*分/——
+    # 判準用「重新作答」這個成績頁專屬按鈕，不要用 /\d+\s*分/——
     # 作答頁的計時器有 sr-only 的「剩餘 90 分鐘。」，那個正則在交卷前就恆真，
     # 等於這個 wait 完全沒有作用。
-    page.wait_for_selector('button:has-text("重新考試")', timeout=20000)
+    page.wait_for_selector('button:has-text("重新作答")', timeout=20000)
     result = page.inner_text('body')
     score = re.search(r'(\d+)\s*分', result)
     check('分數 = 4（id-keyed 計分正確）', bool(score) and int(score.group(1)) == 4,
@@ -241,7 +241,7 @@ with dev_server() as BASE, sync_playwright() as pw:
         window.__ipasAdvanceClock(89 * 60 * 1000 + 55 * 1000)
         window.dispatchEvent(new Event('focus'))
     }''')
-    timer_pg.wait_for_selector('button:has-text("重新考試")', timeout=5000)
+    timer_pg.wait_for_selector('button:has-text("重新作答")', timeout=5000)
     check('截止時間到達後自動交卷', '詳細解析' in timer_pg.inner_text('body'))
     timer_pg.close()
 
@@ -304,16 +304,21 @@ with dev_server() as BASE, sync_playwright() as pw:
     pg.evaluate(f"() => {{ location.hash = '#/exam/{EXAM}' }}")
     pg.locator('button:has-text("重新開始")').wait_for(timeout=20000)
     pg.click('button:has-text("重新開始")')
+    # 有未繳卷作答時「重新開始」會先確認（會清掉上次作答），取消要保留原狀。
+    pg.locator('[role=dialog] button:has-text("保留上次作答")').click()
+    check('取消重新開始仍保留續答', pg.locator('button:has-text("繼續上次作答")').count() == 1)
+    pg.click('button:has-text("重新開始")')
+    pg.locator('[role=dialog] button:has-text("清除並重新開始")').click()
     pg.wait_for_selector('input[type=radio]', timeout=20000)
     pg.wait_for_timeout(300)
     check('重新開始會清掉上次作答', checked_state(pg) == {}, str(checked_state(pg)))
     pg.locator('label:has(input[name="q1"][value="A"])').first.click()
     pg.click('button:has-text("繳卷交答案")')
     pg.click('button:has-text("確認繳卷")')
-    pg.wait_for_selector('button:has-text("重新考試")', timeout=20000)
+    pg.wait_for_selector('button:has-text("重新作答")', timeout=20000)
     left = pg.evaluate(f"() => localStorage.getItem('ipas:exam:{EXAM}:attempt')")
     check('交卷後清掉 localStorage 的作答', left is None, str(left)[:80])
-    pg.click('button:has-text("重新考試")')
+    pg.click('button:has-text("重新作答")')
     pg.wait_for_selector('text=開始考試', timeout=20000)
     check('交卷後回 intro 不再提供續答', pg.locator('button:has-text("繼續上次作答")').count() == 0)
 
@@ -368,6 +373,57 @@ with dev_server() as BASE, sync_playwright() as pw:
     st = checked_state(pg)
     check('方向鍵 ↓ 在選項間移動並作答一次', st == {'q0': 'D'} and after - before == 1,
           f'{st}，{after - before} 次')
+    pg.close()
+
+    print('\n=== 12. 手機專注模式：題號盤抽屜、離開保存進度 ===')
+    pg = browser.new_page(viewport={'width': 390, 'height': 844}, has_touch=True)
+    pg.add_init_script("try { localStorage.clear() } catch (e) {}")
+    pg.goto(f'{BASE}/#/exam/{EXAM}', wait_until='networkidle')
+    pg.wait_for_selector('text=開始考試', timeout=20000)
+    pg.click('text=開始考試')
+    pg.wait_for_selector('input[type=radio]', timeout=20000)
+    pg.wait_for_timeout(400)
+    check('作答中 app-root 進入專注模式',
+          pg.evaluate("() => document.querySelector('.app-root')?.dataset.focusMode") == 'true')
+    header_visible = pg.evaluate('''() => {
+        const h = document.querySelector('header.app-header, .app-header')
+        return !!h && h.getBoundingClientRect().height > 0 && getComputedStyle(h).display !== 'none'
+    }''')
+    check('手機作答中隱藏站台 Header', not header_visible)
+    pg.locator('label:has(input[name="q0"][value="A"])').first.click()
+    pg.click('button:has-text("題號盤")')
+    pg.wait_for_selector('[role=dialog] div.grid button', timeout=5000)
+    pg.locator('[role=dialog] div.grid button').nth(9).click()
+    pg.wait_for_timeout(600)
+    check('點題號後抽屜關閉', pg.locator('[role=dialog]').count() == 0)
+    pg.keyboard.press('2')
+    pg.wait_for_timeout(400)
+    st = checked_state(pg)
+    check('跳到第 10 題後作答落在第 10 題', st == {'q0': 'A', 'q9': 'B'}, str(st))
+    pg.click('button:has-text("離開")')
+    resume_btn = pg.locator('button:has-text("繼續上次作答")')
+    resume_btn.wait_for(timeout=10000)
+    check('離開後回到說明頁且可續答（已答 2 題）', '已答 2 題' in resume_btn.inner_text(),
+          resume_btn.inner_text())
+    check('離開後解除專注模式',
+          pg.evaluate("() => document.querySelector('.app-root')?.dataset.focusMode") != 'true')
+    pg.close()
+
+    print('\n=== 13. 成績頁：篩選、解析預設收合 ===')
+    pg = fresh_exam()
+    pg.locator('label:has(input[name="q0"][value="B"])').first.click()  # 正解 A → 答錯
+    pg.click('button:has-text("繳卷交答案")')
+    pg.click('button:has-text("確認繳卷")')
+    pg.wait_for_selector('button:has-text("重新作答")', timeout=20000)
+    check('解析預設收合', pg.locator('button[aria-expanded="true"]:has-text("收起解析")').count() == 0
+          and pg.locator('button:has-text("看解析")').count() > 0)
+    pg.click('button[aria-pressed]:has-text("答錯")')
+    pg.wait_for_timeout(300)
+    check('「答錯」篩選只剩 1 題', pg.locator('[id^="result-q-"]:not([id$="-explanation"])').count() == 1)
+    pg.click('button[aria-pressed]:has-text("全部")')
+    pg.wait_for_timeout(300)
+    check('「全部」顯示 50 題', pg.locator('[id^="result-q-"]:not([id$="-explanation"])').count() == 50)
+    check('有「下一步」區塊', pg.locator('#exam-next-step-heading').count() == 1)
     pg.close()
 
     browser.close()

@@ -1,5 +1,5 @@
 import { Link, useLocation, useParams } from 'react-router-dom'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type React from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -15,13 +15,26 @@ import type { ColabNotebook, GuideBlock, GuideContent, GuideExamAnnotation, Guid
 import { GUIDE_NOTICES } from '../constants/guideNotices'
 import GuideOutlineTree from '../components/guide/GuideOutlineTree'
 import GuideBreadcrumb from '../components/guide/GuideBreadcrumb'
+import { examResultsReturnTarget } from '../components/exam/resultsViewState'
 import { guideBreadcrumb } from '../data/guideNav'
 import ColabSection from '../components/guide/ColabSection'
 import { publicAsset } from '../utils/assets'
 import { preferredScrollBehavior } from '../utils/motion'
 import { useScrollProgress, ReadingProgressBar, BackToTopButton } from '../components/shared/ReadingProgress'
 import { MobileActionBar, PageHeader, StatePanel } from '../components/ui'
-import { MobileChapterDrawer, ReadingAuxiliary, ReadingContent, ReadingSurface } from '../components/reading'
+import { useMediaQuery, WIDE_LAYOUT_QUERY } from '../hooks/useMediaQuery'
+import {
+  MobileChapterDrawer,
+  READING_LIST_ITEM_CLASS,
+  READING_PARAGRAPH_CLASS,
+  READING_WIDE_BOX_CLASS,
+  ReadingAuxiliary,
+  ReadingContent,
+  ReadingLayout,
+  ReadingSurface,
+  ReadingToc,
+} from '../components/reading'
+import type { ReadingTocEntry } from '../components/reading'
 import { useLearningIndex } from '../features/learning/useLearningIndex'
 
 const guideOutlines = guideOutlinesRaw as unknown as GuideOutlinesData
@@ -105,7 +118,7 @@ function blockTextClass(block: GuideBlock) {
   }
   if (block.type === 'question') return 'text-reading font-semibold text-primary bg-answered-soft border-l-4 border-accent px-3 py-2 rounded-r-lg my-3'
   if (block.type === 'answer') return 'text-reading text-app-text bg-unanswered-soft border border-border px-3 py-2 rounded-lg my-2'
-  return 'text-reading leading-8 text-app-text mb-3 content-justify'
+  return READING_PARAGRAPH_CLASS
 }
 
 function listMarkerClass(marker?: string) {
@@ -149,45 +162,57 @@ function GuideTableCell({ text }: { text: string }) {
   )
 }
 
-type GuideHeadingNavEntry = { id: string; anchor?: string; level: number; title: string }
+type GuideHeadingNavEntry = ReadingTocEntry
 
-// 「本節階層」的單一項目。來自 guide_ocr 補回的標題在頁面上沒有對應區塊（id 為空），
-// 捲不過去，所以渲染成不可點的分組標籤——它們仍然是真實的結構，用來分組下層項目。
-function GuideHeadingNavItem({
-  heading, active, compact, onSelect,
-}: {
-  heading: GuideHeadingNavEntry
-  active: boolean
-  compact?: boolean
-  onSelect: (blockId: string, anchor?: string) => void
-}) {
-  const indent = `${0.5 + Math.max(0, heading.level - 3) * 0.85}rem`
-  const size = compact ? 'min-h-11 px-2 py-2.5 text-ui' : 'min-h-11 px-2 py-2.5 text-meta md:min-h-0 md:py-1.5'
+const EXAM_NOTES_STORAGE_KEY = 'ipas.guide.showExamNotes'
 
-  if (!heading.id) {
-    return (
-      <div
-        className={`block w-full border-l-2 border-l-transparent text-left leading-5 text-text-light ${size}`}
-        style={{ paddingLeft: indent }}
-      >
-        {heading.title}
-      </div>
-    )
+function readExamNotesPreference() {
+  try {
+    const stored = window.localStorage.getItem(EXAM_NOTES_STORAGE_KEY)
+    return stored === null ? true : stored === '1'
+  } catch {
+    return true
   }
+}
 
+function writeExamNotesPreference(value: boolean) {
+  try {
+    window.localStorage.setItem(EXAM_NOTES_STORAGE_KEY, value ? '1' : '0')
+  } catch {
+    // 私密視窗或封鎖網站資料時寫不進去，只影響「記住選擇」，不影響本次顯示
+  }
+}
+
+/**
+ * 考點標註開關。用 switch 樣式（軌道＋開／關文字）而不是實心按鈕，
+ * 避免「實心藍 = 按下去才顯示」的誤讀；狀態以 role="switch" + aria-checked 表示。
+ */
+function ExamNotesSwitch({ checked, onToggle, className = '' }: {
+  checked: boolean
+  onToggle: () => void
+  className?: string
+}) {
   return (
     <button
       type="button"
-      onClick={() => onSelect(heading.id, heading.anchor)}
-      aria-current={active ? 'true' : undefined}
-      className={`block w-full rounded-md border-l-2 text-left leading-5 no-underline transition-colors ${size} ${
-        active
-          ? 'border-l-accent bg-answered-soft font-semibold text-accent'
-          : 'border-l-transparent text-primary hover:bg-accent-soft hover:text-accent'
-      }`}
-      style={{ paddingLeft: indent }}
+      role="switch"
+      aria-checked={checked}
+      onClick={onToggle}
+      title="在段落後顯示「考過幾題」標註"
+      className={`min-h-11 items-center gap-3 rounded-lg px-2 text-ui text-app-text hover:bg-accent-soft focus-visible:outline-2 focus-visible:outline-accent lg:min-h-9 ${className}`}
     >
-      {heading.title}
+      <span>考點標註</span>
+      <span className="inline-flex items-center gap-2">
+        <span className="text-meta text-text-light" aria-hidden="true">{checked ? '開' : '關'}</span>
+        <span
+          aria-hidden="true"
+          className={`relative inline-block h-5 w-9 shrink-0 rounded-full transition-colors ${checked ? 'bg-accent' : 'bg-border'}`}
+        >
+          <span
+            className={`absolute top-0.5 h-4 w-4 rounded-full bg-white shadow-sm transition-[left] ${checked ? 'left-[1.125rem]' : 'left-0.5'}`}
+          />
+        </span>
+      </span>
     </button>
   )
 }
@@ -196,7 +221,7 @@ function GuideHtmlTable({ rows, html }: { rows?: string[][]; html?: string }) {
   if (html) {
     return (
       <div
-        className="guide-depth-block overflow-x-auto my-4"
+        className={`guide-depth-block my-4 ${READING_WIDE_BOX_CLASS}`}
         dangerouslySetInnerHTML={{ __html: html }}
       />
     )
@@ -204,8 +229,8 @@ function GuideHtmlTable({ rows, html }: { rows?: string[][]; html?: string }) {
   if (!rows?.length) return null
   const [header, ...bodyRows] = rows
   return (
-    <div className="guide-depth-block overflow-x-auto my-4">
-      <table className="table-soft text-sm table-auto">
+    <div className={`guide-depth-block my-4 ${READING_WIDE_BOX_CLASS}`}>
+      <table className="table-soft text-ui table-auto">
         <thead>
           <tr>
             {header.map((cell, index) => (
@@ -241,7 +266,7 @@ function blockFormulaEntries(block: GuideBlock): GuideFormula[] {
 function GuideFormulas({ formulas }: { formulas: GuideFormula[] }) {
   if (formulas.length === 0) return null
   return (
-    <div className="guide-formulas mt-2 space-y-1 overflow-x-auto text-reading">
+    <div className={`guide-formulas mt-2 space-y-1 text-reading ${READING_WIDE_BOX_CLASS}`}>
       {formulas.map((formula, index) => {
         const source = formula.display === false
           ? `$${formula.latex}$`
@@ -319,52 +344,58 @@ function GuideSourceFigure({ block }: { block: GuideBlock }) {
   )
 }
 
+// 段落後的公告試題標註：預設收成一個小徽章（「考過 3 題」），點了才展開題目清單，
+// 避免橘色區塊打斷正文閱讀。頁面層級的「顯示考點標註」可整個關掉。
 function GuideExamReferenceNotes({ annotations, depth }: { annotations: GuideExamAnnotation[]; depth: number }) {
+  const [open, setOpen] = useState(false)
   if (annotations.length === 0) return null
   const visibleAnnotations = annotations.slice(0, 8)
   const hiddenCount = annotations.length - visibleAnnotations.length
+  const questionCount = new Set(annotations.map((annotation) => annotation.id)).size
   const examLabels = Array.from(new Set(annotations.map((annotation) => annotation.examLabel)))
 
   return (
-    <details
-      className="guide-depth-block my-3 rounded-md border border-warning-line bg-warning-soft px-3 py-2 text-ui leading-6 text-app-text"
-      style={blockIndentStyle(depth)}
-    >
-      <summary className="min-h-11 cursor-pointer py-2.5 text-primary md:min-h-0 md:py-0">
-        <span className="font-semibold">歷屆試題</span>
-        <span className="ml-2 text-meta text-text-light">
-          {annotations.length} 題曾引用此段
-          {examLabels.length > 0 ? ` · ${examLabels.slice(0, 2).join('、')}${examLabels.length > 2 ? ` 等 ${examLabels.length} 份` : ''}` : ''}
-        </span>
-      </summary>
-      <div className="mt-2 space-y-2">
-        {visibleAnnotations.map((annotation) => (
-          <div key={annotation.id} className="border-t border-warning/20 pt-2 first:border-t-0 first:pt-0">
-            <div className="flex flex-wrap items-center gap-2">
-              <Link to={annotation.route} className="text-link">
-                {annotation.examLabel} 第 {annotation.questionNumber} 題
-              </Link>
-              <span className="badge badge-warning">
-                答案 {annotation.answer}
-              </span>
-            </div>
-            <div className="mt-1 text-ui leading-6 text-app-text content-justify">
-              {annotation.question}
-            </div>
-            {annotation.reasons?.[0] && (
-              <div className="mt-1 text-meta leading-5 text-text-light">
-                {annotation.reasons[0]}
+    <div className="guide-depth-block -mt-2 mb-3" style={blockIndentStyle(depth)} data-guide-exam-notes="">
+      <button
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        aria-expanded={open}
+        className="inline-flex min-h-11 items-center gap-1.5 rounded-full text-left md:min-h-0"
+        title={examLabels.length > 0 ? examLabels.join('、') : undefined}
+      >
+        <span className="badge badge-warning">考過 {questionCount} 題</span>
+        <span className="text-meta text-text-light" aria-hidden="true">{open ? '收合 ▴' : '▾'}</span>
+      </button>
+      {open && (
+        <div className="mt-2 space-y-2 rounded-md border border-warning-line bg-warning-soft px-3 py-2 text-ui leading-6 text-app-text">
+          {visibleAnnotations.map((annotation) => (
+            <div key={annotation.id} className="border-t border-warning/20 pt-2 first:border-t-0 first:pt-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <Link to={annotation.route} className="text-link">
+                  {annotation.examLabel} 第 {annotation.questionNumber} 題
+                </Link>
+                <span className="badge badge-warning">
+                  答案 {annotation.answer}
+                </span>
               </div>
-            )}
-          </div>
-        ))}
-        {hiddenCount > 0 && (
-          <div className="border-t border-warning/20 pt-2 text-meta text-text-light">
-            另有 {hiddenCount} 題引用此區塊。
-          </div>
-        )}
-      </div>
-    </details>
+              <div className="mt-1 text-ui leading-6 text-app-text content-justify">
+                {annotation.question}
+              </div>
+              {annotation.reasons?.[0] && (
+                <div className="mt-1 text-meta leading-5 text-text-light">
+                  {annotation.reasons[0]}
+                </div>
+              )}
+            </div>
+          ))}
+          {hiddenCount > 0 && (
+            <div className="border-t border-warning/20 pt-2 text-meta text-text-light">
+              另有 {hiddenCount} 題引用此區塊。
+            </div>
+          )}
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -372,10 +403,12 @@ function GuideBlocksRenderer({
   blocks,
   images,
   examAnnotations,
+  showExamNotes,
 }: {
   blocks: GuideBlock[]
   images: GuideImageAsset[]
   examAnnotations: Record<string, GuideExamAnnotation[]>
+  showExamNotes: boolean
 }) {
   const imagesByHeading = images.reduce<Record<string, GuideImageAsset[]>>((acc, image) => {
     if (!image.headingBlockId) return acc
@@ -387,7 +420,7 @@ function GuideBlocksRenderer({
 
   const renderWithImages = (block: GuideBlock, element: React.ReactNode) => {
     const blockImages = imagesByHeading[block.id] ?? []
-    const blockAnnotations = examAnnotations[block.id] ?? []
+    const blockAnnotations = showExamNotes ? examAnnotations[block.id] ?? [] : []
     if (blockImages.length === 0 && blockAnnotations.length === 0) return element
     return (
       <div key={`${block.id}-with-extras`}>
@@ -426,7 +459,7 @@ function GuideBlocksRenderer({
                 key={block.id}
                 id={guideHeadingDomId(block.id)}
                 data-guide-block-id={block.id}
-                className="guide-depth-block text-reading leading-8 text-app-text mb-2 content-justify"
+                className={`guide-depth-block ${READING_LIST_ITEM_CLASS}`}
                 style={blockIndentStyle(block.depth)}
               >
                 <GuideBlockBody block={block} />
@@ -438,7 +471,7 @@ function GuideBlocksRenderer({
               key={block.id}
               id={guideHeadingDomId(block.id)}
               data-guide-block-id={block.id}
-              className="guide-depth-block grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1 text-reading leading-8 text-app-text mb-2 content-justify"
+              className={`guide-depth-block grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1 ${READING_LIST_ITEM_CLASS}`}
               style={blockIndentStyle(block.depth)}
             >
               <span className={listMarkerClass(block.marker)}>{block.marker}</span>
@@ -502,6 +535,7 @@ function GuideBlocksRenderer({
 export default function GuidePage() {
   const { subjectId, chapterId } = useParams<{ subjectId: string; chapterId: string }>()
   const location = useLocation()
+  const examResultsReturn = examResultsReturnTarget(location.state)
   const outlineGuide = subjectId ? guideOutlines.guides[subjectId] : undefined
   const chapter = chapterId && outlineGuide ? outlineGuide.nodesById[chapterId] : undefined
   const [content, setContent] = useState<GuideContent | null>(null)
@@ -513,6 +547,14 @@ export default function GuidePage() {
   const drawerTriggerRef = useRef<HTMLButtonElement | null>(null)
   const scrollToContentBlockRef = useRef<((id: string, anchor?: string) => void) | null>(null)
   const [activeHeadingId, setActiveHeadingId] = useState<string | null>(null)
+  const [showExamNotes, setShowExamNotes] = useState(readExamNotesPreference)
+  const isWideLayout = useMediaQuery(WIDE_LAYOUT_QUERY)
+  const toggleExamNotes = useCallback(() => {
+    setShowExamNotes((value) => {
+      writeExamNotesPreference(!value)
+      return !value
+    })
+  }, [])
   const { progress: readingProgress, showBackToTop, scrollToTop } = useScrollProgress(() => contentScrollRef.current)
   const { index: learningIndex } = useLearningIndex()
   const relatedUnits = learningIndex?.units.filter((unit) =>
@@ -698,12 +740,10 @@ export default function GuidePage() {
   const loadedExamAnnotationItems = Object.values(examAnnotationsByBlock).flat()
   const loadedExamQuestionCount = new Set(loadedExamAnnotationItems.map((annotation) => annotation.id)).size
   const chapterExamQuestionCount = chapterExamAnnotationSummary?.questions ?? loadedExamQuestionCount
-  const chapterExamBlockCount = chapterExamAnnotationSummary?.guideBlocks ?? Object.keys(examAnnotationsByBlock).length
   const normalizedBody = normalizeOcrSoftBreaks(body)
   const isMarkdown = content?.contentFormat === 'markdown' || body.trimStart().startsWith('#') || body.trimStart().startsWith('##')
-  const paragraphs = hasBlocks
-    ? contentBlocks.filter((block) => block.type === 'paragraph').map((block) => block.text ?? '').filter(Boolean)
-    : isMarkdown ? [] : normalizedBody.split(/\n{2,}/).filter((p) => p.trim())
+  // 沒有 blocks、也不是 markdown 的舊格式內容：以空行切段落
+  const paragraphs = hasBlocks || isMarkdown ? [] : normalizedBody.split(/\n{2,}/).filter((p) => p.trim())
   const notice = chapterId ? GUIDE_NOTICES[chapterId] : undefined
   const sourcePages = content?.sourcePages ?? []
   // 「本節階層」優先用完整階層樹（guideHierarchy.json）——它是巢狀的，
@@ -719,7 +759,7 @@ export default function GuidePage() {
     for (const block of contentBlocks) {
       if (block.anchor && block.id) blockIdByAnchor.set(block.anchor, block.id)
     }
-    const out: { id: string; anchor?: string; level: number; title: string }[] = []
+    const out: GuideHeadingNavEntry[] = []
     const walk = (nodeId: string) => {
       for (const childId of hierarchyGuide.nodesById[nodeId]?.childIds ?? []) {
         const node = hierarchyGuide.nodesById[childId]
@@ -737,7 +777,7 @@ export default function GuidePage() {
     return out
   })()
 
-  const contentHeadings = hierarchyHeadings.length > 0
+  const contentHeadings: GuideHeadingNavEntry[] = hierarchyHeadings.length > 0
     ? hierarchyHeadings
     : hasBlocks
     ? contentBlocks
@@ -795,24 +835,34 @@ export default function GuidePage() {
         className="mb-2 shrink-0 sm:mb-4"
         eyebrow={<span className="hidden sm:inline">學習指引</span>}
         title={chapter.title}
-        description={
-          <span className="hidden sm:inline">
-            {outlineGuide.subject} › 學習指引原文（{content ? `共 ${body.length.toLocaleString()} 字元` : '載入中'}）
-          </span>
-        }
+        description={<span className="hidden sm:inline">{outlineGuide.subject}</span>}
         meta={
           <div className="hidden flex-wrap gap-2 sm:flex">
-            <span className="pill">{pageRange}</span>
-            <span className="pill pill-muted">{paragraphs.length} 段落</span>
+            <span className="pill pill-muted">{pageRange}</span>
             {chapterExamQuestionCount > 0 && (
-              <span className="pill">歷屆試題 {chapterExamQuestionCount} 題</span>
+              <span className="pill">公告試題 {chapterExamQuestionCount} 題</span>
             )}
           </div>
         }
+        actions={isWideLayout && chapterExamQuestionCount > 0 && (
+          // 手機版放進章節目錄抽屜，避免在不會捲走的頁首多佔一列、壓縮正文。
+          <ExamNotesSwitch checked={showExamNotes} onToggle={toggleExamNotes} className="inline-flex" />
+        )}
       />
 
-      <div className="mb-2 sm:mb-4 shrink-0">
-        <GuideBreadcrumb crumbs={breadcrumb} />
+      <div className="mb-2 flex shrink-0 flex-wrap items-center gap-x-4 sm:mb-4">
+        {examResultsReturn && (
+          // 從考試成績的引用連結進來時，提供回到成績頁的入口（成績頁會還原篩選與捲動位置）
+          <Link
+            to={examResultsReturn}
+            className="text-link inline-flex min-h-11 shrink-0 items-center text-meta font-semibold md:min-h-0"
+          >
+            ← 回到考試成績
+          </Link>
+        )}
+        <div className="min-w-0 flex-1">
+          <GuideBreadcrumb crumbs={breadcrumb} />
+        </div>
       </div>
 
       {notice && (
@@ -835,80 +885,35 @@ export default function GuidePage() {
         </section>
       )}
 
-      <div className="hidden sm:block surface shrink-0 p-4 sm:p-5 mb-4">
-        <div className="flex flex-wrap gap-2 mb-4">
-          <span className="pill">
-            {paragraphs.length} 段落
-          </span>
-          <span className="pill">
-            {body.length.toLocaleString()} 字元
-          </span>
-          <span className="pill">
-            {pageRange}
-          </span>
-          {chapterExamQuestionCount > 0 && (
-            <span className="pill">
-              歷屆試題 {chapterExamQuestionCount} 題 / {chapterExamBlockCount} 處
-            </span>
-          )}
-          {sourcePages.length > 0 && (
-            <span className="pill">
-              PDF {sourcePages[0].label || sourcePages[0].page}–{sourcePages[sourcePages.length - 1].label || sourcePages[sourcePages.length - 1].page}
-            </span>
-          )}
-        </div>
-        {hasChildChapters && (
+      <ReadingLayout
+        className="min-h-0 flex-1 grid-rows-[minmax(0,1fr)] overflow-hidden"
+        mainRef={contentScrollRef}
+        mainClassName="h-full min-h-0 overflow-y-auto overflow-x-hidden pr-1 app-scroll-stable pb-[calc(5rem+var(--app-safe-bottom))] lg:pb-0"
+        asideClassName="h-full"
+        toc={
           <>
-            <div className="section-title mb-2 mt-4">下層章節</div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {childChapters.map((child) => (
-                <Link
-                  key={child.id}
-                  to={`/guide/${subjectId}/${child.id}`}
-                  className="block surface-compact px-4 py-3 text-primary no-underline transition-colors hover:border-accent hover:bg-accent-soft"
-                >
-                  <span className="block text-body font-semibold">
-                    {child.number ? `${child.number} ` : ''}{child.title}
-                  </span>
-                  <span className="block text-meta text-text-light mt-1">
-                    PDF 第 {child.pageRange[0]}–{child.pageRange[1]} 頁
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </>
-        )}
-      </div>
-
-      <div className="flex flex-col xl:grid xl:grid-cols-[minmax(220px,280px)_1fr] xl:grid-rows-1 gap-4 flex-1 min-h-0 overflow-hidden">
-        <aside className="hidden xl:flex xl:flex-col surface z-20 p-4 sm:p-5 xl:h-full xl:overflow-hidden">
-          <div className="h-full overflow-y-auto overflow-x-hidden pr-1 scrollbar-hidden">
-            <div className="section-title mb-3">PDF 目錄</div>
-            <GuideOutlineTree
-              subjectId={subjectId ?? outlineGuide.subjectId}
-              rootIds={outlineGuide.root}
-              nodesById={outlineGuide.nodesById}
-              activeId={chapter.id}
+            <ReadingToc
+              entries={contentHeadings}
+              activeId={activeHeadingId}
+              onSelect={(entry) => scrollToContentBlock(entry.id, entry.anchor)}
             />
-            {contentHeadings.length > 0 && (
-              <div className="mt-5 border-t border-border pt-4">
-                <div className="section-title mb-3">本節階層</div>
-                <div className="space-y-1">
-                  {contentHeadings.map((heading, index) => (
-                    <GuideHeadingNavItem
-                      key={`${heading.id || heading.anchor || index}-${heading.title}`}
-                      heading={heading}
-                      active={Boolean(heading.id) && activeHeadingId === heading.id}
-                      onSelect={scrollToContentBlock}
-                    />
-                  ))}
-                </div>
+            <details
+              className={contentHeadings.length > 0 ? 'mt-5 border-t border-border pt-4' : ''}
+              open={contentHeadings.length === 0}
+            >
+              <summary className="section-title cursor-pointer">PDF 目錄</summary>
+              <div className="mt-3">
+                <GuideOutlineTree
+                  subjectId={subjectId ?? outlineGuide.subjectId}
+                  rootIds={outlineGuide.root}
+                  nodesById={outlineGuide.nodesById}
+                  activeId={chapter.id}
+                />
               </div>
-            )}
-          </div>
-        </aside>
-
-        <div ref={contentScrollRef} className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden pr-1 app-scroll-stable pb-[calc(5rem+var(--app-safe-bottom))] xl:pb-0">
+            </details>
+          </>
+        }
+      >
           <div className="sticky top-0 z-10 -mt-0 mb-3 bg-app-bg/90 px-0 py-1 backdrop-blur-sm">
             <ReadingProgressBar progress={readingProgress} />
           </div>
@@ -969,12 +974,13 @@ export default function GuidePage() {
             </ReadingSurface>
           ) : (
             <ReadingSurface>
-              <ReadingContent className="text-reading leading-8">
+              <ReadingContent>
                 {hasBlocks ? (
                   <GuideBlocksRenderer
                     blocks={contentBlocks}
                     images={chapterImages}
                     examAnnotations={examAnnotationsByBlock}
+                    showExamNotes={showExamNotes}
                   />
                 ) : isMarkdown ? (
                   <div className="guide-content prose max-w-none text-reading text-app-text content-justify">
@@ -998,7 +1004,7 @@ export default function GuidePage() {
                           <h6 id={headingAnchor(plainText(children))} className="scroll-mt-4 text-body font-semibold text-text-light mt-3 mb-1">{children}</h6>
                         ),
                         p: ({ children }) => (
-                          <p className="mb-3 leading-8 content-justify">{children}</p>
+                          <p className="mb-4 leading-[1.8] content-justify">{children}</p>
                         ),
                         ul: ({ children }) => (
                           <ul className="list-disc list-outside pl-5 mb-3 space-y-1">{children}</ul>
@@ -1007,11 +1013,11 @@ export default function GuidePage() {
                           <ol className="list-decimal list-outside pl-5 mb-3 space-y-1">{children}</ol>
                         ),
                         li: ({ children }) => (
-                          <li className="leading-7 content-justify">{children}</li>
+                          <li className="leading-[1.8] content-justify">{children}</li>
                         ),
                         table: ({ children }) => (
-                          <div className="overflow-x-auto my-4">
-                            <table className="table-soft text-sm">{children}</table>
+                          <div className={`my-4 ${READING_WIDE_BOX_CLASS}`}>
+                            <table className="table-soft text-ui">{children}</table>
                           </div>
                         ),
                         th: ({ children }) => (
@@ -1029,7 +1035,7 @@ export default function GuidePage() {
                     </ReactMarkdown>
                   </div>
                 ) : (
-                  <div className="guide-content prose max-w-none text-reading text-app-text space-y-4 content-justify">
+                  <div className="guide-content prose max-w-none text-reading leading-[1.8] text-app-text space-y-4 content-justify">
                     {paragraphs.map((para, i) => (
                       <p key={i}>{para}</p>
                     ))}
@@ -1039,17 +1045,38 @@ export default function GuidePage() {
             </ReadingSurface>
           )}
           {colabNotebook && <ColabSection notebook={colabNotebook} />}
-        </div>
-      </div>
+          {(prevChapter || nextChapter) && (
+            <nav className="mt-4 mb-6 hidden grid-cols-2 gap-3 lg:grid" aria-label="上一章與下一章">
+              {prevChapter ? (
+                <Link
+                  to={`/guide/${subjectId}/${prevChapter.id}`}
+                  className="surface-compact p-4 no-underline hover:border-accent hover:bg-accent-soft"
+                >
+                  <span className="block text-meta font-semibold text-text-light">上一章</span>
+                  <span className="mt-1 block font-semibold text-primary">{prevChapter.title}</span>
+                </Link>
+              ) : <span />}
+              {nextChapter ? (
+                <Link
+                  to={`/guide/${subjectId}/${nextChapter.id}`}
+                  className="surface-compact p-4 text-right no-underline hover:border-accent hover:bg-accent-soft"
+                >
+                  <span className="block text-meta font-semibold text-text-light">下一章</span>
+                  <span className="mt-1 block font-semibold text-primary">{nextChapter.title}</span>
+                </Link>
+              ) : <span />}
+            </nav>
+          )}
+      </ReadingLayout>
 
       <BackToTopButton
         show={showBackToTop}
         onClick={scrollToTop}
-        className="bottom-[calc(5.75rem+var(--app-safe-bottom))] right-4 xl:bottom-8 xl:right-8"
+        className="bottom-[calc(5.75rem+var(--app-safe-bottom))] right-4 lg:bottom-8 lg:right-[19rem] xl:right-[21rem]"
       />
 
       {/* ── Mobile bottom chapter navigation bar ──────────────────────── */}
-      <MobileActionBar className="xl:hidden">
+      <MobileActionBar className="lg:hidden">
         <div className="flex h-14 w-full items-stretch">
           {/* Prev chapter */}
           {prevChapter ? (
@@ -1115,6 +1142,11 @@ export default function GuidePage() {
         onClose={() => setShowDrawer(false)}
         restoreFocusRef={drawerTriggerRef}
       >
+        {chapterExamQuestionCount > 0 && (
+          <div className="mb-4 border-b border-border pb-4">
+            <ExamNotesSwitch checked={showExamNotes} onToggle={toggleExamNotes} className="flex w-full justify-between" />
+          </div>
+        )}
         <GuideOutlineTree
           subjectId={subjectId ?? outlineGuide.subjectId}
           rootIds={outlineGuide.root}
@@ -1124,21 +1156,15 @@ export default function GuidePage() {
         />
         {contentHeadings.length > 0 && (
           <div className="mt-5 border-t border-border pt-4">
-            <div className="section-title mb-3">本節階層</div>
-            <div className="space-y-1">
-              {contentHeadings.map((heading, index) => (
-                <GuideHeadingNavItem
-                  key={`${heading.id || heading.anchor || index}-${heading.title}`}
-                  heading={heading}
-                  active={Boolean(heading.id) && activeHeadingId === heading.id}
-                  compact
-                  onSelect={(blockId, anchor) => {
-                    setShowDrawer(false)
-                    requestAnimationFrame(() => scrollToContentBlock(blockId, anchor))
-                  }}
-                />
-              ))}
-            </div>
+            <ReadingToc
+              entries={contentHeadings}
+              activeId={activeHeadingId}
+              compact
+              onSelect={(entry) => {
+                setShowDrawer(false)
+                requestAnimationFrame(() => scrollToContentBlock(entry.id, entry.anchor))
+              }}
+            />
           </div>
         )}
       </MobileChapterDrawer>

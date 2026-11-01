@@ -44,6 +44,8 @@ function compareAssets(a: PdfImageAsset, b: PdfImageAsset) {
   return a.asset_id.localeCompare(b.asset_id)
 }
 
+const typeFilters = ['all', 'page', 'image', 'table'] as const
+
 const typeLabel = (type: PdfImageAsset['type']) => (type === 'page' ? '頁面' : type === 'table' ? '表格' : '圖片')
 
 function pageText(item: PdfImageAsset) {
@@ -210,6 +212,7 @@ export default function ImageGalleryPage() {
           </button>
         )}
       >
+        {/* 級別除了 toc_manifest 的初級／中級，還有「共用」來源，所以不用 LevelPicker，改用同樣外觀的 Chip */}
         <ChipGroup label="級別">
           {['all', ...levels].map((level) => (
             <Chip
@@ -224,33 +227,30 @@ export default function ImageGalleryPage() {
             </Chip>
           ))}
         </ChipGroup>
-        <label className="field-label">
-          教材
-          <select
-            value={selectedKey}
-            onChange={(event) => setSelectedKey(event.target.value)}
-            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-ui font-normal text-app-text md:min-h-9"
-          >
-            <option value="all">全部教材</option>
-            {keys.map((key) => (
-              <option key={key} value={key}>{keyLabel(key)}</option>
-            ))}
-          </select>
-        </label>
-        <label className="field-label">
-          類型
-          <select
-            value={selectedType}
-            onChange={(event) => setSelectedType(event.target.value)}
-            className="mt-1 min-h-11 w-full rounded-lg border border-border bg-white px-3 py-2 text-ui font-normal text-app-text md:min-h-9"
-          >
-            <option value="all">全部</option>
-            <option value="page">頁面截圖 ({filteredCounts.page})</option>
-            <option value="image">圖片 ({filteredCounts.image})</option>
-            <option value="table">表格 ({filteredCounts.table})</option>
-          </select>
-        </label>
-        <label className="field-label">
+        <ChipGroup label="教材" className="md:col-span-2 xl:col-span-3">
+          <Chip active={selectedKey === 'all'} onClick={() => setSelectedKey('all')}>
+            全部教材
+          </Chip>
+          {keys.map((key) => (
+            <Chip key={key} active={selectedKey === key} onClick={() => setSelectedKey(key)}>
+              {keyLabel(key)}
+            </Chip>
+          ))}
+        </ChipGroup>
+        <ChipGroup label="類型" className="xl:col-span-2">
+          {typeFilters.map((type) => (
+            <Chip
+              key={type}
+              active={selectedType === type}
+              onClick={() => setSelectedType(type)}
+              count={type === 'all' ? undefined : filteredCounts[type]}
+              disabled={type !== 'all' && filteredCounts[type] === 0 && selectedType !== type}
+            >
+              {type === 'all' ? '全部類型' : type === 'page' ? '頁面截圖' : typeLabel(type)}
+            </Chip>
+          ))}
+        </ChipGroup>
+        <label className="field-label xl:col-span-2">
           頁碼 / 教材頁碼
           <input
             value={pageQuery}

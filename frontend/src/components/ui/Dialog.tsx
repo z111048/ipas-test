@@ -13,6 +13,8 @@ interface DialogProps {
   lockBodyScroll?: boolean
   mobilePosition?: 'bottom' | 'top' | 'center'
   className?: string
+  /** 關閉時回傳 false 就不把焦點還給開啟前的元素（例如關閉後要跳到別處）。 */
+  shouldRestoreFocus?: () => boolean
 }
 
 export default function Dialog({
@@ -27,6 +29,7 @@ export default function Dialog({
   lockBodyScroll = true,
   mobilePosition = 'bottom',
   className = '',
+  shouldRestoreFocus,
 }: DialogProps) {
   const panelRef = useRef<HTMLDivElement>(null)
   useFocusTrap({
@@ -36,6 +39,7 @@ export default function Dialog({
     initialFocusRef,
     restoreFocusRef,
     lockBodyScroll,
+    shouldRestoreFocus,
   })
 
   if (!open) return null

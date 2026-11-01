@@ -1,15 +1,19 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Chip, ChipGroup, FilterBar, PageHeader, StatePanel, SubjectPicker, subjectOptions } from '../components/ui'
+import { Chip, ChipGroup, Dialog, FilterBar, PageHeader, StatePanel, SubjectPicker, subjectOptions } from '../components/ui'
 import { navLabel } from '../constants/navLabels'
 import { resolveConcept } from '../data/conceptLookup'
 import { guideNav } from '../data/guideNav'
+import { useMediaQuery, WIDE_LAYOUT_QUERY } from '../hooks/useMediaQuery'
 
 // three.js 約 1MB：只有切到立體圖才載
 const ConceptGraph3D = lazy(() => import('../components/concepts/ConceptGraph3D'))
 const QuestionModal = lazy(() => import('../components/concepts/QuestionModal'))
 // 圖例要跟立體圖上的顏色一致：那是深色底的色階（暗→亮＝考得少→考得多）
 const HEAT_STEPS = ['#184f95', '#256abf', '#3987e5', '#6da7ec', '#b7d3f6']
+
+// 桌機兩欄都固定在 main 頂端、各自捲動
+const STICKY_MAX_H = 'lg:max-h-[calc(100dvh-var(--app-header-h)-2rem)]'
 
 interface GlossaryRef {
   level: string
@@ -158,11 +162,39 @@ export default function ConceptsPage() {
     })
   }, [concepts, query, parent, subject, subjectsByConcept])
 
+  const isDesktop = useMediaQuery(WIDE_LAYOUT_QUERY)
+  const detailRef = useRef<HTMLDivElement>(null)
+  // 只在使用者主動點選時才捲動；深連結進來或改寫網址不捲
+  const scrollOnSelect = useRef(false)
+
   function select(id: string) {
+    scrollOnSelect.current = true
     const next = new URLSearchParams(searchParams)
     next.set('c', id)
     setSearchParams(next)
   }
+
+  const closeDetail = useCallback(() => {
+    const next = new URLSearchParams(searchParams)
+    next.delete('c')
+    setSearchParams(next, { replace: true })
+  }, [searchParams, setSearchParams])
+
+  const selectedId = selected?.id
+  useEffect(() => {
+    const panel = detailRef.current
+    if (!panel || !selectedId) return
+    // 桌機詳情欄自己捲動：換概念時回到頂端
+    panel.scrollTop = 0
+    if (scrollOnSelect.current && view === 'graph') {
+      // 立體圖模式詳情在圖下方，點了球體要讓它出現在畫面上
+      panel.scrollIntoView({
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'nearest',
+      })
+    }
+    scrollOnSelect.current = false
+  }, [selectedId, view])
 
   if (loadError) {
     return (
@@ -195,7 +227,7 @@ export default function ConceptsPage() {
           <>
             概念、定義與考過的題目：
             {graph.conceptCount} 個概念，串起名詞定義、學習指引章節、
-            {graph.questionCount.official} 題歷屆試題與 {graph.questionCount.practice} 題練習。
+            {graph.questionCount.official} 題公告試題與 {graph.questionCount.practice} 題練習。
             點任一概念看它考在哪裡、和哪些概念一起出現。
           </>
         }
@@ -264,7 +296,7 @@ export default function ConceptsPage() {
           </div>
           <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-meta text-text-light">
             <span className="flex items-center gap-1">
-              考古題題數
+              公告試題題數
               {HEAT_STEPS.map((color) => (
                 <span
                   key={color}
@@ -274,7 +306,7 @@ export default function ConceptsPage() {
               ))}
               <span>少 → 多</span>
             </span>
-            <span>球體大小＝總題數（考古題＋練習）</span>
+            <span>球體大小＝總題數（公告試題＋練習）</span>
             <span>連線＝兩個概念被標在同一題上，粗細＝次數</span>
             <label className="flex min-h-11 items-center gap-1.5 cursor-pointer">
               <input
@@ -289,10 +321,10 @@ export default function ConceptsPage() {
         </div>
       )}
 
-      <div className={`grid grid-cols-1 gap-4 ${view === 'list' ? 'lg:grid-cols-[280px_1fr]' : ''}`}>
+      <div className={`grid grid-cols-1 gap-4 ${view === 'list' ? 'lg:grid-cols-[280px_minmax(0,1fr)]' : ''}`}>
         <div
           className={`bg-card rounded-xl shadow-sm border border-border overflow-hidden max-h-[70dvh] overflow-y-auto ${
-            view === 'graph' ? 'hidden' : ''
+            view === 'graph' ? 'hidden' : `lg:sticky lg:top-4 lg:self-start ${STICKY_MAX_H}`
           }`}
         >
           {listed.map((concept) => {
@@ -308,7 +340,7 @@ export default function ConceptsPage() {
               >
                 <div className="text-body font-semibold text-primary">{concept.name}</div>
                 <div className="text-caption text-text-light">
-                  {concept.parent} · 考古題 {concept.questionCount.official}／練習 {concept.questionCount.practice}
+                  {concept.parent} · 公告試題 {concept.questionCount.official}／練習 {concept.questionCount.practice}
                 </div>
               </button>
             )
@@ -320,97 +352,51 @@ export default function ConceptsPage() {
           )}
         </div>
 
-        <div className="bg-card rounded-xl shadow-sm border border-border p-5">
-          {unresolved ? (
-            <StatePanel tone="empty" title="找不到概念">
-              網址指定的「{requested}」不在目前的概念索引裡，可能已改名或合併。
-              請從清單重新選一個概念。
-            </StatePanel>
-          ) : !selected ? (
-            <StatePanel tone="empty">
-              從概念清單挑一個概念，或在立體圖中點選節點。
-            </StatePanel>
-          ) : (
-            <>
-              <div className="text-caption text-text-light">{selected.parent}</div>
-              <h2 className="text-xl font-bold text-primary mt-1 mb-2">{selected.name}</h2>
-
-              {selected.glossary.length > 0 ? (
-                selected.glossary.map((entry) => (
-                  <div key={`${entry.level}-${entry.subjectName}`} className="mb-3">
-                    <div className="text-meta text-accent">
-                      {entry.level} · {entry.en}
-                    </div>
-                    <p className="text-reading leading-7 content-justify m-0">{entry.definition}</p>
-                    {entry.example && (
-                      <p className="leading-7 content-justify m-0 mt-1 text-text-light text-ui">
-                        例：{entry.example}
-                      </p>
-                    )}
-                  </div>
-                ))
-              ) : (
-                <p className="text-ui text-text-light">這個概念還沒有定義說明。</p>
-              )}
-
-              {selected.chapters.length > 0 && (
-                <div className="mt-4">
-                  <h3 className="text-meta font-semibold text-primary mb-1.5">{navLabel('guide')}章節</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {selected.chapters.map((chapter) => {
-                      const node = chapterNode(chapter.nodeId)
-                      const label = `${chapter.guideKey.split('-')[0]} ${node?.title ?? '學習指引'}（${chapter.count} 題）`
-                      return node?.route ? (
-                        <Chip key={chapter.nodeId} to={node.route}>{label}</Chip>
-                      ) : (
-                        <span key={chapter.nodeId} className="badge">{label}</span>
-                      )
-                    })}
-                  </div>
-                </div>
-              )}
-
-              {selected.related.length > 0 && (
-                <div className="mt-4">
-                  <h3 className="text-meta font-semibold text-primary mb-1.5">
-                    常一起出現的概念
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {selected.related.map((item) => (
-                      <Chip key={item.id} onClick={() => select(item.id)} count={`×${item.weight}`}>
-                        {item.name}
-                      </Chip>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              <div className="mt-4">
-                <h3 className="text-meta font-semibold text-primary mb-1.5">
-                  考過這個概念的題目（{selected.questions.length} 題）
-                </h3>
-                <ul className="m-0 list-none p-0 space-y-1.5">
-                  {selected.questions.map((question) => (
-                    <li key={`${question.source}-${question.id}`}>
-                      <button
-                        type="button"
-                        onClick={() => setOpenQuestion(question)}
-                        className="min-h-11 w-full rounded-lg border border-border px-3 py-2 text-left text-ui hover:border-accent cursor-pointer"
-                      >
-                        <span className="text-text-light text-caption">
-                          {question.level} · {question.source}
-                        </span>
-                        <br />
-                        <span className="text-primary">{question.stem}…</span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </>
-          )}
-        </div>
+        {isDesktop ? (
+          <div
+            ref={detailRef}
+            className={`bg-card rounded-xl shadow-sm border border-border p-5 ${
+              view === 'list' ? `lg:sticky lg:top-4 lg:self-start lg:overflow-y-auto ${STICKY_MAX_H}` : 'scroll-mt-4'
+            }`}
+          >
+            {unresolved ? (
+              <UnresolvedConcept requested={requested} />
+            ) : !selected ? (
+              <StatePanel tone="empty">
+                從概念清單挑一個概念，或在立體圖中點選節點。
+              </StatePanel>
+            ) : (
+              <ConceptDetail concept={selected} onSelect={select} onOpenQuestion={setOpenQuestion} />
+            )}
+          </div>
+        ) : (
+          unresolved && (
+            <div className="order-first">
+              <UnresolvedConcept requested={requested} />
+            </div>
+          )
+        )}
       </div>
+
+      {/* 手機：點概念後從底部滑出詳情；開題目彈窗時先收起，關掉題目再回到這個概念 */}
+      {!isDesktop && selected && (
+        <Dialog
+          // 換概念（點「常一起出現的概念」）時重掛面板，捲動位置回到頂端
+          key={selected.id}
+          open={!openQuestion}
+          title={selected.name}
+          onClose={closeDetail}
+          className="pb-[env(safe-area-inset-bottom)]"
+        >
+          <ConceptDetail
+            concept={selected}
+            onSelect={select}
+            onOpenQuestion={setOpenQuestion}
+            sheet
+            onClose={closeDetail}
+          />
+        </Dialog>
+      )}
 
       {openQuestion && (
         <Suspense fallback={null}>
@@ -418,5 +404,126 @@ export default function ConceptsPage() {
         </Suspense>
       )}
     </div>
+  )
+}
+
+function UnresolvedConcept({ requested }: { requested: string }) {
+  return (
+    <StatePanel tone="empty" title="找不到概念">
+      網址指定的「{requested}」不在目前的概念索引裡，可能已改名或合併。
+      請從清單重新選一個概念。
+    </StatePanel>
+  )
+}
+
+interface ConceptDetailProps {
+  concept: Concept
+  onSelect: (id: string) => void
+  onOpenQuestion: (question: QuestionRef) => void
+  /** 手機底部面板：標題列固定在面板頂端，右側放關閉鈕 */
+  sheet?: boolean
+  onClose?: () => void
+}
+
+function ConceptDetail({
+  concept: selected,
+  onSelect: select,
+  onOpenQuestion: setOpenQuestion,
+  sheet = false,
+  onClose,
+}: ConceptDetailProps) {
+  return (
+    <>
+      {sheet ? (
+        <div className="sticky top-0 z-10 flex items-start gap-3 border-b border-border bg-card px-4 pb-3 pt-4">
+          <div className="min-w-0 flex-1">
+            <div className="text-caption text-text-light">{selected.parent}</div>
+            <h2 className="text-xl font-bold text-primary mt-1">{selected.name}</h2>
+          </div>
+          <button type="button" className="btn-secondary btn-sm shrink-0" onClick={onClose}>
+            關閉
+          </button>
+        </div>
+      ) : (
+        <>
+          <div className="text-caption text-text-light">{selected.parent}</div>
+          <h2 className="text-xl font-bold text-primary mt-1 mb-2">{selected.name}</h2>
+        </>
+      )}
+      <div className={sheet ? 'px-4 pb-5 pt-3' : ''}>
+        {selected.glossary.length > 0 ? (
+          selected.glossary.map((entry) => (
+            <div key={`${entry.level}-${entry.subjectName}`} className="mb-3">
+              <div className="text-meta text-accent">
+                {entry.level} · {entry.en}
+              </div>
+              <p className="text-reading leading-7 content-justify m-0">{entry.definition}</p>
+              {entry.example && (
+                <p className="leading-7 content-justify m-0 mt-1 text-text-light text-ui">
+                  例：{entry.example}
+                </p>
+              )}
+            </div>
+          ))
+        ) : (
+          <p className="text-ui text-text-light">這個概念還沒有定義說明。</p>
+        )}
+
+        {selected.chapters.length > 0 && (
+          <div className="mt-4">
+            <h3 className="text-meta font-semibold text-primary mb-1.5">{navLabel('guide')}章節</h3>
+            <div className="flex flex-wrap gap-2">
+              {selected.chapters.map((chapter) => {
+                const node = chapterNode(chapter.nodeId)
+                const label = `${chapter.guideKey.split('-')[0]} ${node?.title ?? '學習指引'}（${chapter.count} 題）`
+                return node?.route ? (
+                  <Chip key={chapter.nodeId} to={node.route}>{label}</Chip>
+                ) : (
+                  <span key={chapter.nodeId} className="badge">{label}</span>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
+        {selected.related.length > 0 && (
+          <div className="mt-4">
+            <h3 className="text-meta font-semibold text-primary mb-1.5">
+              常一起出現的概念
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {selected.related.map((item) => (
+                <Chip key={item.id} onClick={() => select(item.id)} count={`×${item.weight}`}>
+                  {item.name}
+                </Chip>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="mt-4">
+          <h3 className="text-meta font-semibold text-primary mb-1.5">
+            考過這個概念的題目（{selected.questions.length} 題）
+          </h3>
+          <ul className="m-0 list-none p-0 space-y-1.5">
+            {selected.questions.map((question) => (
+              <li key={`${question.source}-${question.id}`}>
+                <button
+                  type="button"
+                  onClick={() => setOpenQuestion(question)}
+                  className="min-h-11 w-full rounded-lg border border-border px-3 py-2 text-left text-ui hover:border-accent cursor-pointer"
+                >
+                  <span className="text-text-light text-caption">
+                    {question.level} · {question.source}
+                  </span>
+                  <br />
+                  <span className="text-primary">{question.stem}…</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </>
   )
 }

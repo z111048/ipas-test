@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
-import { Badge, Dialog, MobileActionBar, PageHeader, StatePanel } from '../components/ui'
+import { Dialog, MobileActionBar, PageHeader, StatePanel } from '../components/ui'
 import { navLabel } from '../constants/navLabels'
 import { loadExamData } from '../data/examLoaders'
 import { useExamTimer } from '../hooks/useExamTimer'
@@ -10,7 +10,12 @@ import ExamIntro from '../components/exam/ExamIntro'
 import ExamQuestion from '../components/exam/ExamQuestion'
 import ExamResults from '../components/exam/ExamResults'
 import ExamTimer from '../components/exam/ExamTimer'
+import QuestionPalette from '../components/exam/QuestionPalette'
+import { useMediaQuery, WIDE_LAYOUT_QUERY } from '../hooks/useMediaQuery'
+import { useFocusMode } from '../hooks/useFocusMode'
 import { scrollMainToTop } from '../utils/scrollMain'
+
+const SIDE_PALETTE_ID = 'exam-side-palette'
 
 function isTypingTarget(target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) return false
@@ -39,6 +44,11 @@ export default function ExamPage() {
   const [showSubmitDialog, setShowSubmitDialog] = useState(false)
   const questionRefs = useRef<Array<HTMLElement | null>>([])
   const confirmSubmitRef = useRef<HTMLButtonElement>(null)
+  const paletteButtonRef = useRef<HTMLButtonElement>(null)
+  const sidePaletteActiveRef = useRef<HTMLButtonElement>(null)
+  const sheetActiveRef = useRef<HTMLButtonElement>(null)
+  /** >= 1024px：題號盤是常駐右側欄；以下是底部抽屜。 */
+  const isWide = useMediaQuery(WIDE_LAYOUT_QUERY)
   const [searchParams] = useSearchParams()
   const targetQuestionId = searchParams.get('q')
 
@@ -50,6 +60,7 @@ export default function ExamPage() {
   const savedAttempt = useExamStore((s) => s.savedAttempt)
   const setCurrentIndex = useExamStore((s) => s.setCurrentIndex)
   const submitExam = useExamStore((s) => s.submitExam)
+  const suspendExam = useExamStore((s) => s.suspendExam)
   const resetExam = useExamStore((s) => s.resetExam)
   const selectAnswer = useExamStore((s) => s.selectAnswer)
   const userAnswers = useExamStore((s) => s.userAnswers)
@@ -59,6 +70,8 @@ export default function ExamPage() {
   const pendingResumeIndexRef = useRef<number | null>(null)
 
   useExamTimer(phase === 'active')
+  // 作答中進入專注模式：手機隱藏站台 Header、桌機收合側欄；交卷、離開、結果頁即還原。
+  useFocusMode(phase === 'active' && Boolean(examKey) && storeExamKey === examKey)
 
   // 離開考試頁（站內導覽、換路由）時把作答存檔並退回 intro，回來可選擇續答。
   useEffect(() => () => useExamStore.getState().suspendExam(), [])
@@ -112,7 +125,8 @@ export default function ExamPage() {
   }
 
   useEffect(() => {
-    if (phase !== 'active' || !currentExamData || showSubmitDialog) return
+    // 繳卷對話框或手機題號盤抽屜開著時不接受作答快捷鍵（避免在看不到題目時改到答案）
+    if (phase !== 'active' || !currentExamData || showSubmitDialog || (showPalette && !isWide)) return
     const handler = (event: KeyboardEvent) => {
       if (isTypingTarget(event.target)) return
       if (['1', '2', '3', '4'].includes(event.key)) {
@@ -130,7 +144,7 @@ export default function ExamPage() {
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [phase, currentExamData, activeIndex, selectAnswer, showSubmitDialog])
+  }, [phase, currentExamData, activeIndex, selectAnswer, showSubmitDialog, showPalette, isWide])
 
   useEffect(() => {
     if (phase !== 'active' || !currentExamData) return
@@ -295,19 +309,44 @@ export default function ExamPage() {
   const activeQuestionId = currentExamData.questions[activeIndex]?.id
   const activeAnswered = Boolean(activeQuestionId && userAnswers[activeQuestionId])
   const currentAnswer = activeQuestionId ? userAnswers[activeQuestionId] : undefined
+  const paletteItems = currentExamData.questions.map((question) => ({
+    id: question.id,
+    status: userAnswers[question.id] ? ('answered' as const) : ('unanswered' as const),
+  }))
+  const unansweredText = unansweredCount === 0 ? '全部已答' : `未答 ${unansweredCount} 題`
 
   const jumpToFirstUnanswered = () => {
     const nextIndex = unansweredIndices[0]
     if (typeof nextIndex !== 'number') return
     setShowPalette(false)
     setShowSubmitDialog(false)
-    // 等題號盤（實測高 360px）與對話框卸載、版面重排完再捲。
-    // 在同一個 handler 裡直接捲，scrollIntoView 算的是還含題號盤的舊版面，
-    // 捲完位置會偏掉一整題——使用者看到的與 activeIndex 就對不起來了。
+    // 等題號盤抽屜與對話框卸載、版面重排完再捲。
+    // 在同一個 handler 裡直接捲，scrollIntoView 算的是舊版面，
+    // 捲完位置可能偏掉——使用者看到的與 activeIndex 就對不起來了。
     requestAnimationFrame(() => goTo(nextIndex))
   }
 
+  /** 題號盤點題號：手機抽屜先關閉再捲（理由同上）；寬版側欄常駐，直接捲。 */
+  const selectFromPalette = (index: number) => {
+    if (showPalette && !isWide) {
+      setShowPalette(false)
+      requestAnimationFrame(() => goTo(index))
+      return
+    }
+    goTo(index)
+  }
+
+  const handlePaletteButton = () => {
+    if (isWide) {
+      // 寬版題號盤是常駐側欄：按鈕把焦點移到目前題號，鍵盤使用者可直接在格子間移動。
+      sidePaletteActiveRef.current?.focus({ preventScroll: true })
+      return
+    }
+    setShowPalette((open) => !open)
+  }
+
   const handleSubmitIntent = () => {
+    setShowPalette(false)
     setShowSubmitDialog(true)
   }
 
@@ -316,130 +355,139 @@ export default function ExamPage() {
     submitExam()
   }
 
+  /** 離開：保存目前作答與剩餘時間並回到考卷說明頁，可隨時繼續（離開期間不計時）。 */
+  const handleLeave = () => {
+    setShowPalette(false)
+    setShowSubmitDialog(false)
+    suspendExam()
+  }
+
+  const paletteSummary = (
+    <>
+      目前在第 {activeIndex + 1} 題 · {unansweredText}
+    </>
+  )
+
   return (
     <div className="page-shell pb-28 sm:pb-6">
-      <PageHeader
-        variant="plain"
-        className="mb-1 pb-2"
-        eyebrow={navLabel('exam')}
-        title={currentExamData.exam}
-      />
-      <div className="sticky top-0 z-20 mb-3">
-        <div className="rounded-xl border border-primary-light bg-primary p-2 text-on-dark shadow-lg sm:p-3">
-          <div className="flex items-center justify-between gap-2">
-            <ExamTimer compact />
-            <div className="min-w-0 text-center">
-              <div className="text-ui font-semibold">已答 {answeredCount}/{currentExamData.total}</div>
-              <div className="text-caption text-on-dark-muted">
-                {unansweredCount === 0 ? '全部已答' : `未答 ${unansweredCount} 題`}
+      <div className="mx-auto w-full max-w-[46rem] lg:max-w-[63rem]">
+        <PageHeader
+          variant="plain"
+          className="mb-1 pb-2"
+          eyebrow={navLabel('exam')}
+          title={currentExamData.exam}
+        />
+        {/*
+          作答計時列：手機專注模式下站台 Header 隱藏、main 從畫面頂端開始，
+          這一列以 sticky 貼在 main 最上緣（-top-4／md:-top-6 抵銷 main 的 py-4／md:py-6，否則上方會留一條露出題目的縫），固定單行（離開 · 時間 · 已答 · 題號盤 · 繳卷）。
+        */}
+        <div className="sticky -top-4 md:-top-6 z-20 mb-3">
+          <div className="rounded-xl border border-primary-light bg-primary px-2 py-1.5 text-on-dark shadow-lg sm:p-3">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <button
+                type="button"
+                className="btn-hero-ghost shrink-0 px-2.5 text-ui sm:px-3"
+                onClick={handleLeave}
+                aria-label="離開（保存作答進度）"
+                title="保存作答進度並離開，之後可以繼續作答"
+              >
+                離開
+              </button>
+              <ExamTimer compact />
+              <div className="min-w-0 flex-1 text-center">
+                <div className="whitespace-nowrap text-meta font-semibold tabular-nums sm:text-ui">
+                  已答 {answeredCount}/{currentExamData.total}
+                </div>
+                <div className="hidden text-caption text-on-dark-muted sm:block">{unansweredText}</div>
+              </div>
+              <div className="flex shrink-0 items-center gap-1.5">
+                <button
+                  ref={paletteButtonRef}
+                  type="button"
+                  className="btn-hero-ghost px-2.5 text-ui sm:px-3"
+                  onClick={handlePaletteButton}
+                  aria-haspopup={isWide ? undefined : 'dialog'}
+                  aria-expanded={isWide ? undefined : showPalette}
+                  aria-controls={isWide ? SIDE_PALETTE_ID : undefined}
+                >
+                  題號盤
+                </button>
+                <button
+                  type="button"
+                  className="btn-hero px-2.5 text-ui shadow-none sm:px-3"
+                  onClick={handleSubmitIntent}
+                >
+                  繳卷
+                </button>
               </div>
             </div>
-            <div className="flex shrink-0 items-center gap-1.5">
+          </div>
+        </div>
+
+        <div className="lg:grid lg:grid-cols-[minmax(0,46rem)_16rem] lg:items-start lg:justify-between lg:gap-6">
+          <div className="min-w-0">
+            <div className="hidden sm:block">
+              <StatePanel className="mb-4">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                  <span>鍵盤：1–4 選答，←→ 切換上下題。</span>
+                  {unansweredCount > 0 && (
+                    <button type="button" className="btn-outline btn-sm" onClick={jumpToFirstUnanswered}>
+                      跳到未答題
+                    </button>
+                  )}
+                </div>
+              </StatePanel>
+            </div>
+
+            {currentExamData.questions.map((q, i) => (
+              <ExamQuestion
+                key={q.id}
+                question={q}
+                index={i}
+                isActive={i === activeIndex}
+                registerRef={(el) => {
+                  questionRefs.current[i] = el
+                }}
+              />
+            ))}
+
+            <div className="hidden py-4 text-center sm:block">
               <button
                 type="button"
-                className="btn-hero-ghost px-3 text-ui"
-                onClick={() => setShowPalette((open) => !open)}
-                aria-expanded={showPalette}
-              >
-                題號盤
-              </button>
-              <button
-                type="button"
-                className="btn-hero px-3 text-ui shadow-none"
+                className="btn-primary px-8 py-3 text-reading"
                 onClick={handleSubmitIntent}
               >
-                繳卷
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {showPalette && (
-        <section className="surface mb-4 p-4 sm:p-5">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <h2 className="section-title">題號盤</h2>
-              <p className="mt-1 text-ui text-text-light">
-                目前在第 {activeIndex + 1} 題。
-                {unansweredCount === 0 ? ' 全部題目都已作答。' : ` 還有 ${unansweredCount} 題未答。`}
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {unansweredCount > 0 && (
-                <button type="button" className="btn-outline" onClick={jumpToFirstUnanswered}>
-                  跳到第一題未答
-                </button>
-              )}
-              <button type="button" className="btn-outline" onClick={() => setShowPalette(false)}>
-                收起題號盤
+                繳卷交答案
               </button>
             </div>
           </div>
 
-          <div className="mt-3 flex flex-wrap gap-2" aria-hidden="true">
-            <Badge tone="answered">已作答</Badge>
-            <Badge>未作答</Badge>
-          </div>
-
-          <div className="mt-3 grid grid-cols-5 gap-2 sm:grid-cols-7 lg:grid-cols-10">
-            {currentExamData.questions.map((question, index) => {
-              const isActive = index === activeIndex
-              const isAnswered = Boolean(userAnswers[question.id])
-              return (
-                <button
-                  key={question.id}
-                  type="button"
-                  className={`min-h-[44px] rounded-lg border px-2 py-2 text-ui font-semibold transition-colors ${
-                    isAnswered
-                      ? 'border-answered-line bg-answered-soft text-answered'
-                      : 'border-unanswered-line bg-unanswered-soft text-unanswered'
-                  } ${isActive ? 'border-accent ring-2 ring-accent/35 ring-offset-2' : ''}`}
-                  onClick={() => goTo(index)}
-                  aria-current={isActive ? 'true' : undefined}
-                >
-                  <span className="block">{index + 1}</span>
-                  <span className="sr-only">
-                    第 {index + 1} 題，{isAnswered ? '已作答' : '未作答'}{isActive ? '，目前題' : ''}
-                  </span>
-                </button>
-              )
-            })}
-          </div>
-        </section>
-      )}
-
-      <StatePanel className="mb-4">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <span>鍵盤：1–4 選答，←→ 切換上下題。</span>
-          {unansweredCount > 0 && (
-            <button type="button" className="btn-outline btn-sm" onClick={jumpToFirstUnanswered}>
-              跳到未答題
-            </button>
+          {isWide && (
+            <aside
+              id={SIDE_PALETTE_ID}
+              aria-labelledby="exam-side-palette-heading"
+              className="surface sticky top-[5.5rem] max-h-[calc(100dvh-3.5rem-7.5rem)] overflow-y-auto p-4"
+            >
+              <QuestionPalette
+                headingId="exam-side-palette-heading"
+                items={paletteItems}
+                activeIndex={activeIndex}
+                onSelect={selectFromPalette}
+                activeButtonRef={sidePaletteActiveRef}
+                columnsClassName="grid-cols-5"
+                legend={['answered', 'unanswered']}
+                summary={paletteSummary}
+                actions={
+                  unansweredCount > 0 ? (
+                    <button type="button" className="btn-outline btn-sm" onClick={jumpToFirstUnanswered}>
+                      跳到第一題未答
+                    </button>
+                  ) : undefined
+                }
+              />
+            </aside>
           )}
         </div>
-      </StatePanel>
-
-      {currentExamData.questions.map((q, i) => (
-        <ExamQuestion
-          key={q.id}
-          question={q}
-          index={i}
-          isActive={i === activeIndex}
-          registerRef={(el) => {
-            questionRefs.current[i] = el
-          }}
-        />
-      ))}
-
-      <div className="hidden py-4 text-center sm:block">
-        <button
-          type="button"
-          className="btn-primary px-8 py-3 text-reading"
-          onClick={handleSubmitIntent}
-        >
-          繳卷交答案
-        </button>
       </div>
 
       <MobileActionBar className="sm:hidden">
@@ -466,6 +514,39 @@ export default function ExamPage() {
           下一題 →
         </button>
       </MobileActionBar>
+
+      {/* 窄版題號盤：底部抽屜。點題號會關閉抽屜並跳到該題。 */}
+      <Dialog
+        open={showPalette && !isWide}
+        title="題號盤"
+        onClose={() => setShowPalette(false)}
+        initialFocusRef={sheetActiveRef}
+        restoreFocusRef={paletteButtonRef}
+      >
+        <div className="p-4 sm:p-5">
+          <QuestionPalette
+            items={paletteItems}
+            activeIndex={activeIndex}
+            onSelect={selectFromPalette}
+            activeButtonRef={sheetActiveRef}
+            columnsClassName="grid-cols-6 sm:grid-cols-10"
+            legend={['answered', 'unanswered']}
+            summary={paletteSummary}
+            actions={
+              <>
+                {unansweredCount > 0 && (
+                  <button type="button" className="btn-outline btn-sm" onClick={jumpToFirstUnanswered}>
+                    跳到第一題未答
+                  </button>
+                )}
+                <button type="button" className="btn-ghost btn-sm" onClick={() => setShowPalette(false)}>
+                  收起題號盤
+                </button>
+              </>
+            }
+          />
+        </div>
+      </Dialog>
 
       <Dialog
         open={showSubmitDialog}

@@ -87,6 +87,19 @@ export const SECTION_LABELS = {
   references: '官方資料',
 } as const
 
+/** Top-level sidebar groups (order = render order). */
+export const NAV_GROUP_LABELS = {
+  learn: '學習',
+  practice: '練習',
+  exams: '公告試題',
+  tools: '工具',
+} as const
+
+export type NavGroupKey = keyof typeof NAV_GROUP_LABELS
+
+/** Header search button + GuideSearchDialog title: the index covers learning-guide chapters/headings only. */
+export const SEARCH_LABEL = '搜尋學習指引'
+
 export const SITE_NAME = 'iPAS AI 應用規劃師備考平台'
 export const SITE_TAGLINE = '官方資料、學習指引、公告試題與章節練習'
 

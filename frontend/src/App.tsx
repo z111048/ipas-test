@@ -5,6 +5,7 @@ import Sidebar from './components/layout/Sidebar'
 import Overlay from './components/layout/Overlay'
 import Footer from './components/layout/Footer'
 import AppErrorBoundary from './components/shared/AppErrorBoundary'
+import { useFocusModeActive } from './hooks/useFocusMode'
 
 const HomePage = lazy(() => import('./pages/HomePage'))
 const SubjectOverviewPage = lazy(() => import('./pages/SubjectOverviewPage'))
@@ -55,6 +56,8 @@ function AppShell() {
   const isGuideRoute = location.pathname.startsWith('/guide/')
   const mainOverflow = isGuideRoute ? 'overflow-hidden' : 'overflow-y-scroll'
   const closeSidebar = useCallback(() => setSidebarOpen(false), [])
+  // 專注模式（useFocusMode）：手機隱藏 Header 與選單按鈕，桌機收合 Sidebar
+  const focusMode = useFocusModeActive()
   const openSearch = useCallback(() => {
     // Page-owned dialogs/drawers must remain the only active focus trap.
     // The mobile sidebar is the one exception: replace it with search.
@@ -80,6 +83,15 @@ function AppShell() {
     setSidebarOpen((open) => !open)
   }, [sidebarId])
 
+  // 任何導頁（含頁內連結、瀏覽器上一頁）都關閉手機抽屜
+  useEffect(() => {
+    setSidebarOpen(false)
+  }, [location.pathname, location.search])
+
+  useEffect(() => {
+    if (focusMode) setSidebarOpen(false)
+  }, [focusMode])
+
   useEffect(() => {
     mainRef.current?.scrollTo({ top: 0 })
     mainRef.current?.focus()
@@ -98,7 +110,12 @@ function AppShell() {
   }, [openSearch])
 
   return (
-    <div className="app-root flex flex-col min-h-screen bg-app-bg text-app-text">
+    <div
+      className={`app-root flex flex-col min-h-screen bg-app-bg text-app-text ${
+        focusMode ? 'max-md:[--app-header-h:0px]' : ''
+      }`}
+      data-focus-mode={focusMode ? 'true' : undefined}
+    >
       <a
         href="#main-content"
         className="skip-link"
@@ -118,6 +135,7 @@ function AppShell() {
         sidebarOpen={sidebarOpen}
         onMenuClick={toggleSidebar}
         onSearchClick={openSearch}
+        hiddenOnMobile={focusMode}
       />
       {searchOpen && (
         <Suspense fallback={null}>
@@ -129,12 +147,18 @@ function AppShell() {
         </Suspense>
       )}
       <Overlay isOpen={sidebarOpen} onClick={closeSidebar} />
-      <div className="app-frame flex overflow-hidden h-[calc(100vh-3.5rem)]">
+      <div
+        className={`app-frame flex overflow-hidden h-[calc(100vh-3.5rem)] ${
+          focusMode ? 'max-md:mt-[var(--app-safe-top)]' : ''
+        }`}
+      >
         <Sidebar
           id={sidebarId}
           isOpen={sidebarOpen}
           onClose={closeSidebar}
+          onSearch={openSearch}
           restoreFocusRef={menuButtonRef}
+          collapsed={focusMode}
         />
         <main
           id="main-content"

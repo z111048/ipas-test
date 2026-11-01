@@ -52,8 +52,10 @@ export default function ExamTimer({ compact = false }: ExamTimerProps) {
   if (compact) {
     return (
       <div className="min-w-0">
+        {/* tests/test_exam_flow.py 以 div.text-xl.tabular-nums 的文字比對倒數，內層不要加其他字。 */}
         <div className={`text-xl font-bold tabular-nums leading-none ${colorClass}`}>{display}</div>
-        <div className="mt-1 text-caption text-on-dark-muted">{status}</div>
+        {/* 手機上計時列只留一行，狀態字樣在 sm 以上才顯示。 */}
+        <div className="mt-1 hidden text-caption text-on-dark-muted sm:block">{status}</div>
         <div aria-live="polite" aria-atomic="true" className="sr-only">{liveText}</div>
       </div>
     )

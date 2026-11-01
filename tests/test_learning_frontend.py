@@ -114,7 +114,9 @@ with dev_server(port=5207) as base, sync_playwright() as playwright:
     check("4 題已原子保存", saved_answer_count(page) == 4)
     page.reload(wait_until="networkidle")
     page.locator("article[data-learning-question]").first.wait_for(timeout=30_000)
-    check("重整續答保留 optionId", page.locator('button[aria-pressed="true"]').count() == 4)
+    # 只數題目內的選項：側欄的級別切換（LevelPicker chip）也是 aria-pressed 按鈕。
+    check("重整續答保留 optionId",
+          page.locator('article[data-learning-question] button[aria-pressed="true"]').count() == 4)
     articles = page.locator("article[data-learning-question]")
     for index in range(4, 10):
         key = refs[index]["questionKey"]

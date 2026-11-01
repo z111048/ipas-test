@@ -4,6 +4,8 @@ import LearningState from './LearningState'
 import { useLearningIndex } from './useLearningIndex'
 import { useLearningItem } from './useLearningItem'
 import { catalogExams, catalogLevels } from '../../data/resourceCatalog'
+import { localizeTerms } from './displayTerms'
+import { LINK_ROW, READING_MEASURE } from './layout'
 
 interface ExamAnalysis {
   id: string
@@ -38,23 +40,30 @@ export default function LearningAnalysisPage() {
   const measureColumns = ['總題數', '已核對', '考到此主題', '尚未核對', '占已核對題比例', '占總題數比例']
   const inventoryColumns = ['類型', '收錄題數', '已核對主題', '答案有爭議']
   const presentLabel = (row: ExamAnalysis['inventory'][number]) => `${row.present}${row.expected === null ? '（總題數未公布）' : ` / ${row.expected}`}`
+  const diagnostic = index.blueprints[0]
   return <div className="page-shell w-full">
     {import.meta.env.DEV && item.availability === 'preview' && <div className="alert-warning mb-4" data-learning-preview>開發預覽：這份對照仍在審核中。</div>}
-    <PageHeader className="mb-5" eyebrow="公告試題" title="精選例題對照" description="以下只列出已逐題核對過的例題。尚未核對的題目仍算在總題數裡，不會被當成「沒有考到」。" />
+    <PageHeader
+      className="mb-5"
+      eyebrow="公告試題"
+      title="精選例題對照"
+      description="以下只列出已逐題核對過的例題。尚未核對的題目仍算在總題數裡，不會被當成「沒有考到」。"
+      actions={diagnostic && <Link className="btn-secondary" to={`/simulations/${diagnostic.id}`}>做一次主題診斷</Link>}
+    />
     <div className="grid gap-3 sm:grid-cols-3">
       <div className="surface p-4"><div className="text-meta text-text-light">收錄題數</div><div className="mt-1 text-2xl font-bold text-primary">{present}</div></div>
       <div className="surface p-4"><div className="text-meta text-text-light">已核對主題的題數</div><div className="mt-1 text-2xl font-bold text-primary">{reviewed}</div></div>
       <div className="surface p-4"><div className="text-meta text-text-light">已收齊所有公告試題</div><div className="mt-1 text-lg font-bold text-primary">{analysis.publicationCoverage.exhaustive ? '是' : '否'}</div></div>
     </div>
-    <StatePanel className="mt-4" title="如何閱讀">這是 3–5 題的精選例題對照，不是考頻、命中率或趨勢預測。多主題題目也不應把各列相加當作總題數。</StatePanel>
+    <StatePanel className="mt-4" title="如何閱讀"><span className={`block ${READING_MEASURE}`}>這是 3–5 題的精選例題對照，不是考頻、命中率或趨勢預測。多主題題目也不應把各列相加當作總題數。</span></StatePanel>
     <section className="surface mt-4 p-5">
       <h2 className="section-title mb-3">5 題原卷對照</h2>
       <div className="space-y-4">{item.sourceExamples?.map((example, position) => (
         <article key={example.question.questionKey} className="rounded-lg border border-border p-4">
           <div className="text-meta font-semibold text-accent">例題 {position + 1} · 原卷第 {example.source.pageNumber} 頁 · {example.relation === 'prerequisite' ? '先備概念' : '單元可解釋'}</div>
-          <h3 className="mt-2 text-reading font-semibold leading-7 text-primary">{example.stem}</h3>
-          <p className="mt-2 text-body leading-7 text-text-light">{example.reason}</p>
-          <div className="mt-2 flex flex-wrap gap-x-5"><Link className="text-link" to={example.source.route}>查看原卷</Link><Link className="text-link" to={`/learn/${example.unitId}`}>閱讀對應單元</Link></div>
+          <h3 className={`mt-2 text-reading font-semibold leading-7 text-primary ${READING_MEASURE}`}>{example.stem}</h3>
+          <p className={`mt-2 text-body leading-7 text-text-light ${READING_MEASURE}`}>{localizeTerms(example.reason)}</p>
+          <div className={`mt-2 ${LINK_ROW}`}><Link className="text-link" to={example.source.route}>查看原卷</Link><Link className="text-link" to={`/learn/${example.unitId}`}>閱讀對應單元</Link></div>
         </article>
       ))}</div>
     </section>
