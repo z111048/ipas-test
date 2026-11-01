@@ -66,7 +66,6 @@ export interface ExamReferenceAnswer {
   key_concepts?: string[]
   citations?: ExamReferenceCitation[]
   confidence?: 'high' | 'medium' | 'low'
-  notes?: string
 }
 
 export interface GuideExamAnnotation {

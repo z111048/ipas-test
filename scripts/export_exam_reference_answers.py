@@ -31,7 +31,6 @@ KEEP_FIELDS = [
     "key_concepts",
     "citations",
     "confidence",
-    "notes",
 ]
 
 
