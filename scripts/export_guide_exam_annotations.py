@@ -71,6 +71,50 @@ def append_reason(entry: dict[str, Any], reason: str | None) -> None:
         reasons.append(reason)
 
 
+PRIMARY_MAX_RANK = 2
+PRIMARY_MAX_BLOCKS = 10
+SUPPLEMENT_PREFIX = "補充"
+# 題解說明自承「未直接說明…」的引用只是旁及，不算主要題。
+INDIRECT_MARKER = "未直接"
+
+
+def is_supplement(reason: str | None) -> bool:
+    return str(reason or "").lstrip().startswith(SUPPLEMENT_PREFIX)
+
+
+def is_indirect(reason: str | None) -> bool:
+    return INDIRECT_MARKER in str(reason or "")
+
+
+def prominence(rank: int, block_count: int, supplement: bool, indirect: bool = False) -> str:
+    """Display tier only: 'primary' = the question is mainly about this block.
+
+    Every annotation is still exported and counted elsewhere (topic heat,
+    concept graph, mindmap); this only tells GuidePage which ones to fold.
+    """
+    if (
+        rank <= PRIMARY_MAX_RANK
+        and not supplement
+        and not indirect
+        and block_count <= PRIMARY_MAX_BLOCKS
+    ):
+        return "primary"
+    return "secondary"
+
+
+def apply_citation_rank(
+    entry: dict[str, Any], rank: int, block_count: int, supplement: bool, indirect: bool
+) -> None:
+    """Keep the best (lowest) citation rank when several citations hit one block."""
+    current = entry.get("citationRank")
+    if current is not None and current <= rank:
+        return
+    entry["citationRank"] = rank
+    entry["citationBlockCount"] = block_count
+    entry["supplement"] = supplement
+    entry["prominence"] = prominence(rank, block_count, supplement, indirect)
+
+
 def block_sort_key(value: str) -> int | str:
     suffix = value.removeprefix("block-")
     if value.startswith("block-") and suffix.isdigit():
@@ -194,7 +238,10 @@ def export_annotations(output_path: Path, fail_on_missing: bool = True) -> dict[
                 if actual_question_id != reference_question_id:
                     base_entry["referenceQuestionId"] = reference_question_id
 
-                for citation in reference.get("citations") or []:
+                for citation_rank, citation in enumerate(reference.get("citations") or [], start=1):
+                    citation_block_count = len(citation.get("block_ids") or [])
+                    supplement = is_supplement(citation.get("why_relevant"))
+                    indirect = is_indirect(citation.get("why_relevant"))
                     source_guide_key = citation.get("guide_key")
                     node_id = citation.get("node_id")
                     if not source_guide_key or not node_id:
@@ -217,6 +264,9 @@ def export_annotations(output_path: Path, fail_on_missing: bool = True) -> dict[
                         block_bucket = node_bucket.setdefault(str(block_id), {})
                         entry = block_bucket.setdefault(annotation_id, dict(base_entry))
                         append_reason(entry, citation.get("why_relevant"))
+                        apply_citation_rank(
+                            entry, citation_rank, citation_block_count, supplement, indirect
+                        )
 
     if fail_on_missing and (missing_blocks or missing_questions):
         raise SystemExit(

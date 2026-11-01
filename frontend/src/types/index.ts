@@ -81,6 +81,14 @@ export interface GuideExamAnnotation {
   answer: 'A' | 'B' | 'C' | 'D'
   confidence?: 'high' | 'medium' | 'low'
   reasons?: string[]
+  /** 1-based order of the citation in the question's reference answer (best rank when a block is cited twice). */
+  citationRank?: number
+  /** Number of guide blocks the (best-ranked) citation covers. */
+  citationBlockCount?: number
+  /** The citation's why_relevant starts with 「補充」. */
+  supplement?: boolean
+  /** Display tier for GuidePage only; every annotation still counts for heat/concepts. */
+  prominence?: 'primary' | 'secondary'
 }
 
 export interface GuideExamAnnotationsChapterData {

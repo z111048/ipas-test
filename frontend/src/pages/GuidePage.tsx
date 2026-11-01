@@ -393,16 +393,69 @@ function GuideSourceFigure({ block }: { block: GuideBlock }) {
 
 // 段落後的公告試題標註：預設收成一個小徽章（「考過 3 題」），點了才展開題目清單，
 // 避免橘色區塊打斷正文閱讀。頁面層級的「顯示考點標註」可整個關掉。
+// 題解引用分主次（prominence，由 export_guide_exam_annotations.py 依引用順位、
+// 引用涵蓋的段落數與「補充」說明判定）：徽章只數主要題；次要題收在展開後的
+// 「另有 N 題相關」裡。段落只有次要題時改用灰色小標「相關 N 題」，不說「考過」。
+// 只影響這裡的顯示；考點熱度、概念索引仍採計全部標註。
+function isSecondaryAnnotation(annotation: GuideExamAnnotation) {
+  return annotation.prominence === 'secondary'
+}
+
+function GuideExamAnnotationItem({ annotation }: { annotation: GuideExamAnnotation }) {
+  return (
+    <div className="border-t border-warning/20 pt-2 first:border-t-0 first:pt-0">
+      <div className="flex flex-wrap items-center gap-2">
+        <Link to={annotation.route} className="text-link">
+          {annotation.examLabel} 第 {annotation.questionNumber} 題
+        </Link>
+        <span className="badge badge-warning">
+          答案 {annotation.answer}
+        </span>
+      </div>
+      <div data-exam-text className="mt-1 text-ui leading-6 text-app-text content-justify">
+        {cleanExamText(annotation.question)}
+      </div>
+    </div>
+  )
+}
+
+const EXAM_NOTES_VISIBLE_LIMIT = 8
+
+function GuideExamAnnotationList({ annotations }: { annotations: GuideExamAnnotation[] }) {
+  const visibleAnnotations = annotations.slice(0, EXAM_NOTES_VISIBLE_LIMIT)
+  const hiddenCount = annotations.length - visibleAnnotations.length
+  return (
+    <>
+      {visibleAnnotations.map((annotation) => (
+        <GuideExamAnnotationItem key={annotation.id} annotation={annotation} />
+      ))}
+      {hiddenCount > 0 && (
+        <div className="border-t border-warning/20 pt-2 text-meta text-text-light">
+          另有 {hiddenCount} 題引用此區塊。
+        </div>
+      )}
+    </>
+  )
+}
+
 function GuideExamReferenceNotes({ annotations, depth }: { annotations: GuideExamAnnotation[]; depth: number }) {
   const [open, setOpen] = useState(false)
+  const [secondaryOpen, setSecondaryOpen] = useState(false)
   if (annotations.length === 0) return null
-  const visibleAnnotations = annotations.slice(0, 8)
-  const hiddenCount = annotations.length - visibleAnnotations.length
-  const questionCount = new Set(annotations.map((annotation) => annotation.id)).size
+  const primary = annotations.filter((annotation) => !isSecondaryAnnotation(annotation))
+  const secondary = annotations.filter(isSecondaryAnnotation)
+  const primaryCount = new Set(primary.map((annotation) => annotation.id)).size
+  const secondaryCount = new Set(secondary.map((annotation) => annotation.id)).size
+  const secondaryOnly = primaryCount === 0
   const examLabels = Array.from(new Set(annotations.map((annotation) => annotation.examLabel)))
 
   return (
-    <div className="guide-depth-block -mt-2 mb-3" style={blockIndentStyle(depth)} data-guide-exam-notes="">
+    <div
+      className="guide-depth-block -mt-2 mb-3"
+      style={blockIndentStyle(depth)}
+      data-guide-exam-notes=""
+      data-guide-exam-notes-tier={secondaryOnly ? 'secondary' : 'primary'}
+    >
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
@@ -410,30 +463,42 @@ function GuideExamReferenceNotes({ annotations, depth }: { annotations: GuideExa
         className="inline-flex min-h-11 items-center gap-1.5 rounded-full text-left md:min-h-0"
         title={examLabels.length > 0 ? examLabels.join('、') : undefined}
       >
-        <span className="badge badge-warning">考過 {questionCount} 題</span>
+        {secondaryOnly ? (
+          <span className="badge font-normal">相關 {secondaryCount} 題</span>
+        ) : (
+          <span className="badge badge-warning">考過 {primaryCount} 題</span>
+        )}
         <span className="text-meta text-text-light" aria-hidden="true">{open ? '收合 ▴' : '▾'}</span>
       </button>
       {open && (
         <div className="mt-2 space-y-2 rounded-md border border-warning-line bg-warning-soft px-3 py-2 text-ui leading-6 text-app-text">
-          {visibleAnnotations.map((annotation) => (
-            <div key={annotation.id} className="border-t border-warning/20 pt-2 first:border-t-0 first:pt-0">
-              <div className="flex flex-wrap items-center gap-2">
-                <Link to={annotation.route} className="text-link">
-                  {annotation.examLabel} 第 {annotation.questionNumber} 題
-                </Link>
-                <span className="badge badge-warning">
-                  答案 {annotation.answer}
-                </span>
-              </div>
-              <div data-exam-text className="mt-1 text-ui leading-6 text-app-text content-justify">
-                {cleanExamText(annotation.question)}
-              </div>
-            </div>
-          ))}
-          {hiddenCount > 0 && (
-            <div className="border-t border-warning/20 pt-2 text-meta text-text-light">
-              另有 {hiddenCount} 題引用此區塊。
-            </div>
+          {secondaryOnly ? (
+            <>
+              <div className="text-meta text-text-light">這段內容與下列題目相關，但不是題目主要考的段落。</div>
+              <GuideExamAnnotationList annotations={secondary} />
+            </>
+          ) : (
+            <>
+              <GuideExamAnnotationList annotations={primary} />
+              {secondaryCount > 0 && (
+                <div className="border-t border-warning/20 pt-2" data-guide-exam-notes-secondary="">
+                  <button
+                    type="button"
+                    onClick={() => setSecondaryOpen((value) => !value)}
+                    aria-expanded={secondaryOpen}
+                    className="inline-flex min-h-11 items-center gap-1.5 text-left text-meta text-text-light hover:text-app-text md:min-h-0"
+                  >
+                    <span>另有 {secondaryCount} 題相關</span>
+                    <span aria-hidden="true">{secondaryOpen ? '收合 ▴' : '▾'}</span>
+                  </button>
+                  {secondaryOpen && (
+                    <div className="mt-2 space-y-2">
+                      <GuideExamAnnotationList annotations={secondary} />
+                    </div>
+                  )}
+                </div>
+              )}
+            </>
           )}
         </div>
       )}
