@@ -1,3 +1,4 @@
+<!-- 2026-11-02: 新增「2026-11-01 重建 finalize」節：括號正規化、OCR 表格逐字修正、跨頁斷段鏡像、s2c3 標題溢字歸還。 -->
 <!-- 2026-09-05: 補「overlay 分層」小節——公式與圖說在 overlay 階段尚未掛上，放錯層會被靜默覆蓋；並記錄手工公式清單自身是缺陷來源、簽章 alt 的職責界線。 -->
 <!-- 2026-08-30: 從 pipeline-reference.md §10 忠實搬入 deterministic publication overlay 詳節；主檔保留 fail-closed 摘要與路由。 -->
 # Deterministic Publication Overlays（原 §10 companion）
@@ -166,3 +167,30 @@ build_nodes → apply_publication_block_overlays(blocks)     # ← overlay 在�
 > 每張圖正上方的條列／標題就是它的名字（5-34 頁的圖上方就寫著
 > 「相關係數矩陣（Correlation Matrix）」）。抽取階段留下的 `*原圖` 是通用佔位字串：
 > mid-s2c9 的十張圖曾共用「資料處理流程原圖」，實際是十種完全不同的統計圖。
+
+
+## 2026-11-01 重建 finalize：四個發佈層（皆 fail closed、不改 SSOT）
+
+依匯出順序：
+
+1. **跨頁斷段**（`track_a_ocr_repairs.apply_track_a_block_repairs`）。2026-08-30 起 exporter 刻意不跨頁接段
+   （保 pageIndex 正確），斷段由 TA-109..152 的簽章視窗接回。重建後的樹在**每個收錄同頁的路由**都斷，
+   所以同一份簽章視窗現在也套到同 guide 的其他路由（s1pdf-c3、mid-s2pdf-c5…），標
+   `trackAMirrorRepairId`，不佔 inventory 名額；零命中略過、多命中報錯。簽章外的已審斷段寫在
+   `CONTINUATION_MERGES`（目前只有 mid-s1c7／mid-s1pdf-c4 的「責／任」，影像 4-38/4-39），合併後
+   pageIndex 取後頁（與簽章視窗同慣例）。
+2. **s2c3 導入策略標題**：新樹把下一段開頭「企業需採取」黏進標題；`forbiddenTitleSpill` 在換標題時把字還給
+   下一段，契約欄位同步寫進 `track_a_ocr_expected_signatures.json` 的 `guideNavigation`（兩邊必須相等）。
+3. **OCR 表格逐字修正**（`TABLE_CELL_REPAIRS`，於 `apply_text_repairs` 前段）：OCR 表格把印刷的 en dash、
+   全形＋、拉丁註解的全形括號、H₀ 的下標 0（讀成字母 o）、「分佈」（讀成「布」）壓平；每筆限定 guide／頁／
+   路由，來源字串不見就報錯。考試科目表（三本 guide 的 1-1/1-2）另以 `fill_down_first_column` 補回跨頁合併格 L23。
+   `sourcePages` 保留原始 OCR rows 不改。
+4. **半形括號→全形**（`cjk_parentheses.py`，blocks 與 content 的**最後一道** pass）：括號內有中文，或外側緊鄰中文
+   才轉；`f(x)`、`(x, y)`、`(p < 0.05)`、程式碼、連結不動。括號內的 `$…$` 視為不透明：純文字部分有中文就轉
+   （`（拒絕 $ H_0 $ | $ H_0 $為真）`），只有數學時要前面緊接中文才轉（`錯誤 （$ \beta $）`）；
+   `( $ a $ = 0.05 )`、`P($A$)` 不動。TA-044 閘門三種序列化都接受。
+
+> 教訓 2026-11-01：重建後只看 Track A 169/169 會漏掉大量退化（\ne 被吃成換行、跨頁斷段 34 處、H_o、
+> en dash）。根因：inventory 只鎖已審項目。規則：重建一律另跑新舊 block 差異清單並按頁看影像，
+> 新缺陷進上面四層之一並加回歸測試（`tests/test_guide_rebuild_2026_11.py`），不要只看 gate 數字。
+

@@ -523,10 +523,12 @@ class TrackAOcrRepairGateTests(unittest.TestCase):
         self.assertEqual(strategy_headings_once[0]['title'], strategy['title'])
         self.assertEqual(strategy_headings_once[0]['id'], strategy['anchor'])
 
+        # 2026-11-01: the source heading carries the next paragraph's first
+        # words; the overlay must hand them back (and stay idempotent).
         strategy_blocks = [{
             'type': 'heading', 'depth': 4, 'title': old_strategy,
             'anchor': 'old', 'pageIndex': 37,
-        }]
+        }, {'type': 'paragraph', 'text': '分階段策略，平衡短期效益與長期發展：', 'pageIndex': 37}]
         strategy_blocks_once = publication_overlays.apply_publication_block_overlays(
             '初級', 'guide2', 's2c3', strategy_blocks,
         )
@@ -536,6 +538,7 @@ class TrackAOcrRepairGateTests(unittest.TestCase):
         self.assertEqual(strategy_blocks_once, strategy_blocks_twice)
         self.assertEqual(strategy_blocks_once[0]['title'], strategy['title'])
         self.assertEqual(strategy_blocks_once[0]['anchor'], strategy['anchor'])
+        self.assertEqual(strategy_blocks_once[1]['text'], '企業需採取分階段策略，平衡短期效益與長期發展：')
 
         s1c4_source = ''.join(f'#### {title}\n' for title in publication_overlays.DEMOTE_HEADINGS)
         s1c4_once = publication_overlays.apply_publication_markdown_overlays(
@@ -645,6 +648,17 @@ class TrackAOcrRepairGateTests(unittest.TestCase):
                 path.write_text(json.dumps(payload, ensure_ascii=False), encoding='utf-8')
                 result = audit_generated_track_a(root)
             self.assertIn(contract_name, result['publication_structure_failures'])
+
+
+# 2026-11-01 rebuild regressions run inside this run_all item (no new gate count).
+sys.path.insert(0, str(ROOT / 'tests'))
+from test_guide_rebuild_2026_11 import (  # noqa: E402,F401
+    DeferredReviewTests,
+    FinalizeReviewTests,
+    HypothesisOverlayTests,
+    TableExtractionTests,
+    TrackARebuildTests,
+)
 
 
 if __name__ == '__main__':

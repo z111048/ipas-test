@@ -86,10 +86,10 @@ with dev_server(port=5207) as base, sync_playwright() as playwright:
     page.get_by_role("heading", name="不平衡分類：從矩陣回答業務問題").first.wait_for()
     check("單元載入真實 Markdown", "混淆矩陣" in page.locator("main").inner_text())
     back = page.get_by_role("link", name="返回學習指引原文")
-    check("返回連結使用已知 block", "#block-70" in (back.get_attribute("href") or ""))
+    check("返回連結使用已知 block", "#block-71" in (back.get_attribute("href") or ""))
     back.click()
-    page.locator('[data-guide-block-id="block-70"]').wait_for(timeout=30_000)
-    check("返回後命中實際 DOM anchor", "#block-70" in page.url)
+    page.locator('[data-guide-block-id="block-71"]').wait_for(timeout=30_000)
+    check("返回後命中實際 DOM anchor", "#block-71" in page.url)
 
     print("\n=== 2. 固定 10 題、保存、重整、提交與精確回補 ===")
     page.goto(f"{base}/#/simulations/{BLUEPRINT_ID}", wait_until="networkidle")

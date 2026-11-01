@@ -23,6 +23,21 @@ import export_pdf_image_gallery as gallery_export  # noqa: E402
 import export_question_generation_data as seed_export  # noqa: E402
 import parse_guides  # noqa: E402
 import publish_assets  # noqa: E402
+import build_guide_block_id_migrations as migration_builder  # noqa: E402
+import export_exam_reference_answers as reference_export  # noqa: E402
+import export_guide_images_data as images_export  # noqa: E402
+from cjk_parentheses import normalize_block_parentheses, normalize_cjk_parentheses  # noqa: E402
+from guide_block_id_migrations import (  # noqa: E402
+    BlockIdMigration,
+    BlockIdMigrationError,
+    guide_content_sha256,
+    reference_answers_digest,
+    sha256_bytes,
+)
+from run_codex_exam_reference_answers import (  # noqa: E402
+    question_content_fingerprint,
+    write_output_provenance,
+)
 
 
 def write_json(path: Path, data: dict) -> None:
@@ -578,6 +593,360 @@ class AssetPublishConfigurationTest(unittest.TestCase):
                 os.environ.pop('R2_BUCKET', None)
             else:
                 os.environ['R2_BUCKET'] = previous_bucket
+
+
+class CjkParenthesisNormalizationTest(unittest.TestCase):
+    """User decision 2026-11-01: half-width → full-width only in Chinese context."""
+
+    POSITIVE = {
+        '規則式方法\n( Rule-based )': '規則式方法\n（Rule-based）',
+        '虛無假設 (B) 我們在 95% 的信心水準': '虛無假設 （B） 我們在 95% 的信心水準',
+        '(1)基本原理': '（1）基本原理',
+        'AI(人工智慧)': 'AI（人工智慧）',
+        '人工智慧 (Artificial Intelligence, AI) 是': '人工智慧 （Artificial Intelligence, AI） 是',
+        '<td>分詞<br />(Tokenization)</td>': '<td>分詞<br />（Tokenization）</td>',
+        '選項(1)(B)': '選項（1）（B）',
+        '說明(見(A)項)': '說明（見（A）項）',
+        '(2022 年)': '（2022 年）',
+        '檢定 (test)': '檢定 （test）',
+        # 2026-11-01 review: math spans inside a Chinese parenthetical are opaque.
+        'Type I 錯誤 ( $ \\alpha $)': 'Type I 錯誤 （$ \\alpha $）',
+        '$ \\alpha=P $ (拒絕 $ H_0 $ | $ H_0 $為真)': '$ \\alpha=P $ （拒絕 $ H_0 $ | $ H_0 $為真）',
+    }
+    NEGATIVE = [
+        'f(x)',
+        'f(x) 的值域',
+        'TF(t, d)= 文檔d 中的出現次數',
+        '座標 (x, y) 表示位置',
+        'This is (very) good.',
+        'Call print(x) then (optionally) exit.',
+        '`print("你好")` 會輸出',
+        'print("你好") 會輸出',
+        '$f(x)$ 的值',
+        '公式 $$P(A|B) = \\frac{P(A \\cap B)}{P(B)}$$ 成立',
+        '\\(x\\) 是變數',
+        '( $ a $ = 0.05 ) 顯著',
+        'P($A$) 的值',
+        'P ( $ A $) 的值',
+        '計算 E($X$)',
+        '[連結](#31人工智慧)',
+        '中位數= 𝑥(𝑛+1 2 )',
+        '( 𝑘) 二項係數',
+        '以 T=T (X) 表之',
+        '(p < 0.05) 顯著',
+        '給定詞序列 S = (ω1, ω2)',
+        '最後一項 m) 不成對',
+        '空括號 ( ) 不動',
+        '變數 (x) 代表輸入',
+        '(1, 2) 是座標',
+    ]
+
+    def test_chinese_context_is_converted(self) -> None:
+        for source, expected in self.POSITIVE.items():
+            with self.subTest(source=source):
+                self.assertEqual(normalize_cjk_parentheses(source), expected)
+
+    def test_latin_math_code_and_latex_are_untouched(self) -> None:
+        for source in self.NEGATIVE:
+            with self.subTest(source=source):
+                self.assertEqual(normalize_cjk_parentheses(source), source)
+
+    def test_idempotent(self) -> None:
+        for source in [*self.POSITIVE, *self.POSITIVE.values(), *self.NEGATIVE]:
+            once = normalize_cjk_parentheses(source)
+            self.assertEqual(normalize_cjk_parentheses(once), once, source)
+
+    def test_block_fields_and_table_html_follow_rows(self) -> None:
+        table = {
+            'id': 'block-1', 'type': 'table', 'anchor': 'keep-(a)',
+            'rows': [['技術階段'], ['規則式方法\n( Rule-based )']],
+        }
+        table['html'] = outline_export.table_rows_to_html(table['rows'])
+        heading = {
+            'id': 'block-2', 'type': 'heading', 'title': '(1)基本原理', 'anchor': '1基本原理',
+        }
+        image = {'id': 'block-3', 'type': 'source_image', 'alt': '原圖 (A)圖'}
+        formula = {
+            'id': 'block-4', 'type': 'paragraph', 'text': '公式如下 (見下)',
+            'formulas': [{'latex': 'f(x) = (a+b)'}],
+        }
+        published = outline_export.normalize_published_block_parentheses(
+            [table, heading, image, formula]
+        )
+        self.assertEqual(published[0]['rows'][1][0], '規則式方法\n（Rule-based）')
+        self.assertEqual(published[0]['html'], outline_export.table_rows_to_html(published[0]['rows']))
+        self.assertIn('（Rule-based）', published[0]['html'])
+        self.assertEqual(published[0]['anchor'], 'keep-(a)')
+        self.assertEqual(published[1]['title'], '（1）基本原理')
+        self.assertEqual(published[1]['anchor'], '1基本原理')
+        self.assertEqual(published[2], image)  # alt is a Track A source signature
+        self.assertEqual(published[3]['text'], '公式如下 （見下）')
+        self.assertEqual(published[3]['formulas'], formula['formulas'])
+        self.assertEqual(table['rows'][1][0], '規則式方法\n( Rule-based )')  # input not mutated
+        self.assertEqual(
+            outline_export.normalize_published_block_parentheses(published), published
+        )
+        self.assertEqual(normalize_block_parentheses(published[1]), published[1])
+
+
+def content_block(block_id: str, text: str, page: int = 1, block_type: str = 'paragraph') -> dict:
+    return {'id': block_id, 'type': block_type, 'text': text, 'pageIndex': page}
+
+
+class GuideBlockIdMigrationTest(unittest.TestCase):
+    """Old citation/heading ids are remapped at export and fail closed."""
+
+    GUIDE = '初級-guide1'
+    NODE = 's1c1'
+
+    def setUp(self) -> None:
+        self.temp = tempfile.TemporaryDirectory()
+        self.root = Path(self.temp.name)
+        # Rebuild inserted 「新段落」 at the top, so every id shifted by one;
+        # old block-3 (one giant block) was split and is unmapped.
+        self.content = {self.GUIDE: {self.NODE: [
+            content_block('block-1', '新段落'),
+            content_block('block-2', '第一段'),
+            content_block('block-3', '第二段'),
+            content_block('block-4', '眾數代表出現頻率最高的數值', 2),
+            content_block('block-5', '平均數受極端值影響', 2),
+        ]}}
+        self.questions = [
+            {'id': 'sample_q1', 'question': '題一', 'options': {'A': 'a', 'B': 'b'}, 'answer': 'A'},
+            {'id': 'sample_q2', 'question': '題二', 'options': {'A': 'a', 'B': 'b'}, 'answer': 'B'},
+        ]
+
+    def tearDown(self) -> None:
+        self.temp.cleanup()
+
+    @staticmethod
+    def citation(*block_ids: str, why: str = '說明') -> dict:
+        return {'guide_key': 'guide1', 'node_id': 's1c1', 'title': 't', 'page_label': '1-1',
+                'block_ids': list(block_ids), 'why_relevant': why}
+
+    def answers(self) -> dict:
+        return {
+            'sample_q1': {'answer': 'A', 'citations': [self.citation('block-1', 'block-2')]},
+            'sample_q2': {'answer': 'B', 'citations': [
+                self.citation('block-3', why='說明眾數'),
+                self.citation('block-2'),
+            ]},
+        }
+
+    def table(self, answers: dict | None = None, **changes) -> dict:
+        table = {
+            'schemaVersion': 1,
+            'from': {'gitRef': 'fixture'},
+            'to': {'guideSha256': {self.GUIDE: guide_content_sha256(self.content[self.GUIDE])}},
+            'blocks': {self.GUIDE: {self.NODE: {
+                'block-1': {'new': 'block-2', 'method': 'exact'},
+                'block-2': {'new': 'block-3', 'method': 'normalized'},
+                'block-3': {'new': None, 'method': 'unmapped', 'ratio': 0.2},
+            }}},
+            'citationScope': {'初級/sample': reference_answers_digest(answers or self.answers())},
+            'citationScopeExcluded': [],
+            'imageUnitsScope': {},
+            'citations': [],
+        }
+        table.update(changes)
+        return table
+
+    def override(self, action: str = 'remove', **changes) -> dict:
+        entry = {
+            'level': '初級', 'exam': 'sample', 'questionId': 'sample_q2', 'citationIndex': 0,
+            'guideKey': self.GUIDE, 'nodeId': self.NODE, 'oldBlockId': 'block-3',
+            'action': action, 'reason': 'fixture',
+        }
+        if action == 'remap':
+            entry['newBlockIds'] = ['block-4']
+        entry.update(changes)
+        return entry
+
+    def test_remap_and_override_removal_keep_other_citations(self) -> None:
+        migration = BlockIdMigration(self.table(), [self.override('remove')], self.content)
+        migrated, stats = migration.migrate_reference_answers('初級', 'sample', self.answers())
+        self.assertEqual(migrated['sample_q1']['citations'][0]['block_ids'], ['block-2', 'block-3'])
+        q2 = migrated['sample_q2']['citations']
+        self.assertEqual(len(q2), 1)  # the citation that only had block-3 is dropped
+        self.assertEqual(q2[0]['block_ids'], ['block-3'])
+        self.assertEqual(stats['droppedCitations'], 1)
+        migration.check_unused_overrides('初級', ['sample'])
+
+    def test_manual_remap_and_auto_citation_resolution(self) -> None:
+        manual = BlockIdMigration(self.table(), [self.override('remap')], self.content)
+        migrated, _ = manual.migrate_reference_answers('初級', 'sample', self.answers())
+        self.assertEqual(migrated['sample_q2']['citations'][0]['block_ids'], ['block-4'])
+
+        auto = self.table(citations=[{
+            'level': '初級', 'exam': 'sample', 'questionId': 'sample_q2', 'citationIndex': 0,
+            'guideKey': self.GUIDE, 'nodeId': self.NODE, 'oldBlockId': 'block-3',
+            'newBlockIds': ['block-4'], 'method': 'auto-citation',
+        }])
+        migrated, _ = BlockIdMigration(auto, [], self.content).migrate_reference_answers(
+            '初級', 'sample', self.answers()
+        )
+        self.assertEqual(migrated['sample_q2']['citations'][0]['block_ids'], ['block-4'])
+
+    def test_unmapped_without_override_fails_closed(self) -> None:
+        migration = BlockIdMigration(self.table(), [], self.content)
+        with self.assertRaisesRegex(BlockIdMigrationError, 'block-3 is unmapped'):
+            migration.migrate_reference_answers('初級', 'sample', self.answers())
+
+    def test_unknown_id_fails_closed_even_without_table(self) -> None:
+        answers = {'sample_q1': {'answer': 'A', 'citations': [self.citation('block-99')]}}
+        with self.assertRaisesRegex(BlockIdMigrationError, 'block-99'):
+            BlockIdMigration(None, [], self.content).migrate_reference_answers(
+                '初級', 'sample', answers
+            )
+        removal = self.override('remove', questionId='sample_q1', oldBlockId='block-99')
+        migrated, _ = BlockIdMigration(None, [removal], self.content).migrate_reference_answers(
+            '初級', 'sample', answers
+        )
+        self.assertEqual(migrated['sample_q1']['citations'], [])
+
+    def test_out_of_scope_input_is_validated_but_never_remapped(self) -> None:
+        table = self.table(citationScope={})
+        regenerated = {'sample_q1': {'answer': 'A', 'citations': [self.citation('block-2')]}}
+        migrated, _ = BlockIdMigration(table, [], self.content).migrate_reference_answers(
+            '初級', 'sample', regenerated
+        )
+        self.assertEqual(migrated, regenerated)
+
+    def test_changed_scope_input_or_stale_content_fails(self) -> None:
+        changed = self.answers()
+        changed['sample_q1']['citations'][0]['why_relevant'] = 'regenerated'
+        with self.assertRaisesRegex(BlockIdMigrationError, 'exclude-citation-scope'):
+            BlockIdMigration(self.table(), [], self.content).migrate_reference_answers(
+                '初級', 'sample', changed
+            )
+        stale = copy.deepcopy(self.content)
+        stale[self.GUIDE][self.NODE][0]['text'] = '再次改版'
+        with self.assertRaisesRegex(BlockIdMigrationError, 'stale'):
+            BlockIdMigration(self.table(), [], stale)
+
+    def test_unused_override_is_rejected(self) -> None:
+        migration = BlockIdMigration(
+            self.table(), [self.override('remove'), self.override('remove', questionId='sample_q9')],
+            self.content,
+        )
+        migration.migrate_reference_answers('初級', 'sample', self.answers())
+        with self.assertRaisesRegex(BlockIdMigrationError, 'sample_q9'):
+            migration.check_unused_overrides('初級', ['sample'])
+
+    def write_reference_fixture(self) -> Path:
+        run_root = self.root / 'data/初級/pipeline/exam_reference_answers/sample'
+        write_json(self.root / 'data/初級/questions/sample_exam.json', {'questions': self.questions})
+        for question, answer in zip(self.questions, self.answers().values()):
+            output = run_root / 'outputs' / f"{question['id']}.json"
+            write_json(output, {
+                'level': '初級', 'exam_key': 'sample', 'question_id': question['id'],
+                'answer': question['answer'], 'citations': answer['citations'],
+            })
+            write_output_provenance(output, question_content_fingerprint(question), question['id'])
+        return run_root
+
+    def run_reference_export(self, migration: BlockIdMigration) -> Path:
+        self.write_reference_fixture()
+        out = self.root / 'out'
+        exam = {'key': 'sample', 'routeKey': 'sample', 'questionFile': 'sample_exam.json'}
+        with mock.patch.object(reference_export, 'ROOT', self.root), \
+                mock.patch.object(reference_export, 'OVERLAY_PATH', self.root / 'none.json'), \
+                mock.patch.object(reference_export, 'exam_entries', lambda level: [exam]):
+            reference_export.export_reference_answers('初級', out, migration=migration)
+        return out
+
+    def test_reference_exporter_rewrites_citations_and_fails_closed(self) -> None:
+        compact = {
+            question['id']: {'answer': question['answer'], 'citations': answer['citations']}
+            for question, answer in zip(self.questions, self.answers().values())
+        }
+        migration = BlockIdMigration(self.table(compact), [self.override('remap')], self.content)
+        out = self.run_reference_export(migration)
+        published = json.loads((out / 'sample.json').read_text(encoding='utf-8'))
+        self.assertEqual(published['sample_q1']['citations'][0]['block_ids'], ['block-2', 'block-3'])
+        self.assertEqual(published['sample_q2']['citations'][0]['block_ids'], ['block-4'])
+        self.assertEqual(published['sample_q2']['citations'][1]['block_ids'], ['block-3'])
+
+        failing = BlockIdMigration(self.table(compact), [], self.content)
+        (out / 'sample.json').unlink()
+        with self.assertRaises(BlockIdMigrationError):
+            self.run_reference_export(failing)
+        self.assertFalse((out / 'sample.json').exists())
+
+    def test_image_heading_ids_are_remapped_in_scope_and_validated(self) -> None:
+        units_file = self.root / 'units.json'
+        public = self.root / 'images'
+        (public / 'a.webp').parent.mkdir(parents=True)
+        (public / 'a.webp').write_bytes(b'x')
+        unit = {'id': 'u1', 'level': '初級', 'guideKey': 'guide1', 'sourceNodeId': 's1c1',
+                'headingBlockId': 'block-1', 'output': 'a.webp'}
+        write_json(units_file, {'units': [unit]})
+        scope = {units_file.as_posix(): sha256_bytes(units_file.read_bytes())}
+        migration = BlockIdMigration(self.table(imageUnitsScope=scope), [], self.content)
+        result = images_export.export_images(units_file, self.root / 'img.json', public, migration=migration)
+        self.assertEqual(result['images'][0]['headingBlockId'], 'block-2')
+
+        out_of_scope = BlockIdMigration(self.table(), [], self.content)
+        result = images_export.export_images(units_file, self.root / 'img.json', public, migration=out_of_scope)
+        self.assertEqual(result['images'][0]['headingBlockId'], 'block-1')
+
+        write_json(units_file, {'units': [{**unit, 'headingBlockId': 'block-77'}]})
+        with self.assertRaisesRegex(BlockIdMigrationError, 'block-77'):
+            images_export.export_images(units_file, self.root / 'img.json', public, migration=out_of_scope)
+        with self.assertRaisesRegex(BlockIdMigrationError, 'changed since'):
+            images_export.export_images(units_file, self.root / 'img.json', public, migration=migration)
+
+
+class GuideBlockIdMigrationBuilderTest(unittest.TestCase):
+    def test_node_mapping_methods_and_split_block_window(self) -> None:
+        old = [
+            content_block('block-1', '標題', block_type='heading'),
+            content_block('block-2', '規則式方法\n( Rule-based )'),
+            content_block('block-3', '舊的巨型區塊：眾數代表出現頻率最高的數值。平均數受極端值影響。'),
+            content_block('block-4', '機器學習是一種從資料中學習規律的方法'),
+            content_block('block-5', '結尾'),
+        ]
+        new = [
+            content_block('block-1', '插入的新段落'),
+            content_block('block-2', '標題', block_type='heading'),
+            content_block('block-3', '規則式方法\n（Rule-based）'),
+            content_block('block-4', '眾數代表出現頻率最高的數值。'),
+            content_block('block-5', '平均數受極端值影響。'),
+            content_block('block-6', '機器學習是一種從資料中學習規律的方法論'),
+            content_block('block-7', '結尾'),
+        ]
+        mapping = migration_builder.map_node(old, new, 0.8)
+        self.assertEqual(mapping['block-1'], {'new': 'block-2', 'method': 'exact'})
+        self.assertEqual(mapping['block-2'], {'new': 'block-3', 'method': 'normalized'})
+        self.assertEqual(mapping['block-3']['method'], 'unmapped')
+        self.assertIsNone(mapping['block-3']['new'])
+        self.assertEqual(mapping['block-4']['method'], 'fuzzy')
+        self.assertEqual(mapping['block-4']['new'], 'block-6')
+        self.assertEqual(mapping['block-5'], {'new': 'block-7', 'method': 'exact'})
+        self.assertIsNone(migration_builder.table_entry('block-5', {'new': 'block-5', 'method': 'exact'}))
+
+        window = migration_builder.old_block_window(old, new, mapping, 'block-3')
+        self.assertEqual([block['id'] for block in window], ['block-4', 'block-5'])
+        resolved = migration_builder.resolve_unmapped_citation(
+            old[2], window, new, {'why_relevant': '說明眾數是出現頻率最高的數值'}, None, 0.3,
+        )
+        self.assertEqual(resolved['status'], 'resolved')
+        self.assertEqual(resolved['newBlockIds'], ['block-4'])
+        ambiguous = migration_builder.resolve_unmapped_citation(
+            old[2], window, new, {'why_relevant': '完全無關的內容'}, None, 0.3,
+        )
+        self.assertEqual(ambiguous['status'], 'unresolved')
+        missing = migration_builder.resolve_unmapped_citation(
+            None, None, new, {'why_relevant': 'x'}, None, 0.3,
+        )
+        self.assertEqual(missing['status'], 'unresolved')
+
+    def test_table_dump_is_deterministic_json(self) -> None:
+        payload = {'b': {'block-2': {'new': 'block-3', 'method': 'exact'}}, 'a': [1, 2]}
+        text = migration_builder.dump_table(payload)
+        self.assertEqual(json.loads(text), payload)
+        self.assertIn('"block-2": {"new": "block-3", "method": "exact"}', text)
+        self.assertEqual(text, migration_builder.dump_table(json.loads(text)))
 
 
 if __name__ == '__main__':

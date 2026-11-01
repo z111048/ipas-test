@@ -1536,7 +1536,7 @@
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "Softmax(𝑧𝑖) = 𝑒𝑧𝑖 ∑ 𝑒𝑧𝑖 𝐾 𝑗=1",
+      "text": "Softmax(𝑧𝑖) = 𝑒𝑧𝑖 ∑ 𝑒𝑧𝑗 𝐾 𝑗=1",
       "pageIndex": 168,
       "bbox": [
         167.56,
@@ -1548,7 +1548,7 @@
       "id": "block-101",
       "formulas": [
         {
-          "latex": "\\text{Softmax}(z_i) = \\frac{e^{z_i}}{\\sum_{j=1}^{K} e^{z_j}}",
+          "latex": "\\operatorname{Softmax}(z_i)=\\frac{e^{z_i}}{\\sum_{j=1}^{K}e^{z_j}}",
           "display": true
         }
       ],
@@ -1723,10 +1723,11 @@
       "id": "block-113",
       "formulas": [
         {
-          "latex": "\\text{ReLU}(x) = \\max(0, x)",
+          "latex": "\\operatorname{ReLU}(x)=\\max(0,x)",
           "display": true
         }
-      ]
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -1897,7 +1898,7 @@
       "id": "block-125",
       "formulas": [
         {
-          "latex": "\\sigma(x) = \\frac{1}{1 + e^{-x}}",
+          "latex": "\\sigma(x)=\\frac1{1+e^{-x}}",
           "display": true
         }
       ],
@@ -2083,7 +2084,14 @@
         348.33
       ],
       "indentFirstLine": true,
-      "id": "block-138"
+      "id": "block-138",
+      "formulas": [
+        {
+          "latex": "\\tanh(x)=\\frac{e^x-e^{-x}}{e^x+e^{-x}}",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -2712,7 +2720,14 @@
         365.25
       ],
       "indentFirstLine": false,
-      "id": "block-183"
+      "id": "block-183",
+      "formulas": [
+        {
+          "latex": "\\theta_{t+1}=\\theta_t-\\eta\\nabla_\\theta L(\\theta_t)",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "paragraph",
@@ -2726,13 +2741,7 @@
         460.86
       ],
       "indentFirstLine": false,
-      "id": "block-184",
-      "formulas": [
-        {
-          "latex": "\\theta_{t+1} = \\theta_t - \\eta \\cdot \\nabla_{\\theta} L(\\theta_t)",
-          "display": true
-        }
-      ]
+      "id": "block-184"
     },
     {
       "type": "list_item",
@@ -2931,7 +2940,11 @@
       "id": "block-198",
       "formulas": [
         {
-          "latex": "v_{t+1} = \\gamma \\cdot v_t + \\eta \\cdot \\nabla_\\theta L(\\theta_t)",
+          "latex": "v_{t+1}=\\gamma v_t+\\eta\\nabla_\\theta L(\\theta_t)",
+          "display": true
+        },
+        {
+          "latex": "\\theta_{t+1}=\\theta_t-v_{t+1}",
           "display": true
         }
       ]
@@ -3119,7 +3132,11 @@
       "id": "block-211",
       "formulas": [
         {
-          "latex": "\\theta_{t+1} = \\theta_t - v_{t+1}",
+          "latex": "G_t=G_{t-1}+(\\nabla_\\theta L(\\theta_t))^2",
+          "display": true
+        },
+        {
+          "latex": "\\theta_{t+1}=\\theta_t-\\frac{\\eta}{\\sqrt{G_t+\\epsilon}}\\nabla_\\theta L(\\theta_t)",
           "display": true
         }
       ]
@@ -3307,7 +3324,7 @@
       "id": "block-224",
       "formulas": [
         {
-          "latex": "m_t = \\beta_1 \\cdot m_{t-1} + (1 - \\beta_1) \\cdot \\nabla_{\\theta} L(\\theta_t)",
+          "latex": "m_t=\\beta_1m_{t-1}+(1-\\beta_1)\\nabla_\\theta L(\\theta_t)",
           "display": true
         }
       ],
@@ -3328,7 +3345,7 @@
       "id": "block-225",
       "formulas": [
         {
-          "latex": "v_t = \\beta_2 \\cdot v_{t-1} + (1 - \\beta_2) \\cdot (\\nabla_{\\theta} L(\\theta_t))^2",
+          "latex": "v_t=\\beta_2v_{t-1}+(1-\\beta_2)(\\nabla_\\theta L(\\theta_t))^2",
           "display": true
         }
       ],
@@ -3349,7 +3366,11 @@
       "id": "block-226",
       "formulas": [
         {
-          "latex": "\\hat{m}_t = \\frac{m_t}{1 - \\beta_1^t}",
+          "latex": "\\hat m_t=\\frac{m_t}{1-\\beta_1^t}",
+          "display": true
+        },
+        {
+          "latex": "\\hat v_t=\\frac{v_t}{1-\\beta_2^t}",
           "display": true
         }
       ],
@@ -3370,10 +3391,11 @@
       "id": "block-227",
       "formulas": [
         {
-          "latex": "\\hat{v}_t = \\frac{v_t}{1 - \\beta_2^t}",
+          "latex": "\\theta_{t+1}=\\theta_t-\\frac{\\eta\\hat m_t}{\\sqrt{\\hat v_t}+\\epsilon}",
           "display": true
         }
-      ]
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -3585,8 +3607,8 @@
       "id": "block-242",
       "formulas": [
         {
-          "latex": "\\text{Loss} = \\text{原始損失} + \\lambda \\times \\text{Regularization Term}",
-          "display": true
+          "latex": "\\lambda \\times",
+          "display": false
         }
       ]
     },
@@ -3981,7 +4003,7 @@
       "id": "block-270",
       "formulas": [
         {
-          "latex": "Loss = \\text{原始損失} + \\lambda \\sum |\\theta_i|",
+          "latex": "\\mathrm{Loss}=\\text{原始損失}+\\lambda\\sum_i|\\theta_i|",
           "display": true
         }
       ]
@@ -4210,7 +4232,7 @@
       "id": "block-286",
       "formulas": [
         {
-          "latex": "Loss = \\text{原始損失} + \\lambda \\sum \\theta_i^2",
+          "latex": "\\mathrm{Loss}=\\text{原始損失}+\\lambda\\sum_i\\theta_i^2",
           "display": true
         }
       ]
@@ -4425,8 +4447,8 @@
       "id": "block-301",
       "formulas": [
         {
-          "latex": "\\text{Loss} = \\text{原始損失} + \\lambda_1 \\sum |\\theta_i| + \\lambda_2 \\sum \\theta_i^2",
-          "display": true
+          "latex": "\\lambda_{1}\\sum|\\theta_{i}| + \\lambda_{2}\\sum\\theta_{i}^{2}",
+          "display": false
         }
       ],
       "formulaOnly": true
@@ -6519,7 +6541,7 @@
       "type": "question",
       "depth": 4,
       "text": "6. 交叉驗證中，哪一種方法在每次驗證中只留下一筆樣本作為驗證集，其餘皆用於訓練？ （A）K-fold （B）Stratified K-fold （C）LOOCV （D）Repeated K-fold",
-      "pageIndex": 186,
+      "pageIndex": 187,
       "bbox": [
         76.6,
         149.78,
@@ -6532,7 +6554,7 @@
       "type": "question",
       "depth": 4,
       "text": "7. 在訓練深度學習模型時，隨機將部分神經元暫時關閉以減少過擬合的技術是什麼？ （A）Early Stopping （B）Dropout （C）Batch Normalization （D）Quantization",
-      "pageIndex": 186,
+      "pageIndex": 187,
       "bbox": [
         76.6,
         149.78,
@@ -6545,7 +6567,7 @@
       "type": "question",
       "depth": 4,
       "text": "8. 在模型壓縮技術中，知識蒸餾（Knowledge Distillation）的主要目的是什麼？ （A）減少資料維度 （B）降低參數數量使模型更小 （C）將大型模型的知識轉移至小型模型 （D）增強資料平衡",
-      "pageIndex": 186,
+      "pageIndex": 187,
       "bbox": [
         76.6,
         149.78,
@@ -6558,7 +6580,7 @@
       "type": "question",
       "depth": 4,
       "text": "9. 在優化器中，哪一個方法會自動調整每個參數的學習率，特別適用於稀疏資料？ （A）Momentum （B）Adagrad （C）Adam （D）SGD",
-      "pageIndex": 186,
+      "pageIndex": 187,
       "bbox": [
         76.6,
         149.78,
@@ -6571,7 +6593,7 @@
       "type": "question",
       "depth": 4,
       "text": "10. One-hot Encoding 在什麼情況下可能造成模型的運算負擔加重？ （A）缺失值多的資料 （B）資料集中某類別種類10 種 （C）類別變數具有高基數（High Cardinality） （D）資料集中無重複樣本",
-      "pageIndex": 186,
+      "pageIndex": 188,
       "bbox": [
         76.6,
         149.78,
@@ -6636,7 +6658,7 @@
       "type": "answer",
       "depth": 4,
       "text": "5. Ans（C） 過擬合解析：過擬合發生在模型學習了太多訓練集的細節與雜訊，導致在未見過的測試資料上表現不佳。常見解決方案包括使用正則化、降低模型複雜度或早停策略（Early Stopping）。",
-      "pageIndex": 186,
+      "pageIndex": 189,
       "bbox": [
         76.6,
         149.78,
@@ -6649,7 +6671,7 @@
       "type": "answer",
       "depth": 4,
       "text": "6. Ans（C） LOOCV 解析：LOOCV（Leave-One-Out Cross-Validation）是K-fold 的極端形式，當K 等於樣本數n 時，每次只留一筆做驗證。此方法能最大化資料利用，但計算成本極高，不適用於大樣本情境。",
-      "pageIndex": 186,
+      "pageIndex": 189,
       "bbox": [
         76.6,
         149.78,
@@ -6662,7 +6684,7 @@
       "type": "answer",
       "depth": 4,
       "text": "7. Ans（B） Dropout 解析：Dropout 透過隨機將神經元暫時設為零，迫使模型在每次訓練都以不同的「子網路」進行學習，有效降低模型對特定神經元的過度依賴，減少過擬合風險。",
-      "pageIndex": 186,
+      "pageIndex": 187,
       "bbox": [
         76.6,
         149.78,
@@ -6675,7 +6697,7 @@
       "type": "answer",
       "depth": 4,
       "text": "8. Ans（C） 將大型模型的知識轉移至小型模型解析：Knowledge Distillation 是利用大型、高性能的教師模型，將其知識以軟標籤（soft labels）的形式傳遞給小型學生模型，讓學生模型在參數較少的情況下，仍維持接近的預測能力。",
-      "pageIndex": 186,
+      "pageIndex": 187,
       "bbox": [
         76.6,
         149.78,
@@ -6688,7 +6710,7 @@
       "type": "answer",
       "depth": 4,
       "text": "9. Ans（B） Adagrad 解析：Adagrad 能針對每個參數調整不同的學習率，累積梯度平方和後，自動減小常被更新參數的學習步伐。適合處理特徵稀疏的場景，如文字分析，但學習率會不斷衰減至極小值，需留意訓練是否停滯。",
-      "pageIndex": 186,
+      "pageIndex": 187,
       "bbox": [
         76.6,
         149.78,
@@ -6701,7 +6723,7 @@
       "type": "answer",
       "depth": 4,
       "text": "10. Ans（C） 類別變數具有高基數（High Cardinality） 解析：One-hot Encoding 會為每個不同類別產生獨立欄位，若類別數過多，會導致特徵維度爆炸，增加記憶體使用與模型訓練的負擔，尤其在資料量大時更明顯。",
-      "pageIndex": 186,
+      "pageIndex": 188,
       "bbox": [
         76.6,
         149.78,

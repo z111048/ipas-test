@@ -275,6 +275,183 @@ PAGE_TEXT_REPAIRS: dict[tuple[str, str, int], list[tuple[str, str]]] = {
 }
 
 
+# OCR table-cell fidelity repairs (2026-11-01 rebuild review).  The OCR
+# merge publishes table rows from guide_ocr, which flattened a few printed
+# characters that the PDF text layer (and the pre-rebuild HEAD) kept: en
+# dashes in year/value ranges, a full-width plus, full-width parentheses
+# around Latin glosses, the subscript zero of H₀ (OCR read the letter o) and
+# 「分佈」 (OCR read 「分布」).  Each entry was checked against the rendered
+# page image (scratchpad review_中級g1 / review_中級g2, 150 dpi).  The repair
+# touches only table cells on the named page of the named routes; every
+# listed route must contain each source string (or its already-repaired
+# form), otherwise export fails closed.  ``fill_down_first_column`` restores
+# a merged first-column cell that continues across a page break (1-2 頁頂 L233/
+# L234 are still under 「L23 機器學習技術與應用」 printed on 1-1).
+TABLE_CELL_REPAIRS: list[dict[str, Any]] = [
+    {
+        'level': '中級', 'key': 'guide1', 'page': 11, 'nodes': ['mid-s1c1', 'mid-s1pdf-c3'],
+        'replacements': [
+            ('1980s-1990s', '1980s–1990s'), ('1990s-2010', '1990s–2010'),
+            ('2010-2018', '2010–2018'), ('2018-至今', '2018–至今'),
+            ('大規模語料預訓練+下游微調', '大規模語料預訓練＋下游微調'),
+        ],
+    },
+    {
+        'level': '中級', 'key': 'guide1', 'page': 33, 'nodes': ['mid-s1c1', 'mid-s1pdf-c3'],
+        'replacements': [
+            ('BERT (Bidirectional Encoder Representations from Transformers)',
+             'BERT（Bidirectional Encoder Representations from Transformers）'),
+            ('GPT (Generative Pre-trained Transformer)', 'GPT（Generative Pre-trained Transformer）'),
+        ],
+    },
+    {
+        'level': '中級', 'key': 'guide1', 'page': 53, 'nodes': ['mid-s1c2', 'mid-s1pdf-c3'],
+        'replacements': [('（如 0-255）轉為 0-1 或', '（如 0–255）轉為 0–1 或')],
+    },
+    {
+        'level': '中級', 'key': 'guide1', 'page': 66, 'nodes': ['mid-s1c3', 'mid-s1pdf-c3'],
+        'replacements': [
+            ('生成式 AI\n( Generative AI )', '生成式 AI（Generative AI）'),
+            ('鑑別式 AI\n( Discriminative AI )', '鑑別式 AI（Discriminative AI）'),
+        ],
+    },
+    {
+        'level': '中級', 'key': 'guide1', 'page': 68, 'nodes': ['mid-s1c3', 'mid-s1pdf-c3'],
+        'replacements': [('2013-2015', '2013–2015'), ('2014-2020', '2014–2020')],
+    },
+    {
+        'level': '中級', 'key': 'guide2', 'page': 32, 'nodes': ['mid-s2c3', 'mid-s2pdf-c3'],
+        'replacements': [('$ H_o $', '$ H_0 $')],
+    },
+    {
+        'level': '中級', 'key': 'guide2', 'page': 36, 'nodes': ['mid-s2c3', 'mid-s2pdf-c3'],
+        'replacements': [('$ H_o $', '$ H_0 $')],
+    },
+    *[
+        {
+            'level': '中級', 'key': guide_key, 'page': 4, 'nodes': [node],
+            'header': ['科目', '評鑑主題', '評鑑內容'],
+            'fill_down_first_column': True,
+            'replacements': [(source, 'L22102 機率分佈與資料分佈模型')],
+        }
+        for guide_key, node, source in (
+            ('guide1', 'mid-s1pdf-c1', 'L22102 機率分布與資料分布模型'),
+            ('guide2', 'mid-s2pdf-c1', 'L22102 機率分布與資料分佈模型'),
+            ('guide3', 'mid-s3pdf-c1', 'L22102 機率分布與資料分布模型'),
+        )
+    ],
+]
+
+
+# Reviewed cross-page paragraph continuations outside the TA-109..152
+# signature inventory (2026-11-01 rebuild review).  The pre-rebuild guide tree
+# printed these as one paragraph; the rebuilt tree splits them mid-word at the
+# page break and no signed window covers them.  ``head`` must end the block on
+# ``page`` and ``tail`` must start the next paragraph on ``page + 1``; the
+# merged block takes the later page as pageIndex (same convention as the
+# signed windows).  A route that already holds ``head + tail`` passes; any
+# other shape fails closed.  Checked against the page images 4-38/4-39.
+CONTINUATION_MERGES: list[dict[str, Any]] = [
+    {
+        'level': '中級', 'key': 'guide1', 'nodes': ['mid-s1c7', 'mid-s1pdf-c4'], 'page': 131,
+        'head': '這不僅僅是對於資料準確性或技術有效性的責',
+        'tail': '任，還包括對模型在決策過程中對使用者、社會及環境造成的任何負面影響的責任。',
+    },
+]
+
+
+def apply_continuation_merges(
+    level: str, key: str, node: str, blocks: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    repaired = blocks
+    for merge in CONTINUATION_MERGES:
+        if (merge['level'], merge['key']) != (level, key) or node not in merge['nodes']:
+            continue
+        head, tail, page = merge['head'], merge['tail'], int(merge['page'])
+        if any(head + tail in _block_text(block) for block in repaired):
+            continue
+        matches = [
+            index for index in range(len(repaired) - 1)
+            if repaired[index].get('type') in {'paragraph', 'list_item'}
+            and repaired[index].get('pageIndex') == page
+            and _block_text(repaired[index]).endswith(head)
+            and repaired[index + 1].get('type') == 'paragraph'
+            and repaired[index + 1].get('pageIndex') == page + 1
+            and _block_text(repaired[index + 1]).startswith(tail)
+        ]
+        if len(matches) != 1:
+            raise ValueError(
+                f'{level}/{key}/{node}: continuation merge {head[-6:]!r}/{tail[:6]!r} '
+                f'matched {len(matches)}, expected 1'
+            )
+        index = matches[0]
+        target = dict(repaired[index])
+        target['text'] = _block_text(target) + _block_text(repaired[index + 1])
+        target.pop('title', None)
+        target['pageIndex'] = page + 1
+        target['sourcePageIndexes'] = [page, page + 1]
+        target['trackAContinuationMerge'] = True
+        repaired = [*repaired[:index], target, *repaired[index + 2:]]
+    return repaired
+
+
+def _table_on_page(block: dict[str, Any], page_index: int) -> bool:
+    pages = list(block.get('sourcePageIndexes') or []) or [block.get('pageIndex')]
+    return block.get('type') == 'table' and page_index in pages
+
+
+def apply_table_cell_repairs(
+    level: str, key: str, node: str, blocks: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Apply TABLE_CELL_REPAIRS to one route; fail closed on a missing source."""
+    repaired = blocks
+    for repair in TABLE_CELL_REPAIRS:
+        if (repair['level'], repair['key']) != (level, key) or node not in repair['nodes']:
+            continue
+        page = int(repair['page'])
+        header = repair.get('header')
+        tables = [
+            block for block in repaired
+            if _table_on_page(block, page)
+            and (header is None or list((block.get('rows') or [[]])[0]) == list(header))
+        ]
+        if not tables:
+            raise ValueError(f'{level}/{key}/{node}: table-cell repair page {page} has no table')
+        for old, new in repair['replacements']:
+            found = False
+            for block in tables:
+                rows = block.get('rows') or []
+                if any(old in str(cell) for row in rows for cell in row):
+                    block['rows'] = [[str(cell).replace(old, new) for cell in row] for row in rows]
+                    found = True
+                elif any(new in str(cell) for row in rows for cell in row):
+                    found = True
+            if not found:
+                raise ValueError(
+                    f'{level}/{key}/{node}: table-cell repair source {old!r} missing on page {page}'
+                )
+        if repair.get('fill_down_first_column'):
+            if len(tables) != 1:
+                raise ValueError(f'{level}/{key}/{node}: fill-down table matched {len(tables)}')
+            rows = [list(row) for row in tables[0].get('rows') or []]
+            for index in range(2, len(rows)):
+                if rows[index] and not str(rows[index][0]).strip():
+                    rows[index][0] = rows[index - 1][0]
+            tables[0]['rows'] = rows
+    return repaired
+
+
+def apply_markdown_table_cell_repairs(level: str, key: str, markdown: str) -> str:
+    """Mirror TABLE_CELL_REPAIRS in the Markdown body (cells render ``\\n`` as ``<br />``)."""
+    for repair in TABLE_CELL_REPAIRS:
+        if (repair['level'], repair['key']) != (level, key):
+            continue
+        for old, new in repair['replacements']:
+            markdown = markdown.replace(old, new)
+            markdown = markdown.replace(old.replace('\n', '<br />'), new.replace('\n', '<br />'))
+    return markdown
+
+
 SEMANTIC_VISUAL_PAGES: dict[tuple[str, str, int], str] = {
     ('初級', 'guide1', 54): '鑑別式 AI 與生成式 AI 關係圖',
     ('中級', 'guide2', 14): '箱形圖構成示意',
@@ -480,6 +657,11 @@ VISUAL_INVENTORY_BY_PAGE: dict[tuple[str, str, int], dict[str, str]] = {
 }
 
 
+def _json_fragment(value: str) -> str:
+    """Return ``value`` escaped exactly as inside ``json.dumps(..., ensure_ascii=False)``."""
+    return json.dumps(value, ensure_ascii=False)[1:-1]
+
+
 def _block_text(block: dict[str, Any]) -> str:
     return str(block.get('text') or block.get('title') or '')
 
@@ -583,11 +765,28 @@ def _off_by_one_signature_candidates(
                 or continuation_page < last_page
             ):
                 break
+            # The OCR merge can label the first line of a list item that wraps
+            # onto the next page as another item with the *same* marker and
+            # depth (TA-128: 「…法國的首都在柏」／「林」，…」 on 中級 guide1
+            # pages 44/45).  Accept only that exact shape: the first
+            # continuation fragment on the expected page, same marker, same
+            # depth.  The signed exact signature still decides the match.
+            same_item_wrap = (
+                first.get('type') == 'list_item'
+                and continuation.get('type') == 'list_item'
+                and continuation_page == expected_page
+                and last_page == previous_page
+                and continuation.get('marker') not in (None, '')
+                and continuation.get('marker') == first.get('marker')
+                and continuation.get('depth') == first.get('depth')
+            )
             if (
-                continuation.get('type') != 'paragraph'
-                or continuation.get('marker') not in (None, '')
-                or not set(continuation).issubset(_SAFE_CONTINUATION_FRAGMENT_KEYS)
-            ):
+                not same_item_wrap
+                and (
+                    continuation.get('type') != 'paragraph'
+                    or continuation.get('marker') not in (None, '')
+                )
+            ) or not set(continuation).issubset(_SAFE_CONTINUATION_FRAGMENT_KEYS):
                 break
             continuation_content = _block_text(continuation)
             if not continuation_content:
@@ -744,12 +943,70 @@ def apply_track_a_block_repairs(
         target['trackAOriginalBlockId'] = repair['block']
         repaired[start] = target
 
+    # Aggregate PDF-chapter routes (s1pdf-c3, mid-s2pdf-c5, …) print the same
+    # pages as the chapter route that owns each TA-109..152 contract.  Before
+    # the 2026-11-01 rebuild the stale guide tree had these sentences whole;
+    # the rebuilt tree splits them at the page break in *every* route.  Apply
+    # the same signed window merge to any other route of the guide when the
+    # signature matches exactly once (zero = the route does not print that
+    # page or its text differs; more than one fails closed).  The mirror is
+    # tagged separately so the inventory still owns exactly one block.
+    mirror_repairs = [
+        repair for repair in OFF_BY_ONE_REPAIRS
+        if (repair['level'], repair['key']) == (level, key) and repair['node'] != node
+    ]
+    mirror_signatures = _off_by_one_signatures() if mirror_repairs else {}
+    for repair in mirror_repairs:
+        expected = mirror_signatures[repair['id']]
+        expected_page = int(expected['pageIndex'])
+        candidates = _off_by_one_signature_candidates(
+            repaired,
+            expected_digest=expected['blockSignatureSha256'],
+            expected_page=expected_page,
+        )
+        if not candidates:
+            continue
+        if len(candidates) != 1:
+            raise ValueError(
+                f"{repair['id']} mirror matched {len(candidates)} targets in {level}/{key}/{node}"
+            )
+        candidate = candidates[0]
+        start = int(candidate['start'])
+        end = int(candidate['end'])
+        target = dict(repaired[start])
+        if candidate['kind'] == 'window':
+            target['text'] = candidate['content']
+            target.pop('title', None)
+            repaired[start:end + 1] = [target]
+        elif target.get('pageIndex') not in (expected_page - 1, expected_page):
+            continue  # same sentence printed on another page: not a mirror
+        target['pageIndex'] = expected_page
+        target['sourcePageIndexes'] = list(expected['sourcePageIndexes'])
+        target['trackAMirrorRepairId'] = repair['id']
+        repaired[start] = target
+
+    repaired = apply_continuation_merges(level, key, node, repaired)
+
     # TA-106..108: the merged rows are source-faithful, but their two fragment
     # pages must remain explicit on the exact audited table.
     for repair in TABLE_PROVENANCE_REPAIRS:
         if (repair['level'], repair['key'], repair['node']) != (level, key, node):
             continue
-        target = next((block for block in repaired if block.get('id') == repair['block']), None)
+        # Block IDs shift whenever the guide tree is rebuilt (2026-11-01: the
+        # historical TA-107 id block-95 became a paragraph).  Locate the audited
+        # table by its merged two-page provenance instead; `repair['block']`
+        # is kept only as the historical trackAOriginalBlockId.
+        table_matches = [
+            block for block in repaired
+            if block.get('type') == 'table'
+            and list(block.get('sourcePageIndexes') or []) == list(repair['pages'])
+        ]
+        if len(table_matches) > 1:
+            raise ValueError(
+                f"{repair['id']} merged table provenance {repair['pages']} matched "
+                f"{len(table_matches)} tables in {node}"
+            )
+        target = table_matches[0] if table_matches else None
         if target is None:
             if require_prebuilt_matches:
                 raise ValueError(f"{repair['id']} source table {repair['block']} missing from {node}")
@@ -776,6 +1033,31 @@ def apply_track_a_block_repairs(
 
     # TA-048..050: source-reviewed hierarchy repairs.  All paragraph content is
     # retained; only the omitted/corrupt heading boundary changes.
+    # Since the OCR merge (2026-11-01 rebuild) page_extract yields all three
+    # headings natively.  The repair then has nothing to rewrite, but the
+    # audited heading must still carry its inventory identity, otherwise the
+    # release gate cannot tell a verified native heading from a silent drift.
+    native_titles = {
+        ('初級', 'guide1', 's1c1'): ('TA-048', '1. 人工智慧技術的多樣化應用'),
+        ('初級', 'guide1', 's1c3'): ('TA-049', '1. 機器學習基本理論'),
+        ('初級', 'guide1', 's1c4'): ('TA-050', '1. 鑑別式 AI 與生成式 AI 的基本原理'),
+    }
+    native = native_titles.get((level, key, node))
+    if native:
+        repair_id, native_title = native
+        native_matches = [
+            block for block in repaired
+            if block.get('type') == 'heading' and block.get('title') == native_title
+        ]
+        if len(native_matches) > 1:
+            raise ValueError(f'{repair_id} heading {native_title!r} matched {len(native_matches)} blocks')
+        if native_matches and not native_matches[0].get('trackARepairId'):
+            target = native_matches[0]
+            target['trackARepairId'] = repair_id
+            target['trackAOriginalBlockId'] = target.get('id')
+            target['trackANativeHeading'] = True
+            target['sourcePageIndexes'] = [target.get('pageIndex')]
+
     if (level, key, node) == ('初級', 'guide1', 's1c1'):
         title = '1. 人工智慧技術的多樣化應用'
         if not any(block.get('type') == 'heading' and block.get('title') == title for block in repaired):
@@ -871,7 +1153,10 @@ def _replace_nested(value: Any, old: str, new: str) -> Any:
 
 TEXT_BLOCK_TARGETS: dict[tuple[str, str, str], dict[str, Any]] = {
     ('初級', 'guide1', 's1c2'): {
-        'required': 'Type I 錯誤（α）',
+        # Either serialization of the errata-corrected cell is acceptable:
+        # since 2026-11-01 the sub-table is published from the OCR rows
+        # (``Type I 錯誤 ( $ \\alpha $)``); the release gate accepts both too.
+        'required': ('Type I 錯誤（α）', 'Type I 錯誤 ( $ \\alpha $)'),
         'forbidden': ['Type II 錯誤（α）', 'Type II 錯誤 ( $ \\alpha $)'],
     },
     ('初級', 'guide1', 's1c3'): {
@@ -906,6 +1191,8 @@ def apply_text_repairs(
     strict: bool = False,
 ) -> list[dict[str, Any]]:
     repaired = [dict(block) for block in blocks]
+    if node:
+        repaired = apply_table_cell_repairs(level, key, node, repaired)
     for old, new in TEXT_REPAIRS.get((level, key), []):
         repaired = [_replace_nested(block, old, new) for block in repaired]
     for (repair_level, repair_key, page_index), replacements in PAGE_TEXT_REPAIRS.items():
@@ -932,12 +1219,18 @@ def apply_text_repairs(
             if target.get('pageIndex') is None or block.get('pageIndex') == target['pageIndex']
         ]
         serialized = json.dumps(target_blocks, ensure_ascii=False)
-        if target['required'] not in serialized or any(value in serialized for value in target['forbidden']):
+        required = target['required']
+        required_any = (required,) if isinstance(required, str) else tuple(required)
+        if (
+            not any(_json_fragment(value) in serialized for value in required_any)
+            or any(_json_fragment(value) in serialized for value in target['forbidden'])
+        ):
             raise ValueError(f'{level}/{key}/{node}: exact Track-A text repair target missing')
     return repaired
 
 
 def apply_markdown_repairs(level: str, key: str, markdown: str) -> str:
+    markdown = apply_markdown_table_cell_repairs(level, key, markdown)
     for old, new in TEXT_REPAIRS.get((level, key), []):
         markdown = markdown.replace(old, new)
     for (repair_level, repair_key, _), replacements in TEXT_SIMPLIFICATIONS.items():
@@ -1104,9 +1397,18 @@ def audit_generated_track_a(
     s1c2_serialized = json.dumps({
         'content': s1c2.get('content'), 'blocks': s1c2.get('blocks'),
     }, ensure_ascii=False)
-    bad_type_i = ('Type II 錯誤 ( $ \\alpha $)', 'Type II 錯誤（α）')
-    type_i_ok = all(value not in s1c2_serialized for value in bad_type_i) and (
-        'Type I 錯誤 ( $ \\alpha $)' in s1c2_serialized or 'Type I 錯誤（α）' in s1c2_serialized
+    # Compare in the same JSON-escaped form as the serialized payload; a raw
+    # ``\\alpha`` literal never matched the escaped ``\\\\alpha`` (2026-11-01).
+    # The published cell is normalized to full-width parentheses (Chinese
+    # context, cjk_parentheses.py); accept every serialization of the cell.
+    bad_type_i = tuple(_json_fragment(value) for value in (
+        'Type II 錯誤 ( $ \\alpha $)', 'Type II 錯誤 （$ \\alpha $）', 'Type II 錯誤（α）',
+    ))
+    good_type_i = tuple(_json_fragment(value) for value in (
+        'Type I 錯誤 ( $ \\alpha $)', 'Type I 錯誤 （$ \\alpha $）', 'Type I 錯誤（α）',
+    ))
+    type_i_ok = all(value not in s1c2_serialized for value in bad_type_i) and any(
+        value in s1c2_serialized for value in good_type_i
     )
     record('TA-044', type_i_ok, 's1c2 still contains the Type-II/alpha source error')
 

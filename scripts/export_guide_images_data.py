@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 from typing import Any
 from asset_paths import image_url
+from guide_block_id_migrations import BlockIdMigration, sha256_bytes
 
 BASE = Path(__file__).resolve().parents[1]
 DEFAULT_LEVEL = '初級'
@@ -24,11 +25,38 @@ def write_json(path: Path, data: Any) -> None:
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
 
 
-def export_images(units_file: Path, output: Path, public_images_dir: Path) -> dict:
+def units_scope_key(units_file: Path) -> str:
+    try:
+        return units_file.resolve().relative_to(BASE).as_posix()
+    except ValueError:
+        return units_file.as_posix()
+
+
+def export_images(
+    units_file: Path,
+    output: Path,
+    public_images_dir: Path,
+    migration: BlockIdMigration | None = None,
+) -> dict:
     payload = load_json(units_file)
     units = payload.get('units')
     if not isinstance(units, list):
         raise ValueError(f'{units_file} must contain units[]')
+    # Image units are generated once (export_guide_image_units.py is not rerun);
+    # remap their headingBlockId to the current guideContent and fail closed.
+    if migration is None:
+        migration = BlockIdMigration.load(
+            table_path=BASE / 'data/guide_block_id_migrations.json',
+            overrides_path=BASE / 'data/guide_citation_overrides.json',
+            content_root=BASE / 'frontend/src/generated/guideContent',
+        )
+    units, remapped = migration.migrate_heading_block_ids(
+        units,
+        scope_key=units_scope_key(units_file),
+        digest=sha256_bytes(units_file.read_bytes()),
+    )
+    if remapped:
+        print(f'INFO remapped {remapped} image-unit headingBlockId(s) via block-id migration')
 
     images = []
     missing_files = []

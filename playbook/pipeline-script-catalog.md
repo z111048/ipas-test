@@ -76,6 +76,9 @@
   2026-08-29 起不再寫 `public/.../gallery.json`——那份三個 level 合計 589 KB，從來沒有消費者。
 - `export_resource_summary.py` — 章節/題數/覆蓋統計 + `visuals` 概念圖卡計數 → `resourceSummary.json`（首頁統計用；題目 JSON 得以 lazy load）。
 - `export_exam_reference_answers.py` — 以 v2 generation-input SHA-256 provenance 對 canonical qid，驗 overlay 指紋並要求 published/production inventory 完全相等；不得改回無條件 legacy ID offset（細節見 `07-question-generation.md` §4a）。
+  <!-- 2026-11-02 --> 2026-11-01 起匯出時套 `guide_block_id_migrations.py`（`data/guide_block_id_migrations.json`＋人工 `data/guide_citation_overrides.json`），未決或不存在的 block id 一律 fail closed。
+- `build_guide_block_id_migrations.py` — guideContent 重編 block id 後，比對 `--old-ref` 與現行內容產生舊→新對照表（exact／normalized／fuzzy／unmapped）與待審引用候選；`--check` 驗表是否最新。無 API。人工裁決不寫這裡，寫 overrides。
+- `cjk_parentheses.py` — 中文語境半形括號→全形的純函式，`export_guide_outline_data.py` 最後一道 pass 使用（規則見 `deterministic-publication-overlays.md`）。
 - `export_colab_metadata.py`、`export_guide_images_data.py`、`export_guide_image_units.py`、`export_learning_articles.py`、`export_guide_exam_annotations.py` — 各自把後端產物轉前端 JSON；改了上游資料記得重跑對應那支。
   `export_guide_exam_annotations.py`（2026-11-01）每筆標註另帶 `citationRank`／`citationBlockCount`／`supplement`／`prominence`：引用順位 ≤2、非「補充」、說明不含「未直接」、該引用涵蓋 ≤10 個 block 才是 `primary`（2026-11-01 依 60 筆人工抽樣由 ≤5 放寬）。`prominence` **只給 GuidePage 決定徽章顯示**（主要題算「考過 N 題」，次要題收進「另有 N 題相關」或灰色「相關 N 題」）；topicHeat、conceptGraph、心智圖仍採計全部標註，不得改成只數 primary。
 - ~~`render_guide_page_images.py`~~ — **已退場（2026-08-29）**。產物 `frontend/public/guide-pages/`（89 檔 13 MB）

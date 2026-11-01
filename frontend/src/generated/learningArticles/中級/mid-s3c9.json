@@ -21,7 +21,7 @@
     "錯誤分析"
   ],
   "excerpt": "在機器學習開發流程中，即便選擇了合適的模型架構與演算法，若訓練過程未能有效執行、評估方法不嚴謹，仍可能導致模型在實際應用中表現不佳，甚至產生錯誤決策。",
-  "wordCount": 6407,
+  "wordCount": 6375,
   "readingMinutes": 10,
   "sectionCount": 16,
   "source": {
@@ -82,37 +82,37 @@
       "depth": 4
     },
     {
-      "id": "block-94",
+      "id": "block-96",
       "title": "（2）迴歸任務的評估指標",
       "depth": 4
     },
     {
-      "id": "block-142",
+      "id": "block-144",
       "title": "（3）模型比較與綜合評估策略",
       "depth": 4
     },
     {
-      "id": "block-166",
+      "id": "block-168",
       "title": "4. 交叉驗證",
       "depth": 3
     },
     {
-      "id": "block-168",
+      "id": "block-170",
       "title": "（1）K-fold",
       "depth": 4
     },
     {
-      "id": "block-183",
+      "id": "block-185",
       "title": "（2）Stratified K-fold",
       "depth": 4
     },
     {
-      "id": "block-195",
+      "id": "block-197",
       "title": "（3）LOOCV",
       "depth": 4
     },
     {
-      "id": "block-208",
+      "id": "block-210",
       "title": "（4）Repeated K-fold",
       "depth": 4
     }
@@ -910,13 +910,13 @@
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "以下是二元分類問題中的混淆矩陣（Confusion Matrix）」標準格式，以「正類",
+      "text": "以下是二元分類問題中的混淆矩陣（Confusion Matrix）」標準格式，以「正類 （Positive）」和「負類（Negative）」作為預測與實際的對照。",
       "pageIndex": 153,
       "bbox": [
-        101.8,
+        76.6,
         550.87,
         518.31,
-        564.16
+        589.12
       ],
       "indentFirstLine": true,
       "id": "block-59"
@@ -927,18 +927,18 @@
       "rows": [
         [
           "",
-          "Positive",
-          "Negative"
+          "實際為正類（Positive）",
+          "實際為負類（Negative）"
         ],
         [
           "預測為正類",
-          "真正（TP）\n（True Positive）",
-          "假正（FP）\n（False Positive）"
+          "真正（TP）（True Positive）",
+          "假正（FP）（False Positive）"
         ],
         [
           "預測為負類",
-          "假負（FN）\n（False Negative）",
-          "真負（TN）\n（True Negative）"
+          "假負（FN）（False Negative）",
+          "真負（TN）（True Negative）"
         ]
       ],
       "pageIndex": 153,
@@ -949,7 +949,21 @@
         734.73
       ],
       "id": "block-60",
-      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th></th>\n<th>Positive</th>\n<th>Negative</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>預測為正類</td>\n<td>真正（TP）<br />（True Positive）</td>\n<td>假正（FP）<br />（False Positive）</td>\n</tr>\n<tr>\n<td>預測為負類</td>\n<td>假負（FN）<br />（False Negative）</td>\n<td>真負（TN）<br />（True Negative）</td>\n</tr>\n</tbody>\n</table>"
+      "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th></th>\n<th>實際為正類（Positive）</th>\n<th>實際為負類（Negative）</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>預測為正類</td>\n<td>真正（TP）（True Positive）</td>\n<td>假正（FP）（False Positive）</td>\n</tr>\n<tr>\n<td>預測為負類</td>\n<td>假負（FN）（False Negative）</td>\n<td>真負（TN）（True Negative）</td>\n</tr>\n</tbody>\n</table>"
+    },
+    {
+      "type": "list_item",
+      "depth": 5,
+      "marker": "•",
+      "text": "P：實際為正類的樣本數",
+      "pageIndex": 153,
+      "bbox": [
+        102.16,
+        730.38,
+        255.19,
+        743.83
+      ],
+      "id": "block-61"
     },
     {
       "type": "list_item",
@@ -963,7 +977,7 @@
         257.23,
         768.78
       ],
-      "id": "block-61"
+      "id": "block-62"
     },
     {
       "type": "list_item",
@@ -977,7 +991,7 @@
         267.55,
         114.11
       ],
-      "id": "block-62"
+      "id": "block-63"
     },
     {
       "type": "list_item",
@@ -991,7 +1005,7 @@
         274.27,
         139.07
       ],
-      "id": "block-63"
+      "id": "block-64"
     },
     {
       "type": "list_item",
@@ -1005,7 +1019,7 @@
         270.43,
         164.15
       ],
-      "id": "block-64"
+      "id": "block-65"
     },
     {
       "type": "list_item",
@@ -1019,13 +1033,13 @@
         470.28,
         214.07
       ],
-      "id": "block-65"
+      "id": "block-66"
     },
     {
       "type": "list_item",
       "depth": 5,
       "marker": "•",
-      "text": "準確率（Accuracy） 𝑇𝑃+𝑇𝑁",
+      "text": "準確率（Accuracy）",
       "pageIndex": 154,
       "bbox": [
         102.16,
@@ -1033,7 +1047,7 @@
         282.75,
         255.85
       ],
-      "id": "block-66"
+      "id": "block-67"
     },
     {
       "type": "list_item",
@@ -1047,10 +1061,10 @@
         303.43,
         268.96
       ],
-      "id": "block-67",
+      "id": "block-68",
       "formulas": [
         {
-          "latex": "\\text{Accuracy} = \\frac{TP+TN}{TP+TN+FP+FN}",
+          "latex": "\\operatorname{Accuracy}=\\frac{TP+TN}{TP+TN+FP+FN}",
           "display": true
         }
       ],
@@ -1068,7 +1082,7 @@
         378.57,
         296.78
       ],
-      "id": "block-68"
+      "id": "block-69"
     },
     {
       "type": "list_item",
@@ -1082,7 +1096,7 @@
         353.37,
         321.74
       ],
-      "id": "block-69"
+      "id": "block-70"
     },
     {
       "type": "list_item",
@@ -1096,13 +1110,13 @@
         521.31,
         371.78
       ],
-      "id": "block-70"
+      "id": "block-71"
     },
     {
       "type": "list_item",
       "depth": 5,
       "marker": "•",
-      "text": "精確率（Precision） 𝑇𝑃",
+      "text": "精確率（Precision）",
       "pageIndex": 154,
       "bbox": [
         102.16,
@@ -1110,7 +1124,7 @@
         256.49,
         413.44
       ],
-      "id": "block-71"
+      "id": "block-72"
     },
     {
       "type": "list_item",
@@ -1124,10 +1138,10 @@
         268.39,
         426.52
       ],
-      "id": "block-72",
+      "id": "block-73",
       "formulas": [
         {
-          "latex": "\\text{Precision} = \\frac{TP}{TP+FP}",
+          "latex": "\\operatorname{Precision}=\\frac{TP}{TP+FP}",
           "display": true
         }
       ],
@@ -1145,7 +1159,7 @@
         428.97,
         454.36
       ],
-      "id": "block-73"
+      "id": "block-74"
     },
     {
       "type": "list_item",
@@ -1159,7 +1173,7 @@
         521.88,
         479.32
       ],
-      "id": "block-74"
+      "id": "block-75"
     },
     {
       "type": "list_item",
@@ -1173,13 +1187,13 @@
         334.53,
         504.4
       ],
-      "id": "block-75"
+      "id": "block-76"
     },
     {
       "type": "list_item",
       "depth": 5,
       "marker": "•",
-      "text": "召回率（Recall） 𝑇𝑃",
+      "text": "召回率（Recall）",
       "pageIndex": 154,
       "bbox": [
         102.16,
@@ -1187,13 +1201,13 @@
         239.69,
         546.06
       ],
-      "id": "block-76"
+      "id": "block-77"
     },
     {
       "type": "list_item",
       "depth": 6,
       "marker": "◦",
-      "text": "公式：Recall = 𝑇𝑃+𝐹𝑃",
+      "text": "公式：Recall = 𝑇𝑃+𝐹𝑁",
       "pageIndex": 154,
       "bbox": [
         120.52,
@@ -1201,10 +1215,10 @@
         251.47,
         559.14
       ],
-      "id": "block-77",
+      "id": "block-78",
       "formulas": [
         {
-          "latex": "\\text{Recall} = \\frac{TP}{TP+FN}",
+          "latex": "\\operatorname{Recall}=\\frac{TP}{TP+FN}",
           "display": true
         }
       ],
@@ -1222,7 +1236,7 @@
         428.97,
         586.96
       ],
-      "id": "block-78"
+      "id": "block-79"
     },
     {
       "type": "list_item",
@@ -1236,7 +1250,7 @@
         521.88,
         611.92
       ],
-      "id": "block-79"
+      "id": "block-80"
     },
     {
       "type": "list_item",
@@ -1250,13 +1264,13 @@
         372.33,
         637.03
       ],
-      "id": "block-80"
+      "id": "block-81"
     },
     {
       "type": "list_item",
       "depth": 5,
       "marker": "•",
-      "text": "F1 分數（F1-Score） Precision∙Recall",
+      "text": "F1 分數（F1-Score）",
       "pageIndex": 154,
       "bbox": [
         102.16,
@@ -1264,7 +1278,7 @@
         285.23,
         679.05
       ],
-      "id": "block-81"
+      "id": "block-82"
     },
     {
       "type": "list_item",
@@ -1278,13 +1292,14 @@
         290.11,
         692.13
       ],
-      "id": "block-82",
+      "id": "block-83",
       "formulas": [
         {
-          "latex": "F1 = 2 \\cdot \\frac{\\text{Precision} \\cdot \\text{Recall}}{\\text{Precision} + \\text{Recall}}",
+          "latex": "F_1=2\\frac{\\operatorname{Precision}\\cdot\\operatorname{Recall}}{\\operatorname{Precision}+\\operatorname{Recall}}",
           "display": true
         }
-      ]
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -1298,7 +1313,7 @@
         340.77,
         719.59
       ],
-      "id": "block-83"
+      "id": "block-84"
     },
     {
       "type": "list_item",
@@ -1312,7 +1327,7 @@
         517.2,
         761.22
       ],
-      "id": "block-84"
+      "id": "block-85"
     },
     {
       "type": "list_item",
@@ -1326,7 +1341,19 @@
         218.11,
         114.11
       ],
-      "id": "block-85"
+      "id": "block-86"
+    },
+    {
+      "type": "source_image",
+      "depth": 3,
+      "pageIndex": 155,
+      "bbox": [
+        175.22,
+        123.86,
+        420.02,
+        368.66
+      ],
+      "id": "block-87"
     },
     {
       "type": "list_item",
@@ -1340,7 +1367,7 @@
         397.65,
         400.22
       ],
-      "id": "block-86"
+      "id": "block-88"
     },
     {
       "type": "list_item",
@@ -1354,7 +1381,7 @@
         241.51,
         425.3
       ],
-      "id": "block-87"
+      "id": "block-89"
     },
     {
       "type": "list_item",
@@ -1368,7 +1395,7 @@
         304.51,
         450.28
       ],
-      "id": "block-88"
+      "id": "block-90"
     },
     {
       "type": "list_item",
@@ -1382,7 +1409,7 @@
         417.93,
         475.24
       ],
-      "id": "block-89"
+      "id": "block-91"
     },
     {
       "type": "list_item",
@@ -1396,7 +1423,7 @@
         176.92,
         500.32
       ],
-      "id": "block-90"
+      "id": "block-92"
     },
     {
       "type": "list_item",
@@ -1410,7 +1437,7 @@
         405.33,
         525.28
       ],
-      "id": "block-91"
+      "id": "block-93"
     },
     {
       "type": "list_item",
@@ -1424,7 +1451,7 @@
         318.19,
         550.24
       ],
-      "id": "block-92"
+      "id": "block-94"
     },
     {
       "type": "list_item",
@@ -1438,7 +1465,7 @@
         492.0,
         575.32
       ],
-      "id": "block-93"
+      "id": "block-95"
     },
     {
       "type": "heading",
@@ -1451,7 +1478,7 @@
         218.23,
         625.24
       ],
-      "id": "block-94"
+      "id": "block-96"
     },
     {
       "type": "paragraph",
@@ -1465,13 +1492,13 @@
         675.31
       ],
       "indentFirstLine": true,
-      "id": "block-95"
+      "id": "block-97"
     },
     {
       "type": "list_item",
       "depth": 5,
       "marker": "•",
-      "text": "均方誤差（Mean Squared Error, MSE） 1 𝑛∑ (𝑦𝑖−𝑦̂𝑖)2 𝑛 𝑖=1",
+      "text": "均方誤差（Mean Squared Error, MSE）",
       "pageIndex": 155,
       "bbox": [
         102.16,
@@ -1479,14 +1506,7 @@
         332.85,
         730.17
       ],
-      "id": "block-96",
-      "formulas": [
-        {
-          "latex": "MSE = \\frac{1}{n} \\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2",
-          "display": true
-        }
-      ],
-      "formulaOnly": true
+      "id": "block-98"
     },
     {
       "type": "list_item",
@@ -1500,7 +1520,14 @@
         208.95,
         724.94
       ],
-      "id": "block-97"
+      "id": "block-99",
+      "formulas": [
+        {
+          "latex": "MSE=\\frac1n\\sum_{i=1}^{n}(y_i-\\hat y_i)^2",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -1514,7 +1541,7 @@
         226.39,
         759.56
       ],
-      "id": "block-98"
+      "id": "block-100"
     },
     {
       "type": "list_item",
@@ -1528,7 +1555,7 @@
         225.43,
         115.81
       ],
-      "id": "block-99"
+      "id": "block-101"
     },
     {
       "type": "list_item",
@@ -1542,7 +1569,7 @@
         340.77,
         139.07
       ],
-      "id": "block-100"
+      "id": "block-102"
     },
     {
       "type": "list_item",
@@ -1556,7 +1583,7 @@
         428.97,
         164.15
       ],
-      "id": "block-101"
+      "id": "block-103"
     },
     {
       "type": "list_item",
@@ -1570,13 +1597,13 @@
         517.2,
         189.11
       ],
-      "id": "block-102"
+      "id": "block-104"
     },
     {
       "type": "list_item",
       "depth": 5,
       "marker": "•",
-      "text": "平均絕對誤差（Mean Absolute Error, MAE） 1 𝑛∑ |𝑦𝑖−𝑦̂𝑖| 𝑛 𝑖=1",
+      "text": "平均絕對誤差（Mean Absolute Error, MAE）",
       "pageIndex": 156,
       "bbox": [
         102.16,
@@ -1584,14 +1611,7 @@
         363.81,
         243.97
       ],
-      "id": "block-103",
-      "formulas": [
-        {
-          "latex": "R^2 = 1 - \\frac{\\sum_{i=1}^n(y_i - \\hat{y}_i)^2}{\\sum_{i=1}^n(y_i - \\bar{y})^2} = 1 - \\frac{RSS}{TSS}",
-          "display": true
-        }
-      ],
-      "formulaOnly": true
+      "id": "block-105"
     },
     {
       "type": "list_item",
@@ -1605,7 +1625,14 @@
         210.39,
         238.74
       ],
-      "id": "block-104"
+      "id": "block-106",
+      "formulas": [
+        {
+          "latex": "MAE=\\frac1n\\sum_{i=1}^{n}|y_i-\\hat y_i|",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -1619,7 +1646,7 @@
         226.39,
         273.4
       ],
-      "id": "block-105"
+      "id": "block-107"
     },
     {
       "type": "list_item",
@@ -1633,7 +1660,7 @@
         225.43,
         298.48
       ],
-      "id": "block-106"
+      "id": "block-108"
     },
     {
       "type": "list_item",
@@ -1647,7 +1674,7 @@
         340.77,
         321.74
       ],
-      "id": "block-107"
+      "id": "block-109"
     },
     {
       "type": "list_item",
@@ -1661,7 +1688,7 @@
         416.37,
         346.7
       ],
-      "id": "block-108"
+      "id": "block-110"
     },
     {
       "type": "list_item",
@@ -1675,13 +1702,13 @@
         378.57,
         371.78
       ],
-      "id": "block-109"
+      "id": "block-111"
     },
     {
       "type": "list_item",
       "depth": 5,
       "marker": "•",
-      "text": "均方根誤差（Root Mean Squared Error, RMSE） 1 𝑛∑ (𝑦𝑖−𝑦̂𝑖)2 𝑛 𝑖=1",
+      "text": "均方根誤差（Root Mean Squared Error, RMSE）",
       "pageIndex": 156,
       "bbox": [
         102.16,
@@ -1689,7 +1716,7 @@
         381.69,
         427.72
       ],
-      "id": "block-110"
+      "id": "block-112"
     },
     {
       "type": "list_item",
@@ -1703,7 +1730,14 @@
         228.67,
         422.49
       ],
-      "id": "block-111"
+      "id": "block-113",
+      "formulas": [
+        {
+          "latex": "RMSE=\\sqrt{\\frac1n\\sum_{i=1}^{n}(y_i-\\hat y_i)^2}",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -1717,7 +1751,7 @@
         226.39,
         456.06
       ],
-      "id": "block-112"
+      "id": "block-114"
     },
     {
       "type": "list_item",
@@ -1731,7 +1765,7 @@
         225.43,
         481.02
       ],
-      "id": "block-113"
+      "id": "block-115"
     },
     {
       "type": "list_item",
@@ -1745,7 +1779,7 @@
         268.63,
         504.4
       ],
-      "id": "block-114"
+      "id": "block-116"
     },
     {
       "type": "list_item",
@@ -1759,7 +1793,7 @@
         498.72,
         529.36
       ],
-      "id": "block-115"
+      "id": "block-117"
     },
     {
       "type": "list_item",
@@ -1773,7 +1807,7 @@
         504.6,
         554.32
       ],
-      "id": "block-116"
+      "id": "block-118"
     },
     {
       "type": "list_item",
@@ -1787,7 +1821,7 @@
         242.11,
         579.4
       ],
-      "id": "block-117"
+      "id": "block-119"
     },
     {
       "type": "list_item",
@@ -1801,7 +1835,7 @@
         521.88,
         604.36
       ],
-      "id": "block-118"
+      "id": "block-120"
     },
     {
       "type": "list_item",
@@ -1815,7 +1849,7 @@
         176.92,
         629.35
       ],
-      "id": "block-119"
+      "id": "block-121"
     },
     {
       "type": "paragraph",
@@ -1829,7 +1863,14 @@
         665.25
       ],
       "indentFirstLine": true,
-      "id": "block-120"
+      "id": "block-122",
+      "formulas": [
+        {
+          "latex": "R^2=1-\\frac{\\sum_{i=1}^{n}(y_i-\\hat y_i)^2}{\\sum_{i=1}^{n}(y_i-\\bar y)^2}=1-\\frac{RSS}{TSS}",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -1843,7 +1884,7 @@
         226.39,
         688.65
       ],
-      "id": "block-121"
+      "id": "block-123"
     },
     {
       "type": "list_item",
@@ -1857,7 +1898,7 @@
         225.43,
         713.73
       ],
-      "id": "block-122"
+      "id": "block-124"
     },
     {
       "type": "list_item",
@@ -1871,7 +1912,7 @@
         273.67,
         753.54
       ],
-      "id": "block-123"
+      "id": "block-125"
     },
     {
       "type": "list_item",
@@ -1885,7 +1926,7 @@
         191.11,
         114.11
       ],
-      "id": "block-124"
+      "id": "block-126"
     },
     {
       "type": "paragraph",
@@ -1899,10 +1940,10 @@
         161.65
       ],
       "indentFirstLine": true,
-      "id": "block-125",
+      "id": "block-127",
       "formulas": [
         {
-          "latex": "RSS = \\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2",
+          "latex": "RSS=\\sum_{i=1}^{n}(y_{i}-\\hat{y}_{i})^{2}",
           "display": true
         }
       ],
@@ -1920,7 +1961,7 @@
         440.49,
         188.03
       ],
-      "id": "block-126"
+      "id": "block-128"
     },
     {
       "type": "list_item",
@@ -1934,7 +1975,7 @@
         472.8,
         212.99
       ],
-      "id": "block-127"
+      "id": "block-129"
     },
     {
       "type": "list_item",
@@ -1948,7 +1989,7 @@
         410.01,
         238.07
       ],
-      "id": "block-128"
+      "id": "block-130"
     },
     {
       "type": "list_item",
@@ -1962,7 +2003,7 @@
         191.11,
         263.06
       ],
-      "id": "block-129"
+      "id": "block-131"
     },
     {
       "type": "paragraph",
@@ -1976,10 +2017,10 @@
         310.6
       ],
       "indentFirstLine": true,
-      "id": "block-130",
+      "id": "block-132",
       "formulas": [
         {
-          "latex": "TSS = \\sum_{i=1}^{n} (y_i - \\bar{y})^2",
+          "latex": "TSS=\\sum_{i=1}^{n}(y_{i}-\\bar{y})^{2}",
           "display": true
         }
       ],
@@ -1997,7 +2038,7 @@
         408.57,
         336.98
       ],
-      "id": "block-131"
+      "id": "block-133"
     },
     {
       "type": "list_item",
@@ -2011,7 +2052,7 @@
         518.32,
         386.9
       ],
-      "id": "block-132"
+      "id": "block-134"
     },
     {
       "type": "list_item",
@@ -2025,7 +2066,7 @@
         349.77,
         411.98
       ],
-      "id": "block-133"
+      "id": "block-135"
     },
     {
       "type": "list_item",
@@ -2039,7 +2080,7 @@
         202.15,
         436.94
       ],
-      "id": "block-134"
+      "id": "block-136"
     },
     {
       "type": "list_item",
@@ -2053,7 +2094,7 @@
         405.33,
         461.92
       ],
-      "id": "block-135"
+      "id": "block-137"
     },
     {
       "type": "list_item",
@@ -2067,7 +2108,7 @@
         468.36,
         487.0
       ],
-      "id": "block-136"
+      "id": "block-138"
     },
     {
       "type": "list_item",
@@ -2081,7 +2122,7 @@
         408.09,
         511.96
       ],
-      "id": "block-137"
+      "id": "block-139"
     },
     {
       "type": "list_item",
@@ -2095,7 +2136,7 @@
         176.92,
         536.92
       ],
-      "id": "block-138"
+      "id": "block-140"
     },
     {
       "type": "list_item",
@@ -2109,7 +2150,7 @@
         437.49,
         562.0
       ],
-      "id": "block-139"
+      "id": "block-141"
     },
     {
       "type": "list_item",
@@ -2123,7 +2164,7 @@
         513.12,
         586.96
       ],
-      "id": "block-140"
+      "id": "block-142"
     },
     {
       "type": "list_item",
@@ -2137,7 +2178,7 @@
         517.91,
         637.03
       ],
-      "id": "block-141"
+      "id": "block-143"
     },
     {
       "type": "heading",
@@ -2150,7 +2191,7 @@
         243.43,
         686.95
       ],
-      "id": "block-142"
+      "id": "block-144"
     },
     {
       "type": "paragraph",
@@ -2164,7 +2205,7 @@
         736.99
       ],
       "indentFirstLine": false,
-      "id": "block-143"
+      "id": "block-145"
     },
     {
       "type": "list_item",
@@ -2178,7 +2219,7 @@
         518.37,
         139.07
       ],
-      "id": "block-144"
+      "id": "block-146"
     },
     {
       "type": "list_item",
@@ -2192,7 +2233,7 @@
         518.2,
         189.11
       ],
-      "id": "block-145"
+      "id": "block-147"
     },
     {
       "type": "list_item",
@@ -2206,7 +2247,7 @@
         521.88,
         214.07
       ],
-      "id": "block-146"
+      "id": "block-148"
     },
     {
       "type": "list_item",
@@ -2220,7 +2261,7 @@
         518.23,
         264.14
       ],
-      "id": "block-147"
+      "id": "block-149"
     },
     {
       "type": "list_item",
@@ -2234,7 +2275,7 @@
         299.11,
         289.1
       ],
-      "id": "block-148"
+      "id": "block-150"
     },
     {
       "type": "list_item",
@@ -2248,7 +2289,7 @@
         518.32,
         314.11
       ],
-      "id": "block-149"
+      "id": "block-151"
     },
     {
       "type": "paragraph",
@@ -2262,7 +2303,7 @@
         364.1
       ],
       "indentFirstLine": false,
-      "id": "block-150"
+      "id": "block-152"
     },
     {
       "type": "list_item",
@@ -2276,7 +2317,7 @@
         260.11,
         389.18
       ],
-      "id": "block-151"
+      "id": "block-153"
     },
     {
       "type": "list_item",
@@ -2290,7 +2331,7 @@
         518.32,
         464.2
       ],
-      "id": "block-152"
+      "id": "block-154"
     },
     {
       "type": "list_item",
@@ -2304,7 +2345,7 @@
         418.41,
         489.16
       ],
-      "id": "block-153"
+      "id": "block-155"
     },
     {
       "type": "list_item",
@@ -2318,7 +2359,7 @@
         518.32,
         564.16
       ],
-      "id": "block-154"
+      "id": "block-156"
     },
     {
       "type": "list_item",
@@ -2332,7 +2373,7 @@
         273.43,
         589.12
       ],
-      "id": "block-155"
+      "id": "block-157"
     },
     {
       "type": "list_item",
@@ -2346,7 +2387,7 @@
         462.48,
         614.2
       ],
-      "id": "block-156"
+      "id": "block-158"
     },
     {
       "type": "list_item",
@@ -2360,7 +2401,7 @@
         518.04,
         664.15
       ],
-      "id": "block-157"
+      "id": "block-159"
     },
     {
       "type": "list_item",
@@ -2374,7 +2415,7 @@
         517.97,
         714.19
       ],
-      "id": "block-158"
+      "id": "block-160"
     },
     {
       "type": "list_item",
@@ -2388,7 +2429,7 @@
         518.35,
         164.15
       ],
-      "id": "block-159"
+      "id": "block-161"
     },
     {
       "type": "list_item",
@@ -2402,7 +2443,7 @@
         380.61,
         189.11
       ],
-      "id": "block-160"
+      "id": "block-162"
     },
     {
       "type": "list_item",
@@ -2416,7 +2457,7 @@
         518.23,
         264.14
       ],
-      "id": "block-161"
+      "id": "block-163"
     },
     {
       "type": "list_item",
@@ -2430,7 +2471,7 @@
         350.97,
         289.1
       ],
-      "id": "block-162"
+      "id": "block-164"
     },
     {
       "type": "list_item",
@@ -2444,7 +2485,7 @@
         521.88,
         339.14
       ],
-      "id": "block-163"
+      "id": "block-165"
     },
     {
       "type": "list_item",
@@ -2458,7 +2499,7 @@
         252.55,
         364.1
       ],
-      "id": "block-164"
+      "id": "block-166"
     },
     {
       "type": "list_item",
@@ -2472,7 +2513,7 @@
         518.32,
         439.1
       ],
-      "id": "block-165"
+      "id": "block-167"
     },
     {
       "type": "heading",
@@ -2485,7 +2526,7 @@
         161.17,
         489.73
       ],
-      "id": "block-166"
+      "id": "block-168"
     },
     {
       "type": "paragraph",
@@ -2499,7 +2540,7 @@
         589.12
       ],
       "indentFirstLine": true,
-      "id": "block-167"
+      "id": "block-169"
     },
     {
       "type": "heading",
@@ -2512,7 +2553,7 @@
         139.96,
         639.19
       ],
-      "id": "block-168"
+      "id": "block-170"
     },
     {
       "type": "paragraph",
@@ -2526,7 +2567,7 @@
         664.15
       ],
       "indentFirstLine": true,
-      "id": "block-169"
+      "id": "block-171"
     },
     {
       "type": "paragraph",
@@ -2540,7 +2581,7 @@
         730.75
       ],
       "indentFirstLine": false,
-      "id": "block-170"
+      "id": "block-172"
     },
     {
       "type": "list_item",
@@ -2554,7 +2595,7 @@
         160.0,
         114.11
       ],
-      "id": "block-171"
+      "id": "block-173"
     },
     {
       "type": "list_item",
@@ -2568,7 +2609,7 @@
         518.28,
         164.15
       ],
-      "id": "block-172"
+      "id": "block-174"
     },
     {
       "type": "list_item",
@@ -2582,7 +2623,7 @@
         368.61,
         189.11
       ],
-      "id": "block-173"
+      "id": "block-175"
     },
     {
       "type": "list_item",
@@ -2596,7 +2637,7 @@
         160.0,
         214.07
       ],
-      "id": "block-174"
+      "id": "block-176"
     },
     {
       "type": "list_item",
@@ -2610,7 +2651,7 @@
         315.55,
         239.15
       ],
-      "id": "block-175"
+      "id": "block-177"
     },
     {
       "type": "list_item",
@@ -2624,7 +2665,7 @@
         391.17,
         264.14
       ],
-      "id": "block-176"
+      "id": "block-178"
     },
     {
       "type": "list_item",
@@ -2638,7 +2679,7 @@
         368.61,
         289.1
       ],
-      "id": "block-177"
+      "id": "block-179"
     },
     {
       "type": "list_item",
@@ -2652,7 +2693,7 @@
         473.4,
         314.18
       ],
-      "id": "block-178"
+      "id": "block-180"
     },
     {
       "type": "list_item",
@@ -2666,7 +2707,7 @@
         185.2,
         339.14
       ],
-      "id": "block-179"
+      "id": "block-181"
     },
     {
       "type": "list_item",
@@ -2680,7 +2721,7 @@
         347.13,
         364.1
       ],
-      "id": "block-180"
+      "id": "block-182"
     },
     {
       "type": "list_item",
@@ -2694,7 +2735,7 @@
         365.97,
         389.18
       ],
-      "id": "block-181"
+      "id": "block-183"
     },
     {
       "type": "list_item",
@@ -2708,7 +2749,7 @@
         365.97,
         414.14
       ],
-      "id": "block-182"
+      "id": "block-184"
     },
     {
       "type": "heading",
@@ -2721,7 +2762,7 @@
         194.95,
         464.2
       ],
-      "id": "block-183"
+      "id": "block-185"
     },
     {
       "type": "paragraph",
@@ -2735,7 +2776,7 @@
         539.2
       ],
       "indentFirstLine": true,
-      "id": "block-184"
+      "id": "block-186"
     },
     {
       "type": "list_item",
@@ -2749,7 +2790,7 @@
         160.0,
         564.16
       ],
-      "id": "block-185"
+      "id": "block-187"
     },
     {
       "type": "list_item",
@@ -2763,7 +2804,7 @@
         521.88,
         589.12
       ],
-      "id": "block-186"
+      "id": "block-188"
     },
     {
       "type": "list_item",
@@ -2777,7 +2818,7 @@
         160.0,
         614.2
       ],
-      "id": "block-187"
+      "id": "block-189"
     },
     {
       "type": "list_item",
@@ -2791,7 +2832,7 @@
         391.17,
         639.19
       ],
-      "id": "block-188"
+      "id": "block-190"
     },
     {
       "type": "list_item",
@@ -2805,7 +2846,7 @@
         378.57,
         664.15
       ],
-      "id": "block-189"
+      "id": "block-191"
     },
     {
       "type": "list_item",
@@ -2819,7 +2860,7 @@
         355.65,
         689.23
       ],
-      "id": "block-190"
+      "id": "block-192"
     },
     {
       "type": "list_item",
@@ -2833,7 +2874,7 @@
         185.2,
         714.19
       ],
-      "id": "block-191"
+      "id": "block-193"
     },
     {
       "type": "list_item",
@@ -2847,7 +2888,7 @@
         435.33,
         739.15
       ],
-      "id": "block-192"
+      "id": "block-194"
     },
     {
       "type": "list_item",
@@ -2861,7 +2902,7 @@
         479.4,
         764.22
       ],
-      "id": "block-193"
+      "id": "block-195"
     },
     {
       "type": "list_item",
@@ -2875,7 +2916,7 @@
         353.37,
         114.11
       ],
-      "id": "block-194"
+      "id": "block-196"
     },
     {
       "type": "heading",
@@ -2888,7 +2929,7 @@
         150.28,
         164.15
       ],
-      "id": "block-195"
+      "id": "block-197"
     },
     {
       "type": "paragraph",
@@ -2902,7 +2943,7 @@
         239.15
       ],
       "indentFirstLine": true,
-      "id": "block-196"
+      "id": "block-198"
     },
     {
       "type": "list_item",
@@ -2916,7 +2957,7 @@
         160.0,
         264.14
       ],
-      "id": "block-197"
+      "id": "block-199"
     },
     {
       "type": "list_item",
@@ -2930,7 +2971,7 @@
         518.23,
         314.18
       ],
-      "id": "block-198"
+      "id": "block-200"
     },
     {
       "type": "list_item",
@@ -2944,7 +2985,7 @@
         160.0,
         339.14
       ],
-      "id": "block-199"
+      "id": "block-201"
     },
     {
       "type": "list_item",
@@ -2958,7 +2999,7 @@
         416.37,
         364.1
       ],
-      "id": "block-200"
+      "id": "block-202"
     },
     {
       "type": "list_item",
@@ -2972,7 +3013,7 @@
         517.2,
         389.18
       ],
-      "id": "block-201"
+      "id": "block-203"
     },
     {
       "type": "list_item",
@@ -2986,7 +3027,7 @@
         403.77,
         414.14
       ],
-      "id": "block-202"
+      "id": "block-204"
     },
     {
       "type": "list_item",
@@ -3000,7 +3041,7 @@
         185.2,
         439.1
       ],
-      "id": "block-203"
+      "id": "block-205"
     },
     {
       "type": "list_item",
@@ -3014,7 +3055,7 @@
         435.33,
         464.2
       ],
-      "id": "block-204"
+      "id": "block-206"
     },
     {
       "type": "list_item",
@@ -3028,7 +3069,7 @@
         518.25,
         514.12
       ],
-      "id": "block-205"
+      "id": "block-207"
     },
     {
       "type": "list_item",
@@ -3042,7 +3083,7 @@
         378.57,
         539.2
       ],
-      "id": "block-206"
+      "id": "block-208"
     },
     {
       "type": "list_item",
@@ -3056,7 +3097,7 @@
         391.17,
         564.16
       ],
-      "id": "block-207"
+      "id": "block-209"
     },
     {
       "type": "heading",
@@ -3069,7 +3110,7 @@
         193.63,
         614.2
       ],
-      "id": "block-208"
+      "id": "block-210"
     },
     {
       "type": "paragraph",
@@ -3083,7 +3124,7 @@
         689.23
       ],
       "indentFirstLine": true,
-      "id": "block-209"
+      "id": "block-211"
     },
     {
       "type": "list_item",
@@ -3097,7 +3138,7 @@
         160.0,
         714.19
       ],
-      "id": "block-210"
+      "id": "block-212"
     },
     {
       "type": "list_item",
@@ -3111,7 +3152,7 @@
         518.24,
         764.22
       ],
-      "id": "block-211"
+      "id": "block-213"
     },
     {
       "type": "list_item",
@@ -3125,7 +3166,7 @@
         160.0,
         114.11
       ],
-      "id": "block-212"
+      "id": "block-214"
     },
     {
       "type": "list_item",
@@ -3139,7 +3180,7 @@
         315.55,
         139.07
       ],
-      "id": "block-213"
+      "id": "block-215"
     },
     {
       "type": "list_item",
@@ -3153,7 +3194,7 @@
         416.37,
         164.15
       ],
-      "id": "block-214"
+      "id": "block-216"
     },
     {
       "type": "list_item",
@@ -3167,7 +3208,7 @@
         327.33,
         189.11
       ],
-      "id": "block-215"
+      "id": "block-217"
     },
     {
       "type": "list_item",
@@ -3181,7 +3222,7 @@
         185.2,
         214.07
       ],
-      "id": "block-216"
+      "id": "block-218"
     },
     {
       "type": "list_item",
@@ -3195,7 +3236,7 @@
         365.97,
         239.15
       ],
-      "id": "block-217"
+      "id": "block-219"
     },
     {
       "type": "list_item",
@@ -3209,7 +3250,7 @@
         403.77,
         264.14
       ],
-      "id": "block-218"
+      "id": "block-220"
     },
     {
       "type": "list_item",
@@ -3223,7 +3264,7 @@
         432.81,
         289.1
       ],
-      "id": "block-219"
+      "id": "block-221"
     }
   ]
 }

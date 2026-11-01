@@ -245,21 +245,15 @@
       "type": "paragraph",
       "depth": 5,
       "text": "𝑛 𝐸(X) = ∑𝑥𝑖𝑃(𝑥𝑖) 𝑖=1 xi 為隨機變數X 的所有可能取值，P（xi）為對應的機率。",
-      "pageIndex": 19,
+      "pageIndex": 20,
       "bbox": [
-        133.12,
-        101.9,
-        456.24,
+        136.0,
+        731.6,
+        232.21,
         773.36
       ],
       "indentFirstLine": true,
-      "id": "block-11",
-      "formulas": [
-        {
-          "latex": "E(X) = \\sum_{i=1}^{n} x_i P(x_i)",
-          "display": true
-        }
-      ]
+      "id": "block-11"
     },
     {
       "type": "list_item",
@@ -290,7 +284,7 @@
       "id": "block-13",
       "formulas": [
         {
-          "latex": "E(X) = \\int_{-\\infty}^{\\infty} xf(x) dx",
+          "latex": "E(X)=\\int_{-\\infty}^{\\infty}x f(x)dx",
           "display": true
         }
       ]
@@ -352,7 +346,7 @@
       "id": "block-17",
       "formulas": [
         {
-          "latex": "Var(X) = \\sum_{i=1}^{n} (x_i - E(X))^2 P(x_i)",
+          "latex": "Var(X)=\\sum_{i=1}^{n}\\left(x_{i}-E(X)\\right)^{2}P(x_{i})",
           "display": true
         }
       ],
@@ -387,7 +381,7 @@
       "id": "block-19",
       "formulas": [
         {
-          "latex": "Var(X) = \\int_{-\\infty}^{\\infty} (x - E(X))^2 f(x) dx",
+          "latex": "Var(X)=\\int_{-\\infty}^{\\infty}\\left(x-E(X)\\right)^{2}f(x)dx",
           "display": true
         }
       ]
@@ -515,18 +509,7 @@
         478.92,
         189.11
       ],
-      "id": "block-28",
-      "formulas": [
-        {
-          "latex": "\\sum_{x_i} P(X = x_i) = 1",
-          "display": true
-        },
-        {
-          "latex": "P(a \\le X \\le b) = \\int_{a}^{b} f(x) dx",
-          "display": true
-        }
-      ],
-      "formulaOnly": true
+      "id": "block-28"
     },
     {
       "type": "list_item",
@@ -554,7 +537,14 @@
         266.93
       ],
       "indentFirstLine": false,
-      "id": "block-30"
+      "id": "block-30",
+      "formulas": [
+        {
+          "latex": "\\sum_{x_i}P(X=x_i)=1",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -638,7 +628,14 @@
         540.3
       ],
       "indentFirstLine": true,
-      "id": "block-36"
+      "id": "block-36",
+      "formulas": [
+        {
+          "latex": "P(a\\le X\\le b)=\\int_a^b f(x)\\,dx",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -803,17 +800,7 @@
         439.1
       ],
       "indentFirstLine": false,
-      "id": "block-48",
-      "formulas": [
-        {
-          "latex": "P(X=1)=p, P(X=0)=1-p",
-          "display": true
-        },
-        {
-          "latex": "Var(X)=p(1-p)",
-          "display": true
-        }
-      ]
+      "id": "block-48"
     },
     {
       "type": "list_item",
@@ -845,6 +832,10 @@
       "formulas": [
         {
           "latex": "E(X)=p",
+          "display": true
+        },
+        {
+          "latex": "\\operatorname{Var}(X)=p(1-p)",
           "display": true
         }
       ],
@@ -1004,7 +995,7 @@
       "id": "block-61",
       "formulas": [
         {
-          "latex": "P(X = k) = \\binom{n}{k} p^k (1 - p)^{n-k} , \\ k = 0,1, \\dots, n",
+          "latex": "P(X=k)={n\\choose k}p^k(1-p)^{n-k},\\quad k=0,1,\\ldots,n",
           "display": true
         }
       ],
@@ -1078,13 +1069,7 @@
         462.12,
         304.34
       ],
-      "id": "block-66",
-      "formulas": [
-        {
-          "latex": "\\binom{n}{k} = \\frac{n!}{k!(n - k)!}",
-          "display": true
-        }
-      ]
+      "id": "block-66"
     },
     {
       "type": "paragraph",
@@ -1098,7 +1083,14 @@
         342.21
       ],
       "indentFirstLine": true,
-      "id": "block-67"
+      "id": "block-67",
+      "formulas": [
+        {
+          "latex": "{n\\choose k}=\\frac{n!}{k!(n-k)!}",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -1129,7 +1121,11 @@
       "id": "block-69",
       "formulas": [
         {
-          "latex": "E(X) = np",
+          "latex": "E(X)=np",
+          "display": true
+        },
+        {
+          "latex": "\\operatorname{Var}(X)=np(1-p)",
           "display": true
         }
       ],
@@ -1261,7 +1257,7 @@
       "id": "block-78",
       "formulas": [
         {
-          "latex": "P(X = k) = \\frac{\\lambda^k e^{-\\lambda}}{k!} , \\ k = 0,1, \\dots",
+          "latex": "P(X=k)=\\frac{\\lambda^k e^{-\\lambda}}{k!},\\quad k=0,1,\\ldots",
           "display": true
         }
       ],
@@ -1338,7 +1334,11 @@
       "id": "block-83",
       "formulas": [
         {
-          "latex": "E(X) = \\lambda",
+          "latex": "E(X)=\\lambda",
+          "display": true
+        },
+        {
+          "latex": "\\operatorname{Var}(X)=\\lambda",
           "display": true
         }
       ],
@@ -1539,7 +1539,7 @@
       "id": "block-97",
       "formulas": [
         {
-          "latex": "f(x) = \\frac{1}{\\sigma\\sqrt{2\\pi}} exp \\left( -\\frac{(x-\\mu)^2}{2\\sigma^2} \\right)",
+          "latex": "f(x)=\\frac{1}{\\sigma\\sqrt{2\\pi}}\\exp\\!\\left(-\\frac{(x-\\mu)^2}{2\\sigma^2}\\right)",
           "display": true
         }
       ],
@@ -1574,7 +1574,11 @@
       "id": "block-99",
       "formulas": [
         {
-          "latex": "E(X) = \\mu",
+          "latex": "E(X)=\\mu",
+          "display": true
+        },
+        {
+          "latex": "\\operatorname{Var}(X)=\\sigma^2",
           "display": true
         }
       ],
@@ -1776,7 +1780,7 @@
       "id": "block-113",
       "formulas": [
         {
-          "latex": "f(x) = \\lambda e^{-\\lambda x}, x \\ge 0",
+          "latex": "f(x)=\\lambda e^{-\\lambda x},\\quad x\\ge0",
           "display": true
         }
       ],
@@ -1825,7 +1829,11 @@
       "id": "block-116",
       "formulas": [
         {
-          "latex": "Var(X) = \\sigma^2",
+          "latex": "E(X)=\\frac1\\lambda",
+          "display": true
+        },
+        {
+          "latex": "\\operatorname{Var}(X)=\\frac1{\\lambda^2}",
           "display": true
         }
       ],
@@ -2164,7 +2172,14 @@
         216.66
       ],
       "indentFirstLine": true,
-      "id": "block-140"
+      "id": "block-140",
+      "formulas": [
+        {
+          "latex": "f(x)=\\frac{x^{k/2-1}e^{-x/2}}{2^{k/2}\\Gamma(k/2)},\\quad x\\ge0",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -2209,7 +2224,11 @@
       "id": "block-143",
       "formulas": [
         {
-          "latex": "f(x) = \\frac{x^{\\frac{k}{2}-1}e^{-\\frac{x}{2}}}{2^{\\frac{k}{2}}\\Gamma\\left(\\frac{k}{2}\\right)}, x \\ge 0",
+          "latex": "E(X)=k",
+          "display": true
+        },
+        {
+          "latex": "\\operatorname{Var}(X)=2k",
           "display": true
         }
       ],

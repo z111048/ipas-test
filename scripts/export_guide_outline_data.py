@@ -5,6 +5,7 @@ import hashlib
 import json
 import re
 import shutil
+import sys
 import tempfile
 import unicodedata
 import uuid
@@ -12,7 +13,10 @@ from html import escape
 from pathlib import Path
 from typing import Any
 from asset_paths import page_asset_url
+from cjk_parentheses import normalize_block_parentheses, normalize_cjk_parentheses
 from guide_publication_overlays import (
+    HYPOTHESIS_AGGREGATE_ROUTE,
+    HYPOTHESIS_TABLE_OVERLAY_ID,
     apply_publication_block_overlays,
     apply_publication_heading_overlays,
     apply_publication_markdown_overlays,
@@ -613,7 +617,51 @@ def block_overlaps_table(block: dict, table_bbox: list[float]) -> bool:
     return bbox_contains_point(table_bbox, x, y, pad=8)
 
 
+def _compact_nfkc(value: str) -> str:
+    return re.sub(r'\s+', '', unicodedata.normalize('NFKC', value or ''))
+
+
+def is_line_outside_ocr_table(block: dict, table: dict) -> bool:
+    """Keep a body line that sticks out of an OCR-rows table's bbox.
+
+    The PDF-text table detector often included the caption line (「常見的統計
+    方法可做以下分類：」, 「○ 對立假設（H₁）…三種形式：」, 「舉例示意：」…) as
+    the table's first row, so the overlap filter's deletion was harmless.  OCR
+    rows come from the table image and never contain that caption, so after
+    the OCR merge the same filter silently deleted it (2026-11-01 rebuild:
+    初級 1 line, 中級 7 lines).  Only a block that begins above the table's
+    top edge or ends below its bottom edge, and whose text is absent from the
+    OCR cells, is kept (measured 2026-11-01: 13 top + 5 bottom lines, all
+    verified as body text against page images).
+    """
+    if table.get('rows_source') != 'guide_ocr':
+        return False
+    bbox = block.get('bbox') or []
+    table_bbox = table.get('bbox') or []
+    if len(bbox) != 4 or len(table_bbox) != 4:
+        return False
+    # Above the top edge (caption/lead-in) or running past the bottom edge
+    # (first line of the next paragraph, e.g. 中級 guide2 page_039
+    # 「舉例來說，若要檢驗某食品…適用雙尾」 left only 「檢定；若想…」).
+    if not (bbox[1] < table_bbox[1] - 1 or bbox[3] > table_bbox[3] + 1):
+        return False
+    text = _compact_nfkc(block.get('text') or '')
+    cells = _compact_nfkc(''.join(
+        str(cell or '') for row in table.get('rows') or [] for cell in row
+    ))
+    return bool(text) and text not in cells
+
+
 def recover_header_row(table: dict, blocks: list[dict]) -> list[str] | None:
+    # OCR table rows (merge_guide_ocr.py) are read from the table image and
+    # already contain the printed header.  Text-layer header recovery exists
+    # for PDF-text tables whose header row came out empty.  Applying it to an
+    # OCR table whose nested sub-table widened it to 4 columns replaced the
+    # real header 「名稱／說明」 with the first body line 「接受域」 (初級
+    # guide1 page_index 32, 2026-11-01 rebuild).  Measured over every
+    # page_extract table: this was the only guide table the rule touched.
+    if table.get('rows_source') == 'guide_ocr':
+        return None
     rows = clean_table_rows(table.get('rows') or [])
     if not rows:
         return None
@@ -886,6 +934,76 @@ def table_rows_to_html(rows: list[list[str]]) -> str:
         lines.append('</tr>')
     lines.extend(['</tbody>', '</table>'])
     return '\n'.join(lines)
+
+
+HYPOTHESIS_TITLE = '假說檢定名詞介紹：'
+HTML_TABLE = re.compile(r'<table\b[^>]*>.*?</table>', re.S)
+
+
+def _html_header_cells(table_html: str) -> list[str]:
+    head = re.search(r'<thead>(.*?)</thead>', table_html, re.S)
+    cells = re.findall(r'<th>(.*?)</th>', head.group(1), re.S) if head else []
+    return [re.sub(r'<[^>]+>', '', cell).strip() for cell in cells]
+
+
+def sync_hypothesis_markdown_tables(
+    level: str, key: str, node: str, markdown: str, blocks: list[dict],
+) -> str:
+    """Mirror the s1c2 hypothesis-table block overlay on the Markdown surface.
+
+    `content` is still read by 概念圖卡 and the export flow, so it must not keep
+    the OCR shape the block overlay removed (4-column table, 「檢定 (test)」 ×5,
+    and the PDF-text duplicate of the Type I/II sub-table).  Replaces exactly
+    the three tables that follow the title with the two published tables.
+    """
+    routes = {('初級', 'guide1', 's1c2'), HYPOTHESIS_AGGREGATE_ROUTE}
+    if (level, key, node) not in routes:
+        return markdown
+    targets = [block for block in blocks if block.get('publicationOverlayId') == HYPOTHESIS_TABLE_OVERLAY_ID]
+    if len(targets) != 2:
+        raise ValueError(f'{level}/{key}/{node}: expected 2 overlaid hypothesis tables, got {len(targets)}')
+    rendered = [table_rows_to_html(block['rows']) for block in targets]
+    if all(markdown.count(html) == 1 for html in rendered):
+        return markdown
+    if markdown.count(HYPOTHESIS_TITLE) != 1:
+        raise ValueError(f'{level}/{key}/{node}: hypothesis title occurs {markdown.count(HYPOTHESIS_TITLE)} times in Markdown')
+    title_end = markdown.index(HYPOTHESIS_TITLE) + len(HYPOTHESIS_TITLE)
+    following = [match for match in HTML_TABLE.finditer(markdown) if match.start() >= title_end][:3]
+    if len(following) != 3:
+        raise ValueError(f'{level}/{key}/{node}: hypothesis Markdown tables missing')
+    gaps = [markdown[title_end:following[0].start()],
+            markdown[following[0].end():following[1].start()],
+            markdown[following[1].end():following[2].start()]]
+    headers = [_html_header_cells(match.group(0)) for match in following]
+    if (
+        any(gap.strip() for gap in gaps)
+        or headers[0] != ['名稱', '說明']
+        or [cell for cell in headers[1] if cell] != ['名稱', '說明']
+        or len(headers[1]) != 4
+        or '為真' not in following[2].group(0)
+    ):
+        raise ValueError(f'{level}/{key}/{node}: hypothesis Markdown table shape changed')
+    return markdown[:following[0].start()] + '\n\n'.join(rendered) + markdown[following[2].end():]
+
+
+def normalize_published_block_parentheses(blocks: list[dict]) -> list[dict]:
+    """Apply the Chinese-context parenthesis rule (see cjk_parentheses.py).
+
+    Runs after Track A repairs, publication overlays and formula attachment so
+    their exact source-text matchers are unaffected; table ``html`` is rebuilt
+    from the normalized ``rows`` exactly as ``enrich_guide_blocks`` builds it.
+    """
+    result = []
+    for block in blocks:
+        normalized = normalize_block_parentheses(block)
+        if (
+            normalized.get('type') == 'table'
+            and normalized.get('rows') != block.get('rows')
+            and 'html' in block
+        ):
+            normalized['html'] = table_rows_to_html(normalized.get('rows') or [])
+        result.append(normalized)
+    return result
 
 
 def collect_formula_blocks(value: Any) -> list[dict]:
@@ -2465,7 +2583,7 @@ def positioned_page_items(level: str, key: str, page_index: int, cleaned_page: d
     rescued = ocr_page_heading_keys(level, key, page_index)
 
     page_height = float(extracted.get('height') or 0)
-    table_bboxes = [table.get('bbox') or [] for table in tables if len(table.get('bbox') or []) == 4]
+    measured_tables = [table for table in tables if len(table.get('bbox') or []) == 4]
     text_items: list[dict] = []
     for block in extracted.get('blocks') or []:
         bbox = block.get('bbox') or []
@@ -2476,8 +2594,11 @@ def positioned_page_items(level: str, key: str, page_index: int, cleaned_page: d
         text = clean_table_cell(block.get('text') or '')
         if not text:
             continue
-        if normalize_heading_key(text) not in rescued and \
-                any(block_overlaps_table(block, table_bbox) for table_bbox in table_bboxes):
+        if normalize_heading_key(text) not in rescued and any(
+            block_overlaps_table(block, table['bbox'])
+            and not is_line_outside_ocr_table(block, table)
+            for table in measured_tables
+        ):
             continue
         text_items.append({
             'type': 'text',
@@ -2913,6 +3034,12 @@ def build_nodes(
         markdown_content = apply_publication_markdown_overlays(
             level, key, current_id, markdown_content,
         )
+        markdown_content = sync_hypothesis_markdown_tables(
+            level, key, current_id, markdown_content, blocks,
+        )
+        # Final publication pass: every exact matcher above saw the source text.
+        markdown_content = normalize_cjk_parentheses(markdown_content)
+        blocks = normalize_published_block_parentheses(blocks)
         content_headings = apply_publication_heading_overlays(
             level,
             key,
@@ -3092,7 +3219,28 @@ def export_level_from_guide_tree(level: str, content_dir: Path) -> dict[str, Any
     return guides
 
 
-def export(levels: list[str], use_guide_tree: bool = False) -> dict[str, Any]:
+def _undeferred_track_a_failures(semantic: dict[str, Any], deferred: frozenset[str]) -> list[str]:
+    """Return staged Track-A failures that are not explicitly deferred for review.
+
+    Deferral covers only inventory items (``TA-NNN: …``).  Publication overlay
+    and structure contracts can never be deferred.
+    """
+    blocking = [
+        *semantic['publication_overlay_failures'],
+        *semantic['publication_structure_failures'],
+    ]
+    for failure in semantic['failures']:
+        item_id = str(failure).split(':', 1)[0].strip()
+        if item_id not in deferred:
+            blocking.append(failure)
+    return blocking
+
+
+def export(
+    levels: list[str],
+    use_guide_tree: bool = False,
+    defer_track_a_review: frozenset[str] = frozenset(),
+) -> dict[str, Any]:
     generated_dir = BASE / 'frontend' / 'src' / 'generated'
     content_dir = generated_dir / 'guideContent'
     outlines_path = generated_dir / 'guideOutlines.json'
@@ -3162,12 +3310,17 @@ def export(levels: list[str], use_guide_tree: bool = False) -> dict[str, Any]:
                 or semantic['publication_overlay_remaining']
                 or semantic['publication_structure_remaining']
             ):
-                failures = [
-                    *semantic['failures'],
-                    *semantic['publication_overlay_failures'],
-                    *semantic['publication_structure_failures'],
-                ]
-                raise ValueError(f'staged Track-A semantic gate failed: {failures}')
+                failures = _undeferred_track_a_failures(semantic, defer_track_a_review)
+                if failures:
+                    raise ValueError(f'staged Track-A semantic gate failed: {failures}')
+                # Explicitly deferred items still fail the standalone
+                # track_a_ocr_repairs.py gate and therefore tests/run_all.py:
+                # this only lets the rebuild chain continue to page review.
+                print(
+                    'WARNING: committing with Track-A items deferred for page-image review: '
+                    f'{semantic["failures"]}',
+                    file=sys.stderr,
+                )
         write_json(staged_outlines_path, data)
         _commit_staged_outputs(
             staged_content_dir,
@@ -3196,10 +3349,25 @@ def main() -> None:
     parser.add_argument('--level', default='初級', help='資料等級資料夾（預設: 初級）')
     parser.add_argument('--all-levels', action='store_true', help='匯出所有已支援等級')
     parser.add_argument('--use-guide-tree', action='store_true', help='使用 data/{level}/guide_tree/{key}/ 的預建章節樹')
+    parser.add_argument(
+        '--defer-track-a-review',
+        default='',
+        help=(
+            '逗號分隔的 Track A inventory ID（如 TA-106,TA-107）：只有這些項目失敗時仍允許 commit，'
+            '供重建後逐頁審查用。overlay／structure 契約不可延後；'
+            'track_a_ocr_repairs.py 與 tests/run_all.py 仍會失敗，直到重新簽章。'
+        ),
+    )
     args = parser.parse_args()
 
+    deferred = frozenset(
+        item.strip() for item in args.defer_track_a_review.split(',') if item.strip()
+    )
+    bad = sorted(item for item in deferred if not re.fullmatch(r'TA-\d{3}', item))
+    if bad:
+        parser.error(f'--defer-track-a-review expects TA-NNN IDs, got {bad}')
     levels = ['初級', '中級'] if args.all_levels else [args.level]
-    data = export(levels, use_guide_tree=args.use_guide_tree)
+    data = export(levels, use_guide_tree=args.use_guide_tree, defer_track_a_review=deferred)
     for guide in data['guides'].values():
         if guide['level'] in levels:
             print(f'{guide["level"]}/{guide["sourceKey"]}: {len(guide["flat"])} guide outline nodes')

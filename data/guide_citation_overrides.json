@@ -1,0 +1,2883 @@
+{
+  "schemaVersion": 1,
+  "description": "Curated per-citation decisions for exam reference-answer citations whose guide block id cannot be migrated automatically. action=remap sets newBlockIds (ids in the current guideContent); action=remove drops that block id, and a citation left without blocks is dropped while the question's other citations are kept. Read by scripts/guide_block_id_migrations.py at export; never rewritten by build_guide_block_id_migrations.py. Entries with method=manual are the 2026-11-01 per-citation review of the 132 citations the rebuild could not migrate by identical text (84 unresolved, 47 auto-adopted candidates, 1 earlier override); reason holds the reviewer note, newBlockIds were re-resolved by exact text against the final published content. reviewedBlockIds are the ids the reviewer chose in the pre-finalize rebuild content (the ids the reason text cites); the finalize step (cross-page mirror merges) renumbered some nodes, so newBlockIds may differ while naming the same text.",
+  "citations": [
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "exam1_q18",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-378",
+        "block-380",
+        "block-381"
+      ],
+      "reviewedBlockIds": [
+        "block-383",
+        "block-385",
+        "block-386"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1pdf-c3：Q-Learning 更新 Q 值（383）、DQN 以 DNN 近似 Q 值（385/386）、經驗回放（386）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "exam1_q20",
+      "citationIndex": 4,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-341",
+        "block-363"
+      ],
+      "reviewedBlockIds": [
+        "block-344",
+        "block-367"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1pdf-c3：監督式含分類與迴歸、非監督式聚類（344）；K-means 聚類明示於 367。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "exam1_q32",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1c2",
+      "oldBlockId": "block-16",
+      "action": "remap",
+      "newBlockIds": [
+        "block-16"
+      ],
+      "reviewedBlockIds": [
+        "block-16"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1141_s1 s1c2：抽樣變異段落文字相同，ID 不變。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "exam1_q36",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1c2",
+      "oldBlockId": "block-22",
+      "action": "remap",
+      "newBlockIds": [
+        "block-28"
+      ],
+      "reviewedBlockIds": [
+        "block-28"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1c2：生成當時 block-22..26＝新 24..28；同引用的其他舊 ID 已遷到 24–27，唯缺 CDA 段。block-28 正是 EDA／CDA 對照，補回原意。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "exam1_q40",
+      "citationIndex": 3,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-341"
+      ],
+      "reviewedBlockIds": [
+        "block-344"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1pdf-c3：三大類型區別、監督式基於標記、非監督式探索無標記內在結構。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "exam1_q45",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1c2",
+      "oldBlockId": "block-22",
+      "action": "remap",
+      "newBlockIds": [
+        "block-26"
+      ],
+      "reviewedBlockIds": [
+        "block-26"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1c2：生成當時 [22,23,24]＝新 [24,25,26]；其他舊 ID 已遷到 24、25。block-26「透過視覺化工具觀察數據分佈」符合 why。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q10",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-480",
+        "block-608",
+        "block-609"
+      ],
+      "reviewedBlockIds": [
+        "block-486",
+        "block-614",
+        "block-615"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1pdf-c3：固有變異性（486）、內容真實性（614）、可控性（615）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q14",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-297",
+      "action": "remap",
+      "newBlockIds": [
+        "block-321"
+      ],
+      "reviewedBlockIds": [
+        "block-324"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1pdf-c3：「標準差越大表示數據分散程度越高」直接對應；比 block-300（p25 綜合大區塊）精準。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q2",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-398"
+      ],
+      "reviewedBlockIds": [
+        "block-404"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1141_s1 s1pdf-c3：標準化消除尺度差異。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q25",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-641"
+      ],
+      "reviewedBlockIds": [
+        "block-648"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1pdf-c3：偏差與公平、去偏演算法、數據審核、多樣性與代表性，逐項對應。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q25",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-427"
+      ],
+      "reviewedBlockIds": [
+        "block-433"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1pdf-c3：過擬合策略中的 Regularization（L1/L2）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q28",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-610"
+      ],
+      "reviewedBlockIds": [
+        "block-616"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1141_s1 s1pdf-c3：計算成本挑戰。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q34",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-388"
+      ],
+      "reviewedBlockIds": [
+        "block-394"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1141_s1 s1pdf-c3：數據處理含清洗、標準化、特徵選擇、降維。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q35",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-434",
+        "block-435"
+      ],
+      "reviewedBlockIds": [
+        "block-440",
+        "block-441"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1141_s1 s1pdf-c3：why 同時講準確率適用平衡分類（440）與 F1 適用不平衡（441）；自動只取 441。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q37",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-297",
+      "action": "remap",
+      "newBlockIds": [
+        "block-297"
+      ],
+      "reviewedBlockIds": [
+        "block-300"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1pdf-c3：抽樣變異與機率模型量化不確定性只在 block-300（pp25–31 合併區塊）結尾；s1pdf-c3 無更細區塊。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q39",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-398",
+        "block-417"
+      ],
+      "reviewedBlockIds": [
+        "block-404",
+        "block-423"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1pdf-c3：標準化消除尺度差異（404）、MSE 平方誤差（423）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q4",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-427",
+        "block-408"
+      ],
+      "reviewedBlockIds": [
+        "block-433",
+        "block-414"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1pdf-c3：損失函數加 L1/L2 懲罰項（433）、LASSO 嵌入法（414）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q41",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-398"
+      ],
+      "reviewedBlockIds": [
+        "block-404"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1141_s1 s1pdf-c3：標準化用於消除尺度差異。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q42",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-438"
+      ],
+      "reviewedBlockIds": [
+        "block-444"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1pdf-c3：交叉驗證分割子集、反覆訓練與測試。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q43",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-401",
+        "block-402"
+      ],
+      "reviewedBlockIds": [
+        "block-407",
+        "block-408"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1pdf-c3：Z-score 標準化（407）與「梯度下降等對特徵尺度敏感」（408）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q47",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-537",
+        "block-538"
+      ],
+      "reviewedBlockIds": [
+        "block-543",
+        "block-544"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1pdf-c3：神經網路以激勵函數與反向傳播調整權重、最小化損失。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q47",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-398",
+        "block-429"
+      ],
+      "reviewedBlockIds": [
+        "block-404",
+        "block-435"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1pdf-c3：標準化（404）與旋轉／翻轉資料增強（435）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q49",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-608"
+      ],
+      "reviewedBlockIds": [
+        "block-614"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1141_s1 s1pdf-c3：內容真實性挑戰。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q49",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-297",
+      "action": "remap",
+      "newBlockIds": [
+        "block-297"
+      ],
+      "reviewedBlockIds": [
+        "block-300"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1pdf-c3：block-300 開頭即習題 10 解析「避免 AI 技術的濫用…減少倫理與安全風險」。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q6",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-408",
+        "block-427"
+      ],
+      "reviewedBlockIds": [
+        "block-414",
+        "block-433"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1pdf-c3：LASSO 嵌入法（414）、L1/L2 懲罰項（433）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q7",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-478",
+        "block-479"
+      ],
+      "reviewedBlockIds": [
+        "block-484",
+        "block-485"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1pdf-c3：鑑別式學 P(y|x)（484）、生成式學聯合／邊際分佈（485）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q8",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-480",
+        "block-481"
+      ],
+      "reviewedBlockIds": [
+        "block-486",
+        "block-487"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1pdf-c3：以提示指定任務（486）、依輸入條件生成文本（487）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q8",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-367",
+        "block-378"
+      ],
+      "reviewedBlockIds": [
+        "block-371",
+        "block-383"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1pdf-c3：累積獎勵（371）、Q-learning 長期價值 Q 值（383）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1141_s1",
+      "questionId": "jr_1141_s1_q9",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-297",
+      "action": "remap",
+      "newBlockIds": [
+        "block-297"
+      ],
+      "reviewedBlockIds": [
+        "block-300"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1141_s1 s1pdf-c3：block-300 開頭習題 10 解析：統一標準、避免濫用、技術轉移。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1151_s1",
+      "questionId": "jr_1151_s1_q10",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-524",
+        "block-525"
+      ],
+      "reviewedBlockIds": [
+        "block-530",
+        "block-531"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1151_s1 s1pdf-c3：隨機森林構建多棵決策樹、平均或投票。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1151_s1",
+      "questionId": "jr_1151_s1_q12",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-515"
+      ],
+      "reviewedBlockIds": [
+        "block-521"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1151_s1 s1pdf-c3：決策樹逐層劃分特徵、葉節點為類別或預測值。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1151_s1",
+      "questionId": "jr_1151_s1_q13",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-343"
+      ],
+      "reviewedBlockIds": [
+        "block-346"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1151_s1 s1pdf-c3：「解釋性與透明性不足…限制其在對結果可信度要求極高的領域的應用」逐字對應。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1151_s1",
+      "questionId": "jr_1151_s1_q19",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-376",
+        "block-341"
+      ],
+      "reviewedBlockIds": [
+        "block-381",
+        "block-344"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1151_s1 s1pdf-c3：策略更新最大化累積獎勵（381）；監督式標記、非監督式聚類降維（344）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1151_s1",
+      "questionId": "jr_1151_s1_q20",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-426",
+        "block-429"
+      ],
+      "reviewedBlockIds": [
+        "block-432",
+        "block-435"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1151_s1 s1pdf-c3：過擬合定義（432）與旋轉、翻轉資料增強（435）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1151_s1",
+      "questionId": "jr_1151_s1_q22",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-570"
+      ],
+      "reviewedBlockIds": [
+        "block-576"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1151_s1 s1pdf-c3：VAE 學習正常資料分佈以識別異常、工業故障檢測。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1151_s1",
+      "questionId": "jr_1151_s1_q27",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-355",
+        "block-405"
+      ],
+      "reviewedBlockIds": [
+        "block-359",
+        "block-411"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1151_s1 s1pdf-c3：可解釋算法與解釋性（359）、特徵選擇依影響力篩選（411）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1151_s1",
+      "questionId": "jr_1151_s1_q35",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-343"
+      ],
+      "reviewedBlockIds": [
+        "block-346"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1151_s1 s1pdf-c3：隱私保護與倫理責任挑戰。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1151_s1",
+      "questionId": "jr_1151_s1_q36",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-340"
+      ],
+      "reviewedBlockIds": [
+        "block-343"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1151_s1 s1pdf-c3：機器學習從經驗中學習、執行特定任務。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1151_s1",
+      "questionId": "jr_1151_s1_q36",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-592"
+      ],
+      "reviewedBlockIds": [
+        "block-598"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1151_s1 s1pdf-c3：鑑別式分類、辨識與預測應用。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1151_s1",
+      "questionId": "jr_1151_s1_q4",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-388",
+        "block-394",
+        "block-395",
+        "block-396"
+      ],
+      "reviewedBlockIds": [
+        "block-394",
+        "block-400",
+        "block-401",
+        "block-402"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1151_s1 s1pdf-c3：資料品質重要性（394）、異常值處理（400）、四分位距法（401）、標準差法（402）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1151_s1",
+      "questionId": "jr_1151_s1_q4",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1c2",
+      "oldBlockId": "block-22",
+      "action": "remap",
+      "newBlockIds": [
+        "block-28"
+      ],
+      "reviewedBlockIds": [
+        "block-28"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1151_s1 s1c2：生成當時 [22,23,24,26]＝新 [24,25,26,28]；why 提到 CDA 以預測模型深入分析，block-28 逐字包含。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1151_s1",
+      "questionId": "jr_1151_s1_q41",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-610"
+      ],
+      "reviewedBlockIds": [
+        "block-616"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1151_s1 s1pdf-c3：計算成本。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1151_s1",
+      "questionId": "jr_1151_s1_q44",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-388",
+        "block-394",
+        "block-398"
+      ],
+      "reviewedBlockIds": [
+        "block-394",
+        "block-400",
+        "block-404"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1151_s1 s1pdf-c3：資料品質（394）、異常值處理（400）、尺度調整（404）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1151_s1",
+      "questionId": "jr_1151_s1_q45",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-537",
+        "block-538",
+        "block-639"
+      ],
+      "reviewedBlockIds": [
+        "block-543",
+        "block-544",
+        "block-646"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1151_s1 s1pdf-c3：激勵函數與反向傳播（543–544）、梯度消失挑戰（646）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1151_s1",
+      "questionId": "jr_1151_s1_q48",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-535",
+        "block-627"
+      ],
+      "reviewedBlockIds": [
+        "block-541",
+        "block-633"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1151_s1 s1pdf-c3：神經網路處理圖像等非結構化資料（541）、CNN 用於醫療影像分類（633）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1151_s1",
+      "questionId": "jr_1151_s1_q49",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-343",
+        "block-358",
+        "block-429"
+      ],
+      "reviewedBlockIds": [
+        "block-346",
+        "block-362",
+        "block-435"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1151_s1 s1pdf-c3：標記數據匱乏挑戰（346）、監督式依賴標記（362）、資料增強（435）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1151_s1",
+      "questionId": "jr_1151_s1_q6",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-399",
+        "block-401"
+      ],
+      "reviewedBlockIds": [
+        "block-405",
+        "block-407"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1151_s1 s1pdf-c3：最小－最大縮放（405）、Z-score（407）。評估／泛化部分 why 為輔，不另連。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1151_s2",
+      "questionId": "jr_1151_s2_q27",
+      "citationIndex": 0,
+      "guideKey": "初級-guide2",
+      "nodeId": "s2pdf-c3",
+      "oldBlockId": "block-55",
+      "action": "remap",
+      "newBlockIds": [
+        "block-55"
+      ],
+      "reviewedBlockIds": [
+        "block-56",
+        "block-57"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1151_s2 s2pdf-c3：舊 block-55 在新樹跨頁拆成 56（p9）＋57（p10）；自動只取 56。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1152_s1",
+      "questionId": "jr_1152_s1_q1",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-592",
+        "block-595"
+      ],
+      "reviewedBlockIds": [
+        "block-598",
+        "block-601"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1152_s1 s1pdf-c3：鑑別式分類／預測應用（598）、情感分析屬 NLP（601）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1152_s1",
+      "questionId": "jr_1152_s1_q11",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-390",
+        "block-406",
+        "block-407"
+      ],
+      "reviewedBlockIds": [
+        "block-396",
+        "block-412",
+        "block-413"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1152_s1 s1pdf-c3：缺失值處理（396）、依相關性（412）與模型效能（413）選特徵。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1152_s1",
+      "questionId": "jr_1152_s1_q17",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-343"
+      ],
+      "reviewedBlockIds": [
+        "block-346"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1152_s1 s1pdf-c3：同上。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1152_s1",
+      "questionId": "jr_1152_s1_q21",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-478"
+      ],
+      "reviewedBlockIds": [
+        "block-484"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1152_s1 s1pdf-c3：神經網路列為鑑別式模型、用於分類與迴歸。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1152_s1",
+      "questionId": "jr_1152_s1_q24",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-374",
+        "block-376"
+      ],
+      "reviewedBlockIds": [
+        "block-378",
+        "block-379",
+        "block-381"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1152_s1 s1pdf-c3：行動選擇中的 Exploration／Exploitation（378–379）、策略更新最大化累積獎勵（381）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1152_s1",
+      "questionId": "jr_1152_s1_q25",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-473"
+      ],
+      "reviewedBlockIds": [
+        "block-479"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1152_s1 s1pdf-c3：GAN 由生成器與鑑別器組成、對抗學習。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1152_s1",
+      "questionId": "jr_1152_s1_q27",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-570"
+      ],
+      "reviewedBlockIds": [
+        "block-576"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1152_s1 s1pdf-c3：VAE 異常檢測、工業故障檢測。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1152_s1",
+      "questionId": "jr_1152_s1_q28",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-398",
+        "block-421"
+      ],
+      "reviewedBlockIds": [
+        "block-404",
+        "block-427"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1152_s1 s1pdf-c3：標準化減少尺度差異（404）、梯度下降最小化損失（427）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1152_s1",
+      "questionId": "jr_1152_s1_q29",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-367",
+        "block-376"
+      ],
+      "reviewedBlockIds": [
+        "block-371",
+        "block-381"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1152_s1 s1pdf-c3：代理、環境回饋、最大化累積獎勵（371）與策略更新（381）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1152_s1",
+      "questionId": "jr_1152_s1_q29",
+      "citationIndex": 3,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-592",
+        "block-593",
+        "block-594",
+        "block-595"
+      ],
+      "reviewedBlockIds": [
+        "block-598",
+        "block-599",
+        "block-600",
+        "block-601"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1152_s1 s1pdf-c3：鑑別式應用：影像辨識、語音轉文字、情感分析。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1152_s1",
+      "questionId": "jr_1152_s1_q3",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-570"
+      ],
+      "reviewedBlockIds": [
+        "block-576"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1152_s1 s1pdf-c3：透過正常數據分佈識別異常樣本。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1152_s1",
+      "questionId": "jr_1152_s1_q31",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1c2",
+      "oldBlockId": "block-22",
+      "action": "remap",
+      "newBlockIds": [
+        "block-28"
+      ],
+      "reviewedBlockIds": [
+        "block-28"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1152_s1 s1c2：同上：why 講「驗證性分析才著重驗證假設」，block-28 為 CDA 段；EDA 部分已由同引用的 24、25、27 涵蓋。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1152_s1",
+      "questionId": "jr_1152_s1_q38",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-570"
+      ],
+      "reviewedBlockIds": [
+        "block-576"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1152_s1 s1pdf-c3：學習正常資料分佈辨識異常。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1152_s1",
+      "questionId": "jr_1152_s1_q40",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-524",
+        "block-548",
+        "block-562",
+        "block-584"
+      ],
+      "reviewedBlockIds": [
+        "block-530",
+        "block-554",
+        "block-568",
+        "block-590"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1152_s1 s1pdf-c3：隨機森林集成（530）、GAN（554）、VAE（568）、生成式與鑑別式差異（590）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1152_s1",
+      "questionId": "jr_1152_s1_q41",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-505"
+      ],
+      "reviewedBlockIds": [
+        "block-511"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1152_s1 s1pdf-c3：SVM 最大化類別間隔的超平面與核函數。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1152_s1",
+      "questionId": "jr_1152_s1_q44",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-480",
+        "block-610"
+      ],
+      "reviewedBlockIds": [
+        "block-486",
+        "block-616"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1152_s1 s1pdf-c3：固有變異性（486）、計算成本挑戰（616）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1152_s1",
+      "questionId": "jr_1152_s1_q47",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-426"
+      ],
+      "reviewedBlockIds": [
+        "block-432"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1152_s1 s1pdf-c3：過擬合定義。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1152_s2",
+      "questionId": "jr_1152_s2_q11",
+      "citationIndex": 0,
+      "guideKey": "初級-guide2",
+      "nodeId": "s2pdf-c3",
+      "oldBlockId": "block-8",
+      "action": "remap",
+      "newBlockIds": [
+        "block-8"
+      ],
+      "reviewedBlockIds": [
+        "block-8",
+        "block-9"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1152_s2 s2pdf-c3：舊 block-8 在新樹跨頁拆成 8（p6）＋9（p7）；自動只取 8。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q10",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-401",
+        "block-402"
+      ],
+      "reviewedBlockIds": [
+        "block-407",
+        "block-408"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1153_s1 s1pdf-c3：Z-score 說明（407）＋公式與尺度影響（408）；自動只取 407。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q13",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-386",
+        "block-433",
+        "block-440"
+      ],
+      "reviewedBlockIds": [
+        "block-392",
+        "block-439",
+        "block-446"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1153_s1 s1pdf-c3：三大流程階段（392）、評估指標（439）、超參數調整（446）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q14",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-365"
+      ],
+      "reviewedBlockIds": [
+        "block-369"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1153_s1 s1pdf-c3：PCA 線性變換壓縮高維、保留主要訊息。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q17",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-297",
+      "action": "remap",
+      "newBlockIds": [
+        "block-297"
+      ],
+      "reviewedBlockIds": [
+        "block-300"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1153_s1 s1pdf-c3：平均數「代表了所有資料值的平均水平」在 block-300。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q19",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-343"
+      ],
+      "reviewedBlockIds": [
+        "block-346"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1153_s1 s1pdf-c3：隱私與倫理挑戰。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q2",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-586",
+        "block-587",
+        "block-614"
+      ],
+      "reviewedBlockIds": [
+        "block-592",
+        "block-593",
+        "block-620"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1153_s1 s1pdf-c3：分類預測與生成新資料目標差異（592–593）、兩者協同（620）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q21",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-473"
+      ],
+      "reviewedBlockIds": [
+        "block-479"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1153_s1 s1pdf-c3：GAN 生成器與鑑別器。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q24",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-498"
+      ],
+      "reviewedBlockIds": [
+        "block-504"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1153_s1 s1pdf-c3：「概率超過預設的閾值（如0.5）時…分配至特定類別」。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q25",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-527",
+        "block-528"
+      ],
+      "reviewedBlockIds": [
+        "block-533",
+        "block-534"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1153_s1 s1pdf-c3：Bootstrap 取樣（533）＋投票或平均（534）；自動只取 533。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q26",
+      "citationIndex": 3,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-538"
+      ],
+      "reviewedBlockIds": [
+        "block-544"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1153_s1 s1pdf-c3：激勵函數與反向傳播最小化損失。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q28",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-378",
+        "block-434",
+        "block-436"
+      ],
+      "reviewedBlockIds": [
+        "block-383",
+        "block-440",
+        "block-442"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1153_s1 s1pdf-c3：Q-learning 最大獎勵（383）、準確率適用分類（440）、MSE 適用迴歸（442）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q3",
+      "citationIndex": 3,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-481"
+      ],
+      "reviewedBlockIds": [
+        "block-487"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1153_s1 s1pdf-c3：生成式 AI 主要目標為生成多樣內容。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q31",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-426"
+      ],
+      "reviewedBlockIds": [
+        "block-432"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1153_s1 s1pdf-c3：過擬合定義。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q33",
+      "citationIndex": 3,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-388"
+      ],
+      "reviewedBlockIds": [
+        "block-394"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1153_s1 s1pdf-c3：數據處理含清洗、標準化、特徵選擇、降維。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q36",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-405",
+        "block-406"
+      ],
+      "reviewedBlockIds": [
+        "block-411",
+        "block-412"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1153_s1 s1pdf-c3：特徵選擇（411）＋Pearson 過濾法（412）；自動只取 411。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q38",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-608",
+        "block-609"
+      ],
+      "reviewedBlockIds": [
+        "block-614",
+        "block-615"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1153_s1 s1pdf-c3：內容真實性與可控性挑戰。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q39",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-577",
+        "block-578",
+        "block-627"
+      ],
+      "reviewedBlockIds": [
+        "block-583",
+        "block-584",
+        "block-633"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1153_s1 s1pdf-c3：擴散模型加噪與反向去噪（583–584）、CNN 醫療影像分類（633）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q40",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-426"
+      ],
+      "reviewedBlockIds": [
+        "block-432"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1153_s1 s1pdf-c3：過擬合定義。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q43",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-610"
+      ],
+      "reviewedBlockIds": [
+        "block-616"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1153_s1 s1pdf-c3：計算成本。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q5",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-592",
+        "block-593",
+        "block-598"
+      ],
+      "reviewedBlockIds": [
+        "block-598",
+        "block-599",
+        "block-604"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1153_s1 s1pdf-c3：鑑別式分類預測與人臉辨識（598–599）、生成式內容生成（604）。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q50",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-480",
+        "block-608",
+        "block-609",
+        "block-610"
+      ],
+      "reviewedBlockIds": [
+        "block-486",
+        "block-614",
+        "block-615",
+        "block-616"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] jr_1153_s1 s1pdf-c3：輸出變異性、內容真實性、可控性、計算成本四項挑戰。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q8",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-517",
+        "block-518"
+      ],
+      "reviewedBlockIds": [
+        "block-523",
+        "block-524"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1153_s1 s1pdf-c3：資訊增益、吉尼係數選擇劃分特徵；523 句子在 524 才完整。"
+    },
+    {
+      "level": "初級",
+      "exam": "jr_1153_s1",
+      "questionId": "jr_1153_s1_q9",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-405",
+        "block-406",
+        "block-407"
+      ],
+      "reviewedBlockIds": [
+        "block-411",
+        "block-412",
+        "block-413"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] jr_1153_s1 s1pdf-c3：依影響力、相關性／統計量、模型效能篩選特徵。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q1",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-341",
+        "block-342",
+        "block-350"
+      ],
+      "reviewedBlockIds": [
+        "block-344",
+        "block-345",
+        "block-354"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：三大類型（344）、醫療／金融／交通應用（345）、非結構化資料（354）。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q1",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-586",
+        "block-587"
+      ],
+      "reviewedBlockIds": [
+        "block-592",
+        "block-593"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：鑑別式分類／預測與生成式文字、圖像生成。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q10",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-401",
+        "block-402",
+        "block-365"
+      ],
+      "reviewedBlockIds": [
+        "block-407",
+        "block-408",
+        "block-369"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] sample s1pdf-c3：Z-score 說明與公式（407–408）＋PCA 降維（369）。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q12",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-297",
+      "action": "remap",
+      "newBlockIds": [
+        "block-297"
+      ],
+      "reviewedBlockIds": [
+        "block-300"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：算術平均數「相加後除以個數」、中位數「排序後位於正中間」都在 block-300。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q14",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-297",
+      "action": "remap",
+      "newBlockIds": [
+        "block-297"
+      ],
+      "reviewedBlockIds": [
+        "block-300"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：標準差衡量分散程度與中位數屬中央趨勢，兩者都在 block-300（block-324 只含標準差）。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q15",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-394"
+      ],
+      "reviewedBlockIds": [
+        "block-400"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] sample s1pdf-c3：異常值來自錄入錯誤或極端事件。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q15",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-297",
+      "action": "remap",
+      "newBlockIds": [
+        "block-303",
+        "block-326"
+      ],
+      "reviewedBlockIds": [
+        "block-306",
+        "block-329"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：why 跨兩點：EDA 發現異常值（block-306）＋平均數／中位數受極端值影響（block-329 解析）。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q17",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-515",
+        "block-520"
+      ],
+      "reviewedBlockIds": [
+        "block-521",
+        "block-526"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] sample s1pdf-c3：決策樹分類規則（521）＋醫療診斷應用（526）。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q17",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-359",
+        "block-363"
+      ],
+      "reviewedBlockIds": [
+        "block-363",
+        "block-367"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：線性迴歸預測連續值（363）、K-means 聚類（367）。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q19",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-595",
+        "block-598",
+        "block-635"
+      ],
+      "reviewedBlockIds": [
+        "block-601",
+        "block-604",
+        "block-642"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：語意理解（601）、ChatGPT 生成對話（604）、智慧客服（642）。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q2",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-373",
+        "block-374",
+        "block-375",
+        "block-376",
+        "block-383",
+        "block-385"
+      ],
+      "reviewedBlockIds": [
+        "block-377",
+        "block-378",
+        "block-380",
+        "block-381",
+        "block-388",
+        "block-391"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] sample s1pdf-c3：狀態、行動、獎勵、策略更新流程（377–381）、自我對弈（388）、自動駕駛路徑規劃（391）；自動只取 391。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q20",
+      "citationIndex": 3,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-367",
+        "block-383"
+      ],
+      "reviewedBlockIds": [
+        "block-371",
+        "block-388"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：代理與環境互動、試錯、累積獎勵（371）；遊戲策略（388 AlphaGo）。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q22",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-359",
+        "block-405",
+        "block-406",
+        "block-407",
+        "block-408",
+        "block-409",
+        "block-410"
+      ],
+      "reviewedBlockIds": [
+        "block-363",
+        "block-411",
+        "block-412",
+        "block-413",
+        "block-414",
+        "block-415",
+        "block-416"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：迴歸數值預測（363）；特徵選擇過濾／包裝／嵌入法含 Pearson、LASSO（411–414）；PCA 降維（415–416）。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q22",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-524",
+        "block-525"
+      ],
+      "reviewedBlockIds": [
+        "block-530",
+        "block-531"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：隨機森林為決策樹集成、投票或平均。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q26",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-548",
+        "block-555",
+        "block-557"
+      ],
+      "reviewedBlockIds": [
+        "block-554",
+        "block-561",
+        "block-563"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：生成器／鑑別器對抗學習（554）、圖像生成與修復（561）、風格遷移（563）。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q26",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-354"
+      ],
+      "reviewedBlockIds": [
+        "block-358"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：「機器學習模型的解釋性和透明性不足」。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q27",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-362",
+        "block-365"
+      ],
+      "reviewedBlockIds": [
+        "block-366",
+        "block-369"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] sample s1pdf-c3：非監督式探索內在結構（366）＋PCA（369）。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q3",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-426",
+        "block-427",
+        "block-428",
+        "block-429"
+      ],
+      "reviewedBlockIds": [
+        "block-432",
+        "block-433",
+        "block-434",
+        "block-435"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：過擬合策略：正則化、早停、資料增強。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q32",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-340",
+        "block-390"
+      ],
+      "reviewedBlockIds": [
+        "block-343",
+        "block-396"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：資料驅動學習（343）、資料清洗處理遺缺值、重複值、異常值（396）。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q33",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-505",
+        "block-562",
+        "block-565",
+        "block-577",
+        "block-578"
+      ],
+      "reviewedBlockIds": [
+        "block-511",
+        "block-568",
+        "block-571",
+        "block-583",
+        "block-584"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：SVM 最大間隔超平面（511）、VAE 隱變量空間與編解碼器（568、571）、擴散模型加噪去噪（583–584）。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q37",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-367"
+      ],
+      "reviewedBlockIds": [
+        "block-371"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：試錯、更新策略、最大化累積獎勵。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q41",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-480"
+      ],
+      "reviewedBlockIds": [
+        "block-486"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] sample s1pdf-c3：反覆調整提示以指定任務。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q43",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-618",
+        "block-635"
+      ],
+      "reviewedBlockIds": [
+        "block-624",
+        "block-642"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：語意分析與生成回應分工（624）、智慧客服個人化回應（642）。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q43",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-351"
+      ],
+      "reviewedBlockIds": [
+        "block-355"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] sample s1pdf-c3：個人化推薦提升使用者體驗。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q45",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-544",
+        "block-548",
+        "block-515",
+        "block-525"
+      ],
+      "reviewedBlockIds": [
+        "block-550",
+        "block-554",
+        "block-521",
+        "block-531"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：生成式學資料分佈（550）、GAN 對抗（554）、決策樹（521）、隨機森林（531）。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q45",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-362",
+        "block-363"
+      ],
+      "reviewedBlockIds": [
+        "block-366",
+        "block-367"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：非監督式核心目標聚類（366）、依相似性分群（367）。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q46",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-577",
+        "block-578",
+        "block-580",
+        "block-582"
+      ],
+      "reviewedBlockIds": [
+        "block-583",
+        "block-584",
+        "block-586",
+        "block-588"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：擴散模型原理（583–584）、高品質圖像（586）、文本到圖像（588）。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q48",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-586",
+        "block-587",
+        "block-548",
+        "block-562"
+      ],
+      "reviewedBlockIds": [
+        "block-592",
+        "block-593",
+        "block-554",
+        "block-568"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：目標差異（592–593）、GAN（554）、VAE（568）。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q55",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-367"
+      ],
+      "reviewedBlockIds": [
+        "block-371"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：同一引用的 307 部分＝強化學習環境回饋與累積獎勵；鑑別式部分由 #80（317→block-595）處理。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q55",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-589"
+      ],
+      "reviewedBlockIds": [
+        "block-595"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：「鑑別式AI 的輸出通常是分類標籤」逐字對應。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q56",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-480"
+      ],
+      "reviewedBlockIds": [
+        "block-486"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] sample s1pdf-c3：固有變異性、反覆調整提示。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q57",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-580",
+        "block-555",
+        "block-557",
+        "block-558",
+        "block-559"
+      ],
+      "reviewedBlockIds": [
+        "block-586",
+        "block-561",
+        "block-563",
+        "block-564",
+        "block-565"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：擴散模型高解析度圖像（586）；GAN 圖像修復、風格遷移、醫療影像、虛擬場景（561、563–565）。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q58",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-480",
+        "block-608"
+      ],
+      "reviewedBlockIds": [
+        "block-486",
+        "block-614"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：相同輸入產生不同輸出（486）、不準確或虛構資訊（614）。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q60",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-354"
+      ],
+      "reviewedBlockIds": [
+        "block-358"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：「數據品質的優劣直接影響模型的準確性與穩定性」逐字對應。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q65",
+      "citationIndex": 1,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-608"
+      ],
+      "reviewedBlockIds": [
+        "block-614"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] sample s1pdf-c3：不準確或虛構資訊。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q66",
+      "citationIndex": 2,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-367"
+      ],
+      "reviewedBlockIds": [
+        "block-371"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：強化學習環境回饋、試錯、累積獎勵。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q7",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-317",
+      "action": "remap",
+      "newBlockIds": [
+        "block-481",
+        "block-617"
+      ],
+      "reviewedBlockIds": [
+        "block-487",
+        "block-623"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：依輸入條件生成圖像／音訊（487）、跨模態生成與轉換（623）。"
+    },
+    {
+      "level": "初級",
+      "exam": "sample",
+      "questionId": "sample_q8",
+      "citationIndex": 0,
+      "guideKey": "初級-guide1",
+      "nodeId": "s1pdf-c3",
+      "oldBlockId": "block-307",
+      "action": "remap",
+      "newBlockIds": [
+        "block-342",
+        "block-350"
+      ],
+      "reviewedBlockIds": [
+        "block-345",
+        "block-354"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "unresolved",
+      "reason": "[unresolved] sample s1pdf-c3：數據規模指數級增長（345）、結構化與圖像／文本／語音非結構化資料（354）。"
+    },
+    {
+      "level": "中級",
+      "exam": "mid_1141_s1",
+      "questionId": "mid_1141_s1_q23",
+      "citationIndex": 1,
+      "guideKey": "中級-guide1",
+      "nodeId": "mid-s1pdf-c4",
+      "oldBlockId": "block-347",
+      "action": "remap",
+      "newBlockIds": [
+        "block-347"
+      ],
+      "reviewedBlockIds": [
+        "block-349",
+        "block-350"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] mid_1141_s1 mid-s1pdf-c4：舊 block-347 在新樹跨頁拆成 349（p118）＋350（p119），應兩塊都連；自動只取 349。"
+    },
+    {
+      "level": "中級",
+      "exam": "mid_1151_s1",
+      "questionId": "mid_1151_s1_q23",
+      "citationIndex": 2,
+      "guideKey": "中級-guide1",
+      "nodeId": "mid-s1pdf-c4",
+      "oldBlockId": "block-347",
+      "action": "remap",
+      "newBlockIds": [
+        "block-347"
+      ],
+      "reviewedBlockIds": [
+        "block-349",
+        "block-350"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] mid_1151_s1 mid-s1pdf-c4：同上，舊 347 拆成 349＋350；自動只取 350。"
+    },
+    {
+      "level": "中級",
+      "exam": "mid_1151_s2",
+      "questionId": "mid_1151_s2_q7",
+      "citationIndex": 1,
+      "guideKey": "中級-guide2",
+      "nodeId": "mid-s2pdf-c3",
+      "oldBlockId": "block-503",
+      "action": "remap",
+      "newBlockIds": [
+        "block-506",
+        "block-507"
+      ],
+      "reviewedBlockIds": [
+        "block-508",
+        "block-509"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] mid_1151_s2 mid-s2pdf-c3：舊 table 含「對立假設（H₁）…三種情況」引言＋雙尾／左尾／右尾表，新樹拆成 508（引言）＋509（表）。另：509 的「≠」顯示壞掉（見摘要）。"
+    },
+    {
+      "level": "中級",
+      "exam": "mid_1151_s3",
+      "questionId": "mid_1151_s3_q12",
+      "citationIndex": 0,
+      "guideKey": "中級-guide3",
+      "nodeId": "mid-s3c9",
+      "oldBlockId": "block-59",
+      "action": "remap",
+      "newBlockIds": [
+        "block-59"
+      ],
+      "reviewedBlockIds": [
+        "block-59"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "auto-adopted",
+      "reason": "[auto-adopted] mid_1151_s3 mid-s3c9：舊 59 截斷，新 59 為完整混淆矩陣說明句，ID 相同。"
+    },
+    {
+      "level": "中級",
+      "exam": "sample",
+      "questionId": "sample_q44",
+      "citationIndex": 1,
+      "guideKey": "中級-guide3",
+      "nodeId": "mid-s3pdf-c5",
+      "oldBlockId": "block-951",
+      "action": "remap",
+      "newBlockIds": [
+        "block-949"
+      ],
+      "reviewedBlockIds": [
+        "block-950"
+      ],
+      "method": "agent-reviewed",
+      "reviewedOn": "2026-11-01",
+      "reviewStatus": "override-applied",
+      "reason": "Pre-existing invalid id: mid-s3pdf-c5 never had block-951 (the generation prompt listed block-935..944). sample_q44 is chapter exercise 9 (answer B); the cited explanation is its answer block 「9. Ans（B） Adagrad … 適合處理特徵稀疏的場景，如文字分析，但學習率會不斷衰減至極小值」, exactly what why_relevant describes. Block id re-resolved by text after the 2026-11-01 finalize export (the rebuild shifted guide3 ids; the earlier block-949 entry had gone stale)."
+    }
+  ]
+}

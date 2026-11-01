@@ -61,6 +61,27 @@ BOOKS = [
 TABLE_IOU_MIN = 0.30
 
 
+INLINE_MATH_SPAN = re.compile(r'\$[^$]*\$')
+
+
+def convert_literal_newlines(text: str) -> str:
+    """Turn the OCR's literal two-char ``\\n`` cell breaks into real newlines.
+
+    Inside ``$…$`` the same two characters start LaTeX commands such as
+    ``\\ne``/``\\neq``/``\\nabla``; converting them there published
+    ``$ \\mu⏎eq \\mu_{0} $`` instead of μ ≠ μ₀ (中級 guide2 pp. 40–45,
+    2026-11-01 review).  Math spans are therefore copied verbatim.
+    """
+    pieces: list[str] = []
+    cursor = 0
+    for match in INLINE_MATH_SPAN.finditer(text):
+        pieces.append(text[cursor:match.start()].replace('\\n', '\n'))
+        pieces.append(match.group(0))
+        cursor = match.end()
+    pieces.append(text[cursor:].replace('\\n', '\n'))
+    return ''.join(pieces)
+
+
 class TableParser(HTMLParser):
     """把 OCR 的 <table> 拆成 rows。只需處理 <tr>/<td>，另含少量 rowspan/colspan。"""
 
@@ -85,7 +106,7 @@ class TableParser(HTMLParser):
         if tag in ('td', 'th') and self._cell is not None and self._row is not None:
             # OCR 在儲存格內用「字面兩字元 \n」表示換行，不是真的換行字元。
             # 前端表格是 whitespace-pre-line，轉成真換行才會正確斷行。
-            text = ''.join(self._cell).replace('\\n', '\n')
+            text = convert_literal_newlines(''.join(self._cell))
             text = re.sub(r'[ \t]+', ' ', text)
             text = re.sub(r'\s*\n\s*', '\n', text).strip()
             r = len(self.rows)

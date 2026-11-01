@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from guide_block_id_migrations import BlockIdMigration
 from resource_catalog import exam_entries
 from run_codex_exam_reference_answers import (
     current_question_fingerprint_index,
@@ -126,7 +127,11 @@ def compact_answer(raw: dict[str, Any]) -> dict[str, Any]:
     return {field: raw[field] for field in KEEP_FIELDS if field in raw}
 
 
-def export_reference_answers(level: str, output_path: Path) -> dict[str, Any]:
+def export_reference_answers(
+    level: str,
+    output_path: Path,
+    migration: BlockIdMigration | None = None,
+) -> dict[str, Any]:
     run_root = ROOT / f"data/{level}/pipeline/exam_reference_answers"
     if not run_root.exists():
         raise SystemExit(f"Reference answer directory does not exist: {run_root}")
@@ -142,6 +147,15 @@ def export_reference_answers(level: str, output_path: Path) -> dict[str, Any]:
     exams: dict[str, dict[str, Any]] = {}
     stats: dict[str, int] = {}
     overlays = load_overlays()
+    # Citation block ids are rewritten to the current guideContent at export;
+    # raw outputs/overlays keep the ids they were generated against.
+    if migration is None:
+        migration = BlockIdMigration.load(
+            table_path=ROOT / 'data/guide_block_id_migrations.json',
+            overrides_path=ROOT / 'data/guide_citation_overrides.json',
+            content_root=ROOT / 'frontend/src/generated/guideContent',
+        )
+    migrated_exams: list[str] = []
     for source_key, exam_config in catalog_exams.items():
         route_key = exam_config['routeKey']
         outputs_dir = run_root / source_key / "outputs"
@@ -282,10 +296,23 @@ def export_reference_answers(level: str, output_path: Path) -> dict[str, Any]:
                 f'answers={len(answers)}, production={len(expected_question_ids)}'
             )
 
+        answers, migration_stats = migration.migrate_reference_answers(
+            level, source_key, answers
+        )
+        migrated_exams.append(source_key)
+        if any(migration_stats[key] for key in ('remapped', 'removedBlockIds', 'droppedCitations')):
+            print(
+                f'INFO {level}/{source_key}: citation block ids remapped='
+                f"{migration_stats['remapped']}, removed={migration_stats['removedBlockIds']}, "
+                f"dropped citations={migration_stats['droppedCitations']}"
+            )
+
         exams[route_key] = dict(
             sorted(answers.items(), key=lambda item: question_sort_key(Path(item[0])))
         )
         stats[route_key] = len(answers)
+
+    migration.check_unused_overrides(level, migrated_exams)
 
     output_path.mkdir(parents=True, exist_ok=True)
     for route_key, answers in exams.items():

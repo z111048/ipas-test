@@ -729,10 +729,10 @@
       "type": "paragraph",
       "depth": 5,
       "text": "無論是資料偏見還是模型偏見，若企業未能即時辨識並修正，都可能帶來多重風險與負面影響，涉及技術層面、法律責任、商譽及社會信任。常見的潛在影響包括：",
-      "pageIndex": 207,
+      "pageIndex": 208,
       "bbox": [
         76.6,
-        100.82,
+        726.94,
         518.35,
         764.02
       ],
@@ -3147,7 +3147,7 @@
       "type": "question",
       "depth": 4,
       "text": "6. 若資料集中存在群體樣本數不均，造成模型偏向多數群體，適合採用哪種技術？ （A）權重初始化 （B）權重衰減 （C）類別重加權 （D）全量訓練",
-      "pageIndex": 217,
+      "pageIndex": 218,
       "bbox": [
         76.6,
         149.62,
@@ -3160,7 +3160,7 @@
       "type": "question",
       "depth": 4,
       "text": "7. T-接近性（T-Closeness）技術主要是為了降低什麼風險？ （A）機率分佈差異造成的識別風險 （B）資料重複風險 （C）訓練時間過長 （D）演算法震盪問題",
-      "pageIndex": 217,
+      "pageIndex": 218,
       "bbox": [
         76.6,
         149.62,
@@ -3173,7 +3173,7 @@
       "type": "question",
       "depth": 4,
       "text": "8. 在AI 公平性治理中，企業應建立什麼跨部門組織，確保公平性納入日常決策流程？ （A）模型剪枝委員會 （B）AI 蒸餾中心 （C）公平性審查委員會 （D）隨機抽樣團隊",
-      "pageIndex": 217,
+      "pageIndex": 218,
       "bbox": [
         76.6,
         149.62,
@@ -3186,7 +3186,7 @@
       "type": "question",
       "depth": 4,
       "text": "9. 若企業欲降低AI 模型因少數群體樣本過少而造成的過擬合風險，可以採用哪種資料增強方法？ （A）SMOTE （B）Softmax （C）Momentum （D）Dropout",
-      "pageIndex": 217,
+      "pageIndex": 218,
       "bbox": [
         76.6,
         149.62,
@@ -3199,7 +3199,7 @@
       "type": "question",
       "depth": 4,
       "text": "10. 下列哪一項不是常見的隱私保護基礎技術？ （A）遮蔽（Masking） （B）泛化（Generalization） （C）知識蒸餾（Knowledge Distillation） （D）分桶（Bucketing）",
-      "pageIndex": 217,
+      "pageIndex": 219,
       "bbox": [
         76.6,
         149.62,
@@ -3225,7 +3225,7 @@
       "type": "answer",
       "depth": 4,
       "text": "2. Ans（B） 強化匿名化技術解析：即便進行匿名化，外部資料比對仍可能造成再識別風險，因此須強化匿名化措施或限制資料使用情境，才能降低風險。",
-      "pageIndex": 217,
+      "pageIndex": 220,
       "bbox": [
         76.6,
         149.62,
@@ -3238,7 +3238,7 @@
       "type": "answer",
       "depth": 4,
       "text": "3. Ans（B） 結果門檻調整解析：結果門檻調整（Threshold Adjustment）屬於模型後處理方式，透過改變不同群體的決策門檻，以平衡模型在不同群體間的預測公平性。",
-      "pageIndex": 217,
+      "pageIndex": 220,
       "bbox": [
         76.6,
         149.62,
@@ -3277,7 +3277,7 @@
       "type": "answer",
       "depth": 4,
       "text": "6. Ans（C） 類別重加權（Class Weighting） 解析：類別重加權能在模型訓練時賦予少數類別更高權重，提升模型對少數群體的辨識能力，是處理不平衡資料常見的方法。",
-      "pageIndex": 217,
+      "pageIndex": 221,
       "bbox": [
         76.6,
         149.62,
@@ -3290,7 +3290,7 @@
       "type": "answer",
       "depth": 4,
       "text": "7. Ans（A） 機率分佈差異造成的識別風險解析：T-Closeness 要求群組內敏感屬性的分佈，需與全體資料集分佈相近，以防止透過分佈偏差推測個人特徵，是進階的隱私保護技術。",
-      "pageIndex": 217,
+      "pageIndex": 218,
       "bbox": [
         76.6,
         149.62,
@@ -3303,7 +3303,7 @@
       "type": "answer",
       "depth": 4,
       "text": "8. Ans（C） 公平性審查委員會解析：公平性審查委員會匯集法務、技術、產品與倫理等部門，負責評估AI 系統的偏見風險，是企業治理AI 公平性的重要機制。",
-      "pageIndex": 217,
+      "pageIndex": 218,
       "bbox": [
         76.6,
         149.62,
@@ -3316,7 +3316,7 @@
       "type": "answer",
       "depth": 4,
       "text": "9. Ans（A） SMOTE 解析：SMOTE（Synthetic Minority Over-sampling Technique）透過合成新樣本，擴增少數類別資料，有助於平衡類別分佈，降低過擬合及模型偏誤風險。",
-      "pageIndex": 217,
+      "pageIndex": 221,
       "bbox": [
         76.6,
         149.62,
@@ -3329,7 +3329,7 @@
       "type": "answer",
       "depth": 4,
       "text": "10. Ans（C） 知識蒸餾（Knowledge Distillation） 解析：知識蒸餾是用於模型壓縮與加速的技術，並非基礎隱私保護技術。隱私保護常用技術包括遮蔽、泛化及分桶，用來降低個資識別風險。",
-      "pageIndex": 217,
+      "pageIndex": 219,
       "bbox": [
         76.6,
         149.62,

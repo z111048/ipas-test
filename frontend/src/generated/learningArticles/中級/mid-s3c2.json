@@ -21,7 +21,7 @@
     "降維基礎"
   ],
   "excerpt": "線性代數（Linear Algebra）是機器學習模型運算與表示的數學基礎，其核心概念貫穿於資料結構表示、模型參數計算、梯度更新與特徵轉換等環節。在現代機器學習與深度學習系統中，絕大多數演算法都以矩陣與向量為運算單位，並透過線性變換、特徵分…",
-  "wordCount": 4574,
+  "wordCount": 4727,
   "readingMinutes": 7,
   "sectionCount": 16,
   "source": {
@@ -242,8 +242,16 @@
       "id": "block-10",
       "formulas": [
         {
-          "latex": "\\theta = [\\theta_1, \\theta_2, ..., \\theta_d]",
-          "display": false
+          "latex": "\\mathbf{x}=[x_1,x_2,x_3,x_4,x_5]^\\top",
+          "display": true
+        },
+        {
+          "latex": "\\boldsymbol\\theta=[\\theta_1,\\theta_2,\\ldots,\\theta_d]",
+          "display": true
+        },
+        {
+          "latex": "\\hat Y=\\boldsymbol\\theta^\\top\\mathbf{x}",
+          "display": true
         }
       ]
     },
@@ -398,7 +406,13 @@
         247.51,
         364.17
       ],
-      "id": "block-21"
+      "id": "block-21",
+      "formulas": [
+        {
+          "latex": "X\\in\\mathbb{R}^{n\\times d}",
+          "display": true
+        }
+      ]
     },
     {
       "type": "paragraph",
@@ -426,7 +440,13 @@
         250.99,
         414.21
       ],
-      "id": "block-23"
+      "id": "block-23",
+      "formulas": [
+        {
+          "latex": "W\\in\\mathbb{R}^{d\\times k}",
+          "display": true
+        }
+      ]
     },
     {
       "type": "paragraph",
@@ -527,8 +547,8 @@
       "id": "block-30",
       "formulas": [
         {
-          "latex": "\\hat{y} = X\\theta",
-          "display": false
+          "latex": "\\hat y=X\\theta",
+          "display": true
         }
       ]
     },
@@ -561,7 +581,7 @@
       "id": "block-32",
       "formulas": [
         {
-          "latex": "\\mathbf{z}^{(l)} = \\mathbf{W}^{(l)}\\mathbf{a}^{(l-1)} + \\mathbf{b}^{(l)}",
+          "latex": "\\mathbf z^{(l)}=\\mathbf W^{(l)}\\mathbf a^{(l-1)}+\\mathbf b^{(l)}",
           "display": true
         }
       ],
@@ -633,7 +653,21 @@
         414.14
       ],
       "indentFirstLine": true,
-      "id": "block-37"
+      "id": "block-37",
+      "formulas": [
+        {
+          "latex": "x\\in\\mathbb{R}^d",
+          "display": true
+        },
+        {
+          "latex": "A\\in\\mathbb{R}^{k\\times d}",
+          "display": true
+        },
+        {
+          "latex": "Ax\\in\\mathbb{R}^k",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -942,8 +976,8 @@
       "id": "block-59",
       "formulas": [
         {
-          "latex": "y = \\mathbf{w}^T\\mathbf{x} + b",
-          "display": true
+          "latex": "y = w^{\\top}x + b",
+          "display": false
         }
       ]
     },
@@ -976,7 +1010,7 @@
       "id": "block-61",
       "formulas": [
         {
-          "latex": "\\mathbf{z}^{(l)} = \\mathbf{W}^{(l)}\\mathbf{a}^{(l-1)} + \\mathbf{b}^{(l)}",
+          "latex": "z^{(l)} = W^{(l)}a^{(l-1)} + b^{(l)}",
           "display": false
         }
       ]
@@ -1089,7 +1123,13 @@
         439.1
       ],
       "indentFirstLine": true,
-      "id": "block-69"
+      "id": "block-69",
+      "formulas": [
+        {
+          "latex": "X\\in\\mathbb{R}^{m\\times n}",
+          "display": true
+        }
+      ]
     },
     {
       "type": "heading",
@@ -1158,7 +1198,13 @@
         467.28,
         589.53
       ],
-      "id": "block-74"
+      "id": "block-74",
+      "formulas": [
+        {
+          "latex": "A\\in\\mathbb{R}^{n\\times n}",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -1172,7 +1218,14 @@
         205.27,
         639.19
       ],
-      "id": "block-75"
+      "id": "block-75",
+      "formulas": [
+        {
+          "latex": "A=Q\\Lambda Q^\\top",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -1326,7 +1379,13 @@
         518.32,
         389.59
       ],
-      "id": "block-86"
+      "id": "block-86",
+      "formulas": [
+        {
+          "latex": "X\\in\\mathbb{R}^{m\\times n}",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -1340,7 +1399,14 @@
         254.83,
         414.21
       ],
-      "id": "block-87"
+      "id": "block-87",
+      "formulas": [
+        {
+          "latex": "X=U\\Sigma V^\\top",
+          "display": true
+        }
+      ],
+      "formulaOnly": true
     },
     {
       "type": "list_item",
@@ -1354,7 +1420,13 @@
         426.33,
         439.17
       ],
-      "id": "block-88"
+      "id": "block-88",
+      "formulas": [
+        {
+          "latex": "U\\in\\mathbb{R}^{m\\times m}",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -1368,7 +1440,13 @@
         518.07,
         489.16
       ],
-      "id": "block-89"
+      "id": "block-89",
+      "formulas": [
+        {
+          "latex": "\\Sigma\\in\\mathbb{R}^{m\\times n}",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -1382,7 +1460,13 @@
         420.81,
         514.19
       ],
-      "id": "block-90"
+      "id": "block-90",
+      "formulas": [
+        {
+          "latex": "V\\in\\mathbb{R}^{n\\times n}",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -1522,7 +1606,17 @@
         317.23,
         164.1
       ],
-      "id": "block-100"
+      "id": "block-100",
+      "formulas": [
+        {
+          "latex": "X\\in\\mathbb{R}^{m\\times n}",
+          "display": true
+        },
+        {
+          "latex": "X\\ge0",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -1536,7 +1630,13 @@
         386.37,
         189.18
       ],
-      "id": "block-101"
+      "id": "block-101",
+      "formulas": [
+        {
+          "latex": "X\\approx WH",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
@@ -1564,13 +1664,23 @@
         473.76,
         239.1
       ],
-      "id": "block-103"
+      "id": "block-103",
+      "formulas": [
+        {
+          "latex": "W\\in\\mathbb{R}^{m\\times k}",
+          "display": true
+        },
+        {
+          "latex": "W\\ge0",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",
       "depth": 6,
       "marker": "○",
-      "text": "𝐻∈ℝ𝑘×𝑛，𝐻≥0：表示各基底的組合係數",
+      "text": "𝐻∈ℝ𝑘×𝑛，𝐻≥0：表示各基底的組合係數 ■ 補充說明：上述公式中所標示的 $ X \\geq 0 $、$ W \\geq 0 $ 及 $ H \\geq 0 $，為線性代數中針對「非負矩陣」的標準簡寫表示法。其意義並非將矩陣視為單一數值，而是指矩陣內部的「每一個個別元素」皆為大於或等於零的實數（Element-wise non-negative）。",
       "pageIndex": 21,
       "bbox": [
         150.28,
@@ -1578,7 +1688,17 @@
         402.81,
         264.21
       ],
-      "id": "block-104"
+      "id": "block-104",
+      "formulas": [
+        {
+          "latex": "H\\in\\mathbb{R}^{k\\times n}",
+          "display": true
+        },
+        {
+          "latex": "H\\ge0",
+          "display": true
+        }
+      ]
     },
     {
       "type": "list_item",

@@ -59,6 +59,11 @@ GUIDE_NAVIGATION_HEADINGS = {
         'pageIndex': 37,
         'hierarchyPage': 38,
         'forbiddenTitles': ['（3）企業導入階段性實施策略企業需採取'],
+        # 2026-11-01: the rebuilt tree glues the first words of the following
+        # paragraph onto the (errata-corrected) heading line.  Replacing the
+        # title must hand them back, otherwise the page-3-32 sentence
+        # 「企業需採取分階段策略，…」 loses 「企業需採取」.
+        'forbiddenTitleSpill': {'（3）企業導入階段性實施策略企業需採取': '企業需採取'},
     },
 }
 
@@ -186,10 +191,24 @@ def apply_publication_block_overlays(
             index for index, block in enumerate(result)
             if _table_starts_with(block, title)
         ]
-        if len(tables) != 1 or len(matches) > 1:
+        paragraphs = [
+            index for index, block in enumerate(result)
+            if block.get('type') == 'paragraph' and _normalized(block.get('text')) == _normalized(title)
+        ]
+        if not tables:
+            # Source shape since the 2026-11-01 OCR-merged rebuild: the OCR
+            # table carries its own printed header 「名稱｜說明」 and the title
+            # 「假說檢定名詞介紹：」 is a standalone paragraph right above it
+            # (page image 初級/guide1/page_031).  Promote that paragraph.
+            result = _promote_hypothesis_paragraph(
+                level, key, node, contract_name, contract, result, matches, paragraphs,
+            )
+            return _finish_block_overlays(level, key, node, result)
+        if len(tables) != 1 or len(matches) > 1 or paragraphs:
             raise ValueError(
                 f'{level}/{key}/{node}: hypothesis navigation source matched '
-                f'headings={len(matches)}, tables={len(tables)}; expected at most one/one'
+                f'headings={len(matches)}, tables={len(tables)}, paragraphs={len(paragraphs)}; '
+                'expected at most one/one/zero'
             )
         table_index = tables[0]
         if not matches:
@@ -217,6 +236,30 @@ def apply_publication_block_overlays(
             'publicationOverlayId': contract_name,
         })
 
+    if (level, key, node) == HYPOTHESIS_AGGREGATE_ROUTE:
+        # The PDF-chapter node s1pdf-c3 (pages 7–71) re-publishes the same two
+        # physical pages.  Repair the same table there, but keep the title a
+        # paragraph: the navigation contract requires exactly one hierarchy
+        # heading, owned by s1c2.
+        title = str(GUIDE_NAVIGATION_HEADINGS['manual-heading:s1c2-hypothesis']['title'])
+        paragraphs = [
+            index for index, block in enumerate(result)
+            if block.get('type') == 'paragraph' and _normalized(block.get('text')) == _normalized(title)
+        ]
+        if len(paragraphs) != 1:
+            raise ValueError(
+                f'{level}/{key}/{node}: hypothesis title paragraph matched {len(paragraphs)}, expected 1'
+            )
+        following = result[paragraphs[0] + 1] if paragraphs[0] + 1 < len(result) else {}
+        if not (
+            following.get('type') == 'table'
+            and following.get('rows')
+            and _is_hypothesis_header(following['rows'][0])
+            and following.get('pageIndex') == HYPOTHESIS_TABLE_PAGES[0]
+        ):
+            raise ValueError(f'{level}/{key}/{node}: hypothesis title is not directly before its 名稱/說明 table')
+        result = _merge_hypothesis_tables(level, key, node, result, paragraphs[0] + 1)
+
     contract_name = 'manual-heading:s2c3-import-strategy'
     contract = GUIDE_NAVIGATION_HEADINGS[contract_name]
     if (level, key, node) == (contract['level'], contract['key'], contract['node']):
@@ -232,6 +275,17 @@ def apply_publication_block_overlays(
                 f'{level}/{key}/{node}: import-strategy heading matched '
                 f'{len(matches)}, expected exactly one'
             )
+        matched_title = result[matches[0]].get('title')
+        spill = (contract.get('forbiddenTitleSpill') or {}).get(matched_title)
+        if spill:
+            following_index = matches[0] + 1
+            following = result[following_index] if following_index < len(result) else {}
+            if following.get('type') != 'paragraph' or str(following.get('text') or '').startswith(spill):
+                raise ValueError(
+                    f'{level}/{key}/{node}: import-strategy heading spill {spill!r} has no '
+                    'following paragraph to return to'
+                )
+            result[following_index] = {**following, 'text': spill + str(following.get('text') or '')}
         result[matches[0]].update({
             'title': title,
             'depth': contract['depth'],
@@ -241,8 +295,171 @@ def apply_publication_block_overlays(
             'publicationOverlayId': contract_name,
         })
 
-    result = apply_table_header_fixes(level, key, node, result)
+    return _finish_block_overlays(level, key, node, result)
+
+
+def _finish_block_overlays(
+    level: str, key: str, node: str, blocks: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    result = apply_table_header_fixes(level, key, node, blocks)
     result = derive_source_image_alts(result)
+    return result
+
+
+HYPOTHESIS_TABLE_HEADER = ['名稱', '說明']
+HYPOTHESIS_TEST_LABEL = '檢定(test)'
+HYPOTHESIS_TABLE_PAGES = (31, 32)
+HYPOTHESIS_TABLE_OVERLAY_ID = 'source-table:s1c2-hypothesis-terms'
+HYPOTHESIS_AGGREGATE_ROUTE = ('初級', 'guide1', 's1pdf-c3')
+
+
+def _is_hypothesis_header(row: list[Any]) -> bool:
+    cells = [_normalized(cell) for cell in row]
+    while cells and not cells[-1]:
+        cells.pop()
+    return cells == HYPOTHESIS_TABLE_HEADER
+
+
+def _promote_hypothesis_paragraph(
+    level: str,
+    key: str,
+    node: str,
+    contract_name: str,
+    contract: dict[str, Any],
+    blocks: list[dict[str, Any]],
+    headings: list[int],
+    paragraphs: list[int],
+) -> list[dict[str, Any]]:
+    """Promote the standalone title paragraph and repair its two-page table.
+
+    Page images 初級/guide1/page_031 and page_032 (printed 3-26/3-27) show one
+    two-column table 「名稱｜說明」 that continues onto the next page with the
+    header repeated.  Inside the 「檢定（test）」 cell sits a 3×3 sub-table
+    (H0 為真／為假 × 接受／拒絕) followed by the α／β definitions.
+
+    The OCR merge yields (a) the page-31 table, (b) a page-32 table that the
+    sub-table widened to four columns with 「檢定 (test)」 repeated on five
+    rowspan rows, and (c) a second, PDF-text copy of the same sub-table whose
+    bbox lies inside (b) and still carries the pre-errata 「Type II 錯誤（α）」.
+    Publish the source reading instead: one 2-column table spanning both
+    pages, then the sub-table once, built from the OCR rows (errata-corrected
+    「Type I 錯誤」).  Any other shape fails closed.
+    """
+    title = str(contract['title'])
+    candidates = headings + paragraphs
+    if len(candidates) != 1 or (headings and paragraphs):
+        raise ValueError(
+            f'{level}/{key}/{node}: hypothesis navigation source matched '
+            f'headings={len(headings)}, tables=0, paragraphs={len(paragraphs)}; '
+            'expected exactly one title before the 名稱/說明 table'
+        )
+    title_index = candidates[0]
+    first_table = blocks[title_index + 1] if title_index + 1 < len(blocks) else {}
+    if not (
+        first_table.get('type') == 'table'
+        and first_table.get('rows')
+        and _is_hypothesis_header(first_table['rows'][0])
+        and first_table.get('pageIndex') == HYPOTHESIS_TABLE_PAGES[0]
+    ):
+        raise ValueError(f'{level}/{key}/{node}: hypothesis title is not directly before its 名稱/說明 table')
+
+    result = [dict(block) for block in blocks]
+    heading = result[title_index]
+    heading.pop('text', None)
+    heading.pop('marker', None)
+    heading.update({
+        'type': 'heading',
+        'kind': 'heading',
+        'depth': contract['depth'],
+        'title': title,
+        'anchor': contract['anchor'],
+        'pageIndex': contract['pageIndex'],
+        'sourcePageIndexes': [contract['pageIndex']],
+        'bbox': [101.8, 421.61, 218.23, 434.9],
+        'publicationOverlayId': contract_name,
+    })
+
+    return _merge_hypothesis_tables(level, key, node, result, title_index + 1)
+
+
+def _merge_hypothesis_tables(
+    level: str,
+    key: str,
+    node: str,
+    result: list[dict[str, Any]],
+    table_index: int,
+) -> list[dict[str, Any]]:
+    table = result[table_index]
+    if table.get('publicationOverlayId') == HYPOTHESIS_TABLE_OVERLAY_ID:
+        return result  # already merged (idempotent rerun)
+
+    continuation_index = table_index + 1
+    nested_index = table_index + 2
+    continuation = result[continuation_index] if continuation_index < len(result) else {}
+    nested = result[nested_index] if nested_index < len(result) else {}
+    if not (
+        continuation.get('type') == 'table'
+        and continuation.get('pageIndex') == HYPOTHESIS_TABLE_PAGES[1]
+        and continuation.get('rows')
+        and _is_hypothesis_header(continuation['rows'][0])
+        and nested.get('type') == 'table'
+        and nested.get('pageIndex') == HYPOTHESIS_TABLE_PAGES[1]
+    ):
+        raise ValueError(f'{level}/{key}/{node}: hypothesis continuation table shape changed')
+    outer = continuation.get('bbox') or []
+    inner = nested.get('bbox') or []
+    if not (
+        len(outer) == 4 and len(inner) == 4
+        and inner[0] >= outer[0] and inner[1] >= outer[1]
+        and inner[2] <= outer[2] and inner[3] <= outer[3]
+    ):
+        raise ValueError(f'{level}/{key}/{node}: hypothesis sub-table is no longer inside its parent table')
+
+    body: list[list[str]] = []
+    test_rows: list[list[str]] = []
+    for row in continuation['rows'][1:]:
+        cells = [str(cell or '') for cell in row]
+        if _normalized(cells[0]) == HYPOTHESIS_TEST_LABEL:
+            test_rows.append(cells)
+            continue
+        if any(cells[2:]):
+            raise ValueError(f'{level}/{key}/{node}: unexpected widened row outside 檢定 (test)')
+        body.append(cells[:2])
+    # 檢定 (test): intro bullets, the 3×3 sub-table, then the α／β definitions.
+    if len(test_rows) != 5 or any(len(cells) != 4 for cells in test_rows):
+        raise ValueError(f'{level}/{key}/{node}: 檢定 (test) rowspan shape changed')
+    intro, sub_rows, definitions = test_rows[0], test_rows[1:4], test_rows[4]
+    # The OCR drops the sub-table's empty corner cell: its header row is
+    # 「H0 為真｜H0 為假｜''」 while the body rows use all three columns.
+    sub_table = [['', sub_rows[0][1], sub_rows[0][2]]] + [cells[1:4] for cells in sub_rows[1:]]
+    if (
+        any(intro[2:] + definitions[2:])
+        or sub_rows[0][3]
+        or '為真' not in sub_rows[0][1]
+        or '為假' not in sub_rows[0][2]
+        or not all(cells[1:4] and all(cells[1:4]) for cells in sub_rows[1:])
+        or not any('Type I 錯誤' in cell for cells in sub_table for cell in cells)
+        or any('Type II 錯誤' in cell and 'alpha' in cell for cells in sub_table for cell in cells)
+    ):
+        raise ValueError(f'{level}/{key}/{node}: hypothesis sub-table cells changed')
+    test_row = [intro[0], f'{intro[1]}\n{definitions[1]}'.strip()]
+    insert_at = next(
+        (index for index, cells in enumerate(body) if _normalized(cells[0]).startswith('顯著水準')),
+        None,
+    )
+    if insert_at is None:
+        raise ValueError(f'{level}/{key}/{node}: 顯著水準 row missing after 檢定 (test)')
+    body.insert(insert_at, test_row)
+
+    merged = dict(table)
+    merged['rows'] = [list(row[:2]) for row in table['rows']] + body
+    merged['sourcePageIndexes'] = list(HYPOTHESIS_TABLE_PAGES)
+    merged['publicationOverlayId'] = HYPOTHESIS_TABLE_OVERLAY_ID
+    sub = dict(nested)
+    sub['rows'] = sub_table
+    sub['sourcePageIndexes'] = [HYPOTHESIS_TABLE_PAGES[1]]
+    sub['publicationOverlayId'] = HYPOTHESIS_TABLE_OVERLAY_ID
+    result[table_index:nested_index + 1] = [merged, sub]
     return result
 
 

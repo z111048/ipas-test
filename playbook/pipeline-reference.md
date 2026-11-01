@@ -133,6 +133,11 @@ uv run python3 scripts/export_guide_outline_data.py --all-levels --use-guide-tre
 python3 scripts/export_guide_hierarchy.py
 python3 scripts/export_question_generation_data.py --all-levels    # Track A reading snapshot（非 canonical）
 python3 scripts/track_a_ocr_repairs.py                              # 169 inventory＋3 overlays＋3 structure contracts
+# block id 改變時（2026-11-01 起）：舊→新對照表＋人工逐筆裁決，之後才能重匯詳解／標註／圖片
+python3 scripts/build_guide_block_id_migrations.py --old-ref <上次發佈的 commit>   # → data/guide_block_id_migrations.json
+python3 scripts/export_exam_reference_answers.py --level 初級 && python3 scripts/export_exam_reference_answers.py --level 中級
+python3 scripts/export_guide_exam_annotations.py && python3 scripts/export_topic_heat.py && python3 scripts/export_concept_graph.py
+python3 scripts/export_guide_images_data.py --units-file data/共用/image_units_all_levels.json   # 不要重跑 export_guide_image_units
 python3 scripts/export_guide_sections.py --level 初級              # Track B downstream；exact canonical rebuild gate
 python3 scripts/export_guide_sections.py --level 中級
 python3 scripts/export_guide_embedded_exercises.py --level all      # ⚠ 必須在 apply_errata + clean 之後（見 §3）
@@ -158,6 +163,13 @@ python3 scripts/apply_track_b_ocr_fixes.py --level all --check
 `ocr_extract.py` 的 page type 由規則加 5 筆 committed `TYPE_OVERRIDES` 決定；gitignored
 `pages_cache_gemini_backup/` 只做診斷，不參與輸出。回歸測試會注入衝突 backup，確認有／無
 歷史快取仍產生相同 type，避免 fresh clone 重建出不同 canonical SHA。
+
+<!-- 2026-11-02: 補 block-id 遷移步驟與 merge 的 LaTeX 換行修正（重建 finalize 實測）。 -->
+**Block id 遷移**（重建會重編 `block-N`）：對照表是產物，**人工裁決只寫
+`data/guide_citation_overrides.json`**（`remap`／`remove`＋理由，產生器不覆寫）；匯出器對未決或指向不存在
+id 的引用 fail closed。舊 id 在新內容仍存在但文字已不同時最危險（不報錯、會掛錯區塊），所以詳解遷移前不得跑
+`export_guide_exam_annotations.py`。`merge_guide_ocr.py` 的儲存格換行轉換跳過 `$…$`（`\ne`／`\neq` 曾被吃成換行）；
+改 merge 後只需 `--level 中級 --key guide2` 重跑再 `apply_errata.py`，並比對 page_extract 只動到預期頁。
 
 要從乾淨狀態重跑 `merge_guide_ocr.py`，得先把 `page_extract_before_ocr_merge/` 複製回
 `page_extract/`——它**只在備份不存在時才備份**，直接重跑會疊在已合併的結果上。
@@ -599,6 +611,9 @@ s1c2／s1c4／s2c3 structure transforms、官方勘誤與公式 inventory 的詳
   Track A 必須在 `merge_guide_ocr.py` 後套用；不得修改 `guide_ocr/` SSOT。
 - 公式與人工結構修正以精確 inventory／signature gate 驗收；新增或換版 PDF 仍須回看原始影像，
   不得把既有 inventory closure 外推成全頁 OCR 正確。
+- 2026-11-01 起的發佈層（細節見 companion「2026-11-01 重建 finalize」節）：半形括號在中文語境轉全形是
+  **最後一道** pass（`cjk_parentheses.py`，上游 exact matcher 看的仍是原文）；OCR 表格逐字修正走
+  `TABLE_CELL_REPAIRS`、跨頁斷段走 TA-109..152 簽章鏡像與 `CONTINUATION_MERGES`，全部 fail closed，不改 SSOT。
 
 ## 附錄：Coding style 與 commit convention
 

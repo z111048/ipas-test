@@ -1,3 +1,4 @@
+<!-- 2026-11-02: 新增「2026-11-01 完整重建」節（stale guide_tree 重建、block-id 遷移、括號正規化、頁面影像審查結果）。備份：playbook/backups/06-guide-ocr-recalibration.md.bak-2026-11-02。 -->
 <!-- 2026-08-30: 同步考題 current-state 14 卷／715 題與 sidecar 715 分母；已快取 150 維持。備份：backups/06-guide-ocr-recalibration.md.bak-2026-08-30-2。 -->
 <!-- 2026-08-30（使用者授權）：同步三軌語意 gate、初級勘誤資源與嵌入練習邊界的最終收斂狀態；
      移除 2 筆未決勘誤、公式約六成與前端未使用階層樹等過時敘述。修改前備份：
@@ -58,6 +59,43 @@ Gemini 2.5 Flash vision。成果 `data/{level}/guide_ocr/`（33 MB，committed�
   既有 card 遺失；現行契約為初級 69＋中級 110＝179 題、179 cards。
 - 169/169 是**已審 inventory closure**，不是對未審頁或未來新增 PDF 的全域正確性證明；
   新來源仍須逐頁看影像，並把新缺陷加入可回歸的 registry。
+
+## 2026-11-01 完整重建（guide_tree 過期）
+
+**為什麼**：發佈中的 guideContent 來自 5/25 建的 `guide_tree`，早於 OCR 合併進 page_extract；使用者選擇
+完整、照 playbook 的重建（未呼叫付費 API；gitignored 輸入／輸出全數先備份並以 7,701 筆 SHA 驗證）。
+
+**做了什麼**
+- 整條鏈依 `pipeline-reference.md` §1a 重跑；s1c2 假說檢定表 overlay 改支援新來源結構，OCR 表不再被文字層表頭
+  覆蓋，表格上下緣被吃掉的正文行救回 18 行。
+- `merge_guide_ocr.py`：儲存格換行轉換跳過 `$…$`，修好 中級 guide2 4 格（8 個區塊）的 `\ne`／`\neq`。
+- 發佈層新增四項（細節：`deterministic-publication-overlays.md`「2026-11-01 重建 finalize」）：簽章視窗鏡像到
+  PDF 章節路由＋`CONTINUATION_MERGES`、s2c3 標題溢字歸還、`TABLE_CELL_REPAIRS`、**中文語境半形括號→全形**
+  （使用者 11/01 決定；含 `$…$` 的括號依外側／內側中文判斷，回歸測試在 `test_pipeline_output_safety.py`）。
+- **Block id 遷移**：`build_guide_block_id_migrations.py --old-ref 153f13d` 產生 `data/guide_block_id_migrations.json`；
+  人工逐筆裁決 132 筆無法以同文字遷移的詳解引用（84 未決、47 自動候選、1 既有覆寫），全部寫進
+  `data/guide_citation_overrides.json`（`method: manual`，附審查理由與審查時的區塊 ID），**0 筆移除**。
+
+**數字**
+| 項目 | 結果 |
+|---|---|
+| 詳解引用（6,512 個舊 block 參照） | 同 ID 同文字 5,659；ID 還在但文字已不同 852；ID 消失 1 → 全部經對照表／人工裁決遷移 |
+| 遷移後 | 6,628 個參照（多塊對應），全部指向現存區塊；815 題無一題變成零引用 |
+| 跨頁斷段（句中斷開、下一塊在次頁） | HEAD 56 → 重建初版 90 → finalize 54 |
+| Track A | 169/169＋3/3＋3/3，remaining 0；TA-106/107/108 依影像重新簽章（`reviewedOn` 2026-11-01） |
+| 練習題／引文對齊 | 179 題／179 卡逐位元不變；69＋110 題引用頁逐字命中，0 退化 |
+| 圖片標題 | 62 筆 headingBlockId 經對照表改寫 |
+
+**頁面影像審查**（150 dpi 逐頁）：初級 38 項（核准 18、退回 20）、中級 g1 40 項、g2＋g3 46 項。新的退化
+（`\ne`、H_o、en dash／＋、BERT/GPT 全形括號、分佈、L23 空格、s2c3 少五字、PDF 章節路由跨頁斷段、含 `$` 的括號）
+都已在本輪修正並重看影像。
+
+**刻意留下、待決**
+- TA-048 標題「1. 人工智慧技術的多樣化應用」與影像 3-1「1. 人工智慧的應用領域」不符（HEAD 即如此、簽章鎖定），待使用者決定。
+- mid-s3c9 三個學習錨點（block-70/148/167 → 71/149/168，文字逐字相同）：學習平台規則要求人工核准定位＋非作者重審，
+  `validate_learning_content` 與 3 項學習測試因此 blocked。
+- 既有（HEAD 就有）未修：s1pdf-c3 章末習題題目邊界、「AI AI」標題、block-297 大答案區塊、s1c3 缺「3. 機器學習核心過程」、
+  s2pdf-c3 block-174 超大答案區塊、s1c3／s1c4 同頁斷詞、mid-s1c2「雙重標註 」」空白、「其流程包括：」獨立成段、PDPA 條列結構。
 
 ## 待接工作（依價值排序）
 

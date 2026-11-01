@@ -1,0 +1,105 @@
+{
+  "id": "review-domain-unit-imbalanced-classification-20261102-v3",
+  "subject": {
+    "kind": "learning-unit",
+    "id": "unit-imbalanced-classification",
+    "revision": 1,
+    "hash": "sha256:b7f2aaf93faade7404f4ba0de9318038e591264fe0a404cbf68522c0a25d1e0c"
+  },
+  "dependencyHashes": [
+    "sha256:2c0e0519fa54b217bcdf06257eb2b560e21b50181cd4473da6d53332d01ab71a",
+    "sha256:6aeb2aeb2702ef5044f2b1144328252750eec6e36b418b7d5f8a3c9cb28aaa36",
+    "sha256:c333d0600d3c1360f9f415998ee0caa6f47cab3bb1c65996a7d057050ee25aa1",
+    "sha256:fae30b12ab4e03d3b21072304c7150859350f7d73d5205660e51f2c306e30083"
+  ],
+  "rubricVersion": "mvp-review-v1",
+  "reviewerId": "agent-ds1017",
+  "reviewerRole": "independent_model",
+  "authorId": "agent-claude-code",
+  "responsibility": "domain_content",
+  "qualification": {
+    "scope": [
+      "mvp-domain-content",
+      "mvp-source-contract"
+    ],
+    "evidenceIds": [
+      "evidence-guide-anchor-migration-20261102-delegation"
+    ],
+    "grantedBy": "maintainer",
+    "grantedAt": "2026-11-02T00:00:00Z"
+  },
+  "evidenceRefs": [
+    {
+      "id": "evidence-guide-anchor-migration-20261102-delegation",
+      "revision": 1,
+      "hash": "sha256:0c9f84ffa777b0732b7b86ec7e17a6dfcc403eaf067690cf7ba1fa2bef1e3ae0"
+    },
+    {
+      "id": "evidence-guide-anchor-migration-20261102-diff",
+      "revision": 1,
+      "hash": "sha256:eb6df5b3ed1fe2cdec4b7d4e5b80e7e3a34b28d34f70881032adbfbba6d29e96"
+    },
+    {
+      "id": "evidence-lp210b-migration-diff",
+      "revision": 1,
+      "hash": "sha256:4b067cec98f71e9960e6d064c2d258a194e5ae7076632f7da2c7deecd504beae"
+    },
+    {
+      "id": "evidence-lp210b-review-delegation",
+      "revision": 1,
+      "hash": "sha256:6aa7f6603715641cce813c196f5f25ad39280095290b9b990eedc52ec1bc99c7"
+    },
+    {
+      "id": "evidence-mid-s3c9-accuracy-imbalance",
+      "revision": 2,
+      "hash": "sha256:f0cff8cf2728003156fd87d48ecb5ffa344970858b9a23c78102e65dacab42b7"
+    },
+    {
+      "id": "evidence-mid-s3c9-imbalance-strategies",
+      "revision": 2,
+      "hash": "sha256:077c688cef829b2a1aec43162a2348bca41f89f054f044d8a3ba43eabf8ca367"
+    },
+    {
+      "id": "evidence-mvp-record-completion-delegation",
+      "revision": 1,
+      "hash": "sha256:922240d8bed38acc0ea3c8733d23d8a0e906b4830ed0f75b6350d8fff5398d56"
+    },
+    {
+      "id": "evidence-mvp-unit-project-review-20260907",
+      "revision": 1,
+      "hash": "sha256:e73a6dbbd0fb0278e952b8cf935be3f524973776c0e4f5ee152c7b83b521cb3b"
+    },
+    {
+      "id": "evidence-recall-formula-direct-view",
+      "revision": 1,
+      "hash": "sha256:b49dbdcc1bbb0abf4673077d70efac4effa0a4f10784d6de6b87b0aa2a369ac5"
+    },
+    {
+      "id": "evidence-recall-pdf-source",
+      "revision": 1,
+      "hash": "sha256:5dc57e60548c7be09ce07647f42df32fcb01bd1eefc4e2942c44cd8e58fcc9a2"
+    }
+  ],
+  "verdict": "approved",
+  "checks": [
+    {
+      "code": "D1",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-guide-anchor-migration-20261102-delegation",
+        "evidence-guide-anchor-migration-20261102-diff",
+        "evidence-lp210b-migration-diff",
+        "evidence-lp210b-review-delegation",
+        "evidence-mid-s3c9-accuracy-imbalance",
+        "evidence-mid-s3c9-imbalance-strategies",
+        "evidence-mvp-record-completion-delegation",
+        "evidence-mvp-unit-project-review-20260907",
+        "evidence-recall-formula-direct-view",
+        "evidence-recall-pdf-source"
+      ]
+    }
+  ],
+  "createdAt": "2026-11-02T00:00:00Z",
+  "rationale": "本紀錄的 scope 是 2026-11 guide_tree 重建後的機械式 guide anchor block-ID 遷移（mid-s3c9：block-70→71、148→149、167→168），不是重做語意審查。非作者審查者 ds1017（deepseek-v4.1-flash:1017，維護者 2026-11-02 授權）逐項查證：三個 anchor 的新舊 block 除 id 外逐欄位相同、新 ID 唯一可解析、diff 只在 anchor／hash／revision 欄位、history 保留舊位置、正文與教學欄位未動；作者另以 contentHash 反推證明（evidence-guide-anchor-migration-20261102-diff）。因此 review-domain-unit-imbalanced-classification-20260909-v2 的結論承接到新 hash。人類 Colab L5 仍未完成。",
+  "supersedes": "review-domain-unit-imbalanced-classification-20260909-v2"
+}
