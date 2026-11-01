@@ -306,7 +306,9 @@ python3 scripts/export_generated_questions.py --run-dir data/中級/pipeline/reg
 > 2026-10-31 完成，並一併補上初級 115 年第三次（`jr_1153_s1/s2`）：題解共 16 卷 815 題。與下方原計畫的差異：
 > - Codex 模型 `gpt-6.1-sol`。原 prompt 讓題解出現「R2 的 block-71」「看不到附圖」等內部字樣（新 250 題中 199 題），
 >   已在 `run_codex_exam_reference_answers.py` 的 prompt 加兩條規則後 `--force` 全重跑，殘留 0。
->   **舊 565 題仍有 268 題含「檢索片段指出…」措辭，未處理。** 單題逾時要帶 `--timeout 600`（預設 240 秒漏 1 題）。
+>   舊題同類措辭已於 2026-11-01 清除：363 題重跑（樣題卷因題號位移須整卷重跑），再加 25 題只有 `citations.why_relevant`
+>   （出處標籤的滑鼠提示，同樣對考生可見）有「此片段」字樣，prompt 規則已擴及該欄。舊題號卷（jr_1141、mid_1141）重跑後
+>   題解鍵名變成新題號，`question_topics.json` 對應 154 個鍵依題號一對一遷移。單題逾時要帶 `--timeout 600`（預設 240 秒漏 1 題）。
 > - 概念標註依使用者決定改用 `deepseek-v4-pro`（網關別名，背後快照無法辨識）`--model-all` 全 815 題重標，
 >   `--batch-size 5 --max-tokens 16000`（預設 4000 會被推理用光，整批空回應——不是限流）；驗收 `qwen3.5:397b`。
 >   舊檔 12 題 `source: human` 標籤併回；4 題模型未標或被剔光的題人工補標（`source: manual`）；
