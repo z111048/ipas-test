@@ -1,12 +1,11 @@
-<!-- 2026-08-31: 將盲答與詳解 cache 升為來源／圖檔內容指紋，並加入重編號覆寫與發布完整性防線。 -->
-<!-- 2026-08-30: 樣題跨頁漏題補回後更新爭議題 ID，並記錄答案驗證 cache 的內容指紋契約。 -->
-<!-- 2026-08-07: 新增。小節粒度出題（codex CLI）的進行中任務紀錄。
-     OCR 那條線已完工，見 06；本檔接手它的待接清單第 1 項。 -->
+<!-- 2026-11-02: 精簡（350→250 內）：歷次改版註解收成此行；§5 已完成項、§7 原交接步驟（565 題時期現況）移到
+     backups/07-question-generation.md.bak-2026-11-02（更早的見 .bak-2026-08-30／-10-31）；§4a 與 §6 的金鑰狀態合併；
+     §7 改寫為「擴充新考卷題解」的通用步驟；失效的 memory 引用改為內文規則。 -->
 
-# 07 — 小節粒度出題（進行中）
+# 07 — 小節粒度出題與官方考卷題解
 
-**狀態：單章試跑完成、答案交叉驗證已接上並在單章校準過（見 §4a）。**
-全量跑之前還缺的是 §5 剩下的項目。
+**狀態：小節出題已全量完成（2026-08-09，411 題通過答案交叉驗證，§5）；官方考卷題解 16 卷 815 題
+（2026-10-31，§7）。仍開放：runner 沒有 `--model`（§5）。**
 
 ## §1 這條線在做什麼
 
@@ -19,11 +18,9 @@
 ```bash
 # 1. 切塊（已含過短區塊合併，見 §3）
 python3 scripts/export_guide_sections.py
-
 # 2. 產 prompt（單章或整科）
 python3 scripts/build_codex_section_prompts.py --level 中級 --subject 2 \
     --chapter mid-s2c3 --count 2
-
 # 3. 跑（沿用既有 runner 的驗證與續跑，不必另寫）
 python3 scripts/run_codex_question_batch_generation.py \
     --run-dir data/中級/pipeline/codex_section_prompts [--limit N] [--force]
@@ -33,76 +30,52 @@ python3 scripts/run_codex_question_batch_generation.py \
 `build_codex_question_batch_prompts.py` 同格式，所以 runner 的 schema 驗證、
 近似題偵測、續跑全部可以直接複用。
 
-**產物在 `data/{level}/pipeline/`，是 gitignored 的**——換機器就沒有了，
-但同一台機器上會留著。
+**產物在 `data/{level}/pipeline/`，是 gitignored 的**——換機器就沒有了。
 
 ## §2 單章試跑結果（mid-s2c3 假設檢定與統計推論，2026-08-07）
 
-挑這章是因為它是 OCR 那輪漂移最大的（新舊相似度 0.739，公式轉 LaTeX 後
-16,689 → 24,304 字）——要驗證「OCR 變好 → 題目變好」的假設。
+挑這章是因為它是 OCR 那輪漂移最大的（公式轉 LaTeX 後 16,689 → 24,304 字）。
+14 批 28 題全數 PASS，**逐題人工核對答案 28/28 正確**；術語全部出自講義原文，
+與既有題庫 0 重複。這 28 題就是 §4a 的自產校準集。
 
-14 批 28 題，全數 PASS。**逐題人工核對答案，28/28 正確**；術語（Dunn's test、
-Fisher's exact test、Mann-Whitney、變異數齊一性、效果量、中央極限定理）
-全部出自講義原文，模型沒有補外部知識；與既有題庫 0 重複、內部 0 重複。
-
-出題模型：`gpt-5.6-luna`（reasoning effort `high`），來自 `~/.codex/config.toml`
-的全域預設——**runner 沒有 `--model` 參數**，所以出題模型目前綁在個人設定上，
-換機器結果會不一樣。要固定得自己加參數，見 §5。
+出題模型取自 `~/.codex/config.toml` 的全域預設——**runner 沒有 `--model` 參數**，
+出題模型綁在個人設定上，換機器結果會不一樣（§5 待接）。
 
 ## §3 兩個已修的坑（不要退回去）
 
 **切塊只往下拆、不回頭合併。** 372 個區塊裡有 94 個不到 300 字，最短 17 字——
-只有標題沒有內文，出不了題卻照樣要花一次呼叫。`export_guide_sections.py` 已加
-`merge_small_chunks`（`--min-chars`，預設 300）：372 → 291 個區塊，過短的降到 3 個。
+出不了題卻照樣要花一次呼叫。`export_guide_sections.py` 已加
+`merge_small_chunks`（`--min-chars`，預設 300）：372 → 291 個區塊。
 
-**軟性配額在單批 2 題時完全無效。** 第一輪讓模型自由決定題型／難度／答案，結果：
-題型出現 7 種寫法（「情境應用型」與「應用情境型」並存，還多出「判讀型」
-「概念應用型」，前端做題型篩選會炸）；答案 A×10、B×11、C×4、D×3，猜 A/B 有優勢。
-現在改成**逐題硬性指派**——題型輪替五種 enum、答案輪替 A→B→C→D、難度按
-20/50/30 輪替，全域計數跨批次連續，指派表寫在 `summary.json` 的 `specs` 欄位可稽核。
-修正後：題型 5 種固定、答案 7/7/7/7、難度 易6/中14/難8。
+**軟性配額在單批 2 題時完全無效。** 讓模型自由決定題型／難度／答案時，題型出現 7 種寫法
+（前端題型篩選會炸），答案 A×10、B×11、C×4、D×3。現在**逐題硬性指派**——題型輪替五種 enum、
+答案輪替 A→B→C→D、難度按 20/50/30 輪替，全域計數跨批次連續，指派表寫在 `summary.json`
+的 `specs` 欄位可稽核。指定答案字母不傷品質：干擾項照樣要模型自己設計。
 
-指定答案字母不會傷害品質——模型只是把正確內容放到指定位置，干擾項照樣要自己設計。
+## §4 為什麼答案驗證是出題閘門
 
-## §4 為什麼全量前要先接驗證
+runner 只驗欄位結構與近似題（28 題出現 1 次欄位幻覺 `mid-s2c3c3`，被擋下），**不驗答案對錯**。
+全量 500+ 題無法人工核；不知道對錯的題庫**比沒有題庫更危險**，因為使用者會相信它。
+所以答案交叉驗證（§4a）是生成閘門，不是選配。
 
-**28 題出現 1 次欄位幻覺**（`chapter_id` 被寫成 `mid-s2c3c3`，其他欄位全對），
-約 3.6%。runner 的驗證擋下了，重跑那批就過——這部分機制是夠的。
-
-問題在**答案正確性目前沒有任何自動把關**。runner 只驗欄位結構與近似題，
-不驗答案對不對。單章 28 題我人工核得完，全量 500+ 題不可能。
-沒有驗證就全量跑，會拿到一份不知道對錯的題庫——**那比沒有題庫更危險**，
-因為使用者會相信它。
-
-## §4a 答案交叉驗證（2026-08-07 完成）
+## §4a 答案交叉驗證
 
 `scripts/verify_question_answers.py`，指令與輸出格式見 `pipeline-reference.md` §3。
 
-**為什麼沒有直接接 `multi_ai_pipeline.py`**：它的 `run_validation_stage` 綁在
-chapter pipeline 裡（自己出題→審核→完稿→驗證），拆不出來單獨用；而且
-**`gemini` CLI 在本機已經不能用**——`IneligibleTierError: Gemini Code Assist for
-individuals`，這個 client 被停止支援。`.env` 裡的 `GEMINI_API_KEY` /
-`ANTHROPIC_API_KEY` 是遮罩過的佔位字串（實測 400 `API_KEY_INVALID`），
-所以走 API 補第三家模型這條路現在也不通。
-
-**2026-08-07 下午補上網關驗證器**：`--verifiers llm:<model>` 走
-`llm-share.duotify.com`（OpenAI 相容，純 stdlib `urllib`，金鑰只讀
-`LLMSHARE_API_KEY`，已放進 gitignored 的 `BASE/.env`）。這條線把模型家族補回三個以上，
-而且**每題約 2 秒 vs CLI 的 30–40 秒**。§6 那句「視覺榜單不等於命題榜單」成立但方向相反——
-被那輪以「不支援視覺」排除的 `glm-5.2`、`deepseek-v4-pro` 在這個純文字任務上都是滿分。
-
-CLI 三票：`codex`、`claude`、`claude:sonnet`（`--verifiers` 可調）。
-`codex` 同時是出題者，**它答對的證據力最弱**，report 另記
-`wrong_count_excl_codex`。codex 帳號目前只准 `gpt-5.6-luna`（試過 `gpt-5.6`、
-`gpt-5.6-codex` 都被擋），換不掉。
+**驗證器陣容**：網關 `--verifiers llm:<model>` 走 `llm-share.duotify.com`（OpenAI 相容，
+純 stdlib `urllib`，金鑰只讀 `LLMSHARE_API_KEY`，放 gitignored 的 `BASE/.env`），每題約 2 秒；
+CLI 三票 `codex`、`claude`、`claude:sonnet` 每題 30–40 秒。`codex` 同時是出題者，**它答對的
+證據力最弱**，report 另記 `wrong_count_excl_codex`。沒有直接接 `multi_ai_pipeline.py`：它的
+`run_validation_stage` 綁在 chapter pipeline 裡拆不出來，且當時 `gemini` CLI 已停止支援個人版
+（`IneligibleTierError`）。`.env` 的 `ANTHROPIC_API_KEY`／`GEMINI_API_KEY` 曾實測 400
+`API_KEY_INVALID`，之後沒有重驗——要用之前先自己測一次。
 
 兩個防作弊設計，改腳本時不要拿掉：
 - **盲答**：prompt 只有題幹＋選項，不給 explanation／tags／difficulty；
   每題在 `tempfile` 空目錄裡跑（codex `--sandbox read-only --cd <tmpdir>`、
   claude `--tools ''`），碰不到 gitignored 的答案檔。
 - **選項亂序**：依 question id 決定的固定排列重排選項，答完映射回原字母。
-  出題端的答案是 A→B→C→D 硬性輪替的，不亂序等於把規律送給驗證器，
-  順便消掉位置偏誤。
+  出題端答案是 A→B→C→D 硬性輪替，不亂序等於把規律送給驗證器，順便消掉位置偏誤。
 
 快取不能只看 question id 或答案字母：parser 補回漏題會讓後續 ID 位移，而答案字母可能恰好
 相同。每筆 answer cache 必須帶題號、題幹、A–D、答案、共用情境、`source/source_ref`，以及
@@ -116,59 +89,29 @@ targeted rerun 若同名檔仍承載重編號後另一題的唯一詳解會拒�
 同一 v2 指紋；exporter 在寫前端檔前要求 published qid inventory 與 production **完全相等**，
 缺題、額外題、key collision 或 stale overlay 都 fail closed。
 
-**校準結果（mid-s2c3 28 題，答案已人工確認全對）**：flagged 1 題，
-偽陽性率 3.6%，其餘 27 題三票全中。偽陽性是 q012——四個情境（甲乙丙丁）
-各自判型一／型二錯誤的複合題，codex 答 B、claude:sonnet 答 A、claude 答對 D。
+**分流規則（`wrong_consensus` 欄位）**：**答錯的票彼此答案一致才是「標記答案可能真的錯」**，
+票數分散只代表題目難。自產校準集 28 題三票 threshold 2 偽陽性 1 題（q012，四情境複合題，
+codex 答 B、claude:sonnet 答 A）。人工裁決先看 consensus 那批。
 
-從這裡得到分流規則，已寫進報告的 `wrong_consensus` 欄位：
-**答錯的票彼此答案一致才是「標記答案可能真的錯」**，票數分散（像 q012 的 A/B）
-只代表題目難。人工裁決先看 consensus 那批。
+**網關模型校準（同 28 題）**：`glm-5.2`、`deepseek-v4-pro`、`kimi-k2.7-code`、`qwen3.5:397b`、
+`gpt-oss:120b`、`nemotron-3-ultra`、`mistral-large-3:675b` 都 28/28；`minimax-m3` 27/28（錯 q012），
+**不進預設陣容**。驗證器強弱跟是不是大廠 CLI 無關，用校準集決定，不要憑印象挑。
 
-### 網關模型校準（同一組 28 題，2026-08-07）
+### 官方考卷校準（真正的基準）
 
-8 個候選跑完，**7 個 28/28 全對**：`glm-5.2`、`deepseek-v4-pro`、`kimi-k2.7-code`、
-`qwen3.5:397b`、`gpt-oss:120b`、`nemotron-3-ultra`、`mistral-large-3:675b`。
-唯一失手的是 `minimax-m3`（27/28，錯在 q012 那題，答 C），所以它**不進預設陣容**。
+自產 28 題只能證明「驗證器不會亂噴」；官方答案是權威的，才證明「抓得出錯」。
+用 `--questions-file data/{level}/questions/mock_*.json`（輸出 `pipeline/answer_verification/`）。
+2026-08-07 的 771 題純文字可答官方題：`glm-5.2` 99.1%、`kimi-k2.7-code` 99.2%、
+`deepseek-v4-pro` 98.7%；flagged 6 題、consensus 5 題，**逐題看過沒有一題是驗證器壞掉**，
+都是答案有得吵的題——**`sample_q22` 甚至是官方答案本身可疑**（「何者*不是*特徵選取技術」，
+官方答 C 迴歸分析，三模型一致答 B 主成分分析；PCA 是特徵萃取），列為勘誤候選，未動資料。
 
-有趣的是 q012 這題把 codex 和 claude:sonnet 都騙了，開源模型幾乎全對——
-驗證器的強弱跟它是不是大廠 CLI 沒什麼關係，該用校準集決定，不要憑印象挑。
+⚠️ **`images` 欄位不足以判斷圖片題**。「附圖為某資料之分佈圖」「選項＝見下方程式碼」這種
+看圖才能答的題，OCR 沒掛圖時 `images` 是空的，純文字驗證器答錯毫無意義。腳本用文字啟發式
+（`FIGURE_HINT`）＋空白選項偵測過濾（中級 341 題攔下 38 題）。**不要拿掉這個過濾**，
+不然偽陽性率會憑空多出十倍。初級 `FIGURE_HINT` 命中 0，這條只對中級有意義。
 
-### 官方考卷校準（2026-08-07，這才是真正的基準）
-
-前面兩輪都是拿**自己生成的 28 題**當基準，只能證明「驗證器不會亂噴」，
-不能證明「抓得出錯的答案」。真正的基準是官方考卷——答案是權威的。
-`--questions-file` 就是為此加的：
-
-```bash
-python3 scripts/verify_question_answers.py --level 中級 --workers 8 \
-    --questions-file data/中級/questions/mock_mid_1141_s1.json ...
-# → data/{level}/pipeline/answer_verification/{report,flagged}.json
-```
-
-**771 題純文字可答的官方題**（中級 303、初級 468）跑完：
-
-| 驗證器 | 中級 303 | 初級 468 | 合計正確率 |
-|---|---|---|---|
-| `llm:glm-5.2` | 錯 1 | 錯 6 | 99.1% |
-| `llm:kimi-k2.7-code` | 錯 2 | 錯 4 | 99.2% |
-| `llm:deepseek-v4-pro` | 錯 5 | 錯 5 | 98.7% |
-
-flagged 共 6 題（0.78%），consensus 5 題。**逐題看過，沒有一題是驗證器壞掉**：
-`mid_1151_s3_q30`（高變異 vs 過擬合）、`exam2_q36`（prompt injection 防禦策略）、
-`sample_q50`（步驟排序）都是兩個答案都說得通的爭議題；
-**`sample_q22` 甚至是官方答案本身可疑**——問「何者*不是*特徵選取技術」，
-官方答 C 迴歸分析，三個模型一致答 B 主成分分析（PCA 是特徵*萃取*不是*選取*，
-逐步迴歸則確實是選取法）。這題值得列入勘誤候選，本輪沒有動任何資料。
-
-結論：consensus 這個分流欄位是有效的——它挑出來的都是「答案真的有得吵」的題。
-
-⚠️ **`images` 欄位不足以判斷圖片題**。第一輪 5 個 consensus 裡有 4 個是
-「附圖為某資料之分佈圖」「選項＝見下方選項 B 程式碼」這種**看圖才能答**的題，
-OCR 沒把圖掛上去所以 `images` 是空的。純文字驗證器答錯它們毫無意義。
-現在改用文字啟發式（`FIGURE_HINT`）＋空白選項偵測，中級 341 題攔下 38 題。
-**改這支腳本時不要拿掉這個過濾**，不然偽陽性率會憑空多出十倍。
-
-### 圖片題：`--vision`（2026-08-07）
+### 圖片題：`--vision`
 
 ```bash
 python3 scripts/verify_question_answers.py --level 中級 --vision --only-figure \
@@ -176,66 +119,42 @@ python3 scripts/verify_question_answers.py --level 中級 --vision --only-figure
 # → report_vision.json / flagged_vision.json（不蓋掉純文字那份）
 ```
 
-`glm-5.2`、`deepseek-v4-*` 送圖會回 400 `does not support image input`，所以 `--vision`
-自動換成 `kimi-k2.7-code` + `qwen3.5:397b` + `minimax-m3`；指定看不到圖的模型會被擋下。
-同一模型在文字／視覺模式的答案不互通，快取偵測到「這題現在有圖」會強制重問；
-快取記錄的圖檔若已不存在也會重跑（舊結果無法重現就不該採信）。
-
-中級 36 題可送圖的題目：**單票錯誤率 4.6%**，flagged 1 題，與純文字模式同一量級。
+`glm-5.2`、`deepseek-v4-*` 送圖會回 400，所以 `--vision` 自動換成 `kimi-k2.7-code` +
+`qwen3.5:397b` + `minimax-m3`；指定看不到圖的模型會被擋下。同一模型文字／視覺模式答案不互通，
+快取偵測到「這題現在有圖」會強制重問；快取記錄的圖檔不存在也會重跑。
+中級 36 題可送圖題單票錯誤率 4.6%，與純文字同一量級。
 
 #### ⚠️ 絕對不要送整頁 PDF（會洩題）
 
-這些是**公告試題** PDF，**答案印在題目表格最左欄**。第一版用整頁渲染當
-fallback，等於把答案卷送給驗證器：整頁組有 **66% 的票直接吐出「原始答案字母」**
-（隨機期望 25%），裁圖組只有 19%。
+**公告試題 PDF 的答案印在題目表格最左欄**。第一版用整頁渲染當 fallback，整頁組有
+**66% 的票直接吐出「原始答案字母」**（隨機期望 25%），裁圖組只有 19%。
+**是選項亂序讓污染現形的**——抄到的是原始排序的字母，映射回去多半變錯，污染以
+「錯誤率 22.9%」暴露；沒有亂序就會呈現為漂亮的高一致率被當成「驗證通過」。
 
-**是選項亂序讓污染現形的**——模型抄到的是原始排序的字母，映射回去多半變成錯的，
-所以污染以「錯誤率 22.9%」的形式暴露。沒有亂序的話這 16 題會呈現為漂亮的高一致率，
-然後被當成「驗證通過」寫進報告。這是亂序這個設計第二次救場，不要拿掉它。
+現在只送 `image_*.png` 圖形裁圖，排除 `page.png` 與 `table_*.png`；沒有裁圖的題直接跳過。
+報告的 **`answer_echo_rate`** 是常駐守門員，超過 40% 主控台警告。
+⚠️ 試過而且更差，不要再加回來：整頁 prompt 加「請只看第 N 題」，單票錯誤率 31.8% → 37.2%。
 
-現在只送 `image_*.png` 圖形裁圖，明確排除 `page.png` 與 `table_*.png`；
-沒有裁圖的題直接跳過（問一張看不到的圖不是證據）。報告新增 **`answer_echo_rate`**
-當常駐守門員，超過 40% 主控台會警告——之後誰改動送圖邏輯而不小心送進答案，
-這個數字會立刻跳起來。
+**裁圖在哪裡**：部分舊卷的頁面資產仍在 legacy key 目錄（如初級 114 年的 `exam1/2`），題目也可能
+沒有 `images` 欄位——第一眼會以為沒有裁圖。對照只在 `data/resource_catalog.json` 的 `legacyAssetKey`，
+腳本的 `ASSET_KEY_ALIASES` 由它導出（見 `pipeline-reference.md` §3「考題 key／資產相容名」）。
 
-#### 裁圖在哪裡（找不到的話先看這裡）
-
-1141 三份卷的裁圖**一直都在**，只是存在舊 key `exam1/exam2/exam3` 底下
-（`page_extract/exam2/summary.json` 的來源 PDF 就是「114年第二梯次第二科」），
-而且那三份卷的題目沒有 `images` 欄位——所以第一眼會以為它們沒有裁圖。
-對照表寫在腳本的 `ASSET_KEY_ALIASES`。
-
-#### 程式碼題：`--allow-table-crops`（預設關閉，未證實）
-
-選項是「程式碼A/B/C/D」的題目，程式碼只存在於 `table_01.png`，而那張同時含答案欄。
-這個旗標會把表格左側 13% 裁掉再送（`TABLE_ANSWER_COLUMN_FRACTION`，目視驗證過
-答案欄消失、程式碼完整）。實測 `answer_echo_rate` 14%，**沒有洩題**；
-但目前只有 1 題走過這條路（`mid_1151_s2_q49`），而且模型答錯。
-**它的 flag 不要當證據**，樣本太小而且依賴版面比例假設。
-
-⚠️ **試過而且更差，不要再加回來**：在整頁渲染的 prompt 裡加「本頁有多題，請只看第 N 題」，
-同一批 15 題單票錯誤率 31.8% → 37.2%。問題不在提示寫法。
-
-初級 468 題全部沒有圖片題（`FIGURE_HINT` 命中 0），這條只對中級有意義。
+**程式碼題 `--allow-table-crops`（預設關閉，未證實）**：程式碼只存在於含答案欄的 `table_01.png`，
+此旗標裁掉左側 13%（`TABLE_ANSWER_COLUMN_FRACTION`）再送；實測 `answer_echo_rate` 14% 沒洩題，
+但只有 1 題（`mid_1151_s2_q49`）走過且答錯——**它的 flag 不要當證據**。
 
 ### 兩階段設計（現在的預設）
 
-Stage 1 用三個網關模型全掃（`glm-5.2` + `deepseek-v4-pro` + `kimi-k2.7-code`，
-threshold 2），Stage 2 才把 flagged 的題 `--only-flagged` 升級到
-codex + claude + claude:sonnet + 兩個網關模型、threshold 3。
-Stage 2 的輸出寫 `report_stage2.json` / `flagged_stage2.json`，不蓋掉全掃報告。
+Stage 1 用三個網關模型全掃（`glm-5.2` + `deepseek-v4-pro` + `kimi-k2.7-code`，threshold 2），
+Stage 2 才把 flagged 的題 `--only-flagged` 升級到 codex + claude + claude:sonnet + 兩個網關模型、
+threshold 3，輸出 `report_stage2.json`／`flagged_stage2.json` 不蓋掉全掃報告。五票 threshold 3
+在校準集上偽陽性 0（q012 只有 2 票錯）——**門檻要跟著票數走，不是固定值**。
+全量 stage 1 約 20 分鐘，`answers/` 快取可續跑。
 
-五票 threshold 3 在校準集上**偽陽性 0**（q012 只有 2 票錯，壓在門檻下），
-比原本三票 threshold 2 的 3.6% 好。門檻要跟著票數走，不是固定值。
+## §5 全量重生（2026-08-09 完成）與剩餘待接
 
-全量成本從「500 題 3–4 小時」降到 **stage 1 約 20 分鐘**，
-只有真的可疑的少數題會付 CLI 的 40 秒。`answers/` 快取可續跑。
-
-<!-- 2026-08-09：§5 的 2~5 全部完成，改寫本節。重生全案的做法與三個教訓寫在下方。 -->
-
-## §5 待接工作（依順序）
-
-**✅ 2026-08-09：全案完成。** 411 題（初級 125／中級 286）全部重生並通過答案交叉驗證。
+411 題（初級 125／中級 286）全部重生並通過答案交叉驗證；`verify_batch_answers.py` 是生成閘門：
+驗不過的批次算失敗、`export_generated_questions.py` 拒絕寫進題庫、驗不到不算過。
 
 ```bash
 python3 scripts/build_codex_section_prompts.py --level 中級 --subject 2 \
@@ -245,106 +164,59 @@ python3 scripts/run_codex_question_batch_generation.py \
 python3 scripts/export_generated_questions.py --run-dir data/中級/pipeline/regen_s2
 ```
 
-三個教訓：
-
 > 教訓 2026-08-09：**呼叫次數才是瓶頸，不是題數**。每次 codex 呼叫固定開銷約 108 秒、
-> 與要 1 題還是 9 題幾乎無關，而原本一個小節區塊一個 prompt——中級實測**平均每次
-> 呼叫只出 1.6 題**。加 `--batch-target`（預設 9）打包連續區塊：168 批 → 53 批，
-> 區塊原文全數保留不截斷。再加**跨科目**平行（不做科目內平行，runner 的近似題偵測
-> 要看同一章前面批次的結果）。4 小時 → 約 50 分鐘。
-> 規則：優化前先算「每次呼叫實際產出多少」，那個比值才是槓桿。
+> 與要 1 題還是 9 題幾乎無關，原本一區塊一 prompt 平均每次只出 1.6 題。`--batch-target`
+> （預設 9）打包連續區塊：168 批 → 53 批，區塊原文不截斷；再加**跨科目**平行（不做科目內平行，
+> 近似題偵測要看同章前面批次）。4 小時 → 約 50 分鐘。規則：優化前先算「每次呼叫實際產出多少」。
 
-> 教訓 2026-08-09：**這條線從來沒跑過初級**。schema 的 `level` 是 `const: 中級`、
-> `subject_id` 是 `enum [mid-s1..3]`，所以模型照 schema 乖乖寫了中級，再被 validator
-> 判 `subject_id mismatch`——6/6 全失敗，而錯誤訊息看起來像模型不聽話。
-> 規則：**「只支援一個等級」的假設會偽裝成模型的錯**；跨等級跑之前先 grep 硬編字串。
+> 教訓 2026-08-09：**「只支援一個等級」的假設會偽裝成模型的錯**。schema 的 `level` 曾是
+> `const: 中級`，初級 6/6 全判 `subject_id mismatch`，看起來像模型不聽話。
+> 規則：跨等級跑之前先 grep 硬編字串。
 
-> 教訓 2026-08-09：**題型與素材不搭會產出無效單選題**。mid-s2c6 的框架比較表被指定
-> 「計算判讀型」，模型只能自編計分規則，於是四個選項各自都成立（每個都是「某框架：
-> 它自己的正確分數」）——單選題有兩個正解。三個 verifier 全選了非標記的那個，閘門
-> 擋下來了；連兩次重生都是同一形狀，所以是素材問題不是隨機。prompt 加約束
-> （錯的選項必須**算錯**，不能只是「分數對但不是最高」）後一次通過。
-> 規則：懷疑判定器之前先把**實際送出的 prompt 印出來**看——我一度以為是自己的洗牌
-> 映射壞了，若真壞了則「411 題 0 flagged」全不可信，這個檢查非做不可。
+> 教訓 2026-08-09：**題型與素材不搭會產出無效單選題**。mid-s2c6 的框架比較表被指定「計算判讀型」，
+> 四個選項各自成立、單選題有兩個正解，連兩次重生同形狀——是素材問題不是隨機。prompt 加約束
+> （錯的選項必須**算錯**）後通過。規則：懷疑判定器之前先把**實際送出的 prompt 印出來**看。
 
-1. ~~接上答案交叉驗證~~ **已完成，見 §4a；2026-08-09 進一步接成生成閘門
-   （`verify_batch_answers.py`）：驗不過的批次算失敗、`export_generated_questions.py`
-   拒絕寫進題庫、驗不到不算過。**
-2. **修中英夾雜**。28 題裡有 1 處：第 28 題選項 D「就能直接 conclude 所有組別…」。
-   在 prompt 的輸出規範加一條「不得中英夾雜，術語英文只能以括號附註」，
-   或事後用正規表示式掃。
-3. **全量跑**。中級科目2 共 71 區塊（142 題）約 2 小時；三科 237 區塊約 7 小時。
-   每批約 100 秒，時間是瓶頸不是錢（codex CLI 走訂閱）。
-   跑完務必看 `failed` 數字並補跑失敗批次。
-4. **決定產物怎麼進題庫**。目前結果停在 gitignored 的 `pipeline/` 下，
-   還沒有 export 步驟把它併進 `data/{level}/questions/`。
-   既有的 `export_codex_mock_exam_questions.py` 是給另一條線用的，需確認能不能複用。
-5. **給 runner 加 `--model`**（見 §2）。出題模型現在綁在 `~/.codex/config.toml`，
-   題庫沒有可重現性。
+剩餘：
+- **中英夾雜**：已由 `audit_resources.py` 事後掃描（「小寫英文單字被中文夾住」）處理，prompt 未加規則。
+- **給 runner 加 `--model`**：出題模型仍綁 `~/.codex/config.toml`（2026-11-02 `--help` 確認無此參數），
+  題庫沒有可重現性。網關模型可寫死在腳本裡解掉（§6）。
 
 ## §6 模型選擇的參考資料
 
-`~/projects/llm-test` 有一份 LiteLLM 網關（`llm-share.duotify.com`，OpenAI 相容）
-的模型評測，`API_USAGE.md` 推薦 `kimi-k2.7-code`。
+`~/projects/llm-test` 有網關的模型評測，`API_USAGE.md` 推薦 `kimi-k2.7-code`。
+⚠️ **那份排名是「視覺辨識」的排名**——該輪把「不支援視覺」的 `glm-5.2`、`deepseek-v4-pro`、
+`nemotron-3-*` 全排除了，但它們在純文字驗證任務上都是滿分（§4a）。要換出題模型應針對「出題」
+另做一輪對比，不要直接套用那份結論。可複用的是 `llm_client.py`（零耦合，內建空字串重試）。
 
-⚠️ **那份排名是「視覺辨識」的排名**——測的是從降質圖片辨識公式、讀圖表刻度、
-解析合併儲存格。我們的出題是純文字，需要的是中文命題品質，**視覺榜首不會自動是
-命題榜首**，而且該輪把「不支援視覺」的模型（`glm-5.2`、`deepseek-v4-pro`、
-`nemotron-3-*`）全排除了，那些在純文字任務上完全可用。
+## §7 擴充新考卷題解（2026-10-31 已完成到 16 卷 815 題）
 
-要換模型應該針對「出題」另做一輪對比，不要直接套用那份結論。
-可複用的是 `llm_client.py`（零耦合，內建空字串重試）與網關本身
-（模型可寫死在腳本裡，解掉 §5.5 的可重現性問題）。金鑰只放環境變數
-`LLMSHARE_API_KEY`。**2026-08-09 已設定並實測有效**（網關 17 個模型，
-`glm-5.2`／`deepseek-v4-pro`／`kimi-k2.7-code` 都在），411 題的答案交叉驗證就是靠它跑的。
-⚠️ `.env` 另有 `ANTHROPIC_API_KEY`／`GEMINI_API_KEY`，兩者都非空但**這一輪沒有實測**
-——舊 session 說它們「是假的」，那個結論沒有重驗過，要用之前先自己測一次。
+已完成中級 115 年第一次三科與初級 115 年第三次（`jr_1153_s1/s2`）。新考卷照下列順序，
+全部走既有腳本，不要另寫：
 
-## §7 已完成：中級 115 年第一次三科題解（2026-09-20 交接，2026-10-31 完成）
-
-<!-- 2026-10-31：標記完成並記錄與原計畫的差異；原交接內容保留。 -->
-> 2026-10-31 完成，並一併補上初級 115 年第三次（`jr_1153_s1/s2`）：題解共 16 卷 815 題。與下方原計畫的差異：
-> - Codex 模型 `gpt-6.1-sol`。原 prompt 讓題解出現「R2 的 block-71」「看不到附圖」等內部字樣（新 250 題中 199 題），
->   已在 `run_codex_exam_reference_answers.py` 的 prompt 加兩條規則後 `--force` 全重跑，殘留 0。
->   舊題同類措辭已於 2026-11-01 清除：363 題重跑（樣題卷因題號位移須整卷重跑），再加 25 題只有 `citations.why_relevant`
->   （出處標籤的滑鼠提示，同樣對考生可見）有「此片段」字樣，prompt 規則已擴及該欄。舊題號卷（jr_1141、mid_1141）重跑後
->   題解鍵名變成新題號，`question_topics.json` 對應 154 個鍵依題號一對一遷移。單題逾時要帶 `--timeout 600`（預設 240 秒漏 1 題）。
-> - 概念標註依使用者決定改用 `deepseek-v4-pro`（網關別名，背後快照無法辨識）`--model-all` 全 815 題重標，
->   `--batch-size 5 --max-tokens 16000`（預設 4000 會被推理用光，整批空回應——不是限流）；驗收 `qwen3.5:397b`。
->   舊檔 12 題 `source: human` 標籤併回；4 題模型未標或被剔光的題人工補標（`source: manual`）；
->   `mid_1151_s2_q39`（Python 可變預設參數）詞彙表沒有對應概念，保留未標（814/815）。
-> - export 順序見 `pipeline-reference.md` §5b 教訓：annotations 要先於 heat。
->
-> 以下為原交接內容，保留作紀錄。
-
-
-**現況**：`frontend/src/generated/examReferenceAnswers/` 有 11 份（初級 6 卷＋中級 114 年 3 卷＋兩份樣題，
-共 565 題）。中級 115 年第一次三科（`mid_1151_s1/s2/s3`，各 50 題，2026-06-16 commit 233f5dc 上線）
-**只有題目與官方答案，沒有 Codex 題解**；`referenceAnswerLoaders.ts` 依 catalog `routeKey` 找檔，找不到就靜默不顯示。
-`data/中級/pipeline/exam_reference_answers/` 只有 `mid_1141_*`、`sample`（gitignored，機器上還在）。
-
-**要做的事（順序固定，全部走既有腳本，不要另寫）**：
-
-1. 產題解：`python3 scripts/run_codex_exam_reference_answers.py --level 中級 --exam mid_1151_s1 --run`
-   （s2、s3 同）。先不帶 `--run` 看 prompts 是否對到 v2 canonical qid（`pipeline-reference.md` §4 的指紋契約）。
-   codex CLI 需已登入；每題一次 `codex exec`、實測每次約 100 秒 → 150 題約 4–5 小時，可三科平行跑。
-   跑完看 `summary.json` 與 `outputs/*.err`，補跑失敗題（`--question-id`）。
-   s2 有 9 題、s3 有 10 題帶圖（程式碼截圖已在 233f5dc 做成 Markdown 對照，題幹裡就有），
-   `mid_1151_s3_q46/q47` 的「描述A~F」清單在 PDF 是圖片、文字救不回（`pipeline-reference.md` §1 註記）——
-   這幾題的題解要人工看一眼。
-2. 發佈：`python3 scripts/export_exam_reference_answers.py --level 中級` → 三個新 JSON ＋ `stats.json`。
+1. **產題解**：`python3 scripts/run_codex_exam_reference_answers.py --level <級> --exam <key> --run`。
+   先不帶 `--run` 看 prompts 是否對到 v2 canonical qid（§4a、`pipeline-reference.md` §4）。
+   每題一次 `codex exec`，各卷可平行；**單題逾時帶 `--timeout 600`**（預設 240 秒會漏題）。
+   跑完看 `summary.json` 與 `outputs/*.err`，補跑失敗題（`--question-id`）。附圖或圖片清單救不回的題
+   （例如 `mid_1151_s3_q46/q47`，見 `pipeline-reference.md` §3）題解要人工看一眼。
+   ⚠️ prompt 已加規則禁止「R2 的 block-71」「看不到附圖」「此片段」等內部字樣，範圍含
+   `citations.why_relevant`（出處提示對考生可見）；改 prompt 時不要拿掉。樣題卷題號會位移，須整卷重跑；
+   舊題號卷重跑後題解鍵名會換新題號，`question_topics.json` 要依題號一對一遷移。
+2. **發佈**：`python3 scripts/export_exam_reference_answers.py --level <級>` → 新 JSON ＋ `stats.json`。
    exporter 要求發布 inventory 與 production 完全相等，不得手動塞檔。
-3. 概念標註（gate 會擋，不可省）：`test_every_reference_answer_has_a_signed_off_topic` 要求
-   `data/topics/question_topics.json` 覆蓋**每一題**題解，`questionCount` 寫死 565（`tests/test_resource_catalog.py:138`），
-   做完要改成 715。依 `pipeline-reference.md` §5b 的官方考卷路徑：
-   `assign_question_topics.py --source exam --models glm-5.2` → `--verify-all --verify-model qwen3.5:397b`
-   （2026-09-19 才修好重新驗收把已判錯標籤放回保留名單的 bug，見 `topic-id-migration.md` §10.7；
-   快取齊全的題不會再花 API）→ `--backfill-ids` → `export_topic_heat.py` → `export_concept_graph.py`。
-   新題只能標到 `topics.json` 現有 181 個概念；模型自創的名稱會進 `rejectedTopics`，不得為此擴詞彙表
-   （詞彙表 signed-off，改動走 `08-topic-labeling.md` §5 的流程）。
-4. 驗收：`cd frontend && npm run build`、`verify_data_alignment.py --level 中級`、`uv run python tests/run_all.py` 21 項；
-   `audit_resources.py` 的 `referenceAnswers` 項會核對題號對得上。
-5. 一個 commit：`exam: add Codex reference answers for 中級 115年第一次三科`，說明題數與 topic 覆蓋數。
+3. **概念標註（gate 會擋，不可省）**：`test_every_reference_answer_has_a_signed_off_topic` 要求
+   `question_topics.json` 覆蓋**每一題**題解；`tests/test_resource_catalog.py` 的 `questionCount`
+   寫死（現為 815），要同步改。官方卷路徑：`assign_question_topics.py --source exam`（2026-10-31 依使用者
+   決定用 `deepseek-v4-pro --model-all`，帶 `--batch-size 5 --max-tokens 16000`，預設 4000 會被推理
+   用光、整批空回應——不是限流）→ `--verify-all --verify-model qwen3.5:397b` → `--backfill-ids` →
+   `export_guide_exam_annotations.py` → `export_topic_heat.py` → `export_concept_graph.py`
+   （順序見 `pipeline-reference.md` §5b 教訓：annotations 要先於 heat）。
+   新題只能標到 `topics.json` 現有概念；模型自創的名稱進 `rejectedTopics`，不得由模型擴詞彙表。
+   確實無對應概念時走 `08-topic-labeling.md` §5 的人工補簽（2026-10-31 `mid_1151_s2_q39` 即以
+   `Python程式語意` 補簽，詞彙表 182、覆蓋 815/815）；模型未標的題人工補標記 `source: manual`。
+4. **驗收**：`cd frontend && npm run build`、`verify_data_alignment.py --level <級>`、
+   `uv run python tests/run_all.py`（21 項）；`audit_resources.py` 的 `referenceAnswers` 會核對題號。
+5. 一個 commit，說明題數與 topic 覆蓋數。
 
-**不要做的**：不重跑 OCR／`parse_exams_v2`（考題資產鍵改名會讓圖片掛載靜默失效，見 memory
-`project_exam_asset_key_rename`）；不改 `mock_mid_1151_*.json` 題幹；不動 `topics.json` 的 id。
+**不要做的**：產題解時不順手重跑 OCR／`parse_exams_v2`（考題資產鍵改名會讓圖片掛載靜默失效；
+鍵名只在 catalog 定義，見 `pipeline-reference.md` §3）；不改 `mock_*.json` 題幹；不動 `topics.json` 的 id。

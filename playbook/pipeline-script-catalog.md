@@ -1,13 +1,10 @@
-<!-- 2026-09-05: 離線匯出小節補上表頭／切欄／標題層級／書前資料四項修正與其教訓。 -->
-<!-- 2026-09-03: 新增「離線匯出」小節（export_notebooklm_pack / export_guide_epub）。 -->
-<!-- 2026-08-31: 內容指紋升為來源與實際圖檔 bytes，補 targeted-rerun／完整發布防線。 -->
-<!-- 2026-08-30: 從 pipeline-reference.md §7 忠實搬入逐支腳本目錄；補考題內容指紋、reference-answer provenance 與 direct-view gate 契約。 -->
+<!-- 2026-11-02: 精簡（277→250 內）：歷次改版註解收成此行；離線匯出教訓改寫為規則清單、§1b 舊數字同步、考題驗證腳本改寫為
+     catalog 驅動（16 份／815 題）。原文見 backups/pipeline-script-catalog.md.bak-2026-11-02-2（更早的見 .bak-2026-09-03～-11-02）。 -->
 # Pipeline 腳本目錄（原 §7 companion）
 
 > 本檔是逐支腳本用途、輸入輸出與陷阱的唯一權威目錄。執行順序仍以
 > `playbook/pipeline-reference.md` 對應小節為準；deterministic publication overlays 詳節見
 > `playbook/deterministic-publication-overlays.md`。新增或改變腳本行為時更新本檔，不要把完整目錄複製回主檔。
-
 
 **SSOT / 抽取**
 - `build_manifest.py` — 章節定義 SSOT 生成器，唯一硬編 `GUIDES_BY_LEVEL` 之處；開 PDF 算 `page_range`（0-based）寫入 `toc_manifest.json`。
@@ -25,7 +22,7 @@
 - `export_guide_mindmap.py` — guideNav ＋ 考古題標註 → `guideMindmap/{subjectId}.json`（前端 `/mindmap` 章節熱度圖）。只讀 committed 產物、無 API 花費、可隨時重跑。⚠️ 各章題數**不可相加**（一題常引用多章：905 vs 實際 450 題）。
 - `imggen_client.py` — **產圖一律走這裡**（`codex-imggen` HTTP 服務，`~/projects/codex-imggen`，`docker compose up -d`，`http://localhost:8090`）。`generate()` 文生圖、`edit()` 圖生圖、`require_service()` 開跑前健康檢查。⚠️ **不要再直接 `codex exec` 產圖**：那會把 session rollout 與原始 PNG 堆在 host `~/.codex/`、在 repo 根目錄亂丟 png，而且產物檔名慣例隨 codex-cli 版本變（2026-08-08 就因此讓 `generate_images.py` 靜默壞掉）。服務直接回傳圖片 bytes。
 - `verify_generated_images.py` — 用 `codex exec --image` 讀回概念圖卡上的中文並逐條判定（garbled／nonword／truncated／terminology／wrong）→ `data/audit/image_text_review.json`。`--sample N`／`--all`／`--ids`／`--report`；已驗過的會跳過，`--force` 重驗。官方用詞清單從 `toc_manifest.json`（SSOT）＋ `topics.json` 組出來，不另建。
-- `regenerate_flagged_images.py` — 重生 `verdict=fail` 的圖卡直到通過。⚠️ 三條保護：把上一輪的問題寫進下一輪 prompt（回饋比重試次數有用）、**所有嘗試都沒過就還原備份**（`build/image_backup/`，不用更差的圖換掉現有的）、`error` 不算 pass。
+- `regenerate_flagged_images.py` — 重生 `verdict=fail` 的圖卡直到通過。⚠️ 保護：回饋跨輪累積、**所有嘗試都沒過就還原備份**（`build/image_backup/`）、`error` 不算 pass、技術失敗另計（`--infra-retries`）、失敗候選圖留在 `build/image_candidates/`；理由見 `08-topic-labeling.md` §7-6。
 - `generate_images.py` — 產圖後**自動跑文字檢查**，不過就帶著問題回饋重試（`--no-verify` 可跳過，不建議）。原本的重試只處理 timeout 與抓不到 session id。⚠️ 產物路徑是 `~/.codex/generated_images/<session>/`，**檔名慣例會隨 codex-cli 版本變**（舊 `ig_*.png`、0.146 起 `exec-<uuid>.png`），腳本已改成取目錄裡最新的 PNG；若又出現「找不到產圖 PNG」先去看那個目錄。
 - `export_generated_questions.py` — 把小節管線產出的題目併進 `data/{level}/questions/subject{N}_questions.json`（**2026-08-09 補上，原本完全沒有這一步**）。寫入前重驗每一批、檢查 id 與題幹唯一、**要求每批有通過的 `.verify.json`**，任一項不過整批拒寫。⚠️ 預設要求整科完整（只匯出一章會抹掉其他章），要只替換某幾章得加 `--replace-chapters`。
 - `verify_batch_answers.py` — 單批答案交叉驗證，供 runner（`--verify-answers`）與 export 當閘門。結果存輸出檔旁 `<batch>.verify.json`，可續跑可稽核；**驗不到不算過**；圖片題跳過。判準看 `wrong_consensus`（不同意者都選同一個錯答才是真的錯）。金鑰 `LLMSHARE_API_KEY` 放 `.env`（gitignored）。
@@ -55,9 +52,9 @@
 - `codex_review_pdf_pages.py` — Codex CLI（read-only sandbox）逐頁審 cleaned pages → `codex_page_review/{key}/`。
 - `verify_data_alignment.py` — manifest vs build_manifest vs PDF 頁標 vs guide/questions 一致性檢查。
 - `track_a_ocr_repairs.py` — Track A 169 筆 review/inventory registry、3 筆 publication overlay 與 3 筆 structure contract＋唯讀 publication gate；真正套用由 `export_guide_outline_data.py` 內建完成，並在 commit staged outputs 前再跑同一 gate。預期簽章在 `track_a_ocr_expected_signatures.json`。
-- `verify_exam_ocr_repairs.py` — 依 catalog 鎖定 14 份／715 題 production 題庫、人工覆蓋與來源歧義註記，並串入逐頁 direct-view gate。
-- `verify_exam_visual_reviews.py` — 驗 `data/exam_visual_review/*.json` 的 14 卷 PDF/question SHA、全頁與完整 qid inventory；缺卷、stale SHA、非 pass 或 unresolved issue 一律失敗。
-- `reconcile_exam_vision_sidecar.py` — 唯讀建立 raw Vision sidecar 的 verified overlay；只有 715/715 且零 mismatch 才允許 promotion。
+- `verify_exam_ocr_repairs.py` — 依 catalog 鎖定 production 題庫（現為 16 份／815 題）、人工覆蓋與來源歧義註記，並串入逐頁 direct-view gate。
+- `verify_exam_visual_reviews.py` — 驗 `data/exam_visual_review/*.json` 對 catalog 全部考卷（現 16 卷／815 題）的 PDF/question SHA、全頁與完整 qid inventory；缺卷、stale SHA、非 pass 或 unresolved issue 一律失敗。
+- `reconcile_exam_vision_sidecar.py` — 唯讀建立 raw Vision sidecar 的 verified overlay；只有 catalog 全部 production 題都有 cache 且零 mismatch 才允許 promotion（`--promotion-gate`）。
 - `verify_question_guide_alignment.py` — 唯讀。量題庫與講義的引文對齊：章節引用完整性、
   `guide_exercises` 逐字引文（對 page_clean，含跨頁串接）、章節正文新舊漂移。
   與 `page_extract_before_ocr_merge/` 舊版比，能區分「本輪造成的退化」與「舊版就這樣」。
@@ -72,8 +69,7 @@
 - `export_guide_embedded_exercises.py` — 抽 guide PDF 內嵌官方習題 → `questions/subject{N}_guide_exercises.json`（與 AI 生成題分開）；在結構化 appendix 前停止，寫檔前拒絕 bibliography bleed、ID 漂移與 card 遺失，production 契約為 179 題／179 cards。
 - `export_question_generation_data.py` — Track A seed → `subject{N}_reading_guide.json`，初始化／保留 `subject{N}_questions.json`；不寫 canonical Track B。
 - `export_pdf_image_gallery.py` — page_extract 裁圖 → `frontend/public/pdf-assets/{level}/` +
-  `frontend/src/generated/pdfGallery.json`（`#/images` 檢視器）；partial export 會合併未指定等級。
-  2026-08-29 起不再寫 `public/.../gallery.json`——那份三個 level 合計 589 KB，從來沒有消費者。
+  `frontend/src/generated/pdfGallery.json`（`#/images` 檢視器）；partial export 會合併未指定等級。不再寫無消費者的 `public/.../gallery.json`。
 - `export_resource_summary.py` — 章節/題數/覆蓋統計 + `visuals` 概念圖卡計數 → `resourceSummary.json`（首頁統計用；題目 JSON 得以 lazy load）。
 - `export_exam_reference_answers.py` — 以 v2 generation-input SHA-256 provenance 對 canonical qid，驗 overlay 指紋並要求 published/production inventory 完全相等；不得改回無條件 legacy ID offset（細節見 `07-question-generation.md` §4a）。
   <!-- 2026-11-02 --> 2026-11-01 起匯出時套 `guide_block_id_migrations.py`（`data/guide_block_id_migrations.json`＋人工 `data/guide_citation_overrides.json`），未決或不存在的 block id 一律 fail closed。
@@ -81,12 +77,10 @@
 - `cjk_parentheses.py` — 中文語境半形括號→全形的純函式，`export_guide_outline_data.py` 最後一道 pass 使用（規則見 `deterministic-publication-overlays.md`）。
 - `export_colab_metadata.py`、`export_guide_images_data.py`、`export_guide_image_units.py`、`export_learning_articles.py`、`export_guide_exam_annotations.py` — 各自把後端產物轉前端 JSON；改了上游資料記得重跑對應那支。
   `export_guide_exam_annotations.py`（2026-11-01）每筆標註另帶 `citationRank`／`citationBlockCount`／`supplement`／`prominence`：引用順位 ≤2、非「補充」、說明不含「未直接」、該引用涵蓋 ≤10 個 block 才是 `primary`（2026-11-01 依 60 筆人工抽樣由 ≤5 放寬）。`prominence` **只給 GuidePage 決定徽章顯示**（主要題算「考過 N 題」，次要題收進「另有 N 題相關」或灰色「相關 N 題」）；topicHeat、conceptGraph、心智圖仍採計全部標註，不得改成只數 primary。
-- ~~`render_guide_page_images.py`~~ — **已退場（2026-08-29）**。產物 `frontend/public/guide-pages/`（89 檔 13 MB）
-  經窮舉比對確認前端從未引用（`parse_guides.py:369-373` 註解已寫明），已從版控刪除。
-  前端讀的是 `guideContent` 與 `pdfGallery`，都指向 `pdf-assets/`。不要重跑這支。
+- ~~`render_guide_page_images.py`~~ — **已退場（2026-08-29），不要重跑**。產物 `public/guide-pages/` 前端從未引用、已從版控刪除；
+  前端讀的是 `guideContent` 與 `pdfGallery`，都指向 `pdf-assets/`。
 
-**實務學習 MVP（2026-09-07 新增）**
-<!-- 2026-09-07: 新增實務學習 CLI；已核對各支 --help，curation 與保留舊題的結果已實跑。 -->
+**實務學習 MVP**
 - `validate_learning_content.py --all --check` — 檢查 `content/learning/` 的契約、來源引用與審查缺口；不寫入產物。
 - `build_learning_content.py --preview` — 建立獨立本機候選與 preview 指標；`--check`／`--dry-run` 不寫入。
   正式模式才可更新 current 指標，且須通過發布閘門。預覽資產留在候選目錄，不寫入 `frontend/public/`。
@@ -114,68 +108,27 @@
 - `export_notebooklm_pack.py` — 講義正文＋官方試題與參考詳解＋章節練習＋學習指引練習＋名詞解釋＋考點分布
   → `exports/notebooklm/{level}/*.md`（每級 10 檔）。`--level 初級|中級|all`（預設 all）。
 - `export_guide_epub.py` — 只出 5 份學習指引正文 → `exports/epub/*.epub`（EPUB 3，內嵌 17 張原書插圖）。
-  共用 `export_notebooklm_pack.py` 的 block 渲染與勘誤函式，改一邊要確認另一邊。
 
-  兩支共通、也是最容易踩的三件事：
-  1. **一律從 `blocks[]` 重建，不要用 `.content`**。`.content` 的標題被降級成裸編號（「3.1」「1.」），
-     因為原 PDF 那層是圖片；完整標題只在 blocks。
-  2. **但勘誤只套在 `.content`，沒有進 blocks**，所以兩支都自己再跑一次
-     `errata_corrections.json` 的空白容錯字串替換，並把實際套用筆數寫進輸出。
-     產物裡不要寫「已套用官方勘誤」這種宣稱，除非能報出筆數。
-  3. **只取 leaf 節點**（`guideOutlines` 的 `nodesById[id].children` 為空），否則 `pdf-cN` 父節點
-     會把整章內容再重複一次；父節點獨有的章導言另用 `parent_only_blocks()` 撈回來。
-
-  2026-09-05 修正四項渲染缺陷（兩支共用 `render_table`，改一邊要確認另一邊）：
-  `looks_like_header()`／`merge_split_header()`（表頭）、`(?<!\\)\|` 切欄、
-  EPUB 端標題改用 `depth`、書前說明補上練習題題數與勘誤三分類。
-
-  > 教訓 2026-09-06（表格佔位）：沒有真表頭時補的佔位列要**留空**，不要填「欄1/欄2」——
-  > 那等於對讀者與 NotebookLM 注入不存在的欄位名稱。EPUB 端據「表頭整列皆空」判斷不輸出 `<thead>`。
-
-  > 教訓 2026-09-05（表格）：**不要盲目拿 `rows[0]` 當表頭**——來源表格常常沒有表頭列
-  > （第一列是圖說、跨頁續接或被攤平成空白），照做等於憑空捏造表頭並吃掉第一筆資料，
-  > 34 張表有 14 張中招。規則：判「幾乎全空／圖說當表頭／重複欄名／被切成兩列」四種成因，
-  > 無表頭就不輸出 `<thead>`。切欄要用 `(?<!\\)\|` 且**先切欄再還原跳脫**，
-  > 否則書名裡的「圖解 AI | 機器學習…」會被切成兩欄並留下反斜線。
-
-  > 教訓 2026-09-05（共用函式）：`block_items()` 的 `level` 是 **Markdown 版專用**
-  > （那邊沒有 h2 這層），EPUB 端要用 `depth`；沿用 `level` 會讓全書 h2 直接跳 h4、
-  > 41 處跳階且一個 h3 都沒有。兩支匯出器共用 `render_table`／`block_items`，改一邊要驗另一邊。
-
-  > 教訓 2026-09-05（誠實揭露）：**刻意排除的內容一定要在產物裡向讀者交代**。
-  > 章末練習題被排除卻無聲明，讀者會誤以為拿到完整講義；「已套用官方勘誤」報不出筆數
-  > 就是無根據宣稱。⚠️ 判定內文是勘誤前或勘誤後**不能用整段字串相似度**：
-  > 多數勘誤是詞級小修（反饋→回饋），original 與 corrected 九成字元相同，兩邊都會命中
-  > （我因此把 5 筆誤報成 10 筆）。用 `difflib` 只比**相異片段**（各加約 6 字前後文）。
-
-  > 教訓 2026-09-05（缺頁）：序與職能基準**從來不在章節樹裡**（樹從第一章才開始），
-  > 五本 EPUB 一直缺這段，連帶讓指向「職能基準」頁的勘誤永遠無從驗證。
-  > 補法是從 Track B `pages_cache` 補一章並標明來源，
-  > **不要動 `build_manifest.py` 的章節 SSOT**——那會波及前端導覽、出題與概念標籤。
-
-  > 教訓 2026-09-05（公式）：EPUB 3 原生支援 MathML，**不要把 LaTeX 原始碼直接丟給讀者**
-  > ——第一版 150 個公式全是 `$$ P(a\leq X\leq b)=\int_{a}^{b}f(x)dx $$` 這種原始碼。
-  > 轉換時兩個坑：①一個 `class="tex"` 區塊常含**多條**公式且夾雜說明文字
-  > （`block_body` 用空行接起來），只當單一公式處理會有一成轉不出來；
-  > ②KaTeX 把 `\min`／`\max` 渲染成 `<mi>min</mi><mo>⁡</mo>`，
-  > 放進 `<msub>` 就變成三個子元素而違反 arity（EPUBCheck 報 RSC-005）——
-  > 那個 U+2061 是不可見的函數套用運算子，移除即可。
-  > 含 MathML 的文件記得在 manifest 標 `properties="mathml"`。
-
-  > 教訓 2026-09-05（EPUB 格式）：**合規 ≠ 專業**。第一版 EPUBCheck 只有 1 個 warning，
-  > 卻缺封面、無障礙 metadata（歐盟無障礙法案自 2025-06 強制）、`page-list`、`landmarks`
-  > ——全書滿是〔原書 3-24 頁〕卻只是純文字，跳頁功能只做了一半。
-  > 規則：產出電子書一律跑 `epubcheck`，並另外檢查這四項驗證器不會報的缺漏。
-  > 補 `pagebreak` 錨點時 id 直接用頁碼**會撞號**（4-38/4-39/5-4/6-17 本來就重複）→
-  > 逐檔去重加序號；`pageBreakSource` 不在保留詞彙表（OPF-027）；
-  > landmarks 不能指向不在 spine 的 `nav.xhtml`（RSC-011）。
-  > `dcterms:modified` 用建置時間會破壞位元可重現 → 支援 `SOURCE_DATE_EPOCH`。
-
-  > 教訓 2026-09-03：`guideImages.json` 是 AI 產的「概念圖卡」，不是原書插圖。
-  > 根因：欄位名稱（title / headingPath / pageNumbers）看起來像原書圖，第一版匯出照著寫了
-  > 637 行「原教材插圖…請看原始 PDF 第 N 頁」，而那些頁根本沒有那張圖。
-  > 規則：要原書插圖只認 `blocks[].type == "source_image"`（全 5 本共 17 張，檔案在
-  > `frontend/public/pdf-assets/`）；`guideImages` 只能用在 `/visuals` 概念圖卡。
+  兩支共用 `render_table`／`block_items` 與勘誤函式，**改一邊要驗另一邊**。最容易踩的事（2026-09-03～09-06 教訓）：
+  1. **一律從 `blocks[]` 重建，不要用 `.content`**：`.content` 的標題被降級成裸編號（原 PDF 那層是圖片）。
+  2. **但勘誤只套在 `.content`**，所以兩支自己再跑一次 `errata_corrections.json` 的空白容錯替換並把套用筆數寫進
+     輸出；報不出筆數就不要寫「已套用官方勘誤」。判定內文是勘誤前或後**不能用整段字串相似度**（詞級小修兩邊都
+     命中，曾把 5 筆誤報成 10 筆），用 `difflib` 只比相異片段（各加約 6 字前後文）。
+  3. **只取 leaf 節點**（`nodesById[id].children` 為空），否則 `pdf-cN` 父節點會把整章再重複一次；父節點獨有的
+     章導言另用 `parent_only_blocks()` 撈回來。
+  4. **表格不要盲目拿 `rows[0]` 當表頭**（曾 34 張中 14 張被捏造表頭並吃掉第一筆資料）：`looks_like_header()`／
+     `merge_split_header()` 判「幾乎全空／圖說當表頭／重複欄名／被切成兩列」，無表頭就不輸出 `<thead>`；補的佔位列
+     **留空**，不要填「欄1/欄2」。切欄用 `(?<!\\)\|` 且**先切欄再還原跳脫**。
+  5. **EPUB 標題用 `depth`，不要用 `level`**（`level` 是 Markdown 版專用，沿用會讓全書 h2 直接跳 h4）。
+  6. **刻意排除的內容要在產物裡交代**（章末練習題、勘誤三分類等寫進書前說明），不然讀者以為拿到完整講義。
+  7. **序與職能基準不在章節樹裡**：從 Track B `pages_cache` 補一章並標明來源，**不要動 `build_manifest.py` 的章節 SSOT**。
+  8. **公式轉 MathML，不要丟 LaTeX 原始碼**：一個 `class="tex"` 區塊常含多條公式夾說明文字，要逐條轉；KaTeX 的
+     `\min`／`\max` 會帶不可見 U+2061，放進 `<msub>` 違反 arity（RSC-005）要移除；manifest 標 `properties="mathml"`。
+  9. **合規 ≠ 專業**：一律跑 `epubcheck`，另查驗證器不報的封面、無障礙 metadata、`page-list`、`landmarks`。
+     `pagebreak` 錨點 id 用頁碼會撞號（逐檔去重加序號）；`pageBreakSource` 不在保留詞彙表（OPF-027）；landmarks 不能
+     指向不在 spine 的 `nav.xhtml`（RSC-011）；`dcterms:modified` 支援 `SOURCE_DATE_EPOCH` 保持位元可重現。
+  10. **`guideImages.json` 是 AI 產的「概念圖卡」，不是原書插圖**（欄位名看起來像原書圖，第一版因此寫出 637 行錯誤
+      頁碼指引）。原書插圖只認 `blocks[].type == "source_image"`（全 5 本共 17 張，在 `frontend/public/pdf-assets/`）。
 
 **Build / 發佈**：`build_web.py` 先 audit 再 Vite build → `docs/`；`publish_assets.py` 可選上傳 R2（預設 copy，`--prune` 才刪除）；`verify_r2_assets.py` 全量 HEAD，正式切換不可用 `--sample`。
 
@@ -189,8 +142,8 @@ python3 scripts/export_guide_hierarchy.py --print-tree s1    # 印出來目視�
 ```
 
 階層原本斷成兩段：`guideOutlines.json` 只到「節」（64 節點），節以下的標題散在各章的
-`blocks[]` 與 `headings[]`，沒有父子關係。本腳本接成一棵樹（**1,207 節點**：23 章 +
-41 節 + 1,143 標題，最深 6 層），並用 `guide_ocr` 補回 Track A 漏抓的 `N.` 層（72 個）。
+`blocks[]` 與 `headings[]`，沒有父子關係。本腳本接成一棵樹（**1,208 節點**：23 章 +
+41 節 + 1,144 標題，最深 6 層；2026-11-02 `stats`），並用 `guide_ocr` 補回 Track A 漏抓的 `N.` 層（72 個）。
 只讀既有產物、可隨時重跑；跑在 `export_guide_outline_data.py` 之後。
 
 三個實作重點（改動前先讀，都是踩過的坑）：
@@ -204,20 +157,19 @@ python3 scripts/export_guide_hierarchy.py --print-tree s1    # 印出來目視�
 
 節以下的節點是既有章節頁的錨點（`href = {route}#{anchor}`），**前端路由完全不用動**。
 
-<!-- 2026-08-07: 新增兩個衍生檔與前端消費現況。 -->
 同一支腳本另外產兩個**衍生檔**，目的是不讓全站為了兩層結構背上整棵樹：
 
 | 檔案 | 內容 | 大小 | 誰在用 |
 |---|---|---|---|
-| `guideHierarchy.json` | 全部 1,207 節點 | 449 KB | GuidePage 的「本節階層」（靜態 import，進 GuidePage chunk） |
+| `guideHierarchy.json` | 全部 1,208 節點 | 449 KB | GuidePage 的「本節階層」（靜態 import，進 GuidePage chunk） |
 | `guideNav.json` | 只有章/節 64 節點 | 13 KB | 側欄章節樹、GuidePage 麵包屑（靜態 import，進首頁 chunk） |
-| `guideSearchIndex.json` | 全部節點，欄位縮寫 | 195 KB | 搜尋對話框、`/outline`（**動態 import**，開啟時才載） |
+| `guideSearchIndex.json` | 全部節點，欄位縮寫 | 201 KB | 搜尋對話框、`/outline`（**動態 import**，開啟時才載） |
 
 ⚠️ **`a`（anchor）只在該 anchor 真的存在於章節頁的 `blocks[]` 時才輸出**。
 階層樹的標題有兩個來源，從 `headings[]` 來的那批只有標題文字、anchor 是 slug 推出來的，
 頁面上沒有對應 DOM——帶著 `#anchor` 連過去只會停在頁頂（實測佔全部標題約兩成）。
 這類節點標 `x:1`，消費端要退回連到章節頁本身或顯示為不可跳轉。
-目前 1,143 個標題裡可跳轉 849、不可跳轉 294（含 OCR 補回的 72 個）。
+2026-08-07 量測時 1,143 個標題裡可跳轉 849、不可跳轉 294（含 OCR 補回的 72 個）。
 
 前端吃 `#anchor` 的是 GuidePage 的 `location.hash` effect。**HashRouter 下網址形如
 `#/guide/s1/s1c1#anchor`**（react-router 把第二個 `#` 之後當 `location.hash`）；內容非同步
@@ -227,7 +179,7 @@ python3 scripts/export_guide_hierarchy.py --print-tree s1    # 印出來目視�
 畫面外一萬多 px，重試到 2.5 秒仍差 3,463 px。現行做法：每 250 ms 檢查 `scrollHeight`，
 變動就重捲，連續 4 次不變或超過 12 秒才停，使用者一動就停手。不要退回單次捲動。
 
-`a`（anchor）採三段式定位：自身可跳（849）→ 退到最近有區塊的上層標題並標 `x:1`
+`a`（anchor）採三段式定位（數字同為 2026-08-07 量測）：自身可跳（849）→ 退到最近有區塊的上層標題並標 `x:1`
 （202，前端顯示「概略位置」）→ 都沒有就連章節頁（92）。**最深的 `a.`/`b.` 層幾乎都是
 第二類**，而那正是搜尋最常命中的一層——早期版本把這些做成不可點，搜「梯度下降」
 兩筆結果全是死的。
