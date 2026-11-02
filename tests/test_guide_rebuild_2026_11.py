@@ -116,9 +116,18 @@ class HypothesisOverlayTests(unittest.TestCase):
         self.assertEqual(sub['rows'][0], ['', '$ H_0 $為真', '$ H_0 $為假'])
         self.assertEqual(sub['rows'][2], ['拒絕 $ H_0 $', 'Type I 錯誤 ( $ \\alpha $)', '正確'])
 
-    def test_aggregate_chapter_repairs_table_but_keeps_title_paragraph(self) -> None:
+    def test_aggregate_chapter_repairs_table_and_mirrors_title_heading(self) -> None:
         result = overlays.apply_publication_block_overlays('初級', 'guide1', 's1pdf-c3', hypothesis_source_blocks())
-        self.assertEqual([block['type'] for block in result], ['table', 'paragraph', 'table', 'table', 'list_item'])
+        self.assertEqual([block['type'] for block in result], ['table', 'heading', 'table', 'table', 'list_item'])
+        mirror = result[1]
+        contract = overlays.GUIDE_NAVIGATION_HEADINGS['manual-heading:s1c2-hypothesis']
+        self.assertEqual(mirror['title'], TITLE)
+        self.assertNotIn('text', mirror)
+        self.assertEqual(mirror['anchor'], contract['anchor'])
+        self.assertEqual(mirror['depth'], contract['depth'])
+        self.assertEqual(mirror['publicationMirrorOverlayId'], 'manual-heading:s1c2-hypothesis')
+        # s1c2 alone owns the navigation contract.
+        self.assertNotIn('publicationOverlayId', mirror)
         self.assertEqual(result[2]['sourcePageIndexes'], [31, 32])
         self.assertEqual(
             result, overlays.apply_publication_block_overlays('初級', 'guide1', 's1pdf-c3', copy.deepcopy(result)),
@@ -490,7 +499,7 @@ class Round2ContentRepairTests(unittest.TestCase):
             )
             child_text = [b.get('text') for child in children for b in self._live(guide, child)
                           if b['type'] in ('paragraph', 'list_item')]
-            # s1pdf-c3 keeps the hypothesis title as a paragraph (s1c2 owns the heading).
+            # s1pdf-c3 prints the hypothesis title as a mirror heading (s1c2 owns the contract).
             own_text = [b.get('text') for b in blocks
                         if b['type'] in ('paragraph', 'list_item') and b.get('text') != '假說檢定名詞介紹：']
             self.assertEqual(own_text, child_text, aggregate)

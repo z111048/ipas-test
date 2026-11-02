@@ -238,19 +238,23 @@ def apply_publication_block_overlays(
 
     if (level, key, node) == HYPOTHESIS_AGGREGATE_ROUTE:
         # The PDF-chapter node s1pdf-c3 (pages 7–71) re-publishes the same two
-        # physical pages.  Repair the same table there, but keep the title a
-        # paragraph: the navigation contract requires exactly one hierarchy
-        # heading, owned by s1c2.
-        title = str(GUIDE_NAVIGATION_HEADINGS['manual-heading:s1c2-hypothesis']['title'])
-        paragraphs = [
+        # physical pages.  Repair the same table there and print the title as
+        # a heading too (2026-11-02), marked as a *mirror*: s1c2 still owns
+        # the navigation contract (the only hierarchy/search entry), exactly
+        # like the s2pdf-c3 mirror of the s2c3 import-strategy heading.
+        contract_name = 'manual-heading:s1c2-hypothesis'
+        contract = GUIDE_NAVIGATION_HEADINGS[contract_name]
+        title = str(contract['title'])
+        candidates = [
             index for index, block in enumerate(result)
-            if block.get('type') == 'paragraph' and _normalized(block.get('text')) == _normalized(title)
+            if (block.get('type') == 'paragraph' and _normalized(block.get('text')) == _normalized(title))
+            or (block.get('type') == 'heading' and block.get('title') == title)
         ]
-        if len(paragraphs) != 1:
+        if len(candidates) != 1:
             raise ValueError(
-                f'{level}/{key}/{node}: hypothesis title paragraph matched {len(paragraphs)}, expected 1'
+                f'{level}/{key}/{node}: hypothesis title matched {len(candidates)}, expected 1'
             )
-        following = result[paragraphs[0] + 1] if paragraphs[0] + 1 < len(result) else {}
+        following = result[candidates[0] + 1] if candidates[0] + 1 < len(result) else {}
         if not (
             following.get('type') == 'table'
             and following.get('rows')
@@ -258,7 +262,22 @@ def apply_publication_block_overlays(
             and following.get('pageIndex') == HYPOTHESIS_TABLE_PAGES[0]
         ):
             raise ValueError(f'{level}/{key}/{node}: hypothesis title is not directly before its 名稱/說明 table')
-        result = _merge_hypothesis_tables(level, key, node, result, paragraphs[0] + 1)
+        mirror = result[candidates[0]]
+        mirror.pop('text', None)
+        mirror.pop('marker', None)
+        mirror.pop('indentFirstLine', None)
+        mirror.update({
+            'type': 'heading',
+            'kind': 'heading',
+            'depth': contract['depth'],
+            'title': title,
+            'anchor': contract['anchor'],
+            'pageIndex': contract['pageIndex'],
+            'sourcePageIndexes': [contract['pageIndex']],
+            'bbox': [101.8, 421.61, 218.23, 434.9],
+            'publicationMirrorOverlayId': contract_name,
+        })
+        result = _merge_hypothesis_tables(level, key, node, result, candidates[0] + 1)
 
     contract_name = 'manual-heading:s2c3-import-strategy'
     contract = GUIDE_NAVIGATION_HEADINGS[contract_name]

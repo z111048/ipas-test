@@ -204,7 +204,20 @@ def validate_outline_tree(nodes: list[dict]) -> list[dict]:
     return warnings
 
 
-def validate_blocks(node: dict, blocks: list[dict]) -> list[dict]:
+# Back matter printed after the last chapter's exercises; a heading there is
+# expected, not a chapter-structure defect (2026-11-02 review).
+POST_EXERCISE_HEADING_ALLOWLIST: frozenset[str] = frozenset({
+    '附件本學習指引參考書目',
+})
+
+
+def validate_blocks(node: dict, blocks: list[dict], *, aggregate: bool = False) -> list[dict]:
+    """Structural warnings for one node's blocks.
+
+    ``aggregate`` nodes concatenate several printed chapters, each ending in
+    its own exercises; a chapter-level heading (depth <= 2) starts the next
+    chapter, so the exercise boundary resets there.
+    """
     warnings: list[dict] = []
     heading_stack: list[dict] = []
     exercise_seen = False
@@ -218,7 +231,9 @@ def validate_blocks(node: dict, blocks: list[dict]) -> list[dict]:
         text = block.get('title') or block.get('text') or ''
 
         if block_type == 'heading':
-            if exercise_seen:
+            if aggregate and depth <= 2:
+                exercise_seen = False
+            if exercise_seen and re.sub(r'\s+', '', text) not in POST_EXERCISE_HEADING_ALLOWLIST:
                 warnings.append(warning('warn', 'heading_after_exercise', 'Heading appears after chapter exercises started.', node, block))
             if heading_stack and depth > int(heading_stack[-1].get('depth') or 0) + 1:
                 warnings.append(warning('warn', 'heading_depth_jump', 'Heading depth jumps more than one level.', node, block))
@@ -336,7 +351,7 @@ def build_guide_tree(level: str, subject: dict) -> dict:
             continue
         blocks = compose_aggregate_blocks(level, node, blocks_by_node)
         blocks_by_node[node['id']] = blocks
-        warnings.extend(validate_blocks(node, blocks))
+        warnings.extend(validate_blocks(node, blocks, aggregate=True))
     blocks_by_node = {node['id']: blocks_by_node[node['id']] for node in flat_nodes}
 
     flat = [node['id'] for node in flatten_nodes(root_nodes)]

@@ -24,9 +24,9 @@
     "鑑別式AI與生成式AI的協同應用"
   ],
   "excerpt": "鑑別式AI（Discriminative AI, DAI）與生成式AI（Generative AI, GAI）是人工智慧領域中的兩大重要分支，分別代表了數據分析與數據創造的核心技術方向。",
-  "wordCount": 10176,
+  "wordCount": 10193,
   "readingMinutes": 16,
-  "sectionCount": 9,
+  "sectionCount": 10,
   "source": {
     "guideKey": "初級-guide1",
     "nodeId": "s1c4",
@@ -50,37 +50,42 @@
       "depth": 4
     },
     {
-      "id": "block-69",
+      "id": "block-60",
       "title": "（2）生成式AI 的原理與應用",
       "depth": 4
     },
     {
-      "id": "block-109",
+      "id": "block-95",
       "title": "（3）鑑別式AI 與生成式AI 的技術差異",
       "depth": 4
     },
     {
-      "id": "block-138",
+      "id": "block-123",
+      "title": "2. 鑑別式 AI 與生成式 AI 的整合應用",
+      "depth": 3
+    },
+    {
+      "id": "block-125",
       "title": "（1）整合應用的價值",
       "depth": 4
     },
     {
-      "id": "block-149",
+      "id": "block-135",
       "title": "（2）整合應用的技術優勢",
       "depth": 4
     },
     {
-      "id": "block-163",
+      "id": "block-149",
       "title": "（3）整合應用的挑戰與解決策略",
       "depth": 4
     },
     {
-      "id": "block-170",
+      "id": "block-156",
       "title": "章節練習題",
       "depth": 3
     },
     {
-      "id": "block-191",
+      "id": "block-177",
       "title": "附件本學習指引參考書目",
       "depth": 3
     }
@@ -358,7 +363,7 @@
     {
       "type": "paragraph",
       "depth": 6,
-      "text": "是鑑別式AI 中最簡單且最基礎的分類模型",
+      "text": "是鑑別式AI 中最簡單且最基礎的分類模型之一，用於解決二元分類問題。與傳統的線性迴歸不同，邏輯迴歸透過 sigmoid 函數（也稱為邏輯函數）將線性模型的輸出映射到0 到1 之間，作為預測概率，並以此進行分類決策。",
       "pageIndex": 55,
       "bbox": [
         70.24,
@@ -367,20 +372,6 @@
         114.11
       ],
       "id": "block-20"
-    },
-    {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "之一，用於解決二元分類問題。與傳統的線性迴歸不同，邏輯迴歸透過 sigmoid 函數（也稱為邏輯函數）將線性模型的輸出映射到0 到1 之間，作為預測概率，並以此進行分類決策。",
-      "pageIndex": 55,
-      "bbox": [
-        105.64,
-        126.86,
-        518.4,
-        189.11
-      ],
-      "indentFirstLine": false,
-      "id": "block-21"
     },
     {
       "type": "list_item",
@@ -394,12 +385,12 @@
         517.96,
         214.07
       ],
-      "id": "block-22"
+      "id": "block-21"
     },
     {
       "type": "paragraph",
       "depth": 6,
-      "text": "邏輯迴歸假設數據與輸出標籤之間存在線性關係，並透過最大似",
+      "text": "邏輯迴歸假設數據與輸出標籤之間存在線性關係，並透過最大似然估計（Maximum Likelihood Estimation, MLE）來學習最優參數。當概率超過預設的閾值（如0.5）時，模型將數據分配至特定類別。",
       "pageIndex": 55,
       "bbox": [
         106.84,
@@ -407,21 +398,7 @@
         517.96,
         214.07
       ],
-      "id": "block-23"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "然估計（Maximum Likelihood Estimation, MLE）來學習最優參數。當概率超過預設的閾值（如0.5）時，模型將數據分配至特定類別。",
-      "pageIndex": 55,
-      "bbox": [
-        125.8,
-        225.86,
-        518.37,
-        264.14
-      ],
-      "indentFirstLine": true,
-      "id": "block-24"
+      "id": "block-22"
     },
     {
       "type": "list_item",
@@ -435,7 +412,7 @@
         191.83,
         289.1
       ],
-      "id": "block-25"
+      "id": "block-23"
     },
     {
       "type": "list_item",
@@ -449,7 +426,7 @@
         517.85,
         339.14
       ],
-      "id": "block-26"
+      "id": "block-24"
     },
     {
       "type": "list_item",
@@ -463,7 +440,7 @@
         520.68,
         364.1
       ],
-      "id": "block-27"
+      "id": "block-25"
     },
     {
       "type": "list_item",
@@ -477,7 +454,7 @@
         521.88,
         389.18
       ],
-      "id": "block-28"
+      "id": "block-26"
     },
     {
       "type": "heading",
@@ -490,12 +467,12 @@
         518.37,
         414.14
       ],
-      "id": "block-29"
+      "id": "block-27"
     },
     {
       "type": "paragraph",
       "depth": 6,
-      "text": "是一種強大的分類模型，其核心",
+      "text": "是一種強大的分類模型，其核心思想在於尋找一個能夠最大化類別間隔的超平面，從而達到最優的分類效果。SVM 透過引入核函數，將線性不可分的數據映射到高維特徵空間，進而實現非線性分類。",
       "pageIndex": 55,
       "bbox": [
         70.24,
@@ -503,21 +480,7 @@
         518.37,
         414.14
       ],
-      "id": "block-30"
-    },
-    {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "思想在於尋找一個能夠最大化類別間隔的超平面，從而達到最優的分類效果。SVM 透過引入核函數，將線性不可分的數據映射到高維特徵空間，進而實現非線性分類。",
-      "pageIndex": 55,
-      "bbox": [
-        105.64,
-        426.89,
-        518.03,
-        489.16
-      ],
-      "indentFirstLine": false,
-      "id": "block-31"
+      "id": "block-28"
     },
     {
       "type": "list_item",
@@ -531,12 +494,12 @@
         518.29,
         514.12
       ],
-      "id": "block-32"
+      "id": "block-29"
     },
     {
       "type": "paragraph",
       "depth": 6,
-      "text": "SVM 的目標是找到最佳的決策邊界（即超平面），並最大化不同類",
+      "text": "SVM 的目標是找到最佳的決策邊界（即超平面），並最大化不同類別樣本之間的間隔。當數據線性不可分時，模型使用核函數（如多項式核、高斯核）將數據映射到高維空間，使其在該空間中可分。",
       "pageIndex": 55,
       "bbox": [
         106.84,
@@ -544,21 +507,7 @@
         518.29,
         514.12
       ],
-      "id": "block-33"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "別樣本之間的間隔。當數據線性不可分時，模型使用核函數（如多項式核、高斯核）將數據映射到高維空間，使其在該空間中可分。",
-      "pageIndex": 55,
-      "bbox": [
-        125.8,
-        526.99,
-        518.4,
-        564.16
-      ],
-      "indentFirstLine": true,
-      "id": "block-34"
+      "id": "block-30"
     },
     {
       "type": "list_item",
@@ -572,7 +521,7 @@
         191.83,
         589.12
       ],
-      "id": "block-35"
+      "id": "block-31"
     },
     {
       "type": "list_item",
@@ -586,7 +535,7 @@
         520.68,
         614.2
       ],
-      "id": "block-36"
+      "id": "block-32"
     },
     {
       "type": "list_item",
@@ -600,7 +549,7 @@
         520.68,
         639.19
       ],
-      "id": "block-37"
+      "id": "block-33"
     },
     {
       "type": "list_item",
@@ -614,7 +563,7 @@
         517.85,
         689.23
       ],
-      "id": "block-38"
+      "id": "block-34"
     },
     {
       "type": "heading",
@@ -627,12 +576,12 @@
         518.09,
         714.19
       ],
-      "id": "block-39"
+      "id": "block-35"
     },
     {
       "type": "paragraph",
       "depth": 6,
-      "text": "是一種基於樹形結構進行數據分類的模型。其透過",
+      "text": "是一種基於樹形結構進行數據分類的模型。其透過逐層劃分數據特徵空間，形成一個分類規則。決策樹的每個節點表示一個特徵條件，每個葉節點表示一個類別標籤或預測值。",
       "pageIndex": 55,
       "bbox": [
         70.24,
@@ -640,21 +589,7 @@
         518.09,
         714.19
       ],
-      "id": "block-40"
-    },
-    {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "逐層劃分數據特徵空間，形成一個分類規則。決策樹的每個節點表示一個特徵條件，每個葉節點表示一個類別標籤或預測值。",
-      "pageIndex": 55,
-      "bbox": [
-        105.64,
-        726.94,
-        518.2,
-        764.22
-      ],
-      "indentFirstLine": false,
-      "id": "block-41"
+      "id": "block-36"
     },
     {
       "type": "list_item",
@@ -668,12 +603,12 @@
         517.96,
         114.11
       ],
-      "id": "block-42"
+      "id": "block-37"
     },
     {
       "type": "paragraph",
       "depth": 6,
-      "text": "決策樹的生成基於遞迴分割原則，利用資訊增益、吉尼係數或均",
+      "text": "決策樹的生成基於遞迴分割原則，利用資訊增益、吉尼係數或均方誤差等標準選擇最佳劃分特徵，從而構建樹形結構。在樹的每個分支處，數據根據特徵值進行劃分，直到滿足終止條件。",
       "pageIndex": 56,
       "bbox": [
         106.84,
@@ -681,21 +616,7 @@
         517.96,
         114.11
       ],
-      "id": "block-43"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "方誤差等標準選擇最佳劃分特徵，從而構建樹形結構。在樹的每個分支處，數據根據特徵值進行劃分，直到滿足終止條件。",
-      "pageIndex": 56,
-      "bbox": [
-        125.8,
-        126.86,
-        517.96,
-        164.15
-      ],
-      "indentFirstLine": true,
-      "id": "block-44"
+      "id": "block-38"
     },
     {
       "type": "list_item",
@@ -709,7 +630,7 @@
         191.83,
         189.11
       ],
-      "id": "block-45"
+      "id": "block-39"
     },
     {
       "type": "list_item",
@@ -723,7 +644,7 @@
         521.88,
         214.07
       ],
-      "id": "block-46"
+      "id": "block-40"
     },
     {
       "type": "list_item",
@@ -737,7 +658,7 @@
         517.85,
         264.14
       ],
-      "id": "block-47"
+      "id": "block-41"
     },
     {
       "type": "list_item",
@@ -751,7 +672,7 @@
         445.05,
         289.1
       ],
-      "id": "block-48"
+      "id": "block-42"
     },
     {
       "type": "heading",
@@ -764,12 +685,12 @@
         518.35,
         314.18
       ],
-      "id": "block-49"
+      "id": "block-43"
     },
     {
       "type": "paragraph",
       "depth": 6,
-      "text": "是決策樹的集成學習方法，其透過構建多棵決策",
+      "text": "是決策樹的集成學習方法，其透過構建多棵決策樹並取其結果的平均值或投票結果，提升模型的準確性與穩定性。隨機森林在訓練過程中引入隨機性，保證每棵樹在不同特徵子集和樣本集上獨立訓練，從而降低過擬合風險。",
       "pageIndex": 56,
       "bbox": [
         70.24,
@@ -777,21 +698,7 @@
         518.35,
         314.18
       ],
-      "id": "block-50"
-    },
-    {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "樹並取其結果的平均值或投票結果，提升模型的準確性與穩定性。隨機森林在訓練過程中引入隨機性，保證每棵樹在不同特徵子集和樣本集上獨立訓練，從而降低過擬合風險。",
-      "pageIndex": 56,
-      "bbox": [
-        105.64,
-        326.93,
-        518.37,
-        389.18
-      ],
-      "indentFirstLine": false,
-      "id": "block-51"
+      "id": "block-44"
     },
     {
       "type": "list_item",
@@ -805,12 +712,12 @@
         518.35,
         414.14
       ],
-      "id": "block-52"
+      "id": "block-45"
     },
     {
       "type": "paragraph",
       "depth": 6,
-      "text": "隨機森林利用Bootstrap 取樣法隨機抽取樣本，構建多棵獨立的決",
+      "text": "隨機森林利用Bootstrap 取樣法隨機抽取樣本，構建多棵獨立的決策樹，並在最終預測階段將所有樹的輸出進行投票或平均，得到最終結果。",
       "pageIndex": 56,
       "bbox": [
         106.84,
@@ -818,21 +725,7 @@
         518.35,
         414.14
       ],
-      "id": "block-53"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "策樹，並在最終預測階段將所有樹的輸出進行投票或平均，得到最終結果。",
-      "pageIndex": 56,
-      "bbox": [
-        125.8,
-        426.89,
-        517.96,
-        464.2
-      ],
-      "indentFirstLine": true,
-      "id": "block-54"
+      "id": "block-46"
     },
     {
       "type": "list_item",
@@ -846,7 +739,7 @@
         191.83,
         489.16
       ],
-      "id": "block-55"
+      "id": "block-47"
     },
     {
       "type": "list_item",
@@ -860,7 +753,7 @@
         520.68,
         514.12
       ],
-      "id": "block-56"
+      "id": "block-48"
     },
     {
       "type": "list_item",
@@ -874,7 +767,7 @@
         432.45,
         539.2
       ],
-      "id": "block-57"
+      "id": "block-49"
     },
     {
       "type": "list_item",
@@ -888,7 +781,7 @@
         482.88,
         564.16
       ],
-      "id": "block-58"
+      "id": "block-50"
     },
     {
       "type": "heading",
@@ -901,12 +794,12 @@
         518.47,
         589.12
       ],
-      "id": "block-59"
+      "id": "block-51"
     },
     {
       "type": "paragraph",
       "depth": 6,
-      "text": "是一種模擬生物神經系統的非線性模型，透過",
+      "text": "是一種模擬生物神經系統的非線性模型，透過多層神經元網路結構學習數據的深層特徵。神經網路擅長處理高維度、非結構化數據，如圖像、語音和文本。",
       "pageIndex": 56,
       "bbox": [
         70.24,
@@ -914,21 +807,7 @@
         518.47,
         589.12
       ],
-      "id": "block-60"
-    },
-    {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "多層神經元網路結構學習數據的深層特徵。神經網路擅長處理高維度、非結構化數據，如圖像、語音和文本。",
-      "pageIndex": 56,
-      "bbox": [
-        105.64,
-        601.99,
-        518.32,
-        639.19
-      ],
-      "indentFirstLine": false,
-      "id": "block-61"
+      "id": "block-52"
     },
     {
       "type": "list_item",
@@ -942,7 +821,7 @@
         521.76,
         664.15
       ],
-      "id": "block-62"
+      "id": "block-53"
     },
     {
       "type": "paragraph",
@@ -955,7 +834,7 @@
         521.76,
         664.15
       ],
-      "id": "block-63"
+      "id": "block-54"
     },
     {
       "type": "paragraph",
@@ -969,7 +848,7 @@
         714.19
       ],
       "indentFirstLine": true,
-      "id": "block-64"
+      "id": "block-55"
     },
     {
       "type": "list_item",
@@ -983,7 +862,7 @@
         191.83,
         739.15
       ],
-      "id": "block-65"
+      "id": "block-56"
     },
     {
       "type": "list_item",
@@ -997,7 +876,7 @@
         508.08,
         764.22
       ],
-      "id": "block-66"
+      "id": "block-57"
     },
     {
       "type": "list_item",
@@ -1011,7 +890,7 @@
         518.19,
         139.07
       ],
-      "id": "block-67"
+      "id": "block-58"
     },
     {
       "type": "list_item",
@@ -1025,7 +904,7 @@
         518.65,
         189.11
       ],
-      "id": "block-68"
+      "id": "block-59"
     },
     {
       "type": "heading",
@@ -1038,7 +917,7 @@
         238.63,
         239.15
       ],
-      "id": "block-69"
+      "id": "block-60"
     },
     {
       "type": "paragraph",
@@ -1052,7 +931,7 @@
         364.1
       ],
       "indentFirstLine": true,
-      "id": "block-70"
+      "id": "block-61"
     },
     {
       "type": "paragraph",
@@ -1066,7 +945,7 @@
         489.16
       ],
       "indentFirstLine": true,
-      "id": "block-71"
+      "id": "block-62"
     },
     {
       "type": "heading",
@@ -1079,12 +958,12 @@
         518.37,
         514.12
       ],
-      "id": "block-72"
+      "id": "block-63"
     },
     {
       "type": "paragraph",
       "depth": 6,
-      "text": "是生成式AI 中最具",
+      "text": "是生成式AI 中最具代表性的模型之一，由生成器（Generator）和鑑別器（Discriminator）兩個神經網路組成，透過彼此之間的對抗學習來生成高品質的新數據。",
       "pageIndex": 57,
       "bbox": [
         70.24,
@@ -1092,21 +971,7 @@
         518.37,
         514.12
       ],
-      "id": "block-73"
-    },
-    {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "代表性的模型之一，由生成器（Generator）和鑑別器（Discriminator）兩個神經網路組成，透過彼此之間的對抗學習來生成高品質的新數據。",
-      "pageIndex": 57,
-      "bbox": [
-        105.64,
-        525.91,
-        518.4,
-        564.16
-      ],
-      "indentFirstLine": true,
-      "id": "block-74"
+      "id": "block-64"
     },
     {
       "type": "list_item",
@@ -1120,7 +985,7 @@
         166.6,
         589.12
       ],
-      "id": "block-75"
+      "id": "block-65"
     },
     {
       "type": "list_item",
@@ -1134,7 +999,7 @@
         517.85,
         639.19
       ],
-      "id": "block-76"
+      "id": "block-66"
     },
     {
       "type": "list_item",
@@ -1148,13 +1013,13 @@
         508.08,
         664.15
       ],
-      "id": "block-77"
+      "id": "block-67"
     },
     {
       "type": "list_item",
       "depth": 6,
       "marker": "c.",
-      "text": "在訓練過程中，生成器不斷生成數據來“欺騙”鑑別器，而鑑別器則",
+      "text": "在訓練過程中，生成器不斷生成數據來“欺騙”鑑別器，而鑑別器則努力提高區分真假數據的能力。透過這種動態的對抗過程，生成器逐漸學會生成高品質的數據。",
       "pageIndex": 57,
       "bbox": [
         127.0,
@@ -1162,21 +1027,7 @@
         517.85,
         689.23
       ],
-      "id": "block-78"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "努力提高區分真假數據的能力。透過這種動態的對抗過程，生成器逐漸學會生成高品質的數據。",
-      "pageIndex": 57,
-      "bbox": [
-        76.6,
-        701.98,
-        517.85,
-        755.82
-      ],
-      "indentFirstLine": true,
-      "id": "block-79"
+      "id": "block-68"
     },
     {
       "type": "list_item",
@@ -1190,13 +1041,13 @@
         191.83,
         114.11
       ],
-      "id": "block-80"
+      "id": "block-69"
     },
     {
       "type": "list_item",
       "depth": 6,
       "marker": "a.",
-      "text": "圖像生成與修復：在圖像生成領域有著廣泛應用。例如，StyleGAN 能",
+      "text": "圖像生成與修復：在圖像生成領域有著廣泛應用。例如，StyleGAN 能夠生成極具真實感的人臉圖像，而圖像修復技術則可以補全缺損的圖像部分。",
       "pageIndex": 58,
       "bbox": [
         127.0,
@@ -1204,21 +1055,7 @@
         518.28,
         139.07
       ],
-      "id": "block-81"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "夠生成極具真實感的人臉圖像，而圖像修復技術則可以補全缺損的圖像部分。",
-      "pageIndex": 58,
-      "bbox": [
-        139.6,
-        151.94,
-        517.94,
-        189.11
-      ],
-      "indentFirstLine": false,
-      "id": "block-82"
+      "id": "block-70"
     },
     {
       "type": "list_item",
@@ -1232,7 +1069,7 @@
         517.85,
         239.15
       ],
-      "id": "block-83"
+      "id": "block-71"
     },
     {
       "type": "list_item",
@@ -1246,7 +1083,7 @@
         517.85,
         289.1
       ],
-      "id": "block-84"
+      "id": "block-72"
     },
     {
       "type": "list_item",
@@ -1260,7 +1097,7 @@
         517.85,
         339.14
       ],
-      "id": "block-85"
+      "id": "block-73"
     },
     {
       "type": "heading",
@@ -1273,12 +1110,12 @@
         518.37,
         364.1
       ],
-      "id": "block-86"
+      "id": "block-74"
     },
     {
       "type": "paragraph",
       "depth": 6,
-      "text": "是一種基於概率生成模型的",
+      "text": "是一種基於概率生成模型的技術，透過將數據映射到隱變量空間（Latent Space）並重建原始數據來學習數據的潛在結構。在數據生成、重建和異常檢測中有著廣泛的應用。",
       "pageIndex": 58,
       "bbox": [
         70.24,
@@ -1286,21 +1123,7 @@
         518.37,
         364.1
       ],
-      "id": "block-87"
-    },
-    {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "技術，透過將數據映射到隱變量空間（Latent Space）並重建原始數據來學習數據的潛在結構。在數據生成、重建和異常檢測中有著廣泛的應用。",
-      "pageIndex": 58,
-      "bbox": [
-        105.64,
-        375.89,
-        518.37,
-        414.14
-      ],
-      "indentFirstLine": false,
-      "id": "block-88"
+      "id": "block-75"
     },
     {
       "type": "list_item",
@@ -1314,7 +1137,7 @@
         518.35,
         439.1
       ],
-      "id": "block-89"
+      "id": "block-76"
     },
     {
       "type": "paragraph",
@@ -1327,7 +1150,7 @@
         518.35,
         439.1
       ],
-      "id": "block-90"
+      "id": "block-77"
     },
     {
       "type": "list_item",
@@ -1341,7 +1164,7 @@
         524.76,
         489.16
       ],
-      "id": "block-91"
+      "id": "block-78"
     },
     {
       "type": "list_item",
@@ -1355,7 +1178,7 @@
         518.34,
         539.2
       ],
-      "id": "block-92"
+      "id": "block-79"
     },
     {
       "type": "list_item",
@@ -1369,7 +1192,7 @@
         517.85,
         589.12
       ],
-      "id": "block-93"
+      "id": "block-80"
     },
     {
       "type": "list_item",
@@ -1383,7 +1206,7 @@
         191.83,
         614.2
       ],
-      "id": "block-94"
+      "id": "block-81"
     },
     {
       "type": "list_item",
@@ -1397,7 +1220,7 @@
         517.85,
         664.15
       ],
-      "id": "block-95"
+      "id": "block-82"
     },
     {
       "type": "list_item",
@@ -1411,7 +1234,7 @@
         517.85,
         714.19
       ],
-      "id": "block-96"
+      "id": "block-83"
     },
     {
       "type": "list_item",
@@ -1425,7 +1248,7 @@
         517.85,
         764.22
       ],
-      "id": "block-97"
+      "id": "block-84"
     },
     {
       "type": "list_item",
@@ -1439,7 +1262,7 @@
         517.85,
         139.07
       ],
-      "id": "block-98"
+      "id": "block-85"
     },
     {
       "type": "heading",
@@ -1452,12 +1275,12 @@
         518.35,
         164.15
       ],
-      "id": "block-99"
+      "id": "block-86"
     },
     {
       "type": "paragraph",
       "depth": 6,
-      "text": "是一種基於逐步添加與去除雜訊的數據生成方",
+      "text": "是一種基於逐步添加與去除雜訊的數據生成方法，特別適合於高維度的數據生成任務。這種模型透過反向擴散過程逐步將隨機雜訊轉換為真實數據，使得生成數據更具真實性與細膩度。",
       "pageIndex": 59,
       "bbox": [
         70.24,
@@ -1465,21 +1288,7 @@
         518.35,
         164.15
       ],
-      "id": "block-100"
-    },
-    {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "法，特別適合於高維度的數據生成任務。這種模型透過反向擴散過程逐步將隨機雜訊轉換為真實數據，使得生成數據更具真實性與細膩度。",
-      "pageIndex": 59,
-      "bbox": [
-        105.64,
-        176.9,
-        518.28,
-        214.07
-      ],
-      "indentFirstLine": false,
-      "id": "block-101"
+      "id": "block-87"
     },
     {
       "type": "list_item",
@@ -1493,7 +1302,7 @@
         166.6,
         239.15
       ],
-      "id": "block-102"
+      "id": "block-88"
     },
     {
       "type": "list_item",
@@ -1507,7 +1316,7 @@
         517.85,
         289.1
       ],
-      "id": "block-103"
+      "id": "block-89"
     },
     {
       "type": "list_item",
@@ -1521,7 +1330,7 @@
         517.85,
         339.14
       ],
-      "id": "block-104"
+      "id": "block-90"
     },
     {
       "type": "list_item",
@@ -1535,7 +1344,7 @@
         191.83,
         364.1
       ],
-      "id": "block-105"
+      "id": "block-91"
     },
     {
       "type": "list_item",
@@ -1549,7 +1358,7 @@
         517.85,
         414.14
       ],
-      "id": "block-106"
+      "id": "block-92"
     },
     {
       "type": "list_item",
@@ -1563,7 +1372,7 @@
         517.85,
         464.2
       ],
-      "id": "block-107"
+      "id": "block-93"
     },
     {
       "type": "list_item",
@@ -1577,7 +1386,7 @@
         518.02,
         530.8
       ],
-      "id": "block-108"
+      "id": "block-94"
     },
     {
       "type": "heading",
@@ -1590,7 +1399,7 @@
         296.59,
         555.52
       ],
-      "id": "block-109"
+      "id": "block-95"
     },
     {
       "type": "paragraph",
@@ -1604,7 +1413,7 @@
         655.51
       ],
       "indentFirstLine": false,
-      "id": "block-110"
+      "id": "block-96"
     },
     {
       "type": "heading",
@@ -1617,7 +1426,7 @@
         148.84,
         696.79
       ],
-      "id": "block-111"
+      "id": "block-97"
     },
     {
       "type": "list_item",
@@ -1631,7 +1440,7 @@
         517.87,
         771.78
       ],
-      "id": "block-112"
+      "id": "block-98"
     },
     {
       "type": "list_item",
@@ -1645,7 +1454,7 @@
         518.67,
         164.15
       ],
-      "id": "block-113"
+      "id": "block-99"
     },
     {
       "type": "heading",
@@ -1658,7 +1467,7 @@
         148.84,
         214.07
       ],
-      "id": "block-114"
+      "id": "block-100"
     },
     {
       "type": "list_item",
@@ -1672,7 +1481,7 @@
         518.4,
         264.14
       ],
-      "id": "block-115"
+      "id": "block-101"
     },
     {
       "type": "list_item",
@@ -1686,7 +1495,7 @@
         518.04,
         314.18
       ],
-      "id": "block-116"
+      "id": "block-102"
     },
     {
       "type": "heading",
@@ -1699,7 +1508,7 @@
         148.84,
         364.1
       ],
-      "id": "block-117"
+      "id": "block-103"
     },
     {
       "type": "paragraph",
@@ -1713,7 +1522,7 @@
         389.18
       ],
       "indentFirstLine": true,
-      "id": "block-118"
+      "id": "block-104"
     },
     {
       "type": "list_item",
@@ -1727,7 +1536,7 @@
         331.65,
         414.14
       ],
-      "id": "block-119"
+      "id": "block-105"
     },
     {
       "type": "list_item",
@@ -1741,7 +1550,7 @@
         256.03,
         439.1
       ],
-      "id": "block-120"
+      "id": "block-106"
     },
     {
       "type": "list_item",
@@ -1755,7 +1564,7 @@
         331.65,
         464.2
       ],
-      "id": "block-121"
+      "id": "block-107"
     },
     {
       "type": "list_item",
@@ -1769,7 +1578,7 @@
         331.65,
         489.16
       ],
-      "id": "block-122"
+      "id": "block-108"
     },
     {
       "type": "list_item",
@@ -1783,7 +1592,7 @@
         376.41,
         539.2
       ],
-      "id": "block-123"
+      "id": "block-109"
     },
     {
       "type": "list_item",
@@ -1797,7 +1606,7 @@
         433.65,
         564.16
       ],
-      "id": "block-124"
+      "id": "block-110"
     },
     {
       "type": "list_item",
@@ -1811,7 +1620,7 @@
         344.25,
         589.12
       ],
-      "id": "block-125"
+      "id": "block-111"
     },
     {
       "type": "list_item",
@@ -1825,7 +1634,7 @@
         470.28,
         614.2
       ],
-      "id": "block-126"
+      "id": "block-112"
     },
     {
       "type": "list_item",
@@ -1839,7 +1648,7 @@
         373.77,
         639.19
       ],
-      "id": "block-127"
+      "id": "block-113"
     },
     {
       "type": "heading",
@@ -1852,7 +1661,7 @@
         148.84,
         689.23
       ],
-      "id": "block-128"
+      "id": "block-114"
     },
     {
       "type": "paragraph",
@@ -1866,7 +1675,7 @@
         714.19
       ],
       "indentFirstLine": true,
-      "id": "block-129"
+      "id": "block-115"
     },
     {
       "type": "list_item",
@@ -1880,7 +1689,7 @@
         518.11,
         764.22
       ],
-      "id": "block-130"
+      "id": "block-116"
     },
     {
       "type": "list_item",
@@ -1894,7 +1703,7 @@
         518.07,
         139.07
       ],
-      "id": "block-131"
+      "id": "block-117"
     },
     {
       "type": "list_item",
@@ -1908,7 +1717,7 @@
         518.28,
         205.67
       ],
-      "id": "block-132"
+      "id": "block-118"
     },
     {
       "type": "list_item",
@@ -1922,7 +1731,7 @@
         262.99,
         230.39
       ],
-      "id": "block-133"
+      "id": "block-119"
     },
     {
       "type": "list_item",
@@ -1936,7 +1745,7 @@
         518.23,
         280.46
       ],
-      "id": "block-134"
+      "id": "block-120"
     },
     {
       "type": "list_item",
@@ -1950,7 +1759,7 @@
         517.96,
         330.5
       ],
-      "id": "block-135"
+      "id": "block-121"
     },
     {
       "type": "list_item",
@@ -1964,12 +1773,25 @@
         518.25,
         380.42
       ],
-      "id": "block-136"
+      "id": "block-122"
+    },
+    {
+      "type": "heading",
+      "depth": 3,
+      "title": "2. 鑑別式 AI 與生成式 AI 的整合應用",
+      "pageIndex": 61,
+      "bbox": [
+        76.6,
+        416.02,
+        90.67,
+        431.03
+      ],
+      "id": "block-123"
     },
     {
       "type": "paragraph",
       "depth": 6,
-      "text": "AI AI 鑑別式AI 與生成式AI 是人工智慧技術的重要支柱，兩者在目標與技術層面各具特色，但整合兩者的優勢已成為人工智慧未來發展的重要趨勢。透過協同應用，整合能更有效地解決數據生成、分類預測、模型泛化等多層次問題，進而推動技術創新與產業落地，特別是在醫療、交通、金融、教育等領域逐漸展現出突破性的技術價值。",
+      "text": "鑑別式AI 與生成式AI 是人工智慧技術的重要支柱，兩者在目標與技術層面各具特色，但整合兩者的優勢已成為人工智慧未來發展的重要趨勢。透過協同應用，整合能更有效地解決數據生成、分類預測、模型泛化等多層次問題，進而推動技術創新與產業落地，特別是在醫療、交通、金融、教育等領域逐漸展現出突破性的技術價值。",
       "pageIndex": 61,
       "bbox": [
         76.6,
@@ -1978,7 +1800,7 @@
         555.52
       ],
       "indentFirstLine": true,
-      "id": "block-137"
+      "id": "block-124"
     },
     {
       "type": "heading",
@@ -1991,7 +1813,7 @@
         193.15,
         605.44
       ],
-      "id": "block-138"
+      "id": "block-125"
     },
     {
       "type": "heading",
@@ -2004,13 +1826,13 @@
         249.79,
         630.55
       ],
-      "id": "block-139"
+      "id": "block-126"
     },
     {
       "type": "paragraph",
       "depth": 6,
-      "text": "生成式AI 的數據生成能力與鑑別式AI 的分類預測能力相輔相成，形成一個高效且協同的數據處理體系。生成式AI 能夠模擬真實數據分佈，創造出多樣化且逼真的數據樣本，解決數據稀缺、數據不平衡等問題，而鑑別式AI 則能進一步對這些數據進行分類、預測與分析。例如，在醫療影像分析中，真實病理影像數據稀缺一直是模型訓練的一大瓶頸。生成式AI，特別是生成對抗網路（GAN），可",
-      "pageIndex": 61,
+      "text": "生成式AI 的數據生成能力與鑑別式AI 的分類預測能力相輔相成，形成一個高效且協同的數據處理體系。生成式AI 能夠模擬真實數據分佈，創造出多樣化且逼真的數據樣本，解決數據稀缺、數據不平衡等問題，而鑑別式AI 則能進一步對這些數據進行分類、預測與分析。例如，在醫療影像分析中，真實病理影像數據稀缺一直是模型訓練的一大瓶頸。生成式AI，特別是生成對抗網路（GAN），可以生成高品質的病變模擬影像，這些生成的影像可以被鑑別式AI 模型用於訓練，提高模型識別腫瘤、病灶等異常特徵的能力。這不僅解決了數據不足的問題，還能提高模型的泛化（Generalization）效能和準確率。此外，在金融風險評估中，生成式AI 可以模擬不同市場條件下的交易場景，生成大量符合真實情境的金融數據，幫助鑑別式AI 更全面地評估潛在的市場風險，進而提供更為可靠的預測結果。",
+      "pageIndex": 62,
       "bbox": [
         76.6,
         642.22,
@@ -2018,21 +1840,7 @@
         755.46
       ],
       "indentFirstLine": true,
-      "id": "block-140"
-    },
-    {
-      "type": "paragraph",
-      "depth": 6,
-      "text": "以生成高品質的病變模擬影像，這些生成的影像可以被鑑別式AI 模型用於訓練，提高模型識別腫瘤、病灶等異常特徵的能力。這不僅解決了數據不足的問題，還能提高模型的泛化（Generalization）效能和準確率。此外，在金融風險評估中，生成式AI 可以模擬不同市場條件下的交易場景，生成大量符合真實情境的金融數據，幫助鑑別式AI 更全面地評估潛在的市場風險，進而提供更為可靠的預測結果。",
-      "pageIndex": 62,
-      "bbox": [
-        76.6,
-        100.82,
-        521.43,
-        239.15
-      ],
-      "indentFirstLine": false,
-      "id": "block-141"
+      "id": "block-127"
     },
     {
       "type": "heading",
@@ -2045,7 +1853,7 @@
         237.19,
         289.1
       ],
-      "id": "block-142"
+      "id": "block-128"
     },
     {
       "type": "paragraph",
@@ -2059,7 +1867,7 @@
         414.14
       ],
       "indentFirstLine": true,
-      "id": "block-143"
+      "id": "block-129"
     },
     {
       "type": "paragraph",
@@ -2073,7 +1881,7 @@
         564.16
       ],
       "indentFirstLine": true,
-      "id": "block-144"
+      "id": "block-130"
     },
     {
       "type": "heading",
@@ -2086,7 +1894,7 @@
         211.99,
         614.2
       ],
-      "id": "block-145"
+      "id": "block-131"
     },
     {
       "type": "paragraph",
@@ -2100,7 +1908,7 @@
         689.23
       ],
       "indentFirstLine": true,
-      "id": "block-146"
+      "id": "block-132"
     },
     {
       "type": "list_item",
@@ -2114,7 +1922,7 @@
         518.35,
         764.22
       ],
-      "id": "block-147"
+      "id": "block-133"
     },
     {
       "type": "list_item",
@@ -2128,7 +1936,7 @@
         518.26,
         189.11
       ],
-      "id": "block-148"
+      "id": "block-134"
     },
     {
       "type": "heading",
@@ -2141,7 +1949,7 @@
         218.35,
         239.15
       ],
-      "id": "block-149"
+      "id": "block-135"
     },
     {
       "type": "heading",
@@ -2154,7 +1962,7 @@
         224.59,
         264.14
       ],
-      "id": "block-150"
+      "id": "block-136"
     },
     {
       "type": "paragraph",
@@ -2168,7 +1976,7 @@
         289.1
       ],
       "indentFirstLine": true,
-      "id": "block-151"
+      "id": "block-137"
     },
     {
       "type": "paragraph",
@@ -2182,7 +1990,7 @@
         339.14
       ],
       "indentFirstLine": false,
-      "id": "block-152"
+      "id": "block-138"
     },
     {
       "type": "list_item",
@@ -2196,7 +2004,7 @@
         518.35,
         414.14
       ],
-      "id": "block-153"
+      "id": "block-139"
     },
     {
       "type": "list_item",
@@ -2210,7 +2018,7 @@
         518.25,
         489.16
       ],
-      "id": "block-154"
+      "id": "block-140"
     },
     {
       "type": "heading",
@@ -2223,7 +2031,7 @@
         262.39,
         539.2
       ],
-      "id": "block-155"
+      "id": "block-141"
     },
     {
       "type": "paragraph",
@@ -2237,7 +2045,7 @@
         589.12
       ],
       "indentFirstLine": true,
-      "id": "block-156"
+      "id": "block-142"
     },
     {
       "type": "list_item",
@@ -2251,7 +2059,7 @@
         518.15,
         639.19
       ],
-      "id": "block-157"
+      "id": "block-143"
     },
     {
       "type": "list_item",
@@ -2265,7 +2073,7 @@
         521.28,
         689.23
       ],
-      "id": "block-158"
+      "id": "block-144"
     },
     {
       "type": "heading",
@@ -2278,7 +2086,7 @@
         224.59,
         739.15
       ],
-      "id": "block-159"
+      "id": "block-145"
     },
     {
       "type": "paragraph",
@@ -2292,7 +2100,7 @@
         764.22
       ],
       "indentFirstLine": true,
-      "id": "block-160"
+      "id": "block-146"
     },
     {
       "type": "list_item",
@@ -2306,7 +2114,7 @@
         518.16,
         164.15
       ],
-      "id": "block-161"
+      "id": "block-147"
     },
     {
       "type": "list_item",
@@ -2320,7 +2128,7 @@
         518.28,
         214.07
       ],
-      "id": "block-162"
+      "id": "block-148"
     },
     {
       "type": "heading",
@@ -2333,7 +2141,7 @@
         256.15,
         264.14
       ],
-      "id": "block-163"
+      "id": "block-149"
     },
     {
       "type": "heading",
@@ -2346,7 +2154,7 @@
         186.76,
         289.1
       ],
-      "id": "block-164"
+      "id": "block-150"
     },
     {
       "type": "paragraph",
@@ -2360,7 +2168,7 @@
         389.18
       ],
       "indentFirstLine": true,
-      "id": "block-165"
+      "id": "block-151"
     },
     {
       "type": "heading",
@@ -2373,7 +2181,7 @@
         199.39,
         439.1
       ],
-      "id": "block-166"
+      "id": "block-152"
     },
     {
       "type": "paragraph",
@@ -2387,7 +2195,7 @@
         514.12
       ],
       "indentFirstLine": true,
-      "id": "block-167"
+      "id": "block-153"
     },
     {
       "type": "heading",
@@ -2400,7 +2208,7 @@
         224.59,
         564.16
       ],
-      "id": "block-168"
+      "id": "block-154"
     },
     {
       "type": "paragraph",
@@ -2414,7 +2222,7 @@
         664.15
       ],
       "indentFirstLine": true,
-      "id": "block-169"
+      "id": "block-155"
     },
     {
       "type": "heading",
@@ -2427,7 +2235,7 @@
         294.43,
         162.59
       ],
-      "id": "block-170"
+      "id": "block-156"
     },
     {
       "type": "question",
@@ -2437,10 +2245,10 @@
       "bbox": [
         76.6,
         149.3,
-        294.43,
-        162.59
+        307.03,
+        287.06
       ],
-      "id": "block-171"
+      "id": "block-157"
     },
     {
       "type": "question",
@@ -2449,11 +2257,11 @@
       "pageIndex": 65,
       "bbox": [
         76.6,
-        149.3,
-        294.43,
-        162.59
+        174.26,
+        395.25,
+        411.62
       ],
-      "id": "block-172"
+      "id": "block-158"
     },
     {
       "type": "question",
@@ -2462,11 +2270,11 @@
       "pageIndex": 65,
       "bbox": [
         76.6,
-        149.3,
-        294.43,
-        162.59
+        398.33,
+        395.25,
+        536.08
       ],
-      "id": "block-173"
+      "id": "block-159"
     },
     {
       "type": "question",
@@ -2475,11 +2283,11 @@
       "pageIndex": 65,
       "bbox": [
         76.6,
-        149.3,
-        294.43,
-        162.59
+        423.29,
+        364.77,
+        660.67
       ],
-      "id": "block-174"
+      "id": "block-160"
     },
     {
       "type": "question",
@@ -2488,11 +2296,11 @@
       "pageIndex": 65,
       "bbox": [
         76.6,
-        149.3,
-        294.43,
-        162.59
+        547.75,
+        329.13,
+        760.62
       ],
-      "id": "block-175"
+      "id": "block-161"
     },
     {
       "type": "question",
@@ -2501,11 +2309,11 @@
       "pageIndex": 66,
       "bbox": [
         76.6,
-        149.3,
-        294.43,
-        162.59
+        100.34,
+        477.84,
+        238.19
       ],
-      "id": "block-176"
+      "id": "block-162"
     },
     {
       "type": "question",
@@ -2514,11 +2322,11 @@
       "pageIndex": 66,
       "bbox": [
         76.6,
-        149.3,
-        294.43,
-        162.59
+        125.3,
+        400.89,
+        362.66
       ],
-      "id": "block-177"
+      "id": "block-163"
     },
     {
       "type": "question",
@@ -2527,11 +2335,11 @@
       "pageIndex": 66,
       "bbox": [
         76.6,
-        149.3,
-        294.43,
-        162.59
+        249.89,
+        458.28,
+        487.24
       ],
-      "id": "block-178"
+      "id": "block-164"
     },
     {
       "type": "question",
@@ -2540,11 +2348,11 @@
       "pageIndex": 66,
       "bbox": [
         76.6,
-        149.3,
-        294.43,
-        162.59
+        374.33,
+        458.28,
+        612.16
       ],
-      "id": "block-179"
+      "id": "block-165"
     },
     {
       "type": "question",
@@ -2553,11 +2361,11 @@
       "pageIndex": 66,
       "bbox": [
         76.6,
-        149.3,
-        294.43,
-        162.59
+        498.91,
+        389.61,
+        712.15
       ],
-      "id": "block-180"
+      "id": "block-166"
     },
     {
       "type": "answer",
@@ -2567,10 +2375,10 @@
       "bbox": [
         76.6,
         149.3,
-        294.43,
-        162.59
+        518.14,
+        236.03
       ],
-      "id": "block-181",
+      "id": "block-167",
       "formulas": [
         {
           "latex": "\\underline{\\text{Ans (C)}}",
@@ -2585,11 +2393,11 @@
       "pageIndex": 67,
       "bbox": [
         76.6,
-        149.3,
-        294.43,
-        162.59
+        222.74,
+        519.19,
+        309.62
       ],
-      "id": "block-182"
+      "id": "block-168"
     },
     {
       "type": "answer",
@@ -2598,11 +2406,11 @@
       "pageIndex": 67,
       "bbox": [
         76.6,
-        149.3,
-        294.43,
-        162.59
+        296.33,
+        518.23,
+        383.06
       ],
-      "id": "block-183"
+      "id": "block-169"
     },
     {
       "type": "answer",
@@ -2611,11 +2419,11 @@
       "pageIndex": 67,
       "bbox": [
         76.6,
-        149.3,
-        294.43,
-        162.59
+        369.77,
+        521.4,
+        456.64
       ],
-      "id": "block-184"
+      "id": "block-170"
     },
     {
       "type": "answer",
@@ -2624,11 +2432,11 @@
       "pageIndex": 67,
       "bbox": [
         76.6,
-        149.3,
-        294.43,
-        162.59
+        443.35,
+        518.21,
+        530.08
       ],
-      "id": "block-185"
+      "id": "block-171"
     },
     {
       "type": "answer",
@@ -2637,11 +2445,11 @@
       "pageIndex": 67,
       "bbox": [
         76.6,
-        149.3,
-        294.43,
-        162.59
+        516.79,
+        518.14,
+        603.64
       ],
-      "id": "block-186"
+      "id": "block-172"
     },
     {
       "type": "answer",
@@ -2650,11 +2458,11 @@
       "pageIndex": 67,
       "bbox": [
         76.6,
-        149.3,
-        294.43,
-        162.59
+        590.35,
+        521.88,
+        652.63
       ],
-      "id": "block-187"
+      "id": "block-173"
     },
     {
       "type": "answer",
@@ -2663,11 +2471,11 @@
       "pageIndex": 67,
       "bbox": [
         76.6,
-        149.3,
-        294.43,
-        162.59
+        639.34,
+        518.37,
+        726.07
       ],
-      "id": "block-188"
+      "id": "block-174"
     },
     {
       "type": "answer",
@@ -2676,11 +2484,11 @@
       "pageIndex": 67,
       "bbox": [
         76.6,
-        149.3,
-        294.43,
-        162.59
+        712.78,
+        518.23,
+        775.14
       ],
-      "id": "block-189"
+      "id": "block-175"
     },
     {
       "type": "answer",
@@ -2689,11 +2497,11 @@
       "pageIndex": 68,
       "bbox": [
         76.6,
-        149.3,
-        294.43,
-        162.59
+        100.82,
+        518.2,
+        164.15
       ],
-      "id": "block-190"
+      "id": "block-176"
     },
     {
       "type": "heading",
@@ -2706,7 +2514,7 @@
         521.37,
         63.37
       ],
-      "id": "block-191"
+      "id": "block-177"
     },
     {
       "type": "table",
@@ -2785,7 +2593,7 @@
         523.4,
         645.28
       ],
-      "id": "block-192",
+      "id": "block-178",
       "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th>書名</th>\n<th>作者</th>\n<th>出版社</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>大數據分析與資料挖礦 2/e</td>\n<td>簡禎富、許嘉裕</td>\n<td>前程文化</td>\n</tr>\n<tr>\n<td>圖解 AI | 機器學習和深度學習的技術與原理</td>\n<td>株式会社アイデミー，<br />山口達輝，松田洋之著<br />衛宮紘 譯</td>\n<td>碁峰</td>\n</tr>\n<tr>\n<td>精通機器學習 | 使用 Scikit-Learn, Keras 與 TensorFlow, 2/e ( Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow, 2/e )</td>\n<td>Aurélien Géron 著<br />賴屹民 譯</td>\n<td>歐萊禮</td>\n</tr>\n<tr>\n<td>數位治理韌性、AI、規管</td>\n<td>彭芸、葉志良（主編）</td>\n<td>翰蘆圖書</td>\n</tr>\n<tr>\n<td>行政院及所屬機關（構）使用生成式 AI 參考指引（草案）</td>\n<td>行政院</td>\n<td></td>\n</tr>\n<tr>\n<td>金融機構運用人工智慧技術作業規範</td>\n<td>金融業務電子化委員會<br />113 年 3 月版</td>\n<td></td>\n</tr>\n<tr>\n<td>人工智慧科研發展指引</td>\n<td>科技部（現為國科會）<br />108 年 9 月版</td>\n<td></td>\n</tr>\n<tr>\n<td>臺北市政府使用人工智慧作業指引</td>\n<td>臺北市政府<br />113 年 9 月版</td>\n<td></td>\n</tr>\n<tr>\n<td>AI 自動化流程超 Easy: 不寫程式 No code 也能聰明幹大事</td>\n<td>施威銘研究室</td>\n<td>旗標</td>\n</tr>\n<tr>\n<td>Digital Transformation Agency of Australian Government, Interim guidance on government use of public generative AI tools</td>\n<td>November 2023, Australian Government Architecture (Nov. 22, 2023)</td>\n<td></td>\n</tr>\n<tr>\n<td>Cabinet Office of UK, Guidance to Civil Servants on Use of Generative AI</td>\n<td>GOV.UK<br />( Nov. 22, 2023 )</td>\n<td></td>\n</tr>\n<tr>\n<td>Generative AI Guidelines</td>\n<td>City of San Jose<br />( Sept.23, 2023 )</td>\n<td></td>\n</tr>\n</tbody>\n</table>"
     }
   ]

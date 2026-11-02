@@ -2137,6 +2137,79 @@ def split_numbered_exercise_segments(text: str, answer_mode: bool = False) -> li
     return segments
 
 
+def exercise_segment_source_meta(
+    parts: list[str],
+    sources: list[dict],
+    segments: list[str],
+    answer_mode: bool,
+    fallback: dict,
+) -> list[dict]:
+    """Per-segment pageIndex/sourcePageIndexes/bbox from the source lines.
+
+    ``split_numbered_exercise_segments`` cuts the normalized concatenation of
+    ``parts``; map every cut back to the source blocks it overlaps so each
+    question/answer carries its own page and bbox instead of question 1's
+    (2026-11-02 review).  The page is the first overlapped source block's
+    page; the bbox is the union of overlapped blocks on that page.  If the
+    offsets cannot be mapped exactly (prefix normalization drift or a
+    segment count mismatch) every segment keeps ``fallback``.
+    """
+    if not segments:
+        return []
+    fallback_meta = [dict(fallback) for _ in segments]
+    full = block_text(' '.join(parts))
+    if not full or len(parts) != len(sources):
+        return fallback_meta
+    # Normalized end offset of each part within ``full``.
+    ends: list[int] = []
+    for index in range(len(parts)):
+        prefix = block_text(' '.join(parts[:index + 1]))
+        if not full.startswith(prefix):
+            return fallback_meta
+        ends.append(len(prefix))
+    if answer_mode:
+        pattern = re.compile(r'(?<!\d)(\d{1,3})\.\s*Ans')
+    else:
+        pattern = re.compile(r'(?<!\d)(\d{1,3})\.\s+(?!Ans)')
+    starts = [match.start() for match in pattern.finditer(full)]
+    if not starts:
+        starts = [0]
+    if len(starts) != len(segments):
+        return fallback_meta
+    bounds = starts[1:] + [len(full)]
+    metas: list[dict] = []
+    for seg_start, seg_end in zip(starts, bounds):
+        covered = []
+        part_start = 0
+        for index, part_end in enumerate(ends):
+            if part_start < seg_end and seg_start < part_end:
+                covered.append(sources[index])
+            part_start = part_end
+        paged = [block for block in covered if isinstance(block.get('pageIndex'), int)]
+        if not paged:
+            metas.append(dict(fallback))
+            continue
+        page = paged[0]['pageIndex']
+        boxes = [
+            block.get('bbox') for block in paged
+            if block.get('pageIndex') == page
+            and isinstance(block.get('bbox'), list) and len(block.get('bbox')) == 4
+        ]
+        bbox = (
+            [min(box[0] for box in boxes), min(box[1] for box in boxes),
+             max(box[2] for box in boxes), max(box[3] for box in boxes)]
+            if boxes else fallback.get('bbox')
+        )
+        pages = sorted({
+            page_index
+            for block in covered
+            for page_index in [block.get('pageIndex')] + list(block.get('sourcePageIndexes') or [])
+            if isinstance(page_index, int)
+        })
+        metas.append({'pageIndex': page, 'sourcePageIndexes': pages, 'bbox': bbox})
+    return metas
+
+
 def normalize_chapter_exercise_blocks(blocks: list[dict]) -> list[dict]:
     """Re-split chapter exercises that PDF extraction merged into option paragraphs."""
     normalized: list[dict] = []
@@ -2176,6 +2249,8 @@ def normalize_chapter_exercise_blocks(blocks: list[dict]) -> list[dict]:
             )
             if isinstance(page_index, int)
         })
+        question_sources: list[dict] = []
+        answer_sources: list[dict] = []
         for exercise_block in exercise_blocks:
             text = exercise_block.get('text') or exercise_block.get('title') or ''
             if not text:
@@ -2184,27 +2259,27 @@ def normalize_chapter_exercise_blocks(blocks: list[dict]) -> list[dict]:
                 answer_started = True
             if answer_started:
                 answer_parts.append(text)
+                answer_sources.append(exercise_block)
             else:
                 question_parts.append(text)
+                question_sources.append(exercise_block)
 
-        for segment in split_numbered_exercise_segments(' '.join(question_parts), answer_mode=False):
-            normalized.append({
-                'type': 'question',
-                'depth': 4,
-                'text': segment,
-                'pageIndex': first_meta['pageIndex'],
-                'sourcePageIndexes': source_page_indexes,
-                'bbox': first_meta['bbox'],
-            })
-        for segment in split_numbered_exercise_segments(' '.join(answer_parts), answer_mode=True):
-            normalized.append({
-                'type': 'answer',
-                'depth': 4,
-                'text': segment,
-                'pageIndex': first_meta['pageIndex'],
-                'sourcePageIndexes': source_page_indexes,
-                'bbox': first_meta['bbox'],
-            })
+        fallback_meta = {**first_meta, 'sourcePageIndexes': source_page_indexes}
+        for block_type, parts, sources, answer_mode in (
+            ('question', question_parts, question_sources, False),
+            ('answer', answer_parts, answer_sources, True),
+        ):
+            segments = split_numbered_exercise_segments(' '.join(parts), answer_mode=answer_mode)
+            metas = exercise_segment_source_meta(parts, sources, segments, answer_mode, fallback_meta)
+            for segment, meta in zip(segments, metas):
+                normalized.append({
+                    'type': block_type,
+                    'depth': 4,
+                    'text': segment,
+                    'pageIndex': meta['pageIndex'],
+                    'sourcePageIndexes': meta['sourcePageIndexes'],
+                    'bbox': meta['bbox'],
+                })
         if appendix_blocks:
             first = dict(appendix_blocks[0])
             appendix_title = first.get('text') or first.get('title') or ''

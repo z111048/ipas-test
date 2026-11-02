@@ -14,6 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from scripts.learning.publication import load_candidate, validate_reviews  # noqa: E402
 from scripts.learning.references import ReferenceResolver  # noqa: E402
 from scripts.verify_learning_labs import independently_check_metrics, verify  # noqa: E402
 
@@ -46,7 +47,36 @@ class LearningLabTests(unittest.TestCase):
             self.assertEqual(resolver.validate(kind, document), [], path)
             if "status" in document:
                 self.assertEqual(document["status"], "in_review")
-                self.assertEqual(document.get("reviewIds"), [])
+
+    def test_authored_review_ids_bind_current_content_and_pass_policy(self):
+        """Every declared reviewId resolves and binds this exact revision/hash.
+
+        Non-lab entities must fully satisfy the review policy; labs are only
+        allowed to lack the human L5 Colab smoke review, so they are checked
+        for binding but not for a clean policy result.
+        """
+        candidate = load_candidate(ROOT, assessment_at="2026-09-07T12:00:00Z")
+        self.assertEqual(candidate.issues, [])
+        resolver = candidate.resolver
+        policy = resolver.read_json("content/learning/review-policy.json")
+        reviews = {identity: payload for (kind, identity, _), payload in candidate.documents.items()
+                   if kind == "review"}
+        checked = 0
+        for (kind, identity, revision), document in candidate.documents.items():
+            if kind not in {"learning-unit", "project", "lab"} or "status" not in document:
+                continue
+            for review_id in document.get("reviewIds", []):
+                with self.subTest(entity=identity, review=review_id):
+                    self.assertIn(review_id, reviews)
+                    subject = reviews[review_id]["subject"]
+                    self.assertEqual(subject["id"], identity)
+                    self.assertEqual(subject["revision"], revision)
+                    self.assertEqual(subject["hash"], document["contentHash"])
+                    checked += 1
+            if kind != "lab":
+                with self.subTest(entity=identity, policy=True):
+                    self.assertEqual(validate_reviews(kind, document, resolver, policy), [])
+        self.assertGreater(checked, 0)
 
     def test_fixture_and_split_contract(self):
         directory = ROOT / "notebooks/labs/lab-imbalanced-classification/fixtures"
