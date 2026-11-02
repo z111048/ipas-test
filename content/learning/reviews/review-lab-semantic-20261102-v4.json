@@ -1,0 +1,123 @@
+{
+  "id": "review-lab-semantic-20261102-v4",
+  "subject": {
+    "kind": "lab",
+    "id": "lab-imbalanced-classification",
+    "revision": 1,
+    "hash": "sha256:6aeb2aeb2702ef5044f2b1144328252750eec6e36b418b7d5f8a3c9cb28aaa36"
+  },
+  "dependencyHashes": [
+    "sha256:73b75b70c1accf32dd89c35f003708dbedcbd9ee238c01a98c1ffd1866307bab",
+    "sha256:9cad43d95be4c76e527bf3cecc8ff6c470ac313125c8ef146cd8444710a91f00",
+    "sha256:c6db9b752a39e85e48ddf13131eafc31ca1320c74bb171582ef49d8a58ad41ee",
+    "sha256:cf2f0121d697bcaebe777a8142c3ce18f3b252ac4a2121d96b920935350ed7f8",
+    "sha256:ec7cfde721e6728e913a0b0f8bd52aea2f10bbf0eb6fe69a9eae0a5b73959f8f",
+    "sha256:f314aa80b30f55e3c3873871f2b6abe4c8248ef39c9620f6f9d8b1943d251de5"
+  ],
+  "rubricVersion": "mvp-review-v1",
+  "reviewerId": "agent-ds1017",
+  "reviewerRole": "independent_model",
+  "authorId": "agent-claude-code",
+  "responsibility": "domain_content",
+  "qualification": {
+    "scope": [
+      "mvp-domain-content",
+      "mvp-source-contract"
+    ],
+    "evidenceIds": [
+      "evidence-guide-hash-rebind-20261102-delegation"
+    ],
+    "grantedBy": "maintainer",
+    "grantedAt": "2026-11-02T00:00:00Z"
+  },
+  "evidenceRefs": [
+    {
+      "id": "evidence-guide-anchor-migration-20261102-delegation",
+      "revision": 1,
+      "hash": "sha256:0c9f84ffa777b0732b7b86ec7e17a6dfcc403eaf067690cf7ba1fa2bef1e3ae0"
+    },
+    {
+      "id": "evidence-guide-anchor-migration-20261102-diff",
+      "revision": 1,
+      "hash": "sha256:eb6df5b3ed1fe2cdec4b7d4e5b80e7e3a34b28d34f70881032adbfbba6d29e96"
+    },
+    {
+      "id": "evidence-guide-hash-rebind-20261102-delegation",
+      "revision": 1,
+      "hash": "sha256:2a20b8d30cbbefeb50905410b22837c77d2a385ae7244b098ed2b8b6e5df160e"
+    },
+    {
+      "id": "evidence-guide-hash-rebind-20261102-diff",
+      "revision": 1,
+      "hash": "sha256:36733b252abc1a0f6a948532f76191eb9096b278d1a40a7739e9cc26f36e8e3e"
+    },
+    {
+      "id": "evidence-lab-author-execution",
+      "revision": 1,
+      "hash": "sha256:7fb884f4f70dce969a7da09e018feb7120cd3af583896b01e2bf8e110487beaa"
+    },
+    {
+      "id": "evidence-lab-independent-probes",
+      "revision": 1,
+      "hash": "sha256:5125c378a2df85c0563a6184e169834ffaabbe8f5cd7ab271bc0fe4c76cf71e2"
+    },
+    {
+      "id": "evidence-lab-semantic-delegation",
+      "revision": 1,
+      "hash": "sha256:7cafffc714e4382329bc107368abd8b2f237a30d3fe86a2d5d95d3f53b8edb0c"
+    },
+    {
+      "id": "evidence-lab-semantic-review",
+      "revision": 1,
+      "hash": "sha256:498598dd0d6baaf912820141379680939f8c377a769cee51d5842251333a2d35"
+    },
+    {
+      "id": "evidence-lp210b-migration-diff",
+      "revision": 1,
+      "hash": "sha256:4b067cec98f71e9960e6d064c2d258a194e5ae7076632f7da2c7deecd504beae"
+    },
+    {
+      "id": "evidence-lp210b-review-delegation",
+      "revision": 1,
+      "hash": "sha256:6aa7f6603715641cce813c196f5f25ad39280095290b9b990eedc52ec1bc99c7"
+    }
+  ],
+  "verdict": "approved",
+  "checks": [
+    {
+      "code": "D1",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-guide-anchor-migration-20261102-delegation",
+        "evidence-guide-anchor-migration-20261102-diff",
+        "evidence-guide-hash-rebind-20261102-delegation",
+        "evidence-guide-hash-rebind-20261102-diff",
+        "evidence-lab-author-execution",
+        "evidence-lab-independent-probes",
+        "evidence-lab-semantic-delegation",
+        "evidence-lab-semantic-review",
+        "evidence-lp210b-migration-diff",
+        "evidence-lp210b-review-delegation"
+      ]
+    },
+    {
+      "code": "L4",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-guide-anchor-migration-20261102-delegation",
+        "evidence-guide-anchor-migration-20261102-diff",
+        "evidence-guide-hash-rebind-20261102-delegation",
+        "evidence-guide-hash-rebind-20261102-diff",
+        "evidence-lab-author-execution",
+        "evidence-lab-independent-probes",
+        "evidence-lab-semantic-delegation",
+        "evidence-lab-semantic-review",
+        "evidence-lp210b-migration-diff",
+        "evidence-lp210b-review-delegation"
+      ]
+    }
+  ],
+  "createdAt": "2026-11-02T00:00:00Z",
+  "rationale": "本紀錄的 scope 是 round 3（第 3–5 批）講義修正後的機械式 guide 雜湊重綁（mid-s2c4 0a879eb0…→1d1eb632…、mid-s3c9 fae30b12…→8b4b3996…；被引用 block id 不變），不是重做語意審查。lab 本身 contentHash 不變（notebook、fixture、封套 bytes 與 HEAD 相同），只因相依的三個 unit contentHash 改變而使 dependencyHashes 失效。非作者審查者 ds1017（deepseek-v4.1-flash:1017，維護者 2026-11-02 授權）逐項查證：被引用 block（mid-s2c4 block-3；mid-s3c9 block-71、149、168）新舊版 id 與逐欄位內容相同、quote 唯一命中同一 id、diff 只在 guide hash／evidence revision／contentHash／reviewIds 與 anchor history、正文與教學欄位未動；作者另以 contentHash 反推證明（evidence-guide-hash-rebind-20261102-diff）。因此 review-lab-semantic-20261102-v3 的 D1／L4 結論承接。**L4 本輪沒有被重做**，L4: pass 只能讀作承接，不得引用為新做的獨立語意審查。人類 Colab L5 仍未完成。",
+  "supersedes": "review-lab-semantic-20261102-v3"
+}

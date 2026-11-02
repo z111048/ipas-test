@@ -1,0 +1,88 @@
+{
+  "id": "review-peer-d1-analysis-imbalanced-source-examples-v1-20261102-v4",
+  "subject": {
+    "kind": "exam-analysis",
+    "id": "analysis-imbalanced-source-examples-v1",
+    "revision": 1,
+    "hash": "sha256:a0fec784b20b1e5c74fbd388bc53ee7f9c266c00800c68a5812e3bd59ba0b03c"
+  },
+  "dependencyHashes": [],
+  "rubricVersion": "mvp-review-v1",
+  "reviewerId": "agent-ds1017",
+  "reviewerRole": "independent_model",
+  "authorId": "agent-claude-code",
+  "responsibility": "domain_content",
+  "qualification": {
+    "scope": [
+      "mvp-domain-content",
+      "mvp-source-contract"
+    ],
+    "evidenceIds": [
+      "evidence-guide-hash-rebind-20261102-delegation"
+    ],
+    "grantedBy": "maintainer",
+    "grantedAt": "2026-11-02T00:00:00Z"
+  },
+  "evidenceRefs": [
+    {
+      "id": "evidence-analysis-hash-rebind-20261102-delegation",
+      "revision": 1,
+      "hash": "sha256:449efaa58d05c50929e53c9b589d167fda1363b9e13092d85c6c65f1cc1b26c3"
+    },
+    {
+      "id": "evidence-analysis-hash-rebind-20261102-diff",
+      "revision": 1,
+      "hash": "sha256:297ee410aa8671350b60699f93b816b01f72fae43bbc6bf0707270b58cced3e1"
+    },
+    {
+      "id": "evidence-assessment-peer-delegation",
+      "revision": 1,
+      "hash": "sha256:7c723eb62ecf0b0a82dc17e1376b6c7547602f65a9742db5c8858d4a5d5650a9"
+    },
+    {
+      "id": "evidence-assessment-peer-review-20260907",
+      "revision": 1,
+      "hash": "sha256:360b2a29b84e937ee56f3f359bf2ede17490bdb4a4cd797af75625ee0bfd27a2"
+    },
+    {
+      "id": "evidence-guide-hash-rebind-20261102-delegation",
+      "revision": 1,
+      "hash": "sha256:2a20b8d30cbbefeb50905410b22837c77d2a385ae7244b098ed2b8b6e5df160e"
+    },
+    {
+      "id": "evidence-guide-hash-rebind-20261102-diff",
+      "revision": 1,
+      "hash": "sha256:36733b252abc1a0f6a948532f76191eb9096b278d1a40a7739e9cc26f36e8e3e"
+    },
+    {
+      "id": "evidence-lp210b-migration-diff",
+      "revision": 1,
+      "hash": "sha256:4b067cec98f71e9960e6d064c2d258a194e5ae7076632f7da2c7deecd504beae"
+    },
+    {
+      "id": "evidence-lp210b-review-delegation",
+      "revision": 1,
+      "hash": "sha256:6aa7f6603715641cce813c196f5f25ad39280095290b9b990eedc52ec1bc99c7"
+    }
+  ],
+  "verdict": "approved",
+  "checks": [
+    {
+      "code": "D1",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-analysis-hash-rebind-20261102-delegation",
+        "evidence-analysis-hash-rebind-20261102-diff",
+        "evidence-assessment-peer-delegation",
+        "evidence-assessment-peer-review-20260907",
+        "evidence-guide-hash-rebind-20261102-delegation",
+        "evidence-guide-hash-rebind-20261102-diff",
+        "evidence-lp210b-migration-diff",
+        "evidence-lp210b-review-delegation"
+      ]
+    }
+  ],
+  "createdAt": "2026-11-02T00:00:00Z",
+  "rationale": "本紀錄的 scope 是 round 3（第 3–5 批）講義修正後的機械式 guide 雜湊重綁（mid-s2c4 0a879eb0…→1d1eb632…、mid-s3c9 fae30b12…→8b4b3996…；被引用 block id 不變），不是重做語意審查。analysis 的 catalogHash 是 data/resource_catalog.json 整檔 blob hash；本輪 catalog 只改 learning-guide-middle-2／3 兩列 version／sha256，catalogHash 由 sha256:aeed547b5f54… 變為 sha256:1912806b845d…，analysis contentHash 由 sha256:1060192bbbff… 變為 sha256:a0fec784b20b…，其餘欄位（policy、inventory、measures、exclusions、labelReviewHash、taxonomyHash）不變，以 assessment_inputs 反推證明（evidence-guide-hash-rebind-20261102-diff）。ds1017 確認 catalog 變更不觸及 analysis 讀取的三卷 exams 列。因此 review-peer-d1-analysis-imbalanced-source-examples-v1-20261102-v3 的結論承接到新 hash；reviewerId、qualification、evidence 與 createdAt 為新紀錄的行政欄位。人類 Colab L5 仍未完成。",
+  "supersedes": "review-peer-d1-analysis-imbalanced-source-examples-v1-20261102-v3"
+}
