@@ -21,9 +21,9 @@
     "統計推論"
   ],
   "excerpt": "在資料驅動的決策時代中，統計推論（Statistical Inference）扮演著將觀察到的樣本資訊轉化為對整體母體理解的橋樑角色。無論是在商業分析、醫療研究或政策制定等領域，面對無法全面掌握的資料時，如何透過科學的方法「根據部分，推論整…",
-  "wordCount": 15202,
+  "wordCount": 15250,
   "readingMinutes": 23,
-  "sectionCount": 16,
+  "sectionCount": 20,
   "source": {
     "guideKey": "中級-guide2",
     "nodeId": "mid-s2c3",
@@ -42,77 +42,97 @@
       "depth": 3
     },
     {
-      "id": "block-10",
+      "id": "block-6",
+      "title": "2. 統計推論概念與應用情境",
+      "depth": 3
+    },
+    {
+      "id": "block-11",
       "title": "（1）參數估計",
       "depth": 4
     },
     {
-      "id": "block-18",
+      "id": "block-19",
       "title": "（2）假設檢定",
       "depth": 4
     },
     {
-      "id": "block-32",
+      "id": "block-31",
+      "title": "3. 假設檢定的基本流程",
+      "depth": 3
+    },
+    {
+      "id": "block-34",
       "title": "（1）明確定義虛無假設與對立假設",
       "depth": 4
     },
     {
-      "id": "block-40",
+      "id": "block-42",
       "title": "（2）選擇適當的檢定方法與檢定統計量",
       "depth": 4
     },
     {
-      "id": "block-46",
+      "id": "block-48",
       "title": "（3）決定顯著水準α",
       "depth": 4
     },
     {
-      "id": "block-61",
+      "id": "block-63",
       "title": "（4）計算檢定統計量與p 值",
       "depth": 4
     },
     {
-      "id": "block-64",
+      "id": "block-66",
       "title": "（5）作出結論",
       "depth": 4
     },
     {
-      "id": "block-73",
+      "id": "block-71",
+      "title": "4. 型一與型二錯誤",
+      "depth": 3
+    },
+    {
+      "id": "block-76",
       "title": "（1）型一錯誤（Type I Error）",
       "depth": 4
     },
     {
-      "id": "block-77",
+      "id": "block-80",
       "title": "（2）型二錯誤（Type II Error）",
       "depth": 4
     },
     {
-      "id": "block-82",
+      "id": "block-85",
       "title": "（3）錯誤類型的平衡與取捨",
       "depth": 4
     },
     {
-      "id": "block-108",
+      "id": "block-89",
+      "title": "5. 常見統計檢定方法與應用",
+      "depth": 3
+    },
+    {
+      "id": "block-112",
       "title": "（1）平均數的差異檢定",
       "depth": 4
     },
     {
-      "id": "block-189",
+      "id": "block-193",
       "title": "（2）比例或類別變數的比較",
       "depth": 4
     },
     {
-      "id": "block-251",
+      "id": "block-255",
       "title": "（3）相關性分析",
       "depth": 4
     },
     {
-      "id": "block-299",
+      "id": "block-303",
       "title": "（4）非參數檢定",
       "depth": 4
     },
     {
-      "id": "block-339",
+      "id": "block-343",
       "title": "章節練習題",
       "depth": 3
     }
@@ -174,6 +194,19 @@
       "id": "block-5"
     },
     {
+      "type": "heading",
+      "depth": 3,
+      "title": "2. 統計推論概念與應用情境",
+      "pageIndex": 29,
+      "bbox": [
+        76.6,
+        478.08,
+        90.67,
+        493.09
+      ],
+      "id": "block-6"
+    },
+    {
       "type": "paragraph",
       "depth": 3,
       "text": "統計推論（Statistical Inference）是以樣本資料為基礎，對整體母體特徵進行科學性推估的程序。在實務中，往往無法取得全體資料（例如全人口、所有產品、所有事件），因此須藉由統計方法，從具代表性的樣本中獲得合理的估計與判斷。",
@@ -185,7 +218,7 @@
         567.31
       ],
       "indentFirstLine": true,
-      "id": "block-6"
+      "id": "block-7"
     },
     {
       "type": "paragraph",
@@ -199,7 +232,7 @@
         592.6
       ],
       "indentFirstLine": false,
-      "id": "block-7"
+      "id": "block-8"
     },
     {
       "type": "paragraph",
@@ -213,7 +246,7 @@
         667.63
       ],
       "indentFirstLine": true,
-      "id": "block-8"
+      "id": "block-9"
     },
     {
       "type": "table",
@@ -257,7 +290,7 @@
         523.44,
         360.34
       ],
-      "id": "block-9",
+      "id": "block-10",
       "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th>項目</th>\n<th>參數估計</th>\n<th>統計假設檢定</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>目的</td>\n<td>推測母體參數的「值」或「區間」</td>\n<td>驗證某個關於母體參數的「主張」是否成立</td>\n</tr>\n<tr>\n<td>重點問題</td>\n<td>這個母體參數大約是多少？（例如：平均收入是多少？）</td>\n<td>我們是否有足夠證據拒絕一個假設？（例如：新藥是否有效？）</td>\n</tr>\n<tr>\n<td>輸出結果</td>\n<td>提供點估計值（如平均數）與信賴區間（如 95% CI）</td>\n<td>提供 p 值、檢定統計量，並根據顯著水準決定是否拒絕虛無假設</td>\n</tr>\n<tr>\n<td>依據</td>\n<td>基於樣本資料，計算出母體參數的估計值</td>\n<td>基於假設前提與樣本結果，進行推論判斷</td>\n</tr>\n<tr>\n<td>例子</td>\n<td>根據樣本估計出平均體重為 68 公斤，95%信賴區間為[66, 70]</td>\n<td>假設新運動課程能降低體重（對立假設），檢定結果 p=0.03，小於 0.05，拒絕虛無零假設，接受對立假設，認為有效</td>\n</tr>\n</tbody>\n</table>"
     },
     {
@@ -271,12 +304,12 @@
         155.2,
         386.54
       ],
-      "id": "block-10"
+      "id": "block-11"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "參數估計是指根據樣本資料，對母體的數值特徵進行推測，例如平均值 （mean）、變異數（variance）、比例（proportion）等常見統計參數。",
+      "text": "參數估計是指根據樣本資料，對母體的數值特徵進行推測，例如平均值（mean）、變異數（variance）、比例（proportion）等常見統計參數。",
       "pageIndex": 30,
       "bbox": [
         76.6,
@@ -285,7 +318,7 @@
         436.58
       ],
       "indentFirstLine": false,
-      "id": "block-11"
+      "id": "block-12"
     },
     {
       "type": "paragraph",
@@ -299,7 +332,7 @@
         461.56
       ],
       "indentFirstLine": false,
-      "id": "block-12"
+      "id": "block-13"
     },
     {
       "type": "list_item",
@@ -313,7 +346,7 @@
         276.55,
         486.64
       ],
-      "id": "block-13"
+      "id": "block-14"
     },
     {
       "type": "paragraph",
@@ -327,7 +360,7 @@
         586.6
       ],
       "indentFirstLine": true,
-      "id": "block-14"
+      "id": "block-15"
     },
     {
       "type": "list_item",
@@ -341,7 +374,7 @@
         302.11,
         611.56
       ],
-      "id": "block-15"
+      "id": "block-16"
     },
     {
       "type": "paragraph",
@@ -355,7 +388,7 @@
         736.63
       ],
       "indentFirstLine": true,
-      "id": "block-16"
+      "id": "block-17"
     },
     {
       "type": "list_item",
@@ -369,7 +402,7 @@
         518.73,
         189.11
       ],
-      "id": "block-17"
+      "id": "block-18"
     },
     {
       "type": "heading",
@@ -382,7 +415,7 @@
         155.2,
         239.15
       ],
-      "id": "block-18"
+      "id": "block-19"
     },
     {
       "type": "paragraph",
@@ -396,7 +429,7 @@
         289.1
       ],
       "indentFirstLine": true,
-      "id": "block-19"
+      "id": "block-20"
     },
     {
       "type": "list_item",
@@ -410,7 +443,7 @@
         328.05,
         314.18
       ],
-      "id": "block-20"
+      "id": "block-21"
     },
     {
       "type": "list_item",
@@ -424,7 +457,7 @@
         290.23,
         339.14
       ],
-      "id": "block-21"
+      "id": "block-22"
     },
     {
       "type": "list_item",
@@ -438,7 +471,7 @@
         208.63,
         364.1
       ],
-      "id": "block-22"
+      "id": "block-23"
     },
     {
       "type": "list_item",
@@ -452,7 +485,7 @@
         227.23,
         389.18
       ],
-      "id": "block-23"
+      "id": "block-24"
     },
     {
       "type": "list_item",
@@ -466,7 +499,7 @@
         239.83,
         414.14
       ],
-      "id": "block-24"
+      "id": "block-25"
     },
     {
       "type": "paragraph",
@@ -480,7 +513,7 @@
         464.2
       ],
       "indentFirstLine": true,
-      "id": "block-25"
+      "id": "block-26"
     },
     {
       "type": "list_item",
@@ -494,7 +527,7 @@
         385.65,
         489.16
       ],
-      "id": "block-26"
+      "id": "block-27"
     },
     {
       "type": "list_item",
@@ -508,7 +541,7 @@
         336.33,
         514.12
       ],
-      "id": "block-27"
+      "id": "block-28"
     },
     {
       "type": "list_item",
@@ -522,7 +555,7 @@
         361.53,
         539.2
       ],
-      "id": "block-28"
+      "id": "block-29"
     },
     {
       "type": "list_item",
@@ -536,7 +569,20 @@
         361.53,
         564.16
       ],
-      "id": "block-29"
+      "id": "block-30"
+    },
+    {
+      "type": "heading",
+      "depth": 3,
+      "title": "3. 假設檢定的基本流程",
+      "pageIndex": 31,
+      "bbox": [
+        76.6,
+        599.76,
+        90.67,
+        614.77
+      ],
+      "id": "block-31"
     },
     {
       "type": "paragraph",
@@ -550,7 +596,7 @@
         664.15
       ],
       "indentFirstLine": true,
-      "id": "block-30"
+      "id": "block-32"
     },
     {
       "type": "paragraph",
@@ -564,7 +610,7 @@
         739.15
       ],
       "indentFirstLine": false,
-      "id": "block-31"
+      "id": "block-33"
     },
     {
       "type": "heading",
@@ -577,7 +623,7 @@
         268.75,
         114.11
       ],
-      "id": "block-32"
+      "id": "block-34"
     },
     {
       "type": "paragraph",
@@ -591,7 +637,7 @@
         139.07
       ],
       "indentFirstLine": false,
-      "id": "block-33"
+      "id": "block-35"
     },
     {
       "type": "list_item",
@@ -605,7 +651,7 @@
         418.53,
         164.15
       ],
-      "id": "block-34"
+      "id": "block-36"
     },
     {
       "type": "list_item",
@@ -619,7 +665,7 @@
         518.4,
         214.07
       ],
-      "id": "block-35"
+      "id": "block-37"
     },
     {
       "type": "paragraph",
@@ -633,7 +679,7 @@
         239.15
       ],
       "indentFirstLine": false,
-      "id": "block-36"
+      "id": "block-38"
     },
     {
       "type": "list_item",
@@ -647,7 +693,7 @@
         393.33,
         264.14
       ],
-      "id": "block-37"
+      "id": "block-39"
     },
     {
       "type": "list_item",
@@ -661,7 +707,7 @@
         377.37,
         289.1
       ],
-      "id": "block-38"
+      "id": "block-40"
     },
     {
       "type": "table",
@@ -710,7 +756,7 @@
         523.43,
         585.37
       ],
-      "id": "block-39",
+      "id": "block-41",
       "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th>項目</th>\n<th>虛無假設（ $ H_0 $）</th>\n<th>對立假設（ $ H_1 $）</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>定義</td>\n<td>原始主張、現狀、無差異或無效果的假設</td>\n<td>想要驗證的新主張，代表某種差異、效果或變化存在</td>\n</tr>\n<tr>\n<td>功能</td>\n<td>作為檢定的基準起點，假設沒有任何顯著變化</td>\n<td>與 $ H_0 $ 相反<br />若 $ H_0 $ 被拒絕，則支持 $ H_1 $</td>\n</tr>\n<tr>\n<td>評估方式</td>\n<td>資料是否足以拒絕 $ H_0 $？</td>\n<td>若拒絕 $ H_0 $<br />則間接支持 $ H_1 $</td>\n</tr>\n<tr>\n<td>結論邏輯</td>\n<td>無法拒絕不代表接受，僅表示證據不足</td>\n<td>拒絕 $ H_0 $ 代表支持 $ H_1 $<br />有統計上的意義</td>\n</tr>\n<tr>\n<td>實例 1：<br />藥物療效</td>\n<td>$ H_0 $：新藥與安慰劑效果相同</td>\n<td>$ H_1 $：新藥效果不同於安慰劑</td>\n</tr>\n<tr>\n<td>實例 2：<br />廣告成效</td>\n<td>$ H_0 $：新舊廣告對轉換率無顯著差異</td>\n<td>$ H_1 $：新廣告轉換率顯著不同於舊廣告</td>\n</tr>\n</tbody>\n</table>"
     },
     {
@@ -724,7 +770,7 @@
         294.07,
         629.23
       ],
-      "id": "block-40"
+      "id": "block-42"
     },
     {
       "type": "paragraph",
@@ -738,7 +784,7 @@
         704.23
       ],
       "indentFirstLine": false,
-      "id": "block-41"
+      "id": "block-43"
     },
     {
       "type": "list_item",
@@ -752,7 +798,7 @@
         403.17,
         729.19
       ],
-      "id": "block-42"
+      "id": "block-44"
     },
     {
       "type": "list_item",
@@ -766,7 +812,7 @@
         329.25,
         754.14
       ],
-      "id": "block-43"
+      "id": "block-45"
     },
     {
       "type": "list_item",
@@ -780,7 +826,7 @@
         352.17,
         114.11
       ],
-      "id": "block-44"
+      "id": "block-46"
     },
     {
       "type": "table",
@@ -842,7 +888,7 @@
         523.43,
         475.87
       ],
-      "id": "block-45",
+      "id": "block-47",
       "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th>想比較的問題</th>\n<th>資料型態與情境</th>\n<th>建議檢定方法</th>\n<th>備註</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>一組數值資料是否與某個理論值不同？</td>\n<td>一組連續變數（如身高、成績）</td>\n<td>單樣本 t 檢定</td>\n<td>假設母體為常態分佈</td>\n</tr>\n<tr>\n<td>兩組不同人的平均數是否不同？</td>\n<td>兩組獨立樣本（如男性 vs 女性）</td>\n<td>獨立樣本 t 檢定</td>\n<td>需檢查變異數是否相等</td>\n</tr>\n<tr>\n<td>同一批人前後變化是否顯著？</td>\n<td>配對樣本（如治療前後血壓）</td>\n<td>配對樣本 t 檢定</td>\n<td>比較「差值」是否為 0</td>\n</tr>\n<tr>\n<td>兩組比例是否有差異？</td>\n<td>類別資料（如成功率、贊成率）</td>\n<td>比例 Z 檢定或卡方檢定</td>\n<td>樣本夠大時可用 Z 檢定</td>\n</tr>\n<tr>\n<td>三組以上的平均是否不同？</td>\n<td>三組以上獨立樣本</td>\n<td>單因子變異數分析（ANOVA）</td>\n<td>需滿足常態與變異數齊一性</td>\n</tr>\n<tr>\n<td>類別變數間是否有關聯？</td>\n<td>交叉表資料（如地區 x 性別）</td>\n<td>卡方獨立性檢定</td>\n<td>每格期望次數應足夠（&gt;5）</td>\n</tr>\n<tr>\n<td>兩個連續變數是否有線性關係？</td>\n<td>連續變數（如身高與體重）</td>\n<td>皮爾森相關係數檢定</td>\n<td>需符合雙變數常</td>\n</tr>\n</tbody>\n</table>"
     },
     {
@@ -856,7 +902,7 @@
         190.63,
         501.88
       ],
-      "id": "block-46"
+      "id": "block-48"
     },
     {
       "type": "paragraph",
@@ -870,7 +916,7 @@
         576.88
       ],
       "indentFirstLine": true,
-      "id": "block-47"
+      "id": "block-49"
     },
     {
       "type": "paragraph",
@@ -884,7 +930,7 @@
         601.84
       ],
       "indentFirstLine": true,
-      "id": "block-48"
+      "id": "block-50"
     },
     {
       "type": "list_item",
@@ -898,7 +944,7 @@
         177.16,
         626.95
       ],
-      "id": "block-49",
+      "id": "block-51",
       "formulas": [
         {
           "latex": "\\alpha",
@@ -918,7 +964,7 @@
         676.87
       ],
       "indentFirstLine": true,
-      "id": "block-50"
+      "id": "block-52"
     },
     {
       "type": "list_item",
@@ -932,7 +978,7 @@
         177.16,
         701.95
       ],
-      "id": "block-51",
+      "id": "block-53",
       "formulas": [
         {
           "latex": "\\alpha=0.01",
@@ -952,7 +998,7 @@
         751.87
       ],
       "indentFirstLine": true,
-      "id": "block-52"
+      "id": "block-54"
     },
     {
       "type": "list_item",
@@ -966,7 +1012,7 @@
         177.16,
         114.11
       ],
-      "id": "block-53",
+      "id": "block-55",
       "formulas": [
         {
           "latex": "\\alpha=0.10",
@@ -986,7 +1032,7 @@
         164.15
       ],
       "indentFirstLine": true,
-      "id": "block-54"
+      "id": "block-56"
     },
     {
       "type": "paragraph",
@@ -1000,7 +1046,7 @@
         264.14
       ],
       "indentFirstLine": true,
-      "id": "block-55"
+      "id": "block-57"
     },
     {
       "type": "paragraph",
@@ -1014,7 +1060,7 @@
         289.1
       ],
       "indentFirstLine": true,
-      "id": "block-56"
+      "id": "block-58"
     },
     {
       "type": "list_item",
@@ -1028,7 +1074,7 @@
         506.76,
         314.18
       ],
-      "id": "block-57"
+      "id": "block-59"
     },
     {
       "type": "list_item",
@@ -1042,7 +1088,7 @@
         518.28,
         364.1
       ],
-      "id": "block-58"
+      "id": "block-60"
     },
     {
       "type": "list_item",
@@ -1056,7 +1102,7 @@
         336.57,
         389.18
       ],
-      "id": "block-59"
+      "id": "block-61"
     },
     {
       "type": "paragraph",
@@ -1070,7 +1116,7 @@
         472.36
       ],
       "indentFirstLine": true,
-      "id": "block-60"
+      "id": "block-62"
     },
     {
       "type": "heading",
@@ -1083,7 +1129,7 @@
         231.67,
         522.28
       ],
-      "id": "block-61"
+      "id": "block-63"
     },
     {
       "type": "paragraph",
@@ -1097,7 +1143,7 @@
         622.36
       ],
       "indentFirstLine": true,
-      "id": "block-62"
+      "id": "block-64"
     },
     {
       "type": "paragraph",
@@ -1111,7 +1157,7 @@
         722.35
       ],
       "indentFirstLine": true,
-      "id": "block-63"
+      "id": "block-65"
     },
     {
       "type": "heading",
@@ -1124,7 +1170,7 @@
         155.2,
         114.11
       ],
-      "id": "block-64"
+      "id": "block-66"
     },
     {
       "type": "paragraph",
@@ -1138,7 +1184,7 @@
         164.15
       ],
       "indentFirstLine": true,
-      "id": "block-65"
+      "id": "block-67"
     },
     {
       "type": "list_item",
@@ -1152,7 +1198,7 @@
         513.6,
         189.11
       ],
-      "id": "block-66",
+      "id": "block-68",
       "formulas": [
         {
           "latex": "\\alpha",
@@ -1172,7 +1218,7 @@
         518.4,
         264.14
       ],
-      "id": "block-67"
+      "id": "block-69"
     },
     {
       "type": "paragraph",
@@ -1186,7 +1232,20 @@
         372.26
       ],
       "indentFirstLine": true,
-      "id": "block-68"
+      "id": "block-70"
+    },
+    {
+      "type": "heading",
+      "depth": 3,
+      "title": "4. 型一與型二錯誤",
+      "pageIndex": 35,
+      "bbox": [
+        76.6,
+        407.86,
+        90.67,
+        422.87
+      ],
+      "id": "block-71"
     },
     {
       "type": "paragraph",
@@ -1200,7 +1259,7 @@
         497.32
       ],
       "indentFirstLine": true,
-      "id": "block-69"
+      "id": "block-72"
     },
     {
       "type": "table",
@@ -1229,7 +1288,7 @@
         523.48,
         633.57
       ],
-      "id": "block-70",
+      "id": "block-73",
       "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th>研究判斷結果</th>\n<th>真實情況： $ H_{0} $為真</th>\n<th>真實情況： $ H_{0} $為假</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>保留 $ H_{0} $</td>\n<td>正確判斷<br />機率 = 1 - $ \\alpha $</td>\n<td>型二錯誤（漏判）<br />機率 = $ \\beta $</td>\n</tr>\n<tr>\n<td>拒絕 $ H_{0} $</td>\n<td>型一錯誤（誤判）<br />機率 = $ \\alpha $</td>\n<td>正確判斷（檢定力）<br />機率 = 1 - $ \\beta $</td>\n</tr>\n</tbody>\n</table>"
     },
     {
@@ -1244,7 +1303,7 @@
         114.11
       ],
       "indentFirstLine": true,
-      "id": "block-71"
+      "id": "block-74"
     },
     {
       "type": "table",
@@ -1294,7 +1353,7 @@
         523.44,
         361.47
       ],
-      "id": "block-72",
+      "id": "block-75",
       "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th>情境</th>\n<th>虛無假設（ $ H_0 $）</th>\n<th>型一錯誤</th>\n<th>型二錯誤</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>緊急地震預警系統</td>\n<td>沒有即將發生的強震</td>\n<td>發出錯誤警報，實際上沒有地震</td>\n<td>未發出警報，實際上發生強震</td>\n</tr>\n<tr>\n<td>銀行防詐騙機制</td>\n<td>交易為正常行為</td>\n<td>誤判為詐騙交易，阻擋用戶的合法交易</td>\n<td>誤判為正常交易，放行實際的詐騙行為</td>\n</tr>\n<tr>\n<td>製造業品管</td>\n<td>出廠產品為合格品</td>\n<td>判定合格品為不合格品，浪費良品</td>\n<td>判定不合格品為合格品，讓瑕疵品流入市場</td>\n</tr>\n<tr>\n<td>招生測驗篩選</td>\n<td>考生不具備入學資格</td>\n<td>錄取不符合能力標準的考生</td>\n<td>錯失具備優秀能力但未被錄取的考生</td>\n</tr>\n<tr>\n<td>電商評論過濾</td>\n<td>使用者評論為正常留言</td>\n<td>正常評論誤判為違規，遭到刪除</td>\n<td>違規內容未被識別，繼續顯示在網站上</td>\n</tr>\n</tbody>\n</table>"
     },
     {
@@ -1308,7 +1367,7 @@
         249.67,
         387.14
       ],
-      "id": "block-73"
+      "id": "block-76"
     },
     {
       "type": "paragraph",
@@ -1322,7 +1381,7 @@
         437.18
       ],
       "indentFirstLine": true,
-      "id": "block-74"
+      "id": "block-77"
     },
     {
       "type": "paragraph",
@@ -1336,7 +1395,7 @@
         512.2
       ],
       "indentFirstLine": true,
-      "id": "block-75"
+      "id": "block-78"
     },
     {
       "type": "paragraph",
@@ -1350,7 +1409,7 @@
         587.2
       ],
       "indentFirstLine": true,
-      "id": "block-76"
+      "id": "block-79"
     },
     {
       "type": "heading",
@@ -1363,7 +1422,7 @@
         254.71,
         637.15
       ],
-      "id": "block-77"
+      "id": "block-80"
     },
     {
       "type": "paragraph",
@@ -1377,7 +1436,7 @@
         687.19
       ],
       "indentFirstLine": true,
-      "id": "block-78"
+      "id": "block-81"
     },
     {
       "type": "paragraph",
@@ -1391,7 +1450,7 @@
         762.18
       ],
       "indentFirstLine": true,
-      "id": "block-79"
+      "id": "block-82"
     },
     {
       "type": "paragraph",
@@ -1405,7 +1464,7 @@
         138.86
       ],
       "indentFirstLine": true,
-      "id": "block-80"
+      "id": "block-83"
     },
     {
       "type": "paragraph",
@@ -1419,7 +1478,7 @@
         164.15
       ],
       "indentFirstLine": false,
-      "id": "block-81"
+      "id": "block-84"
     },
     {
       "type": "heading",
@@ -1432,12 +1491,12 @@
         230.95,
         214.07
       ],
-      "id": "block-82"
+      "id": "block-85"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "在實務應用中，型一錯誤與型二錯誤通常無法同時降到極低。降低顯著水準 （α）雖能減少型一錯誤，但也會提高型二錯誤的風險。因此，研究設計需根據應用風險與目的進行權衡。",
+      "text": "在實務應用中，型一錯誤與型二錯誤通常無法同時降到極低。降低顯著水準（α）雖能減少型一錯誤，但也會提高型二錯誤的風險。因此，研究設計需根據應用風險與目的進行權衡。",
       "pageIndex": 37,
       "bbox": [
         76.6,
@@ -1446,7 +1505,7 @@
         289.1
       ],
       "indentFirstLine": true,
-      "id": "block-83"
+      "id": "block-86"
     },
     {
       "type": "paragraph",
@@ -1460,7 +1519,7 @@
         364.1
       ],
       "indentFirstLine": true,
-      "id": "block-84"
+      "id": "block-87"
     },
     {
       "type": "paragraph",
@@ -1474,7 +1533,20 @@
         414.14
       ],
       "indentFirstLine": true,
-      "id": "block-85"
+      "id": "block-88"
+    },
+    {
+      "type": "heading",
+      "depth": 3,
+      "title": "5. 常見統計檢定方法與應用",
+      "pageIndex": 37,
+      "bbox": [
+        76.6,
+        449.76,
+        90.67,
+        464.77
+      ],
+      "id": "block-89"
     },
     {
       "type": "paragraph",
@@ -1488,7 +1560,7 @@
         564.16
       ],
       "indentFirstLine": true,
-      "id": "block-86"
+      "id": "block-90"
     },
     {
       "type": "paragraph",
@@ -1502,7 +1574,7 @@
         588.91
       ],
       "indentFirstLine": true,
-      "id": "block-87"
+      "id": "block-91"
     },
     {
       "type": "paragraph",
@@ -1516,7 +1588,7 @@
         664.15
       ],
       "indentFirstLine": false,
-      "id": "block-88"
+      "id": "block-92"
     },
     {
       "type": "paragraph",
@@ -1530,7 +1602,7 @@
         764.02
       ],
       "indentFirstLine": true,
-      "id": "block-89"
+      "id": "block-93"
     },
     {
       "type": "paragraph",
@@ -1544,7 +1616,7 @@
         214.07
       ],
       "indentFirstLine": true,
-      "id": "block-90"
+      "id": "block-94"
     },
     {
       "type": "list_item",
@@ -1558,7 +1630,7 @@
         518.4,
         264.14
       ],
-      "id": "block-91"
+      "id": "block-95"
     },
     {
       "type": "list_item",
@@ -1572,7 +1644,7 @@
         327.33,
         289.1
       ],
-      "id": "block-92"
+      "id": "block-96"
     },
     {
       "type": "list_item",
@@ -1586,7 +1658,7 @@
         386.73,
         314.18
       ],
-      "id": "block-93"
+      "id": "block-97"
     },
     {
       "type": "list_item",
@@ -1600,7 +1672,7 @@
         356.49,
         339.14
       ],
-      "id": "block-94"
+      "id": "block-98"
     },
     {
       "type": "list_item",
@@ -1614,7 +1686,7 @@
         357.21,
         364.1
       ],
-      "id": "block-95"
+      "id": "block-99"
     },
     {
       "type": "list_item",
@@ -1628,7 +1700,7 @@
         418.29,
         389.18
       ],
-      "id": "block-96"
+      "id": "block-100"
     },
     {
       "type": "list_item",
@@ -1642,7 +1714,7 @@
         391.65,
         414.14
       ],
-      "id": "block-97"
+      "id": "block-101"
     },
     {
       "type": "list_item",
@@ -1656,7 +1728,7 @@
         392.73,
         439.1
       ],
-      "id": "block-98"
+      "id": "block-102"
     },
     {
       "type": "list_item",
@@ -1670,7 +1742,7 @@
         291.55,
         464.2
       ],
-      "id": "block-99"
+      "id": "block-103"
     },
     {
       "type": "list_item",
@@ -1684,7 +1756,7 @@
         304.63,
         489.16
       ],
-      "id": "block-100"
+      "id": "block-104"
     },
     {
       "type": "list_item",
@@ -1698,7 +1770,7 @@
         279.43,
         514.12
       ],
-      "id": "block-101"
+      "id": "block-105"
     },
     {
       "type": "list_item",
@@ -1712,7 +1784,7 @@
         185.08,
         539.2
       ],
-      "id": "block-102"
+      "id": "block-106"
     },
     {
       "type": "list_item",
@@ -1726,7 +1798,7 @@
         372.45,
         564.16
       ],
-      "id": "block-103"
+      "id": "block-107"
     },
     {
       "type": "list_item",
@@ -1740,7 +1812,7 @@
         446.37,
         589.12
       ],
-      "id": "block-104"
+      "id": "block-108"
     },
     {
       "type": "list_item",
@@ -1754,7 +1826,7 @@
         348.93,
         614.2
       ],
-      "id": "block-105"
+      "id": "block-109"
     },
     {
       "type": "list_item",
@@ -1768,7 +1840,7 @@
         420.45,
         639.19
       ],
-      "id": "block-106"
+      "id": "block-110"
     },
     {
       "type": "list_item",
@@ -1782,7 +1854,7 @@
         524.43,
         664.15
       ],
-      "id": "block-107"
+      "id": "block-111"
     },
     {
       "type": "heading",
@@ -1795,7 +1867,7 @@
         205.75,
         114.11
       ],
-      "id": "block-108"
+      "id": "block-112"
     },
     {
       "type": "list_item",
@@ -1809,7 +1881,7 @@
         310.27,
         139.07
       ],
-      "id": "block-109"
+      "id": "block-113"
     },
     {
       "type": "list_item",
@@ -1823,7 +1895,7 @@
         189.43,
         164.15
       ],
-      "id": "block-110"
+      "id": "block-114"
     },
     {
       "type": "list_item",
@@ -1837,7 +1909,7 @@
         521.85,
         239.15
       ],
-      "id": "block-111"
+      "id": "block-115"
     },
     {
       "type": "list_item",
@@ -1851,7 +1923,7 @@
         517.94,
         288.14
       ],
-      "id": "block-112"
+      "id": "block-116"
     },
     {
       "type": "list_item",
@@ -1865,7 +1937,7 @@
         252.43,
         313.1
       ],
-      "id": "block-113"
+      "id": "block-117"
     },
     {
       "type": "list_item",
@@ -1879,7 +1951,7 @@
         440.61,
         337.7
       ],
-      "id": "block-114"
+      "id": "block-118"
     },
     {
       "type": "list_item",
@@ -1893,7 +1965,7 @@
         416.13,
         362.18
       ],
-      "id": "block-115"
+      "id": "block-119"
     },
     {
       "type": "list_item",
@@ -1907,7 +1979,7 @@
         346.77,
         386.66
       ],
-      "id": "block-116"
+      "id": "block-120"
     },
     {
       "type": "list_item",
@@ -1921,7 +1993,7 @@
         271.15,
         411.14
       ],
-      "id": "block-117"
+      "id": "block-121"
     },
     {
       "type": "list_item",
@@ -1935,7 +2007,7 @@
         518.37,
         460.24
       ],
-      "id": "block-118"
+      "id": "block-122"
     },
     {
       "type": "list_item",
@@ -1949,7 +2021,7 @@
         189.43,
         485.2
       ],
-      "id": "block-119"
+      "id": "block-123"
     },
     {
       "type": "list_item",
@@ -1963,7 +2035,7 @@
         449.49,
         510.16
       ],
-      "id": "block-120",
+      "id": "block-124",
       "formulas": [
         {
           "latex": "\\mu_{0}",
@@ -1983,7 +2055,7 @@
         418.29,
         535.12
       ],
-      "id": "block-121"
+      "id": "block-125"
     },
     {
       "type": "table",
@@ -2017,7 +2089,7 @@
         523.47,
         656.57
       ],
-      "id": "block-122",
+      "id": "block-126",
       "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th>檢定類型</th>\n<th>對立假設 $ H_{1} $</th>\n<th>應用時機</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>雙尾檢定</td>\n<td>$ \\mu \\neq \\mu_{0} $</td>\n<td>想知道是否有「差異」（不論方向）</td>\n</tr>\n<tr>\n<td>左尾檢定</td>\n<td>$ \\mu &lt; \\mu_{0} $</td>\n<td>想確認是否「變小」或「變差」</td>\n</tr>\n<tr>\n<td>右尾檢定</td>\n<td>$ \\mu &gt; \\mu_{0} $</td>\n<td>想確認是否「變大」或「改善」</td>\n</tr>\n</tbody>\n</table>"
     },
     {
@@ -2032,7 +2104,7 @@
         691.15
       ],
       "indentFirstLine": false,
-      "id": "block-123"
+      "id": "block-127"
     },
     {
       "type": "list_item",
@@ -2046,7 +2118,7 @@
         252.43,
         724.27
       ],
-      "id": "block-124"
+      "id": "block-128"
     },
     {
       "type": "list_item",
@@ -2060,7 +2132,7 @@
         474.84,
         749.35
       ],
-      "id": "block-125"
+      "id": "block-129"
     },
     {
       "type": "list_item",
@@ -2074,7 +2146,7 @@
         416.73,
         774.3
       ],
-      "id": "block-126"
+      "id": "block-130"
     },
     {
       "type": "list_item",
@@ -2088,7 +2160,7 @@
         399.69,
         114.11
       ],
-      "id": "block-127"
+      "id": "block-131"
     },
     {
       "type": "list_item",
@@ -2102,7 +2174,7 @@
         450.69,
         139.07
       ],
-      "id": "block-128"
+      "id": "block-132"
     },
     {
       "type": "list_item",
@@ -2116,7 +2188,7 @@
         493.68,
         164.15
       ],
-      "id": "block-129"
+      "id": "block-133"
     },
     {
       "type": "list_item",
@@ -2130,7 +2202,7 @@
         369.69,
         189.11
       ],
-      "id": "block-130"
+      "id": "block-134"
     },
     {
       "type": "list_item",
@@ -2144,7 +2216,7 @@
         189.43,
         214.07
       ],
-      "id": "block-131"
+      "id": "block-135"
     },
     {
       "type": "list_item",
@@ -2158,7 +2230,7 @@
         518.35,
         289.1
       ],
-      "id": "block-132"
+      "id": "block-136"
     },
     {
       "type": "list_item",
@@ -2172,7 +2244,7 @@
         252.43,
         314.18
       ],
-      "id": "block-133"
+      "id": "block-137"
     },
     {
       "type": "list_item",
@@ -2186,7 +2258,7 @@
         411.81,
         339.14
       ],
-      "id": "block-134"
+      "id": "block-138"
     },
     {
       "type": "list_item",
@@ -2200,7 +2272,7 @@
         254.23,
         364.1
       ],
-      "id": "block-135"
+      "id": "block-139"
     },
     {
       "type": "list_item",
@@ -2214,7 +2286,7 @@
         342.45,
         389.18
       ],
-      "id": "block-136"
+      "id": "block-140"
     },
     {
       "type": "list_item",
@@ -2228,7 +2300,7 @@
         518.35,
         439.1
       ],
-      "id": "block-137"
+      "id": "block-141"
     },
     {
       "type": "list_item",
@@ -2242,7 +2314,7 @@
         189.43,
         464.2
       ],
-      "id": "block-138"
+      "id": "block-142"
     },
     {
       "type": "list_item",
@@ -2256,7 +2328,7 @@
         440.73,
         489.16
       ],
-      "id": "block-139",
+      "id": "block-143",
       "formulas": [
         {
           "latex": "\\mu_{1} = \\mu_{2}",
@@ -2276,7 +2348,7 @@
         317.47,
         514.12
       ],
-      "id": "block-140"
+      "id": "block-144"
     },
     {
       "type": "table",
@@ -2310,7 +2382,7 @@
         523.47,
         635.57
       ],
-      "id": "block-141",
+      "id": "block-145",
       "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th>檢定類型</th>\n<th>對立假設 $ H_{1} $</th>\n<th>適用情境</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>雙尾檢定</td>\n<td>$ \\mu_{1} \\neq \\mu_{2} $</td>\n<td>想檢查兩組平均是否不同（不論方向）</td>\n</tr>\n<tr>\n<td>左尾檢定</td>\n<td>$ \\mu_{1} &lt; \\mu_{2} $</td>\n<td>關注第一組是否「低於」第二組</td>\n</tr>\n<tr>\n<td>右尾檢定</td>\n<td>$ \\mu_{1} &gt; \\mu_{2} $</td>\n<td>關注第一組是否「高於」第二組</td>\n</tr>\n</tbody>\n</table>"
     },
     {
@@ -2325,7 +2397,7 @@
         670.15
       ],
       "indentFirstLine": false,
-      "id": "block-142"
+      "id": "block-146"
     },
     {
       "type": "list_item",
@@ -2339,7 +2411,7 @@
         252.43,
         703.27
       ],
-      "id": "block-143"
+      "id": "block-147"
     },
     {
       "type": "list_item",
@@ -2353,7 +2425,7 @@
         521.88,
         728.35
       ],
-      "id": "block-144"
+      "id": "block-148"
     },
     {
       "type": "list_item",
@@ -2367,7 +2439,7 @@
         342.45,
         753.3
       ],
-      "id": "block-145"
+      "id": "block-149"
     },
     {
       "type": "list_item",
@@ -2381,7 +2453,7 @@
         368.01,
         114.11
       ],
-      "id": "block-146"
+      "id": "block-150"
     },
     {
       "type": "list_item",
@@ -2395,7 +2467,7 @@
         462.24,
         139.07
       ],
-      "id": "block-147"
+      "id": "block-151"
     },
     {
       "type": "list_item",
@@ -2409,7 +2481,7 @@
         339.45,
         164.15
       ],
-      "id": "block-148"
+      "id": "block-152"
     },
     {
       "type": "list_item",
@@ -2423,7 +2495,7 @@
         189.43,
         189.11
       ],
-      "id": "block-149"
+      "id": "block-153"
     },
     {
       "type": "list_item",
@@ -2437,7 +2509,7 @@
         518.35,
         264.14
       ],
-      "id": "block-150"
+      "id": "block-154"
     },
     {
       "type": "list_item",
@@ -2451,7 +2523,7 @@
         241.63,
         289.1
       ],
-      "id": "block-151"
+      "id": "block-155"
     },
     {
       "type": "list_item",
@@ -2465,7 +2537,7 @@
         466.56,
         314.18
       ],
-      "id": "block-152"
+      "id": "block-156"
     },
     {
       "type": "list_item",
@@ -2479,7 +2551,7 @@
         441.33,
         339.14
       ],
-      "id": "block-153"
+      "id": "block-157"
     },
     {
       "type": "list_item",
@@ -2493,7 +2565,7 @@
         346.77,
         364.1
       ],
-      "id": "block-154"
+      "id": "block-158"
     },
     {
       "type": "list_item",
@@ -2507,7 +2579,7 @@
         252.43,
         389.18
       ],
-      "id": "block-155"
+      "id": "block-159"
     },
     {
       "type": "list_item",
@@ -2521,7 +2593,7 @@
         254.23,
         414.14
       ],
-      "id": "block-156"
+      "id": "block-160"
     },
     {
       "type": "list_item",
@@ -2535,7 +2607,7 @@
         392.85,
         439.1
       ],
-      "id": "block-157"
+      "id": "block-161"
     },
     {
       "type": "list_item",
@@ -2549,7 +2621,7 @@
         405.45,
         464.2
       ],
-      "id": "block-158"
+      "id": "block-162"
     },
     {
       "type": "list_item",
@@ -2563,7 +2635,7 @@
         279.43,
         489.16
       ],
-      "id": "block-159"
+      "id": "block-163"
     },
     {
       "type": "list_item",
@@ -2577,7 +2649,7 @@
         189.43,
         514.12
       ],
-      "id": "block-160"
+      "id": "block-164"
     },
     {
       "type": "list_item",
@@ -2591,7 +2663,7 @@
         518.4,
         564.16
       ],
-      "id": "block-161"
+      "id": "block-165"
     },
     {
       "type": "list_item",
@@ -2605,7 +2677,7 @@
         443.25,
         614.2
       ],
-      "id": "block-162",
+      "id": "block-166",
       "formulas": [
         {
           "latex": "\\mu d",
@@ -2625,7 +2697,7 @@
         405.69,
         639.19
       ],
-      "id": "block-163"
+      "id": "block-167"
     },
     {
       "type": "table",
@@ -2659,7 +2731,7 @@
         523.01,
         743.04
       ],
-      "id": "block-164",
+      "id": "block-168",
       "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th>檢定類型</th>\n<th>對立假設 $ H_{{1}} $</th>\n<th>適用情境</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>雙尾檢定</td>\n<td>$ \\mu d \\ne 0 $</td>\n<td>檢查兩次測量之間是否有「任一方向」的差異</td>\n</tr>\n<tr>\n<td>左尾檢定</td>\n<td>$ \\mu d &lt; 0 $</td>\n<td>第二次測量結果顯著低於第一次，例如療效降低</td>\n</tr>\n<tr>\n<td>右尾檢定</td>\n<td>$ \\mu d &gt; 0 $</td>\n<td>第二次測量結果顯著高於第一次，例如成績進步</td>\n</tr>\n</tbody>\n</table>"
     },
     {
@@ -2674,7 +2746,7 @@
         252.43,
         114.11
       ],
-      "id": "block-165"
+      "id": "block-169"
     },
     {
       "type": "list_item",
@@ -2688,7 +2760,7 @@
         518.2,
         164.15
       ],
-      "id": "block-166"
+      "id": "block-170"
     },
     {
       "type": "list_item",
@@ -2702,7 +2774,7 @@
         506.28,
         189.11
       ],
-      "id": "block-167"
+      "id": "block-171"
     },
     {
       "type": "list_item",
@@ -2716,7 +2788,7 @@
         518.2,
         239.15
       ],
-      "id": "block-168"
+      "id": "block-172"
     },
     {
       "type": "list_item",
@@ -2730,7 +2802,7 @@
         468.48,
         264.14
       ],
-      "id": "block-169"
+      "id": "block-173"
     },
     {
       "type": "list_item",
@@ -2744,7 +2816,7 @@
         340.17,
         289.1
       ],
-      "id": "block-170"
+      "id": "block-174"
     },
     {
       "type": "list_item",
@@ -2758,7 +2830,7 @@
         189.43,
         314.18
       ],
-      "id": "block-171"
+      "id": "block-175"
     },
     {
       "type": "list_item",
@@ -2772,7 +2844,7 @@
         521.44,
         414.14
       ],
-      "id": "block-172"
+      "id": "block-176"
     },
     {
       "type": "list_item",
@@ -2786,7 +2858,7 @@
         252.43,
         439.1
       ],
-      "id": "block-173"
+      "id": "block-177"
     },
     {
       "type": "list_item",
@@ -2800,7 +2872,7 @@
         292.03,
         464.2
       ],
-      "id": "block-174"
+      "id": "block-178"
     },
     {
       "type": "list_item",
@@ -2814,7 +2886,7 @@
         424.41,
         489.16
       ],
-      "id": "block-175"
+      "id": "block-179"
     },
     {
       "type": "list_item",
@@ -2828,7 +2900,7 @@
         292.03,
         514.12
       ],
-      "id": "block-176"
+      "id": "block-180"
     },
     {
       "type": "list_item",
@@ -2842,7 +2914,7 @@
         518.4,
         564.16
       ],
-      "id": "block-177"
+      "id": "block-181"
     },
     {
       "type": "list_item",
@@ -2856,7 +2928,7 @@
         266.83,
         589.12
       ],
-      "id": "block-178"
+      "id": "block-182"
     },
     {
       "type": "list_item",
@@ -2870,7 +2942,7 @@
         189.43,
         614.2
       ],
-      "id": "block-179"
+      "id": "block-183"
     },
     {
       "type": "list_item",
@@ -2884,7 +2956,7 @@
         518.35,
         689.23
       ],
-      "id": "block-180"
+      "id": "block-184"
     },
     {
       "type": "list_item",
@@ -2898,7 +2970,7 @@
         491.04,
         714.19
       ],
-      "id": "block-181",
+      "id": "block-185",
       "formulas": [
         {
           "latex": "H_0 : \\mu_1 = \\mu_2 = ... = \\mu_k",
@@ -2918,7 +2990,7 @@
         437.25,
         755.82
       ],
-      "id": "block-182"
+      "id": "block-186"
     },
     {
       "type": "list_item",
@@ -2932,7 +3004,7 @@
         252.43,
         114.11
       ],
-      "id": "block-183"
+      "id": "block-187"
     },
     {
       "type": "list_item",
@@ -2946,7 +3018,7 @@
         518.37,
         164.15
       ],
-      "id": "block-184"
+      "id": "block-188"
     },
     {
       "type": "list_item",
@@ -2960,7 +3032,7 @@
         521.4,
         214.07
       ],
-      "id": "block-185"
+      "id": "block-189"
     },
     {
       "type": "list_item",
@@ -2974,7 +3046,7 @@
         521.88,
         239.15
       ],
-      "id": "block-186"
+      "id": "block-190"
     },
     {
       "type": "list_item",
@@ -2988,7 +3060,7 @@
         518.37,
         289.1
       ],
-      "id": "block-187"
+      "id": "block-191"
     },
     {
       "type": "list_item",
@@ -3002,7 +3074,7 @@
         518.17,
         339.14
       ],
-      "id": "block-188"
+      "id": "block-192"
     },
     {
       "type": "heading",
@@ -3015,7 +3087,7 @@
         230.95,
         389.18
       ],
-      "id": "block-189"
+      "id": "block-193"
     },
     {
       "type": "list_item",
@@ -3029,7 +3101,7 @@
         374.61,
         414.14
       ],
-      "id": "block-190"
+      "id": "block-194"
     },
     {
       "type": "list_item",
@@ -3043,7 +3115,7 @@
         189.55,
         439.1
       ],
-      "id": "block-191"
+      "id": "block-195"
     },
     {
       "type": "list_item",
@@ -3057,7 +3129,7 @@
         518.64,
         539.2
       ],
-      "id": "block-192"
+      "id": "block-196"
     },
     {
       "type": "list_item",
@@ -3071,7 +3143,7 @@
         252.55,
         564.16
       ],
-      "id": "block-193"
+      "id": "block-197"
     },
     {
       "type": "list_item",
@@ -3085,7 +3157,7 @@
         521.88,
         589.12
       ],
-      "id": "block-194"
+      "id": "block-198"
     },
     {
       "type": "list_item",
@@ -3099,7 +3171,7 @@
         292.03,
         614.2
       ],
-      "id": "block-195"
+      "id": "block-199"
     },
     {
       "type": "list_item",
@@ -3113,7 +3185,7 @@
         443.25,
         639.19
       ],
-      "id": "block-196"
+      "id": "block-200"
     },
     {
       "type": "paragraph",
@@ -3127,7 +3199,7 @@
         689.23
       ],
       "indentFirstLine": false,
-      "id": "block-197",
+      "id": "block-201",
       "formulas": [
         {
           "latex": "n p_0\\ge5",
@@ -3152,7 +3224,7 @@
         189.55,
         714.19
       ],
-      "id": "block-198"
+      "id": "block-202"
     },
     {
       "type": "list_item",
@@ -3166,7 +3238,7 @@
         468.24,
         740.85
       ],
-      "id": "block-199"
+      "id": "block-203"
     },
     {
       "type": "list_item",
@@ -3180,7 +3252,7 @@
         440.85,
         765.92
       ],
-      "id": "block-200",
+      "id": "block-204",
       "formulas": [
         {
           "latex": "p=p_0",
@@ -3200,7 +3272,7 @@
         393.09,
         114.11
       ],
-      "id": "block-201"
+      "id": "block-205"
     },
     {
       "type": "table",
@@ -3234,7 +3306,7 @@
         523.32,
         235.96
       ],
-      "id": "block-202",
+      "id": "block-206",
       "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th>檢定類型</th>\n<th>對立假設 $ H_{{1}} $</th>\n<th>適用情境</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>雙尾檢定</td>\n<td>$ p \\neq p_{{0}} $</td>\n<td>不確定方向，只想知道是否有差異</td>\n</tr>\n<tr>\n<td>左尾檢定</td>\n<td>$ p &lt; p_{{0}} $</td>\n<td>關注比例是否顯著低於預期（如滿意率是否未達標）</td>\n</tr>\n<tr>\n<td>右尾檢定</td>\n<td>$ p &gt; p_{{0}} $</td>\n<td>關注比例是否顯著高於預期（如通過率是否超標）</td>\n</tr>\n</tbody>\n</table>"
     },
     {
@@ -3249,7 +3321,7 @@
         518.2,
         286.94
       ],
-      "id": "block-203"
+      "id": "block-207"
     },
     {
       "type": "list_item",
@@ -3263,7 +3335,7 @@
         518.2,
         336.98
       ],
-      "id": "block-204"
+      "id": "block-208"
     },
     {
       "type": "list_item",
@@ -3277,7 +3349,7 @@
         518.27,
         386.9
       ],
-      "id": "block-205"
+      "id": "block-209"
     },
     {
       "type": "list_item",
@@ -3291,7 +3363,7 @@
         518.2,
         436.94
       ],
-      "id": "block-206"
+      "id": "block-210"
     },
     {
       "type": "list_item",
@@ -3305,7 +3377,7 @@
         375.69,
         461.92
       ],
-      "id": "block-207"
+      "id": "block-211"
     },
     {
       "type": "list_item",
@@ -3319,7 +3391,7 @@
         189.55,
         487.0
       ],
-      "id": "block-208"
+      "id": "block-212"
     },
     {
       "type": "list_item",
@@ -3333,7 +3405,7 @@
         518.37,
         562.0
       ],
-      "id": "block-209"
+      "id": "block-213"
     },
     {
       "type": "list_item",
@@ -3347,7 +3419,7 @@
         521.88,
         611.92
       ],
-      "id": "block-210"
+      "id": "block-214"
     },
     {
       "type": "list_item",
@@ -3361,7 +3433,7 @@
         252.55,
         637.03
       ],
-      "id": "block-211"
+      "id": "block-215"
     },
     {
       "type": "list_item",
@@ -3375,7 +3447,7 @@
         279.43,
         661.99
       ],
-      "id": "block-212"
+      "id": "block-216"
     },
     {
       "type": "list_item",
@@ -3389,7 +3461,7 @@
         419.13,
         686.95
       ],
-      "id": "block-213"
+      "id": "block-217"
     },
     {
       "type": "list_item",
@@ -3403,7 +3475,7 @@
         442.77,
         712.47
       ],
-      "id": "block-214",
+      "id": "block-218",
       "formulas": [
         {
           "latex": "np\\ge5",
@@ -3427,7 +3499,7 @@
         492.84,
         753.54
       ],
-      "id": "block-215"
+      "id": "block-219"
     },
     {
       "type": "list_item",
@@ -3441,7 +3513,7 @@
         189.55,
         114.11
       ],
-      "id": "block-216"
+      "id": "block-220"
     },
     {
       "type": "list_item",
@@ -3455,7 +3527,7 @@
         429.81,
         140.77
       ],
-      "id": "block-217"
+      "id": "block-221"
     },
     {
       "type": "list_item",
@@ -3469,7 +3541,7 @@
         411.45,
         165.85
       ],
-      "id": "block-218"
+      "id": "block-222"
     },
     {
       "type": "list_item",
@@ -3483,7 +3555,7 @@
         393.09,
         189.11
       ],
-      "id": "block-219"
+      "id": "block-223"
     },
     {
       "type": "table",
@@ -3517,7 +3589,7 @@
         523.47,
         310.96
       ],
-      "id": "block-220",
+      "id": "block-224",
       "html": "<table class=\"table-soft text-sm table-auto\">\n<thead>\n<tr>\n<th>檢定類型</th>\n<th>對立假設 $ H_{1} $</th>\n<th>適用情境</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>雙尾檢定</td>\n<td>$ p_{1} = p_{2} $</td>\n<td>關注兩組之間是否存在任何差異</td>\n</tr>\n<tr>\n<td>左尾檢定</td>\n<td>$ p_{1} &lt; p_{2} $</td>\n<td>關注第一組比例是否顯著低於第二組</td>\n</tr>\n<tr>\n<td>右尾檢定</td>\n<td>$ p_{1} &gt; p_{2} $</td>\n<td>關注第一組比例是否顯著高於第二組</td>\n</tr>\n</tbody>\n</table>"
     },
     {
@@ -3532,7 +3604,7 @@
         252.55,
         320.06
       ],
-      "id": "block-221"
+      "id": "block-225"
     },
     {
       "type": "list_item",
@@ -3546,7 +3618,7 @@
         518.37,
         370.1
       ],
-      "id": "block-222"
+      "id": "block-226"
     },
     {
       "type": "list_item",
@@ -3560,7 +3632,7 @@
         518.3,
         420.14
       ],
-      "id": "block-223"
+      "id": "block-227"
     },
     {
       "type": "list_item",
@@ -3574,7 +3646,7 @@
         521.88,
         445.12
       ],
-      "id": "block-224"
+      "id": "block-228"
     },
     {
       "type": "list_item",
@@ -3588,7 +3660,7 @@
         521.52,
         495.16
       ],
-      "id": "block-225"
+      "id": "block-229"
     },
     {
       "type": "list_item",
@@ -3602,7 +3674,7 @@
         517.92,
         545.08
       ],
-      "id": "block-226"
+      "id": "block-230"
     },
     {
       "type": "list_item",
@@ -3616,7 +3688,7 @@
         274.51,
         570.16
       ],
-      "id": "block-227"
+      "id": "block-231"
     },
     {
       "type": "list_item",
@@ -3630,7 +3702,7 @@
         189.55,
         595.12
       ],
-      "id": "block-228"
+      "id": "block-232"
     },
     {
       "type": "list_item",
@@ -3644,7 +3716,7 @@
         518.2,
         645.19
       ],
-      "id": "block-229"
+      "id": "block-233"
     },
     {
       "type": "list_item",
@@ -3658,7 +3730,7 @@
         518.22,
         720.19
       ],
-      "id": "block-230"
+      "id": "block-234"
     },
     {
       "type": "list_item",
@@ -3672,7 +3744,7 @@
         518.1,
         770.1
       ],
-      "id": "block-231"
+      "id": "block-235"
     },
     {
       "type": "list_item",
@@ -3686,7 +3758,7 @@
         252.55,
         114.11
       ],
-      "id": "block-232"
+      "id": "block-236"
     },
     {
       "type": "list_item",
@@ -3700,7 +3772,7 @@
         361.41,
         139.07
       ],
-      "id": "block-233"
+      "id": "block-237"
     },
     {
       "type": "list_item",
@@ -3714,7 +3786,7 @@
         266.83,
         164.15
       ],
-      "id": "block-234"
+      "id": "block-238"
     },
     {
       "type": "list_item",
@@ -3728,7 +3800,7 @@
         414.33,
         189.11
       ],
-      "id": "block-235"
+      "id": "block-239"
     },
     {
       "type": "list_item",
@@ -3742,7 +3814,7 @@
         521.68,
         239.15
       ],
-      "id": "block-236"
+      "id": "block-240"
     },
     {
       "type": "list_item",
@@ -3756,7 +3828,7 @@
         468.48,
         264.14
       ],
-      "id": "block-237"
+      "id": "block-241"
     },
     {
       "type": "list_item",
@@ -3770,7 +3842,7 @@
         328.05,
         314.18
       ],
-      "id": "block-238"
+      "id": "block-242"
     },
     {
       "type": "list_item",
@@ -3784,7 +3856,7 @@
         342.45,
         339.14
       ],
-      "id": "block-239"
+      "id": "block-243"
     },
     {
       "type": "list_item",
@@ -3798,7 +3870,7 @@
         428.97,
         364.1
       ],
-      "id": "block-240"
+      "id": "block-244"
     },
     {
       "type": "list_item",
@@ -3812,7 +3884,7 @@
         391.17,
         389.18
       ],
-      "id": "block-241"
+      "id": "block-245"
     },
     {
       "type": "list_item",
@@ -3826,7 +3898,7 @@
         405.45,
         414.14
       ],
-      "id": "block-242"
+      "id": "block-246"
     },
     {
       "type": "list_item",
@@ -3840,7 +3912,7 @@
         416.37,
         439.1
       ],
-      "id": "block-243"
+      "id": "block-247"
     },
     {
       "type": "list_item",
@@ -3854,7 +3926,7 @@
         416.37,
         464.2
       ],
-      "id": "block-244"
+      "id": "block-248"
     },
     {
       "type": "list_item",
@@ -3868,7 +3940,7 @@
         252.55,
         489.16
       ],
-      "id": "block-245"
+      "id": "block-249"
     },
     {
       "type": "list_item",
@@ -3882,7 +3954,7 @@
         518.19,
         539.2
       ],
-      "id": "block-246"
+      "id": "block-250"
     },
     {
       "type": "list_item",
@@ -3896,7 +3968,7 @@
         518.25,
         589.12
       ],
-      "id": "block-247"
+      "id": "block-251"
     },
     {
       "type": "list_item",
@@ -3910,7 +3982,7 @@
         518.2,
         639.19
       ],
-      "id": "block-248"
+      "id": "block-252"
     },
     {
       "type": "list_item",
@@ -3924,7 +3996,7 @@
         518.2,
         689.23
       ],
-      "id": "block-249"
+      "id": "block-253"
     },
     {
       "type": "list_item",
@@ -3938,7 +4010,7 @@
         518.2,
         739.15
       ],
-      "id": "block-250"
+      "id": "block-254"
     },
     {
       "type": "heading",
@@ -3951,7 +4023,7 @@
         167.92,
         114.11
       ],
-      "id": "block-251"
+      "id": "block-255"
     },
     {
       "type": "list_item",
@@ -3965,7 +4037,7 @@
         355.41,
         139.07
       ],
-      "id": "block-252"
+      "id": "block-256"
     },
     {
       "type": "list_item",
@@ -3979,7 +4051,7 @@
         189.55,
         164.15
       ],
-      "id": "block-253"
+      "id": "block-257"
     },
     {
       "type": "list_item",
@@ -3993,7 +4065,7 @@
         518.2,
         214.07
       ],
-      "id": "block-254"
+      "id": "block-258"
     },
     {
       "type": "list_item",
@@ -4007,7 +4079,7 @@
         509.04,
         239.15
       ],
-      "id": "block-255"
+      "id": "block-259"
     },
     {
       "type": "list_item",
@@ -4021,7 +4093,7 @@
         460.2,
         264.14
       ],
-      "id": "block-256"
+      "id": "block-260"
     },
     {
       "type": "list_item",
@@ -4035,7 +4107,7 @@
         372.69,
         289.1
       ],
-      "id": "block-257"
+      "id": "block-261"
     },
     {
       "type": "list_item",
@@ -4049,7 +4121,7 @@
         440.37,
         314.18
       ],
-      "id": "block-258"
+      "id": "block-262"
     },
     {
       "type": "list_item",
@@ -4063,7 +4135,7 @@
         427.77,
         339.14
       ],
-      "id": "block-259"
+      "id": "block-263"
     },
     {
       "type": "list_item",
@@ -4077,7 +4149,7 @@
         402.45,
         364.1
       ],
-      "id": "block-260"
+      "id": "block-264"
     },
     {
       "type": "list_item",
@@ -4091,7 +4163,7 @@
         518.17,
         414.14
       ],
-      "id": "block-261"
+      "id": "block-265"
     },
     {
       "type": "list_item",
@@ -4105,7 +4177,7 @@
         252.55,
         439.1
       ],
-      "id": "block-262"
+      "id": "block-266"
     },
     {
       "type": "list_item",
@@ -4119,7 +4191,7 @@
         279.43,
         464.2
       ],
-      "id": "block-263"
+      "id": "block-267"
     },
     {
       "type": "list_item",
@@ -4133,7 +4205,7 @@
         317.23,
         489.16
       ],
-      "id": "block-264"
+      "id": "block-268"
     },
     {
       "type": "list_item",
@@ -4147,7 +4219,7 @@
         449.61,
         514.12
       ],
-      "id": "block-265"
+      "id": "block-269"
     },
     {
       "type": "list_item",
@@ -4161,7 +4233,7 @@
         422.37,
         539.2
       ],
-      "id": "block-266"
+      "id": "block-270"
     },
     {
       "type": "list_item",
@@ -4175,7 +4247,7 @@
         241.63,
         564.16
       ],
-      "id": "block-267"
+      "id": "block-271"
     },
     {
       "type": "list_item",
@@ -4189,7 +4261,7 @@
         189.55,
         589.12
       ],
-      "id": "block-268"
+      "id": "block-272"
     },
     {
       "type": "list_item",
@@ -4203,7 +4275,7 @@
         419.49,
         614.2
       ],
-      "id": "block-269",
+      "id": "block-273",
       "formulas": [
         {
           "latex": "\\rho",
@@ -4223,7 +4295,7 @@
         431.85,
         639.19
       ],
-      "id": "block-270"
+      "id": "block-274"
     },
     {
       "type": "list_item",
@@ -4237,7 +4309,7 @@
         518.25,
         689.23
       ],
-      "id": "block-271"
+      "id": "block-275"
     },
     {
       "type": "list_item",
@@ -4251,7 +4323,7 @@
         252.55,
         714.19
       ],
-      "id": "block-272"
+      "id": "block-276"
     },
     {
       "type": "list_item",
@@ -4265,7 +4337,7 @@
         518.35,
         764.22
       ],
-      "id": "block-273"
+      "id": "block-277"
     },
     {
       "type": "list_item",
@@ -4279,7 +4351,7 @@
         518.35,
         139.07
       ],
-      "id": "block-274"
+      "id": "block-278"
     },
     {
       "type": "list_item",
@@ -4293,7 +4365,7 @@
         518.2,
         189.11
       ],
-      "id": "block-275"
+      "id": "block-279"
     },
     {
       "type": "list_item",
@@ -4307,7 +4379,7 @@
         518.2,
         239.15
       ],
-      "id": "block-276"
+      "id": "block-280"
     },
     {
       "type": "list_item",
@@ -4321,7 +4393,7 @@
         518.2,
         289.1
       ],
-      "id": "block-277"
+      "id": "block-281"
     },
     {
       "type": "list_item",
@@ -4335,7 +4407,7 @@
         429.33,
         314.18
       ],
-      "id": "block-278"
+      "id": "block-282"
     },
     {
       "type": "list_item",
@@ -4349,7 +4421,7 @@
         189.55,
         339.14
       ],
-      "id": "block-279"
+      "id": "block-283"
     },
     {
       "type": "list_item",
@@ -4363,7 +4435,7 @@
         517.95,
         389.18
       ],
-      "id": "block-280"
+      "id": "block-284"
     },
     {
       "type": "list_item",
@@ -4377,7 +4449,7 @@
         518.2,
         464.2
       ],
-      "id": "block-281"
+      "id": "block-285"
     },
     {
       "type": "list_item",
@@ -4391,7 +4463,7 @@
         518.4,
         539.2
       ],
-      "id": "block-282"
+      "id": "block-286"
     },
     {
       "type": "list_item",
@@ -4405,7 +4477,7 @@
         518.88,
         589.12
       ],
-      "id": "block-283"
+      "id": "block-287"
     },
     {
       "type": "list_item",
@@ -4419,7 +4491,7 @@
         252.55,
         614.2
       ],
-      "id": "block-284"
+      "id": "block-288"
     },
     {
       "type": "list_item",
@@ -4433,7 +4505,7 @@
         405.45,
         639.19
       ],
-      "id": "block-285"
+      "id": "block-289"
     },
     {
       "type": "list_item",
@@ -4447,7 +4519,7 @@
         386.61,
         664.15
       ],
-      "id": "block-286"
+      "id": "block-290"
     },
     {
       "type": "list_item",
@@ -4461,7 +4533,7 @@
         392.85,
         689.23
       ],
-      "id": "block-287"
+      "id": "block-291"
     },
     {
       "type": "list_item",
@@ -4475,7 +4547,7 @@
         304.63,
         714.07
       ],
-      "id": "block-288"
+      "id": "block-292"
     },
     {
       "type": "list_item",
@@ -4489,7 +4561,7 @@
         189.55,
         746.83
       ],
-      "id": "block-289"
+      "id": "block-293"
     },
     {
       "type": "list_item",
@@ -4503,7 +4575,7 @@
         449.61,
         771.78
       ],
-      "id": "block-290",
+      "id": "block-294",
       "formulas": [
         {
           "latex": "\\rho_s = 0",
@@ -4523,7 +4595,7 @@
         462.12,
         114.11
       ],
-      "id": "block-291",
+      "id": "block-295",
       "formulas": [
         {
           "latex": "\\rho_{s}",
@@ -4543,7 +4615,7 @@
         518.25,
         164.15
       ],
-      "id": "block-292"
+      "id": "block-296"
     },
     {
       "type": "list_item",
@@ -4557,7 +4629,7 @@
         252.55,
         189.11
       ],
-      "id": "block-293"
+      "id": "block-297"
     },
     {
       "type": "list_item",
@@ -4571,7 +4643,7 @@
         518.2,
         239.15
       ],
-      "id": "block-294"
+      "id": "block-298"
     },
     {
       "type": "list_item",
@@ -4585,7 +4657,7 @@
         521.44,
         289.1
       ],
-      "id": "block-295"
+      "id": "block-299"
     },
     {
       "type": "list_item",
@@ -4599,7 +4671,7 @@
         518.23,
         339.14
       ],
-      "id": "block-296"
+      "id": "block-300"
     },
     {
       "type": "list_item",
@@ -4613,7 +4685,7 @@
         506.28,
         364.1
       ],
-      "id": "block-297"
+      "id": "block-301"
     },
     {
       "type": "list_item",
@@ -4627,7 +4699,7 @@
         518.37,
         414.14
       ],
-      "id": "block-298"
+      "id": "block-302"
     },
     {
       "type": "heading",
@@ -4640,7 +4712,7 @@
         167.92,
         464.2
       ],
-      "id": "block-299"
+      "id": "block-303"
     },
     {
       "type": "list_item",
@@ -4654,7 +4726,7 @@
         239.59,
         489.16
       ],
-      "id": "block-300"
+      "id": "block-304"
     },
     {
       "type": "list_item",
@@ -4668,7 +4740,7 @@
         189.55,
         514.12
       ],
-      "id": "block-301"
+      "id": "block-305"
     },
     {
       "type": "list_item",
@@ -4682,7 +4754,7 @@
         518.4,
         614.2
       ],
-      "id": "block-302"
+      "id": "block-306"
     },
     {
       "type": "list_item",
@@ -4696,7 +4768,7 @@
         518.2,
         664.15
       ],
-      "id": "block-303"
+      "id": "block-307"
     },
     {
       "type": "list_item",
@@ -4710,7 +4782,7 @@
         518.2,
         714.19
       ],
-      "id": "block-304"
+      "id": "block-308"
     },
     {
       "type": "list_item",
@@ -4724,7 +4796,7 @@
         252.55,
         739.15
       ],
-      "id": "block-305"
+      "id": "block-309"
     },
     {
       "type": "list_item",
@@ -4738,7 +4810,7 @@
         279.43,
         764.22
       ],
-      "id": "block-306"
+      "id": "block-310"
     },
     {
       "type": "list_item",
@@ -4752,7 +4824,7 @@
         418.05,
         114.11
       ],
-      "id": "block-307"
+      "id": "block-311"
     },
     {
       "type": "list_item",
@@ -4766,7 +4838,7 @@
         266.83,
         139.07
       ],
-      "id": "block-308"
+      "id": "block-312"
     },
     {
       "type": "list_item",
@@ -4780,7 +4852,7 @@
         518.05,
         189.11
       ],
-      "id": "block-309"
+      "id": "block-313"
     },
     {
       "type": "list_item",
@@ -4794,7 +4866,7 @@
         189.55,
         214.07
       ],
-      "id": "block-310"
+      "id": "block-314"
     },
     {
       "type": "list_item",
@@ -4808,7 +4880,7 @@
         386.85,
         239.15
       ],
-      "id": "block-311"
+      "id": "block-315"
     },
     {
       "type": "list_item",
@@ -4822,7 +4894,7 @@
         518.4,
         289.1
       ],
-      "id": "block-312"
+      "id": "block-316"
     },
     {
       "type": "list_item",
@@ -4836,7 +4908,7 @@
         524.66,
         339.14
       ],
-      "id": "block-313"
+      "id": "block-317"
     },
     {
       "type": "list_item",
@@ -4850,7 +4922,7 @@
         252.55,
         364.1
       ],
-      "id": "block-314"
+      "id": "block-318"
     },
     {
       "type": "list_item",
@@ -4864,7 +4936,7 @@
         518.2,
         414.14
       ],
-      "id": "block-315"
+      "id": "block-319"
     },
     {
       "type": "list_item",
@@ -4878,7 +4950,7 @@
         518.2,
         464.2
       ],
-      "id": "block-316"
+      "id": "block-320"
     },
     {
       "type": "list_item",
@@ -4892,7 +4964,7 @@
         518.2,
         514.12
       ],
-      "id": "block-317"
+      "id": "block-321"
     },
     {
       "type": "list_item",
@@ -4906,7 +4978,7 @@
         521.79,
         564.16
       ],
-      "id": "block-318"
+      "id": "block-322"
     },
     {
       "type": "list_item",
@@ -4920,7 +4992,7 @@
         226.99,
         589.12
       ],
-      "id": "block-319"
+      "id": "block-323"
     },
     {
       "type": "list_item",
@@ -4934,7 +5006,7 @@
         189.55,
         614.2
       ],
-      "id": "block-320"
+      "id": "block-324"
     },
     {
       "type": "list_item",
@@ -4948,7 +5020,7 @@
         518.79,
         714.19
       ],
-      "id": "block-321"
+      "id": "block-325"
     },
     {
       "type": "list_item",
@@ -4962,7 +5034,7 @@
         518.37,
         764.22
       ],
-      "id": "block-322"
+      "id": "block-326"
     },
     {
       "type": "list_item",
@@ -4976,7 +5048,7 @@
         518.2,
         189.11
       ],
-      "id": "block-323"
+      "id": "block-327"
     },
     {
       "type": "list_item",
@@ -4990,7 +5062,7 @@
         252.55,
         214.07
       ],
-      "id": "block-324"
+      "id": "block-328"
     },
     {
       "type": "list_item",
@@ -5004,7 +5076,7 @@
         392.85,
         239.15
       ],
-      "id": "block-325"
+      "id": "block-329"
     },
     {
       "type": "list_item",
@@ -5018,7 +5090,7 @@
         279.43,
         264.14
       ],
-      "id": "block-326"
+      "id": "block-330"
     },
     {
       "type": "list_item",
@@ -5032,7 +5104,7 @@
         266.83,
         289.1
       ],
-      "id": "block-327"
+      "id": "block-331"
     },
     {
       "type": "list_item",
@@ -5046,7 +5118,7 @@
         500.04,
         314.18
       ],
-      "id": "block-328"
+      "id": "block-332"
     },
     {
       "type": "list_item",
@@ -5060,7 +5132,7 @@
         518.4,
         364.1
       ],
-      "id": "block-329"
+      "id": "block-333"
     },
     {
       "type": "list_item",
@@ -5074,7 +5146,7 @@
         189.55,
         389.18
       ],
-      "id": "block-330"
+      "id": "block-334"
     },
     {
       "type": "list_item",
@@ -5088,7 +5160,7 @@
         521.88,
         414.14
       ],
-      "id": "block-331"
+      "id": "block-335"
     },
     {
       "type": "list_item",
@@ -5102,7 +5174,7 @@
         449.85,
         439.1
       ],
-      "id": "block-332"
+      "id": "block-336"
     },
     {
       "type": "list_item",
@@ -5116,7 +5188,7 @@
         252.55,
         464.2
       ],
-      "id": "block-333"
+      "id": "block-337"
     },
     {
       "type": "list_item",
@@ -5130,7 +5202,7 @@
         521.49,
         514.12
       ],
-      "id": "block-334"
+      "id": "block-338"
     },
     {
       "type": "list_item",
@@ -5144,7 +5216,7 @@
         518.2,
         564.16
       ],
-      "id": "block-335"
+      "id": "block-339"
     },
     {
       "type": "list_item",
@@ -5158,7 +5230,7 @@
         518.2,
         614.2
       ],
-      "id": "block-336"
+      "id": "block-340"
     },
     {
       "type": "list_item",
@@ -5172,7 +5244,7 @@
         518.68,
         664.15
       ],
-      "id": "block-337"
+      "id": "block-341"
     },
     {
       "type": "list_item",
@@ -5186,7 +5258,7 @@
         518.2,
         714.19
       ],
-      "id": "block-338"
+      "id": "block-342"
     },
     {
       "type": "heading",
@@ -5199,7 +5271,7 @@
         325.29,
         163.07
       ],
-      "id": "block-339"
+      "id": "block-343"
     },
     {
       "type": "question",
@@ -5212,7 +5284,7 @@
         325.29,
         288.02
       ],
-      "id": "block-340"
+      "id": "block-344"
     },
     {
       "type": "question",
@@ -5225,7 +5297,7 @@
         438.69,
         413.06
       ],
-      "id": "block-341"
+      "id": "block-345"
     },
     {
       "type": "question",
@@ -5238,7 +5310,7 @@
         438.69,
         538.12
       ],
-      "id": "block-342"
+      "id": "block-346"
     },
     {
       "type": "question",
@@ -5251,7 +5323,7 @@
         413.61,
         663.07
       ],
-      "id": "block-343"
+      "id": "block-347"
     },
     {
       "type": "question",
@@ -5264,7 +5336,7 @@
         413.61,
         763.14
       ],
-      "id": "block-344"
+      "id": "block-348"
     },
     {
       "type": "question",
@@ -5277,7 +5349,7 @@
         426.09,
         239.15
       ],
-      "id": "block-345"
+      "id": "block-349"
     },
     {
       "type": "question",
@@ -5290,7 +5362,7 @@
         438.69,
         364.1
       ],
-      "id": "block-346"
+      "id": "block-350"
     },
     {
       "type": "question",
@@ -5303,7 +5375,7 @@
         466.44,
         489.16
       ],
-      "id": "block-347"
+      "id": "block-351"
     },
     {
       "type": "question",
@@ -5316,7 +5388,7 @@
         518.32,
         639.19
       ],
-      "id": "block-348"
+      "id": "block-352"
     },
     {
       "type": "question",
@@ -5329,7 +5401,7 @@
         518.32,
         739.15
       ],
-      "id": "block-349"
+      "id": "block-353"
     },
     {
       "type": "answer",
@@ -5342,7 +5414,7 @@
         521.88,
         260.51
       ],
-      "id": "block-350"
+      "id": "block-354"
     },
     {
       "type": "answer",
@@ -5355,7 +5427,7 @@
         521.88,
         309.62
       ],
-      "id": "block-351"
+      "id": "block-355"
     },
     {
       "type": "answer",
@@ -5368,7 +5440,7 @@
         521.88,
         358.58
       ],
-      "id": "block-352"
+      "id": "block-356"
     },
     {
       "type": "answer",
@@ -5381,7 +5453,7 @@
         521.88,
         432.02
       ],
-      "id": "block-353"
+      "id": "block-357"
     },
     {
       "type": "answer",
@@ -5394,7 +5466,7 @@
         520.44,
         505.6
       ],
-      "id": "block-354"
+      "id": "block-358"
     },
     {
       "type": "answer",
@@ -5407,7 +5479,7 @@
         518.32,
         554.56
       ],
-      "id": "block-355"
+      "id": "block-359"
     },
     {
       "type": "answer",
@@ -5420,7 +5492,7 @@
         521.88,
         603.64
       ],
-      "id": "block-356"
+      "id": "block-360"
     },
     {
       "type": "answer",
@@ -5433,7 +5505,7 @@
         521.88,
         677.11
       ],
-      "id": "block-357"
+      "id": "block-361"
     },
     {
       "type": "answer",
@@ -5446,7 +5518,7 @@
         521.0,
         775.14
       ],
-      "id": "block-358"
+      "id": "block-362"
     },
     {
       "type": "answer",
@@ -5459,7 +5531,7 @@
         521.0,
         775.14
       ],
-      "id": "block-359"
+      "id": "block-363"
     }
   ]
 }

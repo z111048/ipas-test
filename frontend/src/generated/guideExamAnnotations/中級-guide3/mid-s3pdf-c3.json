@@ -349,6 +349,28 @@
         "prominence": "primary"
       }
     ],
+    "block-74": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q1",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q1",
+        "questionNumber": 1,
+        "question": "某零售企業建立一個銷售預測模型，希望評估該模型在不同月份的新資料 上，是否仍能維持穩定的預測表現。資料科學團隊計畫利用統計方法檢驗 模型對未觀察資料的適應能力與泛化效果。下列哪一種方法最適合用於此 目的？",
+        "answer": "B",
+        "confidence": "high",
+        "referenceQuestionId": "exam3_q1",
+        "reasons": [
+          "提供統計假設檢定的定位，協助區分 F 檢定、t 檢定、卡方檢定與模型泛化評估方法的不同目的。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 9,
+        "supplement": false,
+        "prominence": "secondary"
+      }
+    ],
     "block-75": [
       {
         "id": "mid_1141_s3:mid_1141_s3_q1",
@@ -371,7 +393,7 @@
         "prominence": "secondary"
       }
     ],
-    "block-76": [
+    "block-77": [
       {
         "id": "mid_1141_s3:mid_1141_s3_q1",
         "examKey": "mid_1141_s3",
@@ -525,29 +547,85 @@
         "prominence": "secondary"
       }
     ],
-    "block-84": [
+    "block-89": [
       {
-        "id": "mid_1141_s3:mid_1141_s3_q1",
+        "id": "mid_1141_s3:mid_1141_s3_q9",
         "examKey": "mid_1141_s3",
         "examLabel": "科目三 公告試題（114年第二梯次）",
         "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
         "route": "/exam/mid_1141_s3",
-        "questionId": "mid_1141_s3_q1",
-        "questionNumber": 1,
-        "question": "某零售企業建立一個銷售預測模型，希望評估該模型在不同月份的新資料 上，是否仍能維持穩定的預測表現。資料科學團隊計畫利用統計方法檢驗 模型對未觀察資料的適應能力與泛化效果。下列哪一種方法最適合用於此 目的？",
-        "answer": "B",
+        "questionId": "mid_1141_s3_q9",
+        "questionNumber": 9,
+        "question": "在建構以距離為基礎的機器學習模型（如 KNN、SVM）時，下列哪一項資料 前處理方式最為關鍵？",
+        "answer": "A",
         "confidence": "high",
-        "referenceQuestionId": "exam3_q1",
         "reasons": [
-          "提供統計假設檢定的定位，協助區分 F 檢定、t 檢定、卡方檢定與模型泛化評估方法的不同目的。"
+          "說明可透過變異數與標準差評估標準化需求，以避免尺度不一致影響模型訓練。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q20",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q20",
+        "questionNumber": 20,
+        "question": "某電子商務公司為開發商品評論情感分析模型，希望模型能捕捉評論中不 同特徵之間的關聯影響，例如「商品價格」與「顧客滿意度」的互動效 果。下列哪一種特徵工程設計方式最適合用於建立互動特徵（Interaction Features）？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "分別說明標準化與尺度差異、對數轉換與偏態處理的關係，用於辨別選項 B、D 的用途。"
         ],
         "citationRank": 3,
-        "citationBlockCount": 9,
+        "citationBlockCount": 3,
         "supplement": false,
         "prominence": "secondary"
+      },
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q48",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q48",
+        "questionNumber": 48,
+        "question": "參考下圖程式碼，下列何者正確？ A：X_train -= X_train.mean(axis=0) 將每個訓練集特徵的平均值調整為 0 B：X_train /= X_train.std(axis=0) 將每個訓練集特徵的標準差調整為 0 C：X_train 處理結果會將資料壓縮到 0 和 1 之間 D：標準化結果防止梯度爆炸或消失 E：標準化是屬於特徵選擇(Feature Selection)方法 F：X_train 程式碼應修正為 X_train = X_train.std(axis=0), X_test 程式碼應修正為 X_test = X_test.std(axis=0)",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "說明統計量可用於決定標準化策略，並指出尺度不一致可能影響模型訓練，支持本題特徵縮放的目的。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q25",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q25",
+        "questionNumber": 25,
+        "question": "某工程師建立房價預測模型，輸入特徵包含屋齡與距捷運站距離（公尺）。他發現 距捷運站距離分布嚴重右偏，經對數（Log）轉換後模型表現明顯改善；但將同樣 轉換套用於屋齡後，模型表現反而下降。下列何者為最可能的原因？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "說明應依分布、偏態、離散程度及視覺化結果決定轉換或標準化策略。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 4,
+        "supplement": false,
+        "prominence": "primary"
       }
     ],
-    "block-90": [
+    "block-91": [
       {
         "id": "mid_1141_s3:mid_1141_s3_q9",
         "examKey": "mid_1141_s3",
@@ -627,25 +705,6 @@
     ],
     "block-92": [
       {
-        "id": "mid_1141_s3:mid_1141_s3_q9",
-        "examKey": "mid_1141_s3",
-        "examLabel": "科目三 公告試題（114年第二梯次）",
-        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
-        "route": "/exam/mid_1141_s3",
-        "questionId": "mid_1141_s3_q9",
-        "questionNumber": 9,
-        "question": "在建構以距離為基礎的機器學習模型（如 KNN、SVM）時，下列哪一項資料 前處理方式最為關鍵？",
-        "answer": "A",
-        "confidence": "high",
-        "reasons": [
-          "說明可透過變異數與標準差評估標準化需求，以避免尺度不一致影響模型訓練。"
-        ],
-        "citationRank": 2,
-        "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
         "id": "mid_1141_s3:mid_1141_s3_q20",
         "examKey": "mid_1141_s3",
         "examLabel": "科目三 公告試題（114年第二梯次）",
@@ -665,106 +724,69 @@
         "prominence": "secondary"
       },
       {
-        "id": "mid_1141_s3:mid_1141_s3_q48",
+        "id": "mid_1151_s3:mid_1151_s3_q25",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q25",
+        "questionNumber": 25,
+        "question": "某工程師建立房價預測模型，輸入特徵包含屋齡與距捷運站距離（公尺）。他發現 距捷運站距離分布嚴重右偏，經對數（Log）轉換後模型表現明顯改善；但將同樣 轉換套用於屋齡後，模型表現反而下降。下列何者為最可能的原因？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "說明應依分布、偏態、離散程度及視覺化結果決定轉換或標準化策略。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 4,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-94": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q25",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q25",
+        "questionNumber": 25,
+        "question": "某工程師建立房價預測模型，輸入特徵包含屋齡與距捷運站距離（公尺）。他發現 距捷運站距離分布嚴重右偏，經對數（Log）轉換後模型表現明顯改善；但將同樣 轉換套用於屋齡後，模型表現反而下降。下列何者為最可能的原因？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "說明應依分布、偏態、離散程度及視覺化結果決定轉換或標準化策略。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 4,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-97": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q40",
         "examKey": "mid_1141_s3",
         "examLabel": "科目三 公告試題（114年第二梯次）",
         "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
         "route": "/exam/mid_1141_s3",
-        "questionId": "mid_1141_s3_q48",
-        "questionNumber": 48,
-        "question": "參考下圖程式碼，下列何者正確？ A：X_train -= X_train.mean(axis=0) 將每個訓練集特徵的平均值調整為 0 B：X_train /= X_train.std(axis=0) 將每個訓練集特徵的標準差調整為 0 C：X_train 處理結果會將資料壓縮到 0 和 1 之間 D：標準化結果防止梯度爆炸或消失 E：標準化是屬於特徵選擇(Feature Selection)方法 F：X_train 程式碼應修正為 X_train = X_train.std(axis=0), X_test 程式碼應修正為 X_test = X_test.std(axis=0)",
+        "questionId": "mid_1141_s3_q40",
+        "questionNumber": 40,
+        "question": "依據附圖程式碼進行資料處理，下列何者正確？",
         "answer": "C",
-        "confidence": "high",
+        "confidence": "medium",
+        "referenceQuestionId": "exam3_q40",
         "reasons": [
-          "說明統計量可用於決定標準化策略，並指出尺度不一致可能影響模型訓練，支持本題特徵縮放的目的。"
+          "說明線性代數、向量與矩陣是機器學習模型運算的基礎，並明確提到點積的意義與用途。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
-        "id": "mid_1151_s3:mid_1151_s3_q25",
-        "examKey": "mid_1151_s3",
-        "examLabel": "科目三 公告試題（115年第一次）",
-        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
-        "route": "/exam/mid_1151_s3",
-        "questionId": "mid_1151_s3_q25",
-        "questionNumber": 25,
-        "question": "某工程師建立房價預測模型，輸入特徵包含屋齡與距捷運站距離（公尺）。他發現 距捷運站距離分布嚴重右偏，經對數（Log）轉換後模型表現明顯改善；但將同樣 轉換套用於屋齡後，模型表現反而下降。下列何者為最可能的原因？",
-        "answer": "A",
-        "confidence": "high",
-        "reasons": [
-          "說明應依分布、偏態、離散程度及視覺化結果決定轉換或標準化策略。"
-        ],
-        "citationRank": 2,
-        "citationBlockCount": 4,
+        "citationBlockCount": 7,
         "supplement": false,
         "prominence": "primary"
       }
     ],
-    "block-93": [
-      {
-        "id": "mid_1141_s3:mid_1141_s3_q20",
-        "examKey": "mid_1141_s3",
-        "examLabel": "科目三 公告試題（114年第二梯次）",
-        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
-        "route": "/exam/mid_1141_s3",
-        "questionId": "mid_1141_s3_q20",
-        "questionNumber": 20,
-        "question": "某電子商務公司為開發商品評論情感分析模型，希望模型能捕捉評論中不 同特徵之間的關聯影響，例如「商品價格」與「顧客滿意度」的互動效 果。下列哪一種特徵工程設計方式最適合用於建立互動特徵（Interaction Features）？",
-        "answer": "C",
-        "confidence": "high",
-        "reasons": [
-          "分別說明標準化與尺度差異、對數轉換與偏態處理的關係，用於辨別選項 B、D 的用途。"
-        ],
-        "citationRank": 3,
-        "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "secondary"
-      },
-      {
-        "id": "mid_1151_s3:mid_1151_s3_q25",
-        "examKey": "mid_1151_s3",
-        "examLabel": "科目三 公告試題（115年第一次）",
-        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
-        "route": "/exam/mid_1151_s3",
-        "questionId": "mid_1151_s3_q25",
-        "questionNumber": 25,
-        "question": "某工程師建立房價預測模型，輸入特徵包含屋齡與距捷運站距離（公尺）。他發現 距捷運站距離分布嚴重右偏，經對數（Log）轉換後模型表現明顯改善；但將同樣 轉換套用於屋齡後，模型表現反而下降。下列何者為最可能的原因？",
-        "answer": "A",
-        "confidence": "high",
-        "reasons": [
-          "說明應依分布、偏態、離散程度及視覺化結果決定轉換或標準化策略。"
-        ],
-        "citationRank": 2,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
-      }
-    ],
-    "block-95": [
-      {
-        "id": "mid_1151_s3:mid_1151_s3_q25",
-        "examKey": "mid_1151_s3",
-        "examLabel": "科目三 公告試題（115年第一次）",
-        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
-        "route": "/exam/mid_1151_s3",
-        "questionId": "mid_1151_s3_q25",
-        "questionNumber": 25,
-        "question": "某工程師建立房價預測模型，輸入特徵包含屋齡與距捷運站距離（公尺）。他發現 距捷運站距離分布嚴重右偏，經對數（Log）轉換後模型表現明顯改善；但將同樣 轉換套用於屋齡後，模型表現反而下降。下列何者為最可能的原因？",
-        "answer": "A",
-        "confidence": "high",
-        "reasons": [
-          "說明應依分布、偏態、離散程度及視覺化結果決定轉換或標準化策略。"
-        ],
-        "citationRank": 2,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
-      }
-    ],
-    "block-98": [
+    "block-99": [
       {
         "id": "mid_1141_s3:mid_1141_s3_q40",
         "examKey": "mid_1141_s3",
@@ -830,7 +852,7 @@
         "prominence": "primary"
       }
     ],
-    "block-102": [
+    "block-105": [
       {
         "id": "mid_1141_s3:mid_1141_s3_q40",
         "examKey": "mid_1141_s3",
@@ -896,24 +918,23 @@
         "prominence": "primary"
       }
     ],
-    "block-108": [
+    "block-114": [
       {
-        "id": "mid_1141_s3:mid_1141_s3_q40",
-        "examKey": "mid_1141_s3",
-        "examLabel": "科目三 公告試題（114年第二梯次）",
-        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
-        "route": "/exam/mid_1141_s3",
-        "questionId": "mid_1141_s3_q40",
-        "questionNumber": 40,
-        "question": "依據附圖程式碼進行資料處理，下列何者正確？",
-        "answer": "C",
-        "confidence": "medium",
-        "referenceQuestionId": "exam3_q40",
+        "id": "mid_1151_s3:mid_1151_s3_q3",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q3",
+        "questionNumber": 3,
+        "question": "某工程師在撰寫 Transformer 的 Attention 層時，需手動驗證矩陣維度是否相容。輸入矩陣 Q 已攤平成形狀為 (1, 10)，Query 投影權重矩陣 W_Q 形狀為 (10, 64)。執行 Q × W_Q 後輸出的形狀為何？",
+        "answer": "A",
+        "confidence": "high",
         "reasons": [
-          "說明線性代數、向量與矩陣是機器學習模型運算的基礎，並明確提到點積的意義與用途。"
+          "說明 n×d 特徵矩陣與 d×k 權重矩陣的表示，以及將 d 維輸入映射至 k 維輸出的概念，可對應本題的 1×10 與 10×64。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 7,
+        "citationBlockCount": 5,
         "supplement": false,
         "prominence": "primary"
       }
@@ -1004,21 +1025,22 @@
     ],
     "block-119": [
       {
-        "id": "mid_1151_s3:mid_1151_s3_q3",
-        "examKey": "mid_1151_s3",
-        "examLabel": "科目三 公告試題（115年第一次）",
-        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
-        "route": "/exam/mid_1151_s3",
-        "questionId": "mid_1151_s3_q3",
-        "questionNumber": 3,
-        "question": "某工程師在撰寫 Transformer 的 Attention 層時，需手動驗證矩陣維度是否相容。輸入矩陣 Q 已攤平成形狀為 (1, 10)，Query 投影權重矩陣 W_Q 形狀為 (10, 64)。執行 Q × W_Q 後輸出的形狀為何？",
-        "answer": "A",
-        "confidence": "high",
+        "id": "mid_1141_s3:mid_1141_s3_q40",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q40",
+        "questionNumber": 40,
+        "question": "依據附圖程式碼進行資料處理，下列何者正確？",
+        "answer": "C",
+        "confidence": "medium",
+        "referenceQuestionId": "exam3_q40",
         "reasons": [
-          "說明 n×d 特徵矩陣與 d×k 權重矩陣的表示，以及將 d 維輸入映射至 k 維輸出的概念，可對應本題的 1×10 與 10×64。"
+          "列出矩陣乘法、轉置、矩陣求逆等常見矩陣運算，可用來區分本題中的 dot 運算與反矩陣運算。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 5,
+        "citationRank": 2,
+        "citationBlockCount": 4,
         "supplement": false,
         "prominence": "primary"
       }
@@ -1089,21 +1111,20 @@
         "prominence": "primary"
       }
     ],
-    "block-123": [
+    "block-217": [
       {
-        "id": "mid_1141_s3:mid_1141_s3_q40",
+        "id": "mid_1141_s3:mid_1141_s3_q15",
         "examKey": "mid_1141_s3",
         "examLabel": "科目三 公告試題（114年第二梯次）",
         "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
         "route": "/exam/mid_1141_s3",
-        "questionId": "mid_1141_s3_q40",
-        "questionNumber": 40,
-        "question": "依據附圖程式碼進行資料處理，下列何者正確？",
-        "answer": "C",
-        "confidence": "medium",
-        "referenceQuestionId": "exam3_q40",
+        "questionId": "mid_1141_s3_q15",
+        "questionNumber": 15,
+        "question": "在線性迴歸模型中，若 R²值為 0.85，其意義為何？",
+        "answer": "B",
+        "confidence": "high",
         "reasons": [
-          "列出矩陣乘法、轉置、矩陣求逆等常見矩陣運算，可用來區分本題中的 dot 運算與反矩陣運算。"
+          "本節說明線性迴歸透過最小平方估計，使預測值與實際值之間的差異平方總和最小，有助於理解決定係數中殘差平方和的意義。"
         ],
         "citationRank": 2,
         "citationBlockCount": 4,
@@ -1174,25 +1195,25 @@
         "prominence": "primary"
       }
     ],
-    "block-221": [
+    "block-240": [
       {
-        "id": "mid_1141_s3:mid_1141_s3_q15",
-        "examKey": "mid_1141_s3",
-        "examLabel": "科目三 公告試題（114年第二梯次）",
-        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
-        "route": "/exam/mid_1141_s3",
-        "questionId": "mid_1141_s3_q15",
-        "questionNumber": 15,
-        "question": "在線性迴歸模型中，若 R²值為 0.85，其意義為何？",
-        "answer": "B",
+        "id": "mid_1151_s3:mid_1151_s3_q10",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q10",
+        "questionNumber": 10,
+        "question": "某工程師同時開發兩個模型：一個預測使用者「隔日 App使用時長（分鐘）」，另 一個預測使用者「隔日是否流失（是/否）」。關於上述兩個任務，他應分別選擇哪 種適當的損失函數？",
+        "answer": "A",
         "confidence": "high",
         "reasons": [
-          "本節說明線性迴歸透過最小平方估計，使預測值與實際值之間的差異平方總和最小，有助於理解決定係數中殘差平方和的意義。"
+          "對照迴歸使用 MSE 與分類使用交叉熵，支持依任務性質選擇損失函數的核心判斷。"
         ],
-        "citationRank": 2,
-        "citationBlockCount": 4,
+        "citationRank": 3,
+        "citationBlockCount": 5,
         "supplement": false,
-        "prominence": "primary"
+        "prominence": "secondary"
       }
     ],
     "block-241": [
@@ -1279,28 +1300,7 @@
         "prominence": "secondary"
       }
     ],
-    "block-245": [
-      {
-        "id": "mid_1151_s3:mid_1151_s3_q10",
-        "examKey": "mid_1151_s3",
-        "examLabel": "科目三 公告試題（115年第一次）",
-        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
-        "route": "/exam/mid_1151_s3",
-        "questionId": "mid_1151_s3_q10",
-        "questionNumber": 10,
-        "question": "某工程師同時開發兩個模型：一個預測使用者「隔日 App使用時長（分鐘）」，另 一個預測使用者「隔日是否流失（是/否）」。關於上述兩個任務，他應分別選擇哪 種適當的損失函數？",
-        "answer": "A",
-        "confidence": "high",
-        "reasons": [
-          "對照迴歸使用 MSE 與分類使用交叉熵，支持依任務性質選擇損失函數的核心判斷。"
-        ],
-        "citationRank": 3,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "secondary"
-      }
-    ],
-    "block-289": [
+    "block-288": [
       {
         "id": "mid_1151_s3:mid_1151_s3_q2",
         "examKey": "mid_1151_s3",
@@ -1340,7 +1340,47 @@
         "prominence": "primary"
       }
     ],
+    "block-289": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q12",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q12",
+        "questionNumber": 12,
+        "question": "某醫院導入肺癌篩檢模型，資料集中正常病例佔 99%、肺癌陽性僅佔 1%。模型 上線後，系統報告整體準確率（Accuracy）為 99.1%。醫師對此數字感到疑慮， 認為不足以評估臨床價值，在漏診風險上可能存在重大問題。請問在此情境下， 僅以Accuracy 作為評估指標最嚴重的缺陷為何？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "說明學習目標與損失函數反映風險容忍度，以及假陽性與假陰性的權重差異，支持本題需重視漏診代價的解釋。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 4,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
     "block-290": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q2",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q2",
+        "questionNumber": 2,
+        "question": "某工程師在建立房價預測模型時，訓練資料中存在少數豪宅（成交價超過一般物 件10倍以上）。若工程師希望模型對這些極端高價物件的預測誤差更敏感，並在 訓練時產生較大的梯度更新影響，應優先選擇下列哪種損失函數？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "說明損失函數決定誤差懲罰與參數調整方式，並指出 MSE 用於迴歸且會放大較大誤差的懲罰。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 5,
+        "supplement": false,
+        "prominence": "primary"
+      },
       {
         "id": "mid_1151_s3:mid_1151_s3_q12",
         "examKey": "mid_1151_s3",
@@ -1380,7 +1420,9 @@
         "citationBlockCount": 5,
         "supplement": false,
         "prominence": "primary"
-      },
+      }
+    ],
+    "block-292": [
       {
         "id": "mid_1151_s3:mid_1151_s3_q12",
         "examKey": "mid_1151_s3",
@@ -1401,7 +1443,7 @@
         "prominence": "primary"
       }
     ],
-    "block-292": [
+    "block-295": [
       {
         "id": "mid_1151_s3:mid_1151_s3_q2",
         "examKey": "mid_1151_s3",
@@ -1418,53 +1460,11 @@
         ],
         "citationRank": 1,
         "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
-      }
-    ],
-    "block-293": [
-      {
-        "id": "mid_1151_s3:mid_1151_s3_q12",
-        "examKey": "mid_1151_s3",
-        "examLabel": "科目三 公告試題（115年第一次）",
-        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
-        "route": "/exam/mid_1151_s3",
-        "questionId": "mid_1151_s3_q12",
-        "questionNumber": 12,
-        "question": "某醫院導入肺癌篩檢模型，資料集中正常病例佔 99%、肺癌陽性僅佔 1%。模型 上線後，系統報告整體準確率（Accuracy）為 99.1%。醫師對此數字感到疑慮， 認為不足以評估臨床價值，在漏診風險上可能存在重大問題。請問在此情境下， 僅以Accuracy 作為評估指標最嚴重的缺陷為何？",
-        "answer": "A",
-        "confidence": "high",
-        "reasons": [
-          "說明學習目標與損失函數反映風險容忍度，以及假陽性與假陰性的權重差異，支持本題需重視漏診代價的解釋。"
-        ],
-        "citationRank": 2,
-        "citationBlockCount": 4,
         "supplement": false,
         "prominence": "primary"
       }
     ],
     "block-296": [
-      {
-        "id": "mid_1151_s3:mid_1151_s3_q2",
-        "examKey": "mid_1151_s3",
-        "examLabel": "科目三 公告試題（115年第一次）",
-        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
-        "route": "/exam/mid_1151_s3",
-        "questionId": "mid_1151_s3_q2",
-        "questionNumber": 2,
-        "question": "某工程師在建立房價預測模型時，訓練資料中存在少數豪宅（成交價超過一般物 件10倍以上）。若工程師希望模型對這些極端高價物件的預測誤差更敏感，並在 訓練時產生較大的梯度更新影響，應優先選擇下列哪種損失函數？",
-        "answer": "C",
-        "confidence": "high",
-        "reasons": [
-          "說明損失函數決定誤差懲罰與參數調整方式，並指出 MSE 用於迴歸且會放大較大誤差的懲罰。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
-      }
-    ],
-    "block-297": [
       {
         "id": "mid_1151_s3:mid_1151_s3_q2",
         "examKey": "mid_1151_s3",

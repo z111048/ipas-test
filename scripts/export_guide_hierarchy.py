@@ -217,7 +217,13 @@ def chapter_headings(content: dict) -> list[dict]:
         else:
             item = {**item, 'pageIndex': last_page}
         out.append(item)
-    return out
+    # 主幹開頭還沒遇到已知頁的項目沿用第一個已知頁（它們排在那頁之前或同頁）；
+    # 否則頁碼是 None，有子節的章會把它們當成「子節沒涵蓋」而重複收進來（2026-11-02 初級 s2pdf-c3）。
+    first_known = next((item['pageIndex'] for item in out if isinstance(item.get('pageIndex'), int)), None)
+    return [
+        {**item, 'pageIndex': first_known} if item.get('pageIndex') is None else item
+        for item in out
+    ]
 
 
 def slugify_anchor(text: str) -> str:
@@ -227,20 +233,88 @@ def slugify_anchor(text: str) -> str:
     return slug.strip('-')
 
 
+def block_section_headings(content: dict) -> list[dict]:
+    """該章 blocks 裡真正渲染出來、可捲動到的 `N.` 層標題（含頁碼）。"""
+    out = []
+    for block in content.get('blocks') or []:
+        title = (block.get('title') or '').strip()
+        if block.get('type') != 'heading' or not block.get('anchor') or not SECTION_NUM_TITLE.match(title):
+            continue
+        page_index = block.get('pageIndex')
+        out.append({
+            'title': title,
+            'anchor': block['anchor'],
+            'depth': int(block.get('depth') or 3),
+            'page': page_index + 1 if isinstance(page_index, int) else None,
+        })
+    return out
+
+
+def _section_number(title: str) -> str | None:
+    text = normalize(title)
+    if not SECTION_NUM_TITLE.match(text):
+        return None  # 「3.1 …」是節標題，不是 `N.` 層
+    return re.match(r'^(\d+)', text).group(1)
+
+
 def fill_missing_section_layer(items: list[dict], page_range, numbered_titles: dict[int, list[str]],
                                covered_by_child, stats: dict,
-                               page_headings: dict[int, list[str]] | None = None) -> list[dict]:
-    """用 guide_ocr 的 `N.` 標題補回 Track A 漏抓的那一層，依頁碼插入正確位置。"""
+                               page_headings: dict[int, list[str]] | None = None,
+                               block_headings: list[dict] | None = None) -> list[dict]:
+    """用 guide_ocr 的 `N.` 標題補回 Track A 漏抓的那一層，依頁碼插入正確位置。
+
+    主幹取 markdown headings 時（較完整，但常缺 `N.` 層），`N.` 標題其實可能已經是
+    blocks 裡的 heading（例如初級 s1c1 的「2. 人工智慧的架構」）。這種情況改用
+    該 block 的標題與 anchor，導覽可以捲過去，不標 recovered（2026-11-02）。
+    同頁同號的 block 標題以 block 為準——guide_ocr 偶有錯字（中級 3-102「在序」）。
+    """
     if not page_range or len(page_range) != 2 or not numbered_titles:
         return items
 
+    blocks_by_title = {normalize(b['title']): b for b in block_headings or []}
+    blocks_by_slot = {(b['page'], _section_number(b['title'])): b for b in block_headings or []}
+    block_anchors = {b['anchor'] for b in block_headings or []}
+    # markdown 主幹的 `N.` 標題可能被截斷（中級 3-81「2. 多模態」），anchor 對不到任何
+    # block；同頁同號的 block 標題存在時改用 block 的標題與 anchor。
+    # 主幹項目沒有頁碼時沿用前一項的頁，所以同號唯一時也以號碼對應。
+    by_number: dict[str, list[dict]] = {}
+    for b in block_headings or []:
+        by_number.setdefault(_section_number(b['title']), []).append(b)
+    upgraded = []
+    for item in items:
+        slot = (item.get('page'), _section_number(item['title']))
+        block = blocks_by_slot.get(slot) if slot[1] is not None else None
+        if block is None and slot[1] is not None and len(by_number.get(slot[1], [])) == 1:
+            block = by_number[slot[1]][0]
+        if block is not None and item.get('anchor') not in block_anchors:
+            item = {**item, 'title': block['title'], 'anchor': block['anchor']}
+        upgraded.append(item)
+    items = upgraded
+
     existing = {normalize(i['title']) for i in items}
+    existing_anchors = {i.get('anchor') for i in items}
     additions: list[dict] = []
     for page in range(page_range[0], page_range[1] + 1):
         if covered_by_child(page):
             continue
         for title in numbered_titles.get(page, []):
             if normalize(title) in existing:
+                continue
+            block = blocks_by_title.get(normalize(title)) or blocks_by_slot.get((page, _section_number(title)))
+            if block is not None:
+                existing.add(normalize(title))
+                existing.add(normalize(block['title']))
+                if block['anchor'] in existing_anchors:
+                    continue
+                existing_anchors.add(block['anchor'])
+                additions.append({
+                    'title': block['title'],
+                    'anchor': block['anchor'],
+                    'depth': block['depth'],
+                    'page': page,
+                    'recovered': False,
+                    'ocrTitle': title,
+                })
                 continue
             existing.add(normalize(title))
             additions.append({
@@ -253,7 +327,8 @@ def fill_missing_section_layer(items: list[dict], page_range, numbered_titles: d
 
     if not additions:
         return items
-    stats['recovered'] = stats.get('recovered', 0) + len(additions)
+    stats['recovered'] = stats.get('recovered', 0) + sum(1 for a in additions if a['recovered'])
+    stats['resolvedToBlock'] = stats.get('resolvedToBlock', 0) + sum(1 for a in additions if not a['recovered'])
 
     # 插回文件順序。只用頁碼不夠——同一頁常有多個標題，補回的「3. 資料處理與分析」
     # 會被插到同頁但實際在它前面的「E. 專家系統」之前，把 E. 變成它的子項。
@@ -263,7 +338,7 @@ def fill_missing_section_layer(items: list[dict], page_range, numbered_titles: d
         page = addition['page']
         order = [normalize(t) for t in (page_headings or {}).get(page, [])]
         try:
-            own_rank = order.index(normalize(addition['title']))
+            own_rank = order.index(normalize(addition.get('ocrTitle', addition['title'])))
         except ValueError:
             own_rank = -1
 
@@ -349,8 +424,9 @@ def build_guide(subject_id: str, guide: dict) -> dict:
                 len(r) == 2 and r[0] <= page <= r[1] for r in child_ranges
             )
 
+        content = load_json(content_path)
         items = []
-        for heading in chapter_headings(load_json(content_path)):
+        for heading in chapter_headings(content):
             page_index = heading.get('pageIndex')
             page = (page_index + 1) if isinstance(page_index, int) else None
             if covered_by_child(page):
@@ -358,7 +434,8 @@ def build_guide(subject_id: str, guide: dict) -> dict:
             items.append({**heading, 'page': page})
 
         items = fill_missing_section_layer(items, node.get('pageRange'), numbered_titles,
-                                           covered_by_child, stats, page_headings)
+                                           covered_by_child, stats, page_headings,
+                                           block_section_headings(content))
         if items:
             collected[node_id] = items
 

@@ -70,6 +70,27 @@
         "prominence": "primary"
       }
     ],
+    "block-18": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q20",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q20",
+        "questionNumber": 20,
+        "question": "某電商公司計畫導入即時推薦系統，希望使用者進入網站後能在 100毫秒內取得 推薦結果，且推薦結果需依據最新使用者行為進行調整。系統需支援每日約 50萬 活躍使用者，尖峰時段每秒約 3,000筆請求（QPS）。目前公司已累積歷史購買紀 錄與瀏覽行為資料，並持續接收即時點擊流（Streaming Data）。IT基礎架構採用 雲端環境，團隊配置為 2名資料工程師與 1名機器學習工程師。某工程師提出以 下導入規劃： (1)使用批次訓練（Batch Training）建立協同過濾模型 (2)將模型部署為 REST API 提供即時推論服務 (3)使用 Kafka串流處理即時使用者行為特徵 (4)將所有即時資料先寫入資料倉儲（Data Warehouse）再進行特徵計算 (5)使用 Redis 或Feature Store快取即時特徵 請問以下哪一項最合理的技術導入規劃組合與調整建議？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "支持依現有人力、技能與資源選擇可執行的導入方案，並配置資料收集、清理及整合工作。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 5,
+        "supplement": false,
+        "prominence": "secondary"
+      }
+    ],
     "block-19": [
       {
         "id": "mid_1151_s1:mid_1151_s1_q20",
@@ -112,7 +133,7 @@
         "prominence": "secondary"
       }
     ],
-    "block-21": [
+    "block-22": [
       {
         "id": "mid_1151_s1:mid_1151_s1_q20",
         "examKey": "mid_1151_s1",
@@ -133,7 +154,7 @@
         "prominence": "secondary"
       }
     ],
-    "block-23": [
+    "block-28": [
       {
         "id": "mid_1151_s1:mid_1151_s1_q20",
         "examKey": "mid_1151_s1",
@@ -154,25 +175,25 @@
         "prominence": "secondary"
       }
     ],
-    "block-29": [
+    "block-41": [
       {
-        "id": "mid_1151_s1:mid_1151_s1_q20",
+        "id": "mid_1151_s1:mid_1151_s1_q41",
         "examKey": "mid_1151_s1",
         "examLabel": "科目一 公告試題（115年第一次）",
         "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
         "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q20",
-        "questionNumber": 20,
-        "question": "某電商公司計畫導入即時推薦系統，希望使用者進入網站後能在 100毫秒內取得 推薦結果，且推薦結果需依據最新使用者行為進行調整。系統需支援每日約 50萬 活躍使用者，尖峰時段每秒約 3,000筆請求（QPS）。目前公司已累積歷史購買紀 錄與瀏覽行為資料，並持續接收即時點擊流（Streaming Data）。IT基礎架構採用 雲端環境，團隊配置為 2名資料工程師與 1名機器學習工程師。某工程師提出以 下導入規劃： (1)使用批次訓練（Batch Training）建立協同過濾模型 (2)將模型部署為 REST API 提供即時推論服務 (3)使用 Kafka串流處理即時使用者行為特徵 (4)將所有即時資料先寫入資料倉儲（Data Warehouse）再進行特徵計算 (5)使用 Redis 或Feature Store快取即時特徵 請問以下哪一項最合理的技術導入規劃組合與調整建議？",
+        "questionId": "mid_1151_s1_q41",
+        "questionNumber": 41,
+        "question": "某 AI 影像辨識平台以單一 GPU 伺服器提供多租戶推論服務，系統長期觀察到 GPU 使用率約維持在 60%左右，且在執行過程中可觀察到 GPU kernel 之間存在 明顯閒置間隔，單次推論多以小批次方式執行。然而，在尖峰時段時，請求延遲 會出現明顯波動甚至突增。同時，CPU 與記憶體資源使用率均未達瓶頸，且系統 團隊已排除硬體、網路與請求併發控制異常。在此情境下，請判斷最可能造成問 題的原因為何？",
         "answer": "A",
         "confidence": "high",
         "reasons": [
-          "支持依現有人力、技能與資源選擇可執行的導入方案，並配置資料收集、清理及整合工作。"
+          "說明硬體資源配置影響效能，且 GPU 可加速模型訓練與推論，支持本題資源配置與效能診斷的概念連結。"
         ],
-        "citationRank": 3,
-        "citationBlockCount": 5,
+        "citationRank": 1,
+        "citationBlockCount": 3,
         "supplement": false,
-        "prominence": "secondary"
+        "prominence": "primary"
       }
     ],
     "block-42": [
@@ -217,28 +238,7 @@
         "prominence": "primary"
       }
     ],
-    "block-44": [
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q41",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q41",
-        "questionNumber": 41,
-        "question": "某 AI 影像辨識平台以單一 GPU 伺服器提供多租戶推論服務，系統長期觀察到 GPU 使用率約維持在 60%左右，且在執行過程中可觀察到 GPU kernel 之間存在 明顯閒置間隔，單次推論多以小批次方式執行。然而，在尖峰時段時，請求延遲 會出現明顯波動甚至突增。同時，CPU 與記憶體資源使用率均未達瓶頸，且系統 團隊已排除硬體、網路與請求併發控制異常。在此情境下，請判斷最可能造成問 題的原因為何？",
-        "answer": "A",
-        "confidence": "high",
-        "reasons": [
-          "說明硬體資源配置影響效能，且 GPU 可加速模型訓練與推論，支持本題資源配置與效能診斷的概念連結。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
-      }
-    ],
-    "block-56": [
+    "block-54": [
       {
         "id": "mid_1141_s1:mid_1141_s1_q36",
         "examKey": "mid_1141_s1",
@@ -259,7 +259,7 @@
         "prominence": "primary"
       }
     ],
-    "block-57": [
+    "block-55": [
       {
         "id": "mid_1141_s1:mid_1141_s1_q36",
         "examKey": "mid_1141_s1",
@@ -280,7 +280,7 @@
         "prominence": "primary"
       }
     ],
-    "block-67": [
+    "block-65": [
       {
         "id": "mid_1141_s1:mid_1141_s1_q36",
         "examKey": "mid_1141_s1",
@@ -301,7 +301,7 @@
         "prominence": "primary"
       }
     ],
-    "block-128": [
+    "block-122": [
       {
         "id": "mid_1151_s1:mid_1151_s1_q23",
         "examKey": "mid_1151_s1",
@@ -322,7 +322,7 @@
         "prominence": "secondary"
       }
     ],
-    "block-129": [
+    "block-123": [
       {
         "id": "mid_1151_s1:mid_1151_s1_q23",
         "examKey": "mid_1151_s1",
@@ -343,7 +343,7 @@
         "prominence": "secondary"
       }
     ],
-    "block-130": [
+    "block-124": [
       {
         "id": "mid_1151_s1:mid_1151_s1_q23",
         "examKey": "mid_1151_s1",
@@ -364,7 +364,7 @@
         "prominence": "secondary"
       }
     ],
-    "block-133": [
+    "block-127": [
       {
         "id": "mid_1151_s1:mid_1151_s1_q23",
         "examKey": "mid_1151_s1",
@@ -383,9 +383,230 @@
         "citationBlockCount": 4,
         "supplement": false,
         "prominence": "secondary"
+      }
+    ],
+    "block-134": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q43",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q43",
+        "questionNumber": 43,
+        "question": "某電商平台的演算法工程師開發了一個新版商品推薦模型，在離線 A/B 測試中， 新模型的各項評估指標（AUC、NDCG@10）均顯著優於現行線上模型。然而， 離線測試無法完全反映真實使用者的互動行為（點擊、購買、停留時間）。在正式 全面上線前，若希望在可控制風險下量化真實業務指標，應採用下列何種線上驗 證策略？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "支持以小範圍測試與快速迭代驗證方案，設定可量化目標，並區分技術效能與商業價值指標。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 8,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-137": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q25",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q25",
+        "questionNumber": 25,
+        "question": "某企業欲將其 AI輔助決策系統提交給外部稽核單位審查，並宣稱符合 NIST《AI 風險管理框架》（NIST AI RMF）中可驗證性（Verifiability）的要求。為讓第三方 稽核人員能獨立重現模型評估結果，下列哪一項技術實踐最直接符合此要求？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明驗證目標、從資料準備到模型測試的完整流程、快速迭代與技術效能指標，可用於連結評估流程概念，並區分效能改善與結果重現。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 6,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q43",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q43",
+        "questionNumber": 43,
+        "question": "某電商平台的演算法工程師開發了一個新版商品推薦模型，在離線 A/B 測試中， 新模型的各項評估指標（AUC、NDCG@10）均顯著優於現行線上模型。然而， 離線測試無法完全反映真實使用者的互動行為（點擊、購買、停留時間）。在正式 全面上線前，若希望在可控制風險下量化真實業務指標，應採用下列何種線上驗 證策略？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "支持以小範圍測試與快速迭代驗證方案，設定可量化目標，並區分技術效能與商業價值指標。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 8,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-138": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q25",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q25",
+        "questionNumber": 25,
+        "question": "某企業欲將其 AI輔助決策系統提交給外部稽核單位審查，並宣稱符合 NIST《AI 風險管理框架》（NIST AI RMF）中可驗證性（Verifiability）的要求。為讓第三方 稽核人員能獨立重現模型評估結果，下列哪一項技術實踐最直接符合此要求？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明驗證目標、從資料準備到模型測試的完整流程、快速迭代與技術效能指標，可用於連結評估流程概念，並區分效能改善與結果重現。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 6,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-139": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q43",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q43",
+        "questionNumber": 43,
+        "question": "某電商平台的演算法工程師開發了一個新版商品推薦模型，在離線 A/B 測試中， 新模型的各項評估指標（AUC、NDCG@10）均顯著優於現行線上模型。然而， 離線測試無法完全反映真實使用者的互動行為（點擊、購買、停留時間）。在正式 全面上線前，若希望在可控制風險下量化真實業務指標，應採用下列何種線上驗 證策略？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "支持以小範圍測試與快速迭代驗證方案，設定可量化目標，並區分技術效能與商業價值指標。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 8,
+        "supplement": false,
+        "prominence": "primary"
       }
     ],
     "block-140": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q25",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q25",
+        "questionNumber": 25,
+        "question": "某企業欲將其 AI輔助決策系統提交給外部稽核單位審查，並宣稱符合 NIST《AI 風險管理框架》（NIST AI RMF）中可驗證性（Verifiability）的要求。為讓第三方 稽核人員能獨立重現模型評估結果，下列哪一項技術實踐最直接符合此要求？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明驗證目標、從資料準備到模型測試的完整流程、快速迭代與技術效能指標，可用於連結評估流程概念，並區分效能改善與結果重現。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 6,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q43",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q43",
+        "questionNumber": 43,
+        "question": "某電商平台的演算法工程師開發了一個新版商品推薦模型，在離線 A/B 測試中， 新模型的各項評估指標（AUC、NDCG@10）均顯著優於現行線上模型。然而， 離線測試無法完全反映真實使用者的互動行為（點擊、購買、停留時間）。在正式 全面上線前，若希望在可控制風險下量化真實業務指標，應採用下列何種線上驗 證策略？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "支持以小範圍測試與快速迭代驗證方案，設定可量化目標，並區分技術效能與商業價值指標。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 8,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-141": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q25",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q25",
+        "questionNumber": 25,
+        "question": "某企業欲將其 AI輔助決策系統提交給外部稽核單位審查，並宣稱符合 NIST《AI 風險管理框架》（NIST AI RMF）中可驗證性（Verifiability）的要求。為讓第三方 稽核人員能獨立重現模型評估結果，下列哪一項技術實踐最直接符合此要求？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明驗證目標、從資料準備到模型測試的完整流程、快速迭代與技術效能指標，可用於連結評估流程概念，並區分效能改善與結果重現。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 6,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q43",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q43",
+        "questionNumber": 43,
+        "question": "某電商平台的演算法工程師開發了一個新版商品推薦模型，在離線 A/B 測試中， 新模型的各項評估指標（AUC、NDCG@10）均顯著優於現行線上模型。然而， 離線測試無法完全反映真實使用者的互動行為（點擊、購買、停留時間）。在正式 全面上線前，若希望在可控制風險下量化真實業務指標，應採用下列何種線上驗 證策略？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "支持以小範圍測試與快速迭代驗證方案，設定可量化目標，並區分技術效能與商業價值指標。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 8,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-142": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q24",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q24",
+        "questionNumber": 24,
+        "question": "某即時詐欺偵測系統對模型回應時間有嚴格限制，若推論延遲過高將影響交易核 准流程。維運工程師在模型上線前進行延遲測試（Latency Testing）時，主要評估 的目標為何？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "明確將延遲時間列為衡量模型表現的技術效能指標，支持本題以回應時間作為測試目標。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q25",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q25",
+        "questionNumber": 25,
+        "question": "某企業欲將其 AI輔助決策系統提交給外部稽核單位審查，並宣稱符合 NIST《AI 風險管理框架》（NIST AI RMF）中可驗證性（Verifiability）的要求。為讓第三方 稽核人員能獨立重現模型評估結果，下列哪一項技術實踐最直接符合此要求？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明驗證目標、從資料準備到模型測試的完整流程、快速迭代與技術效能指標，可用於連結評估流程概念，並區分效能改善與結果重現。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 6,
+        "supplement": false,
+        "prominence": "primary"
+      },
       {
         "id": "mid_1151_s1:mid_1151_s1_q43",
         "examKey": "mid_1151_s1",
@@ -407,6 +628,25 @@
       }
     ],
     "block-143": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q24",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q24",
+        "questionNumber": 24,
+        "question": "某即時詐欺偵測系統對模型回應時間有嚴格限制，若推論延遲過高將影響交易核 准流程。維運工程師在模型上線前進行延遲測試（Latency Testing）時，主要評估 的目標為何？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "明確將延遲時間列為衡量模型表現的技術效能指標，支持本題以回應時間作為測試目標。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": false,
+        "prominence": "primary"
+      },
       {
         "id": "mid_1151_s1:mid_1151_s1_q25",
         "examKey": "mid_1151_s1",
@@ -447,246 +687,6 @@
       }
     ],
     "block-144": [
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q25",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q25",
-        "questionNumber": 25,
-        "question": "某企業欲將其 AI輔助決策系統提交給外部稽核單位審查，並宣稱符合 NIST《AI 風險管理框架》（NIST AI RMF）中可驗證性（Verifiability）的要求。為讓第三方 稽核人員能獨立重現模型評估結果，下列哪一項技術實踐最直接符合此要求？",
-        "answer": "B",
-        "confidence": "high",
-        "reasons": [
-          "說明驗證目標、從資料準備到模型測試的完整流程、快速迭代與技術效能指標，可用於連結評估流程概念，並區分效能改善與結果重現。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
-      }
-    ],
-    "block-145": [
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q43",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q43",
-        "questionNumber": 43,
-        "question": "某電商平台的演算法工程師開發了一個新版商品推薦模型，在離線 A/B 測試中， 新模型的各項評估指標（AUC、NDCG@10）均顯著優於現行線上模型。然而， 離線測試無法完全反映真實使用者的互動行為（點擊、購買、停留時間）。在正式 全面上線前，若希望在可控制風險下量化真實業務指標，應採用下列何種線上驗 證策略？",
-        "answer": "C",
-        "confidence": "high",
-        "reasons": [
-          "支持以小範圍測試與快速迭代驗證方案，設定可量化目標，並區分技術效能與商業價值指標。"
-        ],
-        "citationRank": 2,
-        "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
-      }
-    ],
-    "block-146": [
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q25",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q25",
-        "questionNumber": 25,
-        "question": "某企業欲將其 AI輔助決策系統提交給外部稽核單位審查，並宣稱符合 NIST《AI 風險管理框架》（NIST AI RMF）中可驗證性（Verifiability）的要求。為讓第三方 稽核人員能獨立重現模型評估結果，下列哪一項技術實踐最直接符合此要求？",
-        "answer": "B",
-        "confidence": "high",
-        "reasons": [
-          "說明驗證目標、從資料準備到模型測試的完整流程、快速迭代與技術效能指標，可用於連結評估流程概念，並區分效能改善與結果重現。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q43",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q43",
-        "questionNumber": 43,
-        "question": "某電商平台的演算法工程師開發了一個新版商品推薦模型，在離線 A/B 測試中， 新模型的各項評估指標（AUC、NDCG@10）均顯著優於現行線上模型。然而， 離線測試無法完全反映真實使用者的互動行為（點擊、購買、停留時間）。在正式 全面上線前，若希望在可控制風險下量化真實業務指標，應採用下列何種線上驗 證策略？",
-        "answer": "C",
-        "confidence": "high",
-        "reasons": [
-          "支持以小範圍測試與快速迭代驗證方案，設定可量化目標，並區分技術效能與商業價值指標。"
-        ],
-        "citationRank": 2,
-        "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
-      }
-    ],
-    "block-147": [
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q25",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q25",
-        "questionNumber": 25,
-        "question": "某企業欲將其 AI輔助決策系統提交給外部稽核單位審查，並宣稱符合 NIST《AI 風險管理框架》（NIST AI RMF）中可驗證性（Verifiability）的要求。為讓第三方 稽核人員能獨立重現模型評估結果，下列哪一項技術實踐最直接符合此要求？",
-        "answer": "B",
-        "confidence": "high",
-        "reasons": [
-          "說明驗證目標、從資料準備到模型測試的完整流程、快速迭代與技術效能指標，可用於連結評估流程概念，並區分效能改善與結果重現。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q43",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q43",
-        "questionNumber": 43,
-        "question": "某電商平台的演算法工程師開發了一個新版商品推薦模型，在離線 A/B 測試中， 新模型的各項評估指標（AUC、NDCG@10）均顯著優於現行線上模型。然而， 離線測試無法完全反映真實使用者的互動行為（點擊、購買、停留時間）。在正式 全面上線前，若希望在可控制風險下量化真實業務指標，應採用下列何種線上驗 證策略？",
-        "answer": "C",
-        "confidence": "high",
-        "reasons": [
-          "支持以小範圍測試與快速迭代驗證方案，設定可量化目標，並區分技術效能與商業價值指標。"
-        ],
-        "citationRank": 2,
-        "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
-      }
-    ],
-    "block-148": [
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q24",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q24",
-        "questionNumber": 24,
-        "question": "某即時詐欺偵測系統對模型回應時間有嚴格限制，若推論延遲過高將影響交易核 准流程。維運工程師在模型上線前進行延遲測試（Latency Testing）時，主要評估 的目標為何？",
-        "answer": "D",
-        "confidence": "high",
-        "reasons": [
-          "明確將延遲時間列為衡量模型表現的技術效能指標，支持本題以回應時間作為測試目標。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q25",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q25",
-        "questionNumber": 25,
-        "question": "某企業欲將其 AI輔助決策系統提交給外部稽核單位審查，並宣稱符合 NIST《AI 風險管理框架》（NIST AI RMF）中可驗證性（Verifiability）的要求。為讓第三方 稽核人員能獨立重現模型評估結果，下列哪一項技術實踐最直接符合此要求？",
-        "answer": "B",
-        "confidence": "high",
-        "reasons": [
-          "說明驗證目標、從資料準備到模型測試的完整流程、快速迭代與技術效能指標，可用於連結評估流程概念，並區分效能改善與結果重現。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q43",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q43",
-        "questionNumber": 43,
-        "question": "某電商平台的演算法工程師開發了一個新版商品推薦模型，在離線 A/B 測試中， 新模型的各項評估指標（AUC、NDCG@10）均顯著優於現行線上模型。然而， 離線測試無法完全反映真實使用者的互動行為（點擊、購買、停留時間）。在正式 全面上線前，若希望在可控制風險下量化真實業務指標，應採用下列何種線上驗 證策略？",
-        "answer": "C",
-        "confidence": "high",
-        "reasons": [
-          "支持以小範圍測試與快速迭代驗證方案，設定可量化目標，並區分技術效能與商業價值指標。"
-        ],
-        "citationRank": 2,
-        "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
-      }
-    ],
-    "block-149": [
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q24",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q24",
-        "questionNumber": 24,
-        "question": "某即時詐欺偵測系統對模型回應時間有嚴格限制，若推論延遲過高將影響交易核 准流程。維運工程師在模型上線前進行延遲測試（Latency Testing）時，主要評估 的目標為何？",
-        "answer": "D",
-        "confidence": "high",
-        "reasons": [
-          "明確將延遲時間列為衡量模型表現的技術效能指標，支持本題以回應時間作為測試目標。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q25",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q25",
-        "questionNumber": 25,
-        "question": "某企業欲將其 AI輔助決策系統提交給外部稽核單位審查，並宣稱符合 NIST《AI 風險管理框架》（NIST AI RMF）中可驗證性（Verifiability）的要求。為讓第三方 稽核人員能獨立重現模型評估結果，下列哪一項技術實踐最直接符合此要求？",
-        "answer": "B",
-        "confidence": "high",
-        "reasons": [
-          "說明驗證目標、從資料準備到模型測試的完整流程、快速迭代與技術效能指標，可用於連結評估流程概念，並區分效能改善與結果重現。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q43",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q43",
-        "questionNumber": 43,
-        "question": "某電商平台的演算法工程師開發了一個新版商品推薦模型，在離線 A/B 測試中， 新模型的各項評估指標（AUC、NDCG@10）均顯著優於現行線上模型。然而， 離線測試無法完全反映真實使用者的互動行為（點擊、購買、停留時間）。在正式 全面上線前，若希望在可控制風險下量化真實業務指標，應採用下列何種線上驗 證策略？",
-        "answer": "C",
-        "confidence": "high",
-        "reasons": [
-          "支持以小範圍測試與快速迭代驗證方案，設定可量化目標，並區分技術效能與商業價值指標。"
-        ],
-        "citationRank": 2,
-        "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
-      }
-    ],
-    "block-150": [
       {
         "id": "mid_1151_s1:mid_1151_s1_q43",
         "examKey": "mid_1151_s1",

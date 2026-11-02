@@ -127,8 +127,8 @@
     {
       "type": "heading",
       "depth": 3,
-      "title": "2. 資料轉換與前處理",
-      "anchor": "2資料轉換與前處理",
+      "title": "2. 清理後的資料準備與轉換",
+      "anchor": "2清理後的資料準備與轉換",
       "pageIndex": 74,
       "bbox": [
         76.6,
@@ -824,8 +824,8 @@
     {
       "type": "heading",
       "depth": 4,
-      "title": "（4）數值標準化（Standardization）與正規化（Normalization）與正規化（Normalization）",
-      "anchor": "4數值標準化standardization與正規化normalization與正規化normalization",
+      "title": "（4）數值標準化（Standardization）與正規化（Normalization）",
+      "anchor": "4數值標準化standardization與正規化normalization",
       "pageIndex": 76,
       "bbox": [
         70.24,
@@ -841,8 +841,8 @@
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "在資料集中，不同變數可能具有截然不同的尺度，例如「年齡」以數十為單位、「收入」以數萬為單位、「交易筆數」可能達數百萬。若直接將此類變數輸入模型，可能因數值尺度落差導致學習偏誤或模型難以收斂。特別是在使用基於距",
-      "pageIndex": 76,
+      "text": "在資料集中，不同變數可能具有截然不同的尺度，例如「年齡」以數十為單位、「收入」以數萬為單位、「交易筆數」可能達數百萬。若直接將此類變數輸入模型，可能因數值尺度落差導致學習偏誤或模型難以收斂。特別是在使用基於距離的演算法（如KNN 演算法）、依賴梯度下降的模型（如線性迴歸、邏輯迴歸、神經網路）或含有正則化模型（如Lasso、Ridge）時，進行特徵縮放是不可或缺的前處理步驟。",
+      "pageIndex": 77,
       "bbox": [
         76.6,
         701.98,
@@ -853,24 +853,12 @@
       "id": "block-47",
       "nodeId": "mid-s2c6",
       "kind": "paragraph",
-      "source": "page_extract"
-    },
-    {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "離的演算法（如KNN 演算法）、依賴梯度下降的模型（如線性迴歸、邏輯迴歸、神經網路）或含有正則化模型（如Lasso、Ridge）時，進行特徵縮放是不可或缺的前處理步驟。",
-      "pageIndex": 77,
-      "bbox": [
-        76.6,
-        100.82,
-        518.88,
-        164.15
+      "source": "page_extract",
+      "sourcePageIndexes": [
+        76,
+        77
       ],
-      "indentFirstLine": false,
-      "id": "block-48",
-      "nodeId": "mid-s2c6",
-      "kind": "paragraph",
-      "source": "page_extract"
+      "trackAContinuationMerge": true
     },
     {
       "type": "paragraph",
@@ -884,7 +872,7 @@
         189.11
       ],
       "indentFirstLine": true,
-      "id": "block-49",
+      "id": "block-48",
       "nodeId": "mid-s2c6",
       "kind": "paragraph",
       "source": "page_extract"
@@ -901,7 +889,7 @@
         364.41,
         214.07
       ],
-      "id": "block-50",
+      "id": "block-49",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -918,7 +906,7 @@
         309.31,
         239.15
       ],
-      "id": "block-51",
+      "id": "block-50",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -935,7 +923,7 @@
         441.57,
         264.14
       ],
-      "id": "block-52",
+      "id": "block-51",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -952,7 +940,7 @@
         466.8,
         289.1
       ],
-      "id": "block-53",
+      "id": "block-52",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -969,7 +957,7 @@
         343.05,
         314.18
       ],
-      "id": "block-54",
+      "id": "block-53",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -986,7 +974,7 @@
         425.85,
         339.14
       ],
-      "id": "block-55",
+      "id": "block-54",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1003,7 +991,7 @@
         521.88,
         364.1
       ],
-      "id": "block-56",
+      "id": "block-55",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1020,7 +1008,7 @@
         518.28,
         414.14
       ],
-      "id": "block-57",
+      "id": "block-56",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1037,7 +1025,7 @@
         287.47,
         439.1
       ],
-      "id": "block-58",
+      "id": "block-57",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1054,7 +1042,7 @@
         374.97,
         464.2
       ],
-      "id": "block-59",
+      "id": "block-58",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1071,7 +1059,7 @@
         521.88,
         489.16
       ],
-      "id": "block-60",
+      "id": "block-59",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1088,15 +1076,32 @@
         521.88,
         514.12
       ],
-      "id": "block-61",
+      "id": "block-60",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
     },
     {
+      "type": "heading",
+      "depth": 3,
+      "title": "3. 特徵工程技術",
+      "anchor": "3特徵工程技術",
+      "pageIndex": 77,
+      "bbox": [
+        76.6,
+        549.72,
+        517.93,
+        614.2
+      ],
+      "id": "block-61",
+      "nodeId": "mid-s2c6",
+      "kind": "heading",
+      "source": "page_extract"
+    },
+    {
       "type": "paragraph",
       "depth": 5,
-      "text": "3. 特徵工程是資料處理與機器學習流程中的關鍵步驟，透過選擇、衍生或增強資料中的特徵，幫助模型更有效地捕捉資料的價值與模式。",
+      "text": "特徵工程是資料處理與機器學習流程中的關鍵步驟，透過選擇、衍生或增強資料中的特徵，幫助模型更有效地捕捉資料的價值與模式。",
       "pageIndex": 77,
       "bbox": [
         76.6,
@@ -1146,23 +1151,6 @@
     },
     {
       "type": "heading",
-      "depth": 3,
-      "title": "3. 特徵工程",
-      "anchor": "3特徵工程",
-      "pageIndex": 78,
-      "bbox": [
-        70.24,
-        100.82,
-        299.47,
-        114.11
-      ],
-      "id": "block-65",
-      "nodeId": "mid-s2c6",
-      "kind": "heading",
-      "source": "page_extract"
-    },
-    {
-      "type": "heading",
       "depth": 4,
       "title": "（1）特徵選擇方法（Feature Selection）",
       "anchor": "1特徵選擇方法featureselection",
@@ -1173,7 +1161,7 @@
         299.47,
         114.11
       ],
-      "id": "block-66",
+      "id": "block-65",
       "nodeId": "mid-s2c6",
       "kind": "heading",
       "source": "page_extract"
@@ -1190,7 +1178,7 @@
         189.11
       ],
       "indentFirstLine": false,
-      "id": "block-67",
+      "id": "block-66",
       "nodeId": "mid-s2c6",
       "kind": "paragraph",
       "source": "page_extract"
@@ -1207,7 +1195,7 @@
         241.27,
         214.07
       ],
-      "id": "block-68",
+      "id": "block-67",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1224,7 +1212,7 @@
         479.4,
         239.15
       ],
-      "id": "block-69",
+      "id": "block-68",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1241,7 +1229,7 @@
         518.4,
         289.1
       ],
-      "id": "block-70",
+      "id": "block-69",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1258,7 +1246,7 @@
         328.17,
         314.18
       ],
-      "id": "block-71",
+      "id": "block-70",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1275,7 +1263,7 @@
         328.17,
         339.14
       ],
-      "id": "block-72",
+      "id": "block-71",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1292,7 +1280,7 @@
         257.11,
         364.1
       ],
-      "id": "block-73",
+      "id": "block-72",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1301,7 +1289,7 @@
       "type": "list_item",
       "depth": 6,
       "marker": "◦",
-      "text": "使用模型表現（如準確率、F1-score）作為標準，透過遞迴特徵消除 （Recursive Feature Elimination, RFE）或前向/後向選擇進行特徵篩選。",
+      "text": "使用模型表現（如準確率、F1-score）作為標準，透過遞迴特徵消除（Recursive Feature Elimination, RFE）或前向/後向選擇進行特徵篩選。",
       "pageIndex": 78,
       "bbox": [
         120.52,
@@ -1309,7 +1297,7 @@
         521.88,
         414.14
       ],
-      "id": "block-74",
+      "id": "block-73",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1326,7 +1314,7 @@
         315.55,
         439.1
       ],
-      "id": "block-75",
+      "id": "block-74",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1343,7 +1331,7 @@
         340.77,
         464.2
       ],
-      "id": "block-76",
+      "id": "block-75",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1360,7 +1348,7 @@
         267.19,
         489.16
       ],
-      "id": "block-77",
+      "id": "block-76",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1377,7 +1365,7 @@
         517.85,
         539.2
       ],
-      "id": "block-78",
+      "id": "block-77",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1394,7 +1382,7 @@
         365.97,
         564.16
       ],
-      "id": "block-79",
+      "id": "block-78",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1411,7 +1399,7 @@
         479.4,
         589.12
       ],
-      "id": "block-80",
+      "id": "block-79",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1428,7 +1416,7 @@
         432.33,
         639.19
       ],
-      "id": "block-81",
+      "id": "block-80",
       "nodeId": "mid-s2c6",
       "kind": "heading",
       "source": "page_extract"
@@ -1445,7 +1433,7 @@
         689.23
       ],
       "indentFirstLine": false,
-      "id": "block-82",
+      "id": "block-81",
       "nodeId": "mid-s2c6",
       "kind": "paragraph",
       "source": "page_extract"
@@ -1462,7 +1450,7 @@
         299.35,
         714.19
       ],
-      "id": "block-83",
+      "id": "block-82",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1479,7 +1467,7 @@
         518.29,
         764.22
       ],
-      "id": "block-84",
+      "id": "block-83",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1496,7 +1484,7 @@
         521.88,
         114.11
       ],
-      "id": "block-85",
+      "id": "block-84",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1513,7 +1501,7 @@
         292.27,
         139.07
       ],
-      "id": "block-86",
+      "id": "block-85",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1522,7 +1510,7 @@
       "type": "list_item",
       "depth": 6,
       "marker": "◦",
-      "text": "從時間資料衍生新特徵，例如日期中的星期、假日標記、時間間隔 （Recency）等。",
+      "text": "從時間資料衍生新特徵，例如日期中的星期、假日標記、時間間隔（Recency）等。",
       "pageIndex": 79,
       "bbox": [
         120.52,
@@ -1530,7 +1518,7 @@
         517.74,
         189.11
       ],
-      "id": "block-87",
+      "id": "block-86",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1547,7 +1535,7 @@
         296.83,
         214.07
       ],
-      "id": "block-88",
+      "id": "block-87",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1564,7 +1552,7 @@
         518.2,
         264.14
       ],
-      "id": "block-89",
+      "id": "block-88",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1581,7 +1569,7 @@
         311.11,
         314.18
       ],
-      "id": "block-90",
+      "id": "block-89",
       "nodeId": "mid-s2c6",
       "kind": "heading",
       "source": "page_extract"
@@ -1598,7 +1586,7 @@
         364.1
       ],
       "indentFirstLine": false,
-      "id": "block-91",
+      "id": "block-90",
       "nodeId": "mid-s2c6",
       "kind": "paragraph",
       "source": "page_extract"
@@ -1615,7 +1603,7 @@
         389.18
       ],
       "indentFirstLine": false,
-      "id": "block-92",
+      "id": "block-91",
       "nodeId": "mid-s2c6",
       "kind": "paragraph",
       "source": "page_extract"
@@ -1632,7 +1620,7 @@
         329.25,
         414.14
       ],
-      "id": "block-93",
+      "id": "block-92",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1649,7 +1637,7 @@
         378.57,
         439.1
       ],
-      "id": "block-94",
+      "id": "block-93",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1666,7 +1654,7 @@
         521.88,
         464.2
       ],
-      "id": "block-95",
+      "id": "block-94",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1683,7 +1671,7 @@
         320.11,
         489.16
       ],
-      "id": "block-96",
+      "id": "block-95",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1700,7 +1688,7 @@
         454.2,
         514.12
       ],
-      "id": "block-97",
+      "id": "block-96",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1717,7 +1705,7 @@
         441.57,
         539.2
       ],
-      "id": "block-98",
+      "id": "block-97",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1734,7 +1722,7 @@
         357.33,
         564.16
       ],
-      "id": "block-99",
+      "id": "block-98",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1751,7 +1739,7 @@
         518.28,
         614.2
       ],
-      "id": "block-100",
+      "id": "block-99",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1768,7 +1756,7 @@
         353.37,
         639.19
       ],
-      "id": "block-101",
+      "id": "block-100",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1785,7 +1773,7 @@
         376.17,
         664.15
       ],
-      "id": "block-102",
+      "id": "block-101",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1802,7 +1790,7 @@
         521.64,
         689.23
       ],
-      "id": "block-103",
+      "id": "block-102",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
       "source": "page_extract"
@@ -1819,9 +1807,26 @@
         473.16,
         714.19
       ],
-      "id": "block-104",
+      "id": "block-103",
       "nodeId": "mid-s2c6",
       "kind": "list_item",
+      "source": "page_extract"
+    },
+    {
+      "type": "heading",
+      "depth": 3,
+      "title": "4. 分散式資料處理框架",
+      "anchor": "4分散式資料處理框架",
+      "pageIndex": 80,
+      "bbox": [
+        76.6,
+        99.67,
+        90.67,
+        114.68
+      ],
+      "id": "block-104",
+      "nodeId": "mid-s2c6",
+      "kind": "heading",
       "source": "page_extract"
     },
     {
@@ -2199,6 +2204,23 @@
       "source": "page_extract"
     },
     {
+      "type": "heading",
+      "depth": 3,
+      "title": "5. 資料處理管線與自動化工具",
+      "anchor": "5資料處理管線與自動化工具",
+      "pageIndex": 81,
+      "bbox": [
+        76.6,
+        324.7,
+        90.67,
+        339.71
+      ],
+      "id": "block-127",
+      "nodeId": "mid-s2c6",
+      "kind": "heading",
+      "source": "page_extract"
+    },
+    {
       "type": "paragraph",
       "depth": 5,
       "text": "在大數據處理與分析的流程中，如何有效組織、協調與自動化資料處理任務，已成為企業提高分析效率與降低運營成本的重要關鍵。資料處理管線（Data Pipeline）透過結構化與自動化的方式串聯各個處理步驟，包括資料擷取、清理、轉換、特徵工程，直至輸出至分析系統或儲存系統，以確保資料品質與分析任務的穩定性和可重現性。本小節將介紹資料處理管線的建構方法與自動化工具，並提供實務應用建議與考量。",
@@ -2210,26 +2232,9 @@
         489.16
       ],
       "indentFirstLine": true,
-      "id": "block-127",
-      "nodeId": "mid-s2c6",
-      "kind": "paragraph",
-      "source": "page_extract"
-    },
-    {
-      "type": "heading",
-      "depth": 3,
-      "title": "4. 資料處理管線設計",
-      "anchor": "4資料處理管線設計",
-      "pageIndex": 81,
-      "bbox": [
-        70.24,
-        525.91,
-        293.95,
-        539.2
-      ],
       "id": "block-128",
       "nodeId": "mid-s2c6",
-      "kind": "heading",
+      "kind": "paragraph",
       "source": "page_extract"
     },
     {

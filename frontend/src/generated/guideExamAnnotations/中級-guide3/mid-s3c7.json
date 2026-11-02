@@ -3,8 +3,8 @@
   "nodeId": "mid-s3c7",
   "stats": {
     "questions": 7,
-    "guideBlocks": 27,
-    "annotations": 36
+    "guideBlocks": 25,
+    "annotations": 34
   },
   "blocks": {
     "block-3": [
@@ -147,7 +147,7 @@
           "將正則化連結至模型訓練過程中的嵌入式特徵選擇，並指出選擇結果可能受模型超參數影響。"
         ],
         "citationRank": 3,
-        "citationBlockCount": 4,
+        "citationBlockCount": 3,
         "supplement": false,
         "prominence": "secondary"
       }
@@ -187,7 +187,7 @@
           "將正則化連結至模型訓練過程中的嵌入式特徵選擇，並指出選擇結果可能受模型超參數影響。"
         ],
         "citationRank": 3,
-        "citationBlockCount": 4,
+        "citationBlockCount": 3,
         "supplement": false,
         "prominence": "secondary"
       }
@@ -227,33 +227,12 @@
           "將正則化連結至模型訓練過程中的嵌入式特徵選擇，並指出選擇結果可能受模型超參數影響。"
         ],
         "citationRank": 3,
-        "citationBlockCount": 4,
+        "citationBlockCount": 3,
         "supplement": false,
         "prominence": "secondary"
       }
     ],
-    "block-70": [
-      {
-        "id": "mid_1151_s3:mid_1151_s3_q7",
-        "examKey": "mid_1151_s3",
-        "examLabel": "科目三 公告試題（115年第一次）",
-        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
-        "route": "/exam/mid_1151_s3",
-        "questionId": "mid_1151_s3_q7",
-        "questionNumber": 7,
-        "question": "某金融團隊建立信貸風險模型，特徵工程後共產生 200個變數，其中「月收入」、 「年收入」、「季收入」三者高度相關。模型上線後業務單位反映：每次重新訓練 後，模型輸出的重要特徵清單在這些高度相關特徵間反覆變動，難以向審查單位 解釋。請問下列何者為造成此現象最可能的原因？",
-        "answer": "B",
-        "confidence": "high",
-        "reasons": [
-          "將正則化連結至模型訓練過程中的嵌入式特徵選擇，並指出選擇結果可能受模型超參數影響。"
-        ],
-        "citationRank": 3,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "secondary"
-      }
-    ],
-    "block-86": [
+    "block-84": [
       {
         "id": "mid_1151_s3:mid_1151_s3_q46",
         "examKey": "mid_1151_s3",
@@ -274,7 +253,28 @@
         "prominence": "primary"
       }
     ],
-    "block-87": [
+    "block-85": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q46",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q46",
+        "questionNumber": 46,
+        "question": "參考下圖資料處理，下列哪一項描述組合正確？\n描述A：x_train, x_test 將影像範圍壓縮到 0~31 範圍\n描述B：x_train, x_test 資料轉換可以增加模型的泛化能力\n描述C：x_train, x_test 資料轉換結果相當於 z-score 標準化\n描述D：資料轉換目的是避免梯度爆炸或梯度消失\n描述E：y_train 將 label 轉換為獨熱編碼（One-hot Encoding）\n描述F：y_train 適合輸出層使用 softmax 函數",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "支持區分 0～1 線性縮放與 Z-score 標準化；本題可直接由程式判斷未進行減平均值與除標準差。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 4,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-88": [
       {
         "id": "mid_1151_s3:mid_1151_s3_q46",
         "examKey": "mid_1151_s3",
@@ -316,28 +316,28 @@
         "prominence": "primary"
       }
     ],
-    "block-90": [
+    "block-112": [
       {
-        "id": "mid_1151_s3:mid_1151_s3_q46",
+        "id": "mid_1151_s3:mid_1151_s3_q24",
         "examKey": "mid_1151_s3",
         "examLabel": "科目三 公告試題（115年第一次）",
         "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
         "route": "/exam/mid_1151_s3",
-        "questionId": "mid_1151_s3_q46",
-        "questionNumber": 46,
-        "question": "參考下圖資料處理，下列哪一項描述組合正確？\n描述A：x_train, x_test 將影像範圍壓縮到 0~31 範圍\n描述B：x_train, x_test 資料轉換可以增加模型的泛化能力\n描述C：x_train, x_test 資料轉換結果相當於 z-score 標準化\n描述D：資料轉換目的是避免梯度爆炸或梯度消失\n描述E：y_train 將 label 轉換為獨熱編碼（One-hot Encoding）\n描述F：y_train 適合輸出層使用 softmax 函數",
-        "answer": "B",
+        "questionId": "mid_1151_s3_q24",
+        "questionNumber": 24,
+        "question": "某推薦系統工程師處理商品類別特徵，該特徵包含約 3,000 個不同商品項目，每 一種商品或其規格皆視為一個獨立類別。請問在高基數（High Cardinality）的情 境下，下列哪一種編碼方式最容易造成維度爆炸問題？",
+        "answer": "D",
         "confidence": "high",
         "reasons": [
-          "支持區分 0～1 線性縮放與 Z-score 標準化；本題可直接由程式判斷未進行減平均值與除標準差。"
+          "說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 4,
+        "citationBlockCount": 8,
         "supplement": false,
         "prominence": "primary"
       }
     ],
-    "block-114": [
+    "block-113": [
       {
         "id": "mid_1151_s3:mid_1151_s3_q24",
         "examKey": "mid_1151_s3",
@@ -357,6 +357,46 @@
         "supplement": false,
         "prominence": "primary"
       },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q40",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q40",
+        "questionNumber": 40,
+        "question": "分析師準備建立一個能將手寫數字圖片（28x28像素展平為 784維度）分為 0~9共 10個類別的多層感知機（MLP），且標籤已轉為 One-Hot編碼（One-Hot Encoding）。 為符合 10 個類別的單標籤分類需求，下圖中的程式碼中(A)與(B)的函數應填入何 者？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明 One-Hot 編碼中所屬類別為 1、其他類別為 0 的表示方式，可用來理解本題的標籤向量。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 3,
+        "supplement": false,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q46",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q46",
+        "questionNumber": 46,
+        "question": "參考下圖資料處理，下列哪一項描述組合正確？\n描述A：x_train, x_test 將影像範圍壓縮到 0~31 範圍\n描述B：x_train, x_test 資料轉換可以增加模型的泛化能力\n描述C：x_train, x_test 資料轉換結果相當於 z-score 標準化\n描述D：資料轉換目的是避免梯度爆炸或梯度消失\n描述E：y_train 將 label 轉換為獨熱編碼（One-hot Encoding）\n描述F：y_train 適合輸出層使用 softmax 函數",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明獨熱編碼以各類別對應欄位表示，所屬類別為 1，其餘為 0，支持描述 E。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 5,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-114": [
       {
         "id": "mid_1151_s3:mid_1151_s3_q40",
         "examKey": "mid_1151_s3",
@@ -457,44 +497,6 @@
     ],
     "block-116": [
       {
-        "id": "mid_1151_s3:mid_1151_s3_q24",
-        "examKey": "mid_1151_s3",
-        "examLabel": "科目三 公告試題（115年第一次）",
-        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
-        "route": "/exam/mid_1151_s3",
-        "questionId": "mid_1151_s3_q24",
-        "questionNumber": 24,
-        "question": "某推薦系統工程師處理商品類別特徵，該特徵包含約 3,000 個不同商品項目，每 一種商品或其規格皆視為一個獨立類別。請問在高基數（High Cardinality）的情 境下，下列哪一種編碼方式最容易造成維度爆炸問題？",
-        "answer": "D",
-        "confidence": "high",
-        "reasons": [
-          "說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
-        "id": "mid_1151_s3:mid_1151_s3_q40",
-        "examKey": "mid_1151_s3",
-        "examLabel": "科目三 公告試題（115年第一次）",
-        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
-        "route": "/exam/mid_1151_s3",
-        "questionId": "mid_1151_s3_q40",
-        "questionNumber": 40,
-        "question": "分析師準備建立一個能將手寫數字圖片（28x28像素展平為 784維度）分為 0~9共 10個類別的多層感知機（MLP），且標籤已轉為 One-Hot編碼（One-Hot Encoding）。 為符合 10 個類別的單標籤分類需求，下圖中的程式碼中(A)與(B)的函數應填入何 者？",
-        "answer": "B",
-        "confidence": "high",
-        "reasons": [
-          "說明 One-Hot 編碼中所屬類別為 1、其他類別為 0 的表示方式，可用來理解本題的標籤向量。"
-        ],
-        "citationRank": 3,
-        "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "secondary"
-      },
-      {
         "id": "mid_1151_s3:mid_1151_s3_q46",
         "examKey": "mid_1151_s3",
         "examLabel": "科目三 公告試題（115年第一次）",
@@ -515,6 +517,25 @@
       }
     ],
     "block-117": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q24",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q24",
+        "questionNumber": 24,
+        "question": "某推薦系統工程師處理商品類別特徵，該特徵包含約 3,000 個不同商品項目，每 一種商品或其規格皆視為一個獨立類別。請問在高基數（High Cardinality）的情 境下，下列哪一種編碼方式最容易造成維度爆炸問題？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 8,
+        "supplement": false,
+        "prominence": "primary"
+      },
       {
         "id": "mid_1151_s3:mid_1151_s3_q46",
         "examKey": "mid_1151_s3",
@@ -537,21 +558,21 @@
     ],
     "block-118": [
       {
-        "id": "mid_1151_s3:mid_1151_s3_q46",
+        "id": "mid_1151_s3:mid_1151_s3_q24",
         "examKey": "mid_1151_s3",
         "examLabel": "科目三 公告試題（115年第一次）",
         "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
         "route": "/exam/mid_1151_s3",
-        "questionId": "mid_1151_s3_q46",
-        "questionNumber": 46,
-        "question": "參考下圖資料處理，下列哪一項描述組合正確？\n描述A：x_train, x_test 將影像範圍壓縮到 0~31 範圍\n描述B：x_train, x_test 資料轉換可以增加模型的泛化能力\n描述C：x_train, x_test 資料轉換結果相當於 z-score 標準化\n描述D：資料轉換目的是避免梯度爆炸或梯度消失\n描述E：y_train 將 label 轉換為獨熱編碼（One-hot Encoding）\n描述F：y_train 適合輸出層使用 softmax 函數",
-        "answer": "B",
+        "questionId": "mid_1151_s3_q24",
+        "questionNumber": 24,
+        "question": "某推薦系統工程師處理商品類別特徵，該特徵包含約 3,000 個不同商品項目，每 一種商品或其規格皆視為一個獨立類別。請問在高基數（High Cardinality）的情 境下，下列哪一種編碼方式最容易造成維度爆炸問題？",
+        "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明獨熱編碼以各類別對應欄位表示，所屬類別為 1，其餘為 0，支持描述 E。"
+          "說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
         ],
-        "citationRank": 2,
-        "citationBlockCount": 5,
+        "citationRank": 1,
+        "citationBlockCount": 8,
         "supplement": false,
         "prominence": "primary"
       }
@@ -619,49 +640,7 @@
         "prominence": "primary"
       }
     ],
-    "block-122": [
-      {
-        "id": "mid_1151_s3:mid_1151_s3_q24",
-        "examKey": "mid_1151_s3",
-        "examLabel": "科目三 公告試題（115年第一次）",
-        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
-        "route": "/exam/mid_1151_s3",
-        "questionId": "mid_1151_s3_q24",
-        "questionNumber": 24,
-        "question": "某推薦系統工程師處理商品類別特徵，該特徵包含約 3,000 個不同商品項目，每 一種商品或其規格皆視為一個獨立類別。請問在高基數（High Cardinality）的情 境下，下列哪一種編碼方式最容易造成維度爆炸問題？",
-        "answer": "D",
-        "confidence": "high",
-        "reasons": [
-          "說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
-      }
-    ],
-    "block-123": [
-      {
-        "id": "mid_1151_s3:mid_1151_s3_q24",
-        "examKey": "mid_1151_s3",
-        "examLabel": "科目三 公告試題（115年第一次）",
-        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
-        "route": "/exam/mid_1151_s3",
-        "questionId": "mid_1151_s3_q24",
-        "questionNumber": 24,
-        "question": "某推薦系統工程師處理商品類別特徵，該特徵包含約 3,000 個不同商品項目，每 一種商品或其規格皆視為一個獨立類別。請問在高基數（High Cardinality）的情 境下，下列哪一種編碼方式最容易造成維度爆炸問題？",
-        "answer": "D",
-        "confidence": "high",
-        "reasons": [
-          "說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
-      }
-    ],
-    "block-140": [
+    "block-138": [
       {
         "id": "mid_1151_s3:mid_1151_s3_q26",
         "examKey": "mid_1151_s3",
@@ -677,12 +656,12 @@
           "說明時序資料增強包含增加噪聲、局部調整與窗口裁切，並強調特徵工程須整合資料理解與建模目標，有助釐清選項 A 與 D。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 4,
+        "citationBlockCount": 3,
         "supplement": false,
         "prominence": "primary"
       }
     ],
-    "block-141": [
+    "block-139": [
       {
         "id": "mid_1151_s3:mid_1151_s3_q26",
         "examKey": "mid_1151_s3",
@@ -698,12 +677,12 @@
           "說明時序資料增強包含增加噪聲、局部調整與窗口裁切，並強調特徵工程須整合資料理解與建模目標，有助釐清選項 A 與 D。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 4,
+        "citationBlockCount": 3,
         "supplement": false,
         "prominence": "primary"
       }
     ],
-    "block-147": [
+    "block-145": [
       {
         "id": "mid_1151_s3:mid_1151_s3_q26",
         "examKey": "mid_1151_s3",
@@ -719,28 +698,7 @@
           "說明時序資料增強包含增加噪聲、局部調整與窗口裁切，並強調特徵工程須整合資料理解與建模目標，有助釐清選項 A 與 D。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
-      }
-    ],
-    "block-148": [
-      {
-        "id": "mid_1151_s3:mid_1151_s3_q26",
-        "examKey": "mid_1151_s3",
-        "examLabel": "科目三 公告試題（115年第一次）",
-        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
-        "route": "/exam/mid_1151_s3",
-        "questionId": "mid_1151_s3_q26",
-        "questionNumber": 26,
-        "question": "在時間序列資料的特徵工程中，工程師常使用滑動窗口（Sliding Window）方法， 將過去多個時間點的觀測值組合為模型輸入。下列何者為此方法的主要目的？",
-        "answer": "D",
-        "confidence": "high",
-        "reasons": [
-          "說明時序資料增強包含增加噪聲、局部調整與窗口裁切，並強調特徵工程須整合資料理解與建模目標，有助釐清選項 A 與 D。"
-        ],
-        "citationRank": 2,
-        "citationBlockCount": 4,
+        "citationBlockCount": 3,
         "supplement": false,
         "prominence": "primary"
       }

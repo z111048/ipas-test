@@ -3,8 +3,8 @@
   "nodeId": "mid-s2c6",
   "stats": {
     "questions": 22,
-    "guideBlocks": 62,
-    "annotations": 144
+    "guideBlocks": 61,
+    "annotations": 134
   },
   "blocks": {
     "block-5": [
@@ -1267,7 +1267,7 @@
           "區分 Min-Max Normalization 會縮放至 0～1，而 Z-score Standardization 是平均值 0、標準差 1，可直接支持 C 為錯誤。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 6,
+        "citationBlockCount": 5,
         "supplement": false,
         "prominence": "primary"
       },
@@ -1286,7 +1286,7 @@
           "支持特徵尺度會影響距離型演算法，以及常見縮放方法可保留分佈比例或相對位置的說明；不作為 DBSCAN 或高維距離集中的直接引文。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 7,
+        "citationBlockCount": 6,
         "supplement": false,
         "prominence": "primary"
       },
@@ -1305,7 +1305,7 @@
           "說明不同數值尺度可能造成學習偏誤，並介紹 Z-score 標準化及其限制，支持進行 PCA 前先處理尺度差異的判斷。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 7,
+        "citationBlockCount": 6,
         "supplement": false,
         "prominence": "primary"
       },
@@ -1324,7 +1324,7 @@
           "說明特徵縮放的目的及標準化保留原始形狀的特性，支持排除僅標準化 X 的選項。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 5,
+        "citationBlockCount": 4,
         "supplement": false,
         "prominence": "primary"
       },
@@ -1344,7 +1344,7 @@
           "指出線性迴歸屬於模型建置流程中會受資料前處理影響的方法，支撐本題對線性迴歸輸入資料與前處理的討論。"
         ],
         "citationRank": 3,
-        "citationBlockCount": 2,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "secondary"
       },
@@ -1363,7 +1363,7 @@
           "說明特徵縮放的用途與適用模型，用於釐清標準化並非本題流程問題的主要解方。"
         ],
         "citationRank": 3,
-        "citationBlockCount": 3,
+        "citationBlockCount": 2,
         "supplement": false,
         "prominence": "secondary"
       },
@@ -1382,7 +1382,7 @@
           "說明特徵縮放的用途及 Min-Max、Z-score 的性質，支持區分數值尺度調整與感測器時間漂移校正。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 7,
+        "citationBlockCount": 6,
         "supplement": false,
         "prominence": "primary"
       },
@@ -1401,7 +1401,7 @@
           "說明特徵縮放處理尺度差異，以及 Min-Max 正規化的數值轉換方式，可用於辨別選項 B。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 4,
+        "citationBlockCount": 3,
         "supplement": false,
         "prominence": "primary"
       },
@@ -1420,7 +1420,7 @@
           "說明特徵尺度差異對模型學習與收斂的影響，並介紹 Z 分數標準化及 Min-Max 正規化，可連結本題 StandardScaler 的用途與轉換概念。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 7,
+        "citationBlockCount": 6,
         "supplement": false,
         "prominence": "primary"
       },
@@ -1439,12 +1439,33 @@
           "說明特徵尺度差異可能造成學習偏誤或收斂困難，並指出邏輯迴歸需要重視特徵縮放，支持題目已完成標準化的前處理背景。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 2,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
       }
     ],
     "block-48": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q29",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q29",
+        "questionNumber": 29,
+        "question": "某團隊在開發風險評估模型時，使用主成分分析（Principal Component Analysis, PCA）進行降維。輸入資料包含三個數值欄位：「交易金額（單 位：新台幣）」、「交易次數（次／月）」與「年齡（歲）」，其數值量級分別 約為10⁵、10¹與 10²。分析人員直接將原始數據帶入 PCA，結果第一主成 分（PC1）幾乎完全由「交易金額」主導。下列哪一項作法或判斷最合 理？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明不同數值尺度可能造成學習偏誤，並介紹 Z-score 標準化及其限制，支持進行 PCA 前先處理尺度差異的判斷。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 6,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-49": [
       {
         "id": "mid_1141_s2:mid_1141_s2_q6",
         "examKey": "mid_1141_s2",
@@ -1461,9 +1482,28 @@
           "區分 Min-Max Normalization 會縮放至 0～1，而 Z-score Standardization 是平均值 0、標準差 1，可直接支持 C 為錯誤。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 6,
+        "citationBlockCount": 5,
         "supplement": false,
         "prominence": "primary"
+      },
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q14",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q14",
+        "questionNumber": 14,
+        "question": "某組資料共10項標籤如下： A, A, A, A, A, B, B, B, B, B 若該標籤僅有A、B兩種，請問這組資料的「正規化吉尼不純度 （Normalized Gini impurity）」為何？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明正規化可將數值縮放至 0～1 區間，作為理解尺度轉換的概念連結；此處未直接提供吉尼不純度或其正規化公式。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": false,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1141_s2:mid_1141_s2_q28",
@@ -1480,86 +1520,9 @@
           "支持特徵尺度會影響距離型演算法，以及常見縮放方法可保留分佈比例或相對位置的說明；不作為 DBSCAN 或高維距離集中的直接引文。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 7,
+        "citationBlockCount": 6,
         "supplement": false,
         "prominence": "primary"
-      },
-      {
-        "id": "mid_1141_s2:mid_1141_s2_q29",
-        "examKey": "mid_1141_s2",
-        "examLabel": "科目二 公告試題（114年第二梯次）",
-        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
-        "route": "/exam/mid_1141_s2",
-        "questionId": "mid_1141_s2_q29",
-        "questionNumber": 29,
-        "question": "某團隊在開發風險評估模型時，使用主成分分析（Principal Component Analysis, PCA）進行降維。輸入資料包含三個數值欄位：「交易金額（單 位：新台幣）」、「交易次數（次／月）」與「年齡（歲）」，其數值量級分別 約為10⁵、10¹與 10²。分析人員直接將原始數據帶入 PCA，結果第一主成 分（PC1）幾乎完全由「交易金額」主導。下列哪一項作法或判斷最合 理？",
-        "answer": "D",
-        "confidence": "high",
-        "reasons": [
-          "說明不同數值尺度可能造成學習偏誤，並介紹 Z-score 標準化及其限制，支持進行 PCA 前先處理尺度差異的判斷。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
-        "id": "mid_1141_s2:mid_1141_s2_q36",
-        "examKey": "mid_1141_s2",
-        "examLabel": "科目二 公告試題（114年第二梯次）",
-        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
-        "route": "/exam/mid_1141_s2",
-        "questionId": "mid_1141_s2_q36",
-        "questionNumber": 36,
-        "question": "某研究人員欲使用線性迴歸模型（Linear Regression Model）分析變數 Y與X之間的關係，但發現 Y的分佈明顯右偏，且其變異數隨 X 的增大而 增加。為滿足模型假設並提升配適效果，下列哪一種前處理方法最為合 適？",
-        "answer": "B",
-        "confidence": "high",
-        "reasons": [
-          "說明特徵縮放的目的及標準化保留原始形狀的特性，支持排除僅標準化 X 的選項。"
-        ],
-        "citationRank": 2,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
-        "id": "mid_1141_s2:mid_1141_s2_q50",
-        "examKey": "mid_1141_s2",
-        "examLabel": "科目二 公告試題（114年第二梯次）",
-        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
-        "route": "/exam/mid_1141_s2",
-        "questionId": "mid_1141_s2_q50",
-        "questionNumber": 50,
-        "question": "考慮資料集已經填補遺漏值，參考下圖執行結果，下列何者正確？ A：空格1完整語法 reg = LinearRegression().fit(y, X) B：空格1完整語法 reg = LinearRegression().fit(X, y) C：print(reg.coef_) 結果為包括截距項等 4個係數值 D：空格2完整語法 sm.OLS(X2, y).fit() E：model_sm 迴歸模型的所有迴歸係數在α=0.05之下具有顯著的解釋力 F：截距項係數值為 3.5561",
-        "answer": "B",
-        "confidence": "medium",
-        "referenceQuestionId": "exam2_q50",
-        "reasons": [
-          "指出線性迴歸屬於模型建置流程中會受資料前處理影響的方法，支撐本題對線性迴歸輸入資料與前處理的討論。"
-        ],
-        "citationRank": 3,
-        "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "secondary"
-      },
-      {
-        "id": "mid_1151_s2:mid_1151_s2_q10",
-        "examKey": "mid_1151_s2",
-        "examLabel": "科目二 公告試題（115年第一次）",
-        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
-        "route": "/exam/mid_1151_s2",
-        "questionId": "mid_1151_s2_q10",
-        "questionNumber": 10,
-        "question": "某團隊為職業籃球隊建立球員受傷風險預測模型，原始特徵 280 個。初始模型訓練集 AUC 為0.94、測試集僅0.68，顯示嚴重過擬合。為改善模型，團隊進行以下處理步驟： 第一步於全體資料（含測試集）上計算特徵間線性相關係數並移除高度相關特徵；第二 步依模型重要性篩選特徵後重新訓練模型。最終測試集 AUC 提升至0.81。關於上述調 整流程，下列敘述何者最為正確？",
-        "answer": "B",
-        "confidence": "high",
-        "reasons": [
-          "說明特徵縮放的用途與適用模型，用於釐清標準化並非本題流程問題的主要解方。"
-        ],
-        "citationRank": 3,
-        "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s2:mid_1151_s2_q17",
@@ -1576,7 +1539,7 @@
           "說明特徵縮放的用途及 Min-Max、Z-score 的性質，支持區分數值尺度調整與感測器時間漂移校正。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 7,
+        "citationBlockCount": 6,
         "supplement": false,
         "prominence": "primary"
       },
@@ -1595,7 +1558,7 @@
           "說明特徵縮放處理尺度差異，以及 Min-Max 正規化的數值轉換方式，可用於辨別選項 B。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 4,
+        "citationBlockCount": 3,
         "supplement": false,
         "prominence": "primary"
       },
@@ -1614,47 +1577,7 @@
           "說明特徵尺度差異對模型學習與收斂的影響，並介紹 Z 分數標準化及 Min-Max 正規化，可連結本題 StandardScaler 的用途與轉換概念。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
-        "id": "mid_1151_s2:mid_1151_s2_q49",
-        "examKey": "mid_1151_s2",
-        "examLabel": "科目二 公告試題（115年第一次）",
-        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
-        "route": "/exam/mid_1151_s2",
-        "questionId": "mid_1151_s2_q49",
-        "questionNumber": 49,
-        "question": "在進行機器學習建模前，資料分析師已完成資料前處理（包含遺漏值處理與特徵標準 化），並準備建立分類模型。 已知資料流程如下： 1. 將資料區分為訓練集與測試集 2. 建立羅吉斯迴歸（Logistic Regression）模型 3. 使用訓練資料進行模型擬合（fit） 請問下列哪一組 Pandas / Scikit-learn程式碼流程最為正確？",
-        "answer": "B",
-        "confidence": "medium",
-        "reasons": [
-          "說明特徵尺度差異可能造成學習偏誤或收斂困難，並指出邏輯迴歸需要重視特徵縮放，支持題目已完成標準化的前處理背景。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
-      }
-    ],
-    "block-49": [
-      {
-        "id": "mid_1141_s2:mid_1141_s2_q29",
-        "examKey": "mid_1141_s2",
-        "examLabel": "科目二 公告試題（114年第二梯次）",
-        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
-        "route": "/exam/mid_1141_s2",
-        "questionId": "mid_1141_s2_q29",
-        "questionNumber": 29,
-        "question": "某團隊在開發風險評估模型時，使用主成分分析（Principal Component Analysis, PCA）進行降維。輸入資料包含三個數值欄位：「交易金額（單 位：新台幣）」、「交易次數（次／月）」與「年齡（歲）」，其數值量級分別 約為10⁵、10¹與 10²。分析人員直接將原始數據帶入 PCA，結果第一主成 分（PC1）幾乎完全由「交易金額」主導。下列哪一項作法或判斷最合 理？",
-        "answer": "D",
-        "confidence": "high",
-        "reasons": [
-          "說明不同數值尺度可能造成學習偏誤，並介紹 Z-score 標準化及其限制，支持進行 PCA 前先處理尺度差異的判斷。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 7,
+        "citationBlockCount": 6,
         "supplement": false,
         "prominence": "primary"
       }
@@ -1676,7 +1599,7 @@
           "區分 Min-Max Normalization 會縮放至 0～1，而 Z-score Standardization 是平均值 0、標準差 1，可直接支持 C 為錯誤。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 6,
+        "citationBlockCount": 5,
         "supplement": false,
         "prominence": "primary"
       },
@@ -1714,7 +1637,7 @@
           "支持特徵尺度會影響距離型演算法，以及常見縮放方法可保留分佈比例或相對位置的說明；不作為 DBSCAN 或高維距離集中的直接引文。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 7,
+        "citationBlockCount": 6,
         "supplement": false,
         "prominence": "primary"
       },
@@ -1733,7 +1656,7 @@
           "說明特徵縮放的用途及 Min-Max、Z-score 的性質，支持區分數值尺度調整與感測器時間漂移校正。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 7,
+        "citationBlockCount": 6,
         "supplement": false,
         "prominence": "primary"
       },
@@ -1752,7 +1675,7 @@
           "說明特徵縮放處理尺度差異，以及 Min-Max 正規化的數值轉換方式，可用於辨別選項 B。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 4,
+        "citationBlockCount": 3,
         "supplement": false,
         "prominence": "primary"
       },
@@ -1771,150 +1694,33 @@
           "說明特徵尺度差異對模型學習與收斂的影響，並介紹 Z 分數標準化及 Min-Max 正規化，可連結本題 StandardScaler 的用途與轉換概念。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 7,
+        "citationBlockCount": 6,
         "supplement": false,
         "prominence": "primary"
       }
     ],
     "block-51": [
       {
-        "id": "mid_1141_s2:mid_1141_s2_q6",
+        "id": "mid_1141_s2:mid_1141_s2_q28",
         "examKey": "mid_1141_s2",
         "examLabel": "科目二 公告試題（114年第二梯次）",
         "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
         "route": "/exam/mid_1141_s2",
-        "questionId": "mid_1141_s2_q6",
-        "questionNumber": 6,
-        "question": "在進行資料分析時，會遇到類別型（Categorical）與數值型 （Numerical） 資料格式。關於這兩種資料格式的處理，下列敘述何者不 正確？",
-        "answer": "C",
+        "questionId": "mid_1141_s2_q28",
+        "questionNumber": 28,
+        "question": "若在高維度（>500 維）的資料上應用DBSCAN（Density-Based Spatial Clustering of Applications with Noise）演算法，卻發現所有資料點 皆被判定為雜訊（Noise），下列何者為最有可能的原因？",
+        "answer": "A",
         "confidence": "high",
-        "referenceQuestionId": "exam2_q6",
         "reasons": [
-          "區分 Min-Max Normalization 會縮放至 0～1，而 Z-score Standardization 是平均值 0、標準差 1，可直接支持 C 為錯誤。"
+          "支持特徵尺度會影響距離型演算法，以及常見縮放方法可保留分佈比例或相對位置的說明；不作為 DBSCAN 或高維距離集中的直接引文。"
         ],
-        "citationRank": 2,
+        "citationRank": 1,
         "citationBlockCount": 6,
         "supplement": false,
         "prominence": "primary"
-      },
-      {
-        "id": "mid_1141_s2:mid_1141_s2_q14",
-        "examKey": "mid_1141_s2",
-        "examLabel": "科目二 公告試題（114年第二梯次）",
-        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
-        "route": "/exam/mid_1141_s2",
-        "questionId": "mid_1141_s2_q14",
-        "questionNumber": 14,
-        "question": "某組資料共10項標籤如下： A, A, A, A, A, B, B, B, B, B 若該標籤僅有A、B兩種，請問這組資料的「正規化吉尼不純度 （Normalized Gini impurity）」為何？",
-        "answer": "D",
-        "confidence": "high",
-        "reasons": [
-          "說明正規化可將數值縮放至 0～1 區間，作為理解尺度轉換的概念連結；此處未直接提供吉尼不純度或其正規化公式。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "secondary"
-      },
-      {
-        "id": "mid_1141_s2:mid_1141_s2_q28",
-        "examKey": "mid_1141_s2",
-        "examLabel": "科目二 公告試題（114年第二梯次）",
-        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
-        "route": "/exam/mid_1141_s2",
-        "questionId": "mid_1141_s2_q28",
-        "questionNumber": 28,
-        "question": "若在高維度（>500 維）的資料上應用DBSCAN（Density-Based Spatial Clustering of Applications with Noise）演算法，卻發現所有資料點 皆被判定為雜訊（Noise），下列何者為最有可能的原因？",
-        "answer": "A",
-        "confidence": "high",
-        "reasons": [
-          "支持特徵尺度會影響距離型演算法，以及常見縮放方法可保留分佈比例或相對位置的說明；不作為 DBSCAN 或高維距離集中的直接引文。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
-        "id": "mid_1151_s2:mid_1151_s2_q17",
-        "examKey": "mid_1151_s2",
-        "examLabel": "科目二 公告試題（115年第一次）",
-        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
-        "route": "/exam/mid_1151_s2",
-        "questionId": "mid_1151_s2_q17",
-        "questionNumber": 17,
-        "question": "某醫院欲建立一套加護病房（ICU）敗血症預測模型，資料來自 120位病患之生命徵象 （如心率、血壓、體溫等），每 5 分鐘記錄一次。資料中敗血症相關樣本僅佔 3.2%，屬 於高度不平衡資料。在資料檢查過程中發現數項問題，包括血氧資料會出現 10 至 30 分鐘的連續缺失、部分血壓感測器隨使用時間產生系統性偏高（感測器漂移）、敗血症 標註時間存在約±2小時誤差，以及不同病患之正常生命徵象基準差異甚大。請問下列 何種資料處理與建模方式最為適當？",
-        "answer": "D",
-        "confidence": "high",
-        "reasons": [
-          "說明特徵縮放的用途及 Min-Max、Z-score 的性質，支持區分數值尺度調整與感測器時間漂移校正。"
-        ],
-        "citationRank": 2,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
-        "id": "mid_1151_s2:mid_1151_s2_q26",
-        "examKey": "mid_1151_s2",
-        "examLabel": "科目二 公告試題（115年第一次）",
-        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
-        "route": "/exam/mid_1151_s2",
-        "questionId": "mid_1151_s2_q26",
-        "questionNumber": 26,
-        "question": "某電商推薦系統的資料工程師在建構模型特徵時，將使用者的訂單 UNIX時間戳記（連 續數值）轉換為「早晨（6–12時）、下午（12–18時）、夜晚（18–6時）」三個區間類別， 以讓推薦模型更容易學習消費時段規律。在資料前處理中，這種將連續數值轉換為有 序類別的操作最精確的名稱為何？",
-        "answer": "A",
-        "confidence": "high",
-        "reasons": [
-          "說明特徵縮放處理尺度差異，以及 Min-Max 正規化的數值轉換方式，可用於辨別選項 B。"
-        ],
-        "citationRank": 2,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
-        "id": "mid_1151_s2:mid_1151_s2_q48",
-        "examKey": "mid_1151_s2",
-        "examLabel": "科目二 公告試題（115年第一次）",
-        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
-        "route": "/exam/mid_1151_s2",
-        "questionId": "mid_1151_s2_q48",
-        "questionNumber": 48,
-        "question": "在進行機器學習建模前，資料分析師需對特徵變數 X 進行標準化處理，以消除不同量 尺所造成的影響。已知使用 StandardScaler 進行資料轉換，程式碼如下：scaler = StandardScaler()。請問下列哪一種寫法可以正確完成資料標準化？",
-        "answer": "C",
-        "confidence": "high",
-        "reasons": [
-          "說明特徵尺度差異對模型學習與收斂的影響，並介紹 Z 分數標準化及 Min-Max 正規化，可連結本題 StandardScaler 的用途與轉換概念。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "primary"
       }
     ],
-    "block-52": [
-      {
-        "id": "mid_1141_s2:mid_1141_s2_q28",
-        "examKey": "mid_1141_s2",
-        "examLabel": "科目二 公告試題（114年第二梯次）",
-        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
-        "route": "/exam/mid_1141_s2",
-        "questionId": "mid_1141_s2_q28",
-        "questionNumber": 28,
-        "question": "若在高維度（>500 維）的資料上應用DBSCAN（Density-Based Spatial Clustering of Applications with Noise）演算法，卻發現所有資料點 皆被判定為雜訊（Noise），下列何者為最有可能的原因？",
-        "answer": "A",
-        "confidence": "high",
-        "reasons": [
-          "支持特徵尺度會影響距離型演算法，以及常見縮放方法可保留分佈比例或相對位置的說明；不作為 DBSCAN 或高維距離集中的直接引文。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "primary"
-      }
-    ],
-    "block-54": [
+    "block-53": [
       {
         "id": "mid_1141_s2:mid_1141_s2_q6",
         "examKey": "mid_1141_s2",
@@ -1931,7 +1737,7 @@
           "區分 Min-Max Normalization 會縮放至 0～1，而 Z-score Standardization 是平均值 0、標準差 1，可直接支持 C 為錯誤。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 6,
+        "citationBlockCount": 5,
         "supplement": false,
         "prominence": "primary"
       },
@@ -1950,7 +1756,7 @@
           "支持特徵尺度會影響距離型演算法，以及常見縮放方法可保留分佈比例或相對位置的說明；不作為 DBSCAN 或高維距離集中的直接引文。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 7,
+        "citationBlockCount": 6,
         "supplement": false,
         "prominence": "primary"
       },
@@ -1969,7 +1775,7 @@
           "說明不同數值尺度可能造成學習偏誤，並介紹 Z-score 標準化及其限制，支持進行 PCA 前先處理尺度差異的判斷。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 7,
+        "citationBlockCount": 6,
         "supplement": false,
         "prominence": "primary"
       },
@@ -2008,7 +1814,7 @@
           "說明特徵縮放的目的及標準化保留原始形狀的特性，支持排除僅標準化 X 的選項。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 5,
+        "citationBlockCount": 4,
         "supplement": false,
         "prominence": "primary"
       },
@@ -2046,7 +1852,7 @@
           "說明特徵縮放的用途與適用模型，用於釐清標準化並非本題流程問題的主要解方。"
         ],
         "citationRank": 3,
-        "citationBlockCount": 3,
+        "citationBlockCount": 2,
         "supplement": false,
         "prominence": "secondary"
       },
@@ -2065,7 +1871,7 @@
           "說明特徵縮放的用途及 Min-Max、Z-score 的性質，支持區分數值尺度調整與感測器時間漂移校正。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 7,
+        "citationBlockCount": 6,
         "supplement": false,
         "prominence": "primary"
       },
@@ -2084,12 +1890,12 @@
           "說明特徵尺度差異對模型學習與收斂的影響，並介紹 Z 分數標準化及 Min-Max 正規化，可連結本題 StandardScaler 的用途與轉換概念。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 7,
+        "citationBlockCount": 6,
         "supplement": false,
         "prominence": "primary"
       }
     ],
-    "block-55": [
+    "block-54": [
       {
         "id": "mid_1141_s2:mid_1141_s2_q6",
         "examKey": "mid_1141_s2",
@@ -2106,6 +1912,104 @@
           "區分 Min-Max Normalization 會縮放至 0～1，而 Z-score Standardization 是平均值 0、標準差 1，可直接支持 C 為錯誤。"
         ],
         "citationRank": 2,
+        "citationBlockCount": 5,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q29",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q29",
+        "questionNumber": 29,
+        "question": "某團隊在開發風險評估模型時，使用主成分分析（Principal Component Analysis, PCA）進行降維。輸入資料包含三個數值欄位：「交易金額（單 位：新台幣）」、「交易次數（次／月）」與「年齡（歲）」，其數值量級分別 約為10⁵、10¹與 10²。分析人員直接將原始數據帶入 PCA，結果第一主成 分（PC1）幾乎完全由「交易金額」主導。下列哪一項作法或判斷最合 理？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明不同數值尺度可能造成學習偏誤，並介紹 Z-score 標準化及其限制，支持進行 PCA 前先處理尺度差異的判斷。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 6,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q33",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q33",
+        "questionNumber": 33,
+        "question": "某金融機構的量化分析師在建立資產風險評估模型時，發現報酬率資料分 佈明顯非對稱，且出現多次極端損失事件，使得傳統假設常態分佈的模型 無法準確反映真實風險。若希望在不依賴常態分佈假設的前提下，採取更 能捕捉資料極端情況的建模策略，下列哪一種方法最為合適？",
+        "answer": "D",
+        "confidence": "high",
+        "referenceQuestionId": "exam2_q33",
+        "reasons": [
+          "指出 Z-score 標準化適用於常態分佈但對極端值敏感，偏態資料可能產生偏移；也提到以中位數與四分位距的穩健方法較適合偏態或含離群值情境。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 7,
+        "supplement": false,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q5",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q5",
+        "questionNumber": 5,
+        "question": "某 AI 團隊在模型上線後，透過監控系統持續追蹤輸入特徵的分布變化，系統使用 Z- score（Z）作為異常判斷依據，並設定當|Z| ≥ 2時需觸發警示。假設該特徵近似常態分 布，某次監控中發現某特徵值的 Z-score為-2，請問就實務判讀而言，此數值最可能代 表什麼意義？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "介紹 Z 分數標準化、轉換後的平均值與標準差，以及保留資料相對位置的概念，支持以標準差單位解讀觀測值的位置。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 3,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q48",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q48",
+        "questionNumber": 48,
+        "question": "在進行機器學習建模前，資料分析師需對特徵變數 X 進行標準化處理，以消除不同量 尺所造成的影響。已知使用 StandardScaler 進行資料轉換，程式碼如下：scaler = StandardScaler()。請問下列哪一種寫法可以正確完成資料標準化？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "說明特徵尺度差異對模型學習與收斂的影響，並介紹 Z 分數標準化及 Min-Max 正規化，可連結本題 StandardScaler 的用途與轉換概念。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 6,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-55": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q28",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q28",
+        "questionNumber": 28,
+        "question": "若在高維度（>500 維）的資料上應用DBSCAN（Density-Based Spatial Clustering of Applications with Noise）演算法，卻發現所有資料點 皆被判定為雜訊（Noise），下列何者為最有可能的原因？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "支持特徵尺度會影響距離型演算法，以及常見縮放方法可保留分佈比例或相對位置的說明；不作為 DBSCAN 或高維距離集中的直接引文。"
+        ],
+        "citationRank": 1,
         "citationBlockCount": 6,
         "supplement": false,
         "prominence": "primary"
@@ -2125,7 +2029,7 @@
           "說明不同數值尺度可能造成學習偏誤，並介紹 Z-score 標準化及其限制，支持進行 PCA 前先處理尺度差異的判斷。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 7,
+        "citationBlockCount": 6,
         "supplement": false,
         "prominence": "primary"
       },
@@ -2150,6 +2054,25 @@
         "prominence": "secondary"
       },
       {
+        "id": "mid_1141_s2:mid_1141_s2_q36",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q36",
+        "questionNumber": 36,
+        "question": "某研究人員欲使用線性迴歸模型（Linear Regression Model）分析變數 Y與X之間的關係，但發現 Y的分佈明顯右偏，且其變異數隨 X 的增大而 增加。為滿足模型假設並提升配適效果，下列哪一種前處理方法最為合 適？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明特徵縮放的目的及標準化保留原始形狀的特性，支持排除僅標準化 X 的選項。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 4,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
         "id": "mid_1151_s2:mid_1151_s2_q5",
         "examKey": "mid_1151_s2",
         "examLabel": "科目二 公告試題（115年第一次）",
@@ -2169,6 +2092,25 @@
         "prominence": "primary"
       },
       {
+        "id": "mid_1151_s2:mid_1151_s2_q17",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q17",
+        "questionNumber": 17,
+        "question": "某醫院欲建立一套加護病房（ICU）敗血症預測模型，資料來自 120位病患之生命徵象 （如心率、血壓、體溫等），每 5 分鐘記錄一次。資料中敗血症相關樣本僅佔 3.2%，屬 於高度不平衡資料。在資料檢查過程中發現數項問題，包括血氧資料會出現 10 至 30 分鐘的連續缺失、部分血壓感測器隨使用時間產生系統性偏高（感測器漂移）、敗血症 標註時間存在約±2小時誤差，以及不同病患之正常生命徵象基準差異甚大。請問下列 何種資料處理與建模方式最為適當？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明特徵縮放的用途及 Min-Max、Z-score 的性質，支持區分數值尺度調整與感測器時間漂移校正。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 6,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
         "id": "mid_1151_s2:mid_1151_s2_q48",
         "examKey": "mid_1151_s2",
         "examLabel": "科目二 公告試題（115年第一次）",
@@ -2183,32 +2125,13 @@
           "說明特徵尺度差異對模型學習與收斂的影響，並介紹 Z 分數標準化及 Min-Max 正規化，可連結本題 StandardScaler 的用途與轉換概念。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 7,
+        "citationBlockCount": 6,
         "supplement": false,
         "prominence": "primary"
       }
     ],
     "block-56": [
       {
-        "id": "mid_1141_s2:mid_1141_s2_q28",
-        "examKey": "mid_1141_s2",
-        "examLabel": "科目二 公告試題（114年第二梯次）",
-        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
-        "route": "/exam/mid_1141_s2",
-        "questionId": "mid_1141_s2_q28",
-        "questionNumber": 28,
-        "question": "若在高維度（>500 維）的資料上應用DBSCAN（Density-Based Spatial Clustering of Applications with Noise）演算法，卻發現所有資料點 皆被判定為雜訊（Noise），下列何者為最有可能的原因？",
-        "answer": "A",
-        "confidence": "high",
-        "reasons": [
-          "支持特徵尺度會影響距離型演算法，以及常見縮放方法可保留分佈比例或相對位置的說明；不作為 DBSCAN 或高維距離集中的直接引文。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
         "id": "mid_1141_s2:mid_1141_s2_q29",
         "examKey": "mid_1141_s2",
         "examLabel": "科目二 公告試題（114年第二梯次）",
@@ -2223,7 +2146,7 @@
           "說明不同數值尺度可能造成學習偏誤，並介紹 Z-score 標準化及其限制，支持進行 PCA 前先處理尺度差異的判斷。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 7,
+        "citationBlockCount": 6,
         "supplement": false,
         "prominence": "primary"
       },
@@ -2262,26 +2185,7 @@
           "說明特徵縮放的目的及標準化保留原始形狀的特性，支持排除僅標準化 X 的選項。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
-        "id": "mid_1151_s2:mid_1151_s2_q5",
-        "examKey": "mid_1151_s2",
-        "examLabel": "科目二 公告試題（115年第一次）",
-        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
-        "route": "/exam/mid_1151_s2",
-        "questionId": "mid_1151_s2_q5",
-        "questionNumber": 5,
-        "question": "某 AI 團隊在模型上線後，透過監控系統持續追蹤輸入特徵的分布變化，系統使用 Z- score（Z）作為異常判斷依據，並設定當|Z| ≥ 2時需觸發警示。假設該特徵近似常態分 布，某次監控中發現某特徵值的 Z-score為-2，請問就實務判讀而言，此數值最可能代 表什麼意義？",
-        "answer": "A",
-        "confidence": "high",
-        "reasons": [
-          "介紹 Z 分數標準化、轉換後的平均值與標準差，以及保留資料相對位置的概念，支持以標準差單位解讀觀測值的位置。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 3,
+        "citationBlockCount": 4,
         "supplement": false,
         "prominence": "primary"
       },
@@ -2300,51 +2204,13 @@
           "說明特徵縮放的用途及 Min-Max、Z-score 的性質，支持區分數值尺度調整與感測器時間漂移校正。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
-        "id": "mid_1151_s2:mid_1151_s2_q48",
-        "examKey": "mid_1151_s2",
-        "examLabel": "科目二 公告試題（115年第一次）",
-        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
-        "route": "/exam/mid_1151_s2",
-        "questionId": "mid_1151_s2_q48",
-        "questionNumber": 48,
-        "question": "在進行機器學習建模前，資料分析師需對特徵變數 X 進行標準化處理，以消除不同量 尺所造成的影響。已知使用 StandardScaler 進行資料轉換，程式碼如下：scaler = StandardScaler()。請問下列哪一種寫法可以正確完成資料標準化？",
-        "answer": "C",
-        "confidence": "high",
-        "reasons": [
-          "說明特徵尺度差異對模型學習與收斂的影響，並介紹 Z 分數標準化及 Min-Max 正規化，可連結本題 StandardScaler 的用途與轉換概念。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 7,
+        "citationBlockCount": 6,
         "supplement": false,
         "prominence": "primary"
       }
     ],
     "block-57": [
       {
-        "id": "mid_1141_s2:mid_1141_s2_q29",
-        "examKey": "mid_1141_s2",
-        "examLabel": "科目二 公告試題（114年第二梯次）",
-        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
-        "route": "/exam/mid_1141_s2",
-        "questionId": "mid_1141_s2_q29",
-        "questionNumber": 29,
-        "question": "某團隊在開發風險評估模型時，使用主成分分析（Principal Component Analysis, PCA）進行降維。輸入資料包含三個數值欄位：「交易金額（單 位：新台幣）」、「交易次數（次／月）」與「年齡（歲）」，其數值量級分別 約為10⁵、10¹與 10²。分析人員直接將原始數據帶入 PCA，結果第一主成 分（PC1）幾乎完全由「交易金額」主導。下列哪一項作法或判斷最合 理？",
-        "answer": "D",
-        "confidence": "high",
-        "reasons": [
-          "說明不同數值尺度可能造成學習偏誤，並介紹 Z-score 標準化及其限制，支持進行 PCA 前先處理尺度差異的判斷。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
         "id": "mid_1141_s2:mid_1141_s2_q33",
         "examKey": "mid_1141_s2",
         "examLabel": "科目二 公告試題（114年第二梯次）",
@@ -2363,44 +2229,6 @@
         "citationBlockCount": 7,
         "supplement": false,
         "prominence": "secondary"
-      },
-      {
-        "id": "mid_1141_s2:mid_1141_s2_q36",
-        "examKey": "mid_1141_s2",
-        "examLabel": "科目二 公告試題（114年第二梯次）",
-        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
-        "route": "/exam/mid_1141_s2",
-        "questionId": "mid_1141_s2_q36",
-        "questionNumber": 36,
-        "question": "某研究人員欲使用線性迴歸模型（Linear Regression Model）分析變數 Y與X之間的關係，但發現 Y的分佈明顯右偏，且其變異數隨 X 的增大而 增加。為滿足模型假設並提升配適效果，下列哪一種前處理方法最為合 適？",
-        "answer": "B",
-        "confidence": "high",
-        "reasons": [
-          "說明特徵縮放的目的及標準化保留原始形狀的特性，支持排除僅標準化 X 的選項。"
-        ],
-        "citationRank": 2,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
-        "id": "mid_1151_s2:mid_1151_s2_q17",
-        "examKey": "mid_1151_s2",
-        "examLabel": "科目二 公告試題（115年第一次）",
-        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
-        "route": "/exam/mid_1151_s2",
-        "questionId": "mid_1151_s2_q17",
-        "questionNumber": 17,
-        "question": "某醫院欲建立一套加護病房（ICU）敗血症預測模型，資料來自 120位病患之生命徵象 （如心率、血壓、體溫等），每 5 分鐘記錄一次。資料中敗血症相關樣本僅佔 3.2%，屬 於高度不平衡資料。在資料檢查過程中發現數項問題，包括血氧資料會出現 10 至 30 分鐘的連續缺失、部分血壓感測器隨使用時間產生系統性偏高（感測器漂移）、敗血症 標註時間存在約±2小時誤差，以及不同病患之正常生命徵象基準差異甚大。請問下列 何種資料處理與建模方式最為適當？",
-        "answer": "D",
-        "confidence": "high",
-        "reasons": [
-          "說明特徵縮放的用途及 Min-Max、Z-score 的性質，支持區分數值尺度調整與感測器時間漂移校正。"
-        ],
-        "citationRank": 2,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "primary"
       }
     ],
     "block-58": [
@@ -2426,28 +2254,6 @@
       }
     ],
     "block-59": [
-      {
-        "id": "mid_1141_s2:mid_1141_s2_q33",
-        "examKey": "mid_1141_s2",
-        "examLabel": "科目二 公告試題（114年第二梯次）",
-        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
-        "route": "/exam/mid_1141_s2",
-        "questionId": "mid_1141_s2_q33",
-        "questionNumber": 33,
-        "question": "某金融機構的量化分析師在建立資產風險評估模型時，發現報酬率資料分 佈明顯非對稱，且出現多次極端損失事件，使得傳統假設常態分佈的模型 無法準確反映真實風險。若希望在不依賴常態分佈假設的前提下，採取更 能捕捉資料極端情況的建模策略，下列哪一種方法最為合適？",
-        "answer": "D",
-        "confidence": "high",
-        "referenceQuestionId": "exam2_q33",
-        "reasons": [
-          "指出 Z-score 標準化適用於常態分佈但對極端值敏感，偏態資料可能產生偏移；也提到以中位數與四分位距的穩健方法較適合偏態或含離群值情境。"
-        ],
-        "citationRank": 3,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "secondary"
-      }
-    ],
-    "block-60": [
       {
         "id": "mid_1141_s2:mid_1141_s2_q33",
         "examKey": "mid_1141_s2",
@@ -2529,7 +2335,28 @@
         "prominence": "primary"
       }
     ],
-    "block-67": [
+    "block-66": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q10",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q10",
+        "questionNumber": 10,
+        "question": "某團隊為職業籃球隊建立球員受傷風險預測模型，原始特徵 280 個。初始模型訓練集 AUC 為0.94、測試集僅0.68，顯示嚴重過擬合。為改善模型，團隊進行以下處理步驟： 第一步於全體資料（含測試集）上計算特徵間線性相關係數並移除高度相關特徵；第二 步依模型重要性篩選特徵後重新訓練模型。最終測試集 AUC 提升至0.81。關於上述調 整流程，下列敘述何者最為正確？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明特徵工程應避免資料洩漏、大量特徵可能造成過擬合，以及以統計量或相關係數進行過濾式特徵選擇的概念。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 3,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-68": [
       {
         "id": "mid_1151_s2:mid_1151_s2_q10",
         "examKey": "mid_1151_s2",
@@ -2563,15 +2390,15 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明特徵工程應避免資料洩漏、大量特徵可能造成過擬合，以及以統計量或相關係數進行過濾式特徵選擇的概念。"
+          "列出皮爾森相關係數，指出過濾法無法考慮特徵間交互作用，並說明模型重要性分析及嵌入法的限制。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 3,
+        "citationRank": 2,
+        "citationBlockCount": 4,
         "supplement": false,
         "prominence": "primary"
       }
     ],
-    "block-70": [
+    "block-71": [
       {
         "id": "mid_1151_s2:mid_1151_s2_q10",
         "examKey": "mid_1151_s2",
@@ -2592,7 +2419,7 @@
         "prominence": "primary"
       }
     ],
-    "block-72": [
+    "block-77": [
       {
         "id": "mid_1151_s2:mid_1151_s2_q10",
         "examKey": "mid_1151_s2",
@@ -2613,28 +2440,7 @@
         "prominence": "primary"
       }
     ],
-    "block-78": [
-      {
-        "id": "mid_1151_s2:mid_1151_s2_q10",
-        "examKey": "mid_1151_s2",
-        "examLabel": "科目二 公告試題（115年第一次）",
-        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
-        "route": "/exam/mid_1151_s2",
-        "questionId": "mid_1151_s2_q10",
-        "questionNumber": 10,
-        "question": "某團隊為職業籃球隊建立球員受傷風險預測模型，原始特徵 280 個。初始模型訓練集 AUC 為0.94、測試集僅0.68，顯示嚴重過擬合。為改善模型，團隊進行以下處理步驟： 第一步於全體資料（含測試集）上計算特徵間線性相關係數並移除高度相關特徵；第二 步依模型重要性篩選特徵後重新訓練模型。最終測試集 AUC 提升至0.81。關於上述調 整流程，下列敘述何者最為正確？",
-        "answer": "B",
-        "confidence": "high",
-        "reasons": [
-          "列出皮爾森相關係數，指出過濾法無法考慮特徵間交互作用，並說明模型重要性分析及嵌入法的限制。"
-        ],
-        "citationRank": 2,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
-      }
-    ],
-    "block-80": [
+    "block-79": [
       {
         "id": "mid_1151_s2:mid_1151_s2_q10",
         "examKey": "mid_1151_s2",

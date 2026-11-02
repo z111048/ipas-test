@@ -36,6 +36,7 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import re
 import sys
 import unittest
 from pathlib import Path
@@ -446,6 +447,10 @@ class Round2ContentRepairTests(unittest.TestCase):
 
     def test_block_text_repair_fails_closed(self) -> None:
         block = {'type': 'list_item', 'pageIndex': 52, 'text': '支援「雙重標註 」，即由兩位標註者'}
+        only_page52 = [entry for entry in track_a.BLOCK_TEXT_REPAIRS if entry['page'] == 52]
+        patcher = mock.patch.object(track_a, 'BLOCK_TEXT_REPAIRS', only_page52)
+        patcher.start()
+        self.addCleanup(patcher.stop)
         repaired = track_a.apply_block_text_repairs('中級', 'guide1', 'mid-s1c2', [block])
         self.assertEqual(repaired[0]['text'], '支援「雙重標註」，即由兩位標註者')
         self.assertEqual(track_a.apply_block_text_repairs('中級', 'guide1', 'mid-s1c2', repaired), repaired)
@@ -594,6 +599,141 @@ class Round3PageAndHeadingTests(unittest.TestCase):
         unit = next(u for u in units['units'] if u['id'] == 'guide2-s2c3-img-004')
         self.assertEqual(unit['title'], title)
         self.assertEqual(unit['headingPath'][-1], title)
+
+
+class Round3LineJoinTests(unittest.TestCase):
+    """Batch 3 (2026-11-02): a PDF line wrap between a CJK word and its
+    parenthetical gloss must not leave 「網路 （Recurrent…」.  Option/enumeration
+    markers and every other wrap keep the single joining space."""
+
+    def test_cjk_line_end_joins_parenthesis_without_space(self) -> None:
+        self.assertEqual(exporter.block_text('如循環神經網路\n（Recurrent Neural Network）'),
+                         '如循環神經網路（Recurrent Neural Network）')
+        self.assertEqual(exporter.block_text('如《一般資料保護規則》\n（GDPR）'), '如《一般資料保護規則》（GDPR）')
+        self.assertEqual(exporter.block_text('隨機缺失（MAR）\n（如高收入者）'), '隨機缺失（MAR）（如高收入者）')
+        self.assertEqual(exporter.block_text('採用\n(ASCII gloss)'), '採用(ASCII gloss)')
+
+    def test_other_wraps_keep_the_space(self) -> None:
+        # option / enumeration markers start a new item
+        self.assertEqual(exporter.block_text('下列何者正確？\n（A）甲\n（B）乙'), '下列何者正確？ （A）甲 （B）乙')
+        self.assertEqual(exporter.block_text('步驟如下\n（1）收集'), '步驟如下 （1）收集')
+        self.assertEqual(exporter.block_text('原則\n（三）透明'), '原則 （三）透明')
+        # ASCII line end, and the 「） 中文」 label+text shape, are untouched
+        self.assertEqual(exporter.block_text('Generative AI\n（GenAI）'), 'Generative AI （GenAI）')
+        self.assertEqual(exporter.block_text('（Accuracy）\nAI 模型'), '（Accuracy） AI 模型')
+        self.assertEqual(exporter.join_wrapped_lines(['  ', '甲', '', '（乙）']), '甲（乙）')
+
+    def test_published_blocks_have_no_cjk_wrap_space_before_gloss(self) -> None:
+        pattern = re.compile(r'[\u4e00-\u9fff] （(?![A-Za-zＡ-Ｚ0-9０-９一二三四五六七八九十]+）)')
+        offenders = []
+        for path in sorted((ROOT / 'frontend/src/generated/guideContent').glob('*/*.json')):
+            payload = json.loads(path.read_text(encoding='utf-8'))
+            for block in payload['blocks']:
+                text = block.get('text') or block.get('title') or ''
+                if pattern.search(text):
+                    offenders.append((path.parent.name, path.stem, block['id']))
+        self.assertEqual(offenders, [])
+
+
+class Round3PrintedSectionHeadingTests(unittest.TestCase):
+    """Batch 4 (2026-11-02 user decision): 「N.」 section headings of 初級 guide2
+    and 中級 guide2 follow the printed page; the text layer only keeps the
+    marker and the title's ASCII letters, which leak into the next paragraph."""
+
+    GENERATED = ROOT / 'frontend/src/generated'
+
+    def test_leak_is_the_ascii_projection_of_the_title(self) -> None:
+        leak = exporter.printed_title_text_layer_leak
+        self.assertEqual(leak('3. 生成式 AI 與 No Code / Low Code 的結合'), 'AI No Code / Low Code')
+        self.assertEqual(leak('3. 資料偏度（Skewness）與峰度（Kurtosis）'), 'Skewness Kurtosis')
+        self.assertEqual(leak('2. 個資識別風險與資料匿名化/隱私強化技術'), '/')
+        self.assertEqual(leak('4. 型一與型二錯誤'), '')
+
+    def test_three_text_layer_shapes_and_fail_closed(self) -> None:
+        def para(page: int, text: str) -> dict:
+            return {'type': 'paragraph', 'depth': 5, 'text': text, 'pageIndex': page, 'bbox': [0, 0, 1, 1]}
+        restore = exporter.restore_printed_section_headings
+        # marker paragraph + leaked letters at the start of the next paragraph
+        out = restore('mid-s2c13', [para(171, '3.'), para(171, 'AI AI 系統的效能依賴於大量高品質數據')])
+        self.assertEqual([(b['type'], b.get('title') or b.get('text')) for b in out], [
+            ('heading', '3. AI 訓練資料的合規取得與處理要求'), ('paragraph', 'AI 系統的效能依賴於大量高品質數據')])
+        # marker glued to the first sentence
+        out = restore('mid-s2c13', [para(171, '3. AI AI 系統的效能')])
+        self.assertEqual([b.get('title') or b.get('text') for b in out],
+                         ['3. AI 訓練資料的合規取得與處理要求', 'AI 系統的效能'])
+        # surviving heading fragment
+        heading = {'type': 'heading', 'depth': 3, 'title': '1. No Code', 'pageIndex': 6}
+        out = restore('s2c1', [heading])
+        self.assertEqual(out[0]['title'], '1. No Code 平台')
+        with self.assertRaisesRegex(ValueError, 'not found in text layer'):
+            restore('mid-s2c13', [para(171, '前言')])
+        with self.assertRaisesRegex(ValueError, 'leak'):
+            restore('mid-s2c13', [para(171, '3.'), para(171, '系統的效能')])
+        self.assertEqual(restore('mid-s3c1', [para(171, '3.')])[0]['text'], '3.')
+
+    def test_published_routes_carry_exactly_the_printed_headings(self) -> None:
+        fabricated = {
+            '2. 導入目標與策略規劃', '3. 生成式AI 導入流程', '4. 生成式AI 導入風險與管理',
+            '3. 分佈形狀與資料型態', '2. 資料品質問題與清理策略', '2. 資料型態與儲存需求', '3. 特徵工程',
+            '4. 資料處理管線設計', '2. 大數據環境下的機器學習訓練', '3. 端對端機器學習流程',
+            '2. 個資識別風險與保護技術', '3. 合規資料處理原則', '9. AI No Code / Low Code 對產業與社會的影響',
+        }
+        outlines = json.loads((self.GENERATED / 'guideOutlines.json').read_text(encoding='utf-8'))
+        for route, family in exporter.PRINTED_SECTION_TITLE_ROUTES.items():
+            level, key = family.split('/')
+            path = self.GENERATED / f'guideContent/{level}-{key}/{route}.json'
+            blocks = json.loads(path.read_text(encoding='utf-8'))['blocks']
+            node = next(n for g in outlines['guides'].values() if g['key'] == f'{level}-{key}'
+                        for n in g['nodesById'].values() if n['id'] == route)
+            pages = range(node['pageRange'][0] - 1, node['pageRange'][1])
+            expected = sorted(t for (p, _), t in exporter.PRINTED_SECTION_TITLES[family].items() if p in pages)
+            numbered = sorted(b['title'] for b in blocks if b['type'] == 'heading'
+                              and re.match(r'^\d+\.\s', b.get('title') or ''))
+            self.assertEqual(numbered, expected, route)
+            self.assertFalse(fabricated & {b.get('title') for b in blocks}, route)
+            self.assertFalse([b for b in blocks if b['type'] == 'paragraph'
+                              and re.fullmatch(r'\d+\.|AI|）', (b.get('text') or '').strip())], route)
+
+    def test_leaked_label_fragments_are_gone(self) -> None:
+        text = '\n'.join(path.read_text(encoding='utf-8')
+                         for path in (self.GENERATED / 'guideContent/中級-guide1').glob('mid-s1*.json'))
+        for fragment in ('U-Net U-Net', 'Mask R-CNN Mask R-CNN', '與正規化（Normalization）與正規化'):
+            self.assertNotIn(fragment, text)
+
+    def test_hierarchy_has_no_unclickable_recovered_headings(self) -> None:
+        hierarchy = json.loads((self.GENERATED / 'guideHierarchy.json').read_text(encoding='utf-8'))
+        recovered = [n['id'] for g in hierarchy['guides'].values()
+                     for n in g['nodesById'].values() if n.get('recovered')]
+        self.assertEqual(recovered, [])
+
+    def test_aggregate_routes_mirror_the_semantic_source_images(self) -> None:
+        for leaf, aggregate in exporter.SEMANTIC_VISUAL_MIRROR_ROUTES.items():
+            ids = sorted(item['id'] for item in track_a.VISUAL_INVENTORY_BY_PAGE.values() if item['node'] == leaf)
+            path = next((self.GENERATED / 'guideContent').glob(f'*/{aggregate}.json'))
+            mirrored = sorted(b['trackAMirrorRepairId'] for b in json.loads(path.read_text(encoding='utf-8'))['blocks']
+                              if b['type'] == 'source_image' and b.get('trackAMirrorRepairId') in ids)
+            self.assertEqual(mirrored, ids, aggregate)
+
+    def test_image_unit_heading_paths_follow_current_content(self) -> None:
+        units = json.loads((ROOT / 'data/共用/image_units_all_levels.json').read_text(encoding='utf-8'))['units']
+        cache: dict[str, list[dict]] = {}
+        for unit in units:
+            key = f"{unit['level']}-{unit['guideKey']}/{unit['sourceNodeId']}"
+            if key not in cache:
+                cache[key] = json.loads((self.GENERATED / f'guideContent/{key}.json').read_text(encoding='utf-8'))['blocks']
+            stack: list[tuple[int, str]] = []
+            path = None
+            for block in cache[key]:
+                if block['type'] != 'heading':
+                    continue
+                while stack and stack[-1][0] >= block['depth']:
+                    stack.pop()
+                stack.append((block['depth'], block['title']))
+                if block['id'] == unit['headingBlockId']:
+                    path = [title for depth, title in stack if depth >= 2]
+                    break
+            self.assertEqual(path, unit['headingPath'], unit['id'])
+            self.assertEqual(path[-1], unit['title'], unit['id'])
 
 
 if __name__ == '__main__':

@@ -23,6 +23,18 @@ audit_generated_track_a = track_a.audit_generated_track_a
 
 
 class TrackAOcrRepairGateTests(unittest.TestCase):
+    def setUp(self) -> None:
+        # The minimal guide3 fixtures below hold only the TA-145..152 fragments.
+        # Round-3 in-word continuation merges on other pages of the same routes
+        # (中級 guide3 idx 12/140) fail closed when their blocks are absent, so
+        # they are out of scope for these fixtures.
+        patcher = mock.patch.object(track_a, 'CONTINUATION_MERGES', [
+            merge for merge in track_a.CONTINUATION_MERGES
+            if (merge['level'], merge['key']) != ('中級', 'guide3')
+        ])
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
     @staticmethod
     def fresh_guide3_fragment_routes() -> dict[str, list[dict]]:
         """Minimal cache-free fixture copied from a fresh guide3 tree build."""

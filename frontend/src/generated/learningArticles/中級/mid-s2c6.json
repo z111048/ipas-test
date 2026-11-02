@@ -21,9 +21,9 @@
     "大數據工具"
   ],
   "excerpt": "在大數據分析與人工智慧應用中，資料經過蒐集、清理與儲存後，仍需經歷一系列的處理步驟，才能轉變為真正具備分析價值與建模效能的資源。這些後續處理工作包括資料型態轉換、欄位整理、特徵工程以及分散式運算流程建構，並涉及各種處理工具與技術框架的選型，…",
-  "wordCount": 7964,
+  "wordCount": 7961,
   "readingMinutes": 12,
-  "sectionCount": 15,
+  "sectionCount": 16,
   "source": {
     "guideKey": "中級-guide2",
     "nodeId": "mid-s2c6",
@@ -43,7 +43,7 @@
     },
     {
       "id": "block-5",
-      "title": "2. 資料轉換與前處理",
+      "title": "2. 清理後的資料準備與轉換",
       "depth": 3
     },
     {
@@ -63,32 +63,37 @@
     },
     {
       "id": "block-46",
-      "title": "（4）數值標準化（Standardization）與正規化（Normalization）與正規化（Normalization）",
+      "title": "（4）數值標準化（Standardization）與正規化（Normalization）",
       "depth": 4
     },
     {
-      "id": "block-65",
-      "title": "3. 特徵工程",
+      "id": "block-61",
+      "title": "3. 特徵工程技術",
       "depth": 3
     },
     {
-      "id": "block-66",
+      "id": "block-65",
       "title": "（1）特徵選擇方法（Feature Selection）",
       "depth": 4
     },
     {
-      "id": "block-81",
+      "id": "block-80",
       "title": "（2）特徵衍生與聚合技巧（Feature Generation & Aggregation）",
       "depth": 4
     },
     {
-      "id": "block-90",
+      "id": "block-89",
       "title": "（3）資料增強方法（Data Augmentation）",
       "depth": 4
     },
     {
-      "id": "block-128",
-      "title": "4. 資料處理管線設計",
+      "id": "block-104",
+      "title": "4. 分散式資料處理框架",
+      "depth": 3
+    },
+    {
+      "id": "block-127",
+      "title": "5. 資料處理管線與自動化工具",
       "depth": 3
     },
     {
@@ -157,7 +162,7 @@
     {
       "type": "heading",
       "depth": 3,
-      "title": "2. 資料轉換與前處理",
+      "title": "2. 清理後的資料準備與轉換",
       "pageIndex": 74,
       "bbox": [
         76.6,
@@ -727,7 +732,7 @@
     {
       "type": "heading",
       "depth": 4,
-      "title": "（4）數值標準化（Standardization）與正規化（Normalization）與正規化（Normalization）",
+      "title": "（4）數值標準化（Standardization）與正規化（Normalization）",
       "pageIndex": 76,
       "bbox": [
         70.24,
@@ -740,8 +745,8 @@
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "在資料集中，不同變數可能具有截然不同的尺度，例如「年齡」以數十為單位、「收入」以數萬為單位、「交易筆數」可能達數百萬。若直接將此類變數輸入模型，可能因數值尺度落差導致學習偏誤或模型難以收斂。特別是在使用基於距",
-      "pageIndex": 76,
+      "text": "在資料集中，不同變數可能具有截然不同的尺度，例如「年齡」以數十為單位、「收入」以數萬為單位、「交易筆數」可能達數百萬。若直接將此類變數輸入模型，可能因數值尺度落差導致學習偏誤或模型難以收斂。特別是在使用基於距離的演算法（如KNN 演算法）、依賴梯度下降的模型（如線性迴歸、邏輯迴歸、神經網路）或含有正則化模型（如Lasso、Ridge）時，進行特徵縮放是不可或缺的前處理步驟。",
+      "pageIndex": 77,
       "bbox": [
         76.6,
         701.98,
@@ -750,20 +755,6 @@
       ],
       "indentFirstLine": false,
       "id": "block-47"
-    },
-    {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "離的演算法（如KNN 演算法）、依賴梯度下降的模型（如線性迴歸、邏輯迴歸、神經網路）或含有正則化模型（如Lasso、Ridge）時，進行特徵縮放是不可或缺的前處理步驟。",
-      "pageIndex": 77,
-      "bbox": [
-        76.6,
-        100.82,
-        518.88,
-        164.15
-      ],
-      "indentFirstLine": false,
-      "id": "block-48"
     },
     {
       "type": "paragraph",
@@ -777,7 +768,7 @@
         189.11
       ],
       "indentFirstLine": true,
-      "id": "block-49"
+      "id": "block-48"
     },
     {
       "type": "list_item",
@@ -791,7 +782,7 @@
         364.41,
         214.07
       ],
-      "id": "block-50"
+      "id": "block-49"
     },
     {
       "type": "list_item",
@@ -805,7 +796,7 @@
         309.31,
         239.15
       ],
-      "id": "block-51"
+      "id": "block-50"
     },
     {
       "type": "list_item",
@@ -819,7 +810,7 @@
         441.57,
         264.14
       ],
-      "id": "block-52"
+      "id": "block-51"
     },
     {
       "type": "list_item",
@@ -833,7 +824,7 @@
         466.8,
         289.1
       ],
-      "id": "block-53"
+      "id": "block-52"
     },
     {
       "type": "list_item",
@@ -847,7 +838,7 @@
         343.05,
         314.18
       ],
-      "id": "block-54"
+      "id": "block-53"
     },
     {
       "type": "list_item",
@@ -861,7 +852,7 @@
         425.85,
         339.14
       ],
-      "id": "block-55"
+      "id": "block-54"
     },
     {
       "type": "list_item",
@@ -875,7 +866,7 @@
         521.88,
         364.1
       ],
-      "id": "block-56"
+      "id": "block-55"
     },
     {
       "type": "list_item",
@@ -889,7 +880,7 @@
         518.28,
         414.14
       ],
-      "id": "block-57"
+      "id": "block-56"
     },
     {
       "type": "list_item",
@@ -903,7 +894,7 @@
         287.47,
         439.1
       ],
-      "id": "block-58"
+      "id": "block-57"
     },
     {
       "type": "list_item",
@@ -917,7 +908,7 @@
         374.97,
         464.2
       ],
-      "id": "block-59"
+      "id": "block-58"
     },
     {
       "type": "list_item",
@@ -931,7 +922,7 @@
         521.88,
         489.16
       ],
-      "id": "block-60"
+      "id": "block-59"
     },
     {
       "type": "list_item",
@@ -945,12 +936,25 @@
         521.88,
         514.12
       ],
+      "id": "block-60"
+    },
+    {
+      "type": "heading",
+      "depth": 3,
+      "title": "3. 特徵工程技術",
+      "pageIndex": 77,
+      "bbox": [
+        76.6,
+        549.72,
+        517.93,
+        614.2
+      ],
       "id": "block-61"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "3. 特徵工程是資料處理與機器學習流程中的關鍵步驟，透過選擇、衍生或增強資料中的特徵，幫助模型更有效地捕捉資料的價值與模式。",
+      "text": "特徵工程是資料處理與機器學習流程中的關鍵步驟，透過選擇、衍生或增強資料中的特徵，幫助模型更有效地捕捉資料的價值與模式。",
       "pageIndex": 77,
       "bbox": [
         76.6,
@@ -991,19 +995,6 @@
     },
     {
       "type": "heading",
-      "depth": 3,
-      "title": "3. 特徵工程",
-      "pageIndex": 78,
-      "bbox": [
-        70.24,
-        100.82,
-        299.47,
-        114.11
-      ],
-      "id": "block-65"
-    },
-    {
-      "type": "heading",
       "depth": 4,
       "title": "（1）特徵選擇方法（Feature Selection）",
       "pageIndex": 78,
@@ -1013,7 +1004,7 @@
         299.47,
         114.11
       ],
-      "id": "block-66"
+      "id": "block-65"
     },
     {
       "type": "paragraph",
@@ -1027,7 +1018,7 @@
         189.11
       ],
       "indentFirstLine": false,
-      "id": "block-67"
+      "id": "block-66"
     },
     {
       "type": "list_item",
@@ -1041,7 +1032,7 @@
         241.27,
         214.07
       ],
-      "id": "block-68"
+      "id": "block-67"
     },
     {
       "type": "list_item",
@@ -1055,7 +1046,7 @@
         479.4,
         239.15
       ],
-      "id": "block-69"
+      "id": "block-68"
     },
     {
       "type": "list_item",
@@ -1069,7 +1060,7 @@
         518.4,
         289.1
       ],
-      "id": "block-70"
+      "id": "block-69"
     },
     {
       "type": "list_item",
@@ -1083,7 +1074,7 @@
         328.17,
         314.18
       ],
-      "id": "block-71"
+      "id": "block-70"
     },
     {
       "type": "list_item",
@@ -1097,7 +1088,7 @@
         328.17,
         339.14
       ],
-      "id": "block-72"
+      "id": "block-71"
     },
     {
       "type": "list_item",
@@ -1111,13 +1102,13 @@
         257.11,
         364.1
       ],
-      "id": "block-73"
+      "id": "block-72"
     },
     {
       "type": "list_item",
       "depth": 6,
       "marker": "◦",
-      "text": "使用模型表現（如準確率、F1-score）作為標準，透過遞迴特徵消除 （Recursive Feature Elimination, RFE）或前向/後向選擇進行特徵篩選。",
+      "text": "使用模型表現（如準確率、F1-score）作為標準，透過遞迴特徵消除（Recursive Feature Elimination, RFE）或前向/後向選擇進行特徵篩選。",
       "pageIndex": 78,
       "bbox": [
         120.52,
@@ -1125,7 +1116,7 @@
         521.88,
         414.14
       ],
-      "id": "block-74"
+      "id": "block-73"
     },
     {
       "type": "list_item",
@@ -1139,7 +1130,7 @@
         315.55,
         439.1
       ],
-      "id": "block-75"
+      "id": "block-74"
     },
     {
       "type": "list_item",
@@ -1153,7 +1144,7 @@
         340.77,
         464.2
       ],
-      "id": "block-76"
+      "id": "block-75"
     },
     {
       "type": "list_item",
@@ -1167,7 +1158,7 @@
         267.19,
         489.16
       ],
-      "id": "block-77"
+      "id": "block-76"
     },
     {
       "type": "list_item",
@@ -1181,7 +1172,7 @@
         517.85,
         539.2
       ],
-      "id": "block-78"
+      "id": "block-77"
     },
     {
       "type": "list_item",
@@ -1195,7 +1186,7 @@
         365.97,
         564.16
       ],
-      "id": "block-79"
+      "id": "block-78"
     },
     {
       "type": "list_item",
@@ -1209,7 +1200,7 @@
         479.4,
         589.12
       ],
-      "id": "block-80"
+      "id": "block-79"
     },
     {
       "type": "heading",
@@ -1222,7 +1213,7 @@
         432.33,
         639.19
       ],
-      "id": "block-81"
+      "id": "block-80"
     },
     {
       "type": "paragraph",
@@ -1236,7 +1227,7 @@
         689.23
       ],
       "indentFirstLine": false,
-      "id": "block-82"
+      "id": "block-81"
     },
     {
       "type": "list_item",
@@ -1250,7 +1241,7 @@
         299.35,
         714.19
       ],
-      "id": "block-83"
+      "id": "block-82"
     },
     {
       "type": "list_item",
@@ -1264,7 +1255,7 @@
         518.29,
         764.22
       ],
-      "id": "block-84"
+      "id": "block-83"
     },
     {
       "type": "list_item",
@@ -1278,7 +1269,7 @@
         521.88,
         114.11
       ],
-      "id": "block-85"
+      "id": "block-84"
     },
     {
       "type": "list_item",
@@ -1292,13 +1283,13 @@
         292.27,
         139.07
       ],
-      "id": "block-86"
+      "id": "block-85"
     },
     {
       "type": "list_item",
       "depth": 6,
       "marker": "◦",
-      "text": "從時間資料衍生新特徵，例如日期中的星期、假日標記、時間間隔 （Recency）等。",
+      "text": "從時間資料衍生新特徵，例如日期中的星期、假日標記、時間間隔（Recency）等。",
       "pageIndex": 79,
       "bbox": [
         120.52,
@@ -1306,7 +1297,7 @@
         517.74,
         189.11
       ],
-      "id": "block-87"
+      "id": "block-86"
     },
     {
       "type": "list_item",
@@ -1320,7 +1311,7 @@
         296.83,
         214.07
       ],
-      "id": "block-88"
+      "id": "block-87"
     },
     {
       "type": "list_item",
@@ -1334,7 +1325,7 @@
         518.2,
         264.14
       ],
-      "id": "block-89"
+      "id": "block-88"
     },
     {
       "type": "heading",
@@ -1347,7 +1338,7 @@
         311.11,
         314.18
       ],
-      "id": "block-90"
+      "id": "block-89"
     },
     {
       "type": "paragraph",
@@ -1361,7 +1352,7 @@
         364.1
       ],
       "indentFirstLine": false,
-      "id": "block-91"
+      "id": "block-90"
     },
     {
       "type": "paragraph",
@@ -1375,7 +1366,7 @@
         389.18
       ],
       "indentFirstLine": false,
-      "id": "block-92"
+      "id": "block-91"
     },
     {
       "type": "list_item",
@@ -1389,7 +1380,7 @@
         329.25,
         414.14
       ],
-      "id": "block-93"
+      "id": "block-92"
     },
     {
       "type": "list_item",
@@ -1403,7 +1394,7 @@
         378.57,
         439.1
       ],
-      "id": "block-94"
+      "id": "block-93"
     },
     {
       "type": "list_item",
@@ -1417,7 +1408,7 @@
         521.88,
         464.2
       ],
-      "id": "block-95"
+      "id": "block-94"
     },
     {
       "type": "list_item",
@@ -1431,7 +1422,7 @@
         320.11,
         489.16
       ],
-      "id": "block-96"
+      "id": "block-95"
     },
     {
       "type": "list_item",
@@ -1445,7 +1436,7 @@
         454.2,
         514.12
       ],
-      "id": "block-97"
+      "id": "block-96"
     },
     {
       "type": "list_item",
@@ -1459,7 +1450,7 @@
         441.57,
         539.2
       ],
-      "id": "block-98"
+      "id": "block-97"
     },
     {
       "type": "list_item",
@@ -1473,7 +1464,7 @@
         357.33,
         564.16
       ],
-      "id": "block-99"
+      "id": "block-98"
     },
     {
       "type": "list_item",
@@ -1487,7 +1478,7 @@
         518.28,
         614.2
       ],
-      "id": "block-100"
+      "id": "block-99"
     },
     {
       "type": "list_item",
@@ -1501,7 +1492,7 @@
         353.37,
         639.19
       ],
-      "id": "block-101"
+      "id": "block-100"
     },
     {
       "type": "list_item",
@@ -1515,7 +1506,7 @@
         376.17,
         664.15
       ],
-      "id": "block-102"
+      "id": "block-101"
     },
     {
       "type": "list_item",
@@ -1529,7 +1520,7 @@
         521.64,
         689.23
       ],
-      "id": "block-103"
+      "id": "block-102"
     },
     {
       "type": "list_item",
@@ -1542,6 +1533,19 @@
         700.74,
         473.16,
         714.19
+      ],
+      "id": "block-103"
+    },
+    {
+      "type": "heading",
+      "depth": 3,
+      "title": "4. 分散式資料處理框架",
+      "pageIndex": 80,
+      "bbox": [
+        76.6,
+        99.67,
+        90.67,
+        114.68
       ],
       "id": "block-104"
     },
@@ -1854,6 +1858,19 @@
       "id": "block-126"
     },
     {
+      "type": "heading",
+      "depth": 3,
+      "title": "5. 資料處理管線與自動化工具",
+      "pageIndex": 81,
+      "bbox": [
+        76.6,
+        324.7,
+        90.67,
+        339.71
+      ],
+      "id": "block-127"
+    },
+    {
       "type": "paragraph",
       "depth": 5,
       "text": "在大數據處理與分析的流程中，如何有效組織、協調與自動化資料處理任務，已成為企業提高分析效率與降低運營成本的重要關鍵。資料處理管線（Data Pipeline）透過結構化與自動化的方式串聯各個處理步驟，包括資料擷取、清理、轉換、特徵工程，直至輸出至分析系統或儲存系統，以確保資料品質與分析任務的穩定性和可重現性。本小節將介紹資料處理管線的建構方法與自動化工具，並提供實務應用建議與考量。",
@@ -1865,19 +1882,6 @@
         489.16
       ],
       "indentFirstLine": true,
-      "id": "block-127"
-    },
-    {
-      "type": "heading",
-      "depth": 3,
-      "title": "4. 資料處理管線設計",
-      "pageIndex": 81,
-      "bbox": [
-        70.24,
-        525.91,
-        293.95,
-        539.2
-      ],
       "id": "block-128"
     },
     {

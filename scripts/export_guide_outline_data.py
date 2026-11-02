@@ -391,6 +391,20 @@ def inject_structured_bibliography(
     return reset_block_ids(result)
 
 
+# Aggregate PDF-chapter routes print the same pages as their leaf sections, so
+# they carry the reviewed source figures too (round 3, 2026-11-02).  The copy is
+# tagged with trackAMirrorRepairId and is not counted by the Track A inventory,
+# which keeps owning exactly the leaf block.
+SEMANTIC_VISUAL_MIRROR_ROUTES: dict[str, str] = {
+    's1c4': 's1pdf-c3',
+    'mid-s2c1': 'mid-s2pdf-c3',
+    'mid-s2c9': 'mid-s2pdf-c5',
+    'mid-s3c5': 'mid-s3pdf-c4',
+    'mid-s3c8': 'mid-s3pdf-c5',
+    'mid-s3c9': 'mid-s3pdf-c5',
+}
+
+
 def inject_semantic_source_images(
     blocks: list[dict],
     level: str,
@@ -424,7 +438,10 @@ def inject_semantic_source_images(
         page_index = page_number - 1
         visual_key = (level, key, page_index)
         inventory = VISUAL_INVENTORY_BY_PAGE.get(visual_key)
-        if inventory is None or inventory['node'] != node:
+        if inventory is None:
+            continue
+        mirror = inventory['node'] != node
+        if mirror and SEMANTIC_VISUAL_MIRROR_ROUTES.get(inventory['node']) != node:
             continue
         page_path = BASE / 'data' / level / 'page_clean' / key / 'pages' / f'page_{page_index:03d}.json'
         if not page_path.is_file():
@@ -447,6 +464,8 @@ def inject_semantic_source_images(
             'sourcePageIndexes': [page_index],
             'bbox': item.get('bbox'),
         }
+        if mirror:
+            image_block['trackAMirrorRepairId'] = inventory['id']
         image_y = float((item.get('bbox') or [0, 0])[1])
         insert_at = len(result)
         for index, block in enumerate(result):
@@ -1325,6 +1344,32 @@ def enrich_guide_blocks(blocks: list[dict], audit_formulas_by_page: dict[int, li
     return enriched
 
 
+# 換行接續規則（2026-11-02 第三輪）：PDF 版面在中文詞與後接的括號註解之間斷行
+# （「循環神經網路\n（Recurrent …）」），以空白接回會留下「網路 （」的假空白。
+# 上一行以 CJK 字或全形標點結尾、下一行以全形「（」或半形 "(" 開頭時直接相接；
+# 選項／編號標記（「（A）」「(2)」「（三）」）是新項目的開頭，仍以空白分隔。
+# 其他換行（含「） 中文」這類標籤＋正文）仍以單一空白接續，不在此處處理。
+CJK_LINE_END_PATTERN = re.compile(r'[\u3000-\u303f\u4e00-\u9fff\uff01-\uff0f\uff1a-\uff20\uff3b-\uff40\uff5b-\uff65]$')
+ENUMERATION_MARKER_PATTERN = re.compile(r'^[（(]\s*(?:[A-Za-zＡ-Ｚａ-ｚ]|[0-9０-９]+|[一二三四五六七八九十]+)\s*[）)]')
+
+
+def join_wrapped_lines(lines: list[str]) -> str:
+    parts = [line.strip() for line in lines if line.strip()]
+    if not parts:
+        return ''
+    text = parts[0]
+    for line in parts[1:]:
+        if (
+            line[0] in '（('
+            and CJK_LINE_END_PATTERN.search(text)
+            and not ENUMERATION_MARKER_PATTERN.match(line)
+        ):
+            text += line
+        else:
+            text += ' ' + line
+    return text
+
+
 def block_text(value: str) -> str:
     value = (
         value
@@ -1333,7 +1378,7 @@ def block_text(value: str) -> str:
         .replace('\uf077', '◦ ')
         .replace('\uf0a1', '○ ')
     )
-    text = ' '.join(line.strip() for line in value.splitlines() if line.strip())
+    text = join_wrapped_lines(value.splitlines())
     text = re.sub(r'([，、；：])\s+', r'\1', text)
     text = re.sub(r'\s+([，。！？；：、）】])', r'\1', text)
     text = re.sub(r'([（【])\s+', r'\1', text)
@@ -1470,57 +1515,235 @@ CONTENT_SECTION_TITLES: dict[str, dict[str, list[str]]] = {
         '1.': ['1. 鑑別式 AI 與生成式 AI 的基本原理'],
         '2.': ['2. 鑑別式 AI 與生成式 AI 的整合應用'],
     },
-    'mid-s2c1': {
-        '1.': ['1. 前言與章節導覽'],
-        '2.': ['2. 集中趨勢與離散程度'],
+}
+
+
+# Numbered section headings 「N. 標題」 of 初級 guide2 (3-1…3-50) and 中級
+# guide2 (第三章～第六章).  Their heading font loses every CJK glyph in the PDF
+# text layer: what survives is the bare 「N.」 marker (sometimes glued to the
+# section's first sentence) plus the Latin letters of the title, which leak to
+# the start of the next paragraph (「3.」 + 「AI No Code / Low Code 生成式AI…」).
+# Earlier hand tables guessed titles from those fragments and invented parent
+# headings; the user decided on 2026-11-02 that these headings follow the
+# printed page.  Every title below is the pages_cache (Track B) heading of that
+# page, checked against the page image on 2026-11-02 (scratchpad
+# round3/b4/heads_montage_*.png).  Keyed by (0-based pageIndex, number).
+PRINTED_SECTION_TITLES: dict[str, dict[tuple[int, int], str]] = {
+    '初級/guide2': {
+        (6, 1): '1. No Code 平台',
+        (7, 2): '2. Low Code 平台',
+        (7, 3): '3. 生成式 AI 與 No Code / Low Code 的結合',
+        (7, 4): '4. 生成式 AI 在各行各業的應用實例',
+        (9, 5): '5. No Code / Low Code 平台的選擇與評估',
+        (11, 6): '6. 生成式 AI 與 No Code / Low Code 結合所面臨的挑戰',
+        (13, 7): '7. No Code / Low Code 的市場價值',
+        (14, 8): '8. AI 發展趨勢中的 No Code / Low Code',
+        (15, 9): '9. 對 AI 民主化的影響',
+        (22, 1): '1. 生成式 AI 的基本概念',
+        (23, 2): '2. 市場價值與影響力',
+        (25, 3): '3. AI 工具的技術進化',
+        (27, 4): '4. 工具發展與趨勢',
+        (29, 5): '5. 各領域的應用與發展',
+        (36, 1): '1. 生成式 AI 導入評估',
+        (39, 2): '2. 生成式 AI 導入規劃',
+        (50, 3): '3. 生成式 AI 風險管理',
     },
-    'mid-s2c2': {
-        '1.': ['1. 前言與章節導覽'],
-        '2.': ['2. 機率分佈基本概念'],
-        '3.': ['3. 離散型機率分佈'],
-        '4.': ['4. 連續型機率分佈'],
-        '5.': ['5. 分佈擬合與資料建模'],
-    },
-    'mid-s2c6': {
-        '1.': ['1. 前言與章節導覽'],
-        '2.': ['2. 資料轉換與前處理'],
-    },
-    'mid-s2c7': {
-        '1.': ['1. 前言與章節導覽'],
-        '3.': ['3. 大數據下統計推論的限制與風險'],
-    },
-    'mid-s2c11': {
-        '1.': ['1. 前言與章節導覽'],
-        '2.': ['2. 鑑別式AI 的核心任務與應用情境'],
-    },
-    'mid-s2c12': {
-        '1.': ['1. 前言與章節導覽'],
-        '2.': ['2. 生成式AI 資料需求與選擇'],
-    },
-    's2c1': {
-        '3.': ['3. AI No Code / Low Code'],
-        '4.': ['4. AI No Code / Low Code 產業應用'],
-        '5.': ['5. No Code / Low Code 平台選擇與評估'],
-        '7.': ['7. No Code / Low Code 導入效益'],
-        '8.': ['8. AI No Code / Low Code 發展趨勢'],
-    },
-    's2c2': {
-        '1.': ['1. 生成式AI 的基本概念'],
-        '2.': ['2. 生成式AI 的市場價值與影響力'],
-        '3.': ['3. 生成式AI 工具的技術進化'],
-        '4.': ['4. 生成式AI 應用領域'],
-    },
-    's2c3': {
-        '1.': ['1. 生成式AI 導入評估標準'],
-    },
-    's2pdf-c3': {
-        '3.': ['3. AI No Code / Low Code', '3. 生成式AI 工具的技術進化'],
-        '4.': ['4. AI No Code / Low Code 產業應用', '4. 生成式AI 應用領域'],
-        '5.': ['5. 生成式AI 應用案例'],
-        '7.': ['7. No Code / Low Code 導入效益'],
-        '8.': ['8. AI No Code / Low Code 發展趨勢'],
+    '中級/guide2': {
+        (8, 1): '1. 前言與章節導覽',
+        (9, 2): '2. 集中趨勢與離散量度',
+        (16, 3): '3. 資料偏度（Skewness）與峰度（Kurtosis）',
+        (19, 1): '1. 前言與章節導覽',
+        (19, 2): '2. 機率分佈簡介',
+        (22, 3): '3. 常見離散型分佈',
+        (24, 4): '4. 常見連續型分佈',
+        (27, 5): '5. 分佈擬合與資料建模',
+        (29, 1): '1. 前言與章節導覽',
+        (29, 2): '2. 統計推論概念與應用情境',
+        (31, 3): '3. 假設檢定的基本流程',
+        (35, 4): '4. 型一與型二錯誤',
+        (37, 5): '5. 常見統計檢定方法與應用',
+        (56, 1): '1. 前言與章節導覽',
+        (56, 2): '2. 資料來源類型與蒐集方式',
+        (59, 3): '3. 資料品質問題類型與評估指標',
+        (63, 1): '1. 前言與章節導覽',
+        (63, 2): '2. 資料型態與結構管理',
+        (65, 3): '3. 分散式儲存與資料湖架構',
+        (67, 4): '4. 儲存效能優化與查詢管理',
+        (69, 5): '5. 資料一致性、版本控制與治理機制',
+        (74, 1): '1. 前言與章節導覽',
+        (74, 2): '2. 清理後的資料準備與轉換',
+        (77, 3): '3. 特徵工程技術',
+        (80, 4): '4. 分散式資料處理框架',
+        (81, 5): '5. 資料處理管線與自動化工具',
+        (89, 1): '1. 前言與章節導覽',
+        (89, 2): '2. 大數據下敘述統計的挑戰與限制',
+        (90, 3): '3. 大數據下統計推論的挑戰與限制',
+        (93, 4): '4. 統計學在大數據中的實務應用案例',
+        (97, 1): '1. 前言與章節導覽',
+        (97, 2): '2. 描述性分析與近似計算方法',
+        (101, 3): '3. 時序數據分析',
+        (104, 4): '4. 網路分析',
+        (107, 5): '5. 文字資料分析',
+        (110, 6): '6. 地理空間資料分析',
+        (113, 7): '7. 異常偵測方法',
+        (116, 1): '1. 前言與章節導覽',
+        (116, 2): '2. 常用視覺化方法與圖表類型',
+        (126, 3): '3. 主流數據視覺化平台與工具類型',
+        (129, 4): '4. 大數據視覺化應用案例與設計原則',
+        (139, 1): '1. 前言與章節導覽',
+        (139, 2): '2. 大數據特性對機器學習流程的影響',
+        (146, 3): '3. 大數據環境下的模型訓練與加速技術',
+        (148, 4): '4. 大數據到模型部署的整合流程',
+        (151, 1): '1. 前言與章節導覽',
+        (151, 2): '2. 典型應用情境與模型任務',
+        (156, 3): '3. 輸入資料類型與標註資料來源整合',
+        (162, 1): '1. 前言與章節導覽',
+        (162, 2): '2. 資料選擇對生成內容品質的影響分析',
+        (165, 3): '3. 典型應用情境',
+        (167, 1): '1. 前言與章節導覽',
+        (167, 2): '2. 個資識別風險與資料匿名化/隱私強化技術',
+        (171, 3): '3. AI 訓練資料的合規取得與處理要求',
+        (174, 4): '4. 企業內部治理機制',
     },
 }
+
+PRINTED_SECTION_TITLE_ROUTES: dict[str, str] = {
+    **{route: '初級/guide2' for route in ('s2c1', 's2c2', 's2c3', 's2pdf-c3')},
+    **{f'mid-s2c{index}': '中級/guide2' for index in range(1, 14)},
+    **{f'mid-s2pdf-c{index}': '中級/guide2' for index in range(3, 7)},
+}
+
+ASCII_TITLE_RUN = re.compile(r'[!-~]+')
+
+
+def printed_title_text_layer_leak(title: str) -> str:
+    """ASCII characters of a printed section title as the PDF text layer keeps them.
+
+    Every CJK glyph and full-width bracket is lost; Latin words, digits and
+    ASCII punctuation survive, space-separated (「No Code / Low Code」, and the
+    lone 「/」 of 「資料匿名化/隱私強化技術」).
+    """
+    body = re.sub(r'^\d+\.\s*', '', title)
+    return ' '.join(ASCII_TITLE_RUN.findall(body))
+
+
+def _strip_title_leak(text: str, leak: str) -> str | None:
+    if not leak:
+        return text
+    if text.startswith(leak + ' ') and text[len(leak) + 1:].strip():
+        return text[len(leak) + 1:]
+    return None
+
+
+def _pages_cache_section_title(level: str, key: str, page_index: int, number: int) -> str | None:
+    path = BASE / 'data' / level / 'pages_cache' / key / f'page_{page_index:03d}.json'
+    if not path.exists():
+        return None
+    markdown = str(load_json(path).get('markdown') or '')
+    titles = [
+        match.group(1).strip()
+        for match in re.finditer(rf'^#{{1,6}}\s*({number}\.(?!\d)\s*.+)$', markdown, re.M)
+    ]
+    if len(titles) != 1:
+        raise ValueError(
+            f'{level}/{key} page {page_index}: pages_cache has {len(titles)} 「{number}.」 headings'
+        )
+    return titles[0]
+
+
+def restore_printed_section_headings(current_id: str, blocks: list[dict]) -> list[dict]:
+    """Rebuild the 「N.」 headings of PRINTED_SECTION_TITLE_ROUTES from the printed titles.
+
+    Every printed heading on the node's pages must be found exactly once in one
+    of the three text-layer shapes, otherwise the build fails closed:
+    a paragraph that is only 「N.」 (the next paragraph then has to start with
+    the title's leaked Latin letters, which are removed); a paragraph
+    「N. <leak> <first sentence>」 (split into heading + paragraph); or a heading
+    「N. <leak>」/「N. <printed title>」.
+    """
+    family = PRINTED_SECTION_TITLE_ROUTES.get(current_id)
+    if family is None:
+        return blocks
+    level, key = family.split('/')
+    table = PRINTED_SECTION_TITLES[family]
+    # The chapter title 「第三章 生成式AI應用與規劃」 leaves a lone 「AI」 line
+    # right before the first section heading (初級 3-1).
+    blocks = [
+        block for index, block in enumerate(blocks)
+        if not (
+            block.get('type') == 'paragraph'
+            and str(block.get('text') or '').strip() == 'AI'
+            and index + 1 < len(blocks)
+            and blocks[index + 1].get('type') == 'heading'
+            and int(blocks[index + 1].get('depth') or 0) == 2
+        )
+    ]
+    pages = {block.get('pageIndex') for block in blocks}
+    expected = {slot: title for slot, title in table.items() if slot[0] in pages}
+    for (page_index, number), title in expected.items():
+        cached = _pages_cache_section_title(level, key, page_index, number)
+        if cached is not None and cached != title:
+            raise ValueError(
+                f'{current_id}: printed title {title!r} differs from pages_cache {cached!r} '
+                f'(page {page_index})'
+            )
+
+    result: list[dict] = []
+    claimed: set[tuple[int, int]] = set()
+    pending_leak: tuple[tuple[int, int], str] | None = None
+    for original in blocks:
+        block = dict(original)
+        text = str(block.get('title') or block.get('text') or '').strip()
+        if pending_leak is not None:
+            slot, leak = pending_leak
+            pending_leak = None
+            stripped = _strip_title_leak(text, leak) if block.get('type') == 'paragraph' else None
+            if stripped is None:
+                raise ValueError(f'{current_id}: printed heading {slot} leak {leak!r} not found in {text[:40]!r}')
+            block['text'] = stripped
+            result.append(block)
+            continue
+        marker = re.match(r'^(\d+)\.(?!\d)\s*(.*)$', text, re.S)
+        slot = (block.get('pageIndex'), int(marker.group(1))) if marker else None
+        if slot is None or slot not in expected or slot in claimed:
+            result.append(block)
+            continue
+        title = expected[slot]
+        leak = printed_title_text_layer_leak(title)
+        rest = marker.group(2).strip()
+        heading = {
+            'type': 'heading', 'depth': 3, 'title': title, 'anchor': '',
+            'pageIndex': block.get('pageIndex'), 'bbox': block.get('bbox'),
+        }
+        block_type = block.get('type')
+        if block_type == 'paragraph' and not rest:
+            claimed.add(slot)
+            result.append(heading)
+            if leak:
+                pending_leak = (slot, leak)
+            continue
+        if block_type == 'paragraph':
+            body = _strip_title_leak(rest, leak)
+            if body is None:
+                result.append(block)
+                continue
+            claimed.add(slot)
+            result.append(heading)
+            result.append({**block, 'text': body})
+            continue
+        if block_type == 'heading' and int(block.get('depth') or 0) <= 3:
+            if normalize(rest) not in {normalize(leak), normalize(re.sub(r'^\d+\.\s*', '', title))}:
+                raise ValueError(f'{current_id}: heading {text!r} does not match printed {title!r}')
+            claimed.add(slot)
+            result.append(heading)
+            continue
+        result.append(block)
+    if pending_leak is not None:
+        raise ValueError(f'{current_id}: printed heading {pending_leak[0]} has no following paragraph')
+    missing = sorted(set(expected) - claimed)
+    if missing:
+        raise ValueError(f'{current_id}: printed section headings not found in text layer: {missing}')
+    return result
 
 
 TITLE_REPLACEMENTS = {
@@ -1539,9 +1762,6 @@ TITLE_REPLACEMENTS = {
     '6.2 AI': '6.2 大數據在鑑別式AI 中的應用',
     '6.3 AI': '6.3 大數據在生成式AI 中的應用',
     '3.1 機率/': '3.1 機率/統計之機器學習基礎應用',
-    '5. No Code / Low Code': '5. No Code / Low Code 平台選擇與評估',
-    '7. No Code / Low Code': '7. No Code / Low Code 導入效益',
-    '8. AI No Code / Low Code': '8. AI No Code / Low Code 發展趨勢',
     '（4）數值標準化（Standardization）': '（4）數值標準化（Standardization）與正規化（Normalization）',
     '（1）基本架構與監督式學習不同，非監督學習模型的輸出通常不是具體的預測值，而是：': '（1）基本架構',
     '5. 多模態多模態 AI風險與未來趨勢': '5. 多模態 AI風險與未來趨勢',
@@ -1549,90 +1769,17 @@ TITLE_REPLACEMENTS = {
     'A. 原理：': 'A. 原理',
     '2. 監督式學習-': '2. 監督式學習-迴歸任務',
     '3. 監督式學習-': '3. 監督式學習-分類任務',
-    '2. 生成式AI 導入流程': '3. 生成式AI 導入流程',
-    '5. 生成式AI 導入風險與管理': '4. 生成式AI 導入風險與管理',
 }
 
 
 PARENT_BEFORE_HEADING: dict[str, dict[str, str]] = {
-    'mid-s2c1': {
-        '（1）偏度（Skewness）': '3. 分佈形狀與資料型態',
-    },
-    'mid-s2c4': {
-        '（1）常見的資料品質問題類型': '2. 資料品質問題與清理策略',
-    },
-    'mid-s2c5': {
-        '（1）結構化資料': '2. 資料型態與儲存需求',
-    },
-    'mid-s2c6': {
-        '（1）特徵選擇方法（Feature Selection）': '3. 特徵工程',
-        '（1）資料處理管線設計原則與流程架構': '4. 資料處理管線設計',
-    },
-    'mid-s2c10': {
-        '（1）分散式模型訓練架構（Distributed Training）': '2. 大數據環境下的機器學習訓練',
-        '（1）資料整合與處理管線（Data Processing）': '3. 端對端機器學習流程',
-    },
-    'mid-s2c11': {
-        '（1）常見輸入資料型態與特性': '3. 鑑別式AI 的資料型態與標註策略',
-    },
-    'mid-s2c13': {
-        '（1）個資識別風險': '2. 個資識別風險與保護技術',
-        '（1）合規資料處理的基本原則': '3. 合規資料處理原則',
-        '（1）制定資料與AI 治理政策': '4. 企業內部資料與AI 治理制度',
-    },
     'mid-s2pdf-c3': {
         '（1）集中趨勢（Central Tendency）': '3.1 敘述性統計與資料摘要技術',
-        '（1）偏度（Skewness）': '3. 分佈形狀與資料型態',
-    },
-    'mid-s2pdf-c4': {
-        '（1）常見的資料品質問題類型': '3. 資料品質問題與評估',
-        '（1）結構化資料': '2. 資料型態與儲存管理',
-        '（1）特徵選擇方法（Feature Selection）': '3. 特徵工程',
-    },
-    'mid-s2pdf-c5': {
-        '（1）樣本非隨機，偏誤被放大': '3. 大數據下統計推論的限制與風險',
-    },
-    'mid-s2pdf-c6': {
-        '（1）資料規模大（Volume）': '2. 大數據特性對機器學習流程的影響',
-        '（1）個資識別風險': '2. 個資識別風險與保護技術',
-    },
-    's2c1': {
-        '（1） 模型準確性與可靠性': '6. AI No Code / Low Code 導入挑戰與風險',
-        '（1） 降低技術門檻': '9. AI No Code / Low Code 對產業與社會的影響',
-    },
-    's2c2': {
-        '（1） 生成式AI 技術突破': '3. 生成式AI 工具的技術進化',
-        '（1） 藝術與設計/內容創作': '5. 生成式AI 應用案例',
-    },
-    's2c3': {
-        '（1） 常見風險識別': '4. 生成式AI 導入風險與管理',
-        '（1） 準備階段（挑選AI 應用方案）': '3. 生成式AI 導入流程',
-        'A. 明確目標設定與優先級排序': '2. 導入目標與策略規劃',
-    },
-    's2pdf-c3': {
-        '（1） 自動生成程式碼': '3. AI No Code / Low Code',
-        '（1） 醫療保健': '4. AI No Code / Low Code 產業應用',
-        '（1） 模型準確性與可靠性': '6. AI No Code / Low Code 導入挑戰與風險',
-        '（1） 降低技術門檻': '9. AI No Code / Low Code 對產業與社會的影響',
-        '（1） 深度學習網路（Deep Learning Networks）': '1. 生成式AI 的基本概念',
-        '（1） 市場規模與增長趨勢': '2. 生成式AI 的市場價值與影響力',
-        '（1） 生成式AI 技術突破': '3. 生成式AI 工具的技術進化',
-        '（1） 專業化與垂直整合': '4. 生成式AI 應用領域',
-        '（1） 藝術與設計/內容創作': '5. 生成式AI 應用案例',
-        '（1） 需求與現狀評估': '1. 生成式AI 導入評估標準',
-        '（1） 目標用戶與技術需求': '5. No Code / Low Code 平台選擇與評估',
-        '（1） 準備階段（挑選AI 應用方案）': '3. 生成式AI 導入流程',
-        'A. 明確目標設定與優先級排序': '2. 導入目標與策略規劃',
-        '（1） 常見風險識別': '4. 生成式AI 導入風險與管理',
     },
 }
 
 
-DEMOTE_EXACT_HEADINGS_BY_CONTENT: dict[str, set[str]] = {
-    's2pdf-c3': {
-        '5. No Code / Low Code 平台選擇與評估',
-    },
-}
+DEMOTE_EXACT_HEADINGS_BY_CONTENT: dict[str, set[str]] = {}
 
 
 DEMOTE_ALPHA_PREFIXES_BY_CONTENT: dict[str, tuple[str, ...]] = {
@@ -1883,7 +2030,7 @@ def merge_list_item_continuation_paragraphs(blocks: list[dict]) -> list[dict]:
     merged: list[dict] = []
     for block in blocks:
         if merged and should_merge_list_item_continuation(merged[-1], block):
-            merged[-1]['text'] = block_text(f'{merged[-1].get("text") or ""} {block.get("text") or ""}')
+            merged[-1]['text'] = block_text(f'{merged[-1].get("text") or ""}\n{block.get("text") or ""}')
             merged[-1]['bbox'] = merge_block_bbox(merged[-1].get('bbox'), block.get('bbox'))
             continue
         merged.append(block)
@@ -2304,6 +2451,7 @@ def post_process_guide_blocks(current_id: str, raw_title: str, blocks: list[dict
     chapter_heading = manifest_chapter_heading(current_id, raw_title, blocks)
     used_chapter_heading = False
 
+    blocks = restore_printed_section_headings(current_id, blocks)
     pending_spill: tuple[str, str] | None = None
     for original in blocks:
         block = dict(original)
@@ -2321,6 +2469,14 @@ def post_process_guide_blocks(current_id: str, raw_title: str, blocks: list[dict
         stripped = title_or_text.strip()
 
         if stripped == 'AI' and processed and processed[-1].get('type') == 'heading' and processed[-1].get('depth') == 2:
+            continue
+        # 「3. 偏見（Bias）與倫理（Ethics」 wraps its closing bracket onto a line
+        # of its own; TITLE_REPLACEMENTS restores it on the heading (中級 3-129).
+        if (
+            block_type == 'paragraph' and stripped in {'）', ')'}
+            and processed and processed[-1].get('type') == 'heading'
+            and str(processed[-1].get('title') or '').endswith(('）', ')'))
+        ):
             continue
 
         if block_type in {'paragraph', 'question'}:
@@ -2420,13 +2576,14 @@ def post_process_guide_blocks(current_id: str, raw_title: str, blocks: list[dict
 
             heading, detail = split_heading_title(title, int(block.get('depth') or 0))
             heading = TITLE_REPLACEMENTS.get(heading, heading)
+            if detail and heading.endswith(detail):
+                # The replacement already restores the split-off tail (中級 guide2 idx 76 「（4）數值
+                # 標準化（Standardization）與正規化（Normalization）」 was published twice).
+                detail = None
             if current_id in {'s2c3', 's2pdf-c3'} and heading == '（3） 資源與基礎設施評估':
                 heading = '（3）企業導入階段性實施策略'  # official errata, page 3-32
             block['title'] = heading
-            if (
-                heading in DEMOTE_EXACT_HEADINGS_BY_CONTENT.get(current_id, set())
-                or (current_id == 's2pdf-c3' and heading.startswith('5. No Code / Low Code 平台選擇'))
-            ):
+            if heading in DEMOTE_EXACT_HEADINGS_BY_CONTENT.get(current_id, set()):
                 block = demote_heading_to_list_item(block)
                 processed.append(block)
                 if detail:
@@ -2592,11 +2749,11 @@ def build_content_blocks(items: list[dict]) -> list[dict]:
 
         block_type, depth, marker = classify_text_block(text)
         if blocks and can_extend_previous_heading(blocks[-1], text, item):
-            blocks[-1]['title'] = block_text(f'{blocks[-1]["title"]} {text}')
+            blocks[-1]['title'] = block_text(f'{blocks[-1]["title"]}\n{text}')
             blocks[-1]['bbox'] = merge_block_bbox(blocks[-1].get('bbox'), item.get('bbox'))
             continue
         if blocks and can_extend_previous_text_block(blocks[-1], text, item):
-            blocks[-1]['text'] = block_text(f'{blocks[-1]["text"]} {text}')
+            blocks[-1]['text'] = block_text(f'{blocks[-1]["text"]}\n{text}')
             blocks[-1]['bbox'] = merge_block_bbox(blocks[-1].get('bbox'), item.get('bbox'))
             continue
 

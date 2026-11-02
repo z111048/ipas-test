@@ -66,11 +66,11 @@
         "title": "第三章 機器學習基礎數學",
         "page_label": "3-1",
         "block_ids": [
-          "block-289",
+          "block-288",
+          "block-290",
           "block-291",
-          "block-292",
-          "block-296",
-          "block-297"
+          "block-295",
+          "block-296"
         ],
         "why_relevant": "說明損失函數決定誤差懲罰與參數調整方式，並指出 MSE 用於迴歸且會放大較大誤差的懲罰。"
       },
@@ -80,9 +80,9 @@
         "title": "第四章 機器學習與深度學習",
         "page_label": "4-1",
         "block_ids": [
-          "block-1132",
           "block-1133",
-          "block-1134"
+          "block-1134",
+          "block-1135"
         ],
         "why_relevant": "提供 MSE 為預測值與真實值之差的平方平均值之定義，支持平方損失與梯度的數學說明。"
       },
@@ -125,11 +125,11 @@
         "title": "第三章 機器學習基礎數學",
         "page_label": "3-1",
         "block_ids": [
+          "block-114",
           "block-115",
           "block-116",
           "block-117",
-          "block-118",
-          "block-119"
+          "block-118"
         ],
         "why_relevant": "說明 n×d 特徵矩陣與 d×k 權重矩陣的表示，以及將 d 維輸入映射至 k 維輸出的概念，可對應本題的 1×10 與 10×64。"
       },
@@ -170,11 +170,11 @@
         "title": "第五章 機器學習建模與參數調校",
         "page_label": "5-1",
         "block_ids": [
+          "block-140",
           "block-141",
           "block-142",
           "block-143",
-          "block-144",
-          "block-145"
+          "block-144"
         ],
         "why_relevant": "說明資料增強的目的，以及隨機翻轉等影像增強方法，支持本題對擴增策略的概念說明。"
       },
@@ -265,11 +265,12 @@
         "title": "常見機器學習演算法",
         "page_label": "4-12",
         "block_ids": [
+          "block-698",
+          "block-699",
           "block-700",
+          "block-701",
           "block-702",
-          "block-703",
-          "block-704",
-          "block-705"
+          "block-703"
         ],
         "why_relevant": "說明 t-SNE 保留局部結構、適合視覺化，以及計算成本、結果穩定性與新資料映射方面的限制。"
       },
@@ -279,9 +280,9 @@
         "title": "常見機器學習演算法",
         "page_label": "4-12",
         "block_ids": [
-          "block-667",
-          "block-668",
-          "block-671"
+          "block-665",
+          "block-666",
+          "block-669"
         ],
         "why_relevant": "說明 PCA 是線性降維，主成分是原始特徵的線性組合，並提示特徵尺度不同時的標準化需求。"
       },
@@ -323,13 +324,13 @@
         "title": "第五章 機器學習建模與參數調校",
         "page_label": "5-1",
         "block_ids": [
-          "block-758",
           "block-759",
-          "block-762",
+          "block-760",
           "block-763",
           "block-764",
           "block-765",
-          "block-766"
+          "block-766",
+          "block-767"
         ],
         "why_relevant": "說明 L1 使用權重絕對值限制、縮小權重並將部分權重歸零，支持其自動特徵選擇機制。"
       },
@@ -356,8 +357,7 @@
         "block_ids": [
           "block-67",
           "block-68",
-          "block-69",
-          "block-70"
+          "block-69"
         ],
         "why_relevant": "將正則化連結至模型訓練過程中的嵌入式特徵選擇，並指出選擇結果可能受模型超參數影響。"
       }
@@ -477,13 +477,11 @@
         "page_label": "5-1",
         "block_ids": [
           "block-645",
-          "block-646",
+          "block-647",
           "block-648",
-          "block-649",
-          "block-650",
-          "block-652",
-          "block-654",
-          "block-655"
+          "block-651",
+          "block-653",
+          "block-654"
         ],
         "why_relevant": "連結更新步幅、動量、自適應學習率與收斂穩定性，並提醒優化器仍需要適當設定學習率。"
       }
@@ -515,8 +513,7 @@
           "block-1131",
           "block-1132",
           "block-1133",
-          "block-1134",
-          "block-1135"
+          "block-1134"
         ],
         "why_relevant": "說明應依任務類型選擇損失函數，並將 MSE 對應至連續值迴歸問題，定義為預測值與真實值之差的平方平均。"
       },
@@ -540,11 +537,11 @@
         "title": "第三章 機器學習基礎數學",
         "page_label": "3-1",
         "block_ids": [
+          "block-240",
           "block-241",
           "block-242",
           "block-243",
-          "block-244",
-          "block-245"
+          "block-244"
         ],
         "why_relevant": "對照迴歸使用 MSE 與分類使用交叉熵，支持依任務性質選擇損失函數的核心判斷。"
       }
@@ -588,11 +585,11 @@
         "title": "第五章 機器學習建模與參數調校",
         "page_label": "5-1",
         "block_ids": [
-          "block-532",
-          "block-535",
-          "block-537",
-          "block-539",
-          "block-540"
+          "block-531",
+          "block-534",
+          "block-536",
+          "block-538",
+          "block-539"
         ],
         "why_relevant": "說明批次大小與 GPU 加速、梯度穩定性、更新頻率及硬體資源分配之間的關係。"
       }
@@ -641,10 +638,10 @@
         "title": "第三章 機器學習基礎數學",
         "page_label": "3-1",
         "block_ids": [
+          "block-288",
           "block-289",
           "block-290",
-          "block-291",
-          "block-293"
+          "block-292"
         ],
         "why_relevant": "說明學習目標與損失函數反映風險容忍度，以及假陽性與假陰性的權重差異，支持本題需重視漏診代價的解釋。"
       }
@@ -674,13 +671,13 @@
         "title": "第四章 機器學習與深度學習",
         "page_label": "4-1",
         "block_ids": [
-          "block-1150",
           "block-1151",
-          "block-1153",
+          "block-1152",
           "block-1154",
           "block-1155",
-          "block-1159",
-          "block-1160"
+          "block-1156",
+          "block-1160",
+          "block-1161"
         ],
         "why_relevant": "說明過擬合的表現、訓練過久的風險，以及正則化限制模型複雜度與 L2 懲罰權重平方和的原理。"
       },
@@ -751,7 +748,6 @@
         "title": "第四章 機器學習與深度學習",
         "page_label": "4-1",
         "block_ids": [
-          "block-645",
           "block-646",
           "block-647",
           "block-648",
@@ -759,8 +755,9 @@
           "block-650",
           "block-651",
           "block-652",
-          "block-655",
-          "block-656"
+          "block-653",
+          "block-656",
+          "block-657"
         ],
         "why_relevant": "支持樸素貝氏的條件獨立計算方式、垃圾郵件過濾的適用性，以及不能只關注準確率的評估觀念。"
       },
@@ -804,9 +801,9 @@
         "title": "常見機器學習演算法",
         "page_label": "4-12",
         "block_ids": [
-          "block-605",
-          "block-608",
-          "block-610"
+          "block-603",
+          "block-606",
+          "block-608"
         ],
         "why_relevant": "說明 K-means 預設 K 個群集、隨機選取初始質心，以及依最近質心分配資料，可連結題目的 K 值設定與初始化差異。"
       },
@@ -816,8 +813,8 @@
         "title": "第四章 機器學習與深度學習",
         "page_label": "4-1",
         "block_ids": [
-          "block-790",
-          "block-792"
+          "block-791",
+          "block-793"
         ],
         "why_relevant": "說明以群內平均值更新質心及迭代停止條件，可用來理解離群值如何影響質心，以及演算法停止與全局最優的區別。"
       }
@@ -848,7 +845,7 @@
         "title": "第五章 機器學習建模與參數調校",
         "page_label": "5-1",
         "block_ids": [
-          "block-254",
+          "block-253",
           "block-256",
           "block-259",
           "block-260",
@@ -862,11 +859,11 @@
         "title": "第四章 機器學習與深度學習",
         "page_label": "4-1",
         "block_ids": [
-          "block-1153",
           "block-1154",
           "block-1155",
-          "block-1159",
-          "block-1160"
+          "block-1156",
+          "block-1160",
+          "block-1161"
         ],
         "why_relevant": "說明訓練與驗證表現落差的過擬合特徵，以及正則化限制模型複雜度、L2 懲罰權重平方和的原理。"
       }
@@ -911,8 +908,8 @@
         "title": "第四章 機器學習與深度學習",
         "page_label": "4-1",
         "block_ids": [
-          "block-1296",
-          "block-1297"
+          "block-1297",
+          "block-1298"
         ],
         "why_relevant": "明確說明 ResNet 透過殘差連接改善極深層網路的梯度消失與模型退化問題，直接支持答案 B。"
       },
@@ -922,13 +919,10 @@
         "title": "第五章 機器學習建模與參數調校",
         "page_label": "5-1",
         "block_ids": [
-          "block-563",
+          "block-564",
           "block-565",
-          "block-566",
-          "block-567",
-          "block-568",
-          "block-571",
-          "block-572"
+          "block-570",
+          "block-571"
         ],
         "why_relevant": "說明網路過深可能導致梯度消失及收斂困難，並指出殘差連接等改善方式，以及單純堆疊層數不保證成效。"
       },
@@ -990,7 +984,7 @@
         "title": "深度學習原理與框架",
         "page_label": "4-54",
         "block_ids": [
-          "block-181"
+          "block-180"
         ],
         "why_relevant": "說明神經元經由非線性激活函數產生輸出，可用於區分激活函數與池化層的主要功能。"
       },
@@ -1144,11 +1138,11 @@
         "title": "第五章 機器學習建模與參數調校",
         "page_label": "5-1",
         "block_ids": [
-          "block-912",
-          "block-914",
+          "block-913",
           "block-915",
           "block-916",
-          "block-918"
+          "block-917",
+          "block-919"
         ],
         "why_relevant": "直接定義量化為高精度參數轉為低精度格式，並說明儲存、運算效益與準確度下降風險。"
       },
@@ -1158,8 +1152,8 @@
         "title": "第五章 機器學習建模與參數調校",
         "page_label": "5-1",
         "block_ids": [
-          "block-881",
-          "block-882"
+          "block-882",
+          "block-883"
         ],
         "why_relevant": "說明知識蒸餾的教師模型與學生模型關係，用以區分知識轉移和權重精度轉換。"
       },
@@ -1179,7 +1173,7 @@
         "title": "第五章 機器學習建模與參數調校",
         "page_label": "5-1",
         "block_ids": [
-          "block-895"
+          "block-896"
         ],
         "why_relevant": "定義剪枝是移除低貢獻權重或神經元，協助區分剪枝與量化。"
       }
@@ -1272,14 +1266,14 @@
         "title": "數據準備與特徵工程",
         "page_label": "5-2",
         "block_ids": [
-          "block-114",
+          "block-112",
+          "block-113",
           "block-115",
-          "block-116",
+          "block-117",
+          "block-118",
           "block-119",
           "block-120",
-          "block-121",
-          "block-122",
-          "block-123"
+          "block-121"
         ],
         "why_relevant": "說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
       },
@@ -1289,11 +1283,11 @@
         "title": "第五章 機器學習建模與參數調校",
         "page_label": "5-1",
         "block_ids": [
+          "block-118",
           "block-119",
           "block-120",
           "block-121",
-          "block-122",
-          "block-123"
+          "block-122"
         ],
         "why_relevant": "支持標籤編碼以整數表示類別、佔用空間小，以及用於無序類別可能產生數值意義誤解的說明。"
       }
@@ -1333,10 +1327,10 @@
         "title": "第三章 機器學習基礎數學",
         "page_label": "3-1",
         "block_ids": [
-          "block-90",
+          "block-89",
+          "block-91",
           "block-92",
-          "block-93",
-          "block-95"
+          "block-94"
         ],
         "why_relevant": "說明應依分布、偏態、離散程度及視覺化結果決定轉換或標準化策略。"
       },
@@ -1390,10 +1384,9 @@
         "title": "數據準備與特徵工程",
         "page_label": "5-2",
         "block_ids": [
-          "block-140",
-          "block-141",
-          "block-147",
-          "block-148"
+          "block-138",
+          "block-139",
+          "block-145"
         ],
         "why_relevant": "說明時序資料增強包含增加噪聲、局部調整與窗口裁切，並強調特徵工程須整合資料理解與建模目標，有助釐清選項 A 與 D。"
       },
@@ -1458,8 +1451,9 @@
         "title": "第五章 機器學習建模與參數調校",
         "page_label": "5-1",
         "block_ids": [
-          "block-451",
-          "block-453"
+          "block-450",
+          "block-452",
+          "block-454"
         ],
         "why_relevant": "說明分層 K-fold 著重分類資料的類別比例一致性，支持選項 B 的辨析。"
       },
@@ -1469,7 +1463,7 @@
         "title": "第五章 機器學習建模與參數調校",
         "page_label": "5-1",
         "block_ids": [
-          "block-938"
+          "block-939"
         ],
         "why_relevant": "章末練習呈現每次留一筆驗證、其餘訓練的交叉驗證設定，對應選項 D 的辨析。"
       }
@@ -1499,10 +1493,9 @@
         "title": "常見機器學習演算法",
         "page_label": "4-12",
         "block_ids": [
-          "block-197",
-          "block-199",
-          "block-203",
-          "block-205"
+          "block-196",
+          "block-198",
+          "block-202"
         ],
         "why_relevant": "說明隨機森林可處理非線性與高階交互作用，能計算特徵重要性，但整體模型仍不易直觀解釋。"
       },
@@ -1590,7 +1583,7 @@
         "title": "第五章 機器學習建模與參數調校",
         "page_label": "5-1",
         "block_ids": [
-          "block-254",
+          "block-253",
           "block-256",
           "block-257",
           "block-258",
@@ -1618,10 +1611,10 @@
         "title": "第五章 機器學習建模與參數調校",
         "page_label": "5-1",
         "block_ids": [
-          "block-450",
           "block-451",
           "block-452",
-          "block-453"
+          "block-453",
+          "block-454"
         ],
         "why_relevant": "說明分層 K 折交叉驗證維持各折類別比例的方式，支持針對少數違約樣本檢查切分影響的建議。"
       }
@@ -1712,12 +1705,12 @@
         "title": "第四章 機器學習與深度學習",
         "page_label": "4-1",
         "block_ids": [
-          "block-465",
           "block-466",
           "block-467",
           "block-468",
           "block-469",
-          "block-470"
+          "block-470",
+          "block-471"
         ],
         "why_relevant": "定義精確率、召回率及 F1-score，並說明 F1 為兩者的調和平均，可用於不平衡資料的模型評估。"
       }
@@ -1777,12 +1770,10 @@
         "title": "第五章 機器學習建模與參數調校",
         "page_label": "5-1",
         "block_ids": [
-          "block-764",
           "block-765",
-          "block-766",
-          "block-785",
-          "block-789",
-          "block-790"
+          "block-784",
+          "block-788",
+          "block-789"
         ],
         "why_relevant": "說明 Lasso 會將部分權重變成零，以及 Elastic Net 保留 L1 特徵選擇能力並結合 L2 穩定化的特性，支持排除 A 與 C。"
       }
@@ -1812,10 +1803,12 @@
         "title": "第五章 機器學習建模與參數調校",
         "page_label": "5-1",
         "block_ids": [
+          "block-281",
           "block-282",
           "block-283",
           "block-284",
-          "block-444"
+          "block-285",
+          "block-443"
         ],
         "why_relevant": "說明 K-fold 交叉驗證用於評估泛化能力，會執行 K 次訓練與驗證，且每次需重新訓練模型，支持每組參數須乘上 5 次訓練的計算。"
       }
@@ -1871,9 +1864,10 @@
         "title": "第五章 機器學習建模與參數調校",
         "page_label": "5-1",
         "block_ids": [
-          "block-535",
-          "block-539",
-          "block-540"
+          "block-534",
+          "block-536",
+          "block-538",
+          "block-539"
         ],
         "why_relevant": "支持批次大小影響梯度估計、泛化與記憶體使用的說明，用於分析選項 C。"
       }
@@ -2005,8 +1999,7 @@
         "block_ids": [
           "block-152",
           "block-153",
-          "block-154",
-          "block-155"
+          "block-154"
         ],
         "why_relevant": "說明在訓練目標中加入公平性損失以平衡準確度與公平性，並以信用評分模型縮小族群錯誤率差異為例，直接支持 A。"
       },
@@ -2033,7 +2026,7 @@
         "title": "演算法偏見與公平性",
         "page_label": "6-14",
         "block_ids": [
-          "block-228"
+          "block-227"
         ],
         "why_relevant": "說明 Equal Opportunity 關注實際應獲得正向結果者的正確預測機率，支持將本題的錯誤拒絕率差異連結至機會均等。"
       }
@@ -2092,9 +2085,9 @@
         "title": "數據準備與特徵工程",
         "page_label": "5-2",
         "block_ids": [
+          "block-113",
           "block-114",
-          "block-115",
-          "block-116"
+          "block-115"
         ],
         "why_relevant": "說明 One-Hot 編碼中所屬類別為 1、其他類別為 0 的表示方式，可用來理解本題的標籤向量。"
       }
@@ -2243,10 +2236,10 @@
         "title": "第四章 機器學習與深度學習",
         "page_label": "4-1",
         "block_ids": [
-          "block-1452",
           "block-1453",
           "block-1454",
-          "block-1455"
+          "block-1455",
+          "block-1456"
         ],
         "why_relevant": "以預訓練語言模型說明特徵表示學習，以及先預訓練、再針對特定任務微調的流程，可連結本題遷移學習概念。"
       }
@@ -2290,9 +2283,9 @@
         "title": "第五章 機器學習建模與參數調校",
         "page_label": "5-1",
         "block_ids": [
-          "block-426",
           "block-427",
-          "block-428"
+          "block-428",
+          "block-429"
         ],
         "why_relevant": "說明 K-fold 應輪流以一份資料作驗證、其餘資料作訓練，再取得平均效能，支持逐折重新學習完整流程的解釋。"
       }
@@ -2322,9 +2315,9 @@
         "title": "第五章 機器學習建模與參數調校",
         "page_label": "5-1",
         "block_ids": [
-          "block-450",
           "block-451",
-          "block-453"
+          "block-452",
+          "block-454"
         ],
         "why_relevant": "說明分層 K 折交叉驗證依類別比例進行切分，是判斷本題各候選程式碼是否適合的核心概念。"
       },
@@ -2334,10 +2327,10 @@
         "title": "第五章 機器學習建模與參數調校",
         "page_label": "5-1",
         "block_ids": [
-          "block-427",
           "block-428",
           "block-429",
-          "block-430"
+          "block-430",
+          "block-431"
         ],
         "why_relevant": "說明 K 折交叉驗證的輪流驗證與平均效能，以及重複隨機切分對穩定性評估的用途，支持對重複分層交叉驗證的解釋。"
       }
@@ -2368,10 +2361,10 @@
         "title": "數據準備與特徵工程",
         "page_label": "5-2",
         "block_ids": [
-          "block-86",
-          "block-87",
-          "block-89",
-          "block-90"
+          "block-84",
+          "block-85",
+          "block-88",
+          "block-89"
         ],
         "why_relevant": "支持區分 0～1 線性縮放與 Z-score 標準化；本題可直接由程式判斷未進行減平均值與除標準差。"
       },
@@ -2381,11 +2374,11 @@
         "title": "數據準備與特徵工程",
         "page_label": "5-2",
         "block_ids": [
+          "block-113",
           "block-114",
           "block-115",
           "block-116",
-          "block-117",
-          "block-118"
+          "block-117"
         ],
         "why_relevant": "說明獨熱編碼以各類別對應欄位表示，所屬類別為 1，其餘為 0，支持描述 E。"
       },
@@ -2395,9 +2388,9 @@
         "title": "第五章 機器學習建模與參數調校",
         "page_label": "5-1",
         "block_ids": [
-          "block-563",
-          "block-565",
-          "block-566"
+          "block-564",
+          "block-566",
+          "block-567"
         ],
         "why_relevant": "說明梯度問題亦與網路深度及訓練策略有關，支持正規化不能單獨保證消除梯度問題的限定。"
       },
@@ -2483,10 +2476,10 @@
         "title": "第四章 機器學習與深度學習",
         "page_label": "4-1",
         "block_ids": [
-          "block-1152",
           "block-1153",
           "block-1154",
-          "block-1155"
+          "block-1155",
+          "block-1156"
         ],
         "why_relevant": "直接說明過擬合的訓練與驗證表現特徵，以及正則化限制模型複雜度、提升泛化能力的目的。"
       },
@@ -2530,12 +2523,12 @@
         "title": "第四章 機器學習與深度學習",
         "page_label": "4-1",
         "block_ids": [
-          "block-1292",
           "block-1293",
           "block-1294",
           "block-1295",
           "block-1296",
-          "block-1297"
+          "block-1297",
+          "block-1298"
         ],
         "why_relevant": "直接比較 VGG、GoogLeNet 與 ResNet 的設計特色，並明確說明 ResNet 以殘差連接處理極深網路的梯度消失與模型退化問題，支持答案 C。"
       }

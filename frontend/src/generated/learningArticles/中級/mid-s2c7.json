@@ -21,9 +21,9 @@
     "不確定性分析"
   ],
   "excerpt": "統計學是資料分析的根基，提供量化觀察、推論不確定性與支援決策的理論依據。在進入大數據時代後，資料的規模、型態與來源皆出現劇烈變化，也對統計方法的應用產生了全新挑戰。在面對數百萬筆以上資料、非結構化資料與即時串流資料的分析需求時，傳統統計技術…",
-  "wordCount": 4833,
+  "wordCount": 4851,
   "readingMinutes": 7,
-  "sectionCount": 14,
+  "sectionCount": 15,
   "source": {
     "guideKey": "中級-guide2",
     "nodeId": "mid-s2c7",
@@ -73,7 +73,7 @@
     },
     {
       "id": "block-17",
-      "title": "3. 大數據下統計推論的限制與風險",
+      "title": "3. 大數據下統計推論的挑戰與限制",
       "depth": 3
     },
     {
@@ -92,19 +92,24 @@
       "depth": 4
     },
     {
-      "id": "block-34",
+      "id": "block-33",
       "title": "（4）樣本非獨立性破壞推論基礎",
       "depth": 4
     },
     {
-      "id": "block-37",
+      "id": "block-36",
       "title": "（5）母體定義不清，推論對象模糊",
       "depth": 4
     },
     {
-      "id": "block-42",
+      "id": "block-40",
       "title": "（6）系統與資源限制限制推論方法應用",
       "depth": 4
+    },
+    {
+      "id": "block-44",
+      "title": "4. 統計學在大數據中的實務應用案例",
+      "depth": 3
     }
   ],
   "blocks": [
@@ -314,7 +319,7 @@
     {
       "type": "heading",
       "depth": 3,
-      "title": "3. 大數據下統計推論的限制與風險",
+      "title": "3. 大數據下統計推論的挑戰與限制",
       "pageIndex": 90,
       "bbox": [
         76.6,
@@ -492,8 +497,8 @@
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "在大數據分析中，常需要同時對大量變數或群體進行統計檢定，例如一次檢",
-      "pageIndex": 91,
+      "text": "在大數據分析中，常需要同時對大量變數或群體進行統計檢定，例如一次檢查數百種產品的轉換率、數千個廣告版本的點擊表現，或是成千上萬筆特徵對模型輸出的影響。這種情況下，即使每次檢定單獨看都控制在5%的錯誤率（α = 0.05），整體出現「偽陽性」（False Positives）的機率仍會大幅上升。",
+      "pageIndex": 92,
       "bbox": [
         101.8,
         752.02,
@@ -501,21 +506,7 @@
         764.02
       ],
       "indentFirstLine": true,
-      "id": "block-30"
-    },
-    {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "查數百種產品的轉換率、數千個廣告版本的點擊表現，或是成千上萬筆特徵對模型輸出的影響。這種情況下，即使每次檢定單獨看都控制在5%的錯誤率（α = 0.05），整體出現「偽陽性」（False Positives）的機率仍會大幅上升。",
-      "pageIndex": 92,
-      "bbox": [
-        76.6,
-        101.9,
-        521.84,
-        164.15
-      ],
-      "indentFirstLine": false,
-      "id": "block-31",
+      "id": "block-30",
       "formulas": [
         {
           "latex": "\\alpha = 0.05",
@@ -535,7 +526,7 @@
         264.14
       ],
       "indentFirstLine": true,
-      "id": "block-32"
+      "id": "block-31"
     },
     {
       "type": "paragraph",
@@ -549,7 +540,7 @@
         364.1
       ],
       "indentFirstLine": true,
-      "id": "block-33"
+      "id": "block-32"
     },
     {
       "type": "heading",
@@ -562,7 +553,7 @@
         256.15,
         414.14
       ],
-      "id": "block-34"
+      "id": "block-33"
     },
     {
       "type": "paragraph",
@@ -576,7 +567,7 @@
         514.12
       ],
       "indentFirstLine": true,
-      "id": "block-35"
+      "id": "block-34"
     },
     {
       "type": "paragraph",
@@ -590,7 +581,7 @@
         614.2
       ],
       "indentFirstLine": true,
-      "id": "block-36"
+      "id": "block-35"
     },
     {
       "type": "heading",
@@ -603,7 +594,7 @@
         268.75,
         664.15
       ],
-      "id": "block-37"
+      "id": "block-36"
     },
     {
       "type": "paragraph",
@@ -617,13 +608,13 @@
         739.15
       ],
       "indentFirstLine": true,
-      "id": "block-38"
+      "id": "block-37"
     },
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "舉例來說，若分析某電商平台2023 年的交易資料，問題在於：這筆資料能否",
-      "pageIndex": 92,
+      "text": "舉例來說，若分析某電商平台2023 年的交易資料，問題在於：這筆資料能否代表整體使用者族群？是否包含活躍與非活躍用戶？能否合理推論到2024 年的新客戶？如果這些母體界線未釐清，則推論的對象與應用情境將變得模糊，甚至誤用。",
+      "pageIndex": 93,
       "bbox": [
         101.8,
         750.94,
@@ -631,21 +622,7 @@
         764.22
       ],
       "indentFirstLine": true,
-      "id": "block-39"
-    },
-    {
-      "type": "paragraph",
-      "depth": 5,
-      "text": "代表整體使用者族群？是否包含活躍與非活躍用戶？能否合理推論到2024 年的新客戶？如果這些母體界線未釐清，則推論的對象與應用情境將變得模糊，甚至誤用。",
-      "pageIndex": 93,
-      "bbox": [
-        76.6,
-        100.82,
-        518.28,
-        164.15
-      ],
-      "indentFirstLine": false,
-      "id": "block-40"
+      "id": "block-38"
     },
     {
       "type": "paragraph",
@@ -659,7 +636,7 @@
         239.15
       ],
       "indentFirstLine": true,
-      "id": "block-41"
+      "id": "block-39"
     },
     {
       "type": "heading",
@@ -672,7 +649,7 @@
         293.95,
         289.1
       ],
-      "id": "block-42"
+      "id": "block-40"
     },
     {
       "type": "paragraph",
@@ -686,7 +663,7 @@
         439.1
       ],
       "indentFirstLine": true,
-      "id": "block-43"
+      "id": "block-41"
     },
     {
       "type": "paragraph",
@@ -700,7 +677,7 @@
         539.2
       ],
       "indentFirstLine": true,
-      "id": "block-44"
+      "id": "block-42"
     },
     {
       "type": "paragraph",
@@ -714,7 +691,20 @@
         589.12
       ],
       "indentFirstLine": true,
-      "id": "block-45"
+      "id": "block-43"
+    },
+    {
+      "type": "heading",
+      "depth": 3,
+      "title": "4. 統計學在大數據中的實務應用案例",
+      "pageIndex": 93,
+      "bbox": [
+        76.6,
+        624.75,
+        90.67,
+        639.76
+      ],
+      "id": "block-44"
     },
     {
       "type": "paragraph",
@@ -728,7 +718,7 @@
         739.15
       ],
       "indentFirstLine": true,
-      "id": "block-46"
+      "id": "block-45"
     },
     {
       "type": "list_item",
@@ -742,7 +732,7 @@
         260.71,
         114.11
       ],
-      "id": "block-47"
+      "id": "block-46"
     },
     {
       "type": "list_item",
@@ -756,7 +746,7 @@
         518.2,
         189.11
       ],
-      "id": "block-48"
+      "id": "block-47"
     },
     {
       "type": "list_item",
@@ -770,7 +760,7 @@
         202.15,
         214.07
       ],
-      "id": "block-49"
+      "id": "block-48"
     },
     {
       "type": "list_item",
@@ -784,7 +774,7 @@
         517.95,
         264.14
       ],
-      "id": "block-50"
+      "id": "block-49"
     },
     {
       "type": "list_item",
@@ -798,7 +788,7 @@
         518.4,
         339.14
       ],
-      "id": "block-51"
+      "id": "block-50"
     },
     {
       "type": "list_item",
@@ -812,7 +802,7 @@
         518.18,
         389.18
       ],
-      "id": "block-52"
+      "id": "block-51"
     },
     {
       "type": "list_item",
@@ -826,7 +816,7 @@
         260.71,
         414.14
       ],
-      "id": "block-53"
+      "id": "block-52"
     },
     {
       "type": "list_item",
@@ -840,7 +830,7 @@
         517.88,
         489.16
       ],
-      "id": "block-54"
+      "id": "block-53"
     },
     {
       "type": "list_item",
@@ -854,7 +844,7 @@
         202.15,
         514.12
       ],
-      "id": "block-55"
+      "id": "block-54"
     },
     {
       "type": "list_item",
@@ -868,7 +858,7 @@
         518.27,
         564.16
       ],
-      "id": "block-56"
+      "id": "block-55"
     },
     {
       "type": "list_item",
@@ -882,7 +872,7 @@
         518.2,
         614.2
       ],
-      "id": "block-57"
+      "id": "block-56"
     },
     {
       "type": "list_item",
@@ -896,7 +886,7 @@
         517.95,
         664.15
       ],
-      "id": "block-58"
+      "id": "block-57"
     },
     {
       "type": "list_item",
@@ -910,7 +900,7 @@
         222.91,
         689.23
       ],
-      "id": "block-59"
+      "id": "block-58"
     },
     {
       "type": "list_item",
@@ -924,7 +914,7 @@
         518.18,
         764.22
       ],
-      "id": "block-60"
+      "id": "block-59"
     },
     {
       "type": "list_item",
@@ -938,7 +928,7 @@
         202.15,
         114.11
       ],
-      "id": "block-61"
+      "id": "block-60"
     },
     {
       "type": "list_item",
@@ -952,7 +942,7 @@
         518.85,
         164.15
       ],
-      "id": "block-62"
+      "id": "block-61"
     },
     {
       "type": "list_item",
@@ -966,7 +956,7 @@
         518.72,
         214.07
       ],
-      "id": "block-63"
+      "id": "block-62"
     },
     {
       "type": "list_item",
@@ -980,7 +970,7 @@
         285.91,
         239.15
       ],
-      "id": "block-64"
+      "id": "block-63"
     },
     {
       "type": "list_item",
@@ -994,7 +984,7 @@
         517.85,
         289.1
       ],
-      "id": "block-65"
+      "id": "block-64"
     },
     {
       "type": "list_item",
@@ -1008,7 +998,7 @@
         202.15,
         314.18
       ],
-      "id": "block-66"
+      "id": "block-65"
     },
     {
       "type": "list_item",
@@ -1022,7 +1012,7 @@
         518.37,
         364.1
       ],
-      "id": "block-67"
+      "id": "block-66"
     },
     {
       "type": "list_item",
@@ -1036,7 +1026,7 @@
         521.32,
         414.14
       ],
-      "id": "block-68"
+      "id": "block-67"
     },
     {
       "type": "list_item",
@@ -1050,7 +1040,7 @@
         503.64,
         439.1
       ],
-      "id": "block-69"
+      "id": "block-68"
     },
     {
       "type": "list_item",
@@ -1064,7 +1054,7 @@
         260.71,
         464.2
       ],
-      "id": "block-70"
+      "id": "block-69"
     },
     {
       "type": "list_item",
@@ -1078,7 +1068,7 @@
         518.19,
         514.12
       ],
-      "id": "block-71"
+      "id": "block-70"
     },
     {
       "type": "list_item",
@@ -1092,7 +1082,7 @@
         202.15,
         539.2
       ],
-      "id": "block-72"
+      "id": "block-71"
     },
     {
       "type": "list_item",
@@ -1106,7 +1096,7 @@
         518.3,
         589.12
       ],
-      "id": "block-73"
+      "id": "block-72"
     },
     {
       "type": "list_item",
@@ -1120,7 +1110,7 @@
         518.4,
         639.19
       ],
-      "id": "block-74"
+      "id": "block-73"
     },
     {
       "type": "list_item",
@@ -1134,7 +1124,7 @@
         518.2,
         689.23
       ],
-      "id": "block-75"
+      "id": "block-74"
     },
     {
       "type": "list_item",
@@ -1148,7 +1138,7 @@
         235.51,
         714.19
       ],
-      "id": "block-76"
+      "id": "block-75"
     },
     {
       "type": "list_item",
@@ -1162,7 +1152,7 @@
         518.2,
         764.22
       ],
-      "id": "block-77"
+      "id": "block-76"
     },
     {
       "type": "list_item",
@@ -1176,7 +1166,7 @@
         202.15,
         114.11
       ],
-      "id": "block-78"
+      "id": "block-77"
     },
     {
       "type": "list_item",
@@ -1190,7 +1180,7 @@
         524.47,
         164.15
       ],
-      "id": "block-79"
+      "id": "block-78"
     },
     {
       "type": "list_item",
@@ -1204,7 +1194,7 @@
         518.88,
         189.11
       ],
-      "id": "block-80"
+      "id": "block-79"
     },
     {
       "type": "list_item",
@@ -1218,7 +1208,7 @@
         273.31,
         214.07
       ],
-      "id": "block-81"
+      "id": "block-80"
     },
     {
       "type": "list_item",
@@ -1232,7 +1222,7 @@
         518.1,
         264.14
       ],
-      "id": "block-82"
+      "id": "block-81"
     },
     {
       "type": "list_item",
@@ -1246,7 +1236,7 @@
         202.15,
         289.1
       ],
-      "id": "block-83"
+      "id": "block-82"
     },
     {
       "type": "list_item",
@@ -1260,7 +1250,7 @@
         518.15,
         339.14
       ],
-      "id": "block-84"
+      "id": "block-83"
     },
     {
       "type": "list_item",
@@ -1274,7 +1264,7 @@
         518.22,
         389.18
       ],
-      "id": "block-85"
+      "id": "block-84"
     },
     {
       "type": "list_item",
@@ -1288,7 +1278,7 @@
         443.25,
         773.34
       ],
-      "id": "block-86"
+      "id": "block-85"
     }
   ]
 }

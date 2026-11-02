@@ -20,8 +20,8 @@
     "鑑別式模型資料應用",
     "評估與部署"
   ],
-  "excerpt": "目前發展與實用性最高的人工智慧系統應用類型、可分為兩類：鑑別式 （Discriminative）與生成式（Generative）模型。其中，鑑別式AI 著重於「區分」、「分類」與「預測」，是目前企業與組織在實務應用中最常導入的AI 類型之一…",
-  "wordCount": 5204,
+  "excerpt": "目前發展與實用性最高的人工智慧系統應用類型、可分為兩類：鑑別式（Discriminative）與生成式（Generative）模型。其中，鑑別式AI 著重於「區分」、「分類」與「預測」，是目前企業與組織在實務應用中最常導入的AI 類型之一。",
+  "wordCount": 5192,
   "readingMinutes": 8,
   "sectionCount": 12,
   "source": {
@@ -43,7 +43,7 @@
     },
     {
       "id": "block-7",
-      "title": "2. 鑑別式AI 的核心任務與應用情境",
+      "title": "2. 典型應用情境與模型任務",
       "depth": 3
     },
     {
@@ -72,8 +72,8 @@
       "depth": 4
     },
     {
-      "id": "block-112",
-      "title": "3. 鑑別式AI 的資料型態與標註策略",
+      "id": "block-110",
+      "title": "3. 輸入資料類型與標註資料來源整合",
       "depth": 3
     },
     {
@@ -114,7 +114,7 @@
     {
       "type": "paragraph",
       "depth": 3,
-      "text": "目前發展與實用性最高的人工智慧系統應用類型、可分為兩類：鑑別式 （Discriminative）與生成式（Generative）模型。其中，鑑別式AI 著重於「區分」、「分類」與「預測」，是目前企業與組織在實務應用中最常導入的AI 類型之一。",
+      "text": "目前發展與實用性最高的人工智慧系統應用類型、可分為兩類：鑑別式（Discriminative）與生成式（Generative）模型。其中，鑑別式AI 著重於「區分」、「分類」與「預測」，是目前企業與組織在實務應用中最常導入的AI 類型之一。",
       "pageIndex": 151,
       "bbox": [
         76.6,
@@ -170,7 +170,7 @@
     {
       "type": "heading",
       "depth": 3,
-      "title": "2. 鑑別式AI 的核心任務與應用情境",
+      "title": "2. 典型應用情境與模型任務",
       "pageIndex": 151,
       "bbox": [
         76.6,
@@ -979,7 +979,7 @@
       "type": "list_item",
       "depth": 6,
       "marker": "◦",
-      "text": "規則模型：正規表示式（Regular expression） （適合處理簡單違規檢測）。",
+      "text": "規則模型：正規表示式（Regular expression）（適合處理簡單違規檢測）。",
       "pageIndex": 154,
       "bbox": [
         120.52,
@@ -1604,6 +1604,19 @@
       "id": "block-109"
     },
     {
+      "type": "heading",
+      "depth": 3,
+      "title": "3. 輸入資料類型與標註資料來源整合",
+      "pageIndex": 156,
+      "bbox": [
+        76.6,
+        299.74,
+        90.67,
+        314.75
+      ],
+      "id": "block-110"
+    },
+    {
       "type": "paragraph",
       "depth": 5,
       "text": "在鑑別式AI 任務中，資料的「品質」、「型態」與「標註方式」直接影響模型效能與實用性。雖然大數據提供了龐大的資料規模與潛在訊息，但要將這些原始資料有效轉化為可供訓練模型的輸入，仍面臨跨平台整合、資料一致性、標註成本與資料偏差等挑戰。",
@@ -1615,7 +1628,7 @@
         414.14
       ],
       "indentFirstLine": true,
-      "id": "block-110"
+      "id": "block-111"
     },
     {
       "type": "paragraph",
@@ -1629,19 +1642,6 @@
         464.2
       ],
       "indentFirstLine": true,
-      "id": "block-111"
-    },
-    {
-      "type": "heading",
-      "depth": 3,
-      "title": "3. 鑑別式AI 的資料型態與標註策略",
-      "pageIndex": 156,
-      "bbox": [
-        70.24,
-        500.35,
-        243.43,
-        513.64
-      ],
       "id": "block-112"
     },
     {
@@ -1815,7 +1815,7 @@
       "type": "list_item",
       "depth": 6,
       "marker": "○",
-      "text": "JSON、XML 格式的API 回傳資料、伺服器日誌（Log）、行為記錄 （如點擊流）。",
+      "text": "JSON、XML 格式的API 回傳資料、伺服器日誌（Log）、行為記錄（如點擊流）。",
       "pageIndex": 157,
       "bbox": [
         136.12,
@@ -1843,7 +1843,7 @@
       "type": "list_item",
       "depth": 6,
       "marker": "○",
-      "text": "具有層次結構（如嵌套的JSON），但欄位可能動態變動，需解析 （Parsing）或展平（Flattening）。",
+      "text": "具有層次結構（如嵌套的JSON），但欄位可能動態變動，需解析（Parsing）或展平（Flattening）。",
       "pageIndex": 157,
       "bbox": [
         136.12,
@@ -2151,7 +2151,7 @@
       "type": "list_item",
       "depth": 6,
       "marker": "○",
-      "text": "醫療診斷：整合病患病歷（結構化）、醫師筆記（文字）與CT 影像 （影像）。",
+      "text": "醫療診斷：整合病患病歷（結構化）、醫師筆記（文字）與CT 影像（影像）。",
       "pageIndex": 158,
       "bbox": [
         136.12,
@@ -2987,7 +2987,7 @@
     {
       "type": "paragraph",
       "depth": 5,
-      "text": "資料品質直接影響鑑別式AI 與統計推論的可靠性，與先前討論的品質指標 （缺失率、異常值比率等）緊密相關：",
+      "text": "資料品質直接影響鑑別式AI 與統計推論的可靠性，與先前討論的品質指標（缺失率、異常值比率等）緊密相關：",
       "pageIndex": 161,
       "bbox": [
         76.6,
