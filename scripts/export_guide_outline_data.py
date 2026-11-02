@@ -2421,7 +2421,7 @@ def post_process_guide_blocks(current_id: str, raw_title: str, blocks: list[dict
             heading, detail = split_heading_title(title, int(block.get('depth') or 0))
             heading = TITLE_REPLACEMENTS.get(heading, heading)
             if current_id in {'s2c3', 's2pdf-c3'} and heading == '（3） 資源與基礎設施評估':
-                heading = '（3） 導入策略與階段規劃'
+                heading = '（3）企業導入階段性實施策略'  # official errata, page 3-32
             block['title'] = heading
             if (
                 heading in DEMOTE_EXACT_HEADINGS_BY_CONTENT.get(current_id, set())

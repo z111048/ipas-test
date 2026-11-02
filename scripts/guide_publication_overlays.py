@@ -53,9 +53,14 @@ GUIDE_NAVIGATION_HEADINGS = {
         'key': 'guide2',
         'node': 's2c3',
         'subjectId': 's2',
-        'title': '（3） 導入策略與階段規劃',
+        # Printed page 3-32 (初級/guide2/page_037) reads 「（3） 資源與基礎設施評估」;
+        # official errata (data/初級/errata_corrections.json, errata page 3)
+        # corrects it to 「（3）企業導入階段性實施策略」.  Follows the errata
+        # since 2026-11-02 (user decision); the earlier 「導入策略與階段規劃」
+        # was not printed anywhere.
+        'title': '（3）企業導入階段性實施策略',
         'depth': 4,
-        'anchor': '3導入策略與階段規劃',
+        'anchor': '3企業導入階段性實施策略',
         'pageIndex': 37,
         'hierarchyPage': 38,
         'forbiddenTitles': ['（3）企業導入階段性實施策略企業需採取'],
@@ -526,16 +531,41 @@ def apply_publication_markdown_overlays(
                 )
 
     contract = GUIDE_NAVIGATION_HEADINGS['manual-heading:s2c3-import-strategy']
-    if (level, key, node) == (contract['level'], contract['key'], contract['node']):
+    if (
+        (level, key, node) == (contract['level'], contract['key'], contract['node'])
+        or (level, key, node) == IMPORT_STRATEGY_AGGREGATE_ROUTE
+    ):
+        # The aggregate route s2pdf-c3 prints the same page-3-32 heading, so
+        # its Markdown is repaired too (2026-11-02); navigation stays s2c3's.
         title = str(contract['title'])
         old_title = str(contract['forbiddenTitles'][0])
-        old_line = f'{"#" * int(contract["depth"])} {old_title}'
-        new_line = f'{"#" * int(contract["depth"])} {title}'
-        lines = markdown.splitlines()
+        hashes = '#' * int(contract['depth'])
+        old_line = f'{hashes} {old_title}'
+        new_line = f'{hashes} {title}'
+        lines = markdown.split('\n')
         old_count = lines.count(old_line)
         new_count = lines.count(new_line)
         if (old_count, new_count) == (1, 0):
-            markdown = markdown.replace(old_line, new_line, 1)
+            index = lines.index(old_line)
+            lines[index] = new_line
+            spill = (contract.get('forbiddenTitleSpill') or {}).get(old_title)
+            if spill:
+                # Hand the glued words back to the following paragraph, as
+                # the block overlay does (「企業需採取分階段策略，…」).
+                following = next(
+                    (i for i in range(index + 1, len(lines)) if lines[i].strip()), None,
+                )
+                if (
+                    following is None
+                    or lines[following].lstrip().startswith(('#', '•', '-', '|'))
+                    or lines[following].startswith(spill)
+                ):
+                    raise ValueError(
+                        f'{level}/{key}/{node}: import-strategy Markdown spill {spill!r} '
+                        'has no following paragraph to return to'
+                    )
+                lines[following] = spill + lines[following]
+            markdown = '\n'.join(lines)
         elif (old_count, new_count) != (0, 1):
             raise ValueError(
                 f'{level}/{key}/{node}: import-strategy Markdown matched '
@@ -574,7 +604,10 @@ def apply_publication_heading_overlays(
                 )
 
     contract = GUIDE_NAVIGATION_HEADINGS['manual-heading:s2c3-import-strategy']
-    if (level, key, node) == (contract['level'], contract['key'], contract['node']):
+    if (
+        (level, key, node) == (contract['level'], contract['key'], contract['node'])
+        or (level, key, node) == IMPORT_STRATEGY_AGGREGATE_ROUTE
+    ):
         title = str(contract['title'])
         forbidden = set(contract['forbiddenTitles'])
         matches = [

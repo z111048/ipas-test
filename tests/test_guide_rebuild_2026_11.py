@@ -368,8 +368,30 @@ class FinalizeReviewTests(unittest.TestCase):
             {'id': 'block-2', 'type': 'paragraph', 'pageIndex': 37, 'text': '分階段策略，平衡短期效益與長期發展：'},
         ]
         result = overlays.apply_publication_block_overlays('初級', 'guide2', 's2c3', blocks)
-        self.assertEqual(result[0]['title'], '（3） 導入策略與階段規劃')
+        self.assertEqual(result[0]['title'], '（3）企業導入階段性實施策略')
         self.assertEqual(result[1]['text'], '企業需採取分階段策略，平衡短期效益與長期發展：')
+
+    def test_import_strategy_markdown_follows_errata_on_owner_and_aggregate(self) -> None:
+        # Page 3-32 heading per official errata (2026-11-02 user decision);
+        # Markdown and sidebar headings of s2c3 and the aggregate s2pdf-c3
+        # both get it, and 「企業需採取」 goes back to the paragraph.
+        source = ('# 章\n\n#### （3）企業導入階段性實施策略企業需採取\n\n'
+                  '分階段策略，平衡短期效益與長期發展：\n\n• 試點應用')
+        for node in ('s2c3', 's2pdf-c3'):
+            once = overlays.apply_publication_markdown_overlays('初級', 'guide2', node, source)
+            twice = overlays.apply_publication_markdown_overlays('初級', 'guide2', node, once)
+            self.assertEqual(once, twice, node)
+            self.assertIn('\n#### （3）企業導入階段性實施策略\n\n企業需採取分階段策略，', once, node)
+            headings = overlays.apply_publication_heading_overlays(
+                '初級', 'guide2', node,
+                [{'id': 'x', 'level': 4, 'title': '（3）企業導入階段性實施策略企業需採取'}],
+            )
+            self.assertEqual(headings, [{'id': '3企業導入階段性實施策略', 'level': 4,
+                                         'title': '（3）企業導入階段性實施策略'}], node)
+        with self.assertRaisesRegex(ValueError, 'spill'):
+            overlays.apply_publication_markdown_overlays(
+                '初級', 'guide2', 's2c3', '#### （3）企業導入階段性實施策略企業需採取\n\n• 試點應用',
+            )
 
     def test_live_content_keeps_finalize_fixes(self) -> None:
         def serialized(guide: str, node: str) -> str:
@@ -515,6 +537,63 @@ class Round2ContentRepairTests(unittest.TestCase):
             self.assertEqual(len(items), 8, node)
         for node in ('mid-s1c5', 'mid-s1pdf-c4'):
             self.assertIn('系統整合的核心人才？', json.dumps(self._live('中級-guide1', node), ensure_ascii=False))
+
+
+class Round3PageAndHeadingTests(unittest.TestCase):
+    """Round 3 batch 2 (2026-11-02 user decisions)."""
+
+    def test_frontend_shows_start_page_of_cross_page_blocks(self) -> None:
+        # Cross-page merged blocks keep the later page as data pageIndex; the
+        # frontend shows sourcePageIndexes[0].  Every page label must go
+        # through utils/guideBlockPage.ts, never read pageIndex directly.
+        helper = ROOT / 'frontend/src/utils/guideBlockPage.ts'
+        self.assertIn('sourcePageIndexes?.[0]', helper.read_text(encoding='utf-8'))
+        offenders = []
+        for path in sorted((ROOT / 'frontend/src').rglob('*.ts*')):
+            relative = path.relative_to(ROOT / 'frontend/src').as_posix()
+            if relative.startswith('generated/') or path == helper:
+                continue
+            text = path.read_text(encoding='utf-8')
+            if '.pageIndex' in text or "['pageIndex']" in text or '["pageIndex"]' in text:
+                offenders.append(relative)
+        self.assertEqual(offenders, [])
+        # Data contract the helper relies on: a non-empty int list whose
+        # first page is never after the data pageIndex.
+        for path in sorted((ROOT / 'frontend/src/generated/guideContent').glob('*/*.json')):
+            for block in json.loads(path.read_text(encoding='utf-8')).get('blocks') or []:
+                pages = block.get('sourcePageIndexes')
+                if pages is None:
+                    continue
+                where = f"{path.parent.name}/{path.stem}/{block.get('id')}"
+                self.assertTrue(pages and all(isinstance(page, int) for page in pages), where)
+                if isinstance(block.get('pageIndex'), int):
+                    self.assertLessEqual(pages[0], block['pageIndex'], where)
+
+    def test_live_page_3_32_heading_follows_errata(self) -> None:
+        # Page image 初級/guide2/page_037 prints 「（3） 資源與基礎設施評估」; the
+        # official errata (data/初級/errata_corrections.json) corrects it.
+        errata = json.loads((ROOT / 'data/初級/errata_corrections.json').read_text(encoding='utf-8'))
+        self.assertTrue(any(
+            entry.get('key') == 'guide2' and entry.get('page_label') == '3-32'
+            and str(entry.get('corrected') or '').startswith('（3）企業導入階段性實施策略企業需採取')
+            for entry in errata
+        ))
+        title = '（3）企業導入階段性實施策略'
+        for node in ('s2c3', 's2pdf-c3'):
+            path = ROOT / f'frontend/src/generated/guideContent/初級-guide2/{node}.json'
+            payload = json.loads(path.read_text(encoding='utf-8'))
+            body = json.dumps({k: payload[k] for k in ('content', 'headings', 'blocks')}, ensure_ascii=False)
+            self.assertNotIn('導入策略與階段規劃', body, node)
+            self.assertNotIn('實施策略企業需採取', body, node)
+            self.assertIn(f'#### {title}\n\n企業需採取分階段策略', payload['content'], node)
+            self.assertEqual(
+                [h for h in payload['headings'] if h['title'] == title],
+                [{'id': '3企業導入階段性實施策略', 'level': 4, 'title': title}], node,
+            )
+        units = json.loads((ROOT / 'data/共用/image_units_all_levels.json').read_text(encoding='utf-8'))
+        unit = next(u for u in units['units'] if u['id'] == 'guide2-s2c3-img-004')
+        self.assertEqual(unit['title'], title)
+        self.assertEqual(unit['headingPath'][-1], title)
 
 
 if __name__ == '__main__':

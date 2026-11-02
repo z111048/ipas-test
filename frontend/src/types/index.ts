@@ -249,7 +249,9 @@ export interface GuideBlock {
   formulas?: GuideFormula[]
   latex?: string | string[]
   formulaOnly?: boolean
+  /** 資料頁（跨頁合併時取後頁）；顯示頁碼請用 utils/guideBlockPage 的 guideBlockDisplayPageIndex */
   pageIndex?: number
+  /** 區塊涵蓋的來源頁，依閱讀順序；[0] 是顯示用的起始頁 */
   sourcePageIndexes?: number[]
   bbox?: number[]
   indentFirstLine?: boolean

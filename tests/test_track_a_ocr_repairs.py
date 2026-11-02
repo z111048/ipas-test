@@ -618,7 +618,7 @@ class TrackAOcrRepairGateTests(unittest.TestCase):
                 'frontend/src/generated/guideContent/初級-guide2/s2c3.json',
                 lambda payload: payload.update({
                     'content': payload['content'].replace(
-                        '\n#### （3） 導入策略與階段規劃\n',
+                        '\n#### （3）企業導入階段性實施策略\n',
                         '\n#### （3）企業導入階段性實施策略企業需採取\n',
                         1,
                     ),

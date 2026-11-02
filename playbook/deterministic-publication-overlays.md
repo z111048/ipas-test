@@ -46,8 +46,10 @@ publication overlay 把「假說檢定名詞介紹：」升為 h3。
 
 ### 修正 6：s2c3 導入策略標題同步（2026-08-30 新增，已腳本化）
 
-publication overlay 將破碎的「（3）企業導入階段性實施策略企業需採取」精確改為
-「（3） 導入策略與階段規劃」，並同步 Markdown、`headings[]`、`blocks[]`、hierarchy 與 search anchor；
+publication overlay 將破碎的「（3）企業導入階段性實施策略企業需採取」精確改為官方勘誤（3-32 頁）的
+「（3）企業導入階段性實施策略」（2026-11-02 使用者決定；舊版「（3） 導入策略與階段規劃」書上不存在），
+「企業需採取」還給下一段，並同步 Markdown、`headings[]`、`blocks[]`、hierarchy 與 search anchor；
+彙整路由 s2pdf-c3 的 Markdown／headings／blocks 也一併修（mirror，導覽仍只屬 s2c3）。
 Track A live gate 會拒絕任一表面殘留舊標題或缺少新節點。
 
 ### 修正 1、2 的內容（說明用，不必手動執行）
