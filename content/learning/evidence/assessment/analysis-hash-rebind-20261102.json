@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "subject": {
+    "kind": "exam-analysis",
+    "id": "analysis-imbalanced-source-examples-v1",
+    "revision": 1
+  },
+  "authorId": "agent-claude-code",
+  "observedAt": "2026-11-02T00:00:00Z",
+  "scope": "provenance hash 機械式重新綁定；不重做標註或分析語意審查",
+  "recordedSubjectHash": "sha256:5636989303de0bf283c69b5b50cdf25b43b4c2d75ccae7bc06345805cf96b0fd",
+  "currentSubjectHash": "sha256:1060192bbbff10512a66afb0164fe822171307fae60834874a67078ee5a6d861",
+  "staleSince": "v2 review 隨 32d5a7d（2026-09-15）進庫；之後 790b234、b282f8e、cfbee9a、153f38b 改了兩個 provenance 輸入",
+  "reproducedAtTrees": {
+    "method": "git archive <rev> 到暫存目錄，於該樹呼叫 build_learning_assessment.assessment_inputs 重算 analysis",
+    "results": {
+      "32d5a7d": {
+        "contentHash": "sha256:5636989303de0bf283c69b5b50cdf25b43b4c2d75ccae7bc06345805cf96b0fd",
+        "catalogHash": "sha256:c3c01e83fcef684f9aca16d1e1036d8102b3b6053058e0ef4b2692c8e4aa768a",
+        "taxonomyHash": "sha256:e5ac57224fc86b7d77353f181202fb39653e4c920014eedd0e950c3f72dc26dd",
+        "labelReviewHash": "sha256:19f169b5dca1878d0a9c641d6d0d26f02e00bd85a08a65270ac703cdb302ae9a",
+        "policyHash": "sha256:dca15a4b5a78248bca7588bfe09d54ad64b931e7aa29a3891685b3338fe33a9e"
+      },
+      "790b234": {
+        "contentHash": "sha256:bf5e95b3b1c35192ee9d28c83b9785248aa69ecbfac1fa4a405e13582060052c",
+        "catalogHash": "sha256:06f5f81ebda5c2e598b183196dfc5466893c7d3071bf5517a912db4dccbf2fba",
+        "taxonomyHash": "sha256:e5ac57224fc86b7d77353f181202fb39653e4c920014eedd0e950c3f72dc26dd",
+        "labelReviewHash": "sha256:19f169b5dca1878d0a9c641d6d0d26f02e00bd85a08a65270ac703cdb302ae9a",
+        "policyHash": "sha256:dca15a4b5a78248bca7588bfe09d54ad64b931e7aa29a3891685b3338fe33a9e"
+      },
+      "cfbee9a": {
+        "contentHash": "sha256:15f4c0184f272384e823ed449de7f17dbe608b3bd047f019f806ab3480f276fb",
+        "catalogHash": "sha256:1785bd20c837ef1140db5adb3f15105559d414dbeba1fdba412febe3c0711dbc",
+        "taxonomyHash": "sha256:07d7763259130fa56702d5c53c48b89bc7de7b80edb20f8f93eb2a016ec64c94",
+        "labelReviewHash": "sha256:19f169b5dca1878d0a9c641d6d0d26f02e00bd85a08a65270ac703cdb302ae9a",
+        "policyHash": "sha256:dca15a4b5a78248bca7588bfe09d54ad64b931e7aa29a3891685b3338fe33a9e"
+      },
+      "HEAD": {
+        "contentHash": "sha256:1060192bbbff10512a66afb0164fe822171307fae60834874a67078ee5a6d861",
+        "catalogHash": "sha256:aeed547b5f54ba4f5114f5529085f6bc6f93b3a1c890ceba1917710ca2ef25bc",
+        "taxonomyHash": "sha256:07d7763259130fa56702d5c53c48b89bc7de7b80edb20f8f93eb2a016ec64c94",
+        "labelReviewHash": "sha256:19f169b5dca1878d0a9c641d6d0d26f02e00bd85a08a65270ac703cdb302ae9a",
+        "policyHash": "sha256:dca15a4b5a78248bca7588bfe09d54ad64b931e7aa29a3891685b3338fe33a9e"
+      }
+    },
+    "note": "HEAD（153f38b）與工作樹 analysis 逐字相同；32d5a7d 重算值與紀錄 subject.hash 相同。先前只換回 catalogHash 所以還原不出，實際上 taxonomyHash 也變了。"
+  },
+  "documentDiff32d5a7dVsWorktree": {
+    "changedTopLevelFields": [
+      "catalogHash",
+      "contentHash",
+      "taxonomyHash"
+    ],
+    "unchangedTopLevelFields": [
+      "exclusions",
+      "id",
+      "inventory",
+      "labelReviewHash",
+      "measures",
+      "policy",
+      "policyHash",
+      "publicationCoverage",
+      "releaseId",
+      "schemaVersion"
+    ],
+    "statement": "policy、policyHash、labelReviewHash、inventory、publicationCoverage、measures、exclusions 逐字相同；只有 catalogHash、taxonomyHash 與連帶的 contentHash 不同"
+  },
+  "changedInputs": [
+    {
+      "path": "data/resource_catalog.json",
+      "field": "catalogHash（整檔 blob hash）",
+      "old": "sha256:c3c01e83fcef684f9aca16d1e1036d8102b3b6053058e0ef4b2692c8e4aa768a",
+      "new": "sha256:aeed547b5f54ba4f5114f5529085f6bc6f93b3a1c890ceba1917710ca2ef25bc",
+      "commits": [
+        {
+          "commit": "790b234",
+          "change": "exams 新增 jr_1153_s1、jr_1153_s2 兩筆（115 年第三次初級）"
+        },
+        {
+          "commit": "cfbee9a",
+          "change": "resources junior_errata、middle_errata、briefing 的 detail 文案"
+        },
+        {
+          "commit": "153f38b",
+          "change": "resources learning-guide-middle-3 的 version／sha256 換成 mid-s3c9 新 blob hash"
+        }
+      ],
+      "worktreeVsHead": "相同",
+      "impact": "analysis 只讀 policy 三卷 jr_1151_s1、mid_1141_s3、mid_1151_s3 的 catalog 列（subjectId、expectedQuestions），三列在 32d5a7d、790b234、cfbee9a、HEAD 間未變；inventory 逐字相同"
+    },
+    {
+      "path": "data/topics/topics.json",
+      "field": "taxonomyHash（整檔 blob hash）",
+      "old": "sha256:e5ac57224fc86b7d77353f181202fb39653e4c920014eedd0e950c3f72dc26dd",
+      "new": "sha256:07d7763259130fa56702d5c53c48b89bc7de7b80edb20f8f93eb2a016ec64c94",
+      "commits": [
+        {
+          "commit": "b282f8e",
+          "change": "signedOff／manualAdditions 日期與理由更新，新增詞彙 Python程式語意（topic-868ec8f3）；19 行增 4 行刪"
+        }
+      ],
+      "impact": "資料洩漏、評估指標、類別不平衡三個 topic 的 id 不變（measures[].topic 與 labelReviewHash 逐字相同）；b282f8e 的 815 題重標改的是 data/topics/*question_topics.json，analysis 的 mapping 為 build 腳本內 editorial 標註，不讀這些檔"
+    }
+  ],
+  "unchangedInputs": [
+    "content/learning/analysis-policies/analysis-selected-three-volumes-v1.json（policyHash 相同）",
+    "content/learning/evidence/assessment/official-source-selection.json 五題 sourceFileHash（assessment_inputs 逐檔比對通過）",
+    "五題 question contentHash 與 mapping 集合（labelReviewHash 相同）"
+  ],
+  "conclusion": "母體、已審五題、分母、measures、exclusions 與 verdict 未變，analysis 結論不受影響；只需把 review 重新綁到新 subject hash。",
+  "reverseProof": {
+    "command": "python3 - <<'PY' … 見 script …",
+    "script": "import json, subprocess, sys\nfrom pathlib import Path\nROOT = Path('.').resolve(); sys.path.insert(0, str(ROOT / 'scripts'))\nfrom build_learning_assessment import assessment_inputs\nfrom learning.contracts import blob_hash, content_hash\nshow = lambda p: subprocess.run(['git', 'show', f'32d5a7d:{p}'], capture_output=True, check=True).stdout\nrecorded = json.loads(show('content/learning/reviews/review-peer-d1-analysis-imbalanced-source-examples-v1-20260909-v2.json'))['subject']['hash']\nanalysis = assessment_inputs(ROOT)['analysis']; old = dict(analysis)\nold['catalogHash'] = blob_hash(show('data/resource_catalog.json')); old['taxonomyHash'] = blob_hash(show('data/topics/topics.json'))\nprint(analysis['contentHash'], content_hash('exam-analysis', old) == recorded)",
+    "result20261102": "sha256:1060192bbbff10512a66afb0164fe822171307fae60834874a67078ee5a6d861 True"
+  },
+  "recordHandling": "新開 review-peer-d1-…-20261102-v3 與 review-contract-…-20261102-v3，各自 supersede 20260909-v2；舊 v1／v2 review 綁的 evidence 未改版，比照 2026-11-02 lab／project 舊 review 留在 content/learning/reviews/，不搬入 superseded/。",
+  "humanColabL5": "仍未完成（與本紀錄無關）"
+}

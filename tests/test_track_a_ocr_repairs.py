@@ -378,12 +378,22 @@ class TrackAOcrRepairGateTests(unittest.TestCase):
         self.assertTrue(any(failure.startswith('TA-155:') for failure in result['failures']))
         self.assertTrue(any(failure.startswith('TA-156:') for failure in result['failures']))
 
+    @staticmethod
+    def bibliography_ids(item_id: str) -> dict[str, str]:
+        # Block ids move whenever the reviewed content gains/loses blocks
+        # (2026-11-02: s1c4 merges); the signature registry is the authority.
+        registry = json.loads(
+            (ROOT / 'scripts/track_a_ocr_expected_signatures.json').read_text(encoding='utf-8')
+        )['bibliography'][item_id]
+        return {'heading': registry['heading']['blockId'], 'table': registry['table']['blockId']}
+
     def test_bibliography_row_mutation_fails_exact_signature(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = self.make_cache_free_tree(Path(directory))
             path = root / 'frontend/src/generated/guideContent/初級-guide1/s1c4.json'
             payload = json.loads(path.read_text(encoding='utf-8'))
-            table = next(block for block in payload['blocks'] if block.get('id') == 'block-192')
+            table_id = self.bibliography_ids('TA-046')['table']
+            table = next(block for block in payload['blocks'] if block.get('id') == table_id)
             table['rows'][0][0] += '（竄改）'
             path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding='utf-8')
             result = audit_generated_track_a(root)
@@ -415,9 +425,10 @@ class TrackAOcrRepairGateTests(unittest.TestCase):
             root = self.make_cache_free_tree(Path(directory))
             path = root / 'frontend/src/generated/guideContent/初級-guide1/s1c4.json'
             payload = json.loads(path.read_text(encoding='utf-8'))
+            ids = self.bibliography_ids('TA-046')
             for original_id, duplicate_id in (
-                ('block-191', 'duplicate-bibliography-heading'),
-                ('block-192', 'duplicate-bibliography-table'),
+                (ids['heading'], 'duplicate-bibliography-heading'),
+                (ids['table'], 'duplicate-bibliography-table'),
             ):
                 duplicate = copy.deepcopy(next(block for block in payload['blocks'] if block.get('id') == original_id))
                 duplicate['id'] = duplicate_id

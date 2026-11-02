@@ -1,0 +1,75 @@
+{
+  "id": "review-contract-analysis-imbalanced-source-examples-v1-20261102-v3",
+  "subject": {
+    "kind": "exam-analysis",
+    "id": "analysis-imbalanced-source-examples-v1",
+    "revision": 1,
+    "hash": "sha256:1060192bbbff10512a66afb0164fe822171307fae60834874a67078ee5a6d861"
+  },
+  "dependencyHashes": [],
+  "rubricVersion": "mvp-review-v1",
+  "reviewerId": "script-validate-learning-content",
+  "reviewerRole": "automated_check",
+  "authorId": "agent-claude-code",
+  "responsibility": "deterministic_contract",
+  "qualification": {
+    "scope": [
+      "mvp-source-contract"
+    ],
+    "evidenceIds": [
+      "evidence-analysis-hash-rebind-20261102-delegation"
+    ],
+    "grantedBy": "maintainer",
+    "grantedAt": "2026-11-02T00:00:00Z"
+  },
+  "evidenceRefs": [
+    {
+      "id": "evidence-analysis-hash-rebind-20261102-delegation",
+      "revision": 1,
+      "hash": "sha256:449efaa58d05c50929e53c9b589d167fda1363b9e13092d85c6c65f1cc1b26c3"
+    },
+    {
+      "id": "evidence-analysis-hash-rebind-20261102-diff",
+      "revision": 1,
+      "hash": "sha256:297ee410aa8671350b60699f93b816b01f72fae43bbc6bf0707270b58cced3e1"
+    },
+    {
+      "id": "evidence-lp210b-migration-diff",
+      "revision": 1,
+      "hash": "sha256:4b067cec98f71e9960e6d064c2d258a194e5ae7076632f7da2c7deecd504beae"
+    },
+    {
+      "id": "evidence-lp210b-review-delegation",
+      "revision": 1,
+      "hash": "sha256:6aa7f6603715641cce813c196f5f25ad39280095290b9b990eedc52ec1bc99c7"
+    },
+    {
+      "id": "evidence-mvp-contract-check-20260907",
+      "revision": 1,
+      "hash": "sha256:17c011241124fbc4a8af6ac73b4e47e43b045d54384c118dec1bc5bee37e684f"
+    },
+    {
+      "id": "evidence-mvp-record-completion-delegation",
+      "revision": 1,
+      "hash": "sha256:922240d8bed38acc0ea3c8733d23d8a0e906b4830ed0f75b6350d8fff5398d56"
+    }
+  ],
+  "verdict": "approved",
+  "checks": [
+    {
+      "code": "C1",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-analysis-hash-rebind-20261102-delegation",
+        "evidence-analysis-hash-rebind-20261102-diff",
+        "evidence-lp210b-migration-diff",
+        "evidence-lp210b-review-delegation",
+        "evidence-mvp-contract-check-20260907",
+        "evidence-mvp-record-completion-delegation"
+      ]
+    }
+  ],
+  "createdAt": "2026-11-02T00:00:00Z",
+  "rationale": "本紀錄的 scope 是 analysis provenance hash 的機械式重新綁定（catalogHash、taxonomyHash 隨 resource_catalog.json 與 topics.json 變動），不是重做語意審查。scripts/validate_learning_content.py --all --check 於 2026-11-02 在目前來源上實跑，issues=[]；analysis 由 build_learning_assessment 重算得 subject.hash sha256:1060192bbbff…，其餘欄位與 v2 受審版逐字相同（evidence-analysis-hash-rebind-20261102-diff）。前一版 review-contract-analysis-imbalanced-source-examples-v1-20260909-v2 的結論以新 hash 重新開立。人類 Colab L5 仍未完成。",
+  "supersedes": "review-contract-analysis-imbalanced-source-examples-v1-20260909-v2"
+}

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "analysis-hash-rebind-20261102-review-delegation-v1",
+  "grantedBy": "maintainer",
+  "grantedTo": "agent-ds1017",
+  "grantedAt": "2026-11-02T00:00:00Z",
+  "role": "independent_model",
+  "model": "deepseek-v4.1-flash:1017（團購網關，經 cshare 啟動、唯讀工具）",
+  "scope": [
+    "mvp-domain-content",
+    "mvp-source-contract"
+  ],
+  "scopeLimit": "只限 exam-analysis analysis-imbalanced-source-examples-v1 的 provenance hash 機械式重新綁定：核對 v2 review 記錄的 subject.hash 可在 32d5a7d 重現、目前 analysis 與 32d5a7d 版只差 catalogHash／taxonomyHash／contentHash、兩個輸入檔（data/resource_catalog.json、data/topics/topics.json）的變更不觸及 analysis 讀取的三卷 catalog 列與三個 topic id、inventory／measures／exclusions／labelReviewHash／policyHash 逐字不變、新 review 的審查內容只換 subject.hash 與 supersedes（id、reviewerId、qualification、evidenceRefs、checks[].evidenceIds、createdAt、rationale 為新紀錄的行政欄位）。不包含標註或分析語意重審、不包含題目答案重判、不包含 Lab L4／真人 Colab L5。",
+  "evidence": "維護者（repo 使用者本人）2026-11-02 在選項中選擇「用 ds1017 重審（建議）」，核准由 ds1017 擔任本輪範圍受限的非作者審查者。授權者是維護者，不等於審查者 agent-ds1017，也不等於作者 agent-claude-code。",
+  "humanApproval": false
+}

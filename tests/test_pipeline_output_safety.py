@@ -31,6 +31,7 @@ from guide_block_id_migrations import (  # noqa: E402
     BlockIdMigration,
     BlockIdMigrationError,
     guide_content_sha256,
+    load_content_tree,
     reference_answers_digest,
     sha256_bytes,
 )
@@ -215,6 +216,42 @@ class GuideProducerSafetyTest(unittest.TestCase):
                 self.assertEqual(json.loads(reading.read_text(encoding='utf-8'))['chapters'][0]['content'], 'Track A')
             finally:
                 seed_export.BASE = old_base
+
+    def test_question_seed_writer_preserves_final_newline(self) -> None:
+        payload = {'level': '中級', 'subject': '中文', 'chapters': [{'id': 's3c1', 'questions': []}]}
+        body = json.dumps(payload, ensure_ascii=False, indent=2).encode('utf-8')
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            with_newline = root / 'with_newline.json'
+            with_newline.write_bytes(body + b'\n')
+            seed_export.write_json(with_newline, payload)
+            self.assertEqual(with_newline.read_bytes(), body + b'\n')
+
+            without_newline = root / 'without_newline.json'
+            without_newline.write_bytes(body)
+            seed_export.write_json(without_newline, payload)
+            self.assertEqual(without_newline.read_bytes(), body)
+
+            fresh = root / 'nested' / 'fresh.json'
+            seed_export.write_json(fresh, payload)
+            self.assertEqual(fresh.read_bytes(), body + b'\n')
+
+    def test_question_seed_export_keeps_committed_bytes(self) -> None:
+        for level in ('初級', '中級'):
+            manifest = json.loads((BASE / 'data' / level / 'toc_manifest.json').read_text(encoding='utf-8'))
+            questions_dir = BASE / 'data' / level / 'questions'
+            for index, subject in enumerate(manifest.get('subjects', []), start=1):
+                path = questions_dir / f'subject{index}_questions.json'
+                if not path.exists():
+                    continue
+                with self.subTest(path=path.relative_to(BASE).as_posix()):
+                    original = path.read_bytes()
+                    rebuilt = seed_export.build_question_seed(level, subject, path)
+                    with tempfile.TemporaryDirectory() as temp:
+                        target = Path(temp) / path.name
+                        target.write_bytes(original)
+                        seed_export.write_json(target, rebuilt)
+                        self.assertEqual(target.read_bytes(), original)
 
 
 class EmbeddedExerciseBoundarySafetyTest(unittest.TestCase):
@@ -603,15 +640,21 @@ class CjkParenthesisNormalizationTest(unittest.TestCase):
         '虛無假設 (B) 我們在 95% 的信心水準': '虛無假設 （B） 我們在 95% 的信心水準',
         '(1)基本原理': '（1）基本原理',
         'AI(人工智慧)': 'AI（人工智慧）',
-        '人工智慧 (Artificial Intelligence, AI) 是': '人工智慧 （Artificial Intelligence, AI） 是',
+        # 2026-11-02: no space between Chinese text and a converted pair (3-27 image).
+        '人工智慧 (Artificial Intelligence, AI) 是': '人工智慧（Artificial Intelligence, AI）是',
         '<td>分詞<br />(Tokenization)</td>': '<td>分詞<br />（Tokenization）</td>',
         '選項(1)(B)': '選項（1）（B）',
         '說明(見(A)項)': '說明（見（A）項）',
         '(2022 年)': '（2022 年）',
-        '檢定 (test)': '檢定 （test）',
+        '檢定 (test)': '檢定（test）',
         # 2026-11-01 review: math spans inside a Chinese parenthetical are opaque.
-        'Type I 錯誤 ( $ \\alpha $)': 'Type I 錯誤 （$ \\alpha $）',
+        'Type I 錯誤 ( $ \\alpha $)': 'Type I 錯誤（$ \\alpha $）',
         '$ \\alpha=P $ (拒絕 $ H_0 $ | $ H_0 $為真)': '$ \\alpha=P $ （拒絕 $ H_0 $ | $ H_0 $為真）',
+        # 2026-11-02: a spaced function application directly followed by Chinese
+        # text is printed full-width without spaces (初級 guide1 3-27).
+        '以 T=T (X) 表之': '以 T=T（X）表之',
+        # Enumerator/option labels keep their separating spaces.
+        '下列何者？ (A) 甲 (B) 乙': '下列何者？ （A） 甲 （B） 乙',
     }
     NEGATIVE = [
         'f(x)',
@@ -632,7 +675,9 @@ class CjkParenthesisNormalizationTest(unittest.TestCase):
         '[連結](#31人工智慧)',
         '中位數= 𝑥(𝑛+1 2 )',
         '( 𝑘) 二項係數',
-        '以 T=T (X) 表之',
+        '令 T=T (X)',
+        '以 T=T (X)\n表之',
+        'T=T (X), P (A)',
         '(p < 0.05) 顯著',
         '給定詞序列 S = (ω1, ω2)',
         '最後一項 m) 不成對',
@@ -680,7 +725,7 @@ class CjkParenthesisNormalizationTest(unittest.TestCase):
         self.assertEqual(published[1]['title'], '（1）基本原理')
         self.assertEqual(published[1]['anchor'], '1基本原理')
         self.assertEqual(published[2], image)  # alt is a Track A source signature
-        self.assertEqual(published[3]['text'], '公式如下 （見下）')
+        self.assertEqual(published[3]['text'], '公式如下（見下）')
         self.assertEqual(published[3]['formulas'], formula['formulas'])
         self.assertEqual(table['rows'][1][0], '規則式方法\n( Rule-based )')  # input not mutated
         self.assertEqual(
@@ -824,6 +869,27 @@ class GuideBlockIdMigrationTest(unittest.TestCase):
         with self.assertRaisesRegex(BlockIdMigrationError, 'stale'):
             BlockIdMigration(self.table(), [], stale)
 
+    def test_citation_block_ids_follow_document_order(self) -> None:
+        # 2026-11-02: the guide link scrolls to the first listed block, so an
+        # override/auto remap that lists blocks out of order must be re-sorted.
+        answers = {
+            'sample_q1': {'answer': 'A', 'citations': [
+                self.citation('block-5', 'block-2', 'block-4'),
+                self.citation('block-3'),
+            ]},
+            'sample_q2': {'answer': 'B'},
+        }
+        ordered, reordered = reference_export.order_citation_block_ids('初級', answers, self.content)
+        self.assertEqual(reordered, 1)
+        self.assertEqual(
+            ordered['sample_q1']['citations'][0]['block_ids'], ['block-2', 'block-4', 'block-5'],
+        )
+        self.assertEqual(ordered['sample_q1']['citations'][1]['block_ids'], ['block-3'])
+        self.assertEqual(ordered['sample_q2'], {'answer': 'B'})
+        self.assertEqual(answers['sample_q1']['citations'][0]['block_ids'], ['block-5', 'block-2', 'block-4'])
+        again, second = reference_export.order_citation_block_ids('初級', ordered, self.content)
+        self.assertEqual((again, second), (ordered, 0))
+
     def test_unused_override_is_rejected(self) -> None:
         migration = BlockIdMigration(
             self.table(), [self.override('remove'), self.override('remove', questionId='sample_q9')],
@@ -874,12 +940,17 @@ class GuideBlockIdMigrationTest(unittest.TestCase):
         self.assertFalse((out / 'sample.json').exists())
 
     def test_image_heading_ids_are_remapped_in_scope_and_validated(self) -> None:
+        # Both ids the unit can land on are headings titled after the unit
+        # (numbering differs), so the heading-alignment check passes either way.
+        blocks = self.content[self.GUIDE][self.NODE]
+        blocks[0] = {**blocks[0], 'type': 'heading', 'title': 'A. 資料清洗'}
+        blocks[1] = {**blocks[1], 'type': 'heading', 'title': '（1）資料清洗'}
         units_file = self.root / 'units.json'
         public = self.root / 'images'
         (public / 'a.webp').parent.mkdir(parents=True)
         (public / 'a.webp').write_bytes(b'x')
         unit = {'id': 'u1', 'level': '初級', 'guideKey': 'guide1', 'sourceNodeId': 's1c1',
-                'headingBlockId': 'block-1', 'output': 'a.webp'}
+                'headingBlockId': 'block-1', 'title': '1. 資料清洗', 'output': 'a.webp'}
         write_json(units_file, {'units': [unit]})
         scope = {units_file.as_posix(): sha256_bytes(units_file.read_bytes())}
         migration = BlockIdMigration(self.table(imageUnitsScope=scope), [], self.content)
@@ -895,6 +966,60 @@ class GuideBlockIdMigrationTest(unittest.TestCase):
             images_export.export_images(units_file, self.root / 'img.json', public, migration=out_of_scope)
         with self.assertRaisesRegex(BlockIdMigrationError, 'changed since'):
             images_export.export_images(units_file, self.root / 'img.json', public, migration=migration)
+
+    def test_image_heading_alignment_fails_closed_with_reasoned_allowlist(self) -> None:
+        blocks = self.content[self.GUIDE][self.NODE]
+        blocks[0] = {**blocks[0], 'type': 'heading', 'title': '（2）金融：'}
+        content = self.content
+        unit = {'id': 'u1', 'level': '初級', 'guideKey': 'guide1', 'sourceNodeId': 's1c1',
+                'headingBlockId': 'block-1', 'title': '（2） 金融：'}
+        check = images_export.check_heading_alignment
+        check([unit], content, allowlist={})  # NFKC + whitespace-insensitive match
+
+        paragraph = {**unit, 'headingBlockId': 'block-2'}
+        with self.assertRaisesRegex(images_export.HeadingAlignmentError, 'paragraph block, not a heading'):
+            check([paragraph], content, allowlist={})
+        wrong_heading = {**unit, 'title': '（3）製造業：'}
+        with self.assertRaisesRegex(images_export.HeadingAlignmentError, 'does not match unit title'):
+            check([wrong_heading], content, allowlist={})
+        with self.assertRaisesRegex(images_export.HeadingAlignmentError, 'block does not exist'):
+            check([{**unit, 'headingBlockId': 'block-99'}], content, allowlist={})
+
+        allow = {'u1': {'headingBlockId': 'block-2', 'reason': '原書此圖卡錨定段落'}}
+        check([paragraph], content, allowlist=allow)
+        for bad_allow, message in [
+            ({'u1': {'headingBlockId': 'block-2', 'reason': ' '}}, 'lacks a reason'),
+            ({'u1': {'headingBlockId': 'block-3', 'reason': 'x'}}, 'entry is for block-3'),
+            ({'u9': {'headingBlockId': 'block-2', 'reason': 'x'}}, 'no such image unit'),
+        ]:
+            with self.assertRaisesRegex(images_export.HeadingAlignmentError, message):
+                check([paragraph], content, allowlist=bad_allow)
+        with self.assertRaisesRegex(images_export.HeadingAlignmentError, 'already aligned'):
+            check([unit], content, allowlist={'u1': {'headingBlockId': 'block-1', 'reason': 'x'}})
+
+        # export_images runs the check after migration and writes nothing on failure.
+        units_file = self.root / 'units.json'
+        public = self.root / 'images'
+        (public / 'a.webp').parent.mkdir(parents=True)
+        (public / 'a.webp').write_bytes(b'x')
+        write_json(units_file, {'units': [{**paragraph, 'output': 'a.webp'}]})
+        out = self.root / 'img.json'
+        migration = BlockIdMigration(self.table(), [], content)
+        with self.assertRaises(images_export.HeadingAlignmentError):
+            images_export.export_images(units_file, out, public, migration=migration)
+        self.assertFalse(out.exists())
+
+    def test_published_image_units_are_anchored_to_their_headings(self) -> None:
+        units = json.loads(
+            (BASE / 'data/共用/image_units_all_levels.json').read_text(encoding='utf-8')
+        )['units']
+        content = load_content_tree(BASE / 'frontend/src/generated/guideContent')
+        images_export.check_heading_alignment(units, content)
+        published = json.loads(
+            (BASE / 'frontend/src/generated/guideImages.json').read_text(encoding='utf-8')
+        )['images']
+        images_export.check_heading_alignment(published, content)
+        self.assertEqual(len(published), len(units))
 
 
 class GuideBlockIdMigrationBuilderTest(unittest.TestCase):

@@ -127,6 +127,53 @@ def compact_answer(raw: dict[str, Any]) -> dict[str, Any]:
     return {field: raw[field] for field in KEEP_FIELDS if field in raw}
 
 
+def order_citation_block_ids(
+    level: str,
+    answers: dict[str, dict[str, Any]],
+    content: dict[str, dict[str, list[dict[str, Any]]]],
+) -> tuple[dict[str, dict[str, Any]], int]:
+    """Return answers whose citation ``block_ids`` follow document order.
+
+    The guide link scrolls to the first listed block, so a citation must list
+    its blocks in reading order of the cited node (2026-11-02).  Ids that are
+    not in the node keep their relative order after the known ones; the
+    migration step has already validated every id.
+    """
+    positions: dict[tuple[str, str], dict[str, int]] = {}
+    reordered = 0
+    result: dict[str, dict[str, Any]] = {}
+    for question_id, answer in answers.items():
+        citations = answer.get('citations')
+        if not citations:
+            result[question_id] = answer
+            continue
+        new_citations = []
+        for citation in citations:
+            block_ids = list(citation.get('block_ids') or [])
+            if len(block_ids) < 2:
+                new_citations.append(citation)
+                continue
+            guide = f"{level}-{citation.get('guide_key')}"
+            node = str(citation.get('node_id') or '')
+            key = (guide, node)
+            if key not in positions:
+                positions[key] = {
+                    str(block.get('id')): index
+                    for index, block in enumerate(content.get(guide, {}).get(node, []))
+                }
+            order = positions[key]
+            ordered = sorted(
+                block_ids,
+                key=lambda block_id: (order.get(str(block_id), len(order)), block_ids.index(block_id)),
+            )
+            if ordered != block_ids:
+                reordered += 1
+                citation = {**citation, 'block_ids': ordered}
+            new_citations.append(citation)
+        result[question_id] = {**answer, 'citations': new_citations}
+    return result, reordered
+
+
 def export_reference_answers(
     level: str,
     output_path: Path,
@@ -299,6 +346,9 @@ def export_reference_answers(
         answers, migration_stats = migration.migrate_reference_answers(
             level, source_key, answers
         )
+        answers, reordered = order_citation_block_ids(level, answers, migration.content)
+        if reordered:
+            print(f'INFO {level}/{source_key}: citation block ids put in document order={reordered}')
         migrated_exams.append(source_key)
         if any(migration_stats[key] for key in ('remapped', 'removedBlockIds', 'droppedCitations')):
             print(

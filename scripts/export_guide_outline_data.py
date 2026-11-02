@@ -1446,15 +1446,29 @@ def split_heading_title(title: str, depth: int) -> tuple[str, str | None]:
     return stripped, None
 
 
+# 初級 guide1: the PDF text layer drops the heading words of the numbered
+# sections and keeps only the 「N.」 marker (guide_ocr has them).  Titles are
+# copied from the page images (2026-11-02 review, 初級 guide1 idx 6/8/9/16/17/
+# 19/22 = 3-1…3-18, idx 39/40/44 = 3-34…3-39, idx 54/61 = 3-49/3-56).
+# TA-048 (s1c1 '1.') follows the printed 3-1 title (user decision 2026-11-02).
 CONTENT_SECTION_TITLES: dict[str, dict[str, list[str]]] = {
     's1c1': {
-        '1.': ['1. 人工智慧技術的多樣化應用'],
+        '1.': ['1. 人工智慧的應用領域'],
+        '2.': ['2. 人工智慧的架構'],
+        '3.': ['3. 資料處理與分析'],
+        '4.': ['4. 演算法'],
+        '5.': ['5. 機器學習'],
+        '6.': ['6. 深度學習'],
+        '7.': ['7. 生成式人工智慧'],
     },
     's1c3': {
         '1.': ['1. 機器學習基本理論'],
+        '2.': ['2. 機器學習的類型'],
+        '3.': ['3. 機器學習核心過程'],
     },
     's1c4': {
         '1.': ['1. 鑑別式 AI 與生成式 AI 的基本原理'],
+        '2.': ['2. 鑑別式 AI 與生成式 AI 的整合應用'],
     },
     'mid-s2c1': {
         '1.': ['1. 前言與章節導覽'],
@@ -1667,6 +1681,16 @@ def manifest_chapter_heading(current_id: str, raw_title: str, blocks: list[dict]
         if match:
             return f'{match.group(1)} {raw_title}'
     return None
+
+
+# Heading glyph runs the text layer split off a standalone 「N.」 marker and
+# glued onto the next paragraph (初級 guide1 idx 61: 「2.」「AI」「AI」, then
+# 「AI AI 鑑別式AI 與生成式AI 是…」).  When the marker becomes the section
+# heading, the paragraph must start with exactly this spill, which is removed;
+# any other shape fails closed.
+CONTENT_SECTION_TITLE_SPILL: dict[tuple[str, str], str] = {
+    ('s1c4', '2.'): 'AI AI ',
+}
 
 
 def next_section_title(content_id: str, marker: str, seen_markers: dict[str, int]) -> str | None:
@@ -2205,9 +2229,19 @@ def post_process_guide_blocks(current_id: str, raw_title: str, blocks: list[dict
     chapter_heading = manifest_chapter_heading(current_id, raw_title, blocks)
     used_chapter_heading = False
 
+    pending_spill: tuple[str, str] | None = None
     for original in blocks:
         block = dict(original)
         block_type = block.get('type')
+        if pending_spill is not None:
+            marker, spill = pending_spill
+            pending_spill = None
+            text = str(block.get('text') or '')
+            if block_type != 'paragraph' or not text.startswith(spill) or not text[len(spill):].strip():
+                raise ValueError(
+                    f'{current_id}: section {marker} heading spill {spill!r} missing from the next paragraph'
+                )
+            block['text'] = text[len(spill):]
         title_or_text = block.get('title') or block.get('text') or ''
         stripped = title_or_text.strip()
 
@@ -2227,6 +2261,9 @@ def post_process_guide_blocks(current_id: str, raw_title: str, blocks: list[dict
             ):
                 replacement = '1. 前言與章節導覽'
             if replacement:
+                spill = CONTENT_SECTION_TITLE_SPILL.get((current_id, stripped))
+                if spill is not None:
+                    pending_spill = (stripped, spill)
                 block = {
                     'type': 'heading',
                     'depth': 3,
@@ -2364,6 +2401,8 @@ def post_process_guide_blocks(current_id: str, raw_title: str, blocks: list[dict
 
         processed.append(block)
 
+    if pending_spill is not None:
+        raise ValueError(f'{current_id}: section {pending_spill[0]} heading spill has no following paragraph')
     normalize_guide_heading_depths(processed)
     demote_gapped_alpha_heading_groups(processed)
     demote_specific_alpha_sequences(current_id, processed)

@@ -343,20 +343,80 @@ TABLE_CELL_REPAIRS: list[dict[str, Any]] = [
 ]
 
 
-# Reviewed cross-page paragraph continuations outside the TA-109..152
-# signature inventory (2026-11-01 rebuild review).  The pre-rebuild guide tree
-# printed these as one paragraph; the rebuilt tree splits them mid-word at the
-# page break and no signed window covers them.  ``head`` must end the block on
-# ``page`` and ``tail`` must start the next paragraph on ``page + 1``; the
-# merged block takes the later page as pageIndex (same convention as the
-# signed windows).  A route that already holds ``head + tail`` passes; any
-# other shape fails closed.  Checked against the page images 4-38/4-39.
+# Reviewed paragraph continuations outside the TA-109..152 signature
+# inventory.  The rebuilt guide tree splits these sentences mid-word: at a page
+# break (2026-11-01 review) or, since the 2026-11-02 review, inside one page
+# where a heading/list detail line wraps at a different indent.  ``head`` must
+# end a paragraph/list item on ``page`` and ``tail`` must start the very next
+# paragraph on ``tail_page`` (default ``page + 1``; equal to ``page`` for an
+# in-page break).  The merged block keeps the head's type/depth and takes the
+# later page as pageIndex (same convention as the signed windows).  A route
+# that already holds ``head + tail`` passes; any other shape fails closed.
+# Every entry was checked against the rendered page image (scratchpad
+# round2/pages): 中級 4-38/4-39 (2026-11-01); 初級 3-34/3-35, 3-36/3-37, 3-41,
+# 3-50…3-54, 3-56/3-57 and 中級 3-53 (2026-11-02).  Aggregate PDF-chapter
+# routes that print the same page are listed next to the chapter route.
+_S1C3_ROUTES = ['s1c3', 's1pdf-c3']
+_S1C4_ROUTES = ['s1c4', 's1pdf-c3']
+
+
+def _merge(level: str, key: str, nodes: list[str], page: int, head: str, tail: str,
+           tail_page: int | None = None) -> dict[str, Any]:
+    return {
+        'level': level, 'key': key, 'nodes': nodes, 'page': page,
+        'tail_page': page + 1 if tail_page is None else tail_page,
+        'head': head, 'tail': tail,
+    }
+
+
 CONTINUATION_MERGES: list[dict[str, Any]] = [
-    {
-        'level': '中級', 'key': 'guide1', 'nodes': ['mid-s1c7', 'mid-s1pdf-c4'], 'page': 131,
-        'head': '這不僅僅是對於資料準確性或技術有效性的責',
-        'tail': '任，還包括對模型在決策過程中對使用者、社會及環境造成的任何負面影響的責任。',
-    },
+    _merge('中級', 'guide1', ['mid-s1c7', 'mid-s1pdf-c4'], 131,
+           '這不僅僅是對於資料準確性或技術有效性的責',
+           '任，還包括對模型在決策過程中對使用者、社會及環境造成的任何負面影響的責任。'),
+    # 初級 s1c3 (3-34/3-35, 3-36/3-37 page breaks; 3-41 list item b. 降維技術).
+    _merge('初級', 'guide1', _S1C3_ROUTES, 39,
+           '機器學習技術的核心優勢在於其強大的自適應能力和廣泛的應用場景。不同', '於傳統的編程方式，'),
+    _merge('初級', 'guide1', _S1C3_ROUTES, 41,
+           '企業可以利用K 均值聚類分析客戶的購買行為，將消', '費者分為不同的類別，'),
+    _merge('初級', 'guide1', _S1C3_ROUTES, 46,
+           '透過線性變換降低特徵空間的維度，同時保', '留數據的重要訊息。', tail_page=46),
+    # 初級 s1c4 model entries (3-50…3-54): the model-name heading keeps the
+    # name, its detail sentence wraps onto a differently indented line.
+    _merge('初級', 'guide1', _S1C4_ROUTES, 55,
+           '是鑑別式AI 中最簡單且最基礎的分類模型', '之一，用於解決二元分類問題。', tail_page=55),
+    _merge('初級', 'guide1', _S1C4_ROUTES, 55,
+           '輸出標籤之間存在線性關係，並透過最大似', '然估計', tail_page=55),
+    _merge('初級', 'guide1', _S1C4_ROUTES, 55,
+           '是一種強大的分類模型，其核心', '思想在於尋找一個能夠最大化類別間隔的超平面', tail_page=55),
+    _merge('初級', 'guide1', _S1C4_ROUTES, 55,
+           '並最大化不同類', '別樣本之間的間隔。', tail_page=55),
+    _merge('初級', 'guide1', _S1C4_ROUTES, 55,
+           '是一種基於樹形結構進行數據分類的模型。其透過', '逐層劃分數據特徵空間', tail_page=55),
+    _merge('初級', 'guide1', _S1C4_ROUTES, 56,
+           '利用資訊增益、吉尼係數或均', '方誤差等標準選擇最佳劃分特徵', tail_page=56),
+    _merge('初級', 'guide1', _S1C4_ROUTES, 56,
+           '是決策樹的集成學習方法，其透過構建多棵決策', '樹並取其結果的平均值或投票結果', tail_page=56),
+    _merge('初級', 'guide1', _S1C4_ROUTES, 56,
+           '取樣法隨機抽取樣本，構建多棵獨立的決', '策樹，並在最終預測階段', tail_page=56),
+    _merge('初級', 'guide1', _S1C4_ROUTES, 56,
+           '是一種模擬生物神經系統的非線性模型，透過', '多層神經元網路結構學習數據的深層特徵', tail_page=56),
+    _merge('初級', 'guide1', _S1C4_ROUTES, 57,
+           '是生成式AI 中最具', '代表性的模型之一', tail_page=57),
+    _merge('初級', 'guide1', _S1C4_ROUTES, 57,
+           '而鑑別器則', '努力提高區分真假數據的能力。', tail_page=57),
+    _merge('初級', 'guide1', _S1C4_ROUTES, 58,
+           '例如，StyleGAN 能', '夠生成極具真實感的人臉圖像', tail_page=58),
+    _merge('初級', 'guide1', _S1C4_ROUTES, 58,
+           '是一種基於概率生成模型的', '技術，透過將數據映射到隱變量空間', tail_page=58),
+    _merge('初級', 'guide1', _S1C4_ROUTES, 59,
+           '是一種基於逐步添加與去除雜訊的數據生成方', '法，特別適合於高維度的數據生成任務', tail_page=59),
+    _merge('初級', 'guide1', _S1C4_ROUTES, 61,
+           '生成式AI，特別是生成對抗網路（GAN），可', '以生成高品質的病變模擬影像，'),
+    # 中級 3-53: 「A. 人臉辨識系統：…比對。其流程包括：」 is one paragraph.
+    _merge('中級', 'guide1', ['mid-s1c2', 'mid-s1pdf-c3'], 59,
+           '並利用深度學習模型進行人臉偵測、特徵擷取與比對。', '其流程包括：', tail_page=59),
+    _merge('中級', 'guide1', ['mid-s1c2', 'mid-s1pdf-c3'], 59,
+           'ANPR 技術主要', '應用於交通管理與監控，', tail_page=59),
 ]
 
 
@@ -368,6 +428,7 @@ def apply_continuation_merges(
         if (merge['level'], merge['key']) != (level, key) or node not in merge['nodes']:
             continue
         head, tail, page = merge['head'], merge['tail'], int(merge['page'])
+        tail_page = int(merge['tail_page'])
         if any(head + tail in _block_text(block) for block in repaired):
             continue
         matches = [
@@ -376,7 +437,7 @@ def apply_continuation_merges(
             and repaired[index].get('pageIndex') == page
             and _block_text(repaired[index]).endswith(head)
             and repaired[index + 1].get('type') == 'paragraph'
-            and repaired[index + 1].get('pageIndex') == page + 1
+            and repaired[index + 1].get('pageIndex') == tail_page
             and _block_text(repaired[index + 1]).startswith(tail)
         ]
         if len(matches) != 1:
@@ -388,10 +449,119 @@ def apply_continuation_merges(
         target = dict(repaired[index])
         target['text'] = _block_text(target) + _block_text(repaired[index + 1])
         target.pop('title', None)
-        target['pageIndex'] = page + 1
-        target['sourcePageIndexes'] = [page, page + 1]
+        target['pageIndex'] = tail_page
+        target['sourcePageIndexes'] = sorted({page, tail_page})
         target['trackAContinuationMerge'] = True
         repaired = [*repaired[:index], target, *repaired[index + 2:]]
+    return repaired
+
+
+# Reviewed in-block text repairs (2026-11-02).  Scoped to guide/routes/page;
+# a route that holds neither the source nor the repaired string fails closed.
+# 中級 3-46 (idx 52): the errata-corrected 「支援「雙重標註」」 breaks the line
+# before the closing bracket, which the block join turns into a space.
+BLOCK_TEXT_REPAIRS: list[dict[str, Any]] = [
+    {
+        'level': '中級', 'key': 'guide1', 'nodes': ['mid-s1c2', 'mid-s1pdf-c3'], 'page': 52,
+        'replacements': [('「雙重標註 」', '「雙重標註」')],
+    },
+]
+
+
+def apply_block_text_repairs(
+    level: str, key: str, node: str, blocks: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    repaired = [dict(block) for block in blocks]
+    for repair in BLOCK_TEXT_REPAIRS:
+        if (repair['level'], repair['key']) != (level, key) or node not in repair['nodes']:
+            continue
+        page = int(repair['page'])
+        page_blocks = [block for block in repaired if block.get('pageIndex') == page and block.get('text')]
+        for old, new in repair['replacements']:
+            sources = [block for block in page_blocks if old in block['text']]
+            if len(sources) > 1:
+                raise ValueError(f'{level}/{key}/{node}: text repair {old!r} matched {len(sources)} blocks')
+            if sources:
+                sources[0]['text'] = sources[0]['text'].replace(old, new)
+            elif not any(new in block['text'] for block in page_blocks):
+                raise ValueError(f'{level}/{key}/{node}: text repair source {old!r} missing on page {page}')
+    return repaired
+
+
+# Reviewed list splits (2026-11-02).  The official errata (中級 4-34 PDPA,
+# errata PDF page 4) is applied as one page_extract text block, so the block
+# builder publishes the lead, six ◆ items and the closing sentence as a single
+# list item joined by 「 ◦ 」.  Republish the printed structure: lead item,
+# one child item per entry (marker ◦, like the GDPR items above it) and the
+# closing paragraph.  The source must be exactly the joined form (or already
+# split); anything else fails closed.
+LIST_ITEM_SPLITS: list[dict[str, Any]] = [
+    {
+        'level': '中級', 'key': 'guide1', 'nodes': ['mid-s1c7', 'mid-s1pdf-c4'], 'page': 127,
+        'lead': (
+            'PDPA（Personal Data Protection Act）個人資料保護法，目的為規範個人資料之蒐集、處理及利用，'
+            '以避免人格權受侵害，並促進個人資料之合理利用。依相關規定，蒐集個人資料前，應向當事人明確告知下列事項：'
+        ),
+        'items': [
+            '蒐集機關名稱（含公務機關及非公務機關）',
+            '蒐集目的與使用範圍',
+            '個人資料之類別',
+            '個人資料利用情形（包含利用期間、地區、對象及方式）',
+            '當事人權利及行使方式（依第三條規定，如查詢、閱覽、更正、刪除等權利）',
+            '不提供資料之影響（當事人得自由選擇是否提供，並應告知不提供時對其權益之影響）',
+        ],
+        'closing': (
+            '上述告知內容屬於 PDPA 之「事前告知義務」，其核心在於確保當事人對個人資料之蒐集與利用'
+            '具備充分知情權與自主決定權，詳細完整法規說明請參考《個人資料保護法》。'
+        ),
+    },
+]
+
+
+def apply_list_item_splits(
+    level: str, key: str, node: str, blocks: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    repaired = blocks
+    for split in LIST_ITEM_SPLITS:
+        if (split['level'], split['key']) != (level, key) or node not in split['nodes']:
+            continue
+        page, lead, items, closing = int(split['page']), split['lead'], split['items'], split['closing']
+        joined = f'{lead}◦ ' + ' ◦ '.join(items) + f' {closing}'
+        already = [
+            index for index, block in enumerate(repaired)
+            if block.get('type') == 'list_item' and _block_text(block) == lead
+            and index + 1 < len(repaired) and _block_text(repaired[index + 1]) == items[0]
+        ]
+        if already:
+            continue
+        matches = [
+            index for index, block in enumerate(repaired)
+            if block.get('type') == 'list_item' and block.get('pageIndex') == page
+            and _block_text(block) == joined
+        ]
+        if len(matches) != 1:
+            raise ValueError(
+                f'{level}/{key}/{node}: list split {lead[:12]!r} matched {len(matches)}, expected 1'
+            )
+        index = matches[0]
+        source = repaired[index]
+        child_depth = min(int(source.get('depth') or 0) + 1, 9)
+        common = {
+            'pageIndex': page, 'sourcePageIndexes': [page], 'bbox': source.get('bbox'),
+            **{field: source[field] for field in ('nodeId', 'source') if field in source},
+            'trackAListSplit': True,
+        }
+        parts = [{**{k: v for k, v in source.items() if k not in {'id', 'text'}}, 'text': lead, **common}]
+        parts += [
+            {'type': 'list_item', 'depth': child_depth, 'marker': '◦', 'text': item,
+             **common, **({'kind': 'list_item'} if 'kind' in source else {})}
+            for item in items
+        ]
+        parts.append({
+            'type': 'paragraph', 'depth': child_depth, 'text': closing,
+            **common, **({'kind': 'paragraph'} if 'kind' in source else {}),
+        })
+        repaired = [*repaired[:index], *parts, *repaired[index + 1:]]
     return repaired
 
 
@@ -985,7 +1155,9 @@ def apply_track_a_block_repairs(
         target['trackAMirrorRepairId'] = repair['id']
         repaired[start] = target
 
+    repaired = apply_block_text_repairs(level, key, node, repaired)
     repaired = apply_continuation_merges(level, key, node, repaired)
+    repaired = apply_list_item_splits(level, key, node, repaired)
 
     # TA-106..108: the merged rows are source-faithful, but their two fragment
     # pages must remain explicit on the exact audited table.
@@ -1038,7 +1210,7 @@ def apply_track_a_block_repairs(
     # audited heading must still carry its inventory identity, otherwise the
     # release gate cannot tell a verified native heading from a silent drift.
     native_titles = {
-        ('初級', 'guide1', 's1c1'): ('TA-048', '1. 人工智慧技術的多樣化應用'),
+        ('初級', 'guide1', 's1c1'): ('TA-048', '1. 人工智慧的應用領域'),
         ('初級', 'guide1', 's1c3'): ('TA-049', '1. 機器學習基本理論'),
         ('初級', 'guide1', 's1c4'): ('TA-050', '1. 鑑別式 AI 與生成式 AI 的基本原理'),
     }
@@ -1059,18 +1231,23 @@ def apply_track_a_block_repairs(
             target['sourcePageIndexes'] = [target.get('pageIndex')]
 
     if (level, key, node) == ('初級', 'guide1', 's1c1'):
-        title = '1. 人工智慧技術的多樣化應用'
+        # 2026-11-02 (user decision): the heading follows the printed 3-1 title
+        # 「1. 人工智慧的應用領域」.  The text layer drops those words and glues
+        # the bare 「1.」 onto the first paragraph 「人工智慧技術的多樣化應用正在…」,
+        # so the legacy fallback splits that marker off and keeps the paragraph.
+        title = '1. 人工智慧的應用領域'
+        glued_marker = '1. 人工智慧技術的多樣化應用'
         if not any(block.get('type') == 'heading' and block.get('title') == title for block in repaired):
             target_index = next((
                 index for index, block in enumerate(repaired)
-                if block.get('type') == 'paragraph' and _block_text(block).startswith(title)
+                if block.get('type') == 'paragraph' and _block_text(block).startswith(glued_marker)
             ), None)
             if target_index is None:
                 if require_prebuilt_matches:
                     raise ValueError('TA-048 source paragraph missing from s1c1')
             else:
                 source = repaired[target_index]
-                detail = _block_text(source)[len(title):].lstrip()
+                detail = _block_text(source)[len('1.'):].lstrip()
                 heading = {
                     'type': 'heading', 'depth': 3, 'title': title,
                     'anchor': _normalize_source_text(title),
@@ -1126,9 +1303,13 @@ def apply_track_a_block_repairs(
 
 def apply_markdown_structure_repairs(node: str, markdown: str) -> str:
     """Keep Markdown fallback aligned with the structured heading overlay."""
-    if node == 's1c1':
-        title = '1. 人工智慧技術的多樣化應用'
-        markdown = markdown.replace(f'{title}正在', f'### {title}\n\n正在', 1)
+    if node == 's1c1' and '### 1. 人工智慧的應用領域' not in markdown:
+        markdown = re.sub(
+            r'(?m)^1\.\s*(?:\n\s*)*(?=人工智慧技術的多樣化應用正在)',
+            '### 1. 人工智慧的應用領域\n\n',
+            markdown,
+            count=1,
+        )
     elif node == 's1c3' and '### 1. 機器學習基本理論' not in markdown:
         markdown = markdown.replace('#### （1）基本原理', '### 1. 機器學習基本理論\n\n#### （1）基本原理', 1)
     elif node == 's1c4':
@@ -1402,10 +1583,12 @@ def audit_generated_track_a(
     # The published cell is normalized to full-width parentheses (Chinese
     # context, cjk_parentheses.py); accept every serialization of the cell.
     bad_type_i = tuple(_json_fragment(value) for value in (
-        'Type II 錯誤 ( $ \\alpha $)', 'Type II 錯誤 （$ \\alpha $）', 'Type II 錯誤（α）',
+        'Type II 錯誤 ( $ \\alpha $)', 'Type II 錯誤 （$ \\alpha $）', 'Type II 錯誤（$ \\alpha $）',
+        'Type II 錯誤（α）',
     ))
     good_type_i = tuple(_json_fragment(value) for value in (
-        'Type I 錯誤 ( $ \\alpha $)', 'Type I 錯誤 （$ \\alpha $）', 'Type I 錯誤（α）',
+        'Type I 錯誤 ( $ \\alpha $)', 'Type I 錯誤 （$ \\alpha $）', 'Type I 錯誤（$ \\alpha $）',
+        'Type I 錯誤（α）',
     ))
     type_i_ok = all(value not in s1c2_serialized for value in bad_type_i) and any(
         value in s1c2_serialized for value in good_type_i

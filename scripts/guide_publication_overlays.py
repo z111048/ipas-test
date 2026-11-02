@@ -262,7 +262,11 @@ def apply_publication_block_overlays(
 
     contract_name = 'manual-heading:s2c3-import-strategy'
     contract = GUIDE_NAVIGATION_HEADINGS[contract_name]
-    if (level, key, node) == (contract['level'], contract['key'], contract['node']):
+    is_owner = (level, key, node) == (contract['level'], contract['key'], contract['node'])
+    if is_owner or (level, key, node) == IMPORT_STRATEGY_AGGREGATE_ROUTE:
+        # Since 2026-11-02 the aggregate route s2pdf-c3 is composed from the
+        # s2c2/s2c3 child blocks and prints the same 3-32 heading; repair it
+        # the same way, but only s2c3 owns the navigation contract.
         title = str(contract['title'])
         forbidden = set(contract['forbiddenTitles'])
         matches = [
@@ -292,7 +296,7 @@ def apply_publication_block_overlays(
             'anchor': contract['anchor'],
             'pageIndex': contract['pageIndex'],
             'sourcePageIndexes': [contract['pageIndex']],
-            'publicationOverlayId': contract_name,
+            ('publicationOverlayId' if is_owner else 'publicationMirrorOverlayId'): contract_name,
         })
 
     return _finish_block_overlays(level, key, node, result)
@@ -311,6 +315,7 @@ HYPOTHESIS_TEST_LABEL = '檢定(test)'
 HYPOTHESIS_TABLE_PAGES = (31, 32)
 HYPOTHESIS_TABLE_OVERLAY_ID = 'source-table:s1c2-hypothesis-terms'
 HYPOTHESIS_AGGREGATE_ROUTE = ('初級', 'guide1', 's1pdf-c3')
+IMPORT_STRATEGY_AGGREGATE_ROUTE = ('初級', 'guide2', 's2pdf-c3')
 
 
 def _is_hypothesis_header(row: list[Any]) -> bool:

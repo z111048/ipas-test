@@ -265,6 +265,50 @@ def build_node_blocks(level: str, key: str, node: dict) -> list[dict]:
     return [enrich_block(block, node['id'], index) for index, block in enumerate(processed)]
 
 
+# Aggregate PDF-chapter nodes whose blocks are composed from their children
+# (2026-11-02 review).  Post-processing the whole chapter as one node loses
+# every child's chapter-start heading, numbered section markers and
+# chapter-exercise boundary: 初級 s1pdf-c3 had the 3.2 introduction swallowed
+# by the 3.1 answer 10 block, and s2pdf-c3 published all of s2c2/s2c3 inside
+# two answer blocks (6,877 and 15,251 characters).  These parents print
+# exactly their children's pages, so the reviewed child blocks are the
+# correct reading of those pages.  The children must tile the parent's page
+# range with no gap or overlap, otherwise the build fails closed.
+COMPOSED_AGGREGATE_NODES: frozenset[tuple[str, str]] = frozenset({
+    ('初級', 's1pdf-c3'),
+    ('初級', 's2pdf-c3'),
+})
+
+
+def compose_aggregate_blocks(
+    level: str, node: dict, blocks_by_node: dict[str, list[dict]],
+) -> list[dict]:
+    children = node.get('children') or []
+    if not children:
+        raise ValueError(f'{level}/{node["id"]}: composed aggregate node has no children')
+    start_page, end_page = node_page_range(node)
+    cursor = start_page
+    for child in children:
+        child_start, child_end = node_page_range(child)
+        if child_start != cursor or child_end < child_start:
+            raise ValueError(
+                f'{level}/{node["id"]}: child {child["id"]} pages {child_start}-{child_end} '
+                f'do not continue the tiling at page {cursor}'
+            )
+        cursor = child_end + 1
+    if cursor != end_page + 1:
+        raise ValueError(
+            f'{level}/{node["id"]}: children end at page {cursor - 1}, parent ends at {end_page}'
+        )
+    composed: list[dict] = []
+    for child in children:
+        for block in blocks_by_node[child['id']]:
+            item = copy.deepcopy(block)
+            item.pop('id', None)
+            composed.append(item)
+    return [enrich_block(block, node['id'], index) for index, block in enumerate(composed)]
+
+
 def build_guide_tree(level: str, subject: dict) -> dict:
     key = subject['key']
     outline_path = BASE / 'data' / level / 'page_clean' / key / 'outline.json'
@@ -280,10 +324,20 @@ def build_guide_tree(level: str, subject: dict) -> dict:
     warnings = validate_outline_tree(root_nodes)
     blocks_by_node: dict[str, list[dict]] = {}
 
-    for node in flatten_nodes(root_nodes):
+    flat_nodes = flatten_nodes(root_nodes)
+    for node in flat_nodes:
+        if (level, node['id']) in COMPOSED_AGGREGATE_NODES:
+            continue
         blocks = build_node_blocks(level, key, node)
         blocks_by_node[node['id']] = blocks
         warnings.extend(validate_blocks(node, blocks))
+    for node in flat_nodes:
+        if (level, node['id']) not in COMPOSED_AGGREGATE_NODES:
+            continue
+        blocks = compose_aggregate_blocks(level, node, blocks_by_node)
+        blocks_by_node[node['id']] = blocks
+        warnings.extend(validate_blocks(node, blocks))
+    blocks_by_node = {node['id']: blocks_by_node[node['id']] for node in flat_nodes}
 
     flat = [node['id'] for node in flatten_nodes(root_nodes)]
     return {

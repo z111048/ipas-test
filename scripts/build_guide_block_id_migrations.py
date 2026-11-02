@@ -13,7 +13,9 @@ and writes ``data/guide_block_id_migrations.json``:
   ``unmapped`` (``new: null``).  Old ids absent from the table map to
   themselves (exact text, same id).
 * ``citationScope`` / ``imageUnitsScope``: digests of the inputs the table may
-  rewrite (old published reference answers per exam; the image-unit file).
+  rewrite (old published reference answers per exam; the image-unit file, only
+  while it is still byte-identical to the old ref — a unit file whose ids were
+  already rebased onto the new content is left out and only validated).
 * ``citations``: question-specific ``auto-citation`` resolutions for citations
   that point at an unmapped old block (e.g. the 初級 s1pdf-c3 giant answer
   blocks).  Candidates are the new blocks of the same node that fill the gap
@@ -506,7 +508,13 @@ def build_table(
     except SystemExit:
         images = None
     if images and images.get('source'):
-        image_scope[images['source']] = sha256_bytes(git('show', f"{old_sha}:{images['source']}"))
+        old_units = git('show', f"{old_sha}:{images['source']}")
+        current_units = ROOT / images['source']
+        # Only an image-unit file still byte-identical to the old ref carries old
+        # ids. A file rebased onto the new content (2026-11-02: headingBlockId
+        # realigned by title) holds current ids: it is validated, never remapped.
+        if current_units.exists() and current_units.read_bytes() == old_units:
+            image_scope[images['source']] = sha256_bytes(old_units)
 
     return {
         'schemaVersion': SCHEMA_VERSION,

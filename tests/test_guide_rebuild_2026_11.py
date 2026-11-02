@@ -24,6 +24,11 @@ Finalize (2026-11-01 review findings):
   routes; CONTINUATION_MERGES covers the reviewed 「責／任」 split.
 * The s2c3 import-strategy heading overlay hands 「企業需採取」 back.
 * Live published content keeps every finalize fix (release gate).
+
+Round 2 (2026-11-02 content repair): TA-048 printed title, numbered section
+headings restored from page images, aggregate s1pdf-c3/s2pdf-c3 composed from
+their children, same-page continuation merges, scoped text repair, PDPA list
+split, parenthesis spacing (see Round2ContentRepairTests).
 """
 
 from __future__ import annotations
@@ -234,7 +239,8 @@ class TrackARebuildTests(unittest.TestCase):
             {'id': 'block-7', 'type': 'heading', 'depth': 3, 'title': '1. 機器學習基本理論', 'pageIndex': 39},
             {'id': 'block-8', 'type': 'heading', 'depth': 4, 'title': '（1）基本原理', 'pageIndex': 39},
         ]
-        with mock.patch.object(track_a, 'OFF_BY_ONE_REPAIRS', []):
+        with mock.patch.object(track_a, 'OFF_BY_ONE_REPAIRS', []), \
+                mock.patch.object(track_a, 'CONTINUATION_MERGES', []):
             repaired = track_a.apply_track_a_block_repairs('初級', 'guide1', 's1c3', blocks)
         headings = [block for block in repaired if block.get('title') == '1. 機器學習基本理論']
         self.assertEqual(len(headings), 1)  # no second, inserted heading
@@ -336,7 +342,8 @@ class FinalizeReviewTests(unittest.TestCase):
         signatures = {'TA-900': {'blockSignatureSha256': digest, 'pageIndex': 45, 'sourcePageIndexes': [44, 45]}}
         with mock.patch.object(track_a, 'OFF_BY_ONE_REPAIRS', [repair]), \
                 mock.patch.object(track_a, '_off_by_one_signatures', return_value=signatures), \
-                mock.patch.object(track_a, 'CONTINUATION_MERGES', []):
+                mock.patch.object(track_a, 'CONTINUATION_MERGES', []), \
+                mock.patch.object(track_a, 'BLOCK_TEXT_REPAIRS', []):
             mirrored = track_a.apply_track_a_block_repairs('中級', 'guide1', 'mid-s1pdf-c3', [first, wrap])
             untouched = track_a.apply_track_a_block_repairs('中級', 'guide1', 'mid-s1pdf-c3', [dict(first)])
         self.assertEqual(len(mirrored), 1)
@@ -375,7 +382,130 @@ class FinalizeReviewTests(unittest.TestCase):
         self.assertTrue(any(b.get('text', '').startswith('企業需採取分階段策略') for b in s2c3))
         s1c2 = serialized('初級-guide1', 's1c2')
         self.assertIn('（拒絕 $ H_0 $ | $ H_0 $為真）', s1c2)
-        self.assertIn('Type I 錯誤 （$ \\\\alpha $）', s1c2)
+        self.assertIn('Type I 錯誤（$ \\\\alpha $）', s1c2)
+        self.assertIn('以 T=T（X）表之', s1c2)
+        self.assertIn('檢定（test）', s1c2)
+
+
+class Round2ContentRepairTests(unittest.TestCase):
+    """2026-11-02 content-repair round (each item checked on page images)."""
+
+    @staticmethod
+    def _live(guide: str, node: str) -> list[dict]:
+        path = ROOT / 'frontend/src/generated/guideContent' / guide / f'{node}.json'
+        return json.loads(path.read_text(encoding='utf-8'))['blocks']
+
+    def test_same_page_continuation_merge_is_exact_and_idempotent(self) -> None:
+        head = {'id': 'block-1', 'type': 'paragraph', 'depth': 6, 'pageIndex': 55,
+                'text': '是一種強大的分類模型，其核心'}
+        tail = {'id': 'block-2', 'type': 'paragraph', 'depth': 5, 'pageIndex': 55,
+                'text': '思想在於尋找一個能夠最大化類別間隔的超平面，從而達到最優的分類效果。'}
+        merges = [entry for entry in track_a.CONTINUATION_MERGES
+                  if entry['head'] == '是一種強大的分類模型，其核心']
+        with mock.patch.object(track_a, 'CONTINUATION_MERGES', merges):
+            merged = track_a.apply_continuation_merges('初級', 'guide1', 's1c4', [head, tail])
+            self.assertEqual(len(merged), 1)
+            self.assertEqual(merged[0]['text'], head['text'] + tail['text'])
+            self.assertEqual((merged[0]['depth'], merged[0]['pageIndex']), (6, 55))
+            self.assertEqual(merged[0]['sourcePageIndexes'], [55])
+            self.assertEqual(track_a.apply_continuation_merges('初級', 'guide1', 's1pdf-c3', merged), merged)
+            moved = dict(tail, pageIndex=56)  # a different page is a different shape
+            with self.assertRaisesRegex(ValueError, 'continuation merge'):
+                track_a.apply_continuation_merges('初級', 'guide1', 's1c4', [head, moved])
+
+    def test_block_text_repair_fails_closed(self) -> None:
+        block = {'type': 'list_item', 'pageIndex': 52, 'text': '支援「雙重標註 」，即由兩位標註者'}
+        repaired = track_a.apply_block_text_repairs('中級', 'guide1', 'mid-s1c2', [block])
+        self.assertEqual(repaired[0]['text'], '支援「雙重標註」，即由兩位標註者')
+        self.assertEqual(track_a.apply_block_text_repairs('中級', 'guide1', 'mid-s1c2', repaired), repaired)
+        with self.assertRaisesRegex(ValueError, 'text repair source'):
+            track_a.apply_block_text_repairs('中級', 'guide1', 'mid-s1pdf-c3', [dict(block, pageIndex=53)])
+
+    def test_pdpa_list_split_matches_errata_structure(self) -> None:
+        split = track_a.LIST_ITEM_SPLITS[0]
+        joined = f"{split['lead']}◦ " + ' ◦ '.join(split['items']) + f" {split['closing']}"
+        source = {'id': 'block-70', 'type': 'list_item', 'depth': 5, 'marker': '•', 'pageIndex': 127,
+                  'text': joined, 'kind': 'list_item', 'nodeId': 'mid-s1c7', 'source': 'page_extract'}
+        result = track_a.apply_list_item_splits('中級', 'guide1', 'mid-s1c7', [source])
+        self.assertEqual([b['type'] for b in result], ['list_item'] * 7 + ['paragraph'])
+        self.assertEqual([b.get('depth') for b in result], [5] + [6] * 7)
+        self.assertEqual([b.get('marker') for b in result[1:7]], ['◦'] * 6)
+        self.assertEqual(result[0]['text'], split['lead'])
+        self.assertEqual(result[-1]['text'], split['closing'])
+        self.assertEqual(track_a.apply_list_item_splits('中級', 'guide1', 'mid-s1c7', result), result)
+        with self.assertRaisesRegex(ValueError, 'list split'):
+            track_a.apply_list_item_splits('中級', 'guide1', 'mid-s1pdf-c4', [dict(source, text=joined + '。')])
+
+    def test_section_marker_heading_returns_glyph_spill(self) -> None:
+        blocks = [
+            {'type': 'paragraph', 'depth': 7, 'text': '2.', 'pageIndex': 61},
+            {'type': 'paragraph', 'depth': 7, 'text': 'AI AI 鑑別式AI 與生成式AI 是人工智慧技術的重要支柱。',
+             'pageIndex': 61},
+        ]
+        result = exporter.post_process_guide_blocks('s1c4', '鑑別式AI 與生成式AI 概念', copy.deepcopy(blocks))
+        self.assertEqual(result[0]['title'], '2. 鑑別式 AI 與生成式 AI 的整合應用')
+        self.assertEqual(result[1]['text'], '鑑別式AI 與生成式AI 是人工智慧技術的重要支柱。')
+        broken = copy.deepcopy(blocks)
+        broken[1]['text'] = '鑑別式AI 與生成式AI 是人工智慧技術的重要支柱。'
+        with self.assertRaisesRegex(ValueError, 'heading spill'):
+            exporter.post_process_guide_blocks('s1c4', '鑑別式AI 與生成式AI 概念', broken)
+
+    def test_aggregate_composition_requires_exact_tiling(self) -> None:
+        import build_guide_tree
+        child = lambda node_id, start, end: {'id': node_id, 'page_range': [start, end], 'children': []}
+        node = {'id': 's1pdf-c3', 'page_range': [7, 12], 'children': [child('a', 7, 9), child('b', 10, 12)]}
+        blocks = {'a': [{'id': 'block-1', 'type': 'paragraph', 'text': '甲'}],
+                  'b': [{'id': 'block-1', 'type': 'heading', 'title': '乙'}]}
+        composed = build_guide_tree.compose_aggregate_blocks('初級', node, blocks)
+        self.assertEqual([b['id'] for b in composed], ['block-1', 'block-2'])
+        self.assertEqual({b['nodeId'] for b in composed}, {'s1pdf-c3'})
+        gap = dict(node, children=[child('a', 7, 9), child('b', 11, 12)])
+        with self.assertRaisesRegex(ValueError, 'tiling'):
+            build_guide_tree.compose_aggregate_blocks('初級', gap, blocks)
+        short = dict(node, page_range=[7, 13])
+        with self.assertRaisesRegex(ValueError, 'parent ends'):
+            build_guide_tree.compose_aggregate_blocks('初級', short, blocks)
+
+    def test_live_content_keeps_round2_repairs(self) -> None:
+        s1c1 = self._live('初級-guide1', 's1c1')
+        sections = [(b['title'], b['pageIndex']) for b in s1c1 if b['type'] == 'heading' and b.get('depth') == 3]
+        self.assertEqual(sections[:7], [
+            ('1. 人工智慧的應用領域', 6), ('2. 人工智慧的架構', 8), ('3. 資料處理與分析', 9),
+            ('4. 演算法', 16), ('5. 機器學習', 17), ('6. 深度學習', 19), ('7. 生成式人工智慧', 22),
+        ])
+        for node, titles in (
+            ('s1c3', ['2. 機器學習的類型', '3. 機器學習核心過程']),
+            ('s1c4', ['2. 鑑別式 AI 與生成式 AI 的整合應用']),
+        ):
+            published = {b.get('title') for b in self._live('初級-guide1', node) if b['type'] == 'heading'}
+            self.assertTrue(set(titles) <= published, node)
+        for guide, aggregate, children in (
+            ('初級-guide1', 's1pdf-c3', ['s1c1', 's1c2', 's1c3', 's1c4']),
+            ('初級-guide2', 's2pdf-c3', ['s2c1', 's2c2', 's2c3']),
+        ):
+            blocks = self._live(guide, aggregate)
+            self.assertFalse(
+                [b['id'] for b in blocks if b['type'] in ('answer', 'question') and len(b.get('text') or '') > 1500],
+                aggregate,
+            )
+            child_text = [b.get('text') for child in children for b in self._live(guide, child)
+                          if b['type'] in ('paragraph', 'list_item')]
+            # s1pdf-c3 keeps the hypothesis title as a paragraph (s1c2 owns the heading).
+            own_text = [b.get('text') for b in blocks
+                        if b['type'] in ('paragraph', 'list_item') and b.get('text') != '假說檢定名詞介紹：']
+            self.assertEqual(own_text, child_text, aggregate)
+            self.assertTrue(any(b['type'] == 'heading' and b['title'].startswith('3.2 ') for b in blocks), aggregate)
+        serialized = json.dumps(self._live('初級-guide1', 's1c2'), ensure_ascii=False)
+        self.assertIn('以 T=T（X）表之', serialized)
+        self.assertNotIn('檢定 （test）', serialized)
+        mid_s1c2 = json.dumps(self._live('中級-guide1', 'mid-s1c2'), ensure_ascii=False)
+        self.assertIn('「雙重標註」，', mid_s1c2)
+        self.assertIn('特徵擷取與比對。其流程包括：', mid_s1c2)
+        for node in ('mid-s1c7', 'mid-s1pdf-c4'):
+            items = [b for b in self._live('中級-guide1', node) if b.get('trackAListSplit')]
+            self.assertEqual(len(items), 8, node)
+        for node in ('mid-s1c5', 'mid-s1pdf-c4'):
+            self.assertIn('系統整合的核心人才？', json.dumps(self._live('中級-guide1', node), ensure_ascii=False))
 
 
 if __name__ == '__main__':

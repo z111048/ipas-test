@@ -21,7 +21,15 @@ Rule (user decision 2026-11-01):
   or when it holds only math and Chinese text directly precedes it
   (``錯誤 ( $ \\beta $)``); ``( $ a $ = 0.05 )`` and ``P($A$)`` stay;
 * whitespace just inside a converted pair is trimmed (``( Rule-based )`` →
-  ``（Rule-based）``); whitespace outside is preserved.
+  ``（Rule-based）``);
+* 2026-11-02 review (page image 初級 guide1 3-27): the book sets no space
+  between Chinese text and a full-width parenthesis, so horizontal spaces
+  between a CJK character and a converted pair are dropped on either side
+  (``檢定 (test)`` → ``檢定（test）``), except for enumerator labels (one
+  letter or a 1–2 digit number: ``假設 (B) 我們`` keeps its option spacing);
+* a spaced function application (``T=T (X)``) stays Latin unless Chinese text
+  directly follows it on the same line (``以 T=T (X) 表之`` →
+  ``以 T=T（X）表之``); it then also loses the spaces around the pair.
 
 The function is pure and idempotent: ``normalize(normalize(s)) == normalize(s)``.
 """
@@ -114,6 +122,18 @@ def _next_context_char(text: str, index: int) -> str:
     return ''
 
 
+FUNCTION = 'function'
+ENUMERATOR_RE = re.compile(r'^\s*(?:[A-Za-z]|\d{1,2})\s*$')
+
+
+def _next_inline_char(text: str, index: int) -> str:
+    """Next char at/after ``index`` skipping horizontal spaces only."""
+    cursor = index
+    while cursor < len(text) and text[cursor] in HSPACE:
+        cursor += 1
+    return text[cursor] if cursor < len(text) else ''
+
+
 def _inner_is_math_or_code(inner: str) -> bool:
     stripped = inner.strip()
     return (
@@ -124,7 +144,7 @@ def _inner_is_math_or_code(inner: str) -> bool:
     )
 
 
-def _should_convert(text: str, start: int, end: int, inner: str, mask: list[bool]) -> bool:
+def _should_convert(text: str, start: int, end: int, inner: str, mask: list[bool]) -> bool | str:
     before = text[start - 1] if start > 0 else ''
     if before in {'\\', ']'}:
         return False  # LaTeX \( … \) or a Markdown link target
@@ -152,7 +172,11 @@ def _should_convert(text: str, start: int, end: int, inner: str, mask: list[bool
     if attached_identifier or _inner_is_math_or_code(inner):
         return False  # f(x), TF(t, d), (x, y), (p < 0.05), (𝑘)
     if SHORT_TOKEN_RE.match(inner) and _spaced_identifier_before(text, start):
-        return False  # T=T (X), P (A): spaced function application
+        # T=T (X), P (A): a spaced function application stays Latin unless
+        # Chinese text directly follows it (「以 T=T (X) 表之」 is printed
+        # 「T=T（X）表之」, 初級 guide1 3-27).
+        next_char = _next_inline_char(text, end)
+        return FUNCTION if next_char and CJK_CORE_RE.match(next_char) else False
     previous_char = _previous_context_char(text, start)
     next_char = _next_context_char(text, end)
     return bool(
@@ -170,11 +194,25 @@ def _normalize_once(text: str) -> str:
         if mask[start] or mask[end - 1]:
             continue
         inner = match.group(1)
-        if not _should_convert(text, start, end, inner, mask):
+        mode = _should_convert(text, start, end, inner, mask)
+        if not mode:
             continue
-        pieces.append(text[cursor:start])
+        trim_outside = mode == FUNCTION or not ENUMERATOR_RE.match(inner)
+        before = text[cursor:start]
+        trimmed = before.rstrip(HSPACE)
+        if trim_outside and trimmed != before and (
+            mode == FUNCTION or (trimmed and CJK_CORE_RE.match(trimmed[-1]))
+        ):
+            before = trimmed
+        pieces.append(before)
         pieces.append('（' + inner.strip(HSPACE) + '）')
         cursor = end
+        after = _next_inline_char(text, end)
+        if trim_outside and text[end:end + 1] in tuple(HSPACE) and after and (
+            mode == FUNCTION or CJK_CORE_RE.match(after)
+        ):
+            while cursor < len(text) and text[cursor] in HSPACE:
+                cursor += 1
     if not pieces:
         return text
     pieces.append(text[cursor:])

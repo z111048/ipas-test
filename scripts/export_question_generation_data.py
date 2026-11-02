@@ -23,8 +23,28 @@ def load_json(path: Path) -> dict:
 
 
 def write_json(path: Path, data: Any) -> None:
+    """Write JSON while preserving the target file's existing final newline.
+
+    Committed seeds are not uniform (``中級/subject3_questions.json`` ends with
+    ``\\n``; the others do not), so a fixed convention would churn tracked
+    files on every run. Existing files keep their ending; new files get ``\\n``.
+    """
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
+    text = json.dumps(data, ensure_ascii=False, indent=2)
+    if path.exists():
+        with path.open('rb') as f:
+            f.seek(0, 2)
+            size = f.tell()
+            if size:
+                f.seek(-1, 2)
+                trailing_newline = f.read(1) == b'\n'
+            else:
+                trailing_newline = True
+    else:
+        trailing_newline = True
+    if trailing_newline:
+        text += '\n'
+    path.write_text(text, encoding='utf-8')
 
 
 def strip_title_heading(content: str, title: str) -> str:
