@@ -10,6 +10,7 @@ import { preferredScrollBehavior } from '../../utils/motion'
 import { MAIN_SCROLL_CONTAINER_ID, scrollMainToTop } from '../../utils/scrollMain'
 import { Badge, Chip, ChipGroup, PageHeader, StatePanel } from '../ui'
 import CodeSnippet from './CodeSnippet'
+import { SeasonalPassBanner } from '../../features/seasonal'
 import { citationRoute, examSubjectId, relatedPracticeTarget } from './examResultLinks'
 import {
   consumeResultsAnchor,
@@ -383,6 +384,7 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
             </>
           }
         />
+        <SeasonalPassBanner pass={pass} />
         <section className="surface mb-6 p-4 text-center sm:p-6" aria-label="成績摘要">
           <ScoreRing score={score} pass={pass} />
           <div

@@ -29,6 +29,13 @@ export interface PageHeaderProps {
   /** Pass -1 together with titleRef to make the <h1> a programmatic focus target. */
   titleTabIndex?: number
   className?: string
+  /**
+   * Seasonal decoration slot (features/seasonal), rendered as the card's last child.
+   * Slot components render null when no theme is active, and the theme CSS (not this
+   * component) makes the card `position: relative`, so outside a festival the page is
+   * byte-for-byte the same.
+   */
+  decor?: ReactNode
 }
 
 export default function PageHeader({
@@ -44,6 +51,7 @@ export default function PageHeader({
   titleRef,
   titleTabIndex,
   className = '',
+  decor,
 }: PageHeaderProps) {
   const isHero = variant === 'hero'
   const shellClass = isHero
@@ -84,6 +92,7 @@ export default function PageHeader({
     return (
       <header className={`${shellClass} ${className}`}>
         <div className="hero-grid" aria-hidden="true" />
+        {decor}
         <div
           className={`relative grid gap-5 ${aside ? 'lg:grid-cols-[minmax(0,1fr)_minmax(260px,340px)] lg:items-end' : ''}`}
         >
@@ -94,5 +103,10 @@ export default function PageHeader({
     )
   }
 
-  return <header className={`${shellClass} ${className}`}>{body}</header>
+  return (
+    <header className={`${shellClass} ${className}`}>
+      {body}
+      {decor}
+    </header>
+  )
 }

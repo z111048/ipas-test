@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { SEARCH_LABEL, SITE_NAME, SITE_TAGLINE, navLabelForPath } from '../../constants/navLabels'
 import type { RefObject } from 'react'
 import SearchIcon from './SearchIcon'
+import { SeasonalHeaderMark } from '../../features/seasonal'
 
 interface HeaderProps {
   menuButtonRef?: RefObject<HTMLButtonElement | null>
@@ -54,7 +55,7 @@ export default function Header({
               to="/"
               className="flex min-h-11 min-w-0 flex-col justify-center text-primary no-underline hover:text-accent-hover sm:block sm:min-h-0"
             >
-              <span className="block truncate leading-tight sm:leading-snug">{SITE_NAME}</span>
+              <span className="block truncate leading-tight sm:leading-snug">{SITE_NAME}<SeasonalHeaderMark /></span>
               {/* 手機版的所在位置（桌機版在下一行 tagline 後面） */}
               {section && (
                 <span

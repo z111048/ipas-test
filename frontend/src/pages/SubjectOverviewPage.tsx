@@ -6,6 +6,7 @@ import type { GuideOutlinesData } from '../types'
 import GuideOutlineTree from '../components/guide/GuideOutlineTree'
 import { PageHeader, StatePanel, subjectOptionById } from '../components/ui'
 import { navLabel } from '../constants/navLabels'
+import { SeasonalCompanion } from '../features/seasonal'
 
 const guideOutlines = guideOutlinesRaw as unknown as GuideOutlinesData
 const MOBILE_SUBTOPICS = 4
@@ -56,6 +57,7 @@ export default function SubjectOverviewPage() {
     <div className="page-shell">
       <PageHeader
         className="mb-5"
+        decor={<SeasonalCompanion className="absolute right-1 top-1" />}
         eyebrow={navLabel('subject')}
         title={subjectOptionById(subjectData.id)?.fullLabel ?? subjectData.subject}
         description={`本科共 ${subjectData.chapters.length} 個章節；先選章節，再依序閱讀、練習，最後回到公告試題驗收。`}

@@ -2,7 +2,8 @@ import { Link, useSearchParams, useParams } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { Badge, Chip, ChipGroup, ConfirmDialog, MobileActionBar, PageHeader, StatePanel } from '../components/ui'
 import { formatSubjectLabel, navLabel } from '../constants/navLabels'
-import QuestionCard from '../components/practice/QuestionCard'
+import QuestionCard, { choiceButton } from '../components/practice/QuestionCard'
+import { celebrateCorrectAnswer } from '../features/seasonal'
 import { QuestionPaletteGrid } from '../components/exam/QuestionPalette'
 import { isNarrowViewport, useMediaQuery } from '../hooks/useMediaQuery'
 import { resourceLevels, resourceSummary } from '../data/resourceRegistry'
@@ -221,6 +222,7 @@ export default function PracticePage() {
         if (q && !answers[q.id]) {
           const optKey = (['A', 'B', 'C', 'D'] as const)[Number(event.key) - 1]
           setAnswers((prev) => ({ ...prev, [q.id]: optKey }))
+          if (optKey === q.answer) celebrateCorrectAnswer(choiceButton(questionRefs.current[activeIndex], optKey))
         }
         event.preventDefault()
       } else if (event.key === 'ArrowRight') {

@@ -42,6 +42,7 @@ from parse_exams_v2 import asset_key_for_exam  # noqa: E402
 from verify_data_alignment import check_exam_pdfs  # noqa: E402
 sys.path.insert(0, str(ROOT / "tests"))
 from test_guide_citation_primary import GuideCitationPrimaryTests  # noqa: E402,F401
+from test_seasonal_theme import SeasonalThemeTests  # noqa: E402,F401
 
 
 EXPECTED_ROUTES = {

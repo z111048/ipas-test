@@ -13,6 +13,7 @@ import type { GuideContent, GuideImageAsset, GuideImagesData, TocManifest } from
 import { publicAsset } from '../utils/assets'
 import { Dialog, FilterBar, LevelPicker, PageHeader, StatePanel, SubjectPicker, levelOptions, subjectOptionById } from '../components/ui'
 import { NAV_LABELS } from '../constants/navLabels'
+import { SeasonalCompanion } from '../features/seasonal'
 
 const guideImages = guideImagesRaw as unknown as GuideImagesData
 const juniorToc = juniorTocRaw as unknown as TocManifest
@@ -378,6 +379,7 @@ export default function VisualCardsPage() {
     <div className="page-shell">
       <PageHeader
         className="mb-5"
+        decor={<SeasonalCompanion className="absolute right-1 top-1" />}
         title={NAV_LABELS.visuals.label}
         description="把學習指引的重點整理成圖卡並依章節編排；點開任一張可放大細看並回到完整章節。"
         meta={

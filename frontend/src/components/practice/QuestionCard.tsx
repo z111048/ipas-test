@@ -1,7 +1,8 @@
-import { useId, useState } from 'react'
+import { useId, useRef, useState } from 'react'
 import type { Question } from '../../types'
 import { ChoiceOption, type ChoiceState } from '../ui'
 import CardPanel from './CardPanel'
+import { celebrateCorrectAnswer } from '../../features/seasonal'
 
 interface QuestionCardProps {
   question: Question
@@ -12,6 +13,11 @@ interface QuestionCardProps {
   registerRef?: (el: HTMLElement | null) => void
 }
 
+/** 該題某個選項的按鈕（ChoiceOption kind="button" 依 A–D 順序渲染 aria-pressed 按鈕）。 */
+export function choiceButton(article: HTMLElement | null | undefined, key: 'A' | 'B' | 'C' | 'D') {
+  return article?.querySelectorAll<HTMLElement>('button[aria-pressed]')[['A', 'B', 'C', 'D'].indexOf(key)] ?? article
+}
+
 export default function QuestionCard({ question, index, selected, onSelect, isActive, registerRef }: QuestionCardProps) {
   const [manualReveal, setManualReveal] = useState(false)
   const [cardOpen, setCardOpen] = useState(false)
@@ -19,9 +25,12 @@ export default function QuestionCard({ question, index, selected, onSelect, isAc
   const answered = selected !== null
   const revealed = answered || manualReveal
 
+  const articleRef = useRef<HTMLElement | null>(null)
+
   const handleSelect = (key: 'A' | 'B' | 'C' | 'D') => {
     if (selected !== null) return
     onSelect(key)
+    if (key === question.answer) celebrateCorrectAnswer(choiceButton(articleRef.current, key))
   }
 
   /** 批改後才給 correct/wrong；未批改交給 ChoiceOption 依 selected 決定。 */
@@ -42,7 +51,10 @@ export default function QuestionCard({ question, index, selected, onSelect, isAc
 
   return (
     <article
-      ref={registerRef}
+      ref={(el) => {
+        articleRef.current = el
+        registerRef?.(el)
+      }}
       data-q-index={index}
       className={`surface mb-4 p-4 transition-shadow duration-150 sm:p-5 ${
         isActive ? 'ring-2 ring-accent/50' : ''

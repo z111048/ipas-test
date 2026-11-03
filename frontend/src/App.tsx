@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Header from './components/layout/Header'
 import Sidebar from './components/layout/Sidebar'
@@ -6,6 +6,7 @@ import Overlay from './components/layout/Overlay'
 import Footer from './components/layout/Footer'
 import AppErrorBoundary from './components/shared/AppErrorBoundary'
 import { useFocusModeActive } from './hooks/useFocusMode'
+import { SeasonalProvider } from './features/seasonal'
 
 const HomePage = lazy(() => import('./pages/HomePage'))
 const SubjectOverviewPage = lazy(() => import('./pages/SubjectOverviewPage'))
@@ -207,10 +208,23 @@ function AppShell() {
   )
 }
 
+/** 節慶主題（features/seasonal）：要讀路由與專注模式，所以放在 HashRouter 裡、包住整個 AppShell。 */
+function SeasonalRoot({ children }: { children: ReactNode }) {
+  const { pathname } = useLocation()
+  const focusMode = useFocusModeActive()
+  return (
+    <SeasonalProvider pathname={pathname} focusMode={focusMode}>
+      {children}
+    </SeasonalProvider>
+  )
+}
+
 export default function App() {
   return (
     <HashRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-      <AppShell />
+      <SeasonalRoot>
+        <AppShell />
+      </SeasonalRoot>
     </HashRouter>
   )
 }

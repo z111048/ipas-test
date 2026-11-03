@@ -12,6 +12,7 @@ import { examsForLevel } from '../data/resourceCatalog'
 import StatBox from '../components/shared/StatBox'
 import { PageHeader, subjectOptionById } from '../components/ui'
 import { SECTION_LABELS, SITE_NAME, navLabel } from '../constants/navLabels'
+import { SeasonalCompanion, SeasonalHeroDecor, SeasonalScrollFlyer } from '../features/seasonal'
 
 function statusLabel(status?: ResourceNavItem['status']) {
   if (status === 'pending') return '待建立'
@@ -178,6 +179,7 @@ export default function HomePage() {
           </>
         }
         title={SITE_NAME}
+        decor={<SeasonalHeroDecor />}
         description="先選級別與科目，再依章節讀指引、做練習、驗收公告試題。"
         actions={
           <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
@@ -302,6 +304,7 @@ export default function HomePage() {
       </div>
 
       <section className="surface mt-6 p-4 sm:p-5">
+        <SeasonalCompanion className="absolute right-2 top-2" />
         <div className="eyebrow mb-1">學習路線</div>
         <h2 className="section-title mb-3">備考流程</h2>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
@@ -319,6 +322,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      <SeasonalScrollFlyer />
     </div>
   )
 }

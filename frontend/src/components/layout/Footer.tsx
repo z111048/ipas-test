@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { resourceLevels } from '../../data/resourceRegistry'
 import { NAV_LABELS, SITE_NAME, navLabel, type NavLabelKey } from '../../constants/navLabels'
+import { SeasonalFooterToggle } from '../../features/seasonal'
 
 const quickLinkKeys: NavLabelKey[] = ['articles', 'visuals', 'glossary', 'concepts', 'images']
 const quickLinks = quickLinkKeys.map((key) => ({ label: navLabel(key), to: NAV_LABELS[key].route }))
@@ -71,6 +72,7 @@ export default function Footer() {
           本平台為自主學習輔助資源，非 iPAS 官方網站；學習指引與公告試題之著作權屬原發行單位，僅供備考研習之用。
         </p>
         <p className="m-0 mt-1">© {year} {SITE_NAME}</p>
+        <SeasonalFooterToggle className={footerLinkClass} />
       </div>
     </footer>
   )
