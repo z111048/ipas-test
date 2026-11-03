@@ -479,12 +479,12 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
             >
               <div className="flex items-center gap-2 mb-2">
                 <h3 className="text-meta font-semibold text-text-light">第 {i + 1} 題</h3>
-                <Badge tone={isCorrect ? 'correct' : isSkipped ? 'warning' : 'wrong'}>
+                <Badge tone={isCorrect ? 'correct' : isSkipped ? 'unanswered' : 'wrong'}>
                   {isCorrect ? '正確' : isSkipped ? '未作答' : '錯誤'}
                 </Badge>
               </div>
               {q.context && (
-                <div className="mb-3 rounded-lg border border-answered-line/60 bg-answered-soft px-4 py-3 text-body text-app-text">
+                <div className="mb-3 rounded-lg bg-panel px-4 py-3 text-body text-app-text">
                   {q.context}
                 </div>
               )}

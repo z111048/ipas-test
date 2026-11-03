@@ -336,7 +336,7 @@ export default function ConceptsPage() {
                 onClick={() => select(concept.id)}
                 aria-current={concept.id === selected?.id ? 'true' : undefined}
                 className={`min-h-11 w-full text-left px-4 py-2.5 border-b border-border cursor-pointer ${
-                  concept.id === selected?.id ? 'bg-answered-soft' : 'hover:bg-unanswered-soft'
+                  concept.id === selected?.id ? 'bg-accent-soft' : 'hover:bg-unanswered-soft'
                 }`}
               >
                 <div className="text-body font-semibold text-primary">{concept.name}</div>

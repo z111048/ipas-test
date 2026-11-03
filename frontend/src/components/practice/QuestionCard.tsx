@@ -77,7 +77,7 @@ export default function QuestionCard({ question, index, selected, onSelect, isAc
       )}
 
       {revealed && (
-        <div className="mt-4 rounded-lg border border-answered-line bg-answered-soft p-4 text-reading text-app-text content-justify">
+        <div className="mt-4 rounded-lg bg-panel p-4 text-reading text-app-text content-justify">
           <strong className="block">正確答案：({question.answer}) {question.options[question.answer]}</strong>
           {question.explanation && <p className="mt-3">{question.explanation}</p>}
         </div>

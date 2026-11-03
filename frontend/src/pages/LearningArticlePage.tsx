@@ -41,7 +41,7 @@ function blockTextClass(block: GuideBlock) {
     if (block.depth === 4) return 'text-reading font-semibold text-primary mt-4 mb-1.5'
     return 'text-reading font-semibold text-app-text mt-3 mb-1'
   }
-  if (block.type === 'question') return 'text-reading font-semibold text-primary bg-answered-soft border-l-4 border-accent px-3 py-2 rounded-r-lg my-3'
+  if (block.type === 'question') return 'text-reading font-semibold text-primary bg-accent-soft border-l-4 border-accent px-3 py-2 rounded-r-lg my-3'
   if (block.type === 'answer') return 'text-reading text-app-text bg-unanswered-soft border border-border px-3 py-2 rounded-lg my-2'
   return READING_PARAGRAPH_CLASS
 }
@@ -260,7 +260,7 @@ function LearningPathLinks({
             key={path.id}
             to={articleRoute(article, path.id)}
             className={`block rounded-md border px-3 py-2 no-underline transition-colors hover:border-accent hover:bg-accent-soft ${
-              selectedPathId === path.id ? 'border-accent bg-answered-soft' : 'border-border bg-white'
+              selectedPathId === path.id ? 'border-accent bg-accent-soft' : 'border-border bg-white'
             }`}
           >
             <div className="text-ui font-semibold text-primary">{path.title}</div>

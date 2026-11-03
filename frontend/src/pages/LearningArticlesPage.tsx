@@ -44,7 +44,7 @@ function PathCard({ path, selected }: { path: LearningPath; selected: boolean })
     <Link
       to={pageLink({ pathId: path.id })}
       className={`surface-hover group surface flex h-full flex-col p-4 no-underline hover:border-accent hover:bg-accent-soft ${
-        selected ? 'border-accent bg-answered-soft ring-1 ring-accent' : ''
+        selected ? 'border-accent bg-accent-soft ring-1 ring-accent' : ''
       }`}
     >
       <div className="mb-2 flex flex-wrap items-center gap-2">

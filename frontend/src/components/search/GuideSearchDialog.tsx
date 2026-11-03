@@ -117,7 +117,7 @@ export default function GuideSearchDialog({ open, onClose, restoreFocusRef }: Gu
                     onMouseEnter={() => setActiveIndex(position)}
                     onClick={() => go(hit)}
                     className={`block min-h-[44px] w-full px-4 py-2 text-left transition-colors ${
-                      isActive ? 'bg-answered-soft' : ''
+                      isActive ? 'bg-accent-soft' : ''
                     } ${hit.to ? 'cursor-pointer' : 'cursor-default opacity-60'}`}
                   >
                     <div className="flex items-center gap-2">

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-export type BadgeTone = 'neutral' | 'accent' | 'answered' | 'correct' | 'wrong' | 'warning'
+export type BadgeTone = 'neutral' | 'accent' | 'answered' | 'unanswered' | 'correct' | 'wrong' | 'warning'
 
 export interface BadgeProps {
   tone?: BadgeTone
@@ -17,6 +17,7 @@ const toneClass: Record<BadgeTone, string> = {
   neutral: '',
   accent: 'badge-accent',
   answered: 'badge-answered',
+  unanswered: 'badge-unanswered',
   correct: 'badge-correct',
   wrong: 'badge-wrong',
   warning: 'badge-warning',

@@ -77,7 +77,7 @@ function CodeCell({ cell, index }: { cell: ColabCell; index: number }) {
         <>
           {/* Explanation */}
           {cell.explanation && (
-            <div className="px-4 py-2 bg-answered-soft border-b border-answered-line text-ui text-answered">
+            <div className="px-4 py-2 bg-panel border-b border-border text-ui text-primary-light">
               💡 {cell.explanation}
             </div>
           )}

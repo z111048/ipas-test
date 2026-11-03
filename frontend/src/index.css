@@ -638,7 +638,7 @@ html {
     }
   }
 
-  /* Non-interactive status badge. Tones: neutral | accent | answered | correct | wrong | warning. */
+  /* Non-interactive status badge. Tones: neutral | accent | answered | unanswered | correct | wrong | warning. */
   .badge {
     display: inline-flex;
     align-items: center;
@@ -664,6 +664,13 @@ html {
     border-color: transparent;
     background-color: var(--color-answered-soft);
     color: var(--color-answered);
+  }
+
+  /* 未作答：與題解卡灰色條同系。#475569 在 #f1f5f9 上 6.9:1。 */
+  .badge-unanswered {
+    border-color: transparent;
+    background-color: var(--color-panel);
+    color: var(--color-chrome-muted);
   }
 
   .badge-correct {

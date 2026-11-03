@@ -14,7 +14,7 @@ const toneClass: Record<StateTone, string> = {
   loading: 'border-border bg-white text-text-light',
   empty: 'border-border bg-white text-text-light',
   error: 'border-wrong-line bg-wrong-soft text-wrong',
-  status: 'border-answered-line bg-answered-soft text-app-text',
+  status: 'border-transparent bg-accent-soft text-app-text',
 }
 
 export default function StatePanel({

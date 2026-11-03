@@ -164,7 +164,7 @@ export default function QuestionModal({ item, onClose }: { item: QuestionRef; on
                   </p>
                 )}
                 {reference && (
-                  <div className="mt-3 rounded-lg bg-answered-soft px-3 py-3 text-reading leading-7 text-app-text content-justify">
+                  <div className="mt-3 rounded-lg bg-panel px-3 py-3 text-reading leading-7 text-app-text content-justify">
                     {reference.reference_answer}
                   </div>
                 )}

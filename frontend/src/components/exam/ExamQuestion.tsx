@@ -72,7 +72,7 @@ export default function ExamQuestion({ question, index, isActive, registerRef }:
         第 {index + 1} 題
       </h2>
       {question.context && (
-        <div className="mb-4 rounded-lg border border-answered-line/60 bg-answered-soft px-4 py-3 text-body text-app-text">
+        <div className="mb-4 rounded-lg bg-panel px-4 py-3 text-body text-app-text">
           {question.context}
         </div>
       )}

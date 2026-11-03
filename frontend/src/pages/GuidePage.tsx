@@ -117,7 +117,7 @@ function blockTextClass(block: GuideBlock) {
     if (block.depth === 5) return 'text-reading font-semibold text-app-text mt-3 mb-1'
     return 'text-body font-semibold text-text-light mt-3 mb-1'
   }
-  if (block.type === 'question') return 'text-reading font-semibold text-primary bg-answered-soft border-l-4 border-accent px-3 py-2 rounded-r-lg my-3'
+  if (block.type === 'question') return 'text-reading font-semibold text-primary bg-accent-soft border-l-4 border-accent px-3 py-2 rounded-r-lg my-3'
   if (block.type === 'answer') return 'text-reading text-app-text bg-unanswered-soft border border-border px-3 py-2 rounded-lg my-2'
   return READING_PARAGRAPH_CLASS
 }
