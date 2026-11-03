@@ -2,9 +2,9 @@
   "guideKey": "中級-guide3",
   "nodeId": "mid-s3c7",
   "stats": {
-    "questions": 7,
-    "guideBlocks": 25,
-    "annotations": 34
+    "questions": 29,
+    "guideBlocks": 48,
+    "annotations": 64
   },
   "blocks": {
     "block-3": [
@@ -20,12 +20,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明模型輸入須經過轉換與衍生處理，支持將歷史觀測值整理為模型特徵的概念連結。"
+          "補充：說明模型輸入須經過轉換與衍生處理，支持將歷史觀測值整理為模型特徵的概念連結。"
         ],
-        "citationRank": 1,
+        "citationRank": 4,
         "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-4": [
@@ -41,12 +41,76 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明模型輸入須經過轉換與衍生處理，支持將歷史觀測值整理為模型特徵的概念連結。"
+          "補充：說明模型輸入須經過轉換與衍生處理，支持將歷史觀測值整理為模型特徵的概念連結。"
+        ],
+        "citationRank": 4,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-18": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q49",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q49",
+        "questionNumber": 49,
+        "question": "參考下圖計算各變數的遺漏值(NaN)個數結果，下列何者正確？ 選項A: df.isnull().sum() 選項B: df.isNaN().sum() 選項C: df.isna().sum() 選項D: df.isnan().sum()",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明缺失標示，助理解遺漏值處理"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-20": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q38",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q38",
+        "questionNumber": 38,
+        "question": "某 IoT 平台接收工廠溫度感測器資料，發現在常態分佈（均值 25°C，標準差 2° C）的數萬筆紀錄中，出現數筆「999°C」的極端值，研判為感測器通訊錯誤（網 路封包延遲導致數值溢位）所致，且該異常數值在實際情況下不可能發生。在進 行模型訓練前的資料清洗階段，針對這類離群值，最適當的處理策略為何？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "異常值可能來自輸入錯誤並影響模型，須先處理。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 2,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
+      }
+    ],
+    "block-22": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q16",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q16",
+        "questionNumber": 16,
+        "question": "某金融科技公司以 Z分數（Z-Score）監控交易金額異常狀況。若交易金 額平均為新台幣 2,000 元，標準差為400 元，某筆交易金額為 3,200 元，且公司以|Z| ≥ 3 判定為異常值（Outlier），下列判斷何者最為正 確？",
+        "answer": "A",
+        "confidence": "high",
+        "referenceQuestionId": "exam2_q16",
+        "reasons": [
+          "補充：指出可用Z分數界定明顯偏離的觀測值。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-34": [
@@ -62,12 +126,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明透過主鍵或欄位相似度判斷重複資料的應用，可連結題目的客戶相似度比對情境；時間複雜度則依題幹的全面兩兩比對條件推導。"
+          "補充：說明透過主鍵或欄位相似度判斷重複資料的應用，可連結題目的客戶相似度比對情境；時間複雜度則依題幹的全面兩兩比對條件推導。"
         ],
-        "citationRank": 1,
+        "citationRank": 2,
         "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-37": [
@@ -83,12 +147,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明透過主鍵或欄位相似度判斷重複資料的應用，可連結題目的客戶相似度比對情境；時間複雜度則依題幹的全面兩兩比對條件推導。"
+          "補充：說明透過主鍵或欄位相似度判斷重複資料的應用，可連結題目的客戶相似度比對情境；時間複雜度則依題幹的全面兩兩比對條件推導。"
         ],
-        "citationRank": 1,
+        "citationRank": 2,
         "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-38": [
@@ -104,12 +168,76 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明透過主鍵或欄位相似度判斷重複資料的應用，可連結題目的客戶相似度比對情境；時間複雜度則依題幹的全面兩兩比對條件推導。"
+          "補充：說明透過主鍵或欄位相似度判斷重複資料的應用，可連結題目的客戶相似度比對情境；時間複雜度則依題幹的全面兩兩比對條件推導。"
         ],
-        "citationRank": 1,
+        "citationRank": 2,
         "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-42": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q28",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q28",
+        "questionNumber": 28,
+        "question": "在一個同時包含連續型特徵與類別型特徵的資料集中，若希望透過適 當的特徵工程流程來提升模型整體表現，下列哪一種作法最為合適？",
+        "answer": "C",
+        "confidence": "high",
+        "referenceQuestionId": "exam1_q28",
+        "reasons": [
+          "補充：提醒數值與類別特徵須正確標示以分別處理。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-54": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q35",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q35",
+        "questionNumber": 35,
+        "question": "某生物醫學研究機構正在建構一個整合「基因序列特徵」與「電子病歷文本特徵」 的疾病風險預測模型。由於高維數值特徵和語意文本特徵的性質差異顯著，請問 下列哪一種特徵處理與選擇策略最為合適？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：特徵選擇可篩選關鍵子集，降低維度並保留預測資訊。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-55": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q8",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q8",
+        "questionNumber": 8,
+        "question": "資料科學家為分析顧客行為，利用現有欄位「銷售金額」與「瀏覽次 數」，計算出新變數「銷售金額/瀏覽次數」。此動作屬於下列哪一類特徵 工程方法？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：特徵選擇不創造新特徵，可排除選項A"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-67": [
@@ -125,12 +253,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明嵌入法在模型訓練時內建特徵選擇機制，並列舉決策樹與正則化方法，有助區分選項 A 與 D。"
+          "補充：說明嵌入法在模型訓練時內建特徵選擇機制，並列舉決策樹與正則化方法，有助區分選項 A 與 D。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q7",
@@ -144,11 +272,11 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "將正則化連結至模型訓練過程中的嵌入式特徵選擇，並指出選擇結果可能受模型超參數影響。"
+          "補充：將正則化連結至模型訓練過程中的嵌入式特徵選擇，並指出選擇結果可能受模型超參數影響。"
         ],
-        "citationRank": 3,
+        "citationRank": 7,
         "citationBlockCount": 3,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -165,12 +293,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明嵌入法在模型訓練時內建特徵選擇機制，並列舉決策樹與正則化方法，有助區分選項 A 與 D。"
+          "補充：說明嵌入法在模型訓練時內建特徵選擇機制，並列舉決策樹與正則化方法，有助區分選項 A 與 D。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q7",
@@ -184,11 +312,11 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "將正則化連結至模型訓練過程中的嵌入式特徵選擇，並指出選擇結果可能受模型超參數影響。"
+          "補充：將正則化連結至模型訓練過程中的嵌入式特徵選擇，並指出選擇結果可能受模型超參數影響。"
         ],
-        "citationRank": 3,
+        "citationRank": 7,
         "citationBlockCount": 3,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -205,12 +333,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明嵌入法在模型訓練時內建特徵選擇機制，並列舉決策樹與正則化方法，有助區分選項 A 與 D。"
+          "補充：說明嵌入法在模型訓練時內建特徵選擇機制，並列舉決策樹與正則化方法，有助區分選項 A 與 D。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q7",
@@ -224,11 +352,195 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "將正則化連結至模型訓練過程中的嵌入式特徵選擇，並指出選擇結果可能受模型超參數影響。"
+          "補充：將正則化連結至模型訓練過程中的嵌入式特徵選擇，並指出選擇結果可能受模型超參數影響。"
+        ],
+        "citationRank": 7,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-73": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q45",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q45",
+        "questionNumber": 45,
+        "question": "進行影像分類任務時，研究團隊嘗試利用主成分分析（Principal Component Analysis, PCA）將輸入特徵從 1024維降至100維，並將 降維後的資料輸入支持向量機（Support Vector Machine, SVM）模 型進行訓練。關於此作法，下列哪一項描述最為合理？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明PCA線性降維可加速建模並過濾雜訊。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q46",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q46",
+        "questionNumber": 46,
+        "question": "假設研究人員已將含有雜訊的手寫數字影像存放在變數 noisy中。部分資 料經視覺化後的外觀如下： 他們嘗試使用PCA 進行降噪，並希望能保留影像的主要特徵，同時去除影 像中的雜訊。然而，當程式執行後，觀察到影像仍然含有明顯的雜訊。研 究人員懷疑是程式中某個步驟的設定不正確，導致 PCA沒有發揮降噪的作 用，需要修改程式碼才能讓降噪有效。請問哪一段程式碼需要修改，才能 讓PCA對noisy 影像有效去噪？",
+        "answer": "B",
+        "confidence": "medium",
+        "referenceQuestionId": "exam3_q46",
+        "reasons": [
+          "補充：指出PCA能過濾雜訊並重構資料"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q30",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q30",
+        "questionNumber": 30,
+        "question": "某資料科學家正在處理一份包含 200個感測器特徵的工廠設備監測資料集，為了 降低模型複雜度並保留主要變異資訊，他先對資料進行標準化（Standardization）， 再使用主成分分析（PCA）進行降維。在 PCA 過程中，為了找出能最大化資料變 異量的主成分方向，演算法主要依賴哪一項數學操作？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：PCA藉線性變換找最大變異方向，助理解解題目標。"
         ],
         "citationRank": 3,
-        "citationBlockCount": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-75": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q44",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q44",
+        "questionNumber": 44,
+        "question": "研究人員撰寫的程式中（下圖），先用整體資料進行 LDA（Linear Discriminant Analysis）降維，接著再用KNN（K-Nearest Neighbors）進行分類，並用交叉驗證 來評估準確率。請問下列敘述何者正確？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：LDA依類別標籤降維，全資料擬合即洩漏答案"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-76": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q6",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q6",
+        "questionNumber": 6,
+        "question": "某資料科學家欲對 512維詞嵌入向量（共 10萬筆）進行視覺化以探索群集結構， 同時另一工程師需將 200 個製程特徵降維後作為 XGBoost 的輸入特徵。關於 t- SNE與 PCA 選型，下列敘述何者最正確？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：點出t-SNE屬非線性降維，可排除線性外推"
+        ],
+        "citationRank": 4,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-77": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q6",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q6",
+        "questionNumber": 6,
+        "question": "某資料科學家欲對 512維詞嵌入向量（共 10萬筆）進行視覺化以探索群集結構， 同時另一工程師需將 200 個製程特徵降維後作為 XGBoost 的輸入特徵。關於 t- SNE與 PCA 選型，下列敘述何者最正確？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "t-SNE僅供視覺化探索，不宜直接預測建模"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
         "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-81": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q9",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q9",
+        "questionNumber": 9,
+        "question": "在建構以距離為基礎的機器學習模型（如 KNN、SVM）時，下列哪一項資料 前處理方式最為關鍵？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "說明標準化對SVM、KNN等距離模型特別關鍵"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q25",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q25",
+        "questionNumber": 25,
+        "question": "某工程師建立房價預測模型，輸入特徵包含屋齡與距捷運站距離（公尺）。他發現 距捷運站距離分布嚴重右偏，經對數（Log）轉換後模型表現明顯改善；但將同樣 轉換套用於屋齡後，模型表現反而下降。下列何者為最可能的原因？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：各特徵分佈型態不同，須分別處理，不必套用相同轉換"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-83": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q9",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q9",
+        "questionNumber": 9,
+        "question": "在建構以距離為基礎的機器學習模型（如 KNN、SVM）時，下列哪一項資料 前處理方式最為關鍵？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：解釋尺度落差會使模型偏向高數值特徵"
+        ],
+        "citationRank": 4,
+        "citationBlockCount": 1,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -245,12 +557,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "支持區分 0～1 線性縮放與 Z-score 標準化；本題可直接由程式判斷未進行減平均值與除標準差。"
+          "補充：支持區分 0～1 線性縮放與 Z-score 標準化；本題可直接由程式判斷未進行減平均值與除標準差。"
         ],
-        "citationRank": 1,
+        "citationRank": 6,
         "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-85": [
@@ -266,12 +578,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "支持區分 0～1 線性縮放與 Z-score 標準化；本題可直接由程式判斷未進行減平均值與除標準差。"
+          "補充：支持區分 0～1 線性縮放與 Z-score 標準化；本題可直接由程式判斷未進行減平均值與除標準差。"
         ],
-        "citationRank": 1,
+        "citationRank": 6,
         "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-88": [
@@ -287,12 +599,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "支持區分 0～1 線性縮放與 Z-score 標準化；本題可直接由程式判斷未進行減平均值與除標準差。"
+          "補充：支持區分 0～1 線性縮放與 Z-score 標準化；本題可直接由程式判斷未進行減平均值與除標準差。"
         ],
-        "citationRank": 1,
+        "citationRank": 6,
         "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-89": [
@@ -308,10 +620,73 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "支持區分 0～1 線性縮放與 Z-score 標準化；本題可直接由程式判斷未進行減平均值與除標準差。"
+          "補充：支持區分 0～1 線性縮放與 Z-score 標準化；本題可直接由程式判斷未進行減平均值與除標準差。"
+        ],
+        "citationRank": 6,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-97": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q36",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q36",
+        "questionNumber": 36,
+        "question": "某研究人員欲使用線性迴歸模型（Linear Regression Model）分析變數 Y與X之間的關係，但發現 Y的分佈明顯右偏，且其變異數隨 X 的增大而 增加。為滿足模型假設並提升配適效果，下列哪一種前處理方法最為合 適？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：線性迴歸假設資料近常態，偏態時應做分佈轉換；對數轉換是壓縮右偏的常見作法，與正解同類"
         ],
         "citationRank": 1,
-        "citationBlockCount": 4,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-98": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q36",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q36",
+        "questionNumber": 36,
+        "question": "某研究人員欲使用線性迴歸模型（Linear Regression Model）分析變數 Y與X之間的關係，但發現 Y的分佈明顯右偏，且其變異數隨 X 的增大而 增加。為滿足模型假設並提升配適效果，下列哪一種前處理方法最為合 適？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：線性迴歸假設資料近常態，偏態時應做分佈轉換；對數轉換是壓縮右偏的常見作法，與正解同類"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-99": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q25",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q25",
+        "questionNumber": 25,
+        "question": "某工程師建立房價預測模型，輸入特徵包含屋齡與距捷運站距離（公尺）。他發現 距捷運站距離分布嚴重右偏，經對數（Log）轉換後模型表現明顯改善；但將同樣 轉換套用於屋齡後，模型表現反而下降。下列何者為最可能的原因？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "對數轉換只用於右偏、有極端值的特徵，屋齡未必需要"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
       }
@@ -329,12 +704,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
+          "補充：說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-113": [
@@ -350,12 +725,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
+          "補充：說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q40",
@@ -369,11 +744,11 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明 One-Hot 編碼中所屬類別為 1、其他類別為 0 的表示方式，可用來理解本題的標籤向量。"
+          "補充：說明 One-Hot 編碼中所屬類別為 1、其他類別為 0 的表示方式，可用來理解本題的標籤向量。"
         ],
-        "citationRank": 3,
+        "citationRank": 6,
         "citationBlockCount": 3,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -388,12 +763,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明獨熱編碼以各類別對應欄位表示，所屬類別為 1，其餘為 0，支持描述 E。"
+          "補充：說明獨熱編碼以各類別對應欄位表示，所屬類別為 1，其餘為 0，支持描述 E。"
         ],
-        "citationRank": 2,
+        "citationRank": 7,
         "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-114": [
@@ -409,11 +784,11 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明 One-Hot 編碼中所屬類別為 1、其他類別為 0 的表示方式，可用來理解本題的標籤向量。"
+          "補充：說明 One-Hot 編碼中所屬類別為 1、其他類別為 0 的表示方式，可用來理解本題的標籤向量。"
         ],
-        "citationRank": 3,
+        "citationRank": 6,
         "citationBlockCount": 3,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -428,12 +803,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明獨熱編碼以各類別對應欄位表示，所屬類別為 1，其餘為 0，支持描述 E。"
+          "補充：說明獨熱編碼以各類別對應欄位表示，所屬類別為 1，其餘為 0，支持描述 E。"
         ],
-        "citationRank": 2,
+        "citationRank": 7,
         "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-115": [
@@ -449,12 +824,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
+          "補充：說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q40",
@@ -468,11 +843,11 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明 One-Hot 編碼中所屬類別為 1、其他類別為 0 的表示方式，可用來理解本題的標籤向量。"
+          "補充：說明 One-Hot 編碼中所屬類別為 1、其他類別為 0 的表示方式，可用來理解本題的標籤向量。"
         ],
-        "citationRank": 3,
+        "citationRank": 6,
         "citationBlockCount": 3,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -487,12 +862,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明獨熱編碼以各類別對應欄位表示，所屬類別為 1，其餘為 0，支持描述 E。"
+          "補充：說明獨熱編碼以各類別對應欄位表示，所屬類別為 1，其餘為 0，支持描述 E。"
         ],
-        "citationRank": 2,
+        "citationRank": 7,
         "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-116": [
@@ -508,12 +883,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明獨熱編碼以各類別對應欄位表示，所屬類別為 1，其餘為 0，支持描述 E。"
+          "補充：說明獨熱編碼以各類別對應欄位表示，所屬類別為 1，其餘為 0，支持描述 E。"
         ],
-        "citationRank": 2,
+        "citationRank": 7,
         "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-117": [
@@ -529,12 +904,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
+          "補充：說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q46",
@@ -548,12 +923,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明獨熱編碼以各類別對應欄位表示，所屬類別為 1，其餘為 0，支持描述 E。"
+          "補充：說明獨熱編碼以各類別對應欄位表示，所屬類別為 1，其餘為 0，支持描述 E。"
         ],
-        "citationRank": 2,
+        "citationRank": 7,
         "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-118": [
@@ -569,15 +944,34 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
+          "補充：說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-119": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q11",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q11",
+        "questionNumber": 11,
+        "question": "某團隊為電信公司建立用戶月租方案續約預測模型，資料集包含兩個類別特徵：「客服 評價」共有 5 個等級（非常不滿意至非常滿意），具明確順序關係；「居住縣市」共有 22個不同類別，類別之間無順序關係。團隊計劃分別以 Logistic Regression 與XGBoost 訓練模型，並對上述特徵進行編碼。請問下列哪個編碼方案最適當？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明以續約率統計量編碼屬目標編碼。；提醒線性模型注意共線性，呼應去除基準類別。"
+        ],
+        "citationRank": 4,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
       {
         "id": "mid_1151_s3:mid_1151_s3_q24",
         "examKey": "mid_1151_s3",
@@ -590,12 +984,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
+          "補充：說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-120": [
@@ -611,12 +1005,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
+          "補充：說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-121": [
@@ -632,12 +1026,114 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
+          "補充：說明 One-Hot 編碼為各類別新增欄位，以及高基數造成維度與運算負擔增加的限制，並對照目標編碼的原理與適用情境。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 8,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-125": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q26",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q26",
+        "questionNumber": 26,
+        "question": "某電商推薦系統的資料工程師在建構模型特徵時，將使用者的訂單 UNIX時間戳記（連 續數值）轉換為「早晨（6–12時）、下午（12–18時）、夜晚（18–6時）」三個區間類別， 以讓推薦模型更容易學習消費時段規律。在資料前處理中，這種將連續數值轉換為有 序類別的操作最精確的名稱為何？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：時間戳記可拆出時段，呼應題目情境。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-130": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q9",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q9",
+        "questionNumber": 9,
+        "question": "某企業在訓練生成式 AI模型時，導入資料增強（Data Augmentation）技術以擴充訓練資料，但觀察到模型效能反而下降。 下列哪一項最可能的原因與對應改善策略最為正確？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：增強本為提升泛化，效能反降即策略不當需調整"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q19",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q19",
+        "questionNumber": 19,
+        "question": "某研究團隊正在訓練一個針對低資源語言（如少數民族語言）的語言 模型，但該語言僅有約 1萬筆語料可用。在訓練過程中出現明顯的過 擬合現象，若希望在不新增真實語料的前提下提升模型的泛化能力， 採用下列哪一種方法最為適合？",
+        "answer": "B",
+        "confidence": "high",
+        "referenceQuestionId": "exam1_q19",
+        "reasons": [
+          "補充：資料增強以生成額外樣本提升泛化能力，符合此題作法"
         ],
         "citationRank": 1,
-        "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q33",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q33",
+        "questionNumber": 33,
+        "question": "某自駕車公司的 AI 訓練團隊面臨標註成本高的問題，無法取得足夠的真實惡劣 天氣（大雨、濃霧）駕駛場景資料，工程師提議使用合成資料（Synthetic Data） 來補充訓練集。請問下列何者最能正確敘述合成資料在 AI訓練中的角色？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：補充說明產生新樣本可提升泛化能力與穩定性"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-133": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q4",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q4",
+        "questionNumber": 4,
+        "question": "某 AI 團隊同時開發多個影像辨識系統，並在訓練流程中統一加入資料擴增策略 （包含隨機水平翻轉）以提升模型泛化能力。實驗後發現，部分任務的測試表現 明顯下降。下列哪一項任務最可能因該資料擴增策略引入語意錯誤（Semantic Inconsistency），使同一樣本在翻轉後對應不同類別標籤，進而影響模型學習？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出水平翻轉是常見的影像擴增方式"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-138": [
@@ -653,12 +1149,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明時序資料增強包含增加噪聲、局部調整與窗口裁切，並強調特徵工程須整合資料理解與建模目標，有助釐清選項 A 與 D。"
+          "補充：說明時序資料增強包含增加噪聲、局部調整與窗口裁切，並強調特徵工程須整合資料理解與建模目標，有助釐清選項 A 與 D。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-139": [
@@ -674,12 +1170,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明時序資料增強包含增加噪聲、局部調整與窗口裁切，並強調特徵工程須整合資料理解與建模目標，有助釐清選項 A 與 D。"
+          "補充：說明時序資料增強包含增加噪聲、局部調整與窗口裁切，並強調特徵工程須整合資料理解與建模目標，有助釐清選項 A 與 D。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-145": [
@@ -695,12 +1191,137 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明時序資料增強包含增加噪聲、局部調整與窗口裁切，並強調特徵工程須整合資料理解與建模目標，有助釐清選項 A 與 D。"
+          "補充：說明時序資料增強包含增加噪聲、局部調整與窗口裁切，並強調特徵工程須整合資料理解與建模目標，有助釐清選項 A 與 D。"
+        ],
+        "citationRank": 5,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-151": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q11",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q11",
+        "questionNumber": 11,
+        "question": "某團隊為電信公司建立用戶月租方案續約預測模型，資料集包含兩個類別特徵：「客服 評價」共有 5 個等級（非常不滿意至非常滿意），具明確順序關係；「居住縣市」共有 22個不同類別，類別之間無順序關係。團隊計劃分別以 Logistic Regression 與XGBoost 訓練模型，並對上述特徵進行編碼。請問下列哪個編碼方案最適當？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明以續約率統計量編碼屬目標編碼。；提醒線性模型注意共線性，呼應去除基準類別。"
+        ],
+        "citationRank": 4,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-152": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q17",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q17",
+        "questionNumber": 17,
+        "question": "某電商公司欲利用顧客行為資料建立消費預測模型，其中「會員等級」欄 位包含「一般、白金、黑卡」三種類別。若模型採用梯度提升樹 （Gradient Boosting Tree）演算法，資料科學家在進行特徵編碼時應特 別注意下列何種情況？",
+        "answer": "B",
+        "confidence": "high",
+        "referenceQuestionId": "exam2_q17",
+        "reasons": [
+          "補充：樹模型對類別編碼很敏感，錯用標籤編碼容易失真。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-157": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q26",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q26",
+        "questionNumber": 26,
+        "question": "在時間序列資料的特徵工程中，工程師常使用滑動窗口（Sliding Window）方法， 將過去多個時間點的觀測值組合為模型輸入。下列何者為此方法的主要目的？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：點出特徵工程須考慮時間性與序列關聯，有助理解。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-158": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q22",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q22",
+        "questionNumber": 22,
+        "question": "某連鎖便利商店集團欲建立門市未來 14 天每日銷售額預測模型（500 間門市、3 年歷 史資料）。資料具有明顯的週期性（週末較高）、年度季節性（暑假與年末高峰）及長期 成長趨勢，並包含已知節日與不定期事件（如颱風）。在此情境下，關於資料切分與建 模策略，何者最適當？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "滯後與滾動特徵是時間序列機器學習建模的關鍵。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q26",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q26",
+        "questionNumber": 26,
+        "question": "在時間序列資料的特徵工程中，工程師常使用滑動窗口（Sliding Window）方法， 將過去多個時間點的觀測值組合為模型輸入。下列何者為此方法的主要目的？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明時間序列可提取滯後值等序列特徵，支持選D。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-159": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q22",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q22",
+        "questionNumber": 22,
+        "question": "某連鎖便利商店集團欲建立門市未來 14 天每日銷售額預測模型（500 間門市、3 年歷 史資料）。資料具有明顯的週期性（週末較高）、年度季節性（暑假與年末高峰）及長期 成長趨勢，並包含已知節日與不定期事件（如颱風）。在此情境下，關於資料切分與建 模策略，何者最適當？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：納入事件次數等動態指標，可處理颱風等不定期事件。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ]
   }

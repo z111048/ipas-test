@@ -40,6 +40,8 @@ from extract_pdf_pages_structured import pdf_map  # noqa: E402
 from annotate_exam_code_images import annotation_exam_entries  # noqa: E402
 from parse_exams_v2 import asset_key_for_exam  # noqa: E402
 from verify_data_alignment import check_exam_pdfs  # noqa: E402
+sys.path.insert(0, str(ROOT / "tests"))
+from test_guide_citation_primary import GuideCitationPrimaryTests  # noqa: E402,F401
 
 
 EXPECTED_ROUTES = {

@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from guide_block_id_migrations import BlockIdMigration
+from guide_citation_primary import load_curated, load_node_meta, merge_answer_citations
 from resource_catalog import exam_entries
 from run_codex_exam_reference_answers import (
     current_question_fingerprint_index,
@@ -174,6 +175,38 @@ def order_citation_block_ids(
     return result, reordered
 
 
+def merge_curated_primary(
+    level: str,
+    route_key: str,
+    answers: dict[str, dict[str, Any]],
+    canonical_by_exported: dict[str, str],
+    questions_by_id: dict[str, dict[str, Any]],
+    curated: dict[tuple[str, str], dict[str, Any]],
+    node_meta: dict[tuple[str, str], dict[str, Any]],
+    used: set[tuple[str, str]],
+) -> tuple[dict[str, dict[str, Any]], int]:
+    """Put curated primary citations first; older citations become 「補充」."""
+    merged = 0
+    result: dict[str, dict[str, Any]] = {}
+    for question_id, answer in answers.items():
+        canonical = canonical_by_exported[question_id]
+        entry = curated.get((route_key, canonical))
+        if entry is None:
+            result[question_id] = answer
+            continue
+        if entry['level'] != level:
+            raise ValueError(f'Curated primary level mismatch: {level}/{route_key}/{canonical}')
+        if entry['questionFingerprint'] != question_content_fingerprint(questions_by_id[canonical]):
+            raise ValueError(
+                f'Curated primary question content changed: {level}/{route_key}/{canonical}; '
+                'rerun scripts/generate_citation_primary.py for this question'
+            )
+        result[question_id] = merge_answer_citations(level, answer, entry, node_meta)
+        used.add((route_key, canonical))
+        merged += 1
+    return result, merged
+
+
 def export_reference_answers(
     level: str,
     output_path: Path,
@@ -202,6 +235,11 @@ def export_reference_answers(
             overrides_path=ROOT / 'data/guide_citation_overrides.json',
             content_root=ROOT / 'frontend/src/generated/guideContent',
         )
+    # Curated primary citations (generate_citation_primary.py) are bound to the
+    # current guideContent by block text hash; a stale entry fails the export.
+    curated = load_curated(migration.content, ROOT / 'data/guide_citation_primary.json')
+    node_meta = load_node_meta(ROOT / 'frontend/src/generated/guideContent') if curated else {}
+    curated_used: set[tuple[str, str]] = set()
     migrated_exams: list[str] = []
     for source_key, exam_config in catalog_exams.items():
         route_key = exam_config['routeKey']
@@ -217,6 +255,7 @@ def export_reference_answers(
         )
 
         answers: dict[str, Any] = {}
+        canonical_by_exported: dict[str, str] = {}
         candidates_by_question_id: dict[str, list[dict[str, Any]]] = {}
         for path in sorted(outputs_dir.glob("*.json"), key=question_sort_key):
             raw = load_json(path)
@@ -292,6 +331,7 @@ def export_reference_answers(
                     f'Duplicate exported reference answer: {level}/{source_key}/{question_id}'
                 )
             answers[question_id] = chosen['compact_answer']
+            canonical_by_exported[question_id] = canonical_question_id
 
         resolved_question_ids = set(candidates_by_question_id)
         published_question_ids = set(resolved_question_ids)
@@ -323,6 +363,7 @@ def export_reference_answers(
                 # A complete canonical rerun supersedes the temporary repair overlay.
                 continue
             answers[question_id] = compact_answer(raw)
+            canonical_by_exported[question_id] = question_id
             published_question_ids.add(question_id)
 
         expected_question_ids = set(questions_by_id)
@@ -346,6 +387,12 @@ def export_reference_answers(
         answers, migration_stats = migration.migrate_reference_answers(
             level, source_key, answers
         )
+        answers, merged = merge_curated_primary(
+            level, route_key, answers, canonical_by_exported, questions_by_id,
+            curated, node_meta, curated_used,
+        )
+        if curated:
+            print(f'INFO {level}/{source_key}: curated primary citations merged={merged}/{len(answers)}')
         answers, reordered = order_citation_block_ids(level, answers, migration.content)
         if reordered:
             print(f'INFO {level}/{source_key}: citation block ids put in document order={reordered}')
@@ -363,6 +410,22 @@ def export_reference_answers(
         stats[route_key] = len(answers)
 
     migration.check_unused_overrides(level, migrated_exams)
+    level_routes = {
+        str(config['routeKey']) for config in catalog_exams.values()
+    }
+    unused = sorted(
+        f'{exam}/{question_id}' for (exam, question_id), entry in curated.items()
+        if entry['level'] == level and (exam, question_id) not in curated_used
+    )
+    stray = sorted(
+        f'{exam}/{question_id}' for (exam, question_id), entry in curated.items()
+        if entry['level'] == level and exam not in level_routes
+    )
+    if unused or stray:
+        raise ValueError(
+            f'Curated primary citations target unpublished questions ({level}): '
+            f'{(unused + stray)[:10]}'
+        )
 
     output_path.mkdir(parents=True, exist_ok=True)
     for route_key, answers in exams.items():

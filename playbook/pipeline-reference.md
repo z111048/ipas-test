@@ -120,7 +120,7 @@ python3 scripts/export_question_generation_data.py --all-levels    # Track A rea
 python3 scripts/track_a_ocr_repairs.py                              # 169 inventory＋3 overlays＋3 structure contracts
 # block id 改變時（2026-11-01 起）：舊→新對照表＋人工逐筆裁決，之後才能重匯詳解／標註／圖片
 python3 scripts/build_guide_block_id_migrations.py --old-ref 153f13d   # 基準固定為詳解引用原生的 id 版本（不是上次發佈）；2026-11-02 第二輪實測
-python3 scripts/export_exam_reference_answers.py --level 初級 && python3 scripts/export_exam_reference_answers.py --level 中級
+python3 scripts/export_exam_reference_answers.py --level 初級 && python3 scripts/export_exam_reference_answers.py --level 中級   # 2026-11-03 起併 data/guide_citation_primary.json（generate_citation_primary.py；hash 不符 fail closed）
 python3 scripts/export_guide_exam_annotations.py && python3 scripts/export_topic_heat.py && python3 scripts/export_concept_graph.py
 python3 scripts/export_guide_images_data.py --units-file data/共用/image_units_all_levels.json   # 不要重跑 export_guide_image_units；headingBlockId 須指向同名 heading（fail closed，例外見 HEADING_TITLE_ALLOWLIST）
 python3 scripts/export_guide_sections.py --level 初級              # Track B downstream；exact canonical rebuild gate

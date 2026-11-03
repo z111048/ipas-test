@@ -2,9 +2,9 @@
   "guideKey": "中級-guide1",
   "nodeId": "mid-s1c4",
   "stats": {
-    "questions": 11,
-    "guideBlocks": 26,
-    "annotations": 37
+    "questions": 13,
+    "guideBlocks": 33,
+    "annotations": 53
   },
   "blocks": {
     "block-3": [
@@ -20,12 +20,33 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明多模態 AI 強調不同資料來源的理解與融合，以及語意對齊與融合學習的作用，支持排除選項 A。"
+          "補充：說明多模態 AI 強調不同資料來源的理解與融合，以及語意對齊與融合學習的作用，支持排除選項 A。"
+        ],
+        "citationRank": 4,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-6": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q50",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q50",
+        "questionNumber": 50,
+        "question": "某醫療團隊建立肺炎診斷系統，採用晚期融合（Late Fusion）策略，將胸腔 X光 影像與病患問診文字分別進行預測後再整合結果。測試發現，當問診紀錄品質不 佳（如描述簡短或資訊缺漏）時，整體模型效能僅小幅下降。關於此現象，下列 何者最不可能為其原因？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明各模態先專屬處理，再經融合層整合。；說明醫療診斷整合影像與病歷等多模態資料。；舉醫療影像結合病歷文字，說明多模態可提升準確率。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-7": [
@@ -41,12 +62,33 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明多模態 AI 強調不同資料來源的理解與融合，以及語意對齊與融合學習的作用，支持排除選項 A。"
+          "補充：特徵串接無法處理模態間語意對齊，有助排除混淆。；說明跨模態需語意對齊與融合，助理解背景。；點出各模態異質，需融合分析以提升理解。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-14": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q18",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q18",
+        "questionNumber": 18,
+        "question": "某醫院的 AI研究團隊正在開發一套整合「CT影像+電子病歷文本+基因序列」三 種模態資料的癌症預測模型。請問在此場景中採用「跨模態對齊（Cross-Modal Alignment）」技術主要解決什麼問題？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：特徵串接無法處理模態間語意對齊，有助排除混淆。；說明跨模態需語意對齊與融合，助理解背景。；點出各模態異質，需融合分析以提升理解。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-15": [
@@ -62,7 +104,385 @@
         "answer": "A",
         "confidence": "high",
         "reasons": [
-          "直接說明跨模態表示學習將不同模態映射至共同語意空間，以及 CLIP 以對比學習訓練圖文嵌入向量的機制。"
+          "補充：跨模態表示學習讓圖文嵌入可比較、具語意一致性；CLIP可計算圖文匹配度，即用相似度判斷類別"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q40",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q40",
+        "questionNumber": 40,
+        "question": "下列哪一項最正確地描述了 VAE（Variational Autoencoder）、GAN （Generative Adversarial Network）與擴散模型（Diffusion Model）在多模態潛在空間對齊（Latent Alignment）與生成策略上 的根本差異？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明跨模態嵌入將不同模態映射至共同語意空間，並以 CLIP 解釋圖文語意一致性。"
+        ],
+        "citationRank": 6,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q50",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q50",
+        "questionNumber": 50,
+        "question": "某設計師使用公司內部建置的生成式 AI工具製作行銷素材，並輸入 提示語（Prompt）：「請生成一張模特兒手持品牌飲料、背景為海邊夕 陽的照片」。系統能正確生成主要主題與場景，但輸出的圖像中，品 牌標誌顏色常有誤差，或人物手部姿勢顯得不自然。若從多模態生成 模型的技術機制分析，此現象最可能是下列哪一項原因所造成？",
+        "answer": "C",
+        "confidence": "high",
+        "referenceQuestionId": "exam1_q50",
+        "reasons": [
+          "補充：說明跨模態表示學習會將不同模態映射到相同語意空間，並以 CLIP 為例指出文字與影像嵌入需具語意一致性。"
+        ],
+        "citationRank": 4,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q18",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q18",
+        "questionNumber": 18,
+        "question": "某醫院的 AI研究團隊正在開發一套整合「CT影像+電子病歷文本+基因序列」三 種模態資料的癌症預測模型。請問在此場景中採用「跨模態對齊（Cross-Modal Alignment）」技術主要解決什麼問題？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "不同模態映射至共同語意空間，可直接解題。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-19": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q50",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q50",
+        "questionNumber": 50,
+        "question": "某醫療團隊建立肺炎診斷系統，採用晚期融合（Late Fusion）策略，將胸腔 X光 影像與病患問診文字分別進行預測後再整合結果。測試發現，當問診紀錄品質不 佳（如描述簡短或資訊缺漏）時，整體模型效能僅小幅下降。關於此現象，下列 何者最不可能為其原因？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：介紹特徵串接與模態專屬網路後再融合的架構，支援理解各模態處理方式及融合時點的差異；未直接說明本題的決策層加權機制。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-20": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q18",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q18",
+        "questionNumber": 18,
+        "question": "某醫院的 AI研究團隊正在開發一套整合「CT影像+電子病歷文本+基因序列」三 種模態資料的癌症預測模型。請問在此場景中採用「跨模態對齊（Cross-Modal Alignment）」技術主要解決什麼問題？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：直接說明不同模態映射至共同語意空間的目的，並指出單純特徵串接不足以處理語意對齊與交互關係，支持選項 D。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q35",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q35",
+        "questionNumber": 35,
+        "question": "某生物醫學研究機構正在建構一個整合「基因序列特徵」與「電子病歷文本特徵」 的疾病風險預測模型。由於高維數值特徵和語意文本特徵的性質差異顯著，請問 下列哪一種特徵處理與選擇策略最為合適？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：對照簡單特徵串接的限制與模態專屬處理後透過融合層整合的做法，支持 B 的整體設計。"
+        ],
+        "citationRank": 7,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q50",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q50",
+        "questionNumber": 50,
+        "question": "某醫療團隊建立肺炎診斷系統，採用晚期融合（Late Fusion）策略，將胸腔 X光 影像與病患問診文字分別進行預測後再整合結果。測試發現，當問診紀錄品質不 佳（如描述簡短或資訊缺漏）時，整體模型效能僅小幅下降。關於此現象，下列 何者最不可能為其原因？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：介紹特徵串接與模態專屬網路後再融合的架構，支援理解各模態處理方式及融合時點的差異；未直接說明本題的決策層加權機制。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-21": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q18",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q18",
+        "questionNumber": 18,
+        "question": "某醫院的 AI研究團隊正在開發一套整合「CT影像+電子病歷文本+基因序列」三 種模態資料的癌症預測模型。請問在此場景中採用「跨模態對齊（Cross-Modal Alignment）」技術主要解決什麼問題？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：特徵串接無法處理模態間語意對齊，有助排除混淆。；說明跨模態需語意對齊與融合，助理解背景。；點出各模態異質，需融合分析以提升理解。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q35",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q35",
+        "questionNumber": 35,
+        "question": "某生物醫學研究機構正在建構一個整合「基因序列特徵」與「電子病歷文本特徵」 的疾病風險預測模型。由於高維數值特徵和語意文本特徵的性質差異顯著，請問 下列哪一種特徵處理與選擇策略最為合適？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：對照簡單特徵串接的限制與模態專屬處理後透過融合層整合的做法，支持 B 的整體設計。"
+        ],
+        "citationRank": 7,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q50",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q50",
+        "questionNumber": 50,
+        "question": "某醫療團隊建立肺炎診斷系統，採用晚期融合（Late Fusion）策略，將胸腔 X光 影像與病患問診文字分別進行預測後再整合結果。測試發現，當問診紀錄品質不 佳（如描述簡短或資訊缺漏）時，整體模型效能僅小幅下降。關於此現象，下列 何者最不可能為其原因？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：介紹特徵串接與模態專屬網路後再融合的架構，支援理解各模態處理方式及融合時點的差異；未直接說明本題的決策層加權機制。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-23": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q17",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q17",
+        "questionNumber": 17,
+        "question": "某醫療新創公司正在開發一套「多模態患者風險評估系統」，需同時處理三種異質 資料來源：胸腔 X光影像（影像模態）、臨床診斷筆記（文字模態），以及心率與 血氧的時序感測資料（數值時序模態）。工程師在進行各模態的特徵擷取模型選擇 時，需為每種模態挑選最適合的模型架構。下列哪一組模型配置最符合三種模態 各自的資料特性？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明各模態使用專屬網路擷取特徵，再透過融合層整合的多模態設計原則。"
+        ],
+        "citationRank": 6,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q35",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q35",
+        "questionNumber": 35,
+        "question": "某生物醫學研究機構正在建構一個整合「基因序列特徵」與「電子病歷文本特徵」 的疾病風險預測模型。由於高維數值特徵和語意文本特徵的性質差異顯著，請問 下列哪一種特徵處理與選擇策略最為合適？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：對照簡單特徵串接的限制與模態專屬處理後透過融合層整合的做法，支持 B 的整體設計。"
+        ],
+        "citationRank": 7,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q50",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q50",
+        "questionNumber": 50,
+        "question": "某醫療團隊建立肺炎診斷系統，採用晚期融合（Late Fusion）策略，將胸腔 X光 影像與病患問診文字分別進行預測後再整合結果。測試發現，當問診紀錄品質不 佳（如描述簡短或資訊缺漏）時，整體模型效能僅小幅下降。關於此現象，下列 何者最不可能為其原因？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：介紹特徵串接與模態專屬網路後再融合的架構，支援理解各模態處理方式及融合時點的差異；未直接說明本題的決策層加權機制。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-24": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q17",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q17",
+        "questionNumber": 17,
+        "question": "某醫療新創公司正在開發一套「多模態患者風險評估系統」，需同時處理三種異質 資料來源：胸腔 X光影像（影像模態）、臨床診斷筆記（文字模態），以及心率與 血氧的時序感測資料（數值時序模態）。工程師在進行各模態的特徵擷取模型選擇 時，需為每種模態挑選最適合的模型架構。下列哪一組模型配置最符合三種模態 各自的資料特性？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：各模態宜用專屬網路再融合，不宜全靠單一模型。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q35",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q35",
+        "questionNumber": 35,
+        "question": "某生物醫學研究機構正在建構一個整合「基因序列特徵」與「電子病歷文本特徵」 的疾病風險預測模型。由於高維數值特徵和語意文本特徵的性質差異顯著，請問 下列哪一種特徵處理與選擇策略最為合適？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明各模態應設計專屬網路，再以融合層整合。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q50",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q50",
+        "questionNumber": 50,
+        "question": "某醫療團隊建立肺炎診斷系統，採用晚期融合（Late Fusion）策略，將胸腔 X光 影像與病患問診文字分別進行預測後再整合結果。測試發現，當問診紀錄品質不 佳（如描述簡短或資訊缺漏）時，整體模型效能僅小幅下降。關於此現象，下列 何者最不可能為其原因？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明各模態先專屬處理，再經融合層整合。；說明醫療診斷整合影像與病歷等多模態資料。；舉醫療影像結合病歷文字，說明多模態可提升準確率。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-27": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q21",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q21",
+        "questionNumber": 21,
+        "question": "在多模態 AI 模型訓練或推論過程中，遇到某一模態資料缺失（例如 僅有影像資料但缺少文本說明），下列哪一種策略最有效維持模型效 能？",
+        "answer": "B",
+        "confidence": "high",
+        "referenceQuestionId": "exam1_q21",
+        "reasons": [
+          "補充：遮罩預訓練讓模型學習共享語意，助理解缺失情境。；自我監督預訓練可強化跨模態對齊與泛化能力。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q50",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q50",
+        "questionNumber": 50,
+        "question": "某設計師使用公司內部建置的生成式 AI工具製作行銷素材，並輸入 提示語（Prompt）：「請生成一張模特兒手持品牌飲料、背景為海邊夕 陽的照片」。系統能正確生成主要主題與場景，但輸出的圖像中，品 牌標誌顏色常有誤差，或人物手部姿勢顯得不自然。若從多模態生成 模型的技術機制分析，此現象最可能是下列哪一項原因所造成？",
+        "answer": "C",
+        "confidence": "high",
+        "referenceQuestionId": "exam1_q50",
+        "reasons": [
+          "補充：指出CLIP有文字與影像編碼器，以對比損失優化。；說明多模態模型採多層次對齊與視覺語言融合。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-32": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q35",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q35",
+        "questionNumber": 35,
+        "question": "某媒體公司計畫導入 CLIP（Contrastive Language–Image Pre- training）模型，以協助大量影像自動標註與搜尋，並希望在無需新 增標訓資料的情況下，僅透過文字提示（Text Prompt）即可識別影 像內容。請問此應用情境中，CLIP能夠達成的關鍵技術特性為何？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "對比學習將圖文映射同一空間，語意相近者靠近"
         ],
         "citationRank": 1,
         "citationBlockCount": 1,
@@ -81,11 +501,11 @@
         "answer": "A",
         "confidence": "high",
         "reasons": [
-          "說明跨模態嵌入將不同模態映射至共同語意空間，並以 CLIP 解釋圖文語意一致性。"
+          "補充：說明跨模態對齊靠對比學習映射同一向量空間"
         ],
         "citationRank": 3,
         "citationBlockCount": 1,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -101,251 +521,58 @@
         "confidence": "high",
         "referenceQuestionId": "exam1_q50",
         "reasons": [
-          "說明跨模態表示學習會將不同模態映射到相同語意空間，並以 CLIP 為例指出文字與影像嵌入需具語意一致性。"
+          "CLIP以對比學習對齊圖文語意，可解釋偏差。"
         ],
         "citationRank": 1,
         "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
-      },
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q18",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q18",
-        "questionNumber": 18,
-        "question": "某醫院的 AI研究團隊正在開發一套整合「CT影像+電子病歷文本+基因序列」三 種模態資料的癌症預測模型。請問在此場景中採用「跨模態對齊（Cross-Modal Alignment）」技術主要解決什麼問題？",
-        "answer": "D",
-        "confidence": "high",
-        "reasons": [
-          "直接說明不同模態映射至共同語意空間的目的，並指出單純特徵串接不足以處理語意對齊與交互關係，支持選項 D。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
       }
     ],
-    "block-19": [
+    "block-33": [
       {
-        "id": "mid_1151_s1:mid_1151_s1_q50",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q50",
+        "id": "mid_1141_s1:mid_1141_s1_q50",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q50",
         "questionNumber": 50,
-        "question": "某醫療團隊建立肺炎診斷系統，採用晚期融合（Late Fusion）策略，將胸腔 X光 影像與病患問診文字分別進行預測後再整合結果。測試發現，當問診紀錄品質不 佳（如描述簡短或資訊缺漏）時，整體模型效能僅小幅下降。關於此現象，下列 何者最不可能為其原因？",
-        "answer": "D",
+        "question": "某設計師使用公司內部建置的生成式 AI工具製作行銷素材，並輸入 提示語（Prompt）：「請生成一張模特兒手持品牌飲料、背景為海邊夕 陽的照片」。系統能正確生成主要主題與場景，但輸出的圖像中，品 牌標誌顏色常有誤差，或人物手部姿勢顯得不自然。若從多模態生成 模型的技術機制分析，此現象最可能是下列哪一項原因所造成？",
+        "answer": "C",
         "confidence": "high",
+        "referenceQuestionId": "exam1_q50",
         "reasons": [
-          "介紹特徵串接與模態專屬網路後再融合的架構，支援理解各模態處理方式及融合時點的差異；未直接說明本題的決策層加權機制。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "secondary"
-      }
-    ],
-    "block-20": [
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q18",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q18",
-        "questionNumber": 18,
-        "question": "某醫院的 AI研究團隊正在開發一套整合「CT影像+電子病歷文本+基因序列」三 種模態資料的癌症預測模型。請問在此場景中採用「跨模態對齊（Cross-Modal Alignment）」技術主要解決什麼問題？",
-        "answer": "D",
-        "confidence": "high",
-        "reasons": [
-          "直接說明不同模態映射至共同語意空間的目的，並指出單純特徵串接不足以處理語意對齊與交互關係，支持選項 D。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q35",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q35",
-        "questionNumber": 35,
-        "question": "某生物醫學研究機構正在建構一個整合「基因序列特徵」與「電子病歷文本特徵」 的疾病風險預測模型。由於高維數值特徵和語意文本特徵的性質差異顯著，請問 下列哪一種特徵處理與選擇策略最為合適？",
-        "answer": "B",
-        "confidence": "high",
-        "reasons": [
-          "對照簡單特徵串接的限制與模態專屬處理後透過融合層整合的做法，支持 B 的整體設計。"
-        ],
-        "citationRank": 3,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "secondary"
-      },
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q50",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q50",
-        "questionNumber": 50,
-        "question": "某醫療團隊建立肺炎診斷系統，採用晚期融合（Late Fusion）策略，將胸腔 X光 影像與病患問診文字分別進行預測後再整合結果。測試發現，當問診紀錄品質不 佳（如描述簡短或資訊缺漏）時，整體模型效能僅小幅下降。關於此現象，下列 何者最不可能為其原因？",
-        "answer": "D",
-        "confidence": "high",
-        "reasons": [
-          "介紹特徵串接與模態專屬網路後再融合的架構，支援理解各模態處理方式及融合時點的差異；未直接說明本題的決策層加權機制。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "secondary"
-      }
-    ],
-    "block-21": [
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q18",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q18",
-        "questionNumber": 18,
-        "question": "某醫院的 AI研究團隊正在開發一套整合「CT影像+電子病歷文本+基因序列」三 種模態資料的癌症預測模型。請問在此場景中採用「跨模態對齊（Cross-Modal Alignment）」技術主要解決什麼問題？",
-        "answer": "D",
-        "confidence": "high",
-        "reasons": [
-          "直接說明不同模態映射至共同語意空間的目的，並指出單純特徵串接不足以處理語意對齊與交互關係，支持選項 D。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q35",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q35",
-        "questionNumber": 35,
-        "question": "某生物醫學研究機構正在建構一個整合「基因序列特徵」與「電子病歷文本特徵」 的疾病風險預測模型。由於高維數值特徵和語意文本特徵的性質差異顯著，請問 下列哪一種特徵處理與選擇策略最為合適？",
-        "answer": "B",
-        "confidence": "high",
-        "reasons": [
-          "對照簡單特徵串接的限制與模態專屬處理後透過融合層整合的做法，支持 B 的整體設計。"
-        ],
-        "citationRank": 3,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "secondary"
-      },
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q50",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q50",
-        "questionNumber": 50,
-        "question": "某醫療團隊建立肺炎診斷系統，採用晚期融合（Late Fusion）策略，將胸腔 X光 影像與病患問診文字分別進行預測後再整合結果。測試發現，當問診紀錄品質不 佳（如描述簡短或資訊缺漏）時，整體模型效能僅小幅下降。關於此現象，下列 何者最不可能為其原因？",
-        "answer": "D",
-        "confidence": "high",
-        "reasons": [
-          "介紹特徵串接與模態專屬網路後再融合的架構，支援理解各模態處理方式及融合時點的差異；未直接說明本題的決策層加權機制。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "secondary"
-      }
-    ],
-    "block-23": [
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q17",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q17",
-        "questionNumber": 17,
-        "question": "某醫療新創公司正在開發一套「多模態患者風險評估系統」，需同時處理三種異質 資料來源：胸腔 X光影像（影像模態）、臨床診斷筆記（文字模態），以及心率與 血氧的時序感測資料（數值時序模態）。工程師在進行各模態的特徵擷取模型選擇 時，需為每種模態挑選最適合的模型架構。下列哪一組模型配置最符合三種模態 各自的資料特性？",
-        "answer": "D",
-        "confidence": "high",
-        "reasons": [
-          "說明各模態使用專屬網路擷取特徵，再透過融合層整合的多模態設計原則。"
+          "補充：指出CLIP有文字與影像編碼器，以對比損失優化。；說明多模態模型採多層次對齊與視覺語言融合。"
         ],
         "citationRank": 2,
         "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
-      },
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q35",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q35",
-        "questionNumber": 35,
-        "question": "某生物醫學研究機構正在建構一個整合「基因序列特徵」與「電子病歷文本特徵」 的疾病風險預測模型。由於高維數值特徵和語意文本特徵的性質差異顯著，請問 下列哪一種特徵處理與選擇策略最為合適？",
-        "answer": "B",
-        "confidence": "high",
-        "reasons": [
-          "對照簡單特徵串接的限制與模態專屬處理後透過融合層整合的做法，支持 B 的整體設計。"
-        ],
-        "citationRank": 3,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "secondary"
-      },
-      {
-        "id": "mid_1151_s1:mid_1151_s1_q50",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q50",
-        "questionNumber": 50,
-        "question": "某醫療團隊建立肺炎診斷系統，採用晚期融合（Late Fusion）策略，將胸腔 X光 影像與病患問診文字分別進行預測後再整合結果。測試發現，當問診紀錄品質不 佳（如描述簡短或資訊缺漏）時，整體模型效能僅小幅下降。關於此現象，下列 何者最不可能為其原因？",
-        "answer": "D",
-        "confidence": "high",
-        "reasons": [
-          "介紹特徵串接與模態專屬網路後再融合的架構，支援理解各模態處理方式及融合時點的差異；未直接說明本題的決策層加權機制。"
-        ],
-        "citationRank": 1,
-        "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
-    "block-24": [
+    "block-36": [
       {
-        "id": "mid_1151_s1:mid_1151_s1_q17",
-        "examKey": "mid_1151_s1",
-        "examLabel": "科目一 公告試題（115年第一次）",
-        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
-        "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q17",
-        "questionNumber": 17,
-        "question": "某醫療新創公司正在開發一套「多模態患者風險評估系統」，需同時處理三種異質 資料來源：胸腔 X光影像（影像模態）、臨床診斷筆記（文字模態），以及心率與 血氧的時序感測資料（數值時序模態）。工程師在進行各模態的特徵擷取模型選擇 時，需為每種模態挑選最適合的模型架構。下列哪一組模型配置最符合三種模態 各自的資料特性？",
-        "answer": "D",
+        "id": "mid_1141_s1:mid_1141_s1_q35",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q35",
+        "questionNumber": 35,
+        "question": "某媒體公司計畫導入 CLIP（Contrastive Language–Image Pre- training）模型，以協助大量影像自動標註與搜尋，並希望在無需新 增標訓資料的情況下，僅透過文字提示（Text Prompt）即可識別影 像內容。請問此應用情境中，CLIP能夠達成的關鍵技術特性為何？",
+        "answer": "A",
         "confidence": "high",
         "reasons": [
-          "說明各模態使用專屬網路擷取特徵，再透過融合層整合的多模態設計原則。"
+          "補充：跨模態表示學習讓圖文嵌入可比較、具語意一致性；CLIP可計算圖文匹配度，即用相似度判斷類別"
         ],
         "citationRank": 2,
         "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
-      },
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-59": [
       {
         "id": "mid_1151_s1:mid_1151_s1_q35",
         "examKey": "mid_1151_s1",
@@ -358,11 +585,11 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "對照簡單特徵串接的限制與模態專屬處理後透過融合層整合的做法，支持 B 的整體設計。"
+          "補充：說明異質資料需特徵對齊與融合，可用於整合。"
         ],
         "citationRank": 3,
-        "citationBlockCount": 4,
-        "supplement": false,
+        "citationBlockCount": 1,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -377,12 +604,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "介紹特徵串接與模態專屬網路後再融合的架構，支援理解各模態處理方式及融合時點的差異；未直接說明本題的決策層加權機制。"
+          "指出晚期融合非輸入層整合，可排除D。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 5,
+        "citationBlockCount": 1,
         "supplement": false,
-        "prominence": "secondary"
+        "prominence": "primary"
       }
     ],
     "block-79": [
@@ -398,11 +625,30 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "提供 CT、電子病歷等異質醫療資料的整合情境，並指出同步性挑戰，有助於連結題目的醫療應用。"
+          "補充：提供 CT、電子病歷等異質醫療資料的整合情境，並指出同步性挑戰，有助於連結題目的醫療應用。"
         ],
-        "citationRank": 3,
+        "citationRank": 5,
         "citationBlockCount": 3,
-        "supplement": false,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q50",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q50",
+        "questionNumber": 50,
+        "question": "某醫療團隊建立肺炎診斷系統，採用晚期融合（Late Fusion）策略，將胸腔 X光 影像與病患問診文字分別進行預測後再整合結果。測試發現，當問診紀錄品質不 佳（如描述簡短或資訊缺漏）時，整體模型效能僅小幅下降。關於此現象，下列 何者最不可能為其原因？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明各模態先專屬處理，再經融合層整合。；說明醫療診斷整合影像與病歷等多模態資料。；舉醫療影像結合病歷文字，說明多模態可提升準確率。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 3,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -419,11 +665,11 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "提供 CT、電子病歷等異質醫療資料的整合情境，並指出同步性挑戰，有助於連結題目的醫療應用。"
+          "補充：提供 CT、電子病歷等異質醫療資料的整合情境，並指出同步性挑戰，有助於連結題目的醫療應用。"
         ],
-        "citationRank": 3,
+        "citationRank": 5,
         "citationBlockCount": 3,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -440,12 +686,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "將假陽性率列為醫療應用的相關評估指標，連結本題對良性個案誤報風險的考量。"
+          "補充：將假陽性率列為醫療應用的相關評估指標，連結本題對良性個案誤報風險的考量。"
         ],
-        "citationRank": 2,
+        "citationRank": 4,
         "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-85": [
@@ -461,11 +707,11 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "提供 CT、電子病歷等異質醫療資料的整合情境，並指出同步性挑戰，有助於連結題目的醫療應用。"
+          "補充：提供 CT、電子病歷等異質醫療資料的整合情境，並指出同步性挑戰，有助於連結題目的醫療應用。"
         ],
-        "citationRank": 3,
+        "citationRank": 5,
         "citationBlockCount": 3,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -482,12 +728,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "將假陽性率列為醫療應用的相關評估指標，連結本題對良性個案誤報風險的考量。"
+          "補充：將假陽性率列為醫療應用的相關評估指標，連結本題對良性個案誤報風險的考量。"
         ],
-        "citationRank": 2,
+        "citationRank": 4,
         "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-105": [
@@ -504,12 +750,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam1_q21",
         "reasons": [
-          "指出多模態 AI 在資料處理與模型開發上會遇到資料對齊、標註與效能挑戰，且這些問題會影響訓練品質與應用效能。"
+          "補充：指出多模態 AI 在資料處理與模型開發上會遇到資料對齊、標註與效能挑戰，且這些問題會影響訓練品質與應用效能。"
         ],
-        "citationRank": 2,
+        "citationRank": 3,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-106": [
@@ -526,12 +772,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam1_q21",
         "reasons": [
-          "指出多模態 AI 在資料處理與模型開發上會遇到資料對齊、標註與效能挑戰，且這些問題會影響訓練品質與應用效能。"
+          "補充：指出多模態 AI 在資料處理與模型開發上會遇到資料對齊、標註與效能挑戰，且這些問題會影響訓練品質與應用效能。"
         ],
-        "citationRank": 2,
+        "citationRank": 3,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-107": [
@@ -548,12 +794,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam1_q21",
         "reasons": [
-          "指出多模態 AI 在資料處理與模型開發上會遇到資料對齊、標註與效能挑戰，且這些問題會影響訓練品質與應用效能。"
+          "補充：指出多模態 AI 在資料處理與模型開發上會遇到資料對齊、標註與效能挑戰，且這些問題會影響訓練品質與應用效能。"
         ],
-        "citationRank": 2,
+        "citationRank": 3,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-108": [
@@ -570,12 +816,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam1_q21",
         "reasons": [
-          "指出多模態 AI 在資料處理與模型開發上會遇到資料對齊、標註與效能挑戰，且這些問題會影響訓練品質與應用效能。"
+          "補充：指出多模態 AI 在資料處理與模型開發上會遇到資料對齊、標註與效能挑戰，且這些問題會影響訓練品質與應用效能。"
         ],
-        "citationRank": 2,
+        "citationRank": 3,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-113": [
@@ -592,12 +838,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam1_q21",
         "reasons": [
-          "指出多模態 AI 在資料處理與模型開發上會遇到資料對齊、標註與效能挑戰，且這些問題會影響訓練品質與應用效能。"
+          "補充：指出多模態 AI 在資料處理與模型開發上會遇到資料對齊、標註與效能挑戰，且這些問題會影響訓練品質與應用效能。"
         ],
-        "citationRank": 2,
+        "citationRank": 3,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-114": [
@@ -614,12 +860,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam1_q21",
         "reasons": [
-          "指出多模態 AI 在資料處理與模型開發上會遇到資料對齊、標註與效能挑戰，且這些問題會影響訓練品質與應用效能。"
+          "補充：指出多模態 AI 在資料處理與模型開發上會遇到資料對齊、標註與效能挑戰，且這些問題會影響訓練品質與應用效能。"
         ],
-        "citationRank": 2,
+        "citationRank": 3,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-116": [
@@ -636,12 +882,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam1_q21",
         "reasons": [
-          "指出多模態 AI 在資料處理與模型開發上會遇到資料對齊、標註與效能挑戰，且這些問題會影響訓練品質與應用效能。"
+          "補充：指出多模態 AI 在資料處理與模型開發上會遇到資料對齊、標註與效能挑戰，且這些問題會影響訓練品質與應用效能。"
         ],
-        "citationRank": 2,
+        "citationRank": 3,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-117": [
@@ -658,36 +904,34 @@
         "confidence": "high",
         "referenceQuestionId": "exam1_q21",
         "reasons": [
-          "指出多模態 AI 在資料處理與模型開發上會遇到資料對齊、標註與效能挑戰，且這些問題會影響訓練品質與應用效能。"
+          "補充：指出多模態 AI 在資料處理與模型開發上會遇到資料對齊、標註與效能挑戰，且這些問題會影響訓練品質與應用效能。"
         ],
-        "citationRank": 2,
+        "citationRank": 3,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-123": [
       {
-        "id": "mid_1151_s1:mid_1151_s1_q40",
+        "id": "mid_1151_s1:mid_1151_s1_q23",
         "examKey": "mid_1151_s1",
         "examLabel": "科目一 公告試題（115年第一次）",
         "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
         "route": "/exam/mid_1151_s1",
-        "questionId": "mid_1151_s1_q40",
-        "questionNumber": 40,
-        "question": "某智慧製造公司在產線上部署工業相機進行即時外觀瑕疵檢測，原先將影像傳至 雲端進行 AI 推論，但因網路延遲與連線不穩導致系統無法滿足即時需求（需低 於200ms）。工程師因此改為將模型部署於產線端的邊緣裝置後，但仍未達系統需 求。在不更換硬體設備的前提下，下列哪一組技術最能有效降低推論延遲，同時 維持合理準確率？",
-        "answer": "D",
+        "questionId": "mid_1151_s1_q23",
+        "questionNumber": 23,
+        "question": "某製造業公司計劃將 AI 導入生產線瑕疵檢測流程，目前瑕疵樣本約 800 張（含 各類瑕疵類型）、正常樣本約15,000張，現有IT基礎設施為地端伺服器且無GPU， 且生產線環境需於地端即時完成推論，檢測需求為每片零件須在 100毫秒內完成 檢測，且預算為中等、無法於短期內大規模採購硬體。工程師正在規劃第一階段 的AI導入方案，請問下列哪一種規劃最為合適？",
+        "answer": "B",
         "confidence": "high",
         "reasons": [
-          "直接說明邊緣部署的量化、壓縮與效能權衡，並列舉提升推論速度的工具，支持選項 D。"
+          "量化與知識蒸餾可壓縮模型，適合邊緣部署"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 4,
+        "citationRank": 2,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
-      }
-    ],
-    "block-124": [
+      },
       {
         "id": "mid_1151_s1:mid_1151_s1_q40",
         "examKey": "mid_1151_s1",
@@ -700,12 +944,71 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "直接說明邊緣部署的量化、壓縮與效能權衡，並列舉提升推論速度的工具，支持選項 D。"
+          "補充：指出邊緣部署可用量化壓縮，對應INT8選項。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q21",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q21",
+        "questionNumber": 21,
+        "question": "某工程師將一個大型預訓練模型部署至資源受限的行動裝置，發現模型體積過大 且推論效率不足。為降低模型大小並提升推論速度，他將原本 32-bit 浮點數權重 轉換為8-bit 整數。在不重新訓練模型的前提下，請問此過程稱為何？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明量化與剪枝、蒸餾是三種不同壓縮技術"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-124": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q23",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q23",
+        "questionNumber": 23,
+        "question": "某製造業公司計劃將 AI 導入生產線瑕疵檢測流程，目前瑕疵樣本約 800 張（含 各類瑕疵類型）、正常樣本約15,000張，現有IT基礎設施為地端伺服器且無GPU， 且生產線環境需於地端即時完成推論，檢測需求為每片零件須在 100毫秒內完成 檢測，且預算為中等、無法於短期內大規模採購硬體。工程師正在規劃第一階段 的AI導入方案，請問下列哪一種規劃最為合適？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：雲端雖彈性但有延遲與隱私疑慮"
+        ],
+        "citationRank": 5,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q40",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q40",
+        "questionNumber": 40,
+        "question": "某智慧製造公司在產線上部署工業相機進行即時外觀瑕疵檢測，原先將影像傳至 雲端進行 AI 推論，但因網路延遲與連線不穩導致系統無法滿足即時需求（需低 於200ms）。工程師因此改為將模型部署於產線端的邊緣裝置後，但仍未達系統需 求。在不更換硬體設備的前提下，下列哪一組技術最能有效降低推論延遲，同時 維持合理準確率？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：直接說明邊緣部署的量化、壓縮與效能權衡，並列舉提升推論速度的工具，支持選項 D。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-125": [
@@ -721,12 +1024,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "直接說明邊緣部署的量化、壓縮與效能權衡，並列舉提升推論速度的工具，支持選項 D。"
+          "補充：直接說明邊緣部署的量化、壓縮與效能權衡，並列舉提升推論速度的工具，支持選項 D。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 3,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-130": [
@@ -742,15 +1045,35 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "直接說明邊緣部署的量化、壓縮與效能權衡，並列舉提升推論速度的工具，支持選項 D。"
+          "補充：直接說明邊緣部署的量化、壓縮與效能權衡，並列舉提升推論速度的工具，支持選項 D。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 3,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-149": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q21",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q21",
+        "questionNumber": 21,
+        "question": "在多模態 AI 模型訓練或推論過程中，遇到某一模態資料缺失（例如 僅有影像資料但缺少文本說明），下列哪一種策略最有效維持模型效 能？",
+        "answer": "B",
+        "confidence": "high",
+        "referenceQuestionId": "exam1_q21",
+        "reasons": [
+          "補充：遮罩預訓練讓模型學習共享語意，助理解缺失情境。；自我監督預訓練可強化跨模態對齊與泛化能力。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
       {
         "id": "mid_1141_s1:mid_1141_s1_q43",
         "examKey": "mid_1141_s1",
@@ -763,11 +1086,11 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "指出標註成本、未標註資料預訓練與泛化能力的關聯，作為關注資料利用方式的概念連結；並非 VAE 優於 BERT 的直接證據。"
+          "補充：指出標註成本、未標註資料預訓練與泛化能力的關聯，作為關注資料利用方式的概念連結；並非 VAE 優於 BERT 的直接證據。"
         ],
-        "citationRank": 3,
+        "citationRank": 5,
         "citationBlockCount": 1,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ]

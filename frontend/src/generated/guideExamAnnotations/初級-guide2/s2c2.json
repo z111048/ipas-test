@@ -2,9 +2,9 @@
   "guideKey": "初級-guide2",
   "nodeId": "s2c2",
   "stats": {
-    "questions": 30,
-    "guideBlocks": 55,
-    "annotations": 76
+    "questions": 95,
+    "guideBlocks": 65,
+    "annotations": 167
   },
   "blocks": {
     "block-5": [
@@ -20,11 +20,30 @@
         "answer": "B",
         "confidence": "medium",
         "reasons": [
-          "介紹 Transformer、表示學習及自注意力處理序列長距離依賴的概念，作為理解上下文處理的背景；未直接比較 Encoder–Decoder 與 Decoder-only。"
+          "補充：介紹 Transformer、表示學習及自注意力處理序列長距離依賴的概念，作為理解上下文處理的背景；未直接比較 Encoder–Decoder 與 Decoder-only。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1152_s2:jr_1152_s2_q19",
+        "examKey": "jr_1152_s2",
+        "examLabel": "科目二 公告試題（115年第二次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第二次）",
+        "route": "/exam/jr_1152_s2",
+        "questionId": "jr_1152_s2_q19",
+        "questionNumber": 19,
+        "question": "某客服系統導入 AI技術，能先從知識庫中檢索相關文件，再依據查詢內容生成 回覆。若需判斷其技術本質，下列敘述何者最適當？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：生成式AI重在產生新內容，不是只做檢索。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 3,
-        "supplement": false,
+        "citationBlockCount": 1,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -41,11 +60,30 @@
         "answer": "B",
         "confidence": "medium",
         "reasons": [
-          "介紹 Transformer、表示學習及自注意力處理序列長距離依賴的概念，作為理解上下文處理的背景；未直接比較 Encoder–Decoder 與 Decoder-only。"
+          "補充：介紹 Transformer、表示學習及自注意力處理序列長距離依賴的概念，作為理解上下文處理的背景；未直接比較 Encoder–Decoder 與 Decoder-only。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 3,
-        "supplement": false,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1152_s1:jr_1152_s1_q21",
+        "examKey": "jr_1152_s1",
+        "examLabel": "科目一 公告試題（115年第二次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（115年第二次）",
+        "route": "/exam/jr_1152_s1",
+        "questionId": "jr_1152_s1_q21",
+        "questionNumber": 21,
+        "question": "關於深度學習（Deep Learning），下列敘述何者最為正確？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：多層網路可深層提取特徵，佐證不必人工設計"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -62,7 +100,7 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明自注意力有助於處理長距離依賴，以及文本可拆分為詞或子詞等基本單元，支持上下文處理的解釋。"
+          "自注意力處理長距離依賴，助長對話保持上下文；說明Transformer自注意力是語言生成核心"
         ],
         "citationRank": 1,
         "citationBlockCount": 2,
@@ -81,11 +119,49 @@
         "answer": "B",
         "confidence": "medium",
         "reasons": [
-          "介紹 Transformer、表示學習及自注意力處理序列長距離依賴的概念，作為理解上下文處理的背景；未直接比較 Encoder–Decoder 與 Decoder-only。"
+          "補充：介紹 Transformer、表示學習及自注意力處理序列長距離依賴的概念，作為理解上下文處理的背景；未直接比較 Encoder–Decoder 與 Decoder-only。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1153_s1:jr_1153_s1_q32",
+        "examKey": "jr_1153_s1",
+        "examLabel": "科目一 公告試題（115年第三次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（115年第三次）",
+        "route": "/exam/jr_1153_s1",
+        "questionId": "jr_1153_s1_q32",
+        "questionNumber": 32,
+        "question": "某證券公司開發 AI 輔助分析系統，需要分析長篇的法人說明會逐字稿。系統須有 效建立逐字稿前後段落之間的長距離語意關聯，並在處理長篇文本時，能直接關聯 相距較遠的文字內容，而無須依序傳遞前文資訊，以提升分析效率與準確性。下列 哪一種模型架構最適合？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "自注意力可處理長距離依賴，支持此選項。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 3,
+        "citationBlockCount": 1,
         "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "jr_1153_s1:jr_1153_s1_q43",
+        "examKey": "jr_1153_s1",
+        "examLabel": "科目一 公告試題（115年第三次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（115年第三次）",
+        "route": "/exam/jr_1153_s1",
+        "questionId": "jr_1153_s1_q43",
+        "questionNumber": 43,
+        "question": "某企業導入大型語言模型處理超長合約文件（數萬字），發現輸入越長，運算時間 與資源消耗增加得越快，遠超過文件長度增加的比例。下列何者最能解釋此現象發 生的主要原因？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出模型核心採自注意力機制。；說明自注意力擅長處理長距離依賴。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -103,12 +179,12 @@
         "confidence": "medium",
         "referenceQuestionId": "exam2_q23",
         "reasons": [
-          "說明生成式 AI 涉及訓練資料處理、清洗、標記化與向量化，支持本題對資料結構理解與輸入品質的討論。"
+          "補充：說明生成式 AI 涉及訓練資料處理、清洗、標記化與向量化，支持本題對資料結構理解與輸入品質的討論。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-10": [
@@ -125,12 +201,12 @@
         "confidence": "medium",
         "referenceQuestionId": "exam2_q23",
         "reasons": [
-          "說明生成式 AI 涉及訓練資料處理、清洗、標記化與向量化，支持本題對資料結構理解與輸入品質的討論。"
+          "補充：說明生成式 AI 涉及訓練資料處理、清洗、標記化與向量化，支持本題對資料結構理解與輸入品質的討論。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-11": [
@@ -147,12 +223,12 @@
         "confidence": "medium",
         "referenceQuestionId": "exam2_q23",
         "reasons": [
-          "說明生成式 AI 涉及訓練資料處理、清洗、標記化與向量化，支持本題對資料結構理解與輸入品質的討論。"
+          "補充：說明生成式 AI 涉及訓練資料處理、清洗、標記化與向量化，支持本題對資料結構理解與輸入品質的討論。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "jr_1151_s2:jr_1151_s2_q5",
@@ -166,12 +242,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明自注意力有助於處理長距離依賴，以及文本可拆分為詞或子詞等基本單元，支持上下文處理的解釋。"
+          "補充：說明自注意力有助於處理長距離依賴，以及文本可拆分為詞或子詞等基本單元，支持上下文處理的解釋。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "jr_1152_s2:jr_1152_s2_q4",
@@ -185,12 +261,31 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "直接說明標記化將文本拆分成詞或子詞等基本單元，並區分向量化表示，可支持 Token 的基本定義及 B 選項的錯誤辨析。"
+          "補充：Token是文字切分的基本單位。；區分向量化與標記化，避免混淆語意向量。"
         ],
         "citationRank": 1,
         "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1153_s2:jr_1153_s2_q23",
+        "examKey": "jr_1153_s2",
+        "examLabel": "科目二 公告試題（115年第三次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第三次）",
+        "route": "/exam/jr_1153_s2",
+        "questionId": "jr_1153_s2_q23",
+        "questionNumber": 23,
+        "question": "生成式 AI在處理文字前，會先進行斷詞（Tokenization），將文字拆解成多個 Token。 當模型遇到訓練資料中從未看過的罕見專有名詞時，現代 AI 技術最普遍的處理方 式為何？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：斷詞拆成詞或子詞，可解釋罕見詞拆為已知片段"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-12": [
@@ -207,12 +302,31 @@
         "confidence": "medium",
         "referenceQuestionId": "exam2_q23",
         "reasons": [
-          "說明生成式 AI 涉及訓練資料處理、清洗、標記化與向量化，支持本題對資料結構理解與輸入品質的討論。"
+          "補充：說明生成式 AI 涉及訓練資料處理、清洗、標記化與向量化，支持本題對資料結構理解與輸入品質的討論。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1141_s2:jr_1141_s2_q48",
+        "examKey": "jr_1141_s2",
+        "examLabel": "科目二 公告試題（114年第四梯次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（114年第四梯次）",
+        "route": "/exam/jr_1141_s2",
+        "questionId": "jr_1141_s2_q48",
+        "questionNumber": 48,
+        "question": "某開發團隊在建置企業內部知識檢索系統時，選擇採用多向量檢索器 （Multi-vector Retriever），下列何者為協助提升系統查詢的完整性 與精準度的主要方式？",
+        "answer": "A",
+        "confidence": "medium",
+        "reasons": [
+          "補充：向量化把多種資料轉成數值，支撐多向量檢索。；溫度僅影響生成隨機性，可排除選項D。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "jr_1152_s2:jr_1152_s2_q4",
@@ -226,12 +340,168 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "直接說明標記化將文本拆分成詞或子詞等基本單元，並區分向量化表示，可支持 Token 的基本定義及 B 選項的錯誤辨析。"
+          "補充：Token是文字切分的基本單位。；區分向量化與標記化，避免混淆語意向量。"
         ],
         "citationRank": 1,
         "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1152_s2:jr_1152_s2_q12",
+        "examKey": "jr_1152_s2",
+        "examLabel": "科目二 公告試題（115年第二次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第二次）",
+        "route": "/exam/jr_1152_s2",
+        "questionId": "jr_1152_s2_q12",
+        "questionNumber": 12,
+        "question": "某電商平台導入 CLIP（Contrastive Language-Image Pre-training）模型，讓使用 者能直接輸入文字描述來搜尋商品圖片。請問 CLIP 模型是透過哪一種方式來衡 量文字描述與圖片之間的相符程度？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：理解文字與圖片需先轉為數值向量，才能比對相似度；了解文字與圖像屬不同模態，可跨模態結合應用"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-14": [
+      {
+        "id": "jr_1141_s2:jr_1141_s2_q21",
+        "examKey": "jr_1141_s2",
+        "examLabel": "科目二 公告試題（114年第四梯次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（114年第四梯次）",
+        "route": "/exam/jr_1141_s2",
+        "questionId": "jr_1141_s2_q21",
+        "questionNumber": 21,
+        "question": "某公司開發的智慧車載語音助理，可透過語音辨識（ASR）辨識駕駛語 音，再由LLM 生成回答並查詢車載 API。測試中發現：ASR 對汽車專 業術語辨識錯誤率高；LLM的回覆常不精確；系統回覆延遲雖存在但仍 可接受。若目標是「優先提升準確性與回答品質」，下列改進步驟的最 合理執行順序為何？ 1. 擴充並標註汽車領域語音資料，微調 ASR 模型 2. 微調 LLM 並加入檢索增強（RAG） 3. 優化系統架構，引入批次推論降低延遲 4. 動態調整生成溫度，平衡準確度與多樣性",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明溫度只控制隨機性，無法保證事實正確"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1141_s2:jr_1141_s2_q26",
+        "examKey": "jr_1141_s2",
+        "examLabel": "科目二 公告試題（114年第四梯次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（114年第四梯次）",
+        "route": "/exam/jr_1141_s2",
+        "questionId": "jr_1141_s2_q26",
+        "questionNumber": 26,
+        "question": "某電商平台希望生成的商品描述在風格與用詞上保持一致性，但不需 要新增專業知識。下列哪種方法最適合？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "說明低溫度可降低隨機性、使生成內容保守一致"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
+      },
+      {
+        "id": "jr_1141_s2:jr_1141_s2_q48",
+        "examKey": "jr_1141_s2",
+        "examLabel": "科目二 公告試題（114年第四梯次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（114年第四梯次）",
+        "route": "/exam/jr_1141_s2",
+        "questionId": "jr_1141_s2_q48",
+        "questionNumber": 48,
+        "question": "某開發團隊在建置企業內部知識檢索系統時，選擇採用多向量檢索器 （Multi-vector Retriever），下列何者為協助提升系統查詢的完整性 與精準度的主要方式？",
+        "answer": "A",
+        "confidence": "medium",
+        "reasons": [
+          "補充：向量化把多種資料轉成數值，支撐多向量檢索。；溫度僅影響生成隨機性，可排除選項D。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1152_s2:jr_1152_s2_q22",
+        "examKey": "jr_1152_s2",
+        "examLabel": "科目二 公告試題（115年第二次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第二次）",
+        "route": "/exam/jr_1152_s2",
+        "questionId": "jr_1152_s2_q22",
+        "questionNumber": 22,
+        "question": "某保險公司導入具備延伸推理（Extended Thinking）功能的推理型語言模型，用 於處理理賠申請的合規審查。審查團隊發現：簡單案件只需快速比對幾項條 款，但複雜案件需要多層次的法規詮釋與過往案例比對。產品負責人希望系統 能依案件複雜度自動調整模型的推理深度，以在品質與成本之間取得最佳平 衡。此需求最核心涉及的系統設計概念是什麼？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明溫度只控制隨機性，不能用來調整推理深度。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1153_s2:jr_1153_s2_q7",
+        "examKey": "jr_1153_s2",
+        "examLabel": "科目二 公告試題（115年第三次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第三次）",
+        "route": "/exam/jr_1153_s2",
+        "questionId": "jr_1153_s2_q7",
+        "questionNumber": 7,
+        "question": "某物流公司開發一套「訂單異常即時處理系統」，採用提示鏈（Prompt Chaining）技 術，依序完成訂單解析、異常分類及補償方案生成等步驟。系統上線後，維運團隊 發現業務尖峰時段最終產出的補償方案穩定性明顯下降，例如偶爾出現格式錯誤或 生成與訂單內容無關的補償方案。經分析發現，中間步驟偶爾產生細微偏差，且未 經驗證便直接傳遞至後續步驟，導致誤差逐步累積並放大，下列哪一種設計最能從 根本改善此流程的穩定性？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：低溫只提升一致性，不能保證正確，故不選C。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1153_s2:jr_1153_s2_q15",
+        "examKey": "jr_1153_s2",
+        "examLabel": "科目二 公告試題（115年第三次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第三次）",
+        "route": "/exam/jr_1153_s2",
+        "questionId": "jr_1153_s2_q15",
+        "questionNumber": 15,
+        "question": "某品牌行銷人員使用生成式 AI 撰寫新品廣告文案。在相同提示詞（Prompt）及相 同模型下，多次生成的文案內容幾乎完全相同，缺乏創意與多樣性。為了讓每次產 生的文案具有更多變化，人員在不修改提示詞內容及模型版本的情況下，調整了一 項生成設定。調整後，相同提示詞每次都能產生不同風格的文案。請問人員最可能 調整了下列何者？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "直接說明溫度越高隨機性與創意越高，對應正確選項"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-15": [
+      {
+        "id": "jr_1153_s2:jr_1153_s2_q15",
+        "examKey": "jr_1153_s2",
+        "examLabel": "科目二 公告試題（115年第三次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第三次）",
+        "route": "/exam/jr_1153_s2",
+        "questionId": "jr_1153_s2_q15",
+        "questionNumber": 15,
+        "question": "某品牌行銷人員使用生成式 AI 撰寫新品廣告文案。在相同提示詞（Prompt）及相 同模型下，多次生成的文案內容幾乎完全相同，缺乏創意與多樣性。為了讓每次產 生的文案具有更多變化，人員在不修改提示詞內容及模型版本的情況下，調整了一 項生成設定。調整後，相同提示詞每次都能產生不同風格的文案。請問人員最可能 調整了下列何者？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明採樣機制影響多樣性，助區分其他生成設定"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-17": [
@@ -247,12 +517,31 @@
         "answer": "A",
         "confidence": "high",
         "reasons": [
-          "此處提到生成式AI 具備上下文理解與提示詞控制能力，但仍面臨輸出準確性挑戰，可連結到輸入關係資訊不足時的推理風險。"
+          "補充：此處提到生成式AI 具備上下文理解與提示詞控制能力，但仍面臨輸出準確性挑戰，可連結到輸入關係資訊不足時的推理風險。"
         ],
-        "citationRank": 2,
+        "citationRank": 3,
         "citationBlockCount": 1,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1141_s2:jr_1141_s2_q10",
+        "examKey": "jr_1141_s2",
+        "examLabel": "科目二 公告試題（114年第四梯次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（114年第四梯次）",
+        "route": "/exam/jr_1141_s2",
+        "questionId": "jr_1141_s2_q10",
+        "questionNumber": 10,
+        "question": "某公司在導入生成式 AI協助撰寫內部報告時，測試人員刻意在輸入的 上下文中放入互相矛盾的資訊（例如：同一位員工在不同段落被描述為 「入職三年」與「入職五年」）。在這種情況下，最常見的模型行為會是 什麼？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明AI幻覺與輸出不準確是實際挑戰，可解矛盾情境。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "jr_1141_s2:jr_1141_s2_q40",
@@ -266,12 +555,107 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明生成式AI 的上下文理解能力與透過提示詞進行可控生成，作為本題提示組織方式的概念連結；未直接說明 Graph Prompting 或其與 CoT 的比較。"
+          "補充：上下文理解與提示詞可控生成可作解題背景。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1151_s2:jr_1151_s2_q13",
+        "examKey": "jr_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第一次）",
+        "route": "/exam/jr_1151_s2",
+        "questionId": "jr_1151_s2_q13",
+        "questionNumber": 13,
+        "question": "某企業建置文件型知識查詢系統，將大量長篇內部文件轉換為可供生成式 AI使用 的知識來源。在測試過程中，團隊發現若直接以整份文件進行檢索，模型回覆常 包含無關內容，且引用段落不夠精準。團隊評估後，決定導入 Chunking 機制的主 要目的為何？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：點出上下文理解與輸出準確性挑戰，理解長文件干擾"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1151_s2:jr_1151_s2_q15",
+        "examKey": "jr_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第一次）",
+        "route": "/exam/jr_1151_s2",
+        "questionId": "jr_1151_s2_q15",
+        "questionNumber": 15,
+        "question": "在生成式AI應用設計中，情境感知代理（Context-aware Agent）的核心特性為 何？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出上下文理解與多模態處理不同，助排除跨模態選項"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1151_s2:jr_1151_s2_q18",
+        "examKey": "jr_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第一次）",
+        "route": "/exam/jr_1151_s2",
+        "questionId": "jr_1151_s2_q18",
+        "questionNumber": 18,
+        "question": "關於ChatGPT、Anthropic Claude、GitHub Copilot 等AI程式碼輔助工具的運作原 理，下列敘述何者正確？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出輸出準確性與AI幻覺挑戰，生成未必正確。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1152_s1:jr_1152_s1_q35",
+        "examKey": "jr_1152_s1",
+        "examLabel": "科目一 公告試題（115年第二次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（115年第二次）",
+        "route": "/exam/jr_1152_s1",
+        "questionId": "jr_1152_s1_q35",
+        "questionNumber": 35,
+        "question": "某企業導入大型語言模型（LLM）進行長篇法規文件的問答查詢。使用者反 映，當問題需整合文件中較不相關的資訊時，模型回答的連貫性與準確性明顯 下降。技術團隊認為此現象與模型架構特性有關。下列何者最能說明傳統 Transformer在此情境下的限制？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明模型上下文理解與架構演進，助理解長文限制背景"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1152_s1:jr_1152_s1_q44",
+        "examKey": "jr_1152_s1",
+        "examLabel": "科目一 公告試題（115年第二次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（115年第二次）",
+        "route": "/exam/jr_1152_s1",
+        "questionId": "jr_1152_s1_q44",
+        "questionNumber": 44,
+        "question": "某金融集團評估將大型語言模型導入客服與風控系統，團隊採用如 120B 參數等 級的超大型語言模型以確保回應品質。請問下列何者最能說明企業在正式環境 部署超大型語言模型時，最需要優先考量的因素？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "點出部署的大量算力需求與硬體限制，須加速推理"
         ],
         "citationRank": 1,
         "citationBlockCount": 1,
         "supplement": false,
-        "prominence": "secondary"
+        "prominence": "primary"
       },
       {
         "id": "jr_1152_s2:jr_1152_s2_q18",
@@ -285,12 +669,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明生成式 AI 具有上下文理解能力，但實際應用仍須面對輸出準確性保證與 AI 幻覺防範，支持法律合約審查應優先確保原文精確性。"
+          "補充：點出AI幻覺與輸出準確性風險，須優先防範"
         ],
-        "citationRank": 1,
+        "citationRank": 2,
         "citationBlockCount": 1,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "jr_1152_s2:jr_1152_s2_q33",
@@ -304,12 +688,69 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明生成式AI 的上下文理解能力與透過提示詞進行可控生成，支持本題利用提示內示範引導批改結果的概念。"
+          "補充：說明生成式AI 的上下文理解能力與透過提示詞進行可控生成，支持本題利用提示內示範引導批改結果的概念。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1153_s1:jr_1153_s1_q38",
+        "examKey": "jr_1153_s1",
+        "examLabel": "科目一 公告試題（115年第三次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（115年第三次）",
+        "route": "/exam/jr_1153_s1",
+        "questionId": "jr_1153_s1_q38",
+        "questionNumber": 38,
+        "question": "某企業建置長時間對話的客服機器人，發現當對話回合數持續增加、上下文變得很 長時，即使對話內容仍未超過模型可支援的上下文長度上限，模型仍常「忘記」或 答錯先前提及的內容，回覆準確度明顯下降。下列關於此現象的敘述，何者最正確？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出輸出準確性與幻覺是生成式AI的挑戰"
         ],
         "citationRank": 1,
         "citationBlockCount": 1,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1153_s1:jr_1153_s1_q47",
+        "examKey": "jr_1153_s1",
+        "examLabel": "科目一 公告試題（115年第三次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（115年第三次）",
+        "route": "/exam/jr_1153_s1",
+        "questionId": "jr_1153_s1_q47",
+        "questionNumber": 47,
+        "question": "某跨國企業計劃導入「多語言智慧客服系統」，希望系統既能精準捕捉各國語言的 在地化文化與特性，又能共享核心的跨語言語意理解能力，以降低維護多套模型的 營運成本。下列哪一種模型方案最適當？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：提及領域微調與架構創新，有助理解多語言調適"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1153_s2:jr_1153_s2_q3",
+        "examKey": "jr_1153_s2",
+        "examLabel": "科目二 公告試題（115年第三次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第三次）",
+        "route": "/exam/jr_1153_s2",
+        "questionId": "jr_1153_s2_q3",
+        "questionNumber": 3,
+        "question": "某保險公司客服中心每日需處理約八千通線上客服對話，且累積了三年份、經主管 審核通過的優質應答紀錄。技術團隊希望 AI 在所有對話中都能穩定維持相同的語 氣與回覆格式，同時盡量壓低單次對話的處理成本與回應延遲。在此條件下，下列 何種做法最為合理？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出微調可依特定需求調整生成結果。；指出領域特定微調是生成式AI應用擴展方向。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "jr_1153_s2:jr_1153_s2_q8",
@@ -323,12 +764,31 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明生成式AI 可透過提示詞進行可控生成，作為分析提示設計與輸出控制的概念依據。"
+          "補充：說明生成式AI 可透過提示詞進行可控生成，作為分析提示設計與輸出控制的概念依據。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1153_s2:jr_1153_s2_q11",
+        "examKey": "jr_1153_s2",
+        "examLabel": "科目二 公告試題（115年第三次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第三次）",
+        "route": "/exam/jr_1153_s2",
+        "questionId": "jr_1153_s2_q11",
+        "questionNumber": 11,
+        "question": "某企業導入 AI Agent 處理跨部門簽核流程。系統在開始執行前，會先建立一份解決 方案圖（Solution Graph），作為後續執行的依據，再由 AI Agent 完成整個簽核流程。 相較於直接要求 AI一次產生最終簽核結果，此設計方式最主要的優點為何？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出AI幻覺是生成式AI主要挑戰，須加以防範"
         ],
         "citationRank": 1,
         "citationBlockCount": 1,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "jr_1153_s2:jr_1153_s2_q17",
@@ -342,12 +802,12 @@
         "answer": "A",
         "confidence": "high",
         "reasons": [
-          "指出生成式 AI 的輸出準確性與幻覺問題，支持說明文字生成能力本身不等於結果可靠。"
+          "補充：指出生成式 AI 的輸出準確性與幻覺問題，支持說明文字生成能力本身不等於結果可靠。"
         ],
-        "citationRank": 1,
+        "citationRank": 2,
         "citationBlockCount": 1,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "jr_1153_s2:jr_1153_s2_q18",
@@ -361,12 +821,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明生成式AI 的計算資源需求、硬體限制、輸出準確性挑戰及推理加速方向，支持本題對品質與資源效率的連結。"
+          "補充：說明大量計算需求與推理加速，助理解成本權衡。"
         ],
-        "citationRank": 1,
+        "citationRank": 2,
         "citationBlockCount": 1,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "jr_1153_s2:jr_1153_s2_q28",
@@ -380,12 +840,12 @@
         "answer": "A",
         "confidence": "high",
         "reasons": [
-          "支持提示詞可用於可控生成，以及生成式 AI 仍面臨輸出準確性與幻覺挑戰的概念；不作為四種技術定義的直接引文。"
+          "補充：支持提示詞可用於可控生成，以及生成式 AI 仍面臨輸出準確性與幻覺挑戰的概念；不作為四種技術定義的直接引文。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 1,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-47": [
@@ -401,11 +861,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明生成式 AI 工具技術進化與大型語言模型能力，可用於解決具體問題；本題的 RAG 是在 LLM 生成能力上加入農場文件檢索。"
+          "補充：說明生成式 AI 工具技術進化與大型語言模型能力，可用於解決具體問題；本題的 RAG 是在 LLM 生成能力上加入農場文件檢索。"
         ],
-        "citationRank": 3,
+        "citationRank": 5,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -422,11 +882,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明生成式 AI 工具技術進化與大型語言模型能力，可用於解決具體問題；本題的 RAG 是在 LLM 生成能力上加入農場文件檢索。"
+          "補充：說明生成式 AI 工具技術進化與大型語言模型能力，可用於解決具體問題；本題的 RAG 是在 LLM 生成能力上加入農場文件檢索。"
         ],
-        "citationRank": 3,
+        "citationRank": 5,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -443,11 +903,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明生成式 AI 工具技術進化與大型語言模型能力，可用於解決具體問題；本題的 RAG 是在 LLM 生成能力上加入農場文件檢索。"
+          "補充：說明生成式 AI 工具技術進化與大型語言模型能力，可用於解決具體問題；本題的 RAG 是在 LLM 生成能力上加入農場文件檢索。"
         ],
-        "citationRank": 3,
+        "citationRank": 5,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -464,11 +924,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明生成式 AI 工具技術進化與大型語言模型能力，可用於解決具體問題；本題的 RAG 是在 LLM 生成能力上加入農場文件檢索。"
+          "補充：說明生成式 AI 工具技術進化與大型語言模型能力，可用於解決具體問題；本題的 RAG 是在 LLM 生成能力上加入農場文件檢索。"
         ],
-        "citationRank": 3,
+        "citationRank": 5,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -483,15 +943,34 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明 GAN 能生成多樣化且具真實感的圖像，支持使用影像生成技術製作合成車損照片的方向。"
+          "補充：說明 GAN 能生成多樣化且具真實感的圖像，支持使用影像生成技術製作合成車損照片的方向。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-51": [
+      {
+        "id": "jr_1151_s1:jr_1151_s1_q21",
+        "examKey": "jr_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（115年第一次）",
+        "route": "/exam/jr_1151_s1",
+        "questionId": "jr_1151_s1_q21",
+        "questionNumber": 21,
+        "question": "某時尚品牌導入生成式 AI（Generative AI）技術，建立服裝設計輔助系統。系統 需根據設計師輸入的風格條件，自動產生具有高度視覺品質、細節穩定且風格變 化自然的服裝草圖。團隊特別重視生成結果的穩定性與多樣性控制能力。在此需 求下，下列哪一種模型技術或方法較為適合？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明對抗網路亦擅長高品質且多樣的圖像生成"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
       {
         "id": "jr_1151_s2:jr_1151_s2_q5",
         "examKey": "jr_1151_s2",
@@ -504,11 +983,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "指出 GAN 的代表性優勢為高品質且具真實感的圖像生成，支持與本題文字生成需求的比較。"
+          "補充：指出 GAN 的代表性優勢為高品質且具真實感的圖像生成，支持與本題文字生成需求的比較。"
         ],
-        "citationRank": 4,
+        "citationRank": 7,
         "citationBlockCount": 1,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -523,15 +1002,34 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明 GAN 能生成多樣化且具真實感的圖像，支持使用影像生成技術製作合成車損照片的方向。"
+          "補充：說明 GAN 能生成多樣化且具真實感的圖像，支持使用影像生成技術製作合成車損照片的方向。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-53": [
+      {
+        "id": "jr_1141_s1:jr_1141_s1_q28",
+        "examKey": "jr_1141_s1",
+        "examLabel": "科目一 公告試題（114年第四梯次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（114年第四梯次）",
+        "route": "/exam/jr_1141_s1",
+        "questionId": "jr_1141_s1_q28",
+        "questionNumber": 28,
+        "question": "對非常長的輸入序列進行推理（Inference），Transformer模型推理的 主要計算瓶頸通常是什麼？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：點出Transformer以自注意力為核心。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
       {
         "id": "jr_1141_s2:jr_1141_s2_q23",
         "examKey": "jr_1141_s2",
@@ -545,12 +1043,88 @@
         "confidence": "medium",
         "referenceQuestionId": "exam2_q23",
         "reasons": [
-          "提到 Transformer 與提示工程、少樣本學習可提升模型適應性與精準度，可用來說明為何結構化抽取任務若缺少示範較容易失敗。"
+          "補充：提到 Transformer 與提示工程、少樣本學習可提升模型適應性與精準度，可用來說明為何結構化抽取任務若缺少示範較容易失敗。"
         ],
-        "citationRank": 2,
+        "citationRank": 4,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1151_s2:jr_1151_s2_q5",
+        "examKey": "jr_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第一次）",
+        "route": "/exam/jr_1151_s2",
+        "questionId": "jr_1151_s2_q5",
+        "questionNumber": 5,
+        "question": "某企業導入生成式 AI 系統，希望自動產出客服回覆與內部文件摘要。系統需能理 解使用者輸入的完整語句內容，並在回覆中維持語意連貫，即使對話內容較長仍 能保持上下文一致性。基於上述需求，下列何種模型架構最為適合？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "自注意力處理長距離依賴，助長對話保持上下文；說明Transformer自注意力是語言生成核心"
+        ],
+        "citationRank": 1,
         "citationBlockCount": 2,
         "supplement": false,
         "prominence": "primary"
+      },
+      {
+        "id": "jr_1151_s2:jr_1151_s2_q35",
+        "examKey": "jr_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第一次）",
+        "route": "/exam/jr_1151_s2",
+        "questionId": "jr_1151_s2_q35",
+        "questionNumber": 35,
+        "question": "在生成式AI文字生成模型設計中，Encoder–Decoder與Decoder-only 為常見架 構。下列何者最能正確說明兩者在資訊處理與生成機制上的核心差異？",
+        "answer": "B",
+        "confidence": "medium",
+        "reasons": [
+          "補充：兩架構共用Transformer自注意力"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1153_s1:jr_1153_s1_q32",
+        "examKey": "jr_1153_s1",
+        "examLabel": "科目一 公告試題（115年第三次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（115年第三次）",
+        "route": "/exam/jr_1153_s1",
+        "questionId": "jr_1153_s1_q32",
+        "questionNumber": 32,
+        "question": "某證券公司開發 AI 輔助分析系統，需要分析長篇的法人說明會逐字稿。系統須有 效建立逐字稿前後段落之間的長距離語意關聯，並在處理長篇文本時，能直接關聯 相距較遠的文字內容，而無須依序傳遞前文資訊，以提升分析效率與準確性。下列 哪一種模型架構最適合？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明自注意力能建立長距離關聯，故選此架構。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1153_s1:jr_1153_s1_q43",
+        "examKey": "jr_1153_s1",
+        "examLabel": "科目一 公告試題（115年第三次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（115年第三次）",
+        "route": "/exam/jr_1153_s1",
+        "questionId": "jr_1153_s1_q43",
+        "questionNumber": 43,
+        "question": "某企業導入大型語言模型處理超長合約文件（數萬字），發現輸入越長，運算時間 與資源消耗增加得越快，遠超過文件長度增加的比例。下列何者最能解釋此現象發 生的主要原因？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出模型核心採自注意力機制。；說明自注意力擅長處理長距離依賴。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-54": [
@@ -567,12 +1141,183 @@
         "confidence": "medium",
         "referenceQuestionId": "exam2_q23",
         "reasons": [
-          "提到 Transformer 與提示工程、少樣本學習可提升模型適應性與精準度，可用來說明為何結構化抽取任務若缺少示範較容易失敗。"
+          "補充：少樣本與提示工程能提升精準度，反襯零樣本缺示範。"
         ],
-        "citationRank": 2,
-        "citationBlockCount": 2,
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1141_s2:jr_1141_s2_q28",
+        "examKey": "jr_1141_s2",
+        "examLabel": "科目二 公告試題（114年第四梯次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（114年第四梯次）",
+        "route": "/exam/jr_1141_s2",
+        "questionId": "jr_1141_s2_q28",
+        "questionNumber": 28,
+        "question": "某公司正在開發一個智慧客服系統，負責回覆顧客關於退換貨、優惠活 動與商品建議等問題。研發團隊嘗試使用不同的提示設計方式來提升 模型效能。下列哪一個提示最符合「少樣本提示（Few-Shot Prompting）」 的設計原則？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：提及少樣本學習與提示工程，但未說明示範設計。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1151_s1:jr_1151_s1_q24",
+        "examKey": "jr_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（115年第一次）",
+        "route": "/exam/jr_1151_s1",
+        "questionId": "jr_1151_s1_q24",
+        "questionNumber": 24,
+        "question": "某企業導入大型語言模型作為客服助理。模型已具備穩定語言能力，但在回覆偏 好一致性與組織規範遵循方面仍需優化，團隊因此規劃導入人類反饋強化學習 （RLHF）流程，下列何者最不屬於 RLHF 階段的典型技術活動？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明RLHF屬微調對齊，使輸出貼近人類需求"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
+      },
+      {
+        "id": "jr_1151_s2:jr_1151_s2_q30",
+        "examKey": "jr_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第一次）",
+        "route": "/exam/jr_1151_s2",
+        "questionId": "jr_1151_s2_q30",
+        "questionNumber": 30,
+        "question": "某市政府環保局想建立一個垃圾分類查詢系統，讓民眾輸入物品名稱後自動判斷 分類。由於垃圾種類繁多，但每種分類的訓練範例有限，工程師決定採用少樣本 學習（Few-shot Learning）技術。下列何者為少樣本學習（Few-shot Learning）的 主要特徵？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：少樣本學習以少量示例提升模型適應新情境的能力"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1152_s2:jr_1152_s2_q26",
+        "examKey": "jr_1152_s2",
+        "examLabel": "科目二 公告試題（115年第二次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第二次）",
+        "route": "/exam/jr_1152_s2",
+        "questionId": "jr_1152_s2_q26",
+        "questionNumber": 26,
+        "question": "在大型語言模型的提示詞設計中，下列何者不是基於思維鏈（Chain-of- Thought）推理所發展而來？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：提及少樣本學習與提示工程，可對照零樣本概念。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1152_s2:jr_1152_s2_q30",
+        "examKey": "jr_1152_s2",
+        "examLabel": "科目二 公告試題（115年第二次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第二次）",
+        "route": "/exam/jr_1152_s2",
+        "questionId": "jr_1152_s2_q30",
+        "questionNumber": 30,
+        "question": "一家法律科技公司導入 RAG系統協助律師查詢判例，但有時會引用關聯性不足 的文件，影響生成內容的可信度。若在流程中引入強化學習（Reinforcement Learning），其主要作用為何？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明人類回饋可強化學習，佐證回饋訊號的作用。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1152_s2:jr_1152_s2_q33",
+        "examKey": "jr_1152_s2",
+        "examLabel": "科目二 公告試題（115年第二次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第二次）",
+        "route": "/exam/jr_1152_s2",
+        "questionId": "jr_1152_s2_q33",
+        "questionNumber": 33,
+        "question": "某教育科技公司正在開發一套 AI作文批改系統，希望模型能依照教師的評分邏 輯給予回饋。負責的工程師在設計系統時，於每次送出批改請求前，在提示 （Prompt）中附上固定的三組已由教師批改完成的學生作文範例，讓模型參考 後再對新作文進行評分。請問工程師採用的是下列哪一種技術？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：少樣本學習搭配提示工程，最接近正確答案。；區分微調與提示工程，有助排除微調選項。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1153_s1:jr_1153_s1_q42",
+        "examKey": "jr_1153_s1",
+        "examLabel": "科目一 公告試題（115年第三次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（115年第三次）",
+        "route": "/exam/jr_1153_s1",
+        "questionId": "jr_1153_s1_q42",
+        "questionNumber": 42,
+        "question": "某客服系統開發團隊希望聊天機器人的回覆風格更貼近人類偏好，因此在模型訓練 後期導入人類回饋強化學習（Reinforcement Learning from Human Feedback, RLHF） 技術。關於 RLHF 核心作法，下列敘述何者最正確？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出人類回饋強化學習能讓結果更貼近用戶需求"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1153_s2:jr_1153_s2_q31",
+        "examKey": "jr_1153_s2",
+        "examLabel": "科目二 公告試題（115年第三次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第三次）",
+        "route": "/exam/jr_1153_s2",
+        "questionId": "jr_1153_s2_q31",
+        "questionNumber": 31,
+        "question": "某保險公司導入大型語言模型協助客服回覆保單相關問題。工程師撰寫提示詞時， 先要求模型：「請扮演一位具有 15年保險理賠經驗的資深客服專員，以專業且具同 理心的語氣回答客戶問題，並避免使用艱澀的保險術語。」接著再提供客戶問題， 要求模型產生回覆內容。請問上述使用的提示詞（Prompt）技巧稱為下列何者？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：提及少樣本學習與提示工程提升適應性"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1153_s2:jr_1153_s2_q44",
+        "examKey": "jr_1153_s2",
+        "examLabel": "科目二 公告試題（115年第三次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第三次）",
+        "route": "/exam/jr_1153_s2",
+        "questionId": "jr_1153_s2_q44",
+        "questionNumber": 44,
+        "question": "某企業將生成式 AI 導入內部知識問答系統，並建立強化學習從人類回饋 （Reinforcement Learning from Human Feedback, RLHF）機制，定期依員工對 AI生 成答案的「按讚／按噓」評分作為後續微調模型的依據。系統上線半年後，資料分 析部門發現，僅約 8%員工會主動評分，且多數評分者集中於資訊部門，其他部門 員工鮮少提供回饋。技術團隊對此現象應有的正確認知為何？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：RLHF依人類回饋調整，使結果更貼近需求"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-57": [
@@ -588,15 +1333,54 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明大型語言模型的能力提升與語言理解、生成準確度相關，可支撐題目所問的模型整體理解能力評估。"
+          "補充：說明大型語言模型的能力提升與語言理解、生成準確度相關，可支撐題目所問的模型整體理解能力評估。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-58": [
+      {
+        "id": "jr_1141_s2:jr_1141_s2_q43",
+        "examKey": "jr_1141_s2",
+        "examLabel": "科目二 公告試題（114年第四梯次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（114年第四梯次）",
+        "route": "/exam/jr_1141_s2",
+        "questionId": "jr_1141_s2_q43",
+        "questionNumber": 43,
+        "question": "在評估大型語言模型，例如 7B、13B、175B參數規模時，模型規模對基 準測試（Benchmark）結果的影響，下列哪一種說法最為恰當？",
+        "answer": "D",
+        "confidence": "high",
+        "referenceQuestionId": "exam2_q43",
+        "reasons": [
+          "說明參數規模擴大能提升生成能力"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "jr_1151_s1:jr_1151_s1_q12",
+        "examKey": "jr_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（115年第一次）",
+        "route": "/exam/jr_1151_s1",
+        "questionId": "jr_1151_s1_q12",
+        "questionNumber": 12,
+        "question": "ChatGPT、Gemini 等對話型生成式AI工具所依據的基礎模型技術，下列何者正 確？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "指出GPT系列屬大型語言模型，能對應正確答案。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      },
       {
         "id": "jr_1151_s2:jr_1151_s2_q31",
         "examKey": "jr_1151_s2",
@@ -609,11 +1393,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明生成式 AI 工具技術進化與大型語言模型能力，可用於解決具體問題；本題的 RAG 是在 LLM 生成能力上加入農場文件檢索。"
+          "補充：說明生成式 AI 工具技術進化與大型語言模型能力，可用於解決具體問題；本題的 RAG 是在 LLM 生成能力上加入農場文件檢索。"
         ],
-        "citationRank": 3,
+        "citationRank": 5,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -628,12 +1412,31 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明大型語言模型的能力提升與語言理解、生成準確度相關，可支撐題目所問的模型整體理解能力評估。"
+          "補充：說明大型語言模型的能力提升與語言理解、生成準確度相關，可支撐題目所問的模型整體理解能力評估。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1152_s2:jr_1152_s2_q41",
+        "examKey": "jr_1152_s2",
+        "examLabel": "科目二 公告試題（115年第二次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第二次）",
+        "route": "/exam/jr_1152_s2",
+        "questionId": "jr_1152_s2_q41",
+        "questionNumber": 41,
+        "question": "某軟體顧問公司正在為客戶規劃一套 Agentic AI專案管理系統，用於協助 AI代 理（AI Agent）自主完成跨部門任務協調。在系統設計過程中，團隊採用解決方 案圖（Solution Graph）作為任務與決策的結構表示，並由大型語言模型 （LLM）負責推理與行動生成。請問下列何者最能說明 LLM 與Solution Graph 之間的關係？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明大型語言模型具語言理解與生成能力"
         ],
         "citationRank": 1,
-        "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-59": [
@@ -649,12 +1452,31 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明多模態生成結合文本、圖像與音訊等資訊，支持本題將圖片資訊與文字生成整合的核心概念。"
+          "補充：多模態生成結合文本與圖像，同時運用兩種資訊"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1152_s2:jr_1152_s2_q12",
+        "examKey": "jr_1152_s2",
+        "examLabel": "科目二 公告試題（115年第二次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第二次）",
+        "route": "/exam/jr_1152_s2",
+        "questionId": "jr_1152_s2_q12",
+        "questionNumber": 12,
+        "question": "某電商平台導入 CLIP（Contrastive Language-Image Pre-training）模型，讓使用 者能直接輸入文字描述來搜尋商品圖片。請問 CLIP 模型是透過哪一種方式來衡 量文字描述與圖片之間的相符程度？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：理解文字與圖片需先轉為數值向量，才能比對相似度；了解文字與圖像屬不同模態，可跨模態結合應用"
         ],
         "citationRank": 1,
-        "citationBlockCount": 1,
-        "supplement": false,
-        "prominence": "primary"
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "jr_1152_s2:jr_1152_s2_q21",
@@ -668,12 +1490,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明結合文字與圖片進行多模態圖像生成的概念，支持以文字需求控制影像產出的說明。"
+          "補充：說明結合文字與圖片進行多模態圖像生成的概念，支持以文字需求控制影像產出的說明。"
         ],
-        "citationRank": 1,
+        "citationRank": 2,
         "citationBlockCount": 1,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "jr_1152_s2:jr_1152_s2_q31",
@@ -687,12 +1509,52 @@
         "answer": "A",
         "confidence": "high",
         "reasons": [
-          "明確說明 Midjourney 可從文字與圖片生成圖像，DALL·E 可基於文字生成高品質圖像，支持圖像工具的任務對應。"
+          "補充：明確說明 Midjourney 可從文字與圖片生成圖像，DALL·E 可基於文字生成高品質圖像，支持圖像工具的任務對應。"
+        ],
+        "citationRank": 4,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-61": [
+      {
+        "id": "jr_1151_s2:jr_1151_s2_q8",
+        "examKey": "jr_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第一次）",
+        "route": "/exam/jr_1151_s2",
+        "questionId": "jr_1151_s2_q8",
+        "questionNumber": 8,
+        "question": "某製造企業規劃於設備端建置邊緣運算（Edge Computing）架構，並以 No- Code/Low-Code平台開發即時監控應用。測試顯示，系統在雲端環境執行順暢， 但部署至邊緣裝置後出現回應延遲與效能下降。依此情境判斷，下列何者最合理 解釋該現象？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "邊緣設備屬資源有限環境，可解釋延遲成因"
         ],
         "citationRank": 1,
         "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
+      },
+      {
+        "id": "jr_1153_s1:jr_1153_s1_q44",
+        "examKey": "jr_1153_s1",
+        "examLabel": "科目一 公告試題（115年第三次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（115年第三次）",
+        "route": "/exam/jr_1153_s1",
+        "questionId": "jr_1153_s1_q44",
+        "questionNumber": 44,
+        "question": "某軟體公司計劃開發一款手機 App，需要在沒有網路的環境下，也能在手機本機端 （邊緣裝置）執行微型大語言模型來提供即時語音翻譯服務。考量到行動裝置的記 憶體（RAM）容量限制以及電池續航力，工程師建議在部署前先對模型進行模型量 化（Quantization）處理。請問關於此作法所帶來的預期效益與影響，下列敘述何者 最正確？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：量化降低儲存運算需求，可在手機等邊緣裝置離線運行"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-63": [
@@ -708,11 +1570,11 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明擴散模型與生成品質、精度及細緻程度的關聯，支持本題與學習指引生成技術概念的連結；未直接說明影片逐步去噪流程。"
+          "補充：說明擴散模型與生成品質、精度及細緻程度的關聯，支持本題與學習指引生成技術概念的連結；未直接說明影片逐步去噪流程。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 2,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -729,11 +1591,11 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明擴散模型與生成品質、精度及細緻程度的關聯，支持本題與學習指引生成技術概念的連結；未直接說明影片逐步去噪流程。"
+          "補充：說明擴散模型與生成品質、精度及細緻程度的關聯，支持本題與學習指引生成技術概念的連結；未直接說明影片逐步去噪流程。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 2,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -751,12 +1613,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam2_q20",
         "reasons": [
-          "說明生成式 AI 應用逐漸專業化並可用於醫療領域，但也需符合特定產業需求，支持判斷醫療影像診斷不能只看生成能力。"
+          "補充：說明生成式 AI 應用逐漸專業化並可用於醫療領域，但也需符合特定產業需求，支持判斷醫療影像診斷不能只看生成能力。"
         ],
-        "citationRank": 1,
+        "citationRank": 4,
         "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-68": [
@@ -773,12 +1635,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam2_q20",
         "reasons": [
-          "說明生成式 AI 應用逐漸專業化並可用於醫療領域，但也需符合特定產業需求，支持判斷醫療影像診斷不能只看生成能力。"
+          "補充：說明生成式 AI 應用逐漸專業化並可用於醫療領域，但也需符合特定產業需求，支持判斷醫療影像診斷不能只看生成能力。"
         ],
-        "citationRank": 1,
+        "citationRank": 4,
         "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-69": [
@@ -795,12 +1657,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam2_q20",
         "reasons": [
-          "說明生成式 AI 應用逐漸專業化並可用於醫療領域，但也需符合特定產業需求，支持判斷醫療影像診斷不能只看生成能力。"
+          "補充：說明生成式 AI 應用逐漸專業化並可用於醫療領域，但也需符合特定產業需求，支持判斷醫療影像診斷不能只看生成能力。"
         ],
-        "citationRank": 1,
+        "citationRank": 4,
         "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-70": [
@@ -817,12 +1679,90 @@
         "confidence": "high",
         "referenceQuestionId": "exam2_q20",
         "reasons": [
-          "說明生成式 AI 應用逐漸專業化並可用於醫療領域，但也需符合特定產業需求，支持判斷醫療影像診斷不能只看生成能力。"
+          "補充：說明生成式 AI 應用逐漸專業化並可用於醫療領域，但也需符合特定產業需求，支持判斷醫療影像診斷不能只看生成能力。"
+        ],
+        "citationRank": 4,
+        "citationBlockCount": 5,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1152_s2:jr_1152_s2_q17",
+        "examKey": "jr_1152_s2",
+        "examLabel": "科目二 公告試題（115年第二次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第二次）",
+        "route": "/exam/jr_1152_s2",
+        "questionId": "jr_1152_s2_q17",
+        "questionNumber": 17,
+        "question": "某律師事務所因業務量快速成長，正在評估導入生成式 AI工具以減輕律師的行 政負擔，請問下列哪一項最符合生成式 AI目前在法律實務中的主要應用？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出AI工具會針對法律等產業深度優化。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-71": [
+      {
+        "id": "jr_1152_s2:jr_1152_s2_q17",
+        "examKey": "jr_1152_s2",
+        "examLabel": "科目二 公告試題（115年第二次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第二次）",
+        "route": "/exam/jr_1152_s2",
+        "questionId": "jr_1152_s2_q17",
+        "questionNumber": 17,
+        "question": "某律師事務所因業務量快速成長，正在評估導入生成式 AI工具以減輕律師的行 政負擔，請問下列哪一項最符合生成式 AI目前在法律實務中的主要應用？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "法律AI可撰寫審閱文件、風險評估與法規檢索。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 5,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
+      },
+      {
+        "id": "jr_1153_s1:jr_1153_s1_q48",
+        "examKey": "jr_1153_s1",
+        "examLabel": "科目一 公告試題（115年第三次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（115年第三次）",
+        "route": "/exam/jr_1153_s1",
+        "questionId": "jr_1153_s1_q48",
+        "questionNumber": 48,
+        "question": "某法律事務所導入生成式 AI 協助律師查詢法規與合約內容。系統需要根據使用者 提問，即時查詢時常動態更新的外部法規資料及數百頁合約中的相關條文。為了避 免每次提問都將數百頁文件全部輸入模型而導致極高的 Token 運算成本與回應延 遲，下列何種架構最適合此需求？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出法律領域可用AI協助法規檢索"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1153_s2:jr_1153_s2_q27",
+        "examKey": "jr_1153_s2",
+        "examLabel": "科目二 公告試題（115年第三次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第三次）",
+        "route": "/exam/jr_1153_s2",
+        "questionId": "jr_1153_s2_q27",
+        "questionNumber": 27,
+        "question": "某產險公司開發智慧車險估損系統，需利用 AI 產生特定車損照片，以擴充模型的 訓練資料；此外，系統須依據每位客戶專屬的保單條款，自動產生具備條款依據的 理賠評估書，並盡可能避免產生數字或法規引用錯誤。下列哪一種技術架構最適 合？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：法律文件可自動撰寫並結合檢索，符合條款依據需求"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-72": [
@@ -839,12 +1779,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam2_q20",
         "reasons": [
-          "說明生成式 AI 應用逐漸專業化並可用於醫療領域，但也需符合特定產業需求，支持判斷醫療影像診斷不能只看生成能力。"
+          "補充：說明生成式 AI 應用逐漸專業化並可用於醫療領域，但也需符合特定產業需求，支持判斷醫療影像診斷不能只看生成能力。"
         ],
-        "citationRank": 1,
+        "citationRank": 4,
         "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-75": [
@@ -861,12 +1801,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam2_q27",
         "reasons": [
-          "說明生成式 AI 工具已能整合文字、圖像、語音、影片等多模態內容，並包含語音與文字轉換，支持本題會議語音摘要情境。"
+          "補充：說明生成式 AI 工具已能整合文字、圖像、語音、影片等多模態內容，並包含語音與文字轉換，支持本題會議語音摘要情境。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 3,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-76": [
@@ -883,10 +1823,50 @@
         "confidence": "high",
         "referenceQuestionId": "exam2_q27",
         "reasons": [
-          "說明生成式 AI 工具已能整合文字、圖像、語音、影片等多模態內容，並包含語音與文字轉換，支持本題會議語音摘要情境。"
+          "補充：說明生成式 AI 工具已能整合文字、圖像、語音、影片等多模態內容，並包含語音與文字轉換，支持本題會議語音摘要情境。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1152_s2:jr_1152_s2_q31",
+        "examKey": "jr_1152_s2",
+        "examLabel": "科目二 公告試題（115年第二次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第二次）",
+        "route": "/exam/jr_1152_s2",
+        "questionId": "jr_1152_s2_q31",
+        "questionNumber": 31,
+        "question": "某食品製造公司想建立產品瑕疵檢測系統，需要生成大量模擬瑕疵影像來擴充 訓練資料集，並同時撰寫檢測流程的技術文件。在不自行開發模型的情況下， 下列哪種生成式 AI工具組合最適合？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明工具可跨文字與圖像協同生成；顯示ChatGPT可處理文字內容"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-77": [
+      {
+        "id": "jr_1152_s2:jr_1152_s2_q31",
+        "examKey": "jr_1152_s2",
+        "examLabel": "科目二 公告試題（115年第二次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第二次）",
+        "route": "/exam/jr_1152_s2",
+        "questionId": "jr_1152_s2_q31",
+        "questionNumber": 31,
+        "question": "某食品製造公司想建立產品瑕疵檢測系統，需要生成大量模擬瑕疵影像來擴充 訓練資料集，並同時撰寫檢測流程的技術文件。在不自行開發模型的情況下， 下列哪種生成式 AI工具組合最適合？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "說明Midjourney可依文字生成圖像"
         ],
         "citationRank": 1,
-        "citationBlockCount": 3,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
       }
@@ -905,12 +1885,50 @@
         "confidence": "high",
         "referenceQuestionId": "exam2_q27",
         "reasons": [
-          "說明生成式 AI 工具已能整合文字、圖像、語音、影片等多模態內容，並包含語音與文字轉換，支持本題會議語音摘要情境。"
+          "補充：說明語音可轉文字，是即時摘要的前置步驟。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1151_s2:jr_1151_s2_q20",
+        "examKey": "jr_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第一次）",
+        "route": "/exam/jr_1151_s2",
+        "questionId": "jr_1151_s2_q20",
+        "questionNumber": 20,
+        "question": "在規劃生成式 AI解決方案時，下列何種應用場景最適合採用 GPT-Realtime 類型 模型？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出語音與文字可無縫轉換，對應即時語音客服。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1152_s2:jr_1152_s2_q31",
+        "examKey": "jr_1152_s2",
+        "examLabel": "科目二 公告試題（115年第二次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第二次）",
+        "route": "/exam/jr_1152_s2",
+        "questionId": "jr_1152_s2_q31",
+        "questionNumber": 31,
+        "question": "某食品製造公司想建立產品瑕疵檢測系統，需要生成大量模擬瑕疵影像來擴充 訓練資料集，並同時撰寫檢測流程的技術文件。在不自行開發模型的情況下， 下列哪種生成式 AI工具組合最適合？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明工具可跨文字與圖像協同生成；顯示ChatGPT可處理文字內容"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-81": [
@@ -926,36 +1944,53 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明雲端平台、API 服務、API 介接與外掛程式可將 AI 工具整合至現有流程，並透過領域知識整合提升應用符合度，支撐 MCP 連接外部文件的概念。"
+          "補充：說明雲端平台、API 服務、API 介接與外掛程式可將 AI 工具整合至現有流程，並透過領域知識整合提升應用符合度，支撐 MCP 連接外部文件的概念。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 3,
+        "citationBlockCount": 7,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-82": [
       {
-        "id": "jr_1152_s2:jr_1152_s2_q20",
-        "examKey": "jr_1152_s2",
-        "examLabel": "科目二 公告試題（115年第二次）",
-        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第二次）",
-        "route": "/exam/jr_1152_s2",
-        "questionId": "jr_1152_s2_q20",
-        "questionNumber": 20,
-        "question": "某開發團隊在使用 AI 程式設計助手開發資料管線系統（Data Pipeline System） 時，發現生成的 Python 資料處理套件呼叫方式已是舊版 API，與最新官方文件 不符，導致部分功能執行失敗。請問應導入何種技術，使系統能在推理過程中 即時存取並導入最新外部文件內容，以確保生成結果符合最新 API規範？",
-        "answer": "D",
+        "id": "jr_1141_s2:jr_1141_s2_q44",
+        "examKey": "jr_1141_s2",
+        "examLabel": "科目二 公告試題（114年第四梯次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（114年第四梯次）",
+        "route": "/exam/jr_1141_s2",
+        "questionId": "jr_1141_s2_q44",
+        "questionNumber": 44,
+        "question": "在AI應用設計中，Model Context Protocol（MCP）與檢索增強生成 （RAG）都能擴展模型的能力，但兩者的核心差異主要為下列何者？",
+        "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明雲端平台、API 服務、API 介接與外掛程式可將 AI 工具整合至現有流程，並透過領域知識整合提升應用符合度，支撐 MCP 連接外部文件的概念。"
+          "補充：以API與外掛整合第三方工具；透過雲端取用外部AI工具"
         ],
         "citationRank": 1,
-        "citationBlockCount": 8,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1151_s2:jr_1151_s2_q33",
+        "examKey": "jr_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第一次）",
+        "route": "/exam/jr_1151_s2",
+        "questionId": "jr_1151_s2_q33",
+        "questionNumber": 33,
+        "question": "某醫療院所希望改善行政效率，規劃讓各科室人員可自行建立行政回報與內部申 請表單，並導入 AI功能以自動判讀與分類填寫內容（如問題類型或需求性質）， 同時需兼顧流程調整彈性與降低系統開發維運負擔。下列哪一種技術組合最適 合？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "說明可透過API取用AI工具，降低導入門檻"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
-      }
-    ],
-    "block-83": [
+      },
       {
         "id": "jr_1152_s2:jr_1152_s2_q20",
         "examKey": "jr_1152_s2",
@@ -968,12 +2003,148 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明雲端平台、API 服務、API 介接與外掛程式可將 AI 工具整合至現有流程，並透過領域知識整合提升應用符合度，支撐 MCP 連接外部文件的概念。"
+          "補充：說明雲端平台、API 服務、API 介接與外掛程式可將 AI 工具整合至現有流程，並透過領域知識整合提升應用符合度，支撐 MCP 連接外部文件的概念。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 7,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-83": [
+      {
+        "id": "jr_1141_s2:jr_1141_s2_q14",
+        "examKey": "jr_1141_s2",
+        "examLabel": "科目二 公告試題（114年第四梯次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（114年第四梯次）",
+        "route": "/exam/jr_1141_s2",
+        "questionId": "jr_1141_s2_q14",
+        "questionNumber": 14,
+        "question": "某電商公司導入 Agentic AI來處理客服工作。測試發現 Agent 在回答 產品 FAQ 時經常出錯，且無法幫客戶修改訂單。這種情況最可能是因 為缺少下列哪兩項工具或技術？",
+        "answer": "B",
+        "confidence": "high",
+        "referenceQuestionId": "exam2_q14",
+        "reasons": [
+          "補充：外掛與介接讓工具接入現有流程，故需據此執行業務"
         ],
         "citationRank": 1,
-        "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1151_s2:jr_1151_s2_q12",
+        "examKey": "jr_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第一次）",
+        "route": "/exam/jr_1151_s2",
+        "questionId": "jr_1151_s2_q12",
+        "questionNumber": 12,
+        "question": "下列何者最能正確說明 Model Context Protocol（MCP）與檢索增強生成 （Retrieval-Augmented Generation, RAG）在功能定位上的主要差異？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：提及以API與外掛整合AI工具，近似MCP概念"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1151_s2:jr_1151_s2_q21",
+        "examKey": "jr_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第一次）",
+        "route": "/exam/jr_1151_s2",
+        "questionId": "jr_1151_s2_q21",
+        "questionNumber": 21,
+        "question": "關於2025年OpenAI提供的 AgentKit，下列何者最能描述其主要用途？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明工具藉API與外掛整合，助理解工具整合概念；API與外掛可整合AI工具至流程，對應任務流程開發"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1152_s2:jr_1152_s2_q6",
+        "examKey": "jr_1152_s2",
+        "examLabel": "科目二 公告試題（115年第二次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第二次）",
+        "route": "/exam/jr_1152_s2",
+        "questionId": "jr_1152_s2_q6",
+        "questionNumber": 6,
+        "question": "某物流公司評估導入 No-Code／Low-Code平台，希望能與現有的 ERP 系統、倉 儲管理系統及客戶通知平台進行資料串接。若主要考量系統整合能力，而非介 面美觀度或功能豐富性，下列哪一項平台特性最能滿足此整合需求？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：API介接與外掛可將工具整合至現有流程"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1152_s2:jr_1152_s2_q20",
+        "examKey": "jr_1152_s2",
+        "examLabel": "科目二 公告試題（115年第二次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第二次）",
+        "route": "/exam/jr_1152_s2",
+        "questionId": "jr_1152_s2_q20",
+        "questionNumber": 20,
+        "question": "某開發團隊在使用 AI 程式設計助手開發資料管線系統（Data Pipeline System） 時，發現生成的 Python 資料處理套件呼叫方式已是舊版 API，與最新官方文件 不符，導致部分功能執行失敗。請問應導入何種技術，使系統能在推理過程中 即時存取並導入最新外部文件內容，以確保生成結果符合最新 API規範？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：API介接與外掛可整合AI工具到既有流程"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1153_s2:jr_1153_s2_q17",
+        "examKey": "jr_1153_s2",
+        "examLabel": "科目二 公告試題（115年第三次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第三次）",
+        "route": "/exam/jr_1153_s2",
+        "questionId": "jr_1153_s2_q17",
+        "questionNumber": 17,
+        "question": "許多生成式 AI應用平台提供工具（Tools）或工具呼叫（Tool Calling）功能。這些 功能主要是為了彌補大型語言模型（LLM）的哪一項先天限制？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明外掛與API可整合外部系統，助理解工具用途；API介接可整合現有流程，有助理解工具呼叫角色"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1153_s2:jr_1153_s2_q26",
+        "examKey": "jr_1153_s2",
+        "examLabel": "科目二 公告試題（115年第三次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第三次）",
+        "route": "/exam/jr_1153_s2",
+        "questionId": "jr_1153_s2_q26",
+        "questionNumber": 26,
+        "question": "某保險公司欲建置 AI 代理（AI Agent）系統，協助理賠人員處理保單查詢及理賠文 件核對等作業。技術團隊規劃導入模型內容協定（Model Context Protocol, MCP）， 讓 AI Agent 能以統一介面存取保單資料庫及文件管理系統；並建立可重複調用的 Skill（AI能力模組），將理賠文件核對等需要 AI語意理解與專業判斷的工作封裝成 可重複使用的能力。下列敘述何者正確？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：API介接整合AI工具，接近統一存取外部系統概念。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-84": [
@@ -989,12 +2160,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明雲端平台、API 服務、API 介接與外掛程式可將 AI 工具整合至現有流程，並透過領域知識整合提升應用符合度，支撐 MCP 連接外部文件的概念。"
+          "補充：說明雲端平台、API 服務、API 介接與外掛程式可將 AI 工具整合至現有流程，並透過領域知識整合提升應用符合度，支撐 MCP 連接外部文件的概念。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 3,
+        "citationBlockCount": 7,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-85": [
@@ -1010,16 +2181,111 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明雲端平台、API 服務、API 介接與外掛程式可將 AI 工具整合至現有流程，並透過領域知識整合提升應用符合度，支撐 MCP 連接外部文件的概念。"
+          "補充：說明雲端平台、API 服務、API 介接與外掛程式可將 AI 工具整合至現有流程，並透過領域知識整合提升應用符合度，支撐 MCP 連接外部文件的概念。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 3,
+        "citationBlockCount": 7,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-86": [
       {
+        "id": "jr_1141_s2:jr_1141_s2_q9",
+        "examKey": "jr_1141_s2",
+        "examLabel": "科目二 公告試題（114年第四梯次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（114年第四梯次）",
+        "route": "/exam/jr_1141_s2",
+        "questionId": "jr_1141_s2_q9",
+        "questionNumber": 9,
+        "question": "在導入生成式 AI的應用規劃中，上下文工程（Context Engineering） 的核心目的為何？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：區分提示工程與微調，避免誤選微調"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1141_s2:jr_1141_s2_q26",
+        "examKey": "jr_1141_s2",
+        "examLabel": "科目二 公告試題（114年第四梯次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（114年第四梯次）",
+        "route": "/exam/jr_1141_s2",
+        "questionId": "jr_1141_s2_q26",
+        "questionNumber": 26,
+        "question": "某電商平台希望生成的商品描述在風格與用詞上保持一致性，但不需 要新增專業知識。下列哪種方法最適合？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：區分微調與提示工程，理解各方法用途不同"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1151_s2:jr_1151_s2_q2",
+        "examKey": "jr_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第一次）",
+        "route": "/exam/jr_1151_s2",
+        "questionId": "jr_1151_s2_q2",
+        "questionNumber": 2,
+        "question": "在進行大型語言模型 (LLM) 企業專屬知識的 Fine-tuning 時，若內部 GPU運算資 源與記憶體嚴重受限，下列哪一種參數高效微調（PEFT, Parameter Efficient Fine- Tuning）技術最能在維持模型效能的前提下，顯著降低需更新的參數數量？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：區分微調與提示工程，可排除提示詞工程。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1151_s2:jr_1151_s2_q36",
+        "examKey": "jr_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第一次）",
+        "route": "/exam/jr_1151_s2",
+        "questionId": "jr_1151_s2_q36",
+        "questionNumber": 36,
+        "question": "某連鎖零售企業使用生成式 AI協助規劃門市補貨策略。決策時需同時考量多項彼 此相關的因素，例如：庫存水位、促銷活動、區域銷售差異與物流限制。專案團 隊發現，AI雖能逐步說明推論過程，但對於多條件之間的相互影響掌握不足，導 致建議結果偶有偏差。若希望透過提示工程（Prompt Engineering）改善此問題， 下列哪一種策略最為適合？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明提示工程可依需求調整生成結果"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1151_s2:jr_1151_s2_q37",
+        "examKey": "jr_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第一次）",
+        "route": "/exam/jr_1151_s2",
+        "questionId": "jr_1151_s2_q37",
+        "questionNumber": 37,
+        "question": "某電商平台導入生成式 AI客服助理，用於自動回覆顧客詢問。營運需求包含：需 即時反映每日更新的促銷活動與商品資訊，同時維持品牌一致的回覆語氣，且企 業希望避免因模型重新訓練所造成的成本增加與系統不穩定。在此情境下，下列 哪一種技術策略最合理？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明提示工程可依需求調整生成結果與風格"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
         "id": "jr_1152_s2:jr_1152_s2_q20",
         "examKey": "jr_1152_s2",
         "examLabel": "科目二 公告試題（115年第二次）",
@@ -1031,36 +2297,110 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明雲端平台、API 服務、API 介接與外掛程式可將 AI 工具整合至現有流程，並透過領域知識整合提升應用符合度，支撐 MCP 連接外部文件的概念。"
+          "補充：說明雲端平台、API 服務、API 介接與外掛程式可將 AI 工具整合至現有流程，並透過領域知識整合提升應用符合度，支撐 MCP 連接外部文件的概念。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 7,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1152_s2:jr_1152_s2_q33",
+        "examKey": "jr_1152_s2",
+        "examLabel": "科目二 公告試題（115年第二次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第二次）",
+        "route": "/exam/jr_1152_s2",
+        "questionId": "jr_1152_s2_q33",
+        "questionNumber": 33,
+        "question": "某教育科技公司正在開發一套 AI作文批改系統，希望模型能依照教師的評分邏 輯給予回饋。負責的工程師在設計系統時，於每次送出批改請求前，在提示 （Prompt）中附上固定的三組已由教師批改完成的學生作文範例，讓模型參考 後再對新作文進行評分。請問工程師採用的是下列哪一種技術？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：少樣本學習搭配提示工程，最接近正確答案。；區分微調與提示工程，有助排除微調選項。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1153_s2:jr_1153_s2_q3",
+        "examKey": "jr_1153_s2",
+        "examLabel": "科目二 公告試題（115年第三次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第三次）",
+        "route": "/exam/jr_1153_s2",
+        "questionId": "jr_1153_s2_q3",
+        "questionNumber": 3,
+        "question": "某保險公司客服中心每日需處理約八千通線上客服對話，且累積了三年份、經主管 審核通過的優質應答紀錄。技術團隊希望 AI 在所有對話中都能穩定維持相同的語 氣與回覆格式，同時盡量壓低單次對話的處理成本與回應延遲。在此條件下，下列 何種做法最為合理？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出微調可依特定需求調整生成結果。；指出領域特定微調是生成式AI應用擴展方向。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1153_s2:jr_1153_s2_q21",
+        "examKey": "jr_1153_s2",
+        "examLabel": "科目二 公告試題（115年第三次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第三次）",
+        "route": "/exam/jr_1153_s2",
+        "questionId": "jr_1153_s2_q21",
+        "questionNumber": 21,
+        "question": "某企業希望 AI產生ESG永續報告，但不同部門提供的資料格式差異很大。為提升 AI產出的一致性，團隊提供過去三份經審核通過的 ESG報告，要求AI依循其章節 安排、用詞風格及呈現方式完成新報告。此作法主要運用了何種提示策略？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：提示工程可依需求調整生成結果，助理解。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1153_s2:jr_1153_s2_q28",
+        "examKey": "jr_1153_s2",
+        "examLabel": "科目二 公告試題（115年第三次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第三次）",
+        "route": "/exam/jr_1153_s2",
+        "questionId": "jr_1153_s2_q28",
+        "questionNumber": 28,
+        "question": "某工廠導入生成式 AI 協助分析設備異常。工程師發現，若直接要求 AI一次判斷故 障原因，經常出現誤判。於是改在同一個提示詞（Prompt）中要求 AI 逐步分析感 測器資料、設備警示紀錄及異常現象，再推論故障原因並提出檢修建議。上述作法 屬於下列何種提示工程（Prompt Engineering）技術？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明提示工程可調整生成結果，助理解提示設計的作用"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-87": [
       {
-        "id": "jr_1152_s2:jr_1152_s2_q20",
-        "examKey": "jr_1152_s2",
-        "examLabel": "科目二 公告試題（115年第二次）",
-        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第二次）",
-        "route": "/exam/jr_1152_s2",
-        "questionId": "jr_1152_s2_q20",
-        "questionNumber": 20,
-        "question": "某開發團隊在使用 AI 程式設計助手開發資料管線系統（Data Pipeline System） 時，發現生成的 Python 資料處理套件呼叫方式已是舊版 API，與最新官方文件 不符，導致部分功能執行失敗。請問應導入何種技術，使系統能在推理過程中 即時存取並導入最新外部文件內容，以確保生成結果符合最新 API規範？",
-        "answer": "D",
+        "id": "jr_1141_s2:jr_1141_s2_q15",
+        "examKey": "jr_1141_s2",
+        "examLabel": "科目二 公告試題（114年第四梯次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（114年第四梯次）",
+        "route": "/exam/jr_1141_s2",
+        "questionId": "jr_1141_s2_q15",
+        "questionNumber": 15,
+        "question": "某客服自動回應系統希望根據不同客戶群體調整回覆風格。在兼顧即 時性與效果的前提下，下列哪一種方案最適合？",
+        "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明雲端平台、API 服務、API 介接與外掛程式可將 AI 工具整合至現有流程，並透過領域知識整合提升應用符合度，支撐 MCP 連接外部文件的概念。"
+          "補充：風格選擇與參數調整可提升精準度與多樣性。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
-      }
-    ],
-    "block-88": [
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
       {
         "id": "jr_1152_s2:jr_1152_s2_q20",
         "examKey": "jr_1152_s2",
@@ -1073,12 +2413,211 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明雲端平台、API 服務、API 介接與外掛程式可將 AI 工具整合至現有流程，並透過領域知識整合提升應用符合度，支撐 MCP 連接外部文件的概念。"
+          "補充：說明雲端平台、API 服務、API 介接與外掛程式可將 AI 工具整合至現有流程，並透過領域知識整合提升應用符合度，支撐 MCP 連接外部文件的概念。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 7,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-88": [
+      {
+        "id": "jr_1151_s2:jr_1151_s2_q31",
+        "examKey": "jr_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第一次）",
+        "route": "/exam/jr_1151_s2",
+        "questionId": "jr_1151_s2_q31",
+        "questionNumber": 31,
+        "question": "某有機農場累積了十年的病蟲害防治紀錄文件，包含不同作物的病害症狀描述、 防治方法和效果評估。農場主人希望建立一個 AI助手，能根據農民描述的作物症 狀，快速提供相關的防治建議和歷史案例。下列哪一種技術最適合解決這個需 求？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：有助理解結合領域知識可讓生成結果更貼近需求。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 8,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1152_s2:jr_1152_s2_q20",
+        "examKey": "jr_1152_s2",
+        "examLabel": "科目二 公告試題（115年第二次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第二次）",
+        "route": "/exam/jr_1152_s2",
+        "questionId": "jr_1152_s2_q20",
+        "questionNumber": 20,
+        "question": "某開發團隊在使用 AI 程式設計助手開發資料管線系統（Data Pipeline System） 時，發現生成的 Python 資料處理套件呼叫方式已是舊版 API，與最新官方文件 不符，導致部分功能執行失敗。請問應導入何種技術，使系統能在推理過程中 即時存取並導入最新外部文件內容，以確保生成結果符合最新 API規範？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明雲端平台、API 服務、API 介接與外掛程式可將 AI 工具整合至現有流程，並透過領域知識整合提升應用符合度，支撐 MCP 連接外部文件的概念。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 7,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-90": [
+      {
+        "id": "jr_1153_s2:jr_1153_s2_q30",
+        "examKey": "jr_1153_s2",
+        "examLabel": "科目二 公告試題（115年第三次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第三次）",
+        "route": "/exam/jr_1153_s2",
+        "questionId": "jr_1153_s2_q30",
+        "questionNumber": 30,
+        "question": "小明是行銷部門人員，不具備程式撰寫背景，想利用 AI程式協作工具，Vibe Coding 一個內部活動報名網站。在開發過程中，下列哪一種做法最有助於提升開發成果的 正確性與可用性？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：生成式AI具互動性，可支援來回協作調整"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-91": [
+      {
+        "id": "jr_1153_s2:jr_1153_s2_q30",
+        "examKey": "jr_1153_s2",
+        "examLabel": "科目二 公告試題（115年第三次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第三次）",
+        "route": "/exam/jr_1153_s2",
+        "questionId": "jr_1153_s2_q30",
+        "questionNumber": 30,
+        "question": "小明是行銷部門人員，不具備程式撰寫背景，想利用 AI程式協作工具，Vibe Coding 一個內部活動報名網站。在開發過程中，下列哪一種做法最有助於提升開發成果的 正確性與可用性？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "即時回饋與迭代優化，能透過反覆調整提升產出"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
+      }
+    ],
+    "block-95": [
+      {
+        "id": "jr_1141_s2:jr_1141_s2_q2",
+        "examKey": "jr_1141_s2",
+        "examLabel": "科目二 公告試題（114年第四梯次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（114年第四梯次）",
+        "route": "/exam/jr_1141_s2",
+        "questionId": "jr_1141_s2_q2",
+        "questionNumber": 2,
+        "question": "企業在導入生成式 AI平台時，往往需要利用分散於不同部門或機構中 的大量敏感文本資料。若希望在確保隱私的前提下，仍能讓模型持續優 化並降低資料外洩風險，下列哪一種方法最適合？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：本地部署可避免敏感資料外流，最接近本地訓練概念"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1141_s2:jr_1141_s2_q12",
+        "examKey": "jr_1141_s2",
+        "examLabel": "科目二 公告試題（114年第四梯次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（114年第四梯次）",
+        "route": "/exam/jr_1141_s2",
+        "questionId": "jr_1141_s2_q12",
+        "questionNumber": 12,
+        "question": "某企業考慮將開源大型語言模型（GPT-OSS）自行部署在本地伺服器， 以取代雲端服務。下列何者最能代表本地部署對企業的實際好處？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "指出本地部署確保敏感資料不外洩，直接支持選項C。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "jr_1141_s2:jr_1141_s2_q24",
+        "examKey": "jr_1141_s2",
+        "examLabel": "科目二 公告試題（114年第四梯次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（114年第四梯次）",
+        "route": "/exam/jr_1141_s2",
+        "questionId": "jr_1141_s2_q24",
+        "questionNumber": 24,
+        "question": "某保險公司計畫導入生成式 AI的內部合約查詢系統，協助業務員與法 務部門快速解讀保單條款與理賠規範。高層特別強調客戶資料隱私與 合規風險控管，即使需要投入較多資源，也必須確保資料不會外洩。在 此情況下，下列哪一種策略最符合公司的資料安全與合規優先考量？",
+        "answer": "D",
+        "confidence": "high",
+        "referenceQuestionId": "exam2_q24",
+        "reasons": [
+          "指出本地部署可避免敏感資料外洩，支持私有化部署。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "jr_1151_s2:jr_1151_s2_q46",
+        "examKey": "jr_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第一次）",
+        "route": "/exam/jr_1151_s2",
+        "questionId": "jr_1151_s2_q46",
+        "questionNumber": 46,
+        "question": "某金融監理機構規劃導入生成式 AI以協助內部人員分析申報文件與監理報告，系 統需處理大量涉及企業敏感資料與未公開資訊。主管機關明確要求「資料安全與 法規遵循必須優先於導入速度與成本考量」。在此條件下，下列哪一種策略最為適 當？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "敏感資料留在本地，可降低外洩並支持私有部署。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "jr_1152_s2:jr_1152_s2_q44",
+        "examKey": "jr_1152_s2",
+        "examLabel": "科目二 公告試題（115年第二次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第二次）",
+        "route": "/exam/jr_1152_s2",
+        "questionId": "jr_1152_s2_q44",
+        "questionNumber": 44,
+        "question": "某市政府導入生成式 AI系統進行公文摘要作業，每日需處理約 500份文件。依 資安規範，其中部分文件屬「機密等級」（不得離開受控環境），其餘為「一般 等級」。在確保機密資料安全之前提下，且不改變既有 AI模型能力，何種資料 處理策略最為適當？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：本地部署可避免敏感資料外洩，支持隔離處理。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1153_s2:jr_1153_s2_q37",
+        "examKey": "jr_1153_s2",
+        "examLabel": "科目二 公告試題（115年第三次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第三次）",
+        "route": "/exam/jr_1153_s2",
+        "questionId": "jr_1153_s2_q37",
+        "questionNumber": 37,
+        "question": "某高科技製造商希望利用 AI 預測上下游供應商的產能與交期，以降低供應鏈中斷 的風險。然而，多數零件供應商因涉及商業機密，不願將庫存與製程資料上傳至製 造商的中央雲端平台。若希望在保護各供應商資料隱私的前提下，共同訓練供應鏈 預測模型，最適合採用下列哪一種 AI技術或架構？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：本地部署可避免敏感資料外洩，呼應資料留在供應商端"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-98": [
@@ -1094,16 +2633,35 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明效能優化與資源效率，以及模型壓縮、量化可降低硬體資源需求並支援邊緣設備運行，直接連結邊緣裝置資源限制。"
+          "補充：說明效能優化與資源效率，以及模型壓縮、量化可降低硬體資源需求並支援邊緣設備運行，直接連結邊緣裝置資源限制。"
         ],
-        "citationRank": 3,
-        "citationBlockCount": 4,
-        "supplement": false,
+        "citationRank": 6,
+        "citationBlockCount": 3,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
     "block-99": [
       {
+        "id": "jr_1151_s1:jr_1151_s1_q23",
+        "examKey": "jr_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（115年第一次）",
+        "route": "/exam/jr_1151_s1",
+        "questionId": "jr_1151_s1_q23",
+        "questionNumber": 23,
+        "question": "在AI推論服務架構設計中，「批次推論（Batch Inference）」與「即時推論（Real- time Inference）」常依任務特性選擇不同機制。下列關於兩者特性的敘述何者最正 確？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：僅點出效能與資源最佳化方向"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
         "id": "jr_1151_s2:jr_1151_s2_q8",
         "examKey": "jr_1151_s2",
         "examLabel": "科目二 公告試題（115年第一次）",
@@ -1115,36 +2673,34 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明效能優化與資源效率，以及模型壓縮、量化可降低硬體資源需求並支援邊緣設備運行，直接連結邊緣裝置資源限制。"
+          "補充：說明效能優化與資源效率，以及模型壓縮、量化可降低硬體資源需求並支援邊緣設備運行，直接連結邊緣裝置資源限制。"
         ],
-        "citationRank": 3,
-        "citationBlockCount": 4,
-        "supplement": false,
+        "citationRank": 6,
+        "citationBlockCount": 3,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
     "block-100": [
       {
-        "id": "jr_1151_s2:jr_1151_s2_q8",
-        "examKey": "jr_1151_s2",
-        "examLabel": "科目二 公告試題（115年第一次）",
-        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第一次）",
-        "route": "/exam/jr_1151_s2",
-        "questionId": "jr_1151_s2_q8",
-        "questionNumber": 8,
-        "question": "某製造企業規劃於設備端建置邊緣運算（Edge Computing）架構，並以 No- Code/Low-Code平台開發即時監控應用。測試顯示，系統在雲端環境執行順暢， 但部署至邊緣裝置後出現回應延遲與效能下降。依此情境判斷，下列何者最合理 解釋該現象？",
-        "answer": "D",
+        "id": "jr_1151_s1:jr_1151_s1_q41",
+        "examKey": "jr_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（115年第一次）",
+        "route": "/exam/jr_1151_s1",
+        "questionId": "jr_1151_s1_q41",
+        "questionNumber": 41,
+        "question": "在大型語言模型（LLM）的效能優化中，Flash Attention 常被用來改善 Transformer 注意力機制的運算效率。關於 Flash Attention 的主要效益，下列敘述何者最正確？",
+        "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明效能優化與資源效率，以及模型壓縮、量化可降低硬體資源需求並支援邊緣設備運行，直接連結邊緣裝置資源限制。"
+          "補充：說明高效Transformer架構能提升生成速度。"
         ],
-        "citationRank": 3,
-        "citationBlockCount": 4,
-        "supplement": false,
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
         "prominence": "secondary"
-      }
-    ],
-    "block-101": [
+      },
       {
         "id": "jr_1151_s2:jr_1151_s2_q8",
         "examKey": "jr_1151_s2",
@@ -1157,11 +2713,72 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明效能優化與資源效率，以及模型壓縮、量化可降低硬體資源需求並支援邊緣設備運行，直接連結邊緣裝置資源限制。"
+          "補充：說明效能優化與資源效率，以及模型壓縮、量化可降低硬體資源需求並支援邊緣設備運行，直接連結邊緣裝置資源限制。"
+        ],
+        "citationRank": 6,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-101": [
+      {
+        "id": "jr_1141_s1:jr_1141_s1_q27",
+        "examKey": "jr_1141_s1",
+        "examLabel": "科目一 公告試題（114年第四梯次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（114年第四梯次）",
+        "route": "/exam/jr_1141_s1",
+        "questionId": "jr_1141_s1_q27",
+        "questionNumber": 27,
+        "question": "在大型 Transformer 模型的效能優化過程中，常見的方法之一是「剪 枝（Pruning）」。下列哪一項最符合該方法的核心概念？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：模型壓縮與量化降低資源需求，助理解剪枝的技術定位。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1151_s2:jr_1151_s2_q8",
+        "examKey": "jr_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第一次）",
+        "route": "/exam/jr_1151_s2",
+        "questionId": "jr_1151_s2_q8",
+        "questionNumber": 8,
+        "question": "某製造企業規劃於設備端建置邊緣運算（Edge Computing）架構，並以 No- Code/Low-Code平台開發即時監控應用。測試顯示，系統在雲端環境執行順暢， 但部署至邊緣裝置後出現回應延遲與效能下降。依此情境判斷，下列何者最合理 解釋該現象？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：模型壓縮降低硬體需求，反證邊緣資源受限"
         ],
         "citationRank": 3,
-        "citationBlockCount": 4,
-        "supplement": false,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-102": [
+      {
+        "id": "jr_1151_s1:jr_1151_s1_q25",
+        "examKey": "jr_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（115年第一次）",
+        "route": "/exam/jr_1151_s1",
+        "questionId": "jr_1151_s1_q25",
+        "questionNumber": 25,
+        "question": "在大型語言模型（LLM）的推論服務中，常透過請求批次處理（Batching）來提升 系統效能。關於批次處理（Batching）機制的影響，下列敘述何者最正確？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：僅籠統提及批量處理提升效率，未說明延遲影響"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -1178,15 +2795,53 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明生成式 AI 工具可透過 API、外掛與第三方整合構建生態系，支持跨平台與模組化整合，對應題目所需的外部文件工具整合。"
+          "補充：說明生成式 AI 工具可透過 API、外掛與第三方整合構建生態系，支持跨平台與模組化整合，對應題目所需的外部文件工具整合。"
         ],
-        "citationRank": 2,
+        "citationRank": 4,
         "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-104": [
+      {
+        "id": "jr_1141_s2:jr_1141_s2_q44",
+        "examKey": "jr_1141_s2",
+        "examLabel": "科目二 公告試題（114年第四梯次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（114年第四梯次）",
+        "route": "/exam/jr_1141_s2",
+        "questionId": "jr_1141_s2_q44",
+        "questionNumber": 44,
+        "question": "在AI應用設計中，Model Context Protocol（MCP）與檢索增強生成 （RAG）都能擴展模型的能力，但兩者的核心差異主要為下列何者？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：以API與外掛整合第三方工具；透過雲端取用外部AI工具"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1151_s2:jr_1151_s2_q21",
+        "examKey": "jr_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第一次）",
+        "route": "/exam/jr_1151_s2",
+        "questionId": "jr_1151_s2_q21",
+        "questionNumber": 21,
+        "question": "關於2025年OpenAI提供的 AgentKit，下列何者最能描述其主要用途？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明工具藉API與外掛整合，助理解工具整合概念；API與外掛可整合AI工具至流程，對應任務流程開發"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
       {
         "id": "jr_1152_s2:jr_1152_s2_q20",
         "examKey": "jr_1152_s2",
@@ -1199,12 +2854,31 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明生成式 AI 工具可透過 API、外掛與第三方整合構建生態系，支持跨平台與模組化整合，對應題目所需的外部文件工具整合。"
+          "補充：說明生成式 AI 工具可透過 API、外掛與第三方整合構建生態系，支持跨平台與模組化整合，對應題目所需的外部文件工具整合。"
         ],
-        "citationRank": 2,
+        "citationRank": 4,
         "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1153_s2:jr_1153_s2_q17",
+        "examKey": "jr_1153_s2",
+        "examLabel": "科目二 公告試題（115年第三次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第三次）",
+        "route": "/exam/jr_1153_s2",
+        "questionId": "jr_1153_s2_q17",
+        "questionNumber": 17,
+        "question": "許多生成式 AI應用平台提供工具（Tools）或工具呼叫（Tool Calling）功能。這些 功能主要是為了彌補大型語言模型（LLM）的哪一項先天限制？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明外掛與API可整合外部系統，助理解工具用途；API介接可整合現有流程，有助理解工具呼叫角色"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-105": [
@@ -1220,15 +2894,34 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明生成式 AI 工具可透過 API、外掛與第三方整合構建生態系，支持跨平台與模組化整合，對應題目所需的外部文件工具整合。"
+          "補充：說明生成式 AI 工具可透過 API、外掛與第三方整合構建生態系，支持跨平台與模組化整合，對應題目所需的外部文件工具整合。"
         ],
-        "citationRank": 2,
+        "citationRank": 4,
         "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-106": [
+      {
+        "id": "jr_1152_s1:jr_1152_s1_q46",
+        "examKey": "jr_1152_s1",
+        "examLabel": "科目一 公告試題（115年第二次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（115年第二次）",
+        "route": "/exam/jr_1152_s1",
+        "questionId": "jr_1152_s1_q46",
+        "questionNumber": 46,
+        "question": "AutoSkill 框架的主要目標是什麼？",
+        "answer": "C",
+        "confidence": "medium",
+        "reasons": [
+          "補充：模組化設計概念有助理解技能模組化的意義"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
       {
         "id": "jr_1152_s2:jr_1152_s2_q20",
         "examKey": "jr_1152_s2",
@@ -1241,12 +2934,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明生成式 AI 工具可透過 API、外掛與第三方整合構建生態系，支持跨平台與模組化整合，對應題目所需的外部文件工具整合。"
+          "補充：說明生成式 AI 工具可透過 API、外掛與第三方整合構建生態系，支持跨平台與模組化整合，對應題目所需的外部文件工具整合。"
         ],
-        "citationRank": 2,
+        "citationRank": 4,
         "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-138": [
@@ -1262,11 +2955,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "可用來區分圖像、影音或產品設計等生成式 AI 應用，說明 Midjourney 類型的圖像生成並非本題交易分析與文字報告生成需求的重點。"
+          "補充：可用來區分圖像、影音或產品設計等生成式 AI 應用，說明 Midjourney 類型的圖像生成並非本題交易分析與文字報告生成需求的重點。"
         ],
-        "citationRank": 3,
+        "citationRank": 4,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -1283,11 +2976,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "可用來區分圖像、影音或產品設計等生成式 AI 應用，說明 Midjourney 類型的圖像生成並非本題交易分析與文字報告生成需求的重點。"
+          "補充：可用來區分圖像、影音或產品設計等生成式 AI 應用，說明 Midjourney 類型的圖像生成並非本題交易分析與文字報告生成需求的重點。"
         ],
-        "citationRank": 3,
+        "citationRank": 4,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -1304,11 +2997,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "可用來區分圖像、影音或產品設計等生成式 AI 應用，說明 Midjourney 類型的圖像生成並非本題交易分析與文字報告生成需求的重點。"
+          "補充：可用來區分圖像、影音或產品設計等生成式 AI 應用，說明 Midjourney 類型的圖像生成並非本題交易分析與文字報告生成需求的重點。"
         ],
-        "citationRank": 3,
+        "citationRank": 4,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -1323,12 +3016,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明生成式 AI 可用於產品設計與製造、供應鏈管理，包含預測市場需求與調整供應鏈配置，對應題目中的零售補貨與物流限制情境。"
+          "補充：說明生成式 AI 可用於產品設計與製造、供應鏈管理，包含預測市場需求與調整供應鏈配置，對應題目中的零售補貨與物流限制情境。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-142": [
@@ -1344,11 +3037,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "可用來區分圖像、影音或產品設計等生成式 AI 應用，說明 Midjourney 類型的圖像生成並非本題交易分析與文字報告生成需求的重點。"
+          "補充：可用來區分圖像、影音或產品設計等生成式 AI 應用，說明 Midjourney 類型的圖像生成並非本題交易分析與文字報告生成需求的重點。"
         ],
-        "citationRank": 3,
+        "citationRank": 4,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -1363,12 +3056,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明生成式 AI 可用於產品設計與製造、供應鏈管理，包含預測市場需求與調整供應鏈配置，對應題目中的零售補貨與物流限制情境。"
+          "補充：說明生成式 AI 可用於產品設計與製造、供應鏈管理，包含預測市場需求與調整供應鏈配置，對應題目中的零售補貨與物流限制情境。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-143": [
@@ -1384,11 +3077,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "可用來區分圖像、影音或產品設計等生成式 AI 應用，說明 Midjourney 類型的圖像生成並非本題交易分析與文字報告生成需求的重點。"
+          "補充：可用來區分圖像、影音或產品設計等生成式 AI 應用，說明 Midjourney 類型的圖像生成並非本題交易分析與文字報告生成需求的重點。"
         ],
-        "citationRank": 3,
+        "citationRank": 4,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -1405,12 +3098,12 @@
         "answer": "A",
         "confidence": "high",
         "reasons": [
-          "此處提到 AI 可自動生成產品效能模擬報告，呈現報告內容生成的應用形式，可類比理解理賠調查報告生成的任務性質。"
+          "補充：此處提到 AI 可自動生成產品效能模擬報告，呈現報告內容生成的應用形式，可類比理解理賠調查報告生成的任務性質。"
         ],
-        "citationRank": 2,
+        "citationRank": 4,
         "citationBlockCount": 1,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-146": [
@@ -1426,12 +3119,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明生成式 AI 可用於產品設計與製造、供應鏈管理，包含預測市場需求與調整供應鏈配置，對應題目中的零售補貨與物流限制情境。"
+          "補充：說明生成式 AI 可用於產品設計與製造、供應鏈管理，包含預測市場需求與調整供應鏈配置，對應題目中的零售補貨與物流限制情境。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "jr_1153_s2:jr_1153_s2_q20",
@@ -1445,12 +3138,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "列出自動調整生產計畫與供應鏈配置，以及強化全流程的應用方向，呼應物流與供應鏈流程的自動化處理。"
+          "補充：列出自動調整生產計畫與供應鏈配置，以及強化全流程的應用方向，呼應物流與供應鏈流程的自動化處理。"
         ],
-        "citationRank": 2,
+        "citationRank": 3,
         "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-147": [
@@ -1466,12 +3159,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明生成式 AI 可用於產品設計與製造、供應鏈管理，包含預測市場需求與調整供應鏈配置，對應題目中的零售補貨與物流限制情境。"
+          "補充：說明生成式 AI 可用於產品設計與製造、供應鏈管理，包含預測市場需求與調整供應鏈配置，對應題目中的零售補貨與物流限制情境。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "jr_1153_s2:jr_1153_s2_q20",
@@ -1485,12 +3178,52 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "列出自動調整生產計畫與供應鏈配置，以及強化全流程的應用方向，呼應物流與供應鏈流程的自動化處理。"
+          "補充：列出自動調整生產計畫與供應鏈配置，以及強化全流程的應用方向，呼應物流與供應鏈流程的自動化處理。"
         ],
-        "citationRank": 2,
+        "citationRank": 3,
         "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-158": [
+      {
+        "id": "jr_1141_s2:jr_1141_s2_q35",
+        "examKey": "jr_1141_s2",
+        "examLabel": "科目二 公告試題（114年第四梯次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（114年第四梯次）",
+        "route": "/exam/jr_1141_s2",
+        "questionId": "jr_1141_s2_q35",
+        "questionNumber": 35,
+        "question": "在即時客服系統的效能測試中，若針對延遲測試（Latency Testing） 進行評估，下列哪一項指標最能反映系統是否符合用戶即時互動需 求？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：提到推論時間須滿足即時生成場景，最接近延遲概念。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "jr_1151_s1:jr_1151_s1_q37",
+        "examKey": "jr_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "科目一 公告試題：人工智慧基礎概論（115年第一次）",
+        "route": "/exam/jr_1151_s1",
+        "questionId": "jr_1151_s1_q37",
+        "questionNumber": 37,
+        "question": "某紡織製造公司導入 AI系統進行布料瑕疵檢測，每天需處理來自 30條產線的影 像資料，包括高解析度照片、感測器數值、生產參數記錄等多種格式。該公司收 集的資料量從每日 2GB 增長至50GB，且需在布料離開產線前的 3秒內完成瑕疵 判定。近期團隊發現系統在尖峰時段容易出現判定延遲，影響製程節奏。若要優 先改善此問題，下列哪一種做法最適合？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出推論時間須滿足即時需求，呼應降低延遲的目標。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-160": [
@@ -1506,15 +3239,34 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明自然語言處理與生成式回應模組可提升客服效率及溝通品質，對應題目的智慧客服情境。"
+          "補充：說明自然語言處理與生成式回應模組可提升客服效率及溝通品質，對應題目的智慧客服情境。"
         ],
-        "citationRank": 2,
+        "citationRank": 4,
         "citationBlockCount": 1,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-165": [
+      {
+        "id": "jr_1152_s2:jr_1152_s2_q48",
+        "examKey": "jr_1152_s2",
+        "examLabel": "科目二 公告試題（115年第二次）",
+        "examTitle": "科目二 公告試題：生成式AI應用與規劃（115年第二次）",
+        "route": "/exam/jr_1152_s2",
+        "questionId": "jr_1152_s2_q48",
+        "questionNumber": 48,
+        "question": "某企業欲導入 AI知識助理系統，需具備以下需求：員工可查詢內部規範與流程 文件、回答需具可追溯來源、資料會頻繁更新及系統需降低模型重新訓練成 本。下列哪一種架構最適合？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明標注引用來源可提升內容可追溯性"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
       {
         "id": "jr_1153_s2:jr_1153_s2_q13",
         "examKey": "jr_1153_s2",
@@ -1527,12 +3279,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "明確說明適當標注引用來源可提供內容可靠性與可追溯性，且減少人工審查可能降低準確性與品質。"
+          "補充：明確說明適當標注引用來源可提供內容可靠性與可追溯性，且減少人工審查可能降低準確性與品質。"
         ],
-        "citationRank": 2,
+        "citationRank": 4,
         "citationBlockCount": 1,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "jr_1153_s2:jr_1153_s2_q41",
@@ -1546,12 +3298,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明標注引用來源有助於可靠性與可追溯性，且減少人工審查可能降低準確性與品質，支持引用不能取代查核的核心判斷。"
+          "補充：說明標注引用來源有助於可靠性與可追溯性，且減少人工審查可能降低準確性與品質，支持引用不能取代查核的核心判斷。"
         ],
-        "citationRank": 1,
+        "citationRank": 2,
         "citationBlockCount": 1,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-166": [
@@ -1567,12 +3319,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "指出支援自然語言指令與智慧化參數調整是生成式AI工具的使用體驗優化方向，呼應題幹的操作方式。"
+          "補充：指出支援自然語言指令與智慧化參數調整是生成式AI工具的使用體驗優化方向，呼應題幹的操作方式。"
         ],
-        "citationRank": 2,
+        "citationRank": 3,
         "citationBlockCount": 1,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ]
   }

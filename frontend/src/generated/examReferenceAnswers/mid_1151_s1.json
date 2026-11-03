@@ -22,11 +22,30 @@
         "page_label": "3-3",
         "block_ids": [
           "block-71",
-          "block-75",
-          "block-76",
           "block-77"
         ],
-        "why_relevant": "直接定義分詞與詞性標註，並說明詞性資訊如何支援語法分析、命名實體辨識與關係抽取。"
+        "why_relevant": "直接定義詞性標注是標記名詞、動詞等語法角色；實例顯示各詞被標為名詞、動詞等語法類別"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c1",
+        "title": "自然語言處理技術與應用",
+        "page_label": "3-3",
+        "block_ids": [
+          "block-74",
+          "block-76"
+        ],
+        "why_relevant": "補充：說明詞性標注是後續辨識與特徵工程的基礎；說明分詞才是切分詞彙單位，可排除混淆"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c1",
+        "title": "自然語言處理技術與應用",
+        "page_label": "3-3",
+        "block_ids": [
+          "block-75"
+        ],
+        "why_relevant": "補充：直接定義分詞與詞性標註，並說明詞性資訊如何支援語法分析、命名實體辨識與關係抽取。"
       },
       {
         "guide_key": "guide1",
@@ -39,7 +58,7 @@
           "block-331",
           "block-332"
         ],
-        "why_relevant": "說明機器翻譯與資訊擷取的不同用途，並列出法律文書中的實體辨識及關係抽取應用。"
+        "why_relevant": "補充：說明機器翻譯與資訊擷取的不同用途，並列出法律文書中的實體辨識及關係抽取應用。"
       }
     ],
     "confidence": "high"
@@ -67,11 +86,21 @@
         "title": "自然語言處理技術與應用",
         "page_label": "3-3",
         "block_ids": [
-          "block-301",
-          "block-302",
+          "block-298",
           "block-303"
         ],
-        "why_relevant": "直接說明 LoRA 以輕量級新增參數與低秩參數調整，使大型預訓練模型適應特定應用並減少計算與儲存需求。"
+        "why_relevant": "補充：說明LoRA僅調低秩參數，大幅減少計算與儲存需求。；指出LoRA可提升效能並節省資源，助理解其優勢。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c1",
+        "title": "自然語言處理技術與應用",
+        "page_label": "3-3",
+        "block_ids": [
+          "block-301",
+          "block-302"
+        ],
+        "why_relevant": "補充：直接說明 LoRA 以輕量級新增參數與低秩參數調整，使大型預訓練模型適應特定應用並減少計算與儲存需求。"
       },
       {
         "guide_key": "guide1",
@@ -82,7 +111,7 @@
           "block-57",
           "block-59"
         ],
-        "why_relevant": "說明預訓練後微調以適應下游任務的概念，以及大型預訓練模型的運算與儲存資源限制。"
+        "why_relevant": "補充：說明預訓練後微調以適應下游任務的概念，以及大型預訓練模型的運算與儲存資源限制。"
       }
     ],
     "confidence": "high"
@@ -110,17 +139,35 @@
         "title": "自然語言處理技術與應用",
         "page_label": "3-3",
         "block_ids": [
-          "block-207",
-          "block-208",
+          "block-216"
+        ],
+        "why_relevant": "說明此架構對低頻詞更有效，支持長尾詞品質較優。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c1",
+        "title": "自然語言處理技術與應用",
+        "page_label": "3-3",
+        "block_ids": [
           "block-209",
           "block-210",
+          "block-215"
+        ],
+        "why_relevant": "補充：指出 CBOW 訓練較快，符合效率取捨。；中心詞預測上下文，助理解其運作。；上下文預測中心詞，助釐清 CBOW 定義。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c1",
+        "title": "自然語言處理技術與應用",
+        "page_label": "3-3",
+        "block_ids": [
+          "block-207",
+          "block-208",
           "block-211",
           "block-214",
-          "block-215",
-          "block-216",
           "block-217"
         ],
-        "why_relevant": "直接說明 CBOW 與 Skip-gram 的預測方向、CBOW 訓練較快，以及 Skip-gram 對低頻詞較有效，並提供中心詞與周圍詞的例子。"
+        "why_relevant": "補充：直接說明 CBOW 與 Skip-gram 的預測方向、CBOW 訓練較快，以及 Skip-gram 對低頻詞較有效，並提供中心詞與周圍詞的例子。"
       },
       {
         "guide_key": "guide1",
@@ -132,7 +179,7 @@
           "block-199",
           "block-203"
         ],
-        "why_relevant": "說明詞嵌入透過共現關係學習語意，能處理大量語料，但低頻詞仍受資料不足限制，支持區分整體語料規模與個別詞彙頻率。"
+        "why_relevant": "補充：說明詞嵌入透過共現關係學習語意，能處理大量語料，但低頻詞仍受資料不足限制，支持區分整體語料規模與個別詞彙頻率。"
       }
     ],
     "confidence": "high"
@@ -160,10 +207,29 @@
         "title": "自然語言處理技術與應用",
         "page_label": "3-3",
         "block_ids": [
-          "block-62",
+          "block-62"
+        ],
+        "why_relevant": "補充：MLM讓BERT雙向理解上下文，對應選項C"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c6",
+        "title": "深度學習原理與框架",
+        "page_label": "4-54",
+        "block_ids": [
+          "block-475"
+        ],
+        "why_relevant": "補充：BERT藉MLM做雙向上下文預訓練，可排除自迴歸"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c1",
+        "title": "自然語言處理技術與應用",
+        "page_label": "3-3",
+        "block_ids": [
           "block-63"
         ],
-        "why_relevant": "說明 BERT 使用 MLM 並理解雙向上下文，以及 GPT 使用單向自迴歸生成，支持正確選項與 A 選項的區辨。"
+        "why_relevant": "補充：說明 BERT 使用 MLM 並理解雙向上下文，以及 GPT 使用單向自迴歸生成，支持正確選項與 A 選項的區辨。"
       },
       {
         "guide_key": "guide1",
@@ -175,7 +241,7 @@
           "block-284",
           "block-285"
         ],
-        "why_relevant": "說明預訓練可學習語法與語意結構，並對照 BERT 的雙向編碼器、MLM 任務及 GPT 的自迴歸預測。"
+        "why_relevant": "補充：說明預訓練可學習語法與語意結構，並對照 BERT 的雙向編碼器、MLM 任務及 GPT 的自迴歸預測。"
       }
     ],
     "confidence": "high"
@@ -203,14 +269,34 @@
         "title": "自然語言處理技術與應用",
         "page_label": "3-3",
         "block_ids": [
+          "block-107"
+        ],
+        "why_relevant": "One-Hot 高維且不具語意，故需詞嵌入"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c1",
+        "title": "自然語言處理技術與應用",
+        "page_label": "3-3",
+        "block_ids": [
+          "block-123",
           "block-193",
+          "block-196"
+        ],
+        "why_relevant": "補充：分布式詞嵌入能保留語意結構，優於稀疏編碼；指出詞彙表擴大時向量維度高且稀疏的問題；說明分散式詞嵌入以共現學習語意，相近詞靠近"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c1",
+        "title": "自然語言處理技術與應用",
+        "page_label": "3-3",
+        "block_ids": [
           "block-194",
-          "block-196",
           "block-198",
           "block-201",
           "block-202"
         ],
-        "why_relevant": "說明分布式詞嵌入依共現關係學習語意、Word2Vec 屬於此類方法，以及語意結構保留與靜態詞向量的限制。"
+        "why_relevant": "補充：說明分布式詞嵌入依共現關係學習語意、Word2Vec 屬於此類方法，以及語意結構保留與靜態詞向量的限制。"
       },
       {
         "guide_key": "guide1",
@@ -223,7 +309,7 @@
           "block-262",
           "block-264"
         ],
-        "why_relevant": "區分詞嵌入與序列模型、自注意力機制處理語序及長距離關聯的能力，支持排除選項 A。"
+        "why_relevant": "補充：區分詞嵌入與序列模型、自注意力機制處理語序及長距離關聯的能力，支持排除選項 A。"
       }
     ],
     "confidence": "high"
@@ -250,10 +336,10 @@
         "title": "電腦視覺技術與應用",
         "page_label": "3-40",
         "block_ids": [
-          "block-102",
-          "block-103"
+          "block-103",
+          "block-104"
         ],
-        "why_relevant": "說明影像分割的逐像素分類目標，以及語意分割不區分同類別不同實例的特性。"
+        "why_relevant": "說明語意分割不區分同類別中的不同個體。；說明實例分割會為同類別每個物件建立唯一標識。"
       },
       {
         "guide_key": "guide1",
@@ -261,9 +347,20 @@
         "title": "電腦視覺技術與應用",
         "page_label": "3-40",
         "block_ids": [
+          "block-15",
           "block-47"
         ],
-        "why_relevant": "對照影像分類的類別標籤、物件偵測的邊界框、語意分割的像素標籤，以及實例分割的像素遮罩與實例 ID，直接支持正解及各錯誤選項的辨析。"
+        "why_relevant": "補充：像素遮罩加實例ID可區分同類的多個物件。；表格並列語意與實例分割的定義與差異。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c2",
+        "title": "電腦視覺技術與應用",
+        "page_label": "3-40",
+        "block_ids": [
+          "block-102"
+        ],
+        "why_relevant": "補充：說明影像分割的逐像素分類目標，以及語意分割不區分同類別不同實例的特性。"
       }
     ],
     "confidence": "high"
@@ -291,9 +388,9 @@
         "title": "電腦視覺技術與應用",
         "page_label": "3-40",
         "block_ids": [
-          "block-15"
+          "block-47"
         ],
-        "why_relevant": "比較影像分類、物件偵測、語意分割及實例分割的任務定義，支持各選項的功能差異。"
+        "why_relevant": "以像素遮罩區分同類多個物件，最符合需求。"
       },
       {
         "guide_key": "guide1",
@@ -301,9 +398,21 @@
         "title": "電腦視覺技術與應用",
         "page_label": "3-40",
         "block_ids": [
-          "block-47"
+          "block-93",
+          "block-103",
+          "block-105"
         ],
-        "why_relevant": "明列實例分割採用像素遮罩與實例 ID，直接對應題目要求的精確區域標記及同類個體區分。"
+        "why_relevant": "補充：說明語意分割不區分同類個體，故不適用。；說明實例分割兼具檢測與語意分割，能細緻分割。；物件偵測重在定位與分類，未達像素級遮罩。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c2",
+        "title": "電腦視覺技術與應用",
+        "page_label": "3-40",
+        "block_ids": [
+          "block-15"
+        ],
+        "why_relevant": "補充：比較影像分類、物件偵測、語意分割及實例分割的任務定義，支持各選項的功能差異。"
       }
     ],
     "confidence": "high"
@@ -326,6 +435,28 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c9",
+        "title": "模型訓練、評估與驗證",
+        "page_label": "5-17",
+        "block_ids": [
+          "block-89",
+          "block-90"
+        ],
+        "why_relevant": "指出ROC橫軸為假正率，可直接對應正確選項。；說明縱軸為真正率，確認Y軸代表TPR。"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c9",
+        "title": "模型訓練、評估與驗證",
+        "page_label": "5-17",
+        "block_ids": [
+          "block-60",
+          "block-65"
+        ],
+        "why_relevant": "補充：混淆矩陣定義TP與FP，助理解真假陽率來源。；定義假正FP，有助理解橫軸假陽率。"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1c2",
         "title": "電腦視覺技術與應用",
@@ -336,7 +467,7 @@
           "block-201",
           "block-205"
         ],
-        "why_relevant": "說明誤檢與漏檢的實務影響，並列出 AUC、精確度及召回率等評估指標，支持以多維度衡量醫療分類模型效能。"
+        "why_relevant": "補充：說明誤檢與漏檢的實務影響，並列出 AUC、精確度及召回率等評估指標，支持以多維度衡量醫療分類模型效能。"
       },
       {
         "guide_key": "guide1",
@@ -347,7 +478,7 @@
           "block-84",
           "block-86"
         ],
-        "why_relevant": "將假陽性率列為醫療應用的相關評估指標，連結本題對良性個案誤報風險的考量。"
+        "why_relevant": "補充：將假陽性率列為醫療應用的相關評估指標，連結本題對良性個案誤報風險的考量。"
       }
     ],
     "confidence": "high"
@@ -370,6 +501,17 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c9",
+        "title": "模型訓練、評估與驗證",
+        "page_label": "5-17",
+        "block_ids": [
+          "block-60",
+          "block-90"
+        ],
+        "why_relevant": "補充：混淆矩陣含TP、FP、TN、FN，可算前三項。；指出ROC曲線用真正率，但未涵蓋AUC計算。"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1c2",
         "title": "電腦視覺技術與應用",
@@ -377,7 +519,7 @@
         "block_ids": [
           "block-79"
         ],
-        "why_relevant": "說明影像分類模型可透過 Softmax 輸出類別機率，可連結到預測機率與最終類別判斷的差異；此處不作為 ROC AUC 定義或計算公式的直接出處。"
+        "why_relevant": "補充：說明影像分類模型可透過 Softmax 輸出類別機率，可連結到預測機率與最終類別判斷的差異；此處不作為 ROC AUC 定義或計算公式的直接出處。"
       }
     ],
     "confidence": "high"
@@ -406,13 +548,32 @@
         "title": "電腦視覺技術與應用",
         "page_label": "3-40",
         "block_ids": [
-          "block-92",
-          "block-93",
           "block-94",
-          "block-95",
+          "block-95"
+        ],
+        "why_relevant": "YOLO以迴歸同時預測邊界框與類別，屬單階段。；Faster R-CNN先提候選框再分類"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c2",
+        "title": "電腦視覺技術與應用",
+        "page_label": "3-40",
+        "block_ids": [
+          "block-93",
+          "block-98"
+        ],
+        "why_relevant": "補充：說明物件偵測含定位與分類，助理解分工。；舉YOLO即時人臉辨識，說明其速度快。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c2",
+        "title": "電腦視覺技術與應用",
+        "page_label": "3-40",
+        "block_ids": [
+          "block-92",
           "block-100"
         ],
-        "why_relevant": "說明物件偵測包含定位與分類，並直接比較 YOLO 同時預測邊界框與類別、Faster R-CNN 先生成候選框再分類與迴歸的流程，以及工業瑕疵檢測的應用。"
+        "why_relevant": "補充：說明物件偵測包含定位與分類，並直接比較 YOLO 同時預測邊界框與類別、Faster R-CNN 先生成候選框再分類與迴歸的流程，以及工業瑕疵檢測的應用。"
       }
     ],
     "confidence": "high"
@@ -440,10 +601,40 @@
         "title": "自然語言處理技術與應用",
         "page_label": "3-3",
         "block_ids": [
-          "block-266",
+          "block-266"
+        ],
+        "why_relevant": "說明依詞與詞關聯程度加權表示，直接對應選項B。"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c6",
+        "title": "深度學習原理與框架",
+        "page_label": "4-54",
+        "block_ids": [
+          "block-416"
+        ],
+        "why_relevant": "點出關注並權衡與序列中所有其他詞的關係，符合B。"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c6",
+        "title": "深度學習原理與框架",
+        "page_label": "4-54",
+        "block_ids": [
+          "block-413",
+          "block-415"
+        ],
+        "why_relevant": "補充：解釋相關性越高權重越大，有助理解加權求和。；可直接建立任意兩元素聯繫，可排除遞迴傳遞的選項A。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c1",
+        "title": "自然語言處理技術與應用",
+        "page_label": "3-3",
+        "block_ids": [
           "block-267"
         ],
-        "why_relevant": "直接說明自注意力依詞語關聯程度進行加權表示，並以 cat 與 ran 的關聯解釋長距離依賴。"
+        "why_relevant": "補充：直接說明自注意力依詞語關聯程度進行加權表示，並以 cat 與 ran 的關聯解釋長距離依賴。"
       },
       {
         "guide_key": "guide1",
@@ -457,7 +648,7 @@
           "block-264",
           "block-265"
         ],
-        "why_relevant": "對照 RNN 的逐步狀態傳遞與 Transformer 自注意力的詞語關聯建模，支持選項 A 與 B 的辨析。"
+        "why_relevant": "補充：對照 RNN 的逐步狀態傳遞與 Transformer 自注意力的詞語關聯建模，支持選項 A 與 B 的辨析。"
       }
     ],
     "confidence": "high"
@@ -480,6 +671,17 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c6",
+        "title": "深度學習原理與框架",
+        "page_label": "4-54",
+        "block_ids": [
+          "block-66",
+          "block-72"
+        ],
+        "why_relevant": "補充：說明輸出介於0與1且可視為機率。；提到梯度消失，有助理解B的限制敘述。"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1pdf-c5",
         "title": "第五章 AI 技術應用與系統部署",
@@ -488,7 +690,7 @@
           "block-85",
           "block-87"
         ],
-        "why_relevant": "說明分類任務的目的，以及邏輯迴歸透過 Sigmoid 將預測值轉為機率並進行分類判斷。"
+        "why_relevant": "補充：說明分類任務的目的，以及邏輯迴歸透過 Sigmoid 將預測值轉為機率並進行分類判斷。"
       },
       {
         "guide_key": "guide1",
@@ -498,7 +700,7 @@
         "block_ids": [
           "block-79"
         ],
-        "why_relevant": "說明輸出層使用 Softmax 將模型輸出轉為類別機率，可用於辨別選項 C。"
+        "why_relevant": "補充：說明輸出層使用 Softmax 將模型輸出轉為類別機率，可用於辨別選項 C。"
       },
       {
         "guide_key": "guide1",
@@ -509,7 +711,7 @@
           "block-70",
           "block-71"
         ],
-        "why_relevant": "說明迴歸任務預測連續數值且輸出通常為實數，可用於辨別選項 A。"
+        "why_relevant": "補充：說明迴歸任務預測連續數值且輸出通常為實數，可用於辨別選項 A。"
       }
     ],
     "confidence": "high"
@@ -537,11 +739,21 @@
         "title": "自然語言處理技術與應用",
         "page_label": "3-3",
         "block_ids": [
-          "block-288",
           "block-289",
+          "block-303"
+        ],
+        "why_relevant": "補充：說明提示學習把任務轉為輸入格式，不必重訓模型；顯示微調會調整模型參數，與提示微調不同"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c1",
+        "title": "自然語言處理技術與應用",
+        "page_label": "3-3",
+        "block_ids": [
+          "block-288",
           "block-290"
         ],
-        "why_relevant": "說明基於提示學習透過任務輸入形式引導模型運用原有語言能力，支持理解輸入端引導的概念；未直接定義軟提示微調。"
+        "why_relevant": "補充：說明基於提示學習透過任務輸入形式引導模型運用原有語言能力，支持理解輸入端引導的概念；未直接定義軟提示微調。"
       },
       {
         "guide_key": "guide1",
@@ -551,7 +763,7 @@
         "block_ids": [
           "block-67"
         ],
-        "why_relevant": "說明語言模型先預訓練、再以微調適應特定下游任務，支持傳統微調的任務適應概念，並排除是否使用預訓練模型的錯誤區分。"
+        "why_relevant": "補充：說明語言模型先預訓練、再以微調適應特定下游任務，支持傳統微調的任務適應概念，並排除是否使用預訓練模型的錯誤區分。"
       }
     ],
     "confidence": "high"
@@ -580,10 +792,19 @@
         "page_label": "3-3",
         "block_ids": [
           "block-301",
-          "block-302",
           "block-303"
         ],
-        "why_relevant": "說明 LoRA 透過輕量級參數與必要的低秩參數調整來適應新情境，並降低計算與儲存需求，直接支持選項 A 的資源效率。"
+        "why_relevant": "補充：LoRA只加輕量參數、不改整體模型，干擾較小。；資源有限時僅調低秩參數，可減少計算並高效微調。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c1",
+        "title": "自然語言處理技術與應用",
+        "page_label": "3-3",
+        "block_ids": [
+          "block-302"
+        ],
+        "why_relevant": "補充：說明 LoRA 透過輕量級參數與必要的低秩參數調整來適應新情境，並降低計算與儲存需求，直接支持選項 A 的資源效率。"
       },
       {
         "guide_key": "guide1",
@@ -594,7 +815,7 @@
           "block-57",
           "block-58"
         ],
-        "why_relevant": "說明預訓練語言模型先在大規模語料上學習，再透過微調適應下游任務，提供本題通用模型轉向醫療問答任務的概念背景。"
+        "why_relevant": "補充：說明預訓練語言模型先在大規模語料上學習，再透過微調適應下游任務，提供本題通用模型轉向醫療問答任務的概念背景。"
       }
     ],
     "confidence": "high"
@@ -617,6 +838,17 @@
     ],
     "citations": [
       {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c6",
+        "title": "數據處理技術與工具",
+        "page_label": "4-20",
+        "block_ids": [
+          "block-133",
+          "block-134"
+        ],
+        "why_relevant": "補充：任務失敗須自動重試，正是確保完成的正確作法。；容錯與回復原則有助理解重試與恢復的目的。"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1c7",
         "title": "AI 風險管理",
@@ -626,7 +858,7 @@
           "block-187",
           "block-188"
         ],
-        "why_relevant": "說明監控效能異常、提醒檢查修正，以及在效能下降時觸發調整的管理原則，可連結本題的結果評估與異常處理。"
+        "why_relevant": "補充：說明監控效能異常、提醒檢查修正，以及在效能下降時觸發調整的管理原則，可連結本題的結果評估與異常處理。"
       },
       {
         "guide_key": "guide1",
@@ -636,7 +868,7 @@
         "block_ids": [
           "block-116"
         ],
-        "why_relevant": "說明將錯誤案例與使用回饋轉化為優化素材，支持記錄 Worker 失敗原因以供後續改善的概念。"
+        "why_relevant": "補充：說明將錯誤案例與使用回饋轉化為優化素材，支持記錄 Worker 失敗原因以供後續改善的概念。"
       }
     ],
     "confidence": "high"
@@ -668,7 +900,7 @@
           "block-299",
           "block-300"
         ],
-        "why_relevant": "說明結合外部知識檢索與語言生成、先檢索再回答以提升準確性的概念，支持本題即時資訊應先查證的改善方向。"
+        "why_relevant": "補充：外部檢索能提升準確性，即時問題應先查證再作答。；示範先檢索再生成，說明回答前應先搜尋查證。"
       }
     ],
     "confidence": "high"
@@ -699,10 +931,9 @@
         "page_label": "5-2",
         "block_ids": [
           "block-109",
-          "block-110",
-          "block-111"
+          "block-110"
         ],
-        "why_relevant": "直接說明 CNN 適合圖像與空間特徵、RNN 及 LSTM 適合時序資料，以及 Transformer 透過自注意力建立語意關聯，支持 D 的模型配置。"
+        "why_relevant": "CNN 擅長萃取影像空間特徵，可支持影像模態選擇。；LSTM 能處理時間序列與長期依賴，適合時序模態。"
       },
       {
         "guide_key": "guide1",
@@ -710,10 +941,49 @@
         "title": "多模態人工智慧應用",
         "page_label": "3-73",
         "block_ids": [
-          "block-23",
           "block-24"
         ],
-        "why_relevant": "說明各模態使用專屬網路擷取特徵，再透過融合層整合的多模態設計原則。"
+        "why_relevant": "補充：各模態宜用專屬網路再融合，不宜全靠單一模型。"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c8",
+        "title": "模型選擇與架構設計",
+        "page_label": "5-11",
+        "block_ids": [
+          "block-50"
+        ],
+        "why_relevant": "補充：長序列記憶與依賴關係是模型配對的重要考量。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c10",
+        "title": "大數據與機器學習",
+        "page_label": "6-2",
+        "block_ids": [
+          "block-24"
+        ],
+        "why_relevant": "補充：時序感測資料可經時序分析轉換時間特徵。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c8",
+        "title": "數據準備與模型選擇",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-111"
+        ],
+        "why_relevant": "補充：直接說明 CNN 適合圖像與空間特徵、RNN 及 LSTM 適合時序資料，以及 Transformer 透過自注意力建立語意關聯，支持 D 的模型配置。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c4",
+        "title": "多模態人工智慧應用",
+        "page_label": "3-73",
+        "block_ids": [
+          "block-23"
+        ],
+        "why_relevant": "補充：說明各模態使用專屬網路擷取特徵，再透過融合層整合的多模態設計原則。"
       },
       {
         "guide_key": "guide1",
@@ -724,7 +994,7 @@
           "block-454",
           "block-810"
         ],
-        "why_relevant": "說明不同模態具有不同結構與特徵表達方式，並以 Vision Transformer 展示 Transformer 應用於影像時的專門架構設計，協助釐清 C 的過度推論。"
+        "why_relevant": "補充：說明不同模態具有不同結構與特徵表達方式，並以 Vision Transformer 展示 Transformer 應用於影像時的專門架構設計，協助釐清 C 的過度推論。"
       }
     ],
     "confidence": "high"
@@ -752,11 +1022,9 @@
         "title": "多模態人工智慧應用",
         "page_label": "3-73",
         "block_ids": [
-          "block-15",
-          "block-20",
-          "block-21"
+          "block-15"
         ],
-        "why_relevant": "直接說明不同模態映射至共同語意空間的目的，並指出單純特徵串接不足以處理語意對齊與交互關係，支持選項 D。"
+        "why_relevant": "不同模態映射至共同語意空間，可直接解題。"
       },
       {
         "guide_key": "guide1",
@@ -764,10 +1032,31 @@
         "title": "多模態人工智慧應用",
         "page_label": "3-73",
         "block_ids": [
-          "block-3",
-          "block-7"
+          "block-7",
+          "block-14",
+          "block-21"
         ],
-        "why_relevant": "說明多模態 AI 強調不同資料來源的理解與融合，以及語意對齊與融合學習的作用，支持排除選項 A。"
+        "why_relevant": "補充：特徵串接無法處理模態間語意對齊，有助排除混淆。；說明跨模態需語意對齊與融合，助理解背景。；點出各模態異質，需融合分析以提升理解。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c4",
+        "title": "多模態人工智慧應用",
+        "page_label": "3-73",
+        "block_ids": [
+          "block-20"
+        ],
+        "why_relevant": "補充：直接說明不同模態映射至共同語意空間的目的，並指出單純特徵串接不足以處理語意對齊與交互關係，支持選項 D。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c4",
+        "title": "多模態人工智慧應用",
+        "page_label": "3-73",
+        "block_ids": [
+          "block-3"
+        ],
+        "why_relevant": "補充：說明多模態 AI 強調不同資料來源的理解與融合，以及語意對齊與融合學習的作用，支持排除選項 A。"
       },
       {
         "guide_key": "guide1",
@@ -779,7 +1068,7 @@
           "block-81",
           "block-85"
         ],
-        "why_relevant": "提供 CT、電子病歷等異質醫療資料的整合情境，並指出同步性挑戰，有助於連結題目的醫療應用。"
+        "why_relevant": "補充：提供 CT、電子病歷等異質醫療資料的整合情境，並指出同步性挑戰，有助於連結題目的醫療應用。"
       }
     ],
     "confidence": "high"
@@ -804,6 +1093,28 @@
     "citations": [
       {
         "guide_key": "guide1",
+        "node_id": "mid-s1c9",
+        "title": "AI 技術系統集成與部署",
+        "page_label": "5-14",
+        "block_ids": [
+          "block-112"
+        ],
+        "why_relevant": "指出單一層級指標不足，須以技術與業務指標雙軌評估。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c9",
+        "title": "AI 技術系統集成與部署",
+        "page_label": "5-14",
+        "block_ids": [
+          "block-102",
+          "block-106",
+          "block-107"
+        ],
+        "why_relevant": "補充：點擊率屬應用層級指標，只看技術指標會漏掉線上表現。；列出轉換率與 ROI 等業務指標，可檢視營收成效。；強調上線後須持續追蹤效能，不能只憑一次離線評估。"
+      },
+      {
+        "guide_key": "guide1",
         "node_id": "mid-s1pdf-c5",
         "title": "第五章 AI 技術應用與系統部署",
         "page_label": "5-1",
@@ -815,7 +1126,7 @@
           "block-249",
           "block-254"
         ],
-        "why_relevant": "說明部署後應持續追蹤成效，區分系統、應用與業務層級指標，並明確建議採技術指標與業務指標雙軌制，直接支持 A 選項。"
+        "why_relevant": "補充：說明部署後應持續追蹤成效，區分系統、應用與業務層級指標，並明確建議採技術指標與業務指標雙軌制，直接支持 A 選項。"
       },
       {
         "guide_key": "guide1",
@@ -828,7 +1139,7 @@
           "block-96",
           "block-97"
         ],
-        "why_relevant": "說明應設定監控觸發門檻，再採取再訓練或模型替換措施，支持不能僅因 CTR 小幅下降便立即回復舊模型。"
+        "why_relevant": "補充：說明應設定監控觸發門檻，再採取再訓練或模型替換措施，支持不能僅因 CTR 小幅下降便立即回復舊模型。"
       }
     ],
     "confidence": "high"
@@ -852,6 +1163,17 @@
     ],
     "citations": [
       {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c10",
+        "title": "大數據與機器學習",
+        "page_label": "6-2",
+        "block_ids": [
+          "block-40",
+          "block-50"
+        ],
+        "why_relevant": "補充：即時推薦需毫秒級反應，批次架構無法滿足時效；Kafka 提供高吞吐即時資料流，可承接點擊流"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1pdf-c5",
         "title": "第五章 AI 技術應用與系統部署",
@@ -863,7 +1185,7 @@
           "block-156",
           "block-157"
         ],
-        "why_relevant": "說明推論服務的延遲與可用性要求、資料管線整合，以及 RESTful API、快取和負載管理的部署概念。"
+        "why_relevant": "補充：說明推論服務的延遲與可用性要求、資料管線整合，以及 RESTful API、快取和負載管理的部署概念。"
       },
       {
         "guide_key": "guide1",
@@ -876,7 +1198,7 @@
           "block-233",
           "block-239"
         ],
-        "why_relevant": "支持雲端架構、資料流與 API 介接規劃，以及透過高流量壓力測試驗證系統效能與穩定性。"
+        "why_relevant": "補充：支持雲端架構、資料流與 API 介接規劃，以及透過高流量壓力測試驗證系統效能與穩定性。"
       },
       {
         "guide_key": "guide1",
@@ -890,7 +1212,7 @@
           "block-22",
           "block-28"
         ],
-        "why_relevant": "支持依現有人力、技能與資源選擇可執行的導入方案，並配置資料收集、清理及整合工作。"
+        "why_relevant": "補充：支持依現有人力、技能與資源選擇可執行的導入方案，並配置資料收集、清理及整合工作。"
       }
     ],
     "confidence": "high"
@@ -919,10 +1241,20 @@
         "title": "自然語言處理技術與應用",
         "page_label": "3-3",
         "block_ids": [
-          "block-299",
+          "block-298",
+          "block-299"
+        ],
+        "why_relevant": "補充：指出RAG等技術可節省資源，助理解成本優化方向；說明RAG結合外部檢索可提升準確性，助維持回答品質"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c1",
+        "title": "自然語言處理技術與應用",
+        "page_label": "3-3",
+        "block_ids": [
           "block-300"
         ],
-        "why_relevant": "說明 RAG 結合外部知識檢索與生成以提高準確性，支持優化成本時保留必要檢索依據的原則。"
+        "why_relevant": "補充：說明 RAG 結合外部知識檢索與生成以提高準確性，支持優化成本時保留必要檢索依據的原則。"
       },
       {
         "guide_key": "guide1",
@@ -934,7 +1266,7 @@
           "block-395",
           "block-398"
         ],
-        "why_relevant": "說明對話系統的推論速度、資源消耗與資源優化問題，支持兼顧成本、時效與穩定運行的分析。"
+        "why_relevant": "補充：說明對話系統的推論速度、資源消耗與資源優化問題，支持兼顧成本、時效與穩定運行的分析。"
       }
     ],
     "confidence": "high"
@@ -962,14 +1294,44 @@
         "title": "AI 技術系統集成與部署",
         "page_label": "5-14",
         "block_ids": [
+          "block-75"
+        ],
+        "why_relevant": "說明MLOps強調訓練到監控自動化與可追蹤"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c7",
+        "title": "AI 風險管理",
+        "page_label": "4-29",
+        "block_ids": [
+          "block-177"
+        ],
+        "why_relevant": "指出MLOps自動化建置、部署、監控與更新流程"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c9",
+        "title": "AI 技術系統集成與部署",
+        "page_label": "5-14",
+        "block_ids": [
+          "block-77",
+          "block-85",
+          "block-153"
+        ],
+        "why_relevant": "補充：CI/CD將開發、測試與部署自動化，呼應選項C；工具追蹤參數與模型版本，建立可重現性；練習解析說明MLOps持續整合、測試與監控"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c9",
+        "title": "AI 技術系統集成與部署",
+        "page_label": "5-14",
+        "block_ids": [
           "block-73",
           "block-74",
-          "block-75",
           "block-76",
-          "block-77",
           "block-79"
         ],
-        "why_relevant": "說明 MLOps 的核心定位、全生命週期一致性與可追蹤性，以及透過 CI/CD 自動化開發、測試與部署。"
+        "why_relevant": "補充：說明 MLOps 的核心定位、全生命週期一致性與可追蹤性，以及透過 CI/CD 自動化開發、測試與部署。"
       },
       {
         "guide_key": "guide1",
@@ -981,7 +1343,7 @@
           "block-257",
           "block-259"
         ],
-        "why_relevant": "支持模型版本控管、滾動更新、資料漂移觸發再訓練，以及 AutoML 可作為持續優化的搭配機制。"
+        "why_relevant": "補充：支持模型版本控管、滾動更新、資料漂移觸發再訓練，以及 AutoML 可作為持續優化的搭配機制。"
       },
       {
         "guide_key": "guide1",
@@ -991,7 +1353,7 @@
         "block_ids": [
           "block-6"
         ],
-        "why_relevant": "說明模型效能可能隨輸入資料變化而衰退，因此需要監控、自動化重訓與版本控管，支持對 D 選項的判斷。"
+        "why_relevant": "補充：說明模型效能可能隨輸入資料變化而衰退，因此需要監控、自動化重訓與版本控管，支持對 D 選項的判斷。"
       }
     ],
     "confidence": "high"
@@ -1015,6 +1377,56 @@
     ],
     "citations": [
       {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c10",
+        "title": "大數據與機器學習",
+        "page_label": "6-2",
+        "block_ids": [
+          "block-109"
+        ],
+        "why_relevant": "預訓練加微調可在少量資料下降低訓練成本"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c4",
+        "title": "多模態人工智慧應用",
+        "page_label": "3-73",
+        "block_ids": [
+          "block-123"
+        ],
+        "why_relevant": "量化與知識蒸餾可壓縮模型，適合邊緣部署"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c8",
+        "title": "模型選擇與架構設計",
+        "page_label": "5-11",
+        "block_ids": [
+          "block-81"
+        ],
+        "why_relevant": "補充：毫秒級回應須顧推論延遲，可用蒸餾加速"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c2",
+        "title": "電腦視覺技術與應用",
+        "page_label": "3-40",
+        "block_ids": [
+          "block-166"
+        ],
+        "why_relevant": "補充：邊緣運算就近處理資料，可降低延遲"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c4",
+        "title": "多模態人工智慧應用",
+        "page_label": "3-73",
+        "block_ids": [
+          "block-124"
+        ],
+        "why_relevant": "補充：雲端雖彈性但有延遲與隱私疑慮"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1c6",
         "title": "AI 導入規劃",
@@ -1024,7 +1436,7 @@
           "block-7",
           "block-11"
         ],
-        "why_relevant": "支持導入規劃應依組織資源、預算與實際情境，平衡技術可行性及成本效益。"
+        "why_relevant": "補充：支持導入規劃應依組織資源、預算與實際情境，平衡技術可行性及成本效益。"
       },
       {
         "guide_key": "guide1",
@@ -1037,7 +1449,7 @@
           "block-238",
           "block-240"
         ],
-        "why_relevant": "說明模型部署須整合既有系統，並考量本地運算、延遲及效能測試；未據此保證本題設備可達指定速度。"
+        "why_relevant": "補充：說明模型部署須整合既有系統，並考量本地運算、延遲及效能測試；未據此保證本題設備可達指定速度。"
       },
       {
         "guide_key": "guide1",
@@ -1050,7 +1462,7 @@
           "block-332",
           "block-333"
         ],
-        "why_relevant": "支持第一階段採小範圍 POC，以明確且可量測的目標驗證技術與完整流程是否符合企業需求。"
+        "why_relevant": "補充：支持第一階段採小範圍 POC，以明確且可量測的目標驗證技術與完整流程是否符合企業需求。"
       },
       {
         "guide_key": "guide1",
@@ -1063,7 +1475,7 @@
           "block-124",
           "block-127"
         ],
-        "why_relevant": "支持評估雲端商業工具的彈性、成本與隱私限制，以及自行開發和採購 GPU 所需的初期資源。"
+        "why_relevant": "補充：支持評估雲端商業工具的彈性、成本與隱私限制，以及自行開發和採購 GPU 所需的初期資源。"
       }
     ],
     "confidence": "high"
@@ -1085,6 +1497,37 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c8",
+        "title": "模型選擇與架構設計",
+        "page_label": "5-11",
+        "block_ids": [
+          "block-81"
+        ],
+        "why_relevant": "秒級回應任務須優先考量推論延遲與效能"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c9",
+        "title": "AI 技術系統集成與部署",
+        "page_label": "5-14",
+        "block_ids": [
+          "block-6",
+          "block-105"
+        ],
+        "why_relevant": "補充：指出推論延遲屬系統層級指標，與資源使用率不同；說明推論服務對延遲與可用性有更高要求"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c2",
+        "title": "電腦視覺技術與應用",
+        "page_label": "3-40",
+        "block_ids": [
+          "block-145"
+        ],
+        "why_relevant": "補充：即時分析需低延遲，呼應延遲測試目的"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1c6",
         "title": "AI 導入規劃",
@@ -1093,17 +1536,7 @@
           "block-142",
           "block-143"
         ],
-        "why_relevant": "明確將延遲時間列為衡量模型表現的技術效能指標，支持本題以回應時間作為測試目標。"
-      },
-      {
-        "guide_key": "guide1",
-        "node_id": "mid-s1c9",
-        "title": "AI 技術系統集成與部署",
-        "page_label": "5-14",
-        "block_ids": [
-          "block-6"
-        ],
-        "why_relevant": "說明推論服務對延遲與可用性的要求，以及部署流程須涵蓋測試、監控與優化。"
+        "why_relevant": "補充：明確將延遲時間列為衡量模型表現的技術效能指標，支持本題以回應時間作為測試目標。"
       },
       {
         "guide_key": "guide1",
@@ -1114,7 +1547,7 @@
           "block-202",
           "block-203"
         ],
-        "why_relevant": "說明不同族群的模型行為分析屬於偏見與公平性診斷，有助於區分選項 C 與延遲測試。"
+        "why_relevant": "補充：說明不同族群的模型行為分析屬於偏見與公平性診斷，有助於區分選項 C 與延遲測試。"
       }
     ],
     "confidence": "high"
@@ -1137,6 +1570,46 @@
     ],
     "citations": [
       {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c5",
+        "title": "數據儲存與管理",
+        "page_label": "4-9",
+        "block_ids": [
+          "block-112"
+        ],
+        "why_relevant": "說明資料版本控制確保實驗結果可驗證與可複製"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c9",
+        "title": "AI 技術系統集成與部署",
+        "page_label": "5-14",
+        "block_ids": [
+          "block-85"
+        ],
+        "why_relevant": "記錄訓練參數與資料版本，建立結果可重現性"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c10",
+        "title": "大數據與機器學習",
+        "page_label": "6-2",
+        "block_ids": [
+          "block-121"
+        ],
+        "why_relevant": "補充：資料流程具可追溯與再現性，助理解重現要求"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c12",
+        "title": "演算法偏見與公平性",
+        "page_label": "6-14",
+        "block_ids": [
+          "block-184"
+        ],
+        "why_relevant": "補充：紀錄機制確保可追溯透明，利於外部稽核"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1c6",
         "title": "AI 導入規劃",
@@ -1149,7 +1622,7 @@
           "block-142",
           "block-143"
         ],
-        "why_relevant": "說明驗證目標、從資料準備到模型測試的完整流程、快速迭代與技術效能指標，可用於連結評估流程概念，並區分效能改善與結果重現。"
+        "why_relevant": "補充：說明驗證目標、從資料準備到模型測試的完整流程、快速迭代與技術效能指標，可用於連結評估流程概念，並區分效能改善與結果重現。"
       },
       {
         "guide_key": "guide1",
@@ -1160,7 +1633,7 @@
           "block-4",
           "block-6"
         ],
-        "why_relevant": "說明模型訓練、交叉驗證、性能評估及版本控管，支持以完整技術流程與版本資訊建立查核依據的概念。"
+        "why_relevant": "補充：說明模型訓練、交叉驗證、性能評估及版本控管，支持以完整技術流程與版本資訊建立查核依據的概念。"
       }
     ],
     "confidence": "high"
@@ -1185,6 +1658,37 @@
     "citations": [
       {
         "guide_key": "guide1",
+        "node_id": "mid-s1c7",
+        "title": "AI 風險管理",
+        "page_label": "4-29",
+        "block_ids": [
+          "block-138"
+        ],
+        "why_relevant": "說明金融貸款決策須提供具體理由，直接對應可解釋性。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c5",
+        "title": "AI 導入評估",
+        "page_label": "4-3",
+        "block_ids": [
+          "block-102",
+          "block-103"
+        ],
+        "why_relevant": "補充：定義可解釋AI能讓使用者理解模型決策，支持選項D。；指出黑箱模型難解釋，導入XAI可提升透明度與信任。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c7",
+        "title": "AI 風險管理",
+        "page_label": "4-29",
+        "block_ids": [
+          "block-144"
+        ],
+        "why_relevant": "補充：國際倫理原則明列可解釋性，屬負責任AI背景。"
+      },
+      {
+        "guide_key": "guide1",
         "node_id": "mid-s1pdf-c4",
         "title": "第四章 AI 導入評估規劃",
         "page_label": "4-1",
@@ -1193,7 +1697,7 @@
           "block-496",
           "block-498"
         ],
-        "why_relevant": "說明金融貸款等重大利益決策須提供清晰具體的解釋，並區分公平性與問責性的治理要求。"
+        "why_relevant": "補充：說明金融貸款等重大利益決策須提供清晰具體的解釋，並區分公平性與問責性的治理要求。"
       },
       {
         "guide_key": "guide1",
@@ -1208,7 +1712,7 @@
           "block-123",
           "block-126"
         ],
-        "why_relevant": "說明黑箱風險、XAI 的用途，以及金融風控須解釋風險評分組成邏輯，支持選項 D。"
+        "why_relevant": "補充：說明黑箱風險、XAI 的用途，以及金融風控須解釋風險評分組成邏輯，支持選項 D。"
       }
     ],
     "confidence": "high"
@@ -1232,13 +1736,33 @@
     "citations": [
       {
         "guide_key": "guide1",
+        "node_id": "mid-s1c1",
+        "title": "自然語言處理技術與應用",
+        "page_label": "3-3",
+        "block_ids": [
+          "block-407"
+        ],
+        "why_relevant": "補充：高風險醫療場域應人工審核，可支持醫師把關。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c8",
+        "title": "數據準備與模型選擇",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-113"
+        ],
+        "why_relevant": "補充：醫療影像AI定位為協助醫師篩檢，非取代醫師。"
+      },
+      {
+        "guide_key": "guide1",
         "node_id": "mid-s1pdf-c5",
         "title": "第五章 AI 技術應用與系統部署",
         "page_label": "5-1",
         "block_ids": [
           "block-117"
         ],
-        "why_relevant": "將醫療影像診斷定位為協助醫師快速篩檢疾病的應用，支持本題的診斷輔助定位。"
+        "why_relevant": "補充：將醫療影像診斷定位為協助醫師快速篩檢疾病的應用，支持本題的診斷輔助定位。"
       },
       {
         "guide_key": "guide1",
@@ -1251,7 +1775,7 @@
           "block-530",
           "block-531"
         ],
-        "why_relevant": "說明主動降低風險可能性或影響的緩解策略，以及風險管理計畫應指定責任人與分工，可連結到醫師審核的架構設計。"
+        "why_relevant": "補充：說明主動降低風險可能性或影響的緩解策略，以及風險管理計畫應指定責任人與分工，可連結到醫師審核的架構設計。"
       },
       {
         "guide_key": "guide1",
@@ -1264,7 +1788,7 @@
           "block-162",
           "block-164"
         ],
-        "why_relevant": "強調問責性，以及依風險性質與衝擊程度制定控管措施，支持高風險醫療情境應保留人類決策權的分析。"
+        "why_relevant": "補充：強調問責性，以及依風險性質與衝擊程度制定控管措施，支持高風險醫療情境應保留人類決策權的分析。"
       }
     ],
     "confidence": "high"
@@ -1287,6 +1811,26 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c5",
+        "title": "常見機器學習演算法",
+        "page_label": "4-12",
+        "block_ids": [
+          "block-249"
+        ],
+        "why_relevant": "補充：說明特徵重要度是整體概念，不同於單筆貢獻"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c11",
+        "title": "大數據在鑑別式AI 中的應用",
+        "page_label": "6-14",
+        "block_ids": [
+          "block-24"
+        ],
+        "why_relevant": "補充：以XGBoost信用風險為例，理解題目應用情境"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1c8",
         "title": "數據準備與模型選擇",
@@ -1295,7 +1839,7 @@
           "block-56",
           "block-57"
         ],
-        "why_relevant": "說明特徵篩選須評估對模型效能的貢獻，並移除冗餘或低貢獻特徵，支持不能僅因單筆 SHAP 值為負就刪除特徵的判斷。"
+        "why_relevant": "補充：說明特徵篩選須評估對模型效能的貢獻，並移除冗餘或低貢獻特徵，支持不能僅因單筆 SHAP 值為負就刪除特徵的判斷。"
       }
     ],
     "confidence": "high"
@@ -1324,12 +1868,22 @@
         "title": "電腦視覺技術與應用",
         "page_label": "3-40",
         "block_ids": [
+          "block-75",
+          "block-145"
+        ],
+        "why_relevant": "補充：卷積層產生特徵圖，是梯度式關注區域視覺化的基礎。；低延遲需求可排除需大量取樣的解釋方法"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c2",
+        "title": "電腦視覺技術與應用",
+        "page_label": "3-40",
+        "block_ids": [
           "block-72",
           "block-73",
-          "block-74",
-          "block-75"
+          "block-74"
         ],
-        "why_relevant": "說明 CNN 能自動學習影像特徵，且卷積層會擷取局部特徵並生成特徵圖，支持本題將類別解釋連結至影像空間區域的架構基礎。"
+        "why_relevant": "補充：說明 CNN 能自動學習影像特徵，且卷積層會擷取局部特徵並生成特徵圖，支持本題將類別解釋連結至影像空間區域的架構基礎。"
       }
     ],
     "confidence": "high"
@@ -1352,6 +1906,47 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c5",
+        "title": "常見機器學習演算法",
+        "page_label": "4-12",
+        "block_ids": [
+          "block-673",
+          "block-675"
+        ],
+        "why_relevant": "直接點出PCA以協方差矩陣特徵值分解求主成分方向。；特徵向量即主成分方向，特徵值代表變異量。"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c5",
+        "title": "常見機器學習演算法",
+        "page_label": "4-12",
+        "block_ids": [
+          "block-671"
+        ],
+        "why_relevant": "補充：協方差矩陣反映特徵變異與協同關係，是分解前提。"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c7",
+        "title": "數據準備與特徵工程",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-73"
+        ],
+        "why_relevant": "補充：PCA藉線性變換找最大變異方向，助理解解題目標。"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c3",
+        "title": "數值優化技術與方法",
+        "page_label": "3-18",
+        "block_ids": [
+          "block-192"
+        ],
+        "why_relevant": "補充：練習解析同樣指出對協方差矩陣做特徵值分解。"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1pdf-c5",
         "title": "第五章 AI 技術應用與系統部署",
@@ -1360,7 +1955,7 @@
           "block-51",
           "block-52"
         ],
-        "why_relevant": "說明降維的目的，以及 PCA 透過最大方差方向保留主要資料資訊的核心概念。"
+        "why_relevant": "補充：說明降維的目的，以及 PCA 透過最大方差方向保留主要資料資訊的核心概念。"
       },
       {
         "guide_key": "guide1",
@@ -1372,7 +1967,7 @@
           "block-42",
           "block-44"
         ],
-        "why_relevant": "支持標準化的定義，以及特徵選擇、相關性分析與 PCA 概念的區分。"
+        "why_relevant": "補充：支持標準化的定義，以及特徵選擇、相關性分析與 PCA 概念的區分。"
       },
       {
         "guide_key": "guide1",
@@ -1383,7 +1978,7 @@
           "block-100",
           "block-109"
         ],
-        "why_relevant": "說明 PCA 以主成分保留最大變異，以及卷積神經網路用於局部與空間特徵萃取。"
+        "why_relevant": "補充：說明 PCA 以主成分保留最大變異，以及卷積神經網路用於局部與空間特徵萃取。"
       }
     ],
     "confidence": "high"
@@ -1406,6 +2001,17 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c5",
+        "title": "常見機器學習演算法",
+        "page_label": "4-12",
+        "block_ids": [
+          "block-447",
+          "block-662"
+        ],
+        "why_relevant": "補充：說明高維使距離差異變小、資料稀疏，密度難形成；說明維度詛咒使高維資料稀疏、分析困難"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1pdf-c5",
         "title": "第五章 AI 技術應用與系統部署",
@@ -1413,7 +2019,7 @@
         "block_ids": [
           "block-102"
         ],
-        "why_relevant": "說明 DBSCAN 為密度式分群方法，能辨識任意形狀的群集並標示雜訊，支持本題對密度判斷與雜訊結果的概念連結。"
+        "why_relevant": "補充：說明 DBSCAN 為密度式分群方法，能辨識任意形狀的群集並標示雜訊，支持本題對密度判斷與雜訊結果的概念連結。"
       },
       {
         "guide_key": "guide1",
@@ -1424,7 +2030,7 @@
           "block-51",
           "block-52"
         ],
-        "why_relevant": "說明降維與 PCA 保留主要資料訊息的概念，支持高維分群前可評估降維處理的延伸說明。"
+        "why_relevant": "補充：說明降維與 PCA 保留主要資料訊息的概念，支持高維分群前可評估降維處理的延伸說明。"
       }
     ],
     "confidence": "high"
@@ -1447,6 +2053,36 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c6",
+        "title": "深度學習原理與框架",
+        "page_label": "4-54",
+        "block_ids": [
+          "block-252"
+        ],
+        "why_relevant": "指出卷積特徵需展平成一維向量再接全連接層"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c2",
+        "title": "電腦視覺技術與應用",
+        "page_label": "3-40",
+        "block_ids": [
+          "block-78"
+        ],
+        "why_relevant": "補充：說明全連接層處理的是一維特徵向量"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c6",
+        "title": "深度學習原理與框架",
+        "page_label": "4-54",
+        "block_ids": [
+          "block-254"
+        ],
+        "why_relevant": "補充：Softmax接在全連接層後，可排除選項D"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1c2",
         "title": "電腦視覺技術與應用",
@@ -1455,10 +2091,9 @@
           "block-74",
           "block-75",
           "block-76",
-          "block-78",
           "block-79"
         ],
-        "why_relevant": "說明卷積層生成特徵圖、池化層降維、全連結層整合特徵進行分類，以及 Softmax 將輸出轉為類別機率的角色，可用來理解展平操作所在的位置。"
+        "why_relevant": "補充：說明卷積層生成特徵圖、池化層降維、全連結層整合特徵進行分類，以及 Softmax 將輸出轉為類別機率的角色，可用來理解展平操作所在的位置。"
       }
     ],
     "confidence": "high"
@@ -1480,6 +2115,26 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c10",
+        "title": "模型調整與優化",
+        "page_label": "5-30",
+        "block_ids": [
+          "block-338"
+        ],
+        "why_relevant": "補充：指出人工擴增樣本可適應多變環境並降低過擬合"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c7",
+        "title": "數據準備與特徵工程",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-130"
+        ],
+        "why_relevant": "補充：補充說明產生新樣本可提升泛化能力與穩定性"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1pdf-c3",
         "title": "第三章 AI 相關技術應用",
@@ -1487,7 +2142,7 @@
         "block_ids": [
           "block-478"
         ],
-        "why_relevant": "說明影像資料擴增可增加資料變化、增強泛化能力並對抗過擬合，支持本題的核心概念連結；並非合成資料的直接定義。"
+        "why_relevant": "補充：說明影像資料擴增可增加資料變化、增強泛化能力並對抗過擬合，支持本題的核心概念連結；並非合成資料的直接定義。"
       },
       {
         "guide_key": "guide1",
@@ -1498,7 +2153,7 @@
           "block-81",
           "block-82"
         ],
-        "why_relevant": "指出影像模型需要大量資料，小型資料集可能效果不佳且容易過擬合，說明補充訓練資料的動機。"
+        "why_relevant": "補充：指出影像模型需要大量資料，小型資料集可能效果不佳且容易過擬合，說明補充訓練資料的動機。"
       }
     ],
     "confidence": "high"
@@ -1521,6 +2176,28 @@
     ],
     "citations": [
       {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c10",
+        "title": "大數據與機器學習",
+        "page_label": "6-2",
+        "block_ids": [
+          "block-48"
+        ],
+        "why_relevant": "說明增量學習隨資料流即時更新權重，符合題意"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c10",
+        "title": "大數據與機器學習",
+        "page_label": "6-2",
+        "block_ids": [
+          "block-47",
+          "block-54",
+          "block-111"
+        ],
+        "why_relevant": "補充：指出靜態模型易失效，須持續或線上學習因應；強調串流與增量更新架構才能維持動態資料效能；說明微調可快速適應新資料分佈而不破壞原能力"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1c8",
         "title": "數據準備與模型選擇",
@@ -1529,7 +2206,7 @@
           "block-106",
           "block-107"
         ],
-        "why_relevant": "說明深度學習的高維與非線性建模能力，以及對資料規模與計算資源的需求，作為分析選項 C 全量重訓成本的輔助依據；並非增量學習或動態特徵擴展的直接定義。"
+        "why_relevant": "補充：說明深度學習的高維與非線性建模能力，以及對資料規模與計算資源的需求，作為分析選項 C 全量重訓成本的輔助依據；並非增量學習或動態特徵擴展的直接定義。"
       }
     ],
     "confidence": "high"
@@ -1553,6 +2230,46 @@
     "citations": [
       {
         "guide_key": "guide1",
+        "node_id": "mid-s1c4",
+        "title": "多模態人工智慧應用",
+        "page_label": "3-73",
+        "block_ids": [
+          "block-24"
+        ],
+        "why_relevant": "說明各模態應設計專屬網路，再以融合層整合。"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c7",
+        "title": "數據準備與特徵工程",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-54"
+        ],
+        "why_relevant": "補充：特徵選擇可篩選關鍵子集，降低維度並保留預測資訊。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c4",
+        "title": "多模態人工智慧應用",
+        "page_label": "3-73",
+        "block_ids": [
+          "block-59"
+        ],
+        "why_relevant": "補充：說明異質資料需特徵對齊與融合，可用於整合。"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c3",
+        "title": "數值優化技術與方法",
+        "page_label": "3-18",
+        "block_ids": [
+          "block-193"
+        ],
+        "why_relevant": "補充：PCA保留最大變異，並非依預測價值選特徵。"
+      },
+      {
+        "guide_key": "guide1",
         "node_id": "mid-s1c8",
         "title": "數據準備與模型選擇",
         "page_label": "5-2",
@@ -1561,7 +2278,7 @@
           "block-57",
           "block-61"
         ],
-        "why_relevant": "說明特徵貢獻評估、刪除冗餘或低貢獻特徵，以及依資料特性調整處理方法，支持基因特徵先行篩選的策略。"
+        "why_relevant": "補充：說明特徵貢獻評估、刪除冗餘或低貢獻特徵，以及依資料特性調整處理方法，支持基因特徵先行篩選的策略。"
       },
       {
         "guide_key": "guide1",
@@ -1572,7 +2289,7 @@
           "block-100",
           "block-111"
         ],
-        "why_relevant": "分別說明 PCA 保留最大變異的特徵壓縮原理，以及 Transformer 建構語意關聯的能力，支持 A 與 B 的比較。"
+        "why_relevant": "補充：分別說明 PCA 保留最大變異的特徵壓縮原理，以及 Transformer 建構語意關聯的能力，支持 A 與 B 的比較。"
       },
       {
         "guide_key": "guide1",
@@ -1582,10 +2299,9 @@
         "block_ids": [
           "block-20",
           "block-21",
-          "block-23",
-          "block-24"
+          "block-23"
         ],
-        "why_relevant": "對照簡單特徵串接的限制與模態專屬處理後透過融合層整合的做法，支持 B 的整體設計。"
+        "why_relevant": "補充：對照簡單特徵串接的限制與模態專屬處理後透過融合層整合的做法，支持 B 的整體設計。"
       }
     ],
     "confidence": "high"
@@ -1608,6 +2324,26 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c6",
+        "title": "深度學習原理與框架",
+        "page_label": "4-54",
+        "block_ids": [
+          "block-452"
+        ],
+        "why_relevant": "補充：提示遷移學習與預訓練模型是解題關鍵方向"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c2",
+        "title": "電腦視覺技術與應用",
+        "page_label": "3-40",
+        "block_ids": [
+          "block-70"
+        ],
+        "why_relevant": "補充：指出CNN是影像分類常用且效果佳的模型"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1c2",
         "title": "電腦視覺技術與應用",
@@ -1620,7 +2356,7 @@
           "block-81",
           "block-82"
         ],
-        "why_relevant": "說明 CNN 的特徵提取與分類能力，以及大量資料需求、小型資料集容易過擬合的限制，支持本題選擇預訓練模型的判斷。"
+        "why_relevant": "補充：說明 CNN 的特徵提取與分類能力，以及大量資料需求、小型資料集容易過擬合的限制，支持本題選擇預訓練模型的判斷。"
       },
       {
         "guide_key": "guide1",
@@ -1631,10 +2367,9 @@
           "block-59",
           "block-61",
           "block-66",
-          "block-68",
-          "block-70"
+          "block-68"
         ],
-        "why_relevant": "說明影像分類、標註資料與 CNN 模型選擇，並列出資料擴增的作用及重複圖片的清洗原則，用於分析分類任務與單純複製資料的問題。"
+        "why_relevant": "補充：說明影像分類、標註資料與 CNN 模型選擇，並列出資料擴增的作用及重複圖片的清洗原則，用於分析分類任務與單純複製資料的問題。"
       }
     ],
     "confidence": "high"
@@ -1657,6 +2392,46 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c9",
+        "title": "模型訓練、評估與驗證",
+        "page_label": "5-17",
+        "block_ids": [
+          "block-154"
+        ],
+        "why_relevant": "SMOTE合成少數類樣本以平衡資料，屬資料前處理"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c9",
+        "title": "模型訓練、評估與驗證",
+        "page_label": "5-17",
+        "block_ids": [
+          "block-71"
+        ],
+        "why_relevant": "補充：指出不平衡下準確率高仍可能誤導，可排除D"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c10",
+        "title": "模型調整與優化",
+        "page_label": "5-30",
+        "block_ids": [
+          "block-357"
+        ],
+        "why_relevant": "補充：說明重取樣以調整樣本數解決類別不平衡"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c10",
+        "title": "大數據與機器學習",
+        "page_label": "6-2",
+        "block_ids": [
+          "block-34"
+        ],
+        "why_relevant": "補充：過採樣與SMOTE能提升少數類辨識，供背景理解"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1c2",
         "title": "電腦視覺技術與應用",
@@ -1665,7 +2440,7 @@
           "block-60",
           "block-62"
         ],
-        "why_relevant": "說明資料抽樣與類別不平衡的關聯，以及類別數量分布對訓練準確性與穩定性的影響；可支持從資料層面改善問題的概念，但未直接介紹 SMOTE。"
+        "why_relevant": "補充：說明資料抽樣與類別不平衡的關聯，以及類別數量分布對訓練準確性與穩定性的影響；可支持從資料層面改善問題的概念，但未直接介紹 SMOTE。"
       },
       {
         "guide_key": "guide1",
@@ -1676,7 +2451,7 @@
           "block-81",
           "block-82"
         ],
-        "why_relevant": "指出 CNN 的資料與計算資源需求，以及小型資料集的過擬合風險，支持對增加網路層數選項的分析。"
+        "why_relevant": "補充：指出 CNN 的資料與計算資源需求，以及小型資料集的過擬合風險，支持對增加網路層數選項的分析。"
       }
     ],
     "confidence": "high"
@@ -1700,6 +2475,46 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c7",
+        "title": "數據準備與特徵工程",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-20"
+        ],
+        "why_relevant": "異常值可能來自輸入錯誤並影響模型，須先處理。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c6",
+        "title": "數據處理技術與工具",
+        "page_label": "4-20",
+        "block_ids": [
+          "block-52"
+        ],
+        "why_relevant": "補充：標準化對極端值敏感，異常值會壓縮縮放範圍。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c8",
+        "title": "數據準備與模型選擇",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-36"
+        ],
+        "why_relevant": "補充：獨熱編碼適用無序類別，不適合數值異常值。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c3",
+        "title": "假設檢定與統計推論",
+        "page_label": "3-23",
+        "block_ids": [
+          "block-363"
+        ],
+        "why_relevant": "補充：中位數不受極端值影響，適合有離群值的資料。"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1c8",
         "title": "數據準備與模型選擇",
@@ -1711,7 +2526,7 @@
           "block-22",
           "block-26"
         ],
-        "why_relevant": "說明資料清理、中位數填補、以 Z-score 或 IQR 篩選異常資料，以及資料準確性應反映真實世界狀況。"
+        "why_relevant": "補充：說明資料清理、中位數填補、以 Z-score 或 IQR 篩選異常資料，以及資料準確性應反映真實世界狀況。"
       },
       {
         "guide_key": "guide1",
@@ -1719,10 +2534,9 @@
         "title": "數據準備與模型選擇",
         "page_label": "5-2",
         "block_ids": [
-          "block-34",
-          "block-36"
+          "block-34"
         ],
-        "why_relevant": "區分 Z-score 標準化與無序類別變數的獨熱編碼用途，支持排除 B、C。"
+        "why_relevant": "補充：區分 Z-score 標準化與無序類別變數的獨熱編碼用途，支持排除 B、C。"
       },
       {
         "guide_key": "guide1",
@@ -1733,7 +2547,7 @@
           "block-3",
           "block-5"
         ],
-        "why_relevant": "說明資料品質直接影響模型可靠性、準確度與效能，支持訓練前先清理錯誤資料。"
+        "why_relevant": "補充：說明資料品質直接影響模型可靠性、準確度與效能，支持訓練前先清理錯誤資料。"
       }
     ],
     "confidence": "high"
@@ -1755,15 +2569,55 @@
     ],
     "citations": [
       {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c5",
+        "title": "數據儲存與管理",
+        "page_label": "4-9",
+        "block_ids": [
+          "block-42"
+        ],
+        "why_relevant": "資料湖以原始格式儲存各類資料。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c10",
+        "title": "大數據與機器學習",
+        "page_label": "6-2",
+        "block_ids": [
+          "block-27"
+        ],
+        "why_relevant": "倉儲管結構化核心資料，資料湖收納非結構資料。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c5",
+        "title": "數據儲存與管理",
+        "page_label": "4-9",
+        "block_ids": [
+          "block-24",
+          "block-52"
+        ],
+        "why_relevant": "補充：說明資料湖倉兼具彈性儲存與結構化查詢。；異質資料需分層儲存與資料湖設計。"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1c9",
         "title": "AI 技術系統集成與部署",
         "page_label": "5-14",
         "block_ids": [
-          "block-10",
           "block-11"
         ],
-        "why_relevant": "說明 AI 系統可整合資料倉儲與承接大規模非結構資料的資料湖，並以包含擷取、格式轉換、清理及入庫的資料管線串接資料來源，支持本題的儲存分工。"
+        "why_relevant": "補充：指出倉儲與資料湖是不同資料來源。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c9",
+        "title": "AI 技術系統集成與部署",
+        "page_label": "5-14",
+        "block_ids": [
+          "block-10"
+        ],
+        "why_relevant": "補充：說明 AI 系統可整合資料倉儲與承接大規模非結構資料的資料湖，並以包含擷取、格式轉換、清理及入庫的資料管線串接資料來源，支持本題的儲存分工。"
       }
     ],
     "confidence": "high"
@@ -1791,12 +2645,31 @@
         "title": "多模態人工智慧應用",
         "page_label": "3-73",
         "block_ids": [
-          "block-123",
+          "block-123"
+        ],
+        "why_relevant": "補充：指出邊緣部署可用量化壓縮，對應INT8選項。"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c10",
+        "title": "模型調整與優化",
+        "page_label": "5-30",
+        "block_ids": [
+          "block-12"
+        ],
+        "why_relevant": "補充：說明壓縮模型可降低推論時間，支撐加速優化。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c4",
+        "title": "多模態人工智慧應用",
+        "page_label": "3-73",
+        "block_ids": [
           "block-124",
           "block-125",
           "block-130"
         ],
-        "why_relevant": "直接說明邊緣部署的量化、壓縮與效能權衡，並列舉提升推論速度的工具，支持選項 D。"
+        "why_relevant": "補充：直接說明邊緣部署的量化、壓縮與效能權衡，並列舉提升推論速度的工具，支持選項 D。"
       },
       {
         "guide_key": "guide1",
@@ -1809,7 +2682,7 @@
           "block-620",
           "block-624"
         ],
-        "why_relevant": "說明資料與拍攝條件對辨識品質的影響、工業瑕疵漏檢的後果，以及使用精確度與召回率等指標驗證可靠性的必要性。"
+        "why_relevant": "補充：說明資料與拍攝條件對辨識品質的影響、工業瑕疵漏檢的後果，以及使用精確度與召回率等指標驗證可靠性的必要性。"
       }
     ],
     "confidence": "high"
@@ -1832,6 +2705,17 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c10",
+        "title": "模型調整與優化",
+        "page_label": "5-30",
+        "block_ids": [
+          "block-49",
+          "block-54"
+        ],
+        "why_relevant": "補充：批次大小影響資源使用效率，設定不當將使GPU閒置；批次大小影響硬體資源分配與效率，可佐證設定不當"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1c6",
         "title": "AI 導入規劃",
@@ -1841,7 +2725,7 @@
           "block-42",
           "block-43"
         ],
-        "why_relevant": "說明硬體資源配置影響效能，且 GPU 可加速模型訓練與推論，支持本題資源配置與效能診斷的概念連結。"
+        "why_relevant": "補充：說明硬體資源配置影響效能，且 GPU 可加速模型訓練與推論，支持本題資源配置與效能診斷的概念連結。"
       },
       {
         "guide_key": "guide1",
@@ -1853,7 +2737,7 @@
           "block-207",
           "block-208"
         ],
-        "why_relevant": "將資源需求與運算負荷列為電腦視覺部署與維運風險，提供本題推論服務效能問題的概念背景。"
+        "why_relevant": "補充：將資源需求與運算負荷列為電腦視覺部署與維運風險，提供本題推論服務效能問題的概念背景。"
       }
     ],
     "confidence": "high"
@@ -1876,6 +2760,37 @@
     ],
     "citations": [
       {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c7",
+        "title": "統計學在大數據中的應用",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-14"
+        ],
+        "why_relevant": "說明少數高額案件會被整體彙總指標稀釋，須細分監控。"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c9",
+        "title": "模型訓練、評估與驗證",
+        "page_label": "5-17",
+        "block_ids": [
+          "block-103"
+        ],
+        "why_relevant": "補充：RMSE對大誤差敏感，可排除改採MAE的主張。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c7",
+        "title": "AI 風險管理",
+        "page_label": "4-29",
+        "block_ids": [
+          "block-177",
+          "block-185"
+        ],
+        "why_relevant": "補充：說明MLOps應持續監控效能與異常，但未提分群。；效能異常警示用於發現問題，未強調依金額分群。"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1c7",
         "title": "AI 風險管理",
@@ -1883,11 +2798,10 @@
         "block_ids": [
           "block-171",
           "block-173",
-          "block-177",
           "block-178",
           "block-179"
         ],
-        "why_relevant": "說明持續監控、監控指標與閾值，以及 MLOps 對模型效能下降與異常的監測，支持本題應完善重要業務群體監控的推論。"
+        "why_relevant": "補充：說明持續監控、監控指標與閾值，以及 MLOps 對模型效能下降與異常的監測，支持本題應完善重要業務群體監控的推論。"
       }
     ],
     "confidence": "high"
@@ -1911,6 +2825,26 @@
     "citations": [
       {
         "guide_key": "guide1",
+        "node_id": "mid-s1c9",
+        "title": "AI 技術系統集成與部署",
+        "page_label": "5-14",
+        "block_ids": [
+          "block-114"
+        ],
+        "why_relevant": "補充：說明以金絲雀部署分批釋出可降低新模型上線風險"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c10",
+        "title": "大數據與機器學習",
+        "page_label": "6-2",
+        "block_ids": [
+          "block-138"
+        ],
+        "why_relevant": "補充：說明部署階段可用測試策略降低版本更新風險"
+      },
+      {
+        "guide_key": "guide1",
         "node_id": "mid-s1pdf-c5",
         "title": "第五章 AI 技術應用與系統部署",
         "page_label": "5-1",
@@ -1918,7 +2852,7 @@
           "block-256",
           "block-258"
         ],
-        "why_relevant": "明確提到以金絲雀部署降低新模型不穩定造成的風險，並將使用者點擊行為與業務回饋納入模型優化。"
+        "why_relevant": "補充：明確提到以金絲雀部署降低新模型不穩定造成的風險，並將使用者點擊行為與業務回饋納入模型優化。"
       },
       {
         "guide_key": "guide1",
@@ -1935,7 +2869,7 @@
           "block-143",
           "block-144"
         ],
-        "why_relevant": "支持以小範圍測試與快速迭代驗證方案，設定可量化目標，並區分技術效能與商業價值指標。"
+        "why_relevant": "補充：支持以小範圍測試與快速迭代驗證方案，設定可量化目標，並區分技術效能與商業價值指標。"
       }
     ],
     "confidence": "high"
@@ -1963,9 +2897,10 @@
         "title": "AI 技術系統集成與部署",
         "page_label": "5-14",
         "block_ids": [
+          "block-15",
           "block-44"
         ],
-        "why_relevant": "說明模型應封裝為可透過 HTTP/REST 呼叫的推論服務，支持本題的 API 服務架構。"
+        "why_relevant": "補充：推論服務以HTTP/REST呼叫，需由請求傳資料。；RESTful API是最常見的模型服務介面。"
       },
       {
         "guide_key": "guide1",
@@ -1976,7 +2911,7 @@
           "block-156",
           "block-157"
         ],
-        "why_relevant": "說明以 RESTful API 讓前端即時取得推論結果，以及負載管理與服務穩定性的設計考量。"
+        "why_relevant": "補充：說明以 RESTful API 讓前端即時取得推論結果，以及負載管理與服務穩定性的設計考量。"
       },
       {
         "guide_key": "guide1",
@@ -1986,7 +2921,7 @@
         "block_ids": [
           "block-144"
         ],
-        "why_relevant": "指出邊緣運算的推論發生於終端裝置本地端，用以區分選項 D 與題目的服務端推論架構。"
+        "why_relevant": "補充：指出邊緣運算的推論發生於終端裝置本地端，用以區分選項 D 與題目的服務端推論架構。"
       }
     ],
     "confidence": "high"
@@ -2015,13 +2950,24 @@
         "title": "AI 技術系統集成與部署",
         "page_label": "5-14",
         "block_ids": [
+          "block-22",
+          "block-49"
+        ],
+        "why_relevant": "補充：說明高可用與自我修復架構，有助理解故障隔離方向。；說明以服務中樞統一管理服務調用，屬整合背景。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c9",
+        "title": "AI 技術系統集成與部署",
+        "page_label": "5-14",
+        "block_ids": [
           "block-24",
           "block-25",
           "block-26",
           "block-27",
           "block-28"
         ],
-        "why_relevant": "說明系統架構應追求穩定與高可用，並指出微服務可隔離錯誤，使單一模組失效不影響全系統，支持本題以斷路器阻止故障擴散的架構目標。"
+        "why_relevant": "補充：說明系統架構應追求穩定與高可用，並指出微服務可隔離錯誤，使單一模組失效不影響全系統，支持本題以斷路器阻止故障擴散的架構目標。"
       }
     ],
     "confidence": "high"
@@ -2044,6 +2990,27 @@
     ],
     "citations": [
       {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c13",
+        "title": "大數據隱私保護、安全與合規",
+        "page_label": "6-30",
+        "block_ids": [
+          "block-68"
+        ],
+        "why_relevant": "指出聯邦學習只傳模型參數、原始資料不外流"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c9",
+        "title": "AI 技術系統集成與部署",
+        "page_label": "5-14",
+        "block_ids": [
+          "block-61",
+          "block-70"
+        ],
+        "why_relevant": "補充：說明混合部署可讓雲端訓練、院內保留資料的分工；私有雲資料不外流的特性，助排除加密上傳選項"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1pdf-c4",
         "title": "第四章 AI 導入評估規劃",
@@ -2054,7 +3021,7 @@
           "block-239",
           "block-240"
         ],
-        "why_relevant": "說明 GPU、雲端運算及本地設備的資源配置，並明列醫療等敏感資料場景適合在本地處理病患資料。"
+        "why_relevant": "補充：說明 GPU、雲端運算及本地設備的資源配置，並明列醫療等敏感資料場景適合在本地處理病患資料。"
       },
       {
         "guide_key": "guide1",
@@ -2063,11 +3030,10 @@
         "page_label": "5-14",
         "block_ids": [
           "block-69",
-          "block-70",
           "block-71",
           "block-72"
         ],
-        "why_relevant": "說明混合部署依任務配置執行位置，以兼顧計算能力與資料保護，並需處理同步與一致性。"
+        "why_relevant": "補充：說明混合部署依任務配置執行位置，以兼顧計算能力與資料保護，並需處理同步與一致性。"
       }
     ],
     "confidence": "high"
@@ -2091,6 +3057,26 @@
     "citations": [
       {
         "guide_key": "guide1",
+        "node_id": "mid-s1c7",
+        "title": "AI 風險管理",
+        "page_label": "4-29",
+        "block_ids": [
+          "block-171"
+        ],
+        "why_relevant": "補充：主動緩解風險，以效能驗證與監控先優化再部署。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c6",
+        "title": "AI 導入規劃",
+        "page_label": "4-15",
+        "block_ids": [
+          "block-38"
+        ],
+        "why_relevant": "補充：壓力測試可模擬高流量，驗證穩定性以找出延遲問題。"
+      },
+      {
+        "guide_key": "guide1",
         "node_id": "mid-s1pdf-c4",
         "title": "第四章 AI 導入評估規劃",
         "page_label": "4-1",
@@ -2102,7 +3088,7 @@
           "block-340",
           "block-343"
         ],
-        "why_relevant": "說明驗證應兼顧延遲等技術效能、商業價值與使用者回饋，並透過迭代改善瓶頸，作為擴大部署的基礎。"
+        "why_relevant": "補充：說明驗證應兼顧延遲等技術效能、商業價值與使用者回饋，並透過迭代改善瓶頸，作為擴大部署的基礎。"
       },
       {
         "guide_key": "guide1",
@@ -2113,7 +3099,7 @@
           "block-232",
           "block-233"
         ],
-        "why_relevant": "說明以壓力測試模擬高流量情境，驗證模型效能與系統穩定性。"
+        "why_relevant": "補充：說明以壓力測試模擬高流量情境，驗證模型效能與系統穩定性。"
       },
       {
         "guide_key": "guide1",
@@ -2122,12 +3108,11 @@
         "page_label": "4-29",
         "block_ids": [
           "block-170",
-          "block-171",
           "block-172",
           "block-173",
           "block-177"
         ],
-        "why_relevant": "支持主動緩解技術風險及結合部署、監控與修正的做法，並指出單純接受風險主要適用於低衝擊情境。"
+        "why_relevant": "補充：支持主動緩解技術風險及結合部署、監控與修正的做法，並指出單純接受風險主要適用於低衝擊情境。"
       }
     ],
     "confidence": "high"
@@ -2150,16 +3135,65 @@
     ],
     "citations": [
       {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c10",
+        "title": "大數據與機器學習",
+        "page_label": "6-2",
+        "block_ids": [
+          "block-63"
+        ],
+        "why_relevant": "區分資料漂移與概念漂移，關聯改變即概念漂移"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c7",
+        "title": "AI 風險管理",
+        "page_label": "4-29",
+        "block_ids": [
+          "block-27"
+        ],
+        "why_relevant": "說明概念漂移是資料潛在關係隨時間改變"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c9",
+        "title": "AI 技術系統集成與部署",
+        "page_label": "5-14",
+        "block_ids": [
+          "block-92"
+        ],
+        "why_relevant": "補充：定義資料漂移為輸入特徵分布改變"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c10",
+        "title": "大數據與機器學習",
+        "page_label": "6-2",
+        "block_ids": [
+          "block-141"
+        ],
+        "why_relevant": "補充：指出需同時監控資料漂移與概念漂移"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c7",
+        "title": "AI 風險管理",
+        "page_label": "4-29",
+        "block_ids": [
+          "block-179"
+        ],
+        "why_relevant": "補充：說明監控模型效能下降並追蹤環境變化原因"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1c7",
         "title": "AI 風險管理",
         "page_label": "4-29",
         "block_ids": [
           "block-18",
-          "block-21",
-          "block-27"
+          "block-21"
         ],
-        "why_relevant": "分別說明資料漂移、外部環境變動造成的模型穩定性風險，以及概念漂移的定義，支持本題對輸入分布變化與特徵標籤關聯變化的區分。"
+        "why_relevant": "補充：分別說明資料漂移、外部環境變動造成的模型穩定性風險，以及概念漂移的定義，支持本題對輸入分布變化與特徵標籤關聯變化的區分。"
       }
     ],
     "confidence": "high"
@@ -2182,6 +3216,46 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c9",
+        "title": "模型訓練、評估與驗證",
+        "page_label": "5-17",
+        "block_ids": [
+          "block-51"
+        ],
+        "why_relevant": "指出損失曲線等屬訓練過程記錄，非線上監控"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c10",
+        "title": "大數據與機器學習",
+        "page_label": "6-2",
+        "block_ids": [
+          "block-141"
+        ],
+        "why_relevant": "列出延遲、準確率與資料漂移屬線上持續監控"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c9",
+        "title": "AI 技術系統集成與部署",
+        "page_label": "5-14",
+        "block_ids": [
+          "block-89"
+        ],
+        "why_relevant": "補充：說明模型部署後才需監控與回饋機制"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c9",
+        "title": "模型訓練、評估與驗證",
+        "page_label": "5-17",
+        "block_ids": [
+          "block-52"
+        ],
+        "why_relevant": "補充：將超參數管理歸於訓練過程的記錄範疇"
+      },
+      {
         "guide_key": "guide1",
         "node_id": "mid-s1c9",
         "title": "AI 技術系統集成與部署",
@@ -2198,7 +3272,7 @@
           "block-100",
           "block-102"
         ],
-        "why_relevant": "列出部署後應監控的模型漂移、資料漂移、延遲與吞吐量，並說明儀表板、異常預警及再訓練流程，支援判斷 B、C、D 屬於持續監控方向。"
+        "why_relevant": "補充：列出部署後應監控的模型漂移、資料漂移、延遲與吞吐量，並說明儀表板、異常預警及再訓練流程，支援判斷 B、C、D 屬於持續監控方向。"
       },
       {
         "guide_key": "guide1",
@@ -2216,7 +3290,7 @@
           "block-543",
           "block-544"
         ],
-        "why_relevant": "說明模型效能下降、輸入資料分佈變化、異常警示與自動重新訓練的關係，支持部署後持續監控的目的。"
+        "why_relevant": "補充：說明模型效能下降、輸入資料分佈變化、異常警示與自動重新訓練的關係，支持部署後持續監控的目的。"
       }
     ],
     "confidence": "high"
@@ -2244,13 +3318,34 @@
         "title": "多模態人工智慧應用",
         "page_label": "3-73",
         "block_ids": [
+          "block-59"
+        ],
+        "why_relevant": "指出晚期融合非輸入層整合，可排除D。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c4",
+        "title": "多模態人工智慧應用",
+        "page_label": "3-73",
+        "block_ids": [
+          "block-6",
+          "block-24",
+          "block-79"
+        ],
+        "why_relevant": "補充：說明各模態先專屬處理，再經融合層整合。；說明醫療診斷整合影像與病歷等多模態資料。；舉醫療影像結合病歷文字，說明多模態可提升準確率。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c4",
+        "title": "多模態人工智慧應用",
+        "page_label": "3-73",
+        "block_ids": [
           "block-19",
           "block-20",
           "block-21",
-          "block-23",
-          "block-24"
+          "block-23"
         ],
-        "why_relevant": "介紹特徵串接與模態專屬網路後再融合的架構，支援理解各模態處理方式及融合時點的差異；未直接說明本題的決策層加權機制。"
+        "why_relevant": "補充：介紹特徵串接與模態專屬網路後再融合的架構，支援理解各模態處理方式及融合時點的差異；未直接說明本題的決策層加權機制。"
       },
       {
         "guide_key": "guide1",
@@ -2262,7 +3357,7 @@
           "block-855",
           "block-858"
         ],
-        "why_relevant": "介紹多模態融合與智慧醫療應用背景；其中將晚期融合標為特徵層級整合，與題幹明定的預測後整合用語有差異，詳見 notes。"
+        "why_relevant": "補充：介紹多模態融合與智慧醫療應用背景；其中將晚期融合標為特徵層級整合，與題幹明定的預測後整合用語有差異，詳見 notes。"
       }
     ],
     "confidence": "high"

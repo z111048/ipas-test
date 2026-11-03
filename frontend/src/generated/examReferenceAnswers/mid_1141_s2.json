@@ -17,6 +17,28 @@
     "citations": [
       {
         "guide_key": "guide2",
+        "node_id": "mid-s2c1",
+        "title": "敘述性統計與資料摘要技術",
+        "page_label": "3-2",
+        "block_ids": [
+          "block-160",
+          "block-161"
+        ],
+        "why_relevant": "左偏態的偏度小於0，可直接對應正確選項；左尾較長即左偏，可據圖形判斷為負偏態"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c1",
+        "title": "敘述性統計與資料摘要技術",
+        "page_label": "3-2",
+        "block_ids": [
+          "block-153",
+          "block-162"
+        ],
+        "why_relevant": "補充：說明偏度衡量對稱性與長尾，是判讀基礎；以偏度-1.8為例，呈現負偏態的實際樣貌"
+      },
+      {
+        "guide_key": "guide2",
         "node_id": "mid-s2pdf-c3",
         "title": "第三章 機率統計基礎",
         "page_label": "3-1",
@@ -35,7 +57,7 @@
           "block-170",
           "block-171"
         ],
-        "why_relevant": "說明偏度的用途，並明確定義正偏態、負偏態與偏度接近 0 時的分佈形狀。"
+        "why_relevant": "補充：說明偏度的用途，並明確定義正偏態、負偏態與偏度接近 0 時的分佈形狀。"
       },
       {
         "guide_key": "guide2",
@@ -46,7 +68,7 @@
           "block-10",
           "block-11"
         ],
-        "why_relevant": "指出分佈形狀可透過偏度與峰度觀察，並可搭配圖表快速檢測偏態或極端尾端。"
+        "why_relevant": "補充：指出分佈形狀可透過偏度與峰度觀察，並可搭配圖表快速檢測偏態或極端尾端。"
       }
     ],
     "confidence": "high"
@@ -72,6 +94,28 @@
     ],
     "citations": [
       {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c8",
+        "title": "數據準備與模型選擇",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-33",
+          "block-34"
+        ],
+        "why_relevant": "標準化為平均數0、標準差1，並非壓縮至0到1；正規化才是把數值轉到0到1，可知選項C有誤"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c8",
+        "title": "數據準備與模型選擇",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-36",
+          "block-37"
+        ],
+        "why_relevant": "補充：獨熱編碼用於無序類別，可驗證選項A正確；標籤編碼適用有序類別，用於無序會誤判大小"
+      },
+      {
         "guide_key": "guide2",
         "node_id": "mid-s2c6",
         "title": "數據處理技術與工具",
@@ -90,7 +134,7 @@
           "block-40",
           "block-41"
         ],
-        "why_relevant": "說明類別變數需編碼、Label Encoding 與 One-Hot Encoding 的適用情境與風險，可支持 A、B 的判斷。"
+        "why_relevant": "補充：說明類別變數需編碼、Label Encoding 與 One-Hot Encoding 的適用情境與風險，可支持 A、B 的判斷。"
       },
       {
         "guide_key": "guide2",
@@ -104,7 +148,7 @@
           "block-53",
           "block-54"
         ],
-        "why_relevant": "區分 Min-Max Normalization 會縮放至 0～1，而 Z-score Standardization 是平均值 0、標準差 1，可直接支持 C 為錯誤。"
+        "why_relevant": "補充：區分 Min-Max Normalization 會縮放至 0～1，而 Z-score Standardization 是平均值 0、標準差 1，可直接支持 C 為錯誤。"
       },
       {
         "guide_key": "guide2",
@@ -119,7 +163,7 @@
           "block-21",
           "block-22"
         ],
-        "why_relevant": "說明分箱是將連續變數離散化，並列出常見分箱方式，可支持 D 關於分箱用途與需依資料特性設計的判斷。"
+        "why_relevant": "補充：說明分箱是將連續變數離散化，並列出常見分箱方式，可支持 D 關於分箱用途與需依資料特性設計的判斷。"
       }
     ],
     "confidence": "high"
@@ -148,6 +192,37 @@
         "title": "大數據與機器學習",
         "page_label": "6-2",
         "block_ids": [
+          "block-68"
+        ],
+        "why_relevant": "資料重複會提高過擬合風險，直接支持答案。"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c9",
+        "title": "模型訓練、評估與驗證",
+        "page_label": "5-17",
+        "block_ids": [
+          "block-154"
+        ],
+        "why_relevant": "補充：過度複製樣本會提高過擬合風險，與答案相符。"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c10",
+        "title": "模型調整與優化",
+        "page_label": "5-30",
+        "block_ids": [
+          "block-357",
+          "block-361"
+        ],
+        "why_relevant": "補充：說明過採樣會增加少數類樣本以平衡比例。；重取樣用於類別不平衡，理解過採樣的目的。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c10",
+        "title": "大數據與機器學習",
+        "page_label": "6-2",
+        "block_ids": [
           "block-29",
           "block-30",
           "block-31",
@@ -157,7 +232,7 @@
           "block-36",
           "block-37"
         ],
-        "why_relevant": "說明分類與預測任務中的類別不平衡、少數類別學習問題，以及過抽樣是平衡資料集的常見策略。"
+        "why_relevant": "補充：說明分類與預測任務中的類別不平衡、少數類別學習問題，以及過抽樣是平衡資料集的常見策略。"
       },
       {
         "guide_key": "guide2",
@@ -167,10 +242,9 @@
         "block_ids": [
           "block-66",
           "block-67",
-          "block-68",
           "block-69"
         ],
-        "why_relevant": "指出資料冗餘、資料重複與非代表性樣本會增加模型過擬合風險，可用來連結隨機過採樣重複樣本的主要副作用。"
+        "why_relevant": "補充：指出資料冗餘、資料重複與非代表性樣本會增加模型過擬合風險，可用來連結隨機過採樣重複樣本的主要副作用。"
       },
       {
         "guide_key": "guide2",
@@ -183,7 +257,7 @@
           "block-30",
           "block-31"
         ],
-        "why_relevant": "提供鑑別式 AI 應用中資料不平衡的實務例子，並明確提到少數類別比例低時需使用過採樣或 SMOTE。"
+        "why_relevant": "補充：提供鑑別式 AI 應用中資料不平衡的實務例子，並明確提到少數類別比例低時需使用過採樣或 SMOTE。"
       }
     ],
     "confidence": "high"
@@ -211,6 +285,36 @@
         "title": "大數據隱私保護、安全與合規",
         "page_label": "6-30",
         "block_ids": [
+          "block-73"
+        ],
+        "why_relevant": "說明同態加密可直接在密文運算，解密後一致"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c11",
+        "title": "數據隱私、安全與合規",
+        "page_label": "6-2",
+        "block_ids": [
+          "block-101"
+        ],
+        "why_relevant": "補充：說明匿名化是移除或模糊個資，與加密運算不同"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c13",
+        "title": "大數據隱私保護、安全與合規",
+        "page_label": "6-30",
+        "block_ids": [
+          "block-74"
+        ],
+        "why_relevant": "補充：舉出雲端訓練、醫療外包計算等加密運算情境"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c13",
+        "title": "大數據隱私保護、安全與合規",
+        "page_label": "6-30",
+        "block_ids": [
           "block-1",
           "block-2",
           "block-3",
@@ -219,7 +323,7 @@
           "block-7",
           "block-8"
         ],
-        "why_relevant": "說明大數據與 AI 應用中個人資料與敏感資料帶來隱私、安全與合規風險，並指出需導入資料匿名化與隱私強化技術，作為理解同態加密應用目的的背景。"
+        "why_relevant": "補充：說明大數據與 AI 應用中個人資料與敏感資料帶來隱私、安全與合規風險，並指出需導入資料匿名化與隱私強化技術，作為理解同態加密應用目的的背景。"
       },
       {
         "guide_key": "guide2",
@@ -232,7 +336,7 @@
           "block-11",
           "block-12"
         ],
-        "why_relevant": "提供個資識別風險與直接識別、準識別資訊等概念，可用來區分匿名化或去識別化與同態加密的不同重點。"
+        "why_relevant": "補充：提供個資識別風險與直接識別、準識別資訊等概念，可用來區分匿名化或去識別化與同態加密的不同重點。"
       },
       {
         "guide_key": "guide2",
@@ -249,7 +353,7 @@
           "block-61",
           "block-62"
         ],
-        "why_relevant": "說明大數據來源異質時需進行資料治理、追蹤與風險控管，可輔助辨別選項 C 屬於監測或治理議題，而非同態加密核心特性。"
+        "why_relevant": "補充：說明大數據來源異質時需進行資料治理、追蹤與風險控管，可輔助辨別選項 C 屬於監測或治理議題，而非同態加密核心特性。"
       },
       {
         "guide_key": "guide2",
@@ -266,7 +370,7 @@
           "block-11",
           "block-12"
         ],
-        "why_relevant": "說明資料轉換、格式轉換與標準化等前處理工作，可輔助辨別選項 B 是資料前處理概念，並非同態加密。"
+        "why_relevant": "補充：說明資料轉換、格式轉換與標準化等前處理工作，可輔助辨別選項 B 是資料前處理概念，並非同態加密。"
       }
     ],
     "confidence": "high"
@@ -290,6 +394,36 @@
     "citations": [
       {
         "guide_key": "guide2",
+        "node_id": "mid-s2c2",
+        "title": "機率分佈與資料分佈模型",
+        "page_label": "3-13",
+        "block_ids": [
+          "block-76"
+        ],
+        "why_relevant": "說明泊松分佈描述固定區間內的事件發生次數"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c1",
+        "title": "機率/統計之機器學習基礎應用",
+        "page_label": "3-2",
+        "block_ids": [
+          "block-23"
+        ],
+        "why_relevant": "定義固定區間事件次數，並以客服來電為例"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c1",
+        "title": "機率/統計之機器學習基礎應用",
+        "page_label": "3-2",
+        "block_ids": [
+          "block-34"
+        ],
+        "why_relevant": "補充：指數分佈描述等待時間，可排除選項B"
+      },
+      {
+        "guide_key": "guide2",
         "node_id": "mid-s2pdf-c3",
         "title": "第三章 機率統計基礎",
         "page_label": "3-1",
@@ -304,7 +438,7 @@
           "block-272",
           "block-275"
         ],
-        "why_relevant": "說明泊松分佈用於固定時間或空間區間內事件發生次數，λ 為平均發生率，並以客服中心來電量作為應用例。"
+        "why_relevant": "補充：說明泊松分佈用於固定時間或空間區間內事件發生次數，λ 為平均發生率，並以客服中心來電量作為應用例。"
       },
       {
         "guide_key": "guide2",
@@ -319,7 +453,7 @@
           "block-26",
           "block-27"
         ],
-        "why_relevant": "說明離散型隨機變數是有限或可數的整數取值，適合用來判斷來電通數屬於離散計數資料。"
+        "why_relevant": "補充：說明離散型隨機變數是有限或可數的整數取值，適合用來判斷來電通數屬於離散計數資料。"
       },
       {
         "guide_key": "guide2",
@@ -335,7 +469,7 @@
           "block-117",
           "block-118"
         ],
-        "why_relevant": "說明指數分佈描述事件間隔時間或等待時間，可用來排除將來電次數誤選為指數分佈。"
+        "why_relevant": "補充：說明指數分佈描述事件間隔時間或等待時間，可用來排除將來電次數誤選為指數分佈。"
       },
       {
         "guide_key": "guide2",
@@ -352,7 +486,7 @@
           "block-289",
           "block-290"
         ],
-        "why_relevant": "說明常態分佈為連續型、鐘形對稱分佈，適用情境不同於本題的離散來電次數。"
+        "why_relevant": "補充：說明常態分佈為連續型、鐘形對稱分佈，適用情境不同於本題的離散來電次數。"
       }
     ],
     "confidence": "high"
@@ -375,6 +509,36 @@
     "citations": [
       {
         "guide_key": "guide2",
+        "node_id": "mid-s2c8",
+        "title": "常見的大數據分析方法",
+        "page_label": "5-10",
+        "block_ids": [
+          "block-263"
+        ],
+        "why_relevant": "Z分數是偏離均值幾個標準差，超過3即標記異常。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c8",
+        "title": "數據準備與模型選擇",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-34"
+        ],
+        "why_relevant": "補充：說明Z分數標準化，有助理解偏離程度。"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c7",
+        "title": "數據準備與特徵工程",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-22"
+        ],
+        "why_relevant": "補充：指出可用Z分數界定明顯偏離的觀測值。"
+      },
+      {
+        "guide_key": "guide2",
         "node_id": "mid-s2pdf-c5",
         "title": "第五章 大數據分析方法與工具",
         "page_label": "5-1",
@@ -385,7 +549,7 @@
           "block-353",
           "block-354"
         ],
-        "why_relevant": "說明異常偵測的目的、數值型異常可能包含交易金額，並指出 Z-score 閾值法會計算資料點偏離均值的標準差並設定門檻標記異常。"
+        "why_relevant": "補充：說明異常偵測的目的、數值型異常可能包含交易金額，並指出 Z-score 閾值法會計算資料點偏離均值的標準差並設定門檻標記異常。"
       },
       {
         "guide_key": "guide2",
@@ -396,8 +560,7 @@
           "block-254",
           "block-255",
           "block-259",
-          "block-260",
-          "block-263"
+          "block-260"
         ],
         "why_relevant": "補充異常代表潛在風險或可疑行為，且金融交易金額屬於可用於異常偵測的數值資料；其中明確列出 Z-score 閾值法作為常見方法。"
       }
@@ -423,6 +586,46 @@
     "citations": [
       {
         "guide_key": "guide2",
+        "node_id": "mid-s2c6",
+        "title": "數據處理技術與工具",
+        "page_label": "4-20",
+        "block_ids": [
+          "block-35"
+        ],
+        "why_relevant": "誤用於無序類別會讓模型誤解數值大小，支持選項B。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c8",
+        "title": "數據準備與模型選擇",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-37"
+        ],
+        "why_relevant": "標籤編碼僅適用有序類別；會員等級無序，故不宜。"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c7",
+        "title": "數據準備與特徵工程",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-152"
+        ],
+        "why_relevant": "補充：樹模型對類別編碼很敏感，錯用標籤編碼容易失真。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c6",
+        "title": "數據處理技術與工具",
+        "page_label": "4-20",
+        "block_ids": [
+          "block-41"
+        ],
+        "why_relevant": "補充：獨熱編碼會增加維度與記憶體，可排除選項A。"
+      },
+      {
+        "guide_key": "guide2",
         "node_id": "mid-s2pdf-c4",
         "title": "第四章 大數據處理技術",
         "page_label": "4-1",
@@ -438,7 +641,7 @@
           "block-308",
           "block-309"
         ],
-        "why_relevant": "說明類別變數需編碼、標籤編碼適用於有明確順序的類別，以及誤用於無序類別會造成模型誤解數值意義；也說明獨熱編碼的用途。"
+        "why_relevant": "補充：說明類別變數需編碼、標籤編碼適用於有明確順序的類別，以及誤用於無序類別會造成模型誤解數值意義；也說明獨熱編碼的用途。"
       },
       {
         "guide_key": "guide2",
@@ -451,12 +654,10 @@
           "block-32",
           "block-33",
           "block-34",
-          "block-35",
           "block-36",
           "block-37",
           "block-39",
           "block-40",
-          "block-41",
           "block-42",
           "block-43",
           "block-44",
@@ -472,7 +673,7 @@
         "block_ids": [
           "block-63"
         ],
-        "why_relevant": "指出使用目標編碼或聚合特徵時需避免資料洩漏，不能認為目標編碼會自動消除過擬合風險。"
+        "why_relevant": "補充：指出使用目標編碼或聚合特徵時需避免資料洩漏，不能認為目標編碼會自動消除過擬合風險。"
       }
     ],
     "confidence": "high"
@@ -500,17 +701,36 @@
         "title": "數據儲存與管理",
         "page_label": "4-9",
         "block_ids": [
+          "block-91"
+        ],
+        "why_relevant": "說明原子性「全做或全不做」，直接對應避免部分更新"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c5",
+        "title": "數據儲存與管理",
+        "page_label": "4-9",
+        "block_ids": [
+          "block-88",
           "block-89",
+          "block-97"
+        ],
+        "why_relevant": "補充：指出多節點交易靠原子性確保提交狀態一致；建立ACID四特性整體概念，助於分辨各選項；說明持久性屬提交後永久保存，可排除選項D"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c5",
+        "title": "數據儲存與管理",
+        "page_label": "4-9",
+        "block_ids": [
           "block-90",
-          "block-91",
           "block-92",
           "block-93",
           "block-94",
           "block-95",
-          "block-96",
-          "block-97"
+          "block-96"
         ],
-        "why_relevant": "說明 ACID 用於資料庫交易可靠性，並逐一定義原子性、一致性、隔離性與持久性，可直接判斷本題四個選項。"
+        "why_relevant": "補充：說明 ACID 用於資料庫交易可靠性，並逐一定義原子性、一致性、隔離性與持久性，可直接判斷本題四個選項。"
       },
       {
         "guide_key": "guide2",
@@ -525,7 +745,7 @@
           "block-86",
           "block-87"
         ],
-        "why_relevant": "提供分散式資料平台中資料一致性與交易型應用的背景，連結題幹的分散式資料庫、多節點更新與資料正確性需求。"
+        "why_relevant": "補充：提供分散式資料平台中資料一致性與交易型應用的背景，連結題幹的分散式資料庫、多節點更新與資料正確性需求。"
       }
     ],
     "confidence": "high"
@@ -549,16 +769,55 @@
     "citations": [
       {
         "guide_key": "guide2",
+        "node_id": "mid-s2c10",
+        "title": "大數據與機器學習",
+        "page_label": "6-2",
+        "block_ids": [
+          "block-40"
+        ],
+        "why_relevant": "毫秒級需求須採即時串流，批次架構無法滿足"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c9",
+        "title": "AI 技術系統集成與部署",
+        "page_label": "5-14",
+        "block_ids": [
+          "block-65"
+        ],
+        "why_relevant": "邊緣端推論可降低延遲，支撐即時異常反應"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c4",
+        "title": "數據收集與清理",
+        "page_label": "4-2",
+        "block_ids": [
+          "block-10",
+          "block-11"
+        ],
+        "why_relevant": "補充：串流協定結合邊緣處理再上雲，接近正確流程；點出高頻時間序列大數據特性，說明需串流架構"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c6",
+        "title": "數據處理技術與工具",
+        "page_label": "4-20",
+        "block_ids": [
+          "block-196"
+        ],
+        "why_relevant": "補充：資料湖保留原始多型態資料，可供後續AI訓練"
+      },
+      {
+        "guide_key": "guide2",
         "node_id": "mid-s2c4",
         "title": "數據收集與清理",
         "page_label": "4-2",
         "block_ids": [
           "block-9",
-          "block-10",
-          "block-11",
           "block-12"
         ],
-        "why_relevant": "說明 IoT 感測器資料的高頻、連續、大量特性，以及可透過即時串流協議與邊緣運算處理後再傳至雲端，並強調低延遲與高併發挑戰。"
+        "why_relevant": "補充：說明 IoT 感測器資料的高頻、連續、大量特性，以及可透過即時串流協議與邊緣運算處理後再傳至雲端，並強調低延遲與高併發挑戰。"
       },
       {
         "guide_key": "guide2",
@@ -570,7 +829,7 @@
           "block-185",
           "block-188"
         ],
-        "why_relevant": "指出即時異常監控應採用串流處理系統，IoT 大規模即時資料應優先考量即時串流處理與低延遲反應能力。"
+        "why_relevant": "補充：指出即時異常監控應採用串流處理系統，IoT 大規模即時資料應優先考量即時串流處理與低延遲反應能力。"
       },
       {
         "guide_key": "guide2",
@@ -584,7 +843,7 @@
           "block-119",
           "block-120"
         ],
-        "why_relevant": "說明分散式資料處理框架與即時資料流處理可支援高效穩定處理，且 Flink 適用於高頻率即時事件與物聯網資料。"
+        "why_relevant": "補充：說明分散式資料處理框架與即時資料流處理可支援高效穩定處理，且 Flink 適用於高頻率即時事件與物聯網資料。"
       },
       {
         "guide_key": "guide2",
@@ -595,7 +854,7 @@
           "block-19",
           "block-26"
         ],
-        "why_relevant": "說明大數據資料型態多樣，資料湖可作為容納不同結構與來源資料的統一整合平台，支援後續機器學習流程。"
+        "why_relevant": "補充：說明大數據資料型態多樣，資料湖可作為容納不同結構與來源資料的統一整合平台，支援後續機器學習流程。"
       }
     ],
     "confidence": "high"
@@ -620,6 +879,37 @@
     "citations": [
       {
         "guide_key": "guide2",
+        "node_id": "mid-s2c10",
+        "title": "大數據與機器學習",
+        "page_label": "6-2",
+        "block_ids": [
+          "block-26"
+        ],
+        "why_relevant": "資料湖可容納多型態資料並統一管理"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c6",
+        "title": "數據處理技術與工具",
+        "page_label": "4-20",
+        "block_ids": [
+          "block-128"
+        ],
+        "why_relevant": "補充：資料管線自動串接清理轉換與特徵工程"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c10",
+        "title": "大數據與機器學習",
+        "page_label": "6-2",
+        "block_ids": [
+          "block-19",
+          "block-20"
+        ],
+        "why_relevant": "補充：說明異質資料特性，理解為何需整合平台；多模態資料需轉為數值特徵以利訓練"
+      },
+      {
+        "guide_key": "guide2",
         "node_id": "mid-s2pdf-c6",
         "title": "第六章 大數據在人工智慧之應用",
         "page_label": "6-1",
@@ -630,7 +920,7 @@
           "block-22",
           "block-26"
         ],
-        "why_relevant": "說明大數據資料規模超過單機限制，需要分散式儲存、分批處理與可擴展運算架構，並舉 Spark MLlib 為例。"
+        "why_relevant": "補充：說明大數據資料規模超過單機限制，需要分散式儲存、分批處理與可擴展運算架構，並舉 Spark MLlib 為例。"
       },
       {
         "guide_key": "guide2",
@@ -639,12 +929,9 @@
         "page_label": "6-2",
         "block_ids": [
           "block-18",
-          "block-19",
-          "block-20",
-          "block-25",
-          "block-26"
+          "block-25"
         ],
-        "why_relevant": "說明資料型態多樣時需多模態處理與特徵整合，並指出資料湖是容納多型態資料的主流統一整合平台。"
+        "why_relevant": "補充：說明資料型態多樣時需多模態處理與特徵整合，並指出資料湖是容納多型態資料的主流統一整合平台。"
       },
       {
         "guide_key": "guide2",
@@ -658,7 +945,7 @@
           "block-8",
           "block-9"
         ],
-        "why_relevant": "說明大數據環境來源分散、結構多樣，傳統小規模處理不適用，需採用資料湖、分散式運算與 Spark 等可擴展處理工具。"
+        "why_relevant": "補充：說明大數據環境來源分散、結構多樣，傳統小規模處理不適用，需採用資料湖、分散式運算與 Spark 等可擴展處理工具。"
       },
       {
         "guide_key": "guide2",
@@ -672,7 +959,7 @@
           "block-9",
           "block-12"
         ],
-        "why_relevant": "說明生成式 AI 依賴大量、多樣且高品質資料，資料可涵蓋文字、圖片、影像等多模態形式，資料選擇與處理會影響生成品質。"
+        "why_relevant": "補充：說明生成式 AI 依賴大量、多樣且高品質資料，資料可涵蓋文字、圖片、影像等多模態形式，資料選擇與處理會影響生成品質。"
       }
     ],
     "confidence": "high"
@@ -700,12 +987,31 @@
         "title": "統計學在大數據中的應用",
         "page_label": "5-2",
         "block_ids": [
+          "block-10"
+        ],
+        "why_relevant": "補充：說明消費金額常有長尾偏態，宜用中位數與分位數判讀。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c9",
+        "title": "數據可視化工具",
+        "page_label": "5-29",
+        "block_ids": [
+          "block-10"
+        ],
+        "why_relevant": "補充：指出數值視覺化可呈現偏態與離群值，助理解分佈。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c7",
+        "title": "統計學在大數據中的應用",
+        "page_label": "5-2",
+        "block_ids": [
           "block-9",
-          "block-10",
           "block-13",
           "block-14"
         ],
-        "why_relevant": "說明大數據中收入、消費金額等常見長尾與偏態，且極端或異常事件可能對決策具有重要性，支撐本題不能單純忽略高消費離群值。"
+        "why_relevant": "補充：說明大數據中收入、消費金額等常見長尾與偏態，且極端或異常事件可能對決策具有重要性，支撐本題不能單純忽略高消費離群值。"
       },
       {
         "guide_key": "guide2",
@@ -715,14 +1021,13 @@
         "block_ids": [
           "block-8",
           "block-9",
-          "block-10",
           "block-16",
           "block-17",
           "block-18",
           "block-19",
           "block-20"
         ],
-        "why_relevant": "說明數值型資料視覺化可呈現分佈、偏態與異常值，並介紹箱型圖的中位數、四分位數、鬚線與離群值，直接對應題目中的箱型圖判讀。"
+        "why_relevant": "補充：說明數值型資料視覺化可呈現分佈、偏態與異常值，並介紹箱型圖的中位數、四分位數、鬚線與離群值，直接對應題目中的箱型圖判讀。"
       },
       {
         "guide_key": "guide2",
@@ -739,7 +1044,7 @@
           "block-444",
           "block-445"
         ],
-        "why_relevant": "說明長條圖適合類別比較、折線圖適合時間序列趨勢，有助於判斷 A 中長條圖可用於比較層級，而 D 的折線圖不符合本題分佈比較目的。"
+        "why_relevant": "補充：說明長條圖適合類別比較、折線圖適合時間序列趨勢，有助於判斷 A 中長條圖可用於比較層級，而 D 的折線圖不符合本題分佈比較目的。"
       }
     ],
     "confidence": "high"
@@ -766,12 +1071,31 @@
         "title": "假設檢定與統計推論",
         "page_label": "3-23",
         "block_ids": [
-          "block-256",
-          "block-258",
-          "block-259",
-          "block-261"
+          "block-259"
         ],
-        "why_relevant": "說明皮爾森相關檢定用於兩個連續變數的線性相關程度，且 Pearson's r 表示線性關係的方向與強度。"
+        "why_relevant": "指出相關係數可表示線性關係的方向與強度"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c3",
+        "title": "假設檢定與統計推論",
+        "page_label": "3-23",
+        "block_ids": [
+          "block-258",
+          "block-261",
+          "block-278"
+        ],
+        "why_relevant": "補充：r值介於-1到+1，可判讀方向與強度；說明皮爾森檢定評估線性相關是否顯著；提醒使用前須確認線性關係，避免誤判"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c3",
+        "title": "假設檢定與統計推論",
+        "page_label": "3-23",
+        "block_ids": [
+          "block-256"
+        ],
+        "why_relevant": "補充：說明皮爾森相關檢定用於兩個連續變數的線性相關程度，且 Pearson's r 表示線性關係的方向與強度。"
       },
       {
         "guide_key": "guide2",
@@ -787,7 +1111,7 @@
           "block-268",
           "block-270"
         ],
-        "why_relevant": "提供 r 值正負與無相關的判讀，以及適用前提：連續變數、線性關係、無重大離群值干擾。"
+        "why_relevant": "補充：提供 r 值正負與無相關的判讀，以及適用前提：連續變數、線性關係、無重大離群值干擾。"
       },
       {
         "guide_key": "guide2",
@@ -802,7 +1126,7 @@
           "block-34",
           "block-35"
         ],
-        "why_relevant": "說明散佈圖可用於觀察兩變數分佈、線性關係與異常值，並指出相關係數矩陣會計算皮爾森相關係數來呈現正負相關強度。"
+        "why_relevant": "補充：說明散佈圖可用於觀察兩變數分佈、線性關係與異常值，並指出相關係數矩陣會計算皮爾森相關係數來呈現正負相關強度。"
       }
     ],
     "confidence": "high"
@@ -827,6 +1151,26 @@
     "citations": [
       {
         "guide_key": "guide2",
+        "node_id": "mid-s2c2",
+        "title": "機率分佈與資料分佈模型",
+        "page_label": "3-13",
+        "block_ids": [
+          "block-105"
+        ],
+        "why_relevant": "補充：偏態長尾不宜假設常態，可排除常態假設選項。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c7",
+        "title": "統計學在大數據中的應用",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-10"
+        ],
+        "why_relevant": "補充：長尾偏態下平均數失真，須靠分位數判讀。"
+      },
+      {
+        "guide_key": "guide2",
         "node_id": "mid-s2c7",
         "title": "統計學在大數據中的應用",
         "page_label": "5-2",
@@ -834,11 +1178,10 @@
           "block-5",
           "block-6",
           "block-9",
-          "block-10",
           "block-13",
           "block-14"
         ],
-        "why_relevant": "說明大數據下敘述統計的限制，尤其偏態、長尾與極端事件會使平均數、變異數等傳統統計量失真或偵測遲鈍。"
+        "why_relevant": "補充：說明大數據下敘述統計的限制，尤其偏態、長尾與極端事件會使平均數、變異數等傳統統計量失真或偵測遲鈍。"
       },
       {
         "guide_key": "guide2",
@@ -852,7 +1195,7 @@
           "block-17",
           "block-18"
         ],
-        "why_relevant": "說明平均數、中位數、標準差、四分位距、偏度與峰度等概念，可用來理解資料中心、離散程度、偏態與尾部厚度。"
+        "why_relevant": "補充：說明平均數、中位數、標準差、四分位距、偏度與峰度等概念，可用來理解資料中心、離散程度、偏態與尾部厚度。"
       },
       {
         "guide_key": "guide2",
@@ -868,7 +1211,7 @@
           "block-58",
           "block-59"
         ],
-        "why_relevant": "指出 Z-score 標準化適用於常態分佈但對極端值敏感，偏態資料可能產生偏移；也提到以中位數與四分位距的穩健方法較適合偏態或含離群值情境。"
+        "why_relevant": "補充：指出 Z-score 標準化適用於常態分佈但對極端值敏感，偏態資料可能產生偏移；也提到以中位數與四分位距的穩健方法較適合偏態或含離群值情境。"
       }
     ],
     "confidence": "high"
@@ -892,6 +1235,37 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c9",
+        "title": "模型訓練、評估與驗證",
+        "page_label": "5-17",
+        "block_ids": [
+          "block-154"
+        ],
+        "why_relevant": "SMOTE合成樣本可降低過擬合，最適合資料不足。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c10",
+        "title": "大數據與機器學習",
+        "page_label": "6-2",
+        "block_ids": [
+          "block-31",
+          "block-34"
+        ],
+        "why_relevant": "補充：說明過抽樣與SMOTE能平衡資料、提升辨識力。；樣本偏態會使模型忽略少數類，點出問題。"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c10",
+        "title": "模型調整與優化",
+        "page_label": "5-30",
+        "block_ids": [
+          "block-357"
+        ],
+        "why_relevant": "補充：重取樣可減少多數類偏倚，提升少數類辨識。"
+      },
+      {
         "guide_key": "guide2",
         "node_id": "mid-s2c10",
         "title": "大數據與機器學習",
@@ -899,11 +1273,9 @@
         "block_ids": [
           "block-29",
           "block-30",
-          "block-31",
-          "block-32",
-          "block-34"
+          "block-32"
         ],
-        "why_relevant": "說明類別不平衡會使模型偏向多數類、忽略少數類，並列出欠抽樣、過抽樣與 SMOTE 等資料平衡策略。"
+        "why_relevant": "補充：說明類別不平衡會使模型偏向多數類、忽略少數類，並列出欠抽樣、過抽樣與 SMOTE 等資料平衡策略。"
       },
       {
         "guide_key": "guide2",
@@ -916,7 +1288,7 @@
           "block-5",
           "block-8"
         ],
-        "why_relevant": "說明鑑別式 AI 著重分類與預測，疾病診斷屬於典型鑑別式任務，且模型表現受資料品質、標註與樣本偏差影響。"
+        "why_relevant": "補充：說明鑑別式 AI 著重分類與預測，疾病診斷屬於典型鑑別式任務，且模型表現受資料品質、標註與樣本偏差影響。"
       }
     ],
     "confidence": "high"
@@ -945,14 +1317,36 @@
         "title": "假設檢定與統計推論",
         "page_label": "3-23",
         "block_ids": [
+          "block-47",
+          "block-213"
+        ],
+        "why_relevant": "比較兩獨立樣本比例差異，正符合題意。；依資料型態指出兩組比例差異應採比例Z檢定。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c3",
+        "title": "假設檢定與統計推論",
+        "page_label": "3-23",
+        "block_ids": [
+          "block-216",
+          "block-217",
+          "block-218"
+        ],
+        "why_relevant": "補充：提供比例檢定的常態近似門檻，可確認適用性。；指出資料為二元類別，有助判斷應選比例檢定。；提醒兩組須獨立抽樣，符合本題兩條產線設計。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c3",
+        "title": "假設檢定與統計推論",
+        "page_label": "3-23",
+        "block_ids": [
           "block-42",
           "block-43",
           "block-44",
           "block-45",
-          "block-46",
-          "block-47"
+          "block-46"
         ],
-        "why_relevant": "說明假設檢定需依資料性質選擇方法，並列出兩組比例差異可使用比例 Z 檢定或卡方檢定，樣本夠大時可用 Z 檢定。"
+        "why_relevant": "補充：說明假設檢定需依資料性質選擇方法，並列出兩組比例差異可使用比例 Z 檢定或卡方檢定，樣本夠大時可用 Z 檢定。"
       },
       {
         "guide_key": "guide2",
@@ -962,16 +1356,12 @@
         "block_ids": [
           "block-211",
           "block-212",
-          "block-213",
           "block-215",
-          "block-216",
-          "block-217",
-          "block-218",
           "block-220",
           "block-221",
           "block-222"
         ],
-        "why_relevant": "直接定義雙樣本比例檢定的用途、適用條件與虛無假設，對應本題比較新舊生產線良率差異。"
+        "why_relevant": "補充：直接定義雙樣本比例檢定的用途、適用條件與虛無假設，對應本題比較新舊生產線良率差異。"
       },
       {
         "guide_key": "guide2",
@@ -985,7 +1375,7 @@
           "block-190",
           "block-191"
         ],
-        "why_relevant": "說明 ANOVA 是檢驗多組平均數差異，且只有兩組時不宜使用 ANOVA，可用來排除選項 D。"
+        "why_relevant": "補充：說明 ANOVA 是檢驗多組平均數差異，且只有兩組時不宜使用 ANOVA，可用來排除選項 D。"
       },
       {
         "guide_key": "guide2",
@@ -1001,7 +1391,7 @@
           "block-456",
           "block-457"
         ],
-        "why_relevant": "區分平均數差異檢定與比例或類別變數比較，支持本題應選比例檢定而非 t 檢定。"
+        "why_relevant": "補充：區分平均數差異檢定與比例或類別變數比較，支持本題應選比例檢定而非 t 檢定。"
       }
     ],
     "confidence": "high"
@@ -1024,6 +1414,46 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c9",
+        "title": "模型訓練、評估與驗證",
+        "page_label": "5-17",
+        "block_ids": [
+          "block-186"
+        ],
+        "why_relevant": "說明分層K折會讓每折類別比例與整體一致"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c10",
+        "title": "大數據與機器學習",
+        "page_label": "6-2",
+        "block_ids": [
+          "block-31"
+        ],
+        "why_relevant": "補充：指出樣本偏態會使模型偏向主流類別而失準"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c9",
+        "title": "模型訓練、評估與驗證",
+        "page_label": "5-17",
+        "block_ids": [
+          "block-188"
+        ],
+        "why_relevant": "補充：依類別比例分層抽樣可避免各折分佈失衡"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c10",
+        "title": "模型調整與優化",
+        "page_label": "5-30",
+        "block_ids": [
+          "block-357"
+        ],
+        "why_relevant": "補充：重取樣可處理類別不平衡，但非分層交叉驗證"
+      },
+      {
         "guide_key": "guide2",
         "node_id": "mid-s2c10",
         "title": "大數據與機器學習",
@@ -1031,10 +1461,9 @@
         "block_ids": [
           "block-29",
           "block-30",
-          "block-31",
           "block-37"
         ],
-        "why_relevant": "說明資料品質與偏態問題，特別是類別不平衡會使分類模型偏向主流類別、忽略少數類別，且模型評估需避免被整體準確率主導。"
+        "why_relevant": "補充：說明資料品質與偏態問題，特別是類別不平衡會使分類模型偏向主流類別、忽略少數類別，且模型評估需避免被整體準確率主導。"
       },
       {
         "guide_key": "guide2",
@@ -1047,7 +1476,7 @@
           "block-30",
           "block-31"
         ],
-        "why_relevant": "指出分類模型可使用交叉驗證優化參數，並列出資料不平衡是鑑別式 AI 應用中的重要挑戰。"
+        "why_relevant": "補充：指出分類模型可使用交叉驗證優化參數，並列出資料不平衡是鑑別式 AI 應用中的重要挑戰。"
       },
       {
         "guide_key": "guide2",
@@ -1081,18 +1510,47 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c1",
+        "title": "機率/統計之機器學習基礎應用",
+        "page_label": "3-2",
+        "block_ids": [
+          "block-23"
+        ],
+        "why_relevant": "直接說明事件獨立且發生率固定，支撐選項C。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c2",
+        "title": "機率分佈與資料分佈模型",
+        "page_label": "3-13",
+        "block_ids": [
+          "block-88"
+        ],
+        "why_relevant": "指出發生率須固定，變化時不適用，支持C。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c2",
+        "title": "機率分佈與資料分佈模型",
+        "page_label": "3-13",
+        "block_ids": [
+          "block-76",
+          "block-79"
+        ],
+        "why_relevant": "補充：說明泊松分佈用於固定區間次數，λ為平均率。；λ是平均發生率而非最大值，可排除A。"
+      },
+      {
         "guide_key": "guide2",
         "node_id": "mid-s2c2",
         "title": "機率分佈與資料分佈模型",
         "page_label": "3-13",
         "block_ids": [
           "block-75",
-          "block-76",
           "block-78",
-          "block-79",
           "block-80"
         ],
-        "why_relevant": "說明泊松分佈用於固定時間或空間區間內的發生次數，並定義 λ 為平均發生率、k 為事件發生次數。"
+        "why_relevant": "補充：說明泊松分佈用於固定時間或空間區間內的發生次數，並定義 λ 為平均發生率、k 為事件發生次數。"
       },
       {
         "guide_key": "guide2",
@@ -1120,7 +1578,7 @@
           "block-167",
           "block-168"
         ],
-        "why_relevant": "指出泊松分佈適合事件稀少且獨立的情境，並明確列出獨立性與固定發生率假設。"
+        "why_relevant": "補充：指出泊松分佈適合事件稀少且獨立的情境，並明確列出獨立性與固定發生率假設。"
       }
     ],
     "confidence": "high"
@@ -1144,6 +1602,26 @@
     "citations": [
       {
         "guide_key": "guide2",
+        "node_id": "mid-s2c6",
+        "title": "數據處理技術與工具",
+        "page_label": "4-20",
+        "block_ids": [
+          "block-8"
+        ],
+        "why_relevant": "補充：說明型別轉換可能由整數變浮點，助理解型態變化。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c11",
+        "title": "大數據在鑑別式AI 中的應用",
+        "page_label": "6-14",
+        "block_ids": [
+          "block-210"
+        ],
+        "why_relevant": "補充：可對照缺失值概念，理解其對型態的影響。"
+      },
+      {
+        "guide_key": "guide2",
         "node_id": "mid-s2pdf-c4",
         "title": "第四章 大數據處理技術",
         "page_label": "4-1",
@@ -1156,7 +1634,7 @@
           "block-110",
           "block-111"
         ],
-        "why_relevant": "說明資料品質評估包含缺失率與一致性比率；本題的 NaN 缺失值與年份格式是否一致，正是造成欄位型態判斷差異的資料品質因素。"
+        "why_relevant": "補充：說明資料品質評估包含缺失率與一致性比率；本題的 NaN 缺失值與年份格式是否一致，正是造成欄位型態判斷差異的資料品質因素。"
       },
       {
         "guide_key": "guide2",
@@ -1167,7 +1645,7 @@
           "block-11",
           "block-12"
         ],
-        "why_relevant": "指出大數據資料來源涵蓋多型態資料，難以統一計算與解釋；可連結到實務中欄位型態混雜或格式差異會影響分析前處理。"
+        "why_relevant": "補充：指出大數據資料來源涵蓋多型態資料，難以統一計算與解釋；可連結到實務中欄位型態混雜或格式差異會影響分析前處理。"
       }
     ],
     "confidence": "high"
@@ -1190,6 +1668,26 @@
     "citations": [
       {
         "guide_key": "guide2",
+        "node_id": "mid-s2c4",
+        "title": "數據收集與清理",
+        "page_label": "4-2",
+        "block_ids": [
+          "block-39"
+        ],
+        "why_relevant": "補充：先理解缺失值是什麼，才能判斷轉型時不能任意填補。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c8",
+        "title": "數據準備與模型選擇",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-20"
+        ],
+        "why_relevant": "補充：說明缺失值填補與刪除，助你比較保留缺值的做法。"
+      },
+      {
+        "guide_key": "guide2",
         "node_id": "mid-s2pdf-c4",
         "title": "第四章 大數據處理技術",
         "page_label": "4-1",
@@ -1205,7 +1703,7 @@
           "block-52",
           "block-53"
         ],
-        "why_relevant": "說明資料品質是分析基礎，缺失值是常見資料品質問題，且缺失值可能影響統計推論或模型訓練，支持本題需保留並正確處理 NaN。"
+        "why_relevant": "補充：說明資料品質是分析基礎，缺失值是常見資料品質問題，且缺失值可能影響統計推論或模型訓練，支持本題需保留並正確處理 NaN。"
       },
       {
         "guide_key": "guide2",
@@ -1222,7 +1720,7 @@
           "block-101",
           "block-102"
         ],
-        "why_relevant": "說明不合理資料與邏輯錯誤會導致模型或推論錯誤，支持不應將缺失年份任意填為 0 或 1。"
+        "why_relevant": "補充：說明不合理資料與邏輯錯誤會導致模型或推論錯誤，支持不應將缺失年份任意填為 0 或 1。"
       },
       {
         "guide_key": "guide2",
@@ -1237,7 +1735,7 @@
           "block-11",
           "block-12"
         ],
-        "why_relevant": "說明敘述統計用於揭示趨勢與資料特性，也指出資料型態會影響統計計算，呼應 Year 欄位需轉為適合趨勢分析的數值型態。"
+        "why_relevant": "補充：說明敘述統計用於揭示趨勢與資料特性，也指出資料型態會影響統計計算，呼應 Year 欄位需轉為適合趨勢分析的數值型態。"
       }
     ],
     "confidence": "high"
@@ -1261,6 +1759,17 @@
     "citations": [
       {
         "guide_key": "guide2",
+        "node_id": "mid-s2c9",
+        "title": "數據可視化工具",
+        "page_label": "5-29",
+        "block_ids": [
+          "block-51",
+          "block-135"
+        ],
+        "why_relevant": "補充：說明長條圖適合比較各類別銷售表現；指出類別資料視覺化可比較各類別差異"
+      },
+      {
+        "guide_key": "guide2",
         "node_id": "mid-s2pdf-c5",
         "title": "第五章 大數據分析方法與工具",
         "page_label": "5-1",
@@ -1271,7 +1780,7 @@
           "block-425",
           "block-426"
         ],
-        "why_relevant": "說明類別型資料視覺化可用來比較不同類別表現，且長條圖以柱狀高度表示類別數值大小，適合本題比較各平台銷售總額。"
+        "why_relevant": "補充：說明類別型資料視覺化可用來比較不同類別表現，且長條圖以柱狀高度表示類別數值大小，適合本題比較各平台銷售總額。"
       },
       {
         "guide_key": "guide2",
@@ -1283,7 +1792,7 @@
           "block-5",
           "block-8"
         ],
-        "why_relevant": "說明數據可視化能將資料轉為視覺圖像，協助掌握資料特性與溝通分析結果，支持本題將彙總銷售額畫成圖表。"
+        "why_relevant": "補充：說明數據可視化能將資料轉為視覺圖像，協助掌握資料特性與溝通分析結果，支持本題將彙總銷售額畫成圖表。"
       },
       {
         "guide_key": "guide2",
@@ -1294,7 +1803,7 @@
           "block-12",
           "block-13"
         ],
-        "why_relevant": "指出敘述統計用於彙總資料特性、揭示趨勢與變異性；本題即屬於依平台彙總銷售數值的敘述統計應用。"
+        "why_relevant": "補充：指出敘述統計用於彙總資料特性、揭示趨勢與變異性；本題即屬於依平台彙總銷售數值的敘述統計應用。"
       }
     ],
     "confidence": "high"
@@ -1319,6 +1828,17 @@
     "citations": [
       {
         "guide_key": "guide2",
+        "node_id": "mid-s2c9",
+        "title": "數據可視化工具",
+        "page_label": "5-29",
+        "block_ids": [
+          "block-54",
+          "block-135"
+        ],
+        "why_relevant": "補充：長條圖以柱高呈現類別數值，適合比較各地區銷售總額；長條圖可比較不同地區銷售，能排除折線圖與直方圖"
+      },
+      {
+        "guide_key": "guide2",
         "node_id": "mid-s2pdf-c5",
         "title": "第五章 大數據分析方法與工具",
         "page_label": "5-1",
@@ -1329,7 +1849,7 @@
           "block-425",
           "block-426"
         ],
-        "why_relevant": "說明類別型資料視覺化與長條圖的用途，支持用長條圖比較各地區銷售數值。"
+        "why_relevant": "補充：說明類別型資料視覺化與長條圖的用途，支持用長條圖比較各地區銷售數值。"
       },
       {
         "guide_key": "guide2",
@@ -1357,7 +1877,7 @@
           "block-65",
           "block-66"
         ],
-        "why_relevant": "說明折線圖適用於時間序列趨勢，可用來判斷選項 B 不符合本題類別比較需求。"
+        "why_relevant": "補充：說明折線圖適用於時間序列趨勢，可用來判斷選項 B 不符合本題類別比較需求。"
       },
       {
         "guide_key": "guide2",
@@ -1371,7 +1891,7 @@
           "block-12",
           "block-13"
         ],
-        "why_relevant": "說明直方圖用於數值分佈與集中趨勢，可用來判斷選項 D 不符合地區總額比較需求。"
+        "why_relevant": "補充：說明直方圖用於數值分佈與集中趨勢，可用來判斷選項 D 不符合地區總額比較需求。"
       }
     ],
     "confidence": "high"
@@ -1399,11 +1919,22 @@
         "title": "數據可視化工具",
         "page_label": "5-29",
         "block_ids": [
+          "block-135",
+          "block-195"
+        ],
+        "why_relevant": "補充：比較用長條圖、趨勢用折線圖，可排除折線圖選項。；長條圖比較各產品銷售、找出最佳者，契合本題。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c9",
+        "title": "數據可視化工具",
+        "page_label": "5-29",
+        "block_ids": [
           "block-3",
           "block-5",
           "block-8"
         ],
-        "why_relevant": "說明數據可視化可將複雜資料轉為直觀圖像，並需具備適當圖表選擇能力，支撐本題選用條狀圖呈現銷售比較的理由。"
+        "why_relevant": "補充：說明數據可視化可將複雜資料轉為直觀圖像，並需具備適當圖表選擇能力，支撐本題選用條狀圖呈現銷售比較的理由。"
       },
       {
         "guide_key": "guide2",
@@ -1418,7 +1949,7 @@
           "block-65",
           "block-66"
         ],
-        "why_relevant": "說明折線圖用於時間序列趨勢與連續數據，據此可判斷選項 C 使用 lineplot 不符合本題類別銷售排名比較。"
+        "why_relevant": "補充：說明折線圖用於時間序列趨勢與連續數據，據此可判斷選項 C 使用 lineplot 不符合本題類別銷售排名比較。"
       },
       {
         "guide_key": "guide2",
@@ -1429,7 +1960,7 @@
           "block-5",
           "block-6"
         ],
-        "why_relevant": "指出敘述統計可用於彙總資料特性、揭示趨勢與變異性，呼應本題先找出銷售額最高前五名再視覺化的分析流程。"
+        "why_relevant": "補充：指出敘述統計可用於彙總資料特性、揭示趨勢與變異性，呼應本題先找出銷售額最高前五名再視覺化的分析流程。"
       }
     ],
     "confidence": "high"
@@ -1457,6 +1988,17 @@
         "title": "敘述性統計與資料摘要技術",
         "page_label": "3-2",
         "block_ids": [
+          "block-94",
+          "block-95"
+        ],
+        "why_relevant": "補充：Q1即25%位置的數值，據以判讀youtube。；Q3為75%位置數值，可排除選項C。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c1",
+        "title": "敘述性統計與資料摘要技術",
+        "page_label": "3-2",
+        "block_ids": [
           "block-99",
           "block-100",
           "block-101",
@@ -1467,7 +2009,7 @@
           "block-106",
           "block-107"
         ],
-        "why_relevant": "說明 Q1、Q2（中位數）與 Q3 的定義，可用來判斷各選項中的四分位數與中位數敘述。"
+        "why_relevant": "補充：說明 Q1、Q2（中位數）與 Q3 的定義，可用來判斷各選項中的四分位數與中位數敘述。"
       },
       {
         "guide_key": "guide2",
@@ -1498,7 +2040,7 @@
           "block-104",
           "block-105"
         ],
-        "why_relevant": "說明四分位數用來描述資料分佈，且 Q1、Q3 分別對應 25% 與 75% 位置。"
+        "why_relevant": "補充：說明四分位數用來描述資料分佈，且 Q1、Q3 分別對應 25% 與 75% 位置。"
       }
     ],
     "confidence": "medium"
@@ -1521,6 +2063,17 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c5",
+        "title": "常見機器學習演算法",
+        "page_label": "4-12",
+        "block_ids": [
+          "block-14",
+          "block-15"
+        ],
+        "why_relevant": "補充：截距為獨立參數，可知係數輸出不含截距項；迴歸係數指各自變數的斜率，與截距項不同"
+      },
+      {
         "guide_key": "guide2",
         "node_id": "mid-s2pdf-c4",
         "title": "第四章 大數據處理技術",
@@ -1532,7 +2085,7 @@
           "block-52",
           "block-53"
         ],
-        "why_relevant": "說明資料品質與缺失值會影響統計推論與模型訓練，並指出填補是常見處理策略，對應題目前提「已經填補遺漏值」。"
+        "why_relevant": "補充：說明資料品質與缺失值會影響統計推論與模型訓練，並指出填補是常見處理策略，對應題目前提「已經填補遺漏值」。"
       },
       {
         "guide_key": "guide2",
@@ -1547,7 +2100,7 @@
           "block-34",
           "block-35"
         ],
-        "why_relevant": "提供 α=0.05 顯著性判讀與統計推論假設的背景，可用來說明為何不能未檢查各係數 p 值就宣稱所有迴歸係數皆顯著。"
+        "why_relevant": "補充：提供 α=0.05 顯著性判讀與統計推論假設的背景，可用來說明為何不能未檢查各係數 p 值就宣稱所有迴歸係數皆顯著。"
       },
       {
         "guide_key": "guide2",
@@ -1557,7 +2110,7 @@
         "block_ids": [
           "block-47"
         ],
-        "why_relevant": "指出線性迴歸屬於模型建置流程中會受資料前處理影響的方法，支撐本題對線性迴歸輸入資料與前處理的討論。"
+        "why_relevant": "補充：指出線性迴歸屬於模型建置流程中會受資料前處理影響的方法，支撐本題對線性迴歸輸入資料與前處理的討論。"
       }
     ],
     "confidence": "medium"
@@ -1580,23 +2133,33 @@
     "citations": [
       {
         "guide_key": "guide2",
-        "node_id": "mid-s2pdf-c3",
-        "title": "第三章 機率統計基礎",
-        "page_label": "3-1",
-        "block_ids": [
-          "block-711"
-        ],
-        "why_relevant": "說明標準差衡量資料與平均值的偏離程度，支持以標準差解釋數據點的相對位置。"
-      },
-      {
-        "guide_key": "guide2",
         "node_id": "mid-s2c8",
         "title": "常見的大數據分析方法",
         "page_label": "5-10",
         "block_ids": [
           "block-263"
         ],
-        "why_relevant": "說明 Z-score 衡量偏離均值的程度，並須設定閾值才能標記異常，支持排除選項 C。"
+        "why_relevant": "補充：Z分數以標準差衡量偏離均值，且異常須設閾值"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c6",
+        "title": "數據處理技術與工具",
+        "page_label": "4-20",
+        "block_ids": [
+          "block-54"
+        ],
+        "why_relevant": "補充：標準化後均值為0、標準差為1，Z即標準差單位"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2pdf-c3",
+        "title": "第三章 機率統計基礎",
+        "page_label": "3-1",
+        "block_ids": [
+          "block-711"
+        ],
+        "why_relevant": "補充：說明標準差衡量資料與平均值的偏離程度，支持以標準差解釋數據點的相對位置。"
       }
     ],
     "confidence": "high"
@@ -1620,6 +2183,37 @@
     "citations": [
       {
         "guide_key": "guide2",
+        "node_id": "mid-s2c8",
+        "title": "常見的大數據分析方法",
+        "page_label": "5-10",
+        "block_ids": [
+          "block-50"
+        ],
+        "why_relevant": "統計摘要會輸出平均、標準差等，符合題意"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c1",
+        "title": "敘述性統計與資料摘要技術",
+        "page_label": "3-2",
+        "block_ids": [
+          "block-5",
+          "block-14"
+        ],
+        "why_relevant": "補充：敘述性統計涵蓋平均數與標準差，非僅加總或排序；說明敘述性統計用於總結資料特徵，助理解題意"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c7",
+        "title": "統計學在大數據中的應用",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-10"
+        ],
+        "why_relevant": "補充：偏態資料宜搭配中位數與分位數判讀統計量"
+      },
+      {
+        "guide_key": "guide2",
         "node_id": "mid-s2pdf-c3",
         "title": "第三章 機率統計基礎",
         "page_label": "3-1",
@@ -1629,7 +2223,7 @@
           "block-26",
           "block-31"
         ],
-        "why_relevant": "本節說明敘述性統計包含中心位置與離散程度，並以平均銷售額作為應用例子，可用來理解題目為何需要平均值、標準差等多項摘要。"
+        "why_relevant": "補充：本節說明敘述性統計包含中心位置與離散程度，並以平均銷售額作為應用例子，可用來理解題目為何需要平均值、標準差等多項摘要。"
       },
       {
         "guide_key": "guide2",
@@ -1638,10 +2232,9 @@
         "page_label": "5-2",
         "block_ids": [
           "block-6",
-          "block-9",
-          "block-10"
+          "block-9"
         ],
-        "why_relevant": "本節說明敘述統計用於彙總資料特性，並提醒銷售類資料可能受偏態與極端值影響，應搭配中位數或分位數判讀。"
+        "why_relevant": "補充：本節說明敘述統計用於彙總資料特性，並提醒銷售類資料可能受偏態與極端值影響，應搭配中位數或分位數判讀。"
       }
     ],
     "confidence": "high"
@@ -1663,6 +2256,26 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c1",
+        "title": "機率/統計之機器學習基礎應用",
+        "page_label": "3-2",
+        "block_ids": [
+          "block-30"
+        ],
+        "why_relevant": "補充：說明區間機率由 PDF 積分求得，指向答案為積分"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c3",
+        "title": "數值優化技術與方法",
+        "page_label": "3-18",
+        "block_ids": [
+          "block-190"
+        ],
+        "why_relevant": "補充：指出 CDF 是累計機率的工具，排除平均值與標準差"
+      },
+      {
         "guide_key": "guide2",
         "node_id": "mid-s2c2",
         "title": "機率分佈與資料分佈模型",
@@ -1673,7 +2286,7 @@
           "block-36",
           "block-37"
         ],
-        "why_relevant": "說明離散型分佈使用 PMF，以及連續型分佈的區間機率由 PDF 積分求得，支持 CDF 積分關係與離散加總的區別。"
+        "why_relevant": "補充：說明離散型分佈使用 PMF，以及連續型分佈的區間機率由 PDF 積分求得，支持 CDF 積分關係與離散加總的區別。"
       },
       {
         "guide_key": "guide2",
@@ -1685,7 +2298,7 @@
           "block-13",
           "block-20"
         ],
-        "why_relevant": "說明期望值為加權平均、連續型期望值的公式，以及標準差為變異數平方根，用於辨別 A、D 與 CDF 的差異。"
+        "why_relevant": "補充：說明期望值為加權平均、連續型期望值的公式，以及標準差為變異數平方根，用於辨別 A、D 與 CDF 的差異。"
       }
     ],
     "confidence": "high"
@@ -1713,14 +2326,43 @@
         "title": "數據處理技術與工具",
         "page_label": "4-20",
         "block_ids": [
-          "block-29",
-          "block-31",
-          "block-32",
-          "block-33",
-          "block-34",
           "block-35"
         ],
-        "why_relevant": "說明編碼策略的選擇條件、標籤編碼的整數對應方式、適用情境與空間優點，並直接指出無序類別被誤解為具有數學意義的風險。"
+        "why_relevant": "誤用於無序類別會讓模型誤解數值大小，即虛假順序。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c8",
+        "title": "數據準備與模型選擇",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-36",
+          "block-37"
+        ],
+        "why_relevant": "補充：標籤編碼僅適用有序類別，用於無序即生虛假順序。；說明無序類別應改用獨熱編碼，可對照排除虛假順序。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c6",
+        "title": "數據處理技術與工具",
+        "page_label": "4-20",
+        "block_ids": [
+          "block-32"
+        ],
+        "why_relevant": "補充：整數編號對應類別，說明數字代碼如何產生順序感。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c6",
+        "title": "數據處理技術與工具",
+        "page_label": "4-20",
+        "block_ids": [
+          "block-29",
+          "block-31",
+          "block-33",
+          "block-34"
+        ],
+        "why_relevant": "補充：說明編碼策略的選擇條件、標籤編碼的整數對應方式、適用情境與空間優點，並直接指出無序類別被誤解為具有數學意義的風險。"
       },
       {
         "guide_key": "guide2",
@@ -1734,7 +2376,7 @@
           "block-308",
           "block-309"
         ],
-        "why_relevant": "說明獨熱編碼以獨立欄位表示無序類別，並具有不引入順序誤解的優點，支持與標籤編碼的比較。"
+        "why_relevant": "補充：說明獨熱編碼以獨立欄位表示無序類別，並具有不引入順序誤解的優點，支持與標籤編碼的比較。"
       },
       {
         "guide_key": "guide2",
@@ -1744,7 +2386,7 @@
         "block_ids": [
           "block-3"
         ],
-        "why_relevant": "將缺失值補全列為資料收集與清理的技術，支持區分缺值處理與類別編碼的目的。"
+        "why_relevant": "補充：將缺失值補全列為資料收集與清理的技術，支持區分缺值處理與類別編碼的目的。"
       }
     ],
     "confidence": "high"
@@ -1771,20 +2413,38 @@
         "title": "數據儲存與管理",
         "page_label": "4-9",
         "block_ids": [
+          "block-91"
+        ],
+        "why_relevant": "點出交易全做或全不做，即不可分割定義"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c5",
+        "title": "數據儲存與管理",
+        "page_label": "4-9",
+        "block_ids": [
+          "block-93",
+          "block-95"
+        ],
+        "why_relevant": "補充：說明交易前後須維持一致狀態，可與原子性區別；說明交易間互不干擾，助釐清隔離性非原子性"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c5",
+        "title": "數據儲存與管理",
+        "page_label": "4-9",
+        "block_ids": [
           "block-89",
           "block-90",
-          "block-91",
           "block-92",
-          "block-93",
           "block-94",
-          "block-95",
           "block-96",
           "block-97",
           "block-98",
           "block-99",
           "block-100"
         ],
-        "why_relevant": "直接定義原子性及其餘 ACID 特性，並說明最終一致性容許短時間不同步，可支持正確答案與選項辨析。"
+        "why_relevant": "補充：直接定義原子性及其餘 ACID 特性，並說明最終一致性容許短時間不同步，可支持正確答案與選項辨析。"
       },
       {
         "guide_key": "guide2",
@@ -1795,7 +2455,7 @@
           "block-10",
           "block-11"
         ],
-        "why_relevant": "說明結構化資料具有明確欄位與資料型別定義，可用來區分欄位型別規範與交易原子性。"
+        "why_relevant": "補充：說明結構化資料具有明確欄位與資料型別定義，可用來區分欄位型別規範與交易原子性。"
       }
     ],
     "confidence": "high"
@@ -1818,6 +2478,37 @@
     "citations": [
       {
         "guide_key": "guide2",
+        "node_id": "mid-s2c6",
+        "title": "數據處理技術與工具",
+        "page_label": "4-20",
+        "block_ids": [
+          "block-83"
+        ],
+        "why_relevant": "以乘積、除法組合既有特徵即屬特徵衍生"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c7",
+        "title": "數據準備與特徵工程",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-55"
+        ],
+        "why_relevant": "補充：特徵選擇不創造新特徵，可排除選項A"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c6",
+        "title": "數據處理技術與工具",
+        "page_label": "4-20",
+        "block_ids": [
+          "block-84",
+          "block-193"
+        ],
+        "why_relevant": "補充：相乘產生年度消費總額，是特徵衍生實例；說明特徵衍生是用現有資料建立新變數"
+      },
+      {
+        "guide_key": "guide2",
         "node_id": "mid-s2pdf-c4",
         "title": "第四章 大數據處理技術",
         "page_label": "4-1",
@@ -1827,17 +2518,7 @@
           "block-351",
           "block-352"
         ],
-        "why_relevant": "說明特徵衍生與交互特徵，並明確指出可透過乘積、除法產生新特徵，直接支持答案 B。"
-      },
-      {
-        "guide_key": "guide2",
-        "node_id": "mid-s2c6",
-        "title": "數據處理技術與工具",
-        "page_label": "4-20",
-        "block_ids": [
-          "block-193"
-        ],
-        "why_relevant": "說明特徵衍生利用現有資料邏輯建立新特徵，以增加變數的意義與可解釋性。"
+        "why_relevant": "補充：說明特徵衍生與交互特徵，並明確指出可透過乘積、除法產生新特徵，直接支持答案 B。"
       },
       {
         "guide_key": "guide2",
@@ -1849,7 +2530,7 @@
           "block-319",
           "block-342"
         ],
-        "why_relevant": "分別提供特徵篩選與數值縮放的例子，用於比較特徵選擇、特徵轉換與本題特徵衍生的差異。"
+        "why_relevant": "補充：分別提供特徵篩選與數值縮放的例子，用於比較特徵選擇、特徵轉換與本題特徵衍生的差異。"
       }
     ],
     "confidence": "high"
@@ -1873,6 +2554,38 @@
     "citations": [
       {
         "guide_key": "guide2",
+        "node_id": "mid-s2c6",
+        "title": "數據處理技術與工具",
+        "page_label": "4-20",
+        "block_ids": [
+          "block-58",
+          "block-59"
+        ],
+        "why_relevant": "穩健縮放以中位數與四分位距縮放，正解即此方法；指出此法對極端值具高度抵抗性，適含離群值情境"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c6",
+        "title": "數據處理技術與工具",
+        "page_label": "4-20",
+        "block_ids": [
+          "block-52",
+          "block-56"
+        ],
+        "why_relevant": "補充：Z分數標準化對極端值敏感，可據此排除選項B；再次說明標準化對偏態與極端值敏感，佐證排除B"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c1",
+        "title": "敘述性統計與資料摘要技術",
+        "page_label": "3-2",
+        "block_ids": [
+          "block-93"
+        ],
+        "why_relevant": "補充：IQR由Q3減Q1求得，有助理解穩健縮放的依據"
+      },
+      {
+        "guide_key": "guide2",
         "node_id": "mid-s2pdf-c4",
         "title": "第四章 大數據處理技術",
         "page_label": "4-1",
@@ -1887,7 +2600,7 @@
           "block-328",
           "block-329"
         ],
-        "why_relevant": "直接比較 Min-Max、Z-score 與穩健縮放對極端值的敏感程度，並說明穩健縮放使用中位數與四分位距，適用於含離群值的資料。"
+        "why_relevant": "補充：直接比較 Min-Max、Z-score 與穩健縮放對極端值的敏感程度，並說明穩健縮放使用中位數與四分位距，適用於含離群值的資料。"
       }
     ],
     "confidence": "high"
@@ -1910,6 +2623,47 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c5",
+        "title": "常見機器學習演算法",
+        "page_label": "4-12",
+        "block_ids": [
+          "block-778"
+        ],
+        "why_relevant": "定義異常偵測為辨識偏離多數資料的行為，符合題意。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c8",
+        "title": "常見的大數據分析方法",
+        "page_label": "5-10",
+        "block_ids": [
+          "block-277"
+        ],
+        "why_relevant": "即時分析信用卡交易並識別異常，直接對應選項。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c8",
+        "title": "常見的大數據分析方法",
+        "page_label": "5-10",
+        "block_ids": [
+          "block-254",
+          "block-258"
+        ],
+        "why_relevant": "補充：說明異常多為潛藏風險或可疑行為的徵兆。；說明信用卡詐欺偵測需即時處理交易資料流。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c11",
+        "title": "大數據在鑑別式AI 中的應用",
+        "page_label": "6-14",
+        "block_ids": [
+          "block-11"
+        ],
+        "why_relevant": "補充：信用評分是預測違約，非偵測偏離常態的交易。"
+      },
+      {
         "guide_key": "guide2",
         "node_id": "mid-s2pdf-c5",
         "title": "第五章 大數據分析方法與工具",
@@ -1918,7 +2672,7 @@
           "block-367",
           "block-368"
         ],
-        "why_relevant": "直接列出異常偵測的應用，以及即時分析信用卡交易、識別異常金額、地點或設備組合的金融詐欺偵測案例，支持 C。"
+        "why_relevant": "補充：直接列出異常偵測的應用，以及即時分析信用卡交易、識別異常金額、地點或設備組合的金融詐欺偵測案例，支持 C。"
       },
       {
         "guide_key": "guide2",
@@ -1926,10 +2680,9 @@
         "title": "大數據在鑑別式AI 中的應用",
         "page_label": "6-14",
         "block_ids": [
-          "block-11",
           "block-12"
         ],
-        "why_relevant": "區分信用評分的違約預測目標與從交易資料識別潛在詐欺行為的目標，協助說明 B 與 C 的差異。"
+        "why_relevant": "補充：區分信用評分的違約預測目標與從交易資料識別潛在詐欺行為的目標，協助說明 B 與 C 的差異。"
       },
       {
         "guide_key": "guide2",
@@ -1940,7 +2693,7 @@
           "block-62",
           "block-64"
         ],
-        "why_relevant": "分別提供時間序列趨勢預測與借款人違約風險預測的例子，支持對預測任務與異常偵測任務的區分。"
+        "why_relevant": "補充：分別提供時間序列趨勢預測與借款人違約風險預測的例子，支持對預測任務與異常偵測任務的區分。"
       }
     ],
     "confidence": "high"
@@ -1964,16 +2717,46 @@
     "citations": [
       {
         "guide_key": "guide2",
+        "node_id": "mid-s2c6",
+        "title": "數據處理技術與工具",
+        "page_label": "4-20",
+        "block_ids": [
+          "block-119"
+        ],
+        "why_relevant": "高頻即時事件與物聯網資料適合串流處理"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c4",
+        "title": "數據收集與清理",
+        "page_label": "4-2",
+        "block_ids": [
+          "block-10"
+        ],
+        "why_relevant": "補充：物聯網資料高頻、連續，需即時分析處理"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c6",
+        "title": "數據處理技術與工具",
+        "page_label": "4-20",
+        "block_ids": [
+          "block-118",
+          "block-195"
+        ],
+        "why_relevant": "補充：說明IoT需即時串流與低延遲架構；框架原生支援即時串流，有別於批次"
+      },
+      {
+        "guide_key": "guide2",
         "node_id": "mid-s2c4",
         "title": "數據收集與清理",
         "page_label": "4-2",
         "block_ids": [
           "block-9",
-          "block-10",
           "block-11",
           "block-12"
         ],
-        "why_relevant": "說明物聯網資料具有高頻率、連續性與龐大資料量，以及低延遲、高併發資料流的處理需求。"
+        "why_relevant": "補充：說明物聯網資料具有高頻率、連續性與龐大資料量，以及低延遲、高併發資料流的處理需求。"
       },
       {
         "guide_key": "guide2",
@@ -1984,7 +2767,7 @@
           "block-1",
           "block-5"
         ],
-        "why_relevant": "支持大規模、快速更新的資料需要可擴展處理策略，並連結分散式運算、批次與即時處理的技術選型。"
+        "why_relevant": "補充：支持大規模、快速更新的資料需要可擴展處理策略，並連結分散式運算、批次與即時處理的技術選型。"
       },
       {
         "guide_key": "guide2",
@@ -1995,7 +2778,7 @@
           "block-182",
           "block-185"
         ],
-        "why_relevant": "章節練習直接對應即時異常監控的串流架構，以及物聯網大規模即時資料的低延遲處理需求。"
+        "why_relevant": "補充：章節練習直接對應即時異常監控的串流架構，以及物聯網大規模即時資料的低延遲處理需求。"
       },
       {
         "guide_key": "guide2",
@@ -2008,7 +2791,7 @@
           "block-373",
           "block-374"
         ],
-        "why_relevant": "提供感測器異常振動與耗電模式的設備預警案例，並說明視覺化對異常觀察及監控的輔助作用。"
+        "why_relevant": "補充：提供感測器異常振動與耗電模式的設備預警案例，並說明視覺化對異常觀察及監控的輔助作用。"
       }
     ],
     "confidence": "high"
@@ -2031,6 +2814,26 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c5",
+        "title": "常見機器學習演算法",
+        "page_label": "4-12",
+        "block_ids": [
+          "block-381"
+        ],
+        "why_relevant": "補充：說明不純度越低樣本越集中，可知均勻時不純度最高"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c6",
+        "title": "深度學習原理與框架",
+        "page_label": "4-54",
+        "block_ids": [
+          "block-646"
+        ],
+        "why_relevant": "補充：複習不純度越低樣本越集中，有助理解二元均分時最混雜"
+      },
+      {
         "guide_key": "guide2",
         "node_id": "mid-s2c6",
         "title": "數據處理技術與工具",
@@ -2039,7 +2842,7 @@
           "block-49",
           "block-50"
         ],
-        "why_relevant": "說明正規化可將數值縮放至 0～1 區間，作為理解尺度轉換的概念連結；此處未直接提供吉尼不純度或其正規化公式。"
+        "why_relevant": "補充：說明正規化可將數值縮放至 0～1 區間，作為理解尺度轉換的概念連結；此處未直接提供吉尼不純度或其正規化公式。"
       }
     ],
     "confidence": "high"
@@ -2062,18 +2865,37 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c11",
+        "title": "數據隱私、安全與合規",
+        "page_label": "6-2",
+        "block_ids": [
+          "block-174"
+        ],
+        "why_relevant": "說明可在密文上運算、解密後與明文一致"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c13",
+        "title": "大數據隱私保護、安全與合規",
+        "page_label": "6-30",
+        "block_ids": [
+          "block-74",
+          "block-75",
+          "block-76"
+        ],
+        "why_relevant": "補充：指出無需解密即可計算，符合題目要求；列舉金融數據分析為應用場景，佐證適用性；說明同態加密計算效率低，可理解其成本限制"
+      },
+      {
         "guide_key": "guide2",
         "node_id": "mid-s2c13",
         "title": "大數據隱私保護、安全與合規",
         "page_label": "6-30",
         "block_ids": [
           "block-72",
-          "block-73",
-          "block-74",
-          "block-75",
-          "block-76"
+          "block-73"
         ],
-        "why_relevant": "直接說明同態加密的密文運算能力、與明文運算結果的一致性、金融與雲端應用情境，以及計算效率限制，支持 D 為正確答案。"
+        "why_relevant": "補充：直接說明同態加密的密文運算能力、與明文運算結果的一致性、金融與雲端應用情境，以及計算效率限制，支持 D 為正確答案。"
       },
       {
         "guide_key": "guide2",
@@ -2083,7 +2905,7 @@
         "block_ids": [
           "block-170"
         ],
-        "why_relevant": "說明匿名化透過移除姓名、轉換欄位等方式降低個資風險，可用於區分匿名化與同態加密的保護機制。"
+        "why_relevant": "補充：說明匿名化透過移除姓名、轉換欄位等方式降低個資風險，可用於區分匿名化與同態加密的保護機制。"
       }
     ],
     "confidence": "high"
@@ -2112,6 +2934,28 @@
         "title": "數據可視化工具",
         "page_label": "5-29",
         "block_ids": [
+          "block-169"
+        ],
+        "why_relevant": "整合多維資料於一圖並以顏色區分，正是正解設計。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c9",
+        "title": "數據可視化工具",
+        "page_label": "5-29",
+        "block_ids": [
+          "block-123",
+          "block-195",
+          "block-198"
+        ],
+        "why_relevant": "補充：指出有限空間中快速、清楚理解資料，支持整合呈現。；趨勢用折線圖、時序資料避用靜態表格，助選出正解。；提醒只去除多餘雜訊，並非刪除所有標籤與輔助線。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c9",
+        "title": "數據可視化工具",
+        "page_label": "5-29",
+        "block_ids": [
           "block-61",
           "block-62",
           "block-63",
@@ -2119,7 +2963,7 @@
           "block-65",
           "block-66"
         ],
-        "why_relevant": "說明時間序列視覺化的目的，以及折線圖呈現銷售額等資料趨勢的原理與優勢。"
+        "why_relevant": "補充：說明時間序列視覺化的目的，以及折線圖呈現銷售額等資料趨勢的原理與優勢。"
       },
       {
         "guide_key": "guide2",
@@ -2138,7 +2982,7 @@
           "block-570",
           "block-571"
         ],
-        "why_relevant": "支持以主管需求為中心、以折線圖呈現趨勢、避免資訊超載、減少非必要線條，以及一致使用顏色與標示的分析。"
+        "why_relevant": "補充：支持以主管需求為中心、以折線圖呈現趨勢、避免資訊超載、減少非必要線條，以及一致使用顏色與標示的分析。"
       }
     ],
     "confidence": "high"
@@ -2168,12 +3012,43 @@
         "title": "數據可視化工具",
         "page_label": "5-29",
         "block_ids": [
+          "block-40"
+        ],
+        "why_relevant": "指出以熱力圖顏色呈現多變數相關係數的正負與強度"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c9",
+        "title": "數據可視化工具",
+        "page_label": "5-29",
+        "block_ids": [
+          "block-41",
+          "block-42"
+        ],
+        "why_relevant": "補充：說明熱力圖能高效呈現多變數關係並辨識共線性；點出相關性分析可快速檢視變數間共線性"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c3",
+        "title": "假設檢定與統計推論",
+        "page_label": "3-23",
+        "block_ids": [
+          "block-259"
+        ],
+        "why_relevant": "補充：補充相關係數可表示線性關係的方向與強度"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c9",
+        "title": "數據可視化工具",
+        "page_label": "5-29",
+        "block_ids": [
           "block-27",
           "block-28",
           "block-34",
           "block-35"
         ],
-        "why_relevant": "說明關聯性視覺化的目的，以及以熱力圖呈現多變數皮爾森相關係數之方向與強度，直接支持答案 D。"
+        "why_relevant": "補充：說明關聯性視覺化的目的，以及以熱力圖呈現多變數皮爾森相關係數之方向與強度，直接支持答案 D。"
       },
       {
         "guide_key": "guide2",
@@ -2187,7 +3062,7 @@
           "block-32",
           "block-33"
         ],
-        "why_relevant": "說明散佈圖適合展示兩變數關係及搭配趨勢線，支持選項 B 的用途與比較限制。"
+        "why_relevant": "補充：說明散佈圖適合展示兩變數關係及搭配趨勢線，支持選項 B 的用途與比較限制。"
       },
       {
         "guide_key": "guide2",
@@ -2202,7 +3077,7 @@
           "block-65",
           "block-66"
         ],
-        "why_relevant": "說明折線圖適合呈現時間趨勢與股價變化，支持區分時間走勢與兩兩相關性分析。"
+        "why_relevant": "補充：說明折線圖適合呈現時間趨勢與股價變化，支持區分時間走勢與兩兩相關性分析。"
       }
     ],
     "confidence": "high"
@@ -2226,6 +3101,28 @@
     "citations": [
       {
         "guide_key": "guide2",
+        "node_id": "mid-s2c3",
+        "title": "假設檢定與統計推論",
+        "page_label": "3-23",
+        "block_ids": [
+          "block-69"
+        ],
+        "why_relevant": "p值大於α即無法拒絕虛無假設，可用於判斷本題結論。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c3",
+        "title": "假設檢定與統計推論",
+        "page_label": "3-23",
+        "block_ids": [
+          "block-17",
+          "block-65",
+          "block-68"
+        ],
+        "why_relevant": "補充：p≤α即拒絕虛無假設，可判斷α改0.10時會顯著。；定義p值為虛無假設成立下的機率，有助理解p值判讀。；說明信賴區間意義，有助理解區間涵蓋母體參數的意涵。"
+      },
+      {
+        "guide_key": "guide2",
         "node_id": "mid-s2pdf-c3",
         "title": "第三章 機率統計基礎",
         "page_label": "3-1",
@@ -2235,7 +3132,7 @@
           "block-423",
           "block-424"
         ],
-        "why_relevant": "說明以 p 值與顯著水準比較進行決策，以及無法拒絕虛無假設不代表其為真。"
+        "why_relevant": "補充：說明以 p 值與顯著水準比較進行決策，以及無法拒絕虛無假設不代表其為真。"
       },
       {
         "guide_key": "guide2",
@@ -2244,10 +3141,9 @@
         "page_label": "3-23",
         "block_ids": [
           "block-16",
-          "block-17",
           "block-18"
         ],
-        "why_relevant": "說明區間估計與95%信賴區間的長期涵蓋率意義。"
+        "why_relevant": "補充：說明區間估計與95%信賴區間的長期涵蓋率意義。"
       },
       {
         "guide_key": "guide2",
@@ -2262,7 +3158,7 @@
           "block-59",
           "block-60"
         ],
-        "why_relevant": "說明顯著水準應事先設定、0.10為較寬鬆門檻，以及顯著水準與 p 值的差別。"
+        "why_relevant": "補充：說明顯著水準應事先設定、0.10為較寬鬆門檻，以及顯著水準與 p 值的差別。"
       }
     ],
     "confidence": "high"
@@ -2286,6 +3182,36 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c5",
+        "title": "常見機器學習演算法",
+        "page_label": "4-12",
+        "block_ids": [
+          "block-742"
+        ],
+        "why_relevant": "定義信賴度為前件成立時的條件機率，可驗證C"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c1",
+        "title": "機率/統計之機器學習基礎應用",
+        "page_label": "3-2",
+        "block_ids": [
+          "block-41"
+        ],
+        "why_relevant": "補充：條件機率公式說明信賴度即P(B|A)"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c5",
+        "title": "常見機器學習演算法",
+        "page_label": "4-12",
+        "block_ids": [
+          "block-740"
+        ],
+        "why_relevant": "補充：說明支持度是共同出現占總交易比例，可排除A、D"
+      },
+      {
         "guide_key": "guide2",
         "node_id": "mid-s2c9",
         "title": "數據可視化工具",
@@ -2293,7 +3219,7 @@
         "block_ids": [
           "block-203"
         ],
-        "why_relevant": "此處提到以關聯規則分析找出客戶購買行為中常見的組合規則，可連結本題尋找兩類內容共同觀看模式的分析目的。"
+        "why_relevant": "補充：此處提到以關聯規則分析找出客戶購買行為中常見的組合規則，可連結本題尋找兩類內容共同觀看模式的分析目的。"
       },
       {
         "guide_key": "guide2",
@@ -2305,7 +3231,7 @@
           "block-68",
           "block-69"
         ],
-        "why_relevant": "本節說明假設檢定須比較 p 值與顯著水準，有助於區分本題的正向關聯與統計顯著性結論。"
+        "why_relevant": "補充：本節說明假設檢定須比較 p 值與顯著水準，有助於區分本題的正向關聯與統計顯著性結論。"
       }
     ],
     "confidence": "high"
@@ -2334,13 +3260,22 @@
         "title": "常見的大數據分析方法",
         "page_label": "5-10",
         "block_ids": [
-          "block-6",
-          "block-7",
-          "block-10",
           "block-12",
           "block-13"
         ],
-        "why_relevant": "直接說明即時性、近似性，以及在可容忍誤差內快速計算統計量，並以單一掃描或分散式彙總估算中位數與分位數，支持答案 D。"
+        "why_relevant": "補充：說明近似統計在可容忍誤差內換取快速與可擴展；指出以單次掃描或分散式彙總估算中位數與分位數"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c8",
+        "title": "常見的大數據分析方法",
+        "page_label": "5-10",
+        "block_ids": [
+          "block-6",
+          "block-7",
+          "block-10"
+        ],
+        "why_relevant": "補充：直接說明即時性、近似性，以及在可容忍誤差內快速計算統計量，並以單一掃描或分散式彙總估算中位數與分位數，支持答案 D。"
       },
       {
         "guide_key": "guide2",
@@ -2351,7 +3286,7 @@
           "block-8",
           "block-10"
         ],
-        "why_relevant": "說明大數據的記憶體與即時計算限制，以及偏態、長尾資料需搭配中位數與分位數判讀，連結題目的大量交易監控情境。"
+        "why_relevant": "補充：說明大數據的記憶體與即時計算限制，以及偏態、長尾資料需搭配中位數與分位數判讀，連結題目的大量交易監控情境。"
       }
     ],
     "confidence": "high"
@@ -2373,6 +3308,17 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c5",
+        "title": "常見機器學習演算法",
+        "page_label": "4-12",
+        "block_ids": [
+          "block-447",
+          "block-649"
+        ],
+        "why_relevant": "補充：說明維度增加使距離差異減小，ε 難以有效區分鄰域。；說明ε鄰域點數達MinPts才是核心點。"
+      },
+      {
         "guide_key": "guide2",
         "node_id": "mid-s2c6",
         "title": "數據處理技術與工具",
@@ -2385,7 +3331,7 @@
           "block-53",
           "block-55"
         ],
-        "why_relevant": "支持特徵尺度會影響距離型演算法，以及常見縮放方法可保留分佈比例或相對位置的說明；不作為 DBSCAN 或高維距離集中的直接引文。"
+        "why_relevant": "補充：支持特徵尺度會影響距離型演算法，以及常見縮放方法可保留分佈比例或相對位置的說明；不作為 DBSCAN 或高維距離集中的直接引文。"
       }
     ],
     "confidence": "high"
@@ -2408,6 +3354,37 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c5",
+        "title": "常見機器學習演算法",
+        "page_label": "4-12",
+        "block_ids": [
+          "block-668"
+        ],
+        "why_relevant": "PCA降維前需先標準化，支持選項D。"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c5",
+        "title": "常見機器學習演算法",
+        "page_label": "4-12",
+        "block_ids": [
+          "block-666",
+          "block-670"
+        ],
+        "why_relevant": "補充：PCA用協方差矩陣找主成分，尺度大者易主導。；主成分代表最大變異方向，尺度大者易主導。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c6",
+        "title": "數據處理技術與工具",
+        "page_label": "4-20",
+        "block_ids": [
+          "block-54"
+        ],
+        "why_relevant": "補充：標準化為平均值0、標準差1，理解選項D作法。"
+      },
+      {
         "guide_key": "guide2",
         "node_id": "mid-s2c6",
         "title": "數據處理技術與工具",
@@ -2416,11 +3393,10 @@
           "block-47",
           "block-48",
           "block-53",
-          "block-54",
           "block-55",
           "block-56"
         ],
-        "why_relevant": "說明不同數值尺度可能造成學習偏誤，並介紹 Z-score 標準化及其限制，支持進行 PCA 前先處理尺度差異的判斷。"
+        "why_relevant": "補充：說明不同數值尺度可能造成學習偏誤，並介紹 Z-score 標準化及其限制，支持進行 PCA 前先處理尺度差異的判斷。"
       }
     ],
     "confidence": "high"
@@ -2444,6 +3420,36 @@
     "citations": [
       {
         "guide_key": "guide2",
+        "node_id": "mid-s2c3",
+        "title": "假設檢定與統計推論",
+        "page_label": "3-23",
+        "block_ids": [
+          "block-218"
+        ],
+        "why_relevant": "明確給出常態近似的門檻條件，可直接選出正確答案。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c2",
+        "title": "機率分佈與資料分佈模型",
+        "page_label": "3-13",
+        "block_ids": [
+          "block-58"
+        ],
+        "why_relevant": "補充：說明二項分佈的定義，助理解何以能討論常態近似。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c3",
+        "title": "假設檢定與統計推論",
+        "page_label": "3-23",
+        "block_ids": [
+          "block-200"
+        ],
+        "why_relevant": "補充：點出常態近似須滿足期望次數條件，補強判斷依據。"
+      },
+      {
+        "guide_key": "guide2",
         "node_id": "mid-s2pdf-c3",
         "title": "第三章 機率統計基礎",
         "page_label": "3-1",
@@ -2452,7 +3458,7 @@
           "block-235",
           "block-237"
         ],
-        "why_relevant": "說明伯努利分佈的二元結果、成功機率，以及期望值與變異數，支持單次點擊行為的建模。"
+        "why_relevant": "補充：說明伯努利分佈的二元結果、成功機率，以及期望值與變異數，支持單次點擊行為的建模。"
       },
       {
         "guide_key": "guide2",
@@ -2462,7 +3468,7 @@
         "block_ids": [
           "block-355"
         ],
-        "why_relevant": "說明二項分佈用於計算多次伯努利試驗中的成功次數，且屬於離散型分佈。"
+        "why_relevant": "補充：說明二項分佈用於計算多次伯努利試驗中的成功次數，且屬於離散型分佈。"
       },
       {
         "guide_key": "guide2",
@@ -2475,7 +3481,7 @@
           "block-554",
           "block-555"
         ],
-        "why_relevant": "在單樣本比例檢定情境下列出二元資料、獨立觀測與常態近似的期望次數條件，支持同時檢查成功與失敗次數的概念。"
+        "why_relevant": "補充：在單樣本比例檢定情境下列出二元資料、獨立觀測與常態近似的期望次數條件，支持同時檢查成功與失敗次數的概念。"
       }
     ],
     "confidence": "high"
@@ -2499,6 +3505,46 @@
     ],
     "citations": [
       {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c1",
+        "title": "自然語言處理技術與應用",
+        "page_label": "3-3",
+        "block_ids": [
+          "block-340"
+        ],
+        "why_relevant": "指出訓練前應匿名化或去識別化，直接支持正確作法。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c13",
+        "title": "大數據隱私保護、安全與合規",
+        "page_label": "6-30",
+        "block_ids": [
+          "block-7"
+        ],
+        "why_relevant": "補充：說明移除姓名仍可能再識別，須匿名化與隱私強化技術。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2pdf-c6",
+        "title": "第六章 大數據在人工智慧之應用",
+        "page_label": "6-1",
+        "block_ids": [
+          "block-11"
+        ],
+        "why_relevant": "補充：概述訓練資料隱私風險、匿名化與合規審查。"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c1",
+        "title": "自然語言處理技術與應用",
+        "page_label": "3-3",
+        "block_ids": [
+          "block-337"
+        ],
+        "why_relevant": "補充：以客服機器人為例，說明未匿名化可能違反個資法。"
+      },
+      {
         "guide_key": "guide2",
         "node_id": "mid-s2c13",
         "title": "大數據隱私保護、安全與合規",
@@ -2508,7 +3554,7 @@
           "block-173",
           "block-174"
         ],
-        "why_relevant": "支持以匿名化降低個資風險，並以操作紀錄、跨部門監督落實稽核與持續治理。"
+        "why_relevant": "補充：支持以匿名化降低個資風險，並以操作紀錄、跨部門監督落實稽核與持續治理。"
       },
       {
         "guide_key": "guide2",
@@ -2523,7 +3569,7 @@
           "block-581",
           "block-582"
         ],
-        "why_relevant": "說明資料稽核、敏感資料偵測與模型輸出監控，可連結至本題輸出內容稽核機制。"
+        "why_relevant": "補充：說明資料稽核、敏感資料偵測與模型輸出監控，可連結至本題輸出內容稽核機制。"
       },
       {
         "guide_key": "guide2",
@@ -2533,11 +3579,10 @@
         "block_ids": [
           "block-4",
           "block-5",
-          "block-7",
           "block-11",
           "block-12"
         ],
-        "why_relevant": "支持直接與間接識別風險的判斷，並說明僅刪除姓名仍有再識別風險，以及歷史資料訓練用途的合規問題。"
+        "why_relevant": "補充：支持直接與間接識別風險的判斷，並說明僅刪除姓名仍有再識別風險，以及歷史資料訓練用途的合規問題。"
       }
     ],
     "confidence": "high"
@@ -2561,6 +3606,28 @@
     "citations": [
       {
         "guide_key": "guide2",
+        "node_id": "mid-s2c8",
+        "title": "常見的大數據分析方法",
+        "page_label": "5-10",
+        "block_ids": [
+          "block-123"
+        ],
+        "why_relevant": "邊表達節點間的互動關係，按讚可據此建為連結。"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c8",
+        "title": "常見的大數據分析方法",
+        "page_label": "5-10",
+        "block_ids": [
+          "block-116",
+          "block-122",
+          "block-124"
+        ],
+        "why_relevant": "補充：節點代表使用者與貼文等實體，是建模基礎。；圖屬性的說明有助理解邊可附帶互動細節。；說明社群互動可建構成圖結構，理解題目情境。"
+      },
+      {
+        "guide_key": "guide2",
         "node_id": "mid-s2c5",
         "title": "數據儲存與管理",
         "page_label": "4-9",
@@ -2568,7 +3635,7 @@
           "block-3",
           "block-8"
         ],
-        "why_relevant": "支持儲存設計應確保資料快速取用，並依資料型態與查詢需求選擇適當技術的原則；作為本題建模選擇的概念連結。"
+        "why_relevant": "補充：支持儲存設計應確保資料快速取用，並依資料型態與查詢需求選擇適當技術的原則；作為本題建模選擇的概念連結。"
       }
     ],
     "confidence": "high"
@@ -2596,9 +3663,29 @@
         "title": "數據儲存與管理",
         "page_label": "4-9",
         "block_ids": [
+          "block-17"
+        ],
+        "why_relevant": "補充：格式彈性高，適合異質資料整合"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c10",
+        "title": "大數據與機器學習",
+        "page_label": "6-2",
+        "block_ids": [
+          "block-57"
+        ],
+        "why_relevant": "補充：說明異質資料需標準化對齊，避免語意混淆"
+      },
+      {
+        "guide_key": "guide2",
+        "node_id": "mid-s2c5",
+        "title": "數據儲存與管理",
+        "page_label": "4-9",
+        "block_ids": [
           "block-8"
         ],
-        "why_relevant": "支持依資料型態、查詢方式與管理需求選擇合適技術的基本原則。"
+        "why_relevant": "補充：支持依資料型態、查詢方式與管理需求選擇合適技術的基本原則。"
       },
       {
         "guide_key": "guide2",
@@ -2608,12 +3695,11 @@
         "block_ids": [
           "block-15",
           "block-16",
-          "block-17",
           "block-18",
           "block-22",
           "block-24"
         ],
-        "why_relevant": "說明文件型資料庫的適用資料、格式彈性、自定查詢邏輯，以及標籤管理與異質資料整合的概念，用於分析選項 C。"
+        "why_relevant": "補充：說明文件型資料庫的適用資料、格式彈性、自定查詢邏輯，以及標籤管理與異質資料整合的概念，用於分析選項 C。"
       },
       {
         "guide_key": "guide2",
@@ -2625,7 +3711,7 @@
           "block-126",
           "block-128"
         ],
-        "why_relevant": "說明關聯式資料庫的表格與固定欄位結構、索引查詢能力及結構變動限制，用於分析選項 D。"
+        "why_relevant": "補充：說明關聯式資料庫的表格與固定欄位結構、索引查詢能力及結構變動限制，用於分析選項 D。"
       }
     ],
     "confidence": "high"
@@ -2649,6 +3735,17 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c7",
+        "title": "數據準備與特徵工程",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-97",
+          "block-98"
+        ],
+        "why_relevant": "補充：線性迴歸假設資料近常態，偏態時應做分佈轉換；對數轉換是壓縮右偏的常見作法，與正解同類"
+      },
+      {
         "guide_key": "guide2",
         "node_id": "mid-s2c3",
         "title": "假設檢定與統計推論",
@@ -2658,7 +3755,7 @@
           "block-91",
           "block-92"
         ],
-        "why_relevant": "支持選擇統計方法時應檢查常態性、變異數齊一性等前提，以確保推論可靠的概念。"
+        "why_relevant": "補充：支持選擇統計方法時應檢查常態性、變異數齊一性等前提，以確保推論可靠的概念。"
       },
       {
         "guide_key": "guide2",
@@ -2671,7 +3768,7 @@
           "block-55",
           "block-56"
         ],
-        "why_relevant": "說明特徵縮放的目的及標準化保留原始形狀的特性，支持排除僅標準化 X 的選項。"
+        "why_relevant": "補充：說明特徵縮放的目的及標準化保留原始形狀的特性，支持排除僅標準化 X 的選項。"
       }
     ],
     "confidence": "high"
@@ -2694,6 +3791,36 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c9",
+        "title": "模型訓練、評估與驗證",
+        "page_label": "5-17",
+        "block_ids": [
+          "block-198"
+        ],
+        "why_relevant": "說明每輪只留一筆驗證、其餘訓練，共n次"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c10",
+        "title": "模型調整與優化",
+        "page_label": "5-30",
+        "block_ids": [
+          "block-462"
+        ],
+        "why_relevant": "補充：指出K等於樣本數時即為留一法，可與K-fold區辨"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c9",
+        "title": "模型訓練、評估與驗證",
+        "page_label": "5-17",
+        "block_ids": [
+          "block-163"
+        ],
+        "why_relevant": "補充：複習K-fold取平均的作法，對照本題流程"
+      },
+      {
         "guide_key": "guide2",
         "node_id": "mid-s2c10",
         "title": "大數據與機器學習",
@@ -2703,7 +3830,7 @@
           "block-123",
           "block-124"
         ],
-        "why_relevant": "說明模型訓練與驗證流程包含交叉驗證及評估指標計算，可連結題目的訓練、逐輪評估與指標彙整流程；未直接定義 LOOCV。"
+        "why_relevant": "補充：說明模型訓練與驗證流程包含交叉驗證及評估指標計算，可連結題目的訓練、逐輪評估與指標彙整流程；未直接定義 LOOCV。"
       }
     ],
     "confidence": "high"
@@ -2726,6 +3853,37 @@
     ],
     "citations": [
       {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c5",
+        "title": "常見機器學習演算法",
+        "page_label": "4-12",
+        "block_ids": [
+          "block-603"
+        ],
+        "why_relevant": "以最近質心分群並須預設K，正是K-means特性"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c8",
+        "title": "數據準備與模型選擇",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-97"
+        ],
+        "why_relevant": "須先給定K、分配至最近中心，即K-means定義"
+      },
+      {
+        "guide_key": "guide1",
+        "node_id": "mid-s1c8",
+        "title": "數據準備與模型選擇",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-98",
+          "block-99"
+        ],
+        "why_relevant": "補充：DBSCAN不需給定K、可找任意形狀，對照排除；階層式分群不需指定群數，可據此排除選項"
+      },
+      {
         "guide_key": "guide2",
         "node_id": "mid-s2c7",
         "title": "統計學在大數據中的應用",
@@ -2733,7 +3891,7 @@
         "block_ids": [
           "block-51"
         ],
-        "why_relevant": "說明 K-means 可依顧客行為模式進行分群，支持本題所連結的群聚分析應用概念；演算法步驟的判斷依據為題目虛擬程式碼。"
+        "why_relevant": "補充：說明 K-means 可依顧客行為模式進行分群，支持本題所連結的群聚分析應用概念；演算法步驟的判斷依據為題目虛擬程式碼。"
       }
     ],
     "confidence": "high"
@@ -2757,13 +3915,33 @@
     "citations": [
       {
         "guide_key": "guide2",
+        "node_id": "mid-s2c4",
+        "title": "數據收集與清理",
+        "page_label": "4-2",
+        "block_ids": [
+          "block-103"
+        ],
+        "why_relevant": "補充：說明缺失率概念，有助理解遺漏值統計"
+      },
+      {
+        "guide_key": "guide3",
+        "node_id": "mid-s3c7",
+        "title": "數據準備與特徵工程",
+        "page_label": "5-2",
+        "block_ids": [
+          "block-18"
+        ],
+        "why_relevant": "補充：說明缺失標示，助理解遺漏值處理"
+      },
+      {
+        "guide_key": "guide2",
         "node_id": "mid-s2c6",
         "title": "數據處理技術與工具",
         "page_label": "4-20",
         "block_ids": [
           "block-179"
         ],
-        "why_relevant": "此處提到資料清理中處理欄位空值的遺漏值補全概念，可連結本題先偵測、統計遺漏值，再進行後續處理的流程。"
+        "why_relevant": "補充：此處提到資料清理中處理欄位空值的遺漏值補全概念，可連結本題先偵測、統計遺漏值，再進行後續處理的流程。"
       }
     ],
     "confidence": "high"

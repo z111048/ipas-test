@@ -1,0 +1,4923 @@
+{
+ "description": "Internal list of exam concepts the learning guide does not cover (from data/guide_citation_primary.json gap). Not shown in the frontend.",
+ "generatedOn": "2026-11-03",
+ "source": "data/guide_citation_primary.json",
+ "count": 702,
+ "primaryEmpty": 387,
+ "gaps": [
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q1",
+   "primaryEmpty": false,
+   "gap": "教材未以象棋程式、預定義導航規則等規則式系統為例，明確說明此類系統不屬於機器學習"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q2",
+   "primaryEmpty": false,
+   "gap": "教材未說明 TF-IDF 的定義與用途。"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q4",
+   "primaryEmpty": true,
+   "gap": "教材只提到 CNN 適合影像、RNN 適合序列資料，未說明 Elman 神經網路是遞迴型網路、適合時序／序列資料而不適合影像辨識（也未說明 ReLU 可減緩梯度消失與爆炸），因此無法據此判定 D 為不正確的敘述。"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q5",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明業界部署對 AutoML 採用率持續上升的趨勢，也未說明「轉向更簡單算法」、「雲端平台使用率下降」、「依賴手動調參」等選項為何不成立"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q6",
+   "primaryEmpty": false,
+   "gap": "教材未說明迴歸預測連續數值（如銷售額）與分類預測離散類別的對照關係，也未指出依歷年銷售數據預測明年總銷售額屬於迴歸任務。"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q8",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明參數剪枝可減少記憶體使用，僅泛述模型壓縮的整體目標"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q9",
+   "primaryEmpty": true,
+   "gap": "教材未介紹供應鏈攻擊的定義，亦未說明第三方開源模型或數據可能被植入惡意內容的風險。"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q12",
+   "primaryEmpty": false,
+   "gap": "教材未具體說明 Transformer 架構如何應用於醫療影像與臨床文本資料的整合"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q13",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明「事前未定義用戶類型／無標籤」時，為何應選 DBSCAN 這類非監督式分群、而非邏輯迴歸或決策樹等監督式模型的判斷準則。"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q14",
+   "primaryEmpty": false,
+   "gap": "教材未直接比較 Z-score 標準化與 Min-Max 正規化的效果優劣。"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q15",
+   "primaryEmpty": false,
+   "gap": "教材未說明系統整合測試階段應優先驗證模型服務與資料平台、前後端介面的協同運作及資料格式與流程一致性"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q16",
+   "primaryEmpty": false,
+   "gap": "P2 僅列出「單樣本 t 檢定」標題而無內容，未說明單一樣本連續資料檢定平均數是否等於某理論值應採單樣本 t 檢定，也未說明卡方檢定僅適用於類別資料"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q17",
+   "primaryEmpty": false,
+   "gap": "教材未說明AUC僅在完美模型時才等於1，也未提及多類別ROC的一對其餘延伸。"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q18",
+   "primaryEmpty": false,
+   "gap": "教材未明確列出特徵工程的三大環節（轉換、萃取、挑選），也未直接說明「預測」屬於模型輸出而非特徵工程的一環。"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q19",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明線性迴歸屬於輸出連續數值的迴歸模型，因此可用於預測銷售數量"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q20",
+   "primaryEmpty": true,
+   "gap": "教材未明確指出「特徵學習(Feature Learning)」是適用於低結構化（文本、圖像）資料的特徵工程方法，也未說明其能自動從資料中學習特徵表示並據以區別特徵選擇、特徵建構、特徵改善；P1 僅泛論深度學習可處理非結構化資料。"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q21",
+   "primaryEmpty": false,
+   "gap": "教材未在同一段落直接連結「PCA 屬於非監督式學習中的降維技術」，P1 僅泛述非監督式學習包含特徵降維，未指出 PCA。"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q25",
+   "primaryEmpty": true,
+   "gap": "教材未說明 Z 分數的計算公式 Z=(x−μ)/σ，無法據以算出 (90−70)/10=2"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q27",
+   "primaryEmpty": false,
+   "gap": "教材僅片段提及串流即時分析，未明確對比批次倉儲、離線資料湖與串流處理的時效差異。"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q28",
+   "primaryEmpty": false,
+   "gap": "教材未直接以「圖論分析」為名說明其即分析社群網路互動結構的方法，僅以工具功能帶過圖論函數"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q29",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明早期停止與Mini-batching在加速訓練上的定位"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q30",
+   "primaryEmpty": true,
+   "gap": "教材未說明CIFAR-10的資料筆數（訓練集50000筆、測試集10000筆），也未說明影像資料為NumPy ndarray而非Pandas DataFrame，因此無法直接支撐選項B。"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q31",
+   "primaryEmpty": true,
+   "gap": "教材未說明 Map 是把一組資料映射成另一組資料、Reduce 是統合與歸納資料的角色定義"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q32",
+   "primaryEmpty": false,
+   "gap": "教材未直接點明 Inception 是以「加寬卷積層」而非「加深層數」的方式設計，也未對比 VGG19、ResNet 屬於加深網路的做法。"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q34",
+   "primaryEmpty": false,
+   "gap": "教材未直接寫出R²的定義式（R²＝1－RSS／TSS），僅分別列出RSS與TSS。"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q35",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明「標註品質鮮少被討論」，但已明確指出標註錯誤會影響模型效能。"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q37",
+   "primaryEmpty": false,
+   "gap": "教材未說明監督式學習的典型任務（分類、迴歸）與非監督式分群任務的對應區別，僅有監督式學習的一般定義"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q38",
+   "primaryEmpty": false,
+   "gap": "P2 只描述單一神經元的加權和、偏置與激活函數，未說明該加權和即向量內積、整體前向傳播以矩陣乘法實現"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q40",
+   "primaryEmpty": false,
+   "gap": "教材未正確寫出 Accuracy 的分子分母公式（應為 (TP+TN)/(TP+FP+TN+FN)），P2 僅列出 TP+TN+FP+FN，未呈現除以總樣本數的比率關係"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q44",
+   "primaryEmpty": false,
+   "gap": "主要出處 P1 已完整陳述 Adagrad 會自動調整每個參數的學習率且適合稀疏資料，未缺少解題關鍵概念；P2 僅列出累積梯度平方和的公式推導，屬補充背景而非可直接作答的陳述。"
+  },
+  {
+   "level": "中級",
+   "exam": "midSample",
+   "questionId": "sample_q45",
+   "primaryEmpty": true,
+   "gap": "教材未說明監督式學習模型建立與預測的程式碼流程，例如資料分割、建立模型、fit 訓練、predict 預測的先後順序"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q3",
+   "primaryEmpty": true,
+   "gap": "教材未說明 MLM 的訓練策略是隨機遮罩部分詞語，並讓模型依雙向上下文預測被遮罩的詞"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q4",
+   "primaryEmpty": false,
+   "gap": "教材未明確指出 Word2Vec 是基於預測的模型（僅提到其使用神經網路與 CBOW/Skip-gram）。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q5",
+   "primaryEmpty": false,
+   "gap": "教材未說明長文本會使 TF（詞頻）未經篇幅正規化而整體偏高，導致常見詞權重被過度放大。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q7",
+   "primaryEmpty": false,
+   "gap": "教材未說明 mAP 評估中 IoU 閾值調高代表要求預測框與真實框的重疊程度必須更高（判定更嚴格），也未連結到「重疊越高、偵測越精準」的結論"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q9",
+   "primaryEmpty": true,
+   "gap": "教材未說明資料增強後樣本的特徵分佈若與原始資料不一致（語意不一致），會影響模型泛化能力，也未說明應檢查並調整增強策略以維持語意一致性。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q10",
+   "primaryEmpty": false,
+   "gap": "教材未明確標示「精確率與召回率的調和平均」即為 F1 分數，僅描述適用場景而未指出指標名稱"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q12",
+   "primaryEmpty": false,
+   "gap": "教材未說明主成分分析可用於解決特徵高度相關（多重共線性）所導致的係數不穩定問題"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q13",
+   "primaryEmpty": false,
+   "gap": "教材僅以關鍵詞列出 Kubernetes 的容器編排、資源調度與故障恢復，未直接說明其在 AI 模型服務部署、擴展與運行環境管理上的核心功能"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q15",
+   "primaryEmpty": true,
+   "gap": "教材未說明 Model Registry 用於集中管理模型版本、訓練紀錄與部署狀態的功能，僅提到模型版本控管標題與實驗追蹤工具（MLflow、DVC）記錄參數與資料版本。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q17",
+   "primaryEmpty": true,
+   "gap": "教材未說明檢索階段須區分語意相似與查詢意圖相關性，也未指出檢索結果可能語意相似卻無實質關聯。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q18",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Attention Collapse，也未說明稀疏化約束可改善注意力平均；僅有稀疏注意力效率與注意力加權原則。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q19",
+   "primaryEmpty": true,
+   "gap": "教材僅泛論資料增強可提升泛化能力，未說明低資源語言可採用反向翻譯（Back-Translation）生成偽平行語料以擴增訓練資料"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q20",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Wasserstein 距離與 WGAN 損失，也未說明其可解決模式崩潰。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q21",
+   "primaryEmpty": true,
+   "gap": "教材未明確介紹模態缺失感知訓練，亦未比較各選項的缺失模態處理策略。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q24",
+   "primaryEmpty": true,
+   "gap": "教材僅提及防火牆屬網路安全保護措施，未說明對抗性攻擊是針對模型輸入特徵的微小惡意擾動，也未指出網路防火牆等網路層防護無法防禦此類模型層攻擊"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q25",
+   "primaryEmpty": false,
+   "gap": "教材未比較輸出比對、差分隱私與浮水印等防治效果差異"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q26",
+   "primaryEmpty": false,
+   "gap": "教材未說明 L1（Lasso）正則化可透過對係數的懲罰，降低多重共線性對模型參數估計的負面影響（亦即 Lasso 為何能優於未正則化的線性迴歸）"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q27",
+   "primaryEmpty": true,
+   "gap": "教材僅定義半結構化資料與 JSON 格式，未說明如何以遞迴函式展開巢狀欄位，並結合時間窗口聚合萃取時序特徵。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q29",
+   "primaryEmpty": false,
+   "gap": "教材未明列靜態程式碼分析，也未強調以每次提交為觸發單位。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q30",
+   "primaryEmpty": true,
+   "gap": "教材未介紹不可否認性的定義、數位簽章與雜湊完整性驗證，也未說明其與效能、可用性等目標的區別"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q31",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明「水平擴展服務實例數」是支撐 10,000 RPS 峰值與高可用的關鍵作法，P2 僅談負載平衡分擔請求，未連結到擴展實例與彈性伸縮。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q32",
+   "primaryEmpty": false,
+   "gap": "教材未說明可用 PSI 指數量化輸入特徵與訓練資料的分佈差異，並以其變化趨勢提前預警模型效能衰退。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q33",
+   "primaryEmpty": false,
+   "gap": "教材未直接比較兩架構在龐大語料下的取捨，僅點出低頻詞優勢。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q34",
+   "primaryEmpty": true,
+   "gap": "教材未介紹全景分割的定義，也就是整合語意分類與實例區分的技術，因此無法直接判斷選項D。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q35",
+   "primaryEmpty": false,
+   "gap": "教材未明寫「零樣本分類」一詞，僅能由共同嵌入空間與圖文匹配度推得。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q36",
+   "primaryEmpty": true,
+   "gap": "教材未介紹網格搜尋、隨機搜尋與貝葉斯優化的定義與差異，也未說明網格搜尋會逐一評估所有超參數組合。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q37",
+   "primaryEmpty": false,
+   "gap": "教材未說明資料分片（Data Sharding）如何將訓練負載分散到多張 GPU，以降低單張 GPU 的記憶體壓力"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q38",
+   "primaryEmpty": true,
+   "gap": "教材未介紹取樣步數與取樣器對生成細節還原的影響"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q39",
+   "primaryEmpty": true,
+   "gap": "教材未介紹ARIMA殘差診斷、ACF白噪音檢定與配適不足判定。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q40",
+   "primaryEmpty": false,
+   "gap": "教材未直接比較三模型在多模態潛在空間對齊上的差異，也未說明擴散模型的條件化噪聲（Conditional Denoising）與跨模態生成機制。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q41",
+   "primaryEmpty": true,
+   "gap": "教材未說明直接在交叉驗證資料上調參會造成資料洩漏與過度樂觀偏差，亦未介紹巢狀交叉驗證。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q42",
+   "primaryEmpty": false,
+   "gap": "教材未說明 VAE 的潛在空間分佈可用於監控輸入資料、偵測資料漂移（P1 僅泛述 VAE 適合異常偵測）"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q43",
+   "primaryEmpty": true,
+   "gap": "教材未說明生成式與鑑別式模型在低資源（標註比例逐步減少）情境下的資料利用效率與泛化能力比較。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q44",
+   "primaryEmpty": false,
+   "gap": "教材未說明 VAE／GAN 可用於生成顧客行為的虛擬樣本以進行模擬、A/B 測試與行銷策略評估，也未說明其同時兼具預測與資料生成的能力。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q45",
+   "primaryEmpty": false,
+   "gap": "教材未說明降維可降低過擬合（Overfitting）風險，也未說明主成分保留不必然提升分類準確率"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q47",
+   "primaryEmpty": true,
+   "gap": "教材未說明多任務學習中損失函數未做權重平衡會導致任務間競爭（任務互相牽制）的概念"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q48",
+   "primaryEmpty": true,
+   "gap": "教材未說明 DBSCAN 可藉由 KD-Tree、Ball Tree 等距離索引結構加速鄰近點查詢，以降低運算時間與記憶體負擔"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q49",
+   "primaryEmpty": false,
+   "gap": "教材未說明詞嵌入正規化（Embedding Normalization）的作用，以及它與語意距離穩定性、情緒分類誤差之間的關係，因此不足以判定選項 A 是不正確的敘述。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s1",
+   "questionId": "mid_1141_s1_q50",
+   "primaryEmpty": false,
+   "gap": "教材未說明 CLIP 的文字與影像編碼器在語意嵌入空間「未充分對齊」時，會導致跨模態理解偏差，進而造成品牌標誌顏色、手部姿勢等細節生成錯誤。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q1",
+   "primaryEmpty": true,
+   "gap": "教材未說明 Z 分數的正負號與數值代表該數據點高於或低於平均值幾個標準差（Z=2 即高於平均值 2 個標準差）"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q2",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明 pandas 的 describe() 語法即為計算敘述性統計量（平均值、標準差等）的指令"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q4",
+   "primaryEmpty": true,
+   "gap": "教材未直接說明累積分佈函數（CDF）的數學定義為機率密度函數（PDF）的積分，僅講述 PDF 在區間內的積分即為機率。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q5",
+   "primaryEmpty": false,
+   "gap": "教材未明確指出 Label Encoding 用於無序類別時會產生虛假的大小或順序關係，僅籠統提到模型可能誤解數值具有數學意義。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q6",
+   "primaryEmpty": false,
+   "gap": "教材未說明分箱（Binning）可能造成資訊損失或邊界偏誤。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q8",
+   "primaryEmpty": false,
+   "gap": "教材僅以「乘積、除法等數學運算產生新特徵」定義特徵衍生，未以本題「銷售金額/瀏覽次數」這類相除實例明確對應到特徵衍生，且 P2 只說明特徵選擇不創造新特徵，屬相鄰概念的對比"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q9",
+   "primaryEmpty": false,
+   "gap": "教材僅以片段描述各方法的特性，未直接對照說明穩健縮放相對於 Min-Max／Z-score 在含極端值資料下的適用性"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q11",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明大量物聯網裝置的即時異常監控需採用大數據平台結合即時資料分析技術（P1 僅描述資料源特性，未連結到處理技術的選擇）"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q12",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明隨機過採樣（重複複製少數類樣本）會導致模型增加過擬合風險，僅以 SMOTE 等相鄰方法說明。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q14",
+   "primaryEmpty": true,
+   "gap": "教材未說明正規化吉尼不純度的計算公式與正規化方式"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q16",
+   "primaryEmpty": false,
+   "gap": "教材以 Z > 3 舉例，未明確列出 |Z| ≥ 3 的絕對值門檻。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q18",
+   "primaryEmpty": false,
+   "gap": "教材僅籠統提及「結合ACID特性實現操作原子性與一致性」，未區分原子性與一致性、隔離性、持久性的差異，也未說明節點交易失敗時須全部回復（Rollback）的判定原則。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q19",
+   "primaryEmpty": false,
+   "gap": "教材未逐一比較四種流程設計，資料湖保留完整資料的說明僅見於章末練習解析。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q20",
+   "primaryEmpty": false,
+   "gap": "教材未說明匿名化與雜湊函數的定義，也未比較資料本地化與密文運算的差異。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q21",
+   "primaryEmpty": false,
+   "gap": "教材未說明 Tufte 數據密度原則的定義（在有限版面中呈現最大資訊量），也未說明為何應整合於單一圖表、保持比例一致與標註清晰，而非拆成多張獨立圖表。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q22",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明熱力圖搭配相關係數矩陣能以單一圖表同時呈現多變數關聯的方向與強度，並優於逐對散佈圖或雙軸折線圖。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q23",
+   "primaryEmpty": false,
+   "gap": "教材未說明「信賴區間包含虛無假設所設定的值（100 萬元）時，即無法拒絕虛無假設」這項以信賴區間判斷檢定結果的規則"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q24",
+   "primaryEmpty": false,
+   "gap": "教材未說明以 Apache Spark 或 Ray 進行分散式資料預處理與特徵抽取，並串接至模型訓練管線的作法，也未解釋為何分散式處理優於單節點批次處理"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q25",
+   "primaryEmpty": true,
+   "gap": "教材未介紹對數刻度如何用於偏態資料視覺化，也未說明其可放大高金額族群差異。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q26",
+   "primaryEmpty": false,
+   "gap": "教材未定義提升度（Lift）及其判讀（大於1代表正向關聯），難以據此直接排除選項B。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q27",
+   "primaryEmpty": true,
+   "gap": "教材只泛論「近似統計」在可容忍誤差下快速計算統計量，未說明「近似分位數」是快速估算分位值以支援即時資料流分析，也未點出可串流、即時處理的特性"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q28",
+   "primaryEmpty": true,
+   "gap": "教材未說明高維度下距離差異趨同會使 DBSCAN 的 ε 閾值失效，導致所有資料點被判為雜訊"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q29",
+   "primaryEmpty": false,
+   "gap": "教材未說明未先標準化時，數值尺度較大的特徵會主導PCA主成分（造成特徵偏誤）"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q30",
+   "primaryEmpty": false,
+   "gap": "教材未說明共變異數雖反映兩變數共同變動方向、但未標準化，無法衡量線性關係的「強度」，也未點出 RMSE／MAE 屬預測誤差指標而非關聯程度指標，故考生難以排除 A、B、D。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q32",
+   "primaryEmpty": false,
+   "gap": "教材只談訓練資料的匿名化／去識別化與再識別風險，未說明生成式AI輸出內容的稽核機制（如輸出過濾與紀錄查核），也未區分匿名化與偽匿名化的差別。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q33",
+   "primaryEmpty": true,
+   "gap": "教材未說明的「分位數回歸模型（Quantile Regression）聚焦尾部分位（Tail Quantiles）以評估極端風險」這項關鍵事實；P1 只指出資料偏態或長尾時不適合假設常態分佈，P2 只泛談以中位數或分位數判讀偏態資料，皆未直接陳述分位數回歸可捕捉極端尾端風險。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q34",
+   "primaryEmpty": false,
+   "gap": "教材未說明邊（Edge）可攜帶屬性（Property，如時間戳記、裝置類型），也未說明「按讚」這類互動宜建模為帶屬性的邊以區別於將行為建成節點"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q35",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 RDF 三元組與知識圖譜圖模型設計。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q36",
+   "primaryEmpty": true,
+   "gap": "教材只泛論偏態資料可做分佈轉換，未說明 Box–Cox 轉換是針對右偏的依變數 Y 進行轉換，也未說明它能穩定變異數以符合線性迴歸的同質變異假設"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q37",
+   "primaryEmpty": false,
+   "gap": "教材未說明僅調整決策閾值的效果，較難排除選項D。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q40",
+   "primaryEmpty": false,
+   "gap": "教材未比較Hold-out切分與Bootstrap有放回抽樣之差異"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q41",
+   "primaryEmpty": false,
+   "gap": "教材未完整說明以群內特徵平均值更新中心、反覆迭代至收斂的步驟。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q42",
+   "primaryEmpty": false,
+   "gap": "教材未明確定義 pmf 與 cdf 的差異，較難直接排除 B、D。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q43",
+   "primaryEmpty": true,
+   "gap": "教材未說明 Pandas 讀取 CSV 的型態推斷，以及 NaN、小數導致 float64 的規則。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q44",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Pandas nullable integer（Int64）型別，也未說明 astype 轉型時 NaN 的保留方式。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q45",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 pandas 的 groupby 分組後以 sum 加總，也未說明 count、value_counts 與 mean 的差異，無法據以判斷何者能計算各平台銷售總額。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q46",
+   "primaryEmpty": true,
+   "gap": "教材未說明需以 pd.melt 將多個銷售額欄位由寬表轉為長表，並在 sns.barplot 中設定 estimator=sum 以加總各區銷售額"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q47",
+   "primaryEmpty": true,
+   "gap": "教材未說明如何以 nlargest(5, \"NA_Sales\") 取出 NA 銷售前五名，並以 sns.barplot 指定 x=\"Name\"、y=\"NA_Sales\" 呈現。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q48",
+   "primaryEmpty": true,
+   "gap": "教材只定義 Q1，未說明如何由統計摘要判定 youtube 變數的 Q1 為 89.25。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q49",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 pandas 的 isnull() 與 isna() 互為別名，以及以 sum() 統計各欄遺漏值的用法。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s2",
+   "questionId": "mid_1141_s2_q50",
+   "primaryEmpty": true,
+   "gap": "教材只定義 β0 為截距、β1…βn 為各自變數的迴歸係數，未說明 sklearn LinearRegression 的 fit(X, y) 參數順序、coef_ 僅含各自變數係數（不含截距，故為 3 個），也未說明 statsmodels OLS 的參數順序、係數顯著性判讀與截距項數值 3.5561。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q1",
+   "primaryEmpty": false,
+   "gap": "教材未說明F檢定、t檢定、卡方檢定為何不適合作模型泛化評估"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q2",
+   "primaryEmpty": false,
+   "gap": "教材未直接區分正則化強度與學習率的不同作用"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q4",
+   "primaryEmpty": false,
+   "gap": "教材未說明未被任何核心點鄰域涵蓋、且與其他群集不具密度可達性的低密度點，最終應判定為雜訊點（而非邊界點）"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q7",
+   "primaryEmpty": false,
+   "gap": "教材只說明 LSTM 具長序列記憶與依賴關係的特性，未直接指出其適用於時間序列預測（如電力需求趨勢預測）這類任務。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q8",
+   "primaryEmpty": false,
+   "gap": "教材僅以標題將資訊增益歸於決策樹分類器，未明確說明資訊增益是決策樹遞迴分裂時用來選擇分裂特徵（降低不確定性）的準則，P2 只定義熵的變化，未連結到決策樹。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q10",
+   "primaryEmpty": true,
+   "gap": "教材僅說明 AutoML 的自動特徵工程可節省特徵處理時間，未說明 AutoML 適合缺乏專職工程師、需在短時間內快速比較多種模型的情境（自動化模型選擇與訓練）"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q11",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Grid Search 與 Random Search 的搜尋策略差異，也未說明隨機搜尋在高維參數空間较有效率的原因"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q12",
+   "primaryEmpty": false,
+   "gap": "教材僅泛論超參數對訓練穩定性與收斂速度有影響，未具體說明學習率調高或調低分別如何造成收斂過快（過擬合）或收斂過慢。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q15",
+   "primaryEmpty": false,
+   "gap": "教材未完整串接R²＝1－RSS／TSS的公式"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q16",
+   "primaryEmpty": false,
+   "gap": "教材未完整寫出 F1 = 2×(Precision×Recall)/(Precision+Recall) 的計算公式，P1 的公式殘缺（僅寫成 2 ∙ Precision+Recall），考生無法據以算出 0.686"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q17",
+   "primaryEmpty": false,
+   "gap": "教材未處理題幹「內建動量」的單選歧義：SGD+Momentum 同樣含動量，只能靠 Adam 結合動量與 RMSprop 的敘述判定答案。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q18",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明 XGBoost 支援並行化訓練，僅泛述運算效率與二階導數加速分裂點搜尋"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q19",
+   "primaryEmpty": false,
+   "gap": "教材未說明類別不平衡時應改以 F1 分數、ROC-AUC 等指標取代準確率，也未說明單用準確率會高估少數類的預測表現"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q20",
+   "primaryEmpty": false,
+   "gap": "教材未明確對比單一特徵平方與跨特徵乘積的差異。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q22",
+   "primaryEmpty": false,
+   "gap": "教材未直接比較分群、迴歸與強化學習的任務差異"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q23",
+   "primaryEmpty": false,
+   "gap": "教材未說明蒙地卡羅方法的核心原理：以隨機抽樣模擬大量可能情境，進而估算整體結果的機率分佈與風險區間。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q24",
+   "primaryEmpty": false,
+   "gap": "教材未說明殘差圖出現系統性彎曲分佈或極大殘差，即代表模型存在非線性關係或異常值而違反迴歸假設。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q25",
+   "primaryEmpty": false,
+   "gap": "教材未說明傳統信用評分卡開發流程的常見步驟（如分箱與 IV 檢定、PSI 模型穩定性檢驗），也未指出使用生成式模型進行特徵學習不屬於該流程。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q26",
+   "primaryEmpty": true,
+   "gap": "教材只說明正則化可限制模型複雜度，未說明 Dropout 與早期停止同樣屬於限制學習能力的手段，也未指出擴增輸入特徵會提高模型表達能力與複雜度、並非降低模型複雜度的作法"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q27",
+   "primaryEmpty": false,
+   "gap": "教材未比較Sigmoid與ReLU差異（如梯度消失），也未說明加深網路或灰階化為何無法解決線性激活的限制"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q29",
+   "primaryEmpty": true,
+   "gap": "教材未說明時間序列交叉驗證或滑動視窗驗證可動態更新驗證資料，以因應資料模式隨時間改變的概念漂移"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q30",
+   "primaryEmpty": true,
+   "gap": "教材未說明跨語言（語言轉移）部署會導致召回率下降，進而使 macro F1-score 驟降"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q31",
+   "primaryEmpty": false,
+   "gap": "教材對耐心值的具體設定原則僅簡略提及。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q32",
+   "primaryEmpty": false,
+   "gap": "教材未明確點出 L2 僅抑制權重、不會使係數為零，較難直接排除 C。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q33",
+   "primaryEmpty": true,
+   "gap": "教材未定義Big O時間複雜度，也未說明逐一兩兩比對需n(n−1)/2次配對、忽略常數與低階項後為O(n²)的推導。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q34",
+   "primaryEmpty": true,
+   "gap": "教材未說明分層留一法交叉驗證（Stratified Leave-One-Out Cross Validation）如何在留一時維持各類別比例，並同時兼顧資料利用率。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q35",
+   "primaryEmpty": false,
+   "gap": "教材未明示以累積解釋變異量百分比選取主成分的門檻規則。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q36",
+   "primaryEmpty": false,
+   "gap": "教材未區分「雜訊擾動」（差分隱私）與同態加密的差異，故選項A不易直接排除。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q37",
+   "primaryEmpty": false,
+   "gap": "教材未說明非對稱加密、雜湊函數與對稱加密如何分別用於金鑰交換、完整性驗證與資料加密，也未涵蓋防重放機制。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q38",
+   "primaryEmpty": false,
+   "gap": "教材未呈現題目附圖的程式碼，僅能以文字定義回推。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q39",
+   "primaryEmpty": false,
+   "gap": "教材未對題附程式碼逐行說明，僅能由Dropout機制判斷"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q40",
+   "primaryEmpty": true,
+   "gap": "教材未說明 NumPy 的 np.dot 回傳純量、v1*v2 為逐元素相乘，也未提供反矩陣與特徵分解函式用法。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q41",
+   "primaryEmpty": false,
+   "gap": "教材未說明以 Monte Carlo 樣本次數（A_and_B.sum()/B.sum()）估算條件機率的實作方式。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q42",
+   "primaryEmpty": true,
+   "gap": "教材未說明 VGG16 各層參數量分佈（全連接層最多），也未指出 ReLU 與池化層無可訓練參數。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q43",
+   "primaryEmpty": true,
+   "gap": "教材未說明 VGG16 各層的 FLOPs 分佈，也未指出卷積層運算量遠高於全連接層、池化層與 ReLU"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q44",
+   "primaryEmpty": true,
+   "gap": "教材未說明 VGG16 的層數組成（13 層卷積層加 3 層全連接層）與總參數量約 138,357,544（約 138.36M）"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q45",
+   "primaryEmpty": true,
+   "gap": "教材未說明 PyTorch 以 requires_grad=False 凍結卷積層，以及 VGG16 的 features 與 classifier 程式分工。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q46",
+   "primaryEmpty": true,
+   "gap": "教材未說明 PCA 降噪的關鍵在於設定適當的主成分數量（n_components）並以少數主成分重構影像；若保留過多主成分（如設為原始維度）就無法去除雜訊"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q47",
+   "primaryEmpty": true,
+   "gap": "教材未說明如何以 cross_val_score（或 KFold）正確串接 KNN 模型、資料與 cv 參數來執行交叉驗證並輸出準確率。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q48",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明標準化可防止梯度爆炸或梯度消失，僅在激活函數段落提及梯度問題，未與標準化連結"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q49",
+   "primaryEmpty": true,
+   "gap": "教材未說明全連接層參數量的計算方式（輸入維度×神經元數的權重數，加上神經元數的偏差數），也未說明如何由模型摘要的輸出形狀與參數數量判讀空格數值"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1141_s3",
+   "questionId": "mid_1141_s3_q50",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Matplotlib 格式字串中顏色代碼（b、r）與線條樣式（-、--）的意義，無法據此判斷空格應填內容。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q2",
+   "primaryEmpty": true,
+   "gap": "教材僅以邊緣裝置部署為例籠統提到 LoRA 調整低秩參數、減少計算與儲存需求，未說明 LoRA 會凍結原始預訓練權重、於各層加入低秩分解的可訓練矩陣，以降低可訓練參數量與 GPU 記憶體需求。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q3",
+   "primaryEmpty": false,
+   "gap": "教材未說明 CBOW 訓練速度較快但對低頻詞（長尾詞）的向量品質較差，也未說明 Skip-gram 是以中心詞預測周圍詞、能為長尾詞累積更多訓練樣本。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q4",
+   "primaryEmpty": true,
+   "gap": "教材只提到 MLM 的名稱，以及 BERT 具備雙向上下文理解能力；但未說明 MLM 的核心做法：隨機遮蔽輸入序列中的部分 token，並依雙向上下文預測被遮蔽的原始 token。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q5",
+   "primaryEmpty": false,
+   "gap": "教材未說明 Word2Vec（分布式詞嵌入）能降低詞彙表示的維度、避免高維稀疏表示。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q7",
+   "primaryEmpty": false,
+   "gap": "教材僅列出實例分割的標註格式，未進一步說明實例分割如何同時做到像素級遮罩並以實例 ID 區分同類不同個體（即與語意分割的關鍵差異）"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q8",
+   "primaryEmpty": false,
+   "gap": "教材僅片段列出兩軸名稱，未完整說明ROC曲線在醫療情境中誤診與偵測取捨的意義。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q9",
+   "primaryEmpty": true,
+   "gap": "教材未說明 AUC 需以預測機率或決策分數跨閾值計算；混淆矩陣僅有單一閾值下的 TP、FP、TN、FN，無法直接得出 AUC。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q12",
+   "primaryEmpty": true,
+   "gap": "教材未說明 Sigmoid 在輸入值過大或過小時會產生梯度消失問題（此為選項 B 與 D 的關鍵區別）"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q13",
+   "primaryEmpty": true,
+   "gap": "教材未說明提示微調是以可學習的軟提示調整輸入表示、不更新模型參數，而傳統微調需更新模型參數這項本質差異"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q14",
+   "primaryEmpty": true,
+   "gap": "教材未說明凍結大部分預訓練參數、僅微調少量新增模組（如 LoRA）並控制更新範圍，可減少對原有知識的干擾，進而緩解災難性遺忘。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q15",
+   "primaryEmpty": true,
+   "gap": "教材未說明多代理人系統中 Orchestrator 具備結果評估能力，對不合格輸出觸發重試或重新分配 Worker 的容錯機制。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q16",
+   "primaryEmpty": true,
+   "gap": "教材未說明 ReAct Agent 的 System Prompt 應要求即時性問題先呼叫 web_search 等工具驗證，以避免直接依賴既有知識而產生幻覺"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q17",
+   "primaryEmpty": false,
+   "gap": "教材未說明文字模態適合使用 Transformer（自注意力機制），也未提及時序模態可採用 Temporal CNN。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q18",
+   "primaryEmpty": false,
+   "gap": "教材僅以「跨模態表示學習／嵌入」說明映射至共同語意空間，未以「跨模態對齊」為名直接說明其解決模態間語意關聯的問題"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q19",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明 AUC 屬離線排序指標、不能直接等同線上業務成效。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q20",
+   "primaryEmpty": true,
+   "gap": "教材未說明即時推薦應移除即時資料先寫入資料倉儲再計算特徵的流程，並以 Redis 或 Feature Store 快取即時特徵以降低延遲。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q21",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Prompt Caching、靜態前綴重用、對話歷史摘要壓縮與 API token 計費／批次折扣等成本優化概念。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q22",
+   "primaryEmpty": false,
+   "gap": "教材未明確區分 AutoML 與 MLOps 的角色差異（選項B）"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q23",
+   "primaryEmpty": false,
+   "gap": "教材未說明在樣本僅數百張、且無 GPU 的地端環境中，以遷移學習搭配模型壓縮達成 100 毫秒內即時推論的整體部署規劃；P3 僅泛論延遲敏感任務，未直接對應本題的地端部署與壓縮需求"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q24",
+   "primaryEmpty": false,
+   "gap": "教材僅將推論延遲列為系統層級指標名稱，未說明延遲測試的定義與量測範圍（從接收輸入到產生預測結果所需的回應時間是否符合系統要求）"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q25",
+   "primaryEmpty": false,
+   "gap": "教材未直接引用 NIST AI RMF 對可驗證性的條文定義，僅以版本控制與實驗追蹤說明重現性。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q26",
+   "primaryEmpty": false,
+   "gap": "教材僅泛定義 XAI，未說明可解釋性如何以特徵貢獻（如關鍵特徵權重）針對每筆拒絕決策提供具體理由。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q27",
+   "primaryEmpty": true,
+   "gap": "教材未介紹人機協作（HITL）架構、醫師最終審核與臨床決策責任歸屬。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q28",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 SHAP 值、基準值與特徵貢獻方向（正負）的解讀方式，也未說明模型輸出單位不必然是機率百分比。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q29",
+   "primaryEmpty": true,
+   "gap": "教材未說明 Grad-CAM 透過梯度反向傳播生成類別關注區域（視覺化熱力圖）作為 CNN 的可解釋性方法，也未說明其因無須大量重複取樣而能滿足即時推論需求"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q30",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明梯度下降、相關性排序與卷積不適用於PCA。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q31",
+   "primaryEmpty": true,
+   "gap": "教材僅說明維度詛咒對 KNN 的影響，未說明 DBSCAN 在高維空間中因距離趨於相近而使密度估計失效、導致資料點全被判為雜訊。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q32",
+   "primaryEmpty": false,
+   "gap": "教材未比較全域平均池化與Flatten的差異，也未說明全連接層輸入特徵數須與向量長度一致"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q33",
+   "primaryEmpty": true,
+   "gap": "教材只說明資料增強的隨機變換與擴增樣本，未說明合成資料可在控制條件下產生多樣化場景、用於擴充訓練資料並提升模型泛化能力，也未區分合成資料與資料增強的差異"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q34",
+   "primaryEmpty": false,
+   "gap": "教材未說明特徵空間持續擴展（新增特徵）時，增量學習如何在不重新訓練整個模型的情況下納入新特徵並維持即時準確度"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q35",
+   "primaryEmpty": false,
+   "gap": "教材未說明異質模態特徵應採分層處理：先對數值特徵做特徵選擇、對文本特徵做語意表示，再將兩類特徵融合"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q36",
+   "primaryEmpty": true,
+   "gap": "教材未說明遷移學習與預訓練CNN在少量標註資料下的優勢及微調做法。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q37",
+   "primaryEmpty": false,
+   "gap": "教材僅說明類別不平衡下準確率指標容易誤導，未統整「以資料前處理（如 SMOTE 過採樣）解決類別不平衡」與其他手段（正則化、加深網路層數、複製多數類別）的取捨區別"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q38",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明因輸入錯誤（感測器通訊錯誤）產生的離群值應直接刪除，或以中位數填補的處理規則"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q40",
+   "primaryEmpty": true,
+   "gap": "教材僅列出量化屬於邊緣部署的模型壓縮技術，未說明將模型由 FP32 量化為 INT8 可有效降低推論延遲，也未說明量化後仍能維持合理準確率。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q41",
+   "primaryEmpty": true,
+   "gap": "教材只講訓練時批次大小對梯度穩定性與訓練效率的影響，未說明推論服務中批次大小與 GPU 排程策略如何造成 GPU kernel 閒置間隔、使用率偏低與延遲突增。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q42",
+   "primaryEmpty": false,
+   "gap": "教材未說明應依理賠金額區間（子群體）分群監控，而非只監控整體 RMSE 這種彙總指標"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q43",
+   "primaryEmpty": true,
+   "gap": "教材僅把「金絲雀部署」列為降低模型更新風險的部署技術，未說明其做法是把少量（1–5%）使用者流量導向新模型、量測 CTR、CVR 等真實業務指標，再逐步擴量，因此無法據以在影子模式與回測之間做出取捨。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q44",
+   "primaryEmpty": true,
+   "gap": "教材未說明HTTP請求方法的選擇（GET與POST差異）、以Request Body傳輸檔案的作法、multipart/form-data與application/octet-stream的適用情境，以及Base64編碼的體積成本與URL長度限制。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q45",
+   "primaryEmpty": true,
+   "gap": "教材未介紹斷路器模式（Circuit Breaker）、連鎖故障（Cascading Failure）與替代回應／服務降級機制。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q46",
+   "primaryEmpty": false,
+   "gap": "教材未比較同態加密多用於推論，也未說明加密上傳或VPN仍會將原始資料送出院外。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q47",
+   "primaryEmpty": true,
+   "gap": "教材未說明漸進式部署中遇到延遲明顯上升時，應暫停擴大流量、進行效能分析與優化後再繼續部署。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q48",
+   "primaryEmpty": false,
+   "gap": "教材未定義訓練與服務偏差及決策閾值偏移。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q49",
+   "primaryEmpty": false,
+   "gap": "教材未明述訓練實驗（Epoch 學習率曲線、超參數軌跡）應由離線實驗追蹤系統管理，與線上監控的分界僅隱含於章節編排。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s1",
+   "questionId": "mid_1151_s1_q50",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明晚期融合是在各模態獨立預測後於決策層整合結果，而非在輸入階段整合多模態特徵"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q1",
+   "primaryEmpty": false,
+   "gap": "教材未說明如何由中位數在盒中的位置判斷偏態方向（中位數偏向盒子下方代表右偏），也未說明鬚很長代表存在極端值或離群值。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q2",
+   "primaryEmpty": true,
+   "gap": "教材未說明 pᵢ 是類別比例（該類樣本數／節點總樣本數），而非樣本數，因此無法直接排除選項 A。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q3",
+   "primaryEmpty": false,
+   "gap": "教材未說明卜瓦松分布變異數大於平均數（過度離散）時應改用負二項分布"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q4",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明多次兩兩比較會膨脹第一類型錯誤（多重比較問題）"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q5",
+   "primaryEmpty": true,
+   "gap": "教材僅列出 Z 分數標準化的標題，未說明 Z-score 的計算公式（Z=(x−μ)/σ），也未說明負值代表該特徵值低於歷史平均值。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q6",
+   "primaryEmpty": false,
+   "gap": "教材僅一般性定義 p 值，未說明「未拒絕虛無假設不等於接受虛無假設、更不能據此確認效果不存在」，也未提供 8 選 4 全對的組合數 70、p 值約 1/70 的計算。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q7",
+   "primaryEmpty": false,
+   "gap": "教材未把「同一批人前後重複測量」的配對設計與成對樣本 t 檢定的檢定目的（差值平均數是否為 0）明確連結說明"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q8",
+   "primaryEmpty": true,
+   "gap": "教材未提供單樣本 Z 檢定的標準誤 σ/√n、Z 統計量公式，以及以臨界值判斷拒絕域的規則。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q10",
+   "primaryEmpty": false,
+   "gap": "教材未說明在全體資料（含測試集）上進行特徵篩選會造成資料洩漏（P1 僅泛論特徵工程應避免洩漏，且舉例為聚合特徵與目標編碼）"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q11",
+   "primaryEmpty": false,
+   "gap": "教材未說明 Logistic Regression 的 One-Hot Encoding 需採 Drop First 以避免虛擬變數陷阱（共線性），也未說明 XGBoost 可將無序類別特徵以類別型態輸入並啟用 enable_categorical 原生處理。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q12",
+   "primaryEmpty": false,
+   "gap": "教材未介紹 Pandas 的 chunksize、nrows、usecols、dtype 參數用法與差異"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q13",
+   "primaryEmpty": false,
+   "gap": "教材未介紹專用向量資料庫與高維向量相似度搜尋，亦未涵蓋低延遲實測驗證。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q14",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明 Sharding 是把資料水平分割（分片）以提升擴展性與負載均衡，僅提到分散式儲存的橫向擴充與分區並行查詢."
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q15",
+   "primaryEmpty": false,
+   "gap": "教材未說明將影像預先轉為固定特徵並快取、反覆使用相同訓練資料，無法增加資料多樣性，對改善過擬合沒有幫助，甚至可能使過擬合惡化。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q16",
+   "primaryEmpty": false,
+   "gap": "教材僅給出 X=UΣVᵀ 的分解式，未說明奇異值與 U、V 的意義，也未涵蓋截斷 SVD 降維、PCA 與 SVD 的關係及 LSA 的應用。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q17",
+   "primaryEmpty": false,
+   "gap": "教材未說明感測器漂移校正（如72小時滾動中位數）、標註時間誤差（標註雜訊）處理、以個別病患基準建模，以及高度不平衡資料下應採PR-AUC與Recall評估。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q18",
+   "primaryEmpty": false,
+   "gap": "教材只說明提升度以1為獨立基準，未說明提升度數值大小不等於關聯強弱。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q19",
+   "primaryEmpty": true,
+   "gap": "教材未說明「最大頻繁項目集」的定義，也就是它必須是頻繁項目集，而且不存在包含它的其他頻繁項目集，因而無法據此判定最終保留的項目集。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q21",
+   "primaryEmpty": false,
+   "gap": "教材未說明 Spark 分散式環境應以 DataFrame.agg({'col':'stddev'}) 或 RDD.aggregate() 等方式，由各 Executor 先計算局部統計量再彙總的作法"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q22",
+   "primaryEmpty": false,
+   "gap": "教材未說明依時間順序切分與前進式驗證（Walk-Forward Validation）、時間序列分解結合機器學習模型，以及納入節日與不定期事件資訊並以 RMSE 與 MAPE 評估"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q23",
+   "primaryEmpty": true,
+   "gap": "教材未說明ROC的TPR與FPR隨閾值放寬均單調不減、曲線不得下降，故無法據此判定曲線C不可能。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q24",
+   "primaryEmpty": true,
+   "gap": "教材未介紹肯德爾相關係數，也未比較肯德爾與斯皮爾曼對離群值的穩健度，因此無法直接判斷選項C為何不成立。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q25",
+   "primaryEmpty": false,
+   "gap": "教材僅泛論不平衡資料下傳統準確率會導致誤判，未直接說明可引入 Class Weight 或 Cost-sensitive Learning 調整損失函數作為改善方向。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q26",
+   "primaryEmpty": false,
+   "gap": "教材未直接比較離散化與 One-Hot 編碼及降維的差異。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q27",
+   "primaryEmpty": true,
+   "gap": "教材未說明 Tufte 的資料密度概念，即應在單位面積（有限版面）內呈現盡可能多的有效資料，並同時維持可讀性與視覺層次"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q28",
+   "primaryEmpty": true,
+   "gap": "教材未說明 y 軸未從 0 開始（軸線截斷）會造成視覺誤導、放大實際差異感"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q29",
+   "primaryEmpty": false,
+   "gap": "教材未涵蓋 P99 百分位門檻標示的實作細節"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q30",
+   "primaryEmpty": false,
+   "gap": "教材未說明局部極小值不必然代表泛化較差，也未涵蓋驗證集評估與早停機制。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q31",
+   "primaryEmpty": true,
+   "gap": "教材未說明「統一管理與共用特徵」可降低跨團隊重複開發與維護成本這項目的（P1 只講資料編目便於共享查詢，P2 只講資料品質與格式標準化）"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q32",
+   "primaryEmpty": true,
+   "gap": "教材未說明 SMOTE 等前處理必須在訓練/測試切分後僅對訓練集執行，切分前對全體資料過採樣會使合成樣本資訊洩漏至測試集，導致評估結果虛高"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q33",
+   "primaryEmpty": true,
+   "gap": "教材未說明多類別羅吉斯迴歸在數十萬筆資料下具備訓練效率高、可擴充及適合快速訓練與線上部署的特性。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q36",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Text-to-SQL Agent 及 LLM 將自然語言轉為 SQL、再由資料庫精確執行聚合查詢的架構。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q37",
+   "primaryEmpty": true,
+   "gap": "教材僅泛論差分隱私的噪音機制，未說明成員推斷攻擊是利用模型對訓練樣本的高信心輸出判斷資料是否在訓練集，也未說明降低輸出信心的防禦方式。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q38",
+   "primaryEmpty": true,
+   "gap": "教材未說明差分隱私合成資料是先以差分隱私訓練生成模型再產生合成資料，而非直接對原始資料加雜訊。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q39",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Python 可變預設參數於定義時建立、多次呼叫共用同一串列，以及 append 原地修改、字典可新增鍵等語言特性"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q40",
+   "primaryEmpty": false,
+   "gap": "P2 僅泛述 KNN 依鄰近資料類別預測，未寫出以 K 個最近鄰居多數決定類別、且不建立顯式模型的機制"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q41",
+   "primaryEmpty": false,
+   "gap": "教材未說明面對偏態／長尾分布時，缺失值補值應優先採中位數而非平均數的選擇原則"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q42",
+   "primaryEmpty": false,
+   "gap": "教材未說明樹狀模型不假設編碼數值具有線性大小關係，因此能降低標籤編碼造成的線性誤解風險。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q43",
+   "primaryEmpty": true,
+   "gap": "教材未明確說明具標籤的異常資料仍可用監督式分類模型處理，因此無法直接推翻「僅能使用分群或離群值」的說法。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q44",
+   "primaryEmpty": true,
+   "gap": "教材未說明明確調整決策門檻與召回率的關係，特別是降低 Threshold 可提高 Recall，以達成零容忍、不漏抓外掛司機的目標。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q45",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Pandas 的 groupby 分組加總、nlargest 取數值前幾名，以及將交易層級聚合為客戶層級的概念，也未說明 head 僅取筆序而非依數值排序。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q46",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Pandas 布林索引、loc 列標籤選取與 filter 的語法，無法據以判斷正確語法。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q47",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 pandas 的 merge／concat／join 用法，也未說明 inner／outer 合併僅保留鍵值匹配資料的規則，無法據此判斷正確答案。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q48",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 StandardScaler 的 fit、transform 與 fit_transform 用法差異，無法直接判斷程式寫法。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q49",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 train_test_split 的回傳順序與參數意義、特徵矩陣 X 與標籤 y 的區分，以及 LogisticRegression 建立後以訓練資料 fit 的程式碼流程"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s2",
+   "questionId": "mid_1151_s2_q50",
+   "primaryEmpty": false,
+   "gap": "教材未說明 f1_score 的 average=\"weighted\" 是依各類別樣本數（support）加權平均，以反映類別不平衡。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q1",
+   "primaryEmpty": false,
+   "gap": "教材未比較馬可夫鏈、梯度下降與貝氏推論的差異。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q2",
+   "primaryEmpty": false,
+   "gap": "教材未說明 MSE 的平方懲罰會使大誤差產生更大的梯度更新，因而對極端高價物件更敏感"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q3",
+   "primaryEmpty": true,
+   "gap": "教材未說明矩陣相乘的維度相容規則（前矩陣欄數須等於後矩陣列數）與相乘後輸出形狀的判定方式"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q4",
+   "primaryEmpty": true,
+   "gap": "教材未說明資料擴增後須保持類別標籤不變，也未指出水平翻轉會使手寫數字（如 6 與 9）語意改變而導致標籤不一致。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q5",
+   "primaryEmpty": false,
+   "gap": "教材僅點出變異數齊一性的定義，未說明殘差圖呈漏斗狀擴散即為異質變異的圖形判讀方式。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q6",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明 t-SNE 不保留全局結構、也無法對新資料進行外推（僅強調保留局部鄰域與適合視覺化）"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q9",
+   "primaryEmpty": true,
+   "gap": "教材未明確說明 Adam 結合自適應學習率（Adaptive Learning Rate）並為每個參數調整更新步長"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q10",
+   "primaryEmpty": false,
+   "gap": "教材僅泛稱交叉熵為分類模型的標準選擇，未明確區分二元分類應採 Binary Cross-Entropy、連續值預測應採 MSE 的任務對應關係"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q11",
+   "primaryEmpty": false,
+   "gap": "教材未明確給出建議批次區間（如256–2048）與GPU吞吐量的量化關係"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q12",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明 Accuracy 在類別極度不平衡時對少數類（肺癌陽性）不敏感、無法反映陽性偵測能力"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q13",
+   "primaryEmpty": false,
+   "gap": "教材僅分別陳述 L2 正則化的定義與正則化的一般目的，未直接說明「L2 權重衰減」就是藉由懲罰參數值來降低模型複雜度、進而緩解過擬合的具體策略。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q14",
+   "primaryEmpty": true,
+   "gap": "教材僅列出樸素貝氏模型公式，未說明類別條件機率會受訓練資料分布影響而偏誤，也未說明應重新平衡資料或調整先驗機率作為改善方式"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q15",
+   "primaryEmpty": true,
+   "gap": "教材未說明 K-means 以歐氏距離為基礎、難以處理非凸（如半月形）群集"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q16",
+   "primaryEmpty": true,
+   "gap": "教材未說明 XGBoost 目標函數中的樹複雜度懲罰項（包含樹深度、葉節點數量與葉節點權重的 L2 正則化）"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q18",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明池化後展平特徵數減少，如何直接換算全連接層參數量。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q19",
+   "primaryEmpty": false,
+   "gap": "教材未說明位置編碼僅提供順序資訊、並不使模型理解章節結構，也未明確指出LSTM無512 token硬性上限。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q20",
+   "primaryEmpty": true,
+   "gap": "教材未說明 CrossEntropyLoss 內部已含 Softmax、應直接接收未正規化的 logits，因此輸出層不須再加 Softmax；也未直接比較 Sigmoid 與 Softmax 的差異。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q22",
+   "primaryEmpty": true,
+   "gap": "教材未介紹混合搜尋、BM25、RRF 排名融合，也未說明相似度閾值僅能過濾低相關結果，無法改善語意匹配。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q24",
+   "primaryEmpty": true,
+   "gap": "教材只泛稱編碼轉換在高基數下會增加特徵維度，未明確指出 One-Hot 編碼（One-Hot Encoding）才是造成維度爆炸的編碼方式。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q25",
+   "primaryEmpty": false,
+   "gap": "教材未說明特徵與目標呈線性關係時不宜做 Log 轉換，因為轉換會破壞原有線性結構，導致模型表現下降"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q26",
+   "primaryEmpty": false,
+   "gap": "教材未直接以「滑動窗口」名稱說明其定義與主要目的，僅提及滯後值、移動平均等序列特徵。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q27",
+   "primaryEmpty": true,
+   "gap": "教材未介紹時間序列專用的滾動窗口驗證（Rolling Window Validation／Time Series Split），亦未說明驗證切分須維持「以過去預測未來」的時間順序。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q28",
+   "primaryEmpty": false,
+   "gap": "教材未明確區分整體特徵重要性與完整模型可解釋性。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q29",
+   "primaryEmpty": false,
+   "gap": "教材在非監督式學習段落未說明其僅以正常樣本建模、可用於缺乏故障標註的異常偵測任務"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q30",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明不同 K-fold 切分結果差異大、驗證表現不穩定即為高變異的判斷依據。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q31",
+   "primaryEmpty": true,
+   "gap": "教材未介紹獎勵塑形（Reward Shaping）、獎勵漏洞／投機行為，以及獎勵設計須對齊任務完成目標的概念。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q32",
+   "primaryEmpty": false,
+   "gap": "教材未說明 F1-score 的計算公式 2×(Precision×Recall)/(Precision+Recall)，也未說明調和平均對較小值較敏感的特性"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q33",
+   "primaryEmpty": false,
+   "gap": "教材未說明 Ridge（L2）僅縮小係數而不會歸零、能保留所有特徵"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q34",
+   "primaryEmpty": true,
+   "gap": "教材只說明 K 折交叉驗證會使訓練成本變為 K 倍，未說明網格搜尋需對所有超參數候選值取笛卡兒積，即 3×4×5×3×3=180 組，再乘以 5 折，共 2,700 個模型。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q35",
+   "primaryEmpty": true,
+   "gap": "教材只泛論 LoRA 可減少計算與儲存、是輕量參數微調，未說明 LoRA rank 與記憶體用量的取捨關係，也未說明降低 rank 但套用到更多層可在相同可訓練參數量下提升模型表達能力。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q36",
+   "primaryEmpty": false,
+   "gap": "教材未說明同態加密可由單一雲端服務商獨立對密文進行推論，因而未能區別於需多方共同參與計算的安全多方計算（MPC）。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q37",
+   "primaryEmpty": true,
+   "gap": "教材未說明SHAP值可計算單筆預測的特徵貢獻，也未區分局部與全域解釋的差異。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q38",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明未使用性別特徵不等於達成結果公平，也未比較通過率與預測準確率的差異。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q39",
+   "primaryEmpty": false,
+   "gap": "教材未明示推論階段禁用敏感屬性，僅能從後處理需分組調整推知。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q40",
+   "primaryEmpty": false,
+   "gap": "教材未說明 One-Hot 編碼標籤的多類別單標籤分類應搭配 categorical_crossentropy 作為損失函數，也未區分其與 sparse_categorical_crossentropy、binary_crossentropy 的差別。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q41",
+   "primaryEmpty": true,
+   "gap": "教材未介紹資料增強（如 RandomHorizontalFlip、RandomRotation）須維持類別語意與標籤一致，也未涵蓋 OCR 字母方向敏感性、翻轉造成標籤雜訊，以及整體損失下降但個別類別錯誤率偏高的落差。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q42",
+   "primaryEmpty": true,
+   "gap": "教材未介紹遷移學習的特徵萃取策略、參數凍結（requires_grad=False）與新分類層的建立，也未區分全面微調、零樣本學習與知識蒸餾。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q43",
+   "primaryEmpty": false,
+   "gap": "教材未說明微調時學習率過大會使更新步伐過大，進而破壞預訓練模型已學好的良好特徵表示（P2 僅談震盪與發散，屬訓練穩定性的一般性描述）"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q44",
+   "primaryEmpty": true,
+   "gap": "教材未說明降維（如 LDA）等前處理步驟必須納入交叉驗證流程中執行，若先以整體資料降維再進行交叉驗證，即會造成資料洩漏"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q45",
+   "primaryEmpty": false,
+   "gap": "教材未說明 cross_val_score 的整數 cv 在分類時會採用 StratifiedKFold，也未對應各程式碼選項。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q46",
+   "primaryEmpty": false,
+   "gap": "教材未說明像素值縮放（壓縮至 0~31 之類的數值範圍轉換）與避免梯度爆炸／梯度消失之間的關聯，也未說明輸出層選用 softmax 的適用情境（多類別分類）。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q47",
+   "primaryEmpty": false,
+   "gap": "教材未說明 BatchNormalization 能減少梯度消失或爆炸，也未說明 Flatten 層會將 3D 特徵圖展開為 1D 向量。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q48",
+   "primaryEmpty": false,
+   "gap": "教材未說明學習率與批次大小如何造成訓練與驗證差距，但核心定義足以判定。"
+  },
+  {
+   "level": "中級",
+   "exam": "mid_1151_s3",
+   "questionId": "mid_1151_s3_q50",
+   "primaryEmpty": false,
+   "gap": "教材未說明梯度裁剪應插入於反向傳播（backward）之後、優化器參數更新（optimizer.step）之前的位置"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q1",
+   "primaryEmpty": true,
+   "gap": "教材未介紹「人在迴圈上」的定義及日常監督、即時介入機制"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q2",
+   "primaryEmpty": true,
+   "gap": "教材未介紹特徵交叉（Feature Cross）、One-hot 編碼與寬深模型，也未說明如何將星期幾與時段組合為交叉特徵，缺少直接解題的定義。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q3",
+   "primaryEmpty": true,
+   "gap": "教材未介紹ETL各階段的具體定義與工作內容，尤其未說明Transform包含資料清理與排序，也未定義Extract與Load。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q4",
+   "primaryEmpty": true,
+   "gap": "教材未說明L1以權重絕對值總和為懲罰項、L2以平方和為懲罰項，也未說明Lasso對應L1、Ridge對應L2。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q5",
+   "primaryEmpty": true,
+   "gap": "教材未介紹「偏差與變異權衡（Bias-Variance Tradeoff）」的概念，也未說明高偏差對應欠擬合、高變異對應過擬合的關係。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q6",
+   "primaryEmpty": true,
+   "gap": "教材只提到 L1 正則化與 Lasso 可做特徵篩選，未說明 L1 以係數絕對值總和作為懲罰、對大係數懲罰較強而促使係數收斂為零（稀疏解），也未區分凸性與零點不可微分。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q7",
+   "primaryEmpty": true,
+   "gap": "教材未介紹貝氏分類器，也未說明生成式模型會建構資料整體分布（聯合機率）、以貝氏定理由先驗與類別條件分布推得後驗機率來分類，僅有鑑別式AI學P(y|x)的對照說明。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q8",
+   "primaryEmpty": true,
+   "gap": "教材未說明條件語言模型（Conditional Language Model）如何依上下文條件調節生成、提升回應的語境一致性"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q9",
+   "primaryEmpty": true,
+   "gap": "教材未說明《人工智慧基本法》草案的「創新實驗環境」制度主要參考歐盟監理沙盒（Regulatory Sandbox）"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q10",
+   "primaryEmpty": true,
+   "gap": "教材未介紹《金融機構運用人工智慧技術作業規範》的內部治理架構與明訂措施（如AI人才培育、高階主管或委員會監督），僅在參考書目中出現該規範名稱，故無法據以判斷何者「並非」規定措施。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q11",
+   "primaryEmpty": false,
+   "gap": "主要出處未說明監督式學習以「已標記資料」進行分類與數值預測，因此無法據此將 A（已標記影像分類）、C、D（數值預測／迴歸）明確排除"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q12",
+   "primaryEmpty": false,
+   "gap": "教材未逐一比較折線圖、直方圖、長條圖與散佈圖的適用差異。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q13",
+   "primaryEmpty": false,
+   "gap": "教材未明確介紹半監督式學習，但可由監督式需標記資料判斷。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q14",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明描述性分析的定義，較難完整排除A選項。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q19",
+   "primaryEmpty": false,
+   "gap": "教材未介紹 Hinge 損失與 KL 散度的定義及適用時機，僅能由交叉熵屬分類任務間接排除。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q20",
+   "primaryEmpty": false,
+   "gap": "教材未說明K-means屬非監督式分群且不輸出機率，也未比較SVM與決策樹之差異"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q21",
+   "primaryEmpty": false,
+   "gap": "教材未直接比較四種模型在穩定性與泛化能力上的優劣"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q23",
+   "primaryEmpty": true,
+   "gap": "教材未介紹數位發展部 AI 產品與系統評測中心的評測項目，缺當責性、可靠性、隱私及資安與互動性之區別。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q24",
+   "primaryEmpty": true,
+   "gap": "教材未說明參數量（模型容量）增加可提升模型表達能力與預測效能，也未說明其需足夠訓練資料支撐，僅泛論資料品質對效能的影響"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q25",
+   "primaryEmpty": true,
+   "gap": "教材僅泛論確保數據多樣性、避免資料偏見，未說明資料去偏的具體做法：調整或擴充訓練語料，使不同群體或類型資料的比例更平衡，避免模型偏向高頻類別。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q26",
+   "primaryEmpty": true,
+   "gap": "教材僅說明微調是以特定任務資料再訓練，未說明災難性遺忘：模型過度適應微調資料分佈而遺忘預訓練所學廣泛知識、導致原有任務表現變差"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q27",
+   "primaryEmpty": true,
+   "gap": "教材未說明剪枝的定義（移除影響較小或冗餘的權重參數），也未區分剪枝與量化、權重凍結、動態 Token 跳過的差異。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q28",
+   "primaryEmpty": true,
+   "gap": "教材未說明自注意力層的計算量與記憶體使用會隨序列長度呈平方級增長，因而成為長序列推理的主要瓶頸"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q29",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 LIME 的定義、局部解釋與 model-agnostic 特性"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q31",
+   "primaryEmpty": true,
+   "gap": "教材未介紹反事實解釋，也未說明特徵間因果約束、業務邏輯約束及建議可操作性；僅有公平與合規背景。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q32",
+   "primaryEmpty": false,
+   "gap": "教材未說明在偏態分布且樣本有限時，應增加樣本數並以中位數或分位數作為中心趨勢估計，以降低推估母體參數的偏誤"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q33",
+   "primaryEmpty": false,
+   "gap": "教材未說明以重建誤差作為異常判準、且僅用正常資料訓練的序列自編碼器（Sequence-to-Sequence Autoencoder）異常偵測作法，以及為何優於 SMOTE 等過採樣方法。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q34",
+   "primaryEmpty": true,
+   "gap": "教材只泛論資料清洗與重複「記錄」的處理，未說明跨欄位語義重疊（重複欄位）的辨識與語義合併，也未說明建立欄位命名標準、統一金額單位格式以消除結構冗餘並降低對特徵重要性估計的影響。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q35",
+   "primaryEmpty": true,
+   "gap": "教材未說明類別不平衡會使多數類別主導決策邊界，導致稀有類別召回率下降。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q37",
+   "primaryEmpty": true,
+   "gap": "教材未說明時間序列相關性會破壞樣本獨立性，也未介紹依時間區間分層抽樣、保留時間結構或加權估計母體比例的做法，故無段落可直接支撐選項B。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q38",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 RAG 檢索索引的增量更新與分段更新機制，也未說明更新期間如何維持服務可用性。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q39",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 MAE、整體與重症子群評估，僅有 MSE 與交叉驗證概念。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q40",
+   "primaryEmpty": false,
+   "gap": "教材未說明監督式學習亦適用於異常偵測、非監督式學習搭配少量標註僅形成半監督式（不會完全轉為監督式），以及少量標註資料仍可進行有效訓練。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q41",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 One-hot 編碼、序數編碼，也未說明名目型與有序型類別特徵的區別及編碼選擇原則。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q42",
+   "primaryEmpty": true,
+   "gap": "教材未說明聯邦學習的核心機制：各醫院資料留在本地、僅交換模型參數或梯度以完成跨院共同訓練。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q46",
+   "primaryEmpty": false,
+   "gap": "教材未說明監督式特徵選擇須評估「特徵與目標變數」之間的相關性（亦即過濾法是以目標變數為依據），因此無法區別不參考目標變數的篩選方式"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q47",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 ReLU 或其變體如何改善梯度傳播，亦未說明其可避免梯度消失／爆炸。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q48",
+   "primaryEmpty": false,
+   "gap": "教材僅提集中與分散，未直接說明偏態與多峰的判讀。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q49",
+   "primaryEmpty": true,
+   "gap": "教材未列出數位發展部 AI 產品與評測中心的安全性評估指標清單，因此無法直接確認「資料複雜性」不屬其中。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s1",
+   "questionId": "jr_1141_s1_q50",
+   "primaryEmpty": false,
+   "gap": "教材未說明批次推論階段的難題在於推論延遲、龐大輸入資料量的管理與叢集資源排程，而非訓練語料的涵蓋性與標註品質。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q1",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Low Code 平台中「模型（Model）」的定義與角色，即模型如何抽象描述資料結構、業務流程與介面邏輯，也未說明模型與自動程式碼生成的關係。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q2",
+   "primaryEmpty": true,
+   "gap": "教材未介紹聯邦學習（Federated Learning）的本地訓練與模型更新彙整機制，也未區別它與同態加密、安全多方計算、零知識證明的差異，因此無法直接支撐答案。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q3",
+   "primaryEmpty": true,
+   "gap": "教材未說明 No Code/Low Code 平台的可測試性作法，即可重複執行的自動化測試流程與透過 API／服務虛擬化進行模組化驗證"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q4",
+   "primaryEmpty": true,
+   "gap": "教材未說明圖結構轉換為文字提示時，可能導致部分關聯資訊遺失"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q5",
+   "primaryEmpty": true,
+   "gap": "教材未說明 APE 在超長上下文任務中，回饋機制僅針對局部片段、難以全面評估最終輸出品質這項限制"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q6",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明人工驗證與需求對齊的重要性。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q7",
+   "primaryEmpty": true,
+   "gap": "教材未說明 MCP 架構的三層角色（AI Host、MCP Client、MCP Server）及請求由 AI Host 經 MCP Client 送至 MCP Server 查詢、再回傳 AI Host 的運作順序"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q8",
+   "primaryEmpty": true,
+   "gap": "教材未說明 A2A 架構中 Client Agent 發起任務、Remote Agent 執行並回傳結果的互動流程。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q9",
+   "primaryEmpty": true,
+   "gap": "教材未定義「上下文工程」及其核心目的，僅有提示工程、上下文理解能力等相近概念，無法直接支撐答案。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q10",
+   "primaryEmpty": true,
+   "gap": "教材未說明當輸入上下文含有互相矛盾的資訊時，模型可能生成幻覺或隨機採信其中一方。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q11",
+   "primaryEmpty": true,
+   "gap": "教材僅泛談 DFS、BFS 的圖形走訪定義，未說明 Agentic AI 會在解決方案圖譜（Solution Graph）上採用廣度優先、深度優先或最佳優先等搜尋策略來尋找最佳解決路徑，也缺少最佳優先搜尋的說明。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q12",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明模型準確度不因部署位置而提升，選項B須自行判斷。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q13",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 GitHub Copilot、OpenAI Codex 與即時程式碼補全，亦未區別模型生成與程式碼搜尋、靜態分析。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q14",
+   "primaryEmpty": true,
+   "gap": "教材未說明向量資料庫檢索（RAG）可讓 Agent 正確回答產品 FAQ，也未說明 API 調用能讓 Agent 實際執行修改訂單等外部系統操作"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q15",
+   "primaryEmpty": true,
+   "gap": "教材未說明可用控制變量（Control Tokens）或風格標籤在同一模型內動態調整回覆風格，以兼顧即時性與效果。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q16",
+   "primaryEmpty": true,
+   "gap": "教材未說明多代理 LLM 系統中若未定義各代理的任務啟動條件與角色分工，會造成多個代理重複執行相同任務、效率低落。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q17",
+   "primaryEmpty": true,
+   "gap": "教材未說明 Fine-tuning 與 RAG 的職責分工：語氣一致性交由微調、每日新增文件交由檢索更新，以避免頻繁重新訓練。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q18",
+   "primaryEmpty": true,
+   "gap": "教材未說明檢索系統品質不佳（取到過時文件）是造成回覆波動的主因，也未指出應優先改善檢索內容的正確性與即時性。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q19",
+   "primaryEmpty": true,
+   "gap": "教材只泛論模型輸出的可控性低，未說明 Prompt 缺乏明確指示會導致 LLM 語意分類（意圖判斷）錯誤。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q20",
+   "primaryEmpty": false,
+   "gap": "教材未說明生成式 AI 用於影像診斷時，可能生成與實際影像不符的診斷結論，進而導致誤判並引發醫療與法律風險"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q21",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 ASR 領域微調、RAG，以及以準確性優先時的改善排序與上游錯誤傳播。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q22",
+   "primaryEmpty": true,
+   "gap": "教材未說明模型過度依賴訓練語料中的常見報告範式，導致生成結果樣板化、缺乏真正推理。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q23",
+   "primaryEmpty": true,
+   "gap": "教材未介紹零樣本提示的定義與限制，也未說明表格擷取需示範、欄位定義及輸出格式約束。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q24",
+   "primaryEmpty": false,
+   "gap": "教材只提到本地部署可避免敏感資料外洩，未說明「自訓並私有化部署 LLM 同時建立自動化風控機制」的完整策略，也未涵蓋自動化風控機制的具體作法。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q25",
+   "primaryEmpty": true,
+   "gap": "教材未說明圖像描述生成（影像轉文字）的關鍵在於生成過程中結合圖片特徵與語言建模，讓模型同時利用影像內容與文字資訊，而非僅泛談多模態整合或列舉文生圖應用。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q26",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明微調需額外專業知識與成本，僅能從生成參數控制與模型微調並列推知。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q27",
+   "primaryEmpty": true,
+   "gap": "教材未直接說明發言角色標註、主題邊界偵測與語意分群如何整合成會議摘要。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q28",
+   "primaryEmpty": true,
+   "gap": "教材未介紹少樣本提示的定義與範例設計（先提供少量示範再處理新問題），也未能區分示例提示與其他提示方式。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q29",
+   "primaryEmpty": true,
+   "gap": "教材未說明應建立與外部即時行情來源同步的查詢模組（即時資料串接），以確保 AI 取得最新金融數據並兼顧即時性與可靠性"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q30",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明客服對話邏輯與應答範本的設計。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q31",
+   "primaryEmpty": false,
+   "gap": "教材僅說明匿名化／假名化，未明確寫出「資料最小化」原則（僅蒐集與處理必要個資）作為避免觸法風險的措施"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q32",
+   "primaryEmpty": true,
+   "gap": "教材未介紹跨語言專業術語對齊、條文語意抽取，以及跨國規範對應與差異辨識等關鍵概念。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q34",
+   "primaryEmpty": false,
+   "gap": "教材僅泛談生成式 AI 的風險分級與內容審核流程，未針對醫療臨床情境說明應以生成內容的醫療準確性與臨床一致性作為最優先關注指標"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q35",
+   "primaryEmpty": true,
+   "gap": "教材未定義延遲測試與延遲指標，也未區分延遲與吞吐量。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q36",
+   "primaryEmpty": false,
+   "gap": "教材僅描述對抗性攻擊的手法與輸出內容審核，未說明以輸入檢測過濾惡意提示、防止敏感指令被執行的防禦作法"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q37",
+   "primaryEmpty": false,
+   "gap": "教材未逐一比較數據漂移與前處理錯誤、過擬合及資料結構變更的差異。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q38",
+   "primaryEmpty": false,
+   "gap": "教材僅泛述「導入公平性檢測工具」，未明確寫出檢測後須依合規規範調整模型或決策邏輯。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q39",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Chain-of-Thought 與 Tree of Thoughts 的定義、差異及適用情境，無法直接判斷兩情境的方法選擇。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q40",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Graph Prompting、Chain-of-Thought 及其差異，也未說明圖結構如何捕捉非線性結構與多對多關聯。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q41",
+   "primaryEmpty": true,
+   "gap": "教材未說明少樣本提示（僅 1–2 個範例）在領域偏移下，因範例數量過少、無法涵蓋新領域多樣性而導致泛化不足的核心挑戰"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q42",
+   "primaryEmpty": true,
+   "gap": "教材未介紹知識蒸餾（Knowledge Distillation）的定義，包括教師模型與學生模型、能力移轉及成本與品質權衡，也未說明蒸餾與 RAG 檢索機制互補的關係。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q43",
+   "primaryEmpty": false,
+   "gap": "教材未說明模型規模對基準測試結果的提升幅度取決於訓練數據品質與資源配置（也未提及大模型在特定任務上可能略遜於小模型）"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q44",
+   "primaryEmpty": true,
+   "gap": "教材未介紹MCP與RAG的定義及核心差異，也未說明工具整合不必然依賴向量資料庫。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q45",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 MMLU、GSM8K、MATH、C-Eval 等評測基準資料集的定義、涵蓋領域與適用任務，考生無從辨別何者為跨領域多任務語言理解評測。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q46",
+   "primaryEmpty": false,
+   "gap": "教材僅泛談倫理與法規遵循，未說明 Guardrails 的防護範圍僅及於輸入檢查、輸出驗證與法規符合，並不包含重建或追蹤模型完整的推理過程"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q47",
+   "primaryEmpty": true,
+   "gap": "教材未介紹文本切分（Chunking）的定義與目的，亦未說明切分粒度、語意完整性、檢索相關性與長上下文噪音等概念"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q48",
+   "primaryEmpty": true,
+   "gap": "教材僅說明向量化的定義，未說明多向量檢索器是以多種資訊表示（例如同時保留摘要與原始文件片段）來提升檢索的完整性與精準度"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q49",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Agentic AI 與解決方案圖譜（Solution Graph）的定義、作用，也未說明其為任務執行的參考框架、組織決策步驟並支援推理。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1141_s2",
+   "questionId": "jr_1141_s2_q50",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明「生成式語言建模（文本生成）」是依上下文接續產生新內容的任務類型，也未與序列到序列建模、遮罩語言建模、文本分類等其他任務類型區辨"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q1",
+   "primaryEmpty": true,
+   "gap": "教材未明確定義資料整合的主要目的，也未區別資料整合與資料保存期限管理。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q2",
+   "primaryEmpty": true,
+   "gap": "教材未介紹感知器網路（感測器網路）的定義，及其持續蒐集環境數據與設備狀態的功能。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q4",
+   "primaryEmpty": true,
+   "gap": "教材未說明 One-hot 編碼不適用於離群值處理，且會破壞數值分佈特性。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q5",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 SMOTE 或過採樣等類別不平衡處理技術，僅泛談生成新樣本可解決數據不平衡。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q6",
+   "primaryEmpty": true,
+   "gap": "教材未說明正規化／標準化須先分割訓練與測試資料，且縮放統計量僅能以訓練資料估計，以避免資料洩漏"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q7",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 One-hot 編碼，也未說明類別型特徵需轉為 0/1 數值欄位才能供模型使用。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q8",
+   "primaryEmpty": true,
+   "gap": "教材未介紹寬深模型（Wide and Deep）及其寬端記憶、深端泛化的機制。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q9",
+   "primaryEmpty": true,
+   "gap": "教材未說明 Softmax 函數可將模型輸出轉為多類別的機率分佈，以作為多類別分類的輸出層"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q10",
+   "primaryEmpty": false,
+   "gap": "教材未明說由隱變量取樣產生多樣性，僅以重建與潛在分佈間接支持。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q11",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明評估系統需判斷摘要是否遺漏關鍵資訊（完整性）或出現語意錯誤（語意正確性）"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q13",
+   "primaryEmpty": true,
+   "gap": "教材未介紹《金融機構運用人工智慧技術作業規範》中 AI 服務直接與消費者互動時的必要揭露項目（如服務適用對象與用途範圍、是否為 AI 自動完成、是否提供替代方案），亦未說明透明性不等於公開模型原始程式碼。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q15",
+   "primaryEmpty": false,
+   "gap": "教材主要出處未說明 JSON、XML 屬於半結構化數據，而非結構化數據。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q17",
+   "primaryEmpty": false,
+   "gap": "教材僅泛述直方圖的優點，未比較其他圖表（散佈圖、長條圖、地圖）的適用時機，考生無法據以排除 B、C、D"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q18",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明中間索引向下取整及比較次數的計次規則。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q19",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明策略（Policy）即決定各行動選擇機率，因此調整策略會改變行動選擇機率並使決策收斂"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q21",
+   "primaryEmpty": false,
+   "gap": "教材未比較擴散模型與 GAN 在生成穩定性與多樣性控制上的差異（如 GAN 訓練不穩定、模式崩潰），考生難以在 B、D 間做出區別。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q22",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明 VAE 可在無異常標註下學習正常資料分佈，並以重建誤差偵測顯著偏離正常型態的異常。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q23",
+   "primaryEmpty": true,
+   "gap": "教材未介紹批次推論與即時推論的定義，也未說明延遲、吞吐量與同步／非同步的取捨。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q24",
+   "primaryEmpty": false,
+   "gap": "教材未說明 RLHF 的典型流程（以人工評估建立偏好資料、訓練獎勵／偏好品質判斷模型、依評估結果調整生成策略），也未指出以未標註語料進行長週期預訓練屬另一階段、不屬於 RLHF。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q25",
+   "primaryEmpty": true,
+   "gap": "教材未說明批次處理（Batching）如何提升加速器資源使用效率與整體吞吐量、湊批等待對單筆請求延遲的影響，以及低併發時批次效益有限的概念。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q26",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 LIME，也未說明後處理（post-hoc）與內建可解釋模型的分類架構，僅泛述黑箱問題與可解釋性需求，無法直接判定 LIME 屬後處理模型解釋。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q27",
+   "primaryEmpty": true,
+   "gap": "教材未說明 SHAP（Shapley Additive exPlanations）值的定義，也未說明其用於單一預測時，如何將最終輸出分配為各輸入特徵的貢獻"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q28",
+   "primaryEmpty": true,
+   "gap": "教材未介紹反事實解釋的定義（比較原始輸入與假設輸入所對應的模型結果），也未區分其與趨勢預測、影響因素分析之差異。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q29",
+   "primaryEmpty": true,
+   "gap": "教材未介紹顯著性圖，也未說明其用於單一預測的局部解釋與輸入區域重要性視覺化。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q31",
+   "primaryEmpty": true,
+   "gap": "教材未介紹半監督式學習的定義與適用情境（部分資料有標籤、部分無標籤）。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q32",
+   "primaryEmpty": true,
+   "gap": "教材只舉出圖像分割的應用例子，未說明其以像素區域標示目標位置與範圍，也未區分影像分類、物件偵測與影像分割三者輸出精細度的差異。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q33",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明 RNN 難以保留較早期資訊（長期記憶不足），以及 LSTM 的記憶細胞與閘門機制如何改善長期記憶。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q34",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 AutoML／雲端 AutoML 平台，也未說明其可降低 AI 專業門檻、快速驗證模型效果。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q35",
+   "primaryEmpty": true,
+   "gap": "教材只泛論隱私法規要求資料匿名化與差分隱私，未說明本題所需的具體處理方式：移除直接識別資訊，並對具識別風險的欄位進行轉換（去識別化／假名化）處理。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q36",
+   "primaryEmpty": true,
+   "gap": "教材未定義弱AI（限於特定領域、無法遷移至其他任務）與強AI、AGI、ASI 的能力範疇區別"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q37",
+   "primaryEmpty": true,
+   "gap": "教材未直接說明即時資料處理、推論計算資源配置與延遲風險的關係。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q39",
+   "primaryEmpty": false,
+   "gap": "教材未介紹半監督式學習（少量標註結合大量未標註），選項A須另行判斷"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q40",
+   "primaryEmpty": false,
+   "gap": "教材未說明資料嚴重不平衡時，準確率會因多數類別主導而虛高、無法反映對瑕疵品的辨識能力，因此不宜作為主要指標"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q41",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Flash Attention 的定義與主要效益，特別是減少中間結果儲存以改善速度與資源效率。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q42",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 RAG 的檢索索引、增量索引更新與完整索引重建差異，亦未說明文件版本管理與更新期間服務可用性。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q43",
+   "primaryEmpty": false,
+   "gap": "教材未介紹半監督式與自監督式學習的定義，無法直接判斷敘述3、4錯誤。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q44",
+   "primaryEmpty": true,
+   "gap": "教材未介紹對數轉換、偏態數值特徵的正規化或長尾壓縮方法，也未比較區間化、One-hot 與重抽樣在特徵工程中的適用時機，無法據以判斷最適合的方法。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q45",
+   "primaryEmpty": false,
+   "gap": "教材未說明可透過調整啟動函數（如改用 ReLU 等）來緩解梯度消失、改善學習停滯"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q46",
+   "primaryEmpty": true,
+   "gap": "教材未說明大數據特性中的 Variety（資料多樣性）是指資料格式、型態與來源的多樣，僅介紹結構化與非結構化數據的定義"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q47",
+   "primaryEmpty": true,
+   "gap": "教材未定義結構化預測（輸出具內部結構）與序列標註，僅區分分類與迴歸。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q48",
+   "primaryEmpty": false,
+   "gap": "教材未說明 CNN 可用於物件偵測，並能標示影像中目標的區域位置"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q49",
+   "primaryEmpty": false,
+   "gap": "教材未說明在標註樣本稀少、標註成本高昂時，可採遷移學習運用既有預訓練模型降低對大量標註資料的需求"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s1",
+   "questionId": "jr_1151_s1_q50",
+   "primaryEmpty": true,
+   "gap": "教材未定義召回率，也未說明召回率對應找出實際正例及降低漏診。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q1",
+   "primaryEmpty": false,
+   "gap": "教材僅泛論倫理與公平性，未說明在模型架構與推論設定未調整時，分群推薦差異應優先歸因於訓練資料樣本分布不均衡與代表性不足，並據此重新檢視訓練資料"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q2",
+   "primaryEmpty": true,
+   "gap": "教材未介紹參數高效微調（PEFT）與低秩適配（LoRA）的定義、凍結預訓練權重與低秩更新機制，也未說明其如何降低可訓練參數，以及與知識蒸餾、梯度凍結的差異。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q3",
+   "primaryEmpty": true,
+   "gap": "教材僅談平台與既有系統的整合能力，未說明儀表板分析可信度所需的穩定資料串接能力與即時更新機制"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q4",
+   "primaryEmpty": true,
+   "gap": "教材未區分「延遲／反應時間」與「吞吐量」，也未說明效能測試應以單次互動的回應延遲為測試重點。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q6",
+   "primaryEmpty": true,
+   "gap": "教材未介紹Sora的出處證明工具（C2PA元數據、可見浮水印、內部反向搜尋），也未說明其未提供對外開放的原生驗證介面，考生無從判斷D不屬於官方工具。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q7",
+   "primaryEmpty": false,
+   "gap": "教材僅列平台的安全與加密、身分驗證等措施，未說明 No-Code/Low-Code 平台內建權限與存取控管對資料治理制度落實、治理流程延續性及合規管理需求的影響"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q8",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明邊緣裝置因運算能力與可用資源受限，而導致部署後回應延遲與效能下降"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q9",
+   "primaryEmpty": true,
+   "gap": "教材未說明少量樣本提示（Few-shot Prompting）因範例數量有限、難以涵蓋新情境資料差異而導致分類不穩定的限制"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q10",
+   "primaryEmpty": true,
+   "gap": "教材未介紹知識蒸餾、教師模型與學生模型，也未說明小型模型學習大型模型行為。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q11",
+   "primaryEmpty": false,
+   "gap": "教材未說明 AutoML 的主要功能定位（自動化建立與訓練預測模型），因此無法完整區分 No-Code 平台與 AutoML 的分工"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q12",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 MCP 與 RAG 的定義、功能定位與兩者差異"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q13",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Chunking（文件分塊）機制，也未說明以區塊為單位檢索可提升語意對齊、降低長文件干擾與精準定位引用段落。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q14",
+   "primaryEmpty": false,
+   "gap": "教材未說明在上下文工程中，將表格轉為 Markdown table 或結構化 JSON 可提升 LLM 對表格的理解與回應品質"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q15",
+   "primaryEmpty": true,
+   "gap": "教材未定義情境感知代理，亦未說明其如何利用對話歷史與任務狀態調整行為與決策。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q16",
+   "primaryEmpty": true,
+   "gap": "教材未說明解決方案圖譜（Solution Graph）的功能是定義代理可參考的任務分解與決策路徑結構，也未區別它與知識庫、固定流程或圖形搜尋之差異"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q17",
+   "primaryEmpty": true,
+   "gap": "教材未說明以多個模型服務實例搭配負載分散機制來達成高可用性與故障容忍"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q18",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明程式碼輔助工具是以大量程式碼與文本訓練、依下一個符號預測生成程式碼，且不保證產生程式碼的正確性"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q19",
+   "primaryEmpty": false,
+   "gap": "教材未說明應將 AI 生成程式碼納入「重構」與針對生成碼的安全測試流程，僅泛談平台層級的資安檢測與弱點掃描"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q20",
+   "primaryEmpty": true,
+   "gap": "教材未說明 GPT-Realtime 類型模型的即時（低延遲串流）語音互動特性，以及其最適合即時語音客服與互動式 AI 代理的應用場景。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q21",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 OpenAI AgentKit，也未區分代理建構開發工具與 Agent-to-Agent 通訊協議之差異。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q22",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 SynthID 或影片不可見數位浮水印技術，僅泛談 AI 生成標示與透明度。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q24",
+   "primaryEmpty": false,
+   "gap": "教材未具體說明 TCO 應納入系統整合與資安合規等間接成本項目，P2 僅泛談 AI 導入成本估算，未與 TCO 架構扣連。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q25",
+   "primaryEmpty": true,
+   "gap": "教材未提供 ROI 與回收週期的計算公式，也未說明 Token 成本換算方式。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q26",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 RAG（檢索增強生成）的定義與運作方式，也未說明其如何結合歷史案例資料庫，因此無段落可直接支撐答案。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q27",
+   "primaryEmpty": true,
+   "gap": "教材未說明 n8n 這類低程式碼工作流工具可直接整合 AI 檢測 API、檔案系統與通訊軟體，以快速建置可彈性調整的自動化流程。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q28",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Token Economics 的定義與範疇，未說明其僅指推理與生成階段的輸入／輸出 Token 用量及費用，也未說明訓練階段的 GPU 記憶體成本不屬此範疇，考生難以直接排除該選項。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q30",
+   "primaryEmpty": true,
+   "gap": "教材僅提及少樣本學習可提升模型適應性，未說明其作法是透過少量任務示例引導模型適應新情境或新分類需求。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q31",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 RAG（檢索增強生成）與向量資料庫，亦未說明將企業內部文件建置為知識庫再結合大型語言模型生成回答的作法。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q32",
+   "primaryEmpty": false,
+   "gap": "教材僅在未來展望中以一句話提及零程式碼 AI 的模型訓練與優化，未直接說明 No-Code/Low-Code 平台以視覺化介面與標準化流程協助模型訓練與調校的典型機制。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q33",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明規則式自動化為何不適合高彈性的自然語言分類。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q34",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 No Code／Low Code 的治理機制，缺少統一開發與上線審查、資料欄位定義一致性、權限與維運責任分工等管理概念，故無法直接支撐答案。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q35",
+   "primaryEmpty": true,
+   "gap": "教材未說明Encoder–Decoder與Decoder-only在資訊處理與生成機制上的分工差異"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q36",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Graph Prompting 的定義，也未比較 Chain of Thought、Tree of Thoughts、Zero-shot 等提示策略的適用時機。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q37",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 RAG（檢索增強生成），也未比較提示工程、微調與檢索更新在資料時效、成本與系統穩定性上的差異，因此無法直接支撐「以 RAG 補時效、以提示工程控語氣」的判斷。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q38",
+   "primaryEmpty": false,
+   "gap": "教材未說明制定跨部門使用規範與長期治理框架屬於全面部署後的長期工作，而非 PoC 階段以小規模實驗驗證效能與業務適配性的重點"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q39",
+   "primaryEmpty": false,
+   "gap": "教材未明確提出「資料最小化（僅提供必要資料欄位）」的做法，僅涵蓋去識別化與匿名化。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q40",
+   "primaryEmpty": true,
+   "gap": "教材只說明一般強化學習的回饋與獎勵機制，未說明 RFT 如何利用 reward 訊號調整 LLM 的回應策略與行為偏好"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q41",
+   "primaryEmpty": false,
+   "gap": "教材未說明偏見檢測的具體作法（比較不同資料分布下的模型預測結果分布與錯誤率），也未明確區分其與重新加權、輸出過濾、調整決策閾值等偏見緩解措施的差別。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q42",
+   "primaryEmpty": true,
+   "gap": "教材未介紹同態加密與密文運算概念，也未說明聯邦學習與零知識證明的定義，無法據以判斷答案。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q43",
+   "primaryEmpty": true,
+   "gap": "教材僅泛論生成式 AI 的資料隱私與洩露風險，未說明將模型建置於企業可管理環境（地端或私有雲）可降低敏感資料傳輸至外部雲端服務的風險這項部署優勢。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q44",
+   "primaryEmpty": true,
+   "gap": "教材未說明依錯誤來源與影響程度排定改善優先順序的原則，亦即應先修正語音辨識錯誤，其次優化語言模型與知識補充，再調整生成參數，最後才優化系統效能。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q45",
+   "primaryEmpty": true,
+   "gap": "教材未介紹思維鏈（CoT）提示設計、少樣本提示與任務拆解等提示工程技巧，無法據以判斷哪種提示最符合CoT。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q46",
+   "primaryEmpty": false,
+   "gap": "教材未說明「自行訓練模型」與「建立稽核機制」為何是在安全與法規遵循優先於成本、速度下的必要作法"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q47",
+   "primaryEmpty": false,
+   "gap": "教材未說明試點階段應將 AI 生成的建議與實際工程／專家判斷比對，以驗證其一致性與正確性（人工覆核機制）。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q49",
+   "primaryEmpty": true,
+   "gap": "教材未說明低程式碼平台整合外部服務時，應以模擬外部服務搭配可重複執行的自動化整合測試來確保可靠性與可測試性。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1151_s2",
+   "questionId": "jr_1151_s2_q50",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明「在生成後由人工審查輸出、並依偏差情況修正結果」是降低生成偏差風險最有效的策略，也未比較調整模型架構、單純增加資料量等做法在去偏見上的效果差異。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q1",
+   "primaryEmpty": true,
+   "gap": "教材僅列舉自然語言處理包含情感分析、語意理解，未說明情感分析結合關鍵詞提取可分析貼文立場與高頻議題詞彙，也未說明此類技術不涉及身分識別"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q3",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明電路板影像瑕疵檢測應歸類為電腦視覺，且自然語言處理僅處理文本／語音而不適用於影像判定"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q5",
+   "primaryEmpty": false,
+   "gap": "教材未說明建立申訴（救濟）機制的具體作法，僅涵蓋偏誤監控與可解釋性"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q6",
+   "primaryEmpty": true,
+   "gap": "教材未列出「AI產品與系統評測中心」的生成式AI評測項目，也未說明效率性不屬於評測範圍。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q8",
+   "primaryEmpty": true,
+   "gap": "教材未介紹「金融機構運用人工智慧技術作業規範」所要求的消費者揭露事項，缺少可直接判斷何者非必要揭露的內容"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q9",
+   "primaryEmpty": false,
+   "gap": "教材未統整AI倫理五大核心原則的完整清單與定義。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q10",
+   "primaryEmpty": true,
+   "gap": "教材未定義大數據5V（Volume、Velocity、Variety、Veracity、Value）各項特性，無法據以判斷題幹挑戰組合"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q11",
+   "primaryEmpty": false,
+   "gap": "教材未明確定義代理特徵，但公平性與性別偏見內容已足以判斷。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q13",
+   "primaryEmpty": true,
+   "gap": "教材未介紹類別特徵編碼方式（Label Encoding、One-Hot Encoding、Target Encoding 等），也未說明名目型類別不具自然順序、直接轉為數值會讓模型誤解類別間大小與順序關係。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q14",
+   "primaryEmpty": true,
+   "gap": "教材只說明 K 折交叉驗證的分割與訓練流程，未指出隨機分割會讓訓練集包含比測試集更晚的時間點，因而破壞時間依賴性（時間序列應採時序性切分）"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q15",
+   "primaryEmpty": true,
+   "gap": "教材僅定義決策樹的樹狀結構與節點切割方式，未說明決策樹只依單一特徵的閾值切分、對特徵尺度（是否標準化）不敏感，因此無法據此排除需標準化的線性迴歸、SVM 與 KNN。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q16",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明異常檢測可用於即時監測設備感測資料，並以偏離正常運作模式的訊號預警故障"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q17",
+   "primaryEmpty": true,
+   "gap": "教材未說明個人資料保護法中去識別化的定義、假名化（保留對照表可回查）與真正匿名化的差別，也未討論彙總統計與個體層級資料的差異及再識別風險，考生無法據此判斷為何須採不保留對應關係的替代編號。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q18",
+   "primaryEmpty": true,
+   "gap": "教材僅列出插補法等填補方式，未說明時間序列具時間連續性時應以前後時間點觀測值進行線性插補，也未說明補 0 或填平均值會扭曲趨勢、產生虛假異常"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q19",
+   "primaryEmpty": true,
+   "gap": "教材未定義召回率，也未說明漏檢（FN）為何使召回率成為關鍵任務首要指標。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q20",
+   "primaryEmpty": false,
+   "gap": "教材未說明在傳輸過程中以雙方身分驗證（相互認證）防範中間人攻擊，僅在平台合規段落籠統提及身分驗證"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q22",
+   "primaryEmpty": false,
+   "gap": "教材未介紹半監督式學習，混合少量標註與大量未標註資料的情境缺乏直接定義。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q23",
+   "primaryEmpty": false,
+   "gap": "教材未說明迴歸（如房價預測）應採用 MSE 等誤差指標評估，而非分類任務的精確率、F1 分數與召回率。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q24",
+   "primaryEmpty": true,
+   "gap": "教材僅列出 Exploration 與 Exploitation 為策略選項，未說明兩者之間的權衡（探索新選項與利用已知良好選項的取捨）為何是強化學習的核心問題。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q25",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明 LSTM 能保留長距離（長期依賴）的前段資訊，因而改善長序列辨識"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q26",
+   "primaryEmpty": true,
+   "gap": "教材未介紹半監督式學習的定義，也未說明它能同時利用少量已標註資料與大量未標註資料。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q27",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明自編碼器（Autoencoder）以重建誤差進行異常偵測的原理，也未說明為何瑕疵分類、情緒判斷較適合改採監督式分類模型"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q28",
+   "primaryEmpty": true,
+   "gap": "教材未介紹批次正規化（Batch Normalization），也未說明其降低隱藏層內部特徵分布變動、穩定梯度更新的機制。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q29",
+   "primaryEmpty": true,
+   "gap": "教材僅說明強化學習的一般定義與遊戲AI、機器人控制等範例，未說明 GRPO 這類強化學習方法適合用來強化大型語言模型在數學應用題、邏輯謎題等逐步推導推理任務上的表現"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q30",
+   "primaryEmpty": true,
+   "gap": "教材未介紹顯著性圖（Saliency Map）的定義，也未說明其用以標示輸入文字中影響預測結果較高的文字片段，僅泛談可解釋AI與視覺化技術。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q31",
+   "primaryEmpty": true,
+   "gap": "教材未介紹PDP呈現的是整體平均趨勢，也未說明其無法進行單一樣本或單一批次的局部歸因。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q32",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 LIME、代理模型（Surrogate model）及局部解釋的定義。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q33",
+   "primaryEmpty": true,
+   "gap": "教材未介紹稀疏專家混合（Sparse Mixture-of-Experts）架構，也未說明稠密模型每次推論使用全部參數、計算成本較高，因此無法直接支撐正確答案。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q34",
+   "primaryEmpty": true,
+   "gap": "教材未說明 CLIP 使用圖像與文字配對資料、DINO 使用未標註圖像資料的差異"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q35",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Transformer 的固定長度上下文窗口（context window）限制，也未說明長篇文件中分散資訊難以整合的架構原因。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q37",
+   "primaryEmpty": true,
+   "gap": "教材未介紹顯著性圖（Saliency Map），也未介紹 LIME、SHAP、PDP 等可解釋 AI 技術，亦未說明如何標示影像中影響預測最大的區域。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q38",
+   "primaryEmpty": true,
+   "gap": "教材未說明半監督式學習（Semi-supervised Learning）如何利用大量正常樣本的分布來偵測偏離正常行為的異常評論。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q39",
+   "primaryEmpty": false,
+   "gap": "教材未說明 CRF（條件隨機場）屬於鑑別式模型、以條件機率 P(y|x) 處理序列標記任務，僅泛論鑑別式AI 的定義與應用"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q40",
+   "primaryEmpty": false,
+   "gap": "教材未說明自編碼器（Autoencoder）僅進行資料壓縮與重建、無法生成從未出現過的全新內容，因此難以排除選項B。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q41",
+   "primaryEmpty": true,
+   "gap": "教材未說明 SVM 在高維度且樣本數有限時表現良好，也未說明訓練資料量龐大時運算成本會顯著上升。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q42",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 LIME 的局部、模型無關解釋，也未說明其用於解釋個別預測結果；僅泛談可解釋性與信用風險。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q43",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 SHAP 框架與 Shapley 值，也未說明的特徵貢獻度（個別預測解釋）計算方式"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q44",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明超大型模型的推理延遲高、每次請求成本遠高於小型模型，以及部署時須在模型效能與營運成本間審慎權衡"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q45",
+   "primaryEmpty": false,
+   "gap": "教材未說明 CNN 透過卷積層提取影像特徵後，可用於影像分類與物件類型識別任務。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q46",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 AutoSkill 框架，缺少「將互動經驗轉化為可重複使用技能模組」的定義與說明。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q47",
+   "primaryEmpty": true,
+   "gap": "教材只把模式崩潰列為訓練問題之一並泛稱會影響多樣性，未說明模式崩潰是指生成結果長期集中於少數相似形式、缺乏多樣性的現象，也未與梯度消失區別。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q48",
+   "primaryEmpty": true,
+   "gap": "教材未說明概念漂移的定義（輸入特徵分布相近，但特徵與購買意願的關係已改變），因此無法區分甲為概念漂移、乙為資料漂移。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s1",
+   "questionId": "jr_1152_s1_q50",
+   "primaryEmpty": true,
+   "gap": "教材僅定義微調，未說明 RAG 可檢索外部知識庫、在文件更新後無須重新訓練即可即時反映最新內容，亦未比較 RAG 與微調在資料更新即時性上的差異。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q1",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 RAG 以歷史分類案例作為上下文提升準確率的機制，也未比較其與基礎語言模型在企業特定分類規則上的差異。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q2",
+   "primaryEmpty": true,
+   "gap": "教材未介紹條件分支（Branching／Router）及其依多重條件判斷流程走向的設計方式。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q3",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 LLM API 的無狀態特性，以及每次請求需帶入 Chat History 才能延續對話的機制。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q4",
+   "primaryEmpty": true,
+   "gap": "教材未說明 Token 數量與輸入輸出長度、API 計費及上下文長度上限的關係。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q5",
+   "primaryEmpty": true,
+   "gap": "教材未說明封閉式 No-Code 平台因專有資料格式、匯出功能受限與缺乏標準 API，將導致資料與功能難以轉移，進而形成廠商鎖定（高度依賴原平台）的風險。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q6",
+   "primaryEmpty": false,
+   "gap": "教材僅泛述「系統整合能力」，未明確指出以 API 介接能力、Webhooks 機制與開放式架構來滿足系統整合需求（P2 僅涵蓋 API 擴充與開放式架構，未提及 Webhooks）。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q7",
+   "primaryEmpty": false,
+   "gap": "教材未說明以治理規範與共用標準解決 No-Code／Low-Code 造成之重複開發與模型使用不一致問題"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q8",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Webhook 的定義與事件觸發主動通知機制，也未區分定時輪詢與使用者主動查閱。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q10",
+   "primaryEmpty": true,
+   "gap": "教材未說明 Low-Code 平台因底層封裝通用框架，在毫秒級延遲與高吞吐量場景難以進行深度底層優化"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q11",
+   "primaryEmpty": true,
+   "gap": "教材僅泛談 No Code／Low Code 與 AI 民主化，未說明 AutoML 能自動完成模型選擇、特徵處理與訓練流程，使非技術人員快速建模上線"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q12",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 CLIP 模型，也未說明顯式餘弦相似度如何衡量文字與圖片的向量方向相似程度，亦未區分相似度與損失函數、評估指標的差別。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q13",
+   "primaryEmpty": true,
+   "gap": "教材未定義 Vibe Coding，也未說明提示詞精準度對生成品質的影響，及 Low-Code 平台功能範疇對應用上限的限制。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q14",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Agentic Coding 工具能直接讀寫專案檔案、執行終端機指令，並串接修改、測試、建置與版本提交等多步驟開發流程。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q15",
+   "primaryEmpty": false,
+   "gap": "教材未說明強化微調（RFT）透過獎懲回饋機制降低對大量標註資料的依賴，也未比較 RFT 與 SFT 在資料需求上的差異。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q16",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明 AI Agent 與傳統自動化系統的關鍵差異：前者能依任務目標自主規劃步驟、動態決策並調用工具調整執行策略，後者僅依預先設定流程執行固定任務。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q17",
+   "primaryEmpty": false,
+   "gap": "教材僅概括法律應用，未說明生成式任務與預測分析的區別。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q18",
+   "primaryEmpty": true,
+   "gap": "教材未說明上下文設計應優先保留原文逐字精確性，也未直接連結法律合約審查的上下文設計原則。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q19",
+   "primaryEmpty": true,
+   "gap": "教材未說明檢索增強生成（RAG）的機制，亦即結合知識庫檢索與生成回覆仍屬生成式 AI 應用範疇"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q20",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 MCP（Model Context Protocol），也未說明推理時即時檢索外部文件（如 RAG）的機制與其避免知識過時的做法。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q21",
+   "primaryEmpty": true,
+   "gap": "教材未說明生成式影像 AI 工具的功能範疇限於依指令進行影像生成與編輯（物件移除、元素替換、光影風格調整），並不包含銷售數據判讀與分析報表生成。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q22",
+   "primaryEmpty": true,
+   "gap": "教材未介紹延伸推理（Extended Thinking）與思考預算（Token 預算）的動態配置，也未說明如何依案件複雜度平衡推理深度與成本。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q23",
+   "primaryEmpty": true,
+   "gap": "教材未說明 Titans 架構的 Memory as Context（MAC）機制，亦即將長期記憶整理成重點內容、與目前輸入一起提供給模型作為額外參考。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q24",
+   "primaryEmpty": false,
+   "gap": "教材未說明 AI Agent 的典型特性（如依任務目標動態規劃流程、視情境調用外部工具、執行中調整策略），也未說明生成式AI 與 AI Agent 的區別"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q25",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 ReAct 架構的定義、推理與行動交替機制，以及資訊不足時動態調整查詢的適用情境。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q26",
+   "primaryEmpty": true,
+   "gap": "教材未介紹思維鏈、ReAct、Tree-of-Thought、Self-consistency 與 Zero-shot Learning 的定義及彼此關係。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q27",
+   "primaryEmpty": true,
+   "gap": "教材未說明解碼器如何以編碼器語義表示為條件，並結合已生成內容逐詞自迴歸生成。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q28",
+   "primaryEmpty": false,
+   "gap": "教材僅概括多層次防護，未細述提示詞注入的輸入驗證與輸出監控做法。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q29",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明影片生成如何維持影格間的時間一致性。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q30",
+   "primaryEmpty": true,
+   "gap": "教材只說明強化學習的獎勵與回饋機制的一般定義，未說明如何以律師（人類）回饋作為獎勵訊號，來優化 RAG 系統判斷檢索結果品質的能力。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q31",
+   "primaryEmpty": false,
+   "gap": "教材未說明 ChatGPT 可用於撰寫技術文件，亦未比較各生成式 AI 工具在影像生成與文件撰寫上的功能分工。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q32",
+   "primaryEmpty": true,
+   "gap": "教材僅泛談人機協作與內容審核，未說明 AI 程式設計助手能依程式碼上下文與註解提供建議，且生成內容仍須由開發者審查與測試後才能採用"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q33",
+   "primaryEmpty": true,
+   "gap": "教材僅提及「少樣本學習」一詞，未說明少樣本提示（Few-Shot Prompting）是在提示中附上固定數量的已標註範例供模型參考後再作答的技術。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q34",
+   "primaryEmpty": true,
+   "gap": "教材未介紹少樣本提示與少樣本微調的定義、差異，以及少樣本微調的過擬合風險。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q35",
+   "primaryEmpty": true,
+   "gap": "教材未說明多代理（Multi-Agent）系統中各 Agent 之間上下文（Context）狀態同步的必要性，以及缺乏同步機制會導致各 Agent 持有不一致資訊、做出不一致決策"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q36",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Agentic AI 架構中任務規劃器（Task Planner）與工具執行器（Tool Executor）的定義與分工，也未說明目標拆解、步驟安排等決策職責。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q37",
+   "primaryEmpty": true,
+   "gap": "教材未介紹函數呼叫（Function Calling）如何將自然語言轉為API呼叫參數，亦未區分其與語意解析、任務導向對話之差異。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q38",
+   "primaryEmpty": true,
+   "gap": "教材未說明預訓練資料包含大量程式碼與結構化標記語言文本，僅泛述模型從大量文本學習語言規律，無法據以區分程式碼與一般文章。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q39",
+   "primaryEmpty": true,
+   "gap": "教材未介紹大型語言模型「多領域、多任務語言理解能力評測」的設計概念（如跨學科基準測試、以未見題型檢驗泛化與推理）"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q40",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Solution Graph 的定義，也未說明以節點與連結構成的有向無環圖、任務分解與步驟依賴關係等概念，無法據此判斷選項。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q41",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Solution Graph 的定義，也未說明 LLM 如何推理並建構任務步驟與關聯。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q42",
+   "primaryEmpty": true,
+   "gap": "教材未定義提示詞注入，僅有對抗性攻擊與提示詞攻擊的相近敘述，無法直接判斷正解。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q43",
+   "primaryEmpty": false,
+   "gap": "教材只提到間接效益，未說明隱性成本（如系統維護、資料標註、流程整合等導入與維運的隱藏成本）也必須納入整體 ROI 評估"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q44",
+   "primaryEmpty": true,
+   "gap": "教材只泛稱本地部署可避免敏感資料外洩，未說明機密文件應留在隔離／受控環境處理、其餘文件仍用同一模型處理的混合策略，也未區隔去識別化與環境隔離之差異"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q45",
+   "primaryEmpty": true,
+   "gap": "教材未明確介紹間接提示注入，即把惡意指令藏於外部內容以操控模型。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q47",
+   "primaryEmpty": false,
+   "gap": "教材未說明 TCO 直接成本與間接成本的區分，也未指出配送效率提升帶來的燃油與維運成本下降屬於效益而非成本項目"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q48",
+   "primaryEmpty": true,
+   "gap": "教材未介紹檢索增強生成（RAG）的「先檢索、再依文件生成」流程、回答附來源以利追溯，以及更新知識庫／索引即可免重新訓練模型的機制，也未比較微調與 RAG 在維護成本上的差異。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1152_s2",
+   "questionId": "jr_1152_s2_q50",
+   "primaryEmpty": false,
+   "gap": "P2 只談高風險場景應明確界定責任分擔，未說明模型判斷過程不透明，即黑箱特性，以致發生錯誤時難以釐清責任歸屬；這一因果關係，即黑箱不透明導致責任難以釐清，僅見於 P1。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q1",
+   "primaryEmpty": false,
+   "gap": "教材片段未說明半監督式學習的定義，僅能靠排除法判斷。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q3",
+   "primaryEmpty": false,
+   "gap": "教材未說明機器學習結合路徑優化演算法用於車隊調度（配送調度）的整體運作方式"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q4",
+   "primaryEmpty": false,
+   "gap": "教材未說明「居住地區」等代理特徵可能造成間接歧視，也未說明應以公平性評估指標檢視間接關聯特徵並據以調整模型。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q5",
+   "primaryEmpty": true,
+   "gap": "教材未提供弱人工智慧（Weak AI）的定義，也未說明 AGI、ASI 與具身人工智慧的區別，僅有 AI 依功能分類的引導句。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q6",
+   "primaryEmpty": true,
+   "gap": "教材未介紹圖靈測試的設計理念與評估範圍，未說明其僅評估對話是否近似人類，也不能據此推論專業判斷可靠。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q7",
+   "primaryEmpty": true,
+   "gap": "教材未說明當 AI 自動決策可能對民眾權益造成重大影響時，應優先建立人在迴圈內（Human-in-the-loop）的最終審核機制，而非僅止於生成內容的審查與風險分級。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q9",
+   "primaryEmpty": true,
+   "gap": "教材未介紹特徵工程中預測時點可得性、資料洩漏與未來資訊洩漏，也未說明不可用預測後才知道的「下月是否消費」當特徵。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q10",
+   "primaryEmpty": false,
+   "gap": "教材未明說Z-Score值代表距平均值幾個標準差，也未澄清轉換後不必然是常態分配。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q11",
+   "primaryEmpty": false,
+   "gap": "教材雖定義半結構化資料具彈性標籤，但未說明各筆資料欄位結構可因裝置不同而不一致（如部分資料含血氧欄位）此一判準"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q12",
+   "primaryEmpty": true,
+   "gap": "教材未說明平均數小於中位數即代表負偏態（左偏），也未說明少數極低值會將平均數拉低於中位數。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q13",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明移除 HTML 標籤、網址、表情符號、停用詞及轉為小寫等文字清理步驟屬於資料清理與預處理環節。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q15",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 k-匿名化、準識別碼及交叉比對重新識別的定義，無法直接判斷答案。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q16",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明右偏態分佈含極端值、故應以中位數填補遺漏值的關聯"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q17",
+   "primaryEmpty": true,
+   "gap": "教材未說明將資料取樣頻率由每秒降為每小時（時間解析度降低）的影響，例如雖保留整體用電趨勢，卻可能失去短時間內設備啟動的用電變化資訊。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q18",
+   "primaryEmpty": false,
+   "gap": "教材僅點出差分隱私加雜訊，未說明相鄰資料庫與單筆資料增刪不影響結果的定義"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q19",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明「當事人自行公開的照片不等於同意作為商業AI訓練資料」，也未說明蒐集目的外利用（個資法第20條）的判斷原則，僅泛論隱私法規與授權要求"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q21",
+   "primaryEmpty": false,
+   "gap": "教材未明確比較前饋網路與RNN的差異。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q22",
+   "primaryEmpty": true,
+   "gap": "教材未介紹半監督式學習的定義與作法（結合已標註與未標註資料來改善分類模型），也未說明分群結果不能直接當作分類標籤。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q23",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明 LSTM 適合處理具時間相依性的序列／時間序列資料（例如以過去 24 個月消費金額預測下個月異常），P1 僅說明 LSTM 的閘門機制與梯度消失問題。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q24",
+   "primaryEmpty": true,
+   "gap": "教材未說明調整分類門檻對精確率與召回率的影響與取捨，也未定義偽陰性、偽陽性。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q25",
+   "primaryEmpty": false,
+   "gap": "教材未直接定義保留法與自助抽樣，僅能由交叉驗證流程反推其差異。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q26",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明需依梯度反方向（負梯度方向）更新參數以最小化損失函數，P1 僅停在優化演算法調整參數的上位概念"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q27",
+   "primaryEmpty": false,
+   "gap": "教材未定義MAPE，也未直接說明孤立森林屬異常偵測、不適用迴歸預測。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q28",
+   "primaryEmpty": false,
+   "gap": "教材未介紹平均絕對誤差（MAE）的定義與用途，僅見 MSE。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q29",
+   "primaryEmpty": true,
+   "gap": "教材未介紹隨機數種子（Random Seed）與偽隨機序列，也未說明固定種子可讓資料切分具可重現性。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q30",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明即時分析感測資料、偵測偏離正常運轉模式並立即發出警示的異常偵測應用。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q31",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明 MSE 數值越低代表模型整體預測誤差越小、模型表現越佳"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q32",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明 Transformer 以自注意力機制取代 RNN／LSTM 的循序（遞迴）傳遞，可直接關聯序列中相距較遠的任意位置，也未對比 RNN／LSTM 必須依序傳遞前文資訊的限制。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q33",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明損失值會回饋至後續訓練流程、作為模型參數調整依據，P2 僅描述優化器以梯度下降最小化損失。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q34",
+   "primaryEmpty": false,
+   "gap": "教材未逐一舉例甲、乙、丙、丁四項應用，但依定義可判別。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q35",
+   "primaryEmpty": true,
+   "gap": "教材未定義全域解釋與局部解釋的區別，也未說明模型整體決策機制屬全域解釋。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q36",
+   "primaryEmpty": true,
+   "gap": "教材未介紹排列特徵重要性，亦未說明打亂特徵後比較誤差、固定模型重新預測而非重新訓練。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q37",
+   "primaryEmpty": true,
+   "gap": "教材僅舉醫學影像病變檢測為例，未說明影像分割是對影像中每個像素標示所屬類別（逐像素分類）的核心定義"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q38",
+   "primaryEmpty": true,
+   "gap": "教材未說明長上下文會降低關鍵資訊擷取與運用能力，也未區分上下文長度上限與有效利用能力，亦未說明推論不會改變模型參數。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q40",
+   "primaryEmpty": false,
+   "gap": "教材未定義模式崩潰的成因與現象（生成器反覆產生少數相同樣本以騙過鑑別器，導致缺乏多樣性）"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q41",
+   "primaryEmpty": true,
+   "gap": "教材未介紹物件偵測的定義、可辨識物件而不識別個人身分的特性，以及如何據此統計產線整體穿戴遵從率。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q42",
+   "primaryEmpty": true,
+   "gap": "教材僅提及 RLHF 一詞與強化學習的一般獎勵機制，未說明 RLHF 的核心作法：蒐集人類對不同模型回覆的偏好評比，據以建立獎勵模型（Reward Model）作為模型優化的依據"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q43",
+   "primaryEmpty": true,
+   "gap": "教材未說明自注意力時間複雜度隨輸入長度呈二次方（O(n²)）成長。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q44",
+   "primaryEmpty": true,
+   "gap": "教材未說明模型量化可能造成模型輸出品質輕微下降（精度損失）的取捨。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q45",
+   "primaryEmpty": true,
+   "gap": "教材未介紹LIME（局部可解釋、模型無關）、鄰近擾動樣本與局部代理模型等概念，無法據以判斷正確選項。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q46",
+   "primaryEmpty": true,
+   "gap": "教材未說明顯著性圖（Saliency Map）能呈現對模型預測影響較大的影像區域，並協助醫師視覺化複核模型判斷依據，也未區分其與病灶量測、分割的差異"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q47",
+   "primaryEmpty": true,
+   "gap": "教材未介紹多語言模型、跨語言參數共享與多專家混合（MoE）架構，亦未說明翻譯流程可能造成原始語言與文化資訊流失。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q48",
+   "primaryEmpty": true,
+   "gap": "教材未介紹檢索增強生成（RAG）架構、文件向量化索引、依查詢即時檢索片段，以及按需輸入以降低 Token 成本與延遲等概念，也未說明微調與檢索式生成的用途差異。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s1",
+   "questionId": "jr_1153_s1_q50",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 RAG 的檢索增強機制，也未比較 RAG 與 Fine-tuning 在即時資料更新、時效性與維護成本上的差異。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q1",
+   "primaryEmpty": false,
+   "gap": "教材未說明 No-Code／Low-Code 平台在多雲架構下可能面臨的部署與整合限制，以及導入前應確認平台是否支援企業規劃的多雲部署需求"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q2",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明整合舊機台仍須資料格式轉換，及內建防護不能取代資安審查。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q3",
+   "primaryEmpty": false,
+   "gap": "教材未說明微調能以大量高品質語料將語氣與回覆格式內化到模型，使所有對話穩定一致，且相較於提示或 RAG 可降低單次對話的推論成本與延遲。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q4",
+   "primaryEmpty": true,
+   "gap": "教材未說明 No-Code 平台功能範圍受限于供應商，難以依需求高度客製化或整合外部自訂 AI 模型與新技術"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q5",
+   "primaryEmpty": true,
+   "gap": "教材未介紹聚合器、路由、篩選器、迭代等流程元件的定義與差異。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q6",
+   "primaryEmpty": true,
+   "gap": "教材未說明 Low-Code 平台原生能力主要提供通用元件與流程設計，涉及高度複雜的企業專屬演算法時，仍須自行撰寫程式碼客製化或搭配傳統程式開發"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q7",
+   "primaryEmpty": false,
+   "gap": "教材未說明提示鏈（Prompt Chaining）各中間步驟的輸出需設置驗證機制與護欄（Guardrails），以避免細微偏差未經驗證即傳遞、導致誤差累積放大。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q8",
+   "primaryEmpty": true,
+   "gap": "教材未說明單一提示詞中過多層級且彼此競爭的指令會降低模型同時遵循所有要求的一致性，亦未提及指令層級與複雜任務分階段處理。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q9",
+   "primaryEmpty": true,
+   "gap": "教材未介紹多代理架構的共享記憶（Shared Memory）與跨代理情境脈絡同步機制。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q10",
+   "primaryEmpty": true,
+   "gap": "教材未說明解決方案圖與知識圖的主要差異，包括解決方案圖僅供本次任務使用、描述子任務安排與依賴關係，而知識圖長期保存並可供不同任務共用的結構化知識。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q11",
+   "primaryEmpty": true,
+   "gap": "教材未介紹解決方案圖（Solution Graph）的定義，也未說明它如何引導 AI Agent 分階段規劃、逐步驗證中間結果以降低幻覺風險，因此無法直接支撐正解。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q12",
+   "primaryEmpty": false,
+   "gap": "教材未說明 Vibe Coding 的定義（以自然語言多輪對話讓 AI 生成與修改程式碼、逐步完成 Prototype），也未界定 Prompt Engineering 在 AI 輔助軟體開發中的角色，因此無法區分甲、乙。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q13",
+   "primaryEmpty": true,
+   "gap": "教材未說明「檢索增強生成（RAG）」的架構：以電腦視覺模型辨識後，檢索農場知識庫，並由大型語言模型依檢索內容生成防治建議及引用知識來源，以降低生成不實資訊的風險。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q14",
+   "primaryEmpty": true,
+   "gap": "教材只泛稱提示工程可優化提示詞，未說明應在提示中提供既有檢測要點作為上下文，並明確指定文件格式、專業術語及安全注意事項等具體撰寫要求。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q16",
+   "primaryEmpty": true,
+   "gap": "教材未介紹檢索增強生成（RAG）與AI幻覺的定義，亦未說明先檢索企業文件再依檢索結果生成的架構。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q17",
+   "primaryEmpty": true,
+   "gap": "教材未說明 LLM 為機率式 Token 預測、無法取得即時資訊、執行精確計算或操作外部系統等先天限制，也未陳述工具呼叫如何補足這些限制；亦未區分工具呼叫與上下文容量、模型權重更新的差異。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q18",
+   "primaryEmpty": true,
+   "gap": "教材未說明提高模型思考預算（延長推理過程）會帶來回應延遲增加與推理運算成本上升的權衡"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q19",
+   "primaryEmpty": true,
+   "gap": "教材只說明依任務複雜度選擇輕量或高效能模型，未說明模型路由機制：先由模型自動判斷每次請求的問題特性，再將請求分派給適合的模型處理。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q20",
+   "primaryEmpty": true,
+   "gap": "教材未定義 AI 代理的自主代理能力（依目標自行取得資訊、判斷並採多步驟行動），也未區分規則式自動化與自主代理的差異，亦未說明內容生成不等同自主代理。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q21",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 Few-Shot Prompting（少樣本提示）的定義，也未說明以少量範例引導輸出的作法。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q22",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 MCP 協定、MCP Server 與工具呼叫機制。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q23",
+   "primaryEmpty": true,
+   "gap": "教材只說明斷詞會將文本拆分為詞或子詞等基本單元，未說明遇到訓練資料中未出現的罕見專有名詞時，會拆解成較小的已知子詞片段再進行處理。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q24",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 RAG 架構中的檢索、重排序（Reranker）與候選文件篩選機制，亦未說明檢索成功與提供給 LLM 是不同環節，故無法據此判斷應導入重排序器。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q25",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 AI Agent 的定義、自主規劃與動態選用工具的特性，也未與傳統自動化系統的固定規則流程對比。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q26",
+   "primaryEmpty": true,
+   "gap": "教材未說明 MCP 提供 AI 代理統一存取外部工具與資料來源，也未說明 Skill 是封裝需 AI 語意理解與專業判斷的可重複使用能力模組。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q27",
+   "primaryEmpty": true,
+   "gap": "教材未說明以專屬影像生成 AI 建立訓練資料，也未說明檢索增強生成（RAG）讀取客戶保單內容以降低數字與法規引用錯誤的技術架構"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q28",
+   "primaryEmpty": true,
+   "gap": "教材未定義思維鏈提示（Chain-of-Thought Prompting），也未區分零樣本／少樣本提示與檢索增強生成之差異，僅泛談提示工程。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q29",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 ReAct 框架（推理與行動交替、依工具回傳結果決定下一步），也未區辨 RAG、Prompt Chaining、Zero-Shot Prompting。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q30",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明 Vibe Coding 與需求驗證流程"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q31",
+   "primaryEmpty": true,
+   "gap": "教材未介紹情境設定提示的定義，也未區分零樣本、少樣本與思維鏈提示。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q32",
+   "primaryEmpty": true,
+   "gap": "教材未介紹向量資料庫、文本向量化與語意嵌入，也未說明 RAG 的檢索與生成分工"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q33",
+   "primaryEmpty": true,
+   "gap": "教材未說明天篇章摘要在逐步整合（分段摘要再合併）的作法，以及它維持前後脈絡、控制成本的優點。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q34",
+   "primaryEmpty": true,
+   "gap": "教材只說明對抗性攻擊是精心設計輸入以操控模型輸出，未說明對抗性測試的作法：刻意偽裝或設計輸入送入系統，檢驗模型是否仍能正確判斷。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q35",
+   "primaryEmpty": false,
+   "gap": "教材未明確定義「概念漂移」，也未直接對比概念漂移（特徵與目標關係改變）與資料漂移的差異。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q36",
+   "primaryEmpty": true,
+   "gap": "教材未說明間接提示注入（間接指令注入）風險：攻擊者將指令夾帶於 AI 處理的外部資料中，使模型誤將資料內容視為指令而偏離原有設定、執行非預期操作。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q37",
+   "primaryEmpty": true,
+   "gap": "教材未介紹聯邦學習（Federated Learning）架構，亦未說明各參與方於本地訓練、僅分享模型參數更新的跨組織共同訓練機制"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q38",
+   "primaryEmpty": true,
+   "gap": "教材未介紹情緒分析（Sentiment Analysis）模組、情緒分數門檻及自動轉接真人客服的機制。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q39",
+   "primaryEmpty": true,
+   "gap": "教材未說明可於模型前後端部署獨立的安全防護網（Guardrails）監控機制，即時攔截過濾有害輸入，並在模型產生不當內容時阻斷或拒答"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q40",
+   "primaryEmpty": true,
+   "gap": "教材未提供 Token 成本估算的計算方式，缺少每字約需 1.5 個 Token 的換算、以每千 Token 單價計費，以及每月輸出用量＝份數×字數×每字 Token 數的推估步驟"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q41",
+   "primaryEmpty": true,
+   "gap": "教材未說明標註引用文獻僅能提高可追溯性，無法保證AI未誤解文獻內容或引用錯誤"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q42",
+   "primaryEmpty": false,
+   "gap": "教材未說明 AI 代理於採購訂單金額超過授權額度時，應觸發人在迴圈機制並轉交具核決權限人員最終審核"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q43",
+   "primaryEmpty": true,
+   "gap": "教材未介紹越獄（Jailbreak）的定義，也未說明系統提示詞限制、多輪誘導提問如何使模型繞過設定，以及越獄與提示詞攻擊、資料外洩的區別。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q44",
+   "primaryEmpty": true,
+   "gap": "教材未說明 RLHF 回饋資料可能因僅少數員工評分而產生選擇性偏差，導致模型偏向特定部門的需求與用語，因此應擴大不同部門的回饋樣本。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q45",
+   "primaryEmpty": true,
+   "gap": "教材只泛談生成流程與模型參數的透明化，未說明可解釋性應在產生報告時同步標示支持該建議的具體依據（如異常檢測數值及對應的維護作業規範）。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q46",
+   "primaryEmpty": false,
+   "gap": "教材未具體說明在高風險的自駕情境中，決策不透明（黑箱）如何導致軟體商、車廠與測試人員之間的責任鏈難以釐清"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q47",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明「訓練／回饋資料驗證機制」與資料污染造成模型學到漏洞程式碼的因果關係（P2 僅談數據來源合法性與可靠性的風險溯源）"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q48",
+   "primaryEmpty": true,
+   "gap": "教材未說明以 AI 助理的互動紀錄、工具呼叫紀錄（Tool Calls）及系統操作日誌（Logs）分析員工實際使用情形，據以找出最常重複執行的工作流程"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q49",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 AutoML 的定義，以及自動特徵工程、演算法比較與超參數調校等功能。"
+  },
+  {
+   "level": "初級",
+   "exam": "jr_1153_s2",
+   "questionId": "jr_1153_s2_q50",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明需針對「重大異常關鍵字」建立自動偵測，並對偵測結果進行人工複核，以降低重要資訊遺漏的風險"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q1",
+   "primaryEmpty": false,
+   "gap": "教材正文未直接統整AI涵蓋多種技術與專業領域，僅練習解析明確提及。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q3",
+   "primaryEmpty": false,
+   "gap": "教材未直接比較學習率與模型複雜度對過擬合的影響。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q5",
+   "primaryEmpty": false,
+   "gap": "教材未介紹半監督式學習的定義，僅能由其餘三類的說明推知。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q6",
+   "primaryEmpty": true,
+   "gap": "教材未說明歐盟《人工智慧法》的風險分級，也未指出社會信用評分與公共場所遠端生物辨識屬於「不可接受風險」的禁止應用"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q7",
+   "primaryEmpty": false,
+   "gap": "教材未明確以「語音生成圖片」一詞說明語音輸入轉為圖像輸出的跨模態生成任務分類"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q8",
+   "primaryEmpty": true,
+   "gap": "教材未介紹大數據的三項核心特性（Volume、Velocity、Variety），也就是資料量大、變動速度快、多樣性，也未說明資料儲存位置不屬於大數據特性的理由，因此缺少能直接支持答案 D 的段落。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q9",
+   "primaryEmpty": true,
+   "gap": "教材未說明K-means僅適用數值型資料、不能直接處理類別型資料（類別編碼後的數值距離不具意義），因此無法直接判定選項D錯誤。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q10",
+   "primaryEmpty": false,
+   "gap": "教材未說明 Z-score 的定義（(數值−平均值)／標準差）及如何以其量化異常程度、判定極端值"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q12",
+   "primaryEmpty": true,
+   "gap": "教材未說明文字、數值、日期、布林等資料型態的定義與適用時機，也未指出年齡、年資、銷售量屬需運算的數值型。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q15",
+   "primaryEmpty": false,
+   "gap": "教材未具體說明應依業務目標保留離群值並標註為高價值異常點、納入模型訓練，而非刪除或替換"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q17",
+   "primaryEmpty": false,
+   "gap": "教材未說明決策樹可直接處理類別型特徵（血型）且具規則可解釋性，適合小樣本的醫療分類問題"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q18",
+   "primaryEmpty": true,
+   "gap": "教材未說明資料轉換階段包含資料清理與標準化（如統一姓名格式），可用來處理不一致的資料值。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q19",
+   "primaryEmpty": false,
+   "gap": "教材未說明自然語言處理可應用於聊天機器人（對話系統）的建構，P1 僅列出情感分析、語意理解等應用，未連結到聊天機器人。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q21",
+   "primaryEmpty": true,
+   "gap": "教材未說明當模型預測結果出現族群間顯著差異時，應啟動人工覆核與調整機制，並持續監控族群間的預測效果。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q22",
+   "primaryEmpty": false,
+   "gap": "教材未完整列出特徵選取的常見方法清單（如相關分析、PCA、隨機森林），也未說明迴歸分析屬於預測／因果模型而非特徵選取技術"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q24",
+   "primaryEmpty": true,
+   "gap": "教材未說明召回率（Recall）的定義，也未說明漏報率即偽陰性率、等於 1 減召回率"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q26",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明GAN生成結果的可解釋性（選項C）"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q28",
+   "primaryEmpty": false,
+   "gap": "教材未在生成式AI 段落明確指出「分類」任務（如醫學影像分類）屬於鑑別式AI 而非生成式AI 的應用，僅泛述生成式AI 會生成新數據與文本。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q29",
+   "primaryEmpty": false,
+   "gap": "教材僅泛述生成式AI與鑑別式AI在資料增強上的協同（醫療影像、金融風險示例），未直接說明「以生成式AI模擬交通／虛擬駕駛場景來訓練鑑別式模型」這一典型案例。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q30",
+   "primaryEmpty": true,
+   "gap": "教材未說明語意分析的功能在於理解文本語意（如情感分析），並非主要用於語音識別與機器翻譯。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q31",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明負責任的 AI 中責任歸屬的判定原則：是開發者而非使用者或 AI 系統本身對 AI 行為負責"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q32",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明資料清洗屬資料前處理，僅能由生成式AI定義間接排除選項D。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q33",
+   "primaryEmpty": false,
+   "gap": "教材未明確說明自迴歸模型在生成式AI中的角色（選項C）。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q34",
+   "primaryEmpty": true,
+   "gap": "教材只說明重複值（相同內容的重複記錄），未說明同一資訊 stored 於多個欄位所造成的欄位層級冗餘資料，也未區分重複資料與冗餘資料的差異"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q35",
+   "primaryEmpty": true,
+   "gap": "教材未直接定義標籤（Label/Target）為模型要預測的輸出變數，也未明確區分『是否退貨』是標籤而非特徵。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q36",
+   "primaryEmpty": false,
+   "gap": "教材未說明 No Code / Low Code 平台「運用模板快速建立應用程式」這項特色（兩段僅講視覺化拖放與少量程式碼，未提及模板）"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q37",
+   "primaryEmpty": true,
+   "gap": "教材未介紹推理模型（Reasoning Model）的定義與能力特點，也未說明它與強化學習等訓練方式的區別。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q39",
+   "primaryEmpty": true,
+   "gap": "教材只列出程式碼生成、行銷文案生成、個人化 App 開發等合適應用，未說明法律判決涉及司法權專屬與法律責任，不得由生成式 AI 或 No Code／Low Code 平台自動化產出，因此最不適合。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q40",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明 No Code 平台完全無需程式設計知識、客製化程度受限，因此無法據以排除選項 A、B、D"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q41",
+   "primaryEmpty": true,
+   "gap": "教材未介紹思維鏈（Chain-of-Thought）提示技巧，亦未說明逐步推理提示的設計原則與其效果。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q42",
+   "primaryEmpty": true,
+   "gap": "教材未介紹影子IT，也未說明Low-Code應用未經IT部門管理而擴散的治理風險。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q43",
+   "primaryEmpty": false,
+   "gap": "教材未說明智慧排程、消費行為洞察與預測性維護的適用場景。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q44",
+   "primaryEmpty": true,
+   "gap": "教材未介紹《個人資料保護法》第21條國際傳輸限制的要件，特別是「接受國保護法規未完善致有損當事人權益之虞」得由中央目的事業主管機關限制傳輸。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q46",
+   "primaryEmpty": false,
+   "gap": "教材未明確指出 DALL·E-2 是採用擴散模型的文字生成圖像系統，P2 僅為擴散模型的一般定義與雜訊去噪原理，未連結到文字生成圖像的應用。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q47",
+   "primaryEmpty": true,
+   "gap": "教材未說明 No Code／Low Code 平台在企業 ETL 數據管道中的角色，亦即能取代部分傳統 ETL 解決方案，但難以處理高度客製化邏輯。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q48",
+   "primaryEmpty": false,
+   "gap": "教材未說明 VGG 是卷積神經網路（CNN）的影像分類架構、屬鑑別式模型，因而不是生成式 AI 核心技術"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q49",
+   "primaryEmpty": true,
+   "gap": "教材未說明使用生成式 AI 生成內容時應適當標注引用來源，以確保內容品質並避免侵權"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q50",
+   "primaryEmpty": false,
+   "gap": "教材未說明先匯入課綱與教學單元內容建立知識結構圖，再輸入學生學習歷程與成績等特徵的步驟，以及四步驟整體的先後邏輯。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q51",
+   "primaryEmpty": false,
+   "gap": "教材僅點出強調用戶控制權與個人化，未直接說明「限制使用者自訂生成內容」為何不屬於使用體驗優化方向，也未列舉直觀操作設計、自然語言指令、智慧化參數建議等優化方向。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q52",
+   "primaryEmpty": true,
+   "gap": "教材未說明教師應在教學場域訂立生成式AI使用規範並向學生說明。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q53",
+   "primaryEmpty": true,
+   "gap": "教材未介紹第三方 AI API 的 Zero-Retention 模式、企業資安 API 條款，也未區分零資料保留與不用於模型訓練。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q55",
+   "primaryEmpty": false,
+   "gap": "教材未明確指出「多模態模型能同時理解文本輸入並輸出或調用圖像、影片」是選擇此模型類型的依據；P2 僅描述生成式 AI 工具可協同生成多模態內容，未直接說明本題的模型選擇判斷"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q56",
+   "primaryEmpty": false,
+   "gap": "教材未說明提示工程可透過精準且有架構的提示，引導 AI 產出符合該架構的答案"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q57",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明生成式AI圖像生成在風格多樣性與逼真度提升上的整體發展趨勢"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q58",
+   "primaryEmpty": false,
+   "gap": "教材僅談訓練資料偏見的成因與去偏見做法，未直接說明生成式AI會產生虛假資訊（幻覺）及資料外流的風險，不足以完整排除B、E。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q59",
+   "primaryEmpty": false,
+   "gap": "教材未直接說明生成式AI結合自動化系統產出報告可減少人工錯誤、降低人力負擔的具體效益"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q60",
+   "primaryEmpty": true,
+   "gap": "教材未說明資料從 NAS 載入的 I/O 瓶頸、GPU 等待資料造成低使用率，也未區分資料供應問題與模型收斂問題。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q64",
+   "primaryEmpty": false,
+   "gap": "教材僅定義「AI 價值擴散」的做法，未明確指出價值擴散（A）必須排在上線部署（B）與模型監控與優化（C）之後，也就是未給出 B→C→A 的完整先後順序。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q65",
+   "primaryEmpty": false,
+   "gap": "教材未以「AI 幻覺」統稱此現象，僅描述生成內容可能含虛構或不準確資訊。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q66",
+   "primaryEmpty": true,
+   "gap": "教材未說明「零信任架構」的核心概念（不信任任何內外部流量、持續驗證、最小權限），也未指出它是確保生成式 AI 資料使用安全的最佳技術。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q67",
+   "primaryEmpty": false,
+   "gap": "教材未直接把偏差檢測寫成「確保生成公平性的評估策略」，P2 只把它當成高風險項目的風險緩解工具示例，沒有說明它能用來驗證公平性。"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q68",
+   "primaryEmpty": true,
+   "gap": "教材僅說明溫度控制隨機性、低溫產生較保守內容，未明確指出低溫度（如 0.1 至 0.3）可降低回答不確定性並提升輸出一致性與可預測性"
+  },
+  {
+   "level": "初級",
+   "exam": "sample",
+   "questionId": "sample_q69",
+   "primaryEmpty": true,
+   "gap": "教材未介紹 TTQA、HumanEval、MBPP 等基準測試資料集，也未說明各資料集評測的知識範疇與適用任務。"
+  }
+ ]
+}

@@ -2,9 +2,9 @@
   "guideKey": "中級-guide3",
   "nodeId": "mid-s3c6",
   "stats": {
-    "questions": 18,
-    "guideBlocks": 108,
-    "annotations": 149
+    "questions": 52,
+    "guideBlocks": 141,
+    "annotations": 219
   },
   "blocks": {
     "block-60": [
@@ -20,10 +20,10 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明純線性網路的表達限制、非線性激活函數的必要性，以及 Sigmoid 與 ReLU 的輸出特性。"
+          "說明線性激活使多層網路等同單層線性模型；指出卷積輸出常用ReLU非線性激活以提升表達能力"
         ],
         "citationRank": 1,
-        "citationBlockCount": 6,
+        "citationBlockCount": 2,
         "supplement": false,
         "prominence": "primary"
       },
@@ -39,11 +39,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明非線性激活函數對網路表達能力的作用，有助於區分最後輸出層不加激活與整個網路不使用激活函數。"
+          "補充：說明非線性激活函數對網路表達能力的作用，有助於區分最後輸出層不加激活與整個網路不使用激活函數。"
         ],
-        "citationRank": 3,
+        "citationRank": 5,
         "citationBlockCount": 2,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -60,12 +60,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明純線性網路的表達限制、非線性激活函數的必要性，以及 Sigmoid 與 ReLU 的輸出特性。"
+          "補充：說明複雜問題多為非線性，需非線性激活才能學習；練習解析強調激活函數為網路帶來非線性能力"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q20",
@@ -79,11 +79,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明非線性激活函數對網路表達能力的作用，有助於區分最後輸出層不加激活與整個網路不使用激活函數。"
+          "補充：說明非線性激活函數對網路表達能力的作用，有助於區分最後輸出層不加激活與整個網路不使用激活函數。"
         ],
-        "citationRank": 3,
+        "citationRank": 5,
         "citationBlockCount": 2,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -100,12 +100,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明純線性網路的表達限制、非線性激活函數的必要性，以及 Sigmoid 與 ReLU 的輸出特性。"
+          "補充：說明純線性網路的表達限制、非線性激活函數的必要性，以及 Sigmoid 與 ReLU 的輸出特性。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 3,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q17",
@@ -119,11 +119,11 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "提供 Sigmoid 壓縮輸出至 0 到 1，以及 ReLU 正值直接輸出、負值輸出為 0 的定義，作為比較兩種激活函數的基礎。"
+          "補充：提供 Sigmoid 壓縮輸出至 0 到 1，以及 ReLU 正值直接輸出、負值輸出為 0 的定義，作為比較兩種激活函數的基礎。"
         ],
-        "citationRank": 4,
+        "citationRank": 7,
         "citationBlockCount": 4,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -140,12 +140,31 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明純線性網路的表達限制、非線性激活函數的必要性，以及 Sigmoid 與 ReLU 的輸出特性。"
+          "補充：說明純線性網路的表達限制、非線性激活函數的必要性，以及 Sigmoid 與 ReLU 的輸出特性。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q12",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q12",
+        "questionNumber": 12,
+        "question": "某工程師在設計一個二元分類器（Binary Classifier）時，考慮在輸出層使用Sigmoid 函數。請問 Sigmoid 函數的主要特性與限制為何？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明輸出介於0與1且可視為機率。；提到梯度消失，有助理解B的限制敘述。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q17",
@@ -159,11 +178,11 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "提供 Sigmoid 壓縮輸出至 0 到 1，以及 ReLU 正值直接輸出、負值輸出為 0 的定義，作為比較兩種激活函數的基礎。"
+          "補充：提供 Sigmoid 壓縮輸出至 0 到 1，以及 ReLU 正值直接輸出、負值輸出為 0 的定義，作為比較兩種激活函數的基礎。"
         ],
-        "citationRank": 4,
+        "citationRank": 7,
         "citationBlockCount": 4,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -180,12 +199,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明純線性網路的表達限制、非線性激活函數的必要性，以及 Sigmoid 與 ReLU 的輸出特性。"
+          "補充：說明純線性網路的表達限制、非線性激活函數的必要性，以及 Sigmoid 與 ReLU 的輸出特性。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 3,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q17",
@@ -199,11 +218,11 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "提供 Sigmoid 壓縮輸出至 0 到 1，以及 ReLU 正值直接輸出、負值輸出為 0 的定義，作為比較兩種激活函數的基礎。"
+          "補充：提供 Sigmoid 壓縮輸出至 0 到 1，以及 ReLU 正值直接輸出、負值輸出為 0 的定義，作為比較兩種激活函數的基礎。"
         ],
-        "citationRank": 4,
+        "citationRank": 7,
         "citationBlockCount": 4,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -220,12 +239,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明純線性網路的表達限制、非線性激活函數的必要性，以及 Sigmoid 與 ReLU 的輸出特性。"
+          "補充：說明純線性網路的表達限制、非線性激活函數的必要性，以及 Sigmoid 與 ReLU 的輸出特性。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 3,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q17",
@@ -239,11 +258,91 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "提供 Sigmoid 壓縮輸出至 0 到 1，以及 ReLU 正值直接輸出、負值輸出為 0 的定義，作為比較兩種激活函數的基礎。"
+          "補充：提供 Sigmoid 壓縮輸出至 0 到 1，以及 ReLU 正值直接輸出、負值輸出為 0 的定義，作為比較兩種激活函數的基礎。"
         ],
-        "citationRank": 4,
+        "citationRank": 7,
         "citationBlockCount": 4,
-        "supplement": false,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-72": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q48",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q48",
+        "questionNumber": 48,
+        "question": "參考下圖程式碼，下列何者正確？ A：X_train -= X_train.mean(axis=0) 將每個訓練集特徵的平均值調整為 0 B：X_train /= X_train.std(axis=0) 將每個訓練集特徵的標準差調整為 0 C：X_train 處理結果會將資料壓縮到 0 和 1 之間 D：標準化結果防止梯度爆炸或消失 E：標準化是屬於特徵選擇(Feature Selection)方法 F：X_train 程式碼應修正為 X_train = X_train.std(axis=0), X_test 程式碼應修正為 X_test = X_test.std(axis=0)",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：數值過大過小會導致梯度爆炸消失，支撐標準化效益"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q12",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q12",
+        "questionNumber": 12,
+        "question": "某工程師在設計一個二元分類器（Binary Classifier）時，考慮在輸出層使用Sigmoid 函數。請問 Sigmoid 函數的主要特性與限制為何？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明輸出介於0與1且可視為機率。；提到梯度消失，有助理解B的限制敘述。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q46",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q46",
+        "questionNumber": 46,
+        "question": "參考下圖資料處理，下列哪一項描述組合正確？\n描述A：x_train, x_test 將影像範圍壓縮到 0~31 範圍\n描述B：x_train, x_test 資料轉換可以增加模型的泛化能力\n描述C：x_train, x_test 資料轉換結果相當於 z-score 標準化\n描述D：資料轉換目的是避免梯度爆炸或梯度消失\n描述E：y_train 將 label 轉換為獨熱編碼（One-hot Encoding）\n描述F：y_train 適合輸出層使用 softmax 函數",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明避免梯度爆炸、消失是轉換目的，支持描述D"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-90": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q49",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q49",
+        "questionNumber": 49,
+        "question": "參考下圖執行結果，下列何者正確？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：輸入層神經元數等於特徵數，可推第一層輸入維度。；前一層輸出即下一層輸入，可推第二層輸入維度。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -260,11 +359,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明梯度的定義、反向傳播計算方式，以及優化器結合梯度和學習率更新權重的機制。"
+          "補充：說明梯度的定義、反向傳播計算方式，以及優化器結合梯度和學習率更新權重的機制。"
         ],
-        "citationRank": 3,
+        "citationRank": 7,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -279,12 +378,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明梯度的意義、反向傳播的連鎖律與權重更新機制，支持淺層梯度過小會使學習困難的解釋。"
+          "補充：說明梯度的意義、反向傳播的連鎖律與權重更新機制，支持淺層梯度過小會使學習困難的解釋。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-112": [
@@ -300,11 +399,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明梯度的定義、反向傳播計算方式，以及優化器結合梯度和學習率更新權重的機制。"
+          "補充：說明梯度的定義、反向傳播計算方式，以及優化器結合梯度和學習率更新權重的機制。"
         ],
-        "citationRank": 3,
+        "citationRank": 7,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -321,11 +420,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明梯度的定義、反向傳播計算方式，以及優化器結合梯度和學習率更新權重的機制。"
+          "補充：說明梯度的定義、反向傳播計算方式，以及優化器結合梯度和學習率更新權重的機制。"
         ],
-        "citationRank": 3,
+        "citationRank": 7,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -340,12 +439,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明梯度的意義、反向傳播的連鎖律與權重更新機制，支持淺層梯度過小會使學習困難的解釋。"
+          "補充：說明梯度的意義、反向傳播的連鎖律與權重更新機制，支持淺層梯度過小會使學習困難的解釋。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-114": [
@@ -361,12 +460,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明梯度的意義、反向傳播的連鎖律與權重更新機制，支持淺層梯度過小會使學習困難的解釋。"
+          "補充：梯度由後層往前層傳遞，說明淺層權重難以更新。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-115": [
@@ -382,12 +481,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明梯度的意義、反向傳播的連鎖律與權重更新機制，支持淺層梯度過小會使學習困難的解釋。"
+          "補充：說明梯度的意義、反向傳播的連鎖律與權重更新機制，支持淺層梯度過小會使學習困難的解釋。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-116": [
@@ -403,11 +502,30 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明梯度的定義、反向傳播計算方式，以及優化器結合梯度和學習率更新權重的機制。"
+          "補充：說明梯度的定義、反向傳播計算方式，以及優化器結合梯度和學習率更新權重的機制。"
         ],
-        "citationRank": 3,
+        "citationRank": 7,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q42",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q42",
+        "questionNumber": 42,
+        "question": "觀察程式中行(A)將所有既有權重的梯度計算關閉，這在遷移學習中屬於哪一種標 準策略？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：了解梯度決定參數更新，可推知關閉梯度即凍結權重"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -424,11 +542,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明梯度的定義、反向傳播計算方式，以及優化器結合梯度和學習率更新權重的機制。"
+          "補充：說明梯度的定義、反向傳播計算方式，以及優化器結合梯度和學習率更新權重的機制。"
         ],
-        "citationRank": 3,
+        "citationRank": 7,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -443,10 +561,75 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明梯度的意義、反向傳播的連鎖律與權重更新機制，支持淺層梯度過小會使學習困難的解釋。"
+          "補充：說明梯度的意義、反向傳播的連鎖律與權重更新機制，支持淺層梯度過小會使學習困難的解釋。"
+        ],
+        "citationRank": 4,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-123": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q50",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q50",
+        "questionNumber": 50,
+        "question": "參考下圖執行結果，下列何者正確？ A：空格1須填入 \"b-\" B：空格2須填入 \"b--\" C：空格1須填入 \"r-\" D：空格2須填入 \"r--\" E：驗證損失明顯較訓練損失減少更明顯",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明訓練好但驗證變差即過擬合，可判斷E錯誤。；說明損失值越小模型越好，有助理解兩條曲線。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 5,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-131": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q38",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q38",
+        "questionNumber": 38,
+        "question": "附圖程式碼所計算的是哪一類型的評估指標？",
+        "answer": "B",
+        "confidence": "high",
+        "referenceQuestionId": "exam3_q38",
+        "reasons": [
+          "補充：以名稱標示MSE，可確認選項B所指指標"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-132": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q38",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q38",
+        "questionNumber": 38,
+        "question": "附圖程式碼所計算的是哪一類型的評估指標？",
+        "answer": "B",
+        "confidence": "high",
+        "referenceQuestionId": "exam3_q38",
+        "reasons": [
+          "MSE為預測與真實值誤差平方的平均，可對應程式碼"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
       }
@@ -464,11 +647,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明 MAE 對極端值敏感度較低，以及交叉熵用於分類問題，支持排除 A 與 D。"
+          "補充：說明 MAE 對極端值敏感度較低，以及交叉熵用於分類問題，支持排除 A 與 D。"
         ],
-        "citationRank": 3,
+        "citationRank": 6,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -485,11 +668,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明 MAE 對極端值敏感度較低，以及交叉熵用於分類問題，支持排除 A 與 D。"
+          "補充：說明 MAE 對極端值敏感度較低，以及交叉熵用於分類問題，支持排除 A 與 D。"
         ],
-        "citationRank": 3,
+        "citationRank": 6,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -506,11 +689,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明 MAE 對極端值敏感度較低，以及交叉熵用於分類問題，支持排除 A 與 D。"
+          "補充：說明 MAE 對極端值敏感度較低，以及交叉熵用於分類問題，支持排除 A 與 D。"
         ],
-        "citationRank": 3,
+        "citationRank": 6,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -527,11 +710,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明 MAE 對極端值敏感度較低，以及交叉熵用於分類問題，支持排除 A 與 D。"
+          "補充：說明 MAE 對極端值敏感度較低，以及交叉熵用於分類問題，支持排除 A 與 D。"
         ],
-        "citationRank": 3,
+        "citationRank": 6,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -548,11 +731,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明 MAE 對極端值敏感度較低，以及交叉熵用於分類問題，支持排除 A 與 D。"
+          "補充：說明 MAE 對極端值敏感度較低，以及交叉熵用於分類問題，支持排除 A 與 D。"
         ],
-        "citationRank": 3,
+        "citationRank": 6,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -570,11 +753,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q26",
         "reasons": [
-          "定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
+          "補充：定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
         ],
-        "citationRank": 2,
+        "citationRank": 3,
         "citationBlockCount": 11,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -592,11 +775,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q26",
         "reasons": [
-          "定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
+          "補充：定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
         ],
-        "citationRank": 2,
+        "citationRank": 3,
         "citationBlockCount": 11,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -613,11 +796,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "提供過度擬合的定義，說明本題缺乏訓練與未見資料表現落差的證據。"
+          "補充：提供過度擬合的定義，說明本題缺乏訓練與未見資料表現落差的證據。"
         ],
-        "citationRank": 3,
+        "citationRank": 6,
         "citationBlockCount": 2,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -633,12 +816,69 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q26",
         "reasons": [
-          "定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
+          "補充：定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
         ],
-        "citationRank": 2,
+        "citationRank": 3,
         "citationBlockCount": 11,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
+      },
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q50",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q50",
+        "questionNumber": 50,
+        "question": "參考下圖執行結果，下列何者正確？ A：空格1須填入 \"b-\" B：空格2須填入 \"b--\" C：空格1須填入 \"r-\" D：空格2須填入 \"r--\" E：驗證損失明顯較訓練損失減少更明顯",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明訓練好但驗證變差即過擬合，可判斷E錯誤。；說明損失值越小模型越好，有助理解兩條曲線。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q15",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q15",
+        "questionNumber": 15,
+        "question": "某資料工程師在建構大規模影像資料處理流程時，需要處理數千萬筆訓練影像，並發 現模型出現嚴重的過度擬合（Overfitting）：訓練集準確率達 99%，但驗證集僅有 72%。 在不改變模型架構的前提下，下列哪一項「資料處理層面」的調整最無法有效改善過度 擬合，甚至可能使問題惡化？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明訓練好、新資料差即過擬合，助判讀題幹；驗證集表現明顯低於訓練集，即過擬合表徵"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q48",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q48",
+        "questionNumber": 48,
+        "question": "參考下圖繪圖結果，當Epochs=6 時，訓練曲線值(0.81)明顯大於驗證曲線值(0.72)， 下列何者為最可能的原因？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明訓練表現好、新資料變差即是過擬合；驗證準確率明顯低於訓練集，符合過擬合"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": false,
+        "prominence": "primary"
       }
     ],
     "block-143": [
@@ -654,11 +894,11 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "提供過度擬合的定義，說明本題缺乏訓練與未見資料表現落差的證據。"
+          "補充：提供過度擬合的定義，說明本題缺乏訓練與未見資料表現落差的證據。"
         ],
-        "citationRank": 3,
+        "citationRank": 6,
         "citationBlockCount": 2,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -676,11 +916,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q26",
         "reasons": [
-          "定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
+          "補充：定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
         ],
-        "citationRank": 2,
+        "citationRank": 3,
         "citationBlockCount": 11,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -698,11 +938,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q26",
         "reasons": [
-          "定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
+          "補充：定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
         ],
-        "citationRank": 2,
+        "citationRank": 3,
         "citationBlockCount": 11,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -720,11 +960,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q26",
         "reasons": [
-          "定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
+          "補充：定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
         ],
-        "citationRank": 2,
+        "citationRank": 3,
         "citationBlockCount": 11,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -742,15 +982,114 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q26",
         "reasons": [
-          "定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
+          "補充：定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
         ],
-        "citationRank": 2,
+        "citationRank": 3,
         "citationBlockCount": 11,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
+    "block-151": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q48",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q48",
+        "questionNumber": 48,
+        "question": "參考下圖繪圖結果，當Epochs=6 時，訓練曲線值(0.81)明顯大於驗證曲線值(0.72)， 下列何者為最可能的原因？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：訓練集損失低、準確率高，是過擬合的一端"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-152": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q15",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q15",
+        "questionNumber": 15,
+        "question": "某資料工程師在建構大規模影像資料處理流程時，需要處理數千萬筆訓練影像，並發 現模型出現嚴重的過度擬合（Overfitting）：訓練集準確率達 99%，但驗證集僅有 72%。 在不改變模型架構的前提下，下列哪一項「資料處理層面」的調整最無法有效改善過度 擬合，甚至可能使問題惡化？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明訓練好、新資料差即過擬合，助判讀題幹；驗證集表現明顯低於訓練集，即過擬合表徵"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q13",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q13",
+        "questionNumber": 13,
+        "question": "某工程師訓練文本情感分類模型，訓練集 F1=0.96、驗證集 F1=0.71，落差明顯， 顯示模型出現過擬合。下列哪一種策略能最直接從降低模型複雜度的角度緩解過 擬合？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：正則化限制模型複雜度，可提升泛化能力。；說明驗證表現明顯低於訓練集即過擬合。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q48",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q48",
+        "questionNumber": 48,
+        "question": "參考下圖繪圖結果，當Epochs=6 時，訓練曲線值(0.81)明顯大於驗證曲線值(0.72)， 下列何者為最可能的原因？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明訓練表現好、新資料變差即是過擬合；驗證準確率明顯低於訓練集，符合過擬合"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
     "block-153": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q2",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q2",
+        "questionNumber": 2,
+        "question": "在建立迴歸或分類模型時，若希望避免模型過度擬合（Overfitting），可 透過加入正則化項以限制模型的複雜度。其中，L1正則化（Lasso）的主 要效果為何？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：正則化以限制複雜度避免過擬合，助理解目的"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
       {
         "id": "mid_1141_s3:mid_1141_s3_q26",
         "examKey": "mid_1141_s3",
@@ -764,11 +1103,49 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q26",
         "reasons": [
-          "定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
+          "補充：定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 11,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q13",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q13",
+        "questionNumber": 13,
+        "question": "某工程師訓練文本情感分類模型，訓練集 F1=0.96、驗證集 F1=0.71，落差明顯， 顯示模型出現過擬合。下列哪一種策略能最直接從降低模型複雜度的角度緩解過 擬合？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：正則化限制模型複雜度，可提升泛化能力。；說明驗證表現明顯低於訓練集即過擬合。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 11,
-        "supplement": false,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q16",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q16",
+        "questionNumber": 16,
+        "question": "某資料科學家在信用評分任務中使用 XGBoost 建立模型，發現模型在訓練集表現 良好但驗證集出現過擬合跡象。他檢視其模型設計，發現 XGBoost 在目標函數 （Objective Function）中引入額外的正則化機制以控制模型複雜度。相較於傳統 梯度提升決策樹（GBDT），XGBoost 在其核心目標函數中加入了下列哪一種關鍵 設計，使其具備更強的防過擬合能力？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：正則化以複雜度懲罰抑制過擬合，直接對應A。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -786,11 +1163,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q26",
         "reasons": [
-          "定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
+          "補充：定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
         ],
-        "citationRank": 2,
+        "citationRank": 3,
         "citationBlockCount": 11,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -808,11 +1185,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q26",
         "reasons": [
-          "定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
+          "補充：定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
         ],
-        "citationRank": 2,
+        "citationRank": 3,
         "citationBlockCount": 11,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -830,11 +1207,69 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q26",
         "reasons": [
-          "定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
+          "補充：定義過擬合，指出模型過於複雜與訓練時間過長會造成過擬合，並說明正則化用於抑制過擬合、提升泛化能力。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 11,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q32",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q32",
+        "questionNumber": 32,
+        "question": "某電信公司開發客戶流失預測模型，使用大量顧客行為特徵，例如通話時 長、上網頻率、帳單金額、客服聯絡次數等。在訓練過程中，團隊發現部 分特徵彼此高度相關，但同時也懷疑有些特徵對流失預測的貢獻度有限。 若希望模型在避免過擬合（Overfitting）的同時，能自動篩選出較具代表 性的特徵，採用下列哪一種方法最為合適？",
+        "answer": "D",
+        "confidence": "high",
+        "referenceQuestionId": "exam3_q32",
+        "reasons": [
+          "說明 L1 會把部分權重縮為零，達成特徵選擇。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q7",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q7",
+        "questionNumber": 7,
+        "question": "某金融團隊建立信貸風險模型，特徵工程後共產生 200個變數，其中「月收入」、 「年收入」、「季收入」三者高度相關。模型上線後業務單位反映：每次重新訓練 後，模型輸出的重要特徵清單在這些高度相關特徵間反覆變動，難以向審查單位 解釋。請問下列何者為造成此現象最可能的原因？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "L1 使部分權重歸零以選特徵，支撐稀疏與特徵選擇。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 11,
+        "citationBlockCount": 1,
         "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q33",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q33",
+        "questionNumber": 33,
+        "question": "某工程師的多元線性迴歸模型包含 150個特徵，其中許多特徵高度相關（如「建 坪」與「總面積」）。他同時希望控制過擬合且保留所有特徵的解釋能力，不讓任 何特徵係數歸零，下列哪一項正則化方案最適當？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：L1會把部分權重縮為零；Elastic Net結合L1與L2"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -852,12 +1287,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q39",
         "reasons": [
-          "對比 L2 正則化與 Dropout 的機制，支持排除 L2 並選擇 Dropout。"
+          "補充：對比 L2 正則化與 Dropout 的機制，支持排除 L2 並選擇 Dropout。"
         ],
-        "citationRank": 2,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 5,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-158": [
@@ -874,12 +1309,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q39",
         "reasons": [
-          "對比 L2 正則化與 Dropout 的機制，支持排除 L2 並選擇 Dropout。"
+          "補充：對比 L2 正則化與 Dropout 的機制，支持排除 L2 並選擇 Dropout。"
         ],
-        "citationRank": 2,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 5,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q13",
@@ -893,12 +1328,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "直接支持 L2 防止權重過大，以及利用驗證損失進行早停以抑制過擬合的概念。"
+          "補充：直接支持 L2 防止權重過大，以及利用驗證損失進行早停以抑制過擬合的概念。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-159": [
@@ -914,12 +1349,33 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "直接支持 L2 防止權重過大，以及利用驗證損失進行早停以抑制過擬合的概念。"
+          "補充：直接支持 L2 防止權重過大，以及利用驗證損失進行早停以抑制過擬合的概念。"
+        ],
+        "citationRank": 5,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-160": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q33",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q33",
+        "questionNumber": 33,
+        "question": "某工程師的多元線性迴歸模型包含 150個特徵，其中許多特徵高度相關（如「建 坪」與「總面積」）。他同時希望控制過擬合且保留所有特徵的解釋能力，不讓任 何特徵係數歸零，下列哪一項正則化方案最適當？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：L1會把部分權重縮為零；Elastic Net結合L1與L2"
         ],
         "citationRank": 2,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-161": [
@@ -936,12 +1392,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q39",
         "reasons": [
-          "對比 L2 正則化與 Dropout 的機制，支持排除 L2 並選擇 Dropout。"
+          "補充：對比 L2 正則化與 Dropout 的機制，支持排除 L2 並選擇 Dropout。"
         ],
-        "citationRank": 2,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 5,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-162": [
@@ -958,12 +1414,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q39",
         "reasons": [
-          "對比 L2 正則化與 Dropout 的機制，支持排除 L2 並選擇 Dropout。"
+          "補充：隨機屏蔽神經元可降低過擬合，屬Dropout"
         ],
         "citationRank": 2,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q47",
@@ -977,12 +1433,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "直接說明 Dropout 在訓練時隨機屏蔽部分神經元，以降低神經元間的過度依賴與過擬合風險，支持描述 E，並協助辨別描述 D 的錯誤。"
+          "補充：直接說明 Dropout 在訓練時隨機屏蔽部分神經元，以降低神經元間的過度依賴與過擬合風險，支持描述 E，並協助辨別描述 D 的錯誤。"
         ],
-        "citationRank": 1,
+        "citationRank": 4,
         "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-163": [
@@ -998,12 +1454,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "直接說明 Dropout 在訓練時隨機屏蔽部分神經元，以降低神經元間的過度依賴與過擬合風險，支持描述 E，並協助辨別描述 D 的錯誤。"
+          "補充：直接說明 Dropout 在訓練時隨機屏蔽部分神經元，以降低神經元間的過度依賴與過擬合風險，支持描述 E，並協助辨別描述 D 的錯誤。"
         ],
-        "citationRank": 1,
+        "citationRank": 4,
         "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-164": [
@@ -1019,12 +1475,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "直接支持 L2 防止權重過大，以及利用驗證損失進行早停以抑制過擬合的概念。"
+          "補充：直接支持 L2 防止權重過大，以及利用驗證損失進行早停以抑制過擬合的概念。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-165": [
@@ -1040,12 +1496,33 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "直接支持 L2 防止權重過大，以及利用驗證損失進行早停以抑制過擬合的概念。"
+          "補充：直接支持 L2 防止權重過大，以及利用驗證損失進行早停以抑制過擬合的概念。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-175": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q49",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q49",
+        "questionNumber": 49,
+        "question": "參考下圖執行結果，下列何者正確？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：輸入層神經元數等於特徵數，可推第一層輸入維度。；前一層輸出即下一層輸入，可推第二層輸入維度。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-180": [
@@ -1061,12 +1538,12 @@
         "answer": "A",
         "confidence": "high",
         "reasons": [
-          "說明神經元經由非線性激活函數產生輸出，可用於區分激活函數與池化層的主要功能。"
+          "補充：說明神經元經由非線性激活函數產生輸出，可用於區分激活函數與池化層的主要功能。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 1,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-181": [
@@ -1082,12 +1559,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "支持隱藏層利用非線性激活函數學習複雜特徵，以及二元分類輸出層通常使用 Sigmoid 的用途區分。"
+          "補充：支持隱藏層利用非線性激活函數學習複雜特徵，以及二元分類輸出層通常使用 Sigmoid 的用途區分。"
         ],
-        "citationRank": 2,
+        "citationRank": 4,
         "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-182": [
@@ -1103,12 +1580,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "支持隱藏層利用非線性激活函數學習複雜特徵，以及二元分類輸出層通常使用 Sigmoid 的用途區分。"
+          "補充：支持隱藏層利用非線性激活函數學習複雜特徵，以及二元分類輸出層通常使用 Sigmoid 的用途區分。"
         ],
-        "citationRank": 2,
+        "citationRank": 4,
         "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-184": [
@@ -1124,12 +1601,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明輸出層的功能，以及多類別分類的輸出神經元數量應等於類別數量。"
+          "補充：說明輸出層的功能，以及多類別分類的輸出神經元數量應等於類別數量。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 3,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q40",
@@ -1143,12 +1620,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明多類別分類輸出層的神經元數量等於類別數量，並搭配 Softmax 輸出機率分佈。"
+          "補充：說明多類別分類輸出層的神經元數量等於類別數量，並搭配 Softmax 輸出機率分佈。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-185": [
@@ -1164,12 +1641,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明輸出層的功能，以及多類別分類的輸出神經元數量應等於類別數量。"
+          "補充：說明輸出層的功能，以及多類別分類的輸出神經元數量應等於類別數量。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 3,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q40",
@@ -1183,12 +1660,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明多類別分類輸出層的神經元數量等於類別數量，並搭配 Softmax 輸出機率分佈。"
+          "補充：說明多類別分類輸出層的神經元數量等於類別數量，並搭配 Softmax 輸出機率分佈。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-186": [
@@ -1204,12 +1681,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明輸出層的功能，以及多類別分類的輸出神經元數量應等於類別數量。"
+          "補充：說明輸出層的功能，以及多類別分類的輸出神經元數量應等於類別數量。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 3,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q40",
@@ -1223,12 +1700,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明多類別分類輸出層的神經元數量等於類別數量，並搭配 Softmax 輸出機率分佈。"
+          "補充：說明多類別分類輸出層的神經元數量等於類別數量，並搭配 Softmax 輸出機率分佈。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-187": [
@@ -1244,12 +1721,31 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "支持隱藏層利用非線性激活函數學習複雜特徵，以及二元分類輸出層通常使用 Sigmoid 的用途區分。"
+          "補充：支持隱藏層利用非線性激活函數學習複雜特徵，以及二元分類輸出層通常使用 Sigmoid 的用途區分。"
         ],
-        "citationRank": 2,
+        "citationRank": 4,
         "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q40",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q40",
+        "questionNumber": 40,
+        "question": "分析師準備建立一個能將手寫數字圖片（28x28像素展平為 784維度）分為 0~9共 10個類別的多層感知機（MLP），且標籤已轉為 One-Hot編碼（One-Hot Encoding）。 為符合 10 個類別的單標籤分類需求，下圖中的程式碼中(A)與(B)的函數應填入何 者？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：二元分類才用單一神經元和Sigmoid；分類輸出層通常接Softmax激活函數"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-188": [
@@ -1265,12 +1761,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "支持隱藏層利用非線性激活函數學習複雜特徵，以及二元分類輸出層通常使用 Sigmoid 的用途區分。"
+          "補充：支持隱藏層利用非線性激活函數學習複雜特徵，以及二元分類輸出層通常使用 Sigmoid 的用途區分。"
         ],
-        "citationRank": 2,
+        "citationRank": 4,
         "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-189": [
@@ -1286,12 +1782,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明輸出層的功能，以及多類別分類的輸出神經元數量應等於類別數量。"
+          "補充：多類別輸出維度等於類別數，可排除維度1選項。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q40",
@@ -1305,10 +1801,10 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明多類別分類輸出層的神經元數量等於類別數量，並搭配 Softmax 輸出機率分佈。"
+          "多類別分類輸出層用Softmax輸出各類別機率"
         ],
         "citationRank": 1,
-        "citationBlockCount": 5,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
       }
@@ -1326,12 +1822,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明輸出層的功能，以及多類別分類的輸出神經元數量應等於類別數量。"
+          "補充：說明輸出層的功能，以及多類別分類的輸出神經元數量應等於類別數量。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 3,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q40",
@@ -1345,12 +1841,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明多類別分類輸出層的神經元數量等於類別數量，並搭配 Softmax 輸出機率分佈。"
+          "補充：說明多類別分類輸出層的神經元數量等於類別數量，並搭配 Softmax 輸出機率分佈。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-227": [
@@ -1367,11 +1863,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明 CNN 的定義、卷積層會學習局部特徵、卷積核只關注小區域、權重共享可減少參數數量，以及 CNN 仍使用激活函數。"
+          "補充：說明 CNN 的定義、卷積層會學習局部特徵、卷積核只關注小區域、權重共享可減少參數數量，以及 CNN 仍使用激活函數。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 11,
-        "supplement": false,
+        "citationRank": 4,
+        "citationBlockCount": 10,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -1389,11 +1885,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明 CNN 的定義、卷積層會學習局部特徵、卷積核只關注小區域、權重共享可減少參數數量，以及 CNN 仍使用激活函數。"
+          "補充：說明卷積與池化能捕捉局部相關性與空間結構"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 11,
-        "supplement": false,
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -1411,11 +1907,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明 CNN 的定義、卷積層會學習局部特徵、卷積核只關注小區域、權重共享可減少參數數量，以及 CNN 仍使用激活函數。"
+          "補充：說明 CNN 的定義、卷積層會學習局部特徵、卷積核只關注小區域、權重共享可減少參數數量，以及 CNN 仍使用激活函數。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 11,
-        "supplement": false,
+        "citationRank": 4,
+        "citationBlockCount": 10,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -1431,11 +1927,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q42",
         "reasons": [
-          "說明卷積層使用卷積核並具權重共享，可減少模型參數數量，用來對比卷積層與全連接層的參數特性。"
+          "補充：說明卷積層使用卷積核並具權重共享，可減少模型參數數量，用來對比卷積層與全連接層的參數特性。"
         ],
-        "citationRank": 3,
+        "citationRank": 4,
         "citationBlockCount": 4,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -1453,11 +1949,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明 CNN 的定義、卷積層會學習局部特徵、卷積核只關注小區域、權重共享可減少參數數量，以及 CNN 仍使用激活函數。"
+          "補充：說明 CNN 的定義、卷積層會學習局部特徵、卷積核只關注小區域、權重共享可減少參數數量，以及 CNN 仍使用激活函數。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 11,
-        "supplement": false,
+        "citationRank": 4,
+        "citationBlockCount": 10,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -1475,11 +1971,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明 CNN 的定義、卷積層會學習局部特徵、卷積核只關注小區域、權重共享可減少參數數量，以及 CNN 仍使用激活函數。"
+          "補充：說明 CNN 的定義、卷積層會學習局部特徵、卷積核只關注小區域、權重共享可減少參數數量，以及 CNN 仍使用激活函數。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 11,
-        "supplement": false,
+        "citationRank": 4,
+        "citationBlockCount": 10,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -1497,11 +1993,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明 CNN 的定義、卷積層會學習局部特徵、卷積核只關注小區域、權重共享可減少參數數量，以及 CNN 仍使用激活函數。"
+          "補充：說明 CNN 的定義、卷積層會學習局部特徵、卷積核只關注小區域、權重共享可減少參數數量，以及 CNN 仍使用激活函數。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 11,
-        "supplement": false,
+        "citationRank": 4,
+        "citationBlockCount": 10,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -1517,11 +2013,30 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q42",
         "reasons": [
-          "說明卷積層使用卷積核並具權重共享，可減少模型參數數量，用來對比卷積層與全連接層的參數特性。"
+          "補充：說明卷積層使用卷積核並具權重共享，可減少模型參數數量，用來對比卷積層與全連接層的參數特性。"
         ],
-        "citationRank": 3,
+        "citationRank": 4,
         "citationBlockCount": 4,
-        "supplement": false,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q43",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q43",
+        "questionNumber": 43,
+        "question": "在神經網路中，了解各層的運算量分佈，有助於模型壓縮與硬體加速的策 略設計。請問在 VGG16中，下列何者運算量(FLOPs)最多？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：卷積核在輸入上滑動逐點運算，乘加次數多。；VGG堆疊多層3×3卷積，卷積運算量大。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -1539,11 +2054,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明 CNN 的定義、卷積層會學習局部特徵、卷積核只關注小區域、權重共享可減少參數數量，以及 CNN 仍使用激活函數。"
+          "補充：說明 CNN 的定義、卷積層會學習局部特徵、卷積核只關注小區域、權重共享可減少參數數量，以及 CNN 仍使用激活函數。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 11,
-        "supplement": false,
+        "citationRank": 4,
+        "citationBlockCount": 10,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -1559,11 +2074,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q42",
         "reasons": [
-          "說明卷積層使用卷積核並具權重共享，可減少模型參數數量，用來對比卷積層與全連接層的參數特性。"
+          "補充：說明卷積層使用卷積核並具權重共享，可減少模型參數數量，用來對比卷積層與全連接層的參數特性。"
         ],
-        "citationRank": 3,
+        "citationRank": 4,
         "citationBlockCount": 4,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -1581,11 +2096,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明 CNN 的定義、卷積層會學習局部特徵、卷積核只關注小區域、權重共享可減少參數數量，以及 CNN 仍使用激活函數。"
+          "補充：說明 CNN 的定義、卷積層會學習局部特徵、卷積核只關注小區域、權重共享可減少參數數量，以及 CNN 仍使用激活函數。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 11,
-        "supplement": false,
+        "citationRank": 4,
+        "citationBlockCount": 10,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -1601,11 +2116,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q42",
         "reasons": [
-          "說明卷積層使用卷積核並具權重共享，可減少模型參數數量，用來對比卷積層與全連接層的參數特性。"
+          "補充：說明卷積層使用卷積核並具權重共享，可減少模型參數數量，用來對比卷積層與全連接層的參數特性。"
         ],
-        "citationRank": 3,
+        "citationRank": 4,
         "citationBlockCount": 4,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -1623,11 +2138,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明 CNN 的定義、卷積層會學習局部特徵、卷積核只關注小區域、權重共享可減少參數數量，以及 CNN 仍使用激活函數。"
+          "補充：說明 CNN 的定義、卷積層會學習局部特徵、卷積核只關注小區域、權重共享可減少參數數量，以及 CNN 仍使用激活函數。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 11,
-        "supplement": false,
+        "citationRank": 4,
+        "citationBlockCount": 10,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -1645,11 +2160,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明 CNN 的定義、卷積層會學習局部特徵、卷積核只關注小區域、權重共享可減少參數數量，以及 CNN 仍使用激活函數。"
+          "補充：說明 CNN 的定義、卷積層會學習局部特徵、卷積核只關注小區域、權重共享可減少參數數量，以及 CNN 仍使用激活函數。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 11,
-        "supplement": false,
+        "citationRank": 4,
+        "citationBlockCount": 10,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -1667,12 +2182,31 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明 CNN 的定義、卷積層會學習局部特徵、卷積核只關注小區域、權重共享可減少參數數量，以及 CNN 仍使用激活函數。"
+          "補充：說明 CNN 的定義、卷積層會學習局部特徵、卷積核只關注小區域、權重共享可減少參數數量，以及 CNN 仍使用激活函數。"
+        ],
+        "citationRank": 4,
+        "citationBlockCount": 10,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q27",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q27",
+        "questionNumber": 27,
+        "question": "某智慧製造團隊在開發瑕疵影像檢測模型時，發現使用線性激活函數 （Activation Function）後，模型的訓練準確率長期停滯，懷疑模型無法 學習到足夠複雜的特徵表達。若要改善此問題，下列哪一項調整方案最為 合適？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明線性激活使多層網路等同單層線性模型；指出卷積輸出常用ReLU非線性激活以提升表達能力"
         ],
         "citationRank": 1,
-        "citationBlockCount": 11,
+        "citationBlockCount": 2,
         "supplement": false,
-        "prominence": "secondary"
+        "prominence": "primary"
       }
     ],
     "block-243": [
@@ -1689,11 +2223,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明池化可減少計算量，CNN 能自動特徵提取，且權重共享與局部連接可降低參數量與模型複雜度，並高效處理高維影像資料。"
+          "補充：說明池化可減少計算量，CNN 能自動特徵提取，且權重共享與局部連接可降低參數量與模型複雜度，並高效處理高維影像資料。"
         ],
-        "citationRank": 2,
-        "citationBlockCount": 11,
-        "supplement": false,
+        "citationRank": 5,
+        "citationBlockCount": 10,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -1709,11 +2243,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q42",
         "reasons": [
-          "說明池化層用於降採樣、減少計算量與保留重要特徵，支持其不是參數量最多層的判斷。"
+          "補充：說明池化層用於降採樣、減少計算量與保留重要特徵，支持其不是參數量最多層的判斷。"
         ],
-        "citationRank": 6,
+        "citationRank": 7,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -1729,15 +2263,35 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q44",
         "reasons": [
-          "說明池化層縮減特徵映射、全連接層前需扁平化、訓練會更新權重與偏置，以及大型 CNN 訓練需要大量 GPU 資源。"
+          "補充：說明池化層縮減特徵映射、全連接層前需扁平化、訓練會更新權重與偏置，以及大型 CNN 訓練需要大量 GPU 資源。"
         ],
-        "citationRank": 1,
+        "citationRank": 2,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-244": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q8",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q8",
+        "questionNumber": 8,
+        "question": "關於Softmax 與Max-Pooling，下列敘述何者正確？",
+        "answer": "C",
+        "confidence": "high",
+        "referenceQuestionId": "exam1_q8",
+        "reasons": [
+          "補充：池化降採樣並保留重要特徵，助區別於Softmax"
+        ],
+        "citationRank": 4,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
       {
         "id": "mid_1141_s3:mid_1141_s3_q6",
         "examKey": "mid_1141_s3",
@@ -1751,11 +2305,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明池化可減少計算量，CNN 能自動特徵提取，且權重共享與局部連接可降低參數量與模型複雜度，並高效處理高維影像資料。"
+          "補充：說明池化可減少計算量，CNN 能自動特徵提取，且權重共享與局部連接可降低參數量與模型複雜度，並高效處理高維影像資料。"
         ],
-        "citationRank": 2,
-        "citationBlockCount": 11,
-        "supplement": false,
+        "citationRank": 5,
+        "citationBlockCount": 10,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -1771,11 +2325,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q42",
         "reasons": [
-          "說明池化層用於降採樣、減少計算量與保留重要特徵，支持其不是參數量最多層的判斷。"
+          "補充：說明池化層用於降採樣、減少計算量與保留重要特徵，支持其不是參數量最多層的判斷。"
         ],
-        "citationRank": 6,
+        "citationRank": 7,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -1791,12 +2345,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q44",
         "reasons": [
-          "說明池化層縮減特徵映射、全連接層前需扁平化、訓練會更新權重與偏置，以及大型 CNN 訓練需要大量 GPU 資源。"
+          "補充：說明池化層縮減特徵映射、全連接層前需扁平化、訓練會更新權重與偏置，以及大型 CNN 訓練需要大量 GPU 資源。"
         ],
-        "citationRank": 1,
+        "citationRank": 2,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q18",
@@ -1810,10 +2364,10 @@
         "answer": "A",
         "confidence": "high",
         "reasons": [
-          "直接說明池化縮減特徵映射尺寸、降低計算量、增加平移不變性，以及特徵展平後輸入全連接層的流程。"
+          "池化降採樣縮小特徵圖，直接降低計算量"
         ],
         "citationRank": 1,
-        "citationBlockCount": 9,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
       }
@@ -1831,12 +2385,12 @@
         "answer": "A",
         "confidence": "high",
         "reasons": [
-          "直接說明池化縮減特徵映射尺寸、降低計算量、增加平移不變性，以及特徵展平後輸入全連接層的流程。"
+          "補充：直接說明池化縮減特徵映射尺寸、降低計算量、增加平移不變性，以及特徵展平後輸入全連接層的流程。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 9,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 7,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-246": [
@@ -1852,15 +2406,35 @@
         "answer": "A",
         "confidence": "high",
         "reasons": [
-          "直接說明池化縮減特徵映射尺寸、降低計算量、增加平移不變性，以及特徵展平後輸入全連接層的流程。"
+          "補充：直接說明池化縮減特徵映射尺寸、降低計算量、增加平移不變性，以及特徵展平後輸入全連接層的流程。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 9,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 7,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-247": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q8",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q8",
+        "questionNumber": 8,
+        "question": "關於Softmax 與Max-Pooling，下列敘述何者正確？",
+        "answer": "C",
+        "confidence": "high",
+        "referenceQuestionId": "exam1_q8",
+        "reasons": [
+          "最大池化只取區域最大值，非壓縮成單一最大值"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      },
       {
         "id": "mid_1141_s3:mid_1141_s3_q42",
         "examKey": "mid_1141_s3",
@@ -1874,11 +2448,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q42",
         "reasons": [
-          "說明池化層用於降採樣、減少計算量與保留重要特徵，支持其不是參數量最多層的判斷。"
+          "補充：說明池化層用於降採樣、減少計算量與保留重要特徵，支持其不是參數量最多層的判斷。"
         ],
-        "citationRank": 6,
+        "citationRank": 7,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -1893,12 +2467,12 @@
         "answer": "A",
         "confidence": "high",
         "reasons": [
-          "直接說明池化縮減特徵映射尺寸、降低計算量、增加平移不變性，以及特徵展平後輸入全連接層的流程。"
+          "補充：直接說明池化縮減特徵映射尺寸、降低計算量、增加平移不變性，以及特徵展平後輸入全連接層的流程。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 9,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 7,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-248": [
@@ -1914,12 +2488,12 @@
         "answer": "A",
         "confidence": "high",
         "reasons": [
-          "直接說明池化縮減特徵映射尺寸、降低計算量、增加平移不變性，以及特徵展平後輸入全連接層的流程。"
+          "補充：直接說明池化縮減特徵映射尺寸、降低計算量、增加平移不變性，以及特徵展平後輸入全連接層的流程。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 9,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 7,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-249": [
@@ -1936,11 +2510,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q42",
         "reasons": [
-          "說明池化層用於降採樣、減少計算量與保留重要特徵，支持其不是參數量最多層的判斷。"
+          "補充：說明池化層用於降採樣、減少計算量與保留重要特徵，支持其不是參數量最多層的判斷。"
         ],
-        "citationRank": 6,
+        "citationRank": 7,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -1955,12 +2529,12 @@
         "answer": "A",
         "confidence": "high",
         "reasons": [
-          "直接說明池化縮減特徵映射尺寸、降低計算量、增加平移不變性，以及特徵展平後輸入全連接層的流程。"
+          "補充：直接說明池化縮減特徵映射尺寸、降低計算量、增加平移不變性，以及特徵展平後輸入全連接層的流程。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 9,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 7,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-250": [
@@ -1977,11 +2551,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q42",
         "reasons": [
-          "說明池化層用於降採樣、減少計算量與保留重要特徵，支持其不是參數量最多層的判斷。"
+          "補充：說明池化層用於降採樣、減少計算量與保留重要特徵，支持其不是參數量最多層的判斷。"
         ],
-        "citationRank": 6,
+        "citationRank": 7,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -1999,11 +2573,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明池化可減少計算量，CNN 能自動特徵提取，且權重共享與局部連接可降低參數量與模型複雜度，並高效處理高維影像資料。"
+          "補充：說明池化可減少計算量，CNN 能自動特徵提取，且權重共享與局部連接可降低參數量與模型複雜度，並高效處理高維影像資料。"
         ],
-        "citationRank": 2,
-        "citationBlockCount": 11,
-        "supplement": false,
+        "citationRank": 5,
+        "citationBlockCount": 10,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -2019,12 +2593,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q42",
         "reasons": [
-          "說明 CNN 後段全連接層會將卷積與池化後的特徵展平，並負責最終分類或迴歸，是判斷 Linear 層參數量來源的核心依據。"
+          "補充：說明 CNN 後段全連接層會將卷積與池化後的特徵展平，並負責最終分類或迴歸，是判斷 Linear 層參數量來源的核心依據。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 2,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1141_s3:mid_1141_s3_q44",
@@ -2039,15 +2613,35 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q44",
         "reasons": [
-          "說明池化層縮減特徵映射、全連接層前需扁平化、訓練會更新權重與偏置，以及大型 CNN 訓練需要大量 GPU 資源。"
+          "補充：說明池化層縮減特徵映射、全連接層前需扁平化、訓練會更新權重與偏置，以及大型 CNN 訓練需要大量 GPU 資源。"
         ],
-        "citationRank": 1,
+        "citationRank": 2,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-252": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q5",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q5",
+        "questionNumber": 5,
+        "question": "某智慧製造公司開發一套影像辨識系統，用於自動檢測生產線上的瑕疵產 品。系統採用卷積神經網路（Convolutional Neural Network, CNN）作為 主要模型架構，其中第一層卷積層（Convolutional Layer）主要負責的功 能為下列何者？",
+        "answer": "A",
+        "confidence": "high",
+        "referenceQuestionId": "exam3_q5",
+        "reasons": [
+          "補充：卷積後才展平送入全連接層處理分類"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
       {
         "id": "mid_1141_s3:mid_1141_s3_q6",
         "examKey": "mid_1141_s3",
@@ -2061,11 +2655,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明池化可減少計算量，CNN 能自動特徵提取，且權重共享與局部連接可降低參數量與模型複雜度，並高效處理高維影像資料。"
+          "補充：說明池化可減少計算量，CNN 能自動特徵提取，且權重共享與局部連接可降低參數量與模型複雜度，並高效處理高維影像資料。"
         ],
-        "citationRank": 2,
-        "citationBlockCount": 11,
-        "supplement": false,
+        "citationRank": 5,
+        "citationBlockCount": 10,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -2081,12 +2675,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q42",
         "reasons": [
-          "說明 CNN 後段全連接層會將卷積與池化後的特徵展平，並負責最終分類或迴歸，是判斷 Linear 層參數量來源的核心依據。"
+          "補充：說明 CNN 後段全連接層會將卷積與池化後的特徵展平，並負責最終分類或迴歸，是判斷 Linear 層參數量來源的核心依據。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 2,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1141_s3:mid_1141_s3_q44",
@@ -2101,10 +2695,29 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q44",
         "reasons": [
-          "說明池化層縮減特徵映射、全連接層前需扁平化、訓練會更新權重與偏置，以及大型 CNN 訓練需要大量 GPU 資源。"
+          "補充：說明池化層縮減特徵映射、全連接層前需扁平化、訓練會更新權重與偏置，以及大型 CNN 訓練需要大量 GPU 資源。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 8,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q32",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q32",
+        "questionNumber": 32,
+        "question": "某工程師正在實作一個 CNN 影像分類模型，在 PyTorch 中定義模型架構時，需 要在卷積擷取特徵後接上全連結層（Fully Connected Layer）進行分類。在模型程 式碼中，需要在卷積輸出與全連結層之間插入什麼操作？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "指出卷積特徵需展平成一維向量再接全連接層"
         ],
         "citationRank": 1,
-        "citationBlockCount": 8,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
       },
@@ -2120,12 +2733,12 @@
         "answer": "A",
         "confidence": "high",
         "reasons": [
-          "直接說明池化縮減特徵映射尺寸、降低計算量、增加平移不變性，以及特徵展平後輸入全連接層的流程。"
+          "補充：特徵圖經池化縮小後展平，全連接層輸入隨之減少"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 9,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-253": [
@@ -2142,11 +2755,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明池化可減少計算量，CNN 能自動特徵提取，且權重共享與局部連接可降低參數量與模型複雜度，並高效處理高維影像資料。"
+          "補充：說明池化可減少計算量，CNN 能自動特徵提取，且權重共享與局部連接可降低參數量與模型複雜度，並高效處理高維影像資料。"
         ],
-        "citationRank": 2,
-        "citationBlockCount": 11,
-        "supplement": false,
+        "citationRank": 5,
+        "citationBlockCount": 10,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -2162,12 +2775,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q42",
         "reasons": [
-          "說明 CNN 後段全連接層會將卷積與池化後的特徵展平，並負責最終分類或迴歸，是判斷 Linear 層參數量來源的核心依據。"
+          "補充：卷積權重共享可減少參數，對照全連接層參數較多；全連接層負責組合特徵做分類，是參數密集處"
         ],
         "citationRank": 1,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1141_s3:mid_1141_s3_q44",
@@ -2182,12 +2795,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q44",
         "reasons": [
-          "說明池化層縮減特徵映射、全連接層前需扁平化、訓練會更新權重與偏置，以及大型 CNN 訓練需要大量 GPU 資源。"
+          "補充：說明池化層縮減特徵映射、全連接層前需扁平化、訓練會更新權重與偏置，以及大型 CNN 訓練需要大量 GPU 資源。"
         ],
-        "citationRank": 1,
+        "citationRank": 2,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q18",
@@ -2201,12 +2814,12 @@
         "answer": "A",
         "confidence": "high",
         "reasons": [
-          "直接說明池化縮減特徵映射尺寸、降低計算量、增加平移不變性，以及特徵展平後輸入全連接層的流程。"
+          "補充：直接說明池化縮減特徵映射尺寸、降低計算量、增加平移不變性，以及特徵展平後輸入全連接層的流程。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 9,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 7,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-254": [
@@ -2223,12 +2836,31 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q42",
         "reasons": [
-          "說明 CNN 後段全連接層會將卷積與池化後的特徵展平，並負責最終分類或迴歸，是判斷 Linear 層參數量來源的核心依據。"
+          "補充：說明 CNN 後段全連接層會將卷積與池化後的特徵展平，並負責最終分類或迴歸，是判斷 Linear 層參數量來源的核心依據。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 4,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 2,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q32",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q32",
+        "questionNumber": 32,
+        "question": "某工程師正在實作一個 CNN 影像分類模型，在 PyTorch 中定義模型架構時，需 要在卷積擷取特徵後接上全連結層（Fully Connected Layer）進行分類。在模型程 式碼中，需要在卷積輸出與全連結層之間插入什麼操作？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：Softmax接在全連接層後，可排除選項D"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q18",
@@ -2242,12 +2874,31 @@
         "answer": "A",
         "confidence": "high",
         "reasons": [
-          "直接說明池化縮減特徵映射尺寸、降低計算量、增加平移不變性，以及特徵展平後輸入全連接層的流程。"
+          "補充：直接說明池化縮減特徵映射尺寸、降低計算量、增加平移不變性，以及特徵展平後輸入全連接層的流程。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 9,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 7,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q40",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q40",
+        "questionNumber": 40,
+        "question": "分析師準備建立一個能將手寫數字圖片（28x28像素展平為 784維度）分為 0~9共 10個類別的多層感知機（MLP），且標籤已轉為 One-Hot編碼（One-Hot Encoding）。 為符合 10 個類別的單標籤分類需求，下圖中的程式碼中(A)與(B)的函數應填入何 者？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：二元分類才用單一神經元和Sigmoid；分類輸出層通常接Softmax激活函數"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-259": [
@@ -2264,12 +2915,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q44",
         "reasons": [
-          "說明池化層縮減特徵映射、全連接層前需扁平化、訓練會更新權重與偏置，以及大型 CNN 訓練需要大量 GPU 資源。"
+          "補充：說明池化層縮減特徵映射、全連接層前需扁平化、訓練會更新權重與偏置，以及大型 CNN 訓練需要大量 GPU 資源。"
         ],
-        "citationRank": 1,
+        "citationRank": 2,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-261": [
@@ -2286,11 +2937,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明池化可減少計算量，CNN 能自動特徵提取，且權重共享與局部連接可降低參數量與模型複雜度，並高效處理高維影像資料。"
+          "補充：說明池化可減少計算量，CNN 能自動特徵提取，且權重共享與局部連接可降低參數量與模型複雜度，並高效處理高維影像資料。"
         ],
-        "citationRank": 2,
-        "citationBlockCount": 11,
-        "supplement": false,
+        "citationRank": 5,
+        "citationBlockCount": 10,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -2308,11 +2959,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明池化可減少計算量，CNN 能自動特徵提取，且權重共享與局部連接可降低參數量與模型複雜度，並高效處理高維影像資料。"
+          "補充：說明池化可減少計算量，CNN 能自動特徵提取，且權重共享與局部連接可降低參數量與模型複雜度，並高效處理高維影像資料。"
         ],
-        "citationRank": 2,
-        "citationBlockCount": 11,
-        "supplement": false,
+        "citationRank": 5,
+        "citationBlockCount": 10,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -2330,11 +2981,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明池化可減少計算量，CNN 能自動特徵提取，且權重共享與局部連接可降低參數量與模型複雜度，並高效處理高維影像資料。"
+          "補充：說明池化可減少計算量，CNN 能自動特徵提取，且權重共享與局部連接可降低參數量與模型複雜度，並高效處理高維影像資料。"
         ],
-        "citationRank": 2,
-        "citationBlockCount": 11,
-        "supplement": false,
+        "citationRank": 5,
+        "citationBlockCount": 10,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -2352,11 +3003,31 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明池化可減少計算量，CNN 能自動特徵提取，且權重共享與局部連接可降低參數量與模型複雜度，並高效處理高維影像資料。"
+          "權重共享與局部連接可直接降低參數量與運算複雜度"
         ],
-        "citationRank": 2,
-        "citationBlockCount": 11,
+        "citationRank": 1,
+        "citationBlockCount": 1,
         "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q42",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q42",
+        "questionNumber": 42,
+        "question": "在深度神經網路中，不同層的參數量（parameter count）差異極大。有些 層雖然數量少但計算量大，有些則相反。了解參數分佈情形，有助於模型 壓縮與遷移學習設計。請問在 VGG16中，下列何者的參數量最多？",
+        "answer": "B",
+        "confidence": "high",
+        "referenceQuestionId": "exam3_q42",
+        "reasons": [
+          "補充：卷積權重共享可減少參數，對照全連接層參數較多；全連接層負責組合特徵做分類，是參數密集處"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -2374,11 +3045,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明池化可減少計算量，CNN 能自動特徵提取，且權重共享與局部連接可降低參數量與模型複雜度，並高效處理高維影像資料。"
+          "補充：說明池化可減少計算量，CNN 能自動特徵提取，且權重共享與局部連接可降低參數量與模型複雜度，並高效處理高維影像資料。"
         ],
-        "citationRank": 2,
-        "citationBlockCount": 11,
-        "supplement": false,
+        "citationRank": 5,
+        "citationBlockCount": 10,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -2396,11 +3067,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "說明池化可減少計算量，CNN 能自動特徵提取，且權重共享與局部連接可降低參數量與模型複雜度，並高效處理高維影像資料。"
+          "補充：說明池化可減少計算量，CNN 能自動特徵提取，且權重共享與局部連接可降低參數量與模型複雜度，並高效處理高維影像資料。"
         ],
-        "citationRank": 2,
-        "citationBlockCount": 11,
-        "supplement": false,
+        "citationRank": 5,
+        "citationBlockCount": 10,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -2418,12 +3089,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q44",
         "reasons": [
-          "說明池化層縮減特徵映射、全連接層前需扁平化、訓練會更新權重與偏置，以及大型 CNN 訓練需要大量 GPU 資源。"
+          "補充：說明池化層縮減特徵映射、全連接層前需扁平化、訓練會更新權重與偏置，以及大型 CNN 訓練需要大量 GPU 資源。"
         ],
-        "citationRank": 1,
+        "citationRank": 2,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-271": [
@@ -2440,12 +3111,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q44",
         "reasons": [
-          "說明池化層縮減特徵映射、全連接層前需扁平化、訓練會更新權重與偏置，以及大型 CNN 訓練需要大量 GPU 資源。"
+          "補充：說明池化層縮減特徵映射、全連接層前需扁平化、訓練會更新權重與偏置，以及大型 CNN 訓練需要大量 GPU 資源。"
         ],
-        "citationRank": 1,
+        "citationRank": 2,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-276": [
@@ -2462,11 +3133,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "用於判斷選項 A：CNN 對旋轉與尺度變化並非完全不變；同時確認 CNN 適用於圖像辨識與分類。"
+          "補充：用於判斷選項 A：CNN 對旋轉與尺度變化並非完全不變；同時確認 CNN 適用於圖像辨識與分類。"
         ],
-        "citationRank": 4,
+        "citationRank": 7,
         "citationBlockCount": 4,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -2484,11 +3155,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "用於判斷選項 A：CNN 對旋轉與尺度變化並非完全不變；同時確認 CNN 適用於圖像辨識與分類。"
+          "補充：用於判斷選項 A：CNN 對旋轉與尺度變化並非完全不變；同時確認 CNN 適用於圖像辨識與分類。"
         ],
-        "citationRank": 4,
+        "citationRank": 7,
         "citationBlockCount": 4,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -2506,11 +3177,11 @@
         "confidence": "medium",
         "referenceQuestionId": "exam3_q45",
         "reasons": [
-          "說明 CNN 主要成功應用於圖像辨識與分類，並補充 VGG 架構特色，支撐以 VGG16 卷積層抽取影像特徵、以分類器處理新任務的解釋。"
+          "補充：說明 CNN 主要成功應用於圖像辨識與分類，並補充 VGG 架構特色，支撐以 VGG16 卷積層抽取影像特徵、以分類器處理新任務的解釋。"
         ],
-        "citationRank": 3,
+        "citationRank": 5,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -2528,11 +3199,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "用於判斷選項 A：CNN 對旋轉與尺度變化並非完全不變；同時確認 CNN 適用於圖像辨識與分類。"
+          "補充：用於判斷選項 A：CNN 對旋轉與尺度變化並非完全不變；同時確認 CNN 適用於圖像辨識與分類。"
         ],
-        "citationRank": 4,
+        "citationRank": 7,
         "citationBlockCount": 4,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -2548,11 +3219,11 @@
         "confidence": "medium",
         "referenceQuestionId": "exam3_q45",
         "reasons": [
-          "說明 CNN 主要成功應用於圖像辨識與分類，並補充 VGG 架構特色，支撐以 VGG16 卷積層抽取影像特徵、以分類器處理新任務的解釋。"
+          "補充：說明 CNN 主要成功應用於圖像辨識與分類，並補充 VGG 架構特色，支撐以 VGG16 卷積層抽取影像特徵、以分類器處理新任務的解釋。"
         ],
-        "citationRank": 3,
+        "citationRank": 5,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -2570,11 +3241,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q6",
         "reasons": [
-          "用於判斷選項 A：CNN 對旋轉與尺度變化並非完全不變；同時確認 CNN 適用於圖像辨識與分類。"
+          "補充：用於判斷選項 A：CNN 對旋轉與尺度變化並非完全不變；同時確認 CNN 適用於圖像辨識與分類。"
         ],
-        "citationRank": 4,
+        "citationRank": 7,
         "citationBlockCount": 4,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       },
       {
@@ -2590,37 +3261,35 @@
         "confidence": "medium",
         "referenceQuestionId": "exam3_q45",
         "reasons": [
-          "說明 CNN 主要成功應用於圖像辨識與分類，並補充 VGG 架構特色，支撐以 VGG16 卷積層抽取影像特徵、以分類器處理新任務的解釋。"
+          "補充：說明 CNN 主要成功應用於圖像辨識與分類，並補充 VGG 架構特色，支撐以 VGG16 卷積層抽取影像特徵、以分類器處理新任務的解釋。"
         ],
-        "citationRank": 3,
+        "citationRank": 5,
         "citationBlockCount": 5,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
     "block-290": [
       {
-        "id": "mid_1141_s3:mid_1141_s3_q45",
+        "id": "mid_1141_s3:mid_1141_s3_q44",
         "examKey": "mid_1141_s3",
         "examLabel": "科目三 公告試題（114年第二梯次）",
         "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
         "route": "/exam/mid_1141_s3",
-        "questionId": "mid_1141_s3_q45",
-        "questionNumber": 45,
-        "question": "在實務應用中，我們常使用遷移學習(transfer learning)技巧，即載入預 訓練模型（如VGG16），凍結部分層的參數，只針對特定任務重新訓練最後 幾層，這種做法可節省訓練時間並提升模型效能。假設你要對 VGG16 進行 遷移學習(transfer learning)，希望凍結卷積層的參數，只訓練最後全連 接層(classifier)。下列哪段程式碼寫法正確？",
-        "answer": "B",
-        "confidence": "medium",
-        "referenceQuestionId": "exam3_q45",
+        "questionId": "mid_1141_s3_q44",
+        "questionNumber": 44,
+        "question": "VGG16層數深且結構規則，由多層卷積、池化及全連接層組成。了解各層 的輸入/輸出維度、參數量及記憶體需求，有助於掌握 CNN模型的組成邏輯 與實作技巧。根據 VGG16的模型架構，下列敘述何者正確？",
+        "answer": "D",
+        "confidence": "high",
+        "referenceQuestionId": "exam3_q44",
         "reasons": [
-          "說明 CNN 主要成功應用於圖像辨識與分類，並補充 VGG 架構特色，支撐以 VGG16 卷積層抽取影像特徵、以分類器處理新任務的解釋。"
+          "補充：直接說明VGG16的層數與參數量，可判定正確敘述。；說明VGG以深層且規則的3×3卷積堆疊組成。"
         ],
-        "citationRank": 3,
-        "citationBlockCount": 5,
-        "supplement": false,
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
         "prominence": "secondary"
-      }
-    ],
-    "block-291": [
+      },
       {
         "id": "mid_1141_s3:mid_1141_s3_q45",
         "examKey": "mid_1141_s3",
@@ -2634,11 +3303,133 @@
         "confidence": "medium",
         "referenceQuestionId": "exam3_q45",
         "reasons": [
-          "說明 CNN 主要成功應用於圖像辨識與分類，並補充 VGG 架構特色，支撐以 VGG16 卷積層抽取影像特徵、以分類器處理新任務的解釋。"
+          "補充：說明 CNN 主要成功應用於圖像辨識與分類，並補充 VGG 架構特色，支撐以 VGG16 卷積層抽取影像特徵、以分類器處理新任務的解釋。"
         ],
-        "citationRank": 3,
+        "citationRank": 5,
         "citationBlockCount": 5,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-291": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q43",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q43",
+        "questionNumber": 43,
+        "question": "在神經網路中，了解各層的運算量分佈，有助於模型壓縮與硬體加速的策 略設計。請問在 VGG16中，下列何者運算量(FLOPs)最多？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：卷積核在輸入上滑動逐點運算，乘加次數多。；VGG堆疊多層3×3卷積，卷積運算量大。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q44",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q44",
+        "questionNumber": 44,
+        "question": "VGG16層數深且結構規則，由多層卷積、池化及全連接層組成。了解各層 的輸入/輸出維度、參數量及記憶體需求，有助於掌握 CNN模型的組成邏輯 與實作技巧。根據 VGG16的模型架構，下列敘述何者正確？",
+        "answer": "D",
+        "confidence": "high",
+        "referenceQuestionId": "exam3_q44",
+        "reasons": [
+          "補充：直接說明VGG16的層數與參數量，可判定正確敘述。；說明VGG以深層且規則的3×3卷積堆疊組成。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q45",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q45",
+        "questionNumber": 45,
+        "question": "在實務應用中，我們常使用遷移學習(transfer learning)技巧，即載入預 訓練模型（如VGG16），凍結部分層的參數，只針對特定任務重新訓練最後 幾層，這種做法可節省訓練時間並提升模型效能。假設你要對 VGG16 進行 遷移學習(transfer learning)，希望凍結卷積層的參數，只訓練最後全連 接層(classifier)。下列哪段程式碼寫法正確？",
+        "answer": "B",
+        "confidence": "medium",
+        "referenceQuestionId": "exam3_q45",
+        "reasons": [
+          "補充：說明 CNN 主要成功應用於圖像辨識與分類，並補充 VGG 架構特色，支撐以 VGG16 卷積層抽取影像特徵、以分類器處理新任務的解釋。"
+        ],
+        "citationRank": 5,
+        "citationBlockCount": 5,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-295": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q17",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q17",
+        "questionNumber": 17,
+        "question": "某醫療新創團隊將原有 3層CNN升級為16層架構以提升 CT影像腫瘤偵測率， 但發現訓練損失反而高於 3層版本且收斂困難。工程師懷疑是網路深度造成的訓 練問題，下列診斷與對策何者最正確？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "殘差連接可解決深層網路的梯度消失與退化問題。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
         "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q49",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q49",
+        "questionNumber": 49,
+        "question": "若團隊需要建立一個超過50層的深層神經網路，以捕捉晶圓表面細微的劃傷特徵， 但又擔心傳統深層網路常見的梯度消失（Vanishing Gradient）問題，則下列哪一種 經典架構最適合優先考慮？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "殘差連接可解決梯度消失與退化，支援極深網路。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-339": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q49",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q49",
+        "questionNumber": 49,
+        "question": "若團隊需要建立一個超過50層的深層神經網路，以捕捉晶圓表面細微的劃傷特徵， 但又擔心傳統深層網路常見的梯度消失（Vanishing Gradient）問題，則下列哪一種 經典架構最適合優先考慮？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：跳躍連接能緩解深層網路梯度消失，加速收斂。；梯度在反向傳播中呈指數衰減，說明問題成因。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -2655,12 +3446,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明 LSTM 的門控與細胞狀態，以及雙向循環網路結合前後上下文的方式，作為原模型能力的比較基礎。"
+          "補充：說明 LSTM 的門控與細胞狀態，以及雙向循環網路結合前後上下文的方式，作為原模型能力的比較基礎。"
         ],
-        "citationRank": 1,
+        "citationRank": 4,
         "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-358": [
@@ -2676,12 +3467,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明 LSTM 的門控與細胞狀態，以及雙向循環網路結合前後上下文的方式，作為原模型能力的比較基礎。"
+          "補充：說明 LSTM 的門控與細胞狀態，以及雙向循環網路結合前後上下文的方式，作為原模型能力的比較基礎。"
         ],
-        "citationRank": 1,
+        "citationRank": 4,
         "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-359": [
@@ -2697,12 +3488,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明 LSTM 的門控與細胞狀態，以及雙向循環網路結合前後上下文的方式，作為原模型能力的比較基礎。"
+          "補充：說明 LSTM 的門控與細胞狀態，以及雙向循環網路結合前後上下文的方式，作為原模型能力的比較基礎。"
         ],
-        "citationRank": 1,
+        "citationRank": 4,
         "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-363": [
@@ -2718,12 +3509,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明 LSTM 的門控與細胞狀態，以及雙向循環網路結合前後上下文的方式，作為原模型能力的比較基礎。"
+          "補充：說明 LSTM 的門控與細胞狀態，以及雙向循環網路結合前後上下文的方式，作為原模型能力的比較基礎。"
         ],
-        "citationRank": 1,
+        "citationRank": 4,
         "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-364": [
@@ -2739,12 +3530,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明 LSTM 的門控與細胞狀態，以及雙向循環網路結合前後上下文的方式，作為原模型能力的比較基礎。"
+          "補充：說明 LSTM 的門控與細胞狀態，以及雙向循環網路結合前後上下文的方式，作為原模型能力的比較基礎。"
         ],
-        "citationRank": 1,
+        "citationRank": 4,
         "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-365": [
@@ -2760,10 +3551,197 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明 LSTM 的門控與細胞狀態，以及雙向循環網路結合前後上下文的方式，作為原模型能力的比較基礎。"
+          "補充：說明 LSTM 的門控與細胞狀態，以及雙向循環網路結合前後上下文的方式，作為原模型能力的比較基礎。"
+        ],
+        "citationRank": 4,
+        "citationBlockCount": 6,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-370": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q2",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q2",
+        "questionNumber": 2,
+        "question": "某跨國金融科技公司導入 Transformer 架構開發多語客服系統，以提 升長篇金融文件的自動翻譯品質。下列何者為該模型能顯著改善翻譯 準確度的主要原因？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：強調完全採注意力、不用卷積，可排除B。"
+        ],
+        "citationRank": 4,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-371": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q2",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q2",
+        "questionNumber": 2,
+        "question": "某跨國金融科技公司導入 Transformer 架構開發多語客服系統，以提 升長篇金融文件的自動翻譯品質。下列何者為該模型能顯著改善翻譯 準確度的主要原因？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "自注意力能捕捉長距離依賴，故選A。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 6,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q19",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q19",
+        "questionNumber": 19,
+        "question": "某團隊開發合約文件審查系統，需比對合約首頁的定義條款與第 20 頁的責任條 款是否一致。工程師初版採用雙向長短期記憶（Bidirectional LSTM），但發現長 文件的跨段落語義關聯捕捉效果不佳，且訓練時間隨文件長度明顯增加。改用 Transformer架構後問題獲得改善，下列何者為最主要的原因？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "點出自注意力可平行處理並捕捉任意位置的長距離依賴。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-377": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q19",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q19",
+        "questionNumber": 19,
+        "question": "某團隊開發合約文件審查系統，需比對合約首頁的定義條款與第 20 頁的責任條 款是否一致。工程師初版採用雙向長短期記憶（Bidirectional LSTM），但發現長 文件的跨段落語義關聯捕捉效果不佳，且訓練時間隨文件長度明顯增加。改用 Transformer架構後問題獲得改善，下列何者為最主要的原因？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明RNN循環結構只能串行計算，訓練效率低。；指出自注意力可直接連結任意兩位置，解決長期依賴。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-412": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q18",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q18",
+        "questionNumber": 18,
+        "question": "當Transformer 模型發生「注意力分布過於平均（Attention Collapse）」的情形時，導致模型無法有效聚焦於關鍵資訊，下列哪 一項策略可有效改善此問題？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：認識稀疏注意力，可聯想稀疏化能集中權重。；理解注意力依相關性分配權重，過平均即失效。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-413": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q11",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q11",
+        "questionNumber": 11,
+        "question": "某工程師在分析 Transformer架構時，發現自注意力機制（Self-Attention）能夠有 效提升模型對序列中長距離依賴關係的建模能力。請問 Self-Attention 的核心功能 為何？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：解釋相關性越高權重越大，有助理解加權求和。；可直接建立任意兩元素聯繫，可排除遞迴傳遞的選項A。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-415": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q11",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q11",
+        "questionNumber": 11,
+        "question": "某工程師在分析 Transformer架構時，發現自注意力機制（Self-Attention）能夠有 效提升模型對序列中長距離依賴關係的建模能力。請問 Self-Attention 的核心功能 為何？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：解釋相關性越高權重越大，有助理解加權求和。；可直接建立任意兩元素聯繫，可排除遞迴傳遞的選項A。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-416": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q11",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q11",
+        "questionNumber": 11,
+        "question": "某工程師在分析 Transformer架構時，發現自注意力機制（Self-Attention）能夠有 效提升模型對序列中長距離依賴關係的建模能力。請問 Self-Attention 的核心功能 為何？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "點出關注並權衡與序列中所有其他詞的關係，符合B。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-421": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q21",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q21",
+        "questionNumber": 21,
+        "question": "某語音辨識系統開發團隊採用 Transformer 架構，為了讓模型能同時理解 語音片段中的發音特徵、語速變化與語意脈絡等多層次資訊，團隊在設計 中導入了多頭注意力（Multi-head Attention）機制。請問下列何者為此 機制的主要優點？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "說明各頭有獨立QKV，在不同表示子空間學習；指出不同注意力頭可捕捉多種關係與脈絡"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
         "supplement": false,
         "prominence": "primary"
       }
@@ -2781,12 +3759,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明多頭注意力以獨立的 Q、K、V 權重在不同表示子空間學習關係，並整合各頭輸出，直接支持 C，亦用於辨析 A、B。"
+          "補充：說明多頭注意力以獨立的 Q、K、V 權重在不同表示子空間學習關係，並整合各頭輸出，直接支持 C，亦用於辨析 A、B。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 3,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-426": [
@@ -2802,12 +3780,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明多頭注意力以獨立的 Q、K、V 權重在不同表示子空間學習關係，並整合各頭輸出，直接支持 C，亦用於辨析 A、B。"
+          "補充：說明多頭注意力以獨立的 Q、K、V 權重在不同表示子空間學習關係，並整合各頭輸出，直接支持 C，亦用於辨析 A、B。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 3,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-427": [
@@ -2823,10 +3801,10 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明多頭注意力以獨立的 Q、K、V 權重在不同表示子空間學習關係，並整合各頭輸出，直接支持 C，亦用於辨析 A、B。"
+          "說明各頭有獨立QKV，在不同表示子空間學習；指出不同注意力頭可捕捉多種關係與脈絡"
         ],
         "citationRank": 1,
-        "citationBlockCount": 6,
+        "citationBlockCount": 2,
         "supplement": false,
         "prominence": "primary"
       }
@@ -2844,12 +3822,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明多頭注意力以獨立的 Q、K、V 權重在不同表示子空間學習關係，並整合各頭輸出，直接支持 C，亦用於辨析 A、B。"
+          "補充：結合多視角可產生更豐富的上下文表示；殘差連接才是緩解梯度消失的機制"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-430": [
@@ -2865,12 +3843,31 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明多頭注意力以獨立的 Q、K、V 權重在不同表示子空間學習關係，並整合各頭輸出，直接支持 C，亦用於辨析 A、B。"
+          "補充：說明多頭注意力以獨立的 Q、K、V 權重在不同表示子空間學習關係，並整合各頭輸出，直接支持 C，亦用於辨析 A、B。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 3,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q35",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q35",
+        "questionNumber": 35,
+        "question": "某工程師在開發一個以 Transformer為基礎的文本分類模型時，發現模型對於詞語順序 的變化不夠敏感，影響語意判斷效果。請問在 Transformer 架構中，位置編碼（Positional Encoding）的主要作用為何？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明模型無法感知詞序，故需位置編碼；說明Transformer須額外引入位置資訊"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-431": [
@@ -2886,12 +3883,94 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明多頭注意力以獨立的 Q、K、V 權重在不同表示子空間學習關係，並整合各頭輸出，直接支持 C，亦用於辨析 A、B。"
+          "補充：說明多頭注意力以獨立的 Q、K、V 權重在不同表示子空間學習關係，並整合各頭輸出，直接支持 C，亦用於辨析 A、B。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 4,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q35",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q35",
+        "questionNumber": 35,
+        "question": "某工程師在開發一個以 Transformer為基礎的文本分類模型時，發現模型對於詞語順序 的變化不夠敏感，影響語意判斷效果。請問在 Transformer 架構中，位置編碼（Positional Encoding）的主要作用為何？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明位置編碼把位置向量加入詞嵌入，確保順序理解；指出位置編碼是把位置資訊注入詞嵌入的方法"
         ],
         "citationRank": 1,
-        "citationBlockCount": 6,
+        "citationBlockCount": 2,
         "supplement": false,
         "prominence": "primary"
+      }
+    ],
+    "block-432": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q35",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q35",
+        "questionNumber": 35,
+        "question": "某工程師在開發一個以 Transformer為基礎的文本分類模型時，發現模型對於詞語順序 的變化不夠敏感，影響語意判斷效果。請問在 Transformer 架構中，位置編碼（Positional Encoding）的主要作用為何？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明位置編碼把位置向量加入詞嵌入，確保順序理解；指出位置編碼是把位置資訊注入詞嵌入的方法"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-438": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q21",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q21",
+        "questionNumber": 21,
+        "question": "某語音辨識系統開發團隊採用 Transformer 架構，為了讓模型能同時理解 語音片段中的發音特徵、語速變化與語意脈絡等多層次資訊，團隊在設計 中導入了多頭注意力（Multi-head Attention）機制。請問下列何者為此 機制的主要優點？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：結合多視角可產生更豐富的上下文表示；殘差連接才是緩解梯度消失的機制"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-439": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q49",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q49",
+        "questionNumber": 49,
+        "question": "若團隊需要建立一個超過50層的深層神經網路，以捕捉晶圓表面細微的劃傷特徵， 但又擔心傳統深層網路常見的梯度消失（Vanishing Gradient）問題，則下列哪一種 經典架構最適合優先考慮？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：跳躍連接能緩解深層網路梯度消失，加速收斂。；梯度在反向傳播中呈指數衰減，說明問題成因。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-442": [
@@ -2907,11 +3986,32 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "指出跳躍連接能緩解梯度消失，支持 D 的錯誤原因。"
+          "補充：指出跳躍連接能緩解梯度消失，支持 D 的錯誤原因。"
         ],
-        "citationRank": 3,
+        "citationRank": 5,
         "citationBlockCount": 1,
-        "supplement": false,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-447": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q19",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q19",
+        "questionNumber": 19,
+        "question": "某團隊開發合約文件審查系統，需比對合約首頁的定義條款與第 20 頁的責任條 款是否一致。工程師初版採用雙向長短期記憶（Bidirectional LSTM），但發現長 文件的跨段落語義關聯捕捉效果不佳，且訓練時間隨文件長度明顯增加。改用 Transformer架構後問題獲得改善，下列何者為最主要的原因？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明RNN循環結構只能串行計算，訓練效率低。；指出自注意力可直接連結任意兩位置，解決長期依賴。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -2928,12 +4028,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "直接支持長距離關聯與平行運算兩項主要原因，並說明長序列成本、過擬合風險及位置編碼的作用。"
+          "補充：直接支持長距離關聯與平行運算兩項主要原因，並說明長序列成本、過擬合風險及位置編碼的作用。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-450": [
@@ -2949,12 +4049,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "直接支持長距離關聯與平行運算兩項主要原因，並說明長序列成本、過擬合風險及位置編碼的作用。"
+          "補充：直接支持長距離關聯與平行運算兩項主要原因，並說明長序列成本、過擬合風險及位置編碼的作用。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-451": [
@@ -2970,12 +4070,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明 Transformer 的並行化優勢來自沒有循環結構、序列各位置可同時計算，協助區分 B 與多頭注意力的主要優點。"
+          "補充：說明 Transformer 的並行化優勢來自沒有循環結構、序列各位置可同時計算，協助區分 B 與多頭注意力的主要優點。"
         ],
-        "citationRank": 2,
+        "citationRank": 4,
         "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q19",
@@ -2989,12 +4089,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "直接支持長距離關聯與平行運算兩項主要原因，並說明長序列成本、過擬合風險及位置編碼的作用。"
+          "補充：直接支持長距離關聯與平行運算兩項主要原因，並說明長序列成本、過擬合風險及位置編碼的作用。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-452": [
@@ -3010,12 +4110,31 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明 Transformer 的並行化優勢來自沒有循環結構、序列各位置可同時計算，協助區分 B 與多頭注意力的主要優點。"
+          "補充：說明 Transformer 的並行化優勢來自沒有循環結構、序列各位置可同時計算，協助區分 B 與多頭注意力的主要優點。"
         ],
-        "citationRank": 2,
+        "citationRank": 4,
         "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q36",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q36",
+        "questionNumber": 36,
+        "question": "某公司希望開發一個工業零件瑕疵辨識分類模型，共有 10 個類別，但每類僅約 50 張人工標註影像（總計約 500 張）。由於標註成本高昂，短期內無法擴充資料 集。在此情境下，工程師需要在有限標註資料下建構高效能模型。請問下列哪一 種策略最為適合？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：提示遷移學習與預訓練模型是解題關鍵方向"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q19",
@@ -3029,12 +4148,73 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "直接支持長距離關聯與平行運算兩項主要原因，並說明長序列成本、過擬合風險及位置編碼的作用。"
+          "補充：直接支持長距離關聯與平行運算兩項主要原因，並說明長序列成本、過擬合風險及位置編碼的作用。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q43",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q43",
+        "questionNumber": 43,
+        "question": "在進行遷移學習微調（Fine-Tuning）時，通常會將優化器的學習率（Learning Rate） 設得非常小（如 1e-4），下列何者為主要的原因？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明預訓練後再針對特定任務微調；鋪陳遷移學習與預訓練模型的關聯"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-453": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q43",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q43",
+        "questionNumber": 43,
+        "question": "在進行遷移學習微調（Fine-Tuning）時，通常會將優化器的學習率（Learning Rate） 設得非常小（如 1e-4），下列何者為主要的原因？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明預訓練後再針對特定任務微調；鋪陳遷移學習與預訓練模型的關聯"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-456": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q33",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q33",
+        "questionNumber": 33,
+        "question": "某資料科學團隊正在開發一個客戶相似度比對系統，用於計算所有客戶之 間的相似度分數。若系統需逐一比對每一位客戶與其他所有客戶的資料組 合，此時演算法的時間複雜度最可能為哪一種？其代表意義為何？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明複雜度與長度平方成正比，可類推平方階成長的意思"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-459": [
@@ -3050,12 +4230,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "直接支持長距離關聯與平行運算兩項主要原因，並說明長序列成本、過擬合風險及位置編碼的作用。"
+          "補充：直接支持長距離關聯與平行運算兩項主要原因，並說明長序列成本、過擬合風險及位置編碼的作用。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-461": [
@@ -3071,12 +4251,33 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "直接支持長距離關聯與平行運算兩項主要原因，並說明長序列成本、過擬合風險及位置編碼的作用。"
+          "補充：直接支持長距離關聯與平行運算兩項主要原因，並說明長序列成本、過擬合風險及位置編碼的作用。"
+        ],
+        "citationRank": 5,
+        "citationBlockCount": 8,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-462": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q35",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q35",
+        "questionNumber": 35,
+        "question": "某工程師在開發一個以 Transformer為基礎的文本分類模型時，發現模型對於詞語順序 的變化不夠敏感，影響語意判斷效果。請問在 Transformer 架構中，位置編碼（Positional Encoding）的主要作用為何？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明模型無法感知詞序，故需位置編碼；說明Transformer須額外引入位置資訊"
         ],
         "citationRank": 2,
-        "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-463": [
@@ -3092,15 +4293,34 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "直接支持長距離關聯與平行運算兩項主要原因，並說明長序列成本、過擬合風險及位置編碼的作用。"
+          "補充：直接支持長距離關聯與平行運算兩項主要原因，並說明長序列成本、過擬合風險及位置編碼的作用。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 8,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-465": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q1",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q1",
+        "questionNumber": 1,
+        "question": "某電商企業希望利用自然語言處理（NLP）技術，分析顧客在社群平 台與商品評論中的文字內容，以即時掌握顧客對產品的滿意度變化。 若採用情感分析（Sentiment Analysis）模型，其主要目的為何？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：並列翻譯、摘要與情感分析，可排除其他任務選項"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
       {
         "id": "mid_1151_s3:mid_1151_s3_q19",
         "examKey": "mid_1151_s3",
@@ -3113,12 +4333,197 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "直接支持長距離關聯與平行運算兩項主要原因，並說明長序列成本、過擬合風險及位置編碼的作用。"
+          "補充：直接支持長距離關聯與平行運算兩項主要原因，並說明長序列成本、過擬合風險及位置編碼的作用。"
+        ],
+        "citationRank": 5,
+        "citationBlockCount": 8,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-475": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q3",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q3",
+        "questionNumber": 3,
+        "question": "某企業計畫應用 BERT（Bidirectional Encoder Representations from Transformers）模型分析大量顧客意見，以強化客服自動回覆 系統。在BERT 的預訓練過程中，「遮罩語言模型（Masked Language Model, MLM）」的主要訓練策略為何？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出MLM使模型同時理解左右上下文，符合選項B。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q4",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q4",
+        "questionNumber": 4,
+        "question": "某金融科技公司的工程師正在準備內部客服對話與交易紀錄文本，進行 BERT 模 型的預訓練，以提升模型對金融語境的理解能力，並採用遮蔽語言建模（Masked Language Model, MLM）作為訓練任務。請問 MLM 的核心訓練目標為何？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：BERT藉MLM做雙向上下文預訓練，可排除自迴歸"
         ],
         "citationRank": 2,
-        "citationBlockCount": 8,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-491": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q18",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q18",
+        "questionNumber": 18,
+        "question": "當Transformer 模型發生「注意力分布過於平均（Attention Collapse）」的情形時，導致模型無法有效聚焦於關鍵資訊，下列哪 一項策略可有效改善此問題？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：認識稀疏注意力，可聯想稀疏化能集中權重。；理解注意力依相關性分配權重，過平均即失效。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-505": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q10",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q10",
+        "questionNumber": 10,
+        "question": "某工程師同時開發兩個模型：一個預測使用者「隔日 App使用時長（分鐘）」，另 一個預測使用者「隔日是否流失（是/否）」。關於上述兩個任務，他應分別選擇哪 種適當的損失函數？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "直接指出連續資料用MSE、二元資料用二元交叉熵。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
+      }
+    ],
+    "block-567": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q20",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q20",
+        "questionNumber": 20,
+        "question": "在使用生成對抗網路（GAN）進行人臉影像生成時，若出現「模式崩 潰」（Mode Collapse）現象，下列哪一種方法最常被用來有效解決此 問題？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明模式崩潰是生成樣本多樣性不足，助理解題幹"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-637": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q34",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q34",
+        "questionNumber": 34,
+        "question": "某電商平台希望建立二元分類模型，根據商品的「價格區間、品牌、顏色、材質」等特 徵，將商品分類為「高銷量（1）」或「低銷量（0）」。同時希望模型輸出具備可解釋的 機率（如P=0.73 表示73%機率為高銷量）。請問下列哪種方法最適合？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明分群屬非監督式學習，無法給出類別機率。"
+        ],
+        "citationRank": 4,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-642": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q27",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q27",
+        "questionNumber": 27,
+        "question": "某智慧製造團隊在開發瑕疵影像檢測模型時，發現使用線性激活函數 （Activation Function）後，模型的訓練準確率長期停滯，懷疑模型無法 學習到足夠複雜的特徵表達。若要改善此問題，下列哪一項調整方案最為 合適？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明複雜問題多為非線性，需非線性激活才能學習；練習解析強調激活函數為網路帶來非線性能力"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-646": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q14",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q14",
+        "questionNumber": 14,
+        "question": "某組資料共10項標籤如下： A, A, A, A, A, B, B, B, B, B 若該標籤僅有A、B兩種，請問這組資料的「正規化吉尼不純度 （Normalized Gini impurity）」為何？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：複習不純度越低樣本越集中，有助理解二元均分時最混雜"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q2",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q2",
+        "questionNumber": 2,
+        "question": "下圖為吉尼不純度（Gini Impurity）的計算公式，在決策樹（Decision Tree）中，吉尼不 純度用於評估節點分裂的品質。關於吉尼不純度，下列敘述何者不正確？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：複習解析指出數值越低越集中單一類別，可作背景理解。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ]
   }

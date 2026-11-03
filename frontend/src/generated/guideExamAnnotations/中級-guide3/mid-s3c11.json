@@ -2,11 +2,33 @@
   "guideKey": "中級-guide3",
   "nodeId": "mid-s3c11",
   "stats": {
-    "questions": 1,
-    "guideBlocks": 13,
-    "annotations": 13
+    "questions": 4,
+    "guideBlocks": 14,
+    "annotations": 16
   },
   "blocks": {
+    "block-101": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q13",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q13",
+        "questionNumber": 13,
+        "question": "下列何者為同態加密（Homomorphic Encryption）技術的核心特性？",
+        "answer": "D",
+        "confidence": "high",
+        "referenceQuestionId": "exam2_q13",
+        "reasons": [
+          "補充：說明匿名化是移除或模糊個資，與加密運算不同"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
     "block-172": [
       {
         "id": "mid_1141_s3:mid_1141_s3_q37",
@@ -21,12 +43,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q37",
         "reasons": [
-          "說明同態加密可在加密資料上直接運算，且應用於雲端 AI 模型訓練、金融風控計算，正對應題幹跨銀行加密資料訓練風控模型的需求。"
+          "補充：說明同態加密可在加密資料上直接運算，且應用於雲端 AI 模型訓練、金融風控計算，正對應題幹跨銀行加密資料訓練風控模型的需求。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 5,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-173": [
@@ -43,15 +65,34 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q37",
         "reasons": [
-          "說明同態加密可在加密資料上直接運算，且應用於雲端 AI 模型訓練、金融風控計算，正對應題幹跨銀行加密資料訓練風控模型的需求。"
+          "補充：說明同態加密可在加密資料上直接運算，且應用於雲端 AI 模型訓練、金融風控計算，正對應題幹跨銀行加密資料訓練風控模型的需求。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 5,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-174": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q20",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q20",
+        "questionNumber": 20,
+        "question": "某銀行計畫將信用風險評估模型部署至雲端平台，以便即時分析客戶交易 行為。由於涉及大量敏感金融資料，銀行要求雲端服務商在不解密原始資 料的情況下仍能執行模型運算。為達成此目標，最適合採用下列哪一項技 術？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明可在密文上運算、解密後與明文一致"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      },
       {
         "id": "mid_1141_s3:mid_1141_s3_q37",
         "examKey": "mid_1141_s3",
@@ -65,10 +106,29 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q37",
         "reasons": [
-          "說明同態加密可在加密資料上直接運算，且應用於雲端 AI 模型訓練、金融風控計算，正對應題幹跨銀行加密資料訓練風控模型的需求。"
+          "同態加密可直接運算密文且全程不解密，符合需求。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 7,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q36",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q36",
+        "questionNumber": 36,
+        "question": "某金融機構的 AI 信用評分模型需上傳至第三方雲端服務商進行推論。法務部門 要求：在不解密資料的前提下，由單一雲端服務商直接對加密資料進行模型運算。 下列哪種隱私保護技術最符合此需求？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明同態加密可在密文上運算，解密後結果一致。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
       }
@@ -87,12 +147,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q37",
         "reasons": [
-          "說明同態加密可在加密資料上直接運算，且應用於雲端 AI 模型訓練、金融風控計算，正對應題幹跨銀行加密資料訓練風控模型的需求。"
+          "補充：說明同態加密可在加密資料上直接運算，且應用於雲端 AI 模型訓練、金融風控計算，正對應題幹跨銀行加密資料訓練風控模型的需求。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 5,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-176": [
@@ -109,12 +169,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q37",
         "reasons": [
-          "說明同態加密可在加密資料上直接運算，且應用於雲端 AI 模型訓練、金融風控計算，正對應題幹跨銀行加密資料訓練風控模型的需求。"
+          "補充：指出金融風控與雲端AI訓練是同態加密適用情境。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-177": [
@@ -131,12 +191,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q37",
         "reasons": [
-          "說明同態加密可在加密資料上直接運算，且應用於雲端 AI 模型訓練、金融風控計算，正對應題幹跨銀行加密資料訓練風控模型的需求。"
+          "補充：說明同態加密可在加密資料上直接運算，且應用於雲端 AI 模型訓練、金融風控計算，正對應題幹跨銀行加密資料訓練風控模型的需求。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 5,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-178": [
@@ -153,12 +213,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q37",
         "reasons": [
-          "說明同態加密可在加密資料上直接運算，且應用於雲端 AI 模型訓練、金融風控計算，正對應題幹跨銀行加密資料訓練風控模型的需求。"
+          "補充：說明同態加密可在加密資料上直接運算，且應用於雲端 AI 模型訓練、金融風控計算，正對應題幹跨銀行加密資料訓練風控模型的需求。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 5,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-183": [
@@ -175,12 +235,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q37",
         "reasons": [
-          "說明 AI 訓練涉及合法合規、資料最小化、目的限制與敏感資料保護，支持題幹中因競爭與法規限制而需要隱私強化技術的背景。"
+          "補充：說明 AI 訓練涉及合法合規、資料最小化、目的限制與敏感資料保護，支持題幹中因競爭與法規限制而需要隱私強化技術的背景。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-191": [
@@ -197,12 +257,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q37",
         "reasons": [
-          "說明 AI 訓練涉及合法合規、資料最小化、目的限制與敏感資料保護，支持題幹中因競爭與法規限制而需要隱私強化技術的背景。"
+          "補充：說明 AI 訓練涉及合法合規、資料最小化、目的限制與敏感資料保護，支持題幹中因競爭與法規限制而需要隱私強化技術的背景。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-192": [
@@ -219,12 +279,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q37",
         "reasons": [
-          "說明 AI 訓練涉及合法合規、資料最小化、目的限制與敏感資料保護，支持題幹中因競爭與法規限制而需要隱私強化技術的背景。"
+          "補充：說明 AI 訓練涉及合法合規、資料最小化、目的限制與敏感資料保護，支持題幹中因競爭與法規限制而需要隱私強化技術的背景。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-193": [
@@ -241,12 +301,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q37",
         "reasons": [
-          "說明 AI 訓練涉及合法合規、資料最小化、目的限制與敏感資料保護，支持題幹中因競爭與法規限制而需要隱私強化技術的背景。"
+          "補充：說明 AI 訓練涉及合法合規、資料最小化、目的限制與敏感資料保護，支持題幹中因競爭與法規限制而需要隱私強化技術的背景。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-194": [
@@ -263,12 +323,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q37",
         "reasons": [
-          "說明 AI 訓練涉及合法合規、資料最小化、目的限制與敏感資料保護，支持題幹中因競爭與法規限制而需要隱私強化技術的背景。"
+          "補充：說明 AI 訓練涉及合法合規、資料最小化、目的限制與敏感資料保護，支持題幹中因競爭與法規限制而需要隱私強化技術的背景。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-199": [
@@ -285,12 +345,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q37",
         "reasons": [
-          "說明 AI 訓練涉及合法合規、資料最小化、目的限制與敏感資料保護，支持題幹中因競爭與法規限制而需要隱私強化技術的背景。"
+          "補充：說明 AI 訓練涉及合法合規、資料最小化、目的限制與敏感資料保護，支持題幹中因競爭與法規限制而需要隱私強化技術的背景。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ]
   }

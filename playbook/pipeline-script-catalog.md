@@ -73,6 +73,8 @@
 - `export_resource_summary.py` — 章節/題數/覆蓋統計 + `visuals` 概念圖卡計數 → `resourceSummary.json`（首頁統計用；題目 JSON 得以 lazy load）。
 - `export_exam_reference_answers.py` — 以 v2 generation-input SHA-256 provenance 對 canonical qid，驗 overlay 指紋並要求 published/production inventory 完全相等；不得改回無條件 legacy ID offset（細節見 `07-question-generation.md` §4a）。
   <!-- 2026-11-02 --> 2026-11-01 起匯出時套 `guide_block_id_migrations.py`（`data/guide_block_id_migrations.json`＋人工 `data/guide_citation_overrides.json`），未決或不存在的 block id 一律 fail closed。
+  <!-- 2026-11-03: 新增 curated primary 合併 --> 匯出時再併 `data/guide_citation_primary.json`：curated primary 排 citations 第 1 位，其餘引用 why 加「補充：」降為次要（prominence 名次上限因此 2→3）；block 不存在或文字 hash 不符、題目指紋變了一律 fail closed。
+- `generate_citation_primary.py` — 逐題重產「主要出處」→ `data/guide_citation_primary.json`＋內部缺口清單 `data/audit/guide_content_gaps.json`（不上前端）。`prepare`（同等級全講義 BM25，K=20，題目＋正解＋key_concepts；章末解析只能當 secondary）→ `run`（cshare 呼叫網關模型，預設 deepseek-v4.1-flash:1017，≤4 路，`--budget-usd` 以 `/key/info` spend 停損，原始輸出留在 `--work-dir`）→ `finalize`（綁 block 文字 hash，驗證不過拒寫）→ `review`（嚴格重判：只沾關鍵字／上位或相鄰概念的 primary 降為 secondary、缺的概念寫進 gap；`--pass 2` 對全保留題再判一次）→ `apply-review`。2026-11-03 實測：生成 1.77＋重判 0.58 美元，primary 為空 387/815。guideContent 重建後若匯出報 hash 不符，就重跑這三步。
 - `build_guide_block_id_migrations.py` — guideContent 重編 block id 後，比對 `--old-ref` 與現行內容產生舊→新對照表（exact／normalized／fuzzy／unmapped）與待審引用候選；`--check` 驗表是否最新。無 API。人工裁決不寫這裡，寫 overrides。
 - `cjk_parentheses.py` — 中文語境半形括號→全形的純函式，`export_guide_outline_data.py` 最後一道 pass 使用（規則見 `deterministic-publication-overlays.md`）。
 - `export_colab_metadata.py`、`export_guide_images_data.py`、`export_guide_image_units.py`、`export_learning_articles.py`、`export_guide_exam_annotations.py` — 各自把後端產物轉前端 JSON；改了上游資料記得重跑對應那支。

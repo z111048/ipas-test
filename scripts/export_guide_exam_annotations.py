@@ -71,7 +71,10 @@ def append_reason(entry: dict[str, Any], reason: str | None) -> None:
         reasons.append(reason)
 
 
-PRIMARY_MAX_RANK = 2
+# 2026-11-03: 2 → 3. Curated primary citations (data/guide_citation_primary.json,
+# at most 3 blocks, so at most 3 citations) now come first and every older
+# citation is prefixed 「補充：」, so rank 3 can only be a curated primary block.
+PRIMARY_MAX_RANK = 3
 PRIMARY_MAX_BLOCKS = 10
 SUPPLEMENT_PREFIX = "補充"
 # 題解說明自承「未直接說明…」的引用只是旁及，不算主要題。

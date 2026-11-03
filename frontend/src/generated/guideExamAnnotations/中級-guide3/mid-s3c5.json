@@ -2,11 +2,199 @@
   "guideKey": "中級-guide3",
   "nodeId": "mid-s3c5",
   "stats": {
-    "questions": 10,
-    "guideBlocks": 44,
-    "annotations": 46
+    "questions": 45,
+    "guideBlocks": 98,
+    "annotations": 121
   },
   "blocks": {
+    "block-5": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q12",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q12",
+        "questionNumber": 12,
+        "question": "某金融科技公司建立房價預測模型，使用多項特徵（如建坪、房齡、 樓層、總價等）進行線性迴歸分析（Linear Regression Analysis）。資料分析師發現多個特徵之間存在高度相關性，導致模 型係數不穩定、預測誤差上升。為解決此問題，下列哪一種方法最適 合？",
+        "answer": "B",
+        "confidence": "high",
+        "referenceQuestionId": "exam1_q12",
+        "reasons": [
+          "補充：特徵高度相關會使係數不穩定，凸顯需降維處理。；說明房價預測屬迴歸，且迴歸需處理多重共線性。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q26",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q26",
+        "questionNumber": 26,
+        "question": "在房價預測任務中，若發現特徵如「房間數」與「坪數」存在高度多 重共線性（Multicollinearity），為降低共線性對模型參數估計的負 面影響，應優先選擇下列哪種模型？",
+        "answer": "D",
+        "confidence": "high",
+        "referenceQuestionId": "exam1_q26",
+        "reasons": [
+          "補充：指出自變數高度相關會影響係數估計穩定性。；迴歸處理房價等連續值，並點出共線性挑戰。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q24",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q24",
+        "questionNumber": 24,
+        "question": "某房地產公司利用多元迴歸模型（Multiple Regression Model）預測房 價，並繪製殘差圖（Residual Plot）檢查模型品質。結果顯示部分資料點 的殘差極大，且在高價區樣本中出現系統性彎曲分佈現象。根據此觀察， 下列何者為最可能的正確解釋？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：模型假設不成立會使預測失真，支持違反假設的判斷。；迴歸任務需處理非線性與異常值，呼應題目現象。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q28",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q28",
+        "questionNumber": 28,
+        "question": "某房仲平台要預測物件成交價，資料集含 50 個特徵，其中部分特徵與房價呈非 線性關係，且業務單位要求模型須能提供整體特徵重要性以供稽核。下列哪一種 模型選擇策略最符合需求？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明隨機森林以多棵樹平均預測，是理解其運作基礎。；迴歸預測連續數值，房價預測屬此類任務。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-14": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q50",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q50",
+        "questionNumber": 50,
+        "question": "考慮資料集已經填補遺漏值，參考下圖執行結果，下列何者正確？ A：空格1完整語法 reg = LinearRegression().fit(y, X) B：空格1完整語法 reg = LinearRegression().fit(X, y) C：print(reg.coef_) 結果為包括截距項等 4個係數值 D：空格2完整語法 sm.OLS(X2, y).fit() E：model_sm 迴歸模型的所有迴歸係數在α=0.05之下具有顯著的解釋力 F：截距項係數值為 3.5561",
+        "answer": "B",
+        "confidence": "medium",
+        "referenceQuestionId": "exam2_q50",
+        "reasons": [
+          "補充：截距為獨立參數，可知係數輸出不含截距項；迴歸係數指各自變數的斜率，與截距項不同"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-15": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q50",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q50",
+        "questionNumber": 50,
+        "question": "考慮資料集已經填補遺漏值，參考下圖執行結果，下列何者正確？ A：空格1完整語法 reg = LinearRegression().fit(y, X) B：空格1完整語法 reg = LinearRegression().fit(X, y) C：print(reg.coef_) 結果為包括截距項等 4個係數值 D：空格2完整語法 sm.OLS(X2, y).fit() E：model_sm 迴歸模型的所有迴歸係數在α=0.05之下具有顯著的解釋力 F：截距項係數值為 3.5561",
+        "answer": "B",
+        "confidence": "medium",
+        "referenceQuestionId": "exam2_q50",
+        "reasons": [
+          "補充：截距為獨立參數，可知係數輸出不含截距項；迴歸係數指各自變數的斜率，與截距項不同"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-20": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q38",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q38",
+        "questionNumber": 38,
+        "question": "附圖程式碼所計算的是哪一類型的評估指標？",
+        "answer": "B",
+        "confidence": "high",
+        "referenceQuestionId": "exam3_q38",
+        "reasons": [
+          "指出MSE是誤差平方的平均，數值越小預測越準"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-26": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q15",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q15",
+        "questionNumber": 15,
+        "question": "在線性迴歸模型中，若 R²值為 0.85，其意義為何？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "說明R²代表可解釋變異比例，越接近1解釋力越強"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-33": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q5",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q5",
+        "questionNumber": 5,
+        "question": "某工程師完成多元線性迴歸模型後，繪製殘差圖（Residual Plot），發現殘差隨預 測值增大而呈現擴散現象（右側明顯比左側分散）。此現象最可能代表什麼問題？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：誤差須彼此獨立，可排除殘差相關這個錯誤選項；常態性指誤差分布形狀，與殘差左右擴散無關；共線性指自變數間高度相關，與殘差擴散無關"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
     "block-34": [
       {
         "id": "mid_1151_s3:mid_1151_s3_q5",
@@ -20,12 +208,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "定義變異數齊一性，支持將殘差隨預測值增大而擴散的現象判讀為異質變異。"
+          "補充：定義變異數齊一性，支持將殘差隨預測值增大而擴散的現象判讀為異質變異。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 2,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-35": [
@@ -41,10 +229,174 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "定義變異數齊一性，支持將殘差隨預測值增大而擴散的現象判讀為異質變異。"
+          "誤差變異數須固定不變，殘差擴散即違反此假設"
         ],
         "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-37": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q5",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q5",
+        "questionNumber": 5,
+        "question": "某工程師完成多元線性迴歸模型後，繪製殘差圖（Residual Plot），發現殘差隨預 測值增大而呈現擴散現象（右側明顯比左側分散）。此現象最可能代表什麼問題？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：誤差須彼此獨立，可排除殘差相關這個錯誤選項；常態性指誤差分布形狀，與殘差左右擴散無關；共線性指自變數間高度相關，與殘差擴散無關"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-48": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q24",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q24",
+        "questionNumber": 24,
+        "question": "某房地產公司利用多元迴歸模型（Multiple Regression Model）預測房 價，並繪製殘差圖（Residual Plot）檢查模型品質。結果顯示部分資料點 的殘差極大，且在高價區樣本中出現系統性彎曲分佈現象。根據此觀察， 下列何者為最可能的正確解釋？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "線性模型無法捕捉非線性關係，可解釋殘差彎曲。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-49": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q25",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q25",
+        "questionNumber": 25,
+        "question": "某工程師建立房價預測模型，輸入特徵包含屋齡與距捷運站距離（公尺）。他發現 距捷運站距離分布嚴重右偏，經對數（Log）轉換後模型表現明顯改善；但將同樣 轉換套用於屋齡後，模型表現反而下降。下列何者為最可能的原因？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：轉換會改變特徵與房價的關係，須留意線性假設是否成立"
+        ],
+        "citationRank": 4,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-51": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q25",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q25",
+        "questionNumber": 25,
+        "question": "某金融機構正在建立傳統信用評分卡模型，採用邏輯迴歸（Logistic Regression）作為建模方法，並依循監理機關建議的標準化流程進行模型 開發。下列哪一項不是傳統信用評分卡模型開發流程中的常見步驟？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：自變數高度相關會使係數不穩，需檢查。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q5",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q5",
+        "questionNumber": 5,
+        "question": "某工程師完成多元線性迴歸模型後，繪製殘差圖（Residual Plot），發現殘差隨預 測值增大而呈現擴散現象（右側明顯比左側分散）。此現象最可能代表什麼問題？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：誤差須彼此獨立，可排除殘差相關這個錯誤選項；常態性指誤差分布形狀，與殘差左右擴散無關；共線性指自變數間高度相關，與殘差擴散無關"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-53": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q24",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q24",
+        "questionNumber": 24,
+        "question": "某房地產公司利用多元迴歸模型（Multiple Regression Model）預測房 價，並繪製殘差圖（Residual Plot）檢查模型品質。結果顯示部分資料點 的殘差極大，且在高價區樣本中出現系統性彎曲分佈現象。根據此觀察， 下列何者為最可能的正確解釋？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：模型假設不成立會使預測失真，支持違反假設的判斷。；迴歸任務需處理非線性與異常值，呼應題目現象。"
+        ],
+        "citationRank": 2,
         "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-60": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q7",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q7",
+        "questionNumber": 7,
+        "question": "某金融團隊建立信貸風險模型，特徵工程後共產生 200個變數，其中「月收入」、 「年收入」、「季收入」三者高度相關。模型上線後業務單位反映：每次重新訓練 後，模型輸出的重要特徵清單在這些高度相關特徵間反覆變動，難以向審查單位 解釋。請問下列何者為造成此現象最可能的原因？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：L2 抑制過大係數並穩定共線性，可排除選項 A。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q33",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q33",
+        "questionNumber": 33,
+        "question": "某工程師的多元線性迴歸模型包含 150個特徵，其中許多特徵高度相關（如「建 坪」與「總面積」）。他同時希望控制過擬合且保留所有特徵的解釋能力，不讓任 何特徵係數歸零，下列哪一項正則化方案最適當？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "L2平方懲罰抑制過大係數，且適合共線性嚴重情況"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
       }
@@ -62,12 +414,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "提供 Lasso 與 Ridge 的目標函數，以及係數、正則化強度與兩種懲罰項的定義。"
+          "補充：提供 Lasso 與 Ridge 的目標函數，以及係數、正則化強度與兩種懲罰項的定義。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-64": [
@@ -83,12 +435,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "提供 Lasso 與 Ridge 的目標函數，以及係數、正則化強度與兩種懲罰項的定義。"
+          "補充：提供 Lasso 與 Ridge 的目標函數，以及係數、正則化強度與兩種懲罰項的定義。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-68": [
@@ -104,12 +456,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "提供 Lasso 與 Ridge 的目標函數，以及係數、正則化強度與兩種懲罰項的定義。"
+          "補充：提供 Lasso 與 Ridge 的目標函數，以及係數、正則化強度與兩種懲罰項的定義。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-69": [
@@ -125,12 +477,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "提供 Lasso 與 Ridge 的目標函數，以及係數、正則化強度與兩種懲罰項的定義。"
+          "補充：提供 Lasso 與 Ridge 的目標函數，以及係數、正則化強度與兩種懲罰項的定義。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-70": [
@@ -146,12 +498,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "提供 Lasso 與 Ridge 的目標函數，以及係數、正則化強度與兩種懲罰項的定義。"
+          "補充：提供 Lasso 與 Ridge 的目標函數，以及係數、正則化強度與兩種懲罰項的定義。"
         ],
-        "citationRank": 2,
+        "citationRank": 5,
         "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-71": [
@@ -167,10 +519,53 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "提供 Lasso 與 Ridge 的目標函數，以及係數、正則化強度與兩種懲罰項的定義。"
+          "補充：提供 Lasso 與 Ridge 的目標函數，以及係數、正則化強度與兩種懲罰項的定義。"
+        ],
+        "citationRank": 5,
+        "citationBlockCount": 6,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-87": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q26",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q26",
+        "questionNumber": 26,
+        "question": "在房價預測任務中，若發現特徵如「房間數」與「坪數」存在高度多 重共線性（Multicollinearity），為降低共線性對模型參數估計的負 面影響，應優先選擇下列哪種模型？",
+        "answer": "D",
+        "confidence": "high",
+        "referenceQuestionId": "exam1_q26",
+        "reasons": [
+          "補充：指出自變數高度相關會影響係數估計穩定性。；迴歸處理房價等連續值，並點出共線性挑戰。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 6,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-96": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q7",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q7",
+        "questionNumber": 7,
+        "question": "某金融團隊建立信貸風險模型，特徵工程後共產生 200個變數，其中「月收入」、 「年收入」、「季收入」三者高度相關。模型上線後業務單位反映：每次重新訓練 後，模型輸出的重要特徵清單在這些高度相關特徵間反覆變動，難以向審查單位 解釋。請問下列何者為造成此現象最可能的原因？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "高度相關特徵只保留其一，說明特徵清單為何不穩定。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
       }
@@ -188,12 +583,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "以決策樹迴歸與線性迴歸的假設差異，連結線性關係設定與非線性資料的模型適配問題。"
+          "補充：以決策樹迴歸與線性迴歸的假設差異，連結線性關係設定與非線性資料的模型適配問題。"
         ],
-        "citationRank": 1,
+        "citationRank": 4,
         "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-170": [
@@ -209,12 +604,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "以決策樹迴歸與線性迴歸的假設差異，連結線性關係設定與非線性資料的模型適配問題。"
+          "補充：以決策樹迴歸與線性迴歸的假設差異，連結線性關係設定與非線性資料的模型適配問題。"
         ],
-        "citationRank": 1,
+        "citationRank": 4,
         "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-176": [
@@ -230,10 +625,52 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "以決策樹迴歸與線性迴歸的假設差異，連結線性關係設定與非線性資料的模型適配問題。"
+          "補充：以決策樹迴歸與線性迴歸的假設差異，連結線性關係設定與非線性資料的模型適配問題。"
         ],
-        "citationRank": 1,
+        "citationRank": 4,
         "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-192": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q28",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q28",
+        "questionNumber": 28,
+        "question": "某房仲平台要預測物件成交價，資料集含 50 個特徵，其中部分特徵與房價呈非 線性關係，且業務單位要求模型須能提供整體特徵重要性以供稽核。下列哪一種 模型選擇策略最符合需求？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明隨機森林以多棵樹平均預測，是理解其運作基礎。；迴歸預測連續數值，房價預測屬此類任務。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-193": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q28",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q28",
+        "questionNumber": 28,
+        "question": "某房仲平台要預測物件成交價，資料集含 50 個特徵，其中部分特徵與房價呈非 線性關係，且業務單位要求模型須能提供整體特徵重要性以供稽核。下列哪一種 模型選擇策略最符合需求？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "隨機森林可計算特徵重要性，滿足稽核需求。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
       }
@@ -251,12 +688,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明隨機森林可處理非線性與高階交互作用，能計算特徵重要性，但整體模型仍不易直觀解釋。"
+          "補充：說明隨機森林可處理非線性與高階交互作用，能計算特徵重要性，但整體模型仍不易直觀解釋。"
         ],
-        "citationRank": 1,
+        "citationRank": 5,
         "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-198": [
@@ -272,12 +709,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明隨機森林可處理非線性與高階交互作用，能計算特徵重要性，但整體模型仍不易直觀解釋。"
+          "補充：說明隨機森林可處理非線性與高階交互作用，能計算特徵重要性，但整體模型仍不易直觀解釋。"
         ],
-        "citationRank": 1,
+        "citationRank": 5,
         "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-202": [
@@ -293,12 +730,138 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明隨機森林可處理非線性與高階交互作用，能計算特徵重要性，但整體模型仍不易直觀解釋。"
+          "補充：說明隨機森林可處理非線性與高階交互作用，能計算特徵重要性，但整體模型仍不易直觀解釋。"
+        ],
+        "citationRank": 5,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-206": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q18",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q18",
+        "questionNumber": 18,
+        "question": "下列何者最能同時反映 XGBoost（eXtreme Gradient Boosting）相較於傳 統梯度提升決策樹（Gradient Boosting Decision Tree, GBDT）的主要技 術改進？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出XGBoost是對傳統GBDT的優化實作；說明梯度提升逐步修正誤差的序列式集成原理"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-219": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q18",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q18",
+        "questionNumber": 18,
+        "question": "下列何者最能同時反映 XGBoost（eXtreme Gradient Boosting）相較於傳 統梯度提升決策樹（Gradient Boosting Decision Tree, GBDT）的主要技 術改進？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出XGBoost是對傳統GBDT的優化實作；說明梯度提升逐步修正誤差的序列式集成原理"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-223": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q18",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q18",
+        "questionNumber": 18,
+        "question": "下列何者最能同時反映 XGBoost（eXtreme Gradient Boosting）相較於傳 統梯度提升決策樹（Gradient Boosting Decision Tree, GBDT）的主要技 術改進？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "點出正則化、缺失值處理與運算效率三大改進；說明XGBoost以L1、L2正則化抑制過擬合"
         ],
         "citationRank": 1,
-        "citationBlockCount": 3,
+        "citationBlockCount": 2,
         "supplement": false,
         "prominence": "primary"
+      }
+    ],
+    "block-243": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q18",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q18",
+        "questionNumber": 18,
+        "question": "下列何者最能同時反映 XGBoost（eXtreme Gradient Boosting）相較於傳 統梯度提升決策樹（Gradient Boosting Decision Tree, GBDT）的主要技 術改進？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "點出正則化、缺失值處理與運算效率三大改進；說明XGBoost以L1、L2正則化抑制過擬合"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-249": [
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q28",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q28",
+        "questionNumber": 28,
+        "question": "一位資料科學家使用 XGBoost 建立信用風險評分模型，並使用 SHAP 解釋模型 對某申請人的預測結果。SHAP summary plot 顯示該樣本中「月收入」的 SHAP 值 為-2.3，「負債比率」為+1.8，其中 SHAP 值代表各特徵對模型輸出值的影響程度 與方向。關於對 SHAP 值的解讀，下列敘述何者正確？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明特徵重要度是整體概念，不同於單筆貢獻"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-252": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q34",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q34",
+        "questionNumber": 34,
+        "question": "某工程師使用 XGBoost 模型進行調參，需對以下超參數進行網格搜尋（Grid Search）：learning_rate（3 個候選值）、max_depth（4 個）、n_estimators（5 個）、 subsample（3 個）、colsample_bytree（3 個）。每組參數組合皆需完整進行 5-Fold 交叉驗證。請問總共需要訓練幾個模型？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：列出題中多個超參數，確認需調多參數。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-263": [
@@ -315,11 +878,30 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q14",
         "reasons": [
-          "說明分類任務可用於疾病診斷，且不同演算法有不同解釋性，模型選擇需依解釋需求取捨。"
+          "補充：說明分類任務可用於疾病診斷，且不同演算法有不同解釋性，模型選擇需依解釋需求取捨。"
         ],
-        "citationRank": 3,
+        "citationRank": 7,
         "citationBlockCount": 3,
-        "supplement": false,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q49",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q49",
+        "questionNumber": 49,
+        "question": "在進行機器學習建模前，資料分析師已完成資料前處理（包含遺漏值處理與特徵標準 化），並準備建立分類模型。 已知資料流程如下： 1. 將資料區分為訓練集與測試集 2. 建立羅吉斯迴歸（Logistic Regression）模型 3. 使用訓練資料進行模型擬合（fit） 請問下列哪一組 Pandas / Scikit-learn程式碼流程最為正確？",
+        "answer": "B",
+        "confidence": "medium",
+        "reasons": [
+          "補充：說明分類以輸入特徵預測類別，助釐清 X 與 y 的角色"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -337,11 +919,11 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q14",
         "reasons": [
-          "說明分類任務可用於疾病診斷，且不同演算法有不同解釋性，模型選擇需依解釋需求取捨。"
+          "補充：說明分類任務可用於疾病診斷，且不同演算法有不同解釋性，模型選擇需依解釋需求取捨。"
         ],
-        "citationRank": 3,
+        "citationRank": 7,
         "citationBlockCount": 3,
-        "supplement": false,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -359,11 +941,198 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q14",
         "reasons": [
-          "說明分類任務可用於疾病診斷，且不同演算法有不同解釋性，模型選擇需依解釋需求取捨。"
+          "補充：說明分類任務可用於疾病診斷，且不同演算法有不同解釋性，模型選擇需依解釋需求取捨。"
+        ],
+        "citationRank": 7,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-272": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q34",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q34",
+        "questionNumber": 34,
+        "question": "某電商平台希望建立二元分類模型，根據商品的「價格區間、品牌、顏色、材質」等特 徵，將商品分類為「高銷量（1）」或「低銷量（0）」。同時希望模型輸出具備可解釋的 機率（如P=0.73 表示73%機率為高銷量）。請問下列哪種方法最適合？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "點明邏輯迴歸雖名為迴歸，實為二元分類演算法。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-288": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q30",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q30",
+        "questionNumber": 30,
+        "question": "某情感分析模型在英文資料集上取得 macro F1-score = 0.91。當該模型 部署於西班牙文資料集時，F1-score 驟降至 0.58。下列哪一項解釋最合 理，且與F1-score 變化相關？",
+        "answer": "C",
+        "confidence": "high",
+        "referenceQuestionId": "exam3_q30",
+        "reasons": [
+          "補充：召回率反映正類被正確找出的比例。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q44",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q44",
+        "questionNumber": 44,
+        "question": "針對上述外掛偵測模型，營運長下達最終的商業決策目標如下：「對於作弊行為零容忍。 即使誤凍結部分正常司機帳號，後續仍可交由人工覆核；但不能放過任何一個真正的 外掛司機。」根據上述目標，團隊在調整模型輸出的決策機率門檻（Threshold，預設 為0.5）時，應採取下列何種策略最為合理？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：召回率聚焦真實作弊者被揪出的比例，對應零容忍目標。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-290": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q50",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q50",
+        "questionNumber": 50,
+        "question": "參考下圖程式碼，下列描述何者正確？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "F1是精確率與召回率的調和平均，並用於不平衡資料"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q32",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q32",
+        "questionNumber": 32,
+        "question": "某詐欺偵測模型需同時具備高精確率（Precision），以避免誤凍結正常帳號，並維 持高召回率（Recall）表現，以確保不放過任何詐欺行為。然而工程師發現兩者之 間存在取捨關係（Precision-Recall Tradeoff）。在此情境下，F1-score最能反映何種 特性？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出調和平均用於不平衡資料，可排除僅限平衡資料"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-296": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q34",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q34",
+        "questionNumber": 34,
+        "question": "某電商平台希望建立二元分類模型，根據商品的「價格區間、品牌、顏色、材質」等特 徵，將商品分類為「高銷量（1）」或「低銷量（0）」。同時希望模型輸出具備可解釋的 機率（如P=0.73 表示73%機率為高銷量）。請問下列哪種方法最適合？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：對數勝算說明機率如何轉為實數，助理解輸出機率。；指出邏輯迴歸預測結果為二元分類，切合題目情境。"
         ],
         "citationRank": 3,
-        "citationBlockCount": 3,
-        "supplement": false,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-300": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q12",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q12",
+        "questionNumber": 12,
+        "question": "某金融科技公司建立房價預測模型，使用多項特徵（如建坪、房齡、 樓層、總價等）進行線性迴歸分析（Linear Regression Analysis）。資料分析師發現多個特徵之間存在高度相關性，導致模 型係數不穩定、預測誤差上升。為解決此問題，下列哪一種方法最適 合？",
+        "answer": "B",
+        "confidence": "high",
+        "referenceQuestionId": "exam1_q12",
+        "reasons": [
+          "補充：特徵高度相關會使係數不穩定，凸顯需降維處理。；說明房價預測屬迴歸，且迴歸需處理多重共線性。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-302": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q34",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q34",
+        "questionNumber": 34,
+        "question": "某電商平台希望建立二元分類模型，根據商品的「價格區間、品牌、顏色、材質」等特 徵，將商品分類為「高銷量（1）」或「低銷量（0）」。同時希望模型輸出具備可解釋的 機率（如P=0.73 表示73%機率為高銷量）。請問下列哪種方法最適合？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：對數勝算說明機率如何轉為實數，助理解輸出機率。；指出邏輯迴歸預測結果為二元分類，切合題目情境。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-314": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q33",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q33",
+        "questionNumber": 33,
+        "question": "某線上書店希望建立一個多類別書籍推薦模型，根據讀者的「年齡、性別、過去購書類 別偏好評分」等特徵，預測讀者下次最可能購買的書籍主題（共 8類）。資料已完整標 註，且資料量達數十萬筆。在模型選型上，除了預測準確率外，也需考量模型訓練效 率、可擴充性，並需支援快速訓練與線上部署。請問下列哪種方法最適合此情境？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出多類別分類可用多項式邏輯迴歸，直接支持正解。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
         "prominence": "secondary"
       }
     ],
@@ -380,12 +1149,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "直接說明決策樹依特徵逐步分裂的流程，以及資訊增益透過熵的變化衡量分裂後不確定性的降低程度。"
+          "補充：直接說明決策樹依特徵逐步分裂的流程，以及資訊增益透過熵的變化衡量分裂後不確定性的降低程度。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 5,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-372": [
@@ -401,12 +1170,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "直接說明決策樹依特徵逐步分裂的流程，以及資訊增益透過熵的變化衡量分裂後不確定性的降低程度。"
+          "補充：直接說明決策樹依特徵逐步分裂的流程，以及資訊增益透過熵的變化衡量分裂後不確定性的降低程度。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 5,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-373": [
@@ -422,12 +1191,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "直接說明決策樹依特徵逐步分裂的流程，以及資訊增益透過熵的變化衡量分裂後不確定性的降低程度。"
+          "補充：直接說明決策樹依特徵逐步分裂的流程，以及資訊增益透過熵的變化衡量分裂後不確定性的降低程度。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 5,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-374": [
@@ -443,12 +1212,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "直接說明決策樹依特徵逐步分裂的流程，以及資訊增益透過熵的變化衡量分裂後不確定性的降低程度。"
+          "補充：直接說明決策樹依特徵逐步分裂的流程，以及資訊增益透過熵的變化衡量分裂後不確定性的降低程度。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 4,
+        "citationBlockCount": 5,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-375": [
@@ -464,12 +1233,52 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "直接說明決策樹依特徵逐步分裂的流程，以及資訊增益透過熵的變化衡量分裂後不確定性的降低程度。"
+          "補充：直接說明決策樹依特徵逐步分裂的流程，以及資訊增益透過熵的變化衡量分裂後不確定性的降低程度。"
+        ],
+        "citationRank": 4,
+        "citationBlockCount": 5,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-381": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q14",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q14",
+        "questionNumber": 14,
+        "question": "某組資料共10項標籤如下： A, A, A, A, A, B, B, B, B, B 若該標籤僅有A、B兩種，請問這組資料的「正規化吉尼不純度 （Normalized Gini impurity）」為何？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明不純度越低樣本越集中，可知均勻時不純度最高"
         ],
         "citationRank": 1,
-        "citationBlockCount": 7,
-        "supplement": false,
-        "prominence": "primary"
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q2",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q2",
+        "questionNumber": 2,
+        "question": "下圖為吉尼不純度（Gini Impurity）的計算公式，在決策樹（Decision Tree）中，吉尼不 純度用於評估節點分裂的品質。關於吉尼不純度，下列敘述何者不正確？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明不純度衡量節點混雜程度，有助理解公式用途。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-382": [
@@ -485,10 +1294,10 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "直接說明決策樹依特徵逐步分裂的流程，以及資訊增益透過熵的變化衡量分裂後不確定性的降低程度。"
+          "指出資訊增益屬決策樹分類器，直接對應正確選項"
         ],
         "citationRank": 1,
-        "citationBlockCount": 7,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
       }
@@ -506,12 +1315,158 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "直接說明決策樹依特徵逐步分裂的流程，以及資訊增益透過熵的變化衡量分裂後不確定性的降低程度。"
+          "補充：說明資訊增益衡量分裂後不確定性降低，為決策樹依據"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-407": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q40",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q40",
+        "questionNumber": 40,
+        "question": "下圖為一段分類演算法的 pseudocode，請問最可能對應下列哪一種演算法？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "說明KNN以最近K個鄰居多數類別決定，能對應流程"
         ],
         "citationRank": 1,
-        "citationBlockCount": 7,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
+      }
+    ],
+    "block-413": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q40",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q40",
+        "questionNumber": 40,
+        "question": "下圖為一段分類演算法的 pseudocode，請問最可能對應下列哪一種演算法？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：列出找最近K個樣本再投票的步驟，符合題目流程"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-426": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q9",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q9",
+        "questionNumber": 9,
+        "question": "在建構以距離為基礎的機器學習模型（如 KNN、SVM）時，下列哪一項資料 前處理方式最為關鍵？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明特徵尺度不同會放大某些特徵的距離影響"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-447": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q28",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q28",
+        "questionNumber": 28,
+        "question": "若在高維度（>500 維）的資料上應用DBSCAN（Density-Based Spatial Clustering of Applications with Noise）演算法，卻發現所有資料點 皆被判定為雜訊（Noise），下列何者為最有可能的原因？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明維度增加使距離差異減小，ε 難以有效區分鄰域。；說明ε鄰域點數達MinPts才是核心點。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q31",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q31",
+        "questionNumber": 31,
+        "question": "某資料工程師嘗試對包含 300 個特徵的使用者行為資料集使用 DBSCAN 進行群 集分析，但發現幾乎所有資料點都被判定為雜訊點（Noise Points），難以形成有 意義的群集，即使不斷調整ε（Epsilon）與 MinPts 參數也無濟於事。請問下列何 者為此問題最可能的根本原因？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明高維使距離差異變小、資料稀疏，密度難形成；說明維度詛咒使高維資料稀疏、分析困難"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-455": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q14",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q14",
+        "questionNumber": 14,
+        "question": "某電商平台使用樸素貝氏分類器（Naive Bayes Classifier）建立垃圾郵件過濾模型。 訓練集準確率（Accuracy）達 92%，但上線後發現，包含「限時優惠、立即下單 享折扣」等關鍵字的正常促銷郵件，常被誤判為垃圾信。經分析發現，這些詞彙 在訓練資料中多出現在垃圾郵件中，導致其類別條件機率偏高。請問造成此現象 的最主要原因與較適當的改善方式為何？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出分類取決於先驗與條件機率，皆源自訓練資料；說明特徵獨立假設，助判斷問題非來自獨立性假設"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-459": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q22",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q22",
+        "questionNumber": 22,
+        "question": "某電商平台希望預測顧客是否會購買特定商品。系統蒐集顧客的瀏覽紀 錄、停留時間、商品類別偏好與過去購買行為，並以此推估「在觀察到這 些行為特徵的情況下，該顧客會購買的機率」。若模型採用貝氏定理 （Bayes’Theorem）進行推論，下列敘述何者最符合其核心運作機制？",
+        "answer": "B",
+        "confidence": "high",
+        "referenceQuestionId": "exam3_q22",
+        "reasons": [
+          "補充：說明分類目標是求給定特徵下的後驗機率"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-462": [
@@ -527,12 +1482,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明似然度、先驗機率及特徵條件獨立下的機率乘積，可用來解釋促銷詞彙如何影響分類分數，以及調整先驗與修正條件機率的差異。"
+          "補充：說明似然度、先驗機率及特徵條件獨立下的機率乘積，可用來解釋促銷詞彙如何影響分類分數，以及調整先驗與修正條件機率的差異。"
         ],
-        "citationRank": 1,
+        "citationRank": 2,
         "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-463": [
@@ -548,12 +1503,33 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明似然度、先驗機率及特徵條件獨立下的機率乘積，可用來解釋促銷詞彙如何影響分類分數，以及調整先驗與修正條件機率的差異。"
+          "補充：說明似然度、先驗機率及特徵條件獨立下的機率乘積，可用來解釋促銷詞彙如何影響分類分數，以及調整先驗與修正條件機率的差異。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 5,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-465": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q14",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q14",
+        "questionNumber": 14,
+        "question": "某電商平台使用樸素貝氏分類器（Naive Bayes Classifier）建立垃圾郵件過濾模型。 訓練集準確率（Accuracy）達 92%，但上線後發現，包含「限時優惠、立即下單 享折扣」等關鍵字的正常促銷郵件，常被誤判為垃圾信。經分析發現，這些詞彙 在訓練資料中多出現在垃圾郵件中，導致其類別條件機率偏高。請問造成此現象 的最主要原因與較適當的改善方式為何？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出分類取決於先驗與條件機率，皆源自訓練資料；說明特徵獨立假設，助判斷問題非來自獨立性假設"
         ],
         "citationRank": 1,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-467": [
@@ -569,12 +1545,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明似然度、先驗機率及特徵條件獨立下的機率乘積，可用來解釋促銷詞彙如何影響分類分數，以及調整先驗與修正條件機率的差異。"
+          "補充：說明似然度、先驗機率及特徵條件獨立下的機率乘積，可用來解釋促銷詞彙如何影響分類分數，以及調整先驗與修正條件機率的差異。"
         ],
-        "citationRank": 1,
+        "citationRank": 2,
         "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-468": [
@@ -590,12 +1566,12 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明似然度、先驗機率及特徵條件獨立下的機率乘積，可用來解釋促銷詞彙如何影響分類分數，以及調整先驗與修正條件機率的差異。"
+          "補充：說明似然度、先驗機率及特徵條件獨立下的機率乘積，可用來解釋促銷詞彙如何影響分類分數，以及調整先驗與修正條件機率的差異。"
         ],
-        "citationRank": 1,
+        "citationRank": 2,
         "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-469": [
@@ -611,15 +1587,34 @@
         "answer": "C",
         "confidence": "high",
         "reasons": [
-          "說明似然度、先驗機率及特徵條件獨立下的機率乘積，可用來解釋促銷詞彙如何影響分類分數，以及調整先驗與修正條件機率的差異。"
+          "補充：說明似然度、先驗機率及特徵條件獨立下的機率乘積，可用來解釋促銷詞彙如何影響分類分數，以及調整先驗與修正條件機率的差異。"
         ],
-        "citationRank": 1,
+        "citationRank": 2,
         "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-603": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q41",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q41",
+        "questionNumber": 41,
+        "question": "請參考附圖，下列虛擬程式碼（pseudocode）最可能是在描述何種演算 法？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "以最近質心分群並須預設K，正是K-means特性"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      },
       {
         "id": "mid_1151_s3:mid_1151_s3_q15",
         "examKey": "mid_1151_s3",
@@ -632,12 +1627,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明 K-means 預設 K 個群集、隨機選取初始質心，以及依最近質心分配資料，可連結題目的 K 值設定與初始化差異。"
+          "補充：說明 K-means 預設 K 個群集、隨機選取初始質心，以及依最近質心分配資料，可連結題目的 K 值設定與初始化差異。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-606": [
@@ -653,12 +1648,12 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明 K-means 預設 K 個群集、隨機選取初始質心，以及依最近質心分配資料，可連結題目的 K 值設定與初始化差異。"
+          "補充：說明 K-means 預設 K 個群集、隨機選取初始質心，以及依最近質心分配資料，可連結題目的 K 值設定與初始化差異。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-608": [
@@ -674,10 +1669,174 @@
         "answer": "D",
         "confidence": "high",
         "reasons": [
-          "說明 K-means 預設 K 個群集、隨機選取初始質心，以及依最近質心分配資料，可連結題目的 K 值設定與初始化差異。"
+          "補充：說明 K-means 預設 K 個群集、隨機選取初始質心，以及依最近質心分配資料，可連結題目的 K 值設定與初始化差異。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 3,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-618": [
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q15",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q15",
+        "questionNumber": 15,
+        "question": "某資料科學家將客戶資料進行分群，使用 K-means（K=5）後發現部分群集呈現 半月形（非凸）結構，且資料中存在少數離群值（Outliers）。他同時觀察到每次 執行結果略有不同。下列敘述何者最完整且準確地反映 K-means 在此情境中的已 知限制？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明初始質心選擇會影響結果，補強初始化敏感。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-644": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q11",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q11",
+        "questionNumber": 11,
+        "question": "企業資料分析團隊使用 DBSCAN（Density-Based Spatial Clustering of Applications with Noise）演算法進行顧客行為分群，並希望模 型能自動區分主要群集與雜訊資料。 在此演算法中，決定聚類結果的兩個主要超參數為下列何者？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：指出DBSCAN需設定兩個關鍵參數，助掌握重點。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-645": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q11",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q11",
+        "questionNumber": 11,
+        "question": "企業資料分析團隊使用 DBSCAN（Density-Based Spatial Clustering of Applications with Noise）演算法進行顧客行為分群，並希望模 型能自動區分主要群集與雜訊資料。 在此演算法中，決定聚類結果的兩個主要超參數為下列何者？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "明確定義Eps為鄰域半徑，是DBSCAN關鍵參數。；MinPts是形成核心群集的最小點數，為關鍵參數。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 3,
+        "citationBlockCount": 2,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-646": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q11",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q11",
+        "questionNumber": 11,
+        "question": "企業資料分析團隊使用 DBSCAN（Density-Based Spatial Clustering of Applications with Noise）演算法進行顧客行為分群，並希望模 型能自動區分主要群集與雜訊資料。 在此演算法中，決定聚類結果的兩個主要超參數為下列何者？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "明確定義Eps為鄰域半徑，是DBSCAN關鍵參數。；MinPts是形成核心群集的最小點數，為關鍵參數。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q4",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q4",
+        "questionNumber": 4,
+        "question": "在執行 DBSCAN（Density-Based Spatial Clustering of Applications with Noise）群集分析時，若某資料點鄰域內的樣本數不足以形成核心點 （Core Point），且該點未被任何核心點的鄰域所包含，也未與其他群集形 成密度可達關係（Density Reachability），此資料點最終將被歸類為哪一 種類型？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：核心點會吸收密度可達點，未可達者不成群集。；MinPts是形成核心群集所需的最小點數。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-649": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q28",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q28",
+        "questionNumber": 28,
+        "question": "若在高維度（>500 維）的資料上應用DBSCAN（Density-Based Spatial Clustering of Applications with Noise）演算法，卻發現所有資料點 皆被判定為雜訊（Noise），下列何者為最有可能的原因？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明維度增加使距離差異減小，ε 難以有效區分鄰域。；說明ε鄰域點數達MinPts才是核心點。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q4",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q4",
+        "questionNumber": 4,
+        "question": "在執行 DBSCAN（Density-Based Spatial Clustering of Applications with Noise）群集分析時，若某資料點鄰域內的樣本數不足以形成核心點 （Core Point），且該點未被任何核心點的鄰域所包含，也未與其他群集形 成密度可達關係（Density Reachability），此資料點最終將被歸類為哪一 種類型？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：核心點會吸收密度可達點，未可達者不成群集。；MinPts是形成核心群集所需的最小點數。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-650": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q4",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q4",
+        "questionNumber": 4,
+        "question": "在執行 DBSCAN（Density-Based Spatial Clustering of Applications with Noise）群集分析時，若某資料點鄰域內的樣本數不足以形成核心點 （Core Point），且該點未被任何核心點的鄰域所包含，也未與其他群集形 成密度可達關係（Density Reachability），此資料點最終將被歸類為哪一 種類型？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "點數少於MinPts時，該點可能成雜訊點。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
       }
@@ -696,15 +1855,54 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q35",
         "reasons": [
-          "說明降維是在低維表示中盡可能保留重要資訊，並說明 PCA 透過標準化、協方差矩陣與特徵值分解取得主成分。"
+          "補充：說明降維是在低維表示中盡可能保留重要資訊，並說明 PCA 透過標準化、協方差矩陣與特徵值分解取得主成分。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 5,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q31",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q31",
+        "questionNumber": 31,
+        "question": "某資料工程師嘗試對包含 300 個特徵的使用者行為資料集使用 DBSCAN 進行群 集分析，但發現幾乎所有資料點都被判定為雜訊點（Noise Points），難以形成有 意義的群集，即使不斷調整ε（Epsilon）與 MinPts 參數也無濟於事。請問下列何 者為此問題最可能的根本原因？",
+        "answer": "A",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明高維使距離差異變小、資料稀疏，密度難形成；說明維度詛咒使高維資料稀疏、分析困難"
         ],
         "citationRank": 1,
-        "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-665": [
+      {
+        "id": "mid_1141_s1:mid_1141_s1_q12",
+        "examKey": "mid_1141_s1",
+        "examLabel": "科目一 公告試題（114年第二梯次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（114年第二梯次）",
+        "route": "/exam/mid_1141_s1",
+        "questionId": "mid_1141_s1_q12",
+        "questionNumber": 12,
+        "question": "某金融科技公司建立房價預測模型，使用多項特徵（如建坪、房齡、 樓層、總價等）進行線性迴歸分析（Linear Regression Analysis）。資料分析師發現多個特徵之間存在高度相關性，導致模 型係數不穩定、預測誤差上升。為解決此問題，下列哪一種方法最適 合？",
+        "answer": "B",
+        "confidence": "high",
+        "referenceQuestionId": "exam1_q12",
+        "reasons": [
+          "PCA轉為不相關主成分，可解決特徵高度相關問題。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      },
       {
         "id": "mid_1141_s3:mid_1141_s3_q35",
         "examKey": "mid_1141_s3",
@@ -718,12 +1916,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q35",
         "reasons": [
-          "說明降維是在低維表示中盡可能保留重要資訊，並說明 PCA 透過標準化、協方差矩陣與特徵值分解取得主成分。"
+          "補充：說明降維是在低維表示中盡可能保留重要資訊，並說明 PCA 透過標準化、協方差矩陣與特徵值分解取得主成分。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q6",
@@ -737,15 +1935,34 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明 PCA 是線性降維，主成分是原始特徵的線性組合，並提示特徵尺度不同時的標準化需求。"
+          "補充：PCA是線性降維，非能保留流形的非線性法"
         ],
-        "citationRank": 2,
-        "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-666": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q29",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q29",
+        "questionNumber": 29,
+        "question": "某團隊在開發風險評估模型時，使用主成分分析（Principal Component Analysis, PCA）進行降維。輸入資料包含三個數值欄位：「交易金額（單 位：新台幣）」、「交易次數（次／月）」與「年齡（歲）」，其數值量級分別 約為10⁵、10¹與 10²。分析人員直接將原始數據帶入 PCA，結果第一主成 分（PC1）幾乎完全由「交易金額」主導。下列哪一項作法或判斷最合 理？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：PCA用協方差矩陣找主成分，尺度大者易主導。；主成分代表最大變異方向，尺度大者易主導。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      },
       {
         "id": "mid_1151_s3:mid_1151_s3_q6",
         "examKey": "mid_1151_s3",
@@ -758,10 +1975,31 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明 PCA 是線性降維，主成分是原始特徵的線性組合，並提示特徵尺度不同時的標準化需求。"
+          "補充：說明 PCA 是線性降維，主成分是原始特徵的線性組合，並提示特徵尺度不同時的標準化需求。"
         ],
-        "citationRank": 2,
-        "citationBlockCount": 3,
+        "citationRank": 7,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-668": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q29",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q29",
+        "questionNumber": 29,
+        "question": "某團隊在開發風險評估模型時，使用主成分分析（Principal Component Analysis, PCA）進行降維。輸入資料包含三個數值欄位：「交易金額（單 位：新台幣）」、「交易次數（次／月）」與「年齡（歲）」，其數值量級分別 約為10⁵、10¹與 10²。分析人員直接將原始數據帶入 PCA，結果第一主成 分（PC1）幾乎完全由「交易金額」主導。下列哪一項作法或判斷最合 理？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "PCA降維前需先標準化，支持選項D。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
       }
@@ -780,12 +2018,12 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q35",
         "reasons": [
-          "說明降維是在低維表示中盡可能保留重要資訊，並說明 PCA 透過標準化、協方差矩陣與特徵值分解取得主成分。"
+          "補充：說明降維是在低維表示中盡可能保留重要資訊，並說明 PCA 透過標準化、協方差矩陣與特徵值分解取得主成分。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
       },
       {
         "id": "mid_1151_s3:mid_1151_s3_q6",
@@ -799,12 +2037,33 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明 PCA 是線性降維，主成分是原始特徵的線性組合，並提示特徵尺度不同時的標準化需求。"
+          "補充：說明 PCA 是線性降維，主成分是原始特徵的線性組合，並提示特徵尺度不同時的標準化需求。"
+        ],
+        "citationRank": 7,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-670": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q29",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q29",
+        "questionNumber": 29,
+        "question": "某團隊在開發風險評估模型時，使用主成分分析（Principal Component Analysis, PCA）進行降維。輸入資料包含三個數值欄位：「交易金額（單 位：新台幣）」、「交易次數（次／月）」與「年齡（歲）」，其數值量級分別 約為10⁵、10¹與 10²。分析人員直接將原始數據帶入 PCA，結果第一主成 分（PC1）幾乎完全由「交易金額」主導。下列哪一項作法或判斷最合 理？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：PCA用協方差矩陣找主成分，尺度大者易主導。；主成分代表最大變異方向，尺度大者易主導。"
         ],
         "citationRank": 2,
-        "citationBlockCount": 3,
-        "supplement": false,
-        "prominence": "primary"
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-671": [
@@ -821,12 +2080,31 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q35",
         "reasons": [
-          "說明降維是在低維表示中盡可能保留重要資訊，並說明 PCA 透過標準化、協方差矩陣與特徵值分解取得主成分。"
+          "補充：說明降維是在低維表示中盡可能保留重要資訊，並說明 PCA 透過標準化、協方差矩陣與特徵值分解取得主成分。"
         ],
-        "citationRank": 1,
+        "citationRank": 3,
         "citationBlockCount": 5,
-        "supplement": false,
-        "prominence": "primary"
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q30",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q30",
+        "questionNumber": 30,
+        "question": "某資料科學家正在處理一份包含 200個感測器特徵的工廠設備監測資料集，為了 降低模型複雜度並保留主要變異資訊，他先對資料進行標準化（Standardization）， 再使用主成分分析（PCA）進行降維。在 PCA 過程中，為了找出能最大化資料變 異量的主成分方向，演算法主要依賴哪一項數學操作？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：協方差矩陣反映特徵變異與協同關係，是分解前提。"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-673": [
@@ -843,10 +2121,70 @@
         "confidence": "high",
         "referenceQuestionId": "exam3_q35",
         "reasons": [
-          "說明降維是在低維表示中盡可能保留重要資訊，並說明 PCA 透過標準化、協方差矩陣與特徵值分解取得主成分。"
+          "補充：說明降維是在低維表示中盡可能保留重要資訊，並說明 PCA 透過標準化、協方差矩陣與特徵值分解取得主成分。"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 5,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q30",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q30",
+        "questionNumber": 30,
+        "question": "某資料科學家正在處理一份包含 200個感測器特徵的工廠設備監測資料集，為了 降低模型複雜度並保留主要變異資訊，他先對資料進行標準化（Standardization）， 再使用主成分分析（PCA）進行降維。在 PCA 過程中，為了找出能最大化資料變 異量的主成分方向，演算法主要依賴哪一項數學操作？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "直接點出PCA以協方差矩陣特徵值分解求主成分方向。；特徵向量即主成分方向，特徵值代表變異量。"
         ],
         "citationRank": 1,
-        "citationBlockCount": 5,
+        "citationBlockCount": 2,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-675": [
+      {
+        "id": "mid_1141_s3:mid_1141_s3_q35",
+        "examKey": "mid_1141_s3",
+        "examLabel": "科目三 公告試題（114年第二梯次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s3",
+        "questionId": "mid_1141_s3_q35",
+        "questionNumber": 35,
+        "question": "某公司針對製程感測器資料進行主成分分析（PCA），經標準化與協方差矩 陣分解後，得到三個主成分的特徵值如下：λ1=6.0, λ2=3.0, λ3=1.0。 若團隊決定僅保留能解釋至少 80% 總變異量的主成分，以進行後續模型建 構，下列哪一項敘述最合理且數據解讀正確？",
+        "answer": "A",
+        "confidence": "high",
+        "referenceQuestionId": "exam3_q35",
+        "reasons": [
+          "特徵值代表變異量，可算出前兩項合計90%。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "mid_1151_s1:mid_1151_s1_q30",
+        "examKey": "mid_1151_s1",
+        "examLabel": "科目一 公告試題（115年第一次）",
+        "examTitle": "中級科目一 公告試題：人工智慧技術應用與規劃（115年第一次）",
+        "route": "/exam/mid_1151_s1",
+        "questionId": "mid_1151_s1_q30",
+        "questionNumber": 30,
+        "question": "某資料科學家正在處理一份包含 200個感測器特徵的工廠設備監測資料集，為了 降低模型複雜度並保留主要變異資訊，他先對資料進行標準化（Standardization）， 再使用主成分分析（PCA）進行降維。在 PCA 過程中，為了找出能最大化資料變 異量的主成分方向，演算法主要依賴哪一項數學操作？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "直接點出PCA以協方差矩陣特徵值分解求主成分方向。；特徵向量即主成分方向，特徵值代表變異量。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
         "supplement": false,
         "prominence": "primary"
       }
@@ -864,10 +2202,10 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明 t-SNE 保留局部結構、適合視覺化，以及計算成本、結果穩定性與新資料映射方面的限制。"
+          "指出t-SNE保留局部結構且適合視覺化"
         ],
         "citationRank": 1,
-        "citationBlockCount": 6,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
       }
@@ -885,12 +2223,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明 t-SNE 保留局部結構、適合視覺化，以及計算成本、結果穩定性與新資料映射方面的限制。"
+          "補充：說明 t-SNE 保留局部結構、適合視覺化，以及計算成本、結果穩定性與新資料映射方面的限制。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 6,
+        "citationBlockCount": 5,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-700": [
@@ -906,12 +2244,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明 t-SNE 保留局部結構、適合視覺化，以及計算成本、結果穩定性與新資料映射方面的限制。"
+          "補充：說明 t-SNE 保留局部結構、適合視覺化，以及計算成本、結果穩定性與新資料映射方面的限制。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 6,
+        "citationBlockCount": 5,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-701": [
@@ -927,12 +2265,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明 t-SNE 保留局部結構、適合視覺化，以及計算成本、結果穩定性與新資料映射方面的限制。"
+          "補充：說明 t-SNE 保留局部結構、適合視覺化，以及計算成本、結果穩定性與新資料映射方面的限制。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 6,
+        "citationBlockCount": 5,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-702": [
@@ -948,12 +2286,12 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明 t-SNE 保留局部結構、適合視覺化，以及計算成本、結果穩定性與新資料映射方面的限制。"
+          "補充：說明 t-SNE 保留局部結構、適合視覺化，以及計算成本、結果穩定性與新資料映射方面的限制。"
         ],
-        "citationRank": 1,
-        "citationBlockCount": 6,
-        "supplement": false,
-        "prominence": "primary"
+        "citationRank": 6,
+        "citationBlockCount": 5,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ],
     "block-703": [
@@ -969,12 +2307,218 @@
         "answer": "B",
         "confidence": "high",
         "reasons": [
-          "說明 t-SNE 保留局部結構、適合視覺化，以及計算成本、結果穩定性與新資料映射方面的限制。"
+          "補充：說明 t-SNE 保留局部結構、適合視覺化，以及計算成本、結果穩定性與新資料映射方面的限制。"
+        ],
+        "citationRank": 6,
+        "citationBlockCount": 5,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-733": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q19",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q19",
+        "questionNumber": 19,
+        "question": "下圖表為電商平台某時段的交易紀錄（共 8 筆訂單），對圖表內的資料執行 Apriori 演 算法，設定最低支援度為 3。請問最終保留下來的最大頻繁項目集為何？",
+        "answer": "D",
+        "confidence": "medium",
+        "reasons": [
+          "補充：先統計各商品出現次數，據此篩掉未達門檻者；算出各組合共同出現次數，再保留達門檻者"
         ],
         "citationRank": 1,
-        "citationBlockCount": 6,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-735": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q19",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q19",
+        "questionNumber": 19,
+        "question": "下圖表為電商平台某時段的交易紀錄（共 8 筆訂單），對圖表內的資料執行 Apriori 演 算法，設定最低支援度為 3。請問最終保留下來的最大頻繁項目集為何？",
+        "answer": "D",
+        "confidence": "medium",
+        "reasons": [
+          "補充：先統計各商品出現次數，據此篩掉未達門檻者；算出各組合共同出現次數，再保留達門檻者"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-740": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q26",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q26",
+        "questionNumber": 26,
+        "question": "某串流影音平台運用關聯規則學習（Association Rule Learning）分析 用戶的觀影行為，發現若使用者觀看了科幻影集，則有較高機率接著觀看 超級英雄電影。分析顯示，同時觀看這兩種類型的使用者約佔全部觀影紀 錄的12%，而觀看科幻影集的使用者中，有 50%也觀看了超級英雄電影， 該規則的提升度（Lift）為1.8。根據上述資訊，下列哪一項推論最為正 確？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "補充：說明支持度是共同出現占總交易比例，可排除A、D"
+        ],
+        "citationRank": 3,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
+      },
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q18",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q18",
+        "questionNumber": 18,
+        "question": "某零售企業的 AI工程師正在用關聯規則學習（Association Rule Learning）分析購物籃 資料，評估商品 A 跟商品 B 之間同時購買的關係。關於「支援度（Support）」、「信賴 度（Confidence）」、「提升度（Lift）」三個指標，下列敘述何者正確？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：定義支援度為同時出現的機率，可排除選項A；指出信賴度是條件機率，可排除選項B的說法"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-742": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q26",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q26",
+        "questionNumber": 26,
+        "question": "某串流影音平台運用關聯規則學習（Association Rule Learning）分析 用戶的觀影行為，發現若使用者觀看了科幻影集，則有較高機率接著觀看 超級英雄電影。分析顯示，同時觀看這兩種類型的使用者約佔全部觀影紀 錄的12%，而觀看科幻影集的使用者中，有 50%也觀看了超級英雄電影， 該規則的提升度（Lift）為1.8。根據上述資訊，下列哪一項推論最為正 確？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "定義信賴度為前件成立時的條件機率，可驗證C"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
         "supplement": false,
         "prominence": "primary"
+      }
+    ],
+    "block-744": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q18",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q18",
+        "questionNumber": 18,
+        "question": "某零售企業的 AI工程師正在用關聯規則學習（Association Rule Learning）分析購物籃 資料，評估商品 A 跟商品 B 之間同時購買的關係。關於「支援度（Support）」、「信賴 度（Confidence）」、「提升度（Lift）」三個指標，下列敘述何者正確？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "補充：定義支援度為同時出現的機率，可排除選項A；指出信賴度是條件機率，可排除選項B的說法"
+        ],
+        "citationRank": 2,
+        "citationBlockCount": 2,
+        "supplement": true,
+        "prominence": "secondary"
+      }
+    ],
+    "block-749": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q18",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q18",
+        "questionNumber": 18,
+        "question": "某零售企業的 AI工程師正在用關聯規則學習（Association Rule Learning）分析購物籃 資料，評估商品 A 跟商品 B 之間同時購買的關係。關於「支援度（Support）」、「信賴 度（Confidence）」、「提升度（Lift）」三個指標，下列敘述何者正確？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明提升度以1為獨立基準、小於1為負相關；指出提升度大於1代表正相關，直接支撐選項D"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-750": [
+      {
+        "id": "mid_1151_s2:mid_1151_s2_q18",
+        "examKey": "mid_1151_s2",
+        "examLabel": "科目二 公告試題（115年第一次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（115年第一次）",
+        "route": "/exam/mid_1151_s2",
+        "questionId": "mid_1151_s2_q18",
+        "questionNumber": 18,
+        "question": "某零售企業的 AI工程師正在用關聯規則學習（Association Rule Learning）分析購物籃 資料，評估商品 A 跟商品 B 之間同時購買的關係。關於「支援度（Support）」、「信賴 度（Confidence）」、「提升度（Lift）」三個指標，下列敘述何者正確？",
+        "answer": "D",
+        "confidence": "high",
+        "reasons": [
+          "說明提升度以1為獨立基準、小於1為負相關；指出提升度大於1代表正相關，直接支撐選項D"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 2,
+        "supplement": false,
+        "prominence": "primary"
+      }
+    ],
+    "block-778": [
+      {
+        "id": "mid_1141_s2:mid_1141_s2_q10",
+        "examKey": "mid_1141_s2",
+        "examLabel": "科目二 公告試題（114年第二梯次）",
+        "examTitle": "中級科目二 公告試題：大數據處理分析與應用（114年第二梯次）",
+        "route": "/exam/mid_1141_s2",
+        "questionId": "mid_1141_s2_q10",
+        "questionNumber": 10,
+        "question": "下列哪一種情境最適合應用異常偵測（Anomaly Detection）技術？",
+        "answer": "C",
+        "confidence": "high",
+        "reasons": [
+          "定義異常偵測為辨識偏離多數資料的行為，符合題意。"
+        ],
+        "citationRank": 1,
+        "citationBlockCount": 1,
+        "supplement": false,
+        "prominence": "primary"
+      },
+      {
+        "id": "mid_1151_s3:mid_1151_s3_q29",
+        "examKey": "mid_1151_s3",
+        "examLabel": "科目三 公告試題（115年第一次）",
+        "examTitle": "中級科目三 公告試題：機器學習技術與應用（115年第一次）",
+        "route": "/exam/mid_1151_s3",
+        "questionId": "mid_1151_s3_q29",
+        "questionNumber": 29,
+        "question": "某工廠設備監測系統需偵測馬達軸承的異常振動，但過去僅記錄了大量正常運作 的振動時序資料，缺乏任何已確認故障的標註樣本。請問下列何種任務範疇最符 合此情境下的異常偵測需求？",
+        "answer": "B",
+        "confidence": "high",
+        "reasons": [
+          "補充：界定異常偵測為辨識與多數資料顯著不同的模式"
+        ],
+        "citationRank": 4,
+        "citationBlockCount": 1,
+        "supplement": true,
+        "prominence": "secondary"
       }
     ]
   }
