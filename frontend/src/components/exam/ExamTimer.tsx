@@ -35,13 +35,13 @@ export default function ExamTimer({ compact = false }: ExamTimerProps) {
   const bucket = useMemo(() => announcementBucket(seconds), [seconds])
   const [liveText, setLiveText] = useState(() => announcementText(bucket))
 
-  // 計時器放在深色（bg-primary）底上：用淺色警示色才有足夠對比
+  // 計時列是白底：警示色 warning #b45309（5.0:1）、wrong #b91c1c（6.5:1）
   const colorClass =
     seconds <= 300
-      ? 'text-on-dark-danger'
+      ? 'text-wrong'
       : seconds <= 600
-        ? 'text-on-dark-warning'
-        : 'text-on-dark'
+        ? 'text-warning'
+        : 'text-primary'
 
   useEffect(() => {
     setLiveText(announcementText(bucket))
@@ -55,7 +55,7 @@ export default function ExamTimer({ compact = false }: ExamTimerProps) {
         {/* tests/test_exam_flow.py 以 div.text-xl.tabular-nums 的文字比對倒數，內層不要加其他字。 */}
         <div className={`text-xl font-bold tabular-nums leading-none ${colorClass}`}>{display}</div>
         {/* 手機上計時列只留一行，狀態字樣在 sm 以上才顯示。 */}
-        <div className="mt-1 hidden text-caption text-on-dark-muted sm:block">{status}</div>
+        <div className="mt-1 hidden text-caption text-text-light sm:block">{status}</div>
         <div aria-live="polite" aria-atomic="true" className="sr-only">{liveText}</div>
       </div>
     )
@@ -64,7 +64,7 @@ export default function ExamTimer({ compact = false }: ExamTimerProps) {
   return (
     <div>
       <div className={`text-3xl font-bold tabular-nums ${colorClass}`}>{display}</div>
-      <div className="mt-1 text-meta font-medium text-on-dark-muted">{status}</div>
+      <div className="mt-1 text-meta font-medium text-text-light">{status}</div>
       <div aria-live="polite" aria-atomic="true" className="sr-only">{liveText}</div>
     </div>
   )

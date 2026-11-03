@@ -65,15 +65,15 @@ function GuideOutlineTreeNode({
           className={({ isActive }) =>
             `block min-h-11 py-2 pr-4 cursor-pointer text-meta border-l-[3px] transition-all duration-150 no-underline ${
               isActive || activeId === node.id
-                ? 'bg-white/12 border-l-accent text-white font-semibold'
-                : 'border-l-transparent text-white/76 hover:bg-white/8 hover:text-white'
+                ? 'bg-chrome-active border-l-accent text-chrome-active-text font-semibold'
+                : 'border-l-transparent text-chrome-muted hover:bg-chrome-hover hover:text-chrome-text'
             }`
           }
           style={{ paddingLeft: `${1 + (node.depth - 1) * 0.9}rem` }}
           onClick={onNavigate}
         >
           <span className="block truncate">{label}</span>
-          <span className="block text-caption text-on-dark-muted mt-0.5">{pageRange}</span>
+          <span className="block text-caption text-text-light mt-0.5">{pageRange}</span>
         </NavLink>
         {node.children.map((childId) => (
           <GuideOutlineTreeNode

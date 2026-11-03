@@ -377,11 +377,11 @@ export default function ExamPage() {
           這一列以 sticky 貼在 main 最上緣（-top-4／md:-top-6 抵銷 main 的 py-4／md:py-6，否則上方會留一條露出題目的縫），固定單行（離開 · 時間 · 已答 · 題號盤 · 繳卷；寬版題號盤是常駐側欄，這裡不放按鈕）。
         */}
         <div className="sticky -top-4 md:-top-6 z-20 mb-3">
-          <div className="rounded-xl border border-primary-light bg-primary px-2 py-1.5 text-on-dark shadow-lg sm:p-3">
+          <div className="rounded-2xl border border-border bg-white px-2 py-1.5 text-primary shadow-[0_8px_24px_rgba(15,23,42,0.08)] sm:p-3">
             <div className="flex items-center gap-2 sm:gap-3">
               <button
                 type="button"
-                className="btn-hero-ghost shrink-0 border-transparent bg-transparent px-2 text-ui font-medium text-on-dark-muted underline-offset-4 hover:border-transparent hover:bg-transparent hover:text-on-dark hover:underline sm:px-2.5"
+                className="btn-ghost shrink-0 px-2 text-ui font-medium text-text-light underline-offset-4 hover:bg-transparent hover:text-primary hover:underline sm:px-2.5"
                 onClick={handleLeave}
                 aria-label="離開（保存作答進度）"
                 title="保存作答進度並離開，之後可以繼續作答"
@@ -393,14 +393,14 @@ export default function ExamPage() {
                 <div className="whitespace-nowrap text-meta font-semibold tabular-nums sm:text-ui">
                   已答 {answeredCount}/{currentExamData.total}
                 </div>
-                <div className="hidden text-caption text-on-dark-muted sm:block">{unansweredText}</div>
+                <div className="hidden text-caption text-text-light sm:block">{unansweredText}</div>
               </div>
               <div className="flex shrink-0 items-center gap-1.5">
                 {!isWide && (
                   <button
                     ref={paletteButtonRef}
                     type="button"
-                    className="btn-hero-ghost px-2.5 text-ui sm:px-3"
+                    className="btn-outline px-2.5 text-ui sm:px-3"
                     onClick={handlePaletteButton}
                     aria-haspopup="dialog"
                     aria-expanded={showPalette}
@@ -410,7 +410,7 @@ export default function ExamPage() {
                 )}
                 <button
                   type="button"
-                  className="btn-hero px-2.5 text-ui shadow-none sm:px-3"
+                  className="btn-primary px-2.5 text-ui sm:px-3"
                   onClick={handleSubmitIntent}
                 >
                   繳卷

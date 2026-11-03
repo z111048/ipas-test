@@ -21,7 +21,7 @@ function resourceForSubject(subjectId?: string) {
 
 function ChapterMetric({ label, value }: { label: string; value: string }) {
   return (
-    <span className="rounded-md border border-border bg-unanswered-soft px-2.5 py-1 text-caption leading-5 text-text-light">
+    <span className="rounded-md bg-panel px-2.5 py-1 text-caption leading-5 text-text-light">
       <span className="font-semibold text-primary">{label}</span>
       <span className="ml-1">{value}</span>
     </span>
@@ -128,7 +128,7 @@ export default function SubjectOverviewPage() {
             return (
               <article key={ch.id} className="surface p-4 sm:p-5">
                 <div className="mb-3 flex items-start gap-3">
-                  <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-meta font-bold tabular-nums text-white">
+                  <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent-soft text-meta font-bold tabular-nums text-accent-hover">
                     {index + 1}
                   </span>
                   <div className="min-w-0">

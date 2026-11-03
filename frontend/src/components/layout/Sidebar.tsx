@@ -41,12 +41,12 @@ const ROW_BASE = 'flex min-h-[max(2.5rem,var(--control-min-h))] items-center gap
 
 function navItemClass(isActive: boolean, disabled = false, indent = 'pl-5') {
   if (disabled) {
-    return `${ROW_BASE} ${indent} border-l-transparent text-on-dark-muted cursor-not-allowed`
+    return `${ROW_BASE} ${indent} border-l-transparent text-chrome-muted cursor-not-allowed`
   }
   return `${ROW_BASE} ${indent} cursor-pointer ${
     isActive
-      ? 'bg-white/12 border-l-accent text-on-dark font-semibold'
-      : 'border-l-transparent text-on-dark-muted hover:bg-white/8 hover:text-on-dark'
+      ? 'bg-chrome-active border-l-accent text-chrome-active-text font-semibold'
+      : 'border-l-transparent text-chrome-muted hover:bg-chrome-hover hover:text-chrome-text'
   }`
 }
 
@@ -80,7 +80,7 @@ function SidebarLink({
       <span className={navItemClass(false, true, indent)} title={item.detail}>
         {item.label}
         {item.status === 'pending' && (
-          <span className="ml-auto rounded border border-white/25 px-1.5 text-caption text-on-dark-muted">待建立</span>
+          <span className="ml-auto rounded bg-chrome-hover px-1.5 text-caption text-chrome-muted">待建立</span>
         )}
       </span>
     )
@@ -114,7 +114,7 @@ function SidebarLink({
 
 function GroupHeading({ children }: { children: ReactNode }) {
   return (
-    <h2 className="m-0 px-4 pt-3 pb-1 text-caption font-semibold tracking-wider text-on-dark-muted">
+    <h2 className="m-0 px-4 pt-3 pb-1 text-caption font-semibold tracking-wider text-chrome-muted">
       {children}
     </h2>
   )
@@ -122,14 +122,14 @@ function GroupHeading({ children }: { children: ReactNode }) {
 
 function SubHeading({ children }: { children: ReactNode }) {
   return (
-    <p className="m-0 px-5 pt-1.5 pb-0.5 text-caption text-on-dark-muted">{children}</p>
+    <p className="m-0 px-5 pt-1.5 pb-0.5 text-caption text-chrome-muted">{children}</p>
   )
 }
 
 function NavGroup({ label, suffix, children }: { label: string; suffix?: string; children: ReactNode }) {
   return (
     <section className="pb-1">
-      <div className="mx-4 mt-2 h-px bg-white/10" />
+      <div className="mx-4 mt-2 h-px bg-border" />
       <GroupHeading>
         {label}
         {suffix && <span className="font-normal">・{suffix}</span>}
@@ -200,15 +200,15 @@ function SubjectTree({
     <div>
       <button
         type="button"
-        className="flex min-h-[max(2.5rem,var(--control-min-h))] w-full items-center gap-2 border-l-[3px] border-l-transparent py-2 pl-[1.1rem] pr-3 text-left text-meta text-on-dark hover:bg-white/8"
+        className="flex min-h-[max(2.5rem,var(--control-min-h))] w-full items-center gap-2 border-l-[3px] border-l-transparent py-2 pl-[1.1rem] pr-3 text-left text-meta text-chrome-text hover:bg-chrome-hover"
         onClick={onToggle}
         aria-expanded={open}
         aria-controls={panelId}
         title={full}
       >
-        <span className="inline-block w-3 shrink-0 text-on-dark-muted" aria-hidden="true">{open ? '▾' : '▸'}</span>
+        <span className="inline-block w-3 shrink-0 text-chrome-muted" aria-hidden="true">{open ? '▾' : '▸'}</span>
         <span className="shrink-0 font-semibold">{number}</span>
-        {name && <span className="min-w-0 truncate text-caption text-on-dark-muted">{name}</span>}
+        {name && <span className="min-w-0 truncate text-caption text-chrome-muted">{name}</span>}
       </button>
       {open && (
         <div id={panelId}>
@@ -429,7 +429,7 @@ function Sidebar({ id, isOpen, onClose, onSearch, restoreFocusRef, collapsed = f
         if (anchor && anchor.getAttribute('target') !== '_blank') navigatingRef.current = true
       }}
       className={`
-        sidebar-drawer fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-[272px] bg-sidebar text-on-dark
+        sidebar-drawer fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-[272px] bg-sidebar text-chrome-text
         flex-col flex-shrink-0 z-50 transition-transform duration-300
         md:sticky md:top-0 md:left-auto md:h-full md:translate-x-0 md:z-auto
         ${collapsed ? 'hidden' : 'flex'}
@@ -437,10 +437,10 @@ function Sidebar({ id, isOpen, onClose, onSearch, restoreFocusRef, collapsed = f
       `}
     >
       {/* 手機抽屜頂列：搜尋與關閉 */}
-      <div className="flex shrink-0 items-center gap-2 border-b border-white/10 px-3 py-2 md:hidden">
+      <div className="flex shrink-0 items-center gap-2 border-b border-border px-3 py-2 md:hidden">
         <button
           type="button"
-          className="touch-target inline-flex flex-1 items-center gap-2 rounded-md border border-white/20 bg-white/8 px-3 text-left text-ui text-on-dark hover:bg-white/14"
+          className="touch-target inline-flex flex-1 items-center gap-2 rounded-lg border border-border bg-app-bg px-3 text-left text-ui text-chrome-text hover:bg-chrome-hover"
           onClick={onSearch}
         >
           <SearchIcon />
@@ -449,7 +449,7 @@ function Sidebar({ id, isOpen, onClose, onSearch, restoreFocusRef, collapsed = f
         <button
           ref={closeButtonRef}
           type="button"
-          className="touch-target inline-flex shrink-0 items-center justify-center rounded-md border border-white/20 bg-white/8 text-lg text-on-dark hover:bg-white/14"
+          className="touch-target inline-flex shrink-0 items-center justify-center rounded-lg border border-border bg-app-bg text-lg text-chrome-text hover:bg-chrome-hover"
           onClick={onClose}
           aria-label="關閉選單"
         >
@@ -457,7 +457,7 @@ function Sidebar({ id, isOpen, onClose, onSearch, restoreFocusRef, collapsed = f
         </button>
       </div>
 
-      <div ref={navRef} className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden pb-8 overscroll-contain scrollbar-sidebar border-r border-slate-950/20">
+      <div ref={navRef} className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden pb-8 overscroll-contain scrollbar-sidebar border-r border-border">
         <div className="pt-2">
           <NavLink to="/" end className={({ isActive }) => navItemClass(isActive)} onClick={onClose}>
             {navLabel('home')}
@@ -569,7 +569,7 @@ function Sidebar({ id, isOpen, onClose, onSearch, restoreFocusRef, collapsed = f
             <div>
               <button
                 type="button"
-                className="flex min-h-[max(2.5rem,var(--control-min-h))] w-full items-center gap-2 border-l-[3px] border-l-transparent py-2 pl-[1.1rem] pr-3 text-left text-meta text-on-dark-muted hover:bg-white/8 hover:text-on-dark"
+                className="flex min-h-[max(2.5rem,var(--control-min-h))] w-full items-center gap-2 border-l-[3px] border-l-transparent py-2 pl-[1.1rem] pr-3 text-left text-meta text-chrome-muted hover:bg-chrome-hover hover:text-chrome-text"
                 onClick={toggleReferences}
                 aria-expanded={referencesOpen}
               >

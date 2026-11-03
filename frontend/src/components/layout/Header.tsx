@@ -31,7 +31,7 @@ export default function Header({
 
   return (
     <header
-      className={`app-header sticky top-0 z-100 min-h-14 border-b border-white/10 bg-primary text-white shadow-[0_8px_24px_rgba(15,23,42,0.18)] ${
+      className={`app-header sticky top-0 z-100 min-h-14 border-b border-border bg-white text-chrome-text ${
         hiddenOnMobile ? 'max-md:hidden' : ''
       }`}
     >
@@ -39,7 +39,7 @@ export default function Header({
         <button
           ref={menuButtonRef}
           type="button"
-          className="touch-target md:hidden inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-white/20 bg-white/8 text-white text-lg cursor-pointer"
+          className="touch-target md:hidden inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border bg-app-bg text-chrome-text text-lg cursor-pointer hover:bg-chrome-hover"
           onClick={onMenuClick}
           aria-controls={sidebarId}
           aria-expanded={sidebarOpen}
@@ -52,13 +52,13 @@ export default function Header({
           <p className="m-0 min-w-0 text-[1rem] font-bold tracking-0">
             <Link
               to="/"
-              className="flex min-h-11 min-w-0 flex-col justify-center text-white no-underline hover:text-white/90 sm:block sm:min-h-0"
+              className="flex min-h-11 min-w-0 flex-col justify-center text-primary no-underline hover:text-accent-hover sm:block sm:min-h-0"
             >
               <span className="block truncate leading-tight sm:leading-snug">{SITE_NAME}</span>
               {/* 手機版的所在位置（桌機版在下一行 tagline 後面） */}
               {section && (
                 <span
-                  className="block truncate text-caption font-semibold leading-4 text-on-dark-muted sm:hidden"
+                  className="block truncate text-caption font-semibold leading-4 text-chrome-muted sm:hidden"
                   aria-hidden="true"
                 >
                   {section}
@@ -66,12 +66,12 @@ export default function Header({
               )}
             </Link>
           </p>
-          <div className="hidden text-caption text-on-dark-muted sm:flex sm:min-w-0 sm:items-center sm:gap-1.5">
+          <div className="hidden text-caption text-chrome-muted sm:flex sm:min-w-0 sm:items-center sm:gap-1.5">
             <span className="truncate">{SITE_TAGLINE}</span>
             {section && (
               <>
-                <span aria-hidden="true" className="text-on-dark-muted">·</span>
-                <span className="shrink-0 font-semibold text-white/90">{section}</span>
+                <span aria-hidden="true" className="text-chrome-muted">·</span>
+                <span className="shrink-0 font-semibold text-accent-hover">{section}</span>
               </>
             )}
           </div>
@@ -80,13 +80,13 @@ export default function Header({
           ref={searchButtonRef}
           type="button"
           onClick={onSearchClick}
-          className="touch-target inline-flex shrink-0 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-meta text-white/90 hover:bg-white/16"
+          className="touch-target inline-flex shrink-0 items-center justify-center gap-2 rounded-full border border-border bg-app-bg px-3 py-1.5 text-meta text-chrome-muted hover:border-border-strong hover:bg-white hover:text-chrome-text"
           aria-label={SEARCH_LABEL}
           aria-keyshortcuts={isApplePlatform ? 'Meta+K' : 'Control+K'}
         >
           <SearchIcon />
           <span className="hidden md:inline">{SEARCH_LABEL}</span>
-          <kbd className="hidden rounded border border-white/25 px-1 font-sans text-caption text-on-dark-muted lg:inline">
+          <kbd className="hidden rounded border border-border bg-white px-1 font-sans text-caption text-chrome-muted lg:inline">
             {isApplePlatform ? '⌘ K' : 'Ctrl K'}
           </kbd>
         </button>

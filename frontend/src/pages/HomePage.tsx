@@ -36,7 +36,7 @@ function ResourceLink({ item, compact = false }: { item: ResourceNavItem; compac
     </>
   )
 
-  const className = `group block min-h-11 surface-compact surface-hover no-underline hover:bg-accent-soft ${
+  const className = `group block min-h-11 panel-muted no-underline transition-colors hover:bg-accent-soft ${
     compact ? 'px-3 py-2.5' : 'px-4 py-3'
   }`
   if (item.externalUrl) {
@@ -48,7 +48,7 @@ function ResourceLink({ item, compact = false }: { item: ResourceNavItem; compac
   }
   if (!item.to || item.status === 'pending') {
     return (
-      <div className={`surface-compact bg-unanswered-soft ${compact ? 'px-3 py-2.5' : 'px-4 py-3'}`}>
+      <div className={`rounded-xl border border-dashed border-border-strong ${compact ? 'px-3 py-2.5' : 'px-4 py-3'}`}>
         {content}
       </div>
     )
@@ -73,7 +73,7 @@ function SubjectTaskLink({
 }) {
   if (!to) {
     return (
-      <div className="rounded-lg border border-border bg-unanswered-soft px-2.5 py-2.5 text-ui sm:px-3 text-text-light">
+      <div className="rounded-lg border border-dashed border-border-strong px-2.5 py-2.5 text-ui sm:px-3 text-text-light">
         <span className="block font-semibold text-text-light">{label}</span>
         <span className="mt-0.5 block text-caption leading-5">{detail}</span>
       </div>
@@ -85,12 +85,12 @@ function SubjectTaskLink({
       to={to}
       className={`min-h-11 rounded-lg border px-2.5 py-2.5 text-ui no-underline sm:px-3 transition-colors ${
         primary
-          ? 'border-accent bg-accent text-white hover:bg-accent-hover'
-          : 'border-border bg-white text-primary hover:border-accent hover:bg-accent-soft'
+          ? 'border-accent bg-accent text-white shadow-sm hover:border-accent-hover hover:bg-accent-hover'
+          : 'border-transparent bg-white text-primary shadow-[0_1px_2px_rgba(15,23,42,0.05)] hover:bg-accent-soft hover:text-accent-hover'
       }`}
     >
       <span className="block font-semibold">{label}</span>
-      <span className={`mt-0.5 block text-caption leading-5 ${primary ? 'text-on-dark-muted' : 'text-text-light'}`}>
+      <span className={`mt-0.5 block text-caption leading-5 ${primary ? 'text-white/85' : 'text-text-light'}`}>
         {detail}
       </span>
     </Link>
@@ -194,18 +194,18 @@ export default function HomePage() {
         }
         asideClassName="hidden sm:block"
         aside={
-          <div className="grid grid-cols-3 gap-3 border-t border-white/15 pt-4 text-white lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
+          <div className="grid grid-cols-3 gap-3 border-t border-indigo-100 pt-4 text-primary lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
             <div>
               <div className="text-[1.35rem] font-black leading-none tabular-nums">{resourceStats.junior.subjects + resourceStats.middle.subjects}</div>
-              <div className="mt-1 text-caption font-medium text-on-dark-muted">科目</div>
+              <div className="mt-1 text-caption font-medium text-text-light">科目</div>
             </div>
             <div>
               <div className="text-[1.35rem] font-black leading-none tabular-nums">{totalPractice}</div>
-              <div className="mt-1 text-caption font-medium text-on-dark-muted">練習題</div>
+              <div className="mt-1 text-caption font-medium text-text-light">練習題</div>
             </div>
             <div>
               <div className="text-[1.35rem] font-black leading-none tabular-nums">{totalOfficial}</div>
-              <div className="mt-1 text-caption font-medium text-on-dark-muted">{navLabel('exam')}題數</div>
+              <div className="mt-1 text-caption font-medium text-text-light">{navLabel('exam')}題數</div>
             </div>
           </div>
         }
@@ -225,7 +225,7 @@ export default function HomePage() {
           {resourceLevels.map((level) => {
             const stats = resourceStats[level.id]
             return (
-              <section key={level.id} className="surface-compact p-3 sm:p-4">
+              <section key={level.id} className="sm:p-1">
                 <div className="mb-2 flex flex-wrap items-start justify-between gap-3 sm:mb-3">
                   <div>
                     <h3 className="text-lg font-semibold text-primary">{level.label}</h3>
@@ -238,7 +238,7 @@ export default function HomePage() {
                   {level.subjects.map((subject) => {
                     const practice = practiceTarget(subject)
                     return (
-                      <article key={subject.id} className="rounded-lg border border-border bg-white p-3">
+                      <article key={subject.id} className="panel-muted p-3 sm:p-4">
                         <div className="mb-2 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 sm:mb-3">
                           <Link to={subject.overviewTo ?? subject.guideTo ?? '/'} className="text-link text-primary hover:text-accent">
                             {subjectOptionById(subject.id)?.fullLabel ?? subject.label}
@@ -305,15 +305,15 @@ export default function HomePage() {
         <div className="eyebrow mb-1">學習路線</div>
         <h2 className="section-title mb-3">備考流程</h2>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-          <div className="surface-compact p-4">
+          <div className="panel-muted p-4">
             <div className="mb-1 text-meta font-semibold text-accent">01 選科目</div>
             <p className="text-ui leading-6 text-text-light">先確認級別與科目，再進科目總覽查看章節範圍。</p>
           </div>
-          <div className="surface-compact p-4">
+          <div className="panel-muted p-4">
             <div className="mb-1 text-meta font-semibold text-accent">02 讀與練</div>
             <p className="text-ui leading-6 text-text-light">每章先讀主題式文章或學習指引，再用可用練習題檢查理解。</p>
           </div>
-          <div className="surface-compact p-4">
+          <div className="panel-muted p-4">
             <div className="mb-1 text-meta font-semibold text-accent">03 做整卷</div>
             <p className="text-ui leading-6 text-text-light">最後用公告試題與樣題驗收，錯題再回到章節補強。</p>
           </div>

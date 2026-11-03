@@ -1,43 +1,55 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #17324d;
-  --color-primary-light: #24496b;
-  --color-accent: #2563eb;
-  --color-accent-hover: #1d4ed8;
-  --color-app-bg: #f5f7fb;
+  /* 2026-11 清爽版：primary = 近黑 slate（標題文字、深色主按鈕以外不再當底色）；
+     accent = 靛藍 #4f46e5（白底 6.3:1；hover #4338ca 白底 7.9:1）。 */
+  --color-primary: #0f172a;
+  --color-primary-light: #334155;
+  --color-accent: #4f46e5;
+  --color-accent-hover: #4338ca;
+  --color-app-bg: #f8fafc;
   --color-card: #ffffff;
-  --color-app-text: #1f2937;
-  /* Muted text: #5a6a7f passes 4.5:1 on white, app-bg, #f8fafc and #eff6ff (>= 5.0:1). */
-  --color-text-light: #5a6a7f;
-  --color-text-muted: #5a6a7f;
-  --color-border: #d8e0ea;
+  --color-app-text: #1e293b;
+  /* Muted text: #556274 passes 4.5:1 on white, app-bg, #f1f5f9 and #eef2ff (>= 5.4:1). */
+  --color-text-light: #556274;
+  --color-text-muted: #556274;
+  --color-border: #e2e8f0;
+  --color-border-strong: #cbd5e1;
   --color-success: #15803d;
   --color-error: #dc2626;
   --color-warning: #b45309;
   --sidebar-w: 260px;
 
-  /* Dark chrome (header #17324d / sidebar #132b43). on-dark-muted = white/72 (>= 7.5:1). */
-  --color-sidebar: #132b43;
+  /* Light chrome (header / sidebar are white with hairline dividers). */
+  --color-sidebar: #ffffff;
+  --color-chrome-text: #1e293b;
+  /* 側欄未選項目：slate-600，白底 7.6:1。 */
+  --color-chrome-muted: #475569;
+  --color-chrome-hover: #f1f5f9;
+  --color-chrome-active: #eef2ff;
+  --color-chrome-active-text: #3730a3;
+  /* Muted panel inside a card (sub-sections without borders). */
+  --color-panel: #f1f5f9;
+
+  /* Kept for overlays drawn on dark media (ConceptGraph3D legend). */
   --color-on-dark: #ffffff;
   --color-on-dark-muted: rgb(255 255 255 / 0.72);
-  /* Alert text on the dark chrome (exam timer < 10 / < 5 min): >= 7:1 on #17324d. */
   --color-on-dark-warning: #fcd34d;
   --color-on-dark-danger: #fca5a5;
 
   /* Accent tint for hover / highlighted cards (NOT an answer state — use answered-* for that). */
-  --color-accent-soft: #f0f7ff;
+  --color-accent-soft: #eef2ff;
 
   /* Warning / caution surfaces (alerts, 「歷屆試題」 blocks, badge-warning). text >= 7:1 on soft. */
   --color-warning-soft: #fffbeb;
   --color-warning-line: #f7d48b;
   --color-warning-text: #7c4a03;
 
-  /* Semantic answer states. "answered" is neutral blue (filled in, NOT judged);
+  /* Semantic answer states. "answered" is neutral indigo (filled in, NOT judged);
      correct / wrong only after grading. *-soft = background, *-line = border, base = text/icon. */
-  --color-answered: #1d4ed8;
-  --color-answered-soft: #eff6ff;
-  --color-answered-line: #93c5fd;
+  --color-answered: #4338ca;
+  --color-answered-soft: #eef2ff;
+  --color-answered-line: #a5b4fc;
   --color-correct: #166534;
   --color-correct-strong: #15803d;
   --color-correct-soft: #ecfdf3;
@@ -46,9 +58,9 @@
   --color-wrong-strong: #dc2626;
   --color-wrong-soft: #fef2f2;
   --color-wrong-line: #fca5a5;
-  --color-unanswered: #5a6a7f;
+  --color-unanswered: #556274;
   --color-unanswered-soft: #f8fafc;
-  --color-unanswered-line: #d8e0ea;
+  --color-unanswered-line: #e2e8f0;
 
   /* Type scale. Nothing visible may be smaller than text-caption (12px).
      text-reading (16px) is for guide/article body, question stems and options. */
@@ -74,9 +86,9 @@
   --app-safe-bottom: env(safe-area-inset-bottom, 0px);
   --surface-bg: var(--color-card);
   --surface-border: var(--color-border);
-  --surface-shadow: 0 8px 22px rgba(15, 23, 42, 0.045);
-  --radius-panel: 0.75rem;
-  --radius-control: 0.5rem;
+  --surface-shadow: none;
+  --radius-panel: 1rem;
+  --radius-control: 0.625rem;
   --target-min: 44px;
   /* Desktop (fine pointer, >= 768px) controls may be compact; touch/narrow always get --target-min. */
   --control-min-h: 2.25rem;
@@ -168,7 +180,7 @@ html {
 
 .scrollbar-sidebar {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+  scrollbar-color: rgba(15, 23, 42, 0.16) transparent;
 }
 
 .scrollbar-sidebar::-webkit-scrollbar {
@@ -180,12 +192,12 @@ html {
 }
 
 .scrollbar-sidebar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(15, 23, 42, 0.16);
   border-radius: 2px;
 }
 
 .scrollbar-sidebar::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.32);
+  background: rgba(15, 23, 42, 0.3);
 }
 
 
@@ -197,9 +209,9 @@ html {
 
   .page-header {
     border: 1px solid var(--surface-border);
-    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    background: #ffffff;
     border-radius: var(--radius-panel);
-    padding: 1.25rem;
+    padding: 1.5rem;
     box-shadow: var(--surface-shadow);
   }
 
@@ -208,6 +220,7 @@ html {
     font-size: var(--text-page-title);
     line-height: var(--text-page-title--line-height);
     font-weight: 700;
+    letter-spacing: -0.01em;
   }
 
   .page-header-description {
@@ -234,21 +247,22 @@ html {
     padding: 0.5rem 0 1rem;
   }
 
-  /* PageHeader variant="hero": home hero, dark panel. */
+  /* PageHeader variant="hero": home hero, light panel (white -> faint indigo). */
   .page-header-hero .page-header-title {
-    color: #ffffff;
+    color: var(--color-primary);
     font-size: 1.75rem;
-    font-weight: 900;
+    font-weight: 800;
+    letter-spacing: -0.015em;
     line-height: var(--text-hero-title--line-height);
   }
 
   .page-header-hero .page-header-description {
-    color: rgb(255 255 255 / 0.8);
+    color: var(--color-text-light);
     font-size: var(--text-reading);
   }
 
   .page-header-hero .page-header-meta {
-    color: rgb(255 255 255 / 0.78);
+    color: var(--color-text-light);
   }
 
   @media (min-width: 768px) {
@@ -260,25 +274,17 @@ html {
   .hero-panel {
     position: relative;
     overflow: hidden;
-    border-radius: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.25rem;
+    border: 1px solid #e0e7ff;
     background:
-      radial-gradient(52rem 26rem at 88% -30%, rgba(59, 130, 246, 0.35), transparent 60%),
-      radial-gradient(40rem 22rem at -12% 120%, rgba(37, 99, 235, 0.22), transparent 55%),
-      linear-gradient(135deg, #12283e 0%, #17324d 55%, #1c3f63 100%);
-    color: #ffffff;
-    box-shadow: 0 18px 44px rgba(15, 23, 42, 0.22);
+      radial-gradient(40rem 20rem at 92% -20%, rgba(99, 102, 241, 0.12), transparent 65%),
+      linear-gradient(135deg, #ffffff 0%, #f8faff 45%, #eef2ff 100%);
+    color: var(--color-primary);
   }
 
+  /* 格線已移除；保留 class 讓 PageHeader 的裝飾節點不必改。 */
   .hero-grid {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-    background-size: 34px 34px;
-    mask-image: radial-gradient(58rem 30rem at 75% 0%, rgba(0, 0, 0, 0.85), transparent 70%);
+    display: none;
   }
 
   .hero-chip {
@@ -286,59 +292,62 @@ html {
     align-items: center;
     gap: 0.35rem;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    background-color: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.92);
-    padding: 0.22rem 0.65rem;
+    background-color: #e0e7ff;
+    color: var(--color-chrome-active-text);
+    padding: 0.22rem 0.7rem;
     font-size: var(--text-caption);
     font-weight: 700;
     line-height: 1.4;
   }
 
+  /* Hero 主按鈕：實心靛藍。 */
   .btn-hero {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: max(2.5rem, var(--control-min-h));
-    border-radius: 0.5rem;
-    padding: 0.55rem 1.1rem;
+    min-height: max(2.75rem, var(--control-min-h));
+    border-radius: var(--radius-control);
+    padding: 0.6rem 1.25rem;
     font-size: var(--text-ui);
     font-weight: 700;
     line-height: 1.2;
     text-decoration: none;
-    color: var(--color-primary);
-    background-color: #ffffff;
-    border: 1px solid #ffffff;
-    box-shadow: 0 6px 18px rgba(2, 8, 20, 0.25);
-    transition: transform 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+    cursor: pointer;
+    color: #ffffff;
+    background-color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.22);
+    transition: background-color 150ms ease, box-shadow 150ms ease;
   }
 
   .btn-hero:hover {
-    background-color: #eef4ff;
-    transform: translateY(-1px);
-    box-shadow: 0 10px 24px rgba(2, 8, 20, 0.3);
+    background-color: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
+    box-shadow: 0 8px 20px rgba(67, 56, 202, 0.28);
   }
 
+  /* Hero 次要按鈕：白底、極淡靛藍框。 */
   .btn-hero-ghost {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: max(2.5rem, var(--control-min-h));
-    border-radius: 0.5rem;
-    padding: 0.55rem 1.1rem;
+    min-height: max(2.75rem, var(--control-min-h));
+    border-radius: var(--radius-control);
+    padding: 0.6rem 1.15rem;
     font-size: var(--text-ui);
     font-weight: 700;
     line-height: 1.2;
     text-decoration: none;
-    color: rgba(255, 255, 255, 0.94);
-    background-color: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.28);
+    cursor: pointer;
+    color: var(--color-accent-hover);
+    background-color: #ffffff;
+    border: 1px solid #e0e7ff;
     transition: background-color 150ms ease, border-color 150ms ease;
   }
 
   .btn-hero-ghost:hover {
-    background-color: rgba(255, 255, 255, 0.16);
-    border-color: rgba(255, 255, 255, 0.45);
+    background-color: var(--color-accent-soft);
+    border-color: #c7d2fe;
   }
 
   .surface {
@@ -351,7 +360,13 @@ html {
   .surface-compact {
     background-color: var(--surface-bg);
     border: 1px solid var(--surface-border);
-    border-radius: 0.625rem;
+    border-radius: 0.75rem;
+  }
+
+  /* 卡片內的分區：淡灰底、無邊框（取代「卡片裡再套卡片」）。 */
+  .panel-muted {
+    background-color: var(--color-panel);
+    border-radius: 0.75rem;
   }
 
   .section-title {
@@ -362,7 +377,7 @@ html {
   }
 
   .eyebrow {
-    color: var(--color-accent-hover);
+    color: var(--color-accent);
     font-size: var(--text-caption);
     font-weight: 700;
     letter-spacing: 0.06em;
@@ -396,6 +411,7 @@ html {
     color: #ffffff;
     background-color: var(--color-accent);
     border: 1px solid var(--color-accent);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
   }
 
   .btn-primary:hover {
@@ -403,30 +419,30 @@ html {
     border-color: var(--color-accent-hover);
   }
 
+  /* 次要動作：淡靛藍底、無外框（舊名 outline 保留，外觀已改成 soft）。 */
   .btn-outline {
-    color: var(--color-accent);
-    background-color: #ffffff;
-    border: 1px solid #b9cff8;
+    color: var(--color-accent-hover);
+    background-color: var(--color-accent-soft);
+    border: 1px solid transparent;
   }
 
   .btn-outline:hover {
-    color: #ffffff;
-    background-color: var(--color-accent);
-    border-color: var(--color-accent);
+    color: var(--color-chrome-active-text);
+    background-color: #e0e7ff;
   }
 
   .btn-muted {
-    color: var(--color-text-light);
-    background-color: var(--color-unanswered-soft);
-    border: 1px solid var(--color-border);
+    color: var(--color-primary-light);
+    background-color: var(--color-panel);
+    border: 1px solid transparent;
   }
 
   .btn-muted:hover {
     color: var(--color-primary);
-    border-color: #b6c3d3;
+    background-color: #e2e8f0;
   }
 
-  /* Neutral secondary action (was referenced by pages but never defined). */
+  /* Neutral secondary action: white with a hairline border (for use on grey panels). */
   .btn-secondary {
     color: var(--color-primary);
     background-color: #ffffff;
@@ -435,7 +451,7 @@ html {
 
   .btn-secondary:hover {
     color: var(--color-accent-hover);
-    border-color: var(--color-accent);
+    border-color: #c7d2fe;
     background-color: var(--color-accent-soft);
   }
 
@@ -447,13 +463,13 @@ html {
   }
 
   .btn-ghost:hover {
-    background-color: var(--color-answered-soft);
+    background-color: var(--color-accent-soft);
   }
 
   .btn-danger {
     color: var(--color-wrong);
     background-color: var(--color-wrong-soft);
-    border: 1px solid var(--color-wrong-line);
+    border: 1px solid transparent;
   }
 
   .btn-danger:hover {
@@ -497,9 +513,9 @@ html {
     gap: 0.375rem;
     min-height: var(--control-min-h);
     border-radius: 999px;
-    border: 1px solid var(--color-border);
-    background-color: #ffffff;
-    color: var(--color-primary);
+    border: 1px solid transparent;
+    background-color: var(--color-panel);
+    color: var(--color-primary-light);
     padding: 0.4rem 0.9rem;
     font-size: var(--text-ui);
     font-weight: 600;
@@ -511,7 +527,7 @@ html {
   }
 
   .chip:hover {
-    border-color: var(--color-accent);
+    background-color: var(--color-accent-soft);
     color: var(--color-accent-hover);
   }
 
@@ -537,18 +553,19 @@ html {
     cursor: not-allowed;
     background-color: var(--color-unanswered-soft);
     color: var(--color-text-light);
+    border-color: var(--color-border);
     border-style: dashed;
   }
 
   /* Wrong-tone chip (e.g. 「答錯的題目」 jump list on the results page). */
   .chip-wrong {
-    border-color: var(--color-wrong-line);
+    border-color: transparent;
     background-color: var(--color-wrong-soft);
     color: var(--color-wrong);
   }
 
   .chip-wrong:hover {
-    border-color: var(--color-wrong-strong);
+    border-color: var(--color-wrong-line);
     background-color: var(--color-wrong-soft);
     color: var(--color-wrong);
   }
@@ -597,8 +614,8 @@ html {
     align-items: center;
     gap: 0.25rem;
     border-radius: 0.375rem;
-    border: 1px solid var(--color-border);
-    background-color: var(--color-unanswered-soft);
+    border: 1px solid transparent;
+    background-color: var(--color-panel);
     color: var(--color-text-light);
     padding: 0.125rem 0.5rem;
     font-size: var(--text-caption);
@@ -609,25 +626,25 @@ html {
 
   .badge-accent,
   .badge-answered {
-    border-color: var(--color-answered-line);
+    border-color: transparent;
     background-color: var(--color-answered-soft);
     color: var(--color-answered);
   }
 
   .badge-correct {
-    border-color: var(--color-correct-line);
+    border-color: transparent;
     background-color: var(--color-correct-soft);
     color: var(--color-correct);
   }
 
   .badge-wrong {
-    border-color: var(--color-wrong-line);
+    border-color: transparent;
     background-color: var(--color-wrong-soft);
     color: var(--color-wrong);
   }
 
   .badge-warning {
-    border-color: var(--color-warning-line);
+    border-color: transparent;
     background-color: var(--color-warning-soft);
     color: var(--color-warning-text);
   }
@@ -699,19 +716,19 @@ html {
     align-items: center;
     gap: 0.25rem;
     border-radius: 999px;
-    border: 1px solid var(--color-answered-line);
-    background-color: var(--color-answered-soft);
-    color: var(--color-answered);
-    padding: 0.18rem 0.55rem;
+    border: 1px solid transparent;
+    background-color: var(--color-accent-soft);
+    color: var(--color-accent-hover);
+    padding: 0.18rem 0.6rem;
     font-size: var(--text-caption);
     font-weight: 700;
     line-height: 1.35;
   }
 
   .pill-muted {
-    border-color: var(--color-border);
-    background-color: var(--color-unanswered-soft);
-    color: var(--color-text-light);
+    border-color: transparent;
+    background-color: var(--color-panel);
+    color: var(--color-primary-light);
   }
 
   .alert-warning {
@@ -730,7 +747,7 @@ html {
     border-spacing: 0;
     overflow: hidden;
     border: 1px solid var(--color-border);
-    border-radius: 0.625rem;
+    border-radius: 0.75rem;
     background-color: #ffffff;
   }
 
@@ -744,7 +761,7 @@ html {
 
   .table-soft th {
     background-color: var(--color-unanswered-soft);
-    color: #334155;
+    color: var(--color-primary-light);
     font-size: var(--text-meta);
     font-weight: 800;
   }
@@ -777,9 +794,9 @@ button:focus-visible {
 }
 
 .surface-hover:hover {
-  border-color: #b9cff8;
-  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.09);
-  transform: translateY(-2px);
+  border-color: #c7d2fe;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+  transform: translateY(-1px);
 }
 
 /* 窄螢幕的左右對齊會把中英混排拉出大空隙（「在　Lasso　模　型」），只在 md 以上對齊 */

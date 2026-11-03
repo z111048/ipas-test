@@ -393,10 +393,10 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
             {pass ? '已達及格標準' : '尚未達及格標準'}
           </div>
           <div className="flex gap-3 flex-wrap justify-center my-6">
-            <StatBox value={correct} label="答對" valueColor="text-correct" />
-            <StatBox value={wrong} label="答錯" valueColor="text-wrong" />
-            <StatBox value={skipped} label="未答" valueColor="text-text-light" />
-            <StatBox value={total} label="總題數" />
+            <StatBox tone="muted" value={correct} label="答對" valueColor="text-correct" />
+            <StatBox tone="muted" value={wrong} label="答錯" valueColor="text-wrong" />
+            <StatBox tone="muted" value={skipped} label="未答" valueColor="text-text-light" />
+            <StatBox tone="muted" value={total} label="總題數" />
           </div>
           <ProgressBar
             percent={score}
