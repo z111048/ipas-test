@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "guide-hash-rebind-20261103-review-delegation-v1",
+  "grantedBy": "maintainer",
+  "grantedTo": "agent-ds1017",
+  "grantedAt": "2026-11-03T00:00:00Z",
+  "role": "independent_model",
+  "model": "deepseek-v4.1-flash:1017（團購網關，經 cshare 啟動、唯讀工具）",
+  "scope": [
+    "mvp-domain-content",
+    "mvp-source-contract"
+  ],
+  "scopeLimit": "只限 round 4 講義修正（guideContent 的 content／headings 備援欄位改由 blocks 推導並對齊，blocks 不變）造成的 mid-s2c4／mid-s3c9 整檔雜湊重綁（block id 不變）：核對被引用的 block（mid-s2c4 block-3；mid-s3c9 block-71、149、168，DOM anchor 4交叉驗證）在新舊版 id 相同且逐欄位相同、quote 在新版唯一命中同一 id、diff 只侷限於 guide hash／evidence revision 與 observedAt／contentHash／reviewIds 與 anchor history、被移入 superseded/ 的舊紀錄逐 byte 未變，以及同一次 resource_catalog 整檔 hash 變動連帶造成的 analysis-imbalanced-source-examples-v1 catalogHash 重綁（其餘欄位不變）。新 review 的審查內容只換 subject.hash、dependencyHashes 與 supersedes，id、reviewerId、qualification、evidenceRefs、checks[].evidenceIds、createdAt、rationale 為新紀錄的行政欄位。不包含教學語意重審、不包含 Lab L4 重做或真人 Colab L5、不包含重新判斷題目答案、不包含 round 4 講義修正本身的 OCR 或教學正確性。",
+  "evidence": "維護者（repo 使用者本人）2026-11-03 核准 mid-s2c4、mid-s3c9 只換雜湊（block id 不變），指定 ds1017 擔任本輪範圍受限的非作者審查者。授權者是維護者，不等於審查者 agent-ds1017，也不等於作者 agent-claude-code。",
+  "humanApproval": false
+}

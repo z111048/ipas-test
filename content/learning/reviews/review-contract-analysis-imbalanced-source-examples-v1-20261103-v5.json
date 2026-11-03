@@ -1,0 +1,99 @@
+{
+  "id": "review-contract-analysis-imbalanced-source-examples-v1-20261103-v5",
+  "subject": {
+    "kind": "exam-analysis",
+    "id": "analysis-imbalanced-source-examples-v1",
+    "revision": 1,
+    "hash": "sha256:6506c6f3242eb45cc3e5a7558d351e883ef79fdb4365978f8d91b4f512251dd1"
+  },
+  "dependencyHashes": [],
+  "rubricVersion": "mvp-review-v1",
+  "reviewerId": "script-validate-learning-content",
+  "reviewerRole": "automated_check",
+  "authorId": "agent-claude-code",
+  "responsibility": "deterministic_contract",
+  "qualification": {
+    "scope": [
+      "mvp-source-contract"
+    ],
+    "evidenceIds": [
+      "evidence-guide-hash-rebind-20261103-delegation"
+    ],
+    "grantedBy": "maintainer",
+    "grantedAt": "2026-11-03T00:00:00Z"
+  },
+  "evidenceRefs": [
+    {
+      "id": "evidence-analysis-hash-rebind-20261102-delegation",
+      "revision": 1,
+      "hash": "sha256:449efaa58d05c50929e53c9b589d167fda1363b9e13092d85c6c65f1cc1b26c3"
+    },
+    {
+      "id": "evidence-analysis-hash-rebind-20261102-diff",
+      "revision": 1,
+      "hash": "sha256:297ee410aa8671350b60699f93b816b01f72fae43bbc6bf0707270b58cced3e1"
+    },
+    {
+      "id": "evidence-guide-hash-rebind-20261102-delegation",
+      "revision": 1,
+      "hash": "sha256:2a20b8d30cbbefeb50905410b22837c77d2a385ae7244b098ed2b8b6e5df160e"
+    },
+    {
+      "id": "evidence-guide-hash-rebind-20261102-diff",
+      "revision": 1,
+      "hash": "sha256:36733b252abc1a0f6a948532f76191eb9096b278d1a40a7739e9cc26f36e8e3e"
+    },
+    {
+      "id": "evidence-guide-hash-rebind-20261103-delegation",
+      "revision": 1,
+      "hash": "sha256:74cc08761ba047c2599c478e9b7f741e27e207642c1b6b94fdea05737b9a715f"
+    },
+    {
+      "id": "evidence-guide-hash-rebind-20261103-diff",
+      "revision": 1,
+      "hash": "sha256:edd15a1358a309bfa011f522bd8ad3147f5790d128799026a496db1d34676cd6"
+    },
+    {
+      "id": "evidence-lp210b-migration-diff",
+      "revision": 1,
+      "hash": "sha256:4b067cec98f71e9960e6d064c2d258a194e5ae7076632f7da2c7deecd504beae"
+    },
+    {
+      "id": "evidence-lp210b-review-delegation",
+      "revision": 1,
+      "hash": "sha256:6aa7f6603715641cce813c196f5f25ad39280095290b9b990eedc52ec1bc99c7"
+    },
+    {
+      "id": "evidence-mvp-contract-check-20260907",
+      "revision": 1,
+      "hash": "sha256:17c011241124fbc4a8af6ac73b4e47e43b045d54384c118dec1bc5bee37e684f"
+    },
+    {
+      "id": "evidence-mvp-record-completion-delegation",
+      "revision": 1,
+      "hash": "sha256:922240d8bed38acc0ea3c8733d23d8a0e906b4830ed0f75b6350d8fff5398d56"
+    }
+  ],
+  "verdict": "approved",
+  "checks": [
+    {
+      "code": "C1",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-analysis-hash-rebind-20261102-delegation",
+        "evidence-analysis-hash-rebind-20261102-diff",
+        "evidence-guide-hash-rebind-20261102-delegation",
+        "evidence-guide-hash-rebind-20261102-diff",
+        "evidence-guide-hash-rebind-20261103-delegation",
+        "evidence-guide-hash-rebind-20261103-diff",
+        "evidence-lp210b-migration-diff",
+        "evidence-lp210b-review-delegation",
+        "evidence-mvp-contract-check-20260907",
+        "evidence-mvp-record-completion-delegation"
+      ]
+    }
+  ],
+  "createdAt": "2026-11-03T00:00:00Z",
+  "rationale": "本紀錄的 scope 是 round 4 講義修正（guideContent 的 content／headings 備援欄位改由 blocks 推導；blocks 不變）後的機械式 guide 雜湊重綁（mid-s2c4 1d1eb632…→b4559ebc…、mid-s3c9 8b4b3996…→c33286d7…；被引用 block id 不變），不是重做語意審查。analysis 的 catalogHash 是 data/resource_catalog.json 整檔 blob hash；本輪 catalog 只改 learning-guide-middle-2／3 兩列 version／sha256，catalogHash 由 sha256:1912806b845d… 變為 sha256:55fbefd9e363…，analysis contentHash 由 sha256:a0fec784b20b… 變為 sha256:6506c6f3242e…，其餘欄位（policy、inventory、measures、exclusions、labelReviewHash、taxonomyHash）不變，以 assessment_inputs 反推證明（evidence-guide-hash-rebind-20261103-diff）。scripts/validate_learning_content.py --all --check 於 2026-11-03 在重綁後的來源上實跑，issues=[]；analysis 由 build_learning_assessment 重算得 subject.hash sha256:6506c6f3242e…。前一版 review-contract-analysis-imbalanced-source-examples-v1-20261102-v4 的結論以新 hash 重新開立。人類 Colab L5 仍未完成。",
+  "supersedes": "review-contract-analysis-imbalanced-source-examples-v1-20261102-v4"
+}

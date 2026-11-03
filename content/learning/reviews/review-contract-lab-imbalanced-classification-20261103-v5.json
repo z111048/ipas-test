@@ -1,0 +1,106 @@
+{
+  "id": "review-contract-lab-imbalanced-classification-20261103-v5",
+  "subject": {
+    "kind": "lab",
+    "id": "lab-imbalanced-classification",
+    "revision": 1,
+    "hash": "sha256:6aeb2aeb2702ef5044f2b1144328252750eec6e36b418b7d5f8a3c9cb28aaa36"
+  },
+  "dependencyHashes": [
+    "sha256:40b2b0d2ffd5c5c87d4e6190b8480c4f226e50cb68cdafb5f3559a503da07abf",
+    "sha256:7d21f4237f8c0aee2a9c841fcf303dbce6b979c0a71f8543f247dfffde3c9ec3",
+    "sha256:b90d3d3a552f8b574896c8bd176c638c0e22343c044a53295239b79e031a375f",
+    "sha256:c6db9b752a39e85e48ddf13131eafc31ca1320c74bb171582ef49d8a58ad41ee",
+    "sha256:cf2f0121d697bcaebe777a8142c3ce18f3b252ac4a2121d96b920935350ed7f8",
+    "sha256:ec7cfde721e6728e913a0b0f8bd52aea2f10bbf0eb6fe69a9eae0a5b73959f8f"
+  ],
+  "rubricVersion": "mvp-review-v1",
+  "reviewerId": "script-validate-learning-content",
+  "reviewerRole": "automated_check",
+  "authorId": "agent-claude-code",
+  "responsibility": "deterministic_contract",
+  "qualification": {
+    "scope": [
+      "mvp-source-contract"
+    ],
+    "evidenceIds": [
+      "evidence-guide-hash-rebind-20261103-delegation"
+    ],
+    "grantedBy": "maintainer",
+    "grantedAt": "2026-11-03T00:00:00Z"
+  },
+  "evidenceRefs": [
+    {
+      "id": "evidence-guide-anchor-migration-20261102-delegation",
+      "revision": 1,
+      "hash": "sha256:0c9f84ffa777b0732b7b86ec7e17a6dfcc403eaf067690cf7ba1fa2bef1e3ae0"
+    },
+    {
+      "id": "evidence-guide-anchor-migration-20261102-diff",
+      "revision": 1,
+      "hash": "sha256:eb6df5b3ed1fe2cdec4b7d4e5b80e7e3a34b28d34f70881032adbfbba6d29e96"
+    },
+    {
+      "id": "evidence-guide-hash-rebind-20261102-delegation",
+      "revision": 1,
+      "hash": "sha256:2a20b8d30cbbefeb50905410b22837c77d2a385ae7244b098ed2b8b6e5df160e"
+    },
+    {
+      "id": "evidence-guide-hash-rebind-20261102-diff",
+      "revision": 1,
+      "hash": "sha256:36733b252abc1a0f6a948532f76191eb9096b278d1a40a7739e9cc26f36e8e3e"
+    },
+    {
+      "id": "evidence-guide-hash-rebind-20261103-delegation",
+      "revision": 1,
+      "hash": "sha256:74cc08761ba047c2599c478e9b7f741e27e207642c1b6b94fdea05737b9a715f"
+    },
+    {
+      "id": "evidence-guide-hash-rebind-20261103-diff",
+      "revision": 1,
+      "hash": "sha256:edd15a1358a309bfa011f522bd8ad3147f5790d128799026a496db1d34676cd6"
+    },
+    {
+      "id": "evidence-lp210b-migration-diff",
+      "revision": 1,
+      "hash": "sha256:4b067cec98f71e9960e6d064c2d258a194e5ae7076632f7da2c7deecd504beae"
+    },
+    {
+      "id": "evidence-lp210b-review-delegation",
+      "revision": 1,
+      "hash": "sha256:6aa7f6603715641cce813c196f5f25ad39280095290b9b990eedc52ec1bc99c7"
+    },
+    {
+      "id": "evidence-mvp-contract-check-20260907",
+      "revision": 1,
+      "hash": "sha256:17c011241124fbc4a8af6ac73b4e47e43b045d54384c118dec1bc5bee37e684f"
+    },
+    {
+      "id": "evidence-mvp-record-completion-delegation",
+      "revision": 1,
+      "hash": "sha256:922240d8bed38acc0ea3c8733d23d8a0e906b4830ed0f75b6350d8fff5398d56"
+    }
+  ],
+  "verdict": "approved",
+  "checks": [
+    {
+      "code": "C1",
+      "verdict": "pass",
+      "evidenceIds": [
+        "evidence-guide-anchor-migration-20261102-delegation",
+        "evidence-guide-anchor-migration-20261102-diff",
+        "evidence-guide-hash-rebind-20261102-delegation",
+        "evidence-guide-hash-rebind-20261102-diff",
+        "evidence-guide-hash-rebind-20261103-delegation",
+        "evidence-guide-hash-rebind-20261103-diff",
+        "evidence-lp210b-migration-diff",
+        "evidence-lp210b-review-delegation",
+        "evidence-mvp-contract-check-20260907",
+        "evidence-mvp-record-completion-delegation"
+      ]
+    }
+  ],
+  "createdAt": "2026-11-03T00:00:00Z",
+  "rationale": "本紀錄的 scope 是 round 4 講義修正（guideContent 的 content／headings 備援欄位改由 blocks 推導；blocks 不變）後的機械式 guide 雜湊重綁（mid-s2c4 1d1eb632…→b4559ebc…、mid-s3c9 8b4b3996…→c33286d7…；被引用 block id 不變），不是重做語意審查。scripts/validate_learning_content.py --all --check 於 2026-11-03 在重綁後的來源上實跑，issues=[]；anchor 由 resolver 依 registry current、block 存在、pageIndex、quote 與 DOM anchor 逐項解析通過。前一版 review-contract-lab-imbalanced-classification-20261102-v4 的結論以新 hash 重新開立。人類 Colab L5 仍未完成。",
+  "supersedes": "review-contract-lab-imbalanced-classification-20261102-v4"
+}
