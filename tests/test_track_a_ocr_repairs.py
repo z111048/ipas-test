@@ -563,7 +563,7 @@ class TrackAOcrRepairGateTests(unittest.TestCase):
         self.assertEqual(strategy_blocks_once[0]['anchor'], strategy['anchor'])
         self.assertEqual(strategy_blocks_once[1]['text'], '企業需採取分階段策略，平衡短期效益與長期發展：')
 
-        s1c4_source = ''.join(f'#### {title}\n' for title in publication_overlays.DEMOTE_HEADINGS)
+        s1c4_source = ''.join(f'### {title}\n' for title in publication_overlays.DEMOTE_HEADINGS)
         s1c4_once = publication_overlays.apply_publication_markdown_overlays(
             '初級', 'guide1', 's1c4', s1c4_source,
         )
@@ -571,9 +571,14 @@ class TrackAOcrRepairGateTests(unittest.TestCase):
             '初級', 'guide1', 's1c4', s1c4_once,
         )
         self.assertEqual(s1c4_once, s1c4_twice)
+        self.assertEqual(s1c4_once, ''.join(
+            f'{"#" * publication_overlays.S1C4_SUBSECTION_LEVEL} {title}\n'
+            for title in publication_overlays.DEMOTE_HEADINGS
+        ))
 
         headings = [
-            *({'title': title, 'level': 3} for title in publication_overlays.DEMOTE_HEADINGS),
+            *({'title': title, 'level': publication_overlays.S1C4_SUBSECTION_LEVEL}
+              for title in publication_overlays.DEMOTE_HEADINGS),
             *({'title': title, 'level': 4} for title in publication_overlays.SHORTEN_HEADINGS),
         ]
         headings_once = publication_overlays.apply_publication_heading_overlays(
@@ -620,8 +625,8 @@ class TrackAOcrRepairGateTests(unittest.TestCase):
                 'frontend/src/generated/guideContent/初級-guide1/s1c4.json',
                 lambda payload: payload.update({
                     'content': payload['content'].replace(
-                        f'### {publication_overlays.DEMOTE_HEADINGS[0]}\n',
-                        f'#### {publication_overlays.DEMOTE_HEADINGS[0]}\n',
+                        f'\n#### {publication_overlays.DEMOTE_HEADINGS[0]}\n',
+                        f'\n### {publication_overlays.DEMOTE_HEADINGS[0]}\n',
                         1,
                     ),
                 }),

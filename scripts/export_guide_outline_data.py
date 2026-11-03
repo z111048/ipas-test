@@ -577,7 +577,9 @@ def normalize_ocr_soft_breaks(markdown: str) -> str:
         if any(is_markdown_structural_line(line) for line in block):
             result.extend(block)
         else:
-            text = ' '.join(line.strip() for line in block)
+            # Same wrap rule as blocks (join_wrapped_lines): a CJK line end
+            # followed by a 「（」 gloss joins without a space.
+            text = join_wrapped_lines(block)
             text = re.sub(r'([，、；：])\s+', r'\1', text)
             text = re.sub(r'\s+([，。！？；：、）】])', r'\1', text)
             text = re.sub(r'([（【])\s+', r'\1', text)
@@ -3148,21 +3150,315 @@ def slugify_heading(text: str, index: int) -> str:
     return slug or f'section-{index}'
 
 
-def markdown_headings(markdown: str) -> list[dict]:
-    headings = []
-    for line in markdown.splitlines():
-        match = re.match(r'^(#{2,6})\s+(.+?)\s*$', line.strip())
-        if not match:
+# ── content／headings 備援欄位與 blocks 對齊（2026-11-03 round 4）──────────────
+# `content` 由 PDF 文字層另走一條 Markdown 路徑產生：印刷標題的中文字常整段遺失
+# （「3.」單獨一行、「### 1. No Code」），標題行與 blocks 的修補（印刷節標題、
+# Track A、overlay）各自為政，`headings` 又是從這份 Markdown 解析出來的。
+# blocks 是前端渲染與所有修補的 SSOT，所以：
+#   * `headings` 直接由最終 blocks 的 heading 推導（id=anchor、level=depth）；
+#   * `content` 的標題行以序列對齊（DP）對到 blocks 的 heading，改寫成 blocks 的
+#     標題與層級；對不到 blocks 的 Markdown 標題降為正文、殘留的「N.」／「N.N」
+#     編號碎行刪除；blocks 有而 Markdown 沒有標題行的，從同一區間的正文行升級。
+#     任何 blocks heading 找不到落點即 fail closed。正文文字不增不減（標題行多出的
+#     敘述會還給下一段）。
+FALLBACK_MD_HEADING = re.compile(r'^(#{2,6})\s+(.+?)\s*$')
+FALLBACK_LONE_NUMBER = re.compile(r'^(\d+)\.$')
+FALLBACK_SECTION_MARKER = re.compile(r'^(\d+\.\d+)(?:\s+([^\s，。、：；！？]{1,12}))?$')
+FALLBACK_TITLE_MARKER = re.compile(
+    r'^(第[一二三四五六七八九十]+章|\d+\.\d+|\d+\.(?!\d)|\(\d+\)|[A-Z]\.|[a-z]\.)'
+)
+FALLBACK_SENTENCE_END = re.compile(r'[。！？：；」）.!?:;)]$')
+
+
+def _fallback_norm(text: str) -> str:
+    return re.sub(r'\s+', '', unicodedata.normalize('NFKC', text))
+
+
+def _fallback_marker(text: str) -> str | None:
+    match = FALLBACK_TITLE_MARKER.match(_fallback_norm(text))
+    return match.group(1) if match else None
+
+
+def headings_from_blocks(blocks: list[dict]) -> list[dict]:
+    """Sidebar/fallback heading metadata derived from the published heading blocks."""
+    return [
+        {'id': block.get('anchor') or '', 'level': int(block.get('depth') or 2), 'title': block['title']}
+        for block in blocks
+        if block.get('type') == 'heading' and str(block.get('title') or '').strip()
+    ]
+
+
+def _fallback_match_score(title: str, item: tuple[str, str]) -> int:
+    kind, text = item
+    marker = _fallback_marker(title)
+    if kind == 'num':
+        return 2 if marker == f'{text}.' else 0
+    if kind == 'sec':
+        section, _, rest = text.partition(' ')
+        if marker != section:
+            return 0
+        rest = rest.strip()
+        body = _fallback_norm(title)[len(section):]
+        if not rest or re.fullmatch(r'[!-~]+', rest) or body.startswith(_fallback_norm(rest)):
+            return 2
+        return 0
+    wanted, found = _fallback_norm(title), _fallback_norm(text)
+    if not wanted or not found:
+        return 0
+    if wanted == found:
+        return 4
+    if found.startswith(wanted):
+        return 3
+    found_marker = _fallback_marker(text)
+    if marker and found_marker == marker:
+        leak = printed_title_text_layer_leak(title)
+        if wanted.startswith(found) or (leak and _fallback_norm(f'{marker}{leak}') == found):
+            return 3
+        return 0
+    if marker and not found_marker:
+        body = wanted[len(marker):]
+        if body == found or (len(found) >= 4 and body.startswith(found)):
+            return 3
+        return 0
+    if not marker and not found_marker and len(found) >= 4 and wanted.startswith(found):
+        return 2
+    return 0
+
+
+def _align_fallback_headings(titles: list[str], items: list[tuple[str, str]]) -> list[tuple[int, int]]:
+    """Order-preserving maximum-score alignment of block titles to Markdown items."""
+    rows, cols = len(titles), len(items)
+    best = [[0] * (cols + 1) for _ in range(rows + 1)]
+    for i in range(rows - 1, -1, -1):
+        for j in range(cols - 1, -1, -1):
+            value = max(best[i + 1][j], best[i][j + 1])
+            score = _fallback_match_score(titles[i], items[j])
+            if score:
+                value = max(value, best[i + 1][j + 1] + score)
+            best[i][j] = value
+    pairs: list[tuple[int, int]] = []
+    i = j = 0
+    while i < rows and j < cols:
+        score = _fallback_match_score(titles[i], items[j])
+        if score and best[i][j] == best[i + 1][j + 1] + score:
+            pairs.append((i, j))
+            i += 1
+            j += 1
+        elif best[i][j] == best[i + 1][j]:
+            i += 1
+        else:
+            j += 1
+    return pairs
+
+
+def _strip_title_prefix(text: str, title: str) -> str | None:
+    """Return what follows ``title`` at the start of ``text`` (whitespace/NFKC-insensitive)."""
+    wanted = _fallback_norm(title)
+    consumed = ''
+    for index, char in enumerate(text):
+        if consumed == wanted:
+            return text[index:]
+        if char.isspace():
             continue
-        title = match.group(2).strip()
-        if re.fullmatch(r'\d+\.', title):
+        consumed += _fallback_norm(char)
+        if not wanted.startswith(consumed):
+            return None
+    return '' if consumed == wanted else None
+
+
+def _join_soft_wrapped(lines: list[str]) -> str:
+    text = join_wrapped_lines(lines)
+    text = re.sub(r'([，、；：])\s+', r'\1', text)
+    text = re.sub(r'\s+([，。！？；：、）】])', r'\1', text)
+    text = re.sub(r'([（【])\s+', r'\1', text)
+    return re.sub(r'(?<=[一-鿿])\s+(?=[一-鿿])', '', text)
+
+
+def _is_plain_markdown_line(text: str) -> bool:
+    stripped = text.strip()
+    return bool(stripped) and not is_markdown_structural_line(stripped) and not stripped.startswith(('$$', '!['))
+
+
+def _fallback_items(lines: list[str]) -> tuple[list[tuple[str, str]], list[int]]:
+    """Markdown heading lines and bare 「N.」／「N.N <title fragment>」 marker lines."""
+    items: list[tuple[str, str]] = []
+    item_lines: list[int] = []
+    for index, line in enumerate(lines):
+        if index == 0 and line.startswith('# '):
             continue
-        headings.append({
-            'id': slugify_heading(title, len(headings) + 1),
-            'level': len(match.group(1)),
-            'title': title,
-        })
-    return headings
+        stripped = line.strip()
+        heading = FALLBACK_MD_HEADING.match(stripped)
+        number = FALLBACK_LONE_NUMBER.match(stripped)
+        section = FALLBACK_SECTION_MARKER.match(stripped)
+        if heading:
+            items.append(('h', heading.group(2)))
+        elif number:
+            items.append(('num', number.group(1)))
+        elif section:
+            items.append(('sec', stripped))
+        else:
+            continue
+        item_lines.append(index)
+    return items, item_lines
+
+
+def _is_bare_marker_line(text: str) -> bool:
+    """「3.」、「4.1」、「3.4 AI」: a marker with at most the title's leaked ASCII."""
+    stripped = text.strip()
+    return bool(
+        FALLBACK_LONE_NUMBER.match(stripped)
+        or re.fullmatch(r'\d+\.\d+(?:\s+[!-~]+)*', stripped)
+    )
+
+
+def _glued_marker_remainder(text: str, title: str) -> str | None:
+    """「3. AI AI 系統的效能…」: marker + leaked title letters + first sentence."""
+    marker = re.match(r'^(\d+)\.\s', title)
+    leak = printed_title_text_layer_leak(title)
+    if not marker or not leak:
+        return None
+    prefix = f'{marker.group(1)}. {leak} '
+    stripped = text.strip()
+    if stripped.startswith(prefix) and stripped[len(prefix):].strip():
+        return stripped[len(prefix):].strip()
+    return None
+
+
+def reconcile_markdown_headings(node: str, markdown: str, blocks: list[dict]) -> str:
+    """Rewrite the heading lines of the fallback Markdown to the published heading blocks."""
+    lines = markdown.split('\n')
+    block_list = list(blocks)
+    heading_positions = [
+        position for position, block in enumerate(block_list)
+        if block.get('type') == 'heading' and str(block.get('title') or '').strip()
+    ]
+    titles = [str(block_list[position]['title']) for position in heading_positions]
+    items, item_lines = _fallback_items(lines)
+
+    # line index -> (heading index, mode); mode: replace | glued | insert
+    placement: dict[int, tuple[int, str]] = {
+        item_lines[j]: (i, 'replace') for i, j in _align_fallback_headings(titles, items)
+    }
+    line_of_heading = {i: line for line, (i, _mode) in placement.items()}
+    for i, title in enumerate(titles):
+        if i in line_of_heading:
+            continue
+        low = max((line_of_heading[k] for k in line_of_heading if k < i), default=0)
+        high = min((line_of_heading[k] for k in line_of_heading if k > i), default=len(lines))
+        window = [
+            index for index in range(low + 1, high)
+            if index not in placement and _is_plain_markdown_line(lines[index])
+        ]
+        found: tuple[int, str] | None = None
+        for index in window:
+            if _strip_title_prefix(lines[index].strip(), title) is not None:
+                found = (index, 'replace')
+                break
+        if found is None:
+            for index in window:
+                if _glued_marker_remainder(lines[index], title) is not None:
+                    found = (index, 'glued')
+                    break
+        if found is None:
+            # A heading the text layer never printed as a line (「章節練習題」):
+            # place it before the line that starts the following block.
+            following = next(
+                (
+                    str(block.get('text') or '')
+                    for block in block_list[heading_positions[i] + 1:]
+                    if block.get('type') != 'heading' and str(block.get('text') or '').strip()
+                ),
+                '',
+            )
+            key = _fallback_norm(following)[:12]
+            if key:
+                for index in window:
+                    if _fallback_norm(lines[index]).startswith(key):
+                        found = (index, 'insert')
+                        break
+        if found is None:
+            raise ValueError(f'{node}: content has no line for block heading {title!r}')
+        placement[found[0]] = (i, found[1])
+        line_of_heading[i] = found[0]
+
+    first_heading_line = min(placement, default=len(lines))
+    item_line_set = set(item_lines)
+    out: list[str] = []
+    pending_remainder: str | None = None
+    pending_title: str | None = None
+    for index, line in enumerate(lines):
+        stripped = line.strip()
+        if pending_remainder is not None and (index in placement or index in item_line_set):
+            out.extend(['', pending_remainder, ''])
+            pending_remainder = None
+        if index in placement:
+            heading_index, mode = placement[index]
+            block = block_list[heading_positions[heading_index]]
+            title = str(block['title'])
+            out.extend(['', f'{"#" * int(block.get("depth") or 2)} {title}', ''])
+            pending_title = None
+            if mode == 'insert':
+                out.append(line)
+                continue
+            if mode == 'glued':
+                pending_remainder = _glued_marker_remainder(stripped, title)
+                continue
+            if FALLBACK_LONE_NUMBER.match(stripped) or FALLBACK_SECTION_MARKER.match(stripped):
+                pending_title = title
+                continue
+            heading = FALLBACK_MD_HEADING.match(stripped)
+            source_text = heading.group(2) if heading else stripped
+            remainder = (_strip_title_prefix(source_text, title) or '').lstrip(' \t：:')
+            if remainder:
+                pending_remainder = remainder
+            continue
+        if index in item_line_set:
+            heading = FALLBACK_MD_HEADING.match(stripped)
+            if heading:
+                out.extend(['', heading.group(2), ''])  # not a heading in blocks: body text
+            elif not _is_bare_marker_line(stripped):
+                out.append(line)
+            # an unmatched bare marker line is a text-layer fragment: dropped
+            continue
+        if (
+            stripped == 'AI' and index < first_heading_line
+            and all(not text.strip() for text in lines[index + 1:first_heading_line])
+        ):
+            continue  # chapter-title remnant (「第三章 生成式AI…」), as in blocks
+        if not stripped:
+            out.append('')
+            continue
+        if pending_title is not None and _is_plain_markdown_line(stripped):
+            # Text-layer fragments of the printed title that follow a bare marker.
+            body = _fallback_norm(re.sub(r'^\d+(?:\.\d+)?\.?\s*', '', pending_title))
+            if _fallback_norm(stripped) in body:
+                continue
+            leak = printed_title_text_layer_leak(pending_title)
+            if leak and stripped.startswith(leak + ' ') and stripped[len(leak) + 1:].strip():
+                line = stripped[len(leak) + 1:]
+        pending_title = None
+        if pending_remainder is not None:
+            remainder, pending_remainder = pending_remainder, None
+            if (
+                not FALLBACK_SENTENCE_END.search(remainder)
+                and _is_plain_markdown_line(line)
+                and not re.match(r'^(•|◦|○|-|\d+\.|（\d+）|[A-Za-z]\.)', line.strip())
+            ):
+                out.append(_join_soft_wrapped([remainder, line.strip()]))
+                continue
+            out.extend([remainder, ''])
+        out.append(line)
+    if pending_remainder is not None:
+        out.extend(['', pending_remainder])
+
+    result: list[str] = []
+    for line in out:
+        if not line.strip():
+            if result and result[-1] != '':
+                result.append('')
+            continue
+        result.append(line)
+    return '\n'.join(result).strip()
 
 
 def source_pages(level: str, key: str, start_page: int, end_page: int) -> list[dict]:
@@ -3311,12 +3607,19 @@ def build_nodes(
         # Final publication pass: every exact matcher above saw the source text.
         markdown_content = normalize_cjk_parentheses(markdown_content)
         blocks = normalize_published_block_parentheses(blocks)
+        # Fallback fields follow the final blocks (2026-11-03 round 4): heading
+        # lines of `content` are rewritten to the heading blocks, and `headings`
+        # is derived from them; the overlay call stays as a fail-closed contract.
+        markdown_content = reconcile_markdown_headings(current_id, markdown_content, blocks)
+        block_headings = headings_from_blocks(blocks)
         content_headings = apply_publication_heading_overlays(
             level,
             key,
             current_id,
-            markdown_headings(markdown_content),
+            block_headings,
         )
+        if content_headings != block_headings:
+            raise ValueError(f'{current_id}: publication heading overlay diverges from heading blocks')
         write_json(content_dir / content_key / content_ref, {
             'id': current_id,
             'title': raw_node.get('title') or '',

@@ -10,11 +10,11 @@
   },
   "stats": {
     "chapters": 13,
-    "sections": 187,
-    "chunks": 76,
-    "medianChunkChars": 1340,
-    "maxChunkChars": 3065,
-    "oversizedChunks": 1,
+    "sections": 179,
+    "chunks": 74,
+    "medianChunkChars": 1374,
+    "maxChunkChars": 3072,
+    "oversizedChunks": 2,
     "unlocatedHeadings": 10
   },
   "chapters": [
@@ -445,43 +445,7 @@
           "page": 32,
           "anchor": "2假設檢定",
           "recovered": false,
-          "content": "（2） 假設檢定\n\n假設檢定則是一種形式化的推論工具，用於檢視樣本資料是否提供足夠證據來拒絕某一原先的假設。整體流程包含：\n\n#####"
-        },
-        {
-          "id": "mid-s2c3#a設定虛無假設或稱零假設與對立假設",
-          "title": "A. 設定虛無假設（或稱零假設）與對立假設",
-          "level": 5,
-          "page": 32,
-          "anchor": "a設定虛無假設或稱零假設與對立假設",
-          "recovered": false,
-          "content": "A. 設定虛無假設（或稱零假設）與對立假設\n\n#####"
-        },
-        {
-          "id": "mid-s2c3#b選擇適當的檢定方法與檢定統計量",
-          "title": "B. 選擇適當的檢定方法與檢定統計量",
-          "level": 5,
-          "page": 32,
-          "anchor": "b選擇適當的檢定方法與檢定統計量",
-          "recovered": false,
-          "content": "B. 選擇適當的檢定方法與檢定統計量\n\n##### C. 決定顯著水準（ $ \\alpha $）\n\n#####"
-        },
-        {
-          "id": "mid-s2c3#d計算檢定統計量與p值",
-          "title": "D. 計算檢定統計量與p 值",
-          "level": 5,
-          "page": 32,
-          "anchor": "d計算檢定統計量與p值",
-          "recovered": false,
-          "content": "D. 計算檢定統計量與 p 值\n\n#####"
-        },
-        {
-          "id": "mid-s2c3#e比較顯著水準並進行決策",
-          "title": "E. 比較顯著水準並進行決策",
-          "level": 5,
-          "page": 32,
-          "anchor": "e比較顯著水準並進行決策",
-          "recovered": false,
-          "content": "E. 比較顯著水準並進行決策\n\n假設檢定強調的是「證據是否足夠」，而非直接斷定假設真偽。實務中常見的檢定情境舉例：\n\nA/B 測試：新產品設計是否提升點擊率或轉換率\n\n醫療試驗：新藥是否對疾病有顯著療效\n\n生產製程：產品平均重量是否符合規格標準\n\n金融風控：模型預測是否優於既有基準模型\n\n###"
+          "content": "（2） 假設檢定\n\n假設檢定則是一種形式化的推論工具，用於檢視樣本資料是否提供足夠證據來拒絕某一原先的假設。整體流程包含：\n\n##### A. 設定虛無假設（或稱零假設）與對立假設\n\n##### B. 選擇適當的檢定方法與檢定統計量\n\n##### C. 決定顯著水準（ $ \\alpha $）\n\n##### D. 計算檢定統計量與 p 值\n\n##### E. 比較顯著水準並進行決策\n\n假設檢定強調的是「證據是否足夠」，而非直接斷定假設真偽。實務中常見的檢定情境舉例：\n\nA/B 測試：新產品設計是否提升點擊率或轉換率\n\n醫療試驗：新藥是否對疾病有顯著療效\n\n生產製程：產品平均重量是否符合規格標準\n\n金融風控：模型預測是否優於既有基準模型\n\n###"
         },
         {
           "id": "mid-s2c3#3假設檢定的基本流程",
@@ -580,43 +544,7 @@
           "page": 40,
           "anchor": "1平均數的差異檢定",
           "recovered": false,
-          "content": "（1） 平均數的差異檢定\n\n單樣本 t 檢定（One-sample t-test）\n\n#####"
-        },
-        {
-          "id": "mid-s2c3#a方法概述",
-          "title": "a. 方法概述",
-          "level": 6,
-          "page": 40,
-          "anchor": "a方法概述",
-          "recovered": false,
-          "content": "a. 方法概述\n\n單樣本t檢定是用來檢驗「樣本平均數是否與某個已知數值（ $ \\mu_{0} $）之間存在顯著差異」的方法。當母體標準差未知，且樣本數較小（n<30）時，通常採用此檢定。\n\n常見於產品測試、教育成績評估、臨床實驗等領域，例如：檢查某藥物對血壓是否有降低效果、驗證學生考試成績是否達標。\n\n#####"
-        },
-        {
-          "id": "mid-s2c3#b適用條件與前提假設",
-          "title": "b. 適用條件與前提假設",
-          "level": 6,
-          "page": 40,
-          "anchor": "b適用條件與前提假設",
-          "recovered": false,
-          "content": "b. 適用條件與前提假設\n\n在使用單樣本t檢定之前，必須確保下列條件成立：\n\n- 資料為連續變數（如長度、時間、成績等）。\n\n- 樣本為隨機抽樣，且彼此獨立。\n\n- 母體標準差未知。\n\n- 樣本來自近似常態分佈的母體（若  $ n \\geq 30 $，可依中央極限定理放寬常態性要求）。\n\n#####"
-        },
-        {
-          "id": "mid-s2c3#c假設設定",
-          "title": "c. 假設設定",
-          "level": 6,
-          "page": 40,
-          "anchor": "c假設設定",
-          "recovered": false,
-          "content": "c. 假設設定\n\n- 虛無假設（H₀）：μ = μ₀（樣本平均與理論值無差異）。\n\n- 對立假設（H $ _{1} $）依檢定方向不同，可分為三種：\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>檢定類型</td><td style='text-align: center; word-wrap: break-word;'>對立假設  $ H_{1} $</td><td style='text-align: center; word-wrap: break-word;'>應用時機</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>雙尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu \\neq \\mu_{0} $</td><td style='text-align: center; word-wrap: break-word;'>想知道是否有「差異」（不論方向）</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>左尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu < \\mu_{0} $</td><td style='text-align: center; word-wrap: break-word;'>想確認是否「變小」或「變差」</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>右尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu > \\mu_{0} $</td><td style='text-align: center; word-wrap: break-word;'>想確認是否「變大」或「改善」</td></tr></table>\n\n舉例來說，若要檢驗某食品的平均含鈉量是否與法規標準不同，適用雙尾檢定；若想確認藥物是否讓血壓下降，則採用左尾檢定。\n\n#####"
-        },
-        {
-          "id": "mid-s2c3#d常見誤用與注意事項",
-          "title": "d. 常見誤用與注意事項",
-          "level": 6,
-          "page": 40,
-          "anchor": "d常見誤用與注意事項",
-          "recovered": false,
-          "content": "d. 常見誤用與注意事項\n\n- 不適用於比例、名目或順序型資料（例如：性別、等級）。\n\n若母體標準差已知，應使用 Z 檢定而非 t 檢定。\n\n- 樣本數過少或分佈偏態時，t 檢定可能失準。\n\n- 顯著性≠實質重要性，建議搭配信賴區間一併報告。\n\n檢定方向（單尾或雙尾）須事先設定，不能事後依結果選擇。\n\n獨立樣本 t 檢定（Independent-samples t-test）\n\n##### a. 方法概述\n\n獨立樣本 t 檢定用於比較兩組互相獨立樣本的平均數是否具有統計上顯著差異。常見應用情境包括：比較兩種教學法的學習成效、男性與女性的平均工時、兩種產品的顧客滿意度等。\n\n##### b. 適用條件與前提假設\n\n兩組資料為獨立樣本（不同個體、不同來源）。\n\n資料為連續變數。\n\n每組樣本皆來自常態分佈的母體。\n\n- 母體變異數相等（可用 Levene's test 或 F-test 檢查；若不等應採 Welch's t 檢定）。\n\n##### c. 假設設定\n\n- 虛無假設（ $ H_{0} $）： $ \\mu_{1} = \\mu_{2} $（兩組母體平均數無差異）。\n\n- 對立假設（H $ _{1} $）有三種形式：\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>檢定類型</td><td style='text-align: center; word-wrap: break-word;'>對立假設  $ H_{1} $</td><td style='text-align: center; word-wrap: break-word;'>適用情境</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>雙尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu_{1} \\neq \\mu_{2} $</td><td style='text-align: center; word-wrap: break-word;'>想檢查兩組平均是否不同（不論方向）</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>左尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu_{1} < \\mu_{2} $</td><td style='text-align: center; word-wrap: break-word;'>關注第一組是否「低於」第二組</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>右尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu_{1} > \\mu_{2} $</td><td style='text-align: center; word-wrap: break-word;'>關注第一組是否「高於」第二組</td></tr></table>\n\n例如：檢驗新藥 A 是否比舊藥 B 有更高的療效，若希望確認 A 是否顯著大於 B，可採右尾檢定。\n\n##### d. 常見誤用與注意事項\n\n- 不可將同一組人測前後結果誤用本檢定（應使用成對樣本 t 檢定）。\n\n使用前應先檢查變異數是否相等。\n\n樣本數極不均衡時應採用 Welch 檢定。\n\n檢定僅說明「是否顯著不同」，不代表差異具實質效益。\n\n成對樣本 t 檢定（Paired-samples t-test）\n\n##### a. 方法概述\n\n成對樣本 t 檢定用於比較同一個體在兩種不同情況下的平均差異，或是兩個彼此對應的觀測值組合（如配對樣本）之差異。它的核心在於「差值」的統計推論，而非兩組平均數本身的獨立比較。\n\n常見應用包括：\n\n- 同一組人在治療前與治療後的測量（如血壓、成績）。\n\n- 配對實驗設計中（如雙胞胎、一對一配對樣本）。\n\n產品改善前後的性能差異評估。\n\n##### b. 適用條件與前提假設\n\n資料為連續變數。\n\n每對觀測值來自相同個體或相互配對樣本。\n\n各對觀測值的差值（差異量）近似常態分布。\n\n樣本對之間彼此獨立。\n\n##### c. 假設設定\n\n在成對樣本t檢定中，檢定的對象是兩次測量值之間的「差值」平均數，記為 $ \\mu d $。檢定目的在於判斷該差值是否與0有顯著差異。\n\n- 虛無假設（H $ _{0} $）： $ \\mu d = 0 $\n\n表示兩次測量之間沒有平均差異，差值的期望為零。\n\n- 對立假設（H $ _{1} $）則依檢定方向分為三種情況：\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>檢定類型</td><td style='text-align: center; word-wrap: break-word;'>對立假設  $ H_{{1}} $</td><td style='text-align: center; word-wrap: break-word;'>適用情境</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>雙尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu d \\ne 0 $</td><td style='text-align: center; word-wrap: break-word;'>檢查兩次測量之間是否有「任一方向」的差異</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>左尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu d < 0 $</td><td style='text-align: center; word-wrap: break-word;'>第二次測量結果顯著低於第一次，例如療效降低</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>右尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu d > 0 $</td><td style='text-align: center; word-wrap: break-word;'>第二次測量結果顯著高於第一次，例如成績進步</td></tr></table>\n\n##### d. 常見誤用與注意事項\n\n若資料來自不同個體或樣本之間不具相依性，不得使用此檢定（應使用獨立樣本t檢定）。\n\n◼ 須特別檢查差值分佈是否近似常態，否則檢定結果可能不準確。\n\n實際上成對樣本設計能有效控制個體間變異，但錯用成對檢定將導致假設錯置。\n\n◼ 須避免在未定義清楚配對規則時強行套用成對樣本設計。\n\n### 單因子變異數分析（One-way ANOVA）\n\n##### a. 方法概述\n\n單因子變異數分析（One-way ANOVA）是一種用來比較三組以上獨立樣本平均數是否有顯著差異的統計方法。它延伸自 t 檢定的邏輯，當研究中有超過兩組要比較的情況時，ANOVA 提供一個整體檢定框架，判斷是否至少有一組的平均數與其他組不同。\n\n##### b. 適用條件與前提假設\n\n各組資料來自獨立樣本。\n\n應變數為連續變數，自變數為類別變數（分組）。\n\n各組母體具有常態分佈。\n\n各組的變異數應大致相等（變異數齊一性假設，可用 Levene's test 檢查）。\n\n各觀測值彼此獨立。\n\n##### c. 假設設定\n\nANOVA 的目標是檢驗多組之間是否至少有一組平均數不同。這裡不會指出哪一組不同，只是確認「是否存在差異」，若顯著，通常需進一步進行事後檢定（Post-hoc test）。\n\n- 虛無假設（H₀）：μ₁ = μ₂ = … = μk（所有群組的平均數相同）。\n\n- 對立假設（H_{1}）：至少有一組平均數與其他組不同。\n\n##### d. 常見誤用與注意事項\n\n樣本數極不均衡時使用 ANOVA 結果可能偏誤，應特別檢查變異數齊一性條件。\n\n- 顯著差異≠所有群組都不同：ANOVA 只告訴我們「至少有一組不同」，但不指出哪一組，需事後檢定（如 Tukey HSD）來進一步比較。\n\n- 誤用於只有兩組的比較：若只有兩組，應使用 t 檢定而非 ANOVA。\n\n- 對應變數與自變數類型認識不足：ANOVA 僅適用於連續應變數與類別自變數的分析架構。\n\n- 忽略實際意義：統計上有顯著性不代表實務上差異具有重要性，仍需結合效果量與情境解釋。\n\n####"
+          "content": "（1） 平均數的差異檢定\n\n單樣本 t 檢定（One-sample t-test）\n\n##### a. 方法概述\n\n單樣本t檢定是用來檢驗「樣本平均數是否與某個已知數值（ $ \\mu_{0} $）之間存在顯著差異」的方法。當母體標準差未知，且樣本數較小（n<30）時，通常採用此檢定。\n\n常見於產品測試、教育成績評估、臨床實驗等領域，例如：檢查某藥物對血壓是否有降低效果、驗證學生考試成績是否達標。\n\n##### b. 適用條件與前提假設\n\n在使用單樣本t檢定之前，必須確保下列條件成立：\n\n- 資料為連續變數（如長度、時間、成績等）。\n\n- 樣本為隨機抽樣，且彼此獨立。\n\n- 母體標準差未知。\n\n- 樣本來自近似常態分佈的母體（若  $ n \\geq 30 $，可依中央極限定理放寬常態性要求）。\n\n##### c. 假設設定\n\n- 虛無假設（H₀）：μ = μ₀（樣本平均與理論值無差異）。\n\n- 對立假設（H $ _{1} $）依檢定方向不同，可分為三種：\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>檢定類型</td><td style='text-align: center; word-wrap: break-word;'>對立假設  $ H_{1} $</td><td style='text-align: center; word-wrap: break-word;'>應用時機</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>雙尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu \\neq \\mu_{0} $</td><td style='text-align: center; word-wrap: break-word;'>想知道是否有「差異」（不論方向）</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>左尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu < \\mu_{0} $</td><td style='text-align: center; word-wrap: break-word;'>想確認是否「變小」或「變差」</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>右尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu > \\mu_{0} $</td><td style='text-align: center; word-wrap: break-word;'>想確認是否「變大」或「改善」</td></tr></table>\n\n舉例來說，若要檢驗某食品的平均含鈉量是否與法規標準不同，適用雙尾檢定；若想確認藥物是否讓血壓下降，則採用左尾檢定。\n\n##### d. 常見誤用與注意事項\n\n- 不適用於比例、名目或順序型資料（例如：性別、等級）。\n\n若母體標準差已知，應使用 Z 檢定而非 t 檢定。\n\n- 樣本數過少或分佈偏態時，t 檢定可能失準。\n\n- 顯著性≠實質重要性，建議搭配信賴區間一併報告。\n\n檢定方向（單尾或雙尾）須事先設定，不能事後依結果選擇。\n\n獨立樣本 t 檢定（Independent-samples t-test）\n\n##### a. 方法概述\n\n獨立樣本 t 檢定用於比較兩組互相獨立樣本的平均數是否具有統計上顯著差異。常見應用情境包括：比較兩種教學法的學習成效、男性與女性的平均工時、兩種產品的顧客滿意度等。\n\n##### b. 適用條件與前提假設\n\n兩組資料為獨立樣本（不同個體、不同來源）。\n\n資料為連續變數。\n\n每組樣本皆來自常態分佈的母體。\n\n- 母體變異數相等（可用 Levene's test 或 F-test 檢查；若不等應採 Welch's t 檢定）。\n\n##### c. 假設設定\n\n- 虛無假設（ $ H_{0} $）： $ \\mu_{1} = \\mu_{2} $（兩組母體平均數無差異）。\n\n- 對立假設（H $ _{1} $）有三種形式：\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>檢定類型</td><td style='text-align: center; word-wrap: break-word;'>對立假設  $ H_{1} $</td><td style='text-align: center; word-wrap: break-word;'>適用情境</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>雙尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu_{1} \\neq \\mu_{2} $</td><td style='text-align: center; word-wrap: break-word;'>想檢查兩組平均是否不同（不論方向）</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>左尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu_{1} < \\mu_{2} $</td><td style='text-align: center; word-wrap: break-word;'>關注第一組是否「低於」第二組</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>右尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu_{1} > \\mu_{2} $</td><td style='text-align: center; word-wrap: break-word;'>關注第一組是否「高於」第二組</td></tr></table>\n\n例如：檢驗新藥 A 是否比舊藥 B 有更高的療效，若希望確認 A 是否顯著大於 B，可採右尾檢定。\n\n##### d. 常見誤用與注意事項\n\n- 不可將同一組人測前後結果誤用本檢定（應使用成對樣本 t 檢定）。\n\n使用前應先檢查變異數是否相等。\n\n樣本數極不均衡時應採用 Welch 檢定。\n\n檢定僅說明「是否顯著不同」，不代表差異具實質效益。\n\n成對樣本 t 檢定（Paired-samples t-test）\n\n##### a. 方法概述\n\n成對樣本 t 檢定用於比較同一個體在兩種不同情況下的平均差異，或是兩個彼此對應的觀測值組合（如配對樣本）之差異。它的核心在於「差值」的統計推論，而非兩組平均數本身的獨立比較。\n\n常見應用包括：\n\n- 同一組人在治療前與治療後的測量（如血壓、成績）。\n\n- 配對實驗設計中（如雙胞胎、一對一配對樣本）。\n\n產品改善前後的性能差異評估。\n\n##### b. 適用條件與前提假設\n\n資料為連續變數。\n\n每對觀測值來自相同個體或相互配對樣本。\n\n各對觀測值的差值（差異量）近似常態分布。\n\n樣本對之間彼此獨立。\n\n##### c. 假設設定\n\n在成對樣本t檢定中，檢定的對象是兩次測量值之間的「差值」平均數，記為 $ \\mu d $。檢定目的在於判斷該差值是否與0有顯著差異。\n\n- 虛無假設（H $ _{0} $）： $ \\mu d = 0 $\n\n表示兩次測量之間沒有平均差異，差值的期望為零。\n\n- 對立假設（H $ _{1} $）則依檢定方向分為三種情況：\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>檢定類型</td><td style='text-align: center; word-wrap: break-word;'>對立假設  $ H_{{1}} $</td><td style='text-align: center; word-wrap: break-word;'>適用情境</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>雙尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu d \\ne 0 $</td><td style='text-align: center; word-wrap: break-word;'>檢查兩次測量之間是否有「任一方向」的差異</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>左尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu d < 0 $</td><td style='text-align: center; word-wrap: break-word;'>第二次測量結果顯著低於第一次，例如療效降低</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>右尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu d > 0 $</td><td style='text-align: center; word-wrap: break-word;'>第二次測量結果顯著高於第一次，例如成績進步</td></tr></table>\n\n##### d. 常見誤用與注意事項\n\n若資料來自不同個體或樣本之間不具相依性，不得使用此檢定（應使用獨立樣本t檢定）。\n\n◼ 須特別檢查差值分佈是否近似常態，否則檢定結果可能不準確。\n\n實際上成對樣本設計能有效控制個體間變異，但錯用成對檢定將導致假設錯置。\n\n◼ 須避免在未定義清楚配對規則時強行套用成對樣本設計。\n\n### 單因子變異數分析（One-way ANOVA）\n\n##### a. 方法概述\n\n單因子變異數分析（One-way ANOVA）是一種用來比較三組以上獨立樣本平均數是否有顯著差異的統計方法。它延伸自 t 檢定的邏輯，當研究中有超過兩組要比較的情況時，ANOVA 提供一個整體檢定框架，判斷是否至少有一組的平均數與其他組不同。\n\n##### b. 適用條件與前提假設\n\n各組資料來自獨立樣本。\n\n應變數為連續變數，自變數為類別變數（分組）。\n\n各組母體具有常態分佈。\n\n各組的變異數應大致相等（變異數齊一性假設，可用 Levene's test 檢查）。\n\n各觀測值彼此獨立。\n\n##### c. 假設設定\n\nANOVA 的目標是檢驗多組之間是否至少有一組平均數不同。這裡不會指出哪一組不同，只是確認「是否存在差異」，若顯著，通常需進一步進行事後檢定（Post-hoc test）。\n\n- 虛無假設（H₀）：μ₁ = μ₂ = … = μk（所有群組的平均數相同）。\n\n- 對立假設（H_{1}）：至少有一組平均數與其他組不同。\n\n##### d. 常見誤用與注意事項\n\n樣本數極不均衡時使用 ANOVA 結果可能偏誤，應特別檢查變異數齊一性條件。\n\n- 顯著差異≠所有群組都不同：ANOVA 只告訴我們「至少有一組不同」，但不指出哪一組，需事後檢定（如 Tukey HSD）來進一步比較。\n\n- 誤用於只有兩組的比較：若只有兩組，應使用 t 檢定而非 ANOVA。\n\n- 對應變數與自變數類型認識不足：ANOVA 僅適用於連續應變數與類別自變數的分析架構。\n\n- 忽略實際意義：統計上有顯著性不代表實務上差異具有重要性，仍需結合效果量與情境解釋。\n\n####"
         },
         {
           "id": "mid-s2c3#2比例或類別變數的比較",
@@ -665,8 +593,8 @@
           "level": 3,
           "page": 30,
           "anchor": "2統計推論概念與應用情境",
-          "sectionCount": 7,
-          "content": "2. 統計推論概念與應用情境\n\n統計推論（Statistical Inference）是以樣本資料為基礎，對整體母體特徵進行科學性推估的程序。在實務中，往往無法取得全體資料（例如全人口、所有產品、所有事件），因此須藉由統計方法，從具代表性的樣本中獲得合理的估計與判斷。統計推論不僅是資料分析的基石，也構成機器學習與大數據分析背後的邏輯支柱。\n\n統計推論可概略分為兩大核心分支：參數估計（Parameter Estimation）與假設檢定（Hypothesis Testing），兩者雖然目的不同，但均依賴機率模型作為推論依據，並對樣本中的不確定性進行量化處理。\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>項目</td><td style='text-align: center; word-wrap: break-word;'>參數估計</td><td style='text-align: center; word-wrap: break-word;'>統計假設檢定</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>目的</td><td style='text-align: center; word-wrap: break-word;'>推測母體參數的「值」或「區間」</td><td style='text-align: center; word-wrap: break-word;'>驗證某個關於母體參數的「主張」是否成立</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>重點問題</td><td style='text-align: center; word-wrap: break-word;'>這個母體參數大約是多少？（例如：平均收入是多少？）</td><td style='text-align: center; word-wrap: break-word;'>我們是否有足夠證據拒絕一個假設？（例如：新藥是否有效？）</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>輸出結果</td><td style='text-align: center; word-wrap: break-word;'>提供點估計值（如平均數）與信賴區間（如 95% CI）</td><td style='text-align: center; word-wrap: break-word;'>提供 p 值、檢定統計量，並根據顯著水準決定是否拒絕虛無假設</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>依據</td><td style='text-align: center; word-wrap: break-word;'>基於樣本資料，計算出母體參數的估計值</td><td style='text-align: center; word-wrap: break-word;'>基於假設前提與樣本結果，進行推論判斷</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>例子</td><td style='text-align: center; word-wrap: break-word;'>根據樣本估計出平均體重為 68 公斤，95%信賴區間為[66, 70]</td><td style='text-align: center; word-wrap: break-word;'>假設新運動課程能降低體重（對立假設），檢定結果 p=0.03，小於 0.05，拒絕虛無零假設，接受對立假設，認為有效</td></tr></table>\n\n####\n\n（1） 參數估計\n\n參數估計是指根據樣本資料，對母體的數值特徵進行推測，例如平均值（mean）、變異數（variance）、比例（proportion）等常見統計參數。\n\n主要方法可分為兩類：點估計與區間估計：\n\n### - 點估計（Point Estimation）\n\n是以樣本資料計算出一個單一數值（統計量），作為對母體參數的最佳估計。例如，以樣本平均數作為母體平均數的點估計，是最常見的做法之一。然而，點估計無法反映估計的不確定性，因此在許多實務分析中會搭配區間估計進行。\n\n區間估計（Interval Estimation）：\n\n進一步提供一個數值範圍，表示我們對母體參數所在區間的信心程度。這個範圍稱為信賴區間（Confidence Interval）。以95%信賴區間為例，其意義並非母體參數有95%的機率落在某一特定區間內，而是指：若以相同方式重複進行大量抽樣並對每個樣本建立信賴區間，則預期這些區間中約有95%會包含母體的真實參數值。\n\n舉例來說，在用戶滿意度調查中，若抽樣調查結果顯示平均分數為4.2分，且根據該樣本估計出的95%信賴區間為[4.0,4.4]；這表示：若我們依相同方式重複抽樣並對每個樣本建立信賴區間，則在所有這些區間中，約有95%預期會涵蓋母體實際的平均滿意度分數。\n\n####\n\n（2） 假設檢定\n\n假設檢定則是一種形式化的推論工具，用於檢視樣本資料是否提供足夠證據來拒絕某一原先的假設。整體流程包含：\n\n#####\n\nA. 設定虛無假設（或稱零假設）與對立假設\n\n#####\n\nB. 選擇適當的檢定方法與檢定統計量\n\n##### C. 決定顯著水準（ $ \\alpha $）\n\n#####\n\nD. 計算檢定統計量與 p 值\n\n#####\n\nE. 比較顯著水準並進行決策\n\n假設檢定強調的是「證據是否足夠」，而非直接斷定假設真偽。實務中常見的檢定情境舉例：\n\nA/B 測試：新產品設計是否提升點擊率或轉換率\n\n醫療試驗：新藥是否對疾病有顯著療效\n\n生產製程：產品平均重量是否符合規格標準\n\n金融風控：模型預測是否優於既有基準模型\n\n###"
+          "sectionCount": 3,
+          "content": "2. 統計推論概念與應用情境\n\n統計推論（Statistical Inference）是以樣本資料為基礎，對整體母體特徵進行科學性推估的程序。在實務中，往往無法取得全體資料（例如全人口、所有產品、所有事件），因此須藉由統計方法，從具代表性的樣本中獲得合理的估計與判斷。統計推論不僅是資料分析的基石，也構成機器學習與大數據分析背後的邏輯支柱。\n\n統計推論可概略分為兩大核心分支：參數估計（Parameter Estimation）與假設檢定（Hypothesis Testing），兩者雖然目的不同，但均依賴機率模型作為推論依據，並對樣本中的不確定性進行量化處理。\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>項目</td><td style='text-align: center; word-wrap: break-word;'>參數估計</td><td style='text-align: center; word-wrap: break-word;'>統計假設檢定</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>目的</td><td style='text-align: center; word-wrap: break-word;'>推測母體參數的「值」或「區間」</td><td style='text-align: center; word-wrap: break-word;'>驗證某個關於母體參數的「主張」是否成立</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>重點問題</td><td style='text-align: center; word-wrap: break-word;'>這個母體參數大約是多少？（例如：平均收入是多少？）</td><td style='text-align: center; word-wrap: break-word;'>我們是否有足夠證據拒絕一個假設？（例如：新藥是否有效？）</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>輸出結果</td><td style='text-align: center; word-wrap: break-word;'>提供點估計值（如平均數）與信賴區間（如 95% CI）</td><td style='text-align: center; word-wrap: break-word;'>提供 p 值、檢定統計量，並根據顯著水準決定是否拒絕虛無假設</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>依據</td><td style='text-align: center; word-wrap: break-word;'>基於樣本資料，計算出母體參數的估計值</td><td style='text-align: center; word-wrap: break-word;'>基於假設前提與樣本結果，進行推論判斷</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>例子</td><td style='text-align: center; word-wrap: break-word;'>根據樣本估計出平均體重為 68 公斤，95%信賴區間為[66, 70]</td><td style='text-align: center; word-wrap: break-word;'>假設新運動課程能降低體重（對立假設），檢定結果 p=0.03，小於 0.05，拒絕虛無零假設，接受對立假設，認為有效</td></tr></table>\n\n####\n\n（1） 參數估計\n\n參數估計是指根據樣本資料，對母體的數值特徵進行推測，例如平均值（mean）、變異數（variance）、比例（proportion）等常見統計參數。\n\n主要方法可分為兩類：點估計與區間估計：\n\n### - 點估計（Point Estimation）\n\n是以樣本資料計算出一個單一數值（統計量），作為對母體參數的最佳估計。例如，以樣本平均數作為母體平均數的點估計，是最常見的做法之一。然而，點估計無法反映估計的不確定性，因此在許多實務分析中會搭配區間估計進行。\n\n區間估計（Interval Estimation）：\n\n進一步提供一個數值範圍，表示我們對母體參數所在區間的信心程度。這個範圍稱為信賴區間（Confidence Interval）。以95%信賴區間為例，其意義並非母體參數有95%的機率落在某一特定區間內，而是指：若以相同方式重複進行大量抽樣並對每個樣本建立信賴區間，則預期這些區間中約有95%會包含母體的真實參數值。\n\n舉例來說，在用戶滿意度調查中，若抽樣調查結果顯示平均分數為4.2分，且根據該樣本估計出的95%信賴區間為[4.0,4.4]；這表示：若我們依相同方式重複抽樣並對每個樣本建立信賴區間，則在所有這些區間中，約有95%預期會涵蓋母體實際的平均滿意度分數。\n\n####\n\n（2） 假設檢定\n\n假設檢定則是一種形式化的推論工具，用於檢視樣本資料是否提供足夠證據來拒絕某一原先的假設。整體流程包含：\n\n##### A. 設定虛無假設（或稱零假設）與對立假設\n\n##### B. 選擇適當的檢定方法與檢定統計量\n\n##### C. 決定顯著水準（ $ \\alpha $）\n\n##### D. 計算檢定統計量與 p 值\n\n##### E. 比較顯著水準並進行決策\n\n假設檢定強調的是「證據是否足夠」，而非直接斷定假設真偽。實務中常見的檢定情境舉例：\n\nA/B 測試：新產品設計是否提升點擊率或轉換率\n\n醫療試驗：新藥是否對疾病有顯著療效\n\n生產製程：產品平均重量是否符合規格標準\n\n金融風控：模型預測是否優於既有基準模型\n\n###"
         },
         {
           "id": "mid-s2c3#3假設檢定的基本流程",
@@ -746,46 +674,24 @@
           ]
         },
         {
-          "id": "mid-s2c3#1平均數的差異檢定",
-          "title": "（1）平均數的差異檢定",
+          "id": "mid-s2c3#1平均數的差異檢定#p1",
+          "title": "（1）平均數的差異檢定（第 1 段）",
           "level": 4,
           "page": 40,
           "anchor": "1平均數的差異檢定",
-          "sectionCount": 3,
-          "content": "（1） 平均數的差異檢定\n\n單樣本 t 檢定（One-sample t-test）\n\n#####\n\na. 方法概述\n\n單樣本t檢定是用來檢驗「樣本平均數是否與某個已知數值（ $ \\mu_{0} $）之間存在顯著差異」的方法。當母體標準差未知，且樣本數較小（n<30）時，通常採用此檢定。\n\n常見於產品測試、教育成績評估、臨床實驗等領域，例如：檢查某藥物對血壓是否有降低效果、驗證學生考試成績是否達標。\n\n#####\n\nb. 適用條件與前提假設\n\n在使用單樣本t檢定之前，必須確保下列條件成立：\n\n- 資料為連續變數（如長度、時間、成績等）。\n\n- 樣本為隨機抽樣，且彼此獨立。\n\n- 母體標準差未知。\n\n- 樣本來自近似常態分佈的母體（若  $ n \\geq 30 $，可依中央極限定理放寬常態性要求）。\n\n#####",
-          "mergedTitles": [
-            "a. 方法概述",
-            "b. 適用條件與前提假設"
-          ]
-        },
-        {
-          "id": "mid-s2c3#c假設設定",
-          "title": "c. 假設設定",
-          "level": 6,
-          "page": 40,
-          "anchor": "c假設設定",
-          "sectionCount": 1,
-          "content": "c. 假設設定\n\n- 虛無假設（H₀）：μ = μ₀（樣本平均與理論值無差異）。\n\n- 對立假設（H $ _{1} $）依檢定方向不同，可分為三種：\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>檢定類型</td><td style='text-align: center; word-wrap: break-word;'>對立假設  $ H_{1} $</td><td style='text-align: center; word-wrap: break-word;'>應用時機</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>雙尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu \\neq \\mu_{0} $</td><td style='text-align: center; word-wrap: break-word;'>想知道是否有「差異」（不論方向）</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>左尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu < \\mu_{0} $</td><td style='text-align: center; word-wrap: break-word;'>想確認是否「變小」或「變差」</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>右尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu > \\mu_{0} $</td><td style='text-align: center; word-wrap: break-word;'>想確認是否「變大」或「改善」</td></tr></table>\n\n舉例來說，若要檢驗某食品的平均含鈉量是否與法規標準不同，適用雙尾檢定；若想確認藥物是否讓血壓下降，則採用左尾檢定。\n\n#####"
-        },
-        {
-          "id": "mid-s2c3#d常見誤用與注意事項#p1",
-          "title": "d. 常見誤用與注意事項（第 1 段）",
-          "level": 6,
-          "page": 40,
-          "anchor": "d常見誤用與注意事項",
           "sectionCount": 1,
           "splitBy": "paragraph",
-          "content": "d. 常見誤用與注意事項\n\n- 不適用於比例、名目或順序型資料（例如：性別、等級）。\n\n若母體標準差已知，應使用 Z 檢定而非 t 檢定。\n\n- 樣本數過少或分佈偏態時，t 檢定可能失準。\n\n- 顯著性≠實質重要性，建議搭配信賴區間一併報告。\n\n檢定方向（單尾或雙尾）須事先設定，不能事後依結果選擇。\n\n獨立樣本 t 檢定（Independent-samples t-test）\n\n##### a. 方法概述\n\n獨立樣本 t 檢定用於比較兩組互相獨立樣本的平均數是否具有統計上顯著差異。常見應用情境包括：比較兩種教學法的學習成效、男性與女性的平均工時、兩種產品的顧客滿意度等。\n\n##### b. 適用條件與前提假設\n\n兩組資料為獨立樣本（不同個體、不同來源）。\n\n資料為連續變數。\n\n每組樣本皆來自常態分佈的母體。\n\n- 母體變異數相等（可用 Levene's test 或 F-test 檢查；若不等應採 Welch's t 檢定）。\n\n##### c. 假設設定\n\n- 虛無假設（ $ H_{0} $）： $ \\mu_{1} = \\mu_{2} $（兩組母體平均數無差異）。\n\n- 對立假設（H $ _{1} $）有三種形式：\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>檢定類型</td><td style='text-align: center; word-wrap: break-word;'>對立假設  $ H_{1} $</td><td style='text-align: center; word-wrap: break-word;'>適用情境</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>雙尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu_{1} \\neq \\mu_{2} $</td><td style='text-align: center; word-wrap: break-word;'>想檢查兩組平均是否不同（不論方向）</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>左尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu_{1} < \\mu_{2} $</td><td style='text-align: center; word-wrap: break-word;'>關注第一組是否「低於」第二組</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>右尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu_{1} > \\mu_{2} $</td><td style='text-align: center; word-wrap: break-word;'>關注第一組是否「高於」第二組</td></tr></table>\n\n例如：檢驗新藥 A 是否比舊藥 B 有更高的療效，若希望確認 A 是否顯著大於 B，可採右尾檢定。\n\n##### d. 常見誤用與注意事項\n\n- 不可將同一組人測前後結果誤用本檢定（應使用成對樣本 t 檢定）。\n\n使用前應先檢查變異數是否相等。\n\n樣本數極不均衡時應採用 Welch 檢定。\n\n檢定僅說明「是否顯著不同」，不代表差異具實質效益。\n\n成對樣本 t 檢定（Paired-samples t-test）\n\n##### a. 方法概述\n\n成對樣本 t 檢定用於比較同一個體在兩種不同情況下的平均差異，或是兩個彼此對應的觀測值組合（如配對樣本）之差異。它的核心在於「差值」的統計推論，而非兩組平均數本身的獨立比較。\n\n常見應用包括：\n\n- 同一組人在治療前與治療後的測量（如血壓、成績）。\n\n- 配對實驗設計中（如雙胞胎、一對一配對樣本）。\n\n產品改善前後的性能差異評估。\n\n##### b. 適用條件與前提假設\n\n資料為連續變數。\n\n每對觀測值來自相同個體或相互配對樣本。\n\n各對觀測值的差值（差異量）近似常態分布。\n\n樣本對之間彼此獨立。\n\n##### c. 假設設定\n\n在成對樣本t檢定中，檢定的對象是兩次測量值之間的「差值」平均數，記為 $ \\mu d $。檢定目的在於判斷該差值是否與0有顯著差異。\n\n- 虛無假設（H $ _{0} $）： $ \\mu d = 0 $\n\n表示兩次測量之間沒有平均差異，差值的期望為零。\n\n- 對立假設（H $ _{1} $）則依檢定方向分為三種情況："
+          "content": "（1） 平均數的差異檢定\n\n單樣本 t 檢定（One-sample t-test）\n\n##### a. 方法概述\n\n單樣本t檢定是用來檢驗「樣本平均數是否與某個已知數值（ $ \\mu_{0} $）之間存在顯著差異」的方法。當母體標準差未知，且樣本數較小（n<30）時，通常採用此檢定。\n\n常見於產品測試、教育成績評估、臨床實驗等領域，例如：檢查某藥物對血壓是否有降低效果、驗證學生考試成績是否達標。\n\n##### b. 適用條件與前提假設\n\n在使用單樣本t檢定之前，必須確保下列條件成立：\n\n- 資料為連續變數（如長度、時間、成績等）。\n\n- 樣本為隨機抽樣，且彼此獨立。\n\n- 母體標準差未知。\n\n- 樣本來自近似常態分佈的母體（若  $ n \\geq 30 $，可依中央極限定理放寬常態性要求）。\n\n##### c. 假設設定\n\n- 虛無假設（H₀）：μ = μ₀（樣本平均與理論值無差異）。\n\n- 對立假設（H $ _{1} $）依檢定方向不同，可分為三種：\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>檢定類型</td><td style='text-align: center; word-wrap: break-word;'>對立假設  $ H_{1} $</td><td style='text-align: center; word-wrap: break-word;'>應用時機</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>雙尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu \\neq \\mu_{0} $</td><td style='text-align: center; word-wrap: break-word;'>想知道是否有「差異」（不論方向）</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>左尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu < \\mu_{0} $</td><td style='text-align: center; word-wrap: break-word;'>想確認是否「變小」或「變差」</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>右尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu > \\mu_{0} $</td><td style='text-align: center; word-wrap: break-word;'>想確認是否「變大」或「改善」</td></tr></table>\n\n舉例來說，若要檢驗某食品的平均含鈉量是否與法規標準不同，適用雙尾檢定；若想確認藥物是否讓血壓下降，則採用左尾檢定。\n\n##### d. 常見誤用與注意事項\n\n- 不適用於比例、名目或順序型資料（例如：性別、等級）。\n\n若母體標準差已知，應使用 Z 檢定而非 t 檢定。\n\n- 樣本數過少或分佈偏態時，t 檢定可能失準。\n\n- 顯著性≠實質重要性，建議搭配信賴區間一併報告。\n\n檢定方向（單尾或雙尾）須事先設定，不能事後依結果選擇。\n\n獨立樣本 t 檢定（Independent-samples t-test）\n\n##### a. 方法概述\n\n獨立樣本 t 檢定用於比較兩組互相獨立樣本的平均數是否具有統計上顯著差異。常見應用情境包括：比較兩種教學法的學習成效、男性與女性的平均工時、兩種產品的顧客滿意度等。\n\n##### b. 適用條件與前提假設\n\n兩組資料為獨立樣本（不同個體、不同來源）。\n\n資料為連續變數。\n\n每組樣本皆來自常態分佈的母體。\n\n- 母體變異數相等（可用 Levene's test 或 F-test 檢查；若不等應採 Welch's t 檢定）。\n\n##### c. 假設設定\n\n- 虛無假設（ $ H_{0} $）： $ \\mu_{1} = \\mu_{2} $（兩組母體平均數無差異）。\n\n- 對立假設（H $ _{1} $）有三種形式：\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>檢定類型</td><td style='text-align: center; word-wrap: break-word;'>對立假設  $ H_{1} $</td><td style='text-align: center; word-wrap: break-word;'>適用情境</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>雙尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu_{1} \\neq \\mu_{2} $</td><td style='text-align: center; word-wrap: break-word;'>想檢查兩組平均是否不同（不論方向）</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>左尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu_{1} < \\mu_{2} $</td><td style='text-align: center; word-wrap: break-word;'>關注第一組是否「低於」第二組</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>右尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu_{1} > \\mu_{2} $</td><td style='text-align: center; word-wrap: break-word;'>關注第一組是否「高於」第二組</td></tr></table>\n\n例如：檢驗新藥 A 是否比舊藥 B 有更高的療效，若希望確認 A 是否顯著大於 B，可採右尾檢定。\n\n##### d. 常見誤用與注意事項\n\n- 不可將同一組人測前後結果誤用本檢定（應使用成對樣本 t 檢定）。\n\n使用前應先檢查變異數是否相等。"
         },
         {
-          "id": "mid-s2c3#d常見誤用與注意事項#p2",
-          "title": "d. 常見誤用與注意事項（第 2 段）",
-          "level": 6,
+          "id": "mid-s2c3#1平均數的差異檢定#p2",
+          "title": "（1）平均數的差異檢定（第 2 段）",
+          "level": 4,
           "page": 40,
-          "anchor": "d常見誤用與注意事項",
+          "anchor": "1平均數的差異檢定",
           "sectionCount": 1,
           "splitBy": "paragraph",
-          "content": "<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>檢定類型</td><td style='text-align: center; word-wrap: break-word;'>對立假設  $ H_{{1}} $</td><td style='text-align: center; word-wrap: break-word;'>適用情境</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>雙尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu d \\ne 0 $</td><td style='text-align: center; word-wrap: break-word;'>檢查兩次測量之間是否有「任一方向」的差異</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>左尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu d < 0 $</td><td style='text-align: center; word-wrap: break-word;'>第二次測量結果顯著低於第一次，例如療效降低</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>右尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu d > 0 $</td><td style='text-align: center; word-wrap: break-word;'>第二次測量結果顯著高於第一次，例如成績進步</td></tr></table>\n\n##### d. 常見誤用與注意事項\n\n若資料來自不同個體或樣本之間不具相依性，不得使用此檢定（應使用獨立樣本t檢定）。\n\n◼ 須特別檢查差值分佈是否近似常態，否則檢定結果可能不準確。\n\n實際上成對樣本設計能有效控制個體間變異，但錯用成對檢定將導致假設錯置。\n\n◼ 須避免在未定義清楚配對規則時強行套用成對樣本設計。\n\n### 單因子變異數分析（One-way ANOVA）\n\n##### a. 方法概述\n\n單因子變異數分析（One-way ANOVA）是一種用來比較三組以上獨立樣本平均數是否有顯著差異的統計方法。它延伸自 t 檢定的邏輯，當研究中有超過兩組要比較的情況時，ANOVA 提供一個整體檢定框架，判斷是否至少有一組的平均數與其他組不同。\n\n##### b. 適用條件與前提假設\n\n各組資料來自獨立樣本。\n\n應變數為連續變數，自變數為類別變數（分組）。\n\n各組母體具有常態分佈。\n\n各組的變異數應大致相等（變異數齊一性假設，可用 Levene's test 檢查）。\n\n各觀測值彼此獨立。\n\n##### c. 假設設定\n\nANOVA 的目標是檢驗多組之間是否至少有一組平均數不同。這裡不會指出哪一組不同，只是確認「是否存在差異」，若顯著，通常需進一步進行事後檢定（Post-hoc test）。\n\n- 虛無假設（H₀）：μ₁ = μ₂ = … = μk（所有群組的平均數相同）。\n\n- 對立假設（H_{1}）：至少有一組平均數與其他組不同。\n\n##### d. 常見誤用與注意事項\n\n樣本數極不均衡時使用 ANOVA 結果可能偏誤，應特別檢查變異數齊一性條件。\n\n- 顯著差異≠所有群組都不同：ANOVA 只告訴我們「至少有一組不同」，但不指出哪一組，需事後檢定（如 Tukey HSD）來進一步比較。\n\n- 誤用於只有兩組的比較：若只有兩組，應使用 t 檢定而非 ANOVA。\n\n- 對應變數與自變數類型認識不足：ANOVA 僅適用於連續應變數與類別自變數的分析架構。\n\n- 忽略實際意義：統計上有顯著性不代表實務上差異具有重要性，仍需結合效果量與情境解釋。\n\n####"
+          "content": "樣本數極不均衡時應採用 Welch 檢定。\n\n檢定僅說明「是否顯著不同」，不代表差異具實質效益。\n\n成對樣本 t 檢定（Paired-samples t-test）\n\n##### a. 方法概述\n\n成對樣本 t 檢定用於比較同一個體在兩種不同情況下的平均差異，或是兩個彼此對應的觀測值組合（如配對樣本）之差異。它的核心在於「差值」的統計推論，而非兩組平均數本身的獨立比較。\n\n常見應用包括：\n\n- 同一組人在治療前與治療後的測量（如血壓、成績）。\n\n- 配對實驗設計中（如雙胞胎、一對一配對樣本）。\n\n產品改善前後的性能差異評估。\n\n##### b. 適用條件與前提假設\n\n資料為連續變數。\n\n每對觀測值來自相同個體或相互配對樣本。\n\n各對觀測值的差值（差異量）近似常態分布。\n\n樣本對之間彼此獨立。\n\n##### c. 假設設定\n\n在成對樣本t檢定中，檢定的對象是兩次測量值之間的「差值」平均數，記為 $ \\mu d $。檢定目的在於判斷該差值是否與0有顯著差異。\n\n- 虛無假設（H $ _{0} $）： $ \\mu d = 0 $\n\n表示兩次測量之間沒有平均差異，差值的期望為零。\n\n- 對立假設（H $ _{1} $）則依檢定方向分為三種情況：\n\n<table border=1 style='margin: auto; word-wrap: break-word;'><tr><td style='text-align: center; word-wrap: break-word;'>檢定類型</td><td style='text-align: center; word-wrap: break-word;'>對立假設  $ H_{{1}} $</td><td style='text-align: center; word-wrap: break-word;'>適用情境</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>雙尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu d \\ne 0 $</td><td style='text-align: center; word-wrap: break-word;'>檢查兩次測量之間是否有「任一方向」的差異</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>左尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu d < 0 $</td><td style='text-align: center; word-wrap: break-word;'>第二次測量結果顯著低於第一次，例如療效降低</td></tr><tr><td style='text-align: center; word-wrap: break-word;'>右尾檢定</td><td style='text-align: center; word-wrap: break-word;'>$ \\mu d > 0 $</td><td style='text-align: center; word-wrap: break-word;'>第二次測量結果顯著高於第一次，例如成績進步</td></tr></table>\n\n##### d. 常見誤用與注意事項\n\n若資料來自不同個體或樣本之間不具相依性，不得使用此檢定（應使用獨立樣本t檢定）。\n\n◼ 須特別檢查差值分佈是否近似常態，否則檢定結果可能不準確。\n\n實際上成對樣本設計能有效控制個體間變異，但錯用成對檢定將導致假設錯置。\n\n◼ 須避免在未定義清楚配對規則時強行套用成對樣本設計。\n\n### 單因子變異數分析（One-way ANOVA）\n\n##### a. 方法概述\n\n單因子變異數分析（One-way ANOVA）是一種用來比較三組以上獨立樣本平均數是否有顯著差異的統計方法。它延伸自 t 檢定的邏輯，當研究中有超過兩組要比較的情況時，ANOVA 提供一個整體檢定框架，判斷是否至少有一組的平均數與其他組不同。\n\n##### b. 適用條件與前提假設\n\n各組資料來自獨立樣本。\n\n應變數為連續變數，自變數為類別變數（分組）。\n\n各組母體具有常態分佈。\n\n各組的變異數應大致相等（變異數齊一性假設，可用 Levene's test 檢查）。\n\n各觀測值彼此獨立。\n\n##### c. 假設設定\n\nANOVA 的目標是檢驗多組之間是否至少有一組平均數不同。這裡不會指出哪一組不同，只是確認「是否存在差異」，若顯著，通常需進一步進行事後檢定（Post-hoc test）。\n\n- 虛無假設（H₀）：μ₁ = μ₂ = … = μk（所有群組的平均數相同）。\n\n- 對立假設（H_{1}）：至少有一組平均數與其他組不同。\n\n##### d. 常見誤用與注意事項\n\n樣本數極不均衡時使用 ANOVA 結果可能偏誤，應特別檢查變異數齊一性條件。\n\n- 顯著差異≠所有群組都不同：ANOVA 只告訴我們「至少有一組不同」，但不指出哪一組，需事後檢定（如 Tukey HSD）來進一步比較。\n\n- 誤用於只有兩組的比較：若只有兩組，應使用 t 檢定而非 ANOVA。\n\n- 對應變數與自變數類型認識不足：ANOVA 僅適用於連續應變數與類別自變數的分析架構。\n\n- 忽略實際意義：統計上有顯著性不代表實務上差異具有重要性，仍需結合效果量與情境解釋。\n\n####"
         },
         {
           "id": "mid-s2c3#2比例或類別變數的比較#p1",

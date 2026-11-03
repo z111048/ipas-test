@@ -736,5 +736,102 @@ class Round3PrintedSectionHeadingTests(unittest.TestCase):
             self.assertEqual(path[-1], unit['title'], unit['id'])
 
 
+class Round4FallbackFieldTests(unittest.TestCase):
+    """Round 4 (2026-11-03): the fallback fields of a guideContent payload
+    follow its blocks.  ``headings`` is derived from the heading blocks, and
+    the heading lines of the ``content`` Markdown are rewritten to them; the
+    Markdown soft-wrap join uses the blocks' 「CJK + （」 rule."""
+
+    CONTENT = ROOT / 'frontend/src/generated/guideContent'
+    WRONG_TITLES = {
+        # truncated text-layer titles (printed title lost its CJK glyphs)
+        '1. No Code', '2. Low Code', '5. No Code / Low Code', '7. No Code / Low Code',
+        '8. AI No Code / Low Code', '3.1 機率/', '4.3 AI', '3.4 AI',
+        # titles invented by the hand tables removed in round 3 batch 4
+        '3. AI No Code / Low Code', '4. AI No Code / Low Code 產業應用',
+        '5. No Code / Low Code 平台選擇與評估', '6. AI No Code / Low Code 導入挑戰與風險',
+        '7. No Code / Low Code 導入效益', '8. AI No Code / Low Code 發展趨勢',
+        '9. AI No Code / Low Code 對產業與社會的影響', '2. 導入目標與策略規劃',
+        '3. 生成式AI 導入流程', '4. 生成式AI 導入風險與管理', '3. 分佈形狀與資料型態',
+        '2. 資料品質問題與清理策略', '2. 資料型態與儲存需求', '3. 特徵工程', '4. 資料處理管線設計',
+        '2. 大數據環境下的機器學習訓練', '3. 端對端機器學習流程', '2. 個資識別風險與保護技術',
+        '3. 合規資料處理原則', '1. 生成式AI 導入評估標準', '2. 生成式AI 的市場價值與影響力',
+        '4. 生成式AI 應用領域', '5. 生成式AI 應用案例',
+    }
+    # 「中文 （」 is a wrap artifact unless 「（」 opens an option/enumeration marker
+    CJK_SPACE_GLOSS = re.compile(
+        r'[\u4e00-\u9fff][ \t]+（(?!\s*(?:[A-Za-zＡ-Ｚａ-ｚ]|[0-9０-９]+|[一二三四五六七八九十]+)\s*[）)])'
+    )
+
+    def _payloads(self):
+        for path in sorted(self.CONTENT.glob('*/*.json')):
+            yield f'{path.parent.name}/{path.stem}', json.loads(path.read_text(encoding='utf-8'))
+
+    @staticmethod
+    def _heading_blocks(payload: dict) -> list[dict]:
+        return [b for b in payload['blocks'] if b['type'] == 'heading' and (b.get('title') or '').strip()]
+
+    def test_headings_equal_the_heading_blocks(self) -> None:
+        for name, payload in self._payloads():
+            expected = [{'id': b['anchor'], 'level': b['depth'], 'title': b['title']}
+                        for b in self._heading_blocks(payload)]
+            self.assertEqual(payload['headings'], expected, name)
+
+    def test_content_heading_lines_equal_the_heading_blocks(self) -> None:
+        for name, payload in self._payloads():
+            lines = [(len(m.group(1)), m.group(2))
+                     for m in re.finditer(r'^(#{2,6}) (.+)$', payload['content'], re.M)]
+            expected = [(b['depth'], b['title']) for b in self._heading_blocks(payload)]
+            self.assertEqual(lines, expected, name)
+
+    def test_content_has_no_wrong_titles_or_marker_fragments(self) -> None:
+        for name, payload in self._payloads():
+            lines = [re.sub(r'^#+\s*', '', line).strip() for line in payload['content'].split('\n')]
+            self.assertFalse(self.WRONG_TITLES & set(lines), name)
+            fragments = [line for line in lines
+                         if re.fullmatch(r'\d+\.|\d+\.\d+(?: [!-~]+)*|AI', line)]
+            self.assertEqual(fragments, [], name)
+            # leaked ASCII of a printed title glued before the first sentence
+            self.assertNotRegex(payload['content'], r'(?m)^(?:AI AI |AI No Code / Low Code |Skewness Kurtosis )', name)
+
+    def test_content_has_no_cjk_space_before_gloss(self) -> None:
+        for name, payload in self._payloads():
+            hits = [payload['content'][max(0, m.start() - 6):m.end() + 6]
+                    for m in self.CJK_SPACE_GLOSS.finditer(payload['content'])]
+            self.assertEqual(hits, [], name)
+
+    def test_soft_break_join_uses_the_block_rule(self) -> None:
+        self.assertEqual(exporter.normalize_ocr_soft_breaks('如循環神經網路\n（Recurrent Neural Network）'),
+                         '如循環神經網路（Recurrent Neural Network）')
+        self.assertEqual(exporter.normalize_ocr_soft_breaks('下列何者正確？\n（A）甲\n（B）乙'),
+                         '下列何者正確？ （A）甲 （B）乙')
+
+    def test_reconcile_rewrites_heading_lines_and_is_idempotent(self) -> None:
+        blocks = [
+            {'type': 'heading', 'depth': 2, 'title': '3.1 No code / Low code 概念', 'anchor': 'a'},
+            {'type': 'heading', 'depth': 3, 'title': '3. 生成式 AI 與 No Code / Low Code 的結合', 'anchor': 'b'},
+            {'type': 'paragraph', 'text': '生成式AI 進一步提升平台效能。'},
+            {'type': 'heading', 'depth': 4, 'title': '（1） 自動生成程式碼', 'anchor': 'c'},
+            {'type': 'paragraph', 'text': 'AI 協助開發客製化功能，節省開發時間。'},
+            {'type': 'list_item', 'text': '原理：說明'},
+            {'type': 'heading', 'depth': 3, 'title': '章節練習題', 'anchor': 'd'},
+            {'type': 'question', 'text': '1. 下列何者正確？'},
+        ]
+        source = ('# 概念\n\nAI\n\n## 3.1 No code / Low code\n\n3.\n\n'
+                  'AI No Code / Low Code 生成式AI 進一步提升平台效能。\n\n'
+                  '#### （1） 自動生成程式碼：AI 協助開發客製化功能，節省開發時間。\n\n'
+                  '##### A. 原理：說明\n\n1. 下列何者正確？')
+        once = exporter.reconcile_markdown_headings('test', source, blocks)
+        self.assertEqual(once, (
+            '# 概念\n\n## 3.1 No code / Low code 概念\n\n'
+            '### 3. 生成式 AI 與 No Code / Low Code 的結合\n\n生成式AI 進一步提升平台效能。\n\n'
+            '#### （1） 自動生成程式碼\n\nAI 協助開發客製化功能，節省開發時間。\n\n'
+            'A. 原理：說明\n\n### 章節練習題\n\n1. 下列何者正確？'))
+        self.assertEqual(exporter.reconcile_markdown_headings('test', once, blocks), once)
+        with self.assertRaisesRegex(ValueError, 'no line for block heading'):
+            exporter.reconcile_markdown_headings(
+                'test', '# 概念\n\n正文', [{'type': 'heading', 'depth': 3, 'title': '9. 不存在', 'anchor': 'x'}])
+
+
 if __name__ == '__main__':
     unittest.main()

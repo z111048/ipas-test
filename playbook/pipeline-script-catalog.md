@@ -151,6 +151,10 @@ python3 scripts/export_guide_hierarchy.py --print-tree s1    # 印出來目視�
   有子節點的章只保留「子節點頁範圍沒涵蓋到」的標題。
 - **`blocks` 與 `headings[]` 互補，缺一不可**。初級 s1c1 的 blocks 只到 A. 層（缺 a. 層），
   中級 mid-s2c8 的 `headings[]` 整個是空的。以項目多的那邊當主幹，另一邊補頁碼。
+  <!-- 2026-11-03 round 4 -->**2026-11-03 起 `headings[]` 由 heading blocks 推導**（`headings_from_blocks`），
+  `content` 的標題行也由 `reconcile_markdown_headings` 對齊成 blocks 的標題／層級（對不到的 Markdown
+  標題降為正文、「N.」碎行刪除、找不到落點即 fail closed）。兩邊已相同，主幹自然是 blocks；
+  原本只存在 Markdown 的 213 個標題節點 anchor 都不在 blocks（點了不會捲動），已隨之移除。
 - **補回的標題不能只按頁碼插入**。同一頁常有多個標題，只看頁碼會把「3. 資料處理與分析」
   插到同頁但實際在它前面的「E. 專家系統」之前，讓 E. 變成它的子項。同頁內要用
   guide_ocr 該頁的標題順序決定先後。

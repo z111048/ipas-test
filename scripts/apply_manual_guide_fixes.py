@@ -27,13 +27,15 @@ from export_guide_outline_data import slugify_heading  # noqa: E402
 from guide_publication_overlays import (  # noqa: E402
     DEMOTE_HEADINGS,
     PROMOTE_HEADINGS,
+    S1C4_SUBSECTION_LEVEL,
     SHORTEN_HEADINGS,
 )
 
 BASE = Path(__file__).resolve().parents[1]
 S1C4 = BASE / 'frontend/src/generated/guideContent/初級-guide1/s1c4.json'
 
-# 修正 1：s1c4「本節階層」heading 層級（6 個 h4 → h3）
+# 修正 1：s1c4「本節階層」heading 層級（2026-11-03 起與 blocks 對齊：6 個「（N）」為 h4，
+# 位在 h3「1.」「2.」之下；舊產物若是 h3 就改回 h4）
 # 匯出腳本對所有「（\d+）」開頭的行一律輸出 ####，但 PDF 裡同一個符號用在兩個嵌套層次
 # （x 座標同為 70.2，無法自動判斷），導致「（1）→（1）」變成同層。
 # 修正 2：s1c4 的 H4 標題截短。H3 節下的模型條目仍帶「（1）（2）…」前綴與整段敘述，
@@ -99,19 +101,21 @@ def apply_s1c4(strict: bool) -> list[str]:
 
     content = data['content']
     demoted = 0
+    target = '#' * S1C4_SUBSECTION_LEVEL
     for title in DEMOTE_HEADINGS:
-        old, new = f'#### {title}\n', f'### {title}\n'
-        if old in content:
-            content = content.replace(old, new)
+        old, new = f'### {title}', f'{target} {title}'
+        lines = content.split('\n')
+        if old in lines:
+            content = '\n'.join(new if line == old else line for line in lines)
             demoted += 1
-        elif new not in content:
+        elif new not in lines:
             notes.append(f'修正1 找不到標題（也不是已修正狀態）：{title}')
     data['content'] = content
 
     heading_demoted = 0
     for heading in data.get('headings', []):
-        if heading.get('title') in DEMOTE_HEADINGS and heading.get('level') == 4:
-            heading['level'] = 3
+        if heading.get('title') in DEMOTE_HEADINGS and heading.get('level') != S1C4_SUBSECTION_LEVEL:
+            heading['level'] = S1C4_SUBSECTION_LEVEL
             heading_demoted += 1
 
     shortened = 0

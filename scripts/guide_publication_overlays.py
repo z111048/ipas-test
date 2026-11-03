@@ -13,6 +13,9 @@ import unicodedata
 from typing import Any
 
 
+# s1c4 的六個「（N）」小節標題，位在「1.」「2.」（depth 3）之下。舊 Markdown 路徑
+# 缺「N.」層時曾把它們從 h4 改成 h3；2026-11-03 起 content／headings 跟 blocks 對齊，
+# 而 blocks 一直是 depth 4（在 depth 3 的「N.」之下），契約改驗 depth 4。
 DEMOTE_HEADINGS = [
     '（1）鑑別式AI 的原理與應用',
     '（2）生成式AI 的原理與應用',
@@ -21,16 +24,18 @@ DEMOTE_HEADINGS = [
     '（2）整合應用的技術優勢',
     '（3）整合應用的挑戰與解決策略',
 ]
+S1C4_SUBSECTION_LEVEL = 4
 
+# 舊 Markdown 標題行把模型條目的整段敘述吃進標題；側欄只該出現 blocks 的短標題。
 SHORTEN_HEADINGS = {
-    '（1） 邏輯迴歸（Logistic Regression）是鑑別式AI 中最簡單且最基礎的分類模型': '邏輯迴歸（Logistic Regression）',
-    '（2） 支援向量機（Support Vector Machine, SVM）是一種強大的分類模型，其核心': '支援向量機（SVM）',
-    '（3） 決策樹（Decision Tree）是一種基於樹形結構進行數據分類的模型。其透過': '決策樹（Decision Tree）',
-    '（4） 隨機森林（Random Forest）是決策樹的集成學習方法，其透過構建多棵決策': '隨機森林（Random Forest）',
-    '（5） 神經網路（Neural Networks）是一種模擬生物神經系統的非線性模型，透過': '神經網路（Neural Networks）',
-    '（1） 生成對抗網路（Generative Adversarial Networks, GAN）是生成式AI 中最具': '生成對抗網路（GAN）',
-    '（2） 變分自編碼器（Variational Autoencoders, VAE）是一種基於概率生成模型的': '變分自編碼器（VAE）',
-    '（3） 擴散模型（Diffusion Models）是一種基於逐步添加與去除雜訊的數據生成方': '擴散模型（Diffusion Models）',
+    '（1） 邏輯迴歸（Logistic Regression）是鑑別式AI 中最簡單且最基礎的分類模型': '（1） 邏輯迴歸（Logistic Regression）',
+    '（2） 支援向量機（Support Vector Machine, SVM）是一種強大的分類模型，其核心': '（2） 支援向量機（Support Vector Machine, SVM）',
+    '（3） 決策樹（Decision Tree）是一種基於樹形結構進行數據分類的模型。其透過': '（3） 決策樹（Decision Tree）',
+    '（4） 隨機森林（Random Forest）是決策樹的集成學習方法，其透過構建多棵決策': '（4） 隨機森林（Random Forest）',
+    '（5） 神經網路（Neural Networks）是一種模擬生物神經系統的非線性模型，透過': '（5） 神經網路（Neural Networks）',
+    '（1） 生成對抗網路（Generative Adversarial Networks, GAN）是生成式AI 中最具': '（1） 生成對抗網路（Generative Adversarial Networks, GAN）',
+    '（2） 變分自編碼器（Variational Autoencoders, VAE）是一種基於概率生成模型的': '（2） 變分自編碼器（Variational Autoencoders, VAE）',
+    '（3） 擴散模型（Diffusion Models）是一種基於逐步添加與去除雜訊的數據生成方': '（3） 擴散模型（Diffusion Models）',
 }
 
 PROMOTE_HEADINGS = {'s1c2': ('假說檢定名詞介紹：', 3)}
@@ -515,19 +520,22 @@ def apply_publication_markdown_overlays(
 
     if (level, key, node) == ('初級', 'guide1', 's1c4'):
         for title in DEMOTE_HEADINGS:
-            old = f'#### {title}\n'
-            new = f'### {title}\n'
+            old = f'### {title}\n'
+            new = f'{"#" * S1C4_SUBSECTION_LEVEL} {title}\n'
             # Count complete lines.  A raw substring count incorrectly treats
             # ``#### title`` as also containing ``### title``.
             lines = markdown.splitlines()
             old_count = lines.count(old.rstrip('\n'))
             new_count = lines.count(new.rstrip('\n'))
             if (old_count, new_count) == (1, 0):
-                markdown = markdown.replace(old, new, 1)
+                markdown = '\n'.join(
+                    new.rstrip('\n') if line == old.rstrip('\n') else line
+                    for line in markdown.split('\n')
+                )
             elif (old_count, new_count) != (0, 1):
                 raise ValueError(
                     f'{level}/{key}/{node}: manual heading {title!r} matched '
-                    f'h4={old_count}, h3={new_count}; expected exactly one'
+                    f'h3={old_count}, h{S1C4_SUBSECTION_LEVEL}={new_count}; expected exactly one'
                 )
 
     contract = GUIDE_NAVIGATION_HEADINGS['manual-heading:s2c3-import-strategy']
@@ -591,8 +599,10 @@ def apply_publication_heading_overlays(
     if (level, key, node) == ('初級', 'guide1', 's1c4'):
         for title in DEMOTE_HEADINGS:
             matches = [heading for heading in result if heading.get('title') == title]
-            if len(matches) != 1 or matches[0].get('level') != 3:
-                raise ValueError(f'{level}/{key}/{node}: exact depth-3 metadata missing for {title!r}')
+            if len(matches) != 1 or matches[0].get('level') != S1C4_SUBSECTION_LEVEL:
+                raise ValueError(
+                    f'{level}/{key}/{node}: exact depth-{S1C4_SUBSECTION_LEVEL} metadata missing for {title!r}'
+                )
         for long_title, short_title in SHORTEN_HEADINGS.items():
             long_matches = [heading for heading in result if heading.get('title') == long_title]
             short_matches = [heading for heading in result if heading.get('title') == short_title]

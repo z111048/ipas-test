@@ -61,6 +61,13 @@ Track A live gate 會拒絕任一表面殘留舊標題或缺少新節點。
   `（1）（2）…` 前綴（如「（1） 邏輯迴歸（Logistic Regression）是鑑別式AI 中最簡單…」
   → 「邏輯迴歸（Logistic Regression）」），造成側欄同層視覺混淆。
 
+<!-- 2026-11-03 round 4：content／headings 改為跟 blocks 對齊（見 pipeline-script-catalog「備援欄位」）。 -->
+**2026-11-03 起契約改為跟 blocks 一致**：`headings[]` 由 heading blocks 推導、content 標題行改寫成
+blocks 的標題與層級。blocks 一直把這 6 個「（N）」放在 depth 3 的「1.」「2.」之下（depth 4），
+所以修正 1 的目標層級改為 h4（`S1C4_SUBSECTION_LEVEL`）；修正 2 的「短標題」改為 blocks 的標題
+（如「（1） 邏輯迴歸（Logistic Regression）」）。Track A 結構契約 `manual-heading:s1c4-hierarchy`
+仍驗：每個標題在 content／headings／blocks 各恰好一次且同為 depth 4、長標題不得出現。
+
 兩者的完整對照表在 `guide_publication_overlays.py`；
 原本的手動 code block 見 `playbook/backups/pipeline-reference.md.bak-2026-08-07`。
 

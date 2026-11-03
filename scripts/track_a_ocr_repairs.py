@@ -22,6 +22,7 @@ from typing import Any
 from guide_publication_overlays import (
     DEMOTE_HEADINGS,
     GUIDE_NAVIGATION_HEADINGS,
+    S1C4_SUBSECTION_LEVEL,
     SHORTEN_HEADINGS,
 )
 
@@ -2141,18 +2142,27 @@ def audit_generated_track_a(
     s1c4_markdown = str(s1c4.get('content') or '')
     s1c4_lines = s1c4_markdown.splitlines()
     s1c4_headings = s1c4.get('headings') or []
+    subsection_hashes = '#' * S1C4_SUBSECTION_LEVEL
+    s1c4_heading_blocks = [
+        block for block in s1c4.get('blocks') or [] if block.get('type') == 'heading'
+    ]
     demoted_exact = all(
-        s1c4_lines.count(f'### {title}') == 1
-        and s1c4_lines.count(f'#### {title}') == 0
+        s1c4_lines.count(f'{subsection_hashes} {title}') == 1
+        and sum(line.endswith(f' {title}') and line.startswith('#') for line in s1c4_lines) == 1
         and sum(
-            heading.get('title') == title and heading.get('level') == 3
+            heading.get('title') == title and heading.get('level') == S1C4_SUBSECTION_LEVEL
             for heading in s1c4_headings
+        ) == 1
+        and sum(
+            block.get('title') == title and block.get('depth') == S1C4_SUBSECTION_LEVEL
+            for block in s1c4_heading_blocks
         ) == 1
         for title in DEMOTE_HEADINGS
     )
     shortened_exact = all(
         sum(heading.get('title') == short_title for heading in s1c4_headings) == 1
         and all(heading.get('title') != long_title for heading in s1c4_headings)
+        and all(not line.endswith(f' {long_title}') for line in s1c4_lines)
         for long_title, short_title in SHORTEN_HEADINGS.items()
     )
     publication_structure_checks['manual-heading:s1c4-hierarchy'] = demoted_exact and shortened_exact
