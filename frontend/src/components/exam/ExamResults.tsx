@@ -106,7 +106,7 @@ function ReferenceAnswerBlock({
   return (
     <section className="mt-3 border-t border-border pt-3">
       <h3 className="mb-2 text-meta font-semibold text-primary">參考答案</h3>
-      <div className="space-y-2 rounded-lg bg-answered-soft px-3 py-3 text-reading text-app-text content-justify">
+      <div className="space-y-2 rounded-lg bg-panel px-3 py-3 text-reading text-app-text content-justify">
         {answerParagraphs.map((paragraph, index) => (
           <p key={index}>{paragraph}</p>
         ))}
@@ -473,8 +473,8 @@ export default function ExamResults({ onRetry }: ExamResultsProps) {
               key={q.id}
               id={`result-q-${i}`}
               tabIndex={-1}
-              className={`surface p-4 sm:p-5 mb-3 scroll-mt-4 ${
-                isCorrect ? 'border-correct-line' : isSkipped ? 'border-border' : 'border-wrong-line'
+              className={`surface status-card p-4 pl-5 sm:p-5 sm:pl-6 mb-3 scroll-mt-4 ${
+                isCorrect ? 'status-card-correct' : isSkipped ? 'status-card-skipped' : 'status-card-wrong'
               }`}
             >
               <div className="flex items-center gap-2 mb-2">

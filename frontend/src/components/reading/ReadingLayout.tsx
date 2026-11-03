@@ -58,11 +58,13 @@ export function ReadingAuxiliary({
   className?: string
 }) {
   return (
-    <details className={`surface overflow-hidden p-4 sm:p-5 ${className}`}>
-      <summary className="min-h-11 cursor-pointer py-2 text-primary font-semibold">
+    // 輕量摺疊列：不包卡片，只是一行可點的文字＋下方細分隔線。
+    <details className={`group border-b border-border ${className}`}>
+      <summary className="flex min-h-11 cursor-pointer list-none items-center gap-2 py-2 text-ui font-semibold text-primary-light hover:text-accent [&::-webkit-details-marker]:hidden">
+        <span aria-hidden="true" className="inline-block text-caption text-text-light transition-transform group-open:rotate-90">▶</span>
         {title}
       </summary>
-      <div className="mt-4 min-w-0 overflow-x-auto">
+      <div className="pb-4 min-w-0 overflow-x-auto">
         {children}
       </div>
     </details>
@@ -102,7 +104,7 @@ export function ReadingLayout({
       </div>
       {toc && (
         <aside className={`hidden min-h-0 lg:flex lg:flex-col ${asideClassName}`}>
-          <div className="surface flex min-h-0 flex-1 flex-col p-4">
+          <div className="flex min-h-0 flex-1 flex-col border-l border-border py-1 pl-4">
             <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden pr-1 scrollbar-hidden">
               {toc}
             </div>
@@ -179,7 +181,7 @@ export function ReadingToc({
                 aria-current={active ? 'true' : undefined}
                 className={`block w-full rounded-md border-l-2 pr-2 text-left leading-5 transition-colors ${rowClass} ${
                   active
-                    ? 'border-l-accent bg-answered-soft font-semibold text-accent'
+                    ? 'border-l-accent bg-accent-soft font-semibold text-accent'
                     : `border-l-transparent hover:bg-accent-soft hover:text-accent ${top ? 'font-medium text-primary' : 'text-text-light'}`
                 }`}
                 style={style}

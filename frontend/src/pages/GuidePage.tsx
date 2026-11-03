@@ -1013,7 +1013,7 @@ export default function GuidePage() {
       )}
 
       {relatedUnits.length > 0 && (
-        <section className="surface mb-4 border-l-4 border-l-accent p-4" aria-label="實務補充">
+        <section className="mb-4 rounded-2xl bg-accent-soft p-4" aria-label="實務補充">
           <div className="section-title mb-2">把這一章用在實務情境</div>
           <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
             {relatedUnits.map((unit) => (

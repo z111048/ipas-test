@@ -47,16 +47,16 @@ export interface ChoiceOptionButtonProps extends ChoiceOptionBaseProps {
 export type ChoiceOptionProps = ChoiceOptionRadioProps | ChoiceOptionButtonProps
 
 const containerClass: Record<ChoiceState, string> = {
-  idle: 'border-border bg-white text-app-text hover:border-accent hover:bg-accent-soft',
-  selected: 'border-accent bg-answered-soft text-primary',
+  idle: 'border-transparent bg-panel text-app-text hover:bg-border',
+  selected: 'border-answered bg-answered-soft text-answered',
   correct: 'border-correct-strong bg-correct-soft text-correct',
   wrong: 'border-wrong-strong bg-wrong-soft text-wrong',
-  disabled: 'border-border bg-unanswered-soft text-text-light cursor-not-allowed',
+  disabled: 'border-transparent bg-unanswered-soft text-text-light cursor-not-allowed',
 }
 
 const letterClass: Record<ChoiceState, string> = {
   idle: 'border-border bg-white text-primary',
-  selected: 'border-accent bg-accent text-white',
+  selected: 'border-answered bg-answered text-white',
   correct: 'border-correct-strong bg-correct-strong text-white',
   wrong: 'border-wrong-strong bg-wrong-strong text-white',
   disabled: 'border-border bg-white text-text-light',

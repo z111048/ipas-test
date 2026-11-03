@@ -2,11 +2,11 @@
 
 @theme {
   /* 2026-11 清爽版：primary = 近黑 slate（標題文字、深色主按鈕以外不再當底色）；
-     accent = 靛藍 #4f46e5（白底 6.3:1；hover #4338ca 白底 7.9:1）。 */
+     accent = 靛藍 #4338ca（白底 7.9:1；hover #3730a3 白底 9.9:1）。 */
   --color-primary: #0f172a;
   --color-primary-light: #334155;
-  --color-accent: #4f46e5;
-  --color-accent-hover: #4338ca;
+  --color-accent: #4338ca;
+  --color-accent-hover: #3730a3;
   --color-app-bg: #f8fafc;
   --color-card: #ffffff;
   --color-app-text: #1e293b;
@@ -45,11 +45,11 @@
   --color-warning-line: #f7d48b;
   --color-warning-text: #7c4a03;
 
-  /* Semantic answer states. "answered" is neutral indigo (filled in, NOT judged);
+  /* Semantic answer states. "answered" is neutral blue (distinct from indigo accent) (filled in, NOT judged);
      correct / wrong only after grading. *-soft = background, *-line = border, base = text/icon. */
-  --color-answered: #4338ca;
-  --color-answered-soft: #eef2ff;
-  --color-answered-line: #a5b4fc;
+  --color-answered: #1d4ed8;
+  --color-answered-soft: #eff6ff;
+  --color-answered-line: #93c5fd;
   --color-correct: #166534;
   --color-correct-strong: #15803d;
   --color-correct-soft: #ecfdf3;
@@ -316,14 +316,14 @@ html {
     color: #ffffff;
     background-color: var(--color-accent);
     border: 1px solid var(--color-accent);
-    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.22);
+    box-shadow: 0 6px 16px rgba(67, 56, 202, 0.2);
     transition: background-color 150ms ease, box-shadow 150ms ease;
   }
 
   .btn-hero:hover {
     background-color: var(--color-accent-hover);
     border-color: var(--color-accent-hover);
-    box-shadow: 0 8px 20px rgba(67, 56, 202, 0.28);
+    box-shadow: 0 8px 20px rgba(55, 48, 163, 0.26);
   }
 
   /* Hero 次要按鈕：白底、極淡靛藍框。 */
@@ -361,6 +361,36 @@ html {
     background-color: var(--surface-bg);
     border: 1px solid var(--surface-border);
     border-radius: 0.75rem;
+  }
+
+  /* 狀態卡：白卡淡邊框，左側 4px 狀態色條（題解：答對／答錯／未答）。
+     用 ::before 而非 border-left，色條才不會跟著大圓角彎成括號形。 */
+  .status-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.75rem;
+  }
+
+  .status-card::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    width: 4px;
+    background-color: var(--status-rail, var(--color-border-strong));
+  }
+
+  .status-card-correct {
+    --status-rail: var(--color-correct-strong);
+  }
+
+  .status-card-wrong {
+    --status-rail: var(--color-wrong-strong);
+  }
+
+  /* 未答：slate-500，白底 4.8:1（非文字元件需 3:1）。 */
+  .status-card-skipped {
+    --status-rail: #64748b;
   }
 
   /* 卡片內的分區：淡灰底、無邊框（取代「卡片裡再套卡片」）。 */
@@ -624,7 +654,12 @@ html {
     white-space: nowrap;
   }
 
-  .badge-accent,
+  .badge-accent {
+    border-color: transparent;
+    background-color: var(--color-accent-soft);
+    color: var(--color-accent);
+  }
+
   .badge-answered {
     border-color: transparent;
     background-color: var(--color-answered-soft);

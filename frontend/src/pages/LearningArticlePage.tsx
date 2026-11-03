@@ -488,25 +488,25 @@ export default function LearningArticlePage() {
         )}
         <ReadingSurface>
           <ReadingContent>
-            <div className="mb-6 rounded-lg border border-answered-line/50 bg-answered-soft p-4">
+            <div className="mb-6 rounded-xl bg-accent-soft p-4">
               <div className="section-title mb-3">本篇重點</div>
               <div className="flex flex-wrap gap-2">
                 {article.subtopics.map((subtopic) => (
-                  <span key={subtopic} className="pill">
+                  <span key={subtopic} className="pill bg-white">
                     {subtopic}
                   </span>
                 ))}
               </div>
               {selectedPath && (
-                <div className="mt-4 rounded-md border border-answered-line/50 bg-white px-3 py-2 text-ui leading-6 text-text-light">
+                <div className="mt-4 rounded-md bg-white px-3 py-2 text-ui leading-6 text-text-light">
                   目前位於「<span className="font-semibold text-primary">{selectedPath.title}</span>」第 {selectedPathPosition} / {selectedPath.articleCount} 篇。
                 </div>
               )}
               <div className="mt-4 flex flex-wrap gap-2">
-                <Link to={article.guideRoute} className="btn-outline">
+                <Link to={article.guideRoute} className="btn-primary">
                   對照學習指引
                 </Link>
-                <Link to={article.practiceRoute} className="btn-muted">
+                <Link to={article.practiceRoute} className="btn-secondary">
                   章節練習
                 </Link>
               </div>
