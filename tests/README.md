@@ -20,7 +20,7 @@ uv run python tests/run_all.py --skip-browser  # 僅 15/21 靜態診斷；不得
 
 | # | 項目 | 驗什麼 |
 |---|---|---|
-| 1 | `test_resource_catalog` | catalog schema、16 份考卷、route、題數、3 份 PDF 資源及完整 gallery（初級勘誤：3 page＋5 table＝8 assets）、legacy 資產鍵、815 題詳解的概念標註（mid_1151_s2_q39 詞彙表無對應、保留未標）、詞彙表 exact rebuild 與 id 帳本六道防線、兩份標註／`topicHeat`／`conceptGraph` 的穩定 id 與詞彙表逐筆一致且 export 精確重建、快取 v2 無損轉換與 id 優先對齊；另帶入 `test_guide_citation_primary` 與 `test_seasonal_theme`（節慶主題：台北換日、含首尾與跨年區間、`?seasonal=` 覆寫，經 `tests/frontend_checks/seasonal_schedule_check.cjs` 轉譯真正的 schedule.ts） |
+| 1 | `test_resource_catalog` | catalog schema、16 份考卷、route、題數、3 份 PDF 資源及完整 gallery（初級勘誤：3 page＋5 table＝8 assets）、legacy 資產鍵、815 題詳解的概念標註（mid_1151_s2_q39 詞彙表無對應、保留未標）、詞彙表 exact rebuild 與 id 帳本六道防線、兩份標註／`topicHeat`／`conceptGraph` 的穩定 id 與詞彙表逐筆一致且 export 精確重建、快取 v2 無損轉換與 id 優先對齊；另帶入 `test_guide_citation_primary` 與 `test_seasonal_theme`（節慶主題：萬聖節 10/15–11/7、聖誕節 12/1–12/26；台北換日、含首尾與跨年區間、`?seasonal=` 覆寫、重疊時登錄表排前面優先，經 `tests/frontend_checks/seasonal_schedule_check.cjs` 轉譯真正的 schedule.ts） |
 | 2 | `test_repo_portability` | production 腳本無工作站絕對路徑，subprocess 有明確 cwd |
 | 3 | `test_pipeline_output_safety` | Guide producer 所有權、完整 OCR cache、staging/rollback、partial export；appendix boundary、題目 ID／card 保留及 production 5 檔 179 題／179 cards |
 | 4 | `test_exam_ocr_repairs` | 16 份／815 題（初級樣題 70、中級樣題 45）production 修復、code-image annotation、逐頁 direct-view SHA/inventory、reference v2 provenance／完整發布、盲答圖檔 bytes cache、原始 sidecar 不變與 promotion blocker |

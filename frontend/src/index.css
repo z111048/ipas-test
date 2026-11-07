@@ -1011,8 +1011,9 @@ button:focus-visible {
 
 /* ───────────────────────────────────────────────────────────────────────────
    節慶主題（features/seasonal）。
-   - .seasonal-*：機制本身的結構樣式（特效圖層、頁尾開關），只在有節慶時才會出現在 DOM。
-   - .theme-<id> 底下：各主題的裝飾。點綴色只用在裝飾元素，不改主色、不改答題狀態色。
+   - .seasonal-*：機制與共用骨架（common.tsx）的結構樣式，只在主題開啟時才會出現在 DOM。
+     顏色一律讀 --seasonal-* 變數，由各主題在 .theme-<id> 底下給值。
+   - .theme-<id> 底下：各主題的配色變數與剪影擺位。點綴色只用在裝飾元素，不改主色、不改答題狀態色。
    ─────────────────────────────────────────────────────────────────────────── */
 @layer components {
   /* 一次性特效圖層：fixed + overflow hidden，不造成溢出、不佔版面、不擋操作。 */
@@ -1034,7 +1035,183 @@ button:focus-visible {
     cursor: pointer;
   }
 
-  /* ── 萬聖節：首頁主視覺角落 ── */
+  /* ── 共用：隱藏角色＋打氣泡泡 ── */
+  .seasonal-companion {
+    z-index: 5;
+  }
+
+  /* 角色以 absolute 貼在卡片角落；卡片只在主題開啟、而且真的放了角色時才變成 positioned。 */
+  .page-header:has(> .seasonal-companion),
+  .surface:has(> .seasonal-companion) {
+    position: relative;
+  }
+
+  .seasonal-companion-button {
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+
+  .seasonal-companion-art {
+    width: 22px;
+    height: auto;
+    opacity: 0.45;
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+
+  .seasonal-companion-button:hover .seasonal-companion-art,
+  .seasonal-companion-button:focus-visible .seasonal-companion-art {
+    opacity: 1;
+    transform: translateY(-2px) rotate(-6deg);
+  }
+
+  .seasonal-bubble {
+    position: absolute;
+    top: calc(100% + 2px);
+    right: 4px;
+    z-index: 20;
+    width: max-content;
+    max-width: min(15rem, calc(100vw - 4rem));
+    margin: 0;
+    border: 1px solid var(--seasonal-bubble-border);
+    border-radius: 0.75rem;
+    background: var(--seasonal-bubble-bg);
+    padding: 0.5rem 0.75rem;
+    color: var(--seasonal-bubble-ink);
+    font-size: var(--text-meta);
+    line-height: 1.55;
+    text-align: left;
+    box-shadow: 0 6px 18px var(--seasonal-bubble-shadow);
+    pointer-events: none;
+    animation: seasonal-bubble-in 180ms ease-out;
+  }
+
+  /* ── 共用：答對的小慶祝（約 0.8 秒） ── */
+  .seasonal-burst {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    animation: seasonal-burst 800ms ease-out forwards;
+  }
+
+  .seasonal-burst-art {
+    display: block;
+    width: 34px;
+    height: 34px;
+    margin: 5px auto 0;
+  }
+
+  .seasonal-spark {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: var(--seasonal-spark-1);
+    animation: seasonal-spark 700ms ease-out forwards;
+  }
+
+  .seasonal-spark-1 { --seasonal-dx: -20px; --seasonal-dy: -14px; }
+  .seasonal-spark-2 { --seasonal-dx: 20px; --seasonal-dy: -16px; background: var(--seasonal-spark-2); }
+  .seasonal-spark-3 { --seasonal-dx: 2px; --seasonal-dy: -26px; background: var(--seasonal-spark-3); }
+
+  /* ── 共用：及格祝賀橫幅＋散落特效 ── */
+  .seasonal-pass-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--seasonal-banner-border);
+    border-radius: var(--radius-panel);
+    background: var(--seasonal-banner-bg);
+    padding: 0.75rem 0.5rem 0.75rem 1rem;
+    color: var(--seasonal-banner-ink);
+  }
+
+  .seasonal-pass-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+
+  .seasonal-pass-title {
+    margin: 0;
+    color: var(--seasonal-banner-title);
+    font-size: var(--text-body);
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .seasonal-pass-text {
+    margin: 0.125rem 0 0;
+    color: #57534e;
+    font-size: var(--text-meta);
+    line-height: 1.6;
+  }
+
+  .seasonal-pass-close {
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    color: var(--seasonal-banner-title);
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .seasonal-pass-close:hover {
+    background: var(--seasonal-banner-close-hover);
+  }
+
+  .seasonal-fall {
+    position: absolute;
+    top: -32px;
+    display: block;
+    animation-name: seasonal-fall;
+    animation-timing-function: cubic-bezier(0.35, 0.05, 0.65, 1);
+    animation-fill-mode: both;
+  }
+
+  .seasonal-fall svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ── 共用：首頁第一次往下捲，剪影飛過 ── */
+  .seasonal-flyby {
+    position: absolute;
+    top: 16%;
+    left: 100%;
+    animation: seasonal-fly 1800ms ease-in-out forwards;
+  }
+
+  /* ══ 萬聖節 ══ */
+  .theme-halloween {
+    --seasonal-bubble-border: #e9d5ff;
+    --seasonal-bubble-bg: #faf5ff;
+    --seasonal-bubble-ink: #3b0764;
+    --seasonal-bubble-shadow: rgba(59, 7, 100, 0.12);
+    --seasonal-spark-1: #ea580c;
+    --seasonal-spark-2: #7e22ce;
+    --seasonal-spark-3: #f59e0b;
+    --seasonal-banner-border: #fed7aa;
+    --seasonal-banner-bg: linear-gradient(120deg, #fff7ed 0%, #fffbf5 55%, #faf5ff 100%);
+    --seasonal-banner-ink: #431407;
+    --seasonal-banner-title: #7c2d12;
+    --seasonal-banner-close-hover: rgba(234, 88, 12, 0.1);
+  }
+
+  /* 萬聖節：首頁主視覺角落 */
   .theme-halloween .hw-hero-decor {
     position: absolute;
     inset: 0;
@@ -1100,7 +1277,7 @@ button:focus-visible {
     }
   }
 
-  /* ── 萬聖節：頁首站名旁的小南瓜 ── */
+  /* 萬聖節：頁首站名旁的小南瓜 */
   .theme-halloween .hw-header-mark {
     display: inline-block;
     width: 0.95em;
@@ -1110,197 +1287,132 @@ button:focus-visible {
     pointer-events: none;
   }
 
-  /* ── 萬聖節：隱藏小幽靈 ── */
-  .theme-halloween .hw-ghost {
-    z-index: 5;
-  }
-
-  /* 小幽靈以 absolute 貼在卡片角落；卡片只在主題開啟、而且真的放了幽靈時才變成 positioned。 */
-  .theme-halloween .page-header:has(> .hw-ghost),
-  .theme-halloween .surface:has(> .hw-ghost) {
-    position: relative;
-  }
-
-  .theme-halloween .hw-ghost-button {
-    display: inline-flex;
-    width: 44px;
-    height: 44px;
-    align-items: center;
-    justify-content: center;
-    border-radius: 999px;
-    cursor: pointer;
-  }
-
-  .theme-halloween .hw-ghost-art {
-    width: 22px;
-    height: auto;
-    opacity: 0.45;
-    transition: opacity 180ms ease, transform 180ms ease;
-  }
-
-  .theme-halloween .hw-ghost-button:hover .hw-ghost-art,
-  .theme-halloween .hw-ghost-button:focus-visible .hw-ghost-art {
-    opacity: 1;
-    transform: translateY(-2px) rotate(-6deg);
-  }
-
-  .theme-halloween .hw-ghost-bubble {
-    position: absolute;
-    top: calc(100% + 2px);
-    right: 4px;
-    z-index: 20;
-    width: max-content;
-    max-width: min(15rem, calc(100vw - 4rem));
-    margin: 0;
-    border: 1px solid #e9d5ff;
-    border-radius: 0.75rem;
-    background: #faf5ff;
-    padding: 0.5rem 0.75rem;
-    color: #3b0764;
-    font-size: var(--text-meta);
-    line-height: 1.55;
-    text-align: left;
-    box-shadow: 0 6px 18px rgba(59, 7, 100, 0.12);
-    pointer-events: none;
-    animation: hw-bubble-in 180ms ease-out;
-  }
-
-  /* ── 萬聖節：答對的小慶祝（約 0.8 秒） ── */
-  .theme-halloween .hw-pop {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    animation: hw-pop 800ms ease-out forwards;
-  }
-
-  .theme-halloween .hw-pop-art {
-    display: block;
-    width: 34px;
-    height: 34px;
-    margin: 5px auto 0;
-  }
-
-  .theme-halloween .hw-pop-spark {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 5px;
-    height: 5px;
-    border-radius: 999px;
-    background: #ea580c;
-    animation: hw-spark 700ms ease-out forwards;
-  }
-
-  .theme-halloween .hw-pop-spark-1 { --hw-dx: -20px; --hw-dy: -14px; }
-  .theme-halloween .hw-pop-spark-2 { --hw-dx: 20px; --hw-dy: -16px; background: #7e22ce; }
-  .theme-halloween .hw-pop-spark-3 { --hw-dx: 2px; --hw-dy: -26px; background: #f59e0b; }
-
-  /* ── 萬聖節：及格祝賀橫幅＋糖果 ── */
-  .theme-halloween .hw-pass-banner {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-    border: 1px solid #fed7aa;
-    border-radius: var(--radius-panel);
-    background: linear-gradient(120deg, #fff7ed 0%, #fffbf5 55%, #faf5ff 100%);
-    padding: 0.75rem 0.5rem 0.75rem 1rem;
-    color: #431407;
-  }
-
-  .theme-halloween .hw-pass-pumpkin {
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
-  }
-
-  .theme-halloween .hw-pass-title {
-    margin: 0;
-    color: #7c2d12;
-    font-size: var(--text-body);
-    font-weight: 700;
-    line-height: 1.5;
-  }
-
-  .theme-halloween .hw-pass-text {
-    margin: 0.125rem 0 0;
-    color: #57534e;
-    font-size: var(--text-meta);
-    line-height: 1.6;
-  }
-
-  .theme-halloween .hw-pass-close {
-    display: inline-flex;
-    width: 44px;
-    height: 44px;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-    border-radius: 999px;
-    color: #7c2d12;
-    font-size: 1.25rem;
-    line-height: 1;
-    cursor: pointer;
-  }
-
-  .theme-halloween .hw-pass-close:hover {
-    background: rgba(234, 88, 12, 0.1);
-  }
-
-  .theme-halloween .hw-candy {
-    position: absolute;
-    top: -32px;
-    display: block;
-    animation-name: hw-candy-fall;
-    animation-timing-function: cubic-bezier(0.35, 0.05, 0.65, 1);
-    animation-fill-mode: both;
-  }
-
-  .theme-halloween .hw-candy svg {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-
-  /* ── 萬聖節：首頁第一次往下捲，蝙蝠飛過 ── */
-  .theme-halloween .hw-flyby {
-    position: absolute;
-    top: 16%;
-    left: 100%;
-    animation: hw-fly 1800ms ease-in-out forwards;
-  }
-
+  /* 萬聖節：飛過的蝙蝠 */
   .theme-halloween .hw-flyby-bat {
     display: block;
     width: 44px;
     opacity: 0.7;
     animation: hw-flap 180ms ease-in-out infinite alternate;
   }
+
+  /* ══ 聖誕節 ══
+     紅綠是答題狀態色：這裡只用在淡化的剪影上，橫幅、泡泡、火花都用中性暖白、金、冰藍。 */
+  .theme-christmas {
+    --seasonal-bubble-border: #e7e5e4;
+    --seasonal-bubble-bg: #fafaf9;
+    --seasonal-bubble-ink: #292524;
+    --seasonal-bubble-shadow: rgba(28, 25, 23, 0.1);
+    --seasonal-spark-1: #93c5fd;
+    --seasonal-spark-2: #fcd34d;
+    --seasonal-spark-3: #bfdbfe;
+    --seasonal-banner-border: #fde68a;
+    --seasonal-banner-bg: linear-gradient(120deg, #fffbeb 0%, #fffdf8 55%, #f8fafc 100%);
+    --seasonal-banner-ink: #292524;
+    --seasonal-banner-title: #44403c;
+    --seasonal-banner-close-hover: rgba(202, 138, 4, 0.12);
+  }
+
+  /* 聖誕節：首頁主視覺角落（靜態） */
+  .theme-christmas .xm-hero-decor {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .theme-christmas .xm-hero-decor > svg {
+    position: absolute;
+  }
+
+  /* 手機只留松枝：上方的 chip 列會延伸到右側。 */
+  .theme-christmas .xm-hero-sprig {
+    top: -8px;
+    right: -10px;
+    width: 80px;
+    opacity: 0.2;
+  }
+
+  .theme-christmas .xm-hero-flake {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .theme-christmas .xm-hero-sprig {
+      top: -8px;
+      right: -10px;
+      width: 168px;
+    }
+
+    .theme-christmas .xm-hero-flake {
+      display: block;
+    }
+
+    .theme-christmas .xm-hero-flake-1 {
+      top: 14px;
+      right: 186px;
+      width: 26px;
+      opacity: 0.22;
+    }
+
+    .theme-christmas .xm-hero-flake-2 {
+      top: 58px;
+      right: 158px;
+      width: 16px;
+      opacity: 0.18;
+      transform: rotate(18deg);
+    }
+
+    .theme-christmas .xm-hero-flake-3 {
+      top: 34px;
+      right: 240px;
+      width: 13px;
+      opacity: 0.15;
+      transform: rotate(-10deg);
+    }
+  }
+
+  /* 聖誕節：頁首站名旁的小聖誕帽 */
+  .theme-christmas .xm-header-mark {
+    display: inline-block;
+    width: 0.95em;
+    height: 0.95em;
+    margin-left: 0.3em;
+    vertical-align: -0.1em;
+    pointer-events: none;
+  }
+
+  /* 聖誕節：飛過的馴鹿雪橇（輕微上下起伏，不拍翅） */
+  .theme-christmas .xm-flyby-sleigh {
+    display: block;
+    width: 112px;
+    opacity: 0.5;
+    animation: xm-bob 360ms ease-in-out infinite alternate;
+  }
 }
 
-@keyframes hw-bubble-in {
+@keyframes seasonal-bubble-in {
   from { opacity: 0; transform: translateY(-4px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes hw-pop {
+@keyframes seasonal-burst {
   0% { opacity: 0; transform: translateY(10px) scale(0.5); }
   25% { opacity: 1; transform: translateY(-4px) scale(1.08); }
   60% { opacity: 1; transform: translateY(-14px) scale(1); }
   100% { opacity: 0; transform: translateY(-28px) scale(0.92); }
 }
 
-@keyframes hw-spark {
+@keyframes seasonal-spark {
   from { opacity: 1; transform: translate(0, 0) scale(1); }
-  to { opacity: 0; transform: translate(var(--hw-dx), var(--hw-dy)) scale(0.3); }
+  to { opacity: 0; transform: translate(var(--seasonal-dx), var(--seasonal-dy)) scale(0.3); }
 }
 
-@keyframes hw-candy-fall {
+@keyframes seasonal-fall {
   from { transform: translate(0, 0) rotate(0deg); }
-  to { transform: translate(var(--hw-drift, 0px), calc(100vh + 64px)) rotate(var(--hw-spin, 360deg)); }
+  to { transform: translate(var(--seasonal-drift, 0px), calc(100vh + 64px)) rotate(var(--seasonal-spin, 360deg)); }
 }
 
-@keyframes hw-fly {
+@keyframes seasonal-fly {
   0% { transform: translate(0, 0); }
   50% { transform: translate(calc(-50vw - 40px), -28px); }
   100% { transform: translate(calc(-100vw - 100px), 12px); }
@@ -1311,22 +1423,27 @@ button:focus-visible {
   to { transform: scaleY(0.55); }
 }
 
-/* 減少動態：慶祝、糖果、蝙蝠一律不出現（JS 端也不會產生），小幽靈與橫幅保持靜態。 */
+@keyframes xm-bob {
+  from { transform: translateY(0); }
+  to { transform: translateY(-3px); }
+}
+
+/* 減少動態：慶祝、散落、飛過一律不出現（JS 端也不會產生），隱藏角色與橫幅保持靜態。 */
 @media (prefers-reduced-motion: reduce) {
-  .theme-halloween .hw-pop,
-  .theme-halloween .hw-candy,
-  .theme-halloween .hw-flyby {
+  .seasonal-burst,
+  .seasonal-fall,
+  .seasonal-flyby {
     display: none;
   }
 
-  .theme-halloween .hw-ghost-art,
-  .theme-halloween .hw-ghost-bubble {
+  .seasonal-companion-art,
+  .seasonal-bubble {
     transition: none;
     animation: none;
   }
 
-  .theme-halloween .hw-ghost-button:hover .hw-ghost-art,
-  .theme-halloween .hw-ghost-button:focus-visible .hw-ghost-art {
+  .seasonal-companion-button:hover .seasonal-companion-art,
+  .seasonal-companion-button:focus-visible .seasonal-companion-art {
     transform: none;
   }
 }

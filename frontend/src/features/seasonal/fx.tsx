@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 
-/** 一次性特效的共用工具（慶祝、糖果、蝙蝠）。 */
+/** 一次性特效的共用工具（答對慶祝、及格散落、捲動飛過）。 */
 
 export function prefersReducedMotion(): boolean {
   try {

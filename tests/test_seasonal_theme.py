@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """節慶主題機制（frontend/src/features/seasonal/）的純函式檢查。
 
-2026-11-03 加入（萬聖節主題）。日期區間判斷（含首尾、跨年）、台北時間換日與
+2026-11-03 加入（萬聖節主題）；2026-11-07 加入聖誕節主題（12/1–12/26）與重疊規則。日期區間判斷（含首尾、跨年）、台北時間換日與
 ``?seasonal=`` 覆寫解析都是純函式，用 tests/frontend_checks/seasonal_schedule_check.cjs
 以 frontend 自己的 typescript 轉譯真正的 schedule.ts 後執行，不另寫一份等價邏輯。
 
-另做兩條靜態防線：裝飾元件一律 aria-hidden；安靜路由（學習指引、文章閱讀）不得從清單消失。
+另做靜態防線：所有主題的裝飾 SVG 一律 aria-hidden；安靜路由（閱讀與作答區）不得從清單消失；
+文案不提 AI／生成；聖誕節的登錄、樣式與小雪人打氣話數量。
 Run directly or through tests/test_resource_catalog.py (run_all item 1)；驗收總數維持 21 項。
 """
 
@@ -33,15 +34,17 @@ class SeasonalThemeTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_decorative_svgs_are_hidden_from_assistive_tech(self) -> None:
-        art = (SEASONAL / 'halloween' / 'art.tsx').read_text(encoding='utf-8')
-        svgs = re.findall(r'<svg\b[^>]*>', art)
-        self.assertGreater(len(svgs), 0)
-        for tag in svgs:
-            self.assertIn('aria-hidden="true"', tag)
+        for theme in ('halloween', 'christmas'):
+            art = (SEASONAL / theme / 'art.tsx').read_text(encoding='utf-8')
+            self.assertGreater(len(re.findall(r'<svg\b', art)), 0, theme)
+        # 掃整個 features/seasonal：任何 <svg> 都要 aria-hidden（含共用骨架與主題組裝）。
+        for path in SEASONAL.rglob('*.tsx'):
+            for tag in re.findall(r'<svg\b[^>]*>', path.read_text(encoding='utf-8')):
+                self.assertIn('aria-hidden="true"', tag, f'{path.name}: {tag}')
 
     def test_reading_and_exam_areas_stay_quiet(self) -> None:
         themes = (SEASONAL / 'themes.ts').read_text(encoding='utf-8')
-        for prefix in ("'/guide/'", "'/articles/'"):
+        for prefix in ("'/guide/'", "'/articles/'", "'/learn/'", "'/labs/'", "'/simulations/'"):
             self.assertIn(prefix, themes)
         provider = (SEASONAL / 'SeasonalProvider.tsx').read_text(encoding='utf-8')
         self.assertRegex(provider, r'const quiet = focusMode \|\| isQuietPath\(pathname\)')
@@ -53,6 +56,27 @@ class SeasonalThemeTests(unittest.TestCase):
             strings = re.findall(r"'[^'\n]*'|\"[^\"\n]*\"|>[^<>{}\n]+<", text)
             for s in strings:
                 self.assertNotRegex(s, r'AI|生成', f'{path.name}: {s}')
+
+
+    def test_christmas_theme_is_registered_and_styled(self) -> None:
+        themes = (SEASONAL / 'themes.ts').read_text(encoding='utf-8')
+        self.assertIn("className: 'theme-christmas'", themes)
+        self.assertIn('decor: christmasDecor', themes)
+        css = (ROOT / 'frontend' / 'src' / 'index.css').read_text(encoding='utf-8')
+        self.assertIn('.theme-christmas', css)
+        # 聖誕節不得改主色與答題狀態色：主題 class 底下只能設 --seasonal-* 變數。
+        block = re.search(r'\.theme-christmas \{([^}]*)\}', css)
+        self.assertIsNotNone(block)
+        for name in re.findall(r'(--[\w-]+)\s*:', block.group(1)):
+            self.assertTrue(name.startswith('--seasonal-'), name)
+
+    def test_snowman_companion(self) -> None:
+        source = (SEASONAL / 'christmas' / 'index.tsx').read_text(encoding='utf-8')
+        self.assertIn('label="小雪人"', source)
+        cheers = re.search(r'const CHEERS = \[(.*?)\n\]', source, re.S)
+        self.assertIsNotNone(cheers)
+        count = len(re.findall(r"^\s*'[^']+',$", cheers.group(1), re.M))
+        self.assertTrue(8 <= count <= 12, f'打氣話 {count} 句')
 
 
 if __name__ == '__main__':
