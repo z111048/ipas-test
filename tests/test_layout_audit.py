@@ -363,9 +363,13 @@ def exam_text_scenarios(ctx, base: str) -> list[str]:
 
         page.goto(f'{base}/#/guide/s1/s1c1', wait_until='networkidle', timeout=45000)
         settle_text(page)
-        toggles = page.locator('[data-guide-exam-notes] > button[aria-expanded="false"]')
+        # 考點標註比正文晚載入：CI 上曾在按鈕出現前就數完（0 個）而誤報，先等按鈕、點開後再等題目文字
+        toggle_selector = '[data-guide-exam-notes] > button[aria-expanded="false"]'
+        page.wait_for_selector(toggle_selector, timeout=20000)
+        toggles = page.locator(toggle_selector)
         for i in range(min(toggles.count(), 12)):
             toggles.nth(i).click()
+        page.wait_for_selector('[data-guide-exam-notes] [data-exam-text]', timeout=20000)
         page.wait_for_timeout(300)
         report('學習指引 s1c1 考點標註', exam_text_hits(page))
 
