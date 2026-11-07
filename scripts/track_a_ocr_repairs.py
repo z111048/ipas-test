@@ -488,6 +488,16 @@ CONTINUATION_MERGES: list[dict[str, Any]] = [
            '邏輯迴歸雖然名稱中有「迴歸」，但實際上', '是一種分類演算法。使用Sigmo', tail_page=17),
     _merge('初級', 'guide1', ['s1c1', 's1pdf-c3'], 17,
            '屬於一種基於實例的學習演', '算法，對於一個新的輸入樣本，它會', tail_page=17),
+    # 2026-11-07: same-page sentence splits inside one entry, checked against
+    # the page images — 初級 3-11 (idx 16, 線性搜尋) and 3-12 (idx 17, 線性迴歸).
+    _merge('初級', 'guide1', ['s1c1', 's1pdf-c3'], 16,
+           '從資料集的第一個元素開始，', '逐個與目標元素進行比較。', tail_page=16),
+    _merge('初級', 'guide1', ['s1c1', 's1pdf-c3'], 17,
+           '預測連續數值型的輸出變數，例如房價預測、', '銷售額預測、股票價格預測等。', tail_page=17),
+    # 2026-11-07: 中級 4-21 (idx 114, A. 協作流程設計) same-page sentence split,
+    # checked against the page image.
+    _merge('中級', 'guide1', ['mid-s1c6', 'mid-s1pdf-c4'], 114,
+           '尤其是在資料提供、模型驗收、', '系統整合等方面，', tail_page=114),
     _merge('初級', 'guide1', ['s1c1', 's1pdf-c3'], 18,
            '獎勵措施的制定，讓人工智慧進行自我評估並', '朝獲取最大獎勵的方向進行學習。強'),
     _merge('初級', 'guide2', ['s2c3', 's2pdf-c3'], 38,
