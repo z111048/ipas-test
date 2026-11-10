@@ -207,6 +207,11 @@ html {
     margin-inline: auto;
   }
 
+  /* 換頁淡入：只動 opacity（不位移、不縮放）；骨架（animate-pulse）與頁尾不淡入 */
+  .route-view > .page-shell:not(.animate-pulse) {
+    animation: page-fade-in 180ms ease-out;
+  }
+
   .page-header {
     border: 1px solid var(--surface-border);
     background: #ffffff;
@@ -216,6 +221,7 @@ html {
   }
 
   .page-header-title {
+    text-wrap: balance;
     color: var(--color-primary);
     font-size: var(--text-page-title);
     line-height: var(--text-page-title--line-height);
@@ -981,8 +987,22 @@ button:focus-visible {
   top: 0.75rem;
 }
 
+@keyframes page-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+h1,
+h2 {
+  text-wrap: balance;
+}
+
 /* Respect OS-level reduced-motion preference: disable non-essential animation/transition/scroll-behavior globally */
 @media (prefers-reduced-motion: reduce) {
+  .route-view > .page-shell {
+    animation: none !important;
+  }
+
   *,
   *::before,
   *::after {

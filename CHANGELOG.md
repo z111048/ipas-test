@@ -6,6 +6,26 @@
 
 ## [Unreleased]
 
+### 前端載入效能與體驗（第一輪，2026-11-11）
+
+完整規劃、前後數據與驗收過程見 `specifications/frontend-ux-performance/2026-11-11-round1.md`。
+
+#### 新增
+- `index.html` 內嵌首屏外殼（頁首、站名、說明），HTML 一到就有畫面
+- 分享預覽：`og:image`（1200×630）、`og:url`、`twitter:card`、canonical、JSON-LD；網址由 `VITE_SITE_URL` 決定
+- 首頁「繼續上次進度」入口（`utils/lastVisit.ts`，鍵 `ipas:last-visit`）
+- 滑鼠移到或手指按下連結時預先載入學習指引／公告試題／練習頁的程式（`utils/routePrefetch.ts`）
+
+#### 變更
+- Google Fonts 改用可變字重 `wght@400..900` 並改成不擋畫面的載入方式（字型 CSS 136 KB → 34 KB）
+- React／Router 拆成獨立的 `vendor` chunk
+- 實作練習區塊改用 PrismLight（只註冊 Python）並延後載入：學習指引頁程式 1,023 KB → 390 KB
+- 換頁 180 ms 淡入；標題斷行平衡；`theme-color` 改為 `#ffffff`
+
+#### 修正
+- 頁尾在內容載入時跳動（手機公告試題頁 CLS 1.40 → 0.01）
+- 學習指引內文載入時版面被撐開（CLS 0.28 → 0.03）
+
 ### 學習指引結構化 blocks 與階層縮排
 
 #### 新增

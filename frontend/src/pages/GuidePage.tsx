@@ -1,5 +1,5 @@
 import { Link, useLocation, useParams } from 'react-router-dom'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react'
 import type React from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -17,7 +17,6 @@ import GuideOutlineTree from '../components/guide/GuideOutlineTree'
 import GuideBreadcrumb from '../components/guide/GuideBreadcrumb'
 import { examResultsReturnTarget } from '../components/exam/resultsViewState'
 import { guideBreadcrumb } from '../data/guideNav'
-import ColabSection from '../components/guide/ColabSection'
 import { publicAsset } from '../utils/assets'
 import { cleanExamText } from '../utils/examText'
 import { preferredScrollBehavior } from '../utils/motion'
@@ -43,6 +42,15 @@ const guideHierarchy = guideHierarchyRaw as unknown as GuideHierarchyData
 const guideImages = guideImagesRaw as unknown as GuideImagesData
 const guideExamAnnotationsIndex = guideExamAnnotationsIndexRaw as unknown as GuideExamAnnotationsIndexData
 const guideContentModules = import.meta.glob<{ default: GuideContent }>('../generated/guideContent/*/*.json')
+// 實作練習（含 Python 語法高亮）只有部分章節用到，延後載入以減輕學習指引頁的程式量。
+// 這段程式抓不到時（例如剛部署完的舊分頁）只隱藏實作練習區塊，不讓整頁內文跟著消失。
+const ColabSection = lazy(() =>
+  import('../components/guide/ColabSection').catch((error: unknown) => {
+    console.error('[GuidePage] 實作練習區塊載入失敗', error)
+    return { default: () => <></> }
+  }),
+)
+
 const colabNotebookModules = import.meta.glob<{ default: ColabNotebook }>('../generated/colabNotebooks/*/*.json')
 const guideExamAnnotationModules = import.meta.glob<{ default: GuideExamAnnotationsChapterData }>('../generated/guideExamAnnotations/*/*.json')
 
@@ -361,6 +369,7 @@ function GuideImageFigure({ image, depth }: { image: GuideImageAsset; depth: num
         src={publicAsset(image.src)}
         alt={image.title}
         loading="lazy"
+        decoding="async"
         className="block w-full max-w-4xl rounded-lg border border-border bg-white object-cover"
       />
       <figcaption className="mt-2 text-meta leading-5 text-text-light">
@@ -382,6 +391,7 @@ function GuideSourceFigure({ block }: { block: GuideBlock }) {
         src={publicAsset(block.src)}
         alt={block.alt ?? '學習指引原圖'}
         loading="lazy"
+        decoding="async"
         className="block w-full max-w-4xl rounded-lg border border-border bg-white object-contain"
       />
       <figcaption className="mt-2 text-meta leading-5 text-text-light">
@@ -1060,7 +1070,7 @@ export default function GuidePage() {
           )}
 
           {!content && !contentError && (
-            <StatePanel tone="loading" className="mb-4">
+            <StatePanel tone="loading" className="mb-4 min-h-[70vh]">
               載入學習指引內容中...
             </StatePanel>
           )}
@@ -1108,7 +1118,7 @@ export default function GuidePage() {
                 ))}
               </div>
             </ReadingSurface>
-          ) : (
+          ) : content ? (
             <ReadingSurface>
               <ReadingContent>
                 {hasBlocks ? (
@@ -1179,9 +1189,14 @@ export default function GuidePage() {
                 )}
               </ReadingContent>
             </ReadingSurface>
+          ) : null}
+          {/* 內文就緒前不渲染下方區塊，避免內文載入後把它們推走（版面位移） */}
+          {colabNotebook && content && (
+            <Suspense fallback={<div className="mt-8 h-[85px] rounded-xl border border-emerald-200 bg-emerald-50" aria-hidden="true" />}>
+              <ColabSection notebook={colabNotebook} />
+            </Suspense>
           )}
-          {colabNotebook && <ColabSection notebook={colabNotebook} />}
-          {(prevChapter || nextChapter) && (
+          {(content || contentError) && (prevChapter || nextChapter) && (
             <nav className="mt-4 mb-6 hidden grid-cols-2 gap-3 lg:grid" aria-label="上一章與下一章">
               {prevChapter ? (
                 <Link

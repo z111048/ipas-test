@@ -7,12 +7,19 @@ import Footer from './components/layout/Footer'
 import AppErrorBoundary from './components/shared/AppErrorBoundary'
 import { useFocusModeActive } from './hooks/useFocusMode'
 import { SeasonalProvider } from './features/seasonal'
+import { recordLastVisit } from './utils/lastVisit'
+import {
+  importExamPage,
+  importGuidePage,
+  importPracticePage,
+  installRoutePrefetch,
+} from './utils/routePrefetch'
 
 const HomePage = lazy(() => import('./pages/HomePage'))
 const SubjectOverviewPage = lazy(() => import('./pages/SubjectOverviewPage'))
-const PracticePage = lazy(() => import('./pages/PracticePage'))
-const ExamPage = lazy(() => import('./pages/ExamPage'))
-const GuidePage = lazy(() => import('./pages/GuidePage'))
+const PracticePage = lazy(importPracticePage)
+const ExamPage = lazy(importExamPage)
+const GuidePage = lazy(importGuidePage)
 const ImageGalleryPage = lazy(() => import('./pages/ImageGalleryPage'))
 const VisualCardsPage = lazy(() => import('./pages/VisualCardsPage'))
 const GlossaryPage = lazy(() => import('./pages/GlossaryPage'))
@@ -94,6 +101,12 @@ function AppShell() {
   }, [focusMode])
 
   useEffect(() => {
+    recordLastVisit(location.pathname)
+  }, [location.pathname])
+
+  useEffect(() => installRoutePrefetch(), [])
+
+  useEffect(() => {
     mainRef.current?.scrollTo({ top: 0 })
     mainRef.current?.focus()
   }, [location.pathname])
@@ -169,6 +182,9 @@ function AppShell() {
           ref={mainRef}
           className={`app-main app-scroll-stable relative flex-1 min-h-0 ${mainOverflow} ${isGuideRoute ? '' : 'flex flex-col'} px-4 py-4 md:px-6 md:py-6 min-w-0 focus:outline-none`}
         >
+          {/* 一般頁：內容區至少撐滿 main 可視高度，頁尾永遠在第一屏下方，載入前後不會被推動。
+              guide 路由由 GuidePage 自己管理版面，用 contents 讓這層不影響排版。 */}
+          <div className={isGuideRoute ? 'route-view contents' : 'route-view min-h-full w-full shrink-0'}>
           <AppErrorBoundary resetKey={location.key}>
             <Suspense fallback={<PageSkeleton />}>
               <Routes>
@@ -197,6 +213,7 @@ function AppShell() {
               </Routes>
             </Suspense>
           </AppErrorBoundary>
+          </div>
           {!isGuideRoute && (
             <div className="mt-auto w-full">
               <Footer />

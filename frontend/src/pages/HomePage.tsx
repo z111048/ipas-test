@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   resourceLevels,
@@ -7,11 +8,13 @@ import {
   type ResourceNavItem,
   type SubjectResource,
 } from '../data/resourceRegistry'
-import { learningArticleIndex } from '../data/articleLoaders'
-import { examsForLevel } from '../data/resourceCatalog'
+import { articleMeta, learningArticleIndex } from '../data/articleLoaders'
+import { navPath } from '../data/guideNav'
+import { examByRouteKey, examsForLevel } from '../data/resourceCatalog'
 import StatBox from '../components/shared/StatBox'
 import { PageHeader, subjectOptionById } from '../components/ui'
-import { SECTION_LABELS, SITE_NAME, navLabel } from '../constants/navLabels'
+import { SECTION_LABELS, SITE_NAME, navLabel, navLabelForPath } from '../constants/navLabels'
+import { readLastVisit } from '../utils/lastVisit'
 import { SeasonalCompanion, SeasonalHeroDecor, SeasonalScrollFlyer } from '../features/seasonal'
 
 function statusLabel(status?: ResourceNavItem['status']) {
@@ -150,6 +153,57 @@ function LatestExams({ level }: { level: LevelResource }) {
   )
 }
 
+/** 由路徑查出頁面名稱（全部走既有查找函式）；查不到代表路徑已失效，回傳 null。 */
+function lastVisitTitle(path: string): string | null {
+  const [, kind, a, b] = path.split('/')
+  const section = navLabelForPath(path)
+  let title: string | undefined
+  if (kind === 'guide' || kind === 'practice') {
+    const path = navPath(a, b)
+    title = path[path.length - 1]?.title
+  } else if (kind === 'exam') {
+    title = examByRouteKey(a)?.title
+  } else if (kind === 'articles') {
+    title = articleMeta(a)?.title
+  }
+  if (!title) return null
+  // 公告試題的名稱本身已含「公告試題」，不重複加前綴
+  return kind === 'exam' || !section ? title : `${section}・${title}`
+}
+
+function ContinueLastVisit() {
+  const [target] = useState(() => {
+    const visit = readLastVisit()
+    const title = visit ? lastVisitTitle(visit.path) : null
+    return visit && title ? { path: visit.path, title } : null
+  })
+  if (!target) return null
+  return (
+    <Link
+      to={target.path}
+      className="surface mb-3 flex min-h-11 items-center gap-3 px-4 py-3 no-underline transition-colors hover:bg-accent-soft sm:mb-5"
+    >
+      <span className="min-w-0 flex-1">
+        <span className="block text-caption font-semibold text-accent">繼續上次進度</span>
+        <span className="line-clamp-2 block font-semibold text-primary">{target.title}</span>
+      </span>
+      <span aria-hidden="true" className="shrink-0 text-accent">→</span>
+    </Link>
+  )
+}
+
+/** 首頁大標：窄螢幕換行時把「備考平台」整組移到下一行，不從「規劃師」中間斷開。 */
+function SiteNameTitle() {
+  const tail = '備考平台'
+  if (!SITE_NAME.endsWith(tail)) return <>{SITE_NAME}</>
+  return (
+    <>
+      <span className="inline-block">{SITE_NAME.slice(0, -tail.length)}</span>
+      <span className="inline-block">{tail}</span>
+    </>
+  )
+}
+
 export default function HomePage() {
   const totalPractice = resourceStats.junior.practiceQuestions + resourceStats.middle.practiceQuestions
   const totalOfficial = resourceStats.junior.officialQuestions + resourceStats.middle.officialQuestions
@@ -178,7 +232,7 @@ export default function HomePage() {
             <span className="hero-chip">初級・中級</span>
           </>
         }
-        title={SITE_NAME}
+        title={<SiteNameTitle />}
         decor={<SeasonalHeroDecor />}
         description="先選級別與科目，再依章節讀指引、做練習、驗收公告試題。"
         actions={
@@ -212,6 +266,8 @@ export default function HomePage() {
           </div>
         }
       />
+
+      <ContinueLastVisit />
 
       <section id="choose-subject" className="surface mb-6 p-3 sm:p-5 scroll-mt-4">
         <div className="mb-2 flex flex-col gap-2 sm:mb-4 sm:flex-row sm:items-end sm:justify-between">

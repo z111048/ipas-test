@@ -3,9 +3,13 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import SyntaxHighlighter from 'react-syntax-highlighter/dist/esm/prism-light'
+import python from 'react-syntax-highlighter/dist/esm/languages/prism/python'
+import oneLight from 'react-syntax-highlighter/dist/esm/styles/prism/one-light'
 import type { ColabNotebook, ColabCell } from '../../types'
+
+// 只註冊用到的 Python，避免打包全部 Prism 語言定義
+SyntaxHighlighter.registerLanguage('python', python)
 
 interface Props {
   notebook: ColabNotebook

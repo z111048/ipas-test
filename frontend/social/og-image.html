@@ -1,0 +1,35 @@
+<!--
+  分享預覽圖（1200×630）的來源樣板。修改後在 repo 根目錄重新產生：
+  uv run python - <<'PY'
+  from playwright.sync_api import sync_playwright
+  with sync_playwright() as p:
+      b = p.chromium.launch(); pg = b.new_page(viewport={'width':1200,'height':630})
+      pg.goto('file://' + __import__('os').path.abspath('frontend/social/og-image.html'))
+      pg.evaluate('document.fonts.ready'); pg.wait_for_timeout(500)
+      pg.screenshot(path='frontend/public/og-image.png'); b.close()
+  PY
+  cp frontend/public/og-image.png frontend/public-shell/og-image.png
+  （需要連網載入 Noto Sans TC）
+-->
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&display=swap" />
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;width:1200px;height:630px;overflow:hidden}
+  body{font-family:'Noto Sans TC',sans-serif;background:linear-gradient(135deg,#4338ca 0%,#3730a3 100%);color:#fff;display:flex;flex-direction:column;justify-content:center;padding:0 96px;position:relative}
+  body::after{content:'';position:absolute;right:-120px;bottom:-160px;width:520px;height:520px;border-radius:50%;background:rgba(255,255,255,.08)}
+  .tags{display:flex;gap:16px;margin-bottom:40px}
+  .tags span{font-size:32px;font-weight:700;padding:8px 28px;border-radius:999px;background:#fff;color:#3730a3}
+  h1{margin:0;font-size:84px;line-height:1.25;font-weight:900;letter-spacing:.01em}
+  p{margin:36px 0 0;font-size:38px;line-height:1.5;font-weight:500;color:rgba(255,255,255,.88)}
+</style>
+</head>
+<body>
+  <div class="tags"><span>初級</span><span>中級</span></div>
+  <h1>iPAS AI 應用規劃師<br />備考平台</h1>
+  <p>學習指引・公告試題詳解・章節練習・概念圖卡</p>
+</body>
+</html>
