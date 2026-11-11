@@ -1021,6 +1021,26 @@ class GuideBlockIdMigrationTest(unittest.TestCase):
         images_export.check_heading_alignment(published, content)
         self.assertEqual(len(published), len(units))
 
+    def test_per_chapter_image_files_match_guide_images_by_chapter(self) -> None:
+        generated = BASE / 'frontend/src/generated'
+        by_chapter = json.loads(
+            (generated / 'guideImages.json').read_text(encoding='utf-8')
+        )['byChapter']
+        chapter_dir = generated / 'guideImagesByChapter'
+        expected = {
+            images_export.chapter_file_path(chapter_dir, key): rows
+            for key, rows in by_chapter.items()
+        }
+        actual_files = set(chapter_dir.glob('*/*.json'))
+        self.assertEqual(
+            {p.relative_to(chapter_dir).as_posix() for p in actual_files},
+            {p.relative_to(chapter_dir).as_posix() for p in expected},
+        )
+        for path, rows in expected.items():
+            self.assertEqual(
+                json.loads(path.read_text(encoding='utf-8')), rows, path.name
+            )
+
 
 class GuideBlockIdMigrationBuilderTest(unittest.TestCase):
     def test_node_mapping_methods_and_split_block_window(self) -> None:

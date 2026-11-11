@@ -8,12 +8,21 @@ import AppErrorBoundary from './components/shared/AppErrorBoundary'
 import { useFocusModeActive } from './hooks/useFocusMode'
 import { SeasonalProvider } from './features/seasonal'
 import { recordLastVisit } from './utils/lastVisit'
+import { activateWebFont } from './utils/webFont'
 import {
   importExamPage,
   importGuidePage,
   importPracticePage,
   installRoutePrefetch,
 } from './utils/routePrefetch'
+
+// 與路由頁同在一個 Suspense 邊界內：路由頁載完、邊界解除後才會掛載，作為啟用網路字型的時機。
+function WebFontGate() {
+  useEffect(() => {
+    activateWebFont()
+  }, [])
+  return null
+}
 
 const HomePage = lazy(() => import('./pages/HomePage'))
 const SubjectOverviewPage = lazy(() => import('./pages/SubjectOverviewPage'))
@@ -187,6 +196,7 @@ function AppShell() {
           <div className={isGuideRoute ? 'route-view contents' : 'route-view min-h-full w-full shrink-0'}>
           <AppErrorBoundary resetKey={location.key}>
             <Suspense fallback={<PageSkeleton />}>
+              <WebFontGate />
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/subject/:subjectId" element={<SubjectOverviewPage />} />

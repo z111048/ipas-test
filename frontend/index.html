@@ -36,9 +36,10 @@
     <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- 字型 CSS 不擋畫面：先以 print 載入，載完再切成 all。 -->
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&amp;display=swap" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&amp;display=swap" media="print" onload="this.media='all'" />
+    <!-- 字型 CSS 不擋畫面：先以 media="print" 低優先權載入。回訪者（localStorage 有 ipas:webfont，字型多半已在快取）樣式表一載完就啟用；
+         第一次造訪則等路由頁渲染後由 src/utils/webFont.ts 啟用，避免約 700 KB 的字型檔在首屏和程式搶頻寬。 -->
+    <link id="webfont" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&amp;display=swap" media="print" />
+    <script>try{var f=document.getElementById('webfont');if(localStorage.getItem('ipas:webfont')==='1'){if(f.sheet)f.media='all';else f.onload=function(){f.media='all'}}}catch(e){}</script>
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400..900&amp;display=swap" /></noscript>
     <!-- 外殼刻意用系統字型：若外殼文字用到 Noto Sans TC，瀏覽器會在程式還沒載完時就開始抓字型檔，
          在慢速網路上和程式搶頻寬，真正的頁面內容反而比較晚出現（實測手機慢約 0.4 秒）。 -->

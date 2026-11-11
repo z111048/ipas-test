@@ -6,6 +6,21 @@
 
 ## [Unreleased]
 
+### 學習指引載入加速（第二輪，2026-11-11）
+
+原因分析、前後數據、審查發現與剩餘項目見 `specifications/frontend-ux-performance/2026-11-11-round2.md`。
+慢速手機網路第一次打開學習指引，內文出現時間 8.2 秒 → 3.2 秒；桌機 1.4 秒 → 0.6 秒。
+
+#### 新增
+- `export_guide_images_data.py` 另外輸出每章一檔的圖卡清單 `frontend/src/generated/guideImagesByChapter/{guideKey}/{nodeId}.json`（41 檔）；`test_pipeline_output_safety.py` 核對它和 `guideImages.json` 一致
+- `utils/guideChapterModules.ts`：直接開某一章或點下章節連結時，章節內文與圖卡清單和頁面程式同時下載
+- `utils/webFont.ts`：網路字型延後啟用（`localStorage` 鍵 `ipas:webfont`）
+
+#### 變更
+- 第一次造訪時，Noto Sans TC 等路由頁渲染出來才開始下載（先以系統字型顯示）；回訪者行為不變。字型 CSS 不再 `preload`
+- 學習指引頁只載入當前章節的圖卡清單，不再載入整站 727 張的清單（必須先下載的共用程式 gzip 125 KB → 52 KB）
+- 概念圖卡 `<img>` 帶 `width`／`height`，圖片載入前先預留空間（學習指引 CLS 0.03 → 0.00）
+
 ### 前端載入效能與體驗（第一輪，2026-11-11）
 
 完整規劃、前後數據與驗收過程見 `specifications/frontend-ux-performance/2026-11-11-round1.md`。

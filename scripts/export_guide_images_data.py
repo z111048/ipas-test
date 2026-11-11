@@ -104,6 +104,26 @@ def write_json(path: Path, data: Any) -> None:
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
 
 
+def chapter_file_path(chapter_dir: Path, key: str) -> Path:
+    """Map a byChapter key like 'guide1:s1c1' to <chapter_dir>/guide1/s1c1.json."""
+    parts = key.split(':')
+    if len(parts) != 2 or not all(parts) or any(p in ('.', '..') or '/' in p or '\\' in p for p in parts):
+        raise ValueError(f'byChapter key must look like "guideKey:nodeId", got {key!r}')
+    return chapter_dir / parts[0] / f'{parts[1]}.json'
+
+
+def write_chapter_files(chapter_dir: Path, by_chapter: dict[str, list[dict]]) -> int:
+    """Write one JSON per chapter and drop stale .json files under chapter_dir only."""
+    targets = {chapter_file_path(chapter_dir, key): rows for key, rows in by_chapter.items()}
+    for path, rows in targets.items():
+        write_json(path, rows)
+    if chapter_dir.is_dir():
+        for old in chapter_dir.glob('*/*.json'):
+            if old not in targets:
+                old.unlink()
+    return len(targets)
+
+
 def units_scope_key(units_file: Path) -> str:
     try:
         return units_file.resolve().relative_to(BASE).as_posix()
@@ -183,7 +203,12 @@ def export_images(
         'images': images,
         'byChapter': by_chapter,
     }
+    # Per-chapter lists let GuidePage load only the current chapter's images.
+    chapter_dir = output.parent / 'guideImagesByChapter'
+    for key in by_chapter:
+        chapter_file_path(chapter_dir, key)  # reject malformed keys before anything is written
     write_json(output, result)
+    write_chapter_files(chapter_dir, by_chapter)
     return result
 
 

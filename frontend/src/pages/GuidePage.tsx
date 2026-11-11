@@ -8,15 +8,15 @@ import rehypeRaw from 'rehype-raw'
 import rehypeKatex from 'rehype-katex'
 import guideOutlinesRaw from '../generated/guideOutlines.json'
 import guideHierarchyRaw from '../generated/guideHierarchy.json'
-import guideImagesRaw from '../generated/guideImages.json'
 import guideExamAnnotationsIndexRaw from '../generated/guideExamAnnotations/index.json'
 import type { GuideHierarchyData } from '../types'
-import type { ColabNotebook, GuideBlock, GuideContent, GuideExamAnnotation, GuideExamAnnotationsChapterData, GuideExamAnnotationsIndexData, GuideFormula, GuideImageAsset, GuideImagesData, GuideOutlinesData } from '../types'
+import type { ColabNotebook, GuideBlock, GuideContent, GuideExamAnnotation, GuideExamAnnotationsChapterData, GuideExamAnnotationsIndexData, GuideFormula, GuideImageAsset, GuideOutlinesData } from '../types'
 import { GUIDE_NOTICES } from '../constants/guideNotices'
 import GuideOutlineTree from '../components/guide/GuideOutlineTree'
 import GuideBreadcrumb from '../components/guide/GuideBreadcrumb'
 import { examResultsReturnTarget } from '../components/exam/resultsViewState'
 import { guideBreadcrumb } from '../data/guideNav'
+import { guideContentModules, guideImageModules } from '../utils/guideChapterModules'
 import { publicAsset } from '../utils/assets'
 import { cleanExamText } from '../utils/examText'
 import { preferredScrollBehavior } from '../utils/motion'
@@ -39,9 +39,11 @@ import { useLearningIndex } from '../features/learning/useLearningIndex'
 
 const guideOutlines = guideOutlinesRaw as unknown as GuideOutlinesData
 const guideHierarchy = guideHierarchyRaw as unknown as GuideHierarchyData
-const guideImages = guideImagesRaw as unknown as GuideImagesData
 const guideExamAnnotationsIndex = guideExamAnnotationsIndexRaw as unknown as GuideExamAnnotationsIndexData
-const guideContentModules = import.meta.glob<{ default: GuideContent }>('../generated/guideContent/*/*.json')
+
+// 概念圖卡一律是 1792×1024；屬性只在圖片載入前用來預留空間，載入後以圖片實際比例為準。
+const GUIDE_IMAGE_WIDTH = 1792
+const GUIDE_IMAGE_HEIGHT = 1024
 // 實作練習（含 Python 語法高亮）只有部分章節用到，延後載入以減輕學習指引頁的程式量。
 // 這段程式抓不到時（例如剛部署完的舊分頁）只隱藏實作練習區塊，不讓整頁內文跟著消失。
 const ColabSection = lazy(() =>
@@ -368,9 +370,11 @@ function GuideImageFigure({ image, depth }: { image: GuideImageAsset; depth: num
       <img
         src={publicAsset(image.src)}
         alt={image.title}
+        width={GUIDE_IMAGE_WIDTH}
+        height={GUIDE_IMAGE_HEIGHT}
         loading="lazy"
         decoding="async"
-        className="block w-full max-w-4xl rounded-lg border border-border bg-white object-cover"
+        className="block h-auto w-full max-w-4xl rounded-lg border border-border bg-white object-cover"
       />
       <figcaption className="mt-2 text-meta leading-5 text-text-light">
         {caption}
@@ -657,6 +661,7 @@ export default function GuidePage() {
   const chapter = chapterId && outlineGuide ? outlineGuide.nodesById[chapterId] : undefined
   const [content, setContent] = useState<GuideContent | null>(null)
   const [contentError, setContentError] = useState<string | null>(null)
+  const [chapterImages, setChapterImages] = useState<GuideImageAsset[]>([])
   const [examAnnotationsByBlock, setExamAnnotationsByBlock] = useState<Record<string, GuideExamAnnotation[]>>({})
   const [colabNotebook, setColabNotebook] = useState<ColabNotebook | null>(null)
   const [showDrawer, setShowDrawer] = useState(false)
@@ -687,6 +692,7 @@ export default function GuidePage() {
   useEffect(() => {
     let cancelled = false
     setContent(null)
+    setChapterImages([])
     setContentError(null)
     if (!outlineGuide || !chapter) return
 
@@ -697,9 +703,19 @@ export default function GuidePage() {
       return
     }
 
-    loader()
-      .then((module) => {
-        if (!cancelled) setContent(module.default)
+    // 圖片清單和內文一起到位；清單缺檔或載入失敗時視為沒有圖片，內文照常顯示。
+    const imageKey = `${outlineGuide.sourceKey ?? outlineGuide.key}:${chapter.id}`
+    const [imageGuide, imageNode] = imageKey.split(':')
+    const imageLoader = guideImageModules[`../generated/guideImagesByChapter/${imageGuide}/${imageNode}.json`]
+    const imagesPromise: Promise<GuideImageAsset[]> = imageLoader
+      ? imageLoader().then((module) => module.default).catch(() => [])
+      : Promise.resolve([])
+
+    Promise.all([loader(), imagesPromise])
+      .then(([module, images]) => {
+        if (cancelled) return
+        setContent(module.default)
+        setChapterImages(images)
       })
       .catch((error) => {
         if (!cancelled) {
@@ -868,8 +884,6 @@ export default function GuidePage() {
   const body = content?.content ?? ''
   const contentBlocks = content?.blocks ?? []
   const hasBlocks = contentBlocks.length > 0
-  const guideImageKey = `${outlineGuide.sourceKey ?? outlineGuide.key}:${chapter.id}`
-  const chapterImages = guideImages.byChapter[guideImageKey] ?? []
   const chapterExamAnnotationSummary = guideExamAnnotationsIndex.byGuide[outlineGuide.key]?.[chapter.id]
   const loadedExamAnnotationItems = Object.values(examAnnotationsByBlock).flat()
   const loadedExamQuestionCount = new Set(loadedExamAnnotationItems.map((annotation) => annotation.id)).size
