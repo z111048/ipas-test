@@ -103,7 +103,7 @@ Gemini 2.5 Flash vision。成果 `data/{level}/guide_ocr/`（33 MB，committed�
    到目前為止提升的只有前處理，題庫仍是舊講義文字生出來的。
    建議先單章試跑（挑漂移最大的 `mid-s2c3`，相似度 0.739）驗證品質再決定全量。
    需要 `ANTHROPIC_API_KEY`，量不小（初級科目1 光 `--count 3` 就 111 題）。
-2. **新來源的語意抽查制度**：現行 gate 鎖住已審 registry；新增或換版 PDF 時仍要抽查／核對
+2. **新來源的語意抽查制度**：現行 gate 鎖住已審 registry；新增或換版 PDF 時先跑 `scripts/audit_guide_vision_coverage.py`（Vision 獨立覆蓋檢查，不取代人工看影像），仍要抽查／核對
    公式、表格、跨頁順序與來源圖，再把確認缺陷轉成 exact signature。
 3. **四個備份目錄可清**——但 `page_extract_before_ocr_merge/`（193 MB）**先別刪**，
    它是 `verify_question_guide_alignment.py` 的舊版基線，刪了就無法區分
