@@ -1536,6 +1536,9 @@ def apply_markdown_repairs(level: str, key: str, markdown: str) -> str:
             continue
         for old, new in replacements:
             markdown = markdown.replace(old, new)
+    for restore in INLINE_FORMULA_RESTORES:
+        if (restore['level'], restore['key']) == (level, key):
+            markdown = markdown.replace(restore['old'], restore['new'])
     if (level, key) == ('中級', 'guide3'):
         # The page text stores the Recall denominator on the next line, so the
         # ordinary same-line replacement above cannot see it.  Scope this to
@@ -1546,6 +1549,53 @@ def apply_markdown_repairs(level: str, key: str, markdown: str) -> str:
             markdown,
         )
     return markdown
+
+
+# Inline formulas restored into prose (2026-11-14).  中級 5-40 (idx 175) prints
+# 「Loss = 原始損失 + λ × Regularization Term」 and, on the next line,
+# 「λ：正則化係數」.  The PDF text layer stores λ and × as private-use glyphs,
+# so the block text lost them and enrich_guide_blocks attached the OCR inline
+# formula ``\lambda \times`` on a line of its own — the published sentence read
+# 「原始損失 + Regularization Term」.  Checked against the PDF text layer and
+# page image (scratchpad ctx/p176.png).  The two printed lines stay in one
+# block (splitting would renumber block ids that exam citations use) and are
+# separated by 「；」.  Runs after enrich, so the detached inline formula is
+# dropped here; the old/new text must be present on every listed route.
+INLINE_FORMULA_RESTORES: list[dict[str, Any]] = [
+    {
+        'level': '中級', 'key': 'guide3', 'nodes': ['mid-s3c10', 'mid-s3pdf-c5'], 'page': 175,
+        'old': 'Loss = 原始損失 + Regularization Term λ：正則化係數',
+        'new': 'Loss = 原始損失 + λ × Regularization Term；λ：正則化係數',
+        'drop_latex': ['\\lambda \\times'],
+    },
+]
+
+
+def apply_inline_formula_restores(
+    level: str, key: str, node: str | None, blocks: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    for restore in INLINE_FORMULA_RESTORES:
+        if (restore['level'], restore['key']) != (level, key) or node not in restore['nodes']:
+            continue
+        page = int(restore['page'])
+        hits = [
+            block for block in blocks
+            if block.get('pageIndex') == page and block.get('text') in (restore['old'], restore['new'])
+        ]
+        if len(hits) != 1:
+            raise ValueError(f'{level}/{key}/{node}: inline formula restore matched {len(hits)}, expected 1')
+        target = hits[0]
+        target['text'] = restore['new']
+        kept = [
+            entry for entry in target.get('formulas') or []
+            if entry.get('latex') not in restore['drop_latex']
+        ]
+        if kept:
+            target['formulas'] = kept
+        else:
+            target.pop('formulas', None)
+            target.pop('formulaOnly', None)
+    return blocks
 
 
 def apply_formula_repairs(
@@ -1589,7 +1639,7 @@ def apply_formula_repairs(
             target['formulas'] = [formula(latex, assignment.get('display', True)) for latex in assignment['latex']]
             if assignment.get('only'):
                 target['formulaOnly'] = True
-    return repaired
+    return apply_inline_formula_restores(level, key, node, repaired)
 
 
 def _content_path(level: str, key: str, node: str, content_root: Path) -> Path:

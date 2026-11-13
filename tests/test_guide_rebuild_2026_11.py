@@ -833,5 +833,36 @@ class Round4FallbackFieldTests(unittest.TestCase):
                 'test', '# 概念\n\n正文', [{'type': 'heading', 'depth': 3, 'title': '9. 不存在', 'anchor': 'x'}])
 
 
+class InlineFormulaRestoreTests(unittest.TestCase):
+    """中級 5-40: the inline 「λ ×」 lost from the regularization formula (2026-11-14)."""
+
+    OLD = 'Loss = 原始損失 + Regularization Term λ：正則化係數'
+    NEW = 'Loss = 原始損失 + λ × Regularization Term；λ：正則化係數'
+
+    def test_restore_moves_detached_formula_back_into_text(self) -> None:
+        blocks = [{'id': 'block-1', 'pageIndex': 175, 'text': self.OLD,
+                   'formulas': [{'latex': '\\lambda \\times', 'display': False}]}]
+        out = track_a.apply_inline_formula_restores('中級', 'guide3', 'mid-s3c10', blocks)
+        self.assertEqual(out[0]['text'], self.NEW)
+        self.assertNotIn('formulas', out[0])
+        again = track_a.apply_inline_formula_restores('中級', 'guide3', 'mid-s3c10', out)
+        self.assertEqual(again[0]['text'], self.NEW)
+
+    def test_restore_fails_closed_when_source_missing(self) -> None:
+        with self.assertRaisesRegex(ValueError, 'inline formula restore matched 0'):
+            track_a.apply_inline_formula_restores(
+                '中級', 'guide3', 'mid-s3pdf-c5', [{'pageIndex': 175, 'text': '別的句子'}])
+
+    def test_live_content_keeps_restored_text(self) -> None:
+        for node in ('mid-s3c10', 'mid-s3pdf-c5'):
+            data = json.loads((ROOT / 'frontend/src/generated/guideContent/中級-guide3' / f'{node}.json')
+                              .read_text(encoding='utf-8'))
+            hits = [b for b in data['blocks'] if b.get('pageIndex') == 175 and b.get('text') == self.NEW]
+            self.assertEqual(len(hits), 1, node)
+            self.assertFalse(hits[0].get('formulas'), node)
+            self.assertIn(self.NEW, data['content'])
+            self.assertNotIn(self.OLD, data['content'])
+
+
 if __name__ == '__main__':
     unittest.main()
