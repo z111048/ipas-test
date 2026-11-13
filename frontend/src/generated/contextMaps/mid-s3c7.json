@@ -1,0 +1,1026 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide3",
+  "nodeId": "mid-s3c7",
+  "label": "中級 科目三・5.1 數據準備與特徵工程",
+  "subjectId": "mid-s3",
+  "title": "數據準備與特徵工程"
+ },
+ "headline": "一張圖看懂數據準備與特徵工程",
+ "lede": "本章主張資料品質與特徵表達比演算法更決定模型表現：先清理資料，再選特徵與降維、轉換尺度與編碼，最後用增強與策略補足。每個處理方式都要看模型性質與資料特性來挑。",
+ "story": [
+  {
+   "step": "為什麼",
+   "title": "資料決定上限",
+   "text": "資料有缺陷，再先進的演算法也難有好結果。"
+  },
+  {
+   "step": "先清理",
+   "title": "缺失、異常、重複",
+   "text": "依模型對品質的敏感度決定清理強度，並留下紀錄。"
+  },
+  {
+   "step": "再瘦身",
+   "title": "特徵選擇與降維",
+   "text": "選擇是挑子集，降維是轉換成低維空間。"
+  },
+  {
+   "step": "再轉換",
+   "title": "尺度、分佈、編碼",
+   "text": "依分佈與類別性質挑縮放與編碼方法。"
+  },
+  {
+   "step": "最後補強",
+   "title": "增強與特徵策略",
+   "text": "依任務與模型設計特徵，必要時擴充樣本。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "clean",
+   "name": "數據清理"
+  },
+  {
+   "id": "select",
+   "name": "特徵選擇與降維"
+  },
+  {
+   "id": "trans",
+   "name": "特徵轉換"
+  },
+  {
+   "id": "strat",
+   "name": "增強與策略"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "core",
+   "label": "數據準備與特徵工程",
+   "lane": null,
+   "parent": null,
+   "concept": "特徵工程",
+   "gist": "資料品質與特徵表達往往比演算法更決定模型表現，是效能與穩定性的基礎建設。",
+   "src": [
+    {
+     "block": 3,
+     "quote": "資料品質與特徵表達」往往比演算法本身更決定模型的最終表現",
+     "page": 136
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "cl",
+   "label": "數據清理",
+   "lane": "clean",
+   "parent": null,
+   "concept": "資料清理",
+   "gist": "處理缺失、異常、重複與格式問題，策略要隨模型類型與任務彈性調整。",
+   "src": [
+    {
+     "block": 46,
+     "quote": "資料清理策略應根據模型類型與任務需求彈性調整",
+     "page": 138
+    },
+    {
+     "block": 7,
+     "quote": "其處理方式需視資料特性、缺失比例",
+     "page": 136
+    },
+    {
+     "block": 35,
+     "quote": "同一觀察單位在資料集中多次出現",
+     "page": 138
+    },
+    {
+     "block": 42,
+     "quote": "確保數值型與類別型資料正確標示",
+     "page": 138
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "mv",
+   "label": "缺失值處理",
+   "lane": "clean",
+   "parent": "cl",
+   "concept": "遺漏值處理",
+   "gist": "缺失極低且無偏可刪除；否則用均值、相似樣本、預測模型填補，或加缺失指標欄位。",
+   "src": [
+    {
+     "block": 9,
+     "quote": "當缺失比例極低、樣本數充足，且缺失分佈無偏時",
+     "page": 136
+    },
+    {
+     "block": 18,
+     "quote": "新增欄位標示是否缺失",
+     "page": 137
+    },
+    {
+     "block": 11,
+     "quote": "均值、中位數、眾數填補",
+     "page": 136
+    },
+    {
+     "block": 14,
+     "quote": "依據特徵相似度補全遺失值",
+     "page": 136
+    },
+    {
+     "block": 16,
+     "quote": "透過迴歸或分類模型，預測缺值欄位",
+     "page": 137
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "out",
+   "label": "異常值偵測與處理",
+   "lane": "clean",
+   "parent": "cl",
+   "concept": "異常值偵測",
+   "gist": "以 Z 分數、IQR、箱型圖或 Isolation Forest 等找出極端點，再決定移除、截尾轉換或標記保留。",
+   "src": [
+    {
+     "block": 22,
+     "quote": "利用Z 分數（Z-score）或四分位距（IQR）界定明顯偏離的觀測值",
+     "page": 137
+    },
+    {
+     "block": 26,
+     "quote": "使用Isolation Forest、Local Outlier Factor",
+     "page": 137
+    },
+    {
+     "block": 24,
+     "quote": "透過箱型圖、散佈圖、時間序列圖輔助觀察極端點",
+     "page": 137
+    },
+    {
+     "block": 31,
+     "quote": "將值限制於上下邊界內，或進行對數、Box-Cox 等轉換",
+     "page": 137
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "outh",
+   "label": "異常值處理策略",
+   "lane": "clean",
+   "parent": "out",
+   "concept": "離群值處理",
+   "gist": "確認為錯誤才移除；可截尾或對數轉換；若異常本身有預測價值（如欺詐偵測）則保留作特徵。",
+   "src": [
+    {
+     "block": 29,
+     "quote": "在可確認錯誤輸入時直接刪除",
+     "page": 137
+    },
+    {
+     "block": 33,
+     "quote": "在異常值本身具有預測價值（如欺詐偵測）時保留",
+     "page": 137
+    },
+    {
+     "block": 31,
+     "quote": "將值限制於上下邊界內，或進行對數、Box-Cox 等轉換",
+     "page": 137
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "dup",
+   "label": "重複與一致性",
+   "lane": "clean",
+   "parent": "cl",
+   "concept": null,
+   "gist": "用主鍵或欄位相似度找重複，避免被特定樣本主導；並統一單位、時間格式與類別值。",
+   "src": [
+    {
+     "block": 37,
+     "quote": "避免訓練集被特定樣本主導",
+     "page": 138
+    },
+    {
+     "block": 39,
+     "quote": "統一數據單位（如公克與公斤）",
+     "page": 138
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "sens",
+   "label": "模型對品質的敏感度",
+   "lane": "clean",
+   "parent": "cl",
+   "concept": null,
+   "gist": "樹模型對缺值與異常值容忍度高；線性模型與神經網路較敏感，要補缺值並做特徵正規化。",
+   "src": [
+    {
+     "block": 48,
+     "quote": "對於缺值與異常值具較高容忍度",
+     "page": 138
+    },
+    {
+     "block": 49,
+     "quote": "線性模型與神經網路對輸入資料較為敏感",
+     "page": 138
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "lin",
+   "label": "資料可追溯性",
+   "lane": "clean",
+   "parent": "cl",
+   "concept": null,
+   "gist": "清理動作都要記錄（欄位邏輯、填補方法、異常調整依據），讓流程可還原、驗證，也符合治理與合規。",
+   "src": [
+    {
+     "block": 51,
+     "quote": "資料處理流程可被還原、驗證與持續維護",
+     "page": 138
+    },
+    {
+     "block": 52,
+     "quote": "也符合資料治理與法規合規的最佳實務",
+     "page": 139
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "fs",
+   "label": "特徵選擇",
+   "lane": "select",
+   "parent": null,
+   "concept": "特徵選擇",
+   "gist": "從原始特徵挑出最佳子集來降維度、保留關鍵資訊；不創造新特徵。",
+   "src": [
+    {
+     "block": 54,
+     "quote": "篩選出一個最佳的子集的過程",
+     "page": 139
+    },
+    {
+     "block": 55,
+     "quote": "這個過程不創造新的特徵",
+     "page": 139
+    }
+   ],
+   "exam": 3
+  },
+  {
+   "id": "fil",
+   "label": "Filter 過濾法",
+   "lane": "select",
+   "parent": "fs",
+   "concept": null,
+   "gist": "用相關係數、卡方、ANOVA 獨立於模型快速篩選；速度快但看不到特徵交互作用。",
+   "src": [
+    {
+     "block": 58,
+     "quote": "獨立於模型之外快速篩選重要特徵",
+     "page": 139
+    },
+    {
+     "block": 61,
+     "quote": "無法考慮特徵間交互作用",
+     "page": 139
+    },
+    {
+     "block": 59,
+     "quote": "卡方檢定（Chi-square Test）、ANOVA 檢定",
+     "page": 139
+    },
+    {
+     "block": 60,
+     "quote": "優點：速度快、不依賴特定模型",
+     "page": 139
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "wra",
+   "label": "Wrapper 包裝法",
+   "lane": "select",
+   "parent": "fs",
+   "concept": null,
+   "gist": "用模型表現當標準，以 RFE 或前向／後向選擇篩選；能考慮互動，但成本高且可能過擬合。",
+   "src": [
+    {
+     "block": 63,
+     "quote": "使用模型表現（如準確率、F1-score）作為標準",
+     "page": 139
+    },
+    {
+     "block": 65,
+     "quote": "計算成本高，可能過度擬合",
+     "page": 139
+    },
+    {
+     "block": 63,
+     "quote": "遞迴特徵消除（Recursive Feature Elimination, RFE）",
+     "page": 139
+    },
+    {
+     "block": 64,
+     "quote": "精確考量特徵互動效果",
+     "page": 139
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "emb",
+   "label": "Embedded 嵌入法",
+   "lane": "select",
+   "parent": "fs",
+   "concept": "正則化",
+   "gist": "在訓練中內建選擇，如決策樹重要性或 Lasso、Ridge；需特定模型支援，結果受超參數影響。",
+   "src": [
+    {
+     "block": 67,
+     "quote": "在模型訓練過程中內建特徵選擇機制",
+     "page": 139
+    },
+    {
+     "block": 69,
+     "quote": "結果可能受模型超參數影響",
+     "page": 140
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "dr",
+   "label": "降維方法",
+   "lane": "select",
+   "parent": null,
+   "concept": "降維方法",
+   "gist": "把高維空間轉成低維，同時保留最有意義的結構或變異訊號，與特徵選擇不同，是轉換而非挑選。",
+   "src": [
+    {
+     "block": 71,
+     "quote": "將高維特徵空間轉換為低維空間",
+     "page": 140
+    },
+    {
+     "block": 55,
+     "quote": "這個過程不創造新的特徵，而是從現有特徵中進行「選擇」",
+     "page": 139
+    }
+   ],
+   "exam": 4
+  },
+  {
+   "id": "pca",
+   "label": "PCA 與 LDA",
+   "lane": "select",
+   "parent": "dr",
+   "concept": null,
+   "gist": "PCA 找最大化變異的方向；LDA 同為線性降維，但最大化類間差異、最小化類內變異，用於分類。",
+   "src": [
+    {
+     "block": 73,
+     "quote": "找出能最大化資料變異的方向",
+     "page": 140
+    },
+    {
+     "block": 75,
+     "quote": "最大化類間差異、最小化類內變異為目標",
+     "page": 140
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "tsne",
+   "label": "t-SNE、UMAP、SVD",
+   "lane": "select",
+   "parent": "dr",
+   "concept": null,
+   "gist": "t-SNE、UMAP 為非線性，保留鄰近關係、用於視覺化探索，不適合直接預測；SVD 用於矩陣分解。",
+   "src": [
+    {
+     "block": 77,
+     "quote": "不適合直接用於預測建模",
+     "page": 140
+    },
+    {
+     "block": 79,
+     "quote": "適用於矩陣分解",
+     "page": 140
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "sc",
+   "label": "資料尺度調整",
+   "lane": "trans",
+   "parent": null,
+   "concept": "特徵縮放",
+   "gist": "特徵量級不同會讓訓練偏向高數值特徵，對梯度或距離型模型尤其要做尺度調整。",
+   "src": [
+    {
+     "block": 83,
+     "quote": "會導致模型訓練偏向高數值特徵",
+     "page": 140
+    },
+    {
+     "block": 81,
+     "quote": "基於梯度或距離計算的模型",
+     "page": 140
+    }
+   ],
+   "exam": 3
+  },
+  {
+   "id": "mm",
+   "label": "Min-Max",
+   "lane": "trans",
+   "parent": "sc",
+   "concept": null,
+   "gist": "線性縮放到 0～1，保留分佈比例；但對極端值敏感，異常值會壓縮其他數值範圍。",
+   "src": [
+    {
+     "block": 85,
+     "quote": "將數值線性縮放至0～1 區間",
+     "page": 141
+    },
+    {
+     "block": 87,
+     "quote": "異常值會壓縮其他數值的縮放範圍",
+     "page": 141
+    },
+    {
+     "block": 86,
+     "quote": "保留原始變數的分佈比例，易於解釋與視覺化",
+     "page": 141
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "zs",
+   "label": "Z-score",
+   "lane": "trans",
+   "parent": "sc",
+   "concept": "資料標準化",
+   "gist": "轉成平均 0、標準差 1，適合近常態資料；對極端值仍敏感，偏態時結果會偏移。",
+   "src": [
+    {
+     "block": 89,
+     "quote": "平均值為0、標準差為1",
+     "page": 141
+    },
+    {
+     "block": 91,
+     "quote": "若分佈偏態則標準化結果偏移",
+     "page": 141
+    },
+    {
+     "block": 90,
+     "quote": "適用於符合常態分佈的資料",
+     "page": 141
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "rb",
+   "label": "Robust Scaling",
+   "lane": "trans",
+   "parent": "sc",
+   "concept": null,
+   "gist": "用中位數與 IQR 縮放，抗極端值，適合偏態或含離群值；但結果不保證符合任何標準分佈。",
+   "src": [
+    {
+     "block": 93,
+     "quote": "使用中位數與四分位距（IQR）進行縮放",
+     "page": 141
+    },
+    {
+     "block": 95,
+     "quote": "轉換後資料不保證符合任何標準分佈",
+     "page": 141
+    },
+    {
+     "block": 94,
+     "quote": "適用於資料分佈偏態或含離群值的情境",
+     "page": 141
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "dt",
+   "label": "分佈轉換",
+   "lane": "trans",
+   "parent": null,
+   "concept": "偏態與長尾分佈",
+   "gist": "有些模型（如線性迴歸）假設輸入近常態，可對偏態資料做對數、平方根或 Box-Cox 等轉換。",
+   "src": [
+    {
+     "block": 97,
+     "quote": "可針對偏態資料進行分佈轉換",
+     "page": 141
+    },
+    {
+     "block": 99,
+     "quote": "常用於處理右偏分佈",
+     "page": 141
+    },
+    {
+     "block": 98,
+     "quote": "對數轉換（Log Transform）",
+     "page": 141
+    },
+    {
+     "block": 100,
+     "quote": "平方根 / 立方根轉換",
+     "page": 141
+    },
+    {
+     "block": 102,
+     "quote": "Box-Cox / Yeo-Johnson 轉換",
+     "page": 141
+    },
+    {
+     "block": 97,
+     "quote": "某些模型假設輸入資料近似常態分佈（如線性迴歸）",
+     "page": 141
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "enc",
+   "label": "類別資料編碼",
+   "lane": "trans",
+   "parent": null,
+   "concept": "類別特徵編碼",
+   "gist": "多數演算法無法直接處理類別變數；編碼要依順序性、基數、模型類型與資料量選擇。",
+   "src": [
+    {
+     "block": 105,
+     "quote": "選擇編碼策略時應依據類別性質（是否具順序）",
+     "page": 142
+    }
+   ],
+   "exam": 4
+  },
+  {
+   "id": "le",
+   "label": "Label Encoding",
+   "lane": "trans",
+   "parent": "enc",
+   "concept": null,
+   "gist": "類別對應整數，適合有序類別；誤用於無序類別會讓模型誤以為數值間有數學意義。",
+   "src": [
+    {
+     "block": 109,
+     "quote": "類別具有明確順序關係（Ordinal Variables）",
+     "page": 142
+    },
+    {
+     "block": 111,
+     "quote": "模型可能誤解為數值之間具有數學意義",
+     "page": 142
+    },
+    {
+     "block": 108,
+     "quote": "將每個類別對應到一個整數編號",
+     "page": 142
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "oh",
+   "label": "One-hot Encoding",
+   "lane": "trans",
+   "parent": "enc",
+   "concept": null,
+   "gist": "每類別一個 0／1 欄位，適合無序類別、不引入順序誤解；類別多時維度暴增。",
+   "src": [
+    {
+     "block": 113,
+     "quote": "為每個類別新增一個欄位",
+     "page": 142
+    },
+    {
+     "block": 117,
+     "quote": "會大幅增加特徵維度",
+     "page": 142
+    },
+    {
+     "block": 115,
+     "quote": "無序類別變數（如城市名稱、產品類型）",
+     "page": 142
+    },
+    {
+     "block": 116,
+     "quote": "保留類別的完整資訊，不引入順序誤解",
+     "page": 142
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "te",
+   "label": "Target Encoding",
+   "lane": "trans",
+   "parent": "enc",
+   "concept": null,
+   "gist": "以類別在目標變數上的統計量取代，適合高基數且與目標高度關聯的類別，不造成維度爆炸。",
+   "src": [
+    {
+     "block": 119,
+     "quote": "以其在目標變數上的統計量",
+     "page": 142
+    },
+    {
+     "block": 121,
+     "quote": "不造成維度爆炸",
+     "page": 142
+    },
+    {
+     "block": 120,
+     "quote": "高基數類別變數，且類別與目標變數具高度關聯",
+     "page": 142
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "tm",
+   "label": "時間與週期性轉換",
+   "lane": "trans",
+   "parent": null,
+   "concept": "時間序列預測",
+   "gist": "時間戳拆成年月日、星期幾等結構化特徵；週期欄位用 sin／cos 編碼以保留相鄰關係。",
+   "src": [
+    {
+     "block": 125,
+     "quote": "可分解為「年、月、日、星期幾、時段」",
+     "page": 143
+    },
+    {
+     "block": 128,
+     "quote": "使用週期性編碼（sin / cos 轉換）",
+     "page": 143
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "aug",
+   "label": "資料增強",
+   "lane": "strat",
+   "parent": null,
+   "concept": "資料增強",
+   "gist": "產生新樣本或變形既有樣本，增加資料量、改善平衡，提升泛化與穩定性；依資料型態選方法。",
+   "src": [
+    {
+     "block": 130,
+     "quote": "增加資料量、改善資料平衡",
+     "page": 143
+    },
+    {
+     "block": 131,
+     "quote": "依照資料型態分類，常見方法包含",
+     "page": 143
+    }
+   ],
+   "exam": 4
+  },
+  {
+   "id": "augt",
+   "label": "各資料型態的增強",
+   "lane": "strat",
+   "parent": "aug",
+   "concept": null,
+   "gist": "圖像用翻轉旋轉裁剪；文字用同義字替換等；時序加噪聲、窗口裁切；表格用 SMOTE 增加稀少樣本。",
+   "src": [
+    {
+     "block": 133,
+     "quote": "隨機翻轉、旋轉、裁剪、縮放、色彩變換",
+     "page": 143
+    },
+    {
+     "block": 136,
+     "quote": "同義字替換、隨機插入、隨機刪除",
+     "page": 143
+    },
+    {
+     "block": 142,
+     "quote": "Oversampling Technique）增加稀少樣本",
+     "page": 144
+    },
+    {
+     "block": 139,
+     "quote": "窗口裁切等方式擴充資料量",
+     "page": 143
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "fe",
+   "label": "特徵工程策略",
+   "lane": "strat",
+   "parent": null,
+   "concept": null,
+   "gist": "是結合資料理解、領域知識與建模目標、有目的的決策過程，不是套用預設工具。",
+   "src": [
+    {
+     "block": 145,
+     "quote": "涉及資料理解、領域知識與建模目標的整合",
+     "page": 144
+    },
+    {
+     "block": 146,
+     "quote": "並非單純地套用預設的演算法或工具",
+     "page": 144
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "task",
+   "label": "依任務與模型設計",
+   "lane": "strat",
+   "parent": "fe",
+   "concept": null,
+   "gist": "分類偏好離散分群特徵，迴歸偏好連續趨勢特徵；線性模型注意尺度與共線性，KNN 要單位一致。",
+   "src": [
+    {
+     "block": 148,
+     "quote": "分類任務偏好具離散分群能力的特徵",
+     "page": 144
+    },
+    {
+     "block": 151,
+     "quote": "線性模型需特別注意尺度與共線性",
+     "page": 144
+    },
+    {
+     "block": 153,
+     "quote": "需保證特徵間單位一致性",
+     "page": 144
+    },
+    {
+     "block": 149,
+     "quote": "迴歸任務則偏好與數值趨勢密切相關的連續特徵",
+     "page": 144
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "hid",
+   "label": "合成與序列特徵",
+   "lane": "strat",
+   "parent": "fe",
+   "concept": null,
+   "gist": "欄位合成（單價×數量）、統計聚合、滯後值與移動平均、時間間隔等，挖出隱含結構。",
+   "src": [
+    {
+     "block": 155,
+     "quote": "將原始欄位進行合成",
+     "page": 144
+    },
+    {
+     "block": 158,
+     "quote": "提取滯後值（lag）、移動平均（rolling mean）",
+     "page": 144
+    },
+    {
+     "block": 156,
+     "quote": "利用統計聚合生成群體行為特徵",
+     "page": 144
+    },
+    {
+     "block": 159,
+     "quote": "加入時間間隔、事件次數等動態指標",
+     "page": 144
+    }
+   ],
+   "exam": 0
+  }
+ ],
+ "edges": [
+  {
+   "a": "sens",
+   "b": "sc",
+   "kind": "cross",
+   "label": "敏感的模型更需縮放",
+   "block": 49,
+   "quote": "需特別注意缺值補全與特徵正規化",
+   "page": 138
+  },
+  {
+   "a": "out",
+   "b": "mm",
+   "kind": "cross",
+   "label": "異常值壓縮縮放範圍",
+   "block": 87,
+   "quote": "異常值會壓縮其他數值的縮放範圍",
+   "page": 141
+  },
+  {
+   "a": "out",
+   "b": "rb",
+   "kind": "cross",
+   "label": "有離群值時改用穩健標準化",
+   "block": 94,
+   "quote": "適用於資料分佈偏態或含離群值的情境",
+   "page": 141
+  },
+  {
+   "a": "outh",
+   "b": "dt",
+   "kind": "cross",
+   "label": "截尾與轉換含對數轉換",
+   "block": 31,
+   "quote": "進行對數、Box-Cox 等轉換",
+   "page": 137
+  },
+  {
+   "a": "fs",
+   "b": "emb",
+   "kind": "cross",
+   "label": "嵌入法在訓練中完成選擇",
+   "block": 67,
+   "quote": "在模型訓練過程中內建特徵選擇機制",
+   "page": 139
+  },
+  {
+   "a": "oh",
+   "b": "dr",
+   "kind": "cross",
+   "label": "類別多時特徵維度大增",
+   "block": 117,
+   "quote": "類別數量多（High Cardinality）時會大幅增加特徵維度",
+   "page": 142
+  },
+  {
+   "a": "te",
+   "b": "oh",
+   "kind": "cross",
+   "label": "目標編碼避開維度爆炸",
+   "block": 121,
+   "quote": "能保留目標相關資訊，不造成維度爆炸",
+   "page": 142
+  },
+  {
+   "a": "le",
+   "b": "task",
+   "kind": "cross",
+   "label": "樹模型避免標籤編碼",
+   "block": 152,
+   "quote": "避免使用標籤編碼造成誤解",
+   "page": 144
+  },
+  {
+   "a": "tm",
+   "b": "hid",
+   "kind": "cross",
+   "label": "時間特徵延伸成序列特徵",
+   "block": 159,
+   "quote": "加入時間間隔、事件次數等動態指標",
+   "page": 144
+  },
+  {
+   "a": "fs",
+   "b": "core",
+   "kind": "cross",
+   "label": "特徵過多使複雜度與過擬合上升",
+   "block": 54,
+   "quote": "可能導致模型複雜度提升、運算時間延長",
+   "page": 139
+  },
+  {
+   "a": "sc",
+   "b": "task",
+   "kind": "cross",
+   "label": "尺度與模型性質相關",
+   "block": 81,
+   "quote": "尤其對於基於梯度或距離計算的模型",
+   "page": 140
+  }
+ ],
+ "confusions": [
+  {
+   "a": "特徵選擇",
+   "b": "降維",
+   "text": "特徵選擇是從現有特徵挑子集、不創造新特徵；降維則把高維空間轉換成低維空間。",
+   "blocks": [
+    55,
+    71
+   ],
+   "pages": [
+    139,
+    140
+   ]
+  },
+  {
+   "a": "Filter",
+   "b": "Wrapper",
+   "text": "Filter 靠統計量獨立於模型、速度快；Wrapper 用模型表現當標準，精確但成本高。",
+   "blocks": [
+    58,
+    60,
+    63,
+    64,
+    65
+   ],
+   "pages": [
+    139
+   ]
+  },
+  {
+   "a": "Min-Max",
+   "b": "Z-score",
+   "text": "Min-Max 縮放到 0～1；Z-score 轉成平均 0、標準差 1，且偏態時結果偏移。",
+   "blocks": [
+    85,
+    89,
+    91
+   ],
+   "pages": [
+    141
+   ]
+  },
+  {
+   "a": "Z-score",
+   "b": "Robust Scaling",
+   "text": "Z-score 對極端值仍敏感；Robust 用中位數與 IQR，抗極端值。",
+   "blocks": [
+    91,
+    93,
+    94
+   ],
+   "pages": [
+    141
+   ]
+  },
+  {
+   "a": "Label Encoding",
+   "b": "One-hot",
+   "text": "Label 適用有序類別；One-hot 適用無序類別，但類別多時維度暴增。",
+   "blocks": [
+    109,
+    115,
+    117
+   ],
+   "pages": [
+    142
+   ]
+  },
+  {
+   "a": "PCA",
+   "b": "LDA",
+   "text": "PCA 最大化資料變異；LDA 最大化類間差異、最小化類內變異，用於分類。",
+   "blocks": [
+    73,
+    75
+   ],
+   "pages": [
+    140
+   ]
+  },
+  {
+   "a": "PCA",
+   "b": "t-SNE／UMAP",
+   "text": "t-SNE、UMAP 為非線性、保留鄰近關係，用於視覺化，不適合直接預測建模。",
+   "blocks": [
+    73,
+    77
+   ],
+   "pages": [
+    140
+   ]
+  }
+ ],
+ "gaps": [
+  {
+   "name": "多重共線性",
+   "block": 151,
+   "page": 144
+  }
+ ],
+ "examOnly": [],
+ "notes": []
+}

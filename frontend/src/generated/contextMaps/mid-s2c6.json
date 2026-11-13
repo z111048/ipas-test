@@ -1,0 +1,995 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide2",
+  "nodeId": "mid-s2c6",
+  "label": "中級 科目二・4.3 數據處理技術與工具",
+  "subjectId": "mid-s2",
+  "title": "數據處理技術與工具"
+ },
+ "headline": "一張圖看懂數據處理技術與工具",
+ "lede": "資料清理完還不能直接建模，要先轉換成可分析、可運算的狀態，再做特徵工程；資料量大時靠分散式框架，整個流程再用管線自動化串起來。先抓住「轉換、特徵、框架、管線」四塊。",
+ "story": [
+  {
+   "step": "為什麼",
+   "title": "清理後仍需處理",
+   "text": "資料乾淨不等於可建模，還要轉換成可分析、可運算。"
+  },
+  {
+   "step": "轉換",
+   "title": "型別、分箱、編碼、縮放",
+   "text": "把欄位整理好，類別轉數值，數值拉到相近尺度。"
+  },
+  {
+   "step": "特徵",
+   "title": "選擇、衍生與增強",
+   "text": "挑出有價值的特徵、造新特徵，並避開資料洩漏。"
+  },
+  {
+   "step": "規模",
+   "title": "分散式框架",
+   "text": "資料量大時，依批次或即時需求選 Hadoop、Spark、Flink、Beam。"
+  },
+  {
+   "step": "串接",
+   "title": "管線與自動化",
+   "text": "依設計原則把各步驟串成可重現、可監控的管線。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "prep",
+   "name": "資料準備與轉換"
+  },
+  {
+   "id": "feat",
+   "name": "特徵工程"
+  },
+  {
+   "id": "infra",
+   "name": "分散式處理框架"
+  },
+  {
+   "id": "pipe",
+   "name": "管線與自動化"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "core",
+   "label": "數據處理技術與工具",
+   "lane": null,
+   "parent": null,
+   "concept": "資料前處理",
+   "gist": "清理後的資料要經轉換、特徵工程與分散式運算流程，才成為具分析價值的資源。",
+   "src": [
+    {
+     "block": 3,
+     "quote": "資料型態轉換、欄位整理、特徵工程以及分散式運算流程建構",
+     "page": 75
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "prep",
+   "label": "清理後的資料準備",
+   "lane": "prep",
+   "parent": "core",
+   "concept": null,
+   "gist": "把資料從「乾淨」轉成「可分析、可運算」，包含欄位調整、格式轉換、標準化等。",
+   "src": [
+    {
+     "block": 6,
+     "quote": "將資料從「乾淨」轉化為「可分析、可運算」的狀態",
+     "page": 75
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "conv",
+   "label": "型別轉換與欄位整理",
+   "lane": "prep",
+   "parent": "prep",
+   "concept": null,
+   "gist": "修正數字被當字串、時間格式不一致，並重新命名、重排或合併拆分欄位。",
+   "src": [
+    {
+     "block": 8,
+     "quote": "進行類型強制轉換（如int → float、str → datetime）",
+     "page": 75
+    },
+    {
+     "block": 16,
+     "quote": "將「縣市」「鄉鎮」「路段」欄位合併為「完整地址」",
+     "page": 76
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "bin",
+   "label": "分箱與分類重組",
+   "lane": "prep",
+   "parent": "prep",
+   "concept": null,
+   "gist": "分箱把連續變數離散化（等寬、等頻、K-Means）；分類重組合併稀少類別、降低高基數。",
+   "src": [
+    {
+     "block": 18,
+     "quote": "分箱是將連續變數離散化的常用方法",
+     "page": 76
+    },
+    {
+     "block": 24,
+     "quote": "合併樣本數過少的類別為「Other」",
+     "page": 76
+    },
+    {
+     "block": 20,
+     "quote": "等寬分箱（Equal-width）：將數值範圍等距劃分",
+     "page": 76
+    },
+    {
+     "block": 22,
+     "quote": "使用K-means 分群技術將連續變數分區",
+     "page": 76
+    },
+    {
+     "block": 26,
+     "quote": "對高基數（High Cardinality）欄位進行降維處理",
+     "page": 76
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "enc",
+   "label": "編碼轉換",
+   "lane": "prep",
+   "parent": "prep",
+   "concept": "類別特徵編碼",
+   "gist": "多數演算法無法直接處理類別變數，需轉成數值；選法看類別是否有順序、基數、模型與資料量。",
+   "src": [
+    {
+     "block": 29,
+     "quote": "無法直接處理類別變數（Categorical Variables）",
+     "page": 76
+    },
+    {
+     "block": 29,
+     "quote": "選擇編碼策略時應依據類別性質（是否具順序）",
+     "page": 76
+    }
+   ],
+   "exam": 6
+  },
+  {
+   "id": "label",
+   "label": "Label Encoding",
+   "lane": "prep",
+   "parent": "enc",
+   "concept": null,
+   "gist": "類別對應整數，適合有順序的類別；誤用在無序類別會讓模型誤讀數學意義。",
+   "src": [
+    {
+     "block": 33,
+     "quote": "類別具有明確順序關係（Ordinal Variables）",
+     "page": 77
+    },
+    {
+     "block": 32,
+     "quote": "將每個類別對應到一個整數編號",
+     "page": 77
+    },
+    {
+     "block": 35,
+     "quote": "若誤用於無序類別（Nominal Variables）",
+     "page": 77
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "onehot",
+   "label": "One-hot Encoding",
+   "lane": "prep",
+   "parent": "enc",
+   "concept": null,
+   "gist": "每個類別一個獨立欄位，適合無序類別；類別很多時維度暴增。",
+   "src": [
+    {
+     "block": 39,
+     "quote": "無序類別變數（如城市名稱、產品類型）",
+     "page": 77
+    },
+    {
+     "block": 41,
+     "quote": "類別數量多（High Cardinality）時會大幅增加特徵維度",
+     "page": 77
+    },
+    {
+     "block": 37,
+     "quote": "為每個類別新增一個欄位",
+     "page": 77
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "target",
+   "label": "Target Encoding",
+   "lane": "prep",
+   "parent": "enc",
+   "concept": null,
+   "gist": "以類別在目標變數上的統計量取代，適合高基數且與目標高度關聯的類別，不造成維度爆炸。",
+   "src": [
+    {
+     "block": 43,
+     "quote": "以其在目標變數上的統計量",
+     "page": 77
+    },
+    {
+     "block": 45,
+     "quote": "不造成維度爆炸",
+     "page": 77
+    },
+    {
+     "block": 44,
+     "quote": "高基數的類別變數，且該類別變數與目標變數之間具高度關聯性",
+     "page": 77
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "scale",
+   "label": "標準化與正規化",
+   "lane": "prep",
+   "parent": "prep",
+   "concept": "特徵縮放",
+   "gist": "變數尺度差距大會造成學習偏誤或難以收斂，KNN、梯度下降模型與正則化模型必須縮放。",
+   "src": [
+    {
+     "block": 47,
+     "quote": "進行特徵縮放是不可或缺的前處理步驟",
+     "page": 78
+    }
+   ],
+   "exam": 4
+  },
+  {
+   "id": "minmax",
+   "label": "Min-Max",
+   "lane": "prep",
+   "parent": "scale",
+   "concept": null,
+   "gist": "線性縮放到 0～1，保留分佈比例；但異常值會壓縮其他數值的範圍。",
+   "src": [
+    {
+     "block": 50,
+     "quote": "將數值線性縮放至0～1 區間",
+     "page": 78
+    },
+    {
+     "block": 52,
+     "quote": "異常值會壓縮其他數值的縮放範圍",
+     "page": 78
+    },
+    {
+     "block": 51,
+     "quote": "保留原始變數的分佈比例",
+     "page": 78
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "zscore",
+   "label": "Z-score",
+   "lane": "prep",
+   "parent": "scale",
+   "concept": null,
+   "gist": "轉成平均 0、標準差 1，適合符合常態分佈的資料；對極端值仍敏感，偏態時會偏移。",
+   "src": [
+    {
+     "block": 54,
+     "quote": "平均值為0、標準差為1 的常態分佈",
+     "page": 78
+    },
+    {
+     "block": 56,
+     "quote": "若資料分佈呈現偏態，則標準化結果可能產生偏移",
+     "page": 78
+    },
+    {
+     "block": 55,
+     "quote": "適用於符合常態分佈的資料",
+     "page": 78
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "robust",
+   "label": "Robust Scaling",
+   "lane": "prep",
+   "parent": "scale",
+   "concept": null,
+   "gist": "用中位數與 IQR 縮放，對極端值抵抗力高；但結果不保證符合任何標準分佈。",
+   "src": [
+    {
+     "block": 58,
+     "quote": "使用中位數與四分位距（IQR）進行縮放",
+     "page": 78
+    },
+    {
+     "block": 60,
+     "quote": "轉換後資料不保證符合任何標準分佈",
+     "page": 78
+    },
+    {
+     "block": 59,
+     "quote": "對極端值具高度抵抗性",
+     "page": 78
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "fe",
+   "label": "特徵工程",
+   "lane": "feat",
+   "parent": "core",
+   "concept": "特徵工程",
+   "gist": "透過選擇、衍生或增強特徵，幫模型更有效捕捉資料的價值與模式。",
+   "src": [
+    {
+     "block": 62,
+     "quote": "透過選擇、衍生或增強資料中的特徵",
+     "page": 78
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "leak",
+   "label": "資料洩漏",
+   "lane": "feat",
+   "parent": "fe",
+   "concept": "資料洩漏",
+   "gist": "特徵工程要避免洩漏，尤其聚合特徵或目標編碼時，需謹慎用交叉驗證或時間窗口劃分。",
+   "src": [
+    {
+     "block": 63,
+     "quote": "特徵工程應避免資料洩漏（Data Leakage）",
+     "page": 78
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "fs",
+   "label": "特徵選擇",
+   "lane": "feat",
+   "parent": "fe",
+   "concept": "特徵選擇",
+   "gist": "特徵太多會讓模型複雜、耗時、過擬合，要系統化保留最有價值的特徵。",
+   "src": [
+    {
+     "block": 66,
+     "quote": "特徵選擇透過系統化的方法保留最具價值的特徵",
+     "page": 79
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "filter",
+   "label": "Filter 過濾法",
+   "lane": "feat",
+   "parent": "fs",
+   "concept": null,
+   "gist": "用統計量或相關係數獨立於模型快速篩選，速度快但無法考慮特徵間交互作用。",
+   "src": [
+    {
+     "block": 68,
+     "quote": "獨立於模型之外快速篩選重要特徵",
+     "page": 79
+    },
+    {
+     "block": 71,
+     "quote": "無法考慮特徵間交互作用",
+     "page": 79
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "wrapper",
+   "label": "Wrapper 包裝法",
+   "lane": "feat",
+   "parent": "fs",
+   "concept": null,
+   "gist": "以模型表現為標準，用 RFE 或前向／後向選擇；能考量特徵互動，但計算成本高。",
+   "src": [
+    {
+     "block": 73,
+     "quote": "使用模型表現（如準確率、F1-score）作為標準",
+     "page": 79
+    },
+    {
+     "block": 75,
+     "quote": "計算成本高，可能過度擬合",
+     "page": 79
+    },
+    {
+     "block": 74,
+     "quote": "精確考量特徵互動效果",
+     "page": 79
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "embedded",
+   "label": "Embedded 嵌入法",
+   "lane": "feat",
+   "parent": "fs",
+   "concept": null,
+   "gist": "在訓練中內建選擇機制（決策樹重要性、Lasso、Ridge），需特定模型支援。",
+   "src": [
+    {
+     "block": 77,
+     "quote": "在模型訓練過程中內建特徵選擇機制",
+     "page": 79
+    },
+    {
+     "block": 79,
+     "quote": "需特定模型或算法支援",
+     "page": 79
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "fg",
+   "label": "特徵衍生與聚合",
+   "lane": "feat",
+   "parent": "fe",
+   "concept": null,
+   "gist": "從原始資料萃取新特徵：交互特徵（乘積、除法）、時間特徵、聚合特徵（群組統計）。",
+   "src": [
+    {
+     "block": 83,
+     "quote": "透過特徵間的數學運算（如乘積、除法）產生新特徵",
+     "page": 79
+    },
+    {
+     "block": 88,
+     "quote": "透過群組統計計算產生新特徵",
+     "page": 80
+    },
+    {
+     "block": 86,
+     "quote": "從時間資料衍生新特徵",
+     "page": 80
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "aug",
+   "label": "資料增強",
+   "lane": "feat",
+   "parent": "fe",
+   "concept": "資料增強",
+   "gist": "產生新樣本或變形現有樣本，改善資料量與平衡；依圖像、文字、時序、表格各有手法，強度不可過度。",
+   "src": [
+    {
+     "block": 90,
+     "quote": "改善資料平衡，進一步提升模型的泛化能力",
+     "page": 80
+    },
+    {
+     "block": 102,
+     "quote": "增加稀少樣本",
+     "page": 80
+    },
+    {
+     "block": 63,
+     "quote": "資料增強需適當掌握強度",
+     "page": 78
+    },
+    {
+     "block": 92,
+     "quote": "圖像資料增強（Image Augmentation）",
+     "page": 80
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "dist",
+   "label": "分散式資料處理框架",
+   "lane": "infra",
+   "parent": "core",
+   "concept": "分散式資料處理",
+   "gist": "單機難應付大規模處理，企業採多節點分散運算、記憶體管理與即時串流來解決瓶頸。",
+   "src": [
+    {
+     "block": 105,
+     "quote": "單一伺服器或集中式處理已難以滿足現代資料應用的效率與彈性需求",
+     "page": 81
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "hadoop",
+   "label": "Hadoop（MapReduce）",
+   "lane": "infra",
+   "parent": "dist",
+   "concept": null,
+   "gist": "批次處理，適合離線大量作業；成熟、容錯強（HDFS），但速度慢、不適合即時。",
+   "src": [
+    {
+     "block": 108,
+     "quote": "批次處理（Batch Processing），透過MapReduce 模型",
+     "page": 81
+    },
+    {
+     "block": 111,
+     "quote": "速度較慢、不適合即時運算",
+     "page": 81
+    },
+    {
+     "block": 109,
+     "quote": "大量離線作業",
+     "page": 81
+    },
+    {
+     "block": 110,
+     "quote": "容錯強（HDFS 分散儲存機制）",
+     "page": 81
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "spark",
+   "label": "Spark",
+   "lane": "infra",
+   "parent": "dist",
+   "concept": null,
+   "gist": "記憶體內運算，支援批次、即時與互動式查詢，速度快、函式庫豐富，缺點是記憶體需求高。",
+   "src": [
+    {
+     "block": 113,
+     "quote": "記憶體內運算（In-memory Processing）",
+     "page": 81
+    },
+    {
+     "block": 116,
+     "quote": "記憶體需求高，運維複雜度中等",
+     "page": 81
+    },
+    {
+     "block": 113,
+     "quote": "支援批次、即時與互動式查詢",
+     "page": 81
+    },
+    {
+     "block": 115,
+     "quote": "運算速度快、豐富函式庫",
+     "page": 81
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "flink",
+   "label": "Flink",
+   "lane": "infra",
+   "parent": "dist",
+   "concept": "串流處理",
+   "gist": "原生即時事件導向串流處理，也支援批次；適合風險偵測、即時推薦、物聯網，但生態系較 Spark 小。",
+   "src": [
+    {
+     "block": 118,
+     "quote": "原生支援即時事件導向的串流處理（Real-time Streaming）",
+     "page": 81
+    },
+    {
+     "block": 121,
+     "quote": "生態系統較Spark 小",
+     "page": 82
+    },
+    {
+     "block": 119,
+     "quote": "高頻率即時事件處理（如風險偵測、即時推薦、物聯網資料）",
+     "page": 81
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "beam",
+   "label": "Beam",
+   "lane": "infra",
+   "parent": "dist",
+   "concept": null,
+   "gist": "抽象化的統一批次與串流模型，可搭配多種後端引擎，可移植性強，但上手門檻高。",
+   "src": [
+    {
+     "block": 123,
+     "quote": "抽象化資料流處理模型（Unified Batch & Streaming Model）",
+     "page": 82
+    },
+    {
+     "block": 126,
+     "quote": "抽象層高，上手需較多工程經驗",
+     "page": 82
+    },
+    {
+     "block": 125,
+     "quote": "優點：可移植性強、可用Flink",
+     "page": 82
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "pipe",
+   "label": "資料處理管線",
+   "lane": "pipe",
+   "parent": "core",
+   "concept": null,
+   "gist": "以結構化、自動化方式串聯擷取、清理、轉換、特徵工程到輸出，確保品質與可重現性。",
+   "src": [
+    {
+     "block": 128,
+     "quote": "透過結構化與自動化的方式串聯各個處理步驟",
+     "page": 82
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "design",
+   "label": "設計原則",
+   "lane": "pipe",
+   "parent": "pipe",
+   "concept": null,
+   "gist": "四大原則：可重現性、容錯與回復、擴充與彈性、監控與可觀測性。",
+   "src": [
+    {
+     "block": 131,
+     "quote": "可重現性（Reproducibility）",
+     "page": 82
+    },
+    {
+     "block": 133,
+     "quote": "容錯性與回復機制（Fault Tolerance & Recovery）",
+     "page": 82
+    },
+    {
+     "block": 137,
+     "quote": "監控與可觀測性（Monitoring & Observability）",
+     "page": 83
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "arch",
+   "label": "批次、即時、混合架構",
+   "lane": "pipe",
+   "parent": "pipe",
+   "concept": null,
+   "gist": "批次管線定期啟動、即時管線持續低延遲、混合管線兩者並行。",
+   "src": [
+    {
+     "block": 141,
+     "quote": "定期啟動（如每日、每週）",
+     "page": 83
+    },
+    {
+     "block": 143,
+     "quote": "持續運作、低延遲",
+     "page": 83
+    },
+    {
+     "block": 145,
+     "quote": "批次與即時處理並行",
+     "page": 83
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "tools",
+   "label": "管線工具比較",
+   "lane": "pipe",
+   "parent": "pipe",
+   "concept": null,
+   "gist": "Airflow 適合大型複雜管線、Luigi 輕量、Prefect 好用但需買雲端服務、Kubeflow 專注機器學習。",
+   "src": [
+    {
+     "block": 150,
+     "quote": "大規模、結構複雜且需多任務協調的資料管線",
+     "page": 83
+    },
+    {
+     "block": 155,
+     "quote": "中小型任務、較簡單流程設計",
+     "page": 83
+    },
+    {
+     "block": 164,
+     "quote": "專注機器學習與AI 模型訓練流程管理",
+     "page": 84
+    },
+    {
+     "block": 159,
+     "quote": "介面易於使用",
+     "page": 83
+    },
+    {
+     "block": 162,
+     "quote": "需購買雲端服務方能享有完整功能",
+     "page": 84
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "auto",
+   "label": "管線自動化要點",
+   "lane": "pipe",
+   "parent": "pipe",
+   "concept": null,
+   "gist": "任務模組化、版控與 CI/CD、監控警示、容器化與彈性擴充。",
+   "src": [
+    {
+     "block": 170,
+     "quote": "將管線流程分解成小型且單一功能任務",
+     "page": 84
+    },
+    {
+     "block": 176,
+     "quote": "利用Docker 與Kubernetes 實現管線運作環境的容器化",
+     "page": 84
+    },
+    {
+     "block": 172,
+     "quote": "透過Git、GitHub Actions 或Jenkins 等CI/CD 工具",
+     "page": 84
+    },
+    {
+     "block": 174,
+     "quote": "使用Grafana、Prometheus 等工具",
+     "page": 84
+    }
+   ],
+   "exam": 0
+  }
+ ],
+ "edges": [
+  {
+   "a": "target",
+   "b": "leak",
+   "kind": "cross",
+   "label": "目標編碼需防資料洩漏",
+   "block": 63,
+   "quote": "尤其在使用聚合特徵或目標編碼時",
+   "page": 78
+  },
+  {
+   "a": "fg",
+   "b": "leak",
+   "kind": "cross",
+   "label": "聚合特徵也要防洩漏",
+   "block": 63,
+   "quote": "尤其在使用聚合特徵或目標編碼時",
+   "page": 78
+  },
+  {
+   "a": "onehot",
+   "b": "target",
+   "kind": "cross",
+   "label": "高基數時目標編碼不增維度",
+   "block": 45,
+   "quote": "不造成維度爆炸",
+   "page": 77
+  },
+  {
+   "a": "label",
+   "b": "onehot",
+   "kind": "cross",
+   "label": "無序類別適用 One-hot",
+   "block": 39,
+   "quote": "無序類別變數（如城市名稱、產品類型）",
+   "page": 77
+  },
+  {
+   "a": "scale",
+   "b": "embedded",
+   "kind": "cross",
+   "label": "正則化模型需縮放",
+   "block": 47,
+   "quote": "含有正則化模型（如Lasso、Ridge）",
+   "page": 78
+  },
+  {
+   "a": "minmax",
+   "b": "robust",
+   "kind": "cross",
+   "label": "對極端值敏感 vs 抵抗",
+   "block": 59,
+   "quote": "對極端值具高度抵抗性",
+   "page": 78
+  },
+  {
+   "a": "dist",
+   "b": "fe",
+   "kind": "cross",
+   "label": "特徵工程等大任務是運算瓶頸",
+   "block": 105,
+   "quote": "為解決大規模資料轉換、特徵工程、資料增強等任務的運算瓶頸",
+   "page": 81
+  },
+  {
+   "a": "beam",
+   "b": "spark",
+   "kind": "cross",
+   "label": "可由 Spark 執行",
+   "block": 123,
+   "quote": "搭配多種後端運算引擎（如Flink、Spark、Google Dataflow）",
+   "page": 82
+  },
+  {
+   "a": "design",
+   "b": "auto",
+   "kind": "cross",
+   "label": "可重現靠版控與容器化",
+   "block": 132,
+   "quote": "需透過版本控制、容器化技術達成",
+   "page": 82
+  },
+  {
+   "a": "pipe",
+   "b": "fe",
+   "kind": "cross",
+   "label": "管線涵蓋特徵工程步驟",
+   "block": 128,
+   "quote": "包括資料擷取、清理、轉換、特徵工程",
+   "page": 82
+  }
+ ],
+ "confusions": [
+  {
+   "a": "Min-Max",
+   "b": "Z-score",
+   "text": "Min-Max 線性縮放到 0～1；Z-score 轉成平均 0、標準差 1。兩者對極端值都敏感。",
+   "blocks": [
+    50,
+    52,
+    54,
+    56
+   ],
+   "pages": [
+    78
+   ]
+  },
+  {
+   "a": "Label Encoding",
+   "b": "One-hot",
+   "text": "Label 把類別對應整數，適合有順序者；One-hot 每類一欄 0/1，適合無序類別，但高基數會膨脹維度。",
+   "blocks": [
+    32,
+    33,
+    35,
+    37,
+    39,
+    41
+   ],
+   "pages": [
+    77
+   ]
+  },
+  {
+   "a": "One-hot",
+   "b": "Target Encoding",
+   "text": "高基數時 One-hot 會增加維度；Target Encoding 用目標統計量取代，不造成維度爆炸。",
+   "blocks": [
+    41,
+    43,
+    45
+   ],
+   "pages": [
+    77
+   ]
+  },
+  {
+   "a": "Filter",
+   "b": "Wrapper／Embedded",
+   "text": "Filter 獨立於模型用統計量篩選；Wrapper 以模型表現篩選；Embedded 在訓練過程中內建選擇。",
+   "blocks": [
+    68,
+    73,
+    77
+   ],
+   "pages": [
+    79
+   ]
+  },
+  {
+   "a": "Hadoop",
+   "b": "Spark／Flink",
+   "text": "Hadoop 做批次處理；Spark 是記憶體內運算；Flink 原生即時串流，也支援批次。",
+   "blocks": [
+    108,
+    113,
+    118
+   ],
+   "pages": [
+    81
+   ]
+  },
+  {
+   "a": "等寬分箱",
+   "b": "等頻分箱",
+   "text": "等寬把數值範圍等距劃分；等頻讓每個區間的樣本數大致相同。",
+   "blocks": [
+    20,
+    21
+   ],
+   "pages": [
+    76
+   ]
+  },
+  {
+   "a": "批次管線",
+   "b": "即時管線",
+   "text": "批次管線定期啟動；即時管線持續運作、低延遲；混合管線兩者並行。",
+   "blocks": [
+    141,
+    143,
+    145
+   ],
+   "pages": [
+    83
+   ]
+  }
+ ],
+ "gaps": [
+  {
+   "name": "資料湖與資料倉儲",
+   "block": 186,
+   "page": 86
+  },
+  {
+   "name": "文件型 NoSQL 資料庫",
+   "block": 180,
+   "page": 85
+  },
+  {
+   "name": "資料驗證",
+   "block": 187,
+   "page": 86
+  },
+  {
+   "name": "遺漏值補全（Imputation）",
+   "block": 179,
+   "page": 85
+  },
+  {
+   "name": "分散式資料儲存",
+   "block": 181,
+   "page": 85
+  }
+ ],
+ "examOnly": [],
+ "notes": []
+}

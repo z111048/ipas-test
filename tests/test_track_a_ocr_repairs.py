@@ -684,9 +684,11 @@ from test_guide_rebuild_2026_11 import (  # noqa: E402,F401
     DeferredReviewTests,
     FinalizeReviewTests,
     HypothesisOverlayTests,
+    InlineFormulaRestoreTests,
     TableExtractionTests,
     TrackARebuildTests,
 )
+from test_context_maps import ContextMapContractTests  # noqa: E402,F401
 
 
 if __name__ == '__main__':

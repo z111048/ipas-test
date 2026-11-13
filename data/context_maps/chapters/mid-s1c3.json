@@ -1,0 +1,762 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide1",
+  "nodeId": "mid-s1c3",
+  "label": "中級 科目一・3.3 生成式AI 技術與應用"
+ },
+ "headline": "一張圖看懂生成式AI 技術與應用",
+ "lede": "本章先說明生成式AI 是什麼、如何從 VAE 演進到擴散與代理式，再介紹文本、圖像、語音三大應用與其評估指標，最後談風險與趨勢。先抓住演進主線，再把模型與應用對上。",
+ "story": [
+  {
+   "step": "是什麼",
+   "title": "定義與鑑別式對照",
+   "text": "生成式創造新內容；鑑別式分類與預測。"
+  },
+  {
+   "step": "怎麼來",
+   "title": "五階段演進",
+   "text": "VAE、GAN、Transformer、擴散、巨型模型與 Agent。"
+  },
+  {
+   "step": "怎麼用",
+   "title": "文本、圖像、語音",
+   "text": "各領域有代表模型、工具與評估指標。"
+  },
+  {
+   "step": "要小心",
+   "title": "風險與趨勢",
+   "text": "真偽、版權、偏見、深偽，對應對齊與法規。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "found",
+   "name": "基礎與演進"
+  },
+  {
+   "id": "tool",
+   "name": "應用領域與模型"
+  },
+  {
+   "id": "eval",
+   "name": "評估指標"
+  },
+  {
+   "id": "risk",
+   "name": "風險與趨勢"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "gai",
+   "label": "生成式AI 技術與應用",
+   "lane": null,
+   "parent": null,
+   "concept": null,
+   "gist": "生成式AI 是 AI 演進的第二階段，不只理解資訊，還能創造新內容。",
+   "src": [
+    {
+     "block": 10,
+     "quote": "它不僅理解資訊，還能夠創造新內容"
+    }
+   ]
+  },
+  {
+   "id": "def",
+   "label": "定義與範疇",
+   "lane": "found",
+   "parent": null,
+   "concept": "生成式AI",
+   "gist": "根據輸入產生全新內容，核心是學習資料分佈再模擬或擴張它。",
+   "src": [
+    {
+     "block": 13,
+     "quote": "能夠生成新的資料樣本"
+    },
+    {
+     "block": 15,
+     "quote": "學習資料的分佈特性與潛在結構"
+    }
+   ]
+  },
+  {
+   "id": "disc",
+   "label": "鑑別式 AI",
+   "lane": "found",
+   "parent": "def",
+   "concept": "鑑別式AI",
+   "gist": "對照組：用於分類、辨識或預測，輸出類別標籤或數值。",
+   "src": [
+    {
+     "block": 13,
+     "quote": "後者主要應用於分類、辨識或預測"
+    },
+    {
+     "block": 14,
+     "quote": "類別標籤或數值預測"
+    }
+   ]
+  },
+  {
+   "id": "stages",
+   "label": "AI 四階段",
+   "lane": "found",
+   "parent": null,
+   "concept": null,
+   "gist": "感知、生成、代理、物理四階段，生成式是第二階段。",
+   "src": [
+    {
+     "block": 5,
+     "quote": "AI 正經歷四個主要的演進階段"
+    },
+    {
+     "block": 7,
+     "quote": "能夠主動產生文本、圖像、影片、語音等多模態內容"
+    },
+    {
+     "block": 10,
+     "quote": "生成式AI 代表著AI 發展的第二個重要階段"
+    }
+   ]
+  },
+  {
+   "id": "evo",
+   "label": "技術演進五階段",
+   "lane": "found",
+   "parent": null,
+   "concept": null,
+   "gist": "從 VAE 到 GAN、Transformer、擴散與多模態、巨型模型與 Agent 化。",
+   "src": [
+    {
+     "block": 24,
+     "quote": "以下將其發展脈絡分為五個關鍵階段"
+    },
+    {
+     "block": 25,
+     "quote": "擴散模型、多模態對齊"
+    },
+    {
+     "block": 25,
+     "quote": "巨型模型與 Agent 化"
+    }
+   ]
+  },
+  {
+   "id": "vae",
+   "label": "初期：VAE／RNN",
+   "lane": "found",
+   "parent": "evo",
+   "concept": "變分自編碼器",
+   "gist": "2013–2015，VAE 學習潛在分佈生成資料，但結果模糊、訓練困難。",
+   "src": [
+    {
+     "block": 27,
+     "quote": "變分自編碼器（2013–2015）"
+    },
+    {
+     "block": 28,
+     "quote": "VAE 通過學習數據的潛在分佈"
+    },
+    {
+     "block": 31,
+     "quote": "生成結果往往模糊"
+    },
+    {
+     "block": 25,
+     "quote": "生成模糊、訓練困難"
+    }
+   ]
+  },
+  {
+   "id": "gan",
+   "label": "GAN 時代",
+   "lane": "found",
+   "parent": "evo",
+   "concept": "生成對抗網路",
+   "gist": "2014 年起，生成器與判別器對抗訓練，寫實但訓練不穩定。",
+   "src": [
+    {
+     "block": 33,
+     "quote": "2014 年，Ian Goodfellow 提出"
+    },
+    {
+     "block": 37,
+     "quote": "訓練不穩定（如模式崩潰Mode Collapse）"
+    },
+    {
+     "block": 33,
+     "quote": "生成器（Generator）與判別器（Discriminator）的對抗訓練"
+    },
+    {
+     "block": 34,
+     "quote": "提升了生成內容的寫實性"
+    }
+   ]
+  },
+  {
+   "id": "trf",
+   "label": "Transformer 崛起",
+   "lane": "found",
+   "parent": "evo",
+   "concept": "Transformer架構",
+   "gist": "2017 年起，自注意力克服 RNN 長距離依賴，催生大型語言模型。",
+   "src": [
+    {
+     "block": 39,
+     "quote": "2017 年，Google 提出的Transformer 架構"
+    },
+    {
+     "block": 40,
+     "quote": "Transformer 克服了RNN 在長距離依賴建模上的局限"
+    },
+    {
+     "block": 40,
+     "quote": "催生了大型語言模型"
+    }
+   ]
+  },
+  {
+   "id": "dif",
+   "label": "擴散與多模態",
+   "lane": "found",
+   "parent": "evo",
+   "concept": "擴散模型",
+   "gist": "2020 年後，擴散模型逐步去噪生成圖像，多模態模型整合多種資料。",
+   "src": [
+    {
+     "block": 46,
+     "quote": "擴散模型通過逐步去噪（Denoising）的過程"
+    },
+    {
+     "block": 47,
+     "quote": "多模態模型（Multimodal Models）開始整合"
+    }
+   ]
+  },
+  {
+   "id": "agent",
+   "label": "巨型模型與 Agent 化",
+   "lane": "found",
+   "parent": "evo",
+   "concept": "代理式AI",
+   "gist": "2023 年起，巨型參數模型結合工具整合，朝自主代理人演進。",
+   "src": [
+    {
+     "block": 53,
+     "quote": "自2023 年起，生成式AI 進入巨型模型與代理式"
+    },
+    {
+     "block": 54,
+     "quote": "工具鏈整合（如API 調用、RAG 檢索增強生成、記憶功能）"
+    },
+    {
+     "block": 53,
+     "quote": "Autonomous Agent"
+    }
+   ]
+  },
+  {
+   "id": "text",
+   "label": "文本生成",
+   "lane": "tool",
+   "parent": null,
+   "concept": null,
+   "gist": "最先突破且最成熟的應用之一，依賴預訓練語言模型，代表有 GPT、ChatGPT、Claude、Gemini。",
+   "src": [
+    {
+     "block": 61,
+     "quote": "最先突破且目前最為成熟的應用領域之一"
+    },
+    {
+     "block": 64,
+     "quote": "GPT 系列（Generative Pre-trained Transformer）"
+    },
+    {
+     "block": 63,
+     "quote": "主要依賴預訓練語言模型"
+    },
+    {
+     "block": 65,
+     "quote": "ChatGPT：由OpenAI 開發"
+    },
+    {
+     "block": 66,
+     "quote": "Claude（Anthropic）"
+    },
+    {
+     "block": 67,
+     "quote": "Gemini（Google DeepMind）"
+    },
+    {
+     "block": 68,
+     "quote": "LLaMA（Meta AI）、Mistral"
+    }
+   ]
+  },
+  {
+   "id": "img",
+   "label": "圖像生成",
+   "lane": "tool",
+   "parent": null,
+   "concept": "影像生成",
+   "gist": "依自然語言提示生成圖像，常見模型有擴散模型、GAN、ControlNet。",
+   "src": [
+    {
+     "block": 83,
+     "quote": "能夠根據自然語言提示，創造出高解析度、具風格性的圖像"
+    },
+    {
+     "block": 85,
+     "quote": "透過「逐步降噪」過程生成圖像"
+    },
+    {
+     "block": 86,
+     "quote": "以對抗訓練生成逼真的人臉"
+    },
+    {
+     "block": 87,
+     "quote": "ControlNet / InstructPix2Pix"
+    }
+   ]
+  },
+  {
+   "id": "imgt",
+   "label": "圖像工具平台",
+   "lane": "tool",
+   "parent": "img",
+   "concept": null,
+   "gist": "Midjourney、SD WebUI（支援 LoRA 微調）、Firefly、Canva AI。",
+   "src": [
+    {
+     "block": 89,
+     "quote": "可通過Discord 平台以指令操作"
+    },
+    {
+     "block": 90,
+     "quote": "支援LoRA （Low-Rank Adaptation）微調"
+    },
+    {
+     "block": 91,
+     "quote": "專為設計師打造"
+    },
+    {
+     "block": 92,
+     "quote": "旨在降低創作門檻"
+    }
+   ]
+  },
+  {
+   "id": "tts",
+   "label": "語音合成",
+   "lane": "tool",
+   "parent": null,
+   "concept": null,
+   "gist": "文字轉語音（TTS），把文字轉為自然語音，應用於虛擬助理、有聲書與配音。",
+   "src": [
+    {
+     "block": 100,
+     "quote": "將文字輸入轉換為自然語音輸出"
+    }
+   ]
+  },
+  {
+   "id": "ttsm",
+   "label": "語音合成模型",
+   "lane": "tool",
+   "parent": "tts",
+   "concept": null,
+   "gist": "Tacotron 2、FastSpeech 2、VITS 為合成模型；Whisper 屬語音辨識，常搭配合成。",
+   "src": [
+    {
+     "block": 103,
+     "quote": "FastSpeech 2 則採用非自迴歸（Non-Autoregressive）設計"
+    },
+    {
+     "block": 105,
+     "quote": "結合變分自編碼器（VAE）與生成對抗網路（GAN）"
+    },
+    {
+     "block": 103,
+     "quote": "Tacotron 2 與FastSpeech 2"
+    },
+    {
+     "block": 107,
+     "quote": "主要為語音辨識（Speech-to-Text）模型"
+    }
+   ]
+  },
+  {
+   "id": "bleu",
+   "label": "BLEU",
+   "lane": "eval",
+   "parent": null,
+   "concept": null,
+   "gist": "以 n-gram 重疊衡量與參考文本的相似度，分數 0 到 1，適用機器翻譯。",
+   "src": [
+    {
+     "block": 79,
+     "quote": "計算生成文本與一組參考文本之間的n-gram"
+    },
+    {
+     "block": 79,
+     "quote": "BLEU 分數範圍為0 到1"
+    }
+   ]
+  },
+  {
+   "id": "rouge",
+   "label": "ROUGE",
+   "lane": "eval",
+   "parent": null,
+   "concept": null,
+   "gist": "強調與參考文本的召回率，常見變體有 ROUGE-N、ROUGE-L、ROUGE-S，用於摘要。",
+   "src": [
+    {
+     "block": 80,
+     "quote": "強調生成文本與參考文本的召回率（Recall）"
+    }
+   ]
+  },
+  {
+   "id": "human",
+   "label": "人工評估",
+   "lane": "eval",
+   "parent": null,
+   "concept": "評估指標",
+   "gist": "由人評估流暢性與準確性，能捕捉語意但主觀性強、成本高。",
+   "src": [
+    {
+     "block": 81,
+     "quote": "衡量生成文本的流暢性（Fluency）與準確性（Accuracy）"
+    },
+    {
+     "block": 78,
+     "quote": "主觀性強、成本高"
+    },
+    {
+     "block": 78,
+     "quote": "捕捉語意與語用"
+    }
+   ]
+  },
+  {
+   "id": "mos",
+   "label": "語音指標 MOS／WER",
+   "lane": "eval",
+   "parent": null,
+   "concept": null,
+   "gist": "MOS 為 1-5 分的自然度人工評分，WER 為內容錯誤率，另看生成延遲。",
+   "src": [
+    {
+     "block": 132,
+     "quote": "人工評估語音自然度的平均分數（1-5 分）"
+    },
+    {
+     "block": 133,
+     "quote": "衡量語音內容準確性的錯誤率"
+    },
+    {
+     "block": 134,
+     "quote": "從文字輸入到語音輸出的時間"
+    }
+   ]
+  },
+  {
+   "id": "fake",
+   "label": "內容真偽問題",
+   "lane": "risk",
+   "parent": null,
+   "concept": "AI幻覺與真實性風險",
+   "gist": "可創造看似真實但虛構的內容，誤導選舉、金融與名譽。",
+   "src": [
+    {
+     "block": 139,
+     "quote": "生成模型可創造看似真實但實際虛構的內容"
+    }
+   ]
+  },
+  {
+   "id": "ip",
+   "label": "智慧財產權爭議",
+   "lane": "risk",
+   "parent": null,
+   "concept": "智慧財產權",
+   "gist": "訓練資料若含受著作權保護內容且未經授權，可能引發糾紛。",
+   "src": [
+    {
+     "block": 141,
+     "quote": "若未經授權使用，可能衍生著作權糾紛"
+    }
+   ]
+  },
+  {
+   "id": "bias",
+   "label": "偏見放大",
+   "lane": "risk",
+   "parent": null,
+   "concept": "偏見與公平性",
+   "gist": "訓練資料有偏見時，模型可能延續甚至強化，影響醫療、司法、招聘。",
+   "src": [
+    {
+     "block": 143,
+     "quote": "可能無意間延續甚至強化這些偏見"
+    }
+   ]
+  },
+  {
+   "id": "deep",
+   "label": "深偽濫用",
+   "lane": "risk",
+   "parent": null,
+   "concept": null,
+   "gist": "結合圖像生成與語音合成的深偽影片，成為詐騙與假訊息工具。",
+   "src": [
+    {
+     "block": 145,
+     "quote": "結合圖像生成與語音合成技術所產生的深偽影片"
+    }
+   ]
+  },
+  {
+   "id": "ctrl",
+   "label": "可控性與不確定性",
+   "lane": "risk",
+   "parent": null,
+   "concept": null,
+   "gist": "結果不完全可預測，提示引導不準會產生不相關或不適當內容。",
+   "src": [
+    {
+     "block": 147,
+     "quote": "生成模型的結果不完全可預測"
+    }
+   ]
+  },
+  {
+   "id": "multi",
+   "label": "趨勢：多模態崛起",
+   "lane": "risk",
+   "parent": null,
+   "concept": "多模態生成",
+   "gist": "整合語音、圖像、影片、3D 場景，打造互動創作系統與智慧代理。",
+   "src": [
+    {
+     "block": 150,
+     "quote": "整合語音、圖像、影片、3D 場景等多模態資料"
+    }
+   ]
+  },
+  {
+   "id": "pe",
+   "label": "趨勢：可控生成與提示工程",
+   "lane": "risk",
+   "parent": null,
+   "concept": "提示工程",
+   "gist": "可控性成核心能力，需調整語氣、風格、長度、格式，提示工程成關鍵技能。",
+   "src": [
+    {
+     "block": 152,
+     "quote": "可控性將成為生成式AI 的核心能力"
+    }
+   ]
+  },
+  {
+   "id": "small",
+   "label": "趨勢：小型化與邊緣部署",
+   "lane": "risk",
+   "parent": null,
+   "concept": null,
+   "gist": "因應運算資源與隱私，朝可在地端執行的小型模型發展。",
+   "src": [
+    {
+     "block": 154,
+     "quote": "為因應運算資源與資料隱私考量"
+    }
+   ]
+  },
+  {
+   "id": "align",
+   "label": "趨勢：對齊與安全防護",
+   "lane": "risk",
+   "parent": null,
+   "concept": null,
+   "gist": "更重視對齊與防濫用機制，如 RLHF、紅隊測試。",
+   "src": [
+    {
+     "block": 157,
+     "quote": "強化輸出內容的安全性與合規性"
+    },
+    {
+     "block": 156,
+     "quote": "未來生成式AI 將更重視「對齊性」"
+    }
+   ]
+  },
+  {
+   "id": "reg",
+   "label": "趨勢：法規與全球治理",
+   "lane": "risk",
+   "parent": null,
+   "concept": "AI法規遵循",
+   "gist": "歐盟 AI 法案等將劃出法規邊界，企業需持續關注法規。",
+   "src": [
+    {
+     "block": 159,
+     "quote": "預期將為生成式AI 應用劃出法規邊界"
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "a": "vae",
+   "b": "gan",
+   "kind": "flow",
+   "label": "下一代轉折",
+   "block": 33,
+   "quote": "標誌著生成式AI 的重大轉折"
+  },
+  {
+   "a": "gan",
+   "b": "trf",
+   "kind": "flow",
+   "label": "改走自注意力",
+   "block": 40,
+   "quote": "Transformer 克服了RNN 在長距離依賴建模上的局限"
+  },
+  {
+   "a": "trf",
+   "b": "dif",
+   "kind": "flow",
+   "label": "為後續多模態奠基",
+   "block": 44,
+   "quote": "為後續多模態生成奠定基礎"
+  },
+  {
+   "a": "ttsm",
+   "b": "gan",
+   "kind": "cross",
+   "label": "VITS 用到 GAN",
+   "block": 105,
+   "quote": "結合變分自編碼器（VAE）與生成對抗網路（GAN）"
+  },
+  {
+   "a": "dif",
+   "b": "img",
+   "kind": "cross",
+   "label": "擴散模型成圖像主流",
+   "block": 46,
+   "quote": "成為圖像生成領域的新主流"
+  },
+  {
+   "a": "text",
+   "b": "trf",
+   "kind": "cross",
+   "label": "GPT 全名含架構名",
+   "block": 64,
+   "quote": "GPT 系列（Generative Pre-trained Transformer）"
+  },
+  {
+   "a": "deep",
+   "b": "tts",
+   "kind": "cross",
+   "label": "深偽結合語音合成",
+   "block": 145,
+   "quote": "結合圖像生成與語音合成技術所產生的深偽影片"
+  },
+  {
+   "a": "pe",
+   "b": "ctrl",
+   "kind": "cross",
+   "label": "提示工程回應可控性",
+   "block": 152,
+   "quote": "可控性將成為生成式AI 的核心能力"
+  },
+  {
+   "a": "align",
+   "b": "ctrl",
+   "kind": "cross",
+   "label": "對齊強化輸出安全",
+   "block": 157,
+   "quote": "強化輸出內容的安全性與合規性"
+  },
+  {
+   "a": "reg",
+   "b": "deep",
+   "kind": "cross",
+   "label": "深偽需法律規範因應",
+   "block": 145,
+   "quote": "亟需技術偵測與法律規範因應"
+  },
+  {
+   "a": "human",
+   "b": "mos",
+   "kind": "cross",
+   "label": "MOS 即人工評分",
+   "block": 132,
+   "quote": "人工評估語音自然度的平均分數"
+  },
+  {
+   "a": "multi",
+   "b": "dif",
+   "kind": "cross",
+   "label": "多模態始於擴散階段",
+   "block": 47,
+   "quote": "多模態模型（Multimodal Models）開始整合"
+  }
+ ],
+ "confusions": [
+  {
+   "a": "生成式 AI",
+   "b": "鑑別式 AI",
+   "text": "生成式學習資料分佈並產生新樣本；鑑別式學習特徵，做分類、辨識或預測並輸出標籤。",
+   "blocks": [
+    13,
+    14
+   ]
+  },
+  {
+   "a": "BLEU",
+   "b": "ROUGE",
+   "text": "BLEU 看與參考文本的 n-gram 相似度，用於翻譯；ROUGE 強調召回率，用於摘要。",
+   "blocks": [
+    79,
+    80
+   ]
+  },
+  {
+   "a": "BERT",
+   "b": "GPT",
+   "text": "BERT 側重雙向理解，GPT 系列為自迴歸生成。",
+   "blocks": [
+    42
+   ]
+  },
+  {
+   "a": "MOS",
+   "b": "WER",
+   "text": "MOS 是人工評分的語音自然度；WER 是語音內容的錯誤率。",
+   "blocks": [
+    132,
+    133
+   ]
+  },
+  {
+   "a": "擴散模型",
+   "b": "GAN",
+   "text": "擴散模型逐步降噪生成圖像；GAN 以生成器與判別器對抗訓練生成。",
+   "blocks": [
+    85,
+    86
+   ]
+  },
+  {
+   "a": "Whisper",
+   "b": "語音合成模型",
+   "text": "Whisper 主要為語音辨識（語音轉文字）模型，常與語音合成技術搭配使用。",
+   "blocks": [
+    107
+   ]
+  }
+ ],
+ "gaps": []
+}

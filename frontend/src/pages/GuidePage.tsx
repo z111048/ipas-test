@@ -1,4 +1,4 @@
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react'
 import type React from 'react'
 import ReactMarkdown from 'react-markdown'
@@ -16,7 +16,9 @@ import GuideOutlineTree from '../components/guide/GuideOutlineTree'
 import GuideBreadcrumb from '../components/guide/GuideBreadcrumb'
 import { examResultsReturnTarget } from '../components/exam/resultsViewState'
 import { guideBreadcrumb } from '../data/guideNav'
-import { guideContentModules, guideImageModules } from '../utils/guideChapterModules'
+import { contextMapModules, guideContentModules, guideImageModules } from '../utils/guideChapterModules'
+import ContextMap from '../components/guide/ContextMap'
+import type { ContextMapData } from '../components/guide/ContextMap'
 import { publicAsset } from '../utils/assets'
 import { cleanExamText } from '../utils/examText'
 import { preferredScrollBehavior } from '../utils/motion'
@@ -525,11 +527,13 @@ function GuideBlocksRenderer({
   images,
   examAnnotations,
   showExamNotes,
+  sourceNotes,
 }: {
   blocks: GuideBlock[]
   images: GuideImageAsset[]
   examAnnotations: Record<string, GuideExamAnnotation[]>
   showExamNotes: boolean
+  sourceNotes: Record<string, string[]>
 }) {
   const imagesByHeading = images.reduce<Record<string, GuideImageAsset[]>>((acc, image) => {
     if (!image.headingBlockId) return acc
@@ -542,10 +546,21 @@ function GuideBlocksRenderer({
   const renderWithImages = (block: GuideBlock, element: React.ReactNode) => {
     const blockImages = imagesByHeading[block.id] ?? []
     const blockAnnotations = showExamNotes ? examAnnotations[block.id] ?? [] : []
-    if (blockImages.length === 0 && blockAnnotations.length === 0) return element
+    const blockNotes = sourceNotes[block.id] ?? []
+    if (blockImages.length === 0 && blockAnnotations.length === 0 && blockNotes.length === 0) return element
     return (
       <div key={`${block.id}-with-extras`}>
         {element}
+        {blockNotes.map((note, index) => (
+          <p
+            key={index}
+            className="guide-depth-block -mt-1 mb-3 rounded-lg bg-warning-soft px-3 py-2 text-meta leading-6 text-warning-text"
+            style={blockIndentStyle(block.depth)}
+            data-guide-source-note=""
+          >
+            <span className="font-semibold">原書疑誤：</span>{note}
+          </p>
+        ))}
         {blockImages.map((image) => (
           <GuideImageFigure key={image.id} image={image} depth={block.depth} />
         ))}
@@ -565,7 +580,7 @@ function GuideBlocksRenderer({
         }
         if (block.type === 'table' && (block.html || block.rows?.length)) {
           return renderWithImages(block, (
-            <div key={block.id} style={blockIndentStyle(block.depth)}>
+            <div key={block.id} id={guideHeadingDomId(block.id)} data-guide-block-id={block.id} style={blockIndentStyle(block.depth)}>
               <GuideHtmlTable rows={block.rows} html={block.html} />
             </div>
           ))
@@ -656,12 +671,14 @@ function GuideBlocksRenderer({
 export default function GuidePage() {
   const { subjectId, chapterId } = useParams<{ subjectId: string; chapterId: string }>()
   const location = useLocation()
+  const navigate = useNavigate()
   const examResultsReturn = examResultsReturnTarget(location.state)
   const outlineGuide = subjectId ? guideOutlines.guides[subjectId] : undefined
   const chapter = chapterId && outlineGuide ? outlineGuide.nodesById[chapterId] : undefined
   const [content, setContent] = useState<GuideContent | null>(null)
   const [contentError, setContentError] = useState<string | null>(null)
   const [chapterImages, setChapterImages] = useState<GuideImageAsset[]>([])
+  const [contextMap, setContextMap] = useState<ContextMapData | null>(null)
   const [examAnnotationsByBlock, setExamAnnotationsByBlock] = useState<Record<string, GuideExamAnnotation[]>>({})
   const [colabNotebook, setColabNotebook] = useState<ColabNotebook | null>(null)
   const [showDrawer, setShowDrawer] = useState(false)
@@ -693,6 +710,7 @@ export default function GuidePage() {
     let cancelled = false
     setContent(null)
     setChapterImages([])
+    setContextMap(null)
     setContentError(null)
     if (!outlineGuide || !chapter) return
 
@@ -711,11 +729,22 @@ export default function GuidePage() {
       ? imageLoader().then((module) => module.default).catch(() => [])
       : Promise.resolve([])
 
-    Promise.all([loader(), imagesPromise])
-      .then(([module, images]) => {
+    // 「本章脈絡」也和內文一起到位，避免內文出現後才在上方插入、把正文往下推（版面位移）。
+    // 載入失敗時只是不顯示脈絡圖，內文照常。
+    const contextMapLoader = contextMapModules[`../generated/contextMaps/${chapter.id}.json`]
+    const contextMapPromise: Promise<ContextMapData | null> = contextMapLoader
+      ? contextMapLoader().then((module) => module.default).catch((error) => {
+        console.warn(`[contextMap] 載入失敗 ${chapter.id}`, error)
+        return null
+      })
+      : Promise.resolve(null)
+
+    Promise.all([loader(), imagesPromise, contextMapPromise])
+      .then(([module, images, map]) => {
         if (cancelled) return
         setContent(module.default)
         setChapterImages(images)
+        setContextMap(map)
       })
       .catch((error) => {
         if (!cancelled) {
@@ -839,13 +868,24 @@ export default function GuidePage() {
         landedTarget = scrollToContentBlockRef.current?.(anchor, anchor, behavior) ?? landedTarget
       } else {
         stable += 1
+        // 高度沒變但目標不在預定位置：第一次平滑捲動途中版面還在長高，會落在目標下方數百 px
+        // （實測 mid-s2c3 #block-224 多捲約 700px）。等平滑捲動結束（穩定兩拍）後直接校正。
+        if (landedTarget && stable >= 2 && container) {
+          const expectedTop = container.getBoundingClientRect().top + (stickyProgressRef.current?.offsetHeight ?? 0) + 12
+          if (Math.abs(landedTarget.getBoundingClientRect().top - expectedTop) > 4) {
+            stable = 0
+            landedTarget = scrollToContentBlockRef.current?.(anchor, anchor, 'auto') ?? landedTarget
+          }
+        }
       }
       // 一找到目標就標亮並保持，對齊期間不淡出
       if (landedTarget && !highlight) {
         highlight = createLandingHighlight(landedTarget)
       }
-      const keepGoing = stable < 4 && performance.now() < deadline
-      if (keepGoing) {
+      // 高度穩定 1 秒就開始淡出標亮，但仍盯到期限：考點標註、字型等較晚到的內容
+      // 會在目標上方撐開版面（實測停手後目標被推離畫面），期限內一變動就再對齊。
+      if (stable === 4) highlight?.release()
+      if (performance.now() < deadline) {
         timer = window.setTimeout(tick, 250)
       } else {
         finish()
@@ -857,6 +897,8 @@ export default function GuidePage() {
     window.addEventListener('wheel', finish, { passive: true, once: true })
     window.addEventListener('touchstart', finish, { passive: true, once: true })
     window.addEventListener('keydown', finish, { once: true })
+    // 拖捲軸、點按也算使用者接手（不然期限內的校正會把人拉回目標）
+    window.addEventListener('pointerdown', finish, { once: true })
     return () => {
       cancelAnimationFrame(frame)
       cancelled = true
@@ -865,6 +907,7 @@ export default function GuidePage() {
       window.removeEventListener('wheel', finish)
       window.removeEventListener('touchstart', finish)
       window.removeEventListener('keydown', finish)
+      window.removeEventListener('pointerdown', finish)
     }
   }, [location.hash, content])
 
@@ -883,6 +926,12 @@ export default function GuidePage() {
 
   const body = content?.content ?? ''
   const contentBlocks = content?.blocks ?? []
+  // 原書疑誤註記（已核對 PDF）掛在對應區塊下方；正文本身照原書刊載不改。
+  const sourceNotesByBlock = (contextMap?.notes ?? []).reduce<Record<string, string[]>>((acc, note) => {
+    const id = `block-${note.block}`
+    acc[id] = [...(acc[id] ?? []), note.text]
+    return acc
+  }, {})
   const hasBlocks = contentBlocks.length > 0
   const chapterExamAnnotationSummary = guideExamAnnotationsIndex.byGuide[outlineGuide.key]?.[chapter.id]
   const loadedExamAnnotationItems = Object.values(examAnnotationsByBlock).flat()
@@ -980,6 +1029,17 @@ export default function GuidePage() {
     return target
   }
   scrollToContentBlockRef.current = scrollToContentBlock
+
+  // 「本章脈絡」的「看原文」：寫進網址 #block-N，沿用上面的錨點捲動（等公式、圖片撐開後再對齊並標亮），
+  // 瀏覽器「上一頁」可以回到脈絡圖。同一個錨點再點一次時網址不變，直接捲動。
+  const jumpToBlock = (blockNumber: number) => {
+    const hash = `block-${blockNumber}`
+    if (decodeURIComponent(location.hash.replace(/^#/, '')) === hash) {
+      scrollToContentBlock(hash, hash)
+    } else {
+      navigate({ hash }, { state: location.state })
+    }
+  }
 
   // 版面：整頁（頁首卡、麵包屑、提示框、正文）一起在同一個捲動容器裡捲動，
   // 頁首不再固定佔住手機畫面；只有網站頂列與手機底部章節列固定。
@@ -1109,6 +1169,10 @@ export default function GuidePage() {
             </ReadingAuxiliary>
           )}
 
+          {content && contextMap && !hasChildChapters && (
+            <ContextMap key={contextMap.chapter.nodeId} map={contextMap} onJump={jumpToBlock} />
+          )}
+
           {hasChildChapters ? (
             <ReadingSurface>
               <div className="text-primary font-semibold mb-2">請選擇下層章節</div>
@@ -1141,6 +1205,7 @@ export default function GuidePage() {
                     images={chapterImages}
                     examAnnotations={examAnnotationsByBlock}
                     showExamNotes={showExamNotes}
+                    sourceNotes={sourceNotesByBlock}
                   />
                 ) : isMarkdown ? (
                   <div className="guide-content prose max-w-none text-reading text-app-text content-justify">

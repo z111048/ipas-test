@@ -1,0 +1,1093 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide3",
+  "nodeId": "mid-s3c6",
+  "label": "中級 科目三・4.3 深度學習原理與框架",
+  "subjectId": "mid-s3",
+  "title": "深度學習原理與框架"
+ },
+ "headline": "一張圖看懂深度學習原理與框架",
+ "lede": "本章先從人工神經元、激活函數與前向／反向傳播說明網路怎麼學，再依資料類型介紹 MLP、CNN、RNN、Transformer 與生成式模型，最後比較開發框架。章末練習涉及正則化、過擬合與注意力機制。",
+ "story": [
+  {
+   "step": "積木",
+   "title": "神經元與激活函數",
+   "text": "加權求和加非線性，是模型的基礎單元。"
+  },
+  {
+   "step": "怎麼學",
+   "title": "前向、損失、反向",
+   "text": "先預測、量誤差，再把梯度傳回去更新權重。"
+  },
+  {
+   "step": "防過擬合",
+   "title": "正則化技術",
+   "text": "限制複雜度，讓模型在新資料上也準。"
+  },
+  {
+   "step": "選架構",
+   "title": "依資料類型挑模型",
+   "text": "影像用 CNN、序列用 RNN，Transformer 以注意力取代循環。"
+  },
+  {
+   "step": "用框架",
+   "title": "TensorFlow 與 PyTorch",
+   "text": "框架決定怎麼建模、除錯與部署。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "basic",
+   "name": "基礎原理與訓練"
+  },
+  {
+   "id": "arch",
+   "name": "模型架構"
+  },
+  {
+   "id": "frame",
+   "name": "開發框架"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "dl",
+   "label": "深度學習原理與框架",
+   "lane": null,
+   "parent": null,
+   "concept": null,
+   "gist": "多層神經網路自動學特徵：先懂單元與學習機制，再看各類架構與開發框架。",
+   "src": [
+    {
+     "block": 3,
+     "quote": "透過多層神經網路結構，能自動學習數據中的高階抽象特徵",
+     "page": 92
+    },
+    {
+     "block": 6,
+     "quote": "循序介紹深度學習的基礎概念、常見模型架構，以及主流開發框架",
+     "page": 92
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "neuron",
+   "label": "人工神經元",
+   "lane": "basic",
+   "parent": null,
+   "concept": "神經網路基礎",
+   "gist": "模型的基礎單元：輸入加權求和再加偏置，經激活函數輸出。",
+   "src": [
+    {
+     "block": 13,
+     "quote": "接收多個輸入訊號，對這些訊號進行加權求和",
+     "page": 92
+    },
+    {
+     "block": 22,
+     "quote": "還會加上一個偏置項（Bias, b）",
+     "page": 93
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "perc",
+   "label": "感知器",
+   "lane": "basic",
+   "parent": "neuron",
+   "concept": "感知器網路",
+   "gist": "最簡單的神經元，用步階函數做二元分類；只能解線性可分，XOR 無解。",
+   "src": [
+    {
+     "block": 35,
+     "quote": "感知器是一種二元分類器",
+     "page": 94
+    },
+    {
+     "block": 53,
+     "quote": "無法解決非線性可分的問題",
+     "page": 94
+    },
+    {
+     "block": 36,
+     "quote": "通常使用步階函數（Step Function）作為其激活函數",
+     "page": 94
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "act",
+   "label": "激活函數",
+   "lane": "basic",
+   "parent": "neuron",
+   "concept": "激活函數",
+   "gist": "在加權求和後引入非線性；沒有它多層網路等同單層，學不了複雜關係。",
+   "src": [
+    {
+     "block": 27,
+     "quote": "沒有激活函數，多層神經網路就等同於單層網路",
+     "page": 93
+    },
+    {
+     "block": 31,
+     "quote": "例如ReLU、Sigmoid、Tanh",
+     "page": 93
+    }
+   ],
+   "exam": 4
+  },
+  {
+   "id": "fwd",
+   "label": "前向傳播",
+   "lane": "basic",
+   "parent": null,
+   "concept": null,
+   "gist": "輸入逐層計算、層層往前推，最後在輸出層產生預測結果。",
+   "src": [
+    {
+     "block": 80,
+     "quote": "把輸入數據依序送進每一層神經網路，經過計算後，產生模型的預測結果",
+     "page": 96
+    },
+    {
+     "block": 81,
+     "quote": "把數據「往前推」到輸出層",
+     "page": 96
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "loss",
+   "label": "損失函數",
+   "lane": "basic",
+   "parent": null,
+   "concept": null,
+   "gist": "量化預測與真實值的誤差，越小越好；迴歸用 MSE、MAE，分類用交叉熵。",
+   "src": [
+    {
+     "block": 123,
+     "quote": "衡量模型預測結果與真實值之間誤差大小的標準",
+     "page": 99
+    },
+    {
+     "block": 136,
+     "quote": "交叉熵損失（Cross-Entropy Loss）",
+     "page": 100
+    },
+    {
+     "block": 131,
+     "quote": "均方誤差（Mean Squared Error, MSE）",
+     "page": 100
+    },
+    {
+     "block": 133,
+     "quote": "平均絕對誤差（Mean Absolute Error, MAE）",
+     "page": 100
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "bwd",
+   "label": "反向傳播",
+   "lane": "basic",
+   "parent": null,
+   "concept": "神經網路訓練",
+   "gist": "用連鎖律把誤差梯度從輸出層往回傳，並與前向傳播構成訓練循環。",
+   "src": [
+    {
+     "block": 102,
+     "quote": "將預測誤差從輸出端反向傳遞至網路的每一層",
+     "page": 98
+    },
+    {
+     "block": 120,
+     "quote": "前向傳播和反向傳播共同構成了一個訓練循環",
+     "page": 99
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "opt",
+   "label": "優化器",
+   "lane": "basic",
+   "parent": "bwd",
+   "concept": "梯度下降",
+   "gist": "依梯度與學習率，沿梯度反方向微調權重與偏置，讓損失最小。",
+   "src": [
+    {
+     "block": 116,
+     "quote": "優化器（如梯度下降法）就會根據這些梯度和預設的學習率",
+     "page": 99
+    },
+    {
+     "block": 128,
+     "quote": "優化器的最終目標就是調整模型參數",
+     "page": 100
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "over",
+   "label": "過擬合",
+   "lane": "basic",
+   "parent": null,
+   "concept": "過擬合與泛化",
+   "gist": "訓練集很好、新資料明顯變差；成因是模型過複雜、資料不足、訓練過久。",
+   "src": [
+    {
+     "block": 142,
+     "quote": "模型在訓練數據上表現得非常好，但在面對未見過的新數據",
+     "page": 100
+    },
+    {
+     "block": 145,
+     "quote": "當模型的參數數量過多、網路層次過深",
+     "page": 101
+    },
+    {
+     "block": 147,
+     "quote": "如果訓練數據量相對於模型的複雜度來說太少",
+     "page": 101
+    },
+    {
+     "block": 149,
+     "quote": "訓練時間過長也可能導致模型過度適應訓練數據",
+     "page": 101
+    }
+   ],
+   "exam": 7
+  },
+  {
+   "id": "reg",
+   "label": "正則化",
+   "lane": "basic",
+   "parent": "over",
+   "concept": "正則化",
+   "gist": "像懲罰機制限制複雜度：Lasso 使權重歸零選特徵，Ridge 壓抑大權重。",
+   "src": [
+    {
+     "block": 153,
+     "quote": "限制模型的複雜度，避免模型過度擬合訓練資料中的噪聲",
+     "page": 101
+    },
+    {
+     "block": 156,
+     "quote": "促使部分權重縮小為零，達到特徵選擇的效果",
+     "page": 101
+    },
+    {
+     "block": 158,
+     "quote": "防止權重過大，讓模型更平滑、穩定",
+     "page": 101
+    }
+   ],
+   "exam": 8
+  },
+  {
+   "id": "drop",
+   "label": "Dropout 與早停",
+   "lane": "basic",
+   "parent": "reg",
+   "concept": null,
+   "gist": "Dropout 訓練時隨機屏蔽神經元；早停在驗證集損失不再下降時停止。",
+   "src": [
+    {
+     "block": 162,
+     "quote": "在訓練過程中隨機屏蔽部分神經元",
+     "page": 102
+    },
+    {
+     "block": 164,
+     "quote": "在驗證集損失不再下降時提前停止訓練",
+     "page": 102
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "mlp",
+   "label": "多層感知器 MLP",
+   "lane": "arch",
+   "parent": null,
+   "concept": null,
+   "gist": "全連接、單向前饋；適合表格資料，但攤平輸入會丟失空間與序列資訊。",
+   "src": [
+    {
+     "block": 171,
+     "quote": "資訊只能單向從輸入層流向輸出層",
+     "page": 103
+    },
+    {
+     "block": 212,
+     "quote": "會丟失重要的空間（像素間的相對位置）或序列（單詞的順序）資訊",
+     "page": 105
+    },
+    {
+     "block": 209,
+     "quote": "可以用於處理各種表格數據的分類和迴歸任務",
+     "page": 104
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "cnn",
+   "label": "卷積神經網路 CNN",
+   "lane": "arch",
+   "parent": null,
+   "concept": "卷積神經網路",
+   "gist": "前饋網路加卷積層與池化層，擅長捕捉局部與空間結構，在電腦視覺表現卓越。",
+   "src": [
+    {
+     "block": 228,
+     "quote": "能夠有效地捕捉數據的局部相關性和空間層次結構",
+     "page": 105
+    },
+    {
+     "block": 229,
+     "quote": "卷積神經網路在電腦視覺領域表現卓越",
+     "page": 106
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "conv",
+   "label": "卷積層與權重共享",
+   "lane": "arch",
+   "parent": "cnn",
+   "concept": null,
+   "gist": "卷積核滑動產生特徵映射；共享權重減少參數，也能認出位置不變的特徵。",
+   "src": [
+    {
+     "block": 238,
+     "quote": "同一個卷積核在輸入數據的不同位置上是共享權重的",
+     "page": 106
+    },
+    {
+     "block": 236,
+     "quote": "每個卷積核在輸入資料上進行卷積運算後，會生成一個特徵映射",
+     "page": 106
+    },
+    {
+     "block": 234,
+     "quote": "這些核在輸入數據上進行滑動（卷積運算）",
+     "page": 106
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "pool",
+   "label": "池化層",
+   "lane": "arch",
+   "parent": "cnn",
+   "concept": "池化層",
+   "gist": "降採樣縮小特徵映射、減少計算，並增加平移不變性；有最大與平均池化。",
+   "src": [
+    {
+     "block": 244,
+     "quote": "目的是縮減特徵映射的尺寸（降採樣），減少計算量",
+     "page": 106
+    },
+    {
+     "block": 245,
+     "quote": "有助於增加模型的平移不變性",
+     "page": 106
+    },
+    {
+     "block": 247,
+     "quote": "最大池化（Max Pooling）：從核掃過區域中提取最大值",
+     "page": 107
+    },
+    {
+     "block": 248,
+     "quote": "平均池化（Average Pooling）：計算區域內所有值的平均值",
+     "page": 107
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "cnnev",
+   "label": "CNN 衍伸模型",
+   "lane": "arch",
+   "parent": "cnn",
+   "concept": "CNN模型演進",
+   "gist": "AlexNet 為里程碑；VGG 堆疊小卷積核；ResNet 用殘差連接；重效率有 MobileNet。",
+   "src": [
+    {
+     "block": 287,
+     "quote": "於2012 年奪得ImageNet 大規模視覺辨識挑戰賽（ILSVRC）冠軍",
+     "page": 109
+    },
+    {
+     "block": 291,
+     "quote": "使用多個3×3 小型卷積核堆疊來代替大型卷積核",
+     "page": 109
+    },
+    {
+     "block": 295,
+     "quote": "解決了訓練極深層網路時的梯度消失和模型退化問題",
+     "page": 109
+    },
+    {
+     "block": 299,
+     "quote": "這兩類網路著重於模型效率，設計輕量級架構",
+     "page": 110
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "rnn",
+   "label": "遞迴神經網路 RNN",
+   "lane": "arch",
+   "parent": null,
+   "concept": "循環神經網路",
+   "gist": "具循環連接與隱藏狀態「記憶」，專處理可變長度序列；用 BPTT 訓練。",
+   "src": [
+    {
+     "block": 302,
+     "quote": "專門設計用於處理可變長度序列輸入數據",
+     "page": 110
+    },
+    {
+     "block": 304,
+     "quote": "神經元之間存在循環連接（Recurrent Connections）",
+     "page": 110
+    },
+    {
+     "block": 312,
+     "quote": "RNN 的「記憶」所在",
+     "page": 110
+    },
+    {
+     "block": 326,
+     "quote": "時間上的反向傳播（Backpropagation Through Time",
+     "page": 111
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "vanish",
+   "label": "RNN 的限制",
+   "lane": "arch",
+   "parent": "rnn",
+   "concept": null,
+   "gist": "長序列梯度指數衰減而學不到遠距依賴，且計算串行、訓練慢；梯度也可能爆炸。",
+   "src": [
+    {
+     "block": 339,
+     "quote": "梯度在反向傳播過程中會呈指數級衰減，導致網路難以學習到遠距離的依賴關係",
+     "page": 112
+    },
+    {
+     "block": 343,
+     "quote": "RNN 的計算本質上是串行的",
+     "page": 112
+    },
+    {
+     "block": 340,
+     "quote": "梯度爆炸（Exploding Gradient Problem）",
+     "page": 112
+    },
+    {
+     "block": 341,
+     "quote": "梯度也可能呈指數級增長，導致訓練不穩定",
+     "page": 112
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "lstm",
+   "label": "LSTM 與 GRU",
+   "lane": "arch",
+   "parent": "rnn",
+   "concept": null,
+   "gist": "LSTM 以門控與細胞狀態解決梯度消失；GRU 是只有兩個門的簡化版。",
+   "src": [
+    {
+     "block": 358,
+     "quote": "有效地解決了梯度消失問題，使其能更好地捕捉和記憶長期依賴關係",
+     "page": 113
+    },
+    {
+     "block": 360,
+     "quote": "GRU 是LSTM 的簡化版本",
+     "page": 113
+    },
+    {
+     "block": 357,
+     "quote": "以及一個獨立的細胞狀態（Cell State）",
+     "page": 113
+    },
+    {
+     "block": 361,
+     "quote": "只包含兩個門（更新門Update Gate 和重置門Reset Gate）",
+     "page": 113
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "tf",
+   "label": "Transformer",
+   "lane": "arch",
+   "parent": null,
+   "concept": "Transformer架構",
+   "gist": "完全基於注意力機制，捨棄循環與卷積；可並行處理並捕捉長距離依賴。",
+   "src": [
+    {
+     "block": 370,
+     "quote": "完全基於注意力機制（Attention Mechanism）的深度學習模型架構",
+     "page": 114
+    },
+    {
+     "block": 371,
+     "quote": "其核心在於能夠並行化處理序列",
+     "page": 114
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "attn",
+   "label": "注意力機制",
+   "lane": "arch",
+   "parent": "tf",
+   "concept": "注意力機制",
+   "gist": "計算元素間相似度並分配權重；自注意力用 Q、K、V，多頭並行學不同關係。",
+   "src": [
+    {
+     "block": 412,
+     "quote": "計算當前元素與序列中所有其他元素之間的相似度",
+     "page": 117
+    },
+    {
+     "block": 425,
+     "quote": "將所有h 個頭的自注意力輸出拼接起來",
+     "page": 118
+    },
+    {
+     "block": 419,
+     "quote": "查詢向量（Query, Q）：代表「我在找什麼？」",
+     "page": 117
+    },
+    {
+     "block": 421,
+     "quote": "並行地執行多次（多個「頭」）獨立的自注意力運算",
+     "page": 118
+    },
+    {
+     "block": 424,
+     "quote": "每個頭獨立地執行自己的自注意力計算，學習不同類型的關係",
+     "page": 118
+    }
+   ],
+   "exam": 5
+  },
+  {
+   "id": "pe",
+   "label": "位置編碼",
+   "lane": "arch",
+   "parent": "tf",
+   "concept": null,
+   "gist": "Transformer 沒有循環，需把正弦與餘弦位置向量加到詞嵌入來提供順序。",
+   "src": [
+    {
+     "block": 430,
+     "quote": "模型本身無法直接感知序列中詞語的順序或絕對位置資訊",
+     "page": 118
+    },
+    {
+     "block": 432,
+     "quote": "將具有特定模式（通常是正弦和餘弦函數）的位置向量加到原始的詞嵌入上",
+     "page": 119
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "plm",
+   "label": "BERT、GPT 與衍伸",
+   "lane": "arch",
+   "parent": "tf",
+   "concept": "預訓練語言模型",
+   "gist": "BERT 用編碼器、雙向，擅理解；GPT 用解碼器、單向自迴歸，擅生成。",
+   "src": [
+    {
+     "block": 474,
+     "quote": "是Transformer 編碼器部分的代表性應用",
+     "page": 121
+    },
+    {
+     "block": 479,
+     "quote": "主要基於Transformer 的解碼器部分，採用單向（自迴歸）預訓練",
+     "page": 121
+    },
+    {
+     "block": 475,
+     "quote": "BERT 模型採用了雙向上下文預訓練",
+     "page": 121
+    },
+    {
+     "block": 476,
+     "quote": "擅長於語言理解任務",
+     "page": 121
+    },
+    {
+     "block": 480,
+     "quote": "擅長於文本生成任務",
+     "page": 121
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "gen",
+   "label": "生成式模型",
+   "lane": "arch",
+   "parent": null,
+   "concept": null,
+   "gist": "目標是學到訓練資料的底層分佈，再生成相似但全新的資料。",
+   "src": [
+    {
+     "block": 493,
+     "quote": "生成式模型的核心目標是學習訓練數據的底層分佈",
+     "page": 122
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "ae",
+   "label": "自編碼器",
+   "lane": "arch",
+   "parent": "gen",
+   "concept": null,
+   "gist": "編碼器壓成瓶頸層、解碼器還原，以最小化重構誤差訓練；可降維、去噪、異常偵測。",
+   "src": [
+    {
+     "block": 496,
+     "quote": "透過嘗試重構自身的輸入來達到學習目的",
+     "page": 123
+    },
+    {
+     "block": 503,
+     "quote": "透過最小化重構誤差（Reconstruction Error）來進行訓練",
+     "page": 123
+    },
+    {
+     "block": 499,
+     "quote": "這個潛在空間通常被稱為瓶頸層（Bottleneck Layer）",
+     "page": 123
+    },
+    {
+     "block": 501,
+     "quote": "轉換（或「解碼」）回原始輸入數據的維度",
+     "page": 123
+    },
+    {
+     "block": 509,
+     "quote": "有效學習數據的低維潛在表示，達到降維的效果",
+     "page": 123
+    },
+    {
+     "block": 513,
+     "quote": "可以訓練自編碼器來將帶有噪聲的輸入中重構出乾淨的數據",
+     "page": 124
+    },
+    {
+     "block": 515,
+     "quote": "可以通過重構誤差來辨識異常",
+     "page": 124
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "gan",
+   "label": "生成對抗網路 GAN",
+   "lane": "arch",
+   "parent": "gen",
+   "concept": "生成對抗網路",
+   "gist": "生成器欺騙判別器、判別器辨真偽，兩者對抗至平衡；訓練不穩，易模式崩潰。",
+   "src": [
+    {
+     "block": 542,
+     "quote": "生成器試圖「欺騙」判別器，讓判別器相信它生成的數據是真實的",
+     "page": 125
+    },
+    {
+     "block": 567,
+     "quote": "容易出現模式崩潰（Mode Collapse，生成器只生成少數幾種類型的樣本）",
+     "page": 127
+    },
+    {
+     "block": 547,
+     "quote": "目標是區分輸入數據是「真實」的還是「生成器生成（虛假）」的",
+     "page": 125
+    },
+    {
+     "block": 535,
+     "quote": "直到達到平衡",
+     "page": 125
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "tfk",
+   "label": "TensorFlow 與 Keras",
+   "lane": "frame",
+   "parent": null,
+   "concept": null,
+   "gist": "TensorFlow 轉向即時執行並擅長跨平台部署；Keras 是其官方高階 API。",
+   "src": [
+    {
+     "block": 590,
+     "quote": "TensorFlow 2.x 已轉向即時執行",
+     "page": 128
+    },
+    {
+     "block": 596,
+     "quote": "Keras 已被完全整合為TensorFlow 的官方高階API",
+     "page": 128
+    },
+    {
+     "block": 592,
+     "quote": "支援多種平台部署，包括CPU、GPU、TPU",
+     "page": 128
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "pt",
+   "label": "PyTorch",
+   "lane": "frame",
+   "parent": null,
+   "concept": null,
+   "gist": "以動態計算圖與 Pythonic 介面著稱，內建 Autograd，常用於研究與原型。",
+   "src": [
+    {
+     "block": 607,
+     "quote": "以其動態計算圖（Dynamic Computation Graph）的特性而聞名",
+     "page": 129
+    },
+    {
+     "block": 615,
+     "quote": "PyTorch 內建自動微分（Autograd）引擎",
+     "page": 130
+    },
+    {
+     "block": 613,
+     "quote": "PyTorch 的API 設計非常「Pythonic」",
+     "page": 129
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "other",
+   "label": "JAX、MXNet",
+   "lane": "frame",
+   "parent": null,
+   "concept": null,
+   "gist": "JAX 偏數值計算庫；MXNet 由 AWS 主要支持，支援混合式程式設計。",
+   "src": [
+    {
+     "block": 622,
+     "quote": "JAX 並非傳統意義上的端到端深度學習框架",
+     "page": 130
+    },
+    {
+     "block": 624,
+     "quote": "Apache MXNet 是一個靈活且高效的深度學習框架",
+     "page": 130
+    },
+    {
+     "block": 625,
+     "quote": "並提供了混合式程式設計（兼具符號式和命令式風格）",
+     "page": 130
+    }
+   ],
+   "exam": 0
+  }
+ ],
+ "edges": [
+  {
+   "a": "fwd",
+   "b": "bwd",
+   "kind": "flow",
+   "label": "先預測、再修正誤差",
+   "block": 76,
+   "quote": "前向傳播產生預測，反向傳播負責修正誤差",
+   "page": 96
+  },
+  {
+   "a": "bwd",
+   "b": "opt",
+   "kind": "flow",
+   "label": "梯度交給優化器更新",
+   "block": 116,
+   "quote": "優化器（如梯度下降法）就會根據這些梯度",
+   "page": 99
+  },
+  {
+   "a": "act",
+   "b": "vanish",
+   "kind": "cross",
+   "label": "壓縮輸出以穩定梯度",
+   "block": 72,
+   "quote": "避免數值在網路傳播過程中過大或過小，進而導致梯度爆炸或梯度消失問題",
+   "page": 96
+  },
+  {
+   "a": "perc",
+   "b": "act",
+   "kind": "cross",
+   "label": "感知器用步階函數",
+   "block": 36,
+   "quote": "通常使用步階函數（Step Function）作為其激活函數",
+   "page": 94
+  },
+  {
+   "a": "lstm",
+   "b": "vanish",
+   "kind": "cross",
+   "label": "門控機制解梯度消失",
+   "block": 358,
+   "quote": "有效地解決了梯度消失問題",
+   "page": 113
+  },
+  {
+   "a": "vanish",
+   "b": "tf",
+   "kind": "cross",
+   "label": "注意力解 RNN 痛點",
+   "block": 447,
+   "quote": "有效解決了RNN 的長期依賴問題",
+   "page": 120
+  },
+  {
+   "a": "cnnev",
+   "b": "vanish",
+   "kind": "cross",
+   "label": "殘差連接也解梯度消失",
+   "block": 295,
+   "quote": "解決了訓練極深層網路時的梯度消失和模型退化問題",
+   "page": 109
+  },
+  {
+   "a": "conv",
+   "b": "over",
+   "kind": "cross",
+   "label": "權重共享降低過擬合",
+   "block": 264,
+   "quote": "權重共享減少了模型的參數數量，降低了模型複雜度，減少了過擬合的風險",
+   "page": 108
+  },
+  {
+   "a": "mlp",
+   "b": "over",
+   "kind": "cross",
+   "label": "全連接參數多易過擬合",
+   "block": 214,
+   "quote": "導致訓練時間長且易過擬合",
+   "page": 105
+  },
+  {
+   "a": "cnnev",
+   "b": "drop",
+   "kind": "cross",
+   "label": "奠基CNN用Dropout",
+   "block": 289,
+   "quote": "ReLU 激活函數、Dropout 正則化以及對GPU 加速訓練的應用",
+   "page": 109
+  },
+  {
+   "a": "bwd",
+   "b": "rnn",
+   "kind": "cross",
+   "label": "RNN 改用 BPTT",
+   "block": 326,
+   "quote": "稱為時間上的反向傳播",
+   "page": 111
+  },
+  {
+   "a": "pt",
+   "b": "bwd",
+   "kind": "cross",
+   "label": "Autograd 自動算梯度",
+   "block": 615,
+   "quote": "能夠自動計算任何運算的梯度，這對於反向傳播訓練神經網路至關重要",
+   "page": 130
+  },
+  {
+   "a": "loss",
+   "b": "ae",
+   "kind": "cross",
+   "label": "自編碼器的重構損失",
+   "block": 505,
+   "quote": "常用的損失函數包括均方誤差（MSE）用於連續數據，或二元交叉熵用於二元數據",
+   "page": 123
+  },
+  {
+   "a": "ae",
+   "b": "gan",
+   "kind": "cross",
+   "label": "重構 vs 生成全新樣本",
+   "block": 518,
+   "quote": "不能像 GAN 那樣憑空生成多樣化的全新樣本",
+   "page": 124
+  }
+ ],
+ "confusions": [
+  {
+   "a": "感知器",
+   "b": "MLP",
+   "text": "單個感知器只能解線性可分問題；MLP 多層加非線性激活，能逼近任意複雜的非線性函數。",
+   "blocks": [
+    51,
+    54,
+    207
+   ],
+   "pages": [
+    94,
+    104
+   ]
+  },
+  {
+   "a": "L1 正則化",
+   "b": "L2 正則化",
+   "text": "L1 加權重絕對值總和，使部分權重為零而選特徵；L2 加權重平方和，防止權重過大。",
+   "blocks": [
+    156,
+    158
+   ],
+   "pages": [
+    101
+   ]
+  },
+  {
+   "a": "最大池化",
+   "b": "平均池化",
+   "text": "最大池化取區域最大值、抓最顯著特徵；平均池化取區域內所有值的平均。",
+   "blocks": [
+    247,
+    248
+   ],
+   "pages": [
+    107
+   ]
+  },
+  {
+   "a": "梯度消失",
+   "b": "梯度爆炸",
+   "text": "梯度在反向傳播中指數級衰減則學不到遠距依賴；指數級增長則訓練不穩定。",
+   "blocks": [
+    339,
+    341
+   ],
+   "pages": [
+    112
+   ]
+  },
+  {
+   "a": "LSTM",
+   "b": "GRU",
+   "text": "LSTM 有輸入、遺忘、輸出三道門與細胞狀態；GRU 只有更新門與重置門，較簡化。",
+   "blocks": [
+    357,
+    361
+   ],
+   "pages": [
+    113
+   ]
+  },
+  {
+   "a": "BERT",
+   "b": "GPT",
+   "text": "BERT 基於編碼器、雙向預訓練，擅長理解；GPT 基於解碼器、單向自迴歸，擅長生成。",
+   "blocks": [
+    475,
+    476,
+    479,
+    480
+   ],
+   "pages": [
+    121
+   ]
+  },
+  {
+   "a": "TensorFlow",
+   "b": "PyTorch",
+   "text": "TensorFlow 早期靜態計算圖、2.x 轉向即時執行；PyTorch 採動態計算圖，運算定義時立即執行。",
+   "blocks": [
+    589,
+    590,
+    610
+   ],
+   "pages": [
+    128,
+    129
+   ]
+  },
+  {
+   "a": "自編碼器",
+   "b": "GAN",
+   "text": "自編碼器靠重構輸入學壓縮表示；GAN 由生成器與判別器對抗，才能生成全新樣本。",
+   "blocks": [
+    496,
+    518,
+    534
+   ],
+   "pages": [
+    123,
+    124,
+    125
+   ]
+  }
+ ],
+ "gaps": [
+  {
+   "name": "非監督式學習",
+   "block": 627,
+   "page": 131
+  },
+  {
+   "name": "支援向量迴歸",
+   "block": 630,
+   "page": 131
+  },
+  {
+   "name": "基尼不純度",
+   "block": 636,
+   "page": 132
+  }
+ ],
+ "examOnly": [
+  {
+   "name": "特徵選擇",
+   "count": 3,
+   "mentioned": true
+  },
+  {
+   "name": "迴歸分析",
+   "count": 3,
+   "mentioned": false
+  }
+ ],
+ "notes": []
+}

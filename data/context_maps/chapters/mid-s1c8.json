@@ -1,0 +1,923 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide1",
+  "nodeId": "mid-s1c8",
+  "label": "中級 科目一・5.1 數據準備與模型選擇"
+ },
+ "headline": "一張圖看懂數據準備與模型選擇",
+ "lede": "本章從「垃圾進，垃圾出」出發：先收集並清理資料，再用特徵工程轉成模型能學的形式，最後依問題類型挑選模型。",
+ "story": [
+  {
+   "step": "為什麼",
+   "title": "資料品質是關鍵",
+   "text": "資料品質直接影響模型可靠度與準確度。"
+  },
+  {
+   "step": "先清理",
+   "title": "收集與清理",
+   "text": "區分資料來源，處理缺失、重複、異常值。"
+  },
+  {
+   "step": "再加工",
+   "title": "特徵工程",
+   "text": "縮放、編碼、選擇與降維，AutoML 可代勞。"
+  },
+  {
+   "step": "後選模",
+   "title": "依問題選模型",
+   "text": "迴歸、分類、分群、深度學習、強化式、生成式。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "data",
+   "name": "資料收集與清理"
+  },
+  {
+   "id": "feat",
+   "name": "特徵工程"
+  },
+  {
+   "id": "model",
+   "name": "模型選擇"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "core",
+   "label": "數據準備與模型選擇",
+   "lane": null,
+   "parent": null,
+   "concept": null,
+   "gist": "資料品質決定模型可靠度，所以先收集清理資料、做特徵工程，再依問題類型選模型。",
+   "src": [
+    {
+     "block": 3,
+     "quote": "資料品質直接影響AI 模型的可靠性與準確度"
+    },
+    {
+     "block": 3,
+     "quote": "選擇最適合的模型架構"
+    }
+   ]
+  },
+  {
+   "id": "src",
+   "label": "資料來源與收集",
+   "lane": "data",
+   "parent": null,
+   "concept": null,
+   "gist": "來源分內部（ERP、CRM、機台、使用行為、內部報表）與外部（開放資料、爬蟲、商業資料庫），爬蟲要注意網站條款。",
+   "src": [
+    {
+     "block": 7,
+     "quote": "資料來源可分為內部資料與外部資料"
+    },
+    {
+     "block": 16,
+     "quote": "需特別注意網站條款與資料使用合規性"
+    },
+    {
+     "block": 9,
+     "quote": "ERP（Enterprise Resource Planning）"
+    },
+    {
+     "block": 10,
+     "quote": "CRM（Customer Relationship Management）"
+    },
+    {
+     "block": 11,
+     "quote": "機台資料（Machine Data）"
+    },
+    {
+     "block": 12,
+     "quote": "使用者使用行為資料"
+    },
+    {
+     "block": 13,
+     "quote": "內部報表與流程紀錄"
+    },
+    {
+     "block": 15,
+     "quote": "開放資料：包含政府開放資料平台"
+    },
+    {
+     "block": 16,
+     "quote": "Web Scraping（網頁爬蟲）"
+    },
+    {
+     "block": 17,
+     "quote": "商業資料庫與數據供應商"
+    }
+   ]
+  },
+  {
+   "id": "clean",
+   "label": "資料清理",
+   "lane": "data",
+   "parent": null,
+   "concept": "資料清理",
+   "gist": "把原始資料確認內容並清除雜訊，處理缺失值、重複值、異常值等常見情況。",
+   "src": [
+    {
+     "block": 19,
+     "quote": "資料清理是將原始資料進行內容確認與雜訊清理的步驟"
+    },
+    {
+     "block": 21,
+     "quote": "重複值（Duplicate Values）清除"
+    },
+    {
+     "block": 20,
+     "quote": "缺失值（Missing Values）處理"
+    },
+    {
+     "block": 22,
+     "quote": "異常值（Outliers）檢測與處理"
+    }
+   ]
+  },
+  {
+   "id": "miss",
+   "label": "缺失值處理",
+   "lane": "data",
+   "parent": "clean",
+   "concept": "遺漏值處理",
+   "gist": "可用平均數／中位數、前後值填補或插值；缺失比例過高則考慮刪欄位或用模型推估。",
+   "src": [
+    {
+     "block": 20,
+     "quote": "使用平均數/中位數填補"
+    },
+    {
+     "block": 20,
+     "quote": "若缺失比例過高"
+    }
+   ]
+  },
+  {
+   "id": "out",
+   "label": "異常值檢測",
+   "lane": "data",
+   "parent": "clean",
+   "concept": "離群值處理",
+   "gist": "用 Z-score 或 IQR 篩選，也可用 Isolation Forest、LOF 等機器學習模型偵測。",
+   "src": [
+    {
+     "block": 22,
+     "quote": "使用統計方法，如Z-score 或IQR"
+    },
+    {
+     "block": 22,
+     "quote": "也可利用機器學習模型"
+    }
+   ]
+  },
+  {
+   "id": "dq",
+   "label": "資料品質五指標",
+   "lane": "data",
+   "parent": "clean",
+   "concept": "資料品質",
+   "gist": "完整性、一致性、準確性、即時性、唯一性五項評估資料品質。",
+   "src": [
+    {
+     "block": 23,
+     "quote": "資料品質（Data Quality）評估指標"
+    },
+    {
+     "block": 28,
+     "quote": "資料是否有重複或衝突，特別是主鍵欄位"
+    },
+    {
+     "block": 24,
+     "quote": "完整性（Completeness）"
+    },
+    {
+     "block": 25,
+     "quote": "一致性（Consistency）"
+    },
+    {
+     "block": 26,
+     "quote": "準確性（Accuracy）"
+    },
+    {
+     "block": 27,
+     "quote": "即時性（Timeliness）"
+    }
+   ]
+  },
+  {
+   "id": "fe",
+   "label": "特徵工程",
+   "lane": "feat",
+   "parent": null,
+   "concept": "特徵工程",
+   "gist": "把原始資料轉成適合機器學習的格式與結構，提升模型表達力與預測效能。",
+   "src": [
+    {
+     "block": 30,
+     "quote": "將原始資料轉換為適合機器學習模型學習的格式與結構"
+    }
+   ]
+  },
+  {
+   "id": "scale",
+   "label": "數值特徵轉換",
+   "lane": "feat",
+   "parent": "fe",
+   "concept": "特徵縮放",
+   "gist": "轉換數值尺度，避免不同特徵單位差異造成模型學習偏誤。",
+   "src": [
+    {
+     "block": 33,
+     "quote": "避免由於不同特徵的單位差異造成模型學習偏誤"
+    }
+   ]
+  },
+  {
+   "id": "norm",
+   "label": "正規化",
+   "lane": "feat",
+   "parent": "scale",
+   "concept": null,
+   "gist": "把數值轉到 0 到 1 之間，最小值轉 0、最大值轉 1。",
+   "src": [
+    {
+     "block": 33,
+     "quote": "將最小值轉換為0，最大值轉換為1"
+    }
+   ]
+  },
+  {
+   "id": "std",
+   "label": "標準化",
+   "lane": "feat",
+   "parent": "scale",
+   "concept": "資料標準化",
+   "gist": "轉成平均數 0、標準差 1 的分布，通常用 Z-score，對需計算梯度的模型特別有效。",
+   "src": [
+    {
+     "block": 34,
+     "quote": "平均數為0、標準差為1 的分布"
+    }
+   ]
+  },
+  {
+   "id": "cat",
+   "label": "類別特徵編碼",
+   "lane": "feat",
+   "parent": "fe",
+   "concept": "類別特徵編碼",
+   "gist": "獨熱編碼把類別轉二進位欄位，用於無序類別；標籤編碼轉整數，用於有序類別。",
+   "src": [
+    {
+     "block": 36,
+     "quote": "將類別轉為二進位欄位"
+    },
+    {
+     "block": 37,
+     "quote": "適用於有序類別"
+    }
+   ]
+  },
+  {
+   "id": "text",
+   "label": "文字特徵",
+   "lane": "feat",
+   "parent": "fe",
+   "concept": "詞嵌入",
+   "gist": "從文字抽關鍵詞，或用 TF-IDF、詞向量轉成數值，方便模型處理。",
+   "src": [
+    {
+     "block": 40,
+     "quote": "詞向量（Word Embeddings）等"
+    },
+    {
+     "block": 40,
+     "quote": "從文字欄位中抽取關鍵詞"
+    }
+   ]
+  },
+  {
+   "id": "sel",
+   "label": "特徵選擇",
+   "lane": "feat",
+   "parent": "fe",
+   "concept": "特徵選擇",
+   "gist": "從所有特徵挑出對預測結果最有用的，方法有資訊增益、皮爾森相關係數、L1 正則化。",
+   "src": [
+    {
+     "block": 42,
+     "quote": "對預測結果最有用的特徵"
+    },
+    {
+     "block": 44,
+     "quote": "衡量數值特徵之間的線性相關性"
+    },
+    {
+     "block": 46,
+     "quote": "皮爾森相關係數、L1 正則化等方法"
+    }
+   ]
+  },
+  {
+   "id": "lasso",
+   "label": "L1 正則化（Lasso）",
+   "lane": "feat",
+   "parent": "sel",
+   "concept": "正則化",
+   "gist": "懲罰模型複雜度來選出最具影響力的特徵，常用於線性模型。",
+   "src": [
+    {
+     "block": 45,
+     "quote": "通過懲罰模型的複雜度來選擇最具影響力的特徵"
+    }
+   ]
+  },
+  {
+   "id": "dr",
+   "label": "降維",
+   "lane": "feat",
+   "parent": "fe",
+   "concept": "降維方法",
+   "gist": "把高維資料轉成低維並保留資訊；PCA 找方差最大方向，t-SNE／UMAP 用於視覺化。",
+   "src": [
+    {
+     "block": 47,
+     "quote": "將高維資料轉換為低維資料，同時保留原有的資訊"
+    },
+    {
+     "block": 48,
+     "quote": "通過找到資料中方差最大的方向來減少維度"
+    },
+    {
+     "block": 49,
+     "quote": "常用於視覺化資料分佈"
+    }
+   ]
+  },
+  {
+   "id": "auto",
+   "label": "自動特徵工程",
+   "lane": "feat",
+   "parent": "fe",
+   "concept": null,
+   "gist": "AutoML 自動創建、篩選特徵並檢測交互作用，可加速流程、降低門檻、提高模型效能。",
+   "src": [
+    {
+     "block": 51,
+     "quote": "自動化特徵生成與選擇的核心功能如下"
+    },
+    {
+     "block": 65,
+     "quote": "自動化特徵生成和篩選極大地縮短了從原始資料到模型訓練的時間"
+    },
+    {
+     "block": 53,
+     "quote": "AutoML 工具可以自動創建新的特徵"
+    },
+    {
+     "block": 56,
+     "quote": "自動篩選出對目標變量影響最大的特徵"
+    },
+    {
+     "block": 59,
+     "quote": "能夠檢測並創建特徵之間的交互作用"
+    },
+    {
+     "block": 66,
+     "quote": "降低技術門檻：即便是對機器學習知識較少的使用者"
+    },
+    {
+     "block": 67,
+     "quote": "高模型效能：透過自動生成和篩選特徵"
+    }
+   ]
+  },
+  {
+   "id": "ms",
+   "label": "模型選擇策略",
+   "lane": "model",
+   "parent": null,
+   "concept": null,
+   "gist": "模型選擇影響準確率，也影響可維護性、擴展性與運營成本，選錯會訓練過久或難部署。",
+   "src": [
+    {
+     "block": 69,
+     "quote": "可維護性、擴展性與運營成本"
+    },
+    {
+     "block": 69,
+     "quote": "導致訓練耗時過長、部署困難"
+    }
+   ]
+  },
+  {
+   "id": "reg",
+   "label": "迴歸任務",
+   "lane": "model",
+   "parent": "ms",
+   "concept": "迴歸分析",
+   "gist": "預測連續數值，如銷售量、房價；常見線性迴歸、決策樹、隨機森林、梯度提升樹。",
+   "src": [
+    {
+     "block": 71,
+     "quote": "迴歸任務的目的是預測一個連續數值型的結果"
+    },
+    {
+     "block": 73,
+     "quote": "線性迴歸（Linear Regression）"
+    },
+    {
+     "block": 78,
+     "quote": "銷售量預測：預測未來某一段時間的銷售額"
+    },
+    {
+     "block": 79,
+     "quote": "房價預測：根據房地產市場的多種因素"
+    }
+   ]
+  },
+  {
+   "id": "cls",
+   "label": "分類任務",
+   "lane": "model",
+   "parent": "ms",
+   "concept": "分類模型",
+   "gist": "把資料分到離散標籤的類別，如垃圾郵件、疾病診斷；常見邏輯迴歸、SVM、KNN 等。",
+   "src": [
+    {
+     "block": 81,
+     "quote": "分類任務的目的是將資料點分類到不同的類別中"
+    },
+    {
+     "block": 83,
+     "quote": "邏輯迴歸（Logistic Regression）"
+    },
+    {
+     "block": 86,
+     "quote": "支持向量機（Support Vector Machine"
+    },
+    {
+     "block": 87,
+     "quote": "K 最近鄰（K-Nearest Neighbors"
+    },
+    {
+     "block": 90,
+     "quote": "垃圾郵件識別"
+    },
+    {
+     "block": 91,
+     "quote": "疾病診斷：結合病患檢查數值與症狀資料"
+    }
+   ]
+  },
+  {
+   "id": "tree",
+   "label": "決策樹與集成學習",
+   "lane": "model",
+   "parent": "ms",
+   "concept": "決策樹與集成學習",
+   "gist": "決策樹解釋性強但易過擬合；隨機森林多棵樹平均或投票降低風險；梯度提升樹逐步修正錯誤。",
+   "src": [
+    {
+     "block": 74,
+     "quote": "具有較強的解釋性，但可能過度擬合"
+    },
+    {
+     "block": 85,
+     "quote": "提升準確度並降低單一模型的過擬合風險"
+    },
+    {
+     "block": 88,
+     "quote": "透過逐步修正錯誤提升分類準確率"
+    },
+    {
+     "block": 75,
+     "quote": "利用多棵決策樹的平均預測結果"
+    }
+   ]
+  },
+  {
+   "id": "unsup",
+   "label": "非監督式學習",
+   "lane": "model",
+   "parent": "ms",
+   "concept": "非監督式學習",
+   "gist": "資料無標註時找出內在結構；K-means 需給 K 值，DBSCAN 與階層式分群不需預先給群集數。",
+   "src": [
+    {
+     "block": 95,
+     "quote": "不依賴預先標註的輸出標籤"
+    },
+    {
+     "block": 97,
+     "quote": "須事先給定K 值，對初始點與異常值敏感"
+    },
+    {
+     "block": 98,
+     "quote": "不需預先給定群集數"
+    },
+    {
+     "block": 95,
+     "quote": "從資料中找出內在結構"
+    },
+    {
+     "block": 99,
+     "quote": "無需指定群集數"
+    }
+   ]
+  },
+  {
+   "id": "dl",
+   "label": "深度學習",
+   "lane": "model",
+   "parent": "ms",
+   "concept": null,
+   "gist": "以多層神經網路為基礎，比傳統機器學習更依賴資料規模與計算資源，擅長高維與非線性問題。",
+   "src": [
+    {
+     "block": 106,
+     "quote": "深度學習是以多層神經網路為基礎的學習架構"
+    },
+    {
+     "block": 107,
+     "quote": "深度學習更依賴資料規模與計算資源"
+    },
+    {
+     "block": 107,
+     "quote": "在高維與非線性問題上表現優越"
+    }
+   ]
+  },
+  {
+   "id": "cnn",
+   "label": "CNN",
+   "lane": "model",
+   "parent": "dl",
+   "concept": "卷積神經網路",
+   "gist": "處理圖像與空間特徵，用卷積、池化自動辨識局部特徵，用於人臉辨識、工業檢測等。",
+   "src": [
+    {
+     "block": 109,
+     "quote": "主要用於處理圖像資料與空間特徵萃取"
+    },
+    {
+     "block": 109,
+     "quote": "自動辨識局部特徵並保留其位置不變性"
+    },
+    {
+     "block": 109,
+     "quote": "常用於人臉辨識、工業檢測、自動駕駛等任務"
+    }
+   ]
+  },
+  {
+   "id": "rnn",
+   "label": "RNN",
+   "lane": "model",
+   "parent": "dl",
+   "concept": "循環神經網路",
+   "gist": "處理時間序列資料並記住前一步輸出；有長期依賴問題，實務多用 LSTM 或 GRU。",
+   "src": [
+    {
+     "block": 110,
+     "quote": "專門處理時間序列資料"
+    },
+    {
+     "block": 110,
+     "quote": "傳統RNN 面臨長期依賴問題"
+    },
+    {
+     "block": 110,
+     "quote": "能記住前一步的輸出資訊"
+    },
+    {
+     "block": 110,
+     "quote": "實務上多採用改良版本如LSTM"
+    }
+   ]
+  },
+  {
+   "id": "tf",
+   "label": "Transformer",
+   "lane": "model",
+   "parent": "dl",
+   "concept": "Transformer架構",
+   "gist": "以自注意力機制建構語意關聯，是 NLP 主流，代表 BERT、GPT。",
+   "src": [
+    {
+     "block": 111,
+     "quote": "透過自注意力（Self-Attention）機制建構語意關聯"
+    },
+    {
+     "block": 111,
+     "quote": "在NLP 領域成為主流"
+    },
+    {
+     "block": 111,
+     "quote": "代表模型如BERT"
+    }
+   ]
+  },
+  {
+   "id": "rl",
+   "label": "強化式學習",
+   "lane": "model",
+   "parent": "ms",
+   "concept": null,
+   "gist": "智能體在環境中試誤，依獎勵調整策略，無需標註資料；有 Q-learning、DQN、策略梯度、PPO。",
+   "src": [
+    {
+     "block": 118,
+     "quote": "透過智能體（Agent）在環境中不斷嘗試行動（Action）"
+    },
+    {
+     "block": 118,
+     "quote": "強化式學習無需明確標註資料"
+    },
+    {
+     "block": 118,
+     "quote": "根據獎勵（Reward）進行策略調整"
+    },
+    {
+     "block": 120,
+     "quote": "Q-learning：一種基於值函數的方法"
+    },
+    {
+     "block": 121,
+     "quote": "Deep Q Network（DQN）"
+    },
+    {
+     "block": 122,
+     "quote": "Policy Gradient（策略梯度）方法"
+    },
+    {
+     "block": 123,
+     "quote": "Proximal Policy Optimization"
+    }
+   ]
+  },
+  {
+   "id": "gen",
+   "label": "生成式模型",
+   "lane": "model",
+   "parent": "ms",
+   "concept": null,
+   "gist": "學習資料的機率分佈並生成相似的新樣本，重點是創造而非僅分類。",
+   "src": [
+    {
+     "block": 130,
+     "quote": "學習資料的機率分佈，並據此生成與訓練資料相似的新樣本"
+    },
+    {
+     "block": 130,
+     "quote": "與判別式模型僅關注「分類」不同"
+    }
+   ]
+  },
+  {
+   "id": "gan",
+   "label": "GAN",
+   "lane": "model",
+   "parent": "gen",
+   "concept": "生成對抗網路",
+   "gist": "生成器與判別器對抗訓練，缺點是訓練不穩定、可能模式崩潰。",
+   "src": [
+    {
+     "block": 132,
+     "quote": "透過兩個神經網路（生成器與判別器）對抗訓練"
+    },
+    {
+     "block": 132,
+     "quote": "缺點是訓練不穩定"
+    }
+   ]
+  },
+  {
+   "id": "vae",
+   "label": "VAE",
+   "lane": "model",
+   "parent": "gen",
+   "concept": "變分自編碼器",
+   "gist": "潛在空間結構良好，適合異常偵測、語音重建；生成樣本相對平滑，但有時缺乏銳利細節。",
+   "src": [
+    {
+     "block": 133,
+     "quote": "具有良好的潛在空間結構"
+    },
+    {
+     "block": 133,
+     "quote": "適合用於異常偵測、語音重建與隱含變數建模"
+    },
+    {
+     "block": 133,
+     "quote": "生成樣本相對平滑，但有時缺乏銳利細節"
+    }
+   ]
+  },
+  {
+   "id": "diff",
+   "label": "擴散模型",
+   "lane": "model",
+   "parent": "gen",
+   "concept": "擴散模型",
+   "gist": "逐步加入與移除噪聲來訓練，圖像品質佳，缺點是速度慢、運算成本高。",
+   "src": [
+    {
+     "block": 134,
+     "quote": "透過逐步加入與移除噪聲的方式訓練模型"
+    },
+    {
+     "block": 134,
+     "quote": "缺點是生成速度慢、運算成本高"
+    },
+    {
+     "block": 134,
+     "quote": "在生成圖像品質方面具明顯優勢"
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "a": "src",
+   "b": "clean",
+   "kind": "flow",
+   "label": "收集後先清理",
+   "block": 5,
+   "quote": "建立系統化的「資料收集與清理」流程"
+  },
+  {
+   "a": "std",
+   "b": "reg",
+   "kind": "cross",
+   "label": "線性迴歸等梯度模型適用",
+   "block": 34,
+   "quote": "如線性迴歸、支持向量機等"
+  },
+  {
+   "a": "auto",
+   "b": "lasso",
+   "kind": "cross",
+   "label": "自動篩選也用 L1",
+   "block": 56,
+   "quote": "隨機森林（Random Forest）或L1 正則化（Lasso）"
+  },
+  {
+   "a": "auto",
+   "b": "tree",
+   "kind": "cross",
+   "label": "隨機森林評估特徵貢獻",
+   "block": 56,
+   "quote": "隨機森林（Random Forest）或L1 正則化（Lasso）"
+  },
+  {
+   "a": "auto",
+   "b": "miss",
+   "kind": "cross",
+   "label": "自動選擇填補方式",
+   "block": 61,
+   "quote": "對於缺失資料，則會選擇合適的填補方式"
+  },
+  {
+   "a": "auto",
+   "b": "cat",
+   "kind": "cross",
+   "label": "自動選擇編碼方法",
+   "block": 61,
+   "quote": "它會自動選擇合適的編碼方法"
+  },
+  {
+   "a": "dr",
+   "b": "unsup",
+   "kind": "cross",
+   "label": "PCA 也是非監督方法",
+   "block": 100,
+   "quote": "常見的降維方法，用於資料視覺化與特徵壓縮"
+  },
+  {
+   "a": "out",
+   "b": "unsup",
+   "kind": "cross",
+   "label": "異常偵測屬非監督應用",
+   "block": 103,
+   "quote": "辨識與多數樣本明顯不同的資料點"
+  },
+  {
+   "a": "tree",
+   "b": "reg",
+   "kind": "cross",
+   "label": "可做非線性迴歸",
+   "block": 74,
+   "quote": "適用於非線性迴歸問題"
+  },
+  {
+   "a": "tree",
+   "b": "cls",
+   "kind": "cross",
+   "label": "可做非線性分類",
+   "block": 84,
+   "quote": "適用於處理非線性與混合型特徵的分類問題"
+  },
+  {
+   "a": "rl",
+   "b": "dl",
+   "kind": "cross",
+   "label": "DQN 結合深度學習",
+   "block": 121,
+   "quote": "結合深度學習與Q-learning"
+  },
+  {
+   "a": "tf",
+   "b": "vae",
+   "kind": "cross",
+   "label": "同用於語音合成",
+   "block": 137,
+   "quote": "VAE 與Transformer 架構可用於語音合成"
+  },
+  {
+   "a": "gen",
+   "b": "miss",
+   "kind": "cross",
+   "label": "生成模型可補缺失資料",
+   "block": 138,
+   "quote": "協助填補缺失資料"
+  },
+  {
+   "a": "vae",
+   "b": "out",
+   "kind": "cross",
+   "label": "VAE 可用於異常偵測",
+   "block": 133,
+   "quote": "適合用於異常偵測"
+  }
+ ],
+ "confusions": [
+  {
+   "a": "正規化",
+   "b": "標準化",
+   "text": "正規化把數值壓到 0 到 1；標準化轉成平均數 0、標準差 1，通常用 Z-score。",
+   "blocks": [
+    33,
+    34
+   ]
+  },
+  {
+   "a": "獨熱編碼",
+   "b": "標籤編碼",
+   "text": "獨熱編碼轉二進位欄位，用於無序類別；標籤編碼轉整數，用於有序類別。",
+   "blocks": [
+    36,
+    37
+   ]
+  },
+  {
+   "a": "特徵選擇",
+   "b": "降維",
+   "text": "特徵選擇是從所有特徵中挑出最有用的；降維是把高維資料轉成低維並保留資訊。",
+   "blocks": [
+    42,
+    47
+   ]
+  },
+  {
+   "a": "迴歸任務",
+   "b": "分類任務",
+   "text": "迴歸預測連續數值（實數）；分類把資料歸到離散標籤的類別。",
+   "blocks": [
+    71,
+    81
+   ]
+  },
+  {
+   "a": "K-means",
+   "b": "DBSCAN",
+   "text": "K-means 須事先給 K 值且對異常值敏感；DBSCAN 不需給群集數，並把離群點標為雜訊。",
+   "blocks": [
+    97,
+    98
+   ]
+  },
+  {
+   "a": "GAN",
+   "b": "擴散模型",
+   "text": "GAN 用生成器與判別器對抗、訓練不穩定；擴散模型逐步加減噪聲，生成慢、成本高。",
+   "blocks": [
+    132,
+    134
+   ]
+  },
+  {
+   "a": "Q-learning",
+   "b": "策略梯度",
+   "text": "Q-learning 學習狀態-行為對的 Q 值再選最大者；策略梯度直接學習狀態到行為的機率分佈。",
+   "blocks": [
+    120,
+    122
+   ]
+  }
+ ],
+ "gaps": []
+}

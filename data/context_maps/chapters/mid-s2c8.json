@@ -1,0 +1,843 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide2",
+  "nodeId": "mid-s2c8",
+  "label": "中級 科目二・5.2 常見的大數據分析方法"
+ },
+ "headline": "一張圖看懂常見的大數據分析方法",
+ "lede": "大數據環境下資料量大、型態雜，傳統分析不夠用，所以要換成近似計算、時序、網路、文字、地理空間與異常偵測等方法。先抓住「資料是什麼型態，就用哪一類方法」，再看每類的技術與工具。",
+ "story": [
+  {
+   "step": "為什麼",
+   "title": "大數據的新特性",
+   "text": "可擴展、異質、即時、近似，傳統方法不夠用。"
+  },
+  {
+   "step": "打底",
+   "title": "描述統計改用近似",
+   "text": "資料太大時，以可容忍誤差換取效率與低記憶體。"
+  },
+  {
+   "step": "依型態",
+   "title": "四類資料各有方法",
+   "text": "時序、網路、文字、地理空間各有專屬技術與工具。"
+  },
+  {
+   "step": "應用",
+   "title": "異常偵測串起全章",
+   "text": "統計、密度、樹模型找出少數卻高風險的異常。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "approx",
+   "name": "描述與近似計算"
+  },
+  {
+   "id": "seq",
+   "name": "時序與異常偵測"
+  },
+  {
+   "id": "data",
+   "name": "網路、文字、空間資料"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "bd",
+   "label": "大數據分析方法",
+   "lane": null,
+   "parent": null,
+   "concept": null,
+   "gist": "大數據分析強調可擴展、異質、即時、近似，是理解複雜現象與支援決策的關鍵能力。",
+   "src": [
+    {
+     "block": 3,
+     "quote": "大數據分析已成為理解複雜現象"
+    },
+    {
+     "block": 7,
+     "quote": "為求效率而採用可接受誤差的估算方法"
+    },
+    {
+     "block": 4,
+     "quote": "可擴展性（Scalability）"
+    },
+    {
+     "block": 5,
+     "quote": "異質性（Heterogeneity）"
+    },
+    {
+     "block": 6,
+     "quote": "即時性（Real-time"
+    }
+   ]
+  },
+  {
+   "id": "desc",
+   "label": "描述性統計",
+   "lane": "approx",
+   "parent": null,
+   "concept": "敘述統計",
+   "gist": "用平均數、中位數、變異數、分位數掌握分佈與集中、離散，是建模與決策基礎；大數據下要改以近似計算實作。",
+   "src": [
+    {
+     "block": 10,
+     "quote": "必須以「近似計算」的方式進行重構與實作"
+    }
+   ]
+  },
+  {
+   "id": "approx",
+   "label": "近似統計",
+   "lane": "approx",
+   "parent": "desc",
+   "concept": null,
+   "gist": "在可容忍誤差內快速算出代表性統計量，目的是效率與可擴展性，而非精準無誤。",
+   "src": [
+    {
+     "block": 12,
+     "quote": "其目的並非精準無誤，而是達到實用水準的效率與可擴展性"
+    }
+   ]
+  },
+  {
+   "id": "tdigest",
+   "label": "t-digest",
+   "lane": "approx",
+   "parent": "approx",
+   "concept": null,
+   "gist": "高效估算中位數與任意分位數，支援串流增量更新與多機合併，適合偏態與極端值資料。",
+   "src": [
+    {
+     "block": 18,
+     "quote": "高效估算中位數和任意分位數的演算法"
+    },
+    {
+     "block": 20,
+     "quote": "允許多機分散式合併"
+    },
+    {
+     "block": 19,
+     "quote": "特別適用於偏態分佈和含極端值的數據"
+    }
+   ]
+  },
+  {
+   "id": "hist",
+   "label": "Histogram Sketch",
+   "lane": "approx",
+   "parent": "approx",
+   "concept": null,
+   "gist": "建立近似直方圖，快速看出資料密度與形狀，適合大規模資料初步探索與視覺化。",
+   "src": [
+    {
+     "block": 25,
+     "quote": "建立數據近似直方圖的技術"
+    },
+    {
+     "block": 27,
+     "quote": "適合大規模數據的初步探索和可視化"
+    }
+   ]
+  },
+  {
+   "id": "cms",
+   "label": "Count-Min Sketch",
+   "lane": "approx",
+   "parent": "approx",
+   "concept": null,
+   "gist": "以精簡結構估計項目出現頻率，適合記憶體受限環境，用於熱門項目排序或異常頻次檢測。",
+   "src": [
+    {
+     "block": 32,
+     "quote": "用於估計項目出現頻率的近似演算法"
+    },
+    {
+     "block": 33,
+     "quote": "適用於熱門項目排序或異常頻次檢測"
+    }
+   ]
+  },
+  {
+   "id": "welford",
+   "label": "Welford 線上演算法",
+   "lane": "approx",
+   "parent": "approx",
+   "concept": null,
+   "gist": "逐筆更新平均值與變異數，無需儲存所有歷史數據，適合串流與即時數據處理。",
+   "src": [
+    {
+     "block": 40,
+     "quote": "逐筆更新均值和變異數"
+    },
+    {
+     "block": 38,
+     "quote": "Online Mean / Variance"
+    },
+    {
+     "block": 41,
+     "quote": "適用於即時數據處理"
+    }
+   ]
+  },
+  {
+   "id": "spark",
+   "label": "Spark 等平台",
+   "lane": "approx",
+   "parent": "approx",
+   "concept": "分散式資料處理",
+   "gist": "Spark 內建近似統計；BigQuery、PostgreSQL 擴充也有，分位數估計基於 t-digest 等演算法。",
+   "src": [
+    {
+     "block": 47,
+     "quote": "內建多種近似統計方法"
+    },
+    {
+     "block": 57,
+     "quote": "快速估算中位數和任意分位數"
+    },
+    {
+     "block": 55,
+     "quote": "內建高效的近似統計功能"
+    },
+    {
+     "block": 62,
+     "quote": "支援資料庫層面的近似統計分析"
+    },
+    {
+     "block": 49,
+     "quote": "基於近似演算法（如t-digest）"
+    }
+   ]
+  },
+  {
+   "id": "ts",
+   "label": "時序數據分析",
+   "lane": "seq",
+   "parent": null,
+   "concept": "時間序列預測",
+   "gist": "資料有時間順序，目的集中在趨勢識別、消除短期波動、季節性與長期預測。",
+   "src": [
+    {
+     "block": 68,
+     "quote": "趨勢識別、短期波動消除、季節性模式捕捉和長期預測"
+    }
+   ]
+  },
+  {
+   "id": "smooth",
+   "label": "趨勢與平滑",
+   "lane": "seq",
+   "parent": "ts",
+   "concept": null,
+   "gist": "移動平均平滑短期波動；指數平滑對近期資料給較高權重，適合短期預測。",
+   "src": [
+    {
+     "block": 71,
+     "quote": "計算固定時間窗口內的平均值"
+    },
+    {
+     "block": 72,
+     "quote": "對近期數據給予更高權重"
+    }
+   ]
+  },
+  {
+   "id": "arima",
+   "label": "統計建模",
+   "lane": "seq",
+   "parent": "ts",
+   "concept": null,
+   "gist": "ARIMA 結合自迴歸、差分與移動平均；SARIMA 再加季節性分量，解釋性強，適合中長期預測。",
+   "src": [
+    {
+     "block": 75,
+     "quote": "結合自迴歸（AR）、差分（I）和移動平均（MA）"
+    },
+    {
+     "block": 76,
+     "quote": "擴充ARIMA，加入季節性分量"
+    },
+    {
+     "block": 77,
+     "quote": "模型解釋性強，適合中長期預測"
+    }
+   ]
+  },
+  {
+   "id": "prophet",
+   "label": "進階預測模型",
+   "lane": "seq",
+   "parent": "ts",
+   "concept": null,
+   "gist": "Prophet 操作簡單且對缺失值穩健；LSTM 與 Transformer 捕捉複雜非線性，但資源與訓練成本高。",
+   "src": [
+    {
+     "block": 79,
+     "quote": "自動化處理節慶效應、缺失值和趨勢突變"
+    },
+    {
+     "block": 81,
+     "quote": "計算資源需求與訓練成本較高"
+    }
+   ]
+  },
+  {
+   "id": "anom",
+   "label": "異常偵測",
+   "lane": "seq",
+   "parent": null,
+   "concept": "異常偵測",
+   "gist": "從大量正常資料中自動找出偏離預期的觀測值，比一般分析更需要高靈敏度與誤報控制。",
+   "src": [
+    {
+     "block": 255,
+     "quote": "自動識別那些偏離預期行為的觀測值"
+    }
+   ]
+  },
+  {
+   "id": "imb",
+   "label": "資料不平衡",
+   "lane": "seq",
+   "parent": "anom",
+   "concept": "類別不平衡",
+   "gist": "異常樣本佔比極低，模型易過度擬合常態而忽略異常點，是異常偵測的挑戰之一。",
+   "src": [
+    {
+     "block": 257,
+     "quote": "導致模型易過度擬合常態行為，忽略異常點"
+    },
+    {
+     "block": 256,
+     "quote": "大數據異常偵測的特性與挑戰"
+    }
+   ]
+  },
+  {
+   "id": "anstat",
+   "label": "統計方法",
+   "lane": "seq",
+   "parent": "anom",
+   "concept": null,
+   "gist": "Z-score 或 IQR 設閾值標記異常；時序上可用移動視窗均值與標準差檢測偏離。",
+   "src": [
+    {
+     "block": 263,
+     "quote": "設定閾值（如Z > 3 或超出IQR 1.5 倍）標記異常"
+    },
+    {
+     "block": 264,
+     "quote": "在時間序列中計算滑動視窗的均值和標準差"
+    }
+   ]
+  },
+  {
+   "id": "anden",
+   "label": "密度與距離方法",
+   "lane": "seq",
+   "parent": "anom",
+   "concept": null,
+   "gist": "LOF 比較與鄰居的局部密度，低密度視為異常；KNN 分數看與鄰居的平均距離，越遠越異常。",
+   "src": [
+    {
+     "block": 266,
+     "quote": "比較數據點與其k 個鄰居的局部密度"
+    },
+    {
+     "block": 267,
+     "quote": "計算數據點與最近k 個鄰居的平均距離"
+    }
+   ]
+  },
+  {
+   "id": "antree",
+   "label": "樹模型",
+   "lane": "seq",
+   "parent": "anom",
+   "concept": null,
+   "gist": "Isolation Forest 隨機切分，異常點因獨特而易被隔離；Random Cut Forest 增強串流支援。",
+   "src": [
+    {
+     "block": 269,
+     "quote": "異常點因特徵獨特性質較易被隔離"
+    },
+    {
+     "block": 270,
+     "quote": "增強對數據流和分群的支持"
+    }
+   ]
+  },
+  {
+   "id": "net",
+   "label": "網路分析",
+   "lane": "data",
+   "parent": null,
+   "concept": null,
+   "gist": "把關聯資料建成節點與邊的圖，研究節點關係、結構特徵與資訊傳播，圖屬性含有向、加權、動態。",
+   "src": [
+    {
+     "block": 116,
+     "quote": "研究這些關聯資料中的節點關係、結構特徵與資訊傳播模式"
+    },
+    {
+     "block": 125,
+     "quote": "邊是否具有方向性"
+    },
+    {
+     "block": 123,
+     "quote": "表示節點間的連結或互動"
+    },
+    {
+     "block": 126,
+     "quote": "邊是否帶有權重"
+    },
+    {
+     "block": 127,
+     "quote": "網路是否隨時間變化"
+    }
+   ]
+  },
+  {
+   "id": "cent",
+   "label": "中心性分析",
+   "lane": "data",
+   "parent": "net",
+   "concept": null,
+   "gist": "評估節點重要性：Degree 看連結數、Betweenness 看橋樑、Closeness 看距離、PageRank。",
+   "src": [
+    {
+     "block": 133,
+     "quote": "評估節點在網路中的重要性"
+    },
+    {
+     "block": 137,
+     "quote": "根據連結結構分配節點重要性"
+    },
+    {
+     "block": 134,
+     "quote": "計算節點的直接連接數"
+    },
+    {
+     "block": 135,
+     "quote": "衡量節點作為資訊橋樑的頻率"
+    },
+    {
+     "block": 136,
+     "quote": "計算節點到其他節點的平均最短路徑"
+    }
+   ]
+  },
+  {
+   "id": "comm",
+   "label": "社群偵測",
+   "lane": "data",
+   "parent": "net",
+   "concept": null,
+   "gist": "發現網路中的自然分群，如 Louvain 最大化模組度、Label Propagation 以標籤傳播分群。",
+   "src": [
+    {
+     "block": 139,
+     "quote": "通過最大化模組度（Modularity）快速分群"
+    },
+    {
+     "block": 140,
+     "quote": "基於標籤傳播識別社群"
+    }
+   ]
+  },
+  {
+   "id": "link",
+   "label": "鏈結預測",
+   "lane": "data",
+   "parent": "net",
+   "concept": null,
+   "gist": "預測未來可能出現的關係，可用共同鄰居、Jaccard 係數或圖神經網路。",
+   "src": [
+    {
+     "block": 142,
+     "quote": "預測未來可能出現的關係"
+    },
+    {
+     "block": 143,
+     "quote": "基於共同鄰居、Jaccard 係數"
+    }
+   ]
+  },
+  {
+   "id": "neo4j",
+   "label": "圖運算與圖資料庫",
+   "lane": "data",
+   "parent": "net",
+   "concept": "圖形資料庫",
+   "gist": "GraphX 做分散式圖計算；Neo4j 是圖資料庫，以 Cypher 查詢，支援路徑查詢與社群偵測。",
+   "src": [
+    {
+     "block": 146,
+     "quote": "在Spark 平台上進行分散式圖計算"
+    },
+    {
+     "block": 149,
+     "quote": "圖資料庫，支援高效路徑查詢"
+    },
+    {
+     "block": 148,
+     "quote": "Neo4j："
+    },
+    {
+     "block": 150,
+     "quote": "直觀查詢語言（Cypher）"
+    }
+   ]
+  },
+  {
+   "id": "text",
+   "label": "文字資料分析",
+   "lane": "data",
+   "parent": null,
+   "concept": null,
+   "gist": "文字屬非結構化資料，需轉成可運算的結構資料，才能做分類、預測、情感分析或主題理解。",
+   "src": [
+    {
+     "block": 163,
+     "quote": "將大量自然語言內容轉化為可理解、可運算的結構資料"
+    }
+   ]
+  },
+  {
+   "id": "prep",
+   "label": "文字預處理",
+   "lane": "data",
+   "parent": "text",
+   "concept": "文字預處理",
+   "gist": "斷詞、去標點、轉小寫、停用詞過濾，再做詞形還原或詞幹提取，減少雜訊與維度。",
+   "src": [
+    {
+     "block": 165,
+     "quote": "減少雜訊並提升後續分析效率"
+    },
+    {
+     "block": 170,
+     "quote": "移除無實質意義的詞"
+    },
+    {
+     "block": 167,
+     "quote": "將句子拆分為單詞或詞組"
+    },
+    {
+     "block": 168,
+     "quote": "移除逗號、句號等無意義符號"
+    },
+    {
+     "block": 169,
+     "quote": "統一大小寫，避免「Phone」"
+    },
+    {
+     "block": 171,
+     "quote": "還原到其詞典形式"
+    },
+    {
+     "block": 172,
+     "quote": "將單詞截斷至其詞幹"
+    }
+   ]
+  },
+  {
+   "id": "feat",
+   "label": "特徵轉換",
+   "lane": "data",
+   "parent": "text",
+   "concept": null,
+   "gist": "把文字轉數值特徵：TF、TF-IDF，嵌入式 Word2Vec、GloVe、FastText，深度語意嵌入 BERT。",
+   "src": [
+    {
+     "block": 173,
+     "quote": "將文字為數值特徵，供機器學習或統計模型使用"
+    },
+    {
+     "block": 182,
+     "quote": "捕捉上下文語意，生成高維向量"
+    },
+    {
+     "block": 178,
+     "quote": "Word2Vec：將詞轉換為向量"
+    },
+    {
+     "block": 175,
+     "quote": "計算詞在單一文件中的出現頻率"
+    },
+    {
+     "block": 176,
+     "quote": "結合詞頻和文獻稀有性"
+    },
+    {
+     "block": 179,
+     "quote": "基於詞共現矩陣生成詞向量"
+    },
+    {
+     "block": 180,
+     "quote": "考慮子詞資訊"
+    }
+   ]
+  },
+  {
+   "id": "tfidf",
+   "label": "TF-IDF",
+   "lane": "data",
+   "parent": "feat",
+   "concept": "詞頻-逆文件頻率",
+   "gist": "結合詞頻與文獻稀有性，突出關鍵詞並降低常見詞的影響。",
+   "src": [
+    {
+     "block": 176,
+     "quote": "結合詞頻和文獻稀有性，突出關鍵詞"
+    }
+   ]
+  },
+  {
+   "id": "task",
+   "label": "任務導向分析",
+   "lane": "data",
+   "parent": "text",
+   "concept": null,
+   "gist": "依需求做分類（情感、主題）、分群（如 LDA 找主題）、資訊擷取（NER、關鍵字）。",
+   "src": [
+    {
+     "block": 184,
+     "quote": "情感分析（正向/負向）"
+    },
+    {
+     "block": 185,
+     "quote": "使用非監督式方法（如LDA）發現主題結構"
+    },
+    {
+     "block": 186,
+     "quote": "命名實體辨識（NER，識別人名、地名）"
+    }
+   ]
+  },
+  {
+   "id": "geo",
+   "label": "地理空間分析",
+   "lane": "data",
+   "parent": null,
+   "concept": null,
+   "gist": "座標、地點、範圍資料具空間關聯與位置敏感，型態含點、線、面，挑戰是異質性、鄰近關係與大規模。",
+   "src": [
+    {
+     "block": 207,
+     "quote": "這些資料具有空間關聯性與位置敏感性"
+    },
+    {
+     "block": 210,
+     "quote": "如GPS 座標（經緯度）"
+    },
+    {
+     "block": 206,
+     "quote": "包含座標、地點與範圍等資訊"
+    },
+    {
+     "block": 211,
+     "quote": "線資料：如道路、鐵路或管線"
+    },
+    {
+     "block": 212,
+     "quote": "面資料：如行政區域、土地使用區"
+    },
+    {
+     "block": 217,
+     "quote": "空間上的距離和鄰接關係影響變數間關聯"
+    },
+    {
+     "block": 219,
+     "quote": "資料規模龐大"
+    }
+   ]
+  },
+  {
+   "id": "gwr",
+   "label": "空間異質性與 GWR",
+   "lane": "data",
+   "parent": "geo",
+   "concept": null,
+   "gist": "各區域特性不同使獨立性假設的傳統模型失效，需用地理加權迴歸建立地點特有模型。",
+   "src": [
+    {
+     "block": 215,
+     "quote": "空間異質性可能導致傳統統計模型（假設獨立性）失效"
+    },
+    {
+     "block": 232,
+     "quote": "建立地點特有的迴歸模型"
+    }
+   ]
+  },
+  {
+   "id": "hot",
+   "label": "熱點與空間群聚",
+   "lane": "data",
+   "parent": "geo",
+   "concept": null,
+   "gist": "KDE 與 Getis-Ord Gi* 找事件密集區；K-Means、DBSCAN 做空間分群；空間插值預測未知地點。",
+   "src": [
+    {
+     "block": 224,
+     "quote": "識別地理空間中事件密集的區域"
+    },
+    {
+     "block": 234,
+     "quote": "根據已知點的數值（如氣溫）預測未知地點的數值"
+    },
+    {
+     "block": 225,
+     "quote": "估計事件密度的平滑分佈"
+    },
+    {
+     "block": 226,
+     "quote": "檢測局部空間自相關"
+    },
+    {
+     "block": 229,
+     "quote": "結合經緯度和屬性進行聚類"
+    },
+    {
+     "block": 230,
+     "quote": "基於密度分群"
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "a": "tdigest",
+   "b": "spark",
+   "kind": "cross",
+   "label": "Spark 分位數估計基於它",
+   "block": 49,
+   "quote": "基於近似演算法（如t-digest）"
+  },
+  {
+   "a": "cms",
+   "b": "anom",
+   "kind": "cross",
+   "label": "高頻計數用來抓攻擊來源",
+   "block": 37,
+   "quote": "檢測高頻訪問的IP 地址，識別潛在攻擊來源"
+  },
+  {
+   "a": "welford",
+   "b": "anom",
+   "kind": "cross",
+   "label": "即時變異數用來識別異常波動",
+   "block": 44,
+   "quote": "計算即時交易金額的變異數，識別異常波動"
+  },
+  {
+   "a": "tdigest",
+   "b": "anom",
+   "kind": "cross",
+   "label": "高百分位數用來識別異常流量",
+   "block": 23,
+   "quote": "計算即時流量的99th percentile，識別潛在異常"
+  },
+  {
+   "a": "ts",
+   "b": "anstat",
+   "kind": "cross",
+   "label": "時序異常用滑動視窗檢測",
+   "block": 264,
+   "quote": "在時間序列中計算滑動視窗的均值和標準差"
+  },
+  {
+   "a": "spark",
+   "b": "ts",
+   "kind": "cross",
+   "label": "Spark 也支援時序分析",
+   "block": 85,
+   "quote": "支援時間分區查詢、時序統計"
+  },
+  {
+   "a": "net",
+   "b": "anom",
+   "kind": "cross",
+   "label": "網路分析用於詐欺與異常關聯",
+   "block": 161,
+   "quote": "識別可疑交易路徑或異常關聯群體"
+  },
+  {
+   "a": "neo4j",
+   "b": "comm",
+   "kind": "cross",
+   "label": "Neo4j 支援社群偵測",
+   "block": 149,
+   "quote": "支援高效路徑查詢、社群偵測和視覺化"
+  }
+ ],
+ "confusions": [
+  {
+   "a": "詞形還原",
+   "b": "詞幹提取",
+   "text": "詞形還原回到詞典形式並考慮語義與詞性；詞幹提取只截斷詞綴，不考慮詞性或語義。",
+   "blocks": [
+    171,
+    172
+   ]
+  },
+  {
+   "a": "TF",
+   "b": "TF-IDF",
+   "text": "TF 只算詞在單一文件中的出現頻率；TF-IDF 再結合文獻稀有性，降低常見詞影響。",
+   "blocks": [
+    175,
+    176
+   ]
+  },
+  {
+   "a": "移動平均",
+   "b": "指數平滑",
+   "text": "移動平均對固定窗口內資料平均，突顯長期趨勢；指數平滑對近期資料給更高權重，適合短期預測。",
+   "blocks": [
+    71,
+    72
+   ]
+  },
+  {
+   "a": "ARIMA",
+   "b": "SARIMA",
+   "text": "ARIMA 處理線性趨勢與穩定序列；SARIMA 加入季節性分量，適合週期性資料。",
+   "blocks": [
+    75,
+    76
+   ]
+  },
+  {
+   "a": "Betweenness",
+   "b": "Closeness",
+   "text": "Betweenness 衡量節點作為資訊橋樑的頻率；Closeness 看到其他節點的平均最短路徑。",
+   "blocks": [
+    135,
+    136
+   ]
+  },
+  {
+   "a": "K-Means",
+   "b": "DBSCAN",
+   "text": "K-Means 結合座標與屬性，適合均勻分群；DBSCAN 以密度分群，適合非均勻分佈。",
+   "blocks": [
+    229,
+    230
+   ]
+  },
+  {
+   "a": "LOF",
+   "b": "KNN 異常分數",
+   "text": "LOF 比較與鄰居的局部密度；KNN 異常分數看與最近鄰居的平均距離。",
+   "blocks": [
+    266,
+    267
+   ]
+  }
+ ],
+ "gaps": []
+}

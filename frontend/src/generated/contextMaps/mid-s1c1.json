@@ -1,0 +1,1069 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide1",
+  "nodeId": "mid-s1c1",
+  "label": "中級 科目一・3.1 自然語言處理技術與應用",
+  "subjectId": "mid-s1",
+  "title": "自然語言處理技術與應用"
+ },
+ "headline": "一張圖看懂自然語言處理技術與應用",
+ "lede": "本章從 NLP 的定義與技術演進出發，說明文字如何經前處理與向量化，進到 Transformer 與預訓練模型，最後談應用與風險。先抓住「每一代技術都在解前一代的痛點」這條主線。",
+ "story": [
+  {
+   "step": "是什麼",
+   "title": "NLP、NLU、NLG",
+   "text": "讓機器理解、處理、產生語言。"
+  },
+  {
+   "step": "怎麼演進",
+   "title": "規則到預訓練",
+   "text": "每一代技術都在補前一代的限制。"
+  },
+  {
+   "step": "怎麼表示",
+   "title": "前處理與詞向量",
+   "text": "文字先清理，再轉成可運算的向量。"
+  },
+  {
+   "step": "用什麼模型",
+   "title": "Transformer 與預訓練",
+   "text": "自注意力加預訓練再微調，成為主流。"
+  },
+  {
+   "step": "怎麼落地",
+   "title": "應用與三層風險",
+   "text": "資料、模型、應用層各有風險與對策。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "evo",
+   "name": "技術演進"
+  },
+  {
+   "id": "repr",
+   "name": "前處理與文字表示"
+  },
+  {
+   "id": "model",
+   "name": "Transformer 與預訓練模型"
+  },
+  {
+   "id": "risk",
+   "name": "應用與風險"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "nlp",
+   "label": "自然語言處理 NLP",
+   "lane": null,
+   "parent": null,
+   "concept": "自然語言處理",
+   "gist": "讓電腦能理解、處理並產生自然語言，是人機溝通與語言智慧創作的基礎。",
+   "src": [
+    {
+     "block": 9,
+     "quote": "使電腦能夠「理解、處理並產生」自然語言的一項核心技術",
+     "page": 11
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "nlu",
+   "label": "NLU 與 NLG",
+   "lane": "evo",
+   "parent": null,
+   "concept": null,
+   "gist": "NLP 是總框架；NLU 負責理解語意與意圖，NLG 負責產生自然語言。",
+   "src": [
+    {
+     "block": 18,
+     "quote": "專注於機器如何「理解」 人類語言的語法結構與語意邏輯",
+     "page": 11
+    },
+    {
+     "block": 19,
+     "quote": "專注於機器如何「產生」 自然語言",
+     "page": 11
+    },
+    {
+     "block": 20,
+     "quote": "NLP 作為總體框架，涵蓋所有語言技術",
+     "page": 11
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "rule",
+   "label": "規則式方法",
+   "lane": "evo",
+   "parent": null,
+   "concept": null,
+   "gist": "手寫語法規則與辭典；可解釋性高，但語境一變就無法應對、維護成本高。",
+   "src": [
+    {
+     "block": 29,
+     "quote": "這一方法的優勢在於其高可解釋性",
+     "page": 13
+    },
+    {
+     "block": 31,
+     "quote": "當語言結構或語境發生變化時，這些方法無法靈活應對",
+     "page": 13
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "stat",
+   "label": "統計語言模型",
+   "lane": "evo",
+   "parent": null,
+   "concept": null,
+   "gist": "用大量語料訓練機率模型自動學規律，但缺乏深度語意、抓不到長距離依賴。",
+   "src": [
+    {
+     "block": 37,
+     "quote": "研究者開始依靠大量語料來訓練機率模型",
+     "page": 13
+    },
+    {
+     "block": 39,
+     "quote": "無法捕捉長距離（長句子、長段落）的語言依賴性",
+     "page": 14
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "dl",
+   "label": "深度學習：RNN／LSTM／GRU",
+   "lane": "evo",
+   "parent": null,
+   "concept": "序列模型",
+   "gist": "神經網路處理語言序列，能抓長距離依賴；LSTM 解決 RNN 梯度消失，但訓練耗資源、難並行。",
+   "src": [
+    {
+     "block": 48,
+     "quote": "RNN 及其變體（LSTM、GRU）能夠記住更長時間範圍內的資訊",
+     "page": 14
+    },
+    {
+     "block": 52,
+     "quote": "能夠有效解決RNN 的梯度消失問題",
+     "page": 15
+    },
+    {
+     "block": 49,
+     "quote": "這些模型的訓練需要大量的計算資源和數據，並且難以並行處理",
+     "page": 15
+    },
+    {
+     "block": 47,
+     "quote": "NLP 開始廣泛應用神經網路來處理語言序列資料",
+     "page": 14
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "prep",
+   "label": "NLP 前處理",
+   "lane": "repr",
+   "parent": null,
+   "concept": "文字預處理",
+   "gist": "餵進模型前先清理、轉換、標準化；包含分詞、詞性標注、詞形還原／詞幹提取、停用詞移除。",
+   "src": [
+    {
+     "block": 68,
+     "quote": "高品質的資料前處理是不可或缺的一個環節",
+     "page": 17
+    },
+    {
+     "block": 79,
+     "quote": "兩者都是「文字正規化（Normalization）」的一環",
+     "page": 18
+    },
+    {
+     "block": 87,
+     "quote": "排除對分類與語意貢獻較小的高頻詞",
+     "page": 19
+    },
+    {
+     "block": 70,
+     "quote": "必須先經過一系列清理、轉換與標準化的處理",
+     "page": 17
+    },
+    {
+     "block": 71,
+     "quote": "標記每個詞的語法角色",
+     "page": 17
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "tok",
+   "label": "分詞",
+   "lane": "repr",
+   "parent": "prep",
+   "concept": "標記化",
+   "gist": "文字處理的起點；中文、日文無空白，需斷詞字典或模型輔助，切錯會影響後續分析。",
+   "src": [
+    {
+     "block": 73,
+     "quote": "針對中文、日文等無空白語言，通常需要斷詞字典或模型輔助切詞",
+     "page": 17
+    },
+    {
+     "block": 74,
+     "quote": "後續的語法分析和語意分析將會受到影響",
+     "page": 17
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "vec",
+   "label": "詞彙向量化與詞嵌入",
+   "lane": "repr",
+   "parent": null,
+   "concept": "詞嵌入",
+   "gist": "模型只能算數字，所以文字要先轉成向量；表示技術從統計方法演進到分布式再到語境型。",
+   "src": [
+    {
+     "block": 91,
+     "quote": "文字必須先轉換為向量（Vector）或張量（Tensor）的形式",
+     "page": 19
+    },
+    {
+     "block": 109,
+     "quote": "詞嵌入是一種將每個詞彙轉換為數字向量的技術",
+     "page": 21
+    },
+    {
+     "block": 93,
+     "quote": "文字表示技術從早期的統計方法",
+     "page": 19
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "disc",
+   "label": "One-hot 與 BoW",
+   "lane": "repr",
+   "parent": "vec",
+   "concept": null,
+   "gist": "離散表示：結構簡單，但向量稀疏、維度高、沒有語意，BoW 還忽略詞序。",
+   "src": [
+    {
+     "block": 107,
+     "quote": "最典型的應用就是One-hot Encoding",
+     "page": 21
+    },
+    {
+     "block": 131,
+     "quote": "將文本視為一組單獨的詞彙，不考慮詞彙的順序和語法結構",
+     "page": 23
+    },
+    {
+     "block": 123,
+     "quote": "向量維度高，對於大規模詞彙表，向量會非常稀疏",
+     "page": 22
+    },
+    {
+     "block": 116,
+     "quote": "無法捕捉詞彙之間的語意關聯",
+     "page": 22
+    },
+    {
+     "block": 119,
+     "quote": "結構簡單，易於理解",
+     "page": 22
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "tfidf",
+   "label": "tf-idf",
+   "lane": "repr",
+   "parent": "vec",
+   "concept": "詞頻-逆文件頻率",
+   "gist": "結合詞在單一文件的頻率與在語料庫的罕見程度，強調關鍵詞；但抓不到語意與多義詞。",
+   "src": [
+    {
+     "block": 152,
+     "quote": "該詞在整體語料庫中的罕見程度（idf）",
+     "page": 24
+    },
+    {
+     "block": 162,
+     "quote": "tf-idf 是TF 和IDF 的乘積",
+     "page": 24
+    },
+    {
+     "block": 170,
+     "quote": "無法區分同一詞在不同上下文中的語意",
+     "page": 24
+    },
+    {
+     "block": 169,
+     "quote": "無法捕捉詞彙間的語意關聯",
+     "page": 24
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "ngram",
+   "label": "N-grams",
+   "lane": "repr",
+   "parent": "vec",
+   "concept": null,
+   "gist": "把連續 N 個詞當一個特徵，保留短範圍詞序；N 太大特徵膨脹、無法捕捉長句關聯。",
+   "src": [
+    {
+     "block": 179,
+     "quote": "連續N 個詞、組合成一個特徵單位",
+     "page": 25
+    },
+    {
+     "block": 187,
+     "quote": "當N 值過大時，維度會急劇增加",
+     "page": 25
+    },
+    {
+     "block": 184,
+     "quote": "能夠保留詞彙順序和語法結構",
+     "page": 25
+    },
+    {
+     "block": 188,
+     "quote": "無法長期捕捉文本中的上下文關聯",
+     "page": 26
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "static",
+   "label": "靜態詞嵌入",
+   "lane": "repr",
+   "parent": "vec",
+   "concept": null,
+   "gist": "Word2Vec、GloVe、FastText：語意相近的詞向量相近，但每個詞只有一個固定向量，無法處理多義詞。",
+   "src": [
+    {
+     "block": 194,
+     "quote": "常見的模型有 Word2Vec、GloVe 和FastText",
+     "page": 26
+    },
+    {
+     "block": 201,
+     "quote": "每個詞在所有語境中都有一個固定的向量表示",
+     "page": 27
+    },
+    {
+     "block": 224,
+     "quote": "將每個詞視為子詞（subwords）組成的集合",
+     "page": 29
+    },
+    {
+     "block": 193,
+     "quote": "將語意相近的詞彙映射到向量空間中相近的位置",
+     "page": 26
+    },
+    {
+     "block": 202,
+     "quote": "這些模型無法有效處理同詞異義的情況",
+     "page": 27
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "ctx",
+   "label": "語境型詞嵌入",
+   "lane": "repr",
+   "parent": "vec",
+   "concept": null,
+   "gist": "ELMo、BERT、GPT：詞向量隨上下文動態生成，能處理多義詞，但需要大量算力。",
+   "src": [
+    {
+     "block": 230,
+     "quote": "詞的語意會根據其所處的上下文語境而改變",
+     "page": 29
+    },
+    {
+     "block": 234,
+     "quote": "可解決多義詞與語意變化問題",
+     "page": 29
+    },
+    {
+     "block": 239,
+     "quote": "如BERT、GPT 模型需大量GPU/TPU 資源",
+     "page": 30
+    },
+    {
+     "block": 232,
+     "quote": "常見的語境型詞嵌入技術包括ELMo、BERT、GPT 等",
+     "page": 29
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "tf",
+   "label": "Transformer",
+   "lane": "model",
+   "parent": null,
+   "concept": "Transformer架構",
+   "gist": "以自注意力取代序列遞迴，一次平行處理整段輸入，訓練更快、可擴展到極大語料。",
+   "src": [
+    {
+     "block": 262,
+     "quote": "不再依賴時間序列結構，而是通過自注意力機制",
+     "page": 32
+    },
+    {
+     "block": 273,
+     "quote": "訓練速度大幅提升、更適合在 GPU/TPU 上運行",
+     "page": 33
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "attn",
+   "label": "自注意力機制",
+   "lane": "model",
+   "parent": "tf",
+   "concept": "注意力機制",
+   "gist": "每個詞依與其他詞的關聯程度加權，一次看整段序列，能學到主詞與動詞間的長距離依賴。",
+   "src": [
+    {
+     "block": 266,
+     "quote": "Self-Attention 機制可同時考慮整段輸入序列的上下文",
+     "page": 32
+    },
+    {
+     "block": 267,
+     "quote": "Self- Attention 能正確捕捉",
+     "page": 32
+    }
+   ],
+   "exam": 4
+  },
+  {
+   "id": "ptm",
+   "label": "預訓練再微調",
+   "lane": "model",
+   "parent": null,
+   "concept": "預訓練語言模型",
+   "gist": "先用大規模語料預訓練，再針對特定任務微調；高可轉移、泛用，但訓練昂貴。",
+   "src": [
+    {
+     "block": 280,
+     "quote": "先使用大規模語料進行通用語言任務的預訓練",
+     "page": 33
+    },
+    {
+     "block": 286,
+     "quote": "儘管訓練過程昂貴且需要大量計算資源",
+     "page": 34
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "bert",
+   "label": "BERT",
+   "lane": "model",
+   "parent": "ptm",
+   "concept": null,
+   "gist": "雙向 Encoder，用 MLM 與 NSP 預訓練，擅長分類、問答、命名實體辨識等理解類任務。",
+   "src": [
+    {
+     "block": 284,
+     "quote": "BERT 使用雙向編碼器架構",
+     "page": 34
+    },
+    {
+     "block": 284,
+     "quote": "特別擅長於分類、問答、命名實體辨識等任務",
+     "page": 34
+    },
+    {
+     "block": 283,
+     "quote": "主要用於理解類任務，如問答、分類等",
+     "page": 34
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "gpt",
+   "label": "GPT",
+   "lane": "model",
+   "parent": "ptm",
+   "concept": "自迴歸生成",
+   "gist": "單向 Transformer，自迴歸預測，專注文本生成；只用前文，語言理解可能受限。",
+   "src": [
+    {
+     "block": 285,
+     "quote": "GPT 採用自迴歸預測",
+     "page": 34
+    },
+    {
+     "block": 241,
+     "quote": "例如GPT 僅使用前文，可能導致語言理解受限",
+     "page": 30
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "prompt",
+   "label": "提示學習與小樣本",
+   "lane": "model",
+   "parent": "ptm",
+   "concept": null,
+   "gist": "把任務改寫成填空或問答；Few-shot 給少量示例，Zero-shot 不給示例，免重新訓練。",
+   "src": [
+    {
+     "block": 289,
+     "quote": "將任務轉化為類似填空或問答的格式",
+     "page": 34
+    },
+    {
+     "block": 291,
+     "quote": "指只需提供少量示例來提升模型在新任務下的理解力",
+     "page": 35
+    },
+    {
+     "block": 293,
+     "quote": "模型在沒有任何任務示例的情況下",
+     "page": 35
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "rag",
+   "label": "RAG",
+   "lane": "model",
+   "parent": "ptm",
+   "concept": "檢索增強生成",
+   "gist": "生成前先檢索外部知識，再依資料生成答案，提升需要背景知識任務的準確性。",
+   "src": [
+    {
+     "block": 299,
+     "quote": "將「外部知識檢索」與「語言生成」結合",
+     "page": 36
+    },
+    {
+     "block": 300,
+     "quote": "RAG 可以先檢索出相關的資料",
+     "page": 36
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "lora",
+   "label": "LoRA",
+   "lane": "model",
+   "parent": "ptm",
+   "concept": "參數高效微調",
+   "gist": "只加輕量參數、不改整體模型，就能快速調整；適合資源有限的部署，減少運算與儲存。",
+   "src": [
+    {
+     "block": 301,
+     "quote": "透過向原始模型添加輕量級的參數，而非直接修改整體模型結構",
+     "page": 36
+    },
+    {
+     "block": 303,
+     "quote": "僅調整必要的低秩參數，從而大幅減少計算和儲存需求",
+     "page": 36
+    }
+   ],
+   "exam": 4
+  },
+  {
+   "id": "apps",
+   "label": "NLP 應用情境",
+   "lane": "risk",
+   "parent": null,
+   "concept": "NLP應用",
+   "gist": "文字分類、情感分析、對話系統、文字生成、機器翻譯與 NER／關係抽取，各有挑戰與關鍵指標。",
+   "src": [
+    {
+     "block": 306,
+     "quote": "從文字分類、情感分析，到對話系統與機器翻譯",
+     "page": 37
+    },
+    {
+     "block": 324,
+     "quote": "特別注意內容的語意一致性、邏輯性以及事實性",
+     "page": 39
+    },
+    {
+     "block": 329,
+     "quote": "機器翻譯仍然面臨語言間的語法差異和專業術語翻譯的挑戰",
+     "page": 39
+    },
+    {
+     "block": 330,
+     "quote": "結構化資訊抽取（如命名實體辨識和關係抽取）",
+     "page": 39
+    },
+    {
+     "block": 320,
+     "quote": "文字生成技術可用於自動建立文本內容",
+     "page": 38
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "sent",
+   "label": "情感分析",
+   "lane": "risk",
+   "parent": "apps",
+   "concept": "情感分析",
+   "gist": "判斷文本是正面、負面或中立，用於社群輿情監控與顧客滿意度調查。",
+   "src": [
+    {
+     "block": 312,
+     "quote": "判斷文本是表達正面、負面還是中立情緒",
+     "page": 37
+    },
+    {
+     "block": 313,
+     "quote": "品牌需要定期分析社群媒體上關於其品牌的討論情緒",
+     "page": 37
+    },
+    {
+     "block": 314,
+     "quote": "顧客滿意度調查：電商平台或服務業會通過分析顧客的評論",
+     "page": 38
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "risk",
+   "label": "NLP 三層風險",
+   "lane": "risk",
+   "parent": null,
+   "concept": null,
+   "gist": "風險依位置分為資料層、模型層、應用層；應用層含語意理解限制、部署維運與生成內容。",
+   "src": [
+    {
+     "block": 335,
+     "quote": "分為 「資料層風險、模型層風險以及應用層風險」",
+     "page": 40
+    },
+    {
+     "block": 383,
+     "quote": "包含語意理解的誤差、維運機制缺乏，以及生成內容的不確定性",
+     "page": 44
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "priv",
+   "label": "資料隱私",
+   "lane": "risk",
+   "parent": "risk",
+   "concept": "資料隱私保護",
+   "gist": "對話、郵件等語料可能含個資，未妥善匿名化與授權會違反個資法或 GDPR。",
+   "src": [
+    {
+     "block": 337,
+     "quote": "未經妥善匿名化與授權，便可能違反《個人資料保護法》",
+     "page": 40
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "anon",
+   "label": "去識別化與匿名化",
+   "lane": "risk",
+   "parent": "priv",
+   "concept": "資料匿名化",
+   "gist": "去識別化遮蔽或替換後仍可能重新連結個體；匿名化徹底移除，無法再連結。",
+   "src": [
+    {
+     "block": 343,
+     "quote": "仍保有與原始個體連結的潛在可能",
+     "page": 40
+    },
+    {
+     "block": 348,
+     "quote": "處理後的資料無法再與任何特定個體連結",
+     "page": 41
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "qual",
+   "label": "標註與資料品質",
+   "lane": "risk",
+   "parent": "risk",
+   "concept": "資料品質",
+   "gist": "標註錯誤、不一致或樣本偏斜會讓模型學習偏誤；要審查標註，並用資料增強或多重標註降低偏誤。",
+   "src": [
+    {
+     "block": 353,
+     "quote": "語料若存在標註錯誤、不一致，或樣本偏斜",
+     "page": 41
+    },
+    {
+     "block": 358,
+     "quote": "應該使用數據增強技術或基於多重標註來降低偏誤",
+     "page": 42
+    },
+    {
+     "block": 357,
+     "quote": "標註資料應經過審查和驗證",
+     "page": 42
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "ip",
+   "label": "授權與版權",
+   "lane": "risk",
+   "parent": "risk",
+   "concept": "智慧財產權",
+   "gist": "訓練資料需有適當授權，生成內容要做版權檢查，並加上版權聲明與使用條款。",
+   "src": [
+    {
+     "block": 367,
+     "quote": "確保所有用於訓練資料的資料來源都有適當的授權",
+     "page": 42
+    },
+    {
+     "block": 370,
+     "quote": "生成的內容應經過版權檢查",
+     "page": 43
+    },
+    {
+     "block": 371,
+     "quote": "應加入適當的版權聲明與使用條款",
+     "page": 43
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "bias",
+   "label": "模型偏見與公平性",
+   "lane": "risk",
+   "parent": "risk",
+   "concept": "偏見與公平性",
+   "gist": "訓練資料的偏見會被模型延續；可用 WEAT 檢測詞向量偏見，並從專案起就納入公平性指標。",
+   "src": [
+    {
+     "block": 373,
+     "quote": "當訓練資料帶有特定文化、性別、種族等偏見時",
+     "page": 43
+    },
+    {
+     "block": 376,
+     "quote": "分析詞向量中的偏見，檢測模型是否無意中學習到社會偏見",
+     "page": 43
+    },
+    {
+     "block": 381,
+     "quote": "應從一開始就納入公平性指標",
+     "page": 43
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "hall",
+   "label": "生成內容與幻覺",
+   "lane": "risk",
+   "parent": "risk",
+   "concept": "AI幻覺與真實性風險",
+   "gist": "生成式模型可能產生虛假、有害內容；需事實檢查，高風險領域要人工審核。",
+   "src": [
+    {
+     "block": 402,
+     "quote": "產生虛假的、誤導性的或完全虛構的資訊",
+     "page": 46
+    },
+    {
+     "block": 407,
+     "quote": "生成內容應經過人工審核",
+     "page": 46
+    },
+    {
+     "block": 406,
+     "quote": "加入事實檢查機制",
+     "page": 46
+    }
+   ],
+   "exam": 1
+  }
+ ],
+ "edges": [
+  {
+   "a": "rule",
+   "b": "stat",
+   "kind": "flow",
+   "label": "統計模型突破規則的僵硬",
+   "block": 38,
+   "quote": "解決了當語言結構或語境發生變化時規則無法靈活應對的問題",
+   "page": 13
+  },
+  {
+   "a": "stat",
+   "b": "dl",
+   "kind": "flow",
+   "label": "深度學習補上長距離依賴",
+   "block": 48,
+   "quote": "解決了統計語言模型中無法有效捕捉長距離依賴關係的問題",
+   "page": 14
+  },
+  {
+   "a": "dl",
+   "b": "tf",
+   "kind": "flow",
+   "label": "自注意力取代遞迴",
+   "block": 56,
+   "quote": "摒棄了傳統的序列遞迴結構，轉而採用了自注意力機制",
+   "page": 15
+  },
+  {
+   "a": "prep",
+   "b": "vec",
+   "kind": "flow",
+   "label": "前處理後還要轉成向量",
+   "block": 91,
+   "quote": "當完成分詞、詞性標注、詞形還原等前處理步驟後",
+   "page": 19
+  },
+  {
+   "a": "ngram",
+   "b": "stat",
+   "kind": "cross",
+   "label": "N-gram 是統計基礎",
+   "block": 41,
+   "quote": "統計語言模型中最基礎的形式",
+   "page": 14
+  },
+  {
+   "a": "ctx",
+   "b": "bert",
+   "kind": "cross",
+   "label": "BERT、GPT 屬語境型",
+   "block": 232,
+   "quote": "常見的語境型詞嵌入技術包括ELMo、BERT、GPT 等",
+   "page": 29
+  },
+  {
+   "a": "ctx",
+   "b": "tf",
+   "kind": "cross",
+   "label": "建於深度語言模型之上",
+   "block": 232,
+   "quote": "通常建立在深度語言模型（如LSTM 或Transformer）之上",
+   "page": 29
+  },
+  {
+   "a": "ctx",
+   "b": "ptm",
+   "kind": "cross",
+   "label": "語境型靠預訓練",
+   "block": 232,
+   "quote": "並透過大規模語料進行預訓練",
+   "page": 29
+  },
+  {
+   "a": "tf",
+   "b": "ptm",
+   "kind": "cross",
+   "label": "預訓練模型用它",
+   "block": 57,
+   "quote": "基於Transformer 的預訓練語言模型",
+   "page": 15
+  },
+  {
+   "a": "prompt",
+   "b": "gpt",
+   "kind": "cross",
+   "label": "GPT 搭配提示詞做生成",
+   "block": 254,
+   "quote": "可搭配提示詞（Prompt）進行生成任務",
+   "page": 31
+  },
+  {
+   "a": "qual",
+   "b": "bias",
+   "kind": "cross",
+   "label": "資料偏見造成模型偏見",
+   "block": 355,
+   "quote": "會直接導致模型無法泛化或出現偏見",
+   "page": 42
+  },
+  {
+   "a": "bias",
+   "b": "vec",
+   "kind": "cross",
+   "label": "WEAT 檢測詞向量偏見",
+   "block": 378,
+   "quote": "用以檢測詞嵌入中的隱含偏見",
+   "page": 43
+  },
+  {
+   "a": "ctx",
+   "b": "risk",
+   "kind": "cross",
+   "label": "語境型詞向量緩解語意誤解",
+   "block": 389,
+   "quote": "應結合語境型詞向量（如BERT、GPT）來增強模型的語境理解能力",
+   "page": 44
+  },
+  {
+   "a": "sent",
+   "b": "risk",
+   "kind": "cross",
+   "label": "反話讓情感分析誤判",
+   "block": 386,
+   "quote": "NLP 模型可能會誤解為正面評論",
+   "page": 44
+  }
+ ],
+ "confusions": [
+  {
+   "a": "語境型表示",
+   "b": "非語境型表示",
+   "text": "前者的詞向量隨上下文改變，能處理多義詞；後者每個詞向量固定，如 Word2Vec、GloVe。",
+   "blocks": [
+    99,
+    102
+   ],
+   "pages": [
+    20,
+    21
+   ]
+  },
+  {
+   "a": "詞形還原",
+   "b": "詞幹提取",
+   "text": "前者靠語法規則與字典、保留語意；後者簡單裁剪、速度快但結果不一定是有效單字。",
+   "blocks": [
+    81,
+    84
+   ],
+   "pages": [
+    18
+   ]
+  },
+  {
+   "a": "BERT",
+   "b": "GPT",
+   "text": "BERT 雙向編碼、擅長理解類任務；GPT 單向自迴歸、擅長生成。",
+   "blocks": [
+    284,
+    285
+   ],
+   "pages": [
+    34
+   ]
+  },
+  {
+   "a": "CBOW",
+   "b": "Skip-gram",
+   "text": "CBOW 用上下文預測中心詞、速度快；Skip-gram 用中心詞預測上下文、對低頻詞更有效。",
+   "blocks": [
+    209,
+    210,
+    215,
+    216
+   ],
+   "pages": [
+    27,
+    28
+   ]
+  },
+  {
+   "a": "去識別化",
+   "b": "匿名化",
+   "text": "前者仍可能透過代碼重新辨識個體；後者徹底移除，無法再連結特定個體。",
+   "blocks": [
+    343,
+    348
+   ],
+   "pages": [
+    40,
+    41
+   ]
+  },
+  {
+   "a": "分布式表示",
+   "b": "非分布式表示",
+   "text": "前者語意相近的詞向量位置相近；後者如 One-hot，各詞獨立，無法表達語意關聯。",
+   "blocks": [
+    105,
+    107
+   ],
+   "pages": [
+    21
+   ]
+  },
+  {
+   "a": "RAG",
+   "b": "LoRA",
+   "text": "RAG 生成前檢索外部知識；LoRA 添加輕量參數來快速調整模型。",
+   "blocks": [
+    299,
+    301
+   ],
+   "pages": [
+    36
+   ]
+  },
+  {
+   "a": "Few-shot",
+   "b": "Zero-shot",
+   "text": "前者提供少量示例；後者完全沒有任務示例，只靠已有的語言理解推理。",
+   "blocks": [
+    291,
+    293
+   ],
+   "pages": [
+    35
+   ]
+  }
+ ],
+ "gaps": [],
+ "examOnly": [
+  {
+   "name": "資料增強",
+   "count": 3,
+   "mentioned": false
+  }
+ ],
+ "notes": [
+  {
+   "block": 220,
+   "page": 28,
+   "text": "原書寫「GloVe 是依賴於局部上下文…，而是利用整體語料庫…」，前後句意矛盾，疑漏「不」字：GloVe「不是」依賴局部上下文，而是利用整體共現統計。"
+  }
+ ]
+}

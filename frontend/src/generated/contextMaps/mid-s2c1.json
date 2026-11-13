@@ -1,0 +1,722 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide2",
+  "nodeId": "mid-s2c1",
+  "label": "中級 科目二・3.1 敘述性統計與資料摘要技術",
+  "subjectId": "mid-s2",
+  "title": "敘述性統計與資料摘要技術"
+ },
+ "headline": "一張圖看懂敘述性統計與資料摘要技術",
+ "lede": "本章教你不做母體推論，只用三個面向快速了解樣本資料：集中趨勢看中心、離散量度看波動、分佈形狀看對稱與尾部。重點是留意極端值對各指標的影響，並用箱形圖標出離群值。",
+ "story": [
+  {
+   "step": "先看中心",
+   "title": "集中趨勢",
+   "text": "平均數、眾數、中位數，各有適用資料與侷限。"
+  },
+  {
+   "step": "再看波動",
+   "title": "離散量度",
+   "text": "變異數、標準差、全距、IQR 衡量分散程度。"
+  },
+  {
+   "step": "畫出來",
+   "title": "箱形圖找離群值",
+   "text": "用 Q1、Q3 與 1.5 倍 IQR 界線標出異常值。"
+  },
+  {
+   "step": "最後看形狀",
+   "title": "偏度與峰度",
+   "text": "判斷分佈是否對稱，以及尾部厚薄。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "center",
+   "name": "集中趨勢"
+  },
+  {
+   "id": "disp",
+   "name": "離散量度與箱形圖"
+  },
+  {
+   "id": "shape",
+   "name": "分佈形狀"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "ds",
+   "label": "敘述性統計與資料摘要",
+   "lane": null,
+   "parent": null,
+   "concept": "敘述統計",
+   "gist": "不做母體推論，只把手上的樣本資料直接總結與可視化，快速掌握大局。",
+   "src": [
+    {
+     "block": 5,
+     "quote": "將資料本身做最直接的總結與可視化",
+     "page": 9
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "ct",
+   "label": "集中趨勢",
+   "lane": "center",
+   "parent": "ds",
+   "concept": null,
+   "gist": "用平均數、眾數、中位數刻畫資料最常見或核心的位置。",
+   "src": [
+    {
+     "block": 7,
+     "quote": "刻畫資料「最常見或核心的位置」",
+     "page": 9
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "mean",
+   "label": "算術平均",
+   "lane": "center",
+   "parent": "ct",
+   "concept": null,
+   "gist": "總和除以筆數，計算容易、概念直覺；但對極端值敏感，也無法呈現分散度。",
+   "src": [
+    {
+     "block": 27,
+     "quote": "對極端值敏感：少數離群點可能顯著拉高或降低平均數",
+     "page": 10
+    },
+    {
+     "block": 19,
+     "quote": "以「全部樣本數值的總和」除以「樣本筆數」",
+     "page": 10
+    },
+    {
+     "block": 24,
+     "quote": "計算容易、概念直覺",
+     "page": 10
+    },
+    {
+     "block": 28,
+     "quote": "無法呈現分散度",
+     "page": 10
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "gm",
+   "label": "幾何平均",
+   "lane": "center",
+   "parent": "ct",
+   "concept": null,
+   "gist": "適合成長率、報酬率等乘積效應；資料必須皆為正值。",
+   "src": [
+    {
+     "block": 31,
+     "quote": "適用於成長率、報酬率、人口成長等「乘積效應」情況",
+     "page": 11
+    },
+    {
+     "block": 38,
+     "quote": "需確保資料皆為正值",
+     "page": 11
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "hm",
+   "label": "調和平均",
+   "lane": "center",
+   "parent": "ct",
+   "concept": null,
+   "gist": "適合行駛速度、油耗等速率類數據；不能有零或負值。",
+   "src": [
+    {
+     "block": 42,
+     "quote": "常用於速率類數據（如行駛速度、油耗）",
+     "page": 11
+    },
+    {
+     "block": 49,
+     "quote": "不能有零或負值",
+     "page": 12
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "mode",
+   "label": "眾數",
+   "lane": "center",
+   "parent": "ct",
+   "concept": null,
+   "gist": "出現頻率最高的值，適合類別資料；連續資料要先分桶。",
+   "src": [
+    {
+     "block": 53,
+     "quote": "樣本中出現頻率最高的值",
+     "page": 12
+    },
+    {
+     "block": 58,
+     "quote": "連續型資料需先分桶（Bin）才能判斷眾數",
+     "page": 12
+    },
+    {
+     "block": 55,
+     "quote": "適用於類別資料",
+     "page": 12
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "median",
+   "label": "中位數",
+   "lane": "center",
+   "parent": "ct",
+   "concept": null,
+   "gist": "排序後的中間值，不怕長尾或極端值，常用於收入或房價；但看不出離散度。",
+   "src": [
+    {
+     "block": 62,
+     "quote": "對長尾或極端值不敏感，常用於收入或房價分析",
+     "page": 12
+    },
+    {
+     "block": 71,
+     "quote": "無法呈現離散度",
+     "page": 13
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "dp",
+   "label": "離散量度",
+   "lane": "disp",
+   "parent": "ds",
+   "concept": null,
+   "gist": "量化資料分散程度，並辨識極端值；標準差大代表更分散。",
+   "src": [
+    {
+     "block": 9,
+     "quote": "量化資料分散的程度，並辨識極端值或偏離情況",
+     "page": 9
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "var",
+   "label": "變異數與標準差",
+   "lane": "disp",
+   "parent": "dp",
+   "concept": null,
+   "gist": "標準差是變異數的平方根，單位與原資料相同；對離群值極為敏感。",
+   "src": [
+    {
+     "block": 77,
+     "quote": "標準差則是變異數的平方根，並且單位與原資料相同",
+     "page": 13
+    },
+    {
+     "block": 87,
+     "quote": "對極端值（離群值）極為敏感",
+     "page": 14
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "rng",
+   "label": "全距",
+   "lane": "disp",
+   "parent": "dp",
+   "concept": null,
+   "gist": "最大值減最小值，簡單易懂，但容易被單一極端值影響。",
+   "src": [
+    {
+     "block": 91,
+     "quote": "是指資料中最大值與最小值之間的差距",
+     "page": 14
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "quart",
+   "label": "四分位數",
+   "lane": "disp",
+   "parent": "dp",
+   "concept": null,
+   "gist": "用三個切點把資料分成四等份；第二四分位數就是中位數。",
+   "src": [
+    {
+     "block": 97,
+     "quote": "將資料集劃分為四個等份的三個切點",
+     "page": 14
+    },
+    {
+     "block": 103,
+     "quote": "也稱為中位數",
+     "page": 14
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "iqr",
+   "label": "四分位距 IQR",
+   "lane": "disp",
+   "parent": "quart",
+   "concept": null,
+   "gist": "IQR 等於 Q3 減 Q1，是中間一半資料的範圍；適合含離群值的資料。",
+   "src": [
+    {
+     "block": 93,
+     "quote": "IQR = Q3 - Q1",
+     "page": 14
+    },
+    {
+     "block": 109,
+     "quote": "適合處理含有離群值的資料",
+     "page": 15
+    },
+    {
+     "block": 125,
+     "quote": "它表示資料中間50%的數據範圍",
+     "page": 16
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "box",
+   "label": "箱形圖",
+   "lane": "disp",
+   "parent": "dp",
+   "concept": null,
+   "gist": "用中位數、四分位數、鬚與離群點，一張圖同時看集中趨勢與離散程度，常用於探索資料階段。",
+   "src": [
+    {
+     "block": 116,
+     "quote": "用來可視化資料集中趨勢與離散程度的工具",
+     "page": 15
+    },
+    {
+     "block": 119,
+     "quote": "箱形圖中的水平線，將資料分成兩個等份",
+     "page": 15
+    },
+    {
+     "block": 121,
+     "quote": "盒子的下邊界",
+     "page": 15
+    },
+    {
+     "block": 128,
+     "quote": "鬚用於表示資料的「正常分佈範圍」",
+     "page": 16
+    },
+    {
+     "block": 135,
+     "quote": "通常用圓點或星形標註",
+     "page": 16
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "whisk",
+   "label": "鬚與離群值",
+   "lane": "disp",
+   "parent": "box",
+   "concept": "異常值偵測",
+   "gist": "鬚的界線為 Q1 與 Q3 各外推 1.5 倍 IQR，超出者視為離群值並標註，可進一步處理。",
+   "src": [
+    {
+     "block": 132,
+     "quote": "上鬚（Upper Whisker）：（Q3 + 1.5 × IQR）",
+     "page": 16
+    },
+    {
+     "block": 136,
+     "quote": "任何超出Q1 − 1.5 × IQR 或 Q3 + 1.5 × IQR 的數據會被視為異常值",
+     "page": 16
+    },
+    {
+     "block": 139,
+     "quote": "可以發現資料中的極端值，進而進行處理",
+     "page": 16
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "sh",
+   "label": "分佈形狀",
+   "lane": "shape",
+   "parent": "ds",
+   "concept": null,
+   "gist": "用偏度與峰度觀察資料是否對稱、尾部厚度如何。",
+   "src": [
+    {
+     "block": 11,
+     "quote": "可觀察資料分佈是否對稱、尾部厚度如何",
+     "page": 9
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "skew",
+   "label": "偏度",
+   "lane": "shape",
+   "parent": "sh",
+   "concept": "偏態與長尾分佈",
+   "gist": "衡量分佈對稱程度，看資料是否均勻分佈於平均值兩側或有長尾。",
+   "src": [
+    {
+     "block": 153,
+     "quote": "是用於衡量資料分佈對稱程度的統計指標",
+     "page": 17
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "pos",
+   "label": "正偏態（右偏）",
+   "lane": "shape",
+   "parent": "skew",
+   "concept": null,
+   "gist": "偏度大於0，右側尾巴長、主體在左；常見於收入、房價。",
+   "src": [
+    {
+     "block": 156,
+     "quote": "也稱為右偏態（Right-skewed），偏度大於0",
+     "page": 18
+    },
+    {
+     "block": 157,
+     "quote": "右側的尾部更長，分佈的主體集中在左側",
+     "page": 18
+    },
+    {
+     "block": 158,
+     "quote": "常見於收入、房價或故障時間等分佈",
+     "page": 18
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "neg",
+   "label": "負偏態（左偏）",
+   "lane": "shape",
+   "parent": "skew",
+   "concept": null,
+   "gist": "偏度小於0，左側尾巴長、主體在右；少數低值拉低平均。",
+   "src": [
+    {
+     "block": 160,
+     "quote": "也稱為左偏態（Left-skewed），偏度小於0",
+     "page": 18
+    },
+    {
+     "block": 161,
+     "quote": "左側的尾部更長，分佈的主體集中在右側",
+     "page": 18
+    },
+    {
+     "block": 162,
+     "quote": "有少數資料拉低平均值",
+     "page": 18
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "sym",
+   "label": "偏度接近 0",
+   "lane": "shape",
+   "parent": "skew",
+   "concept": null,
+   "gist": "分佈趨近對稱，類似理想常態分佈。",
+   "src": [
+    {
+     "block": 164,
+     "quote": "分佈趨近對稱，類似理想常態分佈",
+     "page": 18
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "kurt",
+   "label": "峰度",
+   "lane": "shape",
+   "parent": "sh",
+   "concept": null,
+   "gist": "衡量尾部與峰頂的尖銳程度；本章採 Pearson 定義，常態峰度為3。",
+   "src": [
+    {
+     "block": 168,
+     "quote": "峰度用於衡量資料分佈「尾部與峰頂的尖銳程度」",
+     "page": 18
+    },
+    {
+     "block": 169,
+     "quote": "「Pearson 定義、常態峰度標準3」",
+     "page": 19
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "lepto",
+   "label": "高峰（Kurtosis > 3）",
+   "lane": "shape",
+   "parent": "kurt",
+   "concept": null,
+   "gist": "比常態更集中於中心且極端值更多，要留意對模型外推與異常檢測的風險。",
+   "src": [
+    {
+     "block": 172,
+     "quote": "Kurtosis > 3",
+     "page": 19
+    },
+    {
+     "block": 174,
+     "quote": "並且有更多的極端值（outliers）",
+     "page": 19
+    },
+    {
+     "block": 175,
+     "quote": "需要特別留意這類分佈在模型外推或異常檢測中的風險",
+     "page": 19
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "meso",
+   "label": "中峰（Kurtosis ≈ 3）",
+   "lane": "shape",
+   "parent": "kurt",
+   "concept": null,
+   "gist": "接近常態分佈，可當比較其他分佈的參照。",
+   "src": [
+    {
+     "block": 178,
+     "quote": "適合作為比較其他類型分佈的參照",
+     "page": 19
+    },
+    {
+     "block": 178,
+     "quote": "這個分佈通常接近於常態分佈",
+     "page": 19
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "platy",
+   "label": "扁平（Kurtosis < 3）",
+   "lane": "shape",
+   "parent": "kurt",
+   "concept": null,
+   "gist": "比常態更分散、更平坦，沒有太多極端值。",
+   "src": [
+    {
+     "block": 181,
+     "quote": "比常態分佈更平坦，沒有太多極端值",
+     "page": 19
+    },
+    {
+     "block": 181,
+     "quote": "這意味著資料的分佈較為分散",
+     "page": 19
+    }
+   ],
+   "exam": 0
+  }
+ ],
+ "edges": [
+  {
+   "a": "mean",
+   "b": "median",
+   "kind": "cross",
+   "label": "中位數對極端值不敏感",
+   "block": 62,
+   "quote": "對長尾或極端值不敏感",
+   "page": 12
+  },
+  {
+   "a": "quart",
+   "b": "median",
+   "kind": "cross",
+   "label": "Q2 就是中位數",
+   "block": 103,
+   "quote": "也稱為中位數",
+   "page": 14
+  },
+  {
+   "a": "iqr",
+   "b": "whisk",
+   "kind": "cross",
+   "label": "IQR 決定鬚的界線",
+   "block": 132,
+   "quote": "上鬚（Upper Whisker）：（Q3 + 1.5 × IQR）",
+   "page": 16
+  },
+  {
+   "a": "var",
+   "b": "iqr",
+   "kind": "cross",
+   "label": "同屬離散程度指標",
+   "block": 15,
+   "quote": "而離散程度則以變異數、標準差、四分位距等指標衡量",
+   "page": 10
+  },
+  {
+   "a": "pos",
+   "b": "mean",
+   "kind": "cross",
+   "label": "右側極端值拉高平均值",
+   "block": 158,
+   "quote": "右側極端值（如高收入者）拉高平均值",
+   "page": 18
+  },
+  {
+   "a": "box",
+   "b": "skew",
+   "kind": "cross",
+   "label": "箱形圖可看出偏態",
+   "block": 144,
+   "quote": "可以有效識別分佈不對稱、極端值與偏態",
+   "page": 17
+  },
+  {
+   "a": "lepto",
+   "b": "whisk",
+   "kind": "cross",
+   "label": "高峰分佈極端值更多",
+   "block": 174,
+   "quote": "並且有更多的極端值（outliers）",
+   "page": 19
+  },
+  {
+   "a": "rng",
+   "b": "whisk",
+   "kind": "cross",
+   "label": "全距受離群值影響",
+   "block": 91,
+   "quote": "單純的全距可能受到單一極端值",
+   "page": 14
+  }
+ ],
+ "confusions": [
+  {
+   "a": "算術平均",
+   "b": "中位數",
+   "text": "算術平均受極端值拉動；中位數取排序後中間值，對長尾或極端值不敏感。",
+   "blocks": [
+    27,
+    62
+   ],
+   "pages": [
+    10,
+    12
+   ]
+  },
+  {
+   "a": "變異數",
+   "b": "標準差",
+   "text": "標準差是變異數的平方根，單位與原資料相同。",
+   "blocks": [
+    77
+   ],
+   "pages": [
+    13
+   ]
+  },
+  {
+   "a": "全距",
+   "b": "四分位距",
+   "text": "全距取最大減最小，易受單一極端值影響；IQR 取 Q3 減 Q1，適合含離群值的資料。",
+   "blocks": [
+    91,
+    93,
+    109
+   ],
+   "pages": [
+    14,
+    15
+   ]
+  },
+  {
+   "a": "幾何平均",
+   "b": "調和平均",
+   "text": "幾何平均用於成長率、報酬率的乘積效應；調和平均用於速率、效率類數據。",
+   "blocks": [
+    31,
+    42
+   ],
+   "pages": [
+    11
+   ]
+  },
+  {
+   "a": "正偏態",
+   "b": "負偏態",
+   "text": "正偏態偏度大於0、右尾長；負偏態偏度小於0、左尾長。",
+   "blocks": [
+    156,
+    157,
+    160,
+    161
+   ],
+   "pages": [
+    18
+   ]
+  },
+  {
+   "a": "高峰",
+   "b": "扁平",
+   "text": "高峰峰度大於3，更集中且極端值多；扁平小於3，更分散平坦、極端值少。",
+   "blocks": [
+    172,
+    174,
+    180,
+    181
+   ],
+   "pages": [
+    19
+   ]
+  },
+  {
+   "a": "偏度",
+   "b": "峰度",
+   "text": "偏度看分佈是否對稱；峰度看尾部與峰頂的尖銳程度。",
+   "blocks": [
+    153,
+    168
+   ],
+   "pages": [
+    17,
+    18
+   ]
+  }
+ ],
+ "gaps": [],
+ "examOnly": [],
+ "notes": []
+}

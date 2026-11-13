@@ -1,0 +1,728 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide2",
+  "nodeId": "mid-s2c11",
+  "label": "中級 科目二・6.2 大數據在鑑別式AI 中的應用"
+ },
+ "headline": "一張圖看懂大數據在鑑別式AI 中的應用",
+ "lede": "鑑別式AI 負責區分、分類與預測，大數據讓它更準，卻也帶來資料品質、標註成本與整合的挑戰。先認識五大應用情境，再看輸入資料型態、標註策略與跨來源整合如何影響成效。",
+ "story": [
+  {
+   "step": "是什麼",
+   "title": "鑑別式AI 做什麼",
+   "text": "區分、分類與預測，是企業最常導入的AI 類型。"
+  },
+  {
+   "step": "用在哪",
+   "title": "五大應用情境",
+   "text": "金融、零售、客服、醫療、資安各有任務、資料與模型。"
+  },
+  {
+   "step": "吃什麼",
+   "title": "輸入資料型態",
+   "text": "結構化到多模態，型態決定要不要解析或特徵萃取。"
+  },
+  {
+   "step": "怎麼標",
+   "title": "標註策略取捨",
+   "text": "人工、弱監督、群眾外包、主動式學習各有成本與品質。"
+  },
+  {
+   "step": "卡在哪",
+   "title": "整合與品質挑戰",
+   "text": "主鍵、時間、更新頻率與品質不一，會影響模型與檢定。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "scene",
+   "name": "應用情境"
+  },
+  {
+   "id": "data",
+   "name": "輸入資料型態"
+  },
+  {
+   "id": "label",
+   "name": "標註策略"
+  },
+  {
+   "id": "quality",
+   "name": "整合與品質"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "core",
+   "label": "鑑別式AI",
+   "lane": null,
+   "parent": null,
+   "concept": null,
+   "gist": "著重區分、分類與預測，大數據提供豐富樣本，但也帶來品質與標註挑戰。",
+   "src": [
+    {
+     "block": 3,
+     "quote": "鑑別式AI 著重於「區分」、「分類」與「預測」"
+    },
+    {
+     "block": 5,
+     "quote": "資料品質、來源多樣性、標註成本與樣本偏差等問題"
+    }
+   ]
+  },
+  {
+   "id": "fin",
+   "label": "金融與風險管理",
+   "lane": "scene",
+   "parent": null,
+   "concept": null,
+   "gist": "做信用評分、詐欺偵測與反洗錢異常辨識。",
+   "src": [
+    {
+     "block": 12,
+     "quote": "從交易資料中識別潛在詐欺行為"
+    },
+    {
+     "block": 11,
+     "quote": "預測客戶是否可能違約"
+    },
+    {
+     "block": 13,
+     "quote": "分析交易模式與人際網路，偵測異常或可疑活動"
+    }
+   ]
+  },
+  {
+   "id": "xgb",
+   "label": "XGBoost/LightGBM",
+   "lane": "scene",
+   "parent": "fin",
+   "concept": null,
+   "gist": "高效處理詐欺這類少數類別的不平衡資料。",
+   "src": [
+    {
+     "block": 22,
+     "quote": "高效處理不平衡資料"
+    }
+   ]
+  },
+  {
+   "id": "retail",
+   "label": "零售與電商推薦",
+   "lane": "scene",
+   "parent": null,
+   "concept": null,
+   "gist": "做顧客流失預測、客戶分群與商品分類，資料常為多模態。",
+   "src": [
+    {
+     "block": 36,
+     "quote": "預測哪些顧客可能停止使用服務"
+    },
+    {
+     "block": 37,
+     "quote": "根據特徵將客戶分群，推送個人化廣告"
+    },
+    {
+     "block": 38,
+     "quote": "自動分類商品並預測銷售價格趨勢"
+    },
+    {
+     "block": 43,
+     "quote": "結合購買紀錄、評論與圖片"
+    }
+   ]
+  },
+  {
+   "id": "cs",
+   "label": "客服與文本分類",
+   "lane": "scene",
+   "parent": null,
+   "concept": null,
+   "gist": "做對話分類、情感分析與內容審查，輸入以文字為主。",
+   "src": [
+    {
+     "block": 57,
+     "quote": "預測用戶評論的情感"
+    },
+    {
+     "block": 56,
+     "quote": "自動分類客服對話"
+    },
+    {
+     "block": 58,
+     "quote": "判別社群貼文是否違規"
+    },
+    {
+     "block": 60,
+     "quote": "客服對話、用戶評論、社群貼文"
+    }
+   ]
+  },
+  {
+   "id": "med",
+   "label": "醫療與健康科技",
+   "lane": "scene",
+   "parent": null,
+   "concept": null,
+   "gist": "預測疾病、分析理賠異常並支援臨床決策，需顧及隱私與專家標註。",
+   "src": [
+    {
+     "block": 74,
+     "quote": "根據病歷、影像或生理訊號預測疾病風險"
+    },
+    {
+     "block": 75,
+     "quote": "判斷理賠申請是否異常或可疑"
+    },
+    {
+     "block": 76,
+     "quote": "協助醫生選擇最佳治療路徑"
+    },
+    {
+     "block": 88,
+     "quote": "加密敏感資料（如病患身分）"
+    },
+    {
+     "block": 89,
+     "quote": "醫療影像需專家標註，成本高"
+    }
+   ]
+  },
+  {
+   "id": "sec",
+   "label": "資安與異常偵測",
+   "lane": "scene",
+   "parent": null,
+   "concept": "異常偵測",
+   "gist": "辨識異常登入、惡意流量與釣魚郵件，異常事件比例低且要低延遲。",
+   "src": [
+    {
+     "block": 93,
+     "quote": "判斷是否為異常裝置或可疑地點登入行為"
+    },
+    {
+     "block": 94,
+     "quote": "根據封包特徵識別攻擊行為"
+    },
+    {
+     "block": 95,
+     "quote": "自動判斷電子郵件是否具有詐騙特徵"
+    },
+    {
+     "block": 107,
+     "quote": "異常事件比例低，需特殊處理"
+    },
+    {
+     "block": 108,
+     "quote": "資安任務需低延遲處理"
+    }
+   ]
+  },
+  {
+   "id": "iforest",
+   "label": "孤立森林",
+   "lane": "scene",
+   "parent": "sec",
+   "concept": null,
+   "gist": "適合處理高維資料的異常偵測模型。",
+   "src": [
+    {
+     "block": 101,
+     "quote": "異常偵測，適合處理高維資料"
+    }
+   ]
+  },
+  {
+   "id": "dtype",
+   "label": "常見輸入資料型態",
+   "lane": "data",
+   "parent": null,
+   "concept": "資料型態",
+   "gist": "分為結構化、半結構化、非結構化與多模態四類，各有來源與特性。",
+   "src": [
+    {
+     "block": 113,
+     "quote": "常見輸入資料型態與特性"
+    },
+    {
+     "block": 114,
+     "quote": "結構化資料（Structured Data）"
+    },
+    {
+     "block": 123,
+     "quote": "半結構化資料（Semi-structured Data）"
+    },
+    {
+     "block": 131,
+     "quote": "非結構化資料（Unstructured Data）"
+    },
+    {
+     "block": 142,
+     "quote": "多模態資料（Multi-modal Data）"
+    }
+   ]
+  },
+  {
+   "id": "struct",
+   "label": "結構化資料",
+   "lane": "data",
+   "parent": "dtype",
+   "concept": null,
+   "gist": "來自關聯式資料庫，欄位明確，可直接轉為表格式特徵。",
+   "src": [
+    {
+     "block": 118,
+     "quote": "欄位明確、格式規範，適合直接轉換為表格式特徵"
+    },
+    {
+     "block": 116,
+     "quote": "關聯式資料庫，如ERP、CRM 或POS 系統"
+    }
+   ]
+  },
+  {
+   "id": "semi",
+   "label": "半結構化資料",
+   "lane": "data",
+   "parent": "dtype",
+   "concept": "半結構化資料",
+   "gist": "如JSON、日誌，有層次但欄位可能變動，需解析或展平。",
+   "src": [
+    {
+     "block": 127,
+     "quote": "需解析（Parsing）或展平（Flattening）"
+    },
+    {
+     "block": 125,
+     "quote": "JSON、XML 格式的API 回傳資料、伺服器日誌"
+    },
+    {
+     "block": 127,
+     "quote": "具有層次結構（如嵌套的JSON），但欄位可能動態變動"
+    }
+   ]
+  },
+  {
+   "id": "unstr",
+   "label": "非結構化資料",
+   "lane": "data",
+   "parent": "dtype",
+   "concept": null,
+   "gist": "文字、影像、聲音無固定結構，需特徵萃取轉成數值表示。",
+   "src": [
+    {
+     "block": 137,
+     "quote": "需特徵萃取（Feature Extraction）轉為模型可用的數值表示"
+    },
+    {
+     "block": 133,
+     "quote": "客服對話、產品評論、社群媒體貼文"
+    },
+    {
+     "block": 134,
+     "quote": "醫療影像（如X 光片）、產品照片"
+    },
+    {
+     "block": 135,
+     "quote": "客服錄音、語音指令、環境聲音"
+    }
+   ]
+  },
+  {
+   "id": "multi",
+   "label": "多模態資料",
+   "lane": "data",
+   "parent": "dtype",
+   "concept": null,
+   "gist": "結合多種型態，需多輸入架構或特徵級融合。",
+   "src": [
+    {
+     "block": 146,
+     "quote": "模型需支援多輸入架構或特徵級融合"
+    }
+   ]
+  },
+  {
+   "id": "labeling",
+   "label": "資料標註",
+   "lane": "label",
+   "parent": null,
+   "concept": "監督式學習",
+   "gist": "提供監督學習所需標籤，成本、品質與效率是關鍵挑戰。",
+   "src": [
+    {
+     "block": 151,
+     "quote": "提供監督學習所需的標籤（Labels）"
+    }
+   ]
+  },
+  {
+   "id": "manual",
+   "label": "人工標註",
+   "lane": "label",
+   "parent": "labeling",
+   "concept": null,
+   "gist": "準確度高、適合專業任務，但成本高、難擴展。",
+   "src": [
+    {
+     "block": 156,
+     "quote": "成本高、耗時，需專業人力"
+    },
+    {
+     "block": 154,
+     "quote": "標註準確度高，特別適合需要專業知識的任務"
+    }
+   ]
+  },
+  {
+   "id": "weak",
+   "label": "弱監督式標註",
+   "lane": "label",
+   "parent": "labeling",
+   "concept": null,
+   "gist": "用規則或第三方資料自動生成標籤，快又便宜但誤標風險高。",
+   "src": [
+    {
+     "block": 161,
+     "quote": "使用規則、啟發式方法或第三方資料"
+    },
+    {
+     "block": 163,
+     "quote": "速度快、成本低，適合大規模資料"
+    },
+    {
+     "block": 165,
+     "quote": "誤標風險高，標籤品質可能不穩定"
+    }
+   ]
+  },
+  {
+   "id": "crowd",
+   "label": "群眾外包標註",
+   "lane": "label",
+   "parent": "labeling",
+   "concept": null,
+   "gist": "分散給大量非專業工作者，成本低，需一致性檢查與多工審核。",
+   "src": [
+    {
+     "block": 174,
+     "quote": "標註品質參差不齊，需一致性檢查與多工審核"
+    },
+    {
+     "block": 170,
+     "quote": "分散給大量非專業工作者"
+    },
+    {
+     "block": 172,
+     "quote": "成本低、速度快，適合簡單任務"
+    }
+   ]
+  },
+  {
+   "id": "active",
+   "label": "主動式學習",
+   "lane": "label",
+   "parent": "labeling",
+   "concept": null,
+   "gist": "模型預測低置信度樣本，優先交人工標註，以減少標註量。",
+   "src": [
+    {
+     "block": 179,
+     "quote": "模型預測低置信度樣本，優先交由人工標註"
+    },
+    {
+     "block": 181,
+     "quote": "減少標註量，適合成本高、資料量大的情境"
+    }
+   ]
+  },
+  {
+   "id": "integ",
+   "label": "跨來源整合挑戰",
+   "lane": "quality",
+   "parent": null,
+   "concept": null,
+   "gist": "整合多平台資料時，要處理主鍵、時間、更新頻率與品質差異。",
+   "src": [
+    {
+     "block": 187,
+     "quote": "鑑別式AI 常需整合來自多平台的資料"
+    },
+    {
+     "block": 190,
+     "quote": "不同系統的用戶ID、裝置ID 或訂單編號定義不同"
+    },
+    {
+     "block": 195,
+     "quote": "可能有延遲、格式差異或時區不一致"
+    },
+    {
+     "block": 200,
+     "quote": "部分來源為即時串流（如感測器資料）"
+    },
+    {
+     "block": 205,
+     "quote": "不同來源的資料可能有缺失值、不一致格式或邏輯錯誤"
+    }
+   ]
+  },
+  {
+   "id": "key",
+   "label": "主鍵不一致",
+   "lane": "quality",
+   "parent": "integ",
+   "concept": null,
+   "gist": "不同系統的ID 定義不同，資料無法直接合併。",
+   "src": [
+    {
+     "block": 190,
+     "quote": "不同系統的用戶ID、裝置ID 或訂單編號定義不同"
+    }
+   ]
+  },
+  {
+   "id": "time",
+   "label": "時間戳記與時區",
+   "lane": "quality",
+   "parent": "integ",
+   "concept": null,
+   "gist": "跨系統時間欄位可能有延遲、格式差異或時區不一致。",
+   "src": [
+    {
+     "block": 195,
+     "quote": "可能有延遲、格式差異或時區不一致"
+    }
+   ]
+  },
+  {
+   "id": "freq",
+   "label": "更新頻率不一致",
+   "lane": "quality",
+   "parent": "integ",
+   "concept": null,
+   "gist": "部分來源即時串流、部分批次同步，導致整合的時間視窗不一致。",
+   "src": [
+    {
+     "block": 200,
+     "quote": "部分為批次同步（如ERP 資料）"
+    },
+    {
+     "block": 200,
+     "quote": "部分來源為即時串流（如感測器資料）"
+    }
+   ]
+  },
+  {
+   "id": "imb",
+   "label": "資料不平衡",
+   "lane": "quality",
+   "parent": null,
+   "concept": "類別不平衡",
+   "gist": "詐欺等少數類別比例低，需過採樣或SMOTE。",
+   "src": [
+    {
+     "block": 31,
+     "quote": "詐欺交易比例低，需過採樣或SMOTE"
+    }
+   ]
+  },
+  {
+   "id": "dq",
+   "label": "資料品質與統計推論",
+   "lane": "quality",
+   "parent": null,
+   "concept": null,
+   "gist": "缺失、異常、重複、一致性與邏輯錯誤，會影響模型與統計檢定的可靠性。",
+   "src": [
+    {
+     "block": 209,
+     "quote": "資料品質直接影響鑑別式AI 與統計推論的可靠性"
+    },
+    {
+     "block": 211,
+     "quote": "高缺失率可能導致特徵不完整"
+    },
+    {
+     "block": 213,
+     "quote": "未處理的異常值可能放大模型誤差"
+    },
+    {
+     "block": 215,
+     "quote": "重複記錄可能高估樣本權重"
+    },
+    {
+     "block": 217,
+     "quote": "不統一的格式導致無法正確聚合特徵"
+    }
+   ]
+  },
+  {
+   "id": "label_err",
+   "label": "邏輯錯誤標籤",
+   "lane": "quality",
+   "parent": "dq",
+   "concept": null,
+   "gist": "不合理標籤會讓模型學到錯誤模式，降低預測準確度。",
+   "src": [
+    {
+     "block": 219,
+     "quote": "不合理的標籤（如錯誤分類）會導致模型學習錯誤模式"
+    }
+   ]
+  },
+  {
+   "id": "privacy",
+   "label": "隱私保護",
+   "lane": "quality",
+   "parent": null,
+   "concept": null,
+   "gist": "需遵守《個人資料保護法》，匿名化或加密敏感欄位。",
+   "src": [
+    {
+     "block": 32,
+     "quote": "需遵守《個人資料保護法》，匿名化敏感欄位"
+    },
+    {
+     "block": 88,
+     "quote": "加密敏感資料（如病患身分）"
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "a": "xgb",
+   "b": "imb",
+   "kind": "cross",
+   "label": "XGBoost 處理不平衡",
+   "block": 22,
+   "quote": "高效處理不平衡資料"
+  },
+  {
+   "a": "sec",
+   "b": "imb",
+   "kind": "cross",
+   "label": "異常事件少，同樣不平衡",
+   "block": 107,
+   "quote": "異常事件比例低，需特殊處理"
+  },
+  {
+   "a": "med",
+   "b": "active",
+   "kind": "cross",
+   "label": "專家標註貴，用主動學習",
+   "block": 89,
+   "quote": "可用主動學習優化"
+  },
+  {
+   "a": "retail",
+   "b": "weak",
+   "kind": "cross",
+   "label": "商品標註量大，可用弱監督",
+   "block": 52,
+   "quote": "可結合弱監督式標註"
+  },
+  {
+   "a": "retail",
+   "b": "multi",
+   "kind": "cross",
+   "label": "結合購買、評論與圖片",
+   "block": 43,
+   "quote": "結合購買紀錄、評論與圖片"
+  },
+  {
+   "a": "cs",
+   "b": "unstr",
+   "kind": "cross",
+   "label": "客服輸入多為文字",
+   "block": 60,
+   "quote": "客服對話、用戶評論、社群貼文"
+  },
+  {
+   "a": "retail",
+   "b": "freq",
+   "kind": "cross",
+   "label": "即時點擊流難配每日庫存",
+   "block": 202,
+   "quote": "即時點擊流與每日更新的庫存資料難以同步"
+  },
+  {
+   "a": "weak",
+   "b": "label_err",
+   "kind": "cross",
+   "label": "誤標需後續清理",
+   "block": 165,
+   "quote": "誤標風險高，標籤品質可能不穩定，需後續清理"
+  },
+  {
+   "a": "fin",
+   "b": "privacy",
+   "kind": "cross",
+   "label": "金融需遵守個資法並匿名化",
+   "block": 32,
+   "quote": "需遵守《個人資料保護法》，匿名化敏感欄位"
+  },
+  {
+   "a": "med",
+   "b": "privacy",
+   "kind": "cross",
+   "label": "病患身分需加密",
+   "block": 88,
+   "quote": "需遵守《個人資料保護法》，加密敏感資料"
+  }
+ ],
+ "confusions": [
+  {
+   "a": "弱監督式標註",
+   "b": "人工標註",
+   "text": "弱監督用規則或詞典自動標，快、便宜但易誤標；人工標註準確但貴又慢。",
+   "blocks": [
+    154,
+    156,
+    161,
+    163,
+    165
+   ]
+  },
+  {
+   "a": "群眾外包",
+   "b": "人工標註",
+   "text": "群眾外包交給大量非專業工作者，適合簡單任務；人工標註靠專業人力，適合醫療、法律。",
+   "blocks": [
+    154,
+    156,
+    170,
+    172
+   ]
+  },
+  {
+   "a": "主動式學習",
+   "b": "弱監督式標註",
+   "text": "主動式學習挑低置信度樣本交人工標；弱監督則用規則自動生成標籤。",
+   "blocks": [
+    161,
+    179
+   ]
+  },
+  {
+   "a": "半結構化",
+   "b": "結構化",
+   "text": "結構化欄位明確可直接用；半結構化如JSON 欄位可能變動，需解析或展平。",
+   "blocks": [
+    118,
+    127
+   ]
+  },
+  {
+   "a": "非結構化",
+   "b": "多模態",
+   "text": "非結構化資料無固定結構，需特徵萃取；多模態結合多種資料型態，需融合多來源特徵。",
+   "blocks": [
+    137,
+    144,
+    146
+   ]
+  }
+ ],
+ "gaps": []
+}

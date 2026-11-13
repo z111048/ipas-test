@@ -1,0 +1,788 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide2",
+  "nodeId": "mid-s2c10",
+  "label": "中級 科目二・6.1 大數據與機器學習"
+ },
+ "headline": "一張圖看懂大數據與機器學習",
+ "lede": "大數據的規模、型態、品質、速度、來源與價值密度，打破了單機、完整樣本的傳統前提。先抓住各特性帶來的挑戰，再看訓練如何加速，最後看如何整合成可部署、可監控的端對端流程。",
+ "story": [
+  {
+   "step": "為什麼變",
+   "title": "傳統前提不再成立",
+   "text": "單機、記憶體內、完整樣本的假設失效。"
+  },
+  {
+   "step": "挑戰在哪",
+   "title": "大數據各項特性",
+   "text": "規模、型態、品質、速度、來源、價值密度各有對策。"
+  },
+  {
+   "step": "怎麼加速",
+   "title": "分散式與效能最佳化",
+   "text": "資料並行、模型並行與各種訓練加速技巧。"
+  },
+  {
+   "step": "怎麼上線",
+   "title": "端對端流程與監控",
+   "text": "從資料處理到部署，再以監控觸發重訓。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "ch",
+   "name": "大數據特性與挑戰"
+  },
+  {
+   "id": "train",
+   "name": "訓練與加速"
+  },
+  {
+   "id": "ops",
+   "name": "整合與部署流程"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "bd",
+   "label": "大數據與機器學習",
+   "lane": null,
+   "parent": null,
+   "concept": "大數據概念",
+   "gist": "資料規模、速度、型態、品質改變後，機器學習從訓練到部署每一環都要重新設計。",
+   "src": [
+    {
+     "block": 5,
+     "quote": "機器學習的每一個環節都需重新評估與調整"
+    },
+    {
+     "block": 4,
+     "quote": "已重新定義了機器學習的實作方式與系統需求"
+    }
+   ]
+  },
+  {
+   "id": "vol",
+   "label": "資料規模大（Volume）",
+   "lane": "ch",
+   "parent": "bd",
+   "concept": null,
+   "gist": "資料超出單機記憶體，處理、訓練、評估都必須採用專門設計的技術與架構。",
+   "src": [
+    {
+     "block": 9,
+     "quote": "已遠超過傳統單機環境可承載的記憶體限制"
+    }
+   ]
+  },
+  {
+   "id": "vol_proc",
+   "label": "分批載入與分散式儲存",
+   "lane": "ch",
+   "parent": "vol",
+   "concept": "分散式資料處理",
+   "gist": "訓練資料載不進記憶體時，用分批載入或取樣，並搭配 HDFS 與 Parquet 降低 I/O。",
+   "src": [
+    {
+     "block": 10,
+     "quote": "需採用分批載入（Mini-Batch Loading）方式分段處理資料"
+    },
+    {
+     "block": 10,
+     "quote": "分散式儲存系統（如 HDFS）"
+    }
+   ]
+  },
+  {
+   "id": "var",
+   "label": "資料型態多樣（Variety）",
+   "lane": "ch",
+   "parent": "bd",
+   "concept": "資料型態",
+   "gist": "資料不再只是表格，文字、影像、感測、Log 等異質型態讓特徵工程與資料架構都要調整。",
+   "src": [
+    {
+     "block": 19,
+     "quote": "使資料型態呈現高度異質化與非結構化特性"
+    },
+    {
+     "block": 20,
+     "quote": "單一資料來源已無法滿足模型建構需求"
+    },
+    {
+     "block": 26,
+     "quote": "需建構能夠容納多型態資料的統一整合平台"
+    }
+   ]
+  },
+  {
+   "id": "mm",
+   "label": "多模態特徵轉換",
+   "lane": "ch",
+   "parent": "var",
+   "concept": "多模態資料處理",
+   "gist": "各型態先轉成數值特徵：文字用詞嵌入、影像用 CNN、音訊感測用時序分析，多模態再對齊與融合。",
+   "src": [
+    {
+     "block": 20,
+     "quote": "轉化為可學習的數值特徵"
+    },
+    {
+     "block": 25,
+     "quote": "需進一步透過對齊技術（Alignment）與融合策略（Fusion）整合"
+    },
+    {
+     "block": 22,
+     "quote": "文字資料可透過詞嵌入（Word Embedding）技術"
+    },
+    {
+     "block": 23,
+     "quote": "影像資料則常用卷積神經網路"
+    },
+    {
+     "block": 24,
+     "quote": "音訊與感測器資料則可經由時序分析"
+    }
+   ]
+  },
+  {
+   "id": "lake",
+   "label": "資料湖與混合架構",
+   "lane": "ch",
+   "parent": "var",
+   "concept": null,
+   "gist": "資料湖收納各種結構的資料並可版本控制；已有倉儲者可混合：倉儲管結構化、湖收其餘。",
+   "src": [
+    {
+     "block": 26,
+     "quote": "資料湖（Data Lake）是目前主流方案之一"
+    },
+    {
+     "block": 27,
+     "quote": "在倉儲中管理結構化核心資料"
+    }
+   ]
+  },
+  {
+   "id": "qual",
+   "label": "資料品質與偏態",
+   "lane": "ch",
+   "parent": "bd",
+   "concept": null,
+   "gist": "樣本多不等於品質好；不平衡、標註錯誤、冗餘、雜訊都會讓預測偏誤並影響公平。",
+   "src": [
+    {
+     "block": 30,
+     "quote": "「樣本數多」不代表「資料品質好」"
+    }
+   ]
+  },
+  {
+   "id": "imb",
+   "label": "類別不平衡",
+   "lane": "ch",
+   "parent": "qual",
+   "concept": "類別不平衡",
+   "gist": "偏態使模型過度學習多數類別、忽略少數類別，造成系統性誤判與泛化不佳。",
+   "src": [
+    {
+     "block": 31,
+     "quote": "樣本偏態會使模型過度學習主流類別"
+    }
+   ]
+  },
+  {
+   "id": "qstrat",
+   "label": "資料處理策略",
+   "lane": "ch",
+   "parent": "qual",
+   "concept": null,
+   "gist": "類別加權、欠抽樣／過抽樣（如 SMOTE）、弱標註與主動學習、資料清理與品質控制。",
+   "src": [
+    {
+     "block": 33,
+     "quote": "類別加權（Class Weighting）"
+    },
+    {
+     "block": 34,
+     "quote": "透過刪除過多樣本或合成少數樣本（如SMOTE）來平衡資料集"
+    },
+    {
+     "block": 35,
+     "quote": "弱標註與主動學習技術（Weak Labeling / Active Learning）"
+    },
+    {
+     "block": 36,
+     "quote": "資料清理與品質控制流程"
+    }
+   ]
+  },
+  {
+   "id": "qmetric",
+   "label": "類別敏感與公平性評估",
+   "lane": "ch",
+   "parent": "qual",
+   "concept": "類別敏感評估",
+   "gist": "改用 F1-score、Balanced Accuracy 等指標，並在敏感情境加上公平性評估。",
+   "src": [
+    {
+     "block": 37,
+     "quote": "補充使用類別敏感指標（如F1-score、Balanced Accuracy"
+    },
+    {
+     "block": 37,
+     "quote": "更應導入公平性評估機制"
+    }
+   ]
+  },
+  {
+   "id": "vel",
+   "label": "資料流動快速（Velocity）",
+   "lane": "ch",
+   "parent": "bd",
+   "concept": "即時資料處理",
+   "gist": "資料持續高速產生，需毫秒至秒級預測，批次處理與模型更新方式不再夠用。",
+   "src": [
+    {
+     "block": 40,
+     "quote": "模型更新機制無法滿足時效性需求"
+    }
+   ]
+  },
+  {
+   "id": "stream",
+   "label": "串流處理平台",
+   "lane": "ch",
+   "parent": "vel",
+   "concept": "串流處理",
+   "gist": "Kafka 作訊息中介，Flink 低延遲、Spark Streaming 高容錯，雲端也有各家串流服務。",
+   "src": [
+    {
+     "block": 50,
+     "quote": "作為高吞吐量的資料訊息中介層"
+    },
+    {
+     "block": 51,
+     "quote": "支援窗口計算（Windowing）、狀態管理"
+    },
+    {
+     "block": 52,
+     "quote": "雲端平台提供的串流架構"
+    }
+   ]
+  },
+  {
+   "id": "incr",
+   "label": "微調與增量學習",
+   "lane": "ch",
+   "parent": "vel",
+   "concept": null,
+   "gist": "Online Learning 在資料流到達時即時更新權重；微調不破壞原有能力並適應新分佈；以輪換、A/B 測試換版。",
+   "src": [
+    {
+     "block": 48,
+     "quote": "在資料流到達時即時更新模型權重"
+    },
+    {
+     "block": 53,
+     "quote": "逐步導入新模型版本，以維持服務穩定性與準確性"
+    },
+    {
+     "block": 47,
+     "quote": "在不破壞原有能力下，快速適應新資料分佈"
+    }
+   ]
+  },
+  {
+   "id": "ver",
+   "label": "資料來源異質（Veracity）",
+   "lane": "ch",
+   "parent": "bd",
+   "concept": null,
+   "gist": "來源格式、頻率、可信度、語意標準皆不一致，要先標準化對齊，再以治理機制提升信任。",
+   "src": [
+    {
+     "block": 56,
+     "quote": "在格式、更新頻率、可信程度與語意標準上高度不一致"
+    },
+    {
+     "block": 57,
+     "quote": "應建構統一欄位規範與轉換邏輯（Schema Mapping）"
+    },
+    {
+     "block": 58,
+     "quote": "為提升整體資料的可監管性與信任度"
+    }
+   ]
+  },
+  {
+   "id": "gov",
+   "label": "資料編目、追蹤與版本",
+   "lane": "ch",
+   "parent": "ver",
+   "concept": null,
+   "gist": "Data Catalog 列清單、Data Lineage 追來源流轉、版本控制與元資料管理做版本與權限。",
+   "src": [
+    {
+     "block": 59,
+     "quote": "建立全域資料資源清單"
+    },
+    {
+     "block": 60,
+     "quote": "確保資料的可追溯性"
+    },
+    {
+     "block": 61,
+     "quote": "進行欄位屬性管理與存取權限設計"
+    }
+   ]
+  },
+  {
+   "id": "drift",
+   "label": "資料漂移與概念漂移",
+   "lane": "ch",
+   "parent": "ver",
+   "concept": "資料漂移",
+   "gist": "異質且動態的來源易漂移，需在流程嵌入偵測模組（如 KS 檢定、KL 散度）搭配效能監測。",
+   "src": [
+    {
+     "block": 63,
+     "quote": "極易發生數據漂移（Data Drift）或概念漂移（Concept Drift）"
+    },
+    {
+     "block": 64,
+     "quote": "應在機器學習流程中嵌入資料漂移偵測模組"
+    }
+   ]
+  },
+  {
+   "id": "val",
+   "label": "資料價值密度低（Value）",
+   "lane": "ch",
+   "parent": "bd",
+   "concept": "數據密度",
+   "gist": "資料很多但有意義的訊息比例極低，須從雜訊中找出高價值樣本與特徵。",
+   "src": [
+    {
+     "block": 66,
+     "quote": "形成所謂的低價值密度（Low Value Density）問題"
+    }
+   ]
+  },
+  {
+   "id": "valfix",
+   "label": "提升價值密度的對策",
+   "lane": "ch",
+   "parent": "val",
+   "concept": null,
+   "gist": "特徵選擇與降維、高資訊密度抽樣、自動化 EDA、標註階段結合主動學習。",
+   "src": [
+    {
+     "block": 71,
+     "quote": "特徵選擇（Feature Selection）與維度縮減"
+    },
+    {
+     "block": 72,
+     "quote": "高資訊密度抽樣法"
+    },
+    {
+     "block": 73,
+     "quote": "導入自動化資料探索（Automated EDA）"
+    },
+    {
+     "block": 74,
+     "quote": "在標註階段結合主動學習（Active Learning）策略"
+    }
+   ]
+  },
+  {
+   "id": "dist",
+   "label": "分散式訓練架構",
+   "lane": "train",
+   "parent": "bd",
+   "concept": null,
+   "gist": "模型或資料超出單機限制，改以跨多節點平行分工，依任務選擇三種並行模式。",
+   "src": [
+    {
+     "block": 80,
+     "quote": "分散式訓練架構成為主流解法"
+    },
+    {
+     "block": 81,
+     "quote": "依任務特性與硬體資源進行選擇與組合"
+    }
+   ]
+  },
+  {
+   "id": "dp",
+   "label": "資料並行",
+   "lane": "train",
+   "parent": "dist",
+   "concept": null,
+   "gist": "資料分批分給多台節點，各持相同模型副本，訓練後合併梯度更新全域參數。",
+   "src": [
+    {
+     "block": 83,
+     "quote": "將訓練資料分批分發至多台工作節點（workers）"
+    },
+    {
+     "block": 84,
+     "quote": "每次訓練後合併梯度（gradient aggregation）"
+    }
+   ]
+  },
+  {
+   "id": "mp",
+   "label": "模型並行",
+   "lane": "train",
+   "parent": "dist",
+   "concept": null,
+   "gist": "把大型模型的不同部分分到不同節點，用於單機記憶體放不下整個模型時。",
+   "src": [
+    {
+     "block": 87,
+     "quote": "將一個大型模型的不同部分分配至不同節點運算"
+    },
+    {
+     "block": 88,
+     "quote": "用於單機記憶體無法容納整個模型的情況"
+    }
+   ]
+  },
+  {
+   "id": "hp",
+   "label": "混合式並行",
+   "lane": "train",
+   "parent": "dist",
+   "concept": null,
+   "gist": "結合資料並行與模型並行，同時達到橫向擴展與模型放大。",
+   "src": [
+    {
+     "block": 91,
+     "quote": "將資料並行與模型並行結合使用"
+    },
+    {
+     "block": 91,
+     "quote": "以達成橫向擴展與模型放大雙重目標"
+    }
+   ]
+  },
+  {
+   "id": "perf",
+   "label": "訓練效能最佳化",
+   "lane": "train",
+   "parent": "bd",
+   "concept": "模型訓練資源",
+   "gist": "硬體加速、混合精度、梯度累積與梯度壓縮等訓練加速做法。",
+   "src": [
+    {
+     "block": 94,
+     "quote": "使用GPU/TPU 加速訓練"
+    },
+    {
+     "block": 97,
+     "quote": "結合單精度（FP32）與半精度（FP16）浮點數計算"
+    },
+    {
+     "block": 100,
+     "quote": "可使用梯度累積（Gradient Accumulation）技術"
+    },
+    {
+     "block": 101,
+     "quote": "可透過梯度壓縮（如Top-k Sparsification"
+    }
+   ]
+  },
+  {
+   "id": "es",
+   "label": "早停與檢查點",
+   "lane": "train",
+   "parent": "perf",
+   "concept": null,
+   "gist": "早停在驗證表現不再進步時中止訓練；檢查點定期存權重與狀態，可中斷後接續。",
+   "src": [
+    {
+     "block": 103,
+     "quote": "可在驗證集表現未持續提升時自動中止訓練"
+    },
+    {
+     "block": 104,
+     "quote": "可定期儲存模型權重與訓練狀態"
+    }
+   ]
+  },
+  {
+   "id": "adv",
+   "label": "預訓練與微調",
+   "lane": "train",
+   "parent": "bd",
+   "concept": "遷移學習",
+   "gist": "先在大規模資料學通用特徵，再針對特定任務調校，提升效能並降低訓練成本。",
+   "src": [
+    {
+     "block": 109,
+     "quote": "先於大規模資料上進行通用特徵學習"
+    },
+    {
+     "block": 109,
+     "quote": "不僅可提升模型效能，也能有效降低訓練成本"
+    }
+   ]
+  },
+  {
+   "id": "cont",
+   "label": "持續學習",
+   "lane": "train",
+   "parent": "bd",
+   "concept": null,
+   "gist": "資料隨時間變動時靜態模型易失效，以持續或線上學習適應，關鍵是避免災難性遺忘。",
+   "src": [
+    {
+     "block": 111,
+     "quote": "關鍵挑戰在於避免災難性遺忘（Catastrophic Forgetting）"
+    },
+    {
+     "block": 111,
+     "quote": "靜態模型容易失效"
+    }
+   ]
+  },
+  {
+   "id": "e2e",
+   "label": "端對端機器學習流程",
+   "lane": "ops",
+   "parent": "bd",
+   "concept": "MLOps",
+   "gist": "把資料前處理、訓練、評估、部署整合成可維運、可擴展的系統流程，是 MLOps 的核心。",
+   "src": [
+    {
+     "block": 114,
+     "quote": "此流程也稱為端對端機器學習流程（End-to-End ML Pipeline）"
+    }
+   ]
+  },
+  {
+   "id": "pipe",
+   "label": "資料處理與訓練管線",
+   "lane": "ops",
+   "parent": "e2e",
+   "concept": "資料前處理",
+   "gist": "整合異質來源入湖或倉儲，自動化前處理與訓練，並以版本管理與實驗追蹤確保可再現。",
+   "src": [
+    {
+     "block": 117,
+     "quote": "導入資料湖（Data Lake）或資料倉儲（Data Warehouse）"
+    },
+    {
+     "block": 126,
+     "quote": "使用MLflow、Weights & Biases 等工具追蹤模型架構"
+    },
+    {
+     "block": 119,
+     "quote": "自動化資料處理流程"
+    },
+    {
+     "block": 121,
+     "quote": "確保資料處理流程的可追溯性與再現性"
+    }
+   ]
+  },
+  {
+   "id": "deploy",
+   "label": "模型部署與上線",
+   "lane": "ops",
+   "parent": "e2e",
+   "concept": "模型部署",
+   "gist": "依需求選 Batch、API 或 Streaming 推論，並以容器搭配 A/B 測試、藍綠部署降低換版風險。",
+   "src": [
+    {
+     "block": 138,
+     "quote": "搭配Kubernetes 管理部署與彈性擴充"
+    },
+    {
+     "block": 136,
+     "quote": "支援低延遲事件驅動推論"
+    },
+    {
+     "block": 132,
+     "quote": "定期批次產出預測結果"
+    },
+    {
+     "block": 134,
+     "quote": "提供即時查詢預測服務"
+    }
+   ]
+  },
+  {
+   "id": "monitor",
+   "label": "持續監控與維運",
+   "lane": "ops",
+   "parent": "e2e",
+   "concept": "模型監控",
+   "gist": "監控準確率、延遲、錯誤率與漂移，低於門檻自動重訓並經 CI/CD 更新。",
+   "src": [
+    {
+     "block": 141,
+     "quote": "持續監控預測準確率、延遲、錯誤率與系統可用性"
+    },
+    {
+     "block": 143,
+     "quote": "自動觸發模型重訓"
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "a": "pipe",
+   "b": "deploy",
+   "kind": "flow",
+   "label": "訓練完成後部署上線",
+   "block": 114,
+   "quote": "部署到線上應用整合成一個可維運、可擴展的系統流程"
+  },
+  {
+   "a": "deploy",
+   "b": "monitor",
+   "kind": "flow",
+   "label": "上線後持續監控",
+   "block": 141,
+   "quote": "偵測資料漂移（Data Drift）與概念漂移（Concept Drift）"
+  },
+  {
+   "a": "imb",
+   "b": "qmetric",
+   "kind": "cross",
+   "label": "不平衡使整體準確率失真",
+   "block": 37,
+   "quote": "避免僅依賴整體準確率（Accuracy）這類易被主類別主導的指標"
+  },
+  {
+   "a": "drift",
+   "b": "monitor",
+   "kind": "cross",
+   "label": "漂移偵測落在監控環節",
+   "block": 141,
+   "quote": "偵測資料漂移（Data Drift）與概念漂移（Concept Drift）"
+  },
+  {
+   "a": "monitor",
+   "b": "pipe",
+   "kind": "cross",
+   "label": "門檻觸發自動重訓",
+   "block": 143,
+   "quote": "設定門檻條件（如精確度低於標準值）自動觸發模型重訓"
+  },
+  {
+   "a": "incr",
+   "b": "cont",
+   "kind": "cross",
+   "label": "線上學習兩處出現",
+   "block": 111,
+   "quote": "導入持續學習（Continual Learning）或線上學習"
+  },
+  {
+   "a": "vol",
+   "b": "dist",
+   "kind": "cross",
+   "label": "超出單機而改分散式",
+   "block": 80,
+   "quote": "模型規模與資料量動輒超出單機的記憶體與運算限制"
+  },
+  {
+   "a": "stream",
+   "b": "deploy",
+   "kind": "cross",
+   "label": "串流技術也用於推論部署",
+   "block": 136,
+   "quote": "結合Kafka、Flink、Spark Streaming 等技術"
+  },
+  {
+   "a": "lake",
+   "b": "pipe",
+   "kind": "cross",
+   "label": "資料湖作統一儲存基礎",
+   "block": 117,
+   "quote": "導入資料湖（Data Lake）或資料倉儲（Data Warehouse）"
+  },
+  {
+   "a": "qstrat",
+   "b": "valfix",
+   "kind": "cross",
+   "label": "主動學習聚焦標註人力",
+   "block": 74,
+   "quote": "在標註階段結合主動學習（Active Learning）策略"
+  },
+  {
+   "a": "gov",
+   "b": "pipe",
+   "kind": "cross",
+   "label": "版本與追蹤確保可再現",
+   "block": 121,
+   "quote": "導入元資料管理與版本控管（如Delta Lake、MLflow Tracking）"
+  },
+  {
+   "a": "incr",
+   "b": "adv",
+   "kind": "cross",
+   "label": "微調適應新資料",
+   "block": 47,
+   "quote": "在不破壞原有能力下，快速適應新資料分佈"
+  }
+ ],
+ "confusions": [
+  {
+   "a": "資料漂移",
+   "b": "概念漂移",
+   "text": "資料漂移是資料分佈隨時間改變；概念漂移是資料與標籤之間的關聯改變。",
+   "blocks": [
+    63
+   ]
+  },
+  {
+   "a": "資料並行",
+   "b": "模型並行",
+   "text": "資料並行是各節點持相同模型、分不同資料；模型並行是把一個大模型拆給不同節點。",
+   "blocks": [
+    83,
+    87
+   ]
+  },
+  {
+   "a": "類別加權",
+   "b": "欠抽樣／過抽樣",
+   "text": "類別加權調整損失函數權重；欠抽樣與過抽樣則改變資料集本身的樣本分佈。",
+   "blocks": [
+    33,
+    34
+   ]
+  },
+  {
+   "a": "梯度累積",
+   "b": "梯度壓縮",
+   "text": "累積是多個小 batch 算完梯度再一次更新；壓縮是減少分散式同步的傳輸量與頻率。",
+   "blocks": [
+    100,
+    101
+   ]
+  },
+  {
+   "a": "Batch Serving",
+   "b": "Streaming Inference",
+   "text": "Batch 是定期批次產出預測；Streaming 結合串流技術做低延遲事件驅動推論。",
+   "blocks": [
+    132,
+    136
+   ]
+  },
+  {
+   "a": "資料量大",
+   "b": "資料品質好",
+   "text": "樣本數多不代表資料品質好，仍可能有不平衡、標註錯誤與雜訊。",
+   "blocks": [
+    30
+   ]
+  }
+ ],
+ "gaps": []
+}

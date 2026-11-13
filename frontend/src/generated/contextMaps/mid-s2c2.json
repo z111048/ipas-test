@@ -1,0 +1,627 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide2",
+  "nodeId": "mid-s2c2",
+  "label": "中級 科目二・3.2 機率分佈與資料分佈模型",
+  "subjectId": "mid-s2",
+  "title": "機率分佈與資料分佈模型"
+ },
+ "headline": "一張圖看懂機率分佈與資料分佈模型",
+ "lede": "本章先說明機率分佈是什麼，再依資料是計次還是測量，介紹離散型與連續型的常見分佈，最後教你怎麼為手上的資料挑分佈。先抓住：每個分佈都有適用的資料特性與前提假設。",
+ "story": [
+  {
+   "step": "是什麼",
+   "title": "機率分佈與兩個數值",
+   "text": "用期望值看中心、變異數看分散。"
+  },
+  {
+   "step": "分兩類",
+   "title": "離散型與連續型",
+   "text": "離散用 PMF，連續用 PDF。"
+  },
+  {
+   "step": "認識分佈",
+   "title": "常見分佈各管什麼",
+   "text": "伯努利、二項、泊松、常態、指數、卡方。"
+  },
+  {
+   "step": "怎麼選",
+   "title": "分佈擬合與建模",
+   "text": "先判斷資料型態，再選分佈並檢查假設。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "basic",
+   "name": "基礎概念"
+  },
+  {
+   "id": "disc",
+   "name": "離散型分佈"
+  },
+  {
+   "id": "cont",
+   "name": "連續型分佈"
+  },
+  {
+   "id": "fit",
+   "name": "擬合與建模"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "pd",
+   "label": "機率分佈",
+   "lane": null,
+   "parent": null,
+   "concept": "機率分佈",
+   "gist": "描述隨機變數所有可能值與其機率的數學函數，可用來預測隨機現象、計算風險。",
+   "src": [
+    {
+     "block": 5,
+     "quote": "描述隨機變數的所有可能值及其相應機率的數學函數",
+     "page": 20
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "ev",
+   "label": "期望值",
+   "lane": "basic",
+   "parent": null,
+   "concept": null,
+   "gist": "隨機變數的加權平均，代表長期平均或中心位置。",
+   "src": [
+    {
+     "block": 9,
+     "quote": "代表了隨機變數的長期平均或中心位置",
+     "page": 20
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "var",
+   "label": "變異數",
+   "lane": "basic",
+   "parent": null,
+   "concept": null,
+   "gist": "衡量取值的分散程度，越大越分散，越小越集中。",
+   "src": [
+    {
+     "block": 15,
+     "quote": "變異數越大，表示隨機變數的取值越分散",
+     "page": 21
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "sd",
+   "label": "標準差",
+   "lane": "basic",
+   "parent": "var",
+   "concept": null,
+   "gist": "變異數的平方根，單位與原資料相同，較好理解。",
+   "src": [
+    {
+     "block": 20,
+     "quote": "變異數的平方根",
+     "page": 21
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "pmf",
+   "label": "離散型與 PMF",
+   "lane": "basic",
+   "parent": null,
+   "concept": null,
+   "gist": "離散型變數取值有限或可數，用機率質量函數描述每個特定取值的機率，總和為 1。",
+   "src": [
+    {
+     "block": 27,
+     "quote": "每一個特定取值的機率",
+     "page": 22
+    },
+    {
+     "block": 29,
+     "quote": "PMF 總和等於1",
+     "page": 22
+    },
+    {
+     "block": 25,
+     "quote": "值是有限或可數的",
+     "page": 21
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "pdf",
+   "label": "連續型與 PDF",
+   "lane": "basic",
+   "parent": null,
+   "concept": null,
+   "gist": "連續型變數可為任意實數，用機率密度函數描述落在某範圍內的機率。",
+   "src": [
+    {
+     "block": 33,
+     "quote": "還可以是任意實數",
+     "page": 22
+    },
+    {
+     "block": 35,
+     "quote": "於某取值範圍內的機率",
+     "page": 22
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "app",
+   "label": "實務應用",
+   "lane": "basic",
+   "parent": null,
+   "concept": null,
+   "gist": "用於風險管理、品質控制與預測分析。",
+   "src": [
+    {
+     "block": 40,
+     "quote": "根據資產的機率分佈來計算風險和報酬",
+     "page": 22
+    },
+    {
+     "block": 42,
+     "quote": "利用機率分佈來預測未來事件的可能性",
+     "page": 23
+    },
+    {
+     "block": 41,
+     "quote": "製造業使用常態分佈來描述產品的測量數據",
+     "page": 23
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "bern",
+   "label": "伯努利分佈",
+   "lane": "disc",
+   "parent": null,
+   "concept": null,
+   "gist": "單次試驗只有成功或失敗兩種結果，不能擴展到多次試驗。",
+   "src": [
+    {
+     "block": 46,
+     "quote": "單次試驗中只有兩種結果",
+     "page": 23
+    },
+    {
+     "block": 55,
+     "quote": "僅適用於單次試驗的情況",
+     "page": 23
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "binom",
+   "label": "二項分佈",
+   "lane": "disc",
+   "parent": "bern",
+   "concept": null,
+   "gist": "固定次數的獨立試驗中，計算成功次數；期望值 np、變異數 np(1-p)。",
+   "src": [
+    {
+     "block": 58,
+     "quote": "在固定次數n 的獨立試驗中",
+     "page": 23
+    },
+    {
+     "block": 69,
+     "quote": "E (X) = np",
+     "page": 24
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "pois",
+   "label": "泊松分佈",
+   "lane": "disc",
+   "parent": null,
+   "concept": null,
+   "gist": "描述固定時間或空間區間內事件的發生次數，期望值與變異數都等於平均發生率。",
+   "src": [
+    {
+     "block": 76,
+     "quote": "在固定時間或空間區間內",
+     "page": 24
+    },
+    {
+     "block": 85,
+     "quote": "客戶服務中心的來電量",
+     "page": 25
+    },
+    {
+     "block": 83,
+     "quote": "E(X) = Var(X)",
+     "page": 25
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "norm",
+   "label": "常態分佈",
+   "lane": "cont",
+   "parent": null,
+   "concept": null,
+   "gist": "對稱的鐘形曲線，由均值與標準差決定中心與擴展範圍；可用於假設檢定。",
+   "src": [
+    {
+     "block": 92,
+     "quote": "數據呈現對稱的鐘形曲線",
+     "page": 25
+    },
+    {
+     "block": 103,
+     "quote": "用於假設檢定（如t 檢定、z 檢定等）",
+     "page": 26
+    },
+    {
+     "block": 92,
+     "quote": "它由兩個參數決定：均值（μ）和標準差（σ）",
+     "page": 25
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "clt",
+   "label": "中央極限定理",
+   "lane": "cont",
+   "parent": "norm",
+   "concept": null,
+   "gist": "樣本量夠大時，獨立同分佈變數的總和或平均會趨近常態分佈。",
+   "src": [
+    {
+     "block": 94,
+     "quote": "其總和或平均值的分佈都會趨近於常態分佈",
+     "page": 25
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "expo",
+   "label": "指數分佈",
+   "lane": "cont",
+   "parent": null,
+   "concept": null,
+   "gist": "描述事件之間的間隔時間（等待時間或生存時間），具記憶性。",
+   "src": [
+    {
+     "block": 109,
+     "quote": "事件發生之間的間隔時間",
+     "page": 26
+    },
+    {
+     "block": 110,
+     "quote": "未來的事件發生與過去的時間無關",
+     "page": 26
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "chi",
+   "label": "卡方分佈",
+   "lane": "cont",
+   "parent": null,
+   "concept": null,
+   "gist": "常態分佈的平方和，用於適配度檢定、獨立性檢定等；是偏態分佈。",
+   "src": [
+    {
+     "block": 126,
+     "quote": "卡方分佈是常態分佈的平方和",
+     "page": 27
+    },
+    {
+     "block": 127,
+     "quote": "卡方分佈是一個偏態分佈",
+     "page": 27
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "df",
+   "label": "自由度",
+   "lane": "cont",
+   "parent": "chi",
+   "concept": null,
+   "gist": "計算統計量時可自由變動的資料點數量，影響卡方分佈的形狀與尾部長度。",
+   "src": [
+    {
+     "block": 130,
+     "quote": "可以自由變動的資料點數量",
+     "page": 27
+    },
+    {
+     "block": 135,
+     "quote": "影響卡方分佈的形狀與尾部的長度",
+     "page": 27
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "fit",
+   "label": "分佈擬合",
+   "lane": "fit",
+   "parent": null,
+   "concept": null,
+   "gist": "選一個合適的分佈描述資料，再用最大似然估計等方法找出參數讓它貼合資料。",
+   "src": [
+    {
+     "block": 152,
+     "quote": "找出一個合適的數學模型",
+     "page": 28
+    },
+    {
+     "block": 153,
+     "quote": "找出這個分佈的參數，讓它最好地貼合我們的數據",
+     "page": 28
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "model",
+   "label": "資料建模",
+   "lane": "fit",
+   "parent": null,
+   "concept": null,
+   "gist": "把擬合後的分佈用於預測、風險分析或其他決策。",
+   "src": [
+    {
+     "block": 154,
+     "quote": "將擬合後的分佈應用到現實問題中",
+     "page": 29
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "s1",
+   "label": "資料型態確認",
+   "lane": "fit",
+   "parent": "fit",
+   "concept": null,
+   "gist": "先判斷資料是離散型（計數）還是連續型（測量）。",
+   "src": [
+    {
+     "block": 159,
+     "quote": "需先判斷資料屬於離散型還是連續型",
+     "page": 29
+    },
+    {
+     "block": 160,
+     "quote": "離散型資料適用於計數變數",
+     "page": 29
+    },
+    {
+     "block": 161,
+     "quote": "連續型資料則適用於測量變數",
+     "page": 29
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "s2",
+   "label": "模型候選選擇",
+   "lane": "fit",
+   "parent": "fit",
+   "concept": "偏態與長尾分佈",
+   "gist": "依資料特性選分佈：偏態長尾考慮對數常態或重尾分佈；事件稀少且獨立則用泊松。",
+   "src": [
+    {
+     "block": 164,
+     "quote": "可考慮對數常態分佈或重尾分佈",
+     "page": 29
+    },
+    {
+     "block": 165,
+     "quote": "若事件稀少且獨立",
+     "page": 29
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "s3",
+   "label": "獨立性與固定率假設",
+   "lane": "fit",
+   "parent": "fit",
+   "concept": null,
+   "gist": "二項與泊松都要求試驗獨立且機率或發生率固定，並可用自相關分析檢查獨立性。",
+   "src": [
+    {
+     "block": 167,
+     "quote": "二項分佈與泊松分佈假設試驗獨立且機率或發生率固定",
+     "page": 29
+    },
+    {
+     "block": 168,
+     "quote": "使用自相關（Autocorrelation）分析確認獨立性",
+     "page": 29
+    }
+   ],
+   "exam": 0
+  }
+ ],
+ "edges": [
+  {
+   "a": "bern",
+   "b": "binom",
+   "kind": "cross",
+   "label": "伯努利是二項的特例",
+   "block": 46,
+   "quote": "它是二項分佈的特例",
+   "page": 23
+  },
+  {
+   "a": "norm",
+   "b": "pdf",
+   "kind": "cross",
+   "label": "常態以 PDF 定義",
+   "block": 96,
+   "quote": "常態分佈的機率密度函數（PDF）為",
+   "page": 25
+  },
+  {
+   "a": "chi",
+   "b": "norm",
+   "kind": "cross",
+   "label": "自由度大時趨近常態",
+   "block": 127,
+   "quote": "隨著自由度k 的增加，卡方分佈會趨近常態分佈",
+   "page": 27
+  },
+  {
+   "a": "norm",
+   "b": "s2",
+   "kind": "cross",
+   "label": "偏態長尾時不宜用常態",
+   "block": 105,
+   "quote": "則不適合假設常態分佈",
+   "page": 26
+  },
+  {
+   "a": "s1",
+   "b": "pmf",
+   "kind": "cross",
+   "label": "計數資料對應離散型",
+   "block": 160,
+   "quote": "離散型資料適用於計數變數",
+   "page": 29
+  },
+  {
+   "a": "s3",
+   "b": "pois",
+   "kind": "cross",
+   "label": "泊松要求發生率固定",
+   "block": 88,
+   "quote": "泊松分佈假設事件發生的平均發生速率",
+   "page": 25
+  },
+  {
+   "a": "s3",
+   "b": "binom",
+   "kind": "cross",
+   "label": "二項要求獨立且 p 固定",
+   "block": 74,
+   "quote": "試驗必須是獨立的，且成功機率p 固定",
+   "page": 24
+  },
+  {
+   "a": "expo",
+   "b": "s3",
+   "kind": "cross",
+   "label": "發生率變動要換模型",
+   "block": 123,
+   "quote": "需選擇更複雜的分佈，如Weibull 分佈",
+   "page": 27
+  },
+  {
+   "a": "s1",
+   "b": "s2",
+   "kind": "flow",
+   "label": "再選候選分佈",
+   "block": 163,
+   "quote": "根據資料特性選取分佈",
+   "page": 29
+  },
+  {
+   "a": "s2",
+   "b": "s3",
+   "kind": "flow",
+   "label": "再檢查假設",
+   "block": 168,
+   "quote": "實務中，需檢查資料是否滿足假設",
+   "page": 29
+  }
+ ],
+ "confusions": [
+  {
+   "a": "PMF",
+   "b": "PDF",
+   "text": "PMF 給離散變數每個特定取值的機率；PDF 給連續變數落在某範圍內的機率。",
+   "blocks": [
+    27,
+    35
+   ],
+   "pages": [
+    22
+   ]
+  },
+  {
+   "a": "伯努利分佈",
+   "b": "二項分佈",
+   "text": "伯努利只看單次試驗的成功或失敗；二項是固定次數獨立試驗中的成功次數。",
+   "blocks": [
+    46,
+    58
+   ],
+   "pages": [
+    23
+   ]
+  },
+  {
+   "a": "二項分佈",
+   "b": "泊松分佈",
+   "text": "二項是固定 n 次試驗的成功次數；泊松是固定時間或空間內的發生次數，以平均發生率 λ 描述。",
+   "blocks": [
+    58,
+    76
+   ],
+   "pages": [
+    23,
+    24
+   ]
+  },
+  {
+   "a": "泊松分佈",
+   "b": "指數分佈",
+   "text": "泊松描述區間內事件發生幾次；指數描述事件與事件之間隔多久。",
+   "blocks": [
+    76,
+    109
+   ],
+   "pages": [
+    24,
+    26
+   ]
+  },
+  {
+   "a": "變異數",
+   "b": "標準差",
+   "text": "標準差是變異數的平方根，單位與原資料相同，較直觀。",
+   "blocks": [
+    15,
+    20
+   ],
+   "pages": [
+    21
+   ]
+  }
+ ],
+ "gaps": [],
+ "examOnly": [],
+ "notes": []
+}

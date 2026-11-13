@@ -1,0 +1,817 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide3",
+  "nodeId": "mid-s3c12",
+  "label": "中級 科目三・6.2 演算法偏見與公平性",
+  "subjectId": "mid-s3",
+  "title": "演算法偏見與公平性"
+ },
+ "headline": "一張圖看懂演算法偏見與公平性",
+ "lede": "AI 並非中立，偏見會從資料與模型兩端進來，還會帶來法律、商譽風險。本章順序是：偏見從哪來、用什麼指標量、用哪三階段技術降低、企業怎麼治理。",
+ "story": [
+  {
+   "step": "偏見哪來",
+   "title": "資料與模型兩層面",
+   "text": "資料有來源、內容、製程偏誤；模型也會自己引入偏見。"
+  },
+  {
+   "step": "怎麼量",
+   "title": "四種公平性指標",
+   "text": "依場景與法規選指標，各有適用情境與限制。"
+  },
+  {
+   "step": "怎麼降",
+   "title": "前處理、內部、後處理",
+   "text": "在訓練前、訓練中、訓練後各有對應技術。"
+  },
+  {
+   "step": "企業怎麼管",
+   "title": "治理、稽核與揭露",
+   "text": "技術不夠，還要制度、委員會、稽核與公開溝通。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "cause",
+   "name": "偏見成因與影響"
+  },
+  {
+   "id": "metric",
+   "name": "公平性指標與工具"
+  },
+  {
+   "id": "fix",
+   "name": "降低偏見技術"
+  },
+  {
+   "id": "gov",
+   "name": "組織治理"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "core",
+   "label": "演算法偏見與公平性",
+   "lane": null,
+   "parent": null,
+   "concept": "偏見與公平性",
+   "gist": "AI 偏見不只是技術瑕疵，還涉及社會公平、法律合規、倫理責任與企業聲譽。",
+   "src": [
+    {
+     "block": 4,
+     "quote": "並非單純的技術瑕疵",
+     "page": 206
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "dbias",
+   "label": "資料層面偏見",
+   "lane": "cause",
+   "parent": null,
+   "concept": null,
+   "gist": "資料偏見分來源、內容、製程三類。",
+   "src": [
+    {
+     "block": 11,
+     "quote": "包括來源偏誤、內容偏誤、製程偏誤",
+     "page": 207
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "src",
+   "label": "來源偏誤",
+   "lane": "cause",
+   "parent": "dbias",
+   "concept": null,
+   "gist": "蒐集階段資料無法均衡涵蓋應被代表的群體，模型學到的模式無法普遍適用。",
+   "src": [
+    {
+     "block": 12,
+     "quote": "資料無法均衡涵蓋所有應被代表的群體或情境",
+     "page": 207
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "cont",
+   "label": "內容偏誤",
+   "lane": "cause",
+   "parent": "dbias",
+   "concept": null,
+   "gist": "資料本身含不公平或歧視觀點，不修正就會被模型學走並複製。",
+   "src": [
+    {
+     "block": 21,
+     "quote": "資料內含不公平或歧視的觀點",
+     "page": 207
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "proc",
+   "label": "製程偏誤",
+   "lane": "cause",
+   "parent": "dbias",
+   "concept": "資料標註",
+   "gist": "標註或編輯過程中，人為主觀判斷造成不一致或偏差。",
+   "src": [
+    {
+     "block": 27,
+     "quote": "人為主觀判斷導致不一致或偏差",
+     "page": 207
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "mbias",
+   "label": "模型層面偏見",
+   "lane": "cause",
+   "parent": null,
+   "concept": null,
+   "gist": "即使輸入資料相對平衡，模型仍可能因設計、目標設定而產生不公平預測。",
+   "src": [
+    {
+     "block": 34,
+     "quote": "模型本身仍可能產生不公平的預測結果",
+     "page": 208
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "obj",
+   "label": "目標函數偏誤",
+   "lane": "cause",
+   "parent": "mbias",
+   "concept": null,
+   "gist": "以整體平均精度為優化目標又沒有公平性約束，會犧牲特定群體的準確度。",
+   "src": [
+    {
+     "block": 39,
+     "quote": "以整體平均精度作為優化目標",
+     "page": 208
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "reg",
+   "label": "簡化關聯與偏誤",
+   "lane": "cause",
+   "parent": "mbias",
+   "concept": "正則化",
+   "gist": "為避免過度擬合而簡化變數關聯，可能降低對少數群體特徵的敏感度。",
+   "src": [
+    {
+     "block": 41,
+     "quote": "可能降低對少數群體特徵的敏感度",
+     "page": 208
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "impact",
+   "label": "偏見的潛在影響",
+   "lane": "cause",
+   "parent": null,
+   "concept": null,
+   "gist": "未修正的偏見帶來弱勢群體受歧視、品牌受損與法律監管風險。",
+   "src": [
+    {
+     "block": 45,
+     "quote": "涉及技術層面、法律責任、商譽及社會信任",
+     "page": 209
+    },
+    {
+     "block": 46,
+     "quote": "弱勢群體受歧視",
+     "page": 209
+    },
+    {
+     "block": 48,
+     "quote": "企業品牌與信譽受損",
+     "page": 209
+    },
+    {
+     "block": 50,
+     "quote": "法律與監管風險",
+     "page": 209
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "metrics",
+   "label": "常見公平性指標",
+   "lane": "metric",
+   "parent": null,
+   "concept": null,
+   "gist": "用來衡量不同群體在模型預測結果上的系統性差異；選哪個取決於場景、目標與法規。",
+   "src": [
+    {
+     "block": 56,
+     "quote": "衡量不同群體之間，在AI 模型預測結果上的系統性差異",
+     "page": 209
+    },
+    {
+     "block": 53,
+     "quote": "取決於應用場景、業務目標及法律法規的要求",
+     "page": 209
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "dp",
+   "label": "Demographic Parity",
+   "lane": "metric",
+   "parent": "metrics",
+   "concept": null,
+   "gist": "各群體獲得正向預測的比例應大致相同，強調結果均等，但不考量實際資格差異。",
+   "src": [
+    {
+     "block": 59,
+     "quote": "不同群體獲得正向預測（例如核准貸款、錄取面試等）的比例應大致相同",
+     "page": 209
+    },
+    {
+     "block": 67,
+     "quote": "無法考量實際資格差異",
+     "page": 210
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "eo",
+   "label": "Equal Opportunity",
+   "lane": "metric",
+   "parent": "metrics",
+   "concept": null,
+   "gist": "真正應被選擇的人，在各群體被正確預測的機率要相同；只看正例。",
+   "src": [
+    {
+     "block": 70,
+     "quote": "不同群體被正確預測的機率應相同",
+     "page": 210
+    },
+    {
+     "block": 77,
+     "quote": "僅關注正例的正確預測",
+     "page": 210
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "eodds",
+   "label": "Equalized Odds",
+   "lane": "metric",
+   "parent": "metrics",
+   "concept": null,
+   "gist": "正例與負例都要一致，正確核准比例與錯誤核准比例皆相同；實務上難完全達成。",
+   "src": [
+    {
+     "block": 81,
+     "quote": "對「正例」與「負例」都有相同的預測機率",
+     "page": 210
+    },
+    {
+     "block": 88,
+     "quote": "實務上難以完全達成",
+     "page": 211
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "di",
+   "label": "Disparate Impact",
+   "lane": "metric",
+   "parent": "metrics",
+   "concept": null,
+   "gist": "某群體正向結果比例未達另一群體 80% 可能構成間接歧視，用於法律合規檢驗。",
+   "src": [
+    {
+     "block": 92,
+     "quote": "未達另一群體的 80%（80% Rule）",
+     "page": 211
+    },
+    {
+     "block": 94,
+     "quote": "主要用於法律合規審查",
+     "page": 211
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "tools",
+   "label": "評估工具 AIF360 與 Fairlearn",
+   "lane": "metric",
+   "parent": null,
+   "concept": null,
+   "gist": "AIF360 支援超過 70 種指標與多種去偏技術；Fairlearn 去偏功能較少，適合中小型專案。",
+   "src": [
+    {
+     "block": 99,
+     "quote": "支援超過70 種公平性指標及多種去偏技術",
+     "page": 211
+    },
+    {
+     "block": 118,
+     "quote": "提供的去偏功能較AIF360 少",
+     "page": 212
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "pre",
+   "label": "資料前處理",
+   "lane": "fix",
+   "parent": null,
+   "concept": null,
+   "gist": "訓練前先調整資料本身，降低資料中隱含的偏見。",
+   "src": [
+    {
+     "block": 122,
+     "quote": "即針對資料本身進行調整或修正",
+     "page": 212
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "resamp",
+   "label": "資料重新抽樣",
+   "lane": "fix",
+   "parent": "pre",
+   "concept": null,
+   "gist": "增加或減少特定群體資料，使分佈更均衡。",
+   "src": [
+    {
+     "block": 125,
+     "quote": "增加或減少特定群體資料的方式",
+     "page": 213
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "anon",
+   "label": "匿名化與泛化",
+   "lane": "fix",
+   "parent": "pre",
+   "concept": "資料匿名化",
+   "gist": "降低敏感特徵的精確性，例如年齡轉成年齡區間。",
+   "src": [
+    {
+     "block": 135,
+     "quote": "降低敏感特徵的精確性",
+     "page": 213
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "in",
+   "label": "模型內部處理",
+   "lane": "fix",
+   "parent": null,
+   "concept": null,
+   "gist": "訓練過程中把公平性指標或約束加入演算法。",
+   "src": [
+    {
+     "block": 139,
+     "quote": "將公平性指標或約束條件加入到模型演算法中",
+     "page": 213
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "cons",
+   "label": "公平性約束訓練",
+   "lane": "fix",
+   "parent": "in",
+   "concept": null,
+   "gist": "訓練時同時加入公平性指標作為約束條件，如貸款核准率要求相近。",
+   "src": [
+    {
+     "block": 142,
+     "quote": "同時加入公平性指標作為約束條件",
+     "page": 213
+    },
+    {
+     "block": 144,
+     "quote": "強制約束不同性別的核准率相似",
+     "page": 213
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "adv",
+   "label": "對抗式去偏模型",
+   "lane": "fix",
+   "parent": "in",
+   "concept": null,
+   "gist": "另訓練對抗網路去預測敏感特徵，迫使主模型學到不受其影響的表現。",
+   "src": [
+    {
+     "block": 147,
+     "quote": "迫使主模型學到不受敏感特徵影響的特徵表現",
+     "page": 214
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "freg",
+   "label": "公平性正規化",
+   "lane": "fix",
+   "parent": "in",
+   "concept": null,
+   "gist": "在目標函數加入公平性損失項，同時平衡準確度與公平性。",
+   "src": [
+    {
+     "block": 152,
+     "quote": "加入額外的公平性損失項",
+     "page": 214
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "post",
+   "label": "模型後處理",
+   "lane": "fix",
+   "parent": null,
+   "concept": null,
+   "gist": "模型訓練完成後，修正輸出結果以達到更公平。",
+   "src": [
+    {
+     "block": 156,
+     "quote": "針對模型輸出的結果進行修正",
+     "page": 214
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "thr",
+   "label": "結果門檻調整",
+   "lane": "fix",
+   "parent": "post",
+   "concept": null,
+   "gist": "對不同群體調整正向預測閾值，直接改變通過標準，如核准門檻從 60 分降到 55 分。",
+   "src": [
+    {
+     "block": 159,
+     "quote": "針對不同群體調整正向預測的閾值",
+     "page": 214
+    },
+    {
+     "block": 163,
+     "quote": "從60 分降到55 分",
+     "page": 214
+    },
+    {
+     "block": 160,
+     "quote": "直接改變判斷標準（閾值）",
+     "page": 214
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "cal",
+   "label": "結果校準",
+   "lane": "fix",
+   "parent": "post",
+   "concept": null,
+   "gist": "不改閾值，改各群體的預測分數，使同分有相同意義，如 60 分校準成 65 分。",
+   "src": [
+    {
+     "block": 167,
+     "quote": "不改變判斷標準（閾值），但調整不同群體的預測分數",
+     "page": 215
+    },
+    {
+     "block": 170,
+     "quote": "從60 分重新校準成65 分",
+     "page": 215
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "gov",
+   "label": "建立公平性治理機制",
+   "lane": "gov",
+   "parent": null,
+   "concept": null,
+   "gist": "技術之外，企業要建立制度、流程與文化，並訂定公平性政策、指標與可接受範圍。",
+   "src": [
+    {
+     "block": 172,
+     "quote": "企業必須從治理與管理層面著手",
+     "page": 215
+    },
+    {
+     "block": 178,
+     "quote": "訂定具體的公平性衡量指標及可接受範圍",
+     "page": 215
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "comm",
+   "label": "跨部門審查委員會",
+   "lane": "gov",
+   "parent": "gov",
+   "concept": null,
+   "gist": "集合法務、技術、產品、倫理與風險管理，專案早期就參與以預防偏見。",
+   "src": [
+    {
+     "block": 180,
+     "quote": "集合法務、技術、產品、倫理及風險管理等部門",
+     "page": 216
+    },
+    {
+     "block": 181,
+     "quote": "於AI 專案早期即參與",
+     "page": 216
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "audit",
+   "label": "公平性評估與稽核",
+   "lane": "gov",
+   "parent": null,
+   "concept": null,
+   "gist": "每年定期稽核關鍵系統，新上線或重大更新也要審查，並將指標納入日常監控。",
+   "src": [
+    {
+     "block": 198,
+     "quote": "每年定期對關鍵AI 系統進行公平性稽核",
+     "page": 217
+    },
+    {
+     "block": 199,
+     "quote": "對於新上線或重大更新的AI 系統",
+     "page": 217
+    },
+    {
+     "block": 201,
+     "quote": "將公平性指標納入AI 系統日常監控報告",
+     "page": 217
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "disc",
+   "label": "資訊揭露與溝通",
+   "lane": "gov",
+   "parent": null,
+   "concept": null,
+   "gist": "主動公開公平性報告，引入第三方獨立驗證，並與利益關係人保持溝通。",
+   "src": [
+    {
+     "block": 207,
+     "quote": "定期公開AI 系統的公平性衡量結果",
+     "page": 217
+    },
+    {
+     "block": 210,
+     "quote": "邀請外部專業機構進行公平性稽核或審查",
+     "page": 217
+    },
+    {
+     "block": 209,
+     "quote": "引入第三方獨立驗證",
+     "page": 217
+    },
+    {
+     "block": 211,
+     "quote": "與利益關係人保持溝通",
+     "page": 217
+    }
+   ],
+   "exam": 0
+  }
+ ],
+ "edges": [
+  {
+   "a": "dbias",
+   "b": "pre",
+   "kind": "cross",
+   "label": "資料偏見由前處理處理",
+   "block": 122,
+   "quote": "以降低資料中隱含的偏見",
+   "page": 212
+  },
+  {
+   "a": "obj",
+   "b": "freg",
+   "kind": "cross",
+   "label": "目標函數加公平損失項",
+   "block": 152,
+   "quote": "在模型訓練目標函數中加入額外的公平性損失項",
+   "page": 214
+  },
+  {
+   "a": "obj",
+   "b": "cons",
+   "kind": "cross",
+   "label": "缺公平約束才犧牲群體",
+   "block": 39,
+   "quote": "若未加入公平性約束，就可能在提升整體效能的同時",
+   "page": 208
+  },
+  {
+   "a": "dp",
+   "b": "cons",
+   "kind": "cross",
+   "label": "指標可當訓練約束",
+   "block": 142,
+   "quote": "同時加入公平性指標作為約束條件，例如 Demographic Parity",
+   "page": 213
+  },
+  {
+   "a": "gov",
+   "b": "dp",
+   "kind": "cross",
+   "label": "政策選定公平性目標",
+   "block": 177,
+   "quote": "應遵守的公平性目標（如Demographic Parity",
+   "page": 215
+  },
+  {
+   "a": "audit",
+   "b": "metrics",
+   "kind": "cross",
+   "label": "指標納入日常監控",
+   "block": 201,
+   "quote": "將公平性指標納入AI 系統日常監控報告",
+   "page": 217
+  },
+  {
+   "a": "di",
+   "b": "impact",
+   "kind": "cross",
+   "label": "用於法律合規審查",
+   "block": 94,
+   "quote": "主要用於法律合規審查",
+   "page": 211
+  },
+  {
+   "a": "pre",
+   "b": "in",
+   "kind": "flow",
+   "label": "訓練前到訓練中",
+   "block": 139,
+   "quote": "在模型訓練過程中，即將公平性指標",
+   "page": 213
+  },
+  {
+   "a": "in",
+   "b": "post",
+   "kind": "flow",
+   "label": "訓練中到訓練後",
+   "block": 156,
+   "quote": "模型訓練完成後",
+   "page": 214
+  }
+ ],
+ "confusions": [
+  {
+   "a": "Demographic Parity",
+   "b": "Equal Opportunity",
+   "text": "前者比各群體獲得正向預測的整體比例（不論是否合格）；後者只比真正該被選者的正確預測比例。",
+   "blocks": [
+    59,
+    62,
+    70,
+    73
+   ],
+   "pages": [
+    209,
+    210
+   ]
+  },
+  {
+   "a": "Equal Opportunity",
+   "b": "Equalized Odds",
+   "text": "前者只關注正例的正確預測；後者要求正例與負例都一致，正確與錯誤核准比例皆相同。",
+   "blocks": [
+    70,
+    77,
+    81
+   ],
+   "pages": [
+    210
+   ]
+  },
+  {
+   "a": "結果門檻調整",
+   "b": "結果校準",
+   "text": "前者直接改判斷標準（閾值）；後者不動閾值，改預測分數，使同分在各群體意義相同。",
+   "blocks": [
+    160,
+    167
+   ],
+   "pages": [
+    214,
+    215
+   ]
+  },
+  {
+   "a": "來源偏誤",
+   "b": "製程偏誤",
+   "text": "來源偏誤是蒐集時群體涵蓋不均；製程偏誤是標註時人為主觀造成不一致；內容偏誤則是資料本身含刻板觀點。",
+   "blocks": [
+    12,
+    21,
+    27
+   ],
+   "pages": [
+    207
+   ]
+  },
+  {
+   "a": "資料偏見",
+   "b": "模型偏見",
+   "text": "資料偏見源於資料本身；模型偏見即使資料相對平衡，仍因演算法設計或目標設定而出現。",
+   "blocks": [
+    10,
+    34
+   ],
+   "pages": [
+    206,
+    208
+   ]
+  },
+  {
+   "a": "Demographic Parity",
+   "b": "Disparate Impact",
+   "text": "前者要求各群體正向比例大致相同；後者以 80% 為門檻，主要用於法律合規的歧視檢驗。",
+   "blocks": [
+    59,
+    92,
+    94
+   ],
+   "pages": [
+    209,
+    211
+   ]
+  }
+ ],
+ "gaps": [
+  {
+   "name": "直接識別個人資訊（PII）",
+   "block": 214,
+   "page": 218
+  },
+  {
+   "name": "隨機擾動（Noise Injection）",
+   "block": 215,
+   "page": 218
+  },
+  {
+   "name": "類別重加權",
+   "block": 219,
+   "page": 219
+  },
+  {
+   "name": "T-Closeness",
+   "block": 220,
+   "page": 219
+  },
+  {
+   "name": "SMOTE 資料增強",
+   "block": 222,
+   "page": 219
+  },
+  {
+   "name": "隱私保護基礎技術（遮蔽、泛化、分桶）",
+   "block": 223,
+   "page": 220
+  }
+ ],
+ "examOnly": [],
+ "notes": []
+}

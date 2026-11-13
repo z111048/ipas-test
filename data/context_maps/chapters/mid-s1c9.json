@@ -1,0 +1,825 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide1",
+  "nodeId": "mid-s1c9",
+  "label": "中級 科目一・5.2 AI 技術系統集成與部署"
+ },
+ "headline": "一張圖看懂AI 技術系統集成與部署",
+ "lede": "模型訓練完只是起點，要接進企業系統、選好架構與部署位置，上線後還要持續監控與優化。先抓住「部署是一整套流程」，再看整合、架構、維運、跨部門四條線如何互相牽動。",
+ "story": [
+  {
+   "step": "為什麼",
+   "title": "部署是完整流程",
+   "text": "模型漂移與合規要求，讓部署不只是上線。"
+  },
+  {
+   "step": "接進去",
+   "title": "系統集成",
+   "text": "資料管線、內部系統、API 與安全一起接。"
+  },
+  {
+   "step": "放哪裡",
+   "title": "架構與部署模式",
+   "text": "微服務、容器搭配公有、私有、邊緣、混合部署。"
+  },
+  {
+   "step": "顧下去",
+   "title": "MLOps 與優化",
+   "text": "CI/CD、監控漂移、再訓練與跨部門協作。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "integ",
+   "name": "系統集成"
+  },
+  {
+   "id": "arch",
+   "name": "架構與部署模式"
+  },
+  {
+   "id": "ops",
+   "name": "MLOps 與成效優化"
+  },
+  {
+   "id": "org",
+   "name": "跨部門整合"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "core",
+   "label": "AI 系統集成與部署",
+   "lane": null,
+   "parent": null,
+   "concept": null,
+   "gist": "部署不只是模型上線，而是涵蓋開發、測試、部署、監控、回訓與優化的完整流程。",
+   "src": [
+    {
+     "block": 6,
+     "quote": "不單是模型上線，而是一套涵蓋開發、測試、部署、監控、回訓與優化"
+    }
+   ]
+  },
+  {
+   "id": "pipe",
+   "label": "資料管線整合",
+   "lane": "integ",
+   "parent": null,
+   "concept": null,
+   "gist": "整合資料倉儲、資料湖、IoT 與第三方 API，建立資料管線讓資料持續流入模型。",
+   "src": [
+    {
+     "block": 11,
+     "quote": "需建立完整的資料管線（Data Pipeline）"
+    }
+   ]
+  },
+  {
+   "id": "erp",
+   "label": "企業內部系統整合",
+   "lane": "integ",
+   "parent": null,
+   "concept": "業務流程整合",
+   "gist": "把模型輸出的建議整合回 ERP、CRM、POS、MES，AI 才真正支援業務執行。",
+   "src": [
+    {
+     "block": 13,
+     "quote": "整合回ERP（企業資源規劃）、CRM（客戶關係管理）"
+    }
+   ]
+  },
+  {
+   "id": "api",
+   "label": "API 與平台接軌",
+   "lane": "integ",
+   "parent": null,
+   "concept": "系統整合與API",
+   "gist": "封裝成服務介面供前端取用，最常用 RESTful API，也可用 gRPC 或 Webhooks。",
+   "src": [
+    {
+     "block": 15,
+     "quote": "最常見的實作方式為使用RESTful API"
+    }
+   ]
+  },
+  {
+   "id": "sec",
+   "label": "安全與權限控管",
+   "lane": "integ",
+   "parent": null,
+   "concept": "系統安全與稽核",
+   "gist": "以身份驗證、角色權限與 API Gateway 保護涉及個資與機密的 AI 系統。",
+   "src": [
+    {
+     "block": 17,
+     "quote": "AI 系統的存取必須納入資訊安全考量"
+    },
+    {
+     "block": 19,
+     "quote": "對不同角色設定不同的存取權限"
+    },
+    {
+     "block": 18,
+     "quote": "使用OAuth2 或JWT（JSON Web Token）進行用戶身份驗證與授權"
+    },
+    {
+     "block": 20,
+     "quote": "實作API Gateways 進行存取日誌記錄與流量控管"
+    }
+   ]
+  },
+  {
+   "id": "cloud",
+   "label": "跨雲與異質系統整合",
+   "lane": "integ",
+   "parent": null,
+   "concept": null,
+   "gist": "訓練、推論分散在不同環境時，用中介整合層統一管理同步與調用，避免資訊孤島。",
+   "src": [
+    {
+     "block": 22,
+     "quote": "需設計中介整合層或服務中樞（如Service Mesh）"
+    }
+   ]
+  },
+  {
+   "id": "arch",
+   "label": "系統架構設計",
+   "lane": "arch",
+   "parent": null,
+   "concept": "部署架構",
+   "gist": "從整體系統角度設計穩定、高可用、可擴展、易維運的架構。",
+   "src": [
+    {
+     "block": 24,
+     "quote": "設計一個穩定、高可用、可擴展、易於維運的技術架構"
+    }
+   ]
+  },
+  {
+   "id": "ms",
+   "label": "微服務架構",
+   "lane": "arch",
+   "parent": "arch",
+   "concept": null,
+   "gist": "把應用拆成小型獨立服務，易隔離錯誤、可並行開發，但介接與分散式管理較複雜。",
+   "src": [
+    {
+     "block": 26,
+     "quote": "將單一應用程式拆分為一組小型服務的架構風格"
+    },
+    {
+     "block": 28,
+     "quote": "易於隔離錯誤"
+    },
+    {
+     "block": 29,
+     "quote": "適合跨團隊並行開發"
+    },
+    {
+     "block": 33,
+     "quote": "分散式管理複雜度高"
+    }
+   ]
+  },
+  {
+   "id": "ctr",
+   "label": "容器化與編排",
+   "lane": "arch",
+   "parent": "arch",
+   "concept": "容器編排",
+   "gist": "Docker 封裝應用與依賴環境，Kubernetes 負責編排，並有滾動更新、自動擴縮、負載平衡。",
+   "src": [
+    {
+     "block": 35,
+     "quote": "為管理大量容器，常結合Kubernetes（K8s）進行容器編排"
+    },
+    {
+     "block": 37,
+     "quote": "Docker：容器映像建構與執行"
+    },
+    {
+     "block": 40,
+     "quote": "不中斷服務地更新容器版本"
+    },
+    {
+     "block": 41,
+     "quote": "根據流量自動調整容器數量"
+    },
+    {
+     "block": 42,
+     "quote": "確保多個推論節點分擔請求壓力"
+    }
+   ]
+  },
+  {
+   "id": "svc",
+   "label": "模型服務化與 API 封裝",
+   "lane": "arch",
+   "parent": "arch",
+   "concept": "模型推論",
+   "gist": "把模型封裝成 HTTP/REST 推論服務，支援多版本管理、安全機制與記錄監控。",
+   "src": [
+    {
+     "block": 44,
+     "quote": "需將模型封裝為可透過 HTTP/REST 呼叫的推論服務"
+    },
+    {
+     "block": 45,
+     "quote": "可設定多版本管理（Model Versioning）"
+    },
+    {
+     "block": 46,
+     "quote": "可加入使用者驗證、速率限制等API 安全機制"
+    },
+    {
+     "block": 47,
+     "quote": "提供模型推論結果的記錄與監控"
+    }
+   ]
+  },
+  {
+   "id": "ha",
+   "label": "可擴充與高可用",
+   "lane": "arch",
+   "parent": "arch",
+   "concept": null,
+   "gist": "用冗餘部署避免單點故障，用容錯切換在節點故障時轉到備援節點。",
+   "src": [
+    {
+     "block": 50,
+     "quote": "多節點部署避免單點故障"
+    },
+    {
+     "block": 51,
+     "quote": "一個節點故障時自動切換至備援節點"
+    }
+   ]
+  },
+  {
+   "id": "dm",
+   "label": "部署模式",
+   "lane": "arch",
+   "parent": null,
+   "concept": "模型部署",
+   "gist": "能否穩定部署到營運環境是專案產品化的關鍵門檻，有公有、私有、邊緣、混合四類。",
+   "src": [
+    {
+     "block": 53,
+     "quote": "能否穩定、有效地部署（Deployment）於實際營運環境"
+    }
+   ]
+  },
+  {
+   "id": "pub",
+   "label": "公有雲部署",
+   "lane": "arch",
+   "parent": "dm",
+   "concept": null,
+   "gist": "彈性擴充、速度快、按量付費；挑戰是法規遵循、資料主權與供應商鎖定。",
+   "src": [
+    {
+     "block": 56,
+     "quote": "資源彈性擴充、部署速度快、全球節點支援、按量付費"
+    },
+    {
+     "block": 58,
+     "quote": "需特別關注法規遵循（如 GDPR）、資料主權與供應商鎖定風險"
+    }
+   ]
+  },
+  {
+   "id": "priv",
+   "label": "私有雲部署",
+   "lane": "arch",
+   "parent": "dm",
+   "concept": null,
+   "gist": "資料留在內部、控制性高，適合政府金融醫療；建置維運成本高、擴展受限。",
+   "src": [
+    {
+     "block": 61,
+     "quote": "資料僅在內部可控環境（不外流）"
+    },
+    {
+     "block": 63,
+     "quote": "建置與維運成本高"
+    },
+    {
+     "block": 60,
+     "quote": "提供更高的控制性與安全性"
+    },
+    {
+     "block": 62,
+     "quote": "政府、金融、醫療等對資料保護要求嚴格的領域"
+    }
+   ]
+  },
+  {
+   "id": "edge",
+   "label": "邊緣運算",
+   "lane": "arch",
+   "parent": "dm",
+   "concept": null,
+   "gist": "在靠近資料來源的裝置上推論，降低延遲與頻寬並提升隱私；運算資源有限。",
+   "src": [
+    {
+     "block": 65,
+     "quote": "在靠近資料來源端的裝置（如IoT、手機、車載系統）上進行模型推論"
+    },
+    {
+     "block": 65,
+     "quote": "以減少延遲與頻寬消耗"
+    },
+    {
+     "block": 66,
+     "quote": "降低傳輸延遲、提升隱私保護"
+    },
+    {
+     "block": 68,
+     "quote": "運算資源有限、更新與同步需額外設計"
+    }
+   ]
+  },
+  {
+   "id": "hyb",
+   "label": "混合部署",
+   "lane": "arch",
+   "parent": "dm",
+   "concept": null,
+   "gist": "結合公有雲、私有雲與邊緣，各任務放最合適位置；整合與同步難度高。",
+   "src": [
+    {
+     "block": 70,
+     "quote": "針對不同任務配置最合適的執行位置"
+    },
+    {
+     "block": 70,
+     "quote": "結合公有雲、私有雲與邊緣架構"
+    },
+    {
+     "block": 72,
+     "quote": "系統整合難度高，需設計良好的同步機制"
+    }
+   ]
+  },
+  {
+   "id": "mlops",
+   "label": "MLOps",
+   "lane": "ops",
+   "parent": null,
+   "concept": "MLOps",
+   "gist": "DevOps 在 AI 領域的延伸，把訓練、測試、部署與監控持續整合與自動化。",
+   "src": [
+    {
+     "block": 75,
+     "quote": "MLOps 是DevOps 在AI 領域的延伸"
+    }
+   ]
+  },
+  {
+   "id": "cicd",
+   "label": "CI/CD",
+   "lane": "ops",
+   "parent": "mlops",
+   "concept": "持續整合",
+   "gist": "CI 在程式或資料變動時觸發訓練與測試；CD 讓通過門檻的模型自動部署。",
+   "src": [
+    {
+     "block": 77,
+     "quote": "將模型的開發、測試與部署自動化"
+    },
+    {
+     "block": 79,
+     "quote": "原始碼與資料變動即觸發模型訓練與測試流程"
+    },
+    {
+     "block": 82,
+     "quote": "通過測試門檻的模型，自動部署至測試或生產環境"
+    }
+   ]
+  },
+  {
+   "id": "ver",
+   "label": "模型版本控管",
+   "lane": "ops",
+   "parent": "mlops",
+   "concept": "模型版本控管",
+   "gist": "以 MLflow、DVC 追蹤每次訓練的參數、資料版本與成果，建立可重現性。",
+   "src": [
+    {
+     "block": 85,
+     "quote": "追蹤每次訓練的參數、資料版本與模型成果，建立可重現性"
+    }
+   ]
+  },
+  {
+   "id": "mon",
+   "label": "模型監控與回饋",
+   "lane": "ops",
+   "parent": "mlops",
+   "concept": "模型監控",
+   "gist": "部署後資料與環境會變，需監控漂移與錯誤率、延遲、吞吐量等指標。",
+   "src": [
+    {
+     "block": 89,
+     "quote": "需透過監控與回饋機制來偵測與修正"
+    },
+    {
+     "block": 91,
+     "quote": "模型預測分佈與訓練時期不同"
+    },
+    {
+     "block": 93,
+     "quote": "錯誤率、延遲、吞吐量等效能指標"
+    }
+   ]
+  },
+  {
+   "id": "drift",
+   "label": "模型漂移與資料漂移",
+   "lane": "ops",
+   "parent": "mon",
+   "concept": "資料漂移",
+   "gist": "模型漂移是預測分佈與訓練時不同；資料漂移是輸入資料統計特徵改變。",
+   "src": [
+    {
+     "block": 91,
+     "quote": "模型預測分佈與訓練時期不同"
+    },
+    {
+     "block": 92,
+     "quote": "輸入資料的統計特徵改變"
+    }
+   ]
+  },
+  {
+   "id": "fb",
+   "label": "回饋與自動修正",
+   "lane": "ops",
+   "parent": "mon",
+   "concept": null,
+   "gist": "設觸發門檻，超過就啟動再訓練流程，或以熱更新、滾動更新替換模型版本。",
+   "src": [
+    {
+     "block": 95,
+     "quote": "設定觸發門檻（如準確率下降5%）"
+    },
+    {
+     "block": 96,
+     "quote": "啟動再訓練流程（Retraining Pipeline）"
+    },
+    {
+     "block": 97,
+     "quote": "透過熱更新（Hot Swap）或滾動更新（Rolling Update）替換模型版本"
+    }
+   ]
+  },
+  {
+   "id": "kpi",
+   "label": "成效指標分層",
+   "lane": "ops",
+   "parent": null,
+   "concept": "評估指標",
+   "gist": "分系統、應用、業務三層指標，建議技術與業務指標雙軌並行。",
+   "src": [
+    {
+     "block": 104,
+     "quote": "不同AI 應用需對應不同層級的效能指標"
+    },
+    {
+     "block": 112,
+     "quote": "建議採「技術指標 + 業務指標」雙軌制"
+    },
+    {
+     "block": 105,
+     "quote": "系統層級：推論延遲（Inference Latency）"
+    },
+    {
+     "block": 107,
+     "quote": "業務層級：轉換率提升、成本節省"
+    },
+    {
+     "block": 106,
+     "quote": "應用層級：推薦點擊率（CTR）"
+    }
+   ]
+  },
+  {
+   "id": "loop",
+   "label": "回收週期",
+   "lane": "ops",
+   "parent": "kpi",
+   "concept": null,
+   "gist": "建立每日、每週、每月的資料回收與監測節奏，月度確認是否需重新評估或再訓練。",
+   "src": [
+    {
+     "block": 108,
+     "quote": "系統應建立定期的資料回收與監測週期"
+    },
+    {
+     "block": 111,
+     "quote": "每月進行一次模型重新評估或retraining 需求確認"
+    },
+    {
+     "block": 109,
+     "quote": "每日監控推論效能與使用情況"
+    },
+    {
+     "block": 110,
+     "quote": "每週收集錯誤樣本與業務回饋"
+    }
+   ]
+  },
+  {
+   "id": "upd",
+   "label": "模型更新與持續優化",
+   "lane": "ops",
+   "parent": null,
+   "concept": null,
+   "gist": "以版本控管加滾動釋出更新，可搭配藍綠、金絲雀部署降低新模型的風險。",
+   "src": [
+    {
+     "block": 114,
+     "quote": "模型更新應採版本控管與滾動釋出策略"
+    }
+   ]
+  },
+  {
+   "id": "hil",
+   "label": "回饋融入優化",
+   "lane": "ops",
+   "parent": "upd",
+   "concept": "人類參與迴圈",
+   "gist": "客服、銷售反映的錯誤案例與點擊記錄，都可轉成模型優化素材。",
+   "src": [
+    {
+     "block": 116,
+     "quote": "如客服或銷售反映的錯誤案例"
+    },
+    {
+     "block": 116,
+     "quote": "使用者點擊行為記錄等，皆可轉化為模型優化素材"
+    }
+   ]
+  },
+  {
+   "id": "auto",
+   "label": "AutoML 與在線學習",
+   "lane": "ops",
+   "parent": "upd",
+   "concept": null,
+   "gist": "變化快或資料量大時，用 AutoML 或在線學習持續微調，維持預測準確度。",
+   "src": [
+    {
+     "block": 117,
+     "quote": "可搭配AutoML 或在線學習（Online Learning） 架構"
+    }
+   ]
+  },
+  {
+   "id": "roles",
+   "label": "部門角色與責任",
+   "lane": "org",
+   "parent": null,
+   "concept": null,
+   "gist": "業務行銷提需求與指標，客服營運回收案例，法務審查隱私與公平性，資訊部門負責部署維運。",
+   "src": [
+    {
+     "block": 121,
+     "quote": "提供實際需求情境與績效指標"
+    },
+    {
+     "block": 123,
+     "quote": "針對資料隱私、模型公平性與風險揭露進行審查"
+    },
+    {
+     "block": 124,
+     "quote": "負責部署、權限管理、API 整合與維運支援"
+    },
+    {
+     "block": 122,
+     "quote": "負責回收實際互動案例與異常反應"
+    }
+   ]
+  },
+  {
+   "id": "comm",
+   "label": "常態溝通與決策",
+   "lane": "org",
+   "parent": null,
+   "concept": null,
+   "gist": "定期召開工作小組、共用績效指標，並建立快速協調與決策通道。",
+   "src": [
+    {
+     "block": 127,
+     "quote": "推動共用績效指標"
+    },
+    {
+     "block": 126,
+     "quote": "定期召開AI 專案工作小組"
+    },
+    {
+     "block": 128,
+     "quote": "建立快速協調與決策通道"
+    }
+   ]
+  },
+  {
+   "id": "gov",
+   "label": "納入組織治理",
+   "lane": "org",
+   "parent": null,
+   "concept": null,
+   "gist": "設立 AI 治理委員會、產品經理或協調人員與跨部門培訓，讓 AI 融入日常營運。",
+   "src": [
+    {
+     "block": 132,
+     "quote": "AI 治理委員會：統籌資源分配、風險審查與戰略發展"
+    },
+    {
+     "block": 133,
+     "quote": "作為技術與部門間的橋梁"
+    },
+    {
+     "block": 134,
+     "quote": "跨部門培訓與教育機制"
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "a": "api",
+   "b": "svc",
+   "kind": "cross",
+   "label": "封裝成服務才能被應用接上",
+   "block": 44,
+   "quote": "為了讓AI 模型能與前端應用、業務流程無縫整合"
+  },
+  {
+   "a": "sec",
+   "b": "svc",
+   "kind": "cross",
+   "label": "服務封裝時也要加安全機制",
+   "block": 46,
+   "quote": "可加入使用者驗證、速率限制等API 安全機制"
+  },
+  {
+   "a": "cloud",
+   "b": "hyb",
+   "kind": "cross",
+   "label": "訓練與推論分處不同環境",
+   "block": 22,
+   "quote": "部分訓練作業在本地資料中心，部分推論則執行於邊緣裝置或雲端平台"
+  },
+  {
+   "a": "hyb",
+   "b": "edge",
+   "kind": "cross",
+   "label": "混合部署把即時推論放邊緣",
+   "block": 70,
+   "quote": "雲端進行模型訓練，邊緣進行即時推論"
+  },
+  {
+   "a": "drift",
+   "b": "fb",
+   "kind": "cross",
+   "label": "漂移超過門檻就觸發再訓練",
+   "block": 115,
+   "quote": "當漂移超過門檻時，自動觸發模型再訓練流程"
+  },
+  {
+   "a": "fb",
+   "b": "upd",
+   "kind": "cross",
+   "label": "以熱更新或滾動更新替換版本",
+   "block": 97,
+   "quote": "透過熱更新（Hot Swap）或滾動更新（Rolling Update）替換模型版本"
+  },
+  {
+   "a": "ver",
+   "b": "upd",
+   "kind": "cross",
+   "label": "更新靠版本控管支撐",
+   "block": 114,
+   "quote": "模型更新應採版本控管與滾動釋出策略"
+  },
+  {
+   "a": "loop",
+   "b": "fb",
+   "kind": "cross",
+   "label": "月度確認是否需再訓練",
+   "block": 111,
+   "quote": "每月進行一次模型重新評估或retraining 需求確認"
+  },
+  {
+   "a": "roles",
+   "b": "hil",
+   "kind": "cross",
+   "label": "客服回報案例成為優化素材",
+   "block": 116,
+   "quote": "如客服或銷售反映的錯誤案例"
+  },
+  {
+   "a": "mon",
+   "b": "kpi",
+   "kind": "cross",
+   "label": "延遲、吞吐量同屬系統層指標",
+   "block": 105,
+   "quote": "系統層級：推論延遲（Inference Latency）"
+  },
+  {
+   "a": "roles",
+   "b": "api",
+   "kind": "cross",
+   "label": "資訊部門負責 API 整合",
+   "block": 124,
+   "quote": "負責部署、權限管理、API 整合與維運支援"
+  }
+ ],
+ "confusions": [
+  {
+   "a": "模型漂移",
+   "b": "資料漂移",
+   "text": "模型漂移是預測分佈與訓練時期不同；資料漂移是輸入資料的統計特徵改變。",
+   "blocks": [
+    91,
+    92
+   ]
+  },
+  {
+   "a": "公有雲",
+   "b": "私有雲",
+   "text": "公有雲由供應商提供、彈性擴充但要留意資料主權；私有雲自建、資料不外流但成本高、擴展受限。",
+   "blocks": [
+    55,
+    56,
+    58,
+    60,
+    61,
+    63
+   ]
+  },
+  {
+   "a": "邊緣運算",
+   "b": "混合部署",
+   "text": "邊緣是在靠近資料端的裝置上推論；混合是結合公有雲、私有雲與邊緣，依任務分配位置。",
+   "blocks": [
+    65,
+    70
+   ]
+  },
+  {
+   "a": "CI 持續整合",
+   "b": "CD 持續部署",
+   "text": "CI 在變動時觸發訓練與測試；CD 讓通過門檻的模型自動部署並可用 A/B 或藍綠控制風險。",
+   "blocks": [
+    79,
+    80,
+    82,
+    83
+   ]
+  },
+  {
+   "a": "冗餘部署",
+   "b": "容錯切換",
+   "text": "冗餘是多節點部署避免單點故障；容錯切換是節點故障時自動轉到備援節點。",
+   "blocks": [
+    50,
+    51
+   ]
+  },
+  {
+   "a": "MLflow",
+   "b": "DVC",
+   "text": "MLflow 管理機器學習全流程；DVC 專為機器學習設計，著重資料集與模型的版本追蹤。",
+   "blocks": [
+    86,
+    87
+   ]
+  }
+ ],
+ "gaps": [
+  {
+   "name": "資料標註",
+   "block": 137
+  },
+  {
+   "name": "特徵標準化",
+   "block": 138
+  },
+  {
+   "name": "分類任務",
+   "block": 139
+  },
+  {
+   "name": "插補法",
+   "block": 141
+  },
+  {
+   "name": "概念漂移",
+   "block": 145
+  }
+ ]
+}

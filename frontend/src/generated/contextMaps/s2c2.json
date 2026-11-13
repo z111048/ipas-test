@@ -1,0 +1,1027 @@
+{
+ "chapter": {
+  "guideKey": "初級-guide2",
+  "nodeId": "s2c2",
+  "label": "初級 科目二・3.2 生成式AI 應用領域與工具使用",
+  "subjectId": "s2",
+  "title": "生成式AI 應用領域與工具使用"
+ },
+ "headline": "一張圖看懂生成式AI 應用領域與工具使用",
+ "lede": "這章先講生成式AI 靠什麼技術生成內容，再看工具如何進化、市場與就業受到什麼影響，最後落到各產業的應用。先抓住「技術基礎、工具演進、市場衝擊、領域應用」四條線。",
+ "story": [
+  {
+   "step": "是什麼",
+   "title": "技術基礎",
+   "text": "深度學習、數據處理與推理機制，生成新內容。"
+  },
+  {
+   "step": "怎麼進化",
+   "title": "工具技術演進",
+   "text": "GAN、VAE 到Transformer，再朝輕量化與個人化發展。"
+  },
+  {
+   "step": "影響誰",
+   "title": "市場與風險",
+   "text": "市場成長、就業雙面性，以及技術商業社會風險。"
+  },
+  {
+   "step": "用在哪",
+   "title": "各領域應用",
+   "text": "藝術、醫療、教育、娛樂、製造各有應用與趨勢。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "tech",
+   "name": "技術基礎"
+  },
+  {
+   "id": "evo",
+   "name": "技術進化與工具趨勢"
+  },
+  {
+   "id": "mkt",
+   "name": "市場價值與衝擊"
+  },
+  {
+   "id": "app",
+   "name": "各領域應用"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "gai",
+   "label": "生成式AI",
+   "lane": null,
+   "parent": null,
+   "concept": "生成式AI",
+   "gist": "透過學習生成新內容，而非只分析或辨識現有數據。",
+   "src": [
+    {
+     "block": 2,
+     "quote": "透過模型的學習能力生成新內容",
+     "page": 23
+    }
+   ],
+   "exam": 6
+  },
+  {
+   "id": "dl",
+   "label": "深度學習網路",
+   "lane": "tech",
+   "parent": "gai",
+   "concept": "深度學習",
+   "gist": "用多層神經網路做特徵提取與表示學習，並靠注意力機制學序列結構。",
+   "src": [
+    {
+     "block": 7,
+     "quote": "使用多層神經網路進行特徵提取與表示學習",
+     "page": 23
+    },
+    {
+     "block": 8,
+     "quote": "有效學習序列數據的內在結構",
+     "page": 23
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "attn",
+   "label": "注意力機制",
+   "lane": "tech",
+   "parent": "dl",
+   "concept": "注意力機制",
+   "gist": "尤其是自注意力，有助於處理長距離依賴關係。",
+   "src": [
+    {
+     "block": 8,
+     "quote": "有助於處理長距離依賴關係",
+     "page": 23
+    }
+   ],
+   "exam": 5
+  },
+  {
+   "id": "data",
+   "label": "訓練數據處理",
+   "lane": "tech",
+   "parent": "gai",
+   "concept": null,
+   "gist": "先清洗數據，再標記化與向量化，轉成深度學習模型能處理的形式。",
+   "src": [
+    {
+     "block": 10,
+     "quote": "移除雜訊（Noise）或錯誤的數據",
+     "page": 23
+    },
+    {
+     "block": 12,
+     "quote": "將文本或其他數據轉換為數值形式",
+     "page": 24
+    },
+    {
+     "block": 11,
+     "quote": "將文本數據拆分為基本單元",
+     "page": 24
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "tok",
+   "label": "標記化",
+   "lane": "tech",
+   "parent": "data",
+   "concept": "標記化",
+   "gist": "把文本拆成詞或子詞等基本單元，方便模型處理。",
+   "src": [
+    {
+     "block": 11,
+     "quote": "將文本數據拆分為基本單元",
+     "page": 24
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "infer",
+   "label": "推理機制",
+   "lane": "tech",
+   "parent": "gai",
+   "concept": "模型推論",
+   "gist": "用溫度參數控制隨機性（低溫保守、高溫創意）；Top-k 取前k 個選項，核採樣取累積機率達閾值的選項。",
+   "src": [
+    {
+     "block": 14,
+     "quote": "低溫度值會生成較保守的內容",
+     "page": 24
+    },
+    {
+     "block": 15,
+     "quote": "選擇生成機率最高的前k 個選項來生成內容",
+     "page": 24
+    },
+    {
+     "block": 16,
+     "quote": "累積機率達到某一閾值（如0.9）",
+     "page": 24
+    }
+   ],
+   "exam": 4
+  },
+  {
+   "id": "chal",
+   "label": "關鍵特點與挑戰",
+   "lane": "tech",
+   "parent": "gai",
+   "concept": "AI幻覺與真實性風險",
+   "gist": "具上下文理解、遷移學習、多模態、提示詞可控，但也有算力、準確性、幻覺與偏見挑戰。",
+   "src": [
+    {
+     "block": 17,
+     "quote": "AI 幻覺（AI hallucinations）問題的防範",
+     "page": 24
+    },
+    {
+     "block": 17,
+     "quote": "強大的上下文理解能力、遷移學習特性、多模態處理支持",
+     "page": 24
+    },
+    {
+     "block": 17,
+     "quote": "大量計算資源需求、模型訓練和部署的硬體限制",
+     "page": 24
+    }
+   ],
+   "exam": 5
+  },
+  {
+   "id": "gan",
+   "label": "生成對抗網路",
+   "lane": "evo",
+   "parent": "gai",
+   "concept": "生成對抗網路",
+   "gist": "引領高品質圖像生成；與擴散模型融合後內容更真實細緻。",
+   "src": [
+    {
+     "block": 51,
+     "quote": "引領了高品質圖像生成的潮流",
+     "page": 26
+    },
+    {
+     "block": 64,
+     "quote": "生成對抗網路（GAN）與擴散模型的融合技術",
+     "page": 27
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "vae",
+   "label": "VAE 與流式模型",
+   "lane": "evo",
+   "parent": "gai",
+   "concept": "變分自編碼器",
+   "gist": "提供穩定性和機率生成方法，使生成模型穩定運行。",
+   "src": [
+    {
+     "block": 52,
+     "quote": "提供穩定性和機率生成方法",
+     "page": 26
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "tf",
+   "label": "Transformer 與自注意力",
+   "lane": "evo",
+   "parent": "gai",
+   "concept": "Transformer架構",
+   "gist": "GPT 系列靠它徹底改變語言生成，並支持大規模多模態生成。",
+   "src": [
+    {
+     "block": 53,
+     "quote": "Transformer 架構與自注意力機制（Self-attention）",
+     "page": 26
+    }
+   ],
+   "exam": 5
+  },
+  {
+   "id": "llm",
+   "label": "大型語言模型",
+   "lane": "evo",
+   "parent": "tf",
+   "concept": "大型語言模型",
+   "gist": "以GPT 系列為代表，參數規模與計算能力持續擴展，語言生成更連貫。",
+   "src": [
+    {
+     "block": 58,
+     "quote": "不斷擴展其參數規模和計算能力",
+     "page": 27
+    }
+   ],
+   "exam": 4
+  },
+  {
+   "id": "mm",
+   "label": "多模態生成",
+   "lane": "evo",
+   "parent": "tf",
+   "concept": "多模態生成",
+   "gist": "結合文本、圖像、音訊等模態；Midjourney、DALL-E 能從文本生成圖像。",
+   "src": [
+    {
+     "block": 59,
+     "quote": "將文本、圖像、音訊等多種模態結合",
+     "page": 27
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "ft",
+   "label": "預訓練與微調",
+   "lane": "evo",
+   "parent": "gai",
+   "concept": "模型微調",
+   "gist": "少樣本學習與提示工程提升適應性，RLHF 讓結果更貼近用戶需求。",
+   "src": [
+    {
+     "block": 54,
+     "quote": "加上人類回饋（反饋）強化學習",
+     "page": 27
+    },
+    {
+     "block": 54,
+     "quote": "如少樣本學習和提示工程提升了模型的適應性與精準度",
+     "page": 27
+    }
+   ],
+   "exam": 3
+  },
+  {
+   "id": "comp",
+   "label": "模型壓縮與量化",
+   "lane": "evo",
+   "parent": "gai",
+   "concept": "模型壓縮",
+   "gist": "減少計算與儲存需求，讓工具能在邊緣或移動設備等資源有限環境運行。",
+   "src": [
+    {
+     "block": 61,
+     "quote": "能夠讓工具在資源有限的環境中運行",
+     "page": 27
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "pers",
+   "label": "個人化與可控性",
+   "lane": "evo",
+   "parent": "gai",
+   "concept": "提示工程",
+   "gist": "微調與提示工程讓用戶依需求調整結果，參數與風格選擇提升精準度與多樣性。",
+   "src": [
+    {
+     "block": 86,
+     "quote": "讓用戶能根據特定需求調整生成結果",
+     "page": 29
+    },
+    {
+     "block": 87,
+     "quote": "參數調整與風格選擇功能提升內容精準度與多樣性",
+     "page": 29
+    }
+   ],
+   "exam": 8
+  },
+  {
+   "id": "aias",
+   "label": "AI 即服務",
+   "lane": "evo",
+   "parent": "gai",
+   "concept": "系統整合與API",
+   "gist": "雲端與API 降低使用門檻，企業可用API 與外掛整合進現有流程。",
+   "src": [
+    {
+     "block": 81,
+     "quote": "雲端運算與API 服務的普及降低了生成式AI 的使用門檻",
+     "page": 28
+    },
+    {
+     "block": 83,
+     "quote": "API 介接與外掛程式讓企業能輕鬆整合AI 工具",
+     "page": 29
+    }
+   ],
+   "exam": 3
+  },
+  {
+   "id": "open",
+   "label": "開源與生態系",
+   "lane": "evo",
+   "parent": "gai",
+   "concept": null,
+   "gist": "Hugging Face 等平台共享資源，加速整合與創新並擴張生態圈。",
+   "src": [
+    {
+     "block": 66,
+     "quote": "使得更多的開發者、企業和研究機構能夠共享技術資源",
+     "page": 28
+    },
+    {
+     "block": 106,
+     "quote": "跨平台整合與模組化設計促進生態圈擴張",
+     "page": 30
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "priv",
+   "label": "安全與隱私保護",
+   "lane": "evo",
+   "parent": "gai",
+   "concept": "資料隱私保護",
+   "gist": "以本地部署、加密與隱私保護模式保障資料安全；內容過濾避免違規與濫用。",
+   "src": [
+    {
+     "block": 95,
+     "quote": "本地部署選項確保敏感資料不外洩",
+     "page": 29
+    },
+    {
+     "block": 96,
+     "quote": "資料加密處理與隱私保護模式保障用戶資訊安全",
+     "page": 29
+    },
+    {
+     "block": 97,
+     "quote": "版權管理與內容過濾機制避免違規與濫用",
+     "page": 29
+    }
+   ],
+   "exam": 5
+  },
+  {
+   "id": "ethics",
+   "label": "道德與法律規範",
+   "lane": "evo",
+   "parent": "gai",
+   "concept": null,
+   "gist": "管理內容版權、防止假新聞與深偽影像濫用，並制定規範平衡創新與安全。",
+   "src": [
+    {
+     "block": 108,
+     "quote": "內容版權管理：確保生成內容不侵權",
+     "page": 30
+    },
+    {
+     "block": 109,
+     "quote": "防止被用於製作假新聞、深偽影像等不當用途",
+     "page": 30
+    },
+    {
+     "block": 110,
+     "quote": "制定明確的AI 應用規範，平衡創新與安全",
+     "page": 30
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "mv",
+   "label": "市場規模與投資",
+   "lane": "mkt",
+   "parent": "gai",
+   "concept": null,
+   "gist": "市場規模預計2030 年達數百億美元；創業投資集中在垂直應用、工具平台與安全隱私。",
+   "src": [
+    {
+     "block": 21,
+     "quote": "預計將在2030 年達到數百億美元",
+     "page": 24
+    },
+    {
+     "block": 23,
+     "quote": "主要集中於垂直領域應用開發、工具平台建設以及安全隱私解決方案的創新",
+     "page": 25
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "prod",
+   "label": "產業轉型",
+   "lane": "mkt",
+   "parent": "gai",
+   "concept": null,
+   "gist": "內容創作、軟體開發、客服等領域自動化程度提高，企業可專注戰略任務。",
+   "src": [
+    {
+     "block": 33,
+     "quote": "推動了生產力的大幅提升",
+     "page": 25
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "job",
+   "label": "就業市場變革",
+   "lane": "mkt",
+   "parent": "gai",
+   "concept": null,
+   "gist": "雙面性：重複性低技能工作可能被取代，也催生AI 訓練師、提示工程師等新職務。",
+   "src": [
+    {
+     "block": 36,
+     "quote": "部分重複性、低技能工作可能會被AI 取代",
+     "page": 25
+    },
+    {
+     "block": 37,
+     "quote": "如AI 訓練師、提示工程師（Prompt Engineer）等新興職務逐漸湧現",
+     "page": 25
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "benefit",
+   "label": "經濟效益",
+   "lane": "mkt",
+   "parent": "gai",
+   "concept": "成本效益分析",
+   "gist": "直接降成本、間接促創新、衍生帶動AI 硬體與雲端服務。",
+   "src": [
+    {
+     "block": 39,
+     "quote": "降低營運成本並提高生產效率",
+     "page": 25
+    },
+    {
+     "block": 41,
+     "quote": "帶動相關產業的發展，如AI 硬體和雲端服務",
+     "page": 26
+    },
+    {
+     "block": 40,
+     "quote": "間接效益：促進創新並開創新業務模式",
+     "page": 25
+    }
+   ],
+   "exam": 3
+  },
+  {
+   "id": "risk",
+   "label": "三層面風險",
+   "lane": "mkt",
+   "parent": "gai",
+   "concept": null,
+   "gist": "技術、商業、社會三層面各有風險：資料安全、投報不確定、就業與倫理。",
+   "src": [
+    {
+     "block": 29,
+     "quote": "資料安全、模型可靠性和系統穩定性",
+     "page": 25
+    },
+    {
+     "block": 31,
+     "quote": "就業結構變動、數位落差及倫理道德問題",
+     "page": 25
+    },
+    {
+     "block": 30,
+     "quote": "投資回報的不確定性、市場競爭加劇",
+     "page": 25
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "apps",
+   "label": "各領域應用",
+   "lane": "app",
+   "parent": "gai",
+   "concept": "領域應用",
+   "gist": "工具針對法律、醫療、金融、教育等產業深度優化，重塑運作模式與價值鏈。",
+   "src": [
+    {
+     "block": 112,
+     "quote": "重塑各行各業的運作模式與價值鏈",
+     "page": 30
+    },
+    {
+     "block": 70,
+     "quote": "針對特定產業（如法律、醫療、金融、教育）進行深度優化",
+     "page": 28
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "art",
+   "label": "藝術與設計",
+   "lane": "app",
+   "parent": "apps",
+   "concept": null,
+   "gist": "根據文本描述生成圖像、設計、劇本與音樂；創作者專注構思，AI 處理細節。",
+   "src": [
+    {
+     "block": 115,
+     "quote": "能根據文本描述生成精緻圖像",
+     "page": 30
+    },
+    {
+     "block": 119,
+     "quote": "創作者將AI 作為輔助工具，專注於構思與創意",
+     "page": 30
+    },
+    {
+     "block": 117,
+     "quote": "協助劇本撰寫、故事板設計",
+     "page": 30
+    },
+    {
+     "block": 118,
+     "quote": "自動生成背景音樂與旋律",
+     "page": 30
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "med",
+   "label": "醫療與生技",
+   "lane": "app",
+   "parent": "apps",
+   "concept": null,
+   "gist": "生成潛在藥物分子結構、合成醫學影像與個人化治療計畫。",
+   "src": [
+    {
+     "block": 122,
+     "quote": "可生成潛在藥物分子結構",
+     "page": 31
+    },
+    {
+     "block": 124,
+     "quote": "透過病歷與基因數據生成個人化治療計畫與健康建議",
+     "page": 31
+    },
+    {
+     "block": 123,
+     "quote": "生成合成醫學影像數據",
+     "page": 31
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "edu",
+   "label": "教育與培訓",
+   "lane": "app",
+   "parent": "apps",
+   "concept": null,
+   "gist": "生成個人化教學內容、智慧教學助理、互動教材與語言對話練習。",
+   "src": [
+    {
+     "block": 129,
+     "quote": "根據學習者的需求自動生成教學內容與練習題",
+     "page": 31
+    },
+    {
+     "block": 130,
+     "quote": "能即時回應學生問題，補充課堂知識",
+     "page": 31
+    },
+    {
+     "block": 131,
+     "quote": "生成互動動畫、3D 模型與虛擬實境（VR）教學資源",
+     "page": 31
+    },
+    {
+     "block": 132,
+     "quote": "可模擬真實對話情境",
+     "page": 31
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "ent",
+   "label": "娛樂與媒體",
+   "lane": "app",
+   "parent": "apps",
+   "concept": null,
+   "gist": "自動生成遊戲地圖與角色、協助劇本、驅動虛擬偶像，結合AR 與VR 增加沉浸感。",
+   "src": [
+    {
+     "block": 136,
+     "quote": "可自動生成遊戲地圖、角色設定與劇情支線",
+     "page": 31
+    },
+    {
+     "block": 140,
+     "quote": "結合擴增實境（AR）與虛擬實境（VR）",
+     "page": 31
+    },
+    {
+     "block": 137,
+     "quote": "協助編劇構思劇情與角色對話",
+     "page": 31
+    },
+    {
+     "block": 138,
+     "quote": "驅動虛擬角色進行即時互動與內容生成",
+     "page": 31
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "mfg",
+   "label": "產品設計與製造",
+   "lane": "app",
+   "parent": "apps",
+   "concept": null,
+   "gist": "生成設計草圖、快速原型、模擬測試，並預測需求調整供應鏈。",
+   "src": [
+    {
+     "block": 144,
+     "quote": "結合3D 列印與AI 設計，快速轉化設計為實體樣品",
+     "page": 32
+    },
+    {
+     "block": 146,
+     "quote": "能預測市場需求，自動調整生產計畫與供應鏈配置",
+     "page": 32
+    },
+    {
+     "block": 143,
+     "quote": "根據功能需求與使用者行為生成產品設計草圖",
+     "page": 32
+    },
+    {
+     "block": 145,
+     "quote": "AI 可自動生成產品效能模擬報告",
+     "page": 32
+    }
+   ],
+   "exam": 0
+  }
+ ],
+ "edges": [
+  {
+   "a": "attn",
+   "b": "tf",
+   "kind": "cross",
+   "label": "自注意力用於此架構",
+   "block": 53,
+   "quote": "Transformer 架構與自注意力機制（Self-attention）",
+   "page": 26
+  },
+  {
+   "a": "tf",
+   "b": "llm",
+   "kind": "cross",
+   "label": "GPT 改變語言生成",
+   "block": 53,
+   "quote": "尤其是GPT 系列模型，徹底改變了語言生成的方式",
+   "page": 26
+  },
+  {
+   "a": "comp",
+   "b": "chal",
+   "kind": "cross",
+   "label": "壓縮量化回應算力與硬體限制",
+   "block": 17,
+   "quote": "致力於模型壓縮、量化和推理加速",
+   "page": 24
+  },
+  {
+   "a": "mm",
+   "b": "art",
+   "kind": "cross",
+   "label": "文字轉圖像落實在藝術設計",
+   "block": 115,
+   "quote": "能根據文本描述生成精緻圖像",
+   "page": 30
+  },
+  {
+   "a": "ft",
+   "b": "pers",
+   "kind": "cross",
+   "label": "微調與提示工程帶來可控性",
+   "block": 86,
+   "quote": "模型微調（Fine-tuning）與提示工程",
+   "page": 29
+  },
+  {
+   "a": "priv",
+   "b": "risk",
+   "kind": "cross",
+   "label": "隱私機制回應資料安全議題",
+   "block": 94,
+   "quote": "AI 工具加強了相關機制",
+   "page": 29
+  },
+  {
+   "a": "ethics",
+   "b": "risk",
+   "kind": "cross",
+   "label": "倫理道德問題屬社會層面風險",
+   "block": 31,
+   "quote": "數位落差及倫理道德問題",
+   "page": 25
+  },
+  {
+   "a": "prod",
+   "b": "job",
+   "kind": "cross",
+   "label": "產業轉型與重複性工作取代",
+   "block": 36,
+   "quote": "部分重複性、低技能工作可能會被AI 取代",
+   "page": 25
+  },
+  {
+   "a": "job",
+   "b": "pers",
+   "kind": "cross",
+   "label": "提示工程師為新興職務",
+   "block": 37,
+   "quote": "提示工程師（Prompt Engineer）等新興職務逐漸湧現",
+   "page": 25
+  },
+  {
+   "a": "edu",
+   "b": "pers",
+   "kind": "cross",
+   "label": "個人化落實在教育場景",
+   "block": 129,
+   "quote": "根據學習者的需求自動生成教學內容與練習題",
+   "page": 31
+  },
+  {
+   "a": "aias",
+   "b": "open",
+   "kind": "cross",
+   "label": "API 與外掛構成生態系",
+   "block": 104,
+   "quote": "透過API、外掛與第三方整合構建完整生態系",
+   "page": 30
+  }
+ ],
+ "confusions": [
+  {
+   "a": "Top-k 採樣",
+   "b": "核採樣",
+   "text": "Top-k 取機率最高的前k 個選項；核採樣取累積機率達閾值（如0.9）的選項，較靈活。",
+   "blocks": [
+    15,
+    16
+   ],
+   "pages": [
+    24
+   ]
+  },
+  {
+   "a": "GAN",
+   "b": "VAE 與流式模型",
+   "text": "GAN 以高品質、真實感強的圖像生成見長；VAE 與流式模型提供穩定性與機率生成方法。",
+   "blocks": [
+    51,
+    52
+   ],
+   "pages": [
+    26
+   ]
+  },
+  {
+   "a": "直接效益",
+   "b": "衍生效益",
+   "text": "直接是降成本、提效率；間接是促進創新與新業務模式；衍生是帶動AI 硬體、雲端服務等相關產業。",
+   "blocks": [
+    39,
+    40,
+    41
+   ],
+   "pages": [
+    25,
+    26
+   ]
+  },
+  {
+   "a": "技術風險",
+   "b": "社會風險",
+   "text": "技術層面是資料安全、可靠性、穩定性；商業層面是投報、競爭、法規；社會層面是就業、數位落差、倫理。",
+   "blocks": [
+    29,
+    30,
+    31
+   ],
+   "pages": [
+    25
+   ]
+  },
+  {
+   "a": "大型語言模型",
+   "b": "多模態生成",
+   "text": "LLM 擴展參數規模提升語言生成；多模態生成則結合文本、圖像、音訊等多種模態。",
+   "blocks": [
+    58,
+    59
+   ],
+   "pages": [
+    27
+   ]
+  }
+ ],
+ "gaps": [
+  {
+   "name": "教師引導學生使用規範",
+   "block": 150,
+   "page": 33
+  },
+  {
+   "name": "提升員工AI 應用能力",
+   "block": 152,
+   "page": 33
+  },
+  {
+   "name": "NLP 與生成式回應模組",
+   "block": 151,
+   "page": 33
+  },
+  {
+   "name": "標注引用來源",
+   "block": 156,
+   "page": 34
+  }
+ ],
+ "examOnly": [
+  {
+   "name": "檢索增強生成",
+   "count": 12,
+   "mentioned": false,
+   "link": {
+    "subjectId": "mid-s1",
+    "chapterId": "mid-s1c1",
+    "block": 299,
+    "chapterTitle": "自然語言處理技術與應用",
+    "label": "RAG"
+   }
+  },
+  {
+   "name": "向量檢索",
+   "count": 5,
+   "mentioned": false
+  },
+  {
+   "name": "少樣本提示",
+   "count": 5,
+   "mentioned": false
+  },
+  {
+   "name": "代理式AI",
+   "count": 4,
+   "mentioned": false,
+   "link": {
+    "subjectId": "mid-s1",
+    "chapterId": "mid-s1c3",
+    "block": 53,
+    "chapterTitle": "生成式AI 技術與應用",
+    "label": "巨型模型與 Agent 化"
+   }
+  },
+  {
+   "name": "影像生成",
+   "count": 4,
+   "mentioned": false,
+   "link": {
+    "subjectId": "mid-s1",
+    "chapterId": "mid-s1c3",
+    "block": 83,
+    "chapterTitle": "生成式AI 技術與應用",
+    "label": "圖像生成"
+   }
+  },
+  {
+   "name": "效能優化",
+   "count": 4,
+   "mentioned": true
+  },
+  {
+   "name": "模型上下文協定",
+   "count": 4,
+   "mentioned": false
+  },
+  {
+   "name": "AI風險管理",
+   "count": 3,
+   "mentioned": false,
+   "link": {
+    "subjectId": "mid-s1",
+    "chapterId": "mid-s1c5",
+    "block": 127,
+    "chapterTitle": "AI 導入評估",
+    "label": "風險矩陣與風險等級"
+   }
+  },
+  {
+   "name": "人類參與迴圈",
+   "count": 3,
+   "mentioned": false,
+   "link": {
+    "subjectId": "mid-s1",
+    "chapterId": "mid-s1c9",
+    "block": 116,
+    "chapterTitle": "AI 技術系統集成與部署",
+    "label": "回饋融入優化"
+   }
+  },
+  {
+   "name": "內容溯源",
+   "count": 3,
+   "mentioned": false
+  },
+  {
+   "name": "工具呼叫",
+   "count": 3,
+   "mentioned": false
+  },
+  {
+   "name": "思維鏈提示",
+   "count": 3,
+   "mentioned": false
+  },
+  {
+   "name": "系統資源調度",
+   "count": 3,
+   "mentioned": false
+  },
+  {
+   "name": "部署架構",
+   "count": 3,
+   "mentioned": false,
+   "link": {
+    "subjectId": "mid-s1",
+    "chapterId": "mid-s1c9",
+    "block": 24,
+    "chapterTitle": "AI 技術系統集成與部署",
+    "label": "系統架構設計"
+   }
+  }
+ ],
+ "notes": [
+  {
+   "block": 142,
+   "page": 32,
+   "text": "原書此句「生成式AI 應在產品設計…」疑漏一字，依文意應為「應用在產品設計與製造業中」。"
+  }
+ ]
+}

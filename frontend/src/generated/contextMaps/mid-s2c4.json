@@ -1,0 +1,751 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide2",
+  "nodeId": "mid-s2c4",
+  "label": "中級 科目二・4.1 數據收集與清理",
+  "subjectId": "mid-s2",
+  "title": "數據收集與清理"
+ },
+ "headline": "一張圖看懂數據收集與清理",
+ "lede": "本章從資料品質為何重要出發，依序說明資料來源與蒐集方式、常見品質問題類型，以及用來量化問題的品質指標。先抓住：每種來源有各自的挑戰，品質問題有類型與處理策略，並可用指標量化。",
+ "story": [
+  {
+   "step": "為什麼",
+   "title": "資料品質決定結果",
+   "text": "缺漏、錯誤、不一致會讓模型與決策失真。"
+  },
+  {
+   "step": "從哪來",
+   "title": "五類來源與蒐集方式",
+   "text": "感測器、日誌、API、爬蟲、內部系統各有挑戰。"
+  },
+  {
+   "step": "有什麼問題",
+   "title": "五種品質問題",
+   "text": "缺失、異常、重複、不一致、邏輯錯誤。"
+  },
+  {
+   "step": "怎麼量",
+   "title": "品質指標與監控",
+   "text": "用五種比率量化，並內嵌資料管線自動監控。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "src",
+   "name": "來源與蒐集"
+  },
+  {
+   "id": "prob",
+   "name": "品質問題類型"
+  },
+  {
+   "id": "met",
+   "name": "品質指標"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "dc",
+   "label": "數據收集與清理",
+   "lane": null,
+   "parent": null,
+   "concept": null,
+   "gist": "資料品質決定分析與模型結果的準確性，所以要先搞懂資料從哪來、有什麼問題、怎麼量。",
+   "src": [
+    {
+     "block": 3,
+     "quote": "資料收集與清理扮演著基礎且關鍵的角色",
+     "page": 57
+    },
+    {
+     "block": 6,
+     "quote": "依序介紹常見的資料來源與蒐集方式",
+     "page": 57
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "types",
+   "label": "資料來源類型",
+   "lane": "src",
+   "parent": null,
+   "concept": null,
+   "gist": "來源涵蓋結構化、半結構化與非結構化，型態不同，蒐集策略與工具也不同。",
+   "src": [
+    {
+     "block": 8,
+     "quote": "半結構化（如JSON、XML）與非結構化（如文字、影像、影片）",
+     "page": 57
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "iot",
+   "label": "感測器與IoT",
+   "lane": "src",
+   "parent": "types",
+   "concept": "串流處理",
+   "gist": "高頻連續的時間序列，用 MQTT、Kafka 等即時串流接收，並搭配邊緣運算初步處理。",
+   "src": [
+    {
+     "block": 11,
+     "quote": "透過即時串流協議（如MQTT、Apache Kafka）接收資料",
+     "page": 58
+    },
+    {
+     "block": 10,
+     "quote": "高頻率、連續性、時間序列為主",
+     "page": 58
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "log",
+   "label": "系統日誌與行為紀錄",
+   "lane": "src",
+   "parent": "types",
+   "concept": null,
+   "gist": "伺服器或應用程式自動生成，批次或即時管線整合；挑戰是格式不一致與儲存壓力。",
+   "src": [
+    {
+     "block": 15,
+     "quote": "透過批次傳輸（如Flume、Logstash）或即時資料管線",
+     "page": 58
+    },
+    {
+     "block": 16,
+     "quote": "高頻日誌可能造成儲存壓力",
+     "page": 58
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "api",
+   "label": "API 與外部交換",
+   "lane": "src",
+   "parent": "types",
+   "concept": null,
+   "gist": "向第三方取得 JSON／XML 半結構化資料，結合 ETL 整合；受速率限制與認證要求影響。",
+   "src": [
+    {
+     "block": 19,
+     "quote": "使用程式化請求（如RESTful API）定期或即時擷取",
+     "page": 58
+    },
+    {
+     "block": 20,
+     "quote": "API 限制（如速率限制、認證要求）可能影響資料完整性",
+     "page": 58
+    },
+    {
+     "block": 18,
+     "quote": "從第三方平台（如金融市場、社群媒體、地圖服務）獲取半結構化資料",
+     "page": 58
+    },
+    {
+     "block": 18,
+     "quote": "通常以JSON 或XML 格式傳輸",
+     "page": 58
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "crawl",
+   "label": "爬蟲與開放資料",
+   "lane": "src",
+   "parent": "types",
+   "concept": null,
+   "gist": "用爬蟲框架或開放平台取得資料；可能被反爬限制，且品質參差，需額外驗證與清理。",
+   "src": [
+    {
+     "block": 23,
+     "quote": "使用爬蟲框架（如Scrapy、BeautifulSoup）自動化擷取",
+     "page": 59
+    },
+    {
+     "block": 24,
+     "quote": "開放資料集品質參差不齊，需額外驗證與清理",
+     "page": 59
+    },
+    {
+     "block": 24,
+     "quote": "爬蟲可能受網站反爬機制限制",
+     "page": 59
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "erp",
+   "label": "企業內部系統",
+   "lane": "src",
+   "parent": "types",
+   "concept": null,
+   "gist": "來自 ERP、CRM、POS 的結構化資料，品質穩定但更新較慢；跨部門整合需標準化。",
+   "src": [
+    {
+     "block": 26,
+     "quote": "品質穩定但更新頻率較低",
+     "page": 59
+    },
+    {
+     "block": 27,
+     "quote": "結合ETL 流程進行集中管理",
+     "page": 59
+    },
+    {
+     "block": 28,
+     "quote": "跨部門資料整合可能因格式或命名規則不同而需額外標準化",
+     "page": 59
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "factors",
+   "label": "多來源整合的考量",
+   "lane": "src",
+   "parent": null,
+   "concept": null,
+   "gist": "實務常整合多種異質資料，選蒐集技術與儲存平台時要同時考量幾項關鍵因素。",
+   "src": [
+    {
+     "block": 29,
+     "quote": "大數據項目通常涉及多來源、異質型態的資料整合",
+     "page": 59
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "freq",
+   "label": "更新頻率與即時性",
+   "lane": "src",
+   "parent": "factors",
+   "concept": "即時資料處理",
+   "gist": "決定用即時串流或定期批次蒐集；需低延遲時（如即時推薦系統）要即時處理。",
+   "src": [
+    {
+     "block": 30,
+     "quote": "即時（串流）或定期（批次）蒐集",
+     "page": 59
+    },
+    {
+     "block": 32,
+     "quote": "是否需要低延遲處理（如即時推薦系統）",
+     "page": 59
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "priv",
+   "label": "隱私與合規",
+   "lane": "src",
+   "parent": "factors",
+   "concept": null,
+   "gist": "需遵守 GDPR、CCPA 等資料保護法規，避免違規風險。",
+   "src": [
+    {
+     "block": 34,
+     "quote": "遵守GDPR、CCPA 等資料保護法規",
+     "page": 59
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "dq",
+   "label": "資料品質問題類型",
+   "lane": "prob",
+   "parent": null,
+   "concept": "資料品質",
+   "gist": "缺漏、錯誤、不一致的資料會導致錯誤結論與模型偏差，所以要先系統性辨識問題類型。",
+   "src": [
+    {
+     "block": 37,
+     "quote": "系統性地辨識資料品質問題類型",
+     "page": 60
+    },
+    {
+     "block": 3,
+     "quote": "若資料本身存在缺漏、錯誤、格式不一致等問題",
+     "page": 57
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "miss",
+   "label": "缺失值",
+   "lane": "prob",
+   "parent": "dq",
+   "concept": "遺漏值處理",
+   "gist": "欄位缺值，會造成樣本偏差，影響統計推論與模型訓練。",
+   "src": [
+    {
+     "block": 41,
+     "quote": "資料中某些欄位缺少值",
+     "page": 60
+    },
+    {
+     "block": 47,
+     "quote": "缺失值可能導致樣本偏差",
+     "page": 60
+    }
+   ],
+   "exam": 3
+  },
+  {
+   "id": "mech",
+   "label": "缺失的三種機制",
+   "lane": "prob",
+   "parent": "miss",
+   "concept": null,
+   "gist": "分為完全隨機缺失（MCAR）、隨機缺失（MAR）與非隨機缺失（MNAR）。",
+   "src": [
+    {
+     "block": 42,
+     "quote": "完全隨機缺失（MCAR）",
+     "page": 60
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "fill",
+   "label": "缺失值處理策略",
+   "lane": "prob",
+   "parent": "miss",
+   "concept": null,
+   "gist": "可填補（均值、中位數、KNN）、刪除（缺失率低時）或保留（用能處理缺失的算法）。",
+   "src": [
+    {
+     "block": 49,
+     "quote": "使用均值、中位數或機器學習預測",
+     "page": 60
+    },
+    {
+     "block": 50,
+     "quote": "若缺失率低（如< 5%），可移除缺失記錄",
+     "page": 60
+    },
+    {
+     "block": 51,
+     "quote": "使用可處理缺失值的算法",
+     "page": 60
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "out",
+   "label": "異常值",
+   "lane": "prob",
+   "parent": "dq",
+   "concept": "異常值偵測",
+   "gist": "偏離主體分佈的極端值，可能是錯誤也可能是真實罕見事件，會扭曲均值與標準差。",
+   "src": [
+    {
+     "block": 54,
+     "quote": "偏離資料主體分佈的極端值",
+     "page": 61
+    },
+    {
+     "block": 59,
+     "quote": "異常值可能扭曲統計量",
+     "page": 61
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "outdet",
+   "label": "異常值偵測與處理",
+   "lane": "prob",
+   "parent": "out",
+   "concept": null,
+   "gist": "用 IQR、Z 分數或孤立森林偵測，再依領域知識決定保留、修正或移除。",
+   "src": [
+    {
+     "block": 61,
+     "quote": "使用統計方法（IQR 法、Z 分數）或機器學習（孤立森林）",
+     "page": 61
+    },
+    {
+     "block": 62,
+     "quote": "根據領域知識保留（真實異常）、修正或移除",
+     "page": 61
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "dup",
+   "label": "重複值",
+   "lane": "prob",
+   "parent": "dq",
+   "concept": null,
+   "gist": "同一觀察單位多次出現，會高估頻次或總量；用唯一識別碼偵測後移除或合併。",
+   "src": [
+    {
+     "block": 65,
+     "quote": "同一觀察單位在資料集中多次出現",
+     "page": 61
+    },
+    {
+     "block": 73,
+     "quote": "使用唯一識別碼（ID）或關鍵欄位組合偵測重複",
+     "page": 61
+    },
+    {
+     "block": 70,
+     "quote": "重複值會高估頻次或總量",
+     "page": 61
+    },
+    {
+     "block": 75,
+     "quote": "若重複記錄包含不同資訊，需整合後去重",
+     "page": 62
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "inc",
+   "label": "一致性錯誤",
+   "lane": "prob",
+   "parent": "dq",
+   "concept": null,
+   "gist": "單位、命名或格式不統一，導致無法聚合比較；處理方式是標準化。",
+   "src": [
+    {
+     "block": 78,
+     "quote": "資料在單位、命名或格式上不統一",
+     "page": 62
+    },
+    {
+     "block": 86,
+     "quote": "統一格式（例如全用YYYY-MM-DD）、命名規則或單位",
+     "page": 62
+    },
+    {
+     "block": 84,
+     "quote": "不一致資料導致無法正確聚合或比較",
+     "page": 62
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "logic",
+   "label": "邏輯錯誤",
+   "lane": "prob",
+   "parent": "dq",
+   "concept": null,
+   "gist": "格式正確但違反邏輯或領域知識（如不合理的出生年份），要定義規則並請領域專家審查。",
+   "src": [
+    {
+     "block": 89,
+     "quote": "資料值符合格式但違反邏輯或領域知識",
+     "page": 62
+    },
+    {
+     "block": 97,
+     "quote": "設定邏輯檢查（如年齡範圍0-120、金額≥ 0）",
+     "page": 62
+    },
+    {
+     "block": 91,
+     "quote": "客戶出生年份為1890",
+     "page": 62
+    },
+    {
+     "block": 98,
+     "quote": "結合領域專家訂定規則",
+     "page": 62
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "idx",
+   "label": "資料品質指標",
+   "lane": "met",
+   "parent": null,
+   "concept": null,
+   "gist": "大規模資料不能只靠人工檢查，要用量化指標系統性找出缺陷、訂優先順序。",
+   "src": [
+    {
+     "block": 100,
+     "quote": "必須依賴具體且量化的指標",
+     "page": 63
+    },
+    {
+     "block": 101,
+     "quote": "快速定位問題、訂定優先順序並評估改善成效",
+     "page": 63
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "mr",
+   "label": "缺失率",
+   "lane": "met",
+   "parent": "idx",
+   "concept": null,
+   "gist": "各欄位空值比例；偏高可能代表收集流程異常，或該欄位不適合分析。",
+   "src": [
+    {
+     "block": 103,
+     "quote": "高缺失率可能代表收集流程異常",
+     "page": 63
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "ur",
+   "label": "唯一值比率",
+   "lane": "met",
+   "parent": "idx",
+   "concept": null,
+   "gist": "評估重複紀錄；主鍵出現重複值會嚴重破壞資料正確性。",
+   "src": [
+    {
+     "block": 105,
+     "quote": "若主鍵（如用戶ID、交易編號）出現重複值",
+     "page": 63
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "cr",
+   "label": "一致性比率",
+   "lane": "met",
+   "parent": "idx",
+   "concept": null,
+   "gist": "檢查欄位格式、單位、命名標準是否統一。",
+   "src": [
+    {
+     "block": 107,
+     "quote": "檢查欄位格式、單位、命名標準是否統一",
+     "page": 63
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "or",
+   "label": "異常值比率",
+   "lane": "met",
+   "parent": "idx",
+   "concept": null,
+   "gist": "明顯偏離正常分佈的數值比例，常用 Z-score、IQR 或模型式方法識別，需搭配領域知識判讀。",
+   "src": [
+    {
+     "block": 109,
+     "quote": "計算明顯偏離正常分佈或上下限的數值比例",
+     "page": 63
+    },
+    {
+     "block": 109,
+     "quote": "需搭配領域知識謹慎判讀",
+     "page": 63
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "comp",
+   "label": "完整性比率",
+   "lane": "met",
+   "parent": "idx",
+   "concept": null,
+   "gist": "評估觀察對象是否具備足夠資料描述，例如個人資料與行為記錄是否同時存在。",
+   "src": [
+    {
+     "block": 111,
+     "quote": "評估觀察對象是否具備足夠資料描述",
+     "page": 63
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "pipe",
+   "label": "內嵌資料流管線",
+   "lane": "met",
+   "parent": "idx",
+   "concept": null,
+   "gist": "指標也可內嵌到資料流管線與品質監控系統，自動偵測與回報。",
+   "src": [
+    {
+     "block": 112,
+     "quote": "建立自動化偵測與回報機制",
+     "page": 63
+    }
+   ],
+   "exam": 0
+  }
+ ],
+ "edges": [
+  {
+   "a": "log",
+   "b": "inc",
+   "kind": "cross",
+   "label": "日誌格式不一致需標準化",
+   "block": 16,
+   "quote": "資料格式不一致（如不同系統的日誌結構）",
+   "page": 58
+  },
+  {
+   "a": "erp",
+   "b": "inc",
+   "kind": "cross",
+   "label": "跨部門整合需標準化",
+   "block": 28,
+   "quote": "跨部門資料整合可能因格式或命名規則不同而需額外標準化",
+   "page": 59
+  },
+  {
+   "a": "crawl",
+   "b": "dq",
+   "kind": "cross",
+   "label": "開放資料品質參差需清理",
+   "block": 24,
+   "quote": "開放資料集品質參差不齊，需額外驗證與清理",
+   "page": 59
+  },
+  {
+   "a": "mr",
+   "b": "miss",
+   "kind": "cross",
+   "label": "缺失率量化缺失值問題",
+   "block": 103,
+   "quote": "高缺失率可能代表收集流程異常",
+   "page": 63
+  },
+  {
+   "a": "ur",
+   "b": "dup",
+   "kind": "cross",
+   "label": "唯一值比率對應重複值",
+   "block": 105,
+   "quote": "若主鍵（如用戶ID、交易編號）出現重複值",
+   "page": 63
+  },
+  {
+   "a": "cr",
+   "b": "inc",
+   "kind": "cross",
+   "label": "一致性比率檢查格式單位",
+   "block": 107,
+   "quote": "檢查欄位格式、單位、命名標準是否統一",
+   "page": 63
+  },
+  {
+   "a": "or",
+   "b": "outdet",
+   "kind": "cross",
+   "label": "異常值比率用同類偵測法",
+   "block": 109,
+   "quote": "常透過Z-score、IQR 或模型式異常偵測法自動識別",
+   "page": 63
+  },
+  {
+   "a": "iot",
+   "b": "freq",
+   "kind": "cross",
+   "label": "串流蒐集對應即時需求",
+   "block": 30,
+   "quote": "即時（串流）或定期（批次）蒐集",
+   "page": 59
+  },
+  {
+   "a": "factors",
+   "b": "dq",
+   "kind": "cross",
+   "label": "蒐集決策影響後續清理",
+   "block": 35,
+   "quote": "這一階段的決策直接影響後續的資料清理",
+   "page": 59
+  }
+ ],
+ "confusions": [
+  {
+   "a": "MCAR",
+   "b": "MNAR",
+   "text": "MCAR 是偶發跳過；MAR 如高收入者較不填寫；MNAR 如特定族群不回應。",
+   "blocks": [
+    42
+   ],
+   "pages": [
+    60
+   ]
+  },
+  {
+   "a": "異常值",
+   "b": "邏輯錯誤",
+   "text": "異常值是偏離分佈的極端值，可能真實；邏輯錯誤格式正確但違反領域知識。",
+   "blocks": [
+    54,
+    89
+   ],
+   "pages": [
+    61,
+    62
+   ]
+  },
+  {
+   "a": "唯一值比率",
+   "b": "一致性比率",
+   "text": "前者看主鍵是否重複；後者看格式、單位、命名是否統一。",
+   "blocks": [
+    105,
+    107
+   ],
+   "pages": [
+    63
+   ]
+  },
+  {
+   "a": "串流",
+   "b": "批次",
+   "text": "串流即時接收（如 MQTT、Kafka）；批次定期傳輸（如 Flume、Logstash）。",
+   "blocks": [
+    11,
+    15,
+    30
+   ],
+   "pages": [
+    58,
+    59
+   ]
+  },
+  {
+   "a": "填補",
+   "b": "刪除",
+   "text": "填補用均值、中位數或 KNN；刪除適用缺失率低時；保留則用能處理缺失的算法。",
+   "blocks": [
+    49,
+    50,
+    51
+   ],
+   "pages": [
+    60
+   ]
+  }
+ ],
+ "gaps": [],
+ "examOnly": [],
+ "notes": []
+}

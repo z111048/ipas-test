@@ -1,0 +1,799 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide3",
+  "nodeId": "mid-s3c3",
+  "label": "中級 科目三・3.3 數值優化技術與方法"
+ },
+ "headline": "一張圖看懂數值優化技術與方法",
+ "lede": "訓練模型就是找出讓目標函數最小的參數。本章先講問題怎麼定義、損失函數怎麼選，再比較各種優化演算法，最後談何時算收斂與如何穩定訓練。",
+ "story": [
+  {
+   "step": "問題長相",
+   "title": "目標、變數、可行域",
+   "text": "訓練就是在合法範圍內調參數，讓目標函數最小。"
+  },
+  {
+   "step": "要最小化什麼",
+   "title": "依任務選損失函數",
+   "text": "迴歸、分類、排序各有對應損失，選錯會無法收斂。"
+  },
+  {
+   "step": "怎麼走下去",
+   "title": "從 GD 到 Adam",
+   "text": "先用梯度下降及其變形，再加動量與學習率調整。"
+  },
+  {
+   "step": "何時停、穩不穩",
+   "title": "收斂判準與穩定策略",
+   "text": "用損失、驗證集判斷收斂，再靠調學習率、早停、裁剪穩住。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "prob",
+   "name": "最佳化問題結構"
+  },
+  {
+   "id": "loss",
+   "name": "損失函數"
+  },
+  {
+   "id": "algo",
+   "name": "優化演算法"
+  },
+  {
+   "id": "stab",
+   "name": "收斂與穩定"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "opt",
+   "label": "數值優化技術與方法",
+   "lane": null,
+   "parent": null,
+   "concept": null,
+   "gist": "訓練模型就是找一組參數，讓目標函數達到最小或最大。",
+   "src": [
+    {
+     "block": 4,
+     "quote": "能讓目標函數（例如損失函數）達到最小或最大值的參數組合"
+    }
+   ]
+  },
+  {
+   "id": "obj",
+   "label": "目標函數",
+   "lane": "prob",
+   "parent": null,
+   "concept": null,
+   "gist": "衡量模型輸出與答案的偏差，也稱損失函數或成本函數，是訓練的核心。",
+   "src": [
+    {
+     "block": 10,
+     "quote": "用來衡量模型輸出與實際答案之間的偏差程度"
+    }
+   ]
+  },
+  {
+   "id": "var",
+   "label": "決策變數",
+   "lane": "prob",
+   "parent": null,
+   "concept": null,
+   "gist": "模型中可調整、需被優化的數值參數，如權重與偏差。",
+   "src": [
+    {
+     "block": 20,
+     "quote": "學習過程中需要被「優化」的對象"
+    },
+    {
+     "block": 21,
+     "quote": "包括權重係數（如迴歸係數）與偏差項"
+    }
+   ]
+  },
+  {
+   "id": "feas",
+   "label": "可行域",
+   "lane": "prob",
+   "parent": null,
+   "concept": null,
+   "gist": "定義決策變數的合法範圍，例如非負、上下限、總和約束、稀疏性。",
+   "src": [
+    {
+     "block": 26,
+     "quote": "定義了決策變數的合法範圍"
+    },
+    {
+     "block": 28,
+     "quote": "所有參數須為正數"
+    },
+    {
+     "block": 30,
+     "quote": "防止模型權重過大或過小"
+    },
+    {
+     "block": 32,
+     "quote": "某些模型中參數總和需為1"
+    },
+    {
+     "block": 34,
+     "quote": "透過限制多數參數為0"
+    }
+   ]
+  },
+  {
+   "id": "prop",
+   "label": "函數性質",
+   "lane": "prob",
+   "parent": null,
+   "concept": null,
+   "gist": "問題難易取決於目標函數的凸性與可導性。",
+   "src": [
+    {
+     "block": 38,
+     "quote": "凸性（Convexity）與可導性（Differentiability）"
+    }
+   ]
+  },
+  {
+   "id": "convex",
+   "label": "凸問題",
+   "lane": "prob",
+   "parent": "prop",
+   "concept": null,
+   "gist": "從任一起點持續下降，必能找到全域最佳解；線性迴歸、邏輯迴歸屬之。",
+   "src": [
+    {
+     "block": 40,
+     "quote": "最終一定能找到全域最佳解"
+    },
+    {
+     "block": 41,
+     "quote": "像線性迴歸、邏輯迴歸等皆屬於凸問題"
+    }
+   ]
+  },
+  {
+   "id": "diff",
+   "label": "可導性",
+   "lane": "prob",
+   "parent": "prop",
+   "concept": null,
+   "gist": "能微分才能算梯度得到下降方向；不可導處會讓訓練不穩。",
+   "src": [
+    {
+     "block": 43,
+     "quote": "便可透過計算「梯度」來獲得下降方向"
+    },
+    {
+     "block": 44,
+     "quote": "則可能造成訓練不穩或收斂困難"
+    }
+   ]
+  },
+  {
+   "id": "nonc",
+   "label": "非凸問題",
+   "lane": "prob",
+   "parent": "prop",
+   "concept": null,
+   "gist": "神經網路損失常有多個局部最小值與鞍點，結果較不確定。",
+   "src": [
+    {
+     "block": 46,
+     "quote": "常存在多個局部最小值與鞍點"
+    },
+    {
+     "block": 47,
+     "quote": "這使得優化過程充滿不確定性"
+    }
+   ]
+  },
+  {
+   "id": "apps",
+   "label": "三類訓練問題",
+   "lane": "prob",
+   "parent": null,
+   "concept": null,
+   "gist": "線性模型可解析求解；深度學習是大規模非凸；GAN、強化式學習目標更複雜。",
+   "src": [
+    {
+     "block": 53,
+     "quote": "屬於大規模非凸問題"
+    },
+    {
+     "block": 55,
+     "quote": "最佳化目標可能涉及對抗損失、期望值最大化"
+    },
+    {
+     "block": 51,
+     "quote": "問題結構簡單、可解析求解"
+    }
+   ]
+  },
+  {
+   "id": "loss",
+   "label": "損失函數的角色",
+   "lane": "loss",
+   "parent": null,
+   "concept": null,
+   "gist": "連結資料、模型與學習目標，讓演算法知道預測得好不好。",
+   "src": [
+    {
+     "block": 57,
+     "quote": "損失函數是連結資料、模型與學習目標之間的橋梁"
+    }
+   ]
+  },
+  {
+   "id": "reg",
+   "label": "迴歸損失",
+   "lane": "loss",
+   "parent": "loss",
+   "concept": null,
+   "gist": "MSE 放大大誤差；MAE 對極端值較不敏感；Huber 結合兩者。",
+   "src": [
+    {
+     "block": 67,
+     "quote": "放大較大誤差的懲罰"
+    },
+    {
+     "block": 69,
+     "quote": "結合MSE 與MAE 優點"
+    },
+    {
+     "block": 68,
+     "quote": "對極端值較不敏感，適用於含有異常值的資料"
+    }
+   ]
+  },
+  {
+   "id": "cls",
+   "label": "分類損失",
+   "lane": "loss",
+   "parent": "loss",
+   "concept": null,
+   "gist": "交叉熵是多數分類的標準；對比損失學相似度；Focal Loss 針對難分樣本與不平衡。",
+   "src": [
+    {
+     "block": 71,
+     "quote": "為多數分類模型的標準選擇"
+    },
+    {
+     "block": 73,
+     "quote": "特別適合處理資料不平衡問題"
+    },
+    {
+     "block": 72,
+     "quote": "學習樣本對之間的相似度關係"
+    }
+   ]
+  },
+  {
+   "id": "rank",
+   "label": "排序與重建損失",
+   "lane": "loss",
+   "parent": "loss",
+   "concept": null,
+   "gist": "排序損失看相對順序；重建損失用於自編碼器與生成模型。",
+   "src": [
+    {
+     "block": 75,
+     "quote": "關注資料間的相對順序"
+    },
+    {
+     "block": 76,
+     "quote": "廣泛應用於自編碼器與生成模型"
+    }
+   ]
+  },
+  {
+   "id": "impact",
+   "label": "對學習行為的影響",
+   "lane": "loss",
+   "parent": "loss",
+   "concept": null,
+   "gist": "選擇會左右學習軌跡；MSE 易受極端值影響，MAE 較穩健但較慢，選錯可能無法收斂。",
+   "src": [
+    {
+     "block": 79,
+     "quote": "有時會過度受到極端值影響"
+    },
+    {
+     "block": 81,
+     "quote": "導致模型訓練無效，甚至完全無法收斂"
+    },
+    {
+     "block": 78,
+     "quote": "損失函數的選擇會直接影響模型的學習軌跡"
+    },
+    {
+     "block": 80,
+     "quote": "較穩健但學習速度可能較慢"
+    }
+   ]
+  },
+  {
+   "id": "algo",
+   "label": "優化演算法",
+   "lane": "algo",
+   "parent": null,
+   "concept": "優化演算法",
+   "gist": "負責判斷每次往哪個方向移動、移動多遠，逐步逼近最佳解。",
+   "src": [
+    {
+     "block": 84,
+     "quote": "判斷每次應該往哪個方向移動、該移動多遠"
+    }
+   ]
+  },
+  {
+   "id": "gd",
+   "label": "梯度下降法 GD",
+   "lane": "algo",
+   "parent": "algo",
+   "concept": "梯度下降",
+   "gist": "用整個資料集算梯度，更新穩定但成本高、速度慢，適合小型資料集。",
+   "src": [
+    {
+     "block": 91,
+     "quote": "使用整個訓練資料集計算損失函數的梯度"
+    },
+    {
+     "block": 93,
+     "quote": "但計算成本高、訓練速度慢"
+    },
+    {
+     "block": 95,
+     "quote": "小型資料集、高精度需求"
+    }
+   ]
+  },
+  {
+   "id": "sgd",
+   "label": "隨機梯度下降 SGD",
+   "lane": "algo",
+   "parent": "algo",
+   "concept": null,
+   "gist": "每次用一筆樣本更新，快且省記憶體，但梯度波動大、收斂不穩。",
+   "src": [
+    {
+     "block": 98,
+     "quote": "每次使用一筆樣本來估算梯度並更新參數"
+    },
+    {
+     "block": 100,
+     "quote": "但梯度波動大、收斂不穩定"
+    }
+   ]
+  },
+  {
+   "id": "mini",
+   "label": "小批次梯度下降",
+   "lane": "algo",
+   "parent": "algo",
+   "concept": null,
+   "gist": "每次用一小批資料，兼顧穩定與效率，是深度學習最常見選擇。",
+   "src": [
+    {
+     "block": 107,
+     "quote": "是深度學習中最常見的選擇"
+    },
+    {
+     "block": 105,
+     "quote": "將資料分成小批，每次用一批資料計算梯度"
+    }
+   ]
+  },
+  {
+   "id": "mom",
+   "label": "動量法 Momentum",
+   "lane": "algo",
+   "parent": "algo",
+   "concept": null,
+   "gist": "累積前幾次梯度方向，克服震盪、加速收斂。",
+   "src": [
+    {
+     "block": 118,
+     "quote": "將前幾次梯度的方向累積"
+    },
+    {
+     "block": 120,
+     "quote": "能加速收斂並穩定學習過程"
+    }
+   ]
+  },
+  {
+   "id": "ada",
+   "label": "Adagrad",
+   "lane": "algo",
+   "parent": "algo",
+   "concept": null,
+   "gist": "依各參數歷史梯度大小調整學習率，適合稀疏特徵，但學習率會過度衰減。",
+   "src": [
+    {
+     "block": 125,
+     "quote": "根據每個參數的歷史梯度大小"
+    },
+    {
+     "block": 129,
+     "quote": "學習率會隨時間過度衰減"
+    },
+    {
+     "block": 127,
+     "quote": "適合處理稀疏特徵或不均衡參數更新問題"
+    }
+   ]
+  },
+  {
+   "id": "rms",
+   "label": "RMSprop",
+   "lane": "algo",
+   "parent": "algo",
+   "concept": null,
+   "gist": "用滑動平均修正 Adagrad 學習率下降過快，適合非穩定梯度如 RNN。",
+   "src": [
+    {
+     "block": 132,
+     "quote": "引入滑動平均，修正 Adagrad 學習率過快下降的問題"
+    },
+    {
+     "block": 134,
+     "quote": "特別適合處理非穩定梯度（如RNN 訓練）"
+    }
+   ]
+  },
+  {
+   "id": "adam",
+   "label": "Adam",
+   "lane": "algo",
+   "parent": "algo",
+   "concept": null,
+   "gist": "結合動量與 RMSprop，追蹤一階與二階動量，自動調整各參數學習率。",
+   "src": [
+    {
+     "block": 139,
+     "quote": "結合動量與RMSprop，追蹤梯度的一階與二階動量"
+    }
+   ]
+  },
+  {
+   "id": "conv",
+   "label": "收斂判準",
+   "lane": "stab",
+   "parent": null,
+   "concept": null,
+   "gist": "判斷何時訓練完成：損失趨緩、驗證集不再進步、梯度近零、步數或時間上限。",
+   "src": [
+    {
+     "block": 148,
+     "quote": "表示模型學習已進入平緩階段，可視為收斂"
+    },
+    {
+     "block": 151,
+     "quote": "代表模型可能已達到其泛化能力上限"
+    },
+    {
+     "block": 154,
+     "quote": "當模型參數的梯度值持續逼近零"
+    },
+    {
+     "block": 156,
+     "quote": "固定的迭代輪數（epoch）或最大訓練時間"
+    }
+   ]
+  },
+  {
+   "id": "unst",
+   "label": "訓練不穩定的因素",
+   "lane": "stab",
+   "parent": null,
+   "concept": null,
+   "gist": "學習率過高、初始權重不當、損失或資料分佈不連續、批次過小。",
+   "src": [
+    {
+     "block": 162,
+     "quote": "導致參數在最小值附近來回震盪或完全發散"
+    },
+    {
+     "block": 168,
+     "quote": "梯度估計變異過大，造成更新方向不穩定"
+    },
+    {
+     "block": 164,
+     "quote": "可能陷入極端值、鞍點，導致學習無法啟動"
+    },
+    {
+     "block": 166,
+     "quote": "使梯度訊號不穩定，進而影響收斂路徑"
+    }
+   ]
+  },
+  {
+   "id": "strat",
+   "label": "穩定訓練策略",
+   "lane": "stab",
+   "parent": null,
+   "concept": null,
+   "gist": "學習率調整、提早停止、梯度裁剪、批次正規化。",
+   "src": [
+    {
+     "block": 170,
+     "quote": "可採取以下常見實務策略"
+    },
+    {
+     "block": 172,
+     "quote": "隨著訓練進行，自動調降學習率"
+    },
+    {
+     "block": 174,
+     "quote": "當驗證集效能在一段時間內未改善"
+    },
+    {
+     "block": 176,
+     "quote": "為防止梯度值過大"
+    },
+    {
+     "block": 178,
+     "quote": "在每一層中標準化中間輸出"
+    }
+   ]
+  },
+  {
+   "id": "lrs",
+   "label": "學習率調整",
+   "lane": "stab",
+   "parent": "strat",
+   "concept": null,
+   "gist": "隨訓練逐步調降學習率，避免後期震盪、提升精細收斂。",
+   "src": [
+    {
+     "block": 172,
+     "quote": "可避免後期更新過大導致震盪"
+    }
+   ]
+  },
+  {
+   "id": "es",
+   "label": "提早停止",
+   "lane": "stab",
+   "parent": "strat",
+   "concept": null,
+   "gist": "驗證集效能一段時間（如連續5~10 次epoch）沒進步就停止，防止過擬合。",
+   "src": [
+    {
+     "block": 174,
+     "quote": "如連續5~10 次epoch"
+    }
+   ]
+  },
+  {
+   "id": "clip",
+   "label": "梯度裁剪",
+   "lane": "stab",
+   "parent": "strat",
+   "concept": null,
+   "gist": "限制梯度最大值，防止發散或數值不穩定，常用於 RNN 或深層模型。",
+   "src": [
+    {
+     "block": 176,
+     "quote": "可限制梯度的最大值，避免發散或數值不穩定"
+    }
+   ]
+  },
+  {
+   "id": "bn",
+   "label": "批次正規化",
+   "lane": "stab",
+   "parent": "strat",
+   "concept": null,
+   "gist": "每層標準化中間輸出，使輸入分佈穩定，有助收斂與穩定。",
+   "src": [
+    {
+     "block": 178,
+     "quote": "標準化中間輸出，使輸入分佈穩定"
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "a": "obj",
+   "b": "loss",
+   "kind": "cross",
+   "label": "目標函數即損失函數",
+   "block": 10,
+   "quote": "也稱為「損失函數」或「成本函數」"
+  },
+  {
+   "a": "diff",
+   "b": "gd",
+   "kind": "cross",
+   "label": "可導性是梯度法的前提",
+   "block": 43,
+   "quote": "這是大多數優化器（如梯度下降法）能正常運作的前提"
+  },
+  {
+   "a": "nonc",
+   "b": "mom",
+   "kind": "cross",
+   "label": "非凸問題靠動量等策略解",
+   "block": 47,
+   "quote": "若使用適當初始化、動量機制與調整策略，依然能取得效果良好的解"
+  },
+  {
+   "a": "ada",
+   "b": "rms",
+   "kind": "cross",
+   "label": "修正 Adagrad 缺點",
+   "block": 132,
+   "quote": "修正 Adagrad 學習率過快下降的問題"
+  },
+  {
+   "a": "mom",
+   "b": "adam",
+   "kind": "cross",
+   "label": "Adam 結合動量",
+   "block": 139,
+   "quote": "結合動量與RMSprop，追蹤梯度的一階與二階動量"
+  },
+  {
+   "a": "rms",
+   "b": "adam",
+   "kind": "cross",
+   "label": "Adam 結合它",
+   "block": 139,
+   "quote": "結合動量與RMSprop，追蹤梯度的一階與二階動量"
+  },
+  {
+   "a": "sgd",
+   "b": "unst",
+   "kind": "cross",
+   "label": "SGD 梯度波動大、不穩",
+   "block": 100,
+   "quote": "但梯度波動大、收斂不穩定"
+  },
+  {
+   "a": "conv",
+   "b": "es",
+   "kind": "cross",
+   "label": "驗證集停滯時提早停止",
+   "block": 174,
+   "quote": "防止模型在無實質提升下持續學習而產生過擬合"
+  },
+  {
+   "a": "unst",
+   "b": "lrs",
+   "kind": "cross",
+   "label": "降低學習率抑制震盪",
+   "block": 172,
+   "quote": "可避免後期更新過大導致震盪"
+  },
+  {
+   "a": "unst",
+   "b": "clip",
+   "kind": "cross",
+   "label": "裁剪避免梯度發散",
+   "block": 176,
+   "quote": "可限制梯度的最大值，避免發散或數值不穩定"
+  },
+  {
+   "a": "apps",
+   "b": "algo",
+   "kind": "cross",
+   "label": "深度學習需數值演算法逼近",
+   "block": 53,
+   "quote": "需依賴數值演算法進行逼近式學習"
+  },
+  {
+   "a": "impact",
+   "b": "cls",
+   "kind": "cross",
+   "label": "分類誤用迴歸損失會失敗",
+   "block": 81,
+   "quote": "例如分類問題使用迴歸損失"
+  }
+ ],
+ "confusions": [
+  {
+   "a": "MSE",
+   "b": "MAE",
+   "text": "MSE 放大大誤差懲罰；MAE 對極端值較不敏感，Huber 取兩者平衡。",
+   "blocks": [
+    67,
+    68,
+    69
+   ]
+  },
+  {
+   "a": "GD",
+   "b": "SGD",
+   "text": "GD 用全部資料，穩定但慢；SGD 每次一筆，快但波動大。",
+   "blocks": [
+    91,
+    93,
+    98,
+    100
+   ]
+  },
+  {
+   "a": "SGD",
+   "b": "Mini-batch SGD",
+   "text": "SGD 每次一筆；Mini-batch 每次一批，在穩定與效率間平衡。",
+   "blocks": [
+    98,
+    105,
+    107
+   ]
+  },
+  {
+   "a": "Adagrad",
+   "b": "RMSprop",
+   "text": "Adagrad 依歷史梯度大小調學習率但會過度衰減；RMSprop 引入滑動平均修正此問題。",
+   "blocks": [
+    125,
+    129,
+    132
+   ]
+  },
+  {
+   "a": "凸問題",
+   "b": "非凸問題",
+   "text": "凸問題必能找到全域最佳解；非凸問題有多個局部最小值與鞍點。",
+   "blocks": [
+    40,
+    46
+   ]
+  },
+  {
+   "a": "學習率調整",
+   "b": "提早停止",
+   "text": "前者逐步調降學習率避免震盪；後者在驗證集不再進步時中止訓練。",
+   "blocks": [
+    172,
+    174
+   ]
+  },
+  {
+   "a": "目標函數",
+   "b": "決策變數",
+   "text": "目標函數衡量偏差好壞；決策變數是被調整、被優化的參數。",
+   "blocks": [
+    10,
+    20
+   ]
+  }
+ ],
+ "gaps": [
+  {
+   "name": "機率密度函數（PDF）",
+   "block": 180
+  },
+  {
+   "name": "伯努利分佈",
+   "block": 181
+  },
+  {
+   "name": "特徵值分解與 PCA",
+   "block": 182
+  },
+  {
+   "name": "主成分分析",
+   "block": 183
+  },
+  {
+   "name": "假設檢定與顯著水準",
+   "block": 185
+  },
+  {
+   "name": "中位數與集中趨勢",
+   "block": 186
+  },
+  {
+   "name": "邏輯迴歸的分佈假設",
+   "block": 189
+  }
+ ]
+}

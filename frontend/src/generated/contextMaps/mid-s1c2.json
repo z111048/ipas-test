@@ -1,0 +1,1061 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide1",
+  "nodeId": "mid-s1c2",
+  "label": "中級 科目一・3.2 電腦視覺技術與應用",
+  "subjectId": "mid-s1",
+  "title": "電腦視覺技術與應用"
+ },
+ "headline": "一張圖看懂電腦視覺技術與應用",
+ "lede": "電腦視覺讓機器從影像中看懂並理解世界。先抓住技術如何從人工特徵走到 CNN 與生成式融合，再看各類任務與模型，最後是資料準備、應用情境與隱私、偏見、維運風險。",
+ "story": [
+  {
+   "step": "看演進",
+   "title": "從手工特徵到生成式",
+   "text": "特徵工程、CNN 革命、多模態與生成融合三階段。"
+  },
+  {
+   "step": "學任務",
+   "title": "分類、偵測、分割",
+   "text": "各任務對應不同模型與評估指標，如 IOU。"
+  },
+  {
+   "step": "備資料",
+   "title": "標註與前處理",
+   "text": "標註方式依任務而異，前處理與擴增提升品質。"
+  },
+  {
+   "step": "看落地",
+   "title": "應用情境與風險",
+   "text": "應用遍及監控、醫療、製造；須管隱私、偏見與維運。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "tech",
+   "name": "技術演進與任務模型"
+  },
+  {
+   "id": "data",
+   "name": "標註與前處理"
+  },
+  {
+   "id": "apply",
+   "name": "應用情境"
+  },
+  {
+   "id": "risk",
+   "name": "挑戰與風險"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "cv",
+   "label": "電腦視覺技術與應用",
+   "lane": null,
+   "parent": null,
+   "concept": "電腦視覺",
+   "gist": "讓機器從影像與影片擷取、辨識並解釋語意資訊，進而支援分析與決策。",
+   "src": [
+    {
+     "block": 11,
+     "quote": "擷取、辨識並解釋語意資訊",
+     "page": 48
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "ev1",
+   "label": "特徵工程時期",
+   "lane": "tech",
+   "parent": null,
+   "concept": null,
+   "gist": "依賴人工設計特徵（邊緣偵測、SIFT 等）加傳統分類器，表現受限於資料品質與特徵設計。",
+   "src": [
+    {
+     "block": 21,
+     "quote": "電腦視覺主要依賴手工特徵萃取",
+     "page": 49
+    },
+    {
+     "block": 23,
+     "quote": "特徵點偵測（如SIFT、SURF、ORB）",
+     "page": 50
+    },
+    {
+     "block": 26,
+     "quote": "表現容易受到資料品質與特徵設計的限制",
+     "page": 50
+    },
+    {
+     "block": 25,
+     "quote": "傳統分類器（如SVM、KNN、隨機森林）",
+     "page": 50
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "ev2",
+   "label": "CNN 革命",
+   "lane": "tech",
+   "parent": null,
+   "concept": null,
+   "gist": "2012 年 AlexNet 以 CNN 領先傳統方法，特徵改由模型自動學習，但需大量標註資料與 GPU。",
+   "src": [
+    {
+     "block": 27,
+     "quote": "標誌著深度學習主導電腦視覺的時代來臨",
+     "page": 50
+    },
+    {
+     "block": 30,
+     "quote": "需要大量的標註資料和高效的GPU 算力",
+     "page": 50
+    },
+    {
+     "block": 28,
+     "quote": "深度學習模型不再依賴手工設計的特徵",
+     "page": 50
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "ev3",
+   "label": "多模態與生成融合",
+   "lane": "tech",
+   "parent": null,
+   "concept": "多模態AI",
+   "gist": "2020 年後：CLIP 圖文同空間、ViT 用 Transformer、DALL·E 文字生圖、SAM 提升分割泛化。",
+   "src": [
+    {
+     "block": 33,
+     "quote": "跨模態理解與生成階段",
+     "page": 50
+    },
+    {
+     "block": 34,
+     "quote": "將影像和文字嵌入到同一語意空間中",
+     "page": 51
+    },
+    {
+     "block": 35,
+     "quote": "採用了與自然語言處理（NLP）領域相似的Transformer 架構",
+     "page": 51
+    },
+    {
+     "block": 36,
+     "quote": "這些生成式模型能根據文字描述生成圖像",
+     "page": 51
+    },
+    {
+     "block": 40,
+     "quote": "提升影像分割任務的可遷移性和泛化能力",
+     "page": 51
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "cls",
+   "label": "影像分類",
+   "lane": "tech",
+   "parent": null,
+   "concept": null,
+   "gist": "把影像歸入預定類別；流程為收集標註、前處理、選模型、訓練與評估。",
+   "src": [
+    {
+     "block": 66,
+     "quote": "目標是將一張影像歸類為一個或多個類別",
+     "page": 54
+    },
+    {
+     "block": 68,
+     "quote": "收集大量的標註影像資料",
+     "page": 55
+    },
+    {
+     "block": 70,
+     "quote": "選擇合適的分類模型",
+     "page": 55
+    },
+    {
+     "block": 71,
+     "quote": "使用驗證集進行評估",
+     "page": 55
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "metric",
+   "label": "分類評估指標",
+   "lane": "tech",
+   "parent": "cls",
+   "concept": "評估指標",
+   "gist": "常用準確率、Top-5 錯誤率（真實類別在前五名即算對，適合類別數龐大）與混淆矩陣。",
+   "src": [
+    {
+     "block": 89,
+     "quote": "預測正確的樣本數量佔總樣本數量的比例",
+     "page": 56
+    },
+    {
+     "block": 90,
+     "quote": "若真實類別位於模型預測的前五名內即視為正確",
+     "page": 56
+    },
+    {
+     "block": 91,
+     "quote": "便於分析誤分類情況",
+     "page": 56
+    }
+   ],
+   "exam": 3
+  },
+  {
+   "id": "cnn",
+   "label": "卷積神經網路",
+   "lane": "tech",
+   "parent": "cls",
+   "concept": "卷積神經網路",
+   "gist": "自動學習邊緣、紋理等特徵，由卷積、池化、激活、全連接、輸出層組成；訓練耗資源，小資料集易過擬合。",
+   "src": [
+    {
+     "block": 73,
+     "quote": "能夠自動學習影像中的特徵，如邊緣、紋理等",
+     "page": 55
+    },
+    {
+     "block": 74,
+     "quote": "CNN 的基本架構包括以下關鍵組件",
+     "page": 55
+    },
+    {
+     "block": 82,
+     "quote": "對於小型資料集，可能無法達到理想的效果",
+     "page": 56
+    },
+    {
+     "block": 75,
+     "quote": "通過卷積核提取影像的局部特徵",
+     "page": 55
+    },
+    {
+     "block": 79,
+     "quote": "輸出層：通常使用Softmax 函數",
+     "page": 55
+    },
+    {
+     "block": 81,
+     "quote": "需要大量的數據和計算資源",
+     "page": 56
+    },
+    {
+     "block": 76,
+     "quote": "池化層（Pooling Layer）",
+     "page": 55
+    },
+    {
+     "block": 77,
+     "quote": "激活層（Activation Layer）",
+     "page": 55
+    },
+    {
+     "block": 78,
+     "quote": "全連接層（Fully Connected Layer）",
+     "page": 55
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "pool",
+   "label": "池化層",
+   "lane": "tech",
+   "parent": "cnn",
+   "concept": "池化層",
+   "gist": "對特徵圖降維（如最大池化），減少計算量並增強泛化能力。",
+   "src": [
+    {
+     "block": 76,
+     "quote": "對特徵圖進行降維（如最大池化Max Pooling）",
+     "page": 55
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "arch",
+   "label": "知名 CNN 架構",
+   "lane": "tech",
+   "parent": "cnn",
+   "concept": "CNN模型演進",
+   "gist": "LeNet 5 層、AlexNet 8 層、VGG 19 層、ResNet 152 層（殘差結構解決梯度消失）。",
+   "src": [
+    {
+     "block": 84,
+     "quote": "結構簡單（5 層），是早期的CNN 模型",
+     "page": 56
+    },
+    {
+     "block": 85,
+     "quote": "使用8 層結構並引入ReLU 激活與Dropout 正則化",
+     "page": 56
+    },
+    {
+     "block": 86,
+     "quote": "層數可達19 層",
+     "page": 56
+    },
+    {
+     "block": 87,
+     "quote": "解決了深層網路訓練過程中的梯度消失問題",
+     "page": 56
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "det",
+   "label": "物件偵測",
+   "lane": "tech",
+   "parent": null,
+   "concept": "物件偵測",
+   "gist": "同時定位與分類物體；YOLO 速度快適合即時，Faster R-CNN 準確但較慢，SSD 兩者較平衡。",
+   "src": [
+    {
+     "block": 93,
+     "quote": "物件偵測是指同時進行物體的定位與分類",
+     "page": 56
+    },
+    {
+     "block": 94,
+     "quote": "速度快，適合即時應用",
+     "page": 56
+    },
+    {
+     "block": 95,
+     "quote": "準確度高，但速度較慢",
+     "page": 57
+    },
+    {
+     "block": 96,
+     "quote": "速度與準確度之間有較好的平衡",
+     "page": 57
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "seg",
+   "label": "影像分割",
+   "lane": "tech",
+   "parent": null,
+   "concept": "影像分割",
+   "gist": "把每個像素分到特定類別，是最細粒度的任務，分為語意分割與實例分割。",
+   "src": [
+    {
+     "block": 102,
+     "quote": "是電腦視覺中最細粒度的任務",
+     "page": 57
+    }
+   ],
+   "exam": 3
+  },
+  {
+   "id": "sem",
+   "label": "語意分割",
+   "lane": "tech",
+   "parent": "seg",
+   "concept": null,
+   "gist": "每個像素歸入類別，但同類物體視為一個整體，不區分不同的車輛。",
+   "src": [
+    {
+     "block": 103,
+     "quote": "語意分割並不區分同一類別中的不同實例",
+     "page": 57
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "inst",
+   "label": "實例分割",
+   "lane": "tech",
+   "parent": "seg",
+   "concept": null,
+   "gist": "在語意分割上進一步區分同類的不同實體，結合物體檢測與語意分割，給每個物體唯一標識符。",
+   "src": [
+    {
+     "block": 104,
+     "quote": "進一步區分同一類別中的不同實體",
+     "page": 57
+    },
+    {
+     "block": 105,
+     "quote": "實例分割結合了物體檢測和語意分割的功能",
+     "page": 57
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "unet",
+   "label": "U-Net",
+   "lane": "tech",
+   "parent": "seg",
+   "concept": null,
+   "gist": "專為醫療影像分割設計，對稱編碼器與解碼器，靠跳躍連接從高解析度特徵恢復細節。",
+   "src": [
+    {
+     "block": 109,
+     "quote": "U-Net 是專為醫療影像分割而設計的模型",
+     "page": 58
+    },
+    {
+     "block": 110,
+     "quote": "最大特點是跳躍連接（Skip Connections）",
+     "page": 58
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "iou",
+   "label": "IOU 交併比",
+   "lane": "tech",
+   "parent": "seg",
+   "concept": "交並比",
+   "gist": "預測區域與真實區域的交集除以聯集，範圍 0 到 1，越接近 1 越準；例：40 除以 140 約 0.286。",
+   "src": [
+    {
+     "block": 117,
+     "quote": "越接近1 表示預測的分割結果越準確",
+     "page": 58
+    },
+    {
+     "block": 128,
+     "quote": "真實框的面積 + 預測框的面積 - 重疊區域",
+     "page": 59
+    },
+    {
+     "block": 114,
+     "quote": "衡量預測分割區域與真實標籤區域之間重疊程度",
+     "page": 58
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "ann",
+   "label": "影像標註",
+   "lane": "data",
+   "parent": null,
+   "concept": "資料標註",
+   "gist": "標上標準答案（Ground Truth），品質影響訓練；需訂準則並做品質控制（如每 10 張檢查）。",
+   "src": [
+    {
+     "block": 44,
+     "quote": "資料品質直接影響模型的訓練效果與最終效能",
+     "page": 52
+    },
+    {
+     "block": 46,
+     "quote": "將作為機器學習模型訓練時的標準答案（Ground Truth）",
+     "page": 52
+    },
+    {
+     "block": 55,
+     "quote": "每10 張圖片標註後進行一次品質檢查",
+     "page": 53
+    },
+    {
+     "block": 52,
+     "quote": "建立標註準則（Annotation Guideline）是必須的",
+     "page": 53
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "annm",
+   "label": "標註方式依任務",
+   "lane": "data",
+   "parent": "ann",
+   "concept": null,
+   "gist": "分類用類別標籤，偵測用邊界框，語意分割為每像素標籤，實例分割用像素遮罩加實例 ID。",
+   "src": [
+    {
+     "block": 47,
+     "quote": "邊界框（Bounding Box）",
+     "page": 52
+    },
+    {
+     "block": 47,
+     "quote": "像素遮罩 + 實例 ID",
+     "page": 52
+    },
+    {
+     "block": 47,
+     "quote": "類別標籤（Label）",
+     "page": 52
+    },
+    {
+     "block": 47,
+     "quote": "每個像素分割標籤",
+     "page": 52
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "pre",
+   "label": "影像前處理",
+   "lane": "data",
+   "parent": null,
+   "concept": "資料前處理",
+   "gist": "統一格式、提升品質：尺寸處理、像素正規化（0–255 轉 0–1）、像素增強、去噪、色彩空間轉換與序列統一。",
+   "src": [
+    {
+     "block": 57,
+     "quote": "統一資料格式、增強資料品質，並提升模型訓練效率",
+     "page": 53
+    },
+    {
+     "block": 59,
+     "quote": "將像素值（如 0–255）轉為 0–1",
+     "page": 54
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "aug",
+   "label": "資料擴增",
+   "lane": "data",
+   "parent": "pre",
+   "concept": "資料增強",
+   "gist": "翻轉、旋轉、裁剪、模糊、色彩偏移等，增強泛化並對抗過擬合，常與訓練同步進行。",
+   "src": [
+    {
+     "block": 59,
+     "quote": "有效對抗過擬合，常與訓練同步進行",
+     "page": 54
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "sec",
+   "label": "監控與安全",
+   "lane": "apply",
+   "parent": null,
+   "concept": null,
+   "gist": "人臉辨識為偵測、特徵擷取、比對；車牌辨識為區域檢測與字符辨識。",
+   "src": [
+    {
+     "block": 133,
+     "quote": "進行人臉偵測、特徵擷取與比對",
+     "page": 60
+    },
+    {
+     "block": 139,
+     "quote": "車牌區域檢測：辨識車牌在影像中的位置",
+     "page": 60
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "med",
+   "label": "醫療影像診斷",
+   "lane": "apply",
+   "parent": null,
+   "concept": null,
+   "gist": "影像分類輔助診斷，影像分割（如 U-Net）定位腫瘤病灶；標註需專業醫師，並須遵守隱私法規。",
+   "src": [
+    {
+     "block": 148,
+     "quote": "將醫學影像（如CT 或MRI）分類為不同的診斷結果",
+     "page": 60
+    },
+    {
+     "block": 151,
+     "quote": "使用影像分割技術（如U-Net 模型）",
+     "page": 61
+    },
+    {
+     "block": 154,
+     "quote": "醫療影像資料集通常需要專業醫師進行標註",
+     "page": 61
+    },
+    {
+     "block": 157,
+     "quote": "必須遵守相應的隱私保護法規",
+     "page": 61
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "mfg",
+   "label": "智慧製造與零售",
+   "lane": "apply",
+   "parent": null,
+   "concept": null,
+   "gist": "工業瑕疵偵測做產線品檢，邊緣運算減少延遲並即時回饋；零售以熱點圖分析顧客動線。",
+   "src": [
+    {
+     "block": 160,
+     "quote": "對產品進行檢查，發現表面缺陷、尺寸偏差等問題",
+     "page": 61
+    },
+    {
+     "block": 166,
+     "quote": "將數據處理推向接近數據源的設備",
+     "page": 62
+    },
+    {
+     "block": 169,
+     "quote": "分析顧客在商店內的移動路徑與停留時間",
+     "page": 62
+    },
+    {
+     "block": 167,
+     "quote": "即時回饋給操作員",
+     "page": 62
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "ad",
+   "label": "自動駕駛",
+   "lane": "apply",
+   "parent": null,
+   "concept": null,
+   "gist": "以車道線偵測與物件偵測辨識障礙物、行人與車輛，並融合雷達、LiDAR、影像提升安全性。",
+   "src": [
+    {
+     "block": 175,
+     "quote": "需要通過視覺技術來檢測車道線",
+     "page": 62
+    },
+    {
+     "block": 176,
+     "quote": "透過物件偵測技術來辨識路面上的障礙物",
+     "page": 62
+    },
+    {
+     "block": 178,
+     "quote": "自駕車融合來自不同感測器的數據",
+     "page": 62
+    },
+    {
+     "block": 179,
+     "quote": "提升自駕系統的安全性與可靠性",
+     "page": 62
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "priv",
+   "label": "資料隱私與合規",
+   "lane": "risk",
+   "parent": null,
+   "concept": "資料隱私保護",
+   "gist": "影像常含個人識別資料，人臉屬敏感個資，須依個資法與 GDPR 管理，並在安全與隱私間取得平衡。",
+   "src": [
+    {
+     "block": 184,
+     "quote": "影像中往往包含個人識別資料",
+     "page": 63
+    },
+    {
+     "block": 185,
+     "quote": "人臉資料屬於敏感個資",
+     "page": 63
+    },
+    {
+     "block": 192,
+     "quote": "之間找到平衡",
+     "page": 64
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "anon",
+   "label": "匿名化與資料最小化",
+   "lane": "risk",
+   "parent": "priv",
+   "concept": "資料匿名化",
+   "gist": "臉部遮蔽與模糊化、明示告知並取得同意、依最小化原則自動刪除或加密過期資料。",
+   "src": [
+    {
+     "block": 188,
+     "quote": "使用臉部遮蔽、模糊化技術",
+     "page": 63
+    },
+    {
+     "block": 190,
+     "quote": "依照資料最小化原則",
+     "page": 63
+    },
+    {
+     "block": 189,
+     "quote": "明示告知使用者並明確用途，取得使用者同意",
+     "page": 63
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "bias",
+   "label": "偏見與模型可靠度",
+   "lane": "risk",
+   "parent": null,
+   "concept": "偏見與公平性",
+   "gist": "偏見來自資料不平衡、標註偏誤、拍攝條件偏差；對策為偏見診斷、重採樣與多維度指標評估。",
+   "src": [
+    {
+     "block": 195,
+     "quote": "將直接影響模型的公平性與準確性",
+     "page": 64
+    },
+    {
+     "block": 196,
+     "quote": "訓練資料集中某些族群（如膚色、性別、年齡）過於集中",
+     "page": 64
+    },
+    {
+     "block": 203,
+     "quote": "針對不同族群進行模型行為分析",
+     "page": 64
+    },
+    {
+     "block": 205,
+     "quote": "通過多維度指標來全面評估模型的準確性與可靠性",
+     "page": 65
+    },
+    {
+     "block": 197,
+     "quote": "人工標註過程中的主觀認知或文化偏見",
+     "page": 64
+    },
+    {
+     "block": 198,
+     "quote": "攝影角度、光照、解析度等差異",
+     "page": 64
+    },
+    {
+     "block": 204,
+     "quote": "調整資料分佈，減少偏見",
+     "page": 64
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "fpfn",
+   "label": "誤檢與漏檢",
+   "lane": "risk",
+   "parent": "bias",
+   "concept": null,
+   "gist": "誤檢如把健康的人誤診為病人；漏檢如漏掉工業瑕疵，讓缺陷品流入市場。",
+   "src": [
+    {
+     "block": 200,
+     "quote": "將健康的人誤診為病人",
+     "page": 64
+    },
+    {
+     "block": 201,
+     "quote": "漏檢工業瑕疵，可能導致有缺陷的產品流入市場",
+     "page": 64
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "ops",
+   "label": "部署與維運風險",
+   "lane": "risk",
+   "parent": null,
+   "concept": null,
+   "gist": "邊緣設備資源有限要用輕量化模型（MobileNet、YOLOv5-Nano）；版本管理與部署測試不足也會出問題。",
+   "src": [
+    {
+     "block": 209,
+     "quote": "邊緣設備（如智慧監控攝像頭）運算資源有限",
+     "page": 65
+    },
+    {
+     "block": 212,
+     "quote": "若更新模型版本的流程不夠嚴謹",
+     "page": 65
+    },
+    {
+     "block": 214,
+     "quote": "若模型部署後未進行充分的效能驗證",
+     "page": 65
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "drift",
+   "label": "資料漂移",
+   "lane": "risk",
+   "parent": "ops",
+   "concept": "資料漂移",
+   "gist": "環境或攝影條件改變使輸入資料分佈變化，造成模型失效。",
+   "src": [
+    {
+     "block": 213,
+     "quote": "可能導致輸入資料分佈的變化",
+     "page": 65
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "mlops",
+   "label": "MLOps 與回退機制",
+   "lane": "risk",
+   "parent": "ops",
+   "concept": "MLOps",
+   "gist": "建立 CI/CD 並持續監控效能與異常；異常時可回退至先前版本。",
+   "src": [
+    {
+     "block": 216,
+     "quote": "建立持續整合（CI）與持續部署（CD）的架構",
+     "page": 65
+    },
+    {
+     "block": 218,
+     "quote": "當模型異常時，能夠回退至先前版本",
+     "page": 65
+    }
+   ],
+   "exam": 0
+  }
+ ],
+ "edges": [
+  {
+   "a": "ev1",
+   "b": "ev2",
+   "kind": "flow",
+   "label": "手工特徵改為自動學習",
+   "block": 28,
+   "quote": "深度學習模型不再依賴手工設計的特徵",
+   "page": 50
+  },
+  {
+   "a": "ev2",
+   "b": "ev3",
+   "kind": "flow",
+   "label": "進入跨模態與生成",
+   "block": 33,
+   "quote": "進入2020 年後，電腦視覺的發展進入了跨模態理解與生成階段",
+   "page": 50
+  },
+  {
+   "a": "arch",
+   "b": "ev2",
+   "kind": "cross",
+   "label": "AlexNet 開啟 CNN",
+   "block": 85,
+   "quote": "在2012 年ImageNet 競賽中脫穎而出",
+   "page": 56
+  },
+  {
+   "a": "annm",
+   "b": "seg",
+   "kind": "cross",
+   "label": "分割任務需像素級標註",
+   "block": 47,
+   "quote": "影像每一像素皆對應類別",
+   "page": 52
+  },
+  {
+   "a": "aug",
+   "b": "bias",
+   "kind": "cross",
+   "label": "擴增也用來減少偏見",
+   "block": 204,
+   "quote": "通過過採樣、欠採樣或數據增強等方法",
+   "page": 64
+  },
+  {
+   "a": "unet",
+   "b": "med",
+   "kind": "cross",
+   "label": "U-Net 用於醫學影像分割",
+   "block": 151,
+   "quote": "使用影像分割技術（如U-Net 模型）",
+   "page": 61
+  },
+  {
+   "a": "ad",
+   "b": "det",
+   "kind": "cross",
+   "label": "自駕靠物件偵測辨識障礙",
+   "block": 176,
+   "quote": "透過物件偵測技術來辨識路面上的障礙物",
+   "page": 62
+  },
+  {
+   "a": "sec",
+   "b": "priv",
+   "kind": "cross",
+   "label": "監控須遵守隱私法規",
+   "block": 142,
+   "quote": "遵守如GDPR、HIPAA 等隱私法規",
+   "page": 60
+  },
+  {
+   "a": "sec",
+   "b": "bias",
+   "kind": "cross",
+   "label": "人臉辨識準確度因族群而異",
+   "block": 143,
+   "quote": "不同種族的人臉檢測準確度可能會有所不同",
+   "page": 60
+  },
+  {
+   "a": "fpfn",
+   "b": "med",
+   "kind": "cross",
+   "label": "醫療誤檢＝誤診",
+   "block": 200,
+   "quote": "將健康的人誤診為病人",
+   "page": 64
+  },
+  {
+   "a": "ann",
+   "b": "bias",
+   "kind": "cross",
+   "label": "標註偏誤造成不一致",
+   "block": 197,
+   "quote": "人工標註過程中的主觀認知或文化偏見",
+   "page": 64
+  },
+  {
+   "a": "med",
+   "b": "ann",
+   "kind": "cross",
+   "label": "醫療標註需專業醫師",
+   "block": 154,
+   "quote": "醫療影像資料集通常需要專業醫師進行標註",
+   "page": 61
+  },
+  {
+   "a": "cnn",
+   "b": "aug",
+   "kind": "cross",
+   "label": "擴增用來對抗過擬合",
+   "block": 59,
+   "quote": "有效對抗過擬合，常與訓練同步進行",
+   "page": 54
+  },
+  {
+   "a": "iou",
+   "b": "det",
+   "kind": "cross",
+   "label": "偵測以 IOU 門檻判定成功",
+   "block": 118,
+   "quote": "IOU 值大於0.5 或0.7 通常會被視為成功的預測",
+   "page": 58
+  }
+ ],
+ "confusions": [
+  {
+   "a": "語意分割",
+   "b": "實例分割",
+   "text": "語意分割只分類像素、同類視為整體；實例分割再區分同類中的不同個體。",
+   "blocks": [
+    103,
+    104
+   ],
+   "pages": [
+    57
+   ]
+  },
+  {
+   "a": "物件偵測",
+   "b": "影像分割",
+   "text": "物件偵測定位並分類物體；影像分割把每個像素分到類別，是最細粒度的任務。",
+   "blocks": [
+    93,
+    102
+   ],
+   "pages": [
+    56,
+    57
+   ]
+  },
+  {
+   "a": "誤檢",
+   "b": "漏檢",
+   "text": "誤檢（False Positive）如把健康的人誤診為病人；漏檢（False Negative）是未能辨識存在的目標，如漏掉工業瑕疵。",
+   "blocks": [
+    200,
+    201
+   ],
+   "pages": [
+    64
+   ]
+  },
+  {
+   "a": "YOLO",
+   "b": "Faster R-CNN",
+   "text": "YOLO 基於迴歸、同時預測框與類別，速度快；Faster R-CNN 先用 RPN 生成候選框再分類，準確但較慢。",
+   "blocks": [
+    94,
+    95
+   ],
+   "pages": [
+    56,
+    57
+   ]
+  },
+  {
+   "a": "手工特徵",
+   "b": "CNN 自動學習",
+   "text": "早期依人工設計特徵且無法自學高階語意；CNN 自動從大量資料學習特徵。",
+   "blocks": [
+    26,
+    28
+   ],
+   "pages": [
+    50
+   ]
+  },
+  {
+   "a": "準確率",
+   "b": "Top-5 錯誤率",
+   "text": "準確率是預測正確比例；Top-5 只要真實類別在前五名即算對，用於類別龐大的資料集。",
+   "blocks": [
+    89,
+    90
+   ],
+   "pages": [
+    56
+   ]
+  }
+ ],
+ "gaps": [],
+ "examOnly": [
+  {
+   "name": "遷移學習",
+   "count": 3,
+   "mentioned": false
+  }
+ ],
+ "notes": []
+}

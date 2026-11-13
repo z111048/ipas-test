@@ -1,0 +1,699 @@
+{
+ "chapter": {
+  "guideKey": "初級-guide1",
+  "nodeId": "s1c3",
+  "label": "初級 科目一・3.3 機器學習概念"
+ },
+ "headline": "一張圖看懂機器學習這一章",
+ "lede": "這章在講機器學習如何從資料中學規律。先抓住三種學習方式，再看數據處理、模型訓練、模型評估三階段，最後留意可解釋性與偏見等挑戰。",
+ "story": [
+  {
+   "step": "是什麼",
+   "title": "從資料學規律",
+   "text": "讓電腦從資料中學會預測與決策，不靠人寫規則。"
+  },
+  {
+   "step": "怎麼學",
+   "title": "三種學習方式",
+   "text": "看資料有沒有標記、有沒有環境回饋：監督、非監督、強化。"
+  },
+  {
+   "step": "怎麼做",
+   "title": "三階段流程",
+   "text": "數據處理 → 模型訓練 → 模型評估與優化。"
+  },
+  {
+   "step": "卡在哪",
+   "title": "可解釋性與偏見",
+   "text": "資料品質、可解釋性、公平性。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "types",
+   "name": "學習方式"
+  },
+  {
+   "id": "proc",
+   "name": "建模流程"
+  },
+  {
+   "id": "risk",
+   "name": "挑戰"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "ml",
+   "label": "機器學習",
+   "lane": null,
+   "parent": null,
+   "concept": null,
+   "gist": "從資料中學出規律來做預測與決策，不靠人寫規則。",
+   "src": [
+    {
+     "block": 2,
+     "quote": "無需依賴人為編寫的規則"
+    }
+   ]
+  },
+  {
+   "id": "sup",
+   "label": "監督式學習",
+   "lane": "types",
+   "parent": "ml",
+   "concept": "監督式學習",
+   "gist": "用「有標記」的資料，學輸入到輸出的對應。",
+   "src": [
+    {
+     "block": 21,
+     "quote": "以「有標記的數據」為基礎"
+    }
+   ]
+  },
+  {
+   "id": "reg",
+   "label": "迴歸",
+   "lane": "types",
+   "parent": "sup",
+   "concept": "迴歸分析",
+   "gist": "預測連續數值，例如用線性迴歸預測房價。",
+   "src": [
+    {
+     "block": 22,
+     "quote": "透過擬合數據來預測連續型結果"
+    }
+   ]
+  },
+  {
+   "id": "cls",
+   "label": "分類",
+   "lane": "types",
+   "parent": "sup",
+   "concept": "分類模型",
+   "gist": "預測類別，例如 SVM 用超平面把資料分開。",
+   "src": [
+    {
+     "block": 22,
+     "quote": "建立一個最佳的分類邊界（超平面）"
+    }
+   ]
+  },
+  {
+   "id": "uns",
+   "label": "非監督式學習",
+   "lane": "types",
+   "parent": "ml",
+   "concept": "非監督式學習",
+   "gist": "資料沒有標記，自己找出內在結構；核心是聚類與降維。",
+   "src": [
+    {
+     "block": 25,
+     "quote": "核心目標包括「聚類」和「降維」"
+    }
+   ]
+  },
+  {
+   "id": "clu",
+   "label": "聚類（K-Means）",
+   "lane": "types",
+   "parent": "uns",
+   "concept": "分群演算法",
+   "gist": "把相似的資料分成群，例如依購買行為做市場區隔；也能找出異常。",
+   "src": [
+    {
+     "block": 26,
+     "quote": "將數據分為若干個不同的群組"
+    },
+    {
+     "block": 26,
+     "quote": "識別出異常數據"
+    }
+   ]
+  },
+  {
+   "id": "pca",
+   "label": "降維（PCA）",
+   "lane": "types",
+   "parent": "uns",
+   "concept": "降維方法",
+   "gist": "把高維資料壓到低維，同時保留主要資訊。",
+   "src": [
+    {
+     "block": 27,
+     "quote": "將高維數據壓縮到低維空間"
+    }
+   ]
+  },
+  {
+   "id": "rl",
+   "label": "強化學習",
+   "lane": "types",
+   "parent": "ml",
+   "concept": "強化學習",
+   "gist": "代理在環境中試錯，依回饋調整策略，目標是最大化累積獎勵。",
+   "src": [
+    {
+     "block": 29,
+     "quote": "最大化累積獎勵"
+    }
+   ]
+  },
+  {
+   "id": "rlk",
+   "label": "代理／環境／獎勵",
+   "lane": "types",
+   "parent": "rl",
+   "concept": null,
+   "gist": "強化學習的三個核心要素。",
+   "src": [
+    {
+     "block": 31,
+     "quote": "負責進行決策和行動的學習系統"
+    },
+    {
+     "block": 32,
+     "quote": "會根據代理（Agent）的行動提供回饋"
+    },
+    {
+     "block": 33,
+     "quote": "表示行動的好壞"
+    }
+   ]
+  },
+  {
+   "id": "dqn",
+   "label": "Q-Learning → DQN",
+   "lane": "types",
+   "parent": "rl",
+   "concept": null,
+   "gist": "Q-Learning 學習每個行動的長期價值（Q 值）；狀態空間過大時，改用深度神經網路近似 Q 值，就是 DQN。",
+   "src": [
+    {
+     "block": 40,
+     "quote": "學習每個行動的長期價值（Q 值）"
+    },
+    {
+     "block": 42,
+     "quote": "當狀態空間過大時"
+    },
+    {
+     "block": 43,
+     "quote": "來近似Q 值，而不是直接儲存Q 表"
+    }
+   ]
+  },
+  {
+   "id": "prep",
+   "label": "數據處理",
+   "lane": "proc",
+   "parent": null,
+   "concept": "資料前處理",
+   "gist": "訓練前的必要步驟：清洗、標準化、特徵選擇與降維。",
+   "src": [
+    {
+     "block": 51,
+     "quote": "數據清洗、數據標準化、特徵選擇和降維"
+    }
+   ]
+  },
+  {
+   "id": "clean",
+   "label": "數據清洗",
+   "lane": "proc",
+   "parent": "prep",
+   "concept": "資料清理",
+   "gist": "處理遺缺值（均值、中位數或眾數填補、刪除）與異常值（四分位距法、標準差法）。",
+   "src": [
+    {
+     "block": 53,
+     "quote": "處理數據集中的遺缺值、重複值和異常值"
+    },
+    {
+     "block": 54,
+     "quote": "對遺缺值用該特徵的平均值進行填補"
+    },
+    {
+     "block": 55,
+     "quote": "使用中位數或眾數進行填補"
+    },
+    {
+     "block": 56,
+     "quote": "直接刪除遺缺值過多的記錄或特徵"
+    },
+    {
+     "block": 58,
+     "quote": "判斷數據是否超出正常範圍"
+    },
+    {
+     "block": 59,
+     "quote": "對距離平均值超過多個標準差的數據進行檢測"
+    }
+   ]
+  },
+  {
+   "id": "scale",
+   "label": "數據標準化",
+   "lane": "proc",
+   "parent": "prep",
+   "concept": "資料標準化",
+   "gist": "把不同量級的特徵轉到同一範圍：Min-Max 映到 0～1，Z-score 轉成均值 0、標準差 1。",
+   "src": [
+    {
+     "block": 61,
+     "quote": "消除特徵間的尺度差異"
+    },
+    {
+     "block": 62,
+     "quote": "將數據映射到0 到1 的區間"
+    },
+    {
+     "block": 64,
+     "quote": "轉換為均值為0、標準差為1 的分佈"
+    }
+   ]
+  },
+  {
+   "id": "fsel",
+   "label": "特徵選擇",
+   "lane": "proc",
+   "parent": "prep",
+   "concept": "特徵選擇",
+   "gist": "只留最有用的原始特徵：過濾法、包裝法、嵌入法。",
+   "src": [
+    {
+     "block": 68,
+     "quote": "篩選出最具代表性的特徵"
+    },
+    {
+     "block": 69,
+     "quote": "過濾法（Filter Methods）"
+    },
+    {
+     "block": 70,
+     "quote": "包裝法（Wrapper Methods）"
+    },
+    {
+     "block": 71,
+     "quote": "嵌入法（Embedded Methods）"
+    }
+   ]
+  },
+  {
+   "id": "train",
+   "label": "模型訓練",
+   "lane": "proc",
+   "parent": null,
+   "concept": null,
+   "gist": "設定損失函數、選優化方法、防止過擬合，找出最好的參數。",
+   "src": [
+    {
+     "block": 74,
+     "quote": "損失函數的設置、優化演算法的選擇以及避免過擬合的策略"
+    },
+    {
+     "block": 74,
+     "quote": "找出最優的模型參數"
+    }
+   ]
+  },
+  {
+   "id": "loss",
+   "label": "損失函數",
+   "lane": "proc",
+   "parent": "train",
+   "concept": null,
+   "gist": "衡量預測和實際差多少：迴歸用 MSE，分類用交叉熵。",
+   "src": [
+    {
+     "block": 79,
+     "quote": "用於迴歸任務"
+    },
+    {
+     "block": 81,
+     "quote": "用於分類任務"
+    },
+    {
+     "block": 76,
+     "quote": "衡量模型預測值與實際目標之間差異"
+    }
+   ]
+  },
+  {
+   "id": "gd",
+   "label": "梯度下降",
+   "lane": "proc",
+   "parent": "train",
+   "concept": "梯度下降",
+   "gist": "調整參數讓損失變小：BGD 用全部資料，SGD 一次一筆，Adam 自動調學習率。",
+   "src": [
+    {
+     "block": 83,
+     "quote": "最常見的優化演算法是梯度下降法及其變種"
+    },
+    {
+     "block": 84,
+     "quote": "基於整個數據集計算損失函數的梯度"
+    },
+    {
+     "block": 85,
+     "quote": "每次迭代僅使用一個樣本來更新參數"
+    },
+    {
+     "block": 86,
+     "quote": "能夠自適應學習率"
+    }
+   ]
+  },
+  {
+   "id": "of",
+   "label": "過擬合",
+   "lane": "proc",
+   "parent": "train",
+   "concept": "過擬合與泛化",
+   "gist": "訓練資料表現好、測試資料表現差。對策：正則化、Early Stopping、資料擴增。",
+   "src": [
+    {
+     "block": 88,
+     "quote": "在訓練數據上表現優異，但在測試數據上表現不佳"
+    },
+    {
+     "block": 89,
+     "quote": "在損失函數中添加懲罰項"
+    },
+    {
+     "block": 90,
+     "quote": "表現開始下降時，停止訓練"
+    },
+    {
+     "block": 91,
+     "quote": "擴展訓練數據集"
+    }
+   ]
+  },
+  {
+   "id": "eval",
+   "label": "模型評估與優化",
+   "lane": "proc",
+   "parent": null,
+   "concept": null,
+   "gist": "用指標驗證效能，再依結果調整模型。",
+   "src": [
+    {
+     "block": 93,
+     "quote": "透過評估指標對模型效能進行驗證"
+    }
+   ]
+  },
+  {
+   "id": "met",
+   "label": "評估指標",
+   "lane": "proc",
+   "parent": "eval",
+   "concept": "評估指標",
+   "gist": "Accuracy 適合類別平衡；F1 兼顧 Precision 與 Recall，適合不平衡；迴歸看 MSE。",
+   "src": [
+    {
+     "block": 97,
+     "quote": "適合處理數據不平衡的問題"
+    },
+    {
+     "block": 96,
+     "quote": "適用於平衡的分類問題"
+    },
+    {
+     "block": 97,
+     "quote": "綜合考慮精確率（Precision）和召回率（Recall）"
+    },
+    {
+     "block": 98,
+     "quote": "適用於迴歸問題"
+    }
+   ]
+  },
+  {
+   "id": "cv",
+   "label": "交叉驗證",
+   "lane": "proc",
+   "parent": "eval",
+   "concept": "交叉驗證",
+   "gist": "K 折：資料分 K 份輪流當測試集，取平均，評估是否穩健。",
+   "src": [
+    {
+     "block": 100,
+     "quote": "重複K 次後取平均評估結果"
+    }
+   ]
+  },
+  {
+   "id": "tune",
+   "label": "模型調參",
+   "lane": "proc",
+   "parent": "eval",
+   "concept": "超參數調整",
+   "gist": "調整超參數：網格搜索、隨機搜索、貝葉斯優化。",
+   "src": [
+    {
+     "block": 102,
+     "quote": "模型優化的最後一步是調整超參數"
+    },
+    {
+     "block": 103,
+     "quote": "在預定範圍內逐一嘗試超參數組合"
+    },
+    {
+     "block": 104,
+     "quote": "隨機選擇超參數進行測試"
+    },
+    {
+     "block": 105,
+     "quote": "透過構建代理模型"
+    }
+   ]
+  },
+  {
+   "id": "xai",
+   "label": "模型可解釋性",
+   "lane": "risk",
+   "parent": null,
+   "concept": "模型可解釋性",
+   "gist": "醫療、法律等領域需要模型說明判斷依據，否則難以取得信任。",
+   "src": [
+    {
+     "block": 16,
+     "quote": "模型的解釋性和透明性不足"
+    },
+    {
+     "block": 16,
+     "quote": "模型需要解釋其診斷建議的依據"
+    }
+   ]
+  },
+  {
+   "id": "bias",
+   "label": "偏見與公平性",
+   "lane": "risk",
+   "parent": null,
+   "concept": "偏見與公平性",
+   "gist": "有偏見的資料會讓模型輸出帶有歧視；可用去偏演算法改善。",
+   "src": [
+    {
+     "block": 5,
+     "quote": "偏見的數據可能導致模型輸出存在歧視性"
+    },
+    {
+     "block": 17,
+     "quote": "開發去偏演算法"
+    }
+   ]
+  },
+  {
+   "id": "dq",
+   "label": "數據品質",
+   "lane": "risk",
+   "parent": null,
+   "concept": "資料品質",
+   "gist": "資料缺失、不平衡或雜訊，會直接影響模型的準確與穩定。",
+   "src": [
+    {
+     "block": 16,
+     "quote": "數據存在缺失、不平衡或雜訊問題"
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "a": "prep",
+   "b": "train",
+   "kind": "flow",
+   "label": "下一步",
+   "block": 51,
+   "quote": "在進入模型訓練之前"
+  },
+  {
+   "a": "train",
+   "b": "eval",
+   "kind": "flow",
+   "label": "下一步",
+   "block": 93,
+   "quote": "模型訓練完成後"
+  },
+  {
+   "a": "pca",
+   "b": "prep",
+   "kind": "cross",
+   "label": "同一工具也用在資料前處理",
+   "block": 72,
+   "quote": "常用方法包括主成分分析（PCA）"
+  },
+  {
+   "a": "reg",
+   "b": "loss",
+   "kind": "cross",
+   "label": "迴歸用 MSE",
+   "block": 79,
+   "quote": "用於迴歸任務"
+  },
+  {
+   "a": "cls",
+   "b": "loss",
+   "kind": "cross",
+   "label": "分類用交叉熵",
+   "block": 81,
+   "quote": "用於分類任務"
+  },
+  {
+   "a": "reg",
+   "b": "met",
+   "kind": "cross",
+   "label": "迴歸也用 MSE 評估",
+   "block": 98,
+   "quote": "適用於迴歸問題"
+  },
+  {
+   "a": "scale",
+   "b": "gd",
+   "kind": "cross",
+   "label": "梯度下降對特徵尺度敏感",
+   "block": 65,
+   "quote": "特別是在使用梯度下降等對特徵尺度敏感的演算法時"
+  },
+  {
+   "a": "cv",
+   "b": "of",
+   "kind": "cross",
+   "label": "降低過擬合風險",
+   "block": 100,
+   "quote": "有效降低過擬合風險"
+  },
+  {
+   "a": "prep",
+   "b": "dq",
+   "kind": "cross",
+   "label": "因數據品質而需處理",
+   "block": 51,
+   "quote": "數據品質的高低直接影響模型的學習效果"
+  },
+  {
+   "a": "dq",
+   "b": "bias",
+   "kind": "cross",
+   "label": "偏見資料造成歧視",
+   "block": 5,
+   "quote": "偏見的數據可能導致模型輸出存在歧視性"
+  },
+  {
+   "a": "ml",
+   "b": "xai",
+   "kind": "cross",
+   "label": "面臨的挑戰之一",
+   "block": 16,
+   "quote": "模型的解釋性和透明性不足"
+  },
+  {
+   "a": "fsel",
+   "b": "of",
+   "kind": "cross",
+   "label": "嵌入法用 LASSO 正則化",
+   "block": 71,
+   "quote": "LASSO 正則化"
+  }
+ ],
+ "confusions": [
+  {
+   "a": "分類",
+   "b": "聚類",
+   "text": "分類用有標記的資料預測類別；聚類沒有標記，是依相似度自己分群。",
+   "blocks": [
+    21,
+    22,
+    25,
+    26
+   ]
+  },
+  {
+   "a": "特徵選擇",
+   "b": "降維（PCA）",
+   "text": "特徵選擇是篩選出最具代表性的特徵；PCA 是透過線性變換，把冗餘特徵壓縮到低維空間。",
+   "blocks": [
+    68,
+    72
+   ]
+  },
+  {
+   "a": "Min-Max",
+   "b": "Z-score",
+   "text": "Min-Max 把資料映到 0～1；Z-score 轉成均值 0、標準差 1。",
+   "blocks": [
+    62,
+    64
+   ]
+  },
+  {
+   "a": "BGD",
+   "b": "SGD",
+   "text": "BGD 每次用整個資料集計算梯度；SGD 每次只用一個樣本，比較快但收斂不穩定。",
+   "blocks": [
+    84,
+    85
+   ]
+  },
+  {
+   "a": "Accuracy",
+   "b": "F1 分數",
+   "text": "Accuracy 適用於平衡的分類問題；F1 分數適合處理數據不平衡的問題。",
+   "blocks": [
+    96,
+    97
+   ]
+  },
+  {
+   "a": "Q-Learning",
+   "b": "DQN",
+   "text": "Q-Learning 把價值存在 Q 表；狀態太多時，DQN 改用神經網路來近似 Q 值。",
+   "blocks": [
+    42,
+    43
+   ]
+  }
+ ],
+ "gaps": [
+  {
+   "name": "決策樹",
+   "block": 113
+  },
+  {
+   "name": "隨機森林",
+   "block": 116
+  },
+  {
+   "name": "生成對抗網路（GAN）",
+   "block": 115
+  },
+  {
+   "name": "機器學習三要素：數據、模型、損失函數",
+   "block": 117
+  }
+ ]
+}

@@ -1,0 +1,842 @@
+{
+ "chapter": {
+  "guideKey": "初級-guide2",
+  "nodeId": "s2c1",
+  "label": "初級 科目二・3.1 No code / Low code 概念",
+  "subjectId": "s2",
+  "title": "No code / Low code 概念"
+ },
+ "headline": "一張圖看懂 No Code / Low Code 概念",
+ "lede": "這章先分清 No Code 與 Low Code 各給誰用，再看生成式 AI 如何加成、帶來哪些價值，最後學選平台的 6 個因素、結合的挑戰與對 AI 民主化的影響。",
+ "story": [
+  {
+   "step": "是什麼",
+   "title": "兩種平台",
+   "text": "No Code 靠拖放給非技術者；Low Code 加少量程式碼。"
+  },
+  {
+   "step": "加了 AI",
+   "title": "生成式 AI 加成",
+   "text": "自動生成程式碼、UI 設計，並應用到各行業。"
+  },
+  {
+   "step": "為何值得",
+   "title": "市場價值與民主化",
+   "text": "降成本、縮短上市時間、加速轉型，讓更多人用 AI。"
+  },
+  {
+   "step": "怎麼選",
+   "title": "選擇與挑戰",
+   "text": "6 個評估因素，加上準確性、隱私等挑戰與對策。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "plat",
+   "name": "平台與 AI 加成"
+  },
+  {
+   "id": "value",
+   "name": "應用與價值"
+  },
+  {
+   "id": "assess",
+   "name": "評估與挑戰"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "nl",
+   "label": "No Code / Low Code",
+   "lane": null,
+   "parent": null,
+   "concept": "低代碼無代碼開發",
+   "gist": "降低開發門檻的平台，讓非技術者也能參與 AI 與應用開發，是 AI 民主化的推力。",
+   "src": [
+    {
+     "block": 2,
+     "quote": "平台已成為推動AI 民主化",
+     "page": 7
+    }
+   ],
+   "exam": 8
+  },
+  {
+   "id": "nc",
+   "label": "No Code 平台",
+   "lane": "plat",
+   "parent": null,
+   "concept": null,
+   "gist": "視覺化介面加拖放，不用寫程式，適合非技術者做原型或小型應用。",
+   "src": [
+    {
+     "block": 7,
+     "quote": "透過視覺化介面和拖放操作，讓使用者無需編寫程式碼即可快速開發應用",
+     "page": 8
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "lc",
+   "label": "Low Code 平台",
+   "lane": "plat",
+   "parent": null,
+   "concept": "低程式碼平台",
+   "gist": "視覺化工具加少量程式碼，給有技術背景者做深度整合與複雜邏輯，適合中大型企業。",
+   "src": [
+    {
+     "block": 9,
+     "quote": "透過少量程式碼實現深度整合、客製化與複雜邏輯",
+     "page": 8
+    }
+   ],
+   "exam": 12
+  },
+  {
+   "id": "gai",
+   "label": "生成式 AI 的結合",
+   "lane": "plat",
+   "parent": null,
+   "concept": "生成式AI",
+   "gist": "生成式 AI 讓這兩類平台更自動化、智慧化。",
+   "src": [
+    {
+     "block": 11,
+     "quote": "進一步提升No Code 和Low Code 平台的效能",
+     "page": 8
+    }
+   ],
+   "exam": 4
+  },
+  {
+   "id": "codegen",
+   "label": "自動生成程式碼",
+   "lane": "plat",
+   "parent": "gai",
+   "concept": "程式碼輔助生成",
+   "gist": "AI 協助開發客製化功能，節省開發時間。",
+   "src": [
+    {
+     "block": 13,
+     "quote": "AI 協助開發客製化功能，節省開發時間",
+     "page": 8
+    }
+   ],
+   "exam": 5
+  },
+  {
+   "id": "uidesign",
+   "label": "UI/UX 設計",
+   "lane": "plat",
+   "parent": "gai",
+   "concept": null,
+   "gist": "依文字描述自動產生多種 UI 方案，設計師再微調。",
+   "src": [
+    {
+     "block": 19,
+     "quote": "根據文字描述自動生成多樣化UI 設計方案",
+     "page": 8
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "ind",
+   "label": "各行業應用",
+   "lane": "value",
+   "parent": null,
+   "concept": null,
+   "gist": "透過數據分析與自動化內容生成，各行業提升營運效率與服務品質。",
+   "src": [
+    {
+     "block": 25,
+     "quote": "各行業皆能提升營運效率與服務品質",
+     "page": 8
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "med",
+   "label": "醫療保健",
+   "lane": "value",
+   "parent": "ind",
+   "concept": null,
+   "gist": "藥物發現、個人化治療、病歷自動生成與輔助診斷。",
+   "src": [
+    {
+     "block": 29,
+     "quote": "病歷自動生成與輔助診斷",
+     "page": 9
+    },
+    {
+     "block": 27,
+     "quote": "生成式AI 可分析大量生物醫學數據",
+     "page": 9
+    },
+    {
+     "block": 28,
+     "quote": "依據患者基因組數據",
+     "page": 9
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "fin",
+   "label": "金融業",
+   "lane": "value",
+   "parent": "ind",
+   "concept": null,
+   "gist": "風險評估、投資組合優化、自動化合規監管。",
+   "src": [
+    {
+     "block": 36,
+     "quote": "自動化合規監管",
+     "page": 9
+    },
+    {
+     "block": 34,
+     "quote": "可模擬各種市場情境",
+     "page": 9
+    },
+    {
+     "block": 35,
+     "quote": "AI 提供最佳投資組合建議",
+     "page": 9
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "mv",
+   "label": "市場價值",
+   "lane": "value",
+   "parent": null,
+   "concept": null,
+   "gist": "價值展現在降低成本、縮短上市時間、加速數位轉型三面向。",
+   "src": [
+    {
+     "block": 104,
+     "quote": "其市場價值主要展現在以下幾個面向",
+     "page": 14
+    },
+    {
+     "block": 105,
+     "quote": "降低開發成本",
+     "page": 14
+    },
+    {
+     "block": 109,
+     "quote": "縮短上市時間",
+     "page": 14
+    },
+    {
+     "block": 112,
+     "quote": "加速數位轉型",
+     "page": 15
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "cost",
+   "label": "降低開發成本",
+   "lane": "value",
+   "parent": "mv",
+   "concept": null,
+   "gist": "企業不必大量聘請專業程式設計師，業務人員也能參與開發。",
+   "src": [
+    {
+     "block": 107,
+     "quote": "企業無需大量聘請專業程式設計師",
+     "page": 14
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "ttm",
+   "label": "縮短上市時間",
+   "lane": "value",
+   "parent": "mv",
+   "concept": null,
+   "gist": "快速部署與更新，依市場需求快速調整產品功能。",
+   "src": [
+    {
+     "block": 111,
+     "quote": "企業可根據市場需求快速調整產品功能與設計",
+     "page": 14
+    },
+    {
+     "block": 110,
+     "quote": "平台內建多種即用型模組、元件與API 整合工具",
+     "page": 14
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "dx",
+   "label": "加速數位轉型",
+   "lane": "value",
+   "parent": "mv",
+   "concept": null,
+   "gist": "促進 IT 與業務協作，並結合生成式 AI 打造智慧應用。",
+   "src": [
+    {
+     "block": 113,
+     "quote": "促進IT 與業務部門協作",
+     "page": 15
+    },
+    {
+     "block": 115,
+     "quote": "結合生成式AI，企業能快速打造智慧型應用與自動化服務",
+     "page": 15
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "demo",
+   "label": "AI 民主化",
+   "lane": "value",
+   "parent": null,
+   "concept": null,
+   "gist": "把 AI 的使用從少數專家與大企業擴展到更廣泛的社會層面。",
+   "src": [
+    {
+     "block": 127,
+     "quote": "從少數專家和大型企業擴展到更廣泛的社會層面",
+     "page": 16
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "cit",
+   "label": "市民開發者",
+   "lane": "value",
+   "parent": "demo",
+   "concept": null,
+   "gist": "非技術人員用這些工具自動化日常工作，如報告生成與數據輸入。",
+   "src": [
+    {
+     "block": 128,
+     "quote": "可以利用這些工具來自動化日常工作",
+     "page": 16
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "demorisk",
+   "label": "民主化的隱憂",
+   "lane": "value",
+   "parent": "demo",
+   "concept": null,
+   "gist": "過度依賴 No Code 工具，可能缺乏 AI 深層理解而引發模型偏差或誤用。",
+   "src": [
+    {
+     "block": 140,
+     "quote": "可能引發模型偏差或誤用的風險",
+     "page": 17
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "pick",
+   "label": "平台選擇與評估",
+   "lane": "assess",
+   "parent": null,
+   "concept": "AI專案導入評估",
+   "gist": "選平台要看 6 個關鍵因素，並依自身需求、技術能力與預算全面評估。",
+   "src": [
+    {
+     "block": 51,
+     "quote": "需要考量的6 個關鍵因素",
+     "page": 10
+    },
+    {
+     "block": 70,
+     "quote": "企業應根據自身業務需求、技術能力與預算進行全方位評估",
+     "page": 12
+    }
+   ],
+   "exam": 4
+  },
+  {
+   "id": "integ",
+   "label": "功能與擴展性",
+   "lane": "assess",
+   "parent": "pick",
+   "concept": "系統整合與API",
+   "gist": "評估與現有系統（CRM、ERP）的整合能力與自訂性。",
+   "src": [
+    {
+     "block": 56,
+     "quote": "評估平台與現有系統（如CRM、ERP 等）的整合能力",
+     "page": 11
+    },
+    {
+     "block": 57,
+     "quote": "確保平台能夠滿足特定業務需求",
+     "page": 11
+    }
+   ],
+   "exam": 9
+  },
+  {
+   "id": "sec",
+   "label": "安全性與合規性",
+   "lane": "assess",
+   "parent": "pick",
+   "concept": null,
+   "gist": "確認符合資料保護法規，並有細緻的權限控制。",
+   "src": [
+    {
+     "block": 59,
+     "quote": "確認平台符合相關的資料保護法規",
+     "page": 11
+    },
+    {
+     "block": 60,
+     "quote": "確保平台具備細緻的權限控制",
+     "page": 11
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "tco",
+   "label": "成本與效益",
+   "lane": "assess",
+   "parent": "pick",
+   "concept": "成本效益分析",
+   "gist": "用 TCO 看購買、維護、培訓成本，用 ROI 看投資是否有價值。",
+   "src": [
+    {
+     "block": 62,
+     "quote": "考量平台的購買、維護、培訓等相關成本",
+     "page": 11
+    },
+    {
+     "block": 63,
+     "quote": "確保投資具有實際價值",
+     "page": 11
+    }
+   ],
+   "exam": 3
+  },
+  {
+   "id": "ch",
+   "label": "結合的挑戰",
+   "lane": "assess",
+   "parent": null,
+   "concept": null,
+   "gist": "生成式 AI 與平台結合有潛力，但伴隨準確性、隱私、倫理、整合四類挑戰。",
+   "src": [
+    {
+     "block": 72,
+     "quote": "卻也伴隨著多重挑戰",
+     "page": 12
+    },
+    {
+     "block": 102,
+     "quote": "面對模型準確性、資料隱私、倫理風險與技術整合等挑戰",
+     "page": 14
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "acc",
+   "label": "準確性與可靠性",
+   "lane": "assess",
+   "parent": "ch",
+   "concept": "AI幻覺與真實性風險",
+   "gist": "輸出可能錯誤，且驗證機制不足；解方是多層次驗證加人工審核。",
+   "src": [
+    {
+     "block": 74,
+     "quote": "生成式AI 可能產生不準確或不符預期的內容",
+     "page": 12
+    },
+    {
+     "block": 76,
+     "quote": "建立多層次驗證機制",
+     "page": 12
+    },
+    {
+     "block": 75,
+     "quote": "缺乏嚴謹的審核與驗證流程",
+     "page": 12
+    }
+   ],
+   "exam": 7
+  },
+  {
+   "id": "priv",
+   "label": "資料隱私與安全",
+   "lane": "assess",
+   "parent": "ch",
+   "concept": "資料隱私保護",
+   "gist": "處理大量資料易洩漏隱私或機密，須遵循法規；解方是加密、匿名化、權限控管。",
+   "src": [
+    {
+     "block": 78,
+     "quote": "容易暴露用戶隱私或企業機密",
+     "page": 12
+    },
+    {
+     "block": 80,
+     "quote": "採用資料加密、匿名化與權限控管機制",
+     "page": 12
+    },
+    {
+     "block": 79,
+     "quote": "需遵循個資法（GDPR、CCPA）等相關法規",
+     "page": 12
+    }
+   ],
+   "exam": 4
+  },
+  {
+   "id": "eth",
+   "label": "道德與倫理",
+   "lane": "assess",
+   "parent": "ch",
+   "concept": "偏見與公平性",
+   "gist": "可能被濫用製造假訊息，訓練數據有偏見會影響決策公正。",
+   "src": [
+    {
+     "block": 83,
+     "quote": "模型訓練數據若存在偏見，將影響決策公正性",
+     "page": 13
+    },
+    {
+     "block": 82,
+     "quote": "AI 可能被濫用於製造錯誤資訊、假消息或惡意內容",
+     "page": 13
+    }
+   ],
+   "exam": 4
+  },
+  {
+   "id": "techint",
+   "label": "技術整合與適配",
+   "lane": "assess",
+   "parent": "ch",
+   "concept": null,
+   "gist": "整合到平台要克服架構差異，且模型資源需求高；解方是開放 API 與雲端運算。",
+   "src": [
+    {
+     "block": 86,
+     "quote": "需克服技術與架構差異",
+     "page": 13
+    },
+    {
+     "block": 88,
+     "quote": "選擇具備API 擴充能力的開放式平台",
+     "page": 13
+    },
+    {
+     "block": 87,
+     "quote": "生成式AI 模型資源需求高",
+     "page": 13
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "four",
+   "label": "四大面向對策",
+   "lane": "assess",
+   "parent": null,
+   "concept": null,
+   "gist": "數據品質管理、模型效能評估、人機協作機制、安全防護與風險控管。",
+   "src": [
+    {
+     "block": 89,
+     "quote": "可從以下四大面向著手",
+     "page": 13
+    },
+    {
+     "block": 90,
+     "quote": "數據品質管理",
+     "page": 13
+    },
+    {
+     "block": 93,
+     "quote": "模型效能評估",
+     "page": 13
+    },
+    {
+     "block": 96,
+     "quote": "人機協作機制",
+     "page": 13
+    },
+    {
+     "block": 99,
+     "quote": "安全防護與風險控管",
+     "page": 13
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "hitl",
+   "label": "人機協作機制",
+   "lane": "assess",
+   "parent": "four",
+   "concept": "人類參與迴圈",
+   "gist": "結合人類專業知識，並在關鍵場景設置人工干預。",
+   "src": [
+    {
+     "block": 98,
+     "quote": "在關鍵應用場景設置人工干預機制",
+     "page": 13
+    },
+    {
+     "block": 97,
+     "quote": "結合人類專業知識與AI",
+     "page": 13
+    }
+   ],
+   "exam": 5
+  }
+ ],
+ "edges": [
+  {
+   "a": "gai",
+   "b": "dx",
+   "kind": "cross",
+   "label": "生成式 AI 加速轉型",
+   "block": 115,
+   "quote": "結合生成式AI，企業能快速打造智慧型應用與自動化服務",
+   "page": 15
+  },
+  {
+   "a": "gai",
+   "b": "ind",
+   "kind": "cross",
+   "label": "AI 驅動各行業應用",
+   "block": 25,
+   "quote": "透過數據分析與自動化內容生成功能",
+   "page": 8
+  },
+  {
+   "a": "nc",
+   "b": "demo",
+   "kind": "cross",
+   "label": "非技術者因此能開發 AI",
+   "block": 131,
+   "quote": "讓非技術背景的人也能開發AI 驅動的應用",
+   "page": 16
+  },
+  {
+   "a": "lc",
+   "b": "pick",
+   "kind": "cross",
+   "label": "用戶技術與需求決定選擇",
+   "block": 54,
+   "quote": "適合需要開發具有複雜邏輯或功能的應用程式",
+   "page": 11
+  },
+  {
+   "a": "integ",
+   "b": "techint",
+   "kind": "cross",
+   "label": "整合能力對應整合難度",
+   "block": 86,
+   "quote": "將生成式AI 模型無縫整合至No Code / Low Code 平台",
+   "page": 13
+  },
+  {
+   "a": "sec",
+   "b": "priv",
+   "kind": "cross",
+   "label": "平台安全對應隱私風險",
+   "block": 79,
+   "quote": "需遵循個資法（GDPR、CCPA）等相關法規",
+   "page": 12
+  },
+  {
+   "a": "demorisk",
+   "b": "eth",
+   "kind": "cross",
+   "label": "民主化隱憂連到偏見",
+   "block": 83,
+   "quote": "模型訓練數據若存在偏見，將影響決策公正性",
+   "page": 13
+  },
+  {
+   "a": "hitl",
+   "b": "acc",
+   "kind": "cross",
+   "label": "人工審核補驗證不足",
+   "block": 76,
+   "quote": "結合自動化檢測與人工審核",
+   "page": 12
+  },
+  {
+   "a": "cost",
+   "b": "tco",
+   "kind": "cross",
+   "label": "成本評估含總擁有成本",
+   "block": 62,
+   "quote": "評估其對企業的整體財務影響",
+   "page": 11
+  }
+ ],
+ "confusions": [
+  {
+   "a": "No Code",
+   "b": "Low Code",
+   "text": "No Code 靠拖放、無需寫碼，給非技術者；Low Code 加少量程式碼，給有技術背景者做複雜邏輯。",
+   "blocks": [
+    7,
+    9
+   ],
+   "pages": [
+    8
+   ]
+  },
+  {
+   "a": "TCO",
+   "b": "ROI",
+   "text": "TCO 看購買、維護、培訓等總成本；ROI 看縮短開發週期等效益是否值得投資。",
+   "blocks": [
+    62,
+    63
+   ],
+   "pages": [
+    11
+   ]
+  },
+  {
+   "a": "資料安全與隱私",
+   "b": "權限管理",
+   "text": "前者是符合法規並有加密、身份驗證；後者是細緻控制誰能存取敏感資訊。",
+   "blocks": [
+    59,
+    60
+   ],
+   "pages": [
+    11
+   ]
+  },
+  {
+   "a": "系統整合能力",
+   "b": "高度自訂性",
+   "text": "整合能力是與 CRM、ERP 等現有系統連接；自訂性是報表、工作流等能否客製。",
+   "blocks": [
+    56,
+    57
+   ],
+   "pages": [
+    11
+   ]
+  }
+ ],
+ "gaps": [],
+ "examOnly": [
+  {
+   "name": "業務流程整合",
+   "count": 6,
+   "mentioned": false,
+   "link": {
+    "subjectId": "mid-s1",
+    "chapterId": "mid-s1c9",
+    "block": 13,
+    "chapterTitle": "AI 技術系統集成與部署",
+    "label": "企業內部系統整合"
+   }
+  },
+  {
+   "name": "代理式AI",
+   "count": 5,
+   "mentioned": false,
+   "link": {
+    "subjectId": "mid-s1",
+    "chapterId": "mid-s1c3",
+    "block": 53,
+    "chapterTitle": "生成式AI 技術與應用",
+    "label": "巨型模型與 Agent 化"
+   }
+  },
+  {
+   "name": "AI風險管理",
+   "count": 4,
+   "mentioned": false,
+   "link": {
+    "subjectId": "mid-s1",
+    "chapterId": "mid-s1c5",
+    "block": 127,
+    "chapterTitle": "AI 導入評估",
+    "label": "風險矩陣與風險等級"
+   }
+  },
+  {
+   "name": "提示工程",
+   "count": 4,
+   "mentioned": false,
+   "link": {
+    "subjectId": "mid-s1",
+    "chapterId": "mid-s1c3",
+    "block": 152,
+    "chapterTitle": "生成式AI 技術與應用",
+    "label": "趨勢：可控生成與提示工程"
+   }
+  },
+  {
+   "name": "生成內容審查",
+   "count": 4,
+   "mentioned": false
+  },
+  {
+   "name": "提示詞攻擊防護",
+   "count": 3,
+   "mentioned": false
+  },
+  {
+   "name": "檢索增強生成",
+   "count": 3,
+   "mentioned": false,
+   "link": {
+    "subjectId": "mid-s1",
+    "chapterId": "mid-s1c1",
+    "block": 299,
+    "chapterTitle": "自然語言處理技術與應用",
+    "label": "RAG"
+   }
+  },
+  {
+   "name": "資料品質",
+   "count": 3,
+   "mentioned": false,
+   "link": {
+    "subjectId": "mid-s1",
+    "chapterId": "mid-s1c1",
+    "block": 353,
+    "chapterTitle": "自然語言處理技術與應用",
+    "label": "標註與資料品質"
+   }
+  },
+  {
+   "name": "部署架構",
+   "count": 3,
+   "mentioned": false,
+   "link": {
+    "subjectId": "mid-s1",
+    "chapterId": "mid-s1c9",
+    "block": 24,
+    "chapterTitle": "AI 技術系統集成與部署",
+    "label": "系統架構設計"
+   }
+  }
+ ],
+ "notes": []
+}

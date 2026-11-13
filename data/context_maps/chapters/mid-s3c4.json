@@ -1,0 +1,703 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide3",
+  "nodeId": "mid-s3c4",
+  "label": "中級 科目三・4.1 機器學習原理與技術"
+ },
+ "headline": "一張圖看懂機器學習原理與技術",
+ "lede": "本章先交代機器學習共通的基本結構（特徵、任務、假設空間、損失函數、資料分割），再依有無標籤與互動回饋，分成監督式、非監督式、強化式三種學習範式。先抓住「有沒有標籤」這條分界線。",
+ "story": [
+  {
+   "step": "共通骨架",
+   "title": "資料、任務、損失",
+   "text": "每種機器學習都有特徵、任務目標、模型與損失函數。"
+  },
+  {
+   "step": "有標籤",
+   "title": "監督式學習",
+   "text": "標籤離散是分類，連續是迴歸，用驗證集與測試集評估。"
+  },
+  {
+   "step": "無標籤",
+   "title": "非監督式學習",
+   "text": "找群組、降維、找關聯，評估用內部與外部指標。"
+  },
+  {
+   "step": "靠互動",
+   "title": "強化式學習",
+   "text": "代理人與環境互動，以報酬調整策略。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "base",
+   "name": "共通基本結構"
+  },
+  {
+   "id": "label",
+   "name": "有標籤與無標籤"
+  },
+  {
+   "id": "rl",
+   "name": "強化式學習"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "ml",
+   "label": "機器學習原理與技術",
+   "lane": null,
+   "parent": null,
+   "concept": "機器學習概論",
+   "gist": "機器學習是涵蓋任務類型、學習目標、資料假設、模型訓練與評估的複合流程。",
+   "src": [
+    {
+     "block": 6,
+     "quote": "機器學習本質上是一個涵蓋「任務類型」"
+    }
+   ]
+  },
+  {
+   "id": "feat",
+   "label": "特徵空間",
+   "lane": "base",
+   "parent": null,
+   "concept": null,
+   "gist": "每筆樣本是特徵空間中的一個點，資料的幾何分佈會影響分類、預測或分群的成效。",
+   "src": [
+    {
+     "block": 12,
+     "quote": "每一個樣本可視為此空間中的一個點"
+    }
+   ]
+  },
+  {
+   "id": "task",
+   "label": "任務目標與標籤型態",
+   "lane": "base",
+   "parent": null,
+   "concept": null,
+   "gist": "依應用情境不同，任務有分類、迴歸、聚類、降維、序列決策，輸出形式與學習策略各異。",
+   "src": [
+    {
+     "block": 14,
+     "quote": "不同的應用情境對模型的學習目標有所差異"
+    },
+    {
+     "block": 25,
+     "quote": "這些任務對應著不同的輸出形式與學習策略"
+    },
+    {
+     "block": 15,
+     "quote": "分類（Classification）"
+    },
+    {
+     "block": 17,
+     "quote": "迴歸（Regression）"
+    },
+    {
+     "block": 19,
+     "quote": "聚類（Clustering）"
+    },
+    {
+     "block": 21,
+     "quote": "降維（Dimensionality Reduction）"
+    },
+    {
+     "block": 23,
+     "quote": "序列決策（Sequential Decision）"
+    }
+   ]
+  },
+  {
+   "id": "hyp",
+   "label": "假設空間",
+   "lane": "base",
+   "parent": null,
+   "concept": null,
+   "gist": "不同模型類型對資料分佈隱含不同假設，如線性模型、決策樹、神經網路。",
+   "src": [
+    {
+     "block": 27,
+     "quote": "也稱為假設空間（Hypothesis Space）"
+    },
+    {
+     "block": 28,
+     "quote": "線性模型假設樣本可用線性邊界區分"
+    },
+    {
+     "block": 29,
+     "quote": "決策樹假設可透過一系列條件規則進行分類"
+    },
+    {
+     "block": 30,
+     "quote": "神經網路則傾向透過非線性結構學習抽象表示"
+    }
+   ]
+  },
+  {
+   "id": "gen",
+   "label": "泛化能力",
+   "lane": "base",
+   "parent": "hyp",
+   "concept": "過擬合與泛化",
+   "gist": "學習核心是在假設空間中找出泛化能力最佳、對未知資料仍有良好預測的函數。",
+   "src": [
+    {
+     "block": 31,
+     "quote": "從整個假設空間中找出一個泛化能力最佳的函數"
+    }
+   ]
+  },
+  {
+   "id": "loss",
+   "label": "損失函數",
+   "lane": "base",
+   "parent": null,
+   "concept": null,
+   "gist": "把預測與實際的誤差量化，是學習流程的關鍵評價機制，並決定學習方向與收斂路徑。",
+   "src": [
+    {
+     "block": 33,
+     "quote": "必須透過損失函數（Loss Function）將預測與實際結果之間的誤差量化"
+    },
+    {
+     "block": 41,
+     "quote": "更會決定學習方向與收斂路徑"
+    }
+   ]
+  },
+  {
+   "id": "mse",
+   "label": "均方誤差 MSE",
+   "lane": "base",
+   "parent": "loss",
+   "concept": null,
+   "gist": "用於迴歸任務，對大誤差懲罰較重。",
+   "src": [
+    {
+     "block": 36,
+     "quote": "用於迴歸任務，對大誤差懲罰較重"
+    }
+   ]
+  },
+  {
+   "id": "mae",
+   "label": "平均絕對誤差 MAE",
+   "lane": "base",
+   "parent": "loss",
+   "concept": null,
+   "gist": "用於迴歸任務，對異常值較具魯棒性。",
+   "src": [
+    {
+     "block": 38,
+     "quote": "對異常值較具魯棒性"
+    }
+   ]
+  },
+  {
+   "id": "ce",
+   "label": "交叉熵損失",
+   "lane": "base",
+   "parent": "loss",
+   "concept": null,
+   "gist": "用於分類任務，衡量預測機率分佈與實際標籤的差距。",
+   "src": [
+    {
+     "block": 40,
+     "quote": "衡量預測機率分佈與實際標籤的差距"
+    }
+   ]
+  },
+  {
+   "id": "split",
+   "label": "資料分割",
+   "lane": "base",
+   "parent": null,
+   "concept": "資料切分",
+   "gist": "為確保泛化能力，把資料分成訓練集（學參數）、驗證集（調超參數、監控過擬合）、測試集（最終評估）。",
+   "src": [
+    {
+     "block": 43,
+     "quote": "訓練過程中需將資料劃分為"
+    },
+    {
+     "block": 45,
+     "quote": "用來調整超參數與監控過擬合"
+    },
+    {
+     "block": 44,
+     "quote": "用於模型參數的學習"
+    },
+    {
+     "block": 46,
+     "quote": "最終評估模型表現的依據"
+    }
+   ]
+  },
+  {
+   "id": "evalm",
+   "label": "評估指標",
+   "lane": "base",
+   "parent": "split",
+   "concept": "評估指標",
+   "gist": "依任務選指標：分類看準確率、精確率、召回率、F1；迴歸看 MAE、MSE、R²。",
+   "src": [
+    {
+     "block": 47,
+     "quote": "評估指標應依任務類型選擇"
+    },
+    {
+     "block": 49,
+     "quote": "精確率與召回率（Precision/Recall）、F1 分數"
+    },
+    {
+     "block": 51,
+     "quote": "決定係數（R²）"
+    }
+   ]
+  },
+  {
+   "id": "sup",
+   "label": "監督式學習",
+   "lane": "label",
+   "parent": null,
+   "concept": "監督式學習",
+   "gist": "用標註資料學習映射函數，由輸入特徵預測輸出，目標是最小化誤差並具備泛化能力。",
+   "src": [
+    {
+     "block": 54,
+     "quote": "透過「標註資料（Labeled Data）」學習一個映射函數"
+    },
+    {
+     "block": 55,
+     "quote": "學習的目標是最小化模型輸出與實際標籤之間的誤差"
+    }
+   ]
+  },
+  {
+   "id": "cls",
+   "label": "分類",
+   "lane": "label",
+   "parent": "sup",
+   "concept": "分類模型",
+   "gist": "標籤為離散類別，模型通常輸出各類別機率，再取最高機率作為預測。",
+   "src": [
+    {
+     "block": 61,
+     "quote": "當標籤為離散型類別時，任務即為分類"
+    },
+    {
+     "block": 65,
+     "quote": "再根據最高機率選擇預測結果"
+    }
+   ]
+  },
+  {
+   "id": "reg",
+   "label": "迴歸",
+   "lane": "label",
+   "parent": "sup",
+   "concept": "迴歸分析",
+   "gist": "標籤為連續數值，模型需預測一個實數值；常見損失函數為 MSE 與 MAE。",
+   "src": [
+    {
+     "block": 67,
+     "quote": "當標籤為連續數值時，屬於迴歸任務"
+    },
+    {
+     "block": 67,
+     "quote": "模型需預測一個實數值"
+    },
+    {
+     "block": 71,
+     "quote": "常見的損失函數包括均方誤差"
+    }
+   ]
+  },
+  {
+   "id": "unsup",
+   "label": "非監督式學習",
+   "lane": "label",
+   "parent": null,
+   "concept": "非監督式學習",
+   "gist": "在無標註資料下，從原始資料發現潛在結構、模式或分佈特性。",
+   "src": [
+    {
+     "block": 88,
+     "quote": "在無標註資料情況下進行學習的機器學習方法"
+    }
+   ]
+  },
+  {
+   "id": "clu",
+   "label": "聚類",
+   "lane": "label",
+   "parent": "unsup",
+   "concept": "分群演算法",
+   "gist": "依相似性自動分群，群內相似、群間差異明顯。",
+   "src": [
+    {
+     "block": 96,
+     "quote": "群內樣本彼此相似，群間差異明顯"
+    }
+   ]
+  },
+  {
+   "id": "dim",
+   "label": "降維",
+   "lane": "label",
+   "parent": "unsup",
+   "concept": "降維方法",
+   "gist": "把高維資料轉成低維表示，保留重要結構並便於視覺化或後續建模。",
+   "src": [
+    {
+     "block": 98,
+     "quote": "以保留重要結構並便於視覺化或後續建模"
+    }
+   ]
+  },
+  {
+   "id": "assoc",
+   "label": "關聯規則學習",
+   "lane": "label",
+   "parent": "unsup",
+   "concept": "關聯規則學習",
+   "gist": "從大量資料中找出項目間的關聯性或共現規律。",
+   "src": [
+    {
+     "block": 100,
+     "quote": "找出項目間的關聯性或共現規律"
+    }
+   ]
+  },
+  {
+   "id": "ueval",
+   "label": "內部與外部評估",
+   "lane": "label",
+   "parent": "unsup",
+   "concept": null,
+   "gist": "缺乏標籤，改用輪廓係數等內部指標；若有部分標籤可用 Rand Index、AMI 等外部指標。",
+   "src": [
+    {
+     "block": 110,
+     "quote": "根據資料本身的結構特徵來評估學習效果"
+    },
+    {
+     "block": 114,
+     "quote": "若有部分標籤可參考，則可使用"
+    },
+    {
+     "block": 111,
+     "quote": "Silhouette score（輪廓係數）"
+    },
+    {
+     "block": 115,
+     "quote": "Rand Index"
+    },
+    {
+     "block": 116,
+     "quote": "Adjusted Mutual Information（AMI）"
+    }
+   ]
+  },
+  {
+   "id": "rl",
+   "label": "強化式學習",
+   "lane": "rl",
+   "parent": null,
+   "concept": "強化學習",
+   "gist": "代理人與環境互動學習決策策略，目標是最大化長期累積報酬。",
+   "src": [
+    {
+     "block": 127,
+     "quote": "模型透過與環境互動學習決策策略"
+    }
+   ]
+  },
+  {
+   "id": "mdp",
+   "label": "馬可夫決策過程",
+   "lane": "rl",
+   "parent": "rl",
+   "concept": null,
+   "gist": "強化式學習可形式化為 MDP，組成包括代理人、環境、狀態、動作、報酬、策略與價值函數。",
+   "src": [
+    {
+     "block": 130,
+     "quote": "強化式學習問題可形式化為馬可夫決策過程"
+    },
+    {
+     "block": 131,
+     "quote": "代理人（Agent）：執行動作並從經驗中學習"
+    },
+    {
+     "block": 132,
+     "quote": "環境（Environment）：代理人互動的外部系統"
+    },
+    {
+     "block": 133,
+     "quote": "狀態（State）：代理人於某一時刻觀察到的環境資訊"
+    },
+    {
+     "block": 134,
+     "quote": "動作（Action）：代理人在特定狀態下可採取的行為"
+    }
+   ]
+  },
+  {
+   "id": "reward",
+   "label": "報酬",
+   "lane": "rl",
+   "parent": "mdp",
+   "concept": null,
+   "gist": "環境對代理人行為的回饋，用來指引學習方向。",
+   "src": [
+    {
+     "block": 135,
+     "quote": "環境對代理人某一行為的回饋，用來指引學習方向"
+    }
+   ]
+  },
+  {
+   "id": "policy",
+   "label": "策略",
+   "lane": "rl",
+   "parent": "mdp",
+   "concept": null,
+   "gist": "代理人根據當前狀態選擇動作的規則。",
+   "src": [
+    {
+     "block": 136,
+     "quote": "代理人根據當前狀態選擇動作的規則"
+    }
+   ]
+  },
+  {
+   "id": "value",
+   "label": "價值函數",
+   "lane": "rl",
+   "parent": "mdp",
+   "concept": null,
+   "gist": "衡量某狀態或狀態動作對的長期獎勵期望值。",
+   "src": [
+    {
+     "block": 137,
+     "quote": "衡量某一狀態或狀態 - 動作對的長期獎勵期望值"
+    }
+   ]
+  },
+  {
+   "id": "pl",
+   "label": "策略學習",
+   "lane": "rl",
+   "parent": "rl",
+   "concept": null,
+   "gist": "直接學習最佳策略，例如策略梯度法。",
+   "src": [
+    {
+     "block": 142,
+     "quote": "直接學習最佳策略，例如策略梯度法"
+    }
+   ]
+  },
+  {
+   "id": "vl",
+   "label": "價值學習",
+   "lane": "rl",
+   "parent": "rl",
+   "concept": null,
+   "gist": "學習狀態或狀態動作對的價值函數，如 Q-learning。",
+   "src": [
+    {
+     "block": 144,
+     "quote": "學習狀態或狀態 - 動作對的價值函數"
+    }
+   ]
+  },
+  {
+   "id": "mb",
+   "label": "模型式 vs 模型無關",
+   "lane": "rl",
+   "parent": "rl",
+   "concept": null,
+   "gist": "模型式嘗試學環境轉移與回饋機制；模型無關不需環境模型，靠試誤與經驗回放。",
+   "src": [
+    {
+     "block": 146,
+     "quote": "嘗試學習環境轉移與回饋機制，提升策略更新效率"
+    },
+    {
+     "block": 148,
+     "quote": "無需環境模型，依賴試誤與經驗回放"
+    }
+   ]
+  },
+  {
+   "id": "reval",
+   "label": "強化式的評估",
+   "lane": "rl",
+   "parent": "rl",
+   "concept": null,
+   "gist": "需透過模擬或實際環境測試長期績效，如平均累積報酬、成功率、策略穩定性與收斂速度。",
+   "src": [
+    {
+     "block": 158,
+     "quote": "需透過模擬或實際環境測試長期績效"
+    },
+    {
+     "block": 159,
+     "quote": "平均累積報酬（Average Reward per Episode）"
+    },
+    {
+     "block": 160,
+     "quote": "成功率或任務達成率"
+    },
+    {
+     "block": 161,
+     "quote": "策略穩定性與收斂速度"
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "a": "reg",
+   "b": "mse",
+   "kind": "cross",
+   "label": "迴歸任務常用的損失函數",
+   "block": 71,
+   "quote": "常見的損失函數包括均方誤差（Mean Squared Error, MSE）"
+  },
+  {
+   "a": "cls",
+   "b": "ce",
+   "kind": "cross",
+   "label": "分類任務用交叉熵衡量機率差距",
+   "block": 40,
+   "quote": "用於分類任務，衡量預測機率分佈與實際標籤的差距"
+  },
+  {
+   "a": "task",
+   "b": "clu",
+   "kind": "cross",
+   "label": "聚類是無標籤情況下的分群任務",
+   "block": 20,
+   "quote": "在無標籤的情況下，根據樣本間的相似度進行分群"
+  },
+  {
+   "a": "split",
+   "b": "sup",
+   "kind": "cross",
+   "label": "訓練流程以驗證集調整超參數",
+   "block": 79,
+   "quote": "使用驗證集觀察模型表現，調整模型結構與超參數"
+  },
+  {
+   "a": "sup",
+   "b": "feat",
+   "kind": "cross",
+   "label": "成敗取決標註與特徵設計",
+   "block": 86,
+   "quote": "模型效能高度仰賴資料的標註品質與特徵設計的精準性"
+  },
+  {
+   "a": "task",
+   "b": "evalm",
+   "kind": "cross",
+   "label": "任務類型影響評估指標的選擇",
+   "block": 25,
+   "quote": "並影響模型設計與評估指標的選擇"
+  },
+  {
+   "a": "evalm",
+   "b": "reval",
+   "kind": "cross",
+   "label": "強化式評估不同於靜態指標",
+   "block": 158,
+   "quote": "評估方式則不同於分類或迴歸任務的靜態指標"
+  },
+  {
+   "a": "reward",
+   "b": "policy",
+   "kind": "cross",
+   "label": "依報酬調整策略",
+   "block": 138,
+   "quote": "調整其策略，使在不同狀態下選擇的行動能獲得最大的長期累積報酬"
+  },
+  {
+   "a": "unsup",
+   "b": "sup",
+   "kind": "cross",
+   "label": "可作半監督學習前處理",
+   "block": 125,
+   "quote": "也常用於模型初始化、資料標註支援與半監督學習的先備處理階段"
+  }
+ ],
+ "confusions": [
+  {
+   "a": "監督式學習",
+   "b": "非監督式學習",
+   "text": "監督式用標註資料學映射函數預測輸出；非監督式沒有標註，目的是發現資料的潛在結構。",
+   "blocks": [
+    54,
+    88
+   ]
+  },
+  {
+   "a": "分類",
+   "b": "迴歸",
+   "text": "標籤為離散類別是分類；標籤為連續數值是迴歸。",
+   "blocks": [
+    61,
+    67
+   ]
+  },
+  {
+   "a": "MSE",
+   "b": "MAE",
+   "text": "兩者都用於迴歸；MSE 對大誤差懲罰較重，MAE 對異常值較具魯棒性。",
+   "blocks": [
+    36,
+    38
+   ]
+  },
+  {
+   "a": "驗證集",
+   "b": "測試集",
+   "text": "驗證集用來調超參數、監控過擬合；測試集是最終評估模型表現的依據。",
+   "blocks": [
+    45,
+    46
+   ]
+  },
+  {
+   "a": "策略學習",
+   "b": "價值學習",
+   "text": "策略學習直接學最佳策略；價值學習學狀態或狀態動作對的價值函數。",
+   "blocks": [
+    142,
+    144
+   ]
+  },
+  {
+   "a": "模型式",
+   "b": "模型無關",
+   "text": "模型式嘗試學環境轉移與回饋；模型無關不需環境模型，依賴試誤與經驗回放。",
+   "blocks": [
+    146,
+    148
+   ]
+  },
+  {
+   "a": "內部評估",
+   "b": "外部評估",
+   "text": "內部指標依資料本身結構評估；外部指標在有部分標籤可參考時使用。",
+   "blocks": [
+    110,
+    114
+   ]
+  }
+ ],
+ "gaps": []
+}

@@ -1,0 +1,515 @@
+{
+ "chapter": {
+  "guideKey": "初級-guide1",
+  "nodeId": "s1c2",
+  "label": "初級 科目一・3.2 資料處理與分析概念"
+ },
+ "headline": "一張圖看懂資料處理與分析概念",
+ "lede": "本章用統計學當工具，先描述資料（集中與分散），再處理抽樣變異與假說檢定，最後區分探索與驗證兩種分析目的。先抓住：平均數、中位數與極端值的關係，以及 p 值對照顯著水準的決策方式。",
+ "story": [
+  {
+   "step": "描述資料",
+   "title": "集中與分散",
+   "text": "先用平均數、中位數、眾數看集中，再用全距、IQR、標準差看分散。"
+  },
+  {
+   "step": "偏態",
+   "title": "平均與中位數",
+   "text": "極端值拉動平均數，使它與中位數出現落差，反映分布偏態。"
+  },
+  {
+   "step": "做推論",
+   "title": "抽樣到檢定",
+   "text": "樣本統計量有抽樣變異，需靠機率模型做估計與假說檢定。"
+  },
+  {
+   "step": "分析目的",
+   "title": "先探索再驗證",
+   "text": "EDA 發現模式並生成假設，CDA 再驗證這些假設。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "desc",
+   "name": "描述統計"
+  },
+  {
+   "id": "test",
+   "name": "抽樣與假說檢定"
+  },
+  {
+   "id": "purpose",
+   "name": "分析目的"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "core",
+   "label": "資料處理與分析概念",
+   "lane": null,
+   "parent": null,
+   "concept": null,
+   "gist": "AI 模型的訓練與應用高度依賴高品質資料，統計學是分析資料、驗證模型的基礎。",
+   "src": [
+    {
+     "block": 2,
+     "quote": "AI 模型的訓練和應用都高度依賴於大量、高品質的資料"
+    },
+    {
+     "block": 3,
+     "quote": "統計學提供了我們分析資料、驗證模型的堅實基礎"
+    }
+   ]
+  },
+  {
+   "id": "measures",
+   "label": "統計測量數",
+   "lane": "desc",
+   "parent": null,
+   "concept": "敘述統計",
+   "gist": "統計測量數分三類：中央趨勢的衡量、分散度的衡量及其他測量數。",
+   "src": [
+    {
+     "block": 5,
+     "quote": "統計測量數大致包含三種類型"
+    }
+   ]
+  },
+  {
+   "id": "central",
+   "label": "中央趨勢",
+   "lane": "desc",
+   "parent": "measures",
+   "concept": null,
+   "gist": "描述資料的集中位置，常用平均數、中位數、眾數。",
+   "src": [
+    {
+     "block": 6,
+     "quote": "這個集中位置，我們就稱之為「中央趨勢」"
+    }
+   ]
+  },
+  {
+   "id": "mean",
+   "label": "平均數",
+   "lane": "desc",
+   "parent": "central",
+   "concept": null,
+   "gist": "最常用的是算術平均數，計算簡單易懂，但容易受極端值影響。",
+   "src": [
+    {
+     "block": 7,
+     "quote": "算術平均數容易受到極端值（過大或過小的數據）的影響"
+    }
+   ]
+  },
+  {
+   "id": "median",
+   "label": "中位數",
+   "lane": "desc",
+   "parent": "central",
+   "concept": null,
+   "gist": "排序後位於正中間的值，不易受極端值影響，但不易用於複雜運算與統計推斷。",
+   "src": [
+    {
+     "block": 8,
+     "quote": "中位數不易受到極端值"
+    }
+   ]
+  },
+  {
+   "id": "mode",
+   "label": "眾數",
+   "lane": "desc",
+   "parent": "central",
+   "concept": null,
+   "gist": "出現頻率最高的值，不受極端值影響，但可能有多個或不存在。",
+   "src": [
+    {
+     "block": 9,
+     "quote": "眾數可能有多個，也可能不存在"
+    }
+   ]
+  },
+  {
+   "id": "skew",
+   "label": "偏態與平均數位置",
+   "lane": "desc",
+   "parent": "central",
+   "concept": "偏態與長尾分佈",
+   "gist": "尾巴向右延伸為正偏態，平均數大於中位數；向左為負偏態，平均數小於中位數。",
+   "src": [
+    {
+     "block": 45,
+     "quote": "正偏態分布：資料的尾巴向右邊延伸，平均數會大於中位數"
+    }
+   ]
+  },
+  {
+   "id": "spread",
+   "label": "分散度",
+   "lane": "desc",
+   "parent": "measures",
+   "concept": null,
+   "gist": "衡量資料離散程度，用於尋找變異的原因和性質。",
+   "src": [
+    {
+     "block": 10,
+     "quote": "可衡量資料之離散程度"
+    }
+   ]
+  },
+  {
+   "id": "quartile",
+   "label": "四分位數",
+   "lane": "desc",
+   "parent": "spread",
+   "concept": null,
+   "gist": "數值由小到大排列分成四等份，三個分割點的數值即四分位數。",
+   "src": [
+    {
+     "block": 11,
+     "quote": "所有數值由小到大排列並分成四等份"
+    }
+   ]
+  },
+  {
+   "id": "range",
+   "label": "全距",
+   "lane": "desc",
+   "parent": "spread",
+   "concept": null,
+   "gist": "最大值減最小值，只看兩個觀察值，會受極端值影響。",
+   "src": [
+    {
+     "block": 12,
+     "quote": "觀察值中的最大值減去最小值後的數值"
+    }
+   ]
+  },
+  {
+   "id": "iqr",
+   "label": "四分位距 IQR",
+   "lane": "desc",
+   "parent": "spread",
+   "concept": null,
+   "gist": "第三與第一四分位數之差，缺點與全距相同。",
+   "src": [
+    {
+     "block": 13,
+     "quote": "等於第三和第一四分位之間的差異"
+    }
+   ]
+  },
+  {
+   "id": "meandev",
+   "label": "平均差",
+   "lane": "desc",
+   "parent": "spread",
+   "concept": null,
+   "gist": "所有觀察值與平均數絕對差值的平均，數值越大分散程度越高。",
+   "src": [
+    {
+     "block": 14,
+     "quote": "所有觀察值與平均數之間絕對差值的平均"
+    }
+   ]
+  },
+  {
+   "id": "std",
+   "label": "標準差",
+   "lane": "desc",
+   "parent": "spread",
+   "concept": null,
+   "gist": "標準差越大，資料點離平均值越遠；品質管理中代表產品品質越不穩定。",
+   "src": [
+    {
+     "block": 15,
+     "quote": "標準差越大，表示產品品質越不穩定"
+    }
+   ]
+  },
+  {
+   "id": "samp",
+   "label": "抽樣變異",
+   "lane": "test",
+   "parent": null,
+   "concept": null,
+   "gist": "樣本統計量因樣本隨機性而與母體參數有差異，稱為抽樣變異。",
+   "src": [
+    {
+     "block": 16,
+     "quote": "這種因抽樣而產生的統計量變動現象，稱為抽樣變異"
+    }
+   ]
+  },
+  {
+   "id": "probm",
+   "label": "機率模型",
+   "lane": "test",
+   "parent": "samp",
+   "concept": null,
+   "gist": "刻畫抽樣變異，量化估計值的不確定性，進而做區間估計與假設檢定。",
+   "src": [
+    {
+     "block": 18,
+     "quote": "用來量化統計估計值的不確定性"
+    }
+   ]
+  },
+  {
+   "id": "flow",
+   "label": "假說檢定流程",
+   "lane": "test",
+   "parent": "probm",
+   "concept": "假設檢定",
+   "gist": "猜想（假定）、蒐集資料，再檢定作決策（接受或拒絕猜想）。",
+   "src": [
+    {
+     "block": 22,
+     "quote": "猜想（假定）→蒐集資料→檢定作決策"
+    }
+   ]
+  },
+  {
+   "id": "hyp",
+   "label": "虛無與對立假設",
+   "lane": "test",
+   "parent": "flow",
+   "concept": null,
+   "gist": "H0 表示不存在顯著效果或差異，作為基準；Ha 與其相對，表示存在效果或差異。",
+   "src": [
+    {
+     "block": 22,
+     "quote": "表示不存在顯著效果或差異，通常作為檢定的基準假設"
+    }
+   ]
+  },
+  {
+   "id": "alpha",
+   "label": "顯著水準 α",
+   "lane": "test",
+   "parent": "flow",
+   "concept": null,
+   "gist": "又稱檢定大小，常取 0.1、0.05 或 0.01。",
+   "src": [
+    {
+     "block": 22,
+     "quote": "之值常取成 0.1，0.05 或 0.01 等"
+    }
+   ]
+  },
+  {
+   "id": "pval",
+   "label": "p 值",
+   "lane": "test",
+   "parent": "flow",
+   "concept": null,
+   "gist": "H0 為真時，檢定統計量落在至少同樣極端區域的機率；p 值小於 α 就拒絕 H0。",
+   "src": [
+    {
+     "block": 22,
+     "quote": "p 值又稱觀測大小"
+    }
+   ]
+  },
+  {
+   "id": "errors",
+   "label": "Type I／II 錯誤",
+   "lane": "test",
+   "parent": "alpha",
+   "concept": null,
+   "gist": "拒絕為真的 H0 是 Type I 錯誤（α）；接受為假的 H0 是 Type II 錯誤（β）。",
+   "src": [
+    {
+     "block": 23,
+     "quote": "Type II 錯誤"
+    }
+   ]
+  },
+  {
+   "id": "eda",
+   "label": "探索性資料分析 EDA",
+   "lane": "purpose",
+   "parent": null,
+   "concept": "探索性資料分析",
+   "gist": "在對資料特徵尚不熟悉的研究初期進行，靈活開放地發現潛在模式、關係與異常值。",
+   "src": [
+    {
+     "block": 25,
+     "quote": "強調的是一種靈活且開放的探索過程"
+    }
+   ]
+  },
+  {
+   "id": "gen",
+   "label": "生成假設",
+   "lane": "purpose",
+   "parent": "eda",
+   "concept": null,
+   "gist": "EDA 不只描述數據，也藉視覺化提出初步假設。",
+   "src": [
+    {
+     "block": 26,
+     "quote": "更是一種生成假設的過程"
+    }
+   ]
+  },
+  {
+   "id": "cda",
+   "label": "驗證性資料分析 CDA",
+   "lane": "purpose",
+   "parent": null,
+   "concept": null,
+   "gist": "著重驗證研究者提出的假設，用分類、分群、相關性分析與預測模型深入挖掘。",
+   "src": [
+    {
+     "block": 28,
+     "quote": "驗證性資料分析更注重於驗證研究者提出的假設"
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "a": "eda",
+   "b": "cda",
+   "kind": "flow",
+   "label": "先探索，再驗證",
+   "block": 28,
+   "quote": "對探索階段所發現的模式進行更深入的挖掘"
+  },
+  {
+   "a": "samp",
+   "b": "probm",
+   "kind": "flow",
+   "label": "為量化變異而引入",
+   "block": 17,
+   "quote": "為了量化這種變異並進行推論，我們需要引入機率模型"
+  },
+  {
+   "a": "skew",
+   "b": "mean",
+   "kind": "cross",
+   "label": "尾巴拉動平均數",
+   "block": 45,
+   "quote": "資料的尾巴向右邊延伸，平均數會大於中位數"
+  },
+  {
+   "a": "mean",
+   "b": "median",
+   "kind": "cross",
+   "label": "中位數較不受極端值影響",
+   "block": 8,
+   "quote": "相較於平均數，中位數不易受到極端值"
+  },
+  {
+   "a": "range",
+   "b": "iqr",
+   "kind": "cross",
+   "label": "IQR 與全距有同樣缺點",
+   "block": 13,
+   "quote": "與全距有一樣的缺點"
+  },
+  {
+   "a": "std",
+   "b": "mean",
+   "kind": "cross",
+   "label": "標準差衡量離平均值多遠",
+   "block": 15,
+   "quote": "資料點離平均值的距離較遠"
+  },
+  {
+   "a": "gen",
+   "b": "cda",
+   "kind": "cross",
+   "label": "EDA 假設成 CDA 方向",
+   "block": 27,
+   "quote": "這些假設將為後續的驗證性分析提供方向"
+  },
+  {
+   "a": "probm",
+   "b": "flow",
+   "kind": "cross",
+   "label": "機率模型支撐假設檢定",
+   "block": 18,
+   "quote": "並進一步進行區間估計和假設檢定等統計推斷"
+  },
+  {
+   "a": "pval",
+   "b": "alpha",
+   "kind": "cross",
+   "label": "p 值與 α 比較下決策",
+   "block": 46,
+   "quote": "由於0.03 < 0.05，因此我們拒絕虛無假設"
+  },
+  {
+   "a": "alpha",
+   "b": "errors",
+   "kind": "cross",
+   "label": "α 即容許的型一錯誤",
+   "block": 46,
+   "quote": "我們容許最多 5% 的機率犯型一錯誤"
+  }
+ ],
+ "confusions": [
+  {
+   "a": "平均數",
+   "b": "中位數",
+   "text": "平均數易受極端值影響；中位數不易受影響，但不易用於複雜運算與統計推斷。",
+   "blocks": [
+    7,
+    8
+   ]
+  },
+  {
+   "a": "全距",
+   "b": "四分位距",
+   "text": "全距是最大值減最小值；四分位距是第三與第一四分位之差，與全距有一樣的缺點。",
+   "blocks": [
+    12,
+    13
+   ]
+  },
+  {
+   "a": "Type I 錯誤",
+   "b": "Type II 錯誤",
+   "text": "Type I（α）是拒絕為真的 H0；Type II（β）是接受為假的 H0。",
+   "blocks": [
+    23
+   ]
+  },
+  {
+   "a": "虛無假設 H0",
+   "b": "對立假設 Ha",
+   "text": "H0 表示不存在顯著效果或差異；Ha 與其相對，表示存在效果或差異。",
+   "blocks": [
+    22
+   ]
+  },
+  {
+   "a": "EDA",
+   "b": "CDA",
+   "text": "EDA 在研究初期探索模式並生成假設；CDA 則驗證研究者提出的假設。",
+   "blocks": [
+    25,
+    28
+   ]
+  },
+  {
+   "a": "p 值",
+   "b": "顯著水準 α",
+   "text": "α 稱為顯著水準；p 值是 H0 為真下，統計量落在至少同樣極端區域的機率，小於 α 則拒絕 H0。",
+   "blocks": [
+    22,
+    46
+   ]
+  }
+ ],
+ "gaps": [
+  {
+   "name": "K 平均法（K-means）",
+   "block": 30
+  }
+ ]
+}

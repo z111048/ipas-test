@@ -1,0 +1,737 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide2",
+  "nodeId": "mid-s2c5",
+  "label": "中級 科目二・4.2 數據儲存與管理"
+ },
+ "headline": "一張圖看懂數據儲存與管理",
+ "lede": "本章從資料型態出發，說明分散式儲存與資料湖架構，再談儲存效能優化與查詢管理，最後談資料一致性、版本控制與治理機制。先抓住：不同資料型態對儲存與管理有不同需求，規模擴大後需要分散式架構與治理機制。",
+ "story": [
+  {
+   "step": "先分型態",
+   "title": "結構化到非結構化",
+   "text": "不同資料型態需要不同儲存方式。"
+  },
+  {
+   "step": "再選架構",
+   "title": "分散式儲存與資料湖",
+   "text": "大規模資料靠橫向擴充與原始格式保存。"
+  },
+  {
+   "step": "變得更快",
+   "title": "分區、壓縮、索引",
+   "text": "儲存層與查詢層各有加速手段。"
+  },
+  {
+   "step": "管得住",
+   "title": "一致性、版本、權限",
+   "text": "一致性策略、版本回溯與存取控管確保可信。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "types",
+   "name": "資料型態"
+  },
+  {
+   "id": "arch",
+   "name": "儲存架構"
+  },
+  {
+   "id": "perf",
+   "name": "效能與查詢"
+  },
+  {
+   "id": "gov",
+   "name": "一致性與治理"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "ds",
+   "label": "數據儲存與管理",
+   "lane": null,
+   "parent": null,
+   "concept": null,
+   "gist": "儲存與管理是讓資料能持續、穩定、快速被取用與維護的基礎設施，不只是保存。",
+   "src": [
+    {
+     "block": 3,
+     "quote": "資料儲存與管理並非單純的資料「保存」問題"
+    }
+   ]
+  },
+  {
+   "id": "t_types",
+   "label": "資料型態",
+   "lane": "types",
+   "parent": "ds",
+   "concept": "資料型態",
+   "gist": "資料分結構化、半結構化、非結構化三型，各自需要不同的儲存與管理方式。",
+   "src": [
+    {
+     "block": 8,
+     "quote": "不同型態的資料對於儲存方式、查詢方法與管理策略皆有不同需求"
+    }
+   ]
+  },
+  {
+   "id": "t_struct",
+   "label": "結構化資料",
+   "lane": "types",
+   "parent": "t_types",
+   "concept": null,
+   "gist": "欄位固定、以表格存在關聯式資料庫；支援 SQL 與 ACID，但結構變動不靈活。",
+   "src": [
+    {
+     "block": 10,
+     "quote": "最常見的是關聯式資料庫管理系統（RDBMS）"
+    },
+    {
+     "block": 13,
+     "quote": "欄位結構固定，對於資料模式變動不靈活"
+    },
+    {
+     "block": 12,
+     "quote": "支援SQL 查詢、具備完整性約束與交易一致性（ACID）"
+    }
+   ]
+  },
+  {
+   "id": "t_semi",
+   "label": "半結構化資料",
+   "lane": "types",
+   "parent": "t_types",
+   "concept": "半結構化資料",
+   "gist": "無固定欄位但有層次與標記（JSON、XML），格式彈性高，驗證邏輯要自訂。",
+   "src": [
+    {
+     "block": 15,
+     "quote": "通常具有層次與標記格式，如JSON、XML、YAML"
+    },
+    {
+     "block": 18,
+     "quote": "缺乏結構約束，查詢與驗證邏輯較需自定"
+    },
+    {
+     "block": 17,
+     "quote": "格式彈性高，適合異質資料整合"
+    }
+   ]
+  },
+  {
+   "id": "t_unstr",
+   "label": "非結構化資料",
+   "lane": "types",
+   "parent": "t_types",
+   "concept": null,
+   "gist": "文字、圖片、影音等無明確格式的檔案，存於物件儲存或分散式檔案系統，需靠元資料建立存取邏輯。",
+   "src": [
+    {
+     "block": 20,
+     "quote": "非結構化資料未具備明確格式"
+    },
+    {
+     "block": 21,
+     "quote": "物件儲存系統（如Amazon S3、MinIO）"
+    },
+    {
+     "block": 22,
+     "quote": "需依賴metadata 管理系統、標籤與內容索引"
+    }
+   ]
+  },
+  {
+   "id": "a_dist",
+   "label": "分散式儲存",
+   "lane": "arch",
+   "parent": "ds",
+   "concept": null,
+   "gist": "把資料切成區塊分散到多個節點，由中央調度，部分節點失效時仍能正常運作。",
+   "src": [
+    {
+     "block": 30,
+     "quote": "將資料切分為多個區塊（Data Chunks），並分散儲存在多台節點（Node）上"
+    }
+   ]
+  },
+  {
+   "id": "a_feat",
+   "label": "分散式四大特性",
+   "lane": "arch",
+   "parent": "a_dist",
+   "concept": null,
+   "gist": "橫向擴充、容錯容災、高並行存取、資料本地性，降低傳輸成本與延遲。",
+   "src": [
+    {
+     "block": 32,
+     "quote": "支援以增加節點數量方式擴充整體儲存容量與處理效能"
+    },
+    {
+     "block": 35,
+     "quote": "降低資料傳輸成本與延遲"
+    },
+    {
+     "block": 33,
+     "quote": "容錯容災能力（Fault Tolerance & Disaster Recovery）"
+    },
+    {
+     "block": 34,
+     "quote": "支援多個應用或使用者同時進行讀寫操作"
+    }
+   ]
+  },
+  {
+   "id": "a_lake",
+   "label": "資料湖",
+   "lane": "arch",
+   "parent": "ds",
+   "concept": null,
+   "gist": "以原始格式存放各類資料的統一彈性平台，支援日後多種分析。",
+   "src": [
+    {
+     "block": 42,
+     "quote": "以原始格式儲存各類資料（結構化、半結構化、非結構化）的架構"
+    }
+   ]
+  },
+  {
+   "id": "a_sor",
+   "label": "Schema-on-Read",
+   "lane": "arch",
+   "parent": "a_lake",
+   "concept": null,
+   "gist": "儲存時不強制定義結構，使用時才套用結構。",
+   "src": [
+    {
+     "block": 49,
+     "quote": "待使用時才套用結構，具高度彈性"
+    }
+   ]
+  },
+  {
+   "id": "a_lh",
+   "label": "資料湖倉",
+   "lane": "arch",
+   "parent": "a_lake",
+   "concept": null,
+   "gist": "結合資料湖的彈性與成本效益，以及資料倉儲的結構化查詢與治理能力。",
+   "src": [
+    {
+     "block": 52,
+     "quote": "資料倉儲的結構化查詢與資料治理能力"
+    },
+    {
+     "block": 52,
+     "quote": "同時具備資料湖的彈性儲存與成本效益"
+    }
+   ]
+  },
+  {
+   "id": "p_opt",
+   "label": "儲存效能優化",
+   "lane": "perf",
+   "parent": "ds",
+   "concept": "效能優化",
+   "gist": "資料規模膨脹後，需靠儲存效能優化策略與查詢管理、加速技術，提升儲存效能與查詢速度。",
+   "src": [
+    {
+     "block": 58,
+     "quote": "有效提升資料儲存效能與查詢速度"
+    },
+    {
+     "block": 59,
+     "quote": "儲存效能優化策略"
+    },
+    {
+     "block": 71,
+     "quote": "查詢管理與加速技術"
+    }
+   ]
+  },
+  {
+   "id": "p_part",
+   "label": "分區儲存",
+   "lane": "perf",
+   "parent": "p_opt",
+   "concept": null,
+   "gist": "依時間、地區等欄位水平切分，縮小查詢掃描範圍，適合時間序列與週期報表。",
+   "src": [
+    {
+     "block": 61,
+     "quote": "能有效縮小查詢所需掃描的資料範圍"
+    },
+    {
+     "block": 62,
+     "quote": "特別適用於時間序列資料與週期性報表分析"
+    }
+   ]
+  },
+  {
+   "id": "p_comp",
+   "label": "壓縮技術",
+   "lane": "perf",
+   "parent": "p_opt",
+   "concept": null,
+   "gist": "列式格式搭配壓縮演算法，降低磁碟用量與 I/O，適合讀多寫少的分析情境。",
+   "src": [
+    {
+     "block": 64,
+     "quote": "可有效降低磁碟使用量與I/O 傳輸成本"
+    },
+    {
+     "block": 65,
+     "quote": "讀取頻率高但資料更新頻率較低的分析型情境"
+    }
+   ]
+  },
+  {
+   "id": "p_tier",
+   "label": "儲存分層",
+   "lane": "perf",
+   "parent": "p_opt",
+   "concept": null,
+   "gist": "依資料熱度把熱、冷資料放在不同媒介，平衡查詢效能與成本。",
+   "src": [
+    {
+     "block": 67,
+     "quote": "在兼顧查詢效能與儲存成本之間取得最佳平衡"
+    }
+   ]
+  },
+  {
+   "id": "p_mv",
+   "label": "物化檢視",
+   "lane": "perf",
+   "parent": "p_opt",
+   "concept": null,
+   "gist": "針對重複查詢預先計算並快取結果，降低即時運算負擔。",
+   "src": [
+    {
+     "block": 73,
+     "quote": "預先計算並快取結果的方式降低即時計算負擔"
+    }
+   ]
+  },
+  {
+   "id": "p_idx",
+   "label": "索引建構",
+   "lane": "perf",
+   "parent": "p_opt",
+   "concept": null,
+   "gist": "在 NoSQL 或文件型資料庫建倒排索引、文字索引，加快條件查詢。",
+   "src": [
+    {
+     "block": 75,
+     "quote": "可建置倒排索引（Inverted Index）、文字索引（Text Index）"
+    }
+   ]
+  },
+  {
+   "id": "p_thr",
+   "label": "資源管控與查詢隔離",
+   "lane": "perf",
+   "parent": "p_opt",
+   "concept": null,
+   "gist": "以優先順序與資源限制避免單一查詢拖垮整體，常用於多用戶共享環境。",
+   "src": [
+    {
+     "block": 79,
+     "quote": "避免個別查詢消耗過多資源而影響整體系統效能"
+    },
+    {
+     "block": 80,
+     "quote": "此技術常用於多用戶共享環境"
+    }
+   ]
+  },
+  {
+   "id": "g_cons",
+   "label": "資料一致性",
+   "lane": "gov",
+   "parent": "ds",
+   "concept": null,
+   "gist": "需依應用情境在強一致性、最終一致性與寫入控制之間選擇策略。",
+   "src": [
+    {
+     "block": 85,
+     "quote": "資料平台需根據應用情境選擇適當的一致性策略"
+    }
+   ]
+  },
+  {
+   "id": "g_strong",
+   "label": "強一致性",
+   "lane": "gov",
+   "parent": "g_cons",
+   "concept": null,
+   "gist": "寫入後所有讀取立即看到最新狀態，適用金融、帳務等交易型應用。",
+   "src": [
+    {
+     "block": 87,
+     "quote": "所有讀取請求都能即時取得最新狀態"
+    }
+   ]
+  },
+  {
+   "id": "g_acid",
+   "label": "ACID",
+   "lane": "gov",
+   "parent": "g_strong",
+   "concept": "資料庫交易",
+   "gist": "交易的四大特性：原子性、一致性、隔離性、持久性。",
+   "src": [
+    {
+     "block": 89,
+     "quote": "ACID 是資料庫交易（Transaction）設計中的四大關鍵特性"
+    },
+    {
+     "block": 91,
+     "quote": "要「全做完」或「全不做」"
+    },
+    {
+     "block": 92,
+     "quote": "Consistency（一致性）"
+    },
+    {
+     "block": 94,
+     "quote": "Isolation（隔離性）"
+    },
+    {
+     "block": 96,
+     "quote": "Durability（持久性）"
+    }
+   ]
+  },
+  {
+   "id": "g_event",
+   "label": "最終一致性",
+   "lane": "gov",
+   "parent": "g_cons",
+   "concept": null,
+   "gist": "允許資料短時間不同步、最終趨於一致，以犧牲即時性換取高吞吐與擴展彈性。",
+   "src": [
+    {
+     "block": 99,
+     "quote": "系統允許資料在短時間內非同步，最終趨於一致"
+    },
+    {
+     "block": 100,
+     "quote": "能以犧牲即時性來換取高吞吐與擴展彈性"
+    }
+   ]
+  },
+  {
+   "id": "g_ver",
+   "label": "資料版本控制",
+   "lane": "gov",
+   "parent": "ds",
+   "concept": null,
+   "gist": "追蹤歷史異動、復原錯誤寫入，是資料品質與模型可重現性的核心機制。",
+   "src": [
+    {
+     "block": 105,
+     "quote": "保障資料品質、支援分析回溯與確保模型可重現性的核心機制"
+    },
+    {
+     "block": 106,
+     "quote": "追蹤資料的歷史異動、復原錯誤寫入"
+    }
+   ]
+  },
+  {
+   "id": "g_snap",
+   "label": "資料快照與回溯",
+   "lane": "gov",
+   "parent": "g_ver",
+   "concept": null,
+   "gist": "定期建立快照，支援誤寫復原、資料還原與模型再訓練。",
+   "src": [
+    {
+     "block": 111,
+     "quote": "可支援誤寫復原、資料還原及模型再訓練等需求"
+    }
+   ]
+  },
+  {
+   "id": "g_gov",
+   "label": "治理與存取控管",
+   "lane": "gov",
+   "parent": "ds",
+   "concept": null,
+   "gist": "涵蓋元資料管理、權限設定與稽核機制三大面向。",
+   "src": [
+    {
+     "block": 114,
+     "quote": "涵蓋元資料管理、權限設定與稽核機制三大核心面向"
+    }
+   ]
+  },
+  {
+   "id": "g_meta",
+   "label": "元資料管理",
+   "lane": "gov",
+   "parent": "g_gov",
+   "concept": null,
+   "gist": "元資料是描述資料的資料，可建立資料目錄並追蹤資料血緣。",
+   "src": [
+    {
+     "block": 116,
+     "quote": "指的是「描述資料本身的資料」"
+    },
+    {
+     "block": 117,
+     "quote": "瞭解資料從來源到使用過程的流向"
+    },
+    {
+     "block": 116,
+     "quote": "可建立明確的資料目錄（Data Catalog）"
+    }
+   ]
+  },
+  {
+   "id": "g_rbac",
+   "label": "RBAC",
+   "lane": "gov",
+   "parent": "g_gov",
+   "concept": null,
+   "gist": "依使用者角色授權，設定清楚、實作簡單，適合中小企業與部門制組織。",
+   "src": [
+    {
+     "block": 123,
+     "quote": "控管依據：使用者所屬角色"
+    },
+    {
+     "block": 125,
+     "quote": "適用情境：中小企業、部門制組織"
+    },
+    {
+     "block": 124,
+     "quote": "設定邏輯清楚、實作簡單"
+    }
+   ]
+  },
+  {
+   "id": "g_abac",
+   "label": "ABAC",
+   "lane": "gov",
+   "parent": "g_gov",
+   "concept": null,
+   "gist": "依使用者、資料屬性與環境條件授權，彈性高，適合大型或高安全情境。",
+   "src": [
+    {
+     "block": 128,
+     "quote": "使用者屬性、資料屬性與環境條件"
+    },
+    {
+     "block": 130,
+     "quote": "適用情境：大型企業、多變化或高安全性情境"
+    },
+    {
+     "block": 129,
+     "quote": "控管彈性高，支援細緻的動態授權"
+    }
+   ]
+  },
+  {
+   "id": "g_audit",
+   "label": "存取稽核",
+   "lane": "gov",
+   "parent": "g_gov",
+   "concept": "系統安全與稽核",
+   "gist": "完整記錄存取與操作紀錄，可匯出稽核報告供合規稽查。",
+   "src": [
+    {
+     "block": 141,
+     "quote": "系統應完整記錄每筆資料的存取與操作紀錄"
+    },
+    {
+     "block": 144,
+     "quote": "可匯出稽核報告供合規部門稽查"
+    }
+   ]
+  },
+  {
+   "id": "g_zt",
+   "label": "Zero Trust 資料控管",
+   "lane": "gov",
+   "parent": "g_gov",
+   "concept": null,
+   "gist": "不預設信任任何人與裝置，以最小權限、動態授權、持續驗證與分區防護控管資料。",
+   "src": [
+    {
+     "block": 147,
+     "quote": "不預設信任任何人與裝置"
+    },
+    {
+     "block": 149,
+     "quote": "使用者僅能存取完成任務所需的最小資料範圍"
+    },
+    {
+     "block": 151,
+     "quote": "存取權限依使用者行為、時間、裝置與網路位置等條件動態調整"
+    },
+    {
+     "block": 153,
+     "quote": "資料存取需配合多因子驗證與行為分析"
+    },
+    {
+     "block": 155,
+     "quote": "將資料資源分區，避免單一節點被入侵後橫向擴散風險"
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "a": "t_unstr",
+   "b": "a_lake",
+   "kind": "cross",
+   "label": "非結構化資料靠資料湖整合",
+   "block": 28,
+   "quote": "以支援結構化與非結構化資料的整合與分析"
+  },
+  {
+   "a": "t_semi",
+   "b": "a_lake",
+   "kind": "cross",
+   "label": "半結構化可存放於資料湖",
+   "block": 16,
+   "quote": "全文搜尋系統（如 ElasticSearch）或資料湖"
+  },
+  {
+   "a": "a_lh",
+   "b": "g_acid",
+   "kind": "cross",
+   "label": "資料湖倉也能支援 ACID",
+   "block": 89,
+   "quote": "也透過元資料版本管理與寫入日誌模擬與支援ACID 操作"
+  },
+  {
+   "a": "g_event",
+   "b": "a_lake",
+   "kind": "cross",
+   "label": "最終一致性適合資料湖",
+   "block": 100,
+   "quote": "此模式適合資料湖或大型物件儲存"
+  },
+  {
+   "a": "a_dist",
+   "b": "g_cons",
+   "kind": "cross",
+   "label": "分散式環境需選一致性策略",
+   "block": 84,
+   "quote": "在分散式資料平台與資料湖倉架構中，資料的一致性保障是確保分析準確性"
+  },
+  {
+   "a": "g_meta",
+   "b": "t_unstr",
+   "kind": "cross",
+   "label": "非結構化資料靠元資料管理",
+   "block": 22,
+   "quote": "需依賴metadata 管理系統、標籤與內容索引建構資料存取邏輯"
+  },
+  {
+   "a": "g_strong",
+   "b": "g_acid",
+   "kind": "cross",
+   "label": "強一致性結合 ACID 實現",
+   "block": 88,
+   "quote": "這類情境通常結合ACID 特性實現操作原子性與一致性"
+  },
+  {
+   "a": "t_struct",
+   "b": "g_acid",
+   "kind": "cross",
+   "label": "結構化資料的優勢含 ACID",
+   "block": 12,
+   "quote": "具備完整性約束與交易一致性（ACID）"
+  },
+  {
+   "a": "t_semi",
+   "b": "p_idx",
+   "kind": "cross",
+   "label": "文件型資料靠索引加速",
+   "block": 75,
+   "quote": "在NoSQL 或文件型資料庫中，可建置倒排索引"
+  },
+  {
+   "a": "a_lh",
+   "b": "g_gov",
+   "kind": "cross",
+   "label": "湖倉兼具資料治理能力",
+   "block": 52,
+   "quote": "資料倉儲的結構化查詢與資料治理能力"
+  },
+  {
+   "a": "g_snap",
+   "b": "g_ver",
+   "kind": "cross",
+   "label": "快照支撐可重現性",
+   "block": 112,
+   "quote": "確保實驗結果具備可驗證性與可複製性（reproducibility）"
+  }
+ ],
+ "confusions": [
+  {
+   "a": "強一致性",
+   "b": "最終一致性",
+   "text": "強一致性寫入後立即讀到最新狀態，適合交易；最終一致性允許短暫不同步，換取高吞吐與擴展性。",
+   "blocks": [
+    87,
+    99,
+    100
+   ]
+  },
+  {
+   "a": "RBAC",
+   "b": "ABAC",
+   "text": "RBAC 依使用者角色授權，簡單；ABAC 依使用者、資料屬性與環境條件，更彈性細緻。",
+   "blocks": [
+    123,
+    124,
+    128,
+    129
+   ]
+  },
+  {
+   "a": "資料湖",
+   "b": "資料湖倉",
+   "text": "資料湖以原始格式彈性儲存；資料湖倉再加上資料倉儲的結構化查詢與治理能力。",
+   "blocks": [
+    42,
+    52
+   ]
+  },
+  {
+   "a": "結構化資料",
+   "b": "半結構化資料",
+   "text": "結構化欄位固定、模式變動不靈活；半結構化有層次與標記，格式彈性高但驗證需自訂。",
+   "blocks": [
+    13,
+    15,
+    17,
+    18
+   ]
+  },
+  {
+   "a": "分區儲存",
+   "b": "欄位裁剪",
+   "text": "分區是依欄位水平切分、縮小查詢掃描範圍；欄位裁剪是查詢時只載入必要欄位。",
+   "blocks": [
+    61,
+    69
+   ]
+  },
+  {
+   "a": "物化檢視",
+   "b": "索引建構",
+   "text": "物化檢視預先算好重複查詢結果；索引則加快條件查詢的搜尋。",
+   "blocks": [
+    73,
+    75
+   ]
+  }
+ ],
+ "gaps": []
+}

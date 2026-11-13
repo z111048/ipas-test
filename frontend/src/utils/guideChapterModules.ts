@@ -6,15 +6,18 @@
  * 章節清單不在此硬編：只用 glob 的 key（檔名 = {chapterId}.json）比對。
  */
 import type { GuideContent, GuideImageAsset } from '../types'
+import type { ContextMapData } from '../components/guide/ContextMap'
 
 export const guideContentModules = import.meta.glob<{ default: GuideContent }>('../generated/guideContent/*/*.json')
 export const guideImageModules = import.meta.glob<{ default: GuideImageAsset[] }>('../generated/guideImagesByChapter/*/*.json')
+// 「本章脈絡」：檔名 = {chapterId}.json；沒有脈絡圖的章節就沒有對應 key。
+export const contextMapModules = import.meta.glob<{ default: ContextMapData }>('../generated/contextMaps/*.json')
 
-/** 預先下載該章內文檔與圖片清單檔；任何失敗都吞掉，之後 GuidePage 自己載入時照原邏輯顯示錯誤。 */
+/** 預先下載該章內文檔、圖片清單檔與脈絡圖；任何失敗都吞掉，之後 GuidePage 自己載入時照原邏輯顯示錯誤。 */
 export function prefetchGuideChapter(chapterId: string): void {
   if (!/^[\w-]+$/.test(chapterId)) return
   const suffix = `/${chapterId}.json`
-  for (const modules of [guideContentModules, guideImageModules]) {
+  for (const modules of [guideContentModules, guideImageModules, contextMapModules]) {
     for (const [key, load] of Object.entries(modules)) {
       if (key.endsWith(suffix)) load().catch(() => {})
     }

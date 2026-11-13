@@ -1,0 +1,1353 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide3",
+  "nodeId": "mid-s3c5",
+  "label": "中級 科目三・4.2 常見機器學習演算法",
+  "subjectId": "mid-s3",
+  "title": "常見機器學習演算法"
+ },
+ "headline": "一張圖看懂常見機器學習演算法",
+ "lede": "本章按任務分成迴歸、分類、非監督式三大家族，每個演算法都用「定義、假設、適用情境、限制」來比較。先抓住家族與選用依據（資料特性、規模、解釋需求），再記各演算法的強項與弱點。",
+ "story": [
+  {
+   "step": "先分類型",
+   "title": "有無標註",
+   "text": "依有無標註分成監督式與非監督式學習。"
+  },
+  {
+   "step": "預測數值",
+   "title": "迴歸：線性到集成",
+   "text": "從線性迴歸、正則化到樹與集成。"
+  },
+  {
+   "step": "預測類別",
+   "title": "分類：同族不同取捨",
+   "text": "邏輯迴歸、SVM、樹、KNN、貝式與集成。"
+  },
+  {
+   "step": "沒有標註",
+   "title": "分群、降維、關聯、異常",
+   "text": "四類任務各有代表演算法。"
+  },
+  {
+   "step": "怎麼選",
+   "title": "看資料與解釋需求",
+   "text": "依資料特性、規模與解釋需求挑選。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "reg",
+   "name": "監督式：迴歸"
+  },
+  {
+   "id": "cls",
+   "name": "監督式：分類"
+  },
+  {
+   "id": "unsup",
+   "name": "非監督式"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "ml",
+   "label": "常見機器學習演算法",
+   "lane": null,
+   "parent": null,
+   "concept": null,
+   "gist": "演算法的任務是學出輸入到結果的規則並能泛化；依有無標註分成監督式與非監督式兩大類型。",
+   "src": [
+    {
+     "block": 3,
+     "quote": "監督式學習（Supervised Learning）與非監督式學習",
+     "page": 50
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "lin",
+   "label": "線性迴歸",
+   "lane": "reg",
+   "parent": null,
+   "concept": "迴歸分析",
+   "gist": "最基礎的迴歸方法：用直線或超平面描述特徵與連續目標的關係，使誤差最小；可解釋，但怕離群值、抓不到非線性。",
+   "src": [
+    {
+     "block": 8,
+     "quote": "最基礎、最常用的監督式學習方法之一",
+     "page": 50
+    },
+    {
+     "block": 49,
+     "quote": "若資料關係呈現明顯非線性，線性迴歸無法有效建模",
+     "page": 52
+    },
+    {
+     "block": 9,
+     "quote": "透過一條直線或多維超平面",
+     "page": 50
+    },
+    {
+     "block": 46,
+     "quote": "對離群值敏感",
+     "page": 52
+    }
+   ],
+   "exam": 4
+  },
+  {
+   "id": "hyp",
+   "label": "線性迴歸的假設",
+   "lane": "reg",
+   "parent": "lin",
+   "concept": "迴歸模型假設",
+   "gist": "要成立的條件：線性關係、誤差常態、變異數齊一、誤差獨立、無多重共線性；自變數高度相關會讓係數不穩。",
+   "src": [
+    {
+     "block": 30,
+     "quote": "線性關係（Linearity）",
+     "page": 51
+    },
+    {
+     "block": 38,
+     "quote": "無多重共線性（No Multicollinearity）",
+     "page": 52
+    },
+    {
+     "block": 51,
+     "quote": "會造成迴歸係數不穩定",
+     "page": 52
+    },
+    {
+     "block": 32,
+     "quote": "誤差常態分佈（Normality of Errors）",
+     "page": 52
+    },
+    {
+     "block": 34,
+     "quote": "變異數齊一性（Homoscedasticity）",
+     "page": 52
+    },
+    {
+     "block": 36,
+     "quote": "誤差獨立性（Independence of Errors）",
+     "page": 52
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "regu",
+   "label": "Lasso 與嶺迴歸",
+   "lane": "reg",
+   "parent": "lin",
+   "concept": "正則化",
+   "gist": "在損失函數加懲罰項：Lasso 用 L1 可壓係數為零（兼選特徵），Ridge 用 L2 抑制大係數；λ 靠交叉驗證選。",
+   "src": [
+    {
+     "block": 57,
+     "quote": "加入L1 正則化項（權重絕對值和）",
+     "page": 53
+    },
+    {
+     "block": 60,
+     "quote": "加入L2 正則化項（權重平方和）",
+     "page": 53
+    },
+    {
+     "block": 103,
+     "quote": "需透過交叉驗證或其他方法選擇",
+     "page": 55
+    }
+   ],
+   "exam": 4
+  },
+  {
+   "id": "svr",
+   "label": "支援向量迴歸（SVR）",
+   "lane": "reg",
+   "parent": null,
+   "concept": null,
+   "gist": "SVM 的迴歸延伸，只在意誤差超出 ε 的點，靠核函數處理非線性、對離群值較抗；但計算重、參數多。",
+   "src": [
+    {
+     "block": 107,
+     "quote": "使預測誤差落在允許範圍（ε-tube）內",
+     "page": 55
+    },
+    {
+     "block": 108,
+     "quote": "提升對離群值的抵抗力",
+     "page": 55
+    },
+    {
+     "block": 106,
+     "quote": "是支援向量機（Support Vector Machine, SVM）的延伸",
+     "page": 55
+    },
+    {
+     "block": 128,
+     "quote": "可利用核函數進行非線性映射",
+     "page": 56
+    },
+    {
+     "block": 137,
+     "quote": "計算複雜度高",
+     "page": 56
+    },
+    {
+     "block": 139,
+     "quote": "參數設定複雜",
+     "page": 56
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "dtr",
+   "label": "決策樹迴歸",
+   "lane": "reg",
+   "parent": null,
+   "concept": "決策樹模型",
+   "gist": "不斷切分資料，葉節點取樣本平均當預測值；能抓非線性、易解釋，但單棵樹易過擬合、預測呈分段常數。",
+   "src": [
+    {
+     "block": 151,
+     "quote": "在每個葉節點上給出一個預測值",
+     "page": 57
+    },
+    {
+     "block": 182,
+     "quote": "單棵決策樹很容易完全擬合訓練資料",
+     "page": 58
+    },
+    {
+     "block": 152,
+     "quote": "能捕捉更複雜、非線性的資料結構",
+     "page": 57
+    },
+    {
+     "block": 177,
+     "quote": "希望產生易解釋、具邏輯分支的模型",
+     "page": 58
+    },
+    {
+     "block": 184,
+     "quote": "預測結果為分段常數",
+     "page": 58
+    }
+   ],
+   "exam": 3
+  },
+  {
+   "id": "ens",
+   "label": "集成式迴歸",
+   "lane": "reg",
+   "parent": null,
+   "concept": "決策樹與集成學習",
+   "gist": "結合多個模型的預測以降低錯誤、減少過擬合；分並行的隨機森林與序列修正的梯度提升。",
+   "src": [
+    {
+     "block": 190,
+     "quote": "群體智慧比單一模型更強大",
+     "page": 59
+    },
+    {
+     "block": 200,
+     "quote": "訓練可進行並行運算",
+     "page": 59
+    },
+    {
+     "block": 206,
+     "quote": "是一種序列式集成演算法",
+     "page": 60
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "rf",
+   "label": "隨機森林迴歸",
+   "lane": "reg",
+   "parent": "ens",
+   "concept": null,
+   "gist": "多棵樹各用隨機子樣本與部分特徵訓練，預測取平均；抗過擬合、可算特徵重要性、可並行，但像黑箱。",
+   "src": [
+    {
+     "block": 192,
+     "quote": "最終預測結果是所有樹的預測值平均值",
+     "page": 59
+    },
+    {
+     "block": 202,
+     "quote": "屬於「黑箱模型」",
+     "page": 59
+    },
+    {
+     "block": 193,
+     "quote": "隨機森林也能計算特徵的重要性",
+     "page": 59
+    },
+    {
+     "block": 195,
+     "quote": "抗過擬合能力強",
+     "page": 59
+    },
+    {
+     "block": 200,
+     "quote": "訓練可進行並行運算",
+     "page": 59
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "gb",
+   "label": "梯度提升迴歸",
+   "lane": "reg",
+   "parent": "ens",
+   "concept": null,
+   "gist": "序列式疊加弱學習器，每棵專修前一棵的殘差；通常比隨機森林準，但訓練較慢、超參數多、易過擬合。",
+   "src": [
+    {
+     "block": 206,
+     "quote": "核心概念是「逐步修正誤差」",
+     "page": 60
+    },
+    {
+     "block": 215,
+     "quote": "訓練過程比隨機森林更慢",
+     "page": 60
+    },
+    {
+     "block": 208,
+     "quote": "預測精確度通常高於隨機森林",
+     "page": 60
+    },
+    {
+     "block": 216,
+     "quote": "容易產生過擬合",
+     "page": 60
+    },
+    {
+     "block": 217,
+     "quote": "超參數多，需要仔細調整",
+     "page": 60
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "xgb",
+   "label": "XGBoost 與 LightGBM",
+   "lane": "reg",
+   "parent": "gb",
+   "concept": null,
+   "gist": "梯度提升的高效實作：XGBoost 層級式生長，LightGBM 葉子式生長更快，但不設限易過擬合、耗記憶體。",
+   "src": [
+    {
+     "block": 224,
+     "quote": "採用「層級式生長」Level-wise 策略",
+     "page": 61
+    },
+    {
+     "block": 228,
+     "quote": "LightGBM 採用「葉子式生長」Leaf-wise 分裂策略",
+     "page": 61
+    },
+    {
+     "block": 258,
+     "quote": "Leaf-wise 可能導致過擬合（LightGBM 特有問題）",
+     "page": 63
+    },
+    {
+     "block": 230,
+     "quote": "LightGBM 的葉子式生長策略通常能更快地達到更高的準確度",
+     "page": 61
+    },
+    {
+     "block": 257,
+     "quote": "容易導致過多節點、耗盡記憶體",
+     "page": 63
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "cls",
+   "label": "分類任務",
+   "lane": "cls",
+   "parent": null,
+   "concept": "分類模型",
+   "gist": "預測離散類別；依資料特性、規模與解釋需求挑選合適的分類模型。",
+   "src": [
+    {
+     "block": 263,
+     "quote": "主要用於預測離散的類別結果",
+     "page": 63
+    },
+    {
+     "block": 269,
+     "quote": "依據資料特性、規模、以及解釋需求，挑選合適的分類模型",
+     "page": 64
+    }
+   ],
+   "exam": 4
+  },
+  {
+   "id": "logit",
+   "label": "邏輯迴歸",
+   "lane": "cls",
+   "parent": "cls",
+   "concept": null,
+   "gist": "最基礎的二元分類，輸出屬於正類的機率，易解釋；抓不到複雜非線性邊界，多類別要擴展（OvR 等）。",
+   "src": [
+    {
+     "block": 272,
+     "quote": "雖名為「迴歸」，實際上是用於解決分類問題",
+     "page": 64
+    },
+    {
+     "block": 313,
+     "quote": "多類別問題需擴展",
+     "page": 66
+    },
+    {
+     "block": 277,
+     "quote": "資料屬於正類（Class 1）的機率",
+     "page": 64
+    },
+    {
+     "block": 303,
+     "quote": "希望模型容易解釋",
+     "page": 65
+    },
+    {
+     "block": 307,
+     "quote": "無法捕捉複雜的非線性邊界",
+     "page": 65
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "svm",
+   "label": "支援向量機（SVM）",
+   "lane": "cls",
+   "parent": "cls",
+   "concept": null,
+   "gist": "找出最大化間隔的決策邊界，資料不可分時用核函數映射到高維；適合中小資料、高維度，但計算成本高、需調 C 與 γ。",
+   "src": [
+    {
+     "block": 318,
+     "quote": "尋找一條最能區分不同類別的決策邊界（超平面），並最大化兩類之間的間隔",
+     "page": 66
+    },
+    {
+     "block": 319,
+     "quote": "利用「核函數（Kernel Function）」將資料映射到更高維度空間",
+     "page": 66
+    },
+    {
+     "block": 356,
+     "quote": "資料集規模中小，特徵維度高",
+     "page": 67
+    },
+    {
+     "block": 362,
+     "quote": "特別在大資料集下，訓練時間與記憶體消耗相當可觀",
+     "page": 68
+    },
+    {
+     "block": 365,
+     "quote": "C：懲罰參數",
+     "page": 68
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "dtc",
+   "label": "決策樹分類器",
+   "lane": "cls",
+   "parent": "cls",
+   "concept": null,
+   "gist": "像流程圖的「如果…那麼…」規則，易解釋、不需標準化；單棵易過擬合、對小變動敏感、精度不如集成。",
+   "src": [
+    {
+     "block": 369,
+     "quote": "透過一系列的「如果…那麼…」判斷規則",
+     "page": 68
+    },
+    {
+     "block": 390,
+     "quote": "對資料尺度不敏感（不需要標準化）",
+     "page": 69
+    },
+    {
+     "block": 393,
+     "quote": "需要易於解釋的模型",
+     "page": 69
+    },
+    {
+     "block": 397,
+     "quote": "單棵樹容易學習到資料中的噪聲",
+     "page": 69
+    },
+    {
+     "block": 398,
+     "quote": "對資料微小變動敏感",
+     "page": 69
+    },
+    {
+     "block": 403,
+     "quote": "單一決策樹在預測精度上通常不如集成式方法",
+     "page": 69
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "knn",
+   "label": "K 最近鄰（KNN）",
+   "lane": "cls",
+   "parent": "cls",
+   "concept": null,
+   "gist": "不建模、看最近的 K 個鄰居多數決；怕特徵尺度不一與高維（維度詛咒），預測時要算全部距離，K 值靠交叉驗證選。",
+   "src": [
+    {
+     "block": 406,
+     "quote": "非參數、惰性學習的分類演算法",
+     "page": 70
+    },
+    {
+     "block": 428,
+     "quote": "導致「最近鄰居」 的概念失去意義",
+     "page": 71
+    },
+    {
+     "block": 445,
+     "quote": "通常需要透過交叉驗證來選擇最佳K 值",
+     "page": 71
+    },
+    {
+     "block": 407,
+     "quote": "將新的資料點分類到其「K」個最近鄰居中佔多數的類別",
+     "page": 70
+    },
+    {
+     "block": 441,
+     "quote": "每次預測都需要計算新樣本與所有訓練樣本的距離",
+     "page": 71
+    },
+    {
+     "block": 448,
+     "quote": "對特徵尺度敏感",
+     "page": 72
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "nb",
+   "label": "樸素貝式分類",
+   "lane": "cls",
+   "parent": "cls",
+   "concept": null,
+   "gist": "依貝式定理並假設特徵條件獨立，快又穩，適合文本分類與即時預測；獨立假設與「零機率」問題是限制，可用平滑解決。",
+   "src": [
+    {
+     "block": 452,
+     "quote": "並假設特徵之間彼此條件獨立的機率分類演算法",
+     "page": 72
+    },
+    {
+     "block": 488,
+     "quote": "「零機率」問題",
+     "page": 74
+    },
+    {
+     "block": 454,
+     "quote": "以快速且穩定的特點受到廣泛使用",
+     "page": 72
+    },
+    {
+     "block": 482,
+     "quote": "預測階段的計算量小",
+     "page": 73
+    },
+    {
+     "block": 489,
+     "quote": "拉普拉斯平滑（Laplace Smoothing）",
+     "page": 74
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "ensc",
+   "label": "集成式分類",
+   "lane": "cls",
+   "parent": "cls",
+   "concept": null,
+   "gist": "沿用迴歸的集成演算法，投票或機率平均出結果；Bagging 降變異，Boosting 降偏差。",
+   "src": [
+    {
+     "block": 500,
+     "quote": "而集成式分類的核心策略分為兩大類",
+     "page": 75
+    },
+    {
+     "block": 503,
+     "quote": "重點在降低模型的變異性（Variance）",
+     "page": 75
+    },
+    {
+     "block": 507,
+     "quote": "重點在降低偏差（Bias）",
+     "page": 75
+    },
+    {
+     "block": 496,
+     "quote": "已經介紹過集成演算法如Random Forest",
+     "page": 74
+    },
+    {
+     "block": 499,
+     "quote": "最終結果通常透過投票機制或機率平均產生",
+     "page": 74
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "unsup",
+   "label": "非監督式學習",
+   "lane": "unsup",
+   "parent": null,
+   "concept": "非監督式學習",
+   "gist": "沒有標註資料，從中找出隱含模式與結構；用途包括分群、降維、關聯分析、異常偵測。",
+   "src": [
+    {
+     "block": 592,
+     "quote": "在沒有預先標註資料的情況下，從資料中發掘隱含模式、結構或關係的技術",
+     "page": 79
+    },
+    {
+     "block": 594,
+     "quote": "顧客分群：找出不同消費行為的群體",
+     "page": 79
+    },
+    {
+     "block": 595,
+     "quote": "將高維度數據降維",
+     "page": 79
+    },
+    {
+     "block": 596,
+     "quote": "異常行為偵測",
+     "page": 79
+    },
+    {
+     "block": 597,
+     "quote": "關聯性分析：發現商品間的潛在銷售機會",
+     "page": 79
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "clus",
+   "label": "分群分析",
+   "lane": "unsup",
+   "parent": "unsup",
+   "concept": "分群演算法",
+   "gist": "依相似性自動分組，讓群內相似、群間相異；本章三種：k-means、階層式、DBSCAN。",
+   "src": [
+    {
+     "block": 600,
+     "quote": "將資料點依據其相似性自動分組的技術",
+     "page": 79
+    },
+    {
+     "block": 601,
+     "quote": "k-means 分群",
+     "page": 79
+    },
+    {
+     "block": 623,
+     "quote": "階層式分群（Hierarchical Clustering）",
+     "page": 80
+    },
+    {
+     "block": 641,
+     "quote": "DBSCAN（Density-Based Spatial Clustering",
+     "page": 81
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "km",
+   "label": "k-means",
+   "lane": "unsup",
+   "parent": "clus",
+   "concept": null,
+   "gist": "反覆分配到最近質心、再更新質心；簡單快速，但要預先指定 K、怕離群值、只能形成球形群集。",
+   "src": [
+    {
+     "block": 603,
+     "quote": "將N 個資料點分到預設的K 個群集中",
+     "page": 79
+    },
+    {
+     "block": 620,
+     "quote": "只能形成球形或凸形群集，無法處理形狀不規則的群集",
+     "page": 80
+    },
+    {
+     "block": 608,
+     "quote": "將每個資料點分配到離其最近的質心所在的群集",
+     "page": 80
+    },
+    {
+     "block": 610,
+     "quote": "重新計算每個群集內所有資料點的平均值",
+     "page": 80
+    },
+    {
+     "block": 614,
+     "quote": "簡單、快速、易於理解和實現",
+     "page": 80
+    },
+    {
+     "block": 617,
+     "quote": "需要預先指定K 值",
+     "page": 80
+    },
+    {
+     "block": 619,
+     "quote": "對離群值敏感",
+     "page": 80
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "hier",
+   "label": "階層式分群",
+   "lane": "unsup",
+   "parent": "clus",
+   "concept": null,
+   "gist": "凝聚式由下而上合併、分裂式由上而下拆開，得到樹狀圖；不用預設 K，但計算複雜度高、操作無法撤銷。",
+   "src": [
+    {
+     "block": 623,
+     "quote": "建立一個巢狀的群集序列",
+     "page": 80
+    },
+    {
+     "block": 632,
+     "quote": "無需預先指定K 值",
+     "page": 81
+    },
+    {
+     "block": 626,
+     "quote": "由下而上（bottom-up）的方法",
+     "page": 80
+    },
+    {
+     "block": 629,
+     "quote": "由上而下（top-down）的方法",
+     "page": 81
+    },
+    {
+     "block": 636,
+     "quote": "計算複雜度高",
+     "page": 81
+    },
+    {
+     "block": 638,
+     "quote": "該操作無法撤銷",
+     "page": 81
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "db",
+   "label": "DBSCAN",
+   "lane": "unsup",
+   "parent": "clus",
+   "concept": null,
+   "gist": "基於密度，用 Eps 與 MinPts 找核心點擴張群集；能辨識任意形狀並標出噪聲點，但對參數敏感、密度不均效果差。",
+   "src": [
+    {
+     "block": 641,
+     "quote": "是一種基於密度的分群演算法",
+     "page": 81
+    },
+    {
+     "block": 658,
+     "quote": "對於參數Eps 和MinPts 的選擇高度敏感",
+     "page": 82
+    },
+    {
+     "block": 642,
+     "quote": "DBSCAN 能夠辨識任意形狀的群集",
+     "page": 81
+    },
+    {
+     "block": 649,
+     "quote": "則該點被定義為核心點",
+     "page": 82
+    },
+    {
+     "block": 659,
+     "quote": "處理密度不均勻的群集效果不佳",
+     "page": 82
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "dr",
+   "label": "降維技術",
+   "lane": "unsup",
+   "parent": "unsup",
+   "concept": "降維方法",
+   "gist": "把高維資料轉成低維並盡量保留資訊，用於視覺化、省儲存、加速訓練與緩解維度詛咒。",
+   "src": [
+    {
+     "block": 662,
+     "quote": "將高維度數據轉換為低維度表示的方法",
+     "page": 82
+    }
+   ],
+   "exam": 4
+  },
+  {
+   "id": "pca",
+   "label": "主成分分析（PCA）",
+   "lane": "unsup",
+   "parent": "dr",
+   "concept": null,
+   "gist": "線性降維：投影到彼此正交、變異量最大的主成分軸；有標準化、協方差、特徵值分解等步驟，抓不到非線性且難解釋。",
+   "src": [
+    {
+     "block": 665,
+     "quote": "是一種廣泛使用的線性降維方法",
+     "page": 82
+    },
+    {
+     "block": 683,
+     "quote": "只能捕捉線性關係，對於非線性結構的數據效果不佳",
+     "page": 83
+    },
+    {
+     "block": 666,
+     "quote": "代表了數據中最大的變異量方向",
+     "page": 83
+    },
+    {
+     "block": 669,
+     "quote": "通常會先對數據進行標準化",
+     "page": 83
+    },
+    {
+     "block": 671,
+     "quote": "計算原始數據的協方差矩陣",
+     "page": 83
+    },
+    {
+     "block": 673,
+     "quote": "對協方差矩陣進行特徵值分解",
+     "page": 83
+    },
+    {
+     "block": 684,
+     "quote": "缺乏較直觀可解釋性",
+     "page": 83
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "tsne",
+   "label": "t-SNE 與 UMAP",
+   "lane": "unsup",
+   "parent": "dr",
+   "concept": null,
+   "gist": "都是非線性降維；t-SNE 專為視覺化、計算成本高、結果有隨機性，UMAP 通常更快、參數調整更直觀。",
+   "src": [
+    {
+     "block": 688,
+     "quote": "是非線性降維方法，尤其專為高維數據的視覺化而設計",
+     "page": 84
+    },
+    {
+     "block": 715,
+     "quote": "通常比t-SNE 運行顯著更快",
+     "page": 85
+    },
+    {
+     "block": 700,
+     "quote": "計算成本高昂",
+     "page": 84
+    },
+    {
+     "block": 701,
+     "quote": "結果可能受隨機初始化和隨機過程的影響",
+     "page": 84
+    },
+    {
+     "block": 706,
+     "quote": "高性能非線性降維方法",
+     "page": 85
+    },
+    {
+     "block": 717,
+     "quote": "參數調整比t-SNE 更直觀",
+     "page": 85
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "arm",
+   "label": "關聯規則學習",
+   "lane": "unsup",
+   "parent": "unsup",
+   "concept": "關聯規則學習",
+   "gist": "在大型資料集找項目間的關聯（購物籃分析），用支持度、信賴度、提升度衡量；Lift 大於 1 為正相關。",
+   "src": [
+    {
+     "block": 724,
+     "quote": "發現不同項目之間有趣的、非平凡的關係或關聯",
+     "page": 86
+    },
+    {
+     "block": 749,
+     "quote": "若Lift > 1 表示A 和B 正相關",
+     "page": 87
+    },
+    {
+     "block": 739,
+     "quote": "支持度（Support）：",
+     "page": 87
+    },
+    {
+     "block": 741,
+     "quote": "信賴度（Confidence）：",
+     "page": 87
+    },
+    {
+     "block": 745,
+     "quote": "提升度（Lift）：",
+     "page": 87
+    },
+    {
+     "block": 724,
+     "quote": "最典型的應用是「購物籃分析」",
+     "page": 86
+    }
+   ],
+   "exam": 3
+  },
+  {
+   "id": "apx",
+   "label": "Apriori 與 FP-Growth",
+   "lane": "unsup",
+   "parent": "arm",
+   "concept": null,
+   "gist": "Apriori 靠性質剪枝但要多次掃描；FP-Growth 建 FP 樹、不產生候選集，只掃兩次，更有效率。",
+   "src": [
+    {
+     "block": 731,
+     "quote": "如果一個項集不頻繁，那麼包含它的任何超集也一定不頻繁",
+     "page": 86
+    },
+    {
+     "block": 757,
+     "quote": "無需生成大量的候選集",
+     "page": 87
+    },
+    {
+     "block": 754,
+     "quote": "需要多次掃描資料集來生成和檢驗大量的候選集",
+     "page": 87
+    },
+    {
+     "block": 773,
+     "quote": "只需兩次掃描資料集即可完成頻繁項目集的挖掘",
+     "page": 88
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "anom",
+   "label": "異常偵測",
+   "lane": "unsup",
+   "parent": "unsup",
+   "concept": "異常偵測",
+   "gist": "辨識與多數資料行為顯著不同的點，可能代表錯誤、欺詐、設備故障或網路入侵。",
+   "src": [
+    {
+     "block": 778,
+     "quote": "辨識資料集中與大多數資料行為顯著不同的模式或資料點的技術",
+     "page": 89
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "iso",
+   "label": "孤立森林",
+   "lane": "unsup",
+   "parent": "anom",
+   "concept": null,
+   "gist": "隨機切分資料，異常點很快被孤立、路徑較短；快、適合高維大資料、不用距離，但對貼近正常群的異常難偵測。",
+   "src": [
+    {
+     "block": 782,
+     "quote": "異常點更容易被快速「孤立」出來",
+     "page": 89
+    },
+    {
+     "block": 789,
+     "quote": "通常在iTree 中具有較短的路徑長度",
+     "page": 89
+    },
+    {
+     "block": 794,
+     "quote": "效率高，尤其適合處理高維數據和大規模數據集",
+     "page": 89
+    },
+    {
+     "block": 795,
+     "quote": "不需要任何距離度量",
+     "page": 89
+    },
+    {
+     "block": 798,
+     "quote": "對於非常接近正常點群集的異常值可能難以有效檢測",
+     "page": 90
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "ocs",
+   "label": "One-Class SVM",
+   "lane": "unsup",
+   "parent": "anom",
+   "concept": null,
+   "gist": "只用正常資料學出包圍它們的邊界，邊界外視為異常；可用核函數處理非線性，但參數敏感、成本高。",
+   "src": [
+    {
+     "block": 804,
+     "quote": "只學習一個類別（通常是正常數據）的模式",
+     "page": 90
+    },
+    {
+     "block": 820,
+     "quote": "對於參數（如核函數的參數和異常率參數）的選擇高度敏感",
+     "page": 91
+    },
+    {
+     "block": 804,
+     "quote": "構建一個能將大多數正常樣本包圍起來的決策邊界",
+     "page": 90
+    },
+    {
+     "block": 816,
+     "quote": "能夠透過核函數處理非線性邊界",
+     "page": 91
+    },
+    {
+     "block": 821,
+     "quote": "計算成本相對較高",
+     "page": 91
+    }
+   ],
+   "exam": 0
+  }
+ ],
+ "edges": [
+  {
+   "a": "svr",
+   "b": "svm",
+   "kind": "cross",
+   "label": "SVR 延伸自 SVM",
+   "block": 106,
+   "quote": "是支援向量機（Support Vector Machine, SVM）的延伸",
+   "page": 55
+  },
+  {
+   "a": "ocs",
+   "b": "svm",
+   "kind": "cross",
+   "label": "單類別版 SVM",
+   "block": 804,
+   "quote": "與傳統SVM 不同，One-Class SVM",
+   "page": 90
+  },
+  {
+   "a": "rf",
+   "b": "dtr",
+   "kind": "cross",
+   "label": "隨機森林為降低單棵樹過擬合",
+   "block": 192,
+   "quote": "藉此降低單棵樹容易出現的過擬合問題",
+   "page": 59
+  },
+  {
+   "a": "dtc",
+   "b": "ensc",
+   "kind": "cross",
+   "label": "單棵樹精度常不如集成",
+   "block": 403,
+   "quote": "單一決策樹在預測精度上通常不如集成式方法",
+   "page": 69
+  },
+  {
+   "a": "ensc",
+   "b": "ens",
+   "kind": "cross",
+   "label": "分類沿用迴歸的集成法",
+   "block": 496,
+   "quote": "已經介紹過集成演算法如Random Forest",
+   "page": 74
+  },
+  {
+   "a": "ensc",
+   "b": "rf",
+   "kind": "cross",
+   "label": "Bagging：隨機森林",
+   "block": 504,
+   "quote": "代表演算法：Random Forest",
+   "page": 75
+  },
+  {
+   "a": "ensc",
+   "b": "gb",
+   "kind": "cross",
+   "label": "Boosting：梯度提升",
+   "block": 508,
+   "quote": "代表演算法：Gradient Boosting、XGBoost、LightGBM",
+   "page": 75
+  },
+  {
+   "a": "xgb",
+   "b": "gb",
+   "kind": "cross",
+   "label": "XGBoost 優化梯度提升",
+   "block": 219,
+   "quote": "進行演算法層面及工程層面的優化",
+   "page": 60
+  },
+  {
+   "a": "regu",
+   "b": "hyp",
+   "kind": "cross",
+   "label": "Ridge 適合共線性嚴重",
+   "block": 60,
+   "quote": "特別適合多重共線性嚴重的情況",
+   "page": 53
+  },
+  {
+   "a": "logit",
+   "b": "hyp",
+   "kind": "cross",
+   "label": "邏輯迴歸同樣要求無多重共線性",
+   "block": 300,
+   "quote": "特徵變數之間不宜具有高度相關性",
+   "page": 65
+  },
+  {
+   "a": "dr",
+   "b": "knn",
+   "kind": "cross",
+   "label": "降維用來緩解維度詛咒",
+   "block": 662,
+   "quote": "緩解「維度詛咒」（在高維空間中數據變得稀疏",
+   "page": 82
+  },
+  {
+   "a": "pca",
+   "b": "knn",
+   "kind": "cross",
+   "label": "特徵尺度差異大時先標準化",
+   "block": 669,
+   "quote": "如果特徵尺度差異大，通常會先對數據進行標準化",
+   "page": 83
+  },
+  {
+   "a": "tsne",
+   "b": "pca",
+   "kind": "cross",
+   "label": "t-SNE 補 PCA 不足",
+   "block": 698,
+   "quote": "呈現傳統線性方法難以發現的複雜非線性關係",
+   "page": 84
+  },
+  {
+   "a": "db",
+   "b": "anom",
+   "kind": "cross",
+   "label": "DBSCAN 可分離噪聲點",
+   "block": 642,
+   "quote": "能自動將噪聲點（離群值） 從群集中分離出來",
+   "page": 81
+  }
+ ],
+ "confusions": [
+  {
+   "a": "Lasso",
+   "b": "Ridge",
+   "text": "Lasso 用 L1，可把部分係數壓成零而做特徵選擇；Ridge 用 L2，不會壓成零，適合多重共線性嚴重。",
+   "blocks": [
+    57,
+    60,
+    99
+   ],
+   "pages": [
+    53,
+    54
+   ]
+  },
+  {
+   "a": "Bagging",
+   "b": "Boosting",
+   "text": "Bagging 獨立訓練多模型再投票，降變異；Boosting 逐步修正前一模型的錯誤，降偏差。",
+   "blocks": [
+    502,
+    506,
+    503,
+    507
+   ],
+   "pages": [
+    75
+   ]
+  },
+  {
+   "a": "XGBoost",
+   "b": "LightGBM",
+   "text": "XGBoost 層級式生長（同一層一起分裂）；LightGBM 葉子式生長（優先分裂增益最大的葉），更快但易過擬合。",
+   "blocks": [
+    224,
+    228,
+    225,
+    229,
+    230,
+    258
+   ],
+   "pages": [
+    61,
+    63
+   ]
+  },
+  {
+   "a": "k-means",
+   "b": "DBSCAN",
+   "text": "k-means 要預先指定 K、只能形成球形群集；DBSCAN 不用指定群數、能辨識任意形狀並標出噪聲點。",
+   "blocks": [
+    617,
+    620,
+    654,
+    655,
+    642,
+    656
+   ],
+   "pages": [
+    80,
+    81,
+    82
+   ]
+  },
+  {
+   "a": "PCA",
+   "b": "t-SNE",
+   "text": "PCA 是線性降維，保留最大變異方向；t-SNE 是非線性降維，專為視覺化，結果受隨機性影響。",
+   "blocks": [
+    665,
+    688,
+    701,
+    666
+   ],
+   "pages": [
+    82,
+    83,
+    84
+   ]
+  },
+  {
+   "a": "t-SNE",
+   "b": "UMAP",
+   "text": "UMAP 通常比 t-SNE 快、能處理更大資料、參數較直觀；t-SNE 計算昂貴。",
+   "blocks": [
+    700,
+    715,
+    717
+   ],
+   "pages": [
+    84,
+    85
+   ]
+  },
+  {
+   "a": "Isolation Forest",
+   "b": "One-Class SVM",
+   "text": "孤立森林靠隨機切分，異常點路徑短；One-Class SVM 只學正常資料並畫邊界，邊界外為異常。",
+   "blocks": [
+    782,
+    804,
+    789
+   ],
+   "pages": [
+    89,
+    90
+   ]
+  },
+  {
+   "a": "支持度",
+   "b": "信賴度",
+   "text": "支持度是 A、B 同時出現的比例；信賴度是在含 A 的交易中也含 B 的條件機率；提升度看相關性。",
+   "blocks": [
+    740,
+    742,
+    746
+   ],
+   "pages": [
+    87
+   ]
+  }
+ ],
+ "gaps": [],
+ "examOnly": [
+  {
+   "name": "多重共線性",
+   "count": 4,
+   "mentioned": true
+  },
+  {
+   "name": "特徵選擇",
+   "count": 4,
+   "mentioned": true
+  },
+  {
+   "name": "模型可解釋性",
+   "count": 3,
+   "mentioned": false
+  },
+  {
+   "name": "評估指標",
+   "count": 3,
+   "mentioned": true
+  }
+ ],
+ "notes": []
+}

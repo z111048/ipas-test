@@ -1,0 +1,837 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide1",
+  "nodeId": "mid-s1c4",
+  "label": "中級 科目一・3.4 多模態人工智慧應用",
+  "subjectId": "mid-s1",
+  "title": "多模態人工智慧應用"
+ },
+ "headline": "一張圖看懂多模態人工智慧應用",
+ "lede": "多模態AI 能同時處理並整合文字、影像、語音與感測資料。先抓住「跨模態對齊與融合」這條主線，再看代表模型、應用情境，以及資料對齊、部署與隱私三大風險。",
+ "story": [
+  {
+   "step": "是什麼",
+   "title": "多模態與跨模態表示",
+   "text": "同時處理多種模態，並映射到共同語意空間。"
+  },
+  {
+   "step": "怎麼演進",
+   "title": "拼接、融合層、Transformer",
+   "text": "從簡單特徵串接走向統一架構。"
+  },
+  {
+   "step": "怎麼用",
+   "title": "模型與應用情境",
+   "text": "CLIP、語音、感測融合，落地於醫療、零售、虛實互動。"
+  },
+  {
+   "step": "要小心",
+   "title": "風險與未來",
+   "text": "對齊標註、運算部署、隱私法規是主要風險，也牽動未來趨勢。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "base",
+   "name": "基礎與演進"
+  },
+  {
+   "id": "tech",
+   "name": "模型與技術"
+  },
+  {
+   "id": "app",
+   "name": "應用情境"
+  },
+  {
+   "id": "risk",
+   "name": "風險與趨勢"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "mm",
+   "label": "多模態人工智慧",
+   "lane": null,
+   "parent": null,
+   "concept": "多模態AI",
+   "gist": "同時處理並整合兩種以上不同資料模態（文字、影像、語音、感測器）的系統。",
+   "src": [
+    {
+     "block": 10,
+     "quote": "能同時處理兩種以上不同資料模態",
+     "page": 81
+    },
+    {
+     "block": 11,
+     "quote": "文字（如自然語言、描述、問句）",
+     "page": 81
+    },
+    {
+     "block": 14,
+     "quote": "感測器資料（如位置感測器、加速度計、環境溫度等）",
+     "page": 81
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "mod",
+   "label": "資料模態",
+   "lane": "base",
+   "parent": null,
+   "concept": null,
+   "gist": "文字、影像、語音、感測器資料各有獨特結構，需從異質資料中提取資訊並融合。",
+   "src": [
+    {
+     "block": 14,
+     "quote": "文字資料是離散且語意性強的",
+     "page": 81
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "emb",
+   "label": "跨模態表示學習",
+   "lane": "base",
+   "parent": null,
+   "concept": null,
+   "gist": "把不同模態映射到相同語意空間，讓輸入能互相比較、關聯或翻譯。",
+   "src": [
+    {
+     "block": 15,
+     "quote": "將不同模態資料映射至相同的語意空間",
+     "page": 81
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "evo",
+   "label": "技術演進三階段",
+   "lane": "base",
+   "parent": null,
+   "concept": null,
+   "gist": "從特徵拼接，到模態專屬網路加融合層，再到 Transformer 統一架構。",
+   "src": [
+    {
+     "block": 17,
+     "quote": "多模態AI 的發展可大致分為以下三個階段",
+     "page": 81
+    },
+    {
+     "block": 20,
+     "quote": "特徵串接（Feature Concatenation）",
+     "page": 81
+    },
+    {
+     "block": 24,
+     "quote": "再透過融合層（Fusion Layer）進行整合",
+     "page": 82
+    },
+    {
+     "block": 26,
+     "quote": "Transformer 與自注意力驅動的統一架構",
+     "page": 82
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "ev1",
+   "label": "早期：特徵串接",
+   "lane": "base",
+   "parent": "evo",
+   "concept": null,
+   "gist": "把各模態特徵向量合併後交給傳統模型，簡單但無法處理語意對齊且難擴展。",
+   "src": [
+    {
+     "block": 20,
+     "quote": "特徵串接（Feature Concatenation）",
+     "page": 81
+    },
+    {
+     "block": 21,
+     "quote": "無法處理模態間的語意對齊與交互關係",
+     "page": 81
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "ev2",
+   "label": "深度學習：融合層",
+   "lane": "base",
+   "parent": "evo",
+   "concept": null,
+   "gist": "各模態用專屬網路（CNN、RNN），再由融合層整合，成為主流。",
+   "src": [
+    {
+     "block": 24,
+     "quote": "再透過融合層（Fusion Layer）進行整合",
+     "page": 82
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "ev3",
+   "label": "當前：Transformer 統一架構",
+   "lane": "base",
+   "parent": "evo",
+   "concept": "Transformer架構",
+   "gist": "自注意力讓跨模態理解大幅提升，採多層次對齊與視覺-語言融合。",
+   "src": [
+    {
+     "block": 27,
+     "quote": "使得跨模態理解能力顯著提升",
+     "page": 82
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "clip",
+   "label": "CLIP",
+   "lane": "tech",
+   "parent": null,
+   "concept": null,
+   "gist": "以對比學習讓圖文映射到同一向量空間，語意相符的圖文距離接近。",
+   "src": [
+    {
+     "block": 32,
+     "quote": "透過對比學習（Contrastive Learning）實現圖片與文字的語意對齊",
+     "page": 82
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "clipz",
+   "label": "CLIP 優勢：零樣本",
+   "lane": "tech",
+   "parent": "clip",
+   "concept": "零樣本學習",
+   "gist": "無需針對特定任務重新訓練即可應用。",
+   "src": [
+    {
+     "block": 40,
+     "quote": "零樣本（Zero-shot）學習能力強",
+     "page": 83
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "clipl",
+   "label": "CLIP 限制",
+   "lane": "tech",
+   "parent": "clip",
+   "concept": null,
+   "gist": "對複雜情境細節理解有限，訓練資料偏見可能影響公平性。",
+   "src": [
+    {
+     "block": 42,
+     "quote": "訓練資料偏見可能影響公平性",
+     "page": 83
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "speech",
+   "label": "語音整合流程",
+   "lane": "tech",
+   "parent": null,
+   "concept": null,
+   "gist": "語音經 ASR 轉文字、NLU 解析意圖，再生成回應；用於語音助理、客服等。",
+   "src": [
+    {
+     "block": 51,
+     "quote": "語音輸入→ASR 轉文字→NLU 解析意圖",
+     "page": 83
+    },
+    {
+     "block": 53,
+     "quote": "語音助理：如智慧音箱，結合ASR 與NLU",
+     "page": 83
+    },
+    {
+     "block": 55,
+     "quote": "客服系統：自動化語音回應",
+     "page": 83
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "sensor",
+   "label": "感測資料融合",
+   "lane": "tech",
+   "parent": null,
+   "concept": null,
+   "gist": "整合雷達、GPS 等感測器資料，靠資料同步與特徵對齊，提升環境感知。",
+   "src": [
+    {
+     "block": 58,
+     "quote": "此類融合依賴感測融合（Sensor Fusion）",
+     "page": 84
+    },
+    {
+     "block": 65,
+     "quote": "不同感測器的採樣頻率與時間戳需精準對齊",
+     "page": 84
+    },
+    {
+     "block": 59,
+     "quote": "透過資料同步與特徵對齊",
+     "page": 84
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "fusion",
+   "label": "早期融合與晚期融合",
+   "lane": "tech",
+   "parent": "sensor",
+   "concept": "多模態融合",
+   "gist": "常見兩種融合方式：早期融合在資料層級整合，晚期融合在特徵層級整合。",
+   "src": [
+    {
+     "block": 59,
+     "quote": "早期融合（Early Fusion，資料層級整合）",
+     "page": 84
+    }
+   ],
+   "exam": 2
+  },
+  {
+   "id": "blip",
+   "label": "BLIP / BLIP-2",
+   "lane": "tech",
+   "parent": null,
+   "concept": null,
+   "gist": "強化圖文問答與生成任務，支援圖片與文字的雙向理解。",
+   "src": [
+    {
+     "block": 70,
+     "quote": "強化圖文問答（Visual Question Answering, VQA）與生成任務",
+     "page": 84
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "flam",
+   "label": "Flamingo",
+   "lane": "tech",
+   "parent": null,
+   "concept": null,
+   "gist": "具少樣本學習能力，可快速適應新圖文任務。",
+   "src": [
+    {
+     "block": 72,
+     "quote": "具少樣本學習（Few-shot Learning）能力",
+     "page": 84
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "m3ae",
+   "label": "M3AE",
+   "lane": "tech",
+   "parent": null,
+   "concept": null,
+   "gist": "基於遮罩預訓練的多模態自編碼器，支持多模態特徵提取與生成。",
+   "src": [
+    {
+     "block": 74,
+     "quote": "基於遮罩預訓練（Masked Pre-training）的多模態自編碼器",
+     "page": 85
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "med",
+   "label": "醫療診斷支援",
+   "lane": "app",
+   "parent": null,
+   "concept": null,
+   "gist": "整合影像、電子病歷與生理訊號，提供診斷支援與決策建議。",
+   "src": [
+    {
+     "block": 79,
+     "quote": "提供全面的診斷支援與決策建議",
+     "page": 85
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "retail",
+   "label": "零售與顧客行為",
+   "lane": "app",
+   "parent": null,
+   "concept": null,
+   "gist": "整合攝影機影像、交易紀錄、評論與社群回饋，洞察消費行為。",
+   "src": [
+    {
+     "block": 88,
+     "quote": "進行消費行為洞察與行銷策略優化",
+     "page": 86
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "vr",
+   "label": "虛實整合互動",
+   "lane": "app",
+   "parent": null,
+   "concept": null,
+   "gist": "同步處理語音、文字、表情、姿勢與 3D 模型，讓虛擬互動更自然。",
+   "src": [
+    {
+     "block": 97,
+     "quote": "支援語音、文字、表情、姿勢與3D 模型的同步處理",
+     "page": 86
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "metrics",
+   "label": "各領域評估指標",
+   "lane": "app",
+   "parent": null,
+   "concept": "評估指標",
+   "gist": "醫療看準確率、假陽性率；零售看 Precision、IOU、F1；虛實看延遲、WER。",
+   "src": [
+    {
+     "block": 86,
+     "quote": "診斷準確率（Accuracy）、假陽性率（False Positive Rate）",
+     "page": 86
+    },
+    {
+     "block": 95,
+     "quote": "動線分析的IOU（Intersection over Union）",
+     "page": 86
+    },
+    {
+     "block": 104,
+     "quote": "語音辨識的WER（Word Error Rate）",
+     "page": 87
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "align",
+   "label": "資料對齊與標註",
+   "lane": "risk",
+   "parent": null,
+   "concept": "資料標註",
+   "gist": "各模態時間點與語意難一致，標註成本高、資料稀缺，是技術瓶頸。",
+   "src": [
+    {
+     "block": 108,
+     "quote": "導致資料對齊與標註成為技術瓶頸",
+     "page": 87
+    },
+    {
+     "block": 111,
+     "quote": "多模態標註成本高昂",
+     "page": 87
+    },
+    {
+     "block": 112,
+     "quote": "高品質標註資料稀缺",
+     "page": 87
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "alignfix",
+   "label": "對齊的解決策略",
+   "lane": "risk",
+   "parent": "align",
+   "concept": null,
+   "gist": "用時序對齊演算法與語意對齊技術做前處理，並建立分散式儲存與版本控制。",
+   "src": [
+    {
+     "block": 116,
+     "quote": "採用時序對齊演算法（如Dynamic Time Warping, DTW）",
+     "page": 88
+    },
+    {
+     "block": 118,
+     "quote": "建立分散式儲存系統與資料版本控制",
+     "page": 88
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "comp",
+   "label": "運算與部署",
+   "lane": "risk",
+   "parent": null,
+   "concept": null,
+   "gist": "模型結構複雜、參數量龐大，對運算資源與部署效能要求極高。",
+   "src": [
+    {
+     "block": 120,
+     "quote": "對運算資源與部署效能要求極高",
+     "page": 88
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "compress",
+   "label": "邊緣部署與模型壓縮",
+   "lane": "risk",
+   "parent": "comp",
+   "concept": "模型壓縮",
+   "gist": "部署到邊緣需剪枝、量化或知識蒸餾，並在效能與容量間權衡。",
+   "src": [
+    {
+     "block": 123,
+     "quote": "涉及模型壓縮（如剪枝Pruning）",
+     "page": 88
+    },
+    {
+     "block": 125,
+     "quote": "邊緣部署則需在效能與模型容量間權衡",
+     "page": 88
+    }
+   ],
+   "exam": 1
+  },
+  {
+   "id": "hybrid",
+   "label": "混合部署",
+   "lane": "risk",
+   "parent": "comp",
+   "concept": null,
+   "gist": "結合雲端與邊緣：關鍵任務在邊緣執行，複雜推理交給雲端。",
+   "src": [
+    {
+     "block": 129,
+     "quote": "關鍵任務於邊緣執行，複雜推理交由雲端處理",
+     "page": 88
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "priv",
+   "label": "隱私與法規",
+   "lane": "risk",
+   "parent": null,
+   "concept": "資料隱私保護",
+   "gist": "處理臉部、聲音、生理訊號等敏感資料，另有偽造內容與缺乏存取控管的風險。",
+   "src": [
+    {
+     "block": 132,
+     "quote": "隱私與資安風險不容忽視",
+     "page": 89
+    },
+    {
+     "block": 135,
+     "quote": "生成偽造內容（如Deepfake 影像或語音）",
+     "page": 89
+    },
+    {
+     "block": 136,
+     "quote": "若缺乏安全審查與存取控管，可能違反法規或倫理規範",
+     "page": 89
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "trend",
+   "label": "未來趨勢",
+   "lane": "risk",
+   "parent": null,
+   "concept": null,
+   "gist": "統一架構、低資源部署、自我監督、代理式整合與法規倫理框架。",
+   "src": [
+    {
+     "block": 143,
+     "quote": "多模態AI 將持續向下列幾個方向演進",
+     "page": 89
+    },
+    {
+     "block": 145,
+     "quote": "未來模型將更加強調模態間的統一處理與共享表示",
+     "page": 89
+    },
+    {
+     "block": 147,
+     "quote": "多模態模型將持續進行壓縮與最佳化",
+     "page": 90
+    },
+    {
+     "block": 149,
+     "quote": "自我監督學習（Self-supervised Learning）將成為主流",
+     "page": 90
+    },
+    {
+     "block": 151,
+     "quote": "多模態AI 未來將與具備推理與決策能力的代理系統結合",
+     "page": 90
+    },
+    {
+     "block": 153,
+     "quote": "各國法規將持續強化對資料使用",
+     "page": 90
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "ssl",
+   "label": "自我監督學習",
+   "lane": "risk",
+   "parent": "trend",
+   "concept": "自監督式學習",
+   "gist": "標註成本升高，改用大規模未標註資料預訓練，強化跨模態對齊與泛化。",
+   "src": [
+    {
+     "block": 149,
+     "quote": "自我監督學習（Self-supervised Learning）將成為主流",
+     "page": 90
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "unified",
+   "label": "統一架構",
+   "lane": "risk",
+   "parent": "trend",
+   "concept": null,
+   "gist": "強調模態間統一處理與共享表示，減少分離模組，支援任意模態輸入。",
+   "src": [
+    {
+     "block": 145,
+     "quote": "朝向通用架構發展，支援任意模態輸入",
+     "page": 89
+    }
+   ],
+   "exam": 0
+  },
+  {
+   "id": "agent",
+   "label": "與代理式AI整合",
+   "lane": "risk",
+   "parent": "trend",
+   "concept": "代理式AI",
+   "gist": "與具推理與決策能力的代理系統結合，主動感知、理解與回應。",
+   "src": [
+    {
+     "block": 151,
+     "quote": "與具備推理與決策能力的代理系統結合",
+     "page": 90
+    }
+   ],
+   "exam": 0
+  }
+ ],
+ "edges": [
+  {
+   "a": "ev1",
+   "b": "ev2",
+   "kind": "flow",
+   "label": "專屬網路取代拼接",
+   "block": 24,
+   "quote": "隨著深度學習發展，研究者開始為每種模態設計專屬網路",
+   "page": 82
+  },
+  {
+   "a": "ev2",
+   "b": "ev3",
+   "kind": "flow",
+   "label": "進入統一架構",
+   "block": 27,
+   "quote": "近年來，Transformer 架構的普及",
+   "page": 82
+  },
+  {
+   "a": "clip",
+   "b": "align",
+   "kind": "cross",
+   "label": "對比學習做語意對齊",
+   "block": 116,
+   "quote": "語意對齊技術（如CLIP 的對比學習）",
+   "page": 88
+  },
+  {
+   "a": "sensor",
+   "b": "align",
+   "kind": "cross",
+   "label": "感測器同步即對齊問題",
+   "block": 65,
+   "quote": "不同感測器的採樣頻率與時間戳需精準對齊",
+   "page": 84
+  },
+  {
+   "a": "ev1",
+   "b": "align",
+   "kind": "cross",
+   "label": "早期拼接做不到語意對齊",
+   "block": 21,
+   "quote": "無法處理模態間的語意對齊與交互關係",
+   "page": 81
+  },
+  {
+   "a": "ssl",
+   "b": "align",
+   "kind": "cross",
+   "label": "標註成本高，推動自我監督",
+   "block": 149,
+   "quote": "隨著標註資料成本升高",
+   "page": 90
+  },
+  {
+   "a": "compress",
+   "b": "trend",
+   "kind": "cross",
+   "label": "部署壓縮需求延續為趨勢",
+   "block": 147,
+   "quote": "多模態模型將持續進行壓縮與最佳化",
+   "page": 90
+  },
+  {
+   "a": "med",
+   "b": "priv",
+   "kind": "cross",
+   "label": "醫療的隱私挑戰屬隱私風險",
+   "block": 85,
+   "quote": "資料隱私（需符合HIPAA 等規範）",
+   "page": 85
+  },
+  {
+   "a": "ev3",
+   "b": "m3ae",
+   "kind": "cross",
+   "label": "M3AE 用統一編碼器為例",
+   "block": 27,
+   "quote": "模型使用統一編碼器對影像與文字進行遮罩預訓練",
+   "page": 82
+  },
+  {
+   "a": "metrics",
+   "b": "speech",
+   "kind": "cross",
+   "label": "語音辨識以 WER 評估",
+   "block": 104,
+   "quote": "語音辨識的WER（Word Error Rate）",
+   "page": 87
+  }
+ ],
+ "confusions": [
+  {
+   "a": "特徵串接",
+   "b": "融合層",
+   "text": "特徵串接合併特徵後交給傳統模型；融合層則整合各模態專屬網路的輸出。",
+   "blocks": [
+    20,
+    24
+   ],
+   "pages": [
+    81,
+    82
+   ]
+  },
+  {
+   "a": "CLIP",
+   "b": "BLIP",
+   "text": "CLIP 以對比學習做圖文語意對齊；BLIP 強化圖文問答與生成任務。",
+   "blocks": [
+    32,
+    69,
+    70
+   ],
+   "pages": [
+    82,
+    84
+   ]
+  },
+  {
+   "a": "零樣本（CLIP）",
+   "b": "少樣本（Flamingo）",
+   "text": "CLIP 零樣本，無需針對任務重新訓練；Flamingo 少樣本，可快速適應新圖文任務。",
+   "blocks": [
+    32,
+    40,
+    71,
+    72
+   ],
+   "pages": [
+    82,
+    83,
+    84
+   ]
+  },
+  {
+   "a": "雲端部署",
+   "b": "邊緣部署",
+   "text": "雲端部署具彈性，但有延遲與隱私疑慮；邊緣部署需在效能與模型容量間權衡。",
+   "blocks": [
+    124,
+    125
+   ],
+   "pages": [
+    88
+   ]
+  }
+ ],
+ "gaps": [
+  {
+   "name": "詞嵌入（Word2Vec）",
+   "block": 155,
+   "page": 91
+  },
+  {
+   "name": "命名實體識別",
+   "block": 156,
+   "page": 91
+  },
+  {
+   "name": "BERT 雙向理解",
+   "block": 157,
+   "page": 91
+  },
+  {
+   "name": "影像分類",
+   "block": 158,
+   "page": 91
+  },
+  {
+   "name": "目標偵測",
+   "block": 159,
+   "page": 91
+  },
+  {
+   "name": "生成對抗網路（GAN）",
+   "block": 160,
+   "page": 92
+  }
+ ],
+ "examOnly": [],
+ "notes": [
+  {
+   "block": 59,
+   "page": 84,
+   "text": "原書把晚期融合標為「特徵層級整合」。晚期融合一般是指各模態先分別處理、在決策（輸出）層級才整合，作答時請留意題目採用的定義。"
+  }
+ ]
+}

@@ -1,0 +1,742 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide3",
+  "nodeId": "mid-s3c9",
+  "label": "中級 科目三・5.3 模型訓練、評估與驗證"
+ },
+ "headline": "一張圖看懂模型訓練、評估與驗證",
+ "lede": "本章教你怎麼把模型訓練好、評估準：先切資料，再用適當的訓練策略，最後挑對指標。評估指標、類別不平衡與交叉驗證在原文裡互相牽連，要一起看。",
+ "story": [
+  {
+   "step": "先切資料",
+   "title": "訓練、驗證、測試",
+   "text": "三份資料各司其職，測試集訓練完成後才使用。"
+  },
+  {
+   "step": "怎麼訓練",
+   "title": "批次、學習率、早停",
+   "text": "用驗證集表現決定降學習率與何時停。"
+  },
+  {
+   "step": "怎麼量",
+   "title": "依任務選指標",
+   "text": "分類看精確率、召回率、F1；迴歸看 MAE、RMSE、R²。"
+  },
+  {
+   "step": "怎麼更可靠",
+   "title": "不平衡與交叉驗證",
+   "text": "準確率會誤導，要配合分層、重加權、SMOTE 與多輪驗證。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "data",
+   "name": "資料切分與驗證"
+  },
+  {
+   "id": "train",
+   "name": "訓練策略"
+  },
+  {
+   "id": "eval",
+   "name": "評估指標與策略"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "tm",
+   "label": "模型訓練、評估與驗證",
+   "lane": null,
+   "parent": null,
+   "concept": null,
+   "gist": "好模型不只靠選對演算法，還要訓練得好、評估得嚴謹。",
+   "src": [
+    {
+     "block": 3,
+     "quote": "訓練過程未能有效執行、評估方法不嚴謹"
+    }
+   ]
+  },
+  {
+   "id": "split",
+   "label": "資料分割",
+   "lane": "data",
+   "parent": null,
+   "concept": "資料切分",
+   "gist": "把原始資料依用途切成訓練、驗證、測試三份，才能評估模型在未見資料上的表現。",
+   "src": [
+    {
+     "block": 8,
+     "quote": "原始資料集依功能目的劃分為以下部分"
+    }
+   ]
+  },
+  {
+   "id": "tr",
+   "label": "訓練集",
+   "lane": "data",
+   "parent": "split",
+   "concept": null,
+   "gist": "學習模型參數，是整個學習流程的基礎。",
+   "src": [
+    {
+     "block": 10,
+     "quote": "用於模型參數的學習與內部結構調整"
+    }
+   ]
+  },
+  {
+   "id": "val",
+   "label": "驗證集",
+   "lane": "data",
+   "parent": "split",
+   "concept": "超參數調整",
+   "gist": "用來調超參數（學習率、正則化係數）並監控訓練過程。",
+   "src": [
+    {
+     "block": 12,
+     "quote": "作為調整超參數（如學習率、正則化係數）"
+    }
+   ]
+  },
+  {
+   "id": "te",
+   "label": "測試集",
+   "lane": "data",
+   "parent": "split",
+   "concept": null,
+   "gist": "只在訓練完成後使用，做最終評估，模擬上線後面對未知資料。",
+   "src": [
+    {
+     "block": 14,
+     "quote": "僅在模型訓練完成後使用"
+    }
+   ]
+  },
+  {
+   "id": "cv",
+   "label": "交叉驗證",
+   "lane": "data",
+   "parent": "split",
+   "concept": "交叉驗證",
+   "gist": "把資料多次切分、反覆訓練與驗證，避免單次切分的偏誤，作為選模型與調參的依據。",
+   "src": [
+    {
+     "block": 169,
+     "quote": "更真實地衡量模型的泛化能力"
+    },
+    {
+     "block": 169,
+     "quote": "作為模型選擇與調參的依據"
+    }
+   ]
+  },
+  {
+   "id": "kf",
+   "label": "K-fold",
+   "lane": "data",
+   "parent": "cv",
+   "concept": null,
+   "gist": "資料平均分成 K 份，輪流當驗證集，重複 K 次後取平均；最通用，常設 5 或 10。",
+   "src": [
+    {
+     "block": 174,
+     "quote": "將資料集平均劃分為K 個不重疊的子集"
+    },
+    {
+     "block": 180,
+     "quote": "常見設定為K=5 或10"
+    },
+    {
+     "block": 171,
+     "quote": "是最常見的通用型交叉驗證方法"
+    },
+    {
+     "block": 175,
+     "quote": "重複K 次後計算指標平均作為整體表現"
+    }
+   ]
+  },
+  {
+   "id": "st",
+   "label": "Stratified K-fold",
+   "lane": "data",
+   "parent": "cv",
+   "concept": null,
+   "gist": "分類專用：每一折的類別比例都與整體相符，適合類別不均的資料。",
+   "src": [
+    {
+     "block": 186,
+     "quote": "確保每一折中各類別的比例與整體資料集相符"
+    }
+   ]
+  },
+  {
+   "id": "lo",
+   "label": "LOOCV",
+   "lane": "data",
+   "parent": "cv",
+   "concept": null,
+   "gist": "K 等於樣本數，每次只留一筆驗證；偏差最小但要訓練 n 次，成本極高。",
+   "src": [
+    {
+     "block": 198,
+     "quote": "每次僅留下一筆樣本作為驗證"
+    },
+    {
+     "block": 203,
+     "quote": "計算成本極高"
+    },
+    {
+     "block": 202,
+     "quote": "評估偏差最小，適合樣本珍貴"
+    }
+   ]
+  },
+  {
+   "id": "rp",
+   "label": "Repeated K-fold",
+   "lane": "data",
+   "parent": "cv",
+   "concept": "模型穩定性",
+   "gist": "多輪隨機重分的 K-fold，再算平均與變異，觀察穩定性；成本更高。",
+   "src": [
+    {
+     "block": 211,
+     "quote": "在標準K-fold 基礎上進行多次隨機重劃"
+    },
+    {
+     "block": 217,
+     "quote": "相較標準K-fold，計算成本更高"
+    }
+   ]
+  },
+  {
+   "id": "batch",
+   "label": "批次訓練設計",
+   "lane": "train",
+   "parent": null,
+   "concept": "梯度下降",
+   "gist": "資料怎麼餵進模型：全量穩定但吃記憶體，SGD 一筆一更新但震盪，Mini-batch 兩者兼顧、深度學習最常用。",
+   "src": [
+    {
+     "block": 25,
+     "quote": "對記憶體要求高"
+    },
+    {
+     "block": 27,
+     "quote": "每次僅使用一筆樣本進行參數更新"
+    },
+    {
+     "block": 29,
+     "quote": "是目前深度學習最常用的方法"
+    },
+    {
+     "block": 25,
+     "quote": "方向穩定、收斂路徑平滑"
+    }
+   ]
+  },
+  {
+   "id": "lr",
+   "label": "學習率調整",
+   "lane": "train",
+   "parent": null,
+   "concept": null,
+   "gist": "學習率控制每次更新的步伐；可固定、遞減、動態調整，或先低後高預熱。",
+   "src": [
+    {
+     "block": 32,
+     "quote": "控制模型每次更新的步伐"
+    },
+    {
+     "block": 40,
+     "quote": "訓練初期使用較低學習率，逐漸升高"
+    },
+    {
+     "block": 33,
+     "quote": "固定學習率（Constant Rate）"
+    },
+    {
+     "block": 35,
+     "quote": "遞減學習率（Step Decay"
+    },
+    {
+     "block": 38,
+     "quote": "當驗證效能停滯時自動調降學習率"
+    }
+   ]
+  },
+  {
+   "id": "es",
+   "label": "早停",
+   "lane": "train",
+   "parent": null,
+   "concept": "過擬合與泛化",
+   "gist": "訓練太久會過擬合；監控驗證集，若連續多次沒有明顯改善就停止。",
+   "src": [
+    {
+     "block": 42,
+     "quote": "透過監控驗證集效能，判斷訓練何時應中止"
+    },
+    {
+     "block": 44,
+     "quote": "連續N 次迭代內無明顯改善"
+    }
+   ]
+  },
+  {
+   "id": "mon",
+   "label": "訓練記錄與監控",
+   "lane": "train",
+   "parent": null,
+   "concept": null,
+   "gist": "用 TensorBoard、WandB、MLflow 看曲線，並記錄超參數與版本，才能重現與回溯。",
+   "src": [
+    {
+     "block": 51,
+     "quote": "使用TensorBoard、WandB 或MLflow"
+    },
+    {
+     "block": 53,
+     "quote": "便於複製與回溯"
+    }
+   ]
+  },
+  {
+   "id": "cls",
+   "label": "分類指標",
+   "lane": "eval",
+   "parent": null,
+   "concept": "評估指標",
+   "gist": "以混淆矩陣的 TP、FP、FN、TN 為基礎，算出各種分類指標。",
+   "src": [
+    {
+     "block": 59,
+     "quote": "二元分類問題中的混淆矩陣"
+    },
+    {
+     "block": 57,
+     "quote": "對應不同的評估指標"
+    },
+    {
+     "block": 66,
+     "quote": "常見分類任務評估指標的公式彙整"
+    }
+   ]
+  },
+  {
+   "id": "acc",
+   "label": "準確率",
+   "lane": "eval",
+   "parent": "cls",
+   "concept": null,
+   "gist": "正確預測佔全部的比例；類別嚴重不平衡時會誤導。",
+   "src": [
+    {
+     "block": 71,
+     "quote": "在嚴重類別不平衡的資料中容易誤導"
+    },
+    {
+     "block": 69,
+     "quote": "正確預測樣本數佔總樣本數的比例"
+    }
+   ]
+  },
+  {
+   "id": "pre",
+   "label": "精確率",
+   "lane": "eval",
+   "parent": "cls",
+   "concept": null,
+   "gist": "預測為正的有多可信；誤報代價高時看它（垃圾郵件、醫療誤診）。",
+   "src": [
+    {
+     "block": 75,
+     "quote": "當「誤報正類」的代價高時"
+    },
+    {
+     "block": 76,
+     "quote": "衡量「預測為正的可信度」"
+    }
+   ]
+  },
+  {
+   "id": "rec",
+   "label": "召回率",
+   "lane": "eval",
+   "parent": "cls",
+   "concept": null,
+   "gist": "實際為正的抓到多少；漏報代價高時看它（癌症、詐騙偵測）。",
+   "src": [
+    {
+     "block": 80,
+     "quote": "當「漏報正類」的代價高時"
+    },
+    {
+     "block": 81,
+     "quote": "衡量「模型能抓住多少實際正類」"
+    }
+   ]
+  },
+  {
+   "id": "f1",
+   "label": "F1 分數",
+   "lane": "eval",
+   "parent": "cls",
+   "concept": null,
+   "gist": "精確率與召回率的調和平均，兩者要兼顧、類別又不平衡時用。",
+   "src": [
+    {
+     "block": 84,
+     "quote": "精確率與召回率的調和平均"
+    },
+    {
+     "block": 85,
+     "quote": "需在精確率與召回率間取得平衡"
+    }
+   ]
+  },
+  {
+   "id": "auc",
+   "label": "ROC 與 AUC",
+   "lane": "eval",
+   "parent": "cls",
+   "concept": null,
+   "gist": "AUC 越接近 1 越好，代表所有閾值下的整體區分能力。",
+   "src": [
+    {
+     "block": 93,
+     "quote": "代表模型在所有可能閾值下的整體區分能力"
+    },
+    {
+     "block": 94,
+     "quote": "AUC 值越接近1，模型越好"
+    }
+   ]
+  },
+  {
+   "id": "reg",
+   "label": "迴歸指標",
+   "lane": "eval",
+   "parent": null,
+   "concept": "迴歸分析",
+   "gist": "看預測值與實際值的誤差大小、穩定性與擬合程度。",
+   "src": [
+    {
+     "block": 97,
+     "quote": "預測值與實際值之間誤差的大小"
+    }
+   ]
+  },
+  {
+   "id": "mse",
+   "label": "MSE／RMSE",
+   "lane": "eval",
+   "parent": "reg",
+   "concept": null,
+   "gist": "誤差平方的平均，對大誤差敏感；RMSE 是其平方根，單位回到與預測變數相同。",
+   "src": [
+    {
+     "block": 103,
+     "quote": "對大誤差高度敏感"
+    },
+    {
+     "block": 117,
+     "quote": "同時回到與預測變數相同的單位"
+    },
+    {
+     "block": 102,
+     "quote": "所有預測誤差平方的平均值"
+    },
+    {
+     "block": 116,
+     "quote": "MSE 的平方根"
+    }
+   ]
+  },
+  {
+   "id": "mae",
+   "label": "MAE",
+   "lane": "eval",
+   "parent": "reg",
+   "concept": null,
+   "gist": "誤差絕對值的平均，對異常值較不敏感，適合偏態或有少量極端值的資料。",
+   "src": [
+    {
+     "block": 110,
+     "quote": "對異常值較不敏感"
+    },
+    {
+     "block": 109,
+     "quote": "所有預測誤差絕對值的平均"
+    },
+    {
+     "block": 111,
+     "quote": "資料具偏態分佈或含少量極端值時"
+    }
+   ]
+  },
+  {
+   "id": "r2",
+   "label": "R² 決定係數",
+   "lane": "eval",
+   "parent": "reg",
+   "concept": null,
+   "gist": "解釋變異的能力：1 是完美，0 等於直接預測平均值，小於 0 比常數模型還差。",
+   "src": [
+    {
+     "block": 141,
+     "quote": "表示模型能完全解釋資料變異"
+    },
+    {
+     "block": 143,
+     "quote": "表示模型比常數模型還差"
+    },
+    {
+     "block": 142,
+     "quote": "表示模型僅與常數模型"
+    }
+   ]
+  },
+  {
+   "id": "comb",
+   "label": "綜合評估策略",
+   "lane": "eval",
+   "parent": null,
+   "concept": null,
+   "gist": "不能只看單一指標；要組合指標、處理類別不平衡、設計業務指標、觀察多輪穩定性。",
+   "src": [
+    {
+     "block": 145,
+     "quote": "不應僅依賴單一指標"
+    },
+    {
+     "block": 161,
+     "quote": "多次訓練下的穩定性與變異範圍"
+    },
+    {
+     "block": 146,
+     "quote": "建議依據任務特性組合使用多項指標"
+    },
+    {
+     "block": 149,
+     "quote": "面對高度不平衡資料"
+    },
+    {
+     "block": 157,
+     "quote": "業務導向與自定義效能衡量"
+    }
+   ]
+  },
+  {
+   "id": "imb",
+   "label": "類別不平衡",
+   "lane": "eval",
+   "parent": "comb",
+   "concept": "類別不平衡",
+   "gist": "高度不平衡（欺詐、醫療）時，傳統準確率常導致誤判，要搭配資料處理技術。",
+   "src": [
+    {
+     "block": 149,
+     "quote": "傳統準確率常導致誤判"
+    }
+   ]
+  },
+  {
+   "id": "cw",
+   "label": "類別重加權",
+   "lane": "eval",
+   "parent": "imb",
+   "concept": null,
+   "gist": "訓練時對少數類別賦予更高權重，透過損失函數加權調整學習焦點。",
+   "src": [
+    {
+     "block": 151,
+     "quote": "對少數類別賦予更高權重"
+    },
+    {
+     "block": 152,
+     "quote": "透過損失函數加權自動調整學習焦點"
+    }
+   ]
+  },
+  {
+   "id": "smote",
+   "label": "過採樣（SMOTE）",
+   "lane": "eval",
+   "parent": "imb",
+   "concept": null,
+   "gist": "合成新的少數類樣本來平衡分佈，降低直接複製造成的過擬合風險。",
+   "src": [
+    {
+     "block": 154,
+     "quote": "透過合成新樣本方式平衡資料分佈"
+    }
+   ]
+  },
+  {
+   "id": "anom",
+   "label": "異常值建模",
+   "lane": "eval",
+   "parent": "imb",
+   "concept": "異常偵測",
+   "gist": "把不平衡視為異常偵測：只學正常類別行為，再找出異常；適用極端不平衡。",
+   "src": [
+    {
+     "block": 156,
+     "quote": "將類別不平衡問題視為異常偵測任務"
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "a": "val",
+   "b": "lr",
+   "kind": "cross",
+   "label": "驗證表現決定何時降學習率",
+   "block": 38,
+   "quote": "當驗證效能停滯時自動調降學習率"
+  },
+  {
+   "a": "val",
+   "b": "es",
+   "kind": "cross",
+   "label": "早停看驗證集表現",
+   "block": 42,
+   "quote": "透過監控驗證集效能"
+  },
+  {
+   "a": "es",
+   "b": "lr",
+   "kind": "cross",
+   "label": "早停與學習率調整搭配",
+   "block": 47,
+   "quote": "配合學習率調整共同使用"
+  },
+  {
+   "a": "cv",
+   "b": "val",
+   "kind": "cross",
+   "label": "交叉驗證支援選模型與調參",
+   "block": 169,
+   "quote": "作為模型選擇與調參的依據"
+  },
+  {
+   "a": "te",
+   "b": "cls",
+   "kind": "cross",
+   "label": "評估要用驗證集與測試集",
+   "block": 57,
+   "quote": "必須透過驗證集與測試集進行效果評估"
+  },
+  {
+   "a": "acc",
+   "b": "imb",
+   "kind": "cross",
+   "label": "不平衡時準確率會誤導",
+   "block": 149,
+   "quote": "傳統準確率常導致誤判"
+  },
+  {
+   "a": "st",
+   "b": "imb",
+   "kind": "cross",
+   "label": "分層 K 折是為類別不均而設",
+   "block": 186,
+   "quote": "特別適用於類別分佈不均的資料"
+  },
+  {
+   "a": "f1",
+   "b": "imb",
+   "kind": "cross",
+   "label": "F1 用於類別不平衡嚴重時",
+   "block": 85,
+   "quote": "且類別不平衡嚴重時"
+  },
+  {
+   "a": "kf",
+   "b": "comb",
+   "kind": "cross",
+   "label": "K-fold 減少切分偶然性",
+   "block": 163,
+   "quote": "能有效減少資料分割偶然性對模型評估造成的偏誤"
+  },
+  {
+   "a": "rp",
+   "b": "comb",
+   "kind": "cross",
+   "label": "多輪重複看穩定性",
+   "block": 165,
+   "quote": "可進一步衡量模型在隨機條件下的穩定性與泛化能力"
+  },
+  {
+   "a": "mse",
+   "b": "comb",
+   "kind": "cross",
+   "label": "迴歸評估要綜合多個指標",
+   "block": 148,
+   "quote": "可綜合MAE、RMSE 與R²"
+  }
+ ],
+ "confusions": [
+  {
+   "a": "驗證集",
+   "b": "測試集",
+   "text": "驗證集用來調超參數、監控訓練；測試集只在訓練完成後做最終評估。",
+   "blocks": [
+    12,
+    14
+   ]
+  },
+  {
+   "a": "K-fold",
+   "b": "Stratified K-fold",
+   "text": "後者專為分類設計，讓每一折的類別比例與整體相符，適合類別不均。",
+   "blocks": [
+    174,
+    186
+   ]
+  },
+  {
+   "a": "K-fold",
+   "b": "Repeated K-fold",
+   "text": "後者在 K-fold 之上多輪隨機重分，再算平均與變異，成本更高。",
+   "blocks": [
+    174,
+    213,
+    217
+   ]
+  },
+  {
+   "a": "精確率",
+   "b": "召回率",
+   "text": "精確率防誤報（預測為正的可信度）；召回率防漏報（抓到多少實際正類）。",
+   "blocks": [
+    75,
+    80
+   ]
+  },
+  {
+   "a": "MSE",
+   "b": "MAE",
+   "text": "MSE 平方放大大誤差；MAE 取絕對值，對異常值較不敏感。",
+   "blocks": [
+    103,
+    109,
+    110
+   ]
+  },
+  {
+   "a": "類別重加權",
+   "b": "SMOTE",
+   "text": "前者訓練時加大少數類權重；後者合成新的少數類樣本來平衡資料。",
+   "blocks": [
+    151,
+    154
+   ]
+  }
+ ],
+ "gaps": []
+}

@@ -1,0 +1,801 @@
+{
+ "chapter": {
+  "guideKey": "中級-guide1",
+  "nodeId": "mid-s1c6",
+  "label": "中級 科目一・4.2 AI 導入規劃"
+ },
+ "headline": "一張圖看懂AI 導入規劃",
+ "lede": "導入規劃是評估之後、部署之前的承接階段：先依組織條件盤點資源、拆解任務與時程，再選導入模式，最後用 POC 驗證並整合成果。重點是沒有一體適用的做法，要彈性調整。",
+ "story": [
+  {
+   "step": "原則",
+   "title": "依組織條件規劃",
+   "text": "目標、資源盤點、彈性調整三原則。"
+  },
+  {
+   "step": "資源與時程",
+   "title": "盤點、拆解、追蹤",
+   "text": "盤點人力硬體，用 WBS、甘特圖、Sprint 推進。"
+  },
+  {
+   "step": "選模式",
+   "title": "商業服務、自研或委外",
+   "text": "依技術能力、資源與時間三者取捨。"
+  },
+  {
+   "step": "驗證",
+   "title": "POC 與成果彙整",
+   "text": "小範圍快速迭代驗證，再整合成審查文件。"
+  }
+ ],
+ "lanes": [
+  {
+   "id": "plan",
+   "name": "原則與資源"
+  },
+  {
+   "id": "sched",
+   "name": "任務、時程與協作"
+  },
+  {
+   "id": "mode",
+   "name": "導入模式"
+  },
+  {
+   "id": "verify",
+   "name": "驗證與成果"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "ip",
+   "label": "AI 導入規劃",
+   "lane": null,
+   "parent": null,
+   "concept": null,
+   "gist": "承接初步評估，把可行性與價值潛力轉成可執行的規劃行動，且須依組織條件彈性調整。",
+   "src": [
+    {
+     "block": 4,
+     "quote": "扮演著承上啟下的核心角色"
+    },
+    {
+     "block": 5,
+     "quote": "無法採用一體適用的導入模式"
+    },
+    {
+     "block": 6,
+     "quote": "導入規劃需具備高度彈性"
+    }
+   ]
+  },
+  {
+   "id": "prin",
+   "label": "導入規劃核心原則",
+   "lane": "plan",
+   "parent": null,
+   "concept": null,
+   "gist": "平衡技術可行性與組織現實：情境導向、資源盤點、彈性調整。",
+   "src": [
+    {
+     "block": 11,
+     "quote": "成功的導入規劃需平衡技術可行性與組織現實"
+    }
+   ]
+  },
+  {
+   "id": "scen",
+   "label": "情境/目的導向",
+   "lane": "plan",
+   "parent": "prin",
+   "concept": null,
+   "gist": "依產業特性與業務需求定義專案目標與範疇。",
+   "src": [
+    {
+     "block": 13,
+     "quote": "定義專案目標與範疇"
+    }
+   ]
+  },
+  {
+   "id": "inv",
+   "label": "資源盤點（原則）",
+   "lane": "plan",
+   "parent": "prin",
+   "concept": null,
+   "gist": "評估資料、人力與預算，資料品質不足時先做資料整備。",
+   "src": [
+    {
+     "block": 15,
+     "quote": "評估現有資料、技術人力與預算"
+    },
+    {
+     "block": 15,
+     "quote": "應先投入資料整備而非急於模型開發"
+    }
+   ]
+  },
+  {
+   "id": "flex",
+   "label": "彈性調整",
+   "lane": "plan",
+   "parent": "prin",
+   "concept": null,
+   "gist": "需求或技術有變就動態調整時程與策略，不照表操課。",
+   "src": [
+    {
+     "block": 17,
+     "quote": "動態調整時程與策略"
+    },
+    {
+     "block": 17,
+     "quote": "導入規劃的重點不在於照表操課"
+    }
+   ]
+  },
+  {
+   "id": "res",
+   "label": "資源盤點與配置",
+   "lane": "plan",
+   "parent": null,
+   "concept": null,
+   "gist": "資源不只技術，還含人力、硬體與開發工具；充分盤點才不會中斷或延誤。",
+   "src": [
+    {
+     "block": 19,
+     "quote": "還包括人力、硬體資源及開發工具等"
+    },
+    {
+     "block": 20,
+     "quote": "進行充分的資源盤點與規劃"
+    }
+   ]
+  },
+  {
+   "id": "hr",
+   "label": "人力資源",
+   "lane": "plan",
+   "parent": "res",
+   "concept": null,
+   "gist": "人力是專案核心支柱，涵蓋專案負責人、資料工程師、模型開發者、架構師、測試工程師等角色，須提前配置。",
+   "src": [
+    {
+     "block": 22,
+     "quote": "涵蓋多種專業角色，各具特定職責"
+    },
+    {
+     "block": 40,
+     "quote": "企業應提前進行招聘或內部培訓"
+    },
+    {
+     "block": 28,
+     "quote": "負責資料收集、清理與整合"
+    },
+    {
+     "block": 30,
+     "quote": "專注於模型設計、訓練與優化"
+    },
+    {
+     "block": 36,
+     "quote": "負責設計AI 專案的技術架構與部署方案"
+    },
+    {
+     "block": 38,
+     "quote": "負責驗證模型效能與系統穩定性"
+    }
+   ]
+  },
+  {
+   "id": "hw",
+   "label": "硬體資源",
+   "lane": "plan",
+   "parent": "res",
+   "concept": null,
+   "gist": "GPU 伺服器、雲端平台、本地設備三種；敏感資料場景可放本地處理。",
+   "src": [
+    {
+     "block": 43,
+     "quote": "用於加速模型訓練與推論"
+    },
+    {
+     "block": 45,
+     "quote": "資料敏感性高的場景"
+    },
+    {
+     "block": 44,
+     "quote": "提供彈性擴展的儲存空間與運算能力"
+    }
+   ]
+  },
+  {
+   "id": "tool",
+   "label": "開發工具與框架",
+   "lane": "plan",
+   "parent": "res",
+   "concept": null,
+   "gist": "Python、深度學習框架與大數據框架，並以 Git 等工具做版本控制。",
+   "src": [
+    {
+     "block": 47,
+     "quote": "應該設立源代碼管理工具（如Git）與版本控制機制"
+    }
+   ]
+  },
+  {
+   "id": "gantt",
+   "label": "甘特圖",
+   "lane": "sched",
+   "parent": null,
+   "concept": null,
+   "gist": "時間為橫軸、任務為縱軸，呈現時間安排、重疊與關鍵路徑，利於跨部門溝通。",
+   "src": [
+    {
+     "block": 51,
+     "quote": "以時間為橫軸、任務列表為縱軸"
+    },
+    {
+     "block": 51,
+     "quote": "關鍵路徑（Critical Path）"
+    },
+    {
+     "block": 57,
+     "quote": "此工具適合跨部門溝通"
+    }
+   ]
+  },
+  {
+   "id": "wbs",
+   "label": "工作分解結構 WBS",
+   "lane": "sched",
+   "parent": null,
+   "concept": null,
+   "gist": "由上而下把複雜任務拆成子任務，每項定義責任角色、成果、資源與時長。",
+   "src": [
+    {
+     "block": 59,
+     "quote": "採用由上而下的拆解方式"
+    },
+    {
+     "block": 64,
+     "quote": "每一子任務需定義責任角色"
+    }
+   ]
+  },
+  {
+   "id": "sprint",
+   "label": "短衝 Sprint（Scrum）",
+   "lane": "sched",
+   "parent": null,
+   "concept": null,
+   "gist": "AI 專案需求多變，用 Scrum 以固定週期迭代；Sprint 通常 1~4 週。",
+   "src": [
+    {
+     "block": 67,
+     "quote": "Scrum 是最常見且應用廣泛的敏捷開發框架之一"
+    },
+    {
+     "block": 75,
+     "quote": "固定週期的開發節奏，通常為1~4 週"
+    }
+   ]
+  },
+  {
+   "id": "srole",
+   "label": "Scrum 三角色",
+   "lane": "sched",
+   "parent": "sprint",
+   "concept": null,
+   "gist": "產品負責人定需求與優先順序、敏捷教練移除障礙、開發團隊實際完成任務。",
+   "src": [
+    {
+     "block": 69,
+     "quote": "負責定義產品需求與優先順序"
+    },
+    {
+     "block": 70,
+     "quote": "移除開發過程中的障礙"
+    },
+    {
+     "block": 71,
+     "quote": "負責實際完成Sprint 內的開發任務"
+    }
+   ]
+  },
+  {
+   "id": "sloop",
+   "label": "Sprint 結束後三活動",
+   "lane": "sched",
+   "parent": "sprint",
+   "concept": null,
+   "gist": "展示成果收回饋、回顧檢討找問題、依回饋規劃下一輪，確保迭代對準整體目標。",
+   "src": [
+    {
+     "block": 83,
+     "quote": "團隊會依序進行以下三項關鍵活動"
+    },
+    {
+     "block": 86,
+     "quote": "重新擬定下一輪Sprint 的目標與待辦任務"
+    },
+    {
+     "block": 84,
+     "quote": "展示本次Sprint 完成的工作"
+    },
+    {
+     "block": 85,
+     "quote": "檢討執行過程中的問題與瓶頸"
+    }
+   ]
+  },
+  {
+   "id": "collab",
+   "label": "跨部門協作機制",
+   "lane": "sched",
+   "parent": null,
+   "concept": null,
+   "gist": "涉及 IT、業務、法務與資料部門，需明確分工、例行同步與共用工具三件事。",
+   "src": [
+    {
+     "block": 90,
+     "quote": "確保這些部門之間的協作順暢是專案成功的關鍵"
+    },
+    {
+     "block": 92,
+     "quote": "確保每個部門在專案中的角色清晰"
+    },
+    {
+     "block": 94,
+     "quote": "設立定期的專案會議和進度報告會"
+    },
+    {
+     "block": 96,
+     "quote": "採用協作工具來提高跨部門溝通的效率"
+    }
+   ]
+  },
+  {
+   "id": "track",
+   "label": "任務追蹤工具",
+   "lane": "sched",
+   "parent": null,
+   "concept": null,
+   "gist": "整合 WBS 拆解成果並即時反映進度：Trello、Asana、JIRA、ClickUp。",
+   "src": [
+    {
+     "block": 98,
+     "quote": "整合工作分解結構（WBS）的拆解成果"
+    }
+   ]
+  },
+  {
+   "id": "trello",
+   "label": "Trello",
+   "lane": "sched",
+   "parent": "track",
+   "concept": null,
+   "gist": "看板式輕量工具，簡單易用，適合小型團隊或原型階段，但大型專案缺進階功能。",
+   "src": [
+    {
+     "block": 100,
+     "quote": "以看板（Kanban）形式呈現任務流程"
+    },
+    {
+     "block": 101,
+     "quote": "對於大型專案可能缺乏進階功能"
+    }
+   ]
+  },
+  {
+   "id": "asana",
+   "label": "Asana",
+   "lane": "sched",
+   "parent": "track",
+   "concept": null,
+   "gist": "支援任務分層、時間軸與跨專案整合，適合跨部門協作，但初期要花時間建結構。",
+   "src": [
+    {
+     "block": 103,
+     "quote": "支援任務分層、時間軸檢視與跨專案整合"
+    },
+    {
+     "block": 104,
+     "quote": "設定初期需花費時間建立結構"
+    }
+   ]
+  },
+  {
+   "id": "jira",
+   "label": "JIRA",
+   "lane": "sched",
+   "parent": "track",
+   "concept": null,
+   "gist": "為技術團隊設計，有問題追蹤與敏捷支援，技術細節強，但非技術人員有學習曲線。",
+   "src": [
+    {
+     "block": 106,
+     "quote": "專為技術團隊設計的任務追蹤工具"
+    },
+    {
+     "block": 108,
+     "quote": "對於非技術人員可能存在學習曲線"
+    }
+   ]
+  },
+  {
+   "id": "click",
+   "label": "ClickUp",
+   "lane": "sched",
+   "parent": "track",
+   "concept": null,
+   "gist": "結合 Trello 看板與 Asana 結構化功能，適合中型專案，但選項多設定較複雜。",
+   "src": [
+    {
+     "block": 110,
+     "quote": "結合Trello 的看板視圖與Asana 的結構化功能"
+    },
+    {
+     "block": 111,
+     "quote": "過多選項可能增加設定複雜度"
+    }
+   ]
+  },
+  {
+   "id": "mode",
+   "label": "AI 導入模式選擇",
+   "lane": "mode",
+   "parent": null,
+   "concept": null,
+   "gist": "依使用情境、技術能力、資源限制與時間需求，在三種模式中選擇。",
+   "src": [
+    {
+     "block": 113,
+     "quote": "企業的技術能力、資源限制與時間需求進行選擇"
+    }
+   ]
+  },
+  {
+   "id": "comm",
+   "label": "選用現有商業服務",
+   "lane": "mode",
+   "parent": "mode",
+   "concept": "低代碼無代碼開發",
+   "gist": "快速部署、門檻低，但彈性有限、長期訂閱成本高、資料送雲端有隱私風險。",
+   "src": [
+    {
+     "block": 115,
+     "quote": "無需企業自行開發模型，便能夠快速實現預定功能"
+    },
+    {
+     "block": 121,
+     "quote": "功能的自定義選項和靈活性往往有限"
+    },
+    {
+     "block": 122,
+     "quote": "長期使用可能會產生較高的運營成本"
+    },
+    {
+     "block": 123,
+     "quote": "資料需經過雲端服務處理"
+    },
+    {
+     "block": 117,
+     "quote": "無需企業深入開發，即可使用現有平台進行模型訓練與部署"
+    },
+    {
+     "block": 118,
+     "quote": "不需要具備深厚的程式設計或數據科學基礎"
+    }
+   ]
+  },
+  {
+   "id": "inh",
+   "label": "內部技術團隊開發",
+   "lane": "mode",
+   "parent": "mode",
+   "concept": null,
+   "gist": "掌控力強、可高度客製，但初期成本較高，需充足技術基礎；有長期 AI 計畫者適用。",
+   "src": [
+    {
+     "block": 125,
+     "quote": "能高度客製化並滿足特定需求"
+    },
+    {
+     "block": 127,
+     "quote": "若企業具備長期AI 發展計畫，內部開發是理想選擇"
+    },
+    {
+     "block": 126,
+     "quote": "然而，需投入大量時間與資源"
+    },
+    {
+     "block": 126,
+     "quote": "顯示此模式需充足技術基礎作為前提"
+    },
+    {
+     "block": 126,
+     "quote": "其優勢在於掌控力強與適應性高"
+    }
+   ]
+  },
+  {
+   "id": "out",
+   "label": "委外開發",
+   "lane": "mode",
+   "parent": "mode",
+   "concept": null,
+   "gist": "借外部專業加速導入，適合缺內部能力但有預算者；要管好合約與資料安全。",
+   "src": [
+    {
+     "block": 129,
+     "quote": "適合缺乏內部技術能力但有預算支持的企業"
+    },
+    {
+     "block": 130,
+     "quote": "需注意合約管理（如交付範圍與時程約定）與資料安全風險"
+    },
+    {
+     "block": 129,
+     "quote": "能借助外部專業知識加速導入"
+    }
+   ]
+  },
+  {
+   "id": "poc",
+   "label": "POC 概念驗證",
+   "lane": "verify",
+   "parent": null,
+   "concept": "概念驗證",
+   "gist": "導入前先小範圍測試，驗證技術或流程能否運作、是否符合需求，專注單一功能或情境。",
+   "src": [
+    {
+     "block": 133,
+     "quote": "進行小範圍測試的一個重要步驟"
+    },
+    {
+     "block": 134,
+     "quote": "POC 通常會專注於單一功能或情境"
+    }
+   ]
+  },
+  {
+   "id": "pgoal",
+   "label": "POC 設計與目標",
+   "lane": "verify",
+   "parent": "poc",
+   "concept": null,
+   "gist": "先設定可量化的驗證目標與範圍，涵蓋資料準備到模型測試全流程，可用現成工具建原型。",
+   "src": [
+    {
+     "block": 136,
+     "quote": "首要任務是設定明確的驗證目標與範圍"
+    },
+    {
+     "block": 137,
+     "quote": "POC 需涵蓋從資料準備到模型測試的全流程"
+    }
+   ]
+  },
+  {
+   "id": "iter",
+   "label": "小範圍測試與快速迭代",
+   "lane": "verify",
+   "parent": "poc",
+   "concept": null,
+   "gist": "每輪設定具體目標並限制時間，例如每次迭代 1-2 週，循環評估與調整。",
+   "src": [
+    {
+     "block": 139,
+     "quote": "採用小範圍測試與快速迭代（Rapid Iteration）"
+    },
+    {
+     "block": 146,
+     "quote": "設定每次迭代為1-2 週"
+    },
+    {
+     "block": 140,
+     "quote": "每次迭代後，會根據結果進行評估與調整"
+    },
+    {
+     "block": 145,
+     "quote": "限制每次迭代的時間"
+    }
+   ]
+  },
+  {
+   "id": "metr",
+   "label": "POC 驗證指標",
+   "lane": "verify",
+   "parent": "poc",
+   "concept": null,
+   "gist": "三類：技術效能、商業價值、使用者回饋。",
+   "src": [
+    {
+     "block": 141,
+     "quote": "驗證指標至關重要"
+    },
+    {
+     "block": 143,
+     "quote": "有助於量化AI 技術帶來的實際效益"
+    },
+    {
+     "block": 144,
+     "quote": "通過問卷、訪談等方式收集使用者的意見"
+    }
+   ]
+  },
+  {
+   "id": "deliv",
+   "label": "規劃成果整合",
+   "lane": "verify",
+   "parent": null,
+   "concept": null,
+   "gist": "規劃結束後把成果系統化整理，供審查決策並作為下一階段的依據，含五項成果。",
+   "src": [
+    {
+     "block": 149,
+     "quote": "需將各階段所產出的內容系統化整理"
+    }
+   ]
+  },
+  {
+   "id": "review",
+   "label": "利害關係人審查紀錄",
+   "lane": "verify",
+   "parent": "deliv",
+   "concept": null,
+   "gist": "須經技術、業務、法務/資安與高階管理層審查，是進入實作階段的條件。",
+   "src": [
+    {
+     "block": 159,
+     "quote": "作為專案進入實作階段的條件"
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "a": "inv",
+   "b": "res",
+   "kind": "cross",
+   "label": "原則落實為具體盤點",
+   "block": 20,
+   "quote": "進行充分的資源盤點與規劃"
+  },
+  {
+   "a": "wbs",
+   "b": "track",
+   "kind": "cross",
+   "label": "追蹤工具承接 WBS 拆解",
+   "block": 98,
+   "quote": "整合工作分解結構（WBS）的拆解成果"
+  },
+  {
+   "a": "wbs",
+   "b": "trello",
+   "kind": "cross",
+   "label": "每張卡片對應 WBS 子任務",
+   "block": 101,
+   "quote": "每張卡片對應WBS 中的子任務"
+  },
+  {
+   "a": "sprint",
+   "b": "iter",
+   "kind": "cross",
+   "label": "同為快速迭代",
+   "block": 67,
+   "quote": "特別適合用於AI 原型開發與快速迭代的階段"
+  },
+  {
+   "a": "comm",
+   "b": "pgoal",
+   "kind": "cross",
+   "label": "POC 可用現成工具建原型",
+   "block": 136,
+   "quote": "可以使用現成的工具（如Google AutoML）來快速建置原型"
+  },
+  {
+   "a": "inh",
+   "b": "hr",
+   "kind": "cross",
+   "label": "內部開發需自備人才與硬體",
+   "block": 126,
+   "quote": "招聘資料科學家、採購GPU 設備"
+  },
+  {
+   "a": "gantt",
+   "b": "deliv",
+   "kind": "cross",
+   "label": "甘特圖是整合成果之一",
+   "block": 155,
+   "quote": "用以視覺化呈現專案階段、任務排程、里程碑"
+  },
+  {
+   "a": "collab",
+   "b": "track",
+   "kind": "cross",
+   "label": "協作靠共用看板工具",
+   "block": 96,
+   "quote": "任務看板工具（如Jira 或Trello）"
+  },
+  {
+   "a": "metr",
+   "b": "deliv",
+   "kind": "cross",
+   "label": "評估指標結果進入彙整報告",
+   "block": 153,
+   "quote": "初步原型成果、評估指標結果"
+  },
+  {
+   "a": "flex",
+   "b": "sprint",
+   "kind": "cross",
+   "label": "需求多變，需靈活迭代",
+   "block": 67,
+   "quote": "需求快速變動與技術高度不確定的AI 專案"
+  }
+ ],
+ "confusions": [
+  {
+   "a": "甘特圖",
+   "b": "WBS",
+   "text": "甘特圖看時間排程與關鍵路徑；WBS 是由上而下把任務拆成子任務。",
+   "blocks": [
+    51,
+    59
+   ]
+  },
+  {
+   "a": "Trello",
+   "b": "JIRA",
+   "text": "Trello 是輕量看板、適合小型團隊；JIRA 專為技術團隊設計，技術細節管理強但有學習曲線。",
+   "blocks": [
+    100,
+    101,
+    106,
+    108
+   ]
+  },
+  {
+   "a": "Sprint Review",
+   "b": "Sprint Retrospective",
+   "text": "Review 向利害關係人展示成果收回饋；Retrospective 是團隊內部檢討問題。",
+   "blocks": [
+    84,
+    85
+   ]
+  },
+  {
+   "a": "產品負責人",
+   "b": "敏捷教練",
+   "text": "產品負責人定義需求與優先順序；敏捷教練協助遵守流程、移除障礙。",
+   "blocks": [
+    69,
+    70
+   ]
+  },
+  {
+   "a": "內部開發",
+   "b": "委外開發",
+   "text": "內部開發靠自家技術人力、掌控力強；委外借外部專業，須管合約與資料外流風險。",
+   "blocks": [
+    125,
+    126,
+    129,
+    130
+   ]
+  },
+  {
+   "a": "商業服務",
+   "b": "內部開發",
+   "text": "商業服務快速、門檻低但彈性有限；內部開發可高度客製但初期成本較高。",
+   "blocks": [
+    117,
+    118,
+    121,
+    125,
+    126
+   ]
+  }
+ ],
+ "gaps": []
+}
