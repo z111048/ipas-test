@@ -735,6 +735,60 @@
    "block": 104,
    "quote": "語音辨識的WER（Word Error Rate）",
    "page": 87
+  },
+  {
+   "a": "ev3",
+   "b": "clip",
+   "kind": "cross",
+   "label": "文字編碼器採用此架構",
+   "block": 33,
+   "quote": "文字編碼器（基於Transformer）",
+   "page": 83
+  },
+  {
+   "a": "sensor",
+   "b": "comp",
+   "kind": "cross",
+   "label": "融合增加運算負擔",
+   "block": 66,
+   "quote": "多模態融合增加運算負擔，需優化架構",
+   "page": 84
+  },
+  {
+   "a": "speech",
+   "b": "vr",
+   "kind": "cross",
+   "label": "協作情境使用語音轉文字",
+   "block": 101,
+   "quote": "線上會議中的即時手勢辨識與語音轉文字",
+   "page": 87
+  },
+  {
+   "a": "med",
+   "b": "metrics",
+   "kind": "cross",
+   "label": "評估診斷與報告品質",
+   "block": 86,
+   "quote": "診斷準確率（Accuracy）、假陽性率",
+   "page": 86
+  },
+  {
+   "a": "retail",
+   "b": "metrics",
+   "kind": "cross",
+   "label": "評估推薦、動線與情感",
+   "block": 95,
+   "quote": "推薦準確率（Precision）、動線分析的IOU",
+   "page": 86
+  },
+  {
+   "a": "vr",
+   "b": "metrics",
+   "kind": "cross",
+   "label": "評估延遲與辨識表現",
+   "block": 104,
+   "quote": "回應延遲（Latency）、語音辨識的WER",
+   "page": 87
   }
  ],
  "confusions": [
@@ -790,6 +844,46 @@
     125
    ],
    "pages": [
+    88
+   ]
+  },
+  {
+   "a": "圖文匹配",
+   "b": "圖文檢索",
+   "text": "匹配判斷圖片與描述是否相符；檢索用文字搜尋圖片，或以圖片反向搜尋描述。",
+   "blocks": [
+    36,
+    37
+   ],
+   "pages": [
+    83
+   ]
+  },
+  {
+   "a": "語音辨識（ASR）",
+   "b": "語言理解（NLU）",
+   "text": "ASR把語音轉成文字；NLU解析文字的意圖或語意，後續才觸發動作或語音回饋。",
+   "blocks": [
+    46,
+    48,
+    50
+   ],
+   "pages": [
+    83
+   ]
+  },
+  {
+   "a": "時序對齊",
+   "b": "語意對齊",
+   "text": "時序對齊處理時間戳與採樣頻率差異，可用DTW；語意對齊讓不同模態意義一致，可用CLIP對比學習。",
+   "blocks": [
+    65,
+    110,
+    116
+   ],
+   "pages": [
+    84,
+    87,
     88
    ]
   }

@@ -764,6 +764,46 @@
    "label": "Adam 沿用動量",
    "block": 221,
    "quote": "結合了Momentum 與"
+  },
+  {
+   "a": "depth",
+   "b": "overfit",
+   "kind": "cross",
+   "label": "容量過大易過擬合",
+   "block": 82,
+   "quote": "模型容量過大，容易對訓練資料過擬合"
+  },
+  {
+   "a": "opt",
+   "b": "early",
+   "kind": "cross",
+   "label": "收斂過快可搭配早停",
+   "block": 173,
+   "quote": "若未搭配適當的正則化或Early Stopping，收斂過快可能造成過擬合"
+  },
+  {
+   "a": "l1",
+   "b": "enet",
+   "kind": "cross",
+   "label": "保留特徵選擇能力",
+   "block": 303,
+   "quote": "保留L1 的特徵選擇能力"
+  },
+  {
+   "a": "l2",
+   "b": "enet",
+   "kind": "cross",
+   "label": "防止模型過度稀疏",
+   "block": 303,
+   "quote": "又利用L2 防止模型過度稀疏"
+  },
+  {
+   "a": "mixed",
+   "b": "depth",
+   "kind": "cross",
+   "label": "省記憶體可加深模型",
+   "block": 440,
+   "quote": "減少記憶體佔用，允許更大批次訓練或更深層模型"
   }
  ],
  "confusions": [
@@ -835,6 +875,15 @@
    "blocks": [
     313,
     316
+   ]
+  },
+  {
+   "a": "Dropout",
+   "b": "模型剪枝",
+   "text": "Dropout 訓練時隨機暫時關閉神經元，減少過擬合；模型剪枝移除貢獻低的權重或神經元，縮小模型。",
+   "blocks": [
+    309,
+    409
    ]
   }
  ],

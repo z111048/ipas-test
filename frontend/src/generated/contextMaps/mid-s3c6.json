@@ -951,6 +951,51 @@
    "block": 518,
    "quote": "不能像 GAN 那樣憑空生成多樣化的全新樣本",
    "page": 124
+  },
+  {
+   "a": "act",
+   "b": "cnn",
+   "kind": "cross",
+   "label": "卷積輸出用非線性激活",
+   "block": 242,
+   "quote": "對卷積層的輸出（特徵映射）應用非線性激活函數",
+   "page": 106
+  },
+  {
+   "a": "fwd",
+   "b": "mlp",
+   "kind": "cross",
+   "label": "MLP 逐層向前傳遞",
+   "block": 194,
+   "quote": "輸入數據經過輸入層，逐層向前傳遞",
+   "page": 104
+  },
+  {
+   "a": "loss",
+   "b": "reg",
+   "kind": "cross",
+   "label": "L1 懲罰加入損失函數",
+   "block": 156,
+   "quote": "在損失函數中加入「權重的絕對值總和」",
+   "page": 101
+  },
+  {
+   "a": "cnn",
+   "b": "mlp",
+   "kind": "cross",
+   "label": "全連接層類似多層感知器",
+   "block": 253,
+   "quote": "全連接層的作用類似於傳統的多層感知器",
+   "page": 107
+  },
+  {
+   "a": "rnn",
+   "b": "pe",
+   "kind": "cross",
+   "label": "位置編碼補上順序資訊",
+   "block": 462,
+   "quote": "Transformer 需要額外引入位置編碼來提供順序資訊",
+   "page": 120
   }
  ],
  "confusions": [
@@ -1089,5 +1134,11 @@
    "mentioned": false
   }
  ],
- "notes": []
+ "notes": [
+  {
+   "block": 313,
+   "page": 110,
+   "text": "Xt 是當前時間步的「輸入」（見上方 a. 輸入），不是隱藏狀態；隱藏狀態 Ht 由 Xt 與上一步的 Ht-1 共同計算。"
+  }
+ ]
 }
